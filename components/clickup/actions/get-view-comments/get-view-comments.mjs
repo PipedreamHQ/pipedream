@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-list",
-  name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  key: "clickup-get-view-comments",
+  name: "Get View Comments",
+  description: "Get a view comments. See the docs [here](https://clickup.com/api) in **Comments  / Get Chat View Comments** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,60 +40,31 @@ export default {
         clickup,
         "lists",
         (c) => ({
+          spaceId: c.spaceId,
+          folderId: c.folderId,
+        }),
+      ],
+      optional: true,
+    },
+    viewId: {
+      propDefinition: [
+        clickup,
+        "views",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          spaceId: c.spaceId,
+          listId: c.listId,
           folderId: c.folderId,
         }),
       ],
     },
-    name: {
-      label: "Name",
-      type: "string",
-      description: "The name of list",
-    },
-    content: {
-      label: "Content",
-      type: "string",
-      description: "The content of list",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
-      optional: true,
-    },
-    assignee: {
-      propDefinition: [
-        clickup,
-        "assignees",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
   },
   async run({ $ }) {
-    const {
-      listId,
-      name,
-      content,
-      priority,
-      assignee,
-    } = this;
+    const { viewId } = this;
 
-    const data = {
-      name,
-      content,
-      assignee,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateList({
+    return this.clickup.getViewComments({
       $,
-      listId,
-      data,
+      viewId,
     });
   },
 };

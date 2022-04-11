@@ -1,9 +1,9 @@
 import clickup from "../../clickup.app.mjs";
 
 export default {
-  key: "clickup-update-folder",
-  name: "Update Folder",
-  description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders  / Update Folder** section.",
+  key: "clickup-get-list-views",
+  name: "Get List Views",
+  description: "Get all views of a list. See the docs [here](https://clickup.com/api) in **Views  / Get List Views** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,33 +33,24 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
-    name: {
-      label: "Name",
-      type: "string",
-      description: "The name of folder",
-    },
-    hidden: {
-      label: "Hidden",
-      type: "boolean",
-      description: "Folder will be set hidden",
-      default: false,
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          folderId: c.folderId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    const {
-      folderId,
-      name,
-      hidden,
-    } = this;
+    const { listId } = this;
 
-    return this.clickup.updateFolder({
+    return this.clickup.getListViews({
       $,
-      folderId,
-      data: {
-        name,
-        hidden,
-      },
+      listId,
     });
   },
 };

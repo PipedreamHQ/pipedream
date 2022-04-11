@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
-import { PRIORITIES } from "./actions/common.mjs";
+import constants from "./actions/common/constants.mjs";
+import _ from "lodash";
 
 export default {
   type: "app",
@@ -8,11 +9,11 @@ export default {
     workspaces: {
       type: "string",
       label: "Workspace",
-      description: "The name of a workspace",
+      description: "The id of a workspace",
       async options() {
-        const { teams } = await this.getWorkspaces({});
+        const workspaces = await this.getWorkspaces();
 
-        return teams.map((workspace) => ({
+        return workspaces.map((workspace) => ({
           label: workspace.name,
           value: workspace.id,
         }));
@@ -21,9 +22,9 @@ export default {
     spaces: {
       type: "string",
       label: "Space",
-      description: "The name of a space",
+      description: "The id of a space",
       async options({ workspaceId }) {
-        const { spaces } = await this.getSpaces({
+        const spaces = await this.getSpaces({
           workspaceId,
         });
 
@@ -36,9 +37,9 @@ export default {
     folders: {
       type: "string",
       label: "Folder",
-      description: "The name of a folder",
+      description: "The id of a folder",
       async options({ spaceId }) {
-        const { folders } = await this.getFolders({
+        const folders = await this.getFolders({
           spaceId,
         });
         return folders.map((folder) => ({
@@ -50,11 +51,11 @@ export default {
     lists: {
       type: "string",
       label: "List",
-      description: "The name of a list",
+      description: "The id of a list",
       async options({
         folderId, spaceId,
       }) {
-        const { lists } = folderId
+        const lists = folderId
           ? await this.getLists({
             folderId,
           })
@@ -71,11 +72,11 @@ export default {
     tasks: {
       type: "string",
       label: "Task",
-      description: "The of a task",
+      description: "The id of a task",
       async options({
         listId, page,
       }) {
-        const { tasks } = await this.getTasks({
+        const tasks = await this.getTasks({
           listId,
           params: {
             page,
@@ -108,11 +109,100 @@ export default {
       label: "Tags",
       description: "Select the tags",
       async options({ spaceId }) {
-        const { tags } = await this.getTags({
+        const tags = await this.getTags({
           spaceId,
         });
 
         return tags.map((tag) => tag.name);
+      },
+    },
+    checklists: {
+      type: "string",
+      label: "Checklist",
+      description: "The id of a checklist",
+      async options({ taskId }) {
+        if (!taskId) return [];
+        const checklists = await this.getChecklists({
+          taskId,
+        });
+
+        return checklists.map((checklist) => ({
+          label: checklist.name,
+          value: checklist.id,
+        }));
+      },
+    },
+    checklistItems: {
+      type: "string",
+      label: "Checklist Item",
+      description: "The id of a checklist",
+      async options({
+        taskId, checklistId,
+      }) {
+        if (!taskId || !checklistId) return [];
+
+        const items = await this.getChecklistItems({
+          taskId,
+          checklistId,
+        });
+
+        return items.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
+    },
+    comments: {
+      type: "string",
+      label: "Comment",
+      description: "The id of a comment",
+      async options({
+        taskId, listId, viewId,
+      }) {
+        let comments = [];
+
+        if (taskId) comments = comments.concat(await this.getTaskComments({
+          taskId,
+        }));
+        if (listId) comments = comments.concat(await this.getListComments({
+          listId,
+        }));
+        if (viewId) comments = comments.concat(await this.getViewComments({
+          viewId,
+        }));
+
+        return comments.map((comment) => ({
+          label: comment.comment_text,
+          value: comment.id,
+        }));
+      },
+    },
+    views: {
+      type: "string",
+      label: "Views",
+      description: "The id of a view",
+      async options({
+        workspaceId, spaceId, folderId, listId,
+      }) {
+        let views = [];
+
+        if (workspaceId) views = views.concat(await this.getTeamViews({
+          workspaceId,
+        }));
+        if (spaceId) views = views.concat(await this.getSpaceViews({
+          spaceId,
+        }));
+        if (folderId) views = views.concat(await this.getFolderViews({
+          folderId,
+        }));
+        if (listId) views = views.concat(await this.getListViews({
+          listId,
+        }));
+
+        return views.map((view) => ({
+          label: view.name,
+          value: view.id,
+        }));
       },
     },
     statuses: {
@@ -134,7 +224,7 @@ export default {
       async options({
         workspaceId, page,
       }) {
-        const { templates } = await this.getTaskTemplates({
+        const templates = await this.getTaskTemplates({
           workspaceId,
           params: {
             page,
@@ -147,13 +237,12 @@ export default {
         }));
       },
     },
-
     customFields: {
       type: "string",
       label: "Custom Field",
       description: "Select a custom field",
       async options({ listId }) {
-        const { fields } = await this.getCustomFields({
+        const fields = await this.getCustomFields({
           listId,
         });
 
@@ -167,40 +256,8 @@ export default {
       type: "string",
       label: "Priority",
       description: "The level of priority",
-      options: Object.keys(PRIORITIES),
+      options: Object.keys(constants.PRIORITIES),
       default: "Normal",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name",
-    },
-    dueDate: {
-      type: "integer",
-      label: "Due Date",
-      description: "Due Date",
-    },
-    dueDateTime: {
-      type: "boolean",
-      label: "Due Date Time",
-      description: "Due Date Time",
-    },
-    parent: {
-      type: "string",
-      label: "Parent",
-      description: "Pass an existing task ID in the parent property to make the new task a subtask of that parent. The parent you pass must not be a subtask itself, and must be part of the specified list.",
-      async options({
-        list, page,
-      }) {
-        const { tasks } = await this.getTasks({
-          list,
-          page,
-        });
-        return tasks.map((task) => ({
-          label: task.name,
-          value: task.id,
-        }));
-      },
     },
   },
   methods: {
@@ -245,14 +302,16 @@ export default {
       return await axios($ ?? this, config);
     },
 
-    async getWorkspaces({ $ }) {
-      return this._makeRequest("team", {}, $);
+    async getWorkspaces({ $ } = {}) {
+      const { teams } = await this._makeRequest("team", {}, $);
+
+      return teams;
     },
 
     async getWorkspace({
       workspaceId, $,
     }) {
-      const { teams: workspaces } = await this.getWorkspaces({
+      const workspaces = await this.getWorkspaces({
         $,
       });
 
@@ -277,9 +336,11 @@ export default {
     }) {
       if (!workspaceId) return [];
 
-      return await this._makeRequest(`team/${workspaceId}/space`, {
+      const { spaces } = await this._makeRequest(`team/${workspaceId}/space`, {
         params,
       }, $);
+
+      return spaces;
     },
 
     async getSpace({
@@ -318,9 +379,11 @@ export default {
       spaceId, params, $,
     }) {
       if (!spaceId) return [];
-      return await this._makeRequest(`space/${spaceId}/folder`, {
+      const { folders } = await this._makeRequest(`space/${spaceId}/folder`, {
         params,
       }, $);
+
+      return folders;
     },
 
     async getFolder({
@@ -359,18 +422,22 @@ export default {
       folderId, params, $,
     }) {
       if (!folderId) return [];
-      return await this._makeRequest(`folder/${folderId}/list`, {
+      const { lists } = await this._makeRequest(`folder/${folderId}/list`, {
         params,
       }, $);
+
+      return lists;
     },
 
     async getFolderlessLists({
       spaceId, params, $,
     }) {
       if (!spaceId) return [];
-      return await this._makeRequest(`space/${spaceId}/list`, {
+      const { lists } = await this._makeRequest(`space/${spaceId}/list`, {
         params,
       }, $);
+
+      return lists;
     },
 
     async getList({
@@ -417,25 +484,42 @@ export default {
     async getCustomFields({
       listId, $,
     }) {
-      return this._makeRequest(`list/${listId}/field`, {}, $);
+      const { fields } = this._makeRequest(`list/${listId}/field`, {}, $);
+
+      return fields;
     },
 
     async getTaskTemplates({
       workspaceId, params, $,
     }) {
       if (!workspaceId) return [];
-      return await this._makeRequest(`team/${workspaceId}/taskTemplate`, {
+      const { templates } = await this._makeRequest(`team/${workspaceId}/taskTemplate`, {
         params,
       }, $);
+
+      return templates;
     },
 
     async getTasks({
       listId, params, $,
     }) {
       if (!listId) return [];
-      return await this._makeRequest(`list/${listId}/task`, {
+      const { tasks } = await this._makeRequest(`list/${listId}/task`, {
         params,
       }, $);
+
+      return tasks;
+    },
+
+    async getViewTasks({
+      viewId, params, $,
+    }) {
+      if (!viewId) return [];
+      const { tasks } = await this._makeRequest(`view/${viewId}/task`, {
+        params,
+      }, $);
+
+      return tasks;
     },
 
     async getTask({
@@ -500,7 +584,205 @@ export default {
       spaceId, $,
     }) {
       if (!spaceId) return [];
-      return await this._makeRequest(`space/${spaceId}/tag`, {}, $);
+      const { tags } = await this._makeRequest(`space/${spaceId}/tag`, {}, $);
+
+      return tags;
+    },
+
+    async getChecklists({
+      taskId, $,
+    }) {
+      const { checklists } = await this.getTask({
+        $,
+        taskId,
+      });
+
+      return checklists;
+    },
+
+    async getChecklist({
+      taskId, checklistId, $,
+    }) {
+      const checklists = await this.getChecklists({
+        $,
+        taskId,
+      });
+
+      return _.find(checklists, {
+        id: checklistId,
+      });
+    },
+
+    async createChecklist({
+      taskId, data, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}/checklist`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async updateChecklist({
+      checklistId, data, $,
+    }) {
+      return await this._makeRequest(`checklist/${checklistId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteChecklist({
+      checklistId, $,
+    }) {
+      return await this._makeRequest(`checklist/${checklistId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getChecklistItems({
+      taskId, checklistId, $,
+    }) {
+      const { items } = await this.getChecklist({
+        taskId,
+        checklistId,
+        $,
+      });
+
+      return items;
+    },
+
+    async createChecklistItem({
+      checklistId, data, $,
+    }) {
+      return await this._makeRequest(`checklist/${checklistId}/checklist_item`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async updateChecklistItem({
+      checklistId, checklistItemId, data, $,
+    }) {
+      return await this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteChecklistItem({
+      checklistId, checklistItemId, $,
+    }) {
+      return await this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getTaskComments({
+      taskId, $,
+    }) {
+      const { comments } = await this._makeRequest(`task/${taskId}/comment`, {}, $);
+
+      return comments;
+    },
+
+    async getListComments({
+      listId, $,
+    }) {
+      const { comments } = await this._makeRequest(`list/${listId}/comment`, {}, $);
+
+      return comments;
+    },
+
+    async getViewComments({
+      viewId, $,
+    }) {
+      const { comments } = await this._makeRequest(`view/${viewId}/comment`, {}, $);
+
+      return comments;
+    },
+
+    async createTaskComment({
+      taskId, data, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}/comment`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async createListComment({
+      listId, data, $,
+    }) {
+      return await this._makeRequest(`list/${listId}/comment`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async createViewComment({
+      viewId, data, $,
+    }) {
+      return await this._makeRequest(`view/${viewId}/comment`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async updateComment({
+      commentId, data, $,
+    }) {
+      return await this._makeRequest(`comment/${commentId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteComment({
+      commentId, $,
+    }) {
+      return await this._makeRequest(`comment/${commentId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getTeamViews({
+      workspaceId, $,
+    }) {
+      const { views } = await this._makeRequest(`team/${workspaceId}/view`, {}, $);
+
+      return views;
+    },
+
+    async getSpaceViews({
+      spaceId, $,
+    }) {
+      const { views } = await this._makeRequest(`space/${spaceId}/view`, {}, $);
+
+      return views;
+    },
+
+    async getFolderViews({
+      folderId, $,
+    }) {
+      const { views } = await this._makeRequest(`folder/${folderId}/view`, {}, $);
+
+      return views;
+    },
+
+    async getListViews({
+      listId, $,
+    }) {
+      const { views } = await this._makeRequest(`list/${listId}/view`, {}, $);
+
+      return views;
+    },
+
+    async getView({
+      viewId, $,
+    }) {
+      const { view } = await this._makeRequest(`view/${viewId}`, {}, $);
+
+      return view;
     },
   },
 };

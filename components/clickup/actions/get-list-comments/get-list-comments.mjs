@@ -1,9 +1,9 @@
 import clickup from "../../clickup.app.mjs";
 
 export default {
-  key: "clickup-update-folder",
-  name: "Update Folder",
-  description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders  / Update Folder** section.",
+  key: "clickup-get-list-comments",
+  name: "Get List Comments",
+  description: "Get a list comments. See the docs [here](https://clickup.com/api) in **Comments  / Get List Comments** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,33 +33,25 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
-    name: {
-      label: "Name",
-      type: "string",
-      description: "The name of folder",
-    },
-    hidden: {
-      label: "Hidden",
-      type: "boolean",
-      description: "Folder will be set hidden",
-      default: false,
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          spaceId: c.spaceId,
+          folderId: c.folderId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    const {
-      folderId,
-      name,
-      hidden,
-    } = this;
+    const { listId } = this;
 
-    return this.clickup.updateFolder({
+    return this.clickup.getListComments({
       $,
-      folderId,
-      data: {
-        name,
-        hidden,
-      },
+      listId,
     });
   },
 };

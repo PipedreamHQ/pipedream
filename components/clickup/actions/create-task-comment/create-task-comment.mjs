@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-task",
-  name: "Update Task",
-  description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks  / Update Task** section.",
+  key: "clickup-create-task-comment",
+  name: "Create Task Comment",
+  description: "Creates a task comment. See the docs [here](https://clickup.com/api) in **Comments  / Create Task Comment** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -45,6 +44,7 @@ export default {
           folderId: c.folderId,
         }),
       ],
+      optional: true,
     },
     taskId: {
       propDefinition: [
@@ -55,23 +55,16 @@ export default {
         }),
       ],
     },
-    name: {
-      label: "Name",
+    commentText: {
+      label: "Comment Text",
+      description: "The text of the comment",
       type: "string",
-      description: "The name of task",
-      optional: true,
     },
-    description: {
-      label: "Description",
-      type: "string",
-      description: "The description of task",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
+    notifyAll: {
+      label: "Notify All",
+      description: "Will notify all",
+      type: "boolean",
+      default: false,
       optional: true,
     },
     assignees: {
@@ -84,53 +77,24 @@ export default {
       ],
       optional: true,
     },
-    status: {
-      propDefinition: [
-        clickup,
-        "statuses",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-      optional: true,
-    },
-    parent: {
-      label: "Parent Task",
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-      optional: true,
-    },
+
   },
   async run({ $ }) {
     const {
       taskId,
-      name,
-      description,
-      priority,
+      commentText,
+      notifyAll,
       assignees,
-      status,
-      parent,
     } = this;
 
-    const data = {
-      name,
-      description,
-      assignees,
-      status,
-      parent,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateTask({
+    return this.clickup.createTaskComment({
       $,
       taskId,
-      data,
+      data: {
+        comment_text: commentText,
+        notify_all: notifyAll,
+        assignees,
+      },
     });
   },
 };

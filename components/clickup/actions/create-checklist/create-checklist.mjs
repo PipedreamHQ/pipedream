@@ -1,9 +1,9 @@
 import clickup from "../../clickup.app.mjs";
 
 export default {
-  key: "clickup-update-folder",
-  name: "Update Folder",
-  description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders  / Update Folder** section.",
+  key: "clickup-create-checklist",
+  name: "Create Checklist",
+  description: "Creates a new checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists  / Create Checklist** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,32 +33,45 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          spaceId: c.spaceId,
+          folderId: c.folderId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        clickup,
+        "tasks",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     name: {
       label: "Name",
       type: "string",
-      description: "The name of folder",
-    },
-    hidden: {
-      label: "Hidden",
-      type: "boolean",
-      description: "Folder will be set hidden",
-      default: false,
+      description: "The name of checklist",
     },
   },
   async run({ $ }) {
     const {
-      folderId,
+      taskId,
       name,
-      hidden,
     } = this;
 
-    return this.clickup.updateFolder({
+    return this.clickup.createChecklist({
       $,
-      folderId,
+      taskId,
       data: {
         name,
-        hidden,
       },
     });
   },

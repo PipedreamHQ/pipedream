@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-list",
-  name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  key: "clickup-update-checklist",
+  name: "Update Checklist",
+  description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists  / Edit Checklist** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,60 +40,59 @@ export default {
         clickup,
         "lists",
         (c) => ({
+          spaceId: c.spaceId,
           folderId: c.folderId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        clickup,
+        "tasks",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+    },
+    checklistId: {
+      propDefinition: [
+        clickup,
+        "checklists",
+        (c) => ({
+          taskId: c.taskId,
         }),
       ],
     },
     name: {
       label: "Name",
       type: "string",
-      description: "The name of list",
+      description: "The name of checklist",
     },
-    content: {
-      label: "Content",
-      type: "string",
-      description: "The content of list",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
-      optional: true,
-    },
-    assignee: {
-      propDefinition: [
-        clickup,
-        "assignees",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
+    position: {
+      label: "Position",
+      type: "integer",
+      description: "The position of checklist",
+      min: 0,
       optional: true,
     },
   },
   async run({ $ }) {
     const {
-      listId,
+      taskId,
+      checklistId,
       name,
-      content,
-      priority,
-      assignee,
+      position,
     } = this;
 
-    const data = {
-      name,
-      content,
-      assignee,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateList({
+    return this.clickup.updateChecklist({
       $,
-      listId,
-      data,
+      taskId,
+      checklistId,
+      data: {
+        name,
+        position,
+      },
     });
   },
 };

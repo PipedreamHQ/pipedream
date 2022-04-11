@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-list",
-  name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  key: "clickup-create-checklist-item",
+  name: "Create Checklist Item",
+  description: "Creates a new item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Create Checklist Item** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,27 +40,34 @@ export default {
         clickup,
         "lists",
         (c) => ({
+          spaceId: c.spaceId,
           folderId: c.folderId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        clickup,
+        "tasks",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+    },
+    checklistId: {
+      propDefinition: [
+        clickup,
+        "checklists",
+        (c) => ({
+          taskId: c.taskId,
         }),
       ],
     },
     name: {
       label: "Name",
       type: "string",
-      description: "The name of list",
-    },
-    content: {
-      label: "Content",
-      type: "string",
-      description: "The content of list",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
-      optional: true,
+      description: "The name of item",
     },
     assignee: {
       propDefinition: [
@@ -76,25 +82,20 @@ export default {
   },
   async run({ $ }) {
     const {
-      listId,
+      taskId,
+      checklistId,
       name,
-      content,
-      priority,
       assignee,
     } = this;
 
-    const data = {
-      name,
-      content,
-      assignee,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateList({
+    return this.clickup.createChecklistItem({
       $,
-      listId,
-      data,
+      taskId,
+      checklistId,
+      data: {
+        name,
+        assignee,
+      },
     });
   },
 };

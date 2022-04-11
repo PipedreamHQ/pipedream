@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-list",
-  name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  key: "clickup-delete-checklist",
+  name: "Delete Checklist",
+  description: "Deletes a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists  / Delete Checklist** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,60 +40,41 @@ export default {
         clickup,
         "lists",
         (c) => ({
+          spaceId: c.spaceId,
           folderId: c.folderId,
         }),
       ],
-    },
-    name: {
-      label: "Name",
-      type: "string",
-      description: "The name of list",
-    },
-    content: {
-      label: "Content",
-      type: "string",
-      description: "The content of list",
       optional: true,
     },
-    priority: {
+    taskId: {
       propDefinition: [
         clickup,
-        "priorities",
-      ],
-      optional: true,
-    },
-    assignee: {
-      propDefinition: [
-        clickup,
-        "assignees",
+        "tasks",
         (c) => ({
-          workspaceId: c.workspaceId,
+          listId: c.listId,
         }),
       ],
-      optional: true,
+    },
+    checklistId: {
+      propDefinition: [
+        clickup,
+        "checklists",
+        (c) => ({
+          taskId: c.taskId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
     const {
-      listId,
-      name,
-      content,
-      priority,
-      assignee,
+      taskId,
+      checklistId,
     } = this;
 
-    const data = {
-      name,
-      content,
-      assignee,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateList({
+    return this.clickup.deleteChecklist({
       $,
-      listId,
-      data,
+      taskId,
+      checklistId,
     });
   },
 };

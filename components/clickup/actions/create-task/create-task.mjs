@@ -1,5 +1,5 @@
 import clickup from "../../clickup.app.mjs";
-import { PRIORITIES } from "../common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "clickup-create-task",
@@ -124,7 +124,7 @@ export default {
       data: {
         name,
         description,
-        priority: PRIORITIES[priority] || PRIORITIES["Normal"],
+        priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
         assignees,
         tags,
         status,

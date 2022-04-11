@@ -1,5 +1,5 @@
 import clickup from "../../clickup.app.mjs";
-import { PRIORITIES } from "../common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "clickup-create-list",
@@ -88,7 +88,7 @@ export default {
         data: {
           name,
           content,
-          priority: PRIORITIES[priority] || PRIORITIES["Normal"],
+          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
           assignee,
         },
       });
@@ -100,7 +100,7 @@ export default {
       data: {
         name,
         content,
-        priority: PRIORITIES[priority] || PRIORITIES["Normal"],
+        priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
         assignee,
       },
     });

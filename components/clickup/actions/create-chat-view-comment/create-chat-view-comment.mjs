@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-list",
-  name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  key: "clickup-create-chat-view-comment",
+  name: "Create Chat View Comment",
+  description: "Creates a chat view comment. See the docs [here](https://clickup.com/api) in **Comments  / Create Chat View Comment** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,29 +40,37 @@ export default {
         clickup,
         "lists",
         (c) => ({
+          spaceId: c.spaceId,
+          folderId: c.folderId,
+        }),
+      ],
+      optional: true,
+    },
+    viewId: {
+      propDefinition: [
+        clickup,
+        "views",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          spaceId: c.spaceId,
+          listId: c.listId,
           folderId: c.folderId,
         }),
       ],
     },
-    name: {
-      label: "Name",
+    commentText: {
+      label: "Comment Text",
+      description: "The text of the comment",
       type: "string",
-      description: "The name of list",
     },
-    content: {
-      label: "Content",
-      type: "string",
-      description: "The content of list",
+    notifyAll: {
+      label: "Notify All",
+      description: "Will notify all",
+      type: "boolean",
+      default: false,
       optional: true,
     },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
-      optional: true,
-    },
-    assignee: {
+    assignees: {
       propDefinition: [
         clickup,
         "assignees",
@@ -76,25 +83,20 @@ export default {
   },
   async run({ $ }) {
     const {
-      listId,
-      name,
-      content,
-      priority,
-      assignee,
+      viewId,
+      commentText,
+      notifyAll,
+      assignees,
     } = this;
 
-    const data = {
-      name,
-      content,
-      assignee,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateList({
+    return this.clickup.createViewComment({
       $,
-      listId,
-      data,
+      viewId,
+      data: {
+        comment_text: commentText,
+        notify_all: notifyAll,
+        assignees,
+      },
     });
   },
 };

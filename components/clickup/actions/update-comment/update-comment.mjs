@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-task",
-  name: "Update Task",
-  description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks  / Update Task** section.",
+  key: "clickup-update-comment",
+  name: "Update Comment",
+  description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments  / Update Comment** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,10 +40,10 @@ export default {
         clickup,
         "lists",
         (c) => ({
-          spaceId: c.spaceId,
           folderId: c.folderId,
         }),
       ],
+      optional: true,
     },
     taskId: {
       propDefinition: [
@@ -54,24 +53,36 @@ export default {
           listId: c.listId,
         }),
       ],
-    },
-    name: {
-      label: "Name",
-      type: "string",
-      description: "The name of task",
       optional: true,
     },
-    description: {
-      label: "Description",
-      type: "string",
-      description: "The description of task",
-      optional: true,
-    },
-    priority: {
+    viewId: {
       propDefinition: [
         clickup,
-        "priorities",
+        "views",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          spaceId: c.spaceId,
+          listId: c.listId,
+          folderId: c.folderId,
+        }),
       ],
+      optional: true,
+    },
+    commentId: {
+      propDefinition: [
+        clickup,
+        "comments",
+        (c) => ({
+          listId: c.listId,
+          taskId: c.taskId,
+          viewId: c.viewId,
+        }),
+      ],
+    },
+    commentText: {
+      label: "Comment Text",
+      description: "The text of the comment",
+      type: "string",
       optional: true,
     },
     assignees: {
@@ -84,53 +95,29 @@ export default {
       ],
       optional: true,
     },
-    status: {
-      propDefinition: [
-        clickup,
-        "statuses",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-      optional: true,
-    },
-    parent: {
-      label: "Parent Task",
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
+    resolved: {
+      label: "Resolved",
+      description: "Set the comment as resolved",
+      type: "boolean",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
-      taskId,
-      name,
-      description,
-      priority,
+      commentId,
+      commentText,
       assignees,
-      status,
-      parent,
+      resolved,
     } = this;
 
-    const data = {
-      name,
-      description,
-      assignees,
-      status,
-      parent,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateTask({
+    return this.clickup.updateComment({
       $,
-      taskId,
-      data,
+      commentId,
+      data: {
+        comment_text: commentText,
+        assignees,
+        resolved,
+      },
     });
   },
 };

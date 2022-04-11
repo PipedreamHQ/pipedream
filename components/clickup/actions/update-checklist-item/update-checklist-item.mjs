@@ -1,10 +1,9 @@
 import clickup from "../../clickup.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-update-task",
-  name: "Update Task",
-  description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks  / Update Task** section.",
+  key: "clickup-update-checklist-item",
+  name: "Update Checklist Item",
+  description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Edit Checklist Item** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -45,6 +44,7 @@ export default {
           folderId: c.folderId,
         }),
       ],
+      optional: true,
     },
     taskId: {
       propDefinition: [
@@ -54,27 +54,33 @@ export default {
           listId: c.listId,
         }),
       ],
+      optional: true,
+    },
+    checklistId: {
+      propDefinition: [
+        clickup,
+        "checklists",
+        (c) => ({
+          taskId: c.taskId,
+        }),
+      ],
+    },
+    checklistItemId: {
+      propDefinition: [
+        clickup,
+        "checklistItems",
+        (c) => ({
+          taskId: c.taskId,
+          checklistId: c.checklistId,
+        }),
+      ],
     },
     name: {
       label: "Name",
       type: "string",
-      description: "The name of task",
-      optional: true,
+      description: "The name of item",
     },
-    description: {
-      label: "Description",
-      type: "string",
-      description: "The description of task",
-      optional: true,
-    },
-    priority: {
-      propDefinition: [
-        clickup,
-        "priorities",
-      ],
-      optional: true,
-    },
-    assignees: {
+    assignee: {
       propDefinition: [
         clickup,
         "assignees",
@@ -84,23 +90,20 @@ export default {
       ],
       optional: true,
     },
-    status: {
-      propDefinition: [
-        clickup,
-        "statuses",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
+    resolved: {
+      label: "Resolved",
+      description: "Set the item as resolved",
+      type: "boolean",
       optional: true,
     },
     parent: {
-      label: "Parent Task",
+      label: "Checklist Parent",
+      description: "Set another checklist as parent",
       propDefinition: [
         clickup,
-        "tasks",
+        "checklists",
         (c) => ({
-          listId: c.listId,
+          taskId: c.taskId,
         }),
       ],
       optional: true,
@@ -108,29 +111,24 @@ export default {
   },
   async run({ $ }) {
     const {
-      taskId,
+      checklistId,
+      checklistItemId,
       name,
-      description,
-      priority,
-      assignees,
-      status,
+      assignee,
+      resolved,
       parent,
     } = this;
 
-    const data = {
-      name,
-      description,
-      assignees,
-      status,
-      parent,
-    };
-
-    if (priority) data[priority] = constants.PRIORITIES[priority];
-
-    return this.clickup.updateTask({
+    return this.clickup.updateChecklistItem({
       $,
-      taskId,
-      data,
+      checklistId,
+      checklistItemId,
+      data: {
+        name,
+        assignee,
+        resolved,
+        parent,
+      },
     });
   },
 };
