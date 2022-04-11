@@ -4,7 +4,7 @@ export default {
   key: "strava-custom-events",
   name: "New Custom Event",
   description: "Emit new event when an activity is created, updated, or deleted",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     strava,
