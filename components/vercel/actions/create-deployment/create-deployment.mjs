@@ -20,11 +20,6 @@ export default {
       ],
       description: "The target project identifier in which the deployment will be created. When defined, this parameter overrides name",
     },
-    repo: {
-      type: "string",
-      label: "Git Source Repository",
-      description: "Defines the Git Repository source to be deployed. E.g. {username}/{reponame}",
-    },
     repoId: {
       type: "string",
       label: "Git Source Repository Id",
@@ -58,7 +53,6 @@ export default {
       gitSource: {
         type: "github",
         repoId: this.repoId,
-        repo: this.repo,
         ref: this.branch,
       },
     };

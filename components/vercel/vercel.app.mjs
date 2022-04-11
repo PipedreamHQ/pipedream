@@ -88,6 +88,15 @@ export default {
       delete config.endpoint;
       return axios($ ?? this, config);
     },
+    /**
+    * Paginate through a list of resources in Vercel
+    * @params {String} resource - Resource type (e.g. "projects", "deployments", "teams").
+    * The response from makeRequest() will contain an array of results with the specified
+    * resource as the key and the array as the value
+    * @params {Object} config - configuration variables for the request
+    * @params {Integer} max - the maximum number of results to return
+    * @returns {Array} An array of results
+    */
     async paginate(resource, config, max = constants.MAX_RESULTS, $) {
       const allResults = [];
       config.params = {
