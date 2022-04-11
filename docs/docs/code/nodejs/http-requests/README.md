@@ -1,10 +1,15 @@
+---
+short_description: Make HTTP requests with Node.js in code steps.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
+---
+
 # Make HTTP Requests with Node.js
 
 HTTP requests are fundamental to working with APIs or other web services. You can make HTTP requests to retrieve data from APIs, fetch HTML from websites, or do pretty much anything your web browser can do.
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/code/nodejs/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
 If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios/) helpful for displaying error data clearly in the Pipedream UI.
 
@@ -29,7 +34,7 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 }
 ```
 
-`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](/workflows/steps/code/async/), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
+`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](/code/nodejs/async/), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
 
 **Putting all of this together, here's how to make a basic HTTP request on Pipedream:**
 
@@ -277,7 +282,7 @@ export default defineComponent({
 
 ## Download a file to the `/tmp` directory
 
-This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+This example shows you how to download a file to a file in [the `/tmp` directory](/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
 import stream from "stream";
@@ -297,7 +302,7 @@ await pipeline(
 
 ## Upload a file from the `/tmp` directory
 
-This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
 
@@ -367,7 +372,7 @@ Sometimes you need to upload a downloaded file directly to another service, with
 
 This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/limits/#disk).
 
-[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
+[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/code/nodejs/):
 
 ```javascript
 import stream from "stream";

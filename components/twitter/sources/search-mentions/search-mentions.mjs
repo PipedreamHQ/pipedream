@@ -5,7 +5,7 @@ export default {
   key: "twitter-search-mentions",
   name: "Search Mentions",
   description: "Emit new Tweets that match your search criteria",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     db: "$.service.db",
@@ -72,7 +72,7 @@ export default {
     },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
