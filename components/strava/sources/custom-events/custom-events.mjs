@@ -9,6 +9,8 @@ export default {
   props: {
     strava,
     eventNameOptions: {
+      label: "Strava Events",
+      description: "Select from events",
       type: "string[]",
       async options() {
         return [
@@ -19,8 +21,6 @@ export default {
       },
     },
     stravaApphook: {
-      label: "App hook",
-      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       async eventNames() {
