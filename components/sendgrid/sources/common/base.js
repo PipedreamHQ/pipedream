@@ -11,13 +11,13 @@ module.exports = {
     slugifyEmail(email) {
       return email
         .replace(/[@]/g, "-at-")
-        .replace(/[\.]/g, "-");
+        .replace(/[.]/g, "-");
     },
     toISOString(timestamp) {
       const date = new Date(timestamp);
       return date.toISOString();
     },
-    generateMeta(data) {
+    generateMeta() {
       return {
         id: uuidv4(),
         summary: "New event",
