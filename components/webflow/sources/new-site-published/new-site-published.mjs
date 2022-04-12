@@ -4,7 +4,7 @@ export default {
   type: "source",
   key: "webflow-new-site-published",
   name: "New site published",
-  description: "Emit new event when a site is published",
+  description: "Emit new event when a site is published. [See the docs here](https://developers.webflow.com/#trigger-types)",
   version: "0.1.1",
   ...common,
   methods: {

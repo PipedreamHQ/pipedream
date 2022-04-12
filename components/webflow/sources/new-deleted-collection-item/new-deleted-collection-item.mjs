@@ -4,7 +4,7 @@ export default {
   type: "source",
   key: "webflow-new-deleted-collection-item",
   name: "New Deleted Collection Item",
-  description: "Emit new event when a collection item is deleted",
+  description: "Emit new event when a collection item is deleted. [See the docs here](https://developers.webflow.com/#item-model)",
   version: "0.1.1",
   ...common,
   methods: {
