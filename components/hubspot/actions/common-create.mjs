@@ -1,6 +1,6 @@
 import hubspot from "../hubspot.app.mjs";
 import {
-  ObjectType, HUBSPOT_OWNER,
+  OBJECT_TYPE, HUBSPOT_OWNER,
 } from "../common/constants.mjs";
 
 /**
@@ -14,27 +14,27 @@ function getOptionsMethod(objectTypeName) {
   switch (objectTypeName) {
   case HUBSPOT_OWNER:
     return (opts) => this.hubspot.getOwnersOptions(opts);
-  case ObjectType.COMPANY:
+  case OBJECT_TYPE.COMPANY:
     return (opts) => this.hubspot.getCompaniesOptions(opts);
-  case ObjectType.CONTACT:
+  case OBJECT_TYPE.CONTACT:
     return (opts) => this.hubspot.getContactsOptions(opts);
-  case ObjectType.DEAL:
+  case OBJECT_TYPE.DEAL:
     return (opts) => this.hubspot.getDealsOptions(opts);
-  case ObjectType.LINE_ITEM:
+  case OBJECT_TYPE.LINE_ITEM:
     return (opts) => this.hubspot.getLineItemsOptions(opts);
-  case ObjectType.TICKET:
+  case OBJECT_TYPE.TICKET:
     return (opts) => this.hubspot.getTicketsOptions(opts);
-  case ObjectType.QUOTE:
+  case OBJECT_TYPE.QUOTE:
     return (opts) => this.hubspot.getQuotesOptions(opts);
-  case ObjectType.CALL:
+  case OBJECT_TYPE.CALL:
     return (opts) => this.hubspot.getCallsOptions(opts);
-  case ObjectType.EMAIL:
+  case OBJECT_TYPE.EMAIL:
     return (opts) => this.hubspot.getEmailsOptions(opts);
-  case ObjectType.MEETING:
+  case OBJECT_TYPE.MEETING:
     return (opts) => this.hubspot.getMeetingsOptions(opts);
-  case ObjectType.NOTE:
+  case OBJECT_TYPE.NOTE:
     return (opts) => this.hubspot.getNotesOptions(opts);
-  case ObjectType.TASK:
+  case OBJECT_TYPE.TASK:
     return (opts) => this.hubspot.getTasksOptions(opts);
   default:
     return () => [];

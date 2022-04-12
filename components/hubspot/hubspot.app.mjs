@@ -1,9 +1,10 @@
 import { axios } from "@pipedream/platform";
 import {
-  AssociationCategory,
-  HUBSPOT_OWNER, ObjectType,
+  ASSOCIATION_CATEGORY,
+  HUBSPOT_OWNER,
+  OBJECT_TYPE,
+  OBJECT_TYPES,
 } from "./common/constants.mjs";
-import objectTypes from "./common/object-types.mjs";
 
 export default {
   type: "app",
@@ -68,7 +69,7 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      options: objectTypes,
+      options: OBJECT_TYPES,
     },
     objectIds: {
       type: "string[]",
@@ -251,29 +252,29 @@ export default {
       } = object;
       const objectName = this.getObjectTypeName(objectSlug);
       switch (objectName) {
-      case ObjectType.COMPANY:
+      case OBJECT_TYPE.COMPANY:
         return properties.name;
-      case ObjectType.CONTACT:
+      case OBJECT_TYPE.CONTACT:
         return `${properties.firstname} ${properties.lastname}`;
-      case ObjectType.DEAL:
+      case OBJECT_TYPE.DEAL:
         return properties.dealname;
-      case ObjectType.LINE_ITEM:
+      case OBJECT_TYPE.LINE_ITEM:
         return properties.name;
-      case ObjectType.TICKET:
+      case OBJECT_TYPE.TICKET:
         return properties.subject;
-      case ObjectType.QUOTE:
+      case OBJECT_TYPE.QUOTE:
         return properties.hs_title ?? id;
       case HUBSPOT_OWNER:
         return properties.email;
-      case ObjectType.CALL:
+      case OBJECT_TYPE.CALL:
         return properties.hs_call_title ?? id;
-      case ObjectType.MEETING:
+      case OBJECT_TYPE.MEETING:
         return properties.hs_meeting_title ?? id;
-      case ObjectType.EMAIL:
+      case OBJECT_TYPE.EMAIL:
         return properties.hs_email_subject ?? id;
-      case ObjectType.TASK:
+      case OBJECT_TYPE.TASK:
         return properties.hs_task_subject ?? id;
-      case ObjectType.NOTE:
+      case OBJECT_TYPE.NOTE:
         return properties.hs_note_body;
       default:
         return id;
@@ -455,34 +456,34 @@ export default {
       };
     },
     async getCompaniesOptions(opts) {
-      return this.createOptions(ObjectType.COMPANY, opts);
+      return this.createOptions(OBJECT_TYPE.COMPANY, opts);
     },
     async getContactsOptions(opts) {
-      return this.createOptions(ObjectType.CONTACT, opts);
+      return this.createOptions(OBJECT_TYPE.CONTACT, opts);
     },
     async getLineItemsOptions(opts) {
-      return this.createOptions(ObjectType.LINE_ITEM, opts);
+      return this.createOptions(OBJECT_TYPE.LINE_ITEM, opts);
     },
     async getTicketsOptions(opts) {
-      return this.createOptions(ObjectType.TICKET, opts);
+      return this.createOptions(OBJECT_TYPE.TICKET, opts);
     },
     async getQuotesOptions(opts) {
-      return this.createOptions(ObjectType.QUOTE, opts);
+      return this.createOptions(OBJECT_TYPE.QUOTE, opts);
     },
     async getCallsOptions(opts) {
-      return this.createOptions(ObjectType.CALL, opts);
+      return this.createOptions(OBJECT_TYPE.CALL, opts);
     },
     async getTasksOptions(opts) {
-      return this.createOptions(ObjectType.TASK, opts);
+      return this.createOptions(OBJECT_TYPE.TASK, opts);
     },
     async getNotesOptions(opts) {
-      return this.createOptions(ObjectType.NOTE, opts);
+      return this.createOptions(OBJECT_TYPE.NOTE, opts);
     },
     async getMeetingsOptions(opts) {
-      return this.createOptions(ObjectType.MEETING, opts);
+      return this.createOptions(OBJECT_TYPE.MEETING, opts);
     },
     async getEmailsOptions(opts) {
-      return this.createOptions(ObjectType.EMAIL, opts);
+      return this.createOptions(OBJECT_TYPE.EMAIL, opts);
     },
     async getOwnersOptions(params) {
       const { results } = await this.getOwners(params);
@@ -529,7 +530,7 @@ export default {
             },
             types: [
               {
-                associationCategory: AssociationCategory.HUBSPOT_DEFINED,
+                associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
                 associationTypeId: associationTypeId,
               },
             ],
