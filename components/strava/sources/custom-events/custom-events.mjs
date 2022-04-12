@@ -4,11 +4,13 @@ export default {
   key: "strava-custom-events",
   name: "New Custom Event",
   description: "Emit new event when an activity is created, updated, or deleted",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     strava,
     eventNameOptions: {
+      label: "Strava Events",
+      description: "Select from events",
       type: "string[]",
       async options() {
         return [
@@ -19,8 +21,6 @@ export default {
       },
     },
     stravaApphook: {
-      label: "App hook",
-      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       async eventNames() {

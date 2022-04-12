@@ -1,133 +1,223 @@
-// legacy_hash_id: a_k6iKYA
-import { axios } from "@pipedream/platform";
+import pipedriveApp from "../../pipedrive.app.mjs";
+import utils from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "pipedrive-add-activity",
   name: "Add Activity",
-  description: "Adds a new activity. Includes more_activities_scheduled_in_context property in response's additional_data which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data).",
-  version: "0.1.1",
+  description: "Adds a new activity. Includes `more_activities_scheduled_in_context` property in response's `additional_data` which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Activities#addActivity)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipedrive: {
-      type: "app",
-      app: "pipedrive",
-    },
-    companydomain: {
-      type: "string",
-      description: "Your company name as registered in Pipedrive, which becomes part of Pipedrive API base url.",
-    },
+    pipedriveApp,
     subject: {
       type: "string",
+      label: "Subject",
       description: "Subject of the activity",
     },
     done: {
-      type: "integer",
+      type: "string",
+      label: "Done",
       description: "Whether the activity is done or not. 0 = Not done, 1 = Done",
       optional: true,
+      options: [
+        {
+          label: "Not done",
+          value: "0",
+        },
+        {
+          label: "Done",
+          value: "1",
+        },
+      ],
     },
     type: {
       type: "string",
-      description: "Type of the activity. This is in correlation with the key_string parameter of ActivityTypes.",
+      label: "Type",
+      description: "Type of the activity. This is in correlation with the `key_string` parameter of ActivityTypes.",
+      async options() {
+        const { data: activityTypes } = await this.pipedriveApp.getActivityTypes();
+        return activityTypes.map(({
+          key_string: value, name,
+        }) => ({
+          label: name,
+          value,
+        }));
+      },
     },
-    due_date: {
+    dueDate: {
       type: "string",
-      description: "Due date of the activity. Format: YYYY-MM-DD",
+      label: "Due Date",
+      description: "Due date of the activity. Format: `YYYY-MM-DD`",
       optional: true,
     },
-    due_time: {
+    dueTime: {
       type: "string",
-      description: "Due time of the activity in UTC. Format: HH:MM",
+      label: "Due Time",
+      description: "Due time of the activity in UTC. Format: `HH:MM`",
       optional: true,
     },
     duration: {
       type: "string",
-      description: "Duration of the activity. Format: HH:MM",
+      label: "Duration",
+      description: "Duration of the activity. Format: `HH:MM`",
       optional: true,
     },
-    user_id: {
-      type: "integer",
+    userId: {
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
       description: "ID of the user whom the activity will be assigned to. If omitted, the activity will be assigned to the authorized user.",
-      optional: true,
     },
-    deal_id: {
-      type: "string",
-      description: "ID of the deal this activity will be associated with",
-      optional: true,
+    dealId: {
+      propDefinition: [
+        pipedriveApp,
+        "dealId",
+      ],
     },
-    person_id: {
-      type: "integer",
+    personId: {
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
       description: "ID of the person this activity will be associated with",
-      optional: true,
     },
     participants: {
-      type: "any",
-      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from person_id field is used. It requires a structure as follows: [{\"person_id\":1,\"primary_flag\":true}]",
+      type: "string[]",
+      label: "Participants",
+      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary_flag\":true}]`",
       optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
     },
-    org_id: {
-      type: "integer",
+    organizationId: {
+      propDefinition: [
+        pipedriveApp,
+        "organizationId",
+      ],
       description: "ID of the organization this activity will be associated with",
-      optional: true,
     },
     note: {
       type: "string",
+      label: "Note",
       description: "Note of the activity (HTML format)",
       optional: true,
     },
     location: {
       type: "string",
+      label: "Location",
       description: "The address of the activity. Pipedrive will automatically check if the location matches a geo-location on Google maps.",
       optional: true,
     },
-    public_description: {
+    publicDescription: {
       type: "string",
+      label: "Public Description",
       description: "Additional details about the activity that will be synced to your external calendar. Unlike the note added to the activity, the description will be publicly visible to any guests added to the activity.",
       optional: true,
     },
-    busy_flag: {
+    busyFlag: {
       type: "boolean",
+      label: "Busy Flag",
       description: "Set the activity as 'Busy' or 'Free'. If the flag is set to true, your customers will not be able to book that time slot through any Scheduler links",
       optional: true,
     },
     attendees: {
-      type: "any",
-      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: [{\"email_address\":\"mail@example.org\"}] or [{\"person_id\":1, \"email_address\":\"mail@example.org\"}",
+      type: "string[]",
+      label: "Attendees",
+      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email_address\":\"mail@example.org\"}]` or `[{\"person_id\":1, \"email_address\":\"mail@example.org\"}]`",
       optional: true,
+      async options({ prevContext }) {
+        const {
+          moreItemsInCollection,
+          start,
+        } = prevContext;
+
+        if (moreItemsInCollection === false) {
+          return [];
+        }
+
+        const {
+          data: persons,
+          additional_data: additionalData,
+        } = await this.pipedriveApp.getPersons({
+          start,
+          limit: constants.DEFAULT_PAGE_LIMIT,
+        });
+
+        const options =
+          persons?.flatMap(({
+            name, email,
+          }) => email?.map(({ value }) => ({
+            label: name,
+            value,
+          })).filter((option) => option?.value));
+
+        return {
+          options,
+          context: {
+            moreItemsInCollection: additionalData.pagination.more_items_in_collection,
+            start: additionalData.pagination.next_start,
+          },
+        };
+      },
     },
   },
   async run({ $ }) {
-  //See the Pipedrive API docs for Activities here: https://developers.pipedrive.com/docs/api/v1/#!/Activities
-  //For for info on adding an activity in Pipedrive: https://pipedrive.readme.io/docs/adding-an-activity
-    const config = {
-      method: "post",
-      url: `https://${this.companydomain}.pipedrive.com/v1/activities`,
-      data: {
-        subject: this.subject,
-        done: this.done,
-        type: this.type,
-        due_date: this.due_date,
-        due_time: this.due_time,
-        duration: this.duration,
-        user_id: this.user_id,
-        deal_id: this.deal_id,
-        person_id: this.person_id,
-        participants: typeof this.participants == "undefined"
-          ? this.participants
-          : JSON.parse(this.participants),
-        org_id: this.org_id,
-        note: this.note,
-        location: this.location,
-        public_description: this.public_description,
-        busy_flag: this.busy_flag,
-        attendees: typeof this.attendees == "undefined"
-          ? this.attendees
-          : JSON.parse(this.attendees),
-      },
-      headers: {
-        Authorization: `Bearer ${this.pipedrive.$auth.oauth_access_token}`,
-      },
+    const {
+      subject,
+      type,
+      dueDate,
+      dueTime,
+      duration,
+      userId,
+      dealId,
+      personId,
+      organizationId,
+      note,
+      location,
+      publicDescription,
+      busyFlag,
+    } = this;
 
-    };
-    return await axios($, config);
+    const participants = utils.parseOrUndefined(this.participants);
+    const attendees = utils.parseOrUndefined(this.attendees);
+    const done = utils.parseOrUndefined(this.done);
+
+    try {
+      const resp =
+        await this.pipedriveApp.addActivity({
+          subject,
+          done,
+          type,
+          due_date: dueDate,
+          due_time: dueTime,
+          duration,
+          user_id: userId,
+          deal_id: dealId,
+          person_id: personId,
+          participants: participants?.map((value, idx) => ({
+            person_id: value,
+            primary_flag: !idx,
+          })),
+          org_id: organizationId,
+          note,
+          location,
+          public_description: publicDescription,
+          busy_flag: busyFlag,
+          attendees: attendees?.map((value) => ({
+            email_address: value,
+          })),
+        });
+
+      $.export("$summary", "Successfully added activity");
+
+      return resp;
+    } catch (error) {
+      console.error(error.context?.body || error);
+      throw error.context?.body?.error || "Failed to add activity";
+    }
   },
 };
