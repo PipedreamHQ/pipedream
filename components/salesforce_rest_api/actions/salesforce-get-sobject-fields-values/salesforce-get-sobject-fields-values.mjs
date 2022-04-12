@@ -1,37 +1,53 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "salesforce_rest_api-salesforce-get-sobject-fields-values",
   name: "Get Field Values from a Standard Object Record",
-  description: "Retrieve field values from a record. You can specify the fields you want to retrieve.",
+  description: "Retrieve field values from a record. You can specify the fields you want to retrieve. See [docs](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_get_field_values.htm)",
   version: "0.2.2",
   type: "action",
   props: {
     salesforce,
-    sobject_name: {
-      type: "string",
-      label: "sobject_name",
-      description: "Salesforce standard object type of the record to get field values from.",
+    objectType: {
+      propDefinition: [
+        salesforce,
+        "objectType",
+      ],
     },
-    sobject_id: {
-      type: "string",
-      label: "sobject_id",
-      description: "Id of the Salesforce standard object to get field values from.",
+    sobjectId: {
+      propDefinition: [
+        salesforce,
+        "sobjectId",
+        (c) => ({
+          objectType: c.objectType,
+        }),
+      ],
     },
-    sobject_fields: {
-      type: "string",
-      label: "sobject_fields",
-      description: "Comma separated list of the Salesforce standard object's fields to get values from.",
+    fields: {
+      type: "string[]",
+      label: "SObject Fields",
+      description: "List of fields of the Standard object to get values from",
+      propDefinition: [
+        salesforce,
+        "field",
+        (c) => ({
+          objectType: c.objectType,
+        }),
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    //See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm
-    return await axios($, {
-      url: `${this.salesforce.$auth.instance_url}/services/data/v20.0/sobjects/${encodeURI(this.sobject_name)}/${encodeURI(this.sobject_id)}?fields=${encodeURI(this.sobject_fields)}`,
-      headers: {
-        Authorization: `Bearer ${this.salesforce.$auth.oauth_access_token}`,
-      },
+    const params = {};
+    if (this.fields?.length > 0) {
+      params.fields = this.fields.join(",");
+    }
+    const response = await this.salesforce.getRecordFieldValues(this.objectType, {
+      $,
+      id: this.sobjectId,
+      params,
     });
+    $.export("$summary", `Retrieved ${this.objectType} field values`);
+    return response;
   },
 };

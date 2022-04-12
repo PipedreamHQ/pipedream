@@ -1,53 +1,50 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "salesforce_rest_api-salesforce-insert-blob-data",
   name: "Insert Blob Data",
-  description: "Inserts blob data in Salesforce standard objects.",
+  description: "Inserts blob data in Salesforce standard objects. See [docs](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_insert_update_blob.htm)",
   version: "0.2.2",
   type: "action",
   props: {
     salesforce,
     entiy_name: {
       type: "string",
-      label: "entiy_name",
+      label: "Entity Name",
       description: "Name of the entity to insert as part of the form-data sent along the Salesforce API as a request with multipart/form-data content type. I.e. entity_document for Documents.",
     },
     entity_document: {
       type: "string",
-      label: "entity_document",
+      label: "Entity Document",
       description: "Salesforce object entity to insert.",
     },
     form_content_name: {
       type: "string",
-      label: "form_content_name",
+      label: "Form Content Name",
       description: "Name of the binary content to insert as part of  the form-data sent along the Salesforce API as a request with multipart/form-data content type.",
     },
     filename: {
       type: "string",
-      label: "filename",
+      label: "Filename",
       description: "Filename of the blob data to insert.",
     },
     content_type: {
       type: "string",
-      label: "content_type",
+      label: "Content Type",
       description: "Mime type of the content to insert.",
     },
     attachment_binarycontent: {
       type: "string",
-      label: "attachment_binarycontent",
+      label: "Attachment Binary Content",
       description: "Binary content of the blob data to insert.",
     },
     sobject_name: {
       type: "string",
-      label: "sobject_name",
+      label: "SObject Type",
       description: "Salesforce standard object type to insert.",
     },
   },
   async run({ $ }) {
-    //See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm
-
     const payloadPart1 = `----------------------------932677621329676389151855
     \r\nContent-Disposition: form-data; name="${this.entiy_name}""
     \r\nContent-Type: application/json
@@ -61,14 +58,16 @@ export default {
 
     const data = `${payloadPart1}${this.attachment_binarycontent}${payloadPart2}`;
 
-    return await axios($, {
-      method: "post",
-      url: `${this.salesforce.$auth.instance_url}/services/data/v20.0/sobjects/${this.sobject_name}/`,
-      headers: {
-        "Authorization": `Bearer ${this.salesforce.$auth.oauth_access_token}`,
-        "Content-Type": "multipart/form-data; boundary=--------------------------932677621329676389151855",
-      },
+    const headers = {
+      "Content-Type": "multipart/form-data; boundary=--------------------------932677621329676389151855",
+    };
+
+    const response = await this.salesforce.insertBlobData(this.sobject_name, {
+      $,
+      headers,
       data,
     });
+    $.export("$summary", `Inserted Blob data to ${this.sobject_name}`);
+    return response;
   },
 };

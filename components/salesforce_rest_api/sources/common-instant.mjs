@@ -12,17 +12,26 @@ export default {
       customResponse: true,
     },
     salesforce,
-    // Not inheriting `objectType` propDefinition from salesforce so `this` in async options has
-    // component instance's methods
     objectType: {
-      ...salesforce.propDefinitions.objectType,
-      label: salesforce.propDefinitions.objectType.label,
-      description: salesforce.propDefinitions.objectType.description,
+      type: "string",
+      label: "Object Type",
+      description: "The type of object for which to monitor events",
       async options(context) {
-        return salesforce.propDefinitions.objectType.options.call(this.salesforce, {
-          ...context,
-          eventType: this.getEventType(),
-        });
+        const { page } = context;
+        if (page !== 0) {
+          // The list of allowed SObject types is static and exhaustively
+          // provided through a single method call
+          return [];
+        }
+
+        const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(this.getEventType());
+        const options = supportedObjectTypes.map((i) => ({
+          label: i.label,
+          value: i.name,
+        }));
+        return {
+          options,
+        };
       },
     },
   },
