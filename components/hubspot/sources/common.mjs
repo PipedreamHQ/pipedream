@@ -1,3 +1,4 @@
+import { monthAgo } from "../common/utils.mjs";
 import hubspot from "../hubspot.app.mjs";
 
 export default {
@@ -21,7 +22,7 @@ export default {
   },
   methods: {
     _getAfter() {
-      return this.db.get("after") || Date.parse(this.hubspot.monthAgo());
+      return this.db.get("after") || Date.parse(monthAgo());
     },
     _setAfter(after) {
       this.db.set("after", after);

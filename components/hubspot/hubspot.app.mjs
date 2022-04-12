@@ -15,22 +15,18 @@ export default {
       description: "Select the lists to watch for new contacts.",
       withLabel: true,
       async options({
-        prevContext, listType = "all",
+        prevContext, listType,
       }) {
         const { offset = 0 } = prevContext;
         const params = {
           count: 250,
           offset,
         };
-        let results;
-        if (listType === "static") {
-          results = await this.getStaticLists(params);
-        } else if (listType === "dynamic") {
-          results = await this.getDynamicLists(params);
-        } else {
-          results = await this.getLists(params);
-        }
-        const options = results.map((result) => {
+        const { lists } = await this.getLists({
+          listType,
+          ...params,
+        });
+        const options = lists.map((result) => {
           const {
             name: label,
             listId,
@@ -52,6 +48,7 @@ export default {
       type: "string[]",
       label: "Stages",
       description: "Select the stages to watch for new deals in.",
+      withLabel: true,
       async options() {
         const results = await this.getDealStages();
         const options = results.results[0].stages.map((result) => {
@@ -61,10 +58,7 @@ export default {
           } = result;
           return {
             label,
-            value: JSON.stringify({
-              label,
-              value: stageId,
-            }),
+            value: stageId,
           };
         });
         return options;
@@ -104,10 +98,7 @@ export default {
           } = result;
           return {
             label,
-            value: JSON.stringify({
-              label,
-              value: guid,
-            }),
+            value: guid,
           };
         });
         return {
@@ -193,11 +184,6 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
-    },
-    monthAgo() {
-      const monthAgo = new Date();
-      monthAgo.setMonth(monthAgo.getMonth() - 1);
-      return monthAgo;
     },
     async makeRequest(endpoint, opts = {}) {
       const {
@@ -305,77 +291,76 @@ export default {
       return axios($ ?? this, config);
     },
     async getBlogPosts(params, $) {
-      return await this.makeGetRequest("/cms/v3/blogs/posts", params, $);
+      return this.makeGetRequest("/cms/v3/blogs/posts", params, $);
     },
     async getCalendarTasks(endDate, $) {
       const params = {
         startDate: Date.now(),
         endDate,
       };
-      return await this.makeGetRequest("/calendar/v1/events/task", params, $);
+      return this.makeGetRequest("/calendar/v1/events/task", params, $);
     },
     async getContactProperties($) {
-      return await this.makeGetRequest("/properties/v1/contacts/properties", $);
+      return this.makeGetRequest("/properties/v1/contacts/properties", $);
     },
     async createPropertiesArray($) {
       const allProperties = await this.getContactProperties($);
       return allProperties.map((property) => property.name);
     },
     async getDealProperties($) {
-      return await this.makeGetRequest("/properties/v1/deals/properties", $);
+      return this.makeGetRequest("/properties/v1/deals/properties", $);
     },
     async getDealStages($) {
-      return await this.makeGetRequest("/crm-pipelines/v1/pipelines/deal", $);
+      return this.makeGetRequest("/crm-pipelines/v1/pipelines/deal", $);
     },
     async getEmailEvents(params, $) {
-      return await this.makeGetRequest("/email/public/v1/events", params, $);
+      return this.makeGetRequest("/email/public/v1/events", params, $);
     },
     async getEngagements(params, $) {
-      return await this.makeGetRequest(
+      return this.makeGetRequest(
         "/engagements/v1/engagements/paged",
         params,
         $,
       );
     },
     async getEvents(params, $) {
-      return await this.makeGetRequest("/events/v3/events", params, $);
+      return this.makeGetRequest("/events/v3/events", params, $);
     },
     async getForms(params, $) {
-      return await this.makeGetRequest("/forms/v2/forms", params, $);
+      return this.makeGetRequest("/forms/v2/forms", params, $);
     },
-    async getFormSubmissions(params, $) {
-      const { formId } = params;
-      delete params.formId;
-      return await this.makeGetRequest(
+    async getFormSubmissions({
+      formId, ...params
+    }, $) {
+      return this.makeGetRequest(
         `/form-integrations/v1/submissions/forms/${formId}`,
         params,
         $,
       );
     },
     async getLists(params, $) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists", params, $);
-      return lists;
-    },
-    async getStaticLists(params, $) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists/static", params, $);
-      return lists;
-    },
-    async getDynamicLists(params, $) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists/dynamic", params, $);
-      return lists;
+      const {
+        listType,
+        ...otherParams
+      } = params;
+      const basePath = "/contacts/v1/lists";
+      const path = listType
+        ? `${basePath}/${listType}`
+        : basePath;
+      return this.makeGetRequest(path, otherParams, $);
     },
     async getListContacts(params, listId, $) {
-      return await this.makeGetRequest(
+      return this.makeGetRequest(
         `/contacts/v1/lists/${listId}/contacts/all`,
         params,
         $,
       );
     },
     async getOwners(params, $) {
-      return await this.makeGetRequest("/crm/v3/owners", params, $);
+      return this.makeGetRequest("/crm/v3/owners", params, $);
     },
     async listObjectsInPage(objectType, after, params, $) {
-      return await this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
+      return this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
         after,
         ...params,
       }, $);
@@ -392,8 +377,7 @@ export default {
           params,
           $,
         );
-        if (results.paging) params.next = results.paging.next.after;
-        else delete params.next;
+        params.next = results.paging?.next?.after;
         for (const result of results.results) {
           objects.push(result);
         }
@@ -405,7 +389,7 @@ export default {
         properties: properties?.join(","),
       };
 
-      return await this.makeGetRequest(
+      return this.makeGetRequest(
         `/crm/v3/objects/${objectType}/${objectId}`,
         params,
         $,
@@ -415,7 +399,7 @@ export default {
       const params = {
         properties,
       };
-      return await this.makeGetRequest(
+      return this.makeGetRequest(
         `/crm/v3/objects/contacts/${contactId}`,
         params,
         $,
@@ -430,13 +414,13 @@ export default {
       }, $);
     },
     async getPropertyGroups(objectType, $) {
-      return await this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`, null, $);
+      return this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`, null, $);
     },
     async getProperties(objectType, $) {
-      return await this.makeGetRequest(`/crm/v3/properties/${objectType}`, null, $);
+      return this.makeGetRequest(`/crm/v3/properties/${objectType}`, null, $);
     },
     async getSchema(objectType, $) {
-      return await this.makeGetRequest(`/crm/v3/schemas/${objectType}`, null, $);
+      return this.makeGetRequest(`/crm/v3/schemas/${objectType}`, null, $);
     },
     /**
      * Returns a list of prop options for a CRM object type
@@ -508,13 +492,13 @@ export default {
       }));
     },
     async searchFiles(params, $) {
-      return await this.makeGetRequest("/files/v3/files/search", params, $);
+      return this.makeGetRequest("/files/v3/files/search", params, $);
     },
     async getSignedUrl(fileId, params, $) {
-      return await this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params, $);
+      return this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params, $);
     },
     async addContactsToList(listId, emails, $) {
-      return await this.makePostRequest({
+      return this.makePostRequest({
         endpoint: `/contacts/v1/lists/${listId}/add`,
         data: {
           emails,
@@ -522,10 +506,10 @@ export default {
       }, $);
     },
     async getAssociationTypes(fromObjectType, toObjectType, $) {
-      return await this.makeGetRequest(`/crm/v4/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
+      return this.makeGetRequest(`/crm/v4/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
     },
     async createAssociation(fromObjectType, toObjectType, fromId, toId, $) {
-      return await this.makeRequest(
+      return this.makeRequest(
         `/crm/v4/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
         {
           $,
@@ -533,7 +517,7 @@ export default {
       );
     },
     async createAssociations(fromObjectType, toObjectType, fromId, toIds, associationTypeId, $) {
-      return await this.makePostRequest({
+      return this.makePostRequest({
         endpoint: `/crm/v4/associations/${fromObjectType}/${toObjectType}/batch/create`,
         data: {
           inputs: toIds.map((toId) => ({

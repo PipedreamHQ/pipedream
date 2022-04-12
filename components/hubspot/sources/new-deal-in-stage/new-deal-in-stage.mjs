@@ -47,7 +47,6 @@ export default {
     const updatedAfter = this._getAfter();
 
     for (let stage of this.stages) {
-      stage = JSON.parse(stage);
       this.db.set("stage", stage);
       const data = {
         limit: 100,

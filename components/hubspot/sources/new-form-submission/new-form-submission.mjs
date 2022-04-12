@@ -44,7 +44,6 @@ export default {
 
     await Promise.all(
       this.forms
-        .map(JSON.parse)
         .map(({ value }) => ({
           ...baseParams,
           formId: value,

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "hubspot-create-engagement",
   name: "Create Engagement",
-  description: "Create a new engagement for a contact",
+  description: "Create a new engagement for a contact. [See the docs here](https://developers.hubspot.com/docs/api/crm/engagements)",
   version: "0.0.1",
   type: "action",
   props: {
