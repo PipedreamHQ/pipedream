@@ -18,7 +18,7 @@ module.exports = {
         "Content-Type": "application/json",
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       });
-      sendgrid.setApiKey(this.$auth.api_key);
+      sendgrid.setApiKey(this._authToken());
       return sendgrid;
     },
     _emailValidationsUrl() {

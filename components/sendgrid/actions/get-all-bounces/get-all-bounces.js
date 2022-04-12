@@ -13,22 +13,17 @@ module.exports = {
     startTime: {
       type: "integer",
       label: "Start Time",
-      description:
-        "Refers start of the time range in unix timestamp when a bounce was created (inclusive).",
+      description: "Refers start of the time range in unix timestamp when a bounce was created (inclusive)",
       optional: true,
     },
     endTime: {
       type: "integer",
       label: "End Time",
-      description:
-        "Refers end of the time range in unix timestamp when a bounce was created (inclusive).",
+      description: "Refers end of the time range in unix timestamp when a bounce was created (inclusive)",
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {};
     this.startTime = this.convertEmptyStringToUndefined(this.startTime);
     if (this.startTime != null) {
@@ -39,10 +34,10 @@ module.exports = {
       constraints.endTime = {
         numericality: {
           onlyInteger: true,
-          greaterThan: this.startTime > 0 ?
-            this.startTime :
-            0,
-          message: "must be positive integer, non zero, greater than `startTime`.",
+          greaterThan: this.startTime > 0
+            ? this.startTime
+            : 0,
+          message: "must be positive integer, non zero, greater than `startTime`",
         },
       };
     }
@@ -54,6 +49,8 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.sendgrid.getAllBounces(this.startTime, this.endTime);
+    const resp = await this.sendgrid.getAllBounces(this.startTime, this.endTime);
+    $.export("$summary", "Successfully retrieved bounces.");
+    return resp;
   },
 };

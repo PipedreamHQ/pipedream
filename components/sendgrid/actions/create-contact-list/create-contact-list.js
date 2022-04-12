@@ -15,7 +15,9 @@ module.exports = {
       description: "Your name for your list. maxLength: 100",
     },
   },
-  async run() {
-    return this.sendgrid.createContactList(this.name);
+  async run({ $ }) {
+    const resp = await this.sendgrid.createContactList(this.name);
+    $.export("$summary", `Successfully created contact ${this.name}`);
+    return resp;
   },
 };

@@ -22,15 +22,12 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     if (this.deleteAllContacts && this.ids) {
-      throw new Error(
-        "Must provide only one of `deleteAllContacts` or `ids` parameters.",
-      );
+      throw new Error("Must provide only one of `deleteAllContacts` or `ids` parameters.");
     }
-    return this.sendgrid.deleteContacts(this.deleteAllContacts, this.ids);
+    const resp = await this.sendgrid.deleteContacts(this.deleteAllContacts, this.ids);
+    $.export("$summary", "Successfully deleted contacts");
+    return resp;
   },
 };

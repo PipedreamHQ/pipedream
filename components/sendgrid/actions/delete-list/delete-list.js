@@ -11,21 +11,19 @@ module.exports = {
     id: {
       type: "string",
       label: "Id",
-      description: "Unique Id of the List to be deleted.",
+      description: "Unique Id of the List to be deleted",
     },
     deleteContacts: {
       type: "boolean",
       label: "Delete Contacts?",
-      description:
-        "Indicates that all contacts on the list are also to be deleted.",
+      description: "Indicates that all contacts on the list are also to be deleted",
       default: false,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     this.deleteContacts = !!this.deleteContacts;
-    return this.sendgrid.deleteList(this.id, this.deleteContacts);
+    const resp = await this.sendgrid.deleteList(this.id, this.deleteContacts);
+    $.export("$summary", `Successfully deleted list ${this.list}.`);
+    return resp;
   },
 };

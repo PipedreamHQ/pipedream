@@ -13,13 +13,10 @@ module.exports = {
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the specific block.",
+      description: "The email address of the specific block",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       email: {
         email: true,
@@ -29,6 +26,8 @@ module.exports = {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    return this.sendgrid.getBlock(this.email);
+    const resp = this.sendgrid.getBlock(this.email);
+    $.export("$summary", "Successfully retrieved block.");
+    return resp;
   },
 };

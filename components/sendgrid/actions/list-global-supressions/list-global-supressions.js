@@ -5,8 +5,7 @@ module.exports = {
   ...common,
   key: "sendgrid-list-global-suppressions",
   name: "List Global Suppressions",
-  description:
-    "Allows you to get a list of all email address that are globally suppressed.",
+  description: "Allows you to get a list of all email address that are globally suppressed.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,27 +13,22 @@ module.exports = {
     startTime: {
       type: "integer",
       label: "Start Time",
-      description:
-        "Refers start of the time range in unix timestamp when an unsubscribe email was created (inclusive).",
+      description: "Refers start of the time range in unix timestamp when an unsubscribe email was created (inclusive)",
       optional: true,
     },
     endTime: {
       type: "integer",
       label: "End Time",
-      description:
-        "Refers end of the time range in unix timestamp when an unsubscribe email was created (inclusive).",
+      description: "Refers end of the time range in unix timestamp when an unsubscribe email was created (inclusive)",
       optional: true,
     },
     numberOfSupressions: {
       type: "integer",
       label: "Max # of Global Suppressions to Return",
-      description: "Indicates the max number of global suppressions to return.",
+      description: "Indicates the max number of global suppressions to return",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       numberOfSupressions: {
         type: "integer",
@@ -47,9 +41,9 @@ module.exports = {
       constraints.endTime = {
         numericality: {
           onlyInteger: true,
-          greaterThan: this.startTime > 0 ?
-            this.startTime :
-            0,
+          greaterThan: this.startTime > 0
+            ? this.startTime
+            : 0,
           message: "must be positive integer, non zero, greater than `startTime`.",
         },
       };
@@ -66,10 +60,12 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.sendgrid.listGlobalSupressions(
+    const resp = await this.sendgrid.listGlobalSupressions(
       this.startTime,
       this.endTime,
       this.numberOfSuppressions,
     );
+    $.export("$summary", "Successfully retrieved global supressions");
+    return resp;
   },
 };

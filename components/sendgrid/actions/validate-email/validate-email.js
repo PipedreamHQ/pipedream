@@ -5,8 +5,7 @@ module.exports = {
   ...common,
   key: "sendgrid-validate-email",
   name: "Validate Email",
-  description:
-    "Validates an email address. This action requires a Sendgrid's Pro or Premier plan.",
+  description: "Validates an email address. This action requires a Sendgrid's Pro or Premier plan.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,20 +13,16 @@ module.exports = {
     email: {
       type: "string",
       label: "Email",
-      description: "The email that you want to validate.",
+      description: "The email that you want to validate",
     },
     source: {
       type: "string",
       label: "Source",
-      description:
-        "An optional indicator of the email address's source. You may include this if you are capturing email addresses from multiple locations.",
+      description: "An optional indicator of the email address's source. You may include this if you are capturing email addresses from multiple locations.",
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       email: {
         email: true,
@@ -44,6 +39,8 @@ module.exports = {
       email: this.email,
       source: this.source,
     };
-    return this.sendgrid.validateEmail(body);
+    const resp = await this.sendgrid.validateEmail(body);
+    $.export("$summary", "Email validation completed");
+    return resp;
   },
 };

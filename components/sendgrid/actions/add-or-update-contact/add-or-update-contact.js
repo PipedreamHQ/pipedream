@@ -4,7 +4,7 @@ const common = require("../common");
 module.exports = {
   ...common,
   key: "sendgrid-add-or-update-contact",
-  name: "Add Or Update Contact",
+  name: "Add or Update Contact",
   description: "Adds or updates a contact.",
   version: "0.0.1",
   type: "action",
@@ -13,43 +13,42 @@ module.exports = {
     listIds: {
       type: "string[]",
       label: "List Ids",
-      description:
-        "A string array of List IDs where the contact will be added to. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
+      description: "A string array of List IDs where the contact will be added. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The contact's email address.",
+      description: "The contact's email address",
     },
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The contact's personal name.",
+      description: "The contact's personal name",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's family name.",
+      description: "The contact's family name",
       optional: true,
     },
     addressLine1: {
       type: "string",
       label: "Address Line 1",
-      description: "The first line of the address.",
+      description: "The first line of the address",
       optional: true,
     },
     addressLine2: {
       type: "string",
       label: "Address Line 2",
-      description: "An optional second line for the address.",
+      description: "An optional second line for the address",
       optional: true,
     },
     alternateEmails: {
       type: "string[]",
       label: "Alternate Emails",
-      description: "Additional emails associated with the contact.",
+      description: "Additional emails associated with the contact",
       optional: true,
     },
     city: {
@@ -62,32 +61,29 @@ module.exports = {
       type: "string",
       label: "Country",
       description:
-        "The contact's country. Can be a full name or an abbreviation.",
+        "The contact's country. Can be a full name or an abbreviation",
       optional: true,
     },
     postalCode: {
       type: "string",
       label: "Postal Code",
-      description: "The contact's ZIP code or other postal code.",
+      description: "The contact's ZIP code or other postal code",
       optional: true,
     },
     stateProvinceRegion: {
       type: "string",
       label: "State Province Region",
-      description: "The contact's state, province, or region.",
+      description: "The contact's state, province, or region",
       optional: true,
     },
     customFields: {
       type: "object",
       label: "Custom Fields",
-      description: "Custom fields for the contact.",
+      description: "Custom fields for the contact",
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     validate.validators.arrayValidator = this.validateArray;
     const constraints = {
       email: {
@@ -133,6 +129,8 @@ module.exports = {
       list_ids: this.listIds,
       contacts,
     });
-    return this.sendgrid.addOrUpdateContacts(config);
+    const resp = await this.sendgrid.addOrUpdateContacts(config);
+    $.export("$summary", "Successfully added/updated contact");
+    return resp;
   },
 };

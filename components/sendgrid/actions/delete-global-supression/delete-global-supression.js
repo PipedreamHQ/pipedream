@@ -5,8 +5,7 @@ module.exports = {
   ...common,
   key: "sendgrid-delete-global-supression",
   name: "Delete Global Supression",
-  description:
-    "Allows you to remove an email address from the global suppressions group.",
+  description: "Allows you to remove an email address from the global suppressions group.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,14 +13,10 @@ module.exports = {
     email: {
       type: "string",
       label: "Email",
-      description:
-        "The email address you want to remove from the global suppressions group.",
+      description: "The email address you want to remove from the global suppressions group",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       email: {
         email: true,
@@ -31,6 +26,8 @@ module.exports = {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    return this.sendgrid.deleteGlobalSupression(this.email);
+    const resp = await this.sendgrid.deleteGlobalSupression(this.email);
+    $.export("$summary", `Successfully removed ${this.email} from global supression group.`);
+    return resp;
   },
 };

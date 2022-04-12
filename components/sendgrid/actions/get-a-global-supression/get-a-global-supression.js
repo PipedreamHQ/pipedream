@@ -13,14 +13,10 @@ module.exports = {
     email: {
       type: "string",
       label: "Email",
-      description:
-        "The email address of the global suppression you want to retrieve.",
+      description: "The email address of the global suppression you want to retrieve",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       email: {
         email: true,
@@ -30,6 +26,8 @@ module.exports = {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    return this.sendgrid.getGlobalSupression(this.email);
+    const resp = await this.sendgrid.getGlobalSupression(this.email);
+    $.export("$summary", "Successfully retrieved global supression.");
+    return resp;
   },
 };

@@ -37,15 +37,14 @@ module.exports = {
       arrayValidatorMsg = arrayValidatorMsg.replace("&", params.key);
       if (Array.isArray(value)) {
         return null;
-      } else {
-        try {
-          const parsedValue = JSON.parse(value);
-          return Array.isArray(parsedValue) ?
-            null :
-            arrayValidatorMsg;
-        } catch {
-          return arrayValidatorMsg;
-        }
+      }
+      try {
+        const parsedValue = JSON.parse(value);
+        return Array.isArray(parsedValue) ?
+          null :
+          arrayValidatorMsg;
+      } catch {
+        return arrayValidatorMsg;
       }
     },
     /**
