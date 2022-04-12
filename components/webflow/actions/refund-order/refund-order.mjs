@@ -21,12 +21,9 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    return this.webflow._makeRequest(`/sites/${this.siteId}/order/${this.orderId}/refund`, {
-      $,
-      config: {
-        method: "post",
-      },
-    });
+  async run() {
+    const apiClient = this.webflow._createApiClient();
+
+    return apiClient.get(`/sites/${this.siteId}/order/${this.orderId}/refund`);
   },
 };

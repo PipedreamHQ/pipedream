@@ -21,9 +21,8 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
+  async run() {
     return this.webflow.getOrder({
-      $,
       siteId: this.siteId,
       orderId: this.orderId,
     });

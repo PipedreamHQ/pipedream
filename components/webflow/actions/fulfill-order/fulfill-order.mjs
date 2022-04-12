@@ -27,14 +27,12 @@ export default {
       default: false,
     },
   },
-  async run({ $ }) {
-    return this.webflow._makeRequest(`/sites/${this.siteId}/order/${this.orderId}/fulfill`, {
-      $,
-      config: {
-        method: "post",
-        data: {
-          sendOrderFulfilledEmail: this.sendOrderFulfilledEmail,
-        },
+  async run() {
+    const apiClient = this.webflow._createApiClient();
+
+    return apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/fulfill`, {
+      data: {
+        sendOrderFulfilledEmail: this.sendOrderFulfilledEmail,
       },
     });
   },

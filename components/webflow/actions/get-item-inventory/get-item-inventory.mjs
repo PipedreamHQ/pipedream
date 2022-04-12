@@ -34,9 +34,9 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    return await this.webflow._makeRequest(`/collections/${this.collectionId}/items/${this.itemId}/inventory`, {
-      $,
-    });
+  async run() {
+    const apiClient = this.webflow._createApiClient();
+
+    return apiClient.apiClient.get(`/collections/${this.collectionId}/items/${this.itemId}/inventory`);
   },
 };

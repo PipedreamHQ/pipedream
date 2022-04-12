@@ -23,9 +23,8 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
     return this.webflow.getOrders({
-      $,
       siteId: this.siteId,
       status: this.status,
     });

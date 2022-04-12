@@ -39,23 +39,21 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
+    const apiClient = this.webflow._createApiClient();
+
     const {
       comment,
       shippingProvider,
       shippingTracking,
     } = this;
 
-    return this.webflow._makeRequest(`/sites/${this.siteId}/order/${this.orderId}`, {
-      $,
-      config: {
-        method: "post",
-        data: {
-          fields: {
-            comment,
-            shippingProvider,
-            shippingTracking,
-          },
+    return apiClient.post(`/sites/${this.siteId}/order/${this.orderId}`, {
+      data: {
+        fields: {
+          comment,
+          shippingProvider,
+          shippingTracking,
         },
       },
     });

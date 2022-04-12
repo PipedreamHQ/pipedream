@@ -6,3 +6,7 @@ export const ORDER_STATUSES = [
   "disputed",
   "unfulfilled",
 ];
+
+export default {
+  ORDER_STATUSES,
+};

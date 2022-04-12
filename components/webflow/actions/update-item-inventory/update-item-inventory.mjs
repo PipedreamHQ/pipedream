@@ -55,23 +55,21 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
+    const apiClient = this.webflow._createApiClient();
+
     const {
       inventoryType,
       quantity,
       updateQuantity,
     } = this;
 
-    return await this.webflow._makeRequest(`/collections/${this.collectionId}/items/${this.itemId}/inventory`, {
-      $,
-      config: {
-        method: "patch",
-        data: {
-          fields: {
-            inventoryType,
-            quantity,
-            updateQuantity,
-          },
+    return apiClient.patch(`/collections/${this.collectionId}/items/${this.itemId}/inventory`, {
+      data: {
+        fields: {
+          inventoryType,
+          quantity,
+          updateQuantity,
         },
       },
     });
