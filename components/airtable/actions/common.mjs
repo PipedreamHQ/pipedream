@@ -1,6 +1,6 @@
-const airtable = require("../airtable.app.js");
+import airtable from "../airtable.app.mjs";
 
-module.exports = {
+export default {
   props: {
     airtable,
     baseId: {

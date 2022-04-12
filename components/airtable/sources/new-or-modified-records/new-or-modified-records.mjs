@@ -1,14 +1,15 @@
-const moment = require("moment");
-const axios = require("axios");
+import moment from "moment";
+import axios from "axios";
 
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New or Modified Records",
   key: "airtable-new-or-modified-records",
   description: "Emit an event for each new or modified record in a table",
   version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
     tableId: {

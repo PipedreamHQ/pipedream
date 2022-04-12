@@ -2,7 +2,7 @@
     "name": "@pipedream/airtable",
     "version": "0.3.3",
     "description": "Pipedream Airtable Components",
-    "main": "airtable.app.js",
+    "main": "airtable.app.mjs",
     "keywords": [
         "pipedream",
         "airtable"

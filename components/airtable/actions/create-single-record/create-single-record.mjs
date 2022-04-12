@@ -1,11 +1,11 @@
-const airtable = require("../../airtable.app.js");
-const {
+import airtable from "../../airtable.app.mjs";
+import {
   makeFieldProps,
   makeRecord,
-} = require("../../common/utils.js");
-const common = require("../common.js");
+} from "../../common/utils.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   key: "airtable-create-single-record",
   name: "Create single record",
   description: "Adds a record to a table.",

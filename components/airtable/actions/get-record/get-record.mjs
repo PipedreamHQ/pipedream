@@ -1,7 +1,7 @@
-const airtable = require("../../airtable.app.js");
-const common = require("../common.js");
+import airtable from "../../airtable.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   key: "airtable-get-record",
   name: "Get Record",
   description: "Get a record from a table by record ID.",

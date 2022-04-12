@@ -1,7 +1,7 @@
-const Airtable = require("airtable");
-const isEmpty = require("lodash.isempty");
+import Airtable from "airtable";
+import isEmpty from "lodash/isEmpty.js";
 
-module.exports = {
+export default {
   type: "app",
   app: "airtable",
   propDefinitions: {

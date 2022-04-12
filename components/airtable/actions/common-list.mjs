@@ -1,7 +1,7 @@
 // Shared code for list-* actions
-const airtable = require("../airtable.app.js");
+import airtable from "../airtable.app.mjs";
 
-module.exports = {
+export default {
   props: {
     sortFieldId: {
       propDefinition: [

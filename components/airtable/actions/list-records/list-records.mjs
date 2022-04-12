@@ -1,7 +1,7 @@
-const common = require("../common.js");
-const commonList = require("../common-list.js");
+import common from "../common.mjs";
+import commonList from "../common-list.mjs";
 
-module.exports = {
+export default {
   key: "airtable-list-records",
   name: "List Records",
   description: "Retrieve records from a table with automatic pagination. Optionally sort and filter results.",
