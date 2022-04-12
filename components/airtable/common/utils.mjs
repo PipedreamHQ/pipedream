@@ -2,6 +2,12 @@ import { FIELD_PREFIX } from "./constants.mjs";
 
 import { FieldType } from "@airtable/blocks/models.js";
 
+/**
+ * Transforms an Airtable field type to a Pipedream prop type
+ *
+ * @param {string} fieldType - the Airtable field type
+ * @returns {string} a Pipedream prop type
+ */
 function fieldTypeToPropType(fieldType) {
   switch (fieldType) {
   // any
@@ -53,6 +59,12 @@ function fieldTypeToPropType(fieldType) {
   }
 }
 
+/**
+ * Transforms an Airtable field to a Pipedream prop
+ *
+ * @param {object} field - the Airtable field
+ * @returns {object}
+ */
 function fieldToProp(field) {
   return {
     type: fieldTypeToPropType(field.type),
@@ -66,6 +78,12 @@ function fieldToProp(field) {
   };
 }
 
+/**
+ * Creates a set of props corresponding to a table's fields
+ *
+ * @param {object} tableSchema - The schema of the Airtable table
+ * @returns {object} props corresponding to the table's fields
+ */
 function makeFieldProps(tableSchema) {
   let props = {};
   let table;
@@ -80,6 +98,13 @@ function makeFieldProps(tableSchema) {
   return props;
 }
 
+/**
+ * Creates a record object from a component's props, intended to be used in a
+ * call to the Airtable API
+ *
+ * @param {object} props - A component's props
+ * @returns {object} a record
+ */
 function makeRecord(props) {
   let record = {};
   for (const key of props) {
@@ -88,6 +113,7 @@ function makeRecord(props) {
       record[fieldName] = props[key];
     }
   }
+  return record;
 }
 
 export {
