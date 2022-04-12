@@ -299,5 +299,14 @@ export default {
         data,
       });
     },
+    async putConversation({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: "put",
+        path: `/conversations/${conversationId}`,
+        ...args,
+      });
+    },
   },
 };
