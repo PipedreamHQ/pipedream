@@ -1,35 +1,25 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "salesforce_rest_api-salesforce-delete-opportunity",
   name: "Delete Opportunity",
-  description: "Deletes an opportunity, which represents an opportunity, which is a sale or pending deal.",
+  description: "Deletes an opportunity. See [Opportunity SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_opportunity.htm) and [Delete Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_delete_record.htm)",
   version: "0.2.2",
   type: "action",
   props: {
     salesforce,
     OpportunityId: {
       type: "string",
-      label: "OpportunityId",
-      description: "ID of the Opportunity to delete.",
+      label: "Opportunity ID",
+      description: "ID of the Opportunity to delete",
     },
   },
   async run({ $ }) {
-    // See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_delete_record.htm
-    // Opportunity object: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_opportunity.htm
-
-    if (!this.OpportunityId) {
-      throw new Error("Must provide OpportunityId parameter.");
-    }
-
-    return await axios($, {
-      "method": "delete",
-      "url": `${this.salesforce.$auth.instance_url}/services/data/v20.0/sobjects/Opportunity/${this.OpportunityId}`,
-      "Content-Type": "application/json",
-      "headers": {
-        Authorization: `Bearer ${this.salesforce.$auth.oauth_access_token}`,
-      },
+    const response = await this.salesforce.deleteOpportunity({
+      $,
+      id: this.OpportunityId,
     });
+    $.export("$summary", "Deleted opportunity");
+    return response;
   },
 };

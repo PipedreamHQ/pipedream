@@ -6,26 +6,37 @@ export default {
   type: "app",
   app: "salesforce_rest_api",
   propDefinitions: {
+    sobjectId: {
+      type: "string",
+      label: "SObject ID",
+      description: "ID of the Standard object to get field values from",
+      async options(context) {
+        const { objectType } = context;
+        const { recentItems } = await this.listSObjectTypeIds(objectType);
+        return recentItems.map((item) => ({
+          label: item.Name,
+          value: item.Id,
+        }));
+      },
+    },
     objectType: {
       type: "string",
-      label: "Object Type",
-      description: "The type of object for which to monitor events",
+      label: "SObject Type",
+      description: "Standard object type of the record to get field values from",
       async options(context) {
-        const {
-          page,
-          eventType,
-        } = context;
+        const { page } = context;
         if (page !== 0) {
-          // The list of allowed SObject types is static and exhaustively
-          // provided through a single method call
-          return [];
+          return {
+            options: [],
+          };
         }
-
-        const supportedObjectTypes = this.listAllowedSObjectTypes(eventType);
-        const options = supportedObjectTypes.map((i) => ({
-          label: i.label,
-          value: i.name,
-        }));
+        const { sobjects } = await this.listSObjectTypes();
+        const options = sobjects
+          .filter((sobject) => sobject.replicateable)
+          .map((sobject) => ({
+            label: sobject.label,
+            value: sobject.name,
+          }));
         return {
           options,
         };
@@ -55,6 +66,12 @@ export default {
       label: "Field Updated to",
       description: "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
       optional: true,
+    },
+    fieldSelector: {
+      type: "string[]",
+      label: "Field Selector",
+      description: "Select fields for the Standard Object",
+      options: () => [], // override options for each object, e.g., () => Object.keys(account)
     },
   },
   methods: {
@@ -88,26 +105,34 @@ export default {
       const baseUrl = this._baseApiUrl();
       return `${baseUrl}/services/oauth2/userinfo`;
     },
-    _sObjectsApiUrl() {
+    _baseApiVersionUrl() {
       const baseUrl = this._baseApiUrl();
       const apiVersion = this._apiVersion();
-      return `${baseUrl}/services/data/v${apiVersion}/sobjects`;
+      return `${baseUrl}/services/data/v${apiVersion}`;
+    },
+    _sObjectsApiUrl() {
+      const baseUrl = this._baseApiVersionUrl();
+      return `${baseUrl}/sobjects`;
+    },
+    _sObjectTypeApiUrl(sObjectType) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}`;
     },
     _sObjectTypeDescriptionApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/describe`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/describe`;
     },
     _sObjectTypeUpdatedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/updated`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/updated`;
     },
     _sObjectTypeDeletedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/deleted`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/deleted`;
     },
     _sObjectDetailsApiUrl(sObjectType, id) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/${id}`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/${id}`;
     },
     _makeRequestHeaders() {
       const authToken = this._authToken();
@@ -147,6 +172,12 @@ export default {
       };
       return new SalesforceClient(clientOpts);
     },
+    async additionalProps(selector, sobject) {
+      return selector.reduce((props, prop) => ({
+        ...props,
+        [prop]: sobject[prop],
+      }), {});
+    },
     isHistorySObject(sobject) {
       return sobject.associateEntityType === "History" && sobject.name.includes("History");
     },
@@ -176,6 +207,12 @@ export default {
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
+      return this._makeRequest({
+        url,
+      });
+    },
+    async listSObjectTypeIds(objectType) {
+      const url = this._sObjectTypeApiUrl(objectType);
       return this._makeRequest({
         url,
       });
@@ -242,6 +279,237 @@ export default {
           "Authorization": `Bearer ${authToken}`,
         },
       });
+    },
+    async createAccount({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Account");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async updateAccount({
+      $, id, data,
+    }) {
+      const url = this._sObjectDetailsApiUrl("Account", id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
+    async createAttachment({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Attachment");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createCampaign({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Campaign");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createCase({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Case");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createCaseComment({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("CaseComment");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createContact({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Contact");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async updateContact({
+      $, id, data,
+    }) {
+      const url = this._sObjectDetailsApiUrl("Contact", id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
+    async createEvent({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Event");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createLead({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Lead");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createNote({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Note");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async createOpportunity({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Opportunity");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async updateOpportunity({
+      $, id, data,
+    }) {
+      const url = this._sObjectDetailsApiUrl("Opportunity", id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
+    async getRecordFieldValues(sobjectName, {
+      $, id, params,
+    }) {
+      const url = this._sObjectDetailsApiUrl(sobjectName, id);
+      return this._makeRequest({
+        $,
+        url,
+        params,
+      });
+    },
+    async createRecord(sobjectName, {
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl(sobjectName);
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async updateRecord(sobjectName, {
+      $, id, data,
+    }) {
+      const url = this._sObjectDetailsApiUrl(sobjectName, id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
+    async createTask({
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl("Task");
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async deleteOpportunity({
+      $, id,
+    }) {
+      const url = this._sObjectDetailsApiUrl("Opportunity", id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "DELETE",
+      });
+    },
+    async query({
+      $, query,
+    }) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/query/?q=${encodeURI(query)}`;
+      return this._makeRequest({
+        $,
+        url,
+      });
+    },
+    async search({
+      $, search,
+    }) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/search/?q=${encodeURI(search)}`;
+      return this._makeRequest({
+        $,
+        url,
+      });
+    },
+    async insertBlobData(sobjectName, {
+      $, headers, data,
+    }) {
+      const url = this._sObjectTypeApiUrl(sobjectName);
+      const requestConfig = {
+        url,
+        method: "POST",
+        data,
+        headers: {
+          ...this._makeRequestHeaders(),
+          ...headers,
+        },
+      };
+      return axios($ ?? this, requestConfig);
     },
   },
 };
