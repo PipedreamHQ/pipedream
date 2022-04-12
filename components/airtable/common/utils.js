@@ -1,6 +1,6 @@
-import { FIELD_PREFIX } from "./constants";
+import { FIELD_PREFIX } from "./constants.mjs";
 
-const { FieldType } = require("@airtable/blocks/dist/types/src/types/field");
+import { FieldType } from "@airtable/blocks/models.js";
 
 function fieldTypeToPropType(fieldType) {
   switch (fieldType) {
