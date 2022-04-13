@@ -41,15 +41,11 @@ export default {
     );
 
     const shouldContinue = this.filter.convertToBoolean(this.continue);
-    if (!shouldContinue && result) {
-      return $.flow.exit("Exiting workflow due to met condition");
-    }
 
-    if (result) {
-      $.export("$summary", "TRUE - Condition was met");
-    } else {
-      $.export("$summary", "FALSE - Condition was not met");
+    if (result ^ shouldContinue) {
+      return $.flow.exit("Condition met for exiting workflow");
     }
+    $.export("$summary", "Continuing workflow");
     return result;
   },
 };
