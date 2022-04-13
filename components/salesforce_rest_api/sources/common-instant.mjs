@@ -25,13 +25,10 @@ export default {
         }
 
         const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(this.getEventType());
-        const options = supportedObjectTypes.map((i) => ({
+        return supportedObjectTypes.map((i) => ({
           label: i.label,
           value: i.name,
         }));
-        return {
-          options,
-        };
       },
     },
   },
