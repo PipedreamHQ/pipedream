@@ -2,9 +2,9 @@ import { axios } from "@pipedream/platform";
 const stripe = require("../../stripe.app.js");
 
 export default {
-  name: "Retrieve Checkout Line Items",
+  name: "Retrieve Checkout Session Line Items",
   description: "Given a checkout session ID, retrieve the line items. [See the docs](https://stripe.com/docs/api/checkout/sessions/line_items)",
-  key: "retrieve_checkout_line_items",
+  key: "retrieve_checkout_session_line_items",
   version: "0.0.1",
   type: "action",
   props: {
