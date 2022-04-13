@@ -1,3 +1,5 @@
+import conditions from "./common/conditions.mjs";
+
 export default {
   type: "app",
   app: "filter",
@@ -7,34 +9,12 @@ export default {
       label: "Value to evaluate",
       description: "Enter or reference a value here to evaluate (can be a string, number, or boolean).",
     },
-    // eslint-disable-next-line pipedream/props-description
     condition: {
       type: "string",
-      label: "Condition for evaluation",
-      options: [
-        "Contains",
-        "Does not contain (text)",
-        "Matches exactly (text)",
-        "Does not exactly match (text)",
-        "In in (text)",
-        "Is not in (text)",
-        "Starts with (text)",
-        "Does not start with (text)",
-        "Ends with (text)",
-        "Does not end with (text)",
-        "Greater than (number)",
-        "Less than (number)",
-        "Is equal to (number)",
-        "After (date/time)",
-        "Before (date/time)",
-        "Equals (date/time)",
-        "Is True (boolean)",
-        "Is False (boolean)",
-        "Exists",
-        "Does not exist",
-      ],
+      label: "Condition",
+      description: "The condition for evaluation",
+      options: conditions.options,
     },
-    // eslint-disable-next-line pipedream/props-description
     valueToCompare: {
       type: "any",
       label: "Value to compare against",
@@ -42,17 +22,204 @@ export default {
     },
     continue: {
       type: "string",
-      label: "Continue if the condition is met?",
+      label: "Should Continue?",
+      description: "Continue if the condition is met? Default is true",
       options: [
-        "Yes, continue the workflow",
-        "No, stop the workflow",
+        {
+          label: "Yes, continue the workflow",
+          value: "true",
+        },
+        {
+          label: "No, stop the workflow",
+          value: "false",
+        },
       ],
+      default: "true",
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    checkCondition(condition, inputField, valueToCompare) {
+      switch (condition) {
+      case conditions.constants.IN:
+        return this.checkIfIn(inputField, valueToCompare);
+      case conditions.constants.NOT_IN:
+        return this.checkIfNotIn(inputField, valueToCompare);
+      case conditions.constants.TEXT_EQUALS:
+        return this.checkIfTextEquals(inputField, valueToCompare);
+      case conditions.constants.TEXT_NOT_EQUALS:
+        return this.checkIfTextNotEquals(inputField, valueToCompare);
+      case conditions.constants.STARTS_WITH:
+        return this.checkIfStartsWith(inputField, valueToCompare);
+      case conditions.constants.NOT_STARTS_WITH:
+        return this.checkIfNotStartsWith(inputField, valueToCompare);
+      case conditions.constants.ENDS_WITH:
+        return this.checkIfEndsWith(inputField, valueToCompare);
+      case conditions.constants.NOT_ENDS_WITH:
+        return this.checkIfNotEndsWith(inputField, valueToCompare);
+      case conditions.constants.GREATER_THAN:
+        return this.checkIfGreater(inputField, valueToCompare);
+      case conditions.constants.GREATER_THAN_EQUALS:
+        return this.checkIfGreaterEquals(inputField, valueToCompare);
+      case conditions.constants.LESS_THAN:
+        return this.checkIfLess(inputField, valueToCompare);
+      case conditions.constants.LESS_THAN_EQUALS:
+        return this.checkIfLessEquals(inputField, valueToCompare);
+      case conditions.constants.EQUALS:
+        return this.checkIfEquals(inputField, valueToCompare);
+      case conditions.constants.AFTER:
+        return this.checkIfAfter(inputField, valueToCompare);
+      case conditions.constants.BEFORE:
+        return this.checkIfBefore(inputField, valueToCompare);
+      case conditions.constants.DATE_EQUALS:
+        return this.checkIfDateEquals(inputField, valueToCompare);
+      case conditions.constants.TRUE:
+        return this.checkIfTrue(inputField, valueToCompare);
+      case conditions.constants.FALSE:
+        return this.checkIfFalse(inputField, valueToCompare);
+      case conditions.constants.EXISTS:
+        return this.checkIfExists(inputField, valueToCompare);
+      case conditions.constants.NOT_EXISTS:
+        return this.checkIfNotExists(inputField, valueToCompare);
+      default:
+        return false;
+      }
+    },
+    convertToString(input) {
+      return input.toString();
+    },
+    convertToNumber(input) {
+      input = parseFloat(input);
+      if (isNaN(input)) {
+        throw new Error("Input can not be converted to a number");
+      }
+      return input;
+    },
+    convertToBoolean(input) {
+      input = this.convertToString(input).toLowerCase();
+      if (input === "true") {
+        return true;
+      }
+      if (input === "false") {
+        return false;
+      }
+      throw new Error("Input can not be converted to a boolean");
+    },
+    convertToDatetime(input) {
+      input = this.convertToNumber(input);
+      return new Date(input);
+      // try {
+      //   // first try to convert a timestamp
+      //   input = this.convertToNumber(input);
+      //   return new Date(input);
+      // } catch (err) {
+      //   // convert a string
+      //   input = new Date(input);
+      //   if (input == "Invalid Date") {
+      //     throw new Error("Input can not be converted to datetime");
+      //   }
+      //   return input;
+      // }
+    },
+    convertToObject(input) {
+      return JSON.parse(input);
+    },
+    checkIfIn(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return inputField.includes(valueToCompare);
+    },
+    checkIfNotIn(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return !inputField.includes(valueToCompare);
+    },
+    checkIfTextEquals(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return inputField === valueToCompare;
+    },
+    checkIfTextNotEquals(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return inputField !== valueToCompare;
+    },
+    checkIfStartsWith(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return inputField.startsWith(valueToCompare);
+    },
+    checkIfNotStartsWith(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return !inputField.startsWith(valueToCompare);
+    },
+    checkIfEndsWith(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return inputField.endsWith(valueToCompare);
+    },
+    checkIfNotEndsWith(inputField, valueToCompare) {
+      inputField = this.convertToString(inputField);
+      valueToCompare = this.convertToString(valueToCompare);
+      return !inputField.endsWith(valueToCompare);
+    },
+    checkIfGreater(inputField, valueToCompare) {
+      inputField = this.convertToNumber(inputField);
+      valueToCompare = this.convertToNumber(valueToCompare);
+      return inputField > valueToCompare;
+    },
+    checkIfGreaterEquals(inputField, valueToCompare) {
+      inputField = this.convertToNumber(inputField);
+      valueToCompare = this.convertToNumber(valueToCompare);
+      return inputField >= valueToCompare;
+    },
+    checkIfLess(inputField, valueToCompare) {
+      inputField = this.convertToNumber(inputField);
+      valueToCompare = this.convertToNumber(valueToCompare);
+      return inputField < valueToCompare;
+    },
+    checkIfLessEquals(inputField, valueToCompare) {
+      inputField = this.convertToNumber(inputField);
+      valueToCompare = this.convertToNumber(valueToCompare);
+      return inputField <= valueToCompare;
+    },
+    checkIfEquals(inputField, valueToCompare) {
+      inputField = this.convertToNumber(inputField);
+      valueToCompare = this.convertToNumber(valueToCompare);
+      return inputField === valueToCompare;
+    },
+    checkIfAfter(inputField, valueToCompare) {
+      inputField = this.convertToDatetime(inputField);
+      valueToCompare = this.convertToDatetime(valueToCompare);
+      return inputField > valueToCompare;
+    },
+    checkIfBefore(inputField, valueToCompare) {
+      inputField = this.convertToDatetime(inputField);
+      valueToCompare = this.convertToDatetime(valueToCompare);
+      return inputField < valueToCompare;
+    },
+    checkIfDateEquals(inputField, valueToCompare) {
+      inputField = this.convertToDatetime(inputField);
+      valueToCompare = this.convertToDatetime(valueToCompare);
+      return inputField.getTime() === valueToCompare.getTime();
+    },
+    checkIfTrue(inputField) {
+      inputField = this.convertToBoolean(inputField);
+      return inputField;
+    },
+    checkIfFalse(inputField) {
+      inputField = this.convertToBoolean(inputField);
+      return !inputField;
+    },
+    checkIfExists(inputField, valueToCompare) {
+      inputField = this.convertToObject(this.convertToString(inputField));
+      valueToCompare = this.convertToString(valueToCompare);
+      return valueToCompare in inputField;
+    },
+    checkIfNotExists(inputField, valueToCompare) {
+      inputField = this.convertToObject(this.convertToString(inputField));
+      valueToCompare = this.convertToString(valueToCompare);
+      return !(valueToCompare in inputField);
     },
   },
 };
