@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-opportunity",
+  key: "salesforce_rest_api-create-opportunity",
   name: "Create Opportunity",
   description: toSingleLineString(`
     Creates an opportunity, which represents an opportunity, which is a sale or pending deal.

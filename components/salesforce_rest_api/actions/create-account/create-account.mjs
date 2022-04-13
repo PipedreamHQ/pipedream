@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-account",
+  key: "salesforce_rest_api-create-account",
   name: "Create Account",
   description: toSingleLineString(`
     Creates a Salesforce account, representing an individual account,

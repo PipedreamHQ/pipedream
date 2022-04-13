@@ -2,7 +2,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-soql-search",
+  key: "salesforce_rest_api-soql-search",
   name: "SOQL Search",
   description: toSingleLineString(`
     Executes a SOQL query.

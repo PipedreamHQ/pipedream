@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-update-contact",
+  key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
   description: toSingleLineString(`
     Updates a Contact, which is a person associated with an account.

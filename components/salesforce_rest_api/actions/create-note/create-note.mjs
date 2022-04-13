@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-note",
+  key: "salesforce_rest_api-create-note",
   name: "Create Note",
   description: toSingleLineString(`
     Creates a note, which is text associated with a custom object or a standard object, such as a Contact, Contract, or Opportunity.

@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-casecomment",
+  key: "salesforce_rest_api-create-casecomment",
   name: "Create CaseComment",
   description: toSingleLineString(`
     Creates a Case Comment that provides additional information about the associated Case.

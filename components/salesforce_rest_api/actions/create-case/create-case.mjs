@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-case",
+  key: "salesforce_rest_api-create-case",
   name: "Create Case",
   description: toSingleLineString(`
     Creates a Salesforce case, which represents a customer issue or problem.

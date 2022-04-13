@@ -2,7 +2,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-update-record",
+  key: "salesforce_rest_api-update-record",
   name: "Update Record",
   description: toSingleLineString(`
     Updates a record of a given resource.
