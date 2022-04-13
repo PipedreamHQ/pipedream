@@ -2,7 +2,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-get-sobject-fields-values",
+  key: "salesforce_rest_api-get-sobject-fields-values",
   name: "Get Field Values from a Standard Object Record",
   description: toSingleLineString(`
     Retrieve field values from a record. You can specify the fields you want to retrieve.

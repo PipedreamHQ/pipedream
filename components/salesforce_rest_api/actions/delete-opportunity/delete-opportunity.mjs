@@ -2,7 +2,7 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-delete-opportunity",
+  key: "salesforce_rest_api-delete-opportunity",
   name: "Delete Opportunity",
   description: toSingleLineString(`
     Deletes an opportunity.

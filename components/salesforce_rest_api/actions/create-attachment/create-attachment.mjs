@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-attachment",
+  key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
   description: toSingleLineString(`
     Creates an attachment, which represents a file that a User has uploaded and attached to a parent object.

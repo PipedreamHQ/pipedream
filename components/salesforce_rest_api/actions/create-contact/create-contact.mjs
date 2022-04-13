@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-contact",
+  key: "salesforce_rest_api-create-contact",
   name: "Create Contact",
   description: toSingleLineString(`
     Creates a Contact, which is a person associated with an account.

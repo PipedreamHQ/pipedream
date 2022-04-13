@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-campaign",
+  key: "salesforce_rest_api-create-campaign",
   name: "Create Campaign",
   description: toSingleLineString(`
     Creates a marketing campaign, such as a direct mail promotion, webinar, or trade show.

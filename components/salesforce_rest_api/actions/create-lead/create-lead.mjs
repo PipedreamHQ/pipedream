@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-lead",
+  key: "salesforce_rest_api-create-lead",
   name: "Create Lead",
   description: toSingleLineString(`
     Creates a lead, which represents a prospect or lead.

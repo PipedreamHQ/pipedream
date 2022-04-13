@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-event",
+  key: "salesforce_rest_api-create-event",
   name: "Create Event",
   description: toSingleLineString(`
     Creates an event, which represents an event in the calendar.

@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-create-task",
+  key: "salesforce_rest_api-create-task",
   name: "Create Task",
   description: toSingleLineString(`
     Creates a task, which represents a business activity such as making a phone call or other to-do items.
