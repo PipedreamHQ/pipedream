@@ -61,7 +61,7 @@ export default {
       viewId,
     });
 
-    $.export("$summary", "Successfully getted view comments");
+    $.export("$summary", "Successfully retrieved view comments");
 
     return response;
   },

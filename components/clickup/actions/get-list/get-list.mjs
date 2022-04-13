@@ -48,7 +48,7 @@ export default {
       listId,
     });
 
-    $.export("$summary", "Successfully getted list");
+    $.export("$summary", "Successfully retrieved list");
 
     return response;
   },

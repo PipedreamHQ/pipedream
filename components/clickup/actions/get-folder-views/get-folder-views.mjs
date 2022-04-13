@@ -37,7 +37,7 @@ export default {
       folderId,
     });
 
-    $.export("$summary", "Successfully getted folder views");
+    $.export("$summary", "Successfully retrieved folder views");
 
     return response;
   },

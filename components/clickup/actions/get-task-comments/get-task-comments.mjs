@@ -58,7 +58,7 @@ export default {
       taskId,
     });
 
-    $.export("$summary", "Successfully getted task comments");
+    $.export("$summary", "Successfully retrieved task comments");
 
     return response;
   },

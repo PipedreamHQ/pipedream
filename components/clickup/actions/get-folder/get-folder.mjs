@@ -37,7 +37,7 @@ export default {
       folderId,
     });
 
-    $.export("$summary", "Successfully getted folder");
+    $.export("$summary", "Successfully retrieved folder");
 
     return response;
   },

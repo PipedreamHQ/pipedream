@@ -119,7 +119,7 @@ export default {
     checklists: {
       type: "string",
       label: "Checklist",
-      description: "The id of a checklist item",
+      description: "The id of a checklist",
       async options({ taskId }) {
         if (!taskId) return [];
         const checklists = await this.getChecklists({
@@ -135,7 +135,7 @@ export default {
     checklistItems: {
       type: "string",
       label: "Checklist Item",
-      description: "The id of a checklist",
+      description: "The id of a checklist item",
       async options({
         taskId, checklistId,
       }) {

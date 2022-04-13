@@ -98,7 +98,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully get tasks");
+    $.export("$summary", "Successfully retrieved tasks");
 
     return response;
   },

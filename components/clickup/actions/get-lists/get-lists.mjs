@@ -35,13 +35,6 @@ export default {
       default: false,
       optional: true,
     },
-    folderless: {
-      label: "Folderless",
-      description: "This list is folderless",
-      type: "boolean",
-      default: false,
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -51,7 +44,7 @@ export default {
 
     let response;
 
-    if (this.folderless) {
+    if (!folderId) {
       response = await this.clickup.getFolderlessLists({
         $,
         folderId,
@@ -69,7 +62,7 @@ export default {
       });
     }
 
-    $.export("$summary", "Successfully getted lists");
+    $.export("$summary", "Successfully retrieved lists");
 
     return response;
   },

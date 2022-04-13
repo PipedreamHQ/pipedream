@@ -48,7 +48,7 @@ export default {
       listId,
     });
 
-    $.export("$summary", "Successfully getted custom fields");
+    $.export("$summary", "Successfully retrieved custom fields");
 
     return response;
   },

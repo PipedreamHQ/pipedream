@@ -1,4 +1,4 @@
-import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-task-templates",
@@ -7,13 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-    },
+    ...common.props,
     page: {
       type: "integer",
       label: "page",
@@ -37,7 +31,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully getted task templates");
+    $.export("$summary", "Successfully retrieved task templates");
 
     return response;
   },

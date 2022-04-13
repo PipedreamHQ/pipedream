@@ -40,7 +40,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully getted folders");
+    $.export("$summary", "Successfully retrieved folders");
 
     return response;
   },

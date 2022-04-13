@@ -58,7 +58,7 @@ export default {
       taskId,
     });
 
-    $.export("$summary", "Successfully getted task");
+    $.export("$summary", "Successfully retrieved task");
 
     return response;
   },

@@ -75,7 +75,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully getted tasks");
+    $.export("$summary", "Successfully retrieved tasks");
 
     return response;
   },

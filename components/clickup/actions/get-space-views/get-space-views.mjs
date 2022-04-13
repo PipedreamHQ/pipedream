@@ -27,7 +27,7 @@ export default {
       spaceId,
     });
 
-    $.export("$summary", "Successfully getted space views");
+    $.export("$summary", "Successfully retrieved space views");
 
     return response;
   },

@@ -61,7 +61,7 @@ export default {
       viewId,
     });
 
-    $.export("$summary", "Successfully getted view");
+    $.export("$summary", "Successfully retrieved view");
 
     return response;
   },

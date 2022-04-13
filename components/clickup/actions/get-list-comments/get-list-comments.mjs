@@ -48,7 +48,7 @@ export default {
       listId,
     });
 
-    $.export("$summary", "Successfully getted list comments");
+    $.export("$summary", "Successfully retrieved list comments");
 
     return response;
   },

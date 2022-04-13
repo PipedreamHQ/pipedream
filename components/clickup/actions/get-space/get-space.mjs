@@ -27,7 +27,7 @@ export default {
       spaceId,
     });
 
-    $.export("$summary", "Successfully getted space");
+    $.export("$summary", "Successfully retrieved space");
 
     return response;
   },
