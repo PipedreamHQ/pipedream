@@ -26,20 +26,15 @@ export default {
       async options(context) {
         const { page } = context;
         if (page !== 0) {
-          return {
-            options: [],
-          };
+          return [];
         }
         const { sobjects } = await this.listSObjectTypes();
-        const options = sobjects
+        return sobjects
           .filter((sobject) => sobject.replicateable)
           .map((sobject) => ({
             label: sobject.label,
             value: sobject.name,
           }));
-        return {
-          options,
-        };
       },
     },
     field: {
@@ -52,9 +47,7 @@ export default {
           objectType,
         } = context;
         if (page !== 0) {
-          return {
-            options: [],
-          };
+          return [];
         }
 
         const fields = await this.getFieldsForObjectType(objectType);
