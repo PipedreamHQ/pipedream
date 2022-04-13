@@ -5,6 +5,7 @@ export default {
   version: "0.0.1",
   key: "filter-filter",
   description: "Select 2 values to compare against each other and choose whether you'd like to continue or stop your workflow based on the output.",
+  type: "action",
   props: {
     filter,
     inputField: {
@@ -32,10 +33,23 @@ export default {
       ],
     },
   },
-  type: "action",
-  methods: {},
   async run({ $ }) {
-    // $.export("name", "value");
-    // return $.flow.exit("end reason");
+    const result = this.filter.checkCondition(
+      this.condition,
+      this.inputField,
+      this.valueToCompare,
+    );
+
+    const shouldContinue = this.filter.convertToBoolean(this.continue);
+    if (!shouldContinue && result) {
+      return $.flow.exit("Exiting workflow due to met condition");
+    }
+
+    if (result) {
+      $.export("$summary", "TRUE - Condition was met");
+    } else {
+      $.export("$summary", "FALSE - Condition was not met");
+    }
+    return result;
   },
 };
