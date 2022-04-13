@@ -1,9 +1,13 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-sosl-search",
   name: "SOSL Search",
-  description: "Executes the specified SOSL search. See [docs](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)",
+  description: toSingleLineString(`
+    Executes the specified SOSL search.
+    See [docs](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {
