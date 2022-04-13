@@ -33,7 +33,7 @@ export default {
       _private,
     } = this;
 
-    return this.clickup.createSpace({
+    const response = await this.clickup.createSpace({
       $,
       workspaceId,
       data: {
@@ -41,5 +41,9 @@ export default {
         private: _private,
       },
     });
+
+    $.export("$summary", "Successfully created space");
+
+    return response;
   },
 };

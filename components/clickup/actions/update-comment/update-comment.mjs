@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-update-comment",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -41,6 +35,7 @@ export default {
         "lists",
         (c) => ({
           folderId: c.folderId,
+          spaceId: c.spaceId,
         }),
       ],
       optional: true,
@@ -110,7 +105,7 @@ export default {
       resolved,
     } = this;
 
-    return this.clickup.updateComment({
+    const response = await this.clickup.updateComment({
       $,
       commentId,
       data: {
@@ -119,5 +114,9 @@ export default {
         resolved,
       },
     });
+
+    $.export("$summary", "Successfully updated comment");
+
+    return response;
   },
 };

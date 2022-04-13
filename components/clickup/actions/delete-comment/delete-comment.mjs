@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-delete-comment",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -41,6 +35,7 @@ export default {
         "lists",
         (c) => ({
           folderId: c.folderId,
+          spaceId: c.spaceId,
         }),
       ],
       optional: true,
@@ -83,9 +78,13 @@ export default {
   async run({ $ }) {
     const { commentId } = this;
 
-    return this.clickup.deleteComment({
+    const response = await this.clickup.deleteComment({
       $,
       commentId,
     });
+
+    $.export("$summary", "Successfully deleted comment");
+
+    return response;
   },
 };

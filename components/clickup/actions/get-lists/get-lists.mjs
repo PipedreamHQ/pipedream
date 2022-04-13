@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-lists",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -55,8 +49,18 @@ export default {
       archived,
     } = this;
 
+    let response;
+
     if (this.folderless) {
-      return this.clickup.getFolderlessLists({
+      response = await this.clickup.getFolderlessLists({
+        $,
+        folderId,
+        params: {
+          archived,
+        },
+      });
+    } else {
+      response = await this.clickup.getLists({
         $,
         folderId,
         params: {
@@ -65,12 +69,8 @@ export default {
       });
     }
 
-    return this.clickup.getLists({
-      $,
-      folderId,
-      params: {
-        archived,
-      },
-    });
+    $.export("$summary", "Successfully getted lists");
+
+    return response;
   },
 };

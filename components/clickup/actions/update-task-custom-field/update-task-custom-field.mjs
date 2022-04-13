@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-update-task-custom-field",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -76,7 +70,7 @@ export default {
       value,
     } = this;
 
-    return this.clickup.updateTaskCustomField({
+    const response = await this.clickup.updateTaskCustomField({
       $,
       taskId,
       customFieldId,
@@ -84,5 +78,9 @@ export default {
         value,
       },
     });
+
+    $.export("$summary", "Successfully updated custom field of task");
+
+    return response;
   },
 };

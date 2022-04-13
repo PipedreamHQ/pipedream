@@ -29,12 +29,16 @@ export default {
       page,
     } = this;
 
-    return this.clickup.getTaskTemplates({
+    const response = await this.clickup.getTaskTemplates({
       $,
       workspaceId,
       params: {
         page,
       },
     });
+
+    $.export("$summary", "Successfully getted task templates");
+
+    return response;
   },
 };

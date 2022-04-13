@@ -28,12 +28,16 @@ export default {
       archived,
     } = this;
 
-    return this.clickup.getSpaces({
+    const response = await this.clickup.getSpaces({
       $,
       workspaceId,
       params: {
         archived,
       },
     });
+
+    $.export("$summary", "Successfully getted spaces");
+
+    return response;
   },
 };

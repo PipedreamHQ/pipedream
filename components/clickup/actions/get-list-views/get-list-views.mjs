@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-list-views",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -41,6 +35,7 @@ export default {
         "lists",
         (c) => ({
           folderId: c.folderId,
+          spaceId: c.spaceId,
         }),
       ],
     },
@@ -48,9 +43,13 @@ export default {
   async run({ $ }) {
     const { listId } = this;
 
-    return this.clickup.getListViews({
+    const response = await this.clickup.getListViews({
       $,
       listId,
     });
+
+    $.export("$summary", "Successfully getted list views");
+
+    return response;
   },
 };

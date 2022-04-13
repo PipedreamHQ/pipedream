@@ -119,7 +119,7 @@ export default {
     checklists: {
       type: "string",
       label: "Checklist",
-      description: "The id of a checklist",
+      description: "The id of a checklist item",
       async options({ taskId }) {
         if (!taskId) return [];
         const checklists = await this.getChecklists({
@@ -299,15 +299,13 @@ export default {
         ...options,
       };
 
-      return await axios($ ?? this, config);
+      return axios($ ?? this, config);
     },
-
     async getWorkspaces({ $ } = {}) {
       const { teams } = await this._makeRequest("team", {}, $);
 
       return teams;
     },
-
     async getWorkspace({
       workspaceId, $,
     }) {
@@ -319,7 +317,6 @@ export default {
 
       return workspace[0] ?? null;
     },
-
     async getWorkspaceMembers({
       workspaceId, $,
     }) {
@@ -330,7 +327,6 @@ export default {
 
       return workspace.members;
     },
-
     async getSpaces({
       workspaceId, params, $,
     }) {
@@ -342,39 +338,34 @@ export default {
 
       return spaces;
     },
-
     async getSpace({
       spaceId, $,
     }) {
-      return await this._makeRequest(`space/${spaceId}`, {}, $);
+      return this._makeRequest(`space/${spaceId}`, {}, $);
     },
-
     async createSpace({
       workspaceId, data, $,
     }) {
-      return await this._makeRequest(`team/${workspaceId}/space`, {
+      return this._makeRequest(`team/${workspaceId}/space`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateSpace({
       spaceId, data, $,
     }) {
-      return await this._makeRequest(`space/${spaceId}`, {
+      return this._makeRequest(`space/${spaceId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteSpace({
       spaceId, $,
     }) {
-      return await this._makeRequest(`space/${spaceId}`, {
+      return this._makeRequest(`space/${spaceId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getFolders({
       spaceId, params, $,
     }) {
@@ -385,39 +376,34 @@ export default {
 
       return folders;
     },
-
     async getFolder({
       folderId, $,
     }) {
-      return await this._makeRequest(`folder/${folderId}`, {}, $);
+      return this._makeRequest(`folder/${folderId}`, {}, $);
     },
-
     async createFolder({
       spaceId, data, $,
     }) {
-      return await this._makeRequest(`space/${spaceId}/folder`, {
+      return this._makeRequest(`space/${spaceId}/folder`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateFolder({
       folderId, data, $,
     }) {
-      return await this._makeRequest(`folder/${folderId}`, {
+      return this._makeRequest(`folder/${folderId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteFolder({
       folderId, $,
     }) {
-      return await this._makeRequest(`folder/${folderId}`, {
+      return this._makeRequest(`folder/${folderId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getLists({
       folderId, params, $,
     }) {
@@ -428,7 +414,6 @@ export default {
 
       return lists;
     },
-
     async getFolderlessLists({
       spaceId, params, $,
     }) {
@@ -439,48 +424,42 @@ export default {
 
       return lists;
     },
-
     async getList({
       listId, $,
     }) {
-      return await this._makeRequest(`list/${listId}`, {}, $);
+      return this._makeRequest(`list/${listId}`, {}, $);
     },
-
     async createList({
       folderId, data, $,
     }) {
-      return await this._makeRequest(`folder/${folderId}/list`, {
+      return this._makeRequest(`folder/${folderId}/list`, {
         method: "POST",
         data,
       }, $);
     },
-
     async createFolderlessList({
       spaceId, data, $,
     }) {
-      return await this._makeRequest(`space/${spaceId}/list`, {
+      return this._makeRequest(`space/${spaceId}/list`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateList({
       listId, data, $,
     }) {
-      return await this._makeRequest(`list/${listId}`, {
+      return this._makeRequest(`list/${listId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteList({
       listId, $,
     }) {
-      return await this._makeRequest(`list/${listId}`, {
+      return this._makeRequest(`list/${listId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getCustomFields({
       listId, $,
     }) {
@@ -488,7 +467,6 @@ export default {
 
       return fields;
     },
-
     async getTaskTemplates({
       workspaceId, params, $,
     }) {
@@ -499,7 +477,6 @@ export default {
 
       return templates;
     },
-
     async getTasks({
       listId, params, $,
     }) {
@@ -510,7 +487,6 @@ export default {
 
       return tasks;
     },
-
     async getViewTasks({
       viewId, params, $,
     }) {
@@ -521,65 +497,57 @@ export default {
 
       return tasks;
     },
-
     async getTask({
       taskId, $,
     }) {
-      return await this._makeRequest(`task/${taskId}`, {}, $);
+      return this._makeRequest(`task/${taskId}`, {}, $);
     },
-
     async createTask({
       listId, data, $,
     }) {
-      return await this._makeRequest(`list/${listId}/task`, {
+      return this._makeRequest(`list/${listId}/task`, {
         method: "POST",
         data,
       }, $);
     },
-
     async createTaskFromTemplate({
       listId, taskTemplateId, data, $,
     }) {
-      return await this._makeRequest(`list/${listId}/taskTemplate/${taskTemplateId}`, {
+      return this._makeRequest(`list/${listId}/taskTemplate/${taskTemplateId}`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateTask({
       taskId, data, $,
     }) {
-      return await this._makeRequest(`task/${taskId}`, {
+      return this._makeRequest(`task/${taskId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async updateTaskCustomField({
       taskId, customFieldId, data, $,
     }) {
-      return await this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
+      return this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
         method: "POST",
         data,
       }, $);
     },
-
     async deleteTask({
       taskId, $,
     }) {
-      return await this._makeRequest(`task/${taskId}`, {
+      return this._makeRequest(`task/${taskId}`, {
         method: "DELETE",
       }, $);
     },
-
     async removeTaskCustomField({
       taskId, customFieldId, $,
     }) {
-      return await this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
+      return this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getTags({
       spaceId, $,
     }) {
@@ -588,7 +556,6 @@ export default {
 
       return tags;
     },
-
     async getChecklists({
       taskId, $,
     }) {
@@ -599,7 +566,6 @@ export default {
 
       return checklists;
     },
-
     async getChecklist({
       taskId, checklistId, $,
     }) {
@@ -612,33 +578,29 @@ export default {
         id: checklistId,
       });
     },
-
     async createChecklist({
       taskId, data, $,
     }) {
-      return await this._makeRequest(`task/${taskId}/checklist`, {
+      return this._makeRequest(`task/${taskId}/checklist`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateChecklist({
       checklistId, data, $,
     }) {
-      return await this._makeRequest(`checklist/${checklistId}`, {
+      return this._makeRequest(`checklist/${checklistId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteChecklist({
       checklistId, $,
     }) {
-      return await this._makeRequest(`checklist/${checklistId}`, {
+      return this._makeRequest(`checklist/${checklistId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getChecklistItems({
       taskId, checklistId, $,
     }) {
@@ -650,33 +612,29 @@ export default {
 
       return items;
     },
-
     async createChecklistItem({
       checklistId, data, $,
     }) {
-      return await this._makeRequest(`checklist/${checklistId}/checklist_item`, {
+      return this._makeRequest(`checklist/${checklistId}/checklist_item`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateChecklistItem({
       checklistId, checklistItemId, data, $,
     }) {
-      return await this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
+      return this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteChecklistItem({
       checklistId, checklistItemId, $,
     }) {
-      return await this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
+      return this._makeRequest(`checklist/${checklistId}/checklist_item/${checklistItemId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getTaskComments({
       taskId, $,
     }) {
@@ -684,7 +642,6 @@ export default {
 
       return comments;
     },
-
     async getListComments({
       listId, $,
     }) {
@@ -692,7 +649,6 @@ export default {
 
       return comments;
     },
-
     async getViewComments({
       viewId, $,
     }) {
@@ -700,51 +656,45 @@ export default {
 
       return comments;
     },
-
     async createTaskComment({
       taskId, data, $,
     }) {
-      return await this._makeRequest(`task/${taskId}/comment`, {
+      return this._makeRequest(`task/${taskId}/comment`, {
         method: "POST",
         data,
       }, $);
     },
-
     async createListComment({
       listId, data, $,
     }) {
-      return await this._makeRequest(`list/${listId}/comment`, {
+      return this._makeRequest(`list/${listId}/comment`, {
         method: "POST",
         data,
       }, $);
     },
-
     async createViewComment({
       viewId, data, $,
     }) {
-      return await this._makeRequest(`view/${viewId}/comment`, {
+      return this._makeRequest(`view/${viewId}/comment`, {
         method: "POST",
         data,
       }, $);
     },
-
     async updateComment({
       commentId, data, $,
     }) {
-      return await this._makeRequest(`comment/${commentId}`, {
+      return this._makeRequest(`comment/${commentId}`, {
         method: "PUT",
         data,
       }, $);
     },
-
     async deleteComment({
       commentId, $,
     }) {
-      return await this._makeRequest(`comment/${commentId}`, {
+      return this._makeRequest(`comment/${commentId}`, {
         method: "DELETE",
       }, $);
     },
-
     async getTeamViews({
       workspaceId, $,
     }) {
@@ -752,7 +702,6 @@ export default {
 
       return views;
     },
-
     async getSpaceViews({
       spaceId, $,
     }) {
@@ -760,7 +709,6 @@ export default {
 
       return views;
     },
-
     async getFolderViews({
       folderId, $,
     }) {
@@ -768,7 +716,6 @@ export default {
 
       return views;
     },
-
     async getListViews({
       listId, $,
     }) {
@@ -776,7 +723,6 @@ export default {
 
       return views;
     },
-
     async getView({
       viewId, $,
     }) {

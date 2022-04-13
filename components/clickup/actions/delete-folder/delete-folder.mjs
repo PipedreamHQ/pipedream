@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-delete-folder",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -38,9 +32,13 @@ export default {
   async run({ $ }) {
     const { folderId } = this;
 
-    return this.clickup.deleteFolder({
+    const response = await this.clickup.deleteFolder({
       $,
       folderId,
     });
+
+    $.export("$summary", "Successfully deleted folder");
+
+    return response;
   },
 };

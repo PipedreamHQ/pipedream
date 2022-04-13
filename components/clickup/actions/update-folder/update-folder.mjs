@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-update-folder",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -53,7 +47,7 @@ export default {
       hidden,
     } = this;
 
-    return this.clickup.updateFolder({
+    const response = await this.clickup.updateFolder({
       $,
       folderId,
       data: {
@@ -61,5 +55,9 @@ export default {
         hidden,
       },
     });
+
+    $.export("$summary", "Successfully updated folder");
+
+    return response;
   },
 };

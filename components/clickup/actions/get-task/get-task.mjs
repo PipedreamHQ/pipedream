@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-task",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -59,9 +53,13 @@ export default {
   async run({ $ }) {
     const { taskId } = this;
 
-    return this.clickup.getTask({
+    const response = await this.clickup.getTask({
       $,
       taskId,
     });
+
+    $.export("$summary", "Successfully getted task");
+
+    return response;
   },
 };

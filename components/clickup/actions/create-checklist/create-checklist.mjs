@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-create-checklist",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -67,12 +61,16 @@ export default {
       name,
     } = this;
 
-    return this.clickup.createChecklist({
+    const response = await this.clickup.createChecklist({
       $,
       taskId,
       data: {
         name,
       },
     });
+
+    $.export("$summary", "Successfully created checklist");
+
+    return response;
   },
 };

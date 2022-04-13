@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-view-tasks",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -73,12 +67,16 @@ export default {
       page,
     } = this;
 
-    return this.clickup.getViewTasks({
+    const response = await this.clickup.getViewTasks({
       $,
       viewId,
       params: {
         page,
       },
     });
+
+    $.export("$summary", "Successfully getted tasks");
+
+    return response;
   },
 };

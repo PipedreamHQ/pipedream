@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-delete-checklist",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -71,10 +65,14 @@ export default {
       checklistId,
     } = this;
 
-    return this.clickup.deleteChecklist({
+    const response = await this.clickup.deleteChecklist({
       $,
       taskId,
       checklistId,
     });
+
+    $.export("$summary", "Successfully deleted checklist");
+
+    return response;
   },
 };

@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-update-space",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -43,7 +37,7 @@ export default {
       _private,
     } = this;
 
-    return this.clickup.updateSpace({
+    const response = await this.clickup.updateSpace({
       $,
       spaceId,
       data: {
@@ -51,5 +45,9 @@ export default {
         private: _private,
       },
     });
+
+    $.export("$summary", "Successfully updated space");
+
+    return response;
   },
 };

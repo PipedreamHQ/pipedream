@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-folders",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -38,12 +32,16 @@ export default {
       archived,
     } = this;
 
-    return this.clickup.getFolders({
+    const response = await this.clickup.getFolders({
       $,
       spaceId,
       params: {
         archived,
       },
     });
+
+    $.export("$summary", "Successfully getted folders");
+
+    return response;
   },
 };

@@ -1,21 +1,15 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks  / Create Task** section.",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -118,7 +112,7 @@ export default {
       parent,
     } = this;
 
-    return this.clickup.createTask({
+    const response = await this.clickup.createTask({
       $,
       listId,
       data: {
@@ -131,5 +125,9 @@ export default {
         parent,
       },
     });
+
+    $.export("$summary", "Successfully created task");
+
+    return response;
   },
 };

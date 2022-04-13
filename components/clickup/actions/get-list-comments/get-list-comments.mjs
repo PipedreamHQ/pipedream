@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-list-comments",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -49,9 +43,13 @@ export default {
   async run({ $ }) {
     const { listId } = this;
 
-    return this.clickup.getListComments({
+    const response = await this.clickup.getListComments({
       $,
       listId,
     });
+
+    $.export("$summary", "Successfully getted list comments");
+
+    return response;
   },
 };

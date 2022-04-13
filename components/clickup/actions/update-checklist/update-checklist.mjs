@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-update-checklist",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -85,7 +79,7 @@ export default {
       position,
     } = this;
 
-    return this.clickup.updateChecklist({
+    const response = await this.clickup.updateChecklist({
       $,
       taskId,
       checklistId,
@@ -94,5 +88,9 @@ export default {
         position,
       },
     });
+
+    $.export("$summary", "Successfully updated checklist");
+
+    return response;
   },
 };

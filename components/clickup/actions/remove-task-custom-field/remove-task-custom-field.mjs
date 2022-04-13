@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-remove-task-custom-field",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -70,10 +64,14 @@ export default {
       customFieldId,
     } = this;
 
-    return this.clickup.removeTaskCustomField({
+    const response = await this.clickup.removeTaskCustomField({
       $,
       taskId,
       customFieldId,
     });
+
+    $.export("$summary", "Successfully removed custom field of task");
+
+    return response;
   },
 };

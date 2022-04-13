@@ -18,9 +18,13 @@ export default {
   async run({ $ }) {
     const { workspaceId } = this;
 
-    return this.clickup.getTeamViews({
+    const response = await this.clickup.getTeamViews({
       $,
       workspaceId,
     });
+
+    $.export("$summary", "Successfully getted team views");
+
+    return response;
   },
 };

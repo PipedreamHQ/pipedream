@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
@@ -8,14 +9,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -42,6 +36,7 @@ export default {
         "lists",
         (c) => ({
           folderId: c.folderId,
+          spaceId: c.spaceId,
         }),
       ],
     },
@@ -91,10 +86,14 @@ export default {
 
     if (priority) data[priority] = constants.PRIORITIES[priority];
 
-    return this.clickup.updateList({
+    const response = await this.clickup.updateList({
       $,
       listId,
       data,
     });
+
+    $.export("$summary", "Successfully updated list");
+
+    return response;
   },
 };

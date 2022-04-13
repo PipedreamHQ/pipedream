@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-get-custom-fields",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -49,9 +43,13 @@ export default {
   async run({ $ }) {
     const { listId } = this;
 
-    return this.clickup.getCustomFields({
+    const response = await this.clickup.getCustomFields({
       $,
       listId,
     });
+
+    $.export("$summary", "Successfully getted custom fields");
+
+    return response;
   },
 };

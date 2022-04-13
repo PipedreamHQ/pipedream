@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-delete-space",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -28,9 +22,13 @@ export default {
   async run({ $ }) {
     const { spaceId } = this;
 
-    return this.clickup.deleteSpace({
+    const response = await this.clickup.deleteSpace({
       $,
       spaceId,
     });
+
+    $.export("$summary", "Successfully deleted space");
+
+    return response;
   },
 };

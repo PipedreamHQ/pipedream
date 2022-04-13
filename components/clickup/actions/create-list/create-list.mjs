@@ -1,21 +1,15 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   key: "clickup-create-list",
   name: "Create List",
   description: "Creates a new list. See the docs [here](https://clickup.com/api) in **Lists  / Create List** section.",
-  version: "0.0.1",
+  version: "0.0.6",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -34,6 +28,7 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
     name: {
       label: "Name",
@@ -63,13 +58,6 @@ export default {
       ],
       optional: true,
     },
-    folderless: {
-      label: "Folderless",
-      description: "This list will be folderless",
-      type: "boolean",
-      default: false,
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -81,8 +69,10 @@ export default {
       assignee,
     } = this;
 
-    if (this.folderless) {
-      return this.clickup.createFolderlessList({
+    let response;
+
+    if (!folderId) {
+      response = await this.clickup.createFolderlessList({
         $,
         spaceId,
         data: {
@@ -92,17 +82,21 @@ export default {
           assignee,
         },
       });
+    } else {
+      response = await this.clickup.createList({
+        $,
+        folderId,
+        data: {
+          name,
+          content,
+          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
+          assignee,
+        },
+      });
     }
 
-    return this.clickup.createList({
-      $,
-      folderId,
-      data: {
-        name,
-        content,
-        priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
-        assignee,
-      },
-    });
+    $.export("$summary", "Successfully created list");
+
+    return response;
   },
 };

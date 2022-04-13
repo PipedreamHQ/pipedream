@@ -66,7 +66,7 @@ export default {
       name,
     } = this;
 
-    return this.clickup.createTaskFromTemplate({
+    const response = this.clickup.createTaskFromTemplate({
       $,
       listId,
       taskTemplateId,
@@ -74,5 +74,9 @@ export default {
         name,
       },
     });
+
+    $.export("$summary", "Successfully created task from template");
+
+    return response;
   },
 };

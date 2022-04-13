@@ -1,4 +1,5 @@
 import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "clickup-create-chat-view-comment",
@@ -7,14 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-      optional: true,
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
         clickup,
@@ -89,7 +83,7 @@ export default {
       assignees,
     } = this;
 
-    return this.clickup.createViewComment({
+    const response = await this.clickup.createViewComment({
       $,
       viewId,
       data: {
@@ -98,5 +92,9 @@ export default {
         assignees,
       },
     });
+
+    $.export("$summary", "Successfully created view comment");
+
+    return response;
   },
 };
