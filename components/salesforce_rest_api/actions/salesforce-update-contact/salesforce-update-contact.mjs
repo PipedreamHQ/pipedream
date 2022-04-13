@@ -22,8 +22,8 @@ export default {
     },
     LastName: {
       type: "string",
-      label: "LastName",
-      description: "Required. Last name of the contact up to 80 characters.",
+      label: "Last Name",
+      description: "Last name of the contact up to 80 characters.",
       optional: true,
     },
     selector: {
