@@ -34,6 +34,17 @@ export default {
         };
       },
     },
+    completed: {
+      type: "boolean",
+      label: "Completed",
+      description: "Mark as `true` if you task is already completed.",
+    },
+    due: {
+      type: "string",
+      label: "Due",
+      description: "Due date of the task (as a [RFC 3339](https://en.wikipedia.org/wiki/ISO_8601) timestamp). Optional. The due date only records date information; the time portion of the timestamp is discarded when setting the due date. It isn't possible to read or write the time that a task is due via the API.",
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -101,6 +112,13 @@ export default {
       return axios(ctx, this._getRequestParams({
         path: `/users/@me/lists/${id}`,
         method: "DELETE",
+      }));
+    },
+    async insertTask(ctx = this, taskListId, data) {
+      return axios(ctx, this._getRequestParams({
+        path: `/lists/${taskListId}/tasks`,
+        method: "POST",
+        data,
       }));
     },
   },
