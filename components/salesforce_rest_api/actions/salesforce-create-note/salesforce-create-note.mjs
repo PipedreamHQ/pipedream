@@ -1,11 +1,16 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import note from "../../common/sobjects/note.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-create-note",
   name: "Create Note",
-  description: "Creates a note, which is text associated with a custom object or a standard object, such as a Contact, Contract, or Opportunity. See [Note SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_note.htm) and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: toSingleLineString(`
+    Creates a note, which is text associated with a custom object or a standard object, such as a Contact, Contract, or Opportunity.
+    See [Note SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_note.htm)
+    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {

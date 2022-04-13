@@ -1,11 +1,16 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import task from "../../common/sobjects/task.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-create-task",
   name: "Create Task",
-  description: "Creates a task, which represents a business activity such as making a phone call or other to-do items. See [Task SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_task.htm) and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: toSingleLineString(`
+    Creates a task, which represents a business activity such as making a phone call or other to-do items.
+    See [Task SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_task.htm)
+    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+  `),
   version: "0.3.2",
   type: "action",
   props: {

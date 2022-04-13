@@ -1,11 +1,16 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import campaign from "../../common/sobjects/campaign.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-create-campaign",
   name: "Create Campaign",
-  description: "Creates a marketing campaign, such as a direct mail promotion, webinar, or trade show. See [Campaign SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaign.htm) and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: toSingleLineString(`
+    Creates a marketing campaign, such as a direct mail promotion, webinar, or trade show.
+    See [Campaign SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaign.htm)
+    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {

@@ -1,11 +1,16 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import salesforceCase from "../../common/sobjects/case.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-create-case",
   name: "Create Case",
-  description: "Creates a Salesforce case, which represents a customer issue or problem. See [Case SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_case.htm) and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: toSingleLineString(`
+    Creates a Salesforce case, which represents a customer issue or problem.
+    See [Case SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_case.htm)
+    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {

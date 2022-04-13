@@ -1,11 +1,16 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-create-contact",
   name: "Create Contact",
-  description: "Creates a Contact, which is a person associated with an account. See [Contact SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_contact.htm) and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  description: toSingleLineString(`
+    Creates a Contact, which is a person associated with an account.
+    See [Contact SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_contact.htm)
+    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {

@@ -1,11 +1,17 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import account from "../../common/sobjects/account.mjs";
 import lodash from "lodash";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-update-account",
   name: "Update Account",
-  description: "Updates a Salesforce account, representing an individual account, which is an organization or person involved with your business (such as customers, competitors, and partners). See [Account SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_account.htm) and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)",
+  description: toSingleLineString(`
+    Updates a Salesforce account, representing an individual account,
+    which is an organization or person involved with your business (such as customers, competitors, and partners).
+    See [Account SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_account.htm)
+    and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {

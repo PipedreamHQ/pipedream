@@ -1,9 +1,13 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-get-sobject-fields-values",
   name: "Get Field Values from a Standard Object Record",
-  description: "Retrieve field values from a record. You can specify the fields you want to retrieve. See [docs](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_get_field_values.htm)",
+  description: toSingleLineString(`
+    Retrieve field values from a record. You can specify the fields you want to retrieve.
+    See [docs](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_get_field_values.htm)
+  `),
   version: "0.2.2",
   type: "action",
   props: {
