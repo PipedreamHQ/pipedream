@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-update-order",
   name: "Update Order",
-  description: "Update a order. [See the docs here](https://developers.webflow.com/#update-order)",
+  description: "Update an order. [See the docs here](https://developers.webflow.com/#update-order)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -39,7 +39,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const apiClient = this.webflow._createApiClient();
 
     const {
@@ -48,7 +48,7 @@ export default {
       shippingTracking,
     } = this;
 
-    return apiClient.post(`/sites/${this.siteId}/order/${this.orderId}`, {
+    const response = await apiClient.post(`/sites/${this.siteId}/order/${this.orderId}`, {
       data: {
         fields: {
           comment,
@@ -57,5 +57,9 @@ export default {
         },
       },
     });
+
+    $.export("$summary", "Successfully updated order");
+
+    return response;
   },
 };

@@ -15,7 +15,11 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.webflow.getSite(this.siteId);
+  async run({ $ }) {
+    const response = await this.webflow.getSite(this.siteId);
+
+    $.export("$summary", "Successfully getted site");
+
+    return response;
   },
 };

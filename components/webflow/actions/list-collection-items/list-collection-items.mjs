@@ -25,7 +25,11 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.webflow.getItems(0, this.collectionId);
+  async run({ $ }) {
+    const response = await this.webflow.getItems(0, this.collectionId);
+
+    $.export("$summary", "Successfully getted collections items");
+
+    return response;
   },
 };

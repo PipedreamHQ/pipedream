@@ -34,11 +34,16 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const webflow = this.webflow._createApiClient();
-    return await webflow.item({
+
+    const response = await webflow.item({
       collectionId: this.collectionId,
       itemId: this.itemId,
     });
+
+    $.export("$summary", "Successfully getted collection item");
+
+    return response;
   },
 };

@@ -9,7 +9,11 @@ export default {
   props: {
     webflow,
   },
-  async run() {
-    return await this.webflow.getSites();
+  async run({ $ }) {
+    const response = await this.webflow.getSites();
+
+    $.export("$summary", "Successfully getted sites");
+
+    return response;
   },
 };

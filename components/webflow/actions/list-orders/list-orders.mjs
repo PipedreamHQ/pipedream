@@ -23,10 +23,14 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return this.webflow.getOrders({
+  async run({ $ }) {
+    const response = await this.webflow.getOrders({
       siteId: this.siteId,
       status: this.status,
     });
+
+    $.export("$summary", "Successfully getted orders");
+
+    return response;
   },
 };

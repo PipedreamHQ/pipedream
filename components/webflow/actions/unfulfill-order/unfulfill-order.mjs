@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-unfulfill-order",
   name: "Unfulfill Order",
-  description: "Unfulfill a order. [See the docs here](https://developers.webflow.com/#unfulfill-order)",
+  description: "Unfulfill an order. [See the docs here](https://developers.webflow.com/#unfulfill-order)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,9 +21,13 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const apiClient = this.webflow._createApiClient();
 
-    return apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/unfulfill`);
+    const response = apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/unfulfill`);
+
+    $.export("$summary", "Successfully unfulfilled order");
+
+    return response;
   },
 };

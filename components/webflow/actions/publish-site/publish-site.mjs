@@ -24,12 +24,16 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
-    return await webflow.publishSite({
+    const response = await webflow.publishSite({
       siteId: this.siteId,
       domains: this.domainIds,
     });
+
+    $.export("$summary", "Successfully published site");
+
+    return response;
   },
 };

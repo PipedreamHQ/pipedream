@@ -27,13 +27,17 @@ export default {
       default: false,
     },
   },
-  async run() {
+  async run({ $ }) {
     const apiClient = this.webflow._createApiClient();
 
-    return apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/fulfill`, {
+    const response = await apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/fulfill`, {
       data: {
         sendOrderFulfilledEmail: this.sendOrderFulfilledEmail,
       },
     });
+
+    $.export("$summary", "Successfully fulfilled order");
+
+    return response;
   },
 };

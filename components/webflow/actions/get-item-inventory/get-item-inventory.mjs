@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-item-inventory",
   name: "Get Item Inventory",
-  description: "Get the inventory of a specify item. [See the docs here](https://developers.webflow.com/#item-inventory)",
+  description: "Get the inventory of a specific item. [See the docs here](https://developers.webflow.com/#item-inventory)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -34,9 +34,13 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const apiClient = this.webflow._createApiClient();
 
-    return apiClient.apiClient.get(`/collections/${this.collectionId}/items/${this.itemId}/inventory`);
+    const response = await apiClient.apiClient.get(`/collections/${this.collectionId}/items/${this.itemId}/inventory`);
+
+    $.export("$summary", "Successfully getted item inventory");
+
+    return response;
   },
 };

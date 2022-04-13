@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-update-item-inventory",
   name: "Update Item Inventory",
-  description: "Update the inventory of a specify item. [See the docs here](https://developers.webflow.com/#update-item-inventory)",
+  description: "Update the inventory of a specific item. [See the docs here](https://developers.webflow.com/#update-item-inventory)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -55,7 +55,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const apiClient = this.webflow._createApiClient();
 
     const {
@@ -64,7 +64,7 @@ export default {
       updateQuantity,
     } = this;
 
-    return apiClient.patch(`/collections/${this.collectionId}/items/${this.itemId}/inventory`, {
+    const response = await apiClient.patch(`/collections/${this.collectionId}/items/${this.itemId}/inventory`, {
       data: {
         fields: {
           inventoryType,
@@ -73,5 +73,9 @@ export default {
         },
       },
     });
+
+    $.export("$summary", "Successfully updated item inventory");
+
+    return response;
   },
 };

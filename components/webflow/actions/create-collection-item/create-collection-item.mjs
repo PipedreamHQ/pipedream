@@ -41,10 +41,10 @@ export default {
       type: "string",
     },
   },
-  async run() {
+  async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
-    return await webflow.createItem({
+    const response = await webflow.createItem({
       collectionId: this.collectionId,
       fields: {
         name: this.name,
@@ -55,5 +55,9 @@ export default {
     }, {
       live: this.live,
     });
+
+    $.export("$summary", `Successfully created collection item ${this.name}`);
+
+    return response;
   },
 };

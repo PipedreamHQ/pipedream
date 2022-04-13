@@ -34,12 +34,16 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
-    return await webflow.removeItem({
+    const response = await webflow.removeItem({
       collectionId: this.collectionId,
       itemId: this.itemId,
     });
+
+    $.export("$summary", "Successfully deleted item");
+
+    return response;
   },
 };

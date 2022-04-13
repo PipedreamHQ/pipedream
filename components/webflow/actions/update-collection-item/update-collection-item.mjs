@@ -44,10 +44,10 @@ export default {
       type: "string",
     },
   },
-  async run() {
+  async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
-    return await webflow.updateItem({
+    const response = await webflow.updateItem({
       collectionId: this.collectionId,
       itemId: this.itemId,
       fields: {
@@ -57,5 +57,9 @@ export default {
         _draft: false,
       },
     });
+
+    $.export("$summary", "Successfully updated collection item");
+
+    return response;
   },
 };
