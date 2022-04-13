@@ -141,11 +141,6 @@ export default defineComponent({
 })
 ```
 
-## Data store limitations
-
-Pipedream Data Stores are currently in Alpha and are subject to change.
-
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
