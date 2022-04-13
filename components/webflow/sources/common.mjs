@@ -15,6 +15,12 @@ export default {
     http: "$.interface.http",
   },
   methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(webhookId) {
+      this.db.set("webhookId", webhookId);
+    },
     getWebhookTriggerType() {
       throw new Error("getWebhookTriggerType is not implemented");
     },
@@ -50,10 +56,10 @@ export default {
         this.siteId, endpoint, triggerType, filter,
       );
 
-      this.db.set("webhookId", webhook._id);
+      this._setWebhookId(webhook._id);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
+      const webhookId = this._getWebhookId();
       await this.webflow.removeWebhook(this.siteId, webhookId);
     },
   },
