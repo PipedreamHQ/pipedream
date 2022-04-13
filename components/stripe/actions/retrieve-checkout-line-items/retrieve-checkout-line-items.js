@@ -4,7 +4,7 @@ const stripe = require("../../stripe.app.js");
 export default {
   name: "Retrieve Checkout Session Line Items",
   description: "Given a checkout session ID, retrieve the line items. [See the docs](https://stripe.com/docs/api/checkout/sessions/line_items)",
-  key: "retrieve_checkout_session_line_items",
+  key: "stripe-retrieve-checkout-session-line-items",
   version: "0.0.1",
   type: "action",
   props: {
