@@ -42,7 +42,7 @@ export default {
       itemId: this.itemId,
     });
 
-    $.export("$summary", "Successfully getted collection item");
+    $.export("$summary", "Successfully retrieved collection item");
 
     return response;
   },

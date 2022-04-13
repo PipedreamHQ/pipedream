@@ -39,7 +39,7 @@ export default {
 
     const response = await apiClient.apiClient.get(`/collections/${this.collectionId}/items/${this.itemId}/inventory`);
 
-    $.export("$summary", "Successfully getted item inventory");
+    $.export("$summary", "Successfully retrieved item inventory");
 
     return response;
   },

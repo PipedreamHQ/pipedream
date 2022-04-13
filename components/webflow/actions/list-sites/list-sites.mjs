@@ -12,7 +12,7 @@ export default {
   async run({ $ }) {
     const response = await this.webflow.getSites();
 
-    $.export("$summary", "Successfully getted sites");
+    $.export("$summary", "Successfully retrieved sites");
 
     return response;
   },

@@ -27,7 +27,7 @@ export default {
       orderId: this.orderId,
     });
 
-    $.export("$summary", "Successfully getted order");
+    $.export("$summary", "Successfully retrieved order");
 
     return response;
   },

@@ -18,7 +18,7 @@ export default {
   async run({ $ }) {
     const response = await this.webflow.getSite(this.siteId);
 
-    $.export("$summary", "Successfully getted site");
+    $.export("$summary", "Successfully retrieved site");
 
     return response;
   },

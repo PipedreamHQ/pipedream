@@ -28,7 +28,7 @@ export default {
   async run({ $ }) {
     const response = await this.webflow.getCollection(this.collectionId);
 
-    $.export("$summary", "Successfully getted collection");
+    $.export("$summary", "Successfully retrieved collection");
 
     return response;
   },

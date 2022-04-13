@@ -29,7 +29,7 @@ export default {
       status: this.status,
     });
 
-    $.export("$summary", "Successfully getted orders");
+    $.export("$summary", "Successfully retrieved orders");
 
     return response;
   },
