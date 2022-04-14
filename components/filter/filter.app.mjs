@@ -7,7 +7,7 @@ export default {
     inputField: {
       type: "any",
       label: "Value to evaluate",
-      description: "Enter or reference a value here to evaluate (can be a string, number, or boolean).",
+      description: "Enter a value here or reference one from a previous step to evaluate.",
     },
     condition: {
       type: "string",
@@ -18,19 +18,19 @@ export default {
     valueToCompare: {
       type: "any",
       label: "Value to compare against",
-      description: "Enter or reference a value here to compare the initial value against (can be a string, number, or boolean).",
+      description: "Enter another value here or reference one from a previous step to compare the initial value against.",
     },
     continue: {
       type: "string",
-      label: "Should Continue?",
-      description: "Continue if the condition is met? Default is true",
+      label: "Continue workflow?",
+      description: "Should workflow execution continue or stop if the condition is met?",
       options: [
         {
-          label: "Yes, continue the workflow",
+          label: "Continue",
           value: "true",
         },
         {
-          label: "No, stop the workflow",
+          label: "Stop",
           value: "false",
         },
       ],
@@ -90,7 +90,7 @@ export default {
     convertToNumber(input) {
       input = parseFloat(input);
       if (isNaN(input)) {
-        throw new Error("Input can not be converted to a number");
+        throw new Error("Input cannot be converted to a number");
       }
       return input;
     },
@@ -102,7 +102,7 @@ export default {
       if (input === "false") {
         return false;
       }
-      throw new Error("Input can not be converted to a boolean");
+      throw new Error("Input cannot be converted to a boolean");
     },
     convertToDatetime(input) {
       input = this.convertToNumber(input);

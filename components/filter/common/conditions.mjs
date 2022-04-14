@@ -23,7 +23,7 @@ const constants = {
 
 const options = [
   {
-    label: "Contains",
+    label: "Contains (text)",
     value: constants.IN,
   },
   {
@@ -58,7 +58,6 @@ const options = [
     label: "Greater than (number)",
     value: constants.GREATER_THAN,
   },
-
   {
     label: "Greater than or equals (number)",
     value: constants.GREATER_THAN_EQUALS,
@@ -96,11 +95,11 @@ const options = [
     value: constants.FALSE,
   },
   {
-    label: "Exists",
+    label: "Exists (object key)",
     value: constants.EXISTS,
   },
   {
-    label: "Does not exist",
+    label: "Does not exist (object key)",
     value: constants.NOT_EXISTS,
   },
 ];
