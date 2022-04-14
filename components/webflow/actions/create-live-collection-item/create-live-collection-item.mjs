@@ -1,11 +1,11 @@
-// legacy_hash_id: a_q1ioGv
+// legacy_hash_id: a_RAiabk
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "webflow-create-collection-item",
-  name: "Create Item",
-  description: "Create new collection item",
-  version: "0.1.1",
+  key: "webflow-create-live-collection-item",
+  name: "Create Live Item",
+  description: "Create new live collection item",
+  version: "0.2.1",
   type: "action",
   props: {
     webflow: {
@@ -23,16 +23,18 @@ export default {
     },
     _archived: {
       type: "boolean",
+      optional: true,
     },
     _draft: {
       type: "boolean",
+      optional: true,
     },
   },
   async run({ $ }) {
 
     return await axios($, {
       method: "post",
-      url: `https://api.webflow.com/collections/${this.collection_id}/items`,
+      url: `https://api.webflow.com/collections/${this.collection_id}/items?live=true`,
 
       headers: {
         "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
@@ -44,8 +46,8 @@ export default {
         fields: {
           name: this.name,
           slug: this.slug,
-          _archived: this._archived,
-          _draft: this._draft,
+          _archived: this._archived || false,
+          _draft: this._draft || false,
         },
       },
     });

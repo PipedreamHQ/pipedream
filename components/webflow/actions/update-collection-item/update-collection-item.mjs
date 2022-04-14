@@ -1,60 +1,55 @@
-import webflow from "../../webflow.app.mjs";
+// legacy_hash_id: a_OOiaG4
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "webflow-update-collection-item",
-  name: "Update Collection Item",
+  name: "Update Item",
   description: "Update collection item",
-  version: "0.1.1648564084",
+  version: "0.1.1",
   type: "action",
   props: {
-    webflow,
-    siteId: {
-      propDefinition: [
-        webflow,
-        "sites",
-      ],
-      optional: true,
+    webflow: {
+      type: "app",
+      app: "webflow",
     },
-    collectionId: {
-      propDefinition: [
-        webflow,
-        "collections",
-        (c) => ({
-          siteId: c.siteId,
-        }),
-      ],
+    collection_id: {
+      type: "string",
     },
-    itemId: {
-      propDefinition: [
-        webflow,
-        "items",
-        (c) => ({
-          collectionId: c.collectionId,
-        }),
-      ],
+    item_id: {
+      type: "string",
     },
     name: {
-      label: "Name",
-      description: "Name given to the Item.",
       type: "string",
     },
     slug: {
-      label: "Slug",
-      description: "URL structure of the Item in your site. Note: Updates to an item slug will break all links referencing the old slug.",
       type: "string",
     },
+    _archived: {
+      type: "boolean",
+    },
+    _draft: {
+      type: "boolean",
+    },
   },
-  async run() {
-    const webflow = this.webflow._createApiClient();
+  async run({ $ }) {
 
-    return await webflow.updateItem({
-      collectionId: this.collectionId,
-      itemId: this.itemId,
-      fields: {
-        name: this.name,
-        slug: this.slug,
-        _archived: false,
-        _draft: false,
+    return await axios($, {
+      method: "put",
+      url: `https://api.webflow.com/collections/${this.collection_id}/items/${this.item_id}`,
+
+      headers: {
+        "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "accept-version": "1.0.0",
+      },
+      data: {
+        fields: {
+          name: this.name,
+          slug: this.slug,
+          _archived: this._archived,
+          _draft: this._draft,
+        },
       },
     });
   },
