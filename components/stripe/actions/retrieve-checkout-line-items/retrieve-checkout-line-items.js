@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 const stripe = require("../../stripe.app.js");
 
 export default {
@@ -26,12 +25,8 @@ export default {
     },
   },
   async run ({ $ }) {
-    const resp = await axios($, {
-      url: `https://api.stripe.com/v1/checkout/sessions/${this.checkout_session_id}/line_items?limit=${this.line_items_limit}`,
-      auth: {
-        username: `${this.stripe.$auth.api_key}`,
-        password: "",
-      },
+    const resp = await this.stripe.sdk().checkout.sessions.listLineItems(this.checkout_session_id, {
+      limit: this.line_items_limit,
     });
     $.export("$summary", `Successfully retrieved ${resp.data.length} checkout session line items`);
     return resp;

@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 const stripe = require("../../stripe.app.js");
 
 export default {
@@ -17,13 +16,7 @@ export default {
     },
   },
   async run ({ $ }) {
-    const resp = await axios($, {
-      url: `https://api.stripe.com/v1/products/${this.product_id}`,
-      auth: {
-        username: `${this.stripe.$auth.api_key}`,
-        password: "",
-      },
-    });
+    const resp = await this.stripe.sdk().products.retrieve(this.product_id);
     $.export("$summary", `Successfully retrieved the line item product, "${resp.name || resp.id}"`);
     return resp;
   },
