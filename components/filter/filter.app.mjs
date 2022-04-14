@@ -1,4 +1,5 @@
 import conditions from "./common/conditions.mjs";
+import operators from "./common/operators.mjs";
 
 export default {
   type: "app",
@@ -14,11 +15,23 @@ export default {
       label: "Condition",
       description: "The condition for evaluation",
       options: conditions.options,
+      reloadProps: true,
     },
     valueToCompare: {
       type: "any",
       label: "Value to compare against",
       description: "Enter or reference a value here to compare the initial value against (can be a string, number, or boolean).",
+    },
+    logicalOperator: {
+      type: "string",
+      label: "Logical Operator",
+      description: "AND | OR",
+      options: [
+        operators.AND,
+        operators.OR,
+      ],
+      optional: true,
+      reloadProps: true,
     },
     continue: {
       type: "string",
