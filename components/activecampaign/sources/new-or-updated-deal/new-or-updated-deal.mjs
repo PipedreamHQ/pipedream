@@ -5,7 +5,7 @@ export default {
   name: "New Deal Added or Updated (Instant)",
   key: "activecampaign-new-or-updated-deal",
   description: "Emit new event each time a deal is added or updated.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

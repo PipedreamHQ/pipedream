@@ -4,7 +4,7 @@ import axiosModule from "axios";
 export default {
   key: "activecampaign-tag-ac-contact",
   name: "Tag ActiveCampaign Contact",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     activecampaign: {
