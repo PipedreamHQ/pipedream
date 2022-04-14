@@ -1,3 +1,4 @@
+import conditions from "../../common/conditions.mjs";
 import filter from "../../filter.app.mjs";
 
 export default {
@@ -19,19 +20,29 @@ export default {
         filter,
         "condition",
       ],
+      reloadProps: true,
     },
-    valueToCompare: {
-      propDefinition: [
-        filter,
-        "valueToCompare",
-      ],
+  },
+  methods: {
+    isUnary(condition) {
+      switch (condition) {
+      case conditions.constants.TRUE:
+      case conditions.constants.FALSE:
+      case conditions.constants.EXISTS:
+      case conditions.constants.NOT_EXISTS:
+        return true;
+      default:
+        return false;
+      }
     },
-    continue: {
-      propDefinition: [
-        filter,
-        "continue",
-      ],
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.isUnary(this.condition)) {
+      props.valueToCompare = filter.propDefinitions.valueToCompare;
+    }
+    props.continue = filter.propDefinitions.continue;
+    return props;
   },
   async run({ $ }) {
     const result = this.filter.checkCondition(
