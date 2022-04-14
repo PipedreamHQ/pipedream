@@ -1,13 +1,15 @@
 import slack from "../../slack.app.mjs";
+import common from "../send-message-common.mjs";
 
 export default {
+  ...common,
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    slack,
+    ...common.props,
     thread_ts: {
       propDefinition: [
         slack,
@@ -29,40 +31,5 @@ export default {
       ],
       optional: false,
     },
-    as_user: {
-      propDefinition: [
-        slack,
-        "as_user",
-      ],
-    },
-    username: {
-      propDefinition: [
-        slack,
-        "username",
-      ],
-    },
-    icon_emoji: {
-      propDefinition: [
-        slack,
-        "icon_emoji",
-      ],
-    },
-    icon_url: {
-      propDefinition: [
-        slack,
-        "icon_url",
-      ],
-    },
-  },
-  async run() {
-    return await this.slack.sdk().chat.postMessage({
-      text: this.text,
-      channel: this.reply_channel,
-      thread_ts: this.thread_ts,
-      as_user: this.as_user,
-      username: this.username,
-      icon_emoji: this.icon_emoji,
-      icon_url: this.icon_url,
-    });
   },
 };

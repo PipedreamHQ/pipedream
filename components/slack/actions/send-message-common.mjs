@@ -90,7 +90,7 @@ export default {
 
     return await this.slack.sdk().chat.postMessage({
       text: this.text,
-      channel: this.conversation,
+      channel: this.conversation ?? this.this.reply_channel,
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,
