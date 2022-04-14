@@ -118,7 +118,8 @@ const referenceNav = [
       "/privacy-and-security/pgp-key/",
       "/subprocessors/",
     ]
-  }
+  },
+  "/workflows/events/cold-starts/"
 ];
 
 const pricingNav = ["/pricing/"];
@@ -148,6 +149,7 @@ module.exports = {
   "/privacy-and-reference/pgp-key/": referenceNav,
   "/privacy-and-reference/best-practices/": referenceNav,
   "/subprocessors/": referenceNav,
+  "/workflows/events/cold-starts/": referenceNav,
   "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,
