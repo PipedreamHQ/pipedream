@@ -7,7 +7,76 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/
 
 HTTP requests are fundamental to working with APIs or other web services. You can make HTTP requests to retrieve data from APIs, fetch HTML from websites, or do pretty much anything your web browser can do.
 
-**Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
+You can send HTTP requests in Node.js steps in two different ways.
+
+1. [Use the built in `http_request` prop](#using-the-http_requests-prop)
+2. [Use an npm package like axios](#use-an-npm-package-like-axios)
+
+## Using the `http_requests` prop
+
+The `http_requests` prop generates a GUI in your Node.js step for making quick and easy HTTP requests.
+
+![Using the http_requests prop in a Node.js code step](https://res.cloudinary.com/pipedreamin/image/upload/v1649945972/docs/components/CleanShot_2022-04-14_at_10.19.13_2x_dncwbg.png)
+
+### Setting up a `http_request` field in a code step
+
+In a Node.js code step, above the `run` function define a new `http_request` prop. In this example we'll name it `api_call`:
+
+``` js{2-4}
+export default defineComponent({
+  props: { 
+    // Define a "api_call" in our component that is an HTTP request
+    api_call: { type: "http_request"} 
+  },
+  async run({ $, steps }) {
+    // access our new HTTP request in code:
+    this.api_call
+  },
+})
+```
+
+Now click **Refresh Fields** below your code to generate the HTTP request GUI.
+
+![Refresh Field to generate the HTTP request GUI](https://res.cloudinary.com/pipedreamin/image/upload/v1649947092/docs/components/CleanShot_2022-04-14_at_10.37.58_iagmuj.gif)
+
+### Configuring the `http_request`
+
+Now that an `http_request` field is generated, you'll be able to configure it to make an HTTP request.
+
+Choose the HTTP method with the dropdown, enter in the URL to send the HTTP request to, and optionally define query params, headers or a body.
+
+Use any data point from your prior steps in the workflow using [step exports](https://pipedream.com/docs/workflows/steps/#step-exports).
+
+You can think of the `http_request` prop as a visual representation of an `axios` request.
+
+### Sending the request defined in a `http_request`
+
+After configuring the parameters for your HTTP request it's ready to be sent.
+
+Call the `execute()` method on the `http_request` instance to actually perform the request.
+
+The HTTP request will be sent, and a response will be returned. An HTTP request is an asynchronous operation, don't forget to `await` it.
+
+``` js{7}
+export default defineComponent({
+  props: {
+    // the name of this HTTP request prop is "api_call"
+    api_call: { type: "http_request"} 
+  },
+  async run({ steps, $ }) {
+    // calling execute() on the http_request will send the request and return the response
+    const res = await this.api_call.execute();
+    // the response data is available under the res.data property
+    return res.data;
+  },
+})
+```
+
+::: tip
+The HTTP request is available under `this.api_call`, this is because we named the prop `api_call` under the `props` definition.
+:::
+
+## Using Axios
 
 We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/code/nodejs/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
@@ -30,7 +99,7 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 ```javascript
 {
   method: "GET",
-  url: `https://swapi.co/api/films/`
+  url: `https://swapi.dev/api/films/`
 }
 ```
 
