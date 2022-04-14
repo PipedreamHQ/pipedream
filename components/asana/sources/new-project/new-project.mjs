@@ -5,7 +5,7 @@ export default {
   key: "asana-new-project",
   name: "New Project Added To Workspace",
   description: "Emit new event for each new project added to a workspace.",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     asana,

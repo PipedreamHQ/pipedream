@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "New Tag Added To Task",
   description: "Emit new event for each new tag added to a task.",
-  version: "0.0.2",
+  version: "0.1.0",
   props: {
     asana,
     workspace: {
@@ -60,17 +60,6 @@ export default {
           resource: this.project,
           target: this.http.endpoint,
         },
-      });
-
-      console.log({
-        filters: [
-          {
-            action: "added",
-            resource_type: "task",
-          },
-        ],
-        resource: this.project,
-        target: this.http.endpoint,
       });
 
       this.db.set("hookId", response.gid);

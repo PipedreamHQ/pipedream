@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "New Completed Task",
   description: "Emit new event for each task completed in a project.",
-  version: "0.1.1",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     asana,

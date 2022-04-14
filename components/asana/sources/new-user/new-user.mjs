@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "New User",
   description: "Emit new event for each user added to a workspace.",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     asana,
