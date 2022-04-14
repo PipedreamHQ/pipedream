@@ -1,9 +1,9 @@
 import app from "../../google_tasks.app.mjs";
 
 export default {
-  key: "google_tasks-create-task",
-  name: "Create Task",
-  description: "Creates a new task and adds it to the authenticated user's task lists.  [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasks/insert)",
+  key: "google_tasks-update-task",
+  name: "Update Task",
+  description: "Updates the authenticated user's specified task.  [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasks/update)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,6 +12,15 @@ export default {
       propDefinition: [
         app,
         "taskListId",
+      ],
+    },
+    taskId: {
+      propDefinition: [
+        app,
+        "taskId",
+        ({ taskListId }) => ({
+          taskListId,
+        }),
       ],
     },
     title: {
@@ -26,6 +35,7 @@ export default {
         app,
         "completed",
       ],
+      optional: true,
     },
     due: {
       propDefinition: [
@@ -36,18 +46,20 @@ export default {
   },
   async run({ $ }) {
     const data = {
+      id: this.taskId,
       title: this.title,
       status: this.completed
         ? "completed"
         : "needsAction",
       due: this.due,
     };
-    const res = await this.app.insertTask(
+    const res = await this.app.updateTask(
       $,
       this.taskListId,
+      this.taskId,
       data,
     );
-    $.export("$summary", "Task successfully created");
+    $.export("$summary", "Task successfully updated");
     return res;
   },
 };

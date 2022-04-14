@@ -4,7 +4,7 @@ export default {
   key: "google_tasks-list-tasks-list",
   name: "List Tasks List",
   description: "Lists the authenticated user's task lists. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasklists/list)",
-  version: "0.0.22",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -23,7 +23,7 @@ export default {
       this.app.getTaskLists.bind(this),
       params,
     );
-    $.export("$summary", "Action successfully performed");
+    $.export("$summary", "List(s) Task successfully retrieved");
     return res;
   },
 };

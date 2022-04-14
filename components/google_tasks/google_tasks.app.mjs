@@ -34,6 +34,28 @@ export default {
         };
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task",
+      description: "The ID of the task.",
+      async options({
+        prevContext,
+        taskListId,
+      }) {
+        const res = await this.getTasks(this, {
+          pageToken: prevContext.nextPageToken,
+        }, taskListId);
+        return {
+          context: {
+            nextPageToken: res.nextPageToken,
+          },
+          options: res.items.map((task) => ({
+            label: task.title,
+            value: task.id,
+          })),
+        };
+      },
+    },
     completed: {
       type: "boolean",
       label: "Completed",
@@ -63,7 +85,7 @@ export default {
         headers: this._getHeaders(),
       };
     },
-    async paginate(fn, params) {
+    async paginate(fn, params, ...rest) {
       let data = [];
       let nextPageToken = null;
       const TOTAL_MAX_RESULTS = Math.min(params.maxResults, 10000);
@@ -73,7 +95,7 @@ export default {
           ...params,
           maxResults: ITEMS_PER_PAGE,
           pageToken: nextPageToken,
-        });
+        }, ...rest);
         nextPageToken = pageResult.nextPageToken;
         data = [
           ...data,
@@ -119,6 +141,26 @@ export default {
         path: `/lists/${taskListId}/tasks`,
         method: "POST",
         data,
+      }));
+    },
+    async getTasks(ctx = this, params, taskListId) {
+      return axios(ctx, this._getRequestParams({
+        path: `/lists/${taskListId}/tasks`,
+        method: "GET",
+        params,
+      }));
+    },
+    async updateTask(ctx = this, taskListId, taskId, data) {
+      return axios(ctx, this._getRequestParams({
+        path: `/lists/${taskListId}/tasks/${taskId}`,
+        method: "PUT",
+        data,
+      }));
+    },
+    async deleteTask(ctx = this, taskListId, taskId) {
+      return axios(ctx, this._getRequestParams({
+        path: `/lists/${taskListId}/tasks/${taskId}`,
+        method: "DELETE",
       }));
     },
   },
