@@ -59,7 +59,7 @@ Call the `execute()` method on the `http_request` instance to actually perform t
 
 The HTTP request will be sent, and a response will be returned. An HTTP request is an asynchronous operation; don't forget to `await` it.
 
-``` js{7}
+``` js{8}
 export default defineComponent({
   props: {
     // the name of this HTTP request prop is "api_call"
