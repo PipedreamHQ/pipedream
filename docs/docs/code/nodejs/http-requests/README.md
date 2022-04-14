@@ -112,7 +112,7 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 
@@ -121,7 +121,7 @@ The response object `resp` contains a lot of information about the response: its
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 
 // HTTP response data is in the data property
@@ -144,7 +144,7 @@ import axios from "axios";
 // Make an HTTP GET request using axios
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 
 // Retrieve just the data from the response
