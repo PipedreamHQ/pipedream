@@ -134,11 +134,11 @@ export default {
      * @returns {params} An order.
      */
     async getOrder({
-      siteId, orderId, $,
+      siteId, orderId,
     }) {
-      return await this._makeRequest(`/sites/${siteId}/order/${orderId}`, {
-        $,
-      });
+      const apiClient = this._createApiClient();
+
+      return apiClient.get(`/sites/${siteId}/order/${orderId}`);
     },
     /**
      * Get a list of orders;
@@ -148,17 +148,14 @@ export default {
      * @returns {params} A list of orders.
      */
     async getOrders({
-      page, siteId, status, $,
+      page, siteId, status,
     }) {
-      return await this._makeRequest(`/sites/${siteId}/orders`, {
-        $,
-        config: {
-          params: {
-            status: status,
-            offset: page ?? 0,
-            limit: 100,
-          },
-        },
+      const apiClient = this._createApiClient();
+
+      return apiClient.get(`/sites/${siteId}/orders`, {
+        status: status,
+        offset: page ?? 0,
+        limit: 100,
       });
     },
     /**
