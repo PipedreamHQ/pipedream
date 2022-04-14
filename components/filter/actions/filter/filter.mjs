@@ -6,7 +6,7 @@ export default {
   name: "Filter",
   version: "0.0.1",
   key: "filter-filter",
-  description: "Select 2 values to compare against each other and choose whether you'd like to continue or stop your workflow based on the output.",
+  description: "Select 2 values to compare against each other and choose whether you'd like to continue or stop workflow execution based on the output.",
   type: "action",
   props: {
     filter,
