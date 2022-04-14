@@ -12,7 +12,6 @@ export default {
       type: "string",
       label: "Product ID",
       description: "A Stripe Product ID. [See the docs](https://stripe.com/docs/api/products/object#product_object-id)",
-      optional: false,
     },
   },
   async run ({ $ }) {
