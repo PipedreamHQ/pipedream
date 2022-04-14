@@ -7,78 +7,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/
 
 HTTP requests are fundamental to working with APIs or other web services. You can make HTTP requests to retrieve data from APIs, fetch HTML from websites, or do pretty much anything your web browser can do.
 
-You can send HTTP requests in Node.js steps in two different ways.
-
-1. [Use the built in `http_request` prop](#using-the-http-request-prop)
-2. [Use an npm package like axios](#using-axios)
-
-## Using the `http_request` prop
-
-The `http_request` prop generates a visual representation of a HTTP request in your Node.js step:
-
-![Using the http_request prop in a Node.js code step](https://res.cloudinary.com/pipedreamin/image/upload/v1649945972/docs/components/CleanShot_2022-04-14_at_10.19.13_2x_dncwbg.png)
-
-### Setting up a `http_request` field in a code step
-
-In a Node.js code step, above the `run` function define a new `http_request` prop. In this example we'll name it `api_call`:
-
-``` js{2-5}
-export default defineComponent({
-  props: { 
-    // Define a "api_call" in our component that is an HTTP request
-    api_call: { type: "http_request"} 
-  },
-  async run({ $, steps }) {
-    // access our new HTTP request in code:
-    this.api_call
-  },
-})
-```
-
-Now click **Refresh Fields** below your code to generate the HTTP request GUI in the code step:
-
-![Refresh Field to generate the HTTP request GUI](https://res.cloudinary.com/pipedreamin/image/upload/v1649947092/docs/components/CleanShot_2022-04-14_at_10.37.58_iagmuj.gif)
-
-### Configuring the `http_request` prop
-
-Now that an `http_request` field is generated in your code step, you'll be able to configure it to make an HTTP request.
-
-You can think of the `http_request` prop as a visual representation of an `axios` request.
-
-Choose the HTTP method with the dropdown, enter in the URL to send the HTTP request to, and optionally define query params, headers or a body.
-
-Use any data point from your prior steps in the workflow using [step exports](https://pipedream.com/docs/workflows/steps/#step-exports).
-
-![Configuring the HTTP request with the visual GUI](https://res.cloudinary.com/pipedreamin/image/upload/v1649951721/docs/components/CleanShot_2022-04-14_at_11.55.00_uqg3pf.gif)
-
-### Sending the request defined in a `http_request` prop
-
-After configuring the parameters for your HTTP request it's ready to be sent.
-
-Call the `execute()` method on the `http_request` instance to actually perform the request.
-
-The HTTP request will be sent, and a response will be returned. An HTTP request is an asynchronous operation; don't forget to `await` it.
-
-``` js{8}
-export default defineComponent({
-  props: {
-    // the name of this HTTP request prop is "api_call"
-    api_call: { type: "http_request"} 
-  },
-  async run({ steps, $ }) {
-    // calling execute() on the http_request will send the request and return the response
-    const res = await this.api_call.execute();
-    // the response data is available under the res.data property
-    return res.data;
-  },
-})
-```
-
-::: tip
-The HTTP request is available under `this.api_call`, this is because we named the prop `api_call` under the `props` definition.
-:::
-
-## Using Axios
+**Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
 We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/code/nodejs/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
@@ -138,18 +67,58 @@ const { data } = resp;
 
 Make a request to retrieve Star Wars films from the Star Wars API:
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
-const resp = await axios({
-  method: "GET",
-  url: `https://swapi.dev/api/films/`,
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using axios
+    const res = await axios({
+      method: "GET",
+      url: `https://swapi.dev/api/films/`,
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = res;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "Star Wars API request",
+      default: {
+        method: "GET",
+        url: "https://swapi.dev/api/films/"
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+**Produces**
+
+![With the http-request prop](https://res.cloudinary.com/pipedreamin/image/upload/v1649961271/docs/components/CleanShot_2022-04-14_at_14.34.16_2x_c0urph.png)
+:::
+ 
+::::
+ 
 
 [Copy this workflow to run this example on Pipedream](https://pipedream.com/@dylburger/make-an-http-get-request-to-the-star-wars-api-p_OKC2KA/edit).
 
@@ -157,21 +126,60 @@ const { data } = resp;
 
 POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service:
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP POST request using axios
-const resp = await axios({
-  method: "POST",
-  url: `https://jsonplaceholder.typicode.com/posts`,
-  data: {
-    name: "Luke",
-  },
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP POST request using axios
+    const resp = await axios({
+      method: "POST",
+      url: `https://jsonplaceholder.typicode.com/posts`,
+      data: {
+        name: "Luke",
+      },
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = resp;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "JSON Placeholder API request",
+      default: {
+        method: "POST",
+        url: "https://jsonplaceholder.typicode.com/posts",
+        body: {
+          contentType: "application/json",
+          fields: [{ name: "Luke" }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 When you make a `POST` request, you pass `POST` as the `method`, and include the data you'd like to send in the `data` object.
 
@@ -181,21 +189,59 @@ When you make a `POST` request, you pass `POST` as the `method`, and include the
 
 Retrieve fake comment data on a specific post using [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service. Here, you fetch data from the `/comments` resource, retrieving data for a specific post by query string parameter: `/comments?postId=1`.
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
-const resp = await axios({
-  method: "GET",
-  url: `https://jsonplaceholder.typicode.com/comments`,
-  params: {
-    postId: 1,
-  },
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using axios
+    const resp = await axios({
+      method: "GET",
+      url: `https://jsonplaceholder.typicode.com/comments`,
+      params: {
+        postId: 1,
+      },
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = resp;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "JSON Placeholder API request",
+      default: {
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/comments",
+        params: {
+          fields: [{ postId: 1 }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 You should pass query string parameters using the `params` object, like above. When you do, `axios` automatically [URL-encodes](https://www.w3schools.com/tags/ref_urlencode.ASP) the parameters for you, which you'd otherwise have to do manually.
 
@@ -258,7 +304,7 @@ export default defineComponent({
     // We'll store each response and return them in this array
     const responses = [];
 
-    for (const num of [1, 2, 3]) {
+    for await (const num of [1, 2, 3]) {
       const resp = await axios({
         method: "POST",
         url: "https://example.com",
@@ -328,26 +374,65 @@ The Mozilla docs expand on the difference between these methods, and when you ma
 
 ## Send a `multipart/form-data` request
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 import FormData from "form-data";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    const formData = new FormData();
-    formData.append("name", "Luke Skywalker");
+    export default defineComponent({
+      async run({ steps, $ }) {
+        const formData = new FormData();
+        formData.append("name", "Luke Skywalker");
 
-    const headers = formData.getHeaders();
-    const config = {
-      method: "POST",
-      url: "https://example.com",
-      headers,
-      data: formData,
-    };
-    return await axios(config);
-  }
+        const headers = formData.getHeaders();
+        const config = {
+          method: "POST",
+          url: "https://example.com",
+          headers,
+          data: formData,
+        };
+        return await axios(config);
+      }
+    });
+  })
 });
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "Example Multipart Form Request",
+      default: {
+        method: "POST",
+        url: "https://example.com",
+        headers: {
+          contentType: "multipart/form-data",
+          fields: [{ name: "Luke Skywalker" }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 [Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
 
