@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {
@@ -40,7 +40,9 @@ export default {
       description: "The task unique identifiers.",
       type: "string[]",
       async options(opts) {
-        const tasks = await this.getTasks(opts.projectId);
+        const tasks = await this.getTasks({
+          project: opts.projectId,
+        });
 
         return tasks.map((task) => {
           return {
@@ -129,8 +131,10 @@ export default {
       label: "Tasks",
       description: "List of tasks. This field use the task GID.",
       type: "string[]",
-      async options({ projects }) {
-        const tasks = await this.getTasks(projects);
+      async options({ project }) {
+        const tasks = await this.getTasks({
+          project,
+        });
 
         return tasks.map((task) => {
           return {
@@ -144,8 +148,8 @@ export default {
       label: "Sections",
       description: "List of sections. This field use the section GID.",
       type: "string[]",
-      async options({ projects }) {
-        const sections = await this.getSections(projects);
+      async options({ project }) {
+        const sections = await this.getSections(project);
 
         return sections.map((section) => {
           return {
@@ -175,8 +179,9 @@ export default {
     },
     _headers() {
       return {
-        Accept: "application/json",
-        Authorization: `Bearer ${this._accessToken()}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${this._accessToken()}`,
       };
     },
     /**
@@ -187,14 +192,12 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    async _makeRequest(path, options = {}) {
-      const config = {
+    async _makeRequest(path, options = {}, $ = undefined) {
+      return await axios($ ?? this, {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
-      };
-
-      return (await axios(config)).data;
+      });
     },
     async _getAuthorizationHeader({
       data, headers,
@@ -317,12 +320,13 @@ export default {
      *
      * @returns {string} An Asana Project list.
      */
-    async getProjects(workspaceId) {
+    async getProjects(workspaceId, params = {}, $) {
       return (await this._makeRequest("projects", {
         params: {
           workspace: workspaceId,
+          ...params,
         },
-      })).data;
+      }, $)).data;
     },
     /**
      * Get an Asana Story.
@@ -341,56 +345,34 @@ export default {
      *
      * @returns {string} An Asana Task.
      */
-    async getTask(taskId) {
-      return (await this._makeRequest(`tasks/${taskId}`)).data;
+    async getTask(taskId, $) {
+      return (await this._makeRequest(`tasks/${taskId}`), {}, $).data;
     },
     /**
      * Get an Asana Task list.
      *
-     * @param {string} projects - A Project GID list.
+     * @param {string} params - The params to filter tasks.
      *
      * @returns {string} An Asana Task list.
      */
-    async getTasks(projects) {
-      if (!Array.isArray(projects)) projects = [
-        projects,
-      ];
+    async getTasks(params, $) {
+      const response = (await this._makeRequest("tasks", {
+        params,
+      }, $));
 
-      let tasks = [];
-
-      for (const project of projects) {
-        const response = (await this._makeRequest("tasks", {
-          params: {
-            project: project,
-          },
-        }));
-
-        tasks = tasks.concat(response.data);
-      }
-
-      return tasks;
+      return response.data;
     },
     /**
      * Get an Asana Section list.
      *
-     * @param {string} projects - A Project GID list.
+     * @param {string} project - A Project GID.
      *
      * @returns {string} An Asana Section list.
      */
-    async getSections(projects) {
-      if (!Array.isArray(projects)) projects = [
-        projects,
-      ];
+    async getSections(project, $) {
+      const response = await this._makeRequest(`projects/${project}/sections`, {}, $);
 
-      let sections = [];
-
-      for (const project of projects) {
-        const response = (await this._makeRequest(`projects/${project}/sections`));
-
-        sections = sections.concat(response.data);
-      }
-
-      return sections;
+      return response.data;
     },
     /**
      * Get an Asana Tag.

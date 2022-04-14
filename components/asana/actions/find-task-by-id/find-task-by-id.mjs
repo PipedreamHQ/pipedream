@@ -1,6 +1,5 @@
-// legacy_hash_id: a_K5i2Gr
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-find-task-by-id",
@@ -9,17 +8,25 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    asana,
+    ...common.props,
     task_gid: {
       label: "Task GID",
-      description: "The ID of the task to find.",
+      description: "The ID of the task to update.",
       type: "string",
+      propDefinition: [
+        asana,
+        "tasks",
+        (c) => ({
+          project: c.project,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `${this.asana._apiUrl()}/tasks/${this.task_gid}`,
-      headers: this.asana._headers(),
-    });
+    const response = await this.asana.getTask(this.task_gid, $);
+
+    $.export("$summary", "Successfully retrieved task");
+
+    return response;
   },
 };

@@ -1,6 +1,5 @@
-// legacy_hash_id: a_wdijKn
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-delete-task",
@@ -9,26 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    asana,
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    project: {
-      label: "Project",
-      type: "string",
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      optional: true,
-    },
+    ...common.props,
     task_gid: {
       label: "Task GID",
       description: "The ID of the task to delete.",
@@ -37,16 +17,18 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
+    const response = await this.asana._makeRequest(`tasks/${this.task_gid}`, {
       method: "delete",
-      url: `${this.asana._apiUrl()}/tasks/${this.task_gid}`,
-      headers: this.asana._headers(),
-    });
+    }, $);
+
+    $.export("$summary", "Successfully deleted task");
+
+    return response;
   },
 };

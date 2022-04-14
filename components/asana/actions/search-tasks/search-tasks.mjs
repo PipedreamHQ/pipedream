@@ -1,6 +1,5 @@
-// legacy_hash_id: a_74iEBo
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-search-tasks",
@@ -9,7 +8,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    asana,
+    ...common.props,
     name: {
       label: "Name",
       description: "The task name to search for.",
@@ -25,16 +24,6 @@ export default {
         "users",
       ],
     },
-    project: {
-      label: "Project",
-      description: "The project to filter tasks on.",
-      type: "string",
-      optional: true,
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-    },
     section: {
       label: "Section",
       type: "string",
@@ -44,18 +33,8 @@ export default {
         asana,
         "sections",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
-      ],
-    },
-    workspace: {
-      label: "Workspace",
-      type: "string",
-      description: "The workspace to filter tasks on.",
-      optional: true,
-      propDefinition: [
-        asana,
-        "workspaces",
       ],
     },
     completed_since: {
@@ -72,9 +51,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const tasks = await axios($, {
-      url: `${this.asana._apiUrl()}/tasks`,
-      headers: this.asana._headers(),
+    const tasks = await this.asana.getTasks({
       params: {
         assignee: this.assignee,
         project: this.project,
@@ -83,9 +60,11 @@ export default {
         completed_since: this.completed_since,
         modified_since: this.modified_since,
       },
-    });
+    }, $);
 
-    if (this.name) return tasks.data.filter((task) => task.name.includes(this.name));
-    else return tasks.data;
+    $.export("$summary", "Successfully retrieved tasks");
+
+    if (this.name) return tasks.filter((task) => task.name.includes(this.name));
+    else return tasks;
   },
 };

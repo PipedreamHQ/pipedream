@@ -1,4 +1,3 @@
-// legacy_hash_id: a_Xzi4pK
 import asana from "../../asana.app.mjs";
 import _ from "lodash";
 
@@ -30,8 +29,8 @@ export default {
       ],
     },
   },
-  async run() {
-    let projects = await this.asana.getProjects(this.workspace);
+  async run({ $ }) {
+    let projects = await this.asana.getProjects(this.workspace, {}, $);
 
     projects = projects.filter(async (project) => {
       project = await this.asana.getProject(project.gid);
@@ -40,6 +39,8 @@ export default {
         gid: this.user,
       });
     });
+
+    $.export("$summary", "Successfully retrieved projects of user");
 
     return projects;
   },

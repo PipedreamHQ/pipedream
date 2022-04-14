@@ -1,6 +1,5 @@
-// legacy_hash_id: a_zNiwKE
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "asana-create-project",
@@ -38,26 +37,7 @@ export default {
       label: "Color",
       description: "The color associated with the status update.",
       type: "string",
-      options: [
-        "dark-blue",
-        "dark-brown",
-        "dark-green",
-        "dark-orange",
-        "dark-pink",
-        "dark-purple",
-        "dark-red",
-        "dark-teal",
-        "dark-warm-gray",
-        "light-blue",
-        "light-green",
-        "light-orange",
-        "light-pink",
-        "light-purple",
-        "light-red",
-        "light-teal",
-        "light-warm-gray",
-        "light-yellow",
-      ],
+      options: constants.COLORS,
       optional: true,
     },
     title: {
@@ -133,10 +113,8 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
+    const response = await this.asana._makeRequest("projects", {
       method: "post",
-      url: `${this.asana._apiUrl()}/projects`,
-      headers: this.asana._headers(),
       data: {
         data: {
           name: this.name,
@@ -155,6 +133,10 @@ export default {
           owner: this.owner,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully created project");
+
+    return response;
   },
 };

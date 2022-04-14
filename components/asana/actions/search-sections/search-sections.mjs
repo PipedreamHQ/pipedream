@@ -1,6 +1,4 @@
-// legacy_hash_id: a_k6iYPz
-import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-search-sections",
@@ -9,16 +7,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    asana,
-    project_gid: {
-      label: "Project GID",
-      description: "Globally unique identifier for the project.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-    },
+    ...common.props,
     name: {
       label: "Name",
       description: "The name of the section to search for.",
@@ -26,10 +15,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const sections = await axios($, {
-      url: `${this.asana._apiUrl()}/projects/${this.project_gid}/sections`,
-      headers: this.asana._headers(),
-    });
+    const sections = await this.asana.getSections(this.project_gid, $);
+
+    $.export("$summary", "Successfully retrieved sections");
 
     if (this.name) return sections.data.filter((section) => section.name.includes(this.name));
     else return sections.data;

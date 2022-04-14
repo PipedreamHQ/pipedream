@@ -1,6 +1,5 @@
-// legacy_hash_id: a_njiaY8
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   name: "Add Task To Section",
@@ -9,24 +8,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    asana,
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    projects: {
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      optional: true,
-    },
+    ...common.props,
     task: {
       label: "Task",
       type: "string",
@@ -35,7 +17,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
@@ -47,7 +29,7 @@ export default {
         asana,
         "sections",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
@@ -60,7 +42,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
@@ -73,20 +55,14 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
+    const response = await this.asana._makeRequest(`sections/${this.section_gid}/addTask`, {
       method: "post",
-      url: `https://app.asana.com/api/1.0/sections/${this.section_gid}/addTask`,
-      headers: {
-        "Authorization": `Bearer ${this.asana._accessToken()}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
       data: {
         data: {
           task: this.task,
@@ -94,6 +70,10 @@ export default {
           insert_after: this.insert_after,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully added task to section");
+
+    return response;
   },
 };

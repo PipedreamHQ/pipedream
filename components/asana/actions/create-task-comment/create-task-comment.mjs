@@ -1,6 +1,5 @@
-// legacy_hash_id: a_l0iLdL
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-create-task-comment",
@@ -9,26 +8,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    asana,
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    projects: {
-      label: "Project",
-      type: "string",
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      optional: true,
-    },
+    ...common.props,
     task_gid: {
       label: "Task GID",
       description: "The task GID to operate on.",
@@ -37,7 +17,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -67,10 +47,8 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
+    const response = await this.asana._makeRequest(`tasks/${this.task_gid}/stories`, {
       method: "post",
-      url: `${this.asana._apiUrl()}/tasks/${this.task_gid}/stories`,
-      headers: this.asana._headers(),
       data: {
         data: {
           text: this.text,
@@ -79,6 +57,10 @@ export default {
           sticker_name: this.sticker_name,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully created task comment");
+
+    return response;
   },
 };

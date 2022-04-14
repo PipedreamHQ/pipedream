@@ -1,6 +1,5 @@
-// legacy_hash_id: a_wdijKn
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-update-task",
@@ -9,26 +8,7 @@ export default {
   version: "0.3.1",
   type: "action",
   props: {
-    asana,
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    project: {
-      label: "Project",
-      type: "string",
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      optional: true,
-    },
+    ...common.props,
     task_gid: {
       label: "Task GID",
       description: "The ID of the task to update.",
@@ -37,7 +17,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -65,7 +45,7 @@ export default {
         asana,
         "sections",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -119,10 +99,8 @@ export default {
     let customFields;
     if (this.custom_fields) customFields = JSON.parse(this.custom_fields);
 
-    return await axios($, {
+    const response = await this.asana._makeRequest(`tasks/${this.task_gid}`, {
       method: "put",
-      url: `${this.asana._apiUrl()}/tasks/${this.task_gid}`,
-      headers: this.asana._headers(),
       data: {
         data: {
           name: this.name,
@@ -133,12 +111,16 @@ export default {
           due_on: this.due_on,
           html_notes: this.html_notes,
           notes: this.notes,
-          projects: this.projects,
+          projects: this.project,
           start_on: this.start_on,
           workspace: this.workspace,
           custom_fields: customFields,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully updated task");
+
+    return response.data;
   },
 };

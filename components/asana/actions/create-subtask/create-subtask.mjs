@@ -1,6 +1,5 @@
-// legacy_hash_id: a_vgi87A
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-create-subtask",
@@ -9,26 +8,7 @@ export default {
   version: "0.3.1",
   type: "action",
   props: {
-    asana,
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    project: {
-      label: "Project",
-      type: "string",
-      propDefinition: [
-        asana,
-        "projects",
-      ],
-      optional: true,
-    },
+    ...common.props,
     task_gid: {
       label: "Task GID",
       description: "The task GID to operate on.",
@@ -37,7 +17,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -65,7 +45,7 @@ export default {
         asana,
         "sections",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -124,10 +104,8 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
+    const response = await this.asana._makeRequest(`tasks/${this.task_gid}/subtasks`, {
       method: "post",
-      url: `${this.asana._apiUrl()}/tasks/${this.task_gid}/subtasks`,
-      headers: this.asana._headers(),
       data: {
         data: {
           name: this.name,
@@ -139,12 +117,16 @@ export default {
           followers: this.followers,
           html_notes: this.html_notes,
           notes: this.notes,
-          projects: this.projects,
+          projects: this.project,
           start_on: this.start_on,
           tags: this.tags,
           workspace: this.workspace,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully created subtask");
+
+    return response;
   },
 };

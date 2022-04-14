@@ -1,6 +1,4 @@
-// legacy_hash_id: a_2wimKj
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
@@ -34,17 +32,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const projects = await axios($, {
-      method: "get",
-      url: `${this.asana._apiUrl()}/projects`,
-      headers: this.asana._headers(),
-      params: {
-        workspace: this.workspace,
-        archived: this.archived,
-      },
-    });
+    const {
+      name,
+      workspace,
+      archived,
+    } = this;
 
-    if (this.name) return projects.data.filter((project) => project.name.includes(this.name));
-    else return projects.data;
+    const projects = await this.asana.getProjects(workspace, {
+      archived,
+    }, $);
+
+    $.export("$summary", "Successfully retrieved projects");
+
+    if (this.name) return projects.filter((project) => project.name.includes(name));
+    else return projects;
   },
 };

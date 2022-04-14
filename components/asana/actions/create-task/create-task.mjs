@@ -1,6 +1,5 @@
-// legacy_hash_id: a_Mdi8Vw
 import asana from "../../asana.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-create-task",
@@ -9,27 +8,11 @@ export default {
   version: "0.3.1",
   type: "action",
   props: {
-    asana,
+    ...common.props,
     name: {
       label: "Name",
       description: "Name of the task. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
       type: "string",
-    },
-    workspace: {
-      label: "Workspace",
-      description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    projects: {
-      propDefinition: [
-        asana,
-        "projects",
-      ],
     },
     tags: {
       propDefinition: [
@@ -57,7 +40,7 @@ export default {
         asana,
         "sections",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
@@ -110,7 +93,7 @@ export default {
         asana,
         "tasks",
         (c) => ({
-          projects: c.projects,
+          project: c.project,
         }),
       ],
     },
@@ -134,10 +117,8 @@ export default {
     let customFields;
     if (this.custom_fields) customFields = JSON.parse(this.custom_fields);
 
-    return await axios($, {
+    const response = await this.asana._makeRequest("tasks", {
       method: "post",
-      url: `${this.asana._apiUrl()}/tasks`,
-      headers: this.asana._headers(),
       data: {
         data: {
           name: this.name,
@@ -150,13 +131,17 @@ export default {
           html_notes: this.html_notes,
           notes: this.notes,
           parent: this.parent,
-          projects: this.projects,
+          projects: this.project,
           start_on: this.start_on,
           tags: this.tags,
           workspace: this.workspace,
           custom_fields: customFields,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully created task");
+
+    return response;
   },
 };
