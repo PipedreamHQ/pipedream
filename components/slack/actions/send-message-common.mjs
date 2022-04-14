@@ -30,6 +30,12 @@ export default {
         "icon_url",
       ],
     },
+    mrkdwn: {
+      propDefinition: [
+        slack,
+        "mrkdwn",
+      ],
+    },
     include_sent_via_pipedream_flag: {
       type: "boolean",
       optional: true,

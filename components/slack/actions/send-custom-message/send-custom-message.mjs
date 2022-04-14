@@ -45,12 +45,6 @@ export default {
         "parse",
       ],
     },
-    mrkdwn: {
-      propDefinition: [
-        common.props.slack,
-        "mrkdwn",
-      ],
-    },
     blocks: {
       propDefinition: [
         common.props.slack,
