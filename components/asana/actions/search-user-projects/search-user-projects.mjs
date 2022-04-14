@@ -4,8 +4,8 @@ import _ from "lodash";
 export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
-  description: "Return list of projects given the user and workspace gid",
-  version: "0.4.2",
+  description: "Return list of projects given the user and workspace gid. [See the docs here](https://developers.asana.com/docs/get-multiple-projects)",
+  version: "0.4.0",
   type: "action",
   props: {
     asana,

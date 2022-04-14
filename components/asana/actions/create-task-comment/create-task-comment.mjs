@@ -4,8 +4,8 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-create-task-comment",
   name: "Create Task Comment",
-  description: "Create a comment on a task",
-  version: "0.2.1",
+  description: "Adds a comment to a task. [See the docs here](https://developers.asana.com/docs/create-a-story-on-a-task)",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,

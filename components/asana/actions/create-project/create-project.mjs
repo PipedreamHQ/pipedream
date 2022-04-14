@@ -4,8 +4,8 @@ import constants from "../common/constants.mjs";
 export default {
   key: "asana-create-project",
   name: "Create Project",
-  description: "Create a project",
-  version: "0.9.1",
+  description: "Create a new project in a workspace or team. [See the docs here](https://developers.asana.com/docs/create-a-project)",
+  version: "0.9.0",
   type: "action",
   props: {
     asana,

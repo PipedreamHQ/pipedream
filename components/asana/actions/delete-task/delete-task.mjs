@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-delete-task",
   name: "Delete Task",
-  description: "Delete a task",
+  description: "Deletes a specific and existing task. [See the docs here](https://developers.asana.com/docs/delete-a-task)",
   version: "0.0.1",
   type: "action",
   props: {

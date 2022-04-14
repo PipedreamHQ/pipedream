@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 
 export default {
   name: "Add Task To Section",
-  description: "Add task to section",
+  description: "Add a task to a specific, existing section. This will remove the task from other sections of the project. [See the docs here](https://developers.asana.com/docs/add-task-to-section)",
   key: "asana-add-task-to-section",
-  version: "0.2.1",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,

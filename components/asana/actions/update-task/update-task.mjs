@@ -4,14 +4,14 @@ import common from "../common/common.mjs";
 export default {
   key: "asana-update-task",
   name: "Update Task",
-  description: "Update a task",
-  version: "0.3.1",
+  description: "Updates a specific and existing task. [See the docs here](https://developers.asana.com/docs/update-a-task)",
+  version: "0.3.0",
   type: "action",
   props: {
     ...common.props,
     task_gid: {
       label: "Task GID",
-      description: "The ID of the task to update.",
+      description: "The ID of the task to update",
       type: "string",
       propDefinition: [
         asana,
