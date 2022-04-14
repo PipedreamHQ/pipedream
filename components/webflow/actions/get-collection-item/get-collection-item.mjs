@@ -5,7 +5,7 @@ export default {
   key: "webflow-get-collection-item",
   name: "Get a collection item",
   description: "Get a Collection Item",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     webflow: {
