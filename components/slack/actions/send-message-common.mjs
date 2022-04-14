@@ -102,7 +102,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: this.conversation ?? this.this.reply_channel,
+      channel: this.conversation ?? this.reply_channel,
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,
