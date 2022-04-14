@@ -104,6 +104,7 @@ const referenceNav = [
     ],
   },
   "/limits/",
+  "/workflows/events/cold-starts/",
   {
     title: "Security and Privacy",
     children: [

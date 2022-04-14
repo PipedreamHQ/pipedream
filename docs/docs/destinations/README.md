@@ -17,6 +17,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 - [Email](/destinations/email/)
 - [S3](/destinations/s3/)
 - [SSE](/destinations/sse/)
+- [Emit](/destinations/emit/)
 
 ## Using destinations
 
