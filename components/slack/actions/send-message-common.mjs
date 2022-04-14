@@ -36,6 +36,12 @@ export default {
         "mrkdwn",
       ],
     },
+    post_at: {
+      propDefinition: [
+        slack,
+        "post_at",
+      ],
+    },
     include_sent_via_pipedream_flag: {
       type: "boolean",
       optional: true,
@@ -94,7 +100,7 @@ export default {
       blocks.push(sentViaPipedreamText);
     }
 
-    return await this.slack.sdk().chat.postMessage({
+    const obj = {
       text: this.text,
       channel: this.conversation ?? this.this.reply_channel,
       attachments: this.attachments,
@@ -110,6 +116,13 @@ export default {
       link_names: this.link_names,
       reply_broadcast: this.reply_broadcast,
       thread_ts: this.thread_ts,
-    });
+    };
+
+    if (this.post_at) {
+      obj.post_at = this.post_at;
+      return await this.slack.sdk().chat.scheduleMessage(obj);
+    }
+
+    return await this.slack.sdk().chat.postMessage(obj);
   },
 };

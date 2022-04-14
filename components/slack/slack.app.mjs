@@ -310,6 +310,12 @@ export default {
       default: true,
       optional: true,
     },
+    post_at: {
+      label: "Post At",
+      description: "Schedule the message to a specific moment. [See the docs here] (https://api.slack.com/messaging/scheduling)",
+      type: "int",
+      optional: true,
+    },
     username: {
       type: "string",
       label: "Bot Username",
