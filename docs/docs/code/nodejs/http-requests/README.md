@@ -9,20 +9,20 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 You can send HTTP requests in Node.js steps in two different ways.
 
-1. [Use the built in `http_request` prop](#using-the-http_requests-prop)
+1. [Use the built in `http_request` prop](#using-the-http_request-prop)
 2. [Use an npm package like axios](#use-an-npm-package-like-axios)
 
-## Using the `http_requests` prop
+## Using the `http_request` prop
 
-The `http_requests` prop generates a GUI in your Node.js step for making quick and easy HTTP requests.
+The `http_request` prop generates a visual representation of a HTTP request in your Node.js step:
 
-![Using the http_requests prop in a Node.js code step](https://res.cloudinary.com/pipedreamin/image/upload/v1649945972/docs/components/CleanShot_2022-04-14_at_10.19.13_2x_dncwbg.png)
+![Using the http_request prop in a Node.js code step](https://res.cloudinary.com/pipedreamin/image/upload/v1649945972/docs/components/CleanShot_2022-04-14_at_10.19.13_2x_dncwbg.png)
 
 ### Setting up a `http_request` field in a code step
 
 In a Node.js code step, above the `run` function define a new `http_request` prop. In this example we'll name it `api_call`:
 
-``` js{2-4}
+``` js{2-5}
 export default defineComponent({
   props: { 
     // Define a "api_call" in our component that is an HTTP request
@@ -35,27 +35,29 @@ export default defineComponent({
 })
 ```
 
-Now click **Refresh Fields** below your code to generate the HTTP request GUI.
+Now click **Refresh Fields** below your code to generate the HTTP request GUI in the code step:
 
 ![Refresh Field to generate the HTTP request GUI](https://res.cloudinary.com/pipedreamin/image/upload/v1649947092/docs/components/CleanShot_2022-04-14_at_10.37.58_iagmuj.gif)
 
-### Configuring the `http_request`
+### Configuring the `http_request` prop
 
-Now that an `http_request` field is generated, you'll be able to configure it to make an HTTP request.
+Now that an `http_request` field is generated in your code step, you'll be able to configure it to make an HTTP request.
+
+You can think of the `http_request` prop as a visual representation of an `axios` request.
 
 Choose the HTTP method with the dropdown, enter in the URL to send the HTTP request to, and optionally define query params, headers or a body.
 
 Use any data point from your prior steps in the workflow using [step exports](https://pipedream.com/docs/workflows/steps/#step-exports).
 
-You can think of the `http_request` prop as a visual representation of an `axios` request.
+![Configuring the HTTP request with the visual GUI](https://res.cloudinary.com/pipedreamin/image/upload/v1649951721/docs/components/CleanShot_2022-04-14_at_11.55.00_uqg3pf.gif)
 
-### Sending the request defined in a `http_request`
+### Sending the request defined in a `http_request` prop
 
 After configuring the parameters for your HTTP request it's ready to be sent.
 
 Call the `execute()` method on the `http_request` instance to actually perform the request.
 
-The HTTP request will be sent, and a response will be returned. An HTTP request is an asynchronous operation, don't forget to `await` it.
+The HTTP request will be sent, and a response will be returned. An HTTP request is an asynchronous operation; don't forget to `await` it.
 
 ``` js{7}
 export default defineComponent({
