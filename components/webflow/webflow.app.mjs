@@ -1,5 +1,4 @@
 import Webflow from "webflow-api";
-import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -83,34 +82,6 @@ export default {
      */
     _authToken() {
       return this.$auth.oauth_access_token;
-    },
-    /**
-     * Get the base api url;
-     *
-     * @returns {string} The base api url.
-     */
-    _apiUrl() {
-      return "https://api.webflow.com/";
-    },
-    /**
-     * Make a request;
-     *
-     * @param {path} The path for request.
-     * @param {params} Options for request.
-     *
-     * @returns {params} The request data return.
-     */
-    async _makeRequest(path, {
-      config = {}, $,
-    }) {
-      return await axios($ ?? this, {
-        url: `${this._apiUrl()}${path}`,
-        headers: {
-          "Authorization": `Bearer ${this._authToken()}`,
-          "accept-version": "1.0.0",
-        },
-        ...config,
-      });
     },
     /**
      * Create a Webflow API client;
