@@ -9,8 +9,8 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 You can send HTTP requests in Node.js steps in two different ways.
 
-1. [Use the built in `http_request` prop](#using-the-http_request-prop)
-2. [Use an npm package like axios](#use-an-npm-package-like-axios)
+1. [Use the built in `http_request` prop](#using-the-http-request-prop)
+2. [Use an npm package like axios](#using-axios)
 
 ## Using the `http_request` prop
 
