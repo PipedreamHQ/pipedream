@@ -239,7 +239,7 @@ import { axios } from "@pipedream/platform"
 
 export default defineComponent({
   props: {
-    twitter: {
+    slack: {
       type: "app",
       app: "slack",
     }
