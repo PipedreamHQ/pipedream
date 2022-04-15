@@ -5,7 +5,7 @@ module.exports = {
   type: "source",
   key: "faunadb-changes-to-collection",
   name: "New or Removed Documents in a Collection",
-  description: "This source tracks add and remove events to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event with the details of the document.",
+  description: "Emit new event each time you add or remove a document from a specific collection, with the details of the document.",
   version: "0.0.4",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
