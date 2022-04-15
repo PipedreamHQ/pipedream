@@ -1,91 +1,82 @@
 // legacy_hash_id: a_74iEBo
-import asana from "../../asana.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project.",
-  version: "0.2.1",
+  version: "0.1.1",
   type: "action",
   props: {
-    asana,
+    asana: {
+      type: "app",
+      app: "asana",
+    },
     name: {
-      label: "Name",
-      description: "The task name to search for.",
       type: "string",
+      description: "The task name to search for.",
     },
     assignee: {
-      label: "Assignee",
-      description: "The assignee to filter tasks on",
       type: "string",
+      description: "The assignee to filter tasks on. Note: If you specify assignee, you must also specify the workspace to filter on.",
       optional: true,
-      propDefinition: [
-        asana,
-        "users",
-      ],
     },
     project: {
-      label: "Project",
-      description: "The project to filter tasks on.",
       type: "string",
-      optional: true,
-      propDefinition: [
-        asana,
-        "projects",
-      ],
+      description: "The project to filter tasks on.",
     },
     section: {
-      label: "Section",
       type: "string",
       description: "The section to filter tasks on.",
       optional: true,
-      propDefinition: [
-        asana,
-        "sections",
-        (c) => ({
-          projects: c.projects,
-        }),
-      ],
     },
     workspace: {
-      label: "Workspace",
       type: "string",
-      description: "The workspace to filter tasks on.",
+      description: "The workspace to filter tasks on. Note: If you specify workspace, you must also specify the assignee to filter on.",
       optional: true,
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
     },
     completed_since: {
-      label: "Completed Since",
       type: "string",
-      description: "Only return tasks that are either incomplete or that have been completed since this time. ISO 8601 date string",
+      description: "Only return tasks that are either incomplete or that have been completed since this time.",
       optional: true,
     },
     modified_since: {
-      label: "Modified Since",
       type: "string",
-      description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
+      description: "Only return tasks that have been modified since the given time.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const tasks = await axios($, {
-      url: `${this.asana._apiUrl()}/tasks`,
-      headers: this.asana._headers(),
-      params: {
-        assignee: this.assignee,
-        project: this.project,
-        section: this.section,
-        workspace: this.workspace,
-        completed_since: this.completed_since,
-        modified_since: this.modified_since,
+    let tasks = null;
+    let matches = [];
+    let query = this.name;
+    const asanaParams = [
+      "assignee",
+      "project",
+      "section",
+      "workspace",
+      "completed_since",
+      "modified_since",
+    ];
+    let p = this;
+
+    const queryString = asanaParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
+      .join("&");
+
+    tasks = await axios($, {
+      url: `https://app.asana.com/api/1.0/tasks?${queryString}`,
+      headers: {
+        Authorization: `Bearer ${this.asana.$auth.oauth_access_token}`,
       },
     });
 
-    if (this.name) return tasks.data.filter((task) => task.name.includes(this.name));
-    else return tasks.data;
+    if (tasks) {
+      tasks.data.forEach(function(task) {
+        if (task.name.includes(query))
+          matches.push(task);
+      });
+    }
+
+    return matches;
   },
 };
