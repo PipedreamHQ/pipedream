@@ -14,6 +14,8 @@ JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 :::
 
+[[toc]]
+
 ## Adding a code step
 
 1. Click the **+** button below any step of your workflow.
@@ -158,6 +160,34 @@ If you've used Node before, you'll notice there's no `package.json` file to uplo
 The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
 
 Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
+
+### Pinning package versions
+
+Each time you deploy a workflow with Node.js code, Pipedream downloads the npm packages you `import` in your step. **By default, Pipedream deploys the latest version of the npm package each time you deploy a change**.
+
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a source, you can add that version in the `import` string, for example: 
+
+```javascript
+import axios from "axios@0.19.2"
+``` 
+
+You can also pass the version specifiers used by npm to support [semantic version](https://semver.org/) upgrades. For example, to allow for future patch version upgrades:
+
+```javascript
+import axios from "axios@~0.20.0"
+```
+
+To allow for patch and minor version upgrades, use:
+
+```javascript
+import got from "got@^11.0.0"
+```
+
+::: warning
+The behavior of the caret (`^`) operator is different for 0.x versions, for which it will only match patch versions, and not minor versions.
+:::
+
+You can also specify different versions of the same package in different steps. Each step will used the associated version. Note that this also increases the size of your deployment, which can affect cold start times.
 
 ### CommonJS vs. ESM imports
 
