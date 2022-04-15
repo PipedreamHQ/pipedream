@@ -85,6 +85,7 @@ export default {
       type: "string[]",
       label: "Form",
       description: "Watch for new submissions of the specified forms.",
+      withLabel: true,
       async options(prevContext) {
         const { offset } = prevContext;
         const params = {
