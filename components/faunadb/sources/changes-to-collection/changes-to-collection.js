@@ -20,7 +20,7 @@ module.exports = {
     collection: {
       propDefinition: [
         fauna,
-        "collection",
+        "collections",
       ],
     },
     emitEventsInBatch: {
