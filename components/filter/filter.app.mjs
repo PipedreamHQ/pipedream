@@ -107,18 +107,6 @@ export default {
     convertToDatetime(input) {
       input = this.convertToNumber(input);
       return new Date(input);
-      // try {
-      //   // first try to convert a timestamp
-      //   input = this.convertToNumber(input);
-      //   return new Date(input);
-      // } catch (err) {
-      //   // convert a string
-      //   input = new Date(input);
-      //   if (input == "Invalid Date") {
-      //     throw new Error("Input can not be converted to datetime");
-      //   }
-      //   return input;
-      // }
     },
     convertToObject(input) {
       return JSON.parse(input);
