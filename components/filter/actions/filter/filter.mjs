@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     filter,
+    continue: {
+      propDefinition: [
+        filter,
+        "continue",
+      ],
+    },
     inputField: {
       propDefinition: [
         filter,
@@ -41,7 +47,6 @@ export default {
     if (!this.isUnary(this.condition)) {
       props.valueToCompare = filter.propDefinitions.valueToCompare;
     }
-    props.continue = filter.propDefinitions.continue;
     return props;
   },
   async run({ $ }) {
