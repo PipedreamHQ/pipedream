@@ -2,6 +2,7 @@ const fauna = require("../../faunadb.app.js");
 const maxBy = require("lodash.maxby");
 
 module.exports = {
+  type: "source",
   key: "faunadb-changes-to-collection",
   name: "New or Removed Documents in a Collection",
   description:
