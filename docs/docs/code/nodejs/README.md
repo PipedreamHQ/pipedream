@@ -165,7 +165,7 @@ Moreover, packages that require access to large binaries — for example, how [P
 
 Each time you deploy a workflow with Node.js code, Pipedream downloads the npm packages you `import` in your step. **By default, Pipedream deploys the latest version of the npm package each time you deploy a change**.
 
-There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a source, you can add that version in the `import` string, for example: 
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in the `import` string, for example: 
 
 ```javascript
 import axios from "axios@0.19.2"
