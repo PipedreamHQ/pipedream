@@ -10,6 +10,10 @@ module.exports = {
       variant: "primary",
     },
     {
+      text: "Guides",
+      link: "/guides/",
+    },
+    {
       text: "Reference",
       items: [
         { text: "Building Components", link: "/components/" },
