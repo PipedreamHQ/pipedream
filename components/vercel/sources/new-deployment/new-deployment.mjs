@@ -56,7 +56,7 @@ export default {
       } = deployment;
       return {
         id: uid,
-        summary: `${name || uid} ${state}`,
+        summary: `${name ?? uid} ${state}`,
         ts: created,
       };
     },

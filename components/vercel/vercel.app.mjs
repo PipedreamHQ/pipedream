@@ -12,13 +12,10 @@ export default {
       optional: true,
       async options() {
         const projects = await this.listProjects();
-        if (!projects || projects.length === 0) {
-          return [];
-        }
-        return projects.map((project) => ({
+        return projects?.map((project) => ({
           label: project.name,
           value: project.id,
-        }));
+        })) ?? [];
       },
     },
     deployment: {
@@ -30,15 +27,12 @@ export default {
           ? {
             state,
           }
-          : undefined;
+          : {};
         const deployments = await this.listDeployments(params);
-        if (!deployments || deployments.length === 0) {
-          return [];
-        }
-        return deployments.map((deployment) => ({
+        return deployments?.map((deployment) => ({
           label: deployment.name,
           value: deployment.uid,
-        }));
+        })) ?? [];
       },
     },
     team: {
@@ -49,15 +43,12 @@ export default {
       async options() {
         try {
           const teams = await this.listTeams();
-          if (!teams || teams.length === 0) {
-            return [];
-          }
-          return teams.map((team) => ({
+          return teams?.map((team) => ({
             label: team.slug,
             value: team.id,
-          }));
+          })) ?? [];
         } catch (e) {
-          throw new Error(e);
+          throw new Error(e.message);
         }
       },
     },
@@ -109,7 +100,7 @@ export default {
         config.params.from = results?.pagination?.next;
         config.params.since = results?.pagination?.next;
         allResults.push(...results[resource]);
-      } while (results?.pagination?.count == config.limit && allResults.length < max);
+      } while (results?.pagination?.count === config.limit && allResults.length < max);
       if (allResults.length > max) {
         allResults.length = max;
       }
