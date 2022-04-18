@@ -131,7 +131,7 @@ export default {
           WHERE t.table_name = '${table}' AND t.constraint_type = 'PRIMARY KEY';
         `),
       });
-      return rows[0].column_name;
+      return rows[0]?.column_name;
     },
     /**
      * Gets rows in a table with values greater than lastResult
@@ -220,7 +220,6 @@ export default {
      * @returns The newly updated row
      */
     async updateRow(table, lookupColumn, lookupValue, rowValues) {
-      const primaryKey = await this.getPrimaryKey(table);
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
@@ -233,7 +232,7 @@ export default {
               WHERE %I = $1
               ORDER BY %I LIMIT 1
             ) RETURNING *
-        `, table, primaryKey, primaryKey, table, lookupColumn, primaryKey),
+        `, table, lookupColumn, lookupColumn, table, lookupColumn, lookupColumn),
         values: [
           lookupValue,
           ...Object.values(rowValues),
