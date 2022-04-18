@@ -3,7 +3,7 @@ import faunadb from "../../faunadb.app.mjs";
 export default {
   key: "faunadb-execute-graphql-query",
   name: "Execute GraphQL Query",
-  description: "Performs an arbitrary authorized GraphQL query",
+  description: "Performs an arbitrary authorized GraphQL query. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#graphql)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,7 +15,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.faunadb.executeGraphqlQuery(this.query);
+    const response = await this.faunadb.executeGraphqlQuery(this.query, $);
 
     $.export("summary", "Successfully executed graphql query");
 

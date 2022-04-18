@@ -4,7 +4,7 @@ import faunadb from "../../faunadb.app.mjs";
 export default {
   key: "faunadb-read-from-collection",
   name: "Read From FaunaDB Collection",
-  description: "Reads all documents from given FaunaDB collection",
+  description: "Reads all documents from given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
   version: "0.4.2",
   type: "action",
   props: {
@@ -17,7 +17,7 @@ export default {
     },
     documentField: {
       label: "Documents Field",
-      description: "The field will be returned by query",
+      description: "The field that will be returned by query",
       type: "string",
       optional: true,
     },

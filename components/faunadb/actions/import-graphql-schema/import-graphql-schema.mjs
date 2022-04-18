@@ -3,7 +3,7 @@ import faunadb from "../../faunadb.app.mjs";
 export default {
   key: "faunadb-import-graphql-schema",
   name: "Import GraphQL schema",
-  description: "Import graphQL schema to a database",
+  description: "Import graphQL schema to a database. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#import)",
   version: "0.0.1",
   type: "action",
   props: {

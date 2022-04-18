@@ -45,7 +45,7 @@ export default {
       };
     },
     async _makeRequest(path, options = {}, $ = undefined) {
-      return await axios($ ?? this, {
+      return axios($ ?? this, {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
@@ -108,18 +108,18 @@ export default {
     async importGraphqlSchema({
       schema, $,
     }) {
-      return await this._makeRequest("import", {
+      return this._makeRequest("import", {
         method: "POST",
         data: schema,
       }, $);
     },
-    async executeGraphqlQuery(query) {
-      return await this._makeRequest("graphql", {
+    async executeGraphqlQuery(query, $) {
+      return this._makeRequest("graphql", {
         method: "POST",
         data: {
           query,
         },
-      });
+      }, $);
     },
   },
 };
