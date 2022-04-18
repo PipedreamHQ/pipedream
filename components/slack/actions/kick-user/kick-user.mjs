@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-kick-user",
   name: "Kick User",
-  description: "Remove a user from a conversation",
+  description: "Remove a user from a conversation. [See docs here](https://api.slack.com/methods/conversations.kick)",
   version: "0.0.2",
   type: "action",
   props: {

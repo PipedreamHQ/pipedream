@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-complete-reminder",
   name: "Complete Reminder",
-  description: "Complete a reminder",
+  description: "Complete a reminder. [See docs here](https://api.slack.com/methods/reminders.complete)",
   version: "0.0.2",
   type: "action",
   props: {
