@@ -1,8 +1,8 @@
 import app from "../../google_tasks.app.mjs";
 
 export default {
-  key: "google_tasks-list-tasks-list",
-  name: "List Tasks List",
+  key: "google_tasks-list-task-lists",
+  name: "List Task Lists",
   description: "Lists the authenticated user's task lists. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasklists/list)",
   version: "0.0.1",
   type: "action",
@@ -23,7 +23,7 @@ export default {
       this.app.getTaskLists.bind(this),
       params,
     );
-    $.export("$summary", "List(s) Task successfully retrieved");
+    $.export("$summary", "Task List(s) successfully retrieved");
     return res;
   },
 };

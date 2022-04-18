@@ -23,13 +23,13 @@ export default {
     showCompleted: {
       type: "boolean",
       label: "Show Completed",
-      description: "Whether completed tasks are returned in the result. Optional. Defaults to `true`.",
+      description: "Whether completed tasks are returned in the result. Defaults to `true`.",
       optional: true,
     },
     showDeleted: {
       type: "boolean",
       label: "Show Deleted",
-      description: "Whether deleted tasks are returned in the result. Optional. Defaults to `false`.",
+      description: "Whether deleted tasks are returned in the result. Defaults to `false`.",
       optional: true,
     },
   },
@@ -44,7 +44,7 @@ export default {
       params,
       this.taskListId,
     );
-    $.export("$summary", "Action successfully performed");
+    $.export("$summary", "Listed tasks successfully");
     return res;
   },
 };

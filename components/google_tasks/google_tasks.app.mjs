@@ -12,7 +12,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of register to be fetched.",
+      description: "Maximum number of registers to be fetched.",
       default: 20,
     },
     taskListId: {
@@ -59,7 +59,7 @@ export default {
     completed: {
       type: "boolean",
       label: "Completed",
-      description: "Mark as `true` if you task is already completed.",
+      description: "Mark as `true` if your task is already completed.",
     },
     due: {
       type: "string",
@@ -79,6 +79,9 @@ export default {
       };
     },
     _getRequestParams(opts = {}) {
+      if (!opts.path) {
+        throw new Error("Missing path");
+      }
       return {
         ...opts,
         url: this._getBaseUrl() + opts.path,
@@ -88,7 +91,7 @@ export default {
     async paginate(fn, params, ...rest) {
       let data = [];
       let nextPageToken = null;
-      const TOTAL_MAX_RESULTS = Math.min(params.maxResults, 10000);
+      const TOTAL_MAX_RESULTS = Math.min(params.maxResults, 1000);
       const ITEMS_PER_PAGE = Math.min(params.maxResults, 50);
       do {
         const pageResult = await fn(this, {
@@ -97,11 +100,7 @@ export default {
           pageToken: nextPageToken,
         }, ...rest);
         nextPageToken = pageResult.nextPageToken;
-        data = [
-          ...data,
-          ...pageResult.items,
-        ];
-
+        data.push(...pageResult.items);
         if (data.length >= TOTAL_MAX_RESULTS) {
           data = data.slice(0, TOTAL_MAX_RESULTS);
           break;
