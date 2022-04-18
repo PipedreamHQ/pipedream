@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-new-subtask",
   type: "source",
-  name: "New Update To Task",
+  name: "New Update To Task (Instant)",
   description: "Emit new event for each update to a task.",
   version: "0.1.0",
   dedupe: "unique",

@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-new-completed-task",
   type: "source",
-  name: "New Completed Task",
+  name: "New Completed Task (Instant)",
   description: "Emit new event for each task completed in a project.",
   version: "0.1.0",
   dedupe: "unique",

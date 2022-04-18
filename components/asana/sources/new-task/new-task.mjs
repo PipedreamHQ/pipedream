@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-new-task",
   type: "source",
-  name: "New Task",
+  name: "New Task (Instant)",
   description: "Emit new event for each task added to a project.",
   version: "0.1.0",
   dedupe: "unique",

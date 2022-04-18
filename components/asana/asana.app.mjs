@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,12 +11,10 @@ export default {
       async options() {
         const organizations = await this.getOrganizations();
 
-        return organizations.map((organization) => {
-          return {
-            label: organization.name,
-            value: organization.gid,
-          };
-        });
+        return organizations.map((organization) => ({
+          label: organization.name,
+          value: organization.gid,
+        }));
       },
     },
     workspaces: {
@@ -26,12 +24,10 @@ export default {
       async options() {
         const workspaces = await this.getWorkspaces();
 
-        return workspaces.map((workspace) => {
-          return {
-            label: workspace.name,
-            value: workspace.gid,
-          };
-        });
+        return workspaces.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.gid,
+        }));
       },
     },
     teams: {
@@ -41,12 +37,10 @@ export default {
       async options() {
         const teams = await this.getTeams();
 
-        return teams.map((team) => {
-          return {
-            label: team.name,
-            value: team.gid,
-          };
-        });
+        return teams.map((team) => ({
+          label: team.name,
+          value: team.gid,
+        }));
       },
     },
     projects: {
@@ -56,12 +50,10 @@ export default {
       async options() {
         const projects = await this.getProjects();
 
-        return projects.map((tag) => {
-          return {
-            label: tag.name,
-            value: tag.gid,
-          };
-        });
+        return projects.map((tag) => ({
+          label: tag.name,
+          value: tag.gid,
+        }));
       },
     },
     tags: {
@@ -86,12 +78,10 @@ export default {
       async options() {
         const users = await this.getUsers();
 
-        return users.map((user) => {
-          return {
-            label: user.name,
-            value: user.gid,
-          };
-        });
+        return users.map((user) => ({
+          label: user.name,
+          value: user.gid,
+        }));
       },
     },
     tasks: {
@@ -101,12 +91,10 @@ export default {
       async options({ projects }) {
         const tasks = await this.getTasks(projects);
 
-        return tasks.map((task) => {
-          return {
-            label: task.name,
-            value: task.gid,
-          };
-        });
+        return tasks.map((task) => ({
+          label: task.name,
+          value: task.gid,
+        }));
       },
     },
     sections: {
@@ -116,12 +104,10 @@ export default {
       async options({ projects }) {
         const sections = await this.getSections(projects);
 
-        return sections.map((section) => {
-          return {
-            label: section.name,
-            value: section.gid,
-          };
-        });
+        return sections.map((section) => ({
+          label: section.name,
+          value: section.gid,
+        }));
       },
     },
   },
@@ -156,14 +142,14 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    async _makeRequest(path, options = {}) {
+    async _makeRequest(path, options = {}, $ = undefined) {
       const config = {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
       };
 
-      return (await axios(config)).data;
+      return await axios($ ?? this, config);
     },
     /**
      * Create a webhook

@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-new-story",
   type: "source",
-  name: "New Story Added To Project",
+  name: "New Story Added To Project (Instant)",
   description: "Emit new event for each story added to a project.",
   version: "0.1.0",
   dedupe: "unique",

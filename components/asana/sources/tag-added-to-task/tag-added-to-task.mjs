@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   key: "asana-tag-added-to-task",
   type: "source",
-  name: "New Tag Added To Task",
+  name: "New Tag Added To Task (Instant)",
   description: "Emit new event for each new tag added to a task.",
   version: "0.1.0",
   props: {

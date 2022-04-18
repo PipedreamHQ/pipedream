@@ -3,7 +3,7 @@ import asana from "../../asana.app.mjs";
 export default {
   type: "source",
   key: "asana-new-project",
-  name: "New Project Added To Workspace",
+  name: "New Project Added To Workspace (Instant)",
   description: "Emit new event for each new project added to a workspace.",
   version: "0.1.0",
   dedupe: "unique",
