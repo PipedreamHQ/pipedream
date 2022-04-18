@@ -17,10 +17,10 @@ export default {
       ],
       optional: false,
     },
-    reply_channel: {
+    conversation: {
       propDefinition: [
         slack,
-        "reply_channel",
+        "conversation",
       ],
       optional: false,
     },

@@ -11,7 +11,7 @@ export default {
     team_id: {
       propDefinition: [
         slack,
-        "team_id",
+        "team",
       ],
       optional: true,
     },

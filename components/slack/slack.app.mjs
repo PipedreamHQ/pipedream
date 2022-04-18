@@ -231,6 +231,27 @@ export default {
         };
       },
     },
+    team: {
+      type: "string",
+      label: "Team",
+      description: "Select a team.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+
+        const resp = await this.getTeams(cursor);
+
+        return {
+          options: resp.teams.map((team) => ({
+            label: team.name,
+            value: team.id,
+          })),
+
+          context: {
+            cursor: resp.cursor,
+          },
+        };
+      },
+    },
     notificationText: {
       type: "string",
       label: "Notification Text",
@@ -313,7 +334,7 @@ export default {
     post_at: {
       label: "Post At",
       description: "Schedule the message to a specific moment. [See the docs here] (https://api.slack.com/messaging/scheduling)",
-      type: "int",
+      type: "integer",
       optional: true,
     },
     username: {
@@ -446,6 +467,21 @@ export default {
         };
       } else {
         console.log("Error getting users", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getTeams(cursor) {
+      const resp = await this.sdk().auth.teams.list({
+        cursor,
+      });
+
+      if (resp.ok) {
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          teams: resp.teams,
+        };
+      } else {
+        console.log("Error getting teams", resp.error);
         throw (resp.error);
       }
     },
