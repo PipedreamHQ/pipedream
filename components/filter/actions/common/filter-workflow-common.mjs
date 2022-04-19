@@ -4,10 +4,10 @@ import conditions from "../../common/conditions.mjs";
 export default {
   props: {
     filter,
-    inputField: {
+    operand1: {
       propDefinition: [
         filter,
-        "inputField",
+        "operand1",
       ],
     },
     condition: {
@@ -21,7 +21,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.isConditionBinary(this.condition)) {
-      props.valueToCompare = filter.propDefinitions.valueToCompare;
+      props.operand2 = filter.propDefinitions.operand2;
     }
     return props;
   },
@@ -41,8 +41,8 @@ export default {
   async run({ $ }) {
     const result = this.filter.checkCondition(
       this.condition,
-      this.inputField,
-      this.valueToCompare,
+      this.operand1,
+      this.operand2,
     );
     return this.consolidateResult($, result);
   },

@@ -10,10 +10,10 @@ export default {
       description: "The reason for continuing/ending the workflow. Please override this description",
       optional: true,
     },
-    inputField: {
+    operand1: {
       type: "any",
       label: "Value to evaluate",
-      description: "Enter a value here or reference one from a previous step to evaluate.",
+      description: "Enter a value here or reference one from a previous step to evaluate",
     },
     condition: {
       type: "string",
@@ -21,156 +21,156 @@ export default {
       description: "The condition for evaluation",
       options: conditions.options,
     },
-    valueToCompare: {
+    operand2: {
       type: "any",
       label: "Value to compare against",
-      description: "Enter another value here or reference one from a previous step to compare the initial value against.",
+      description: "Enter another value here or reference one from a previous step to compare the initial value against",
     },
   },
   methods: {
-    checkCondition(condition, inputField, valueToCompare) {
+    checkCondition(condition, operand1, operand2) {
       switch (condition) {
       case conditions.constants.IN:
-        return this.checkIfIn(inputField, valueToCompare);
+        return this.checkIfIn(operand1, operand2);
       case conditions.constants.NOT_IN:
-        return this.checkIfNotIn(inputField, valueToCompare);
+        return this.checkIfNotIn(operand1, operand2);
       case conditions.constants.TEXT_EQUALS:
-        return this.checkIfTextEquals(inputField, valueToCompare);
+        return this.checkIfTextEquals(operand1, operand2);
       case conditions.constants.TEXT_NOT_EQUALS:
-        return this.checkIfTextNotEquals(inputField, valueToCompare);
+        return this.checkIfTextNotEquals(operand1, operand2);
       case conditions.constants.STARTS_WITH:
-        return this.checkIfStartsWith(inputField, valueToCompare);
+        return this.checkIfStartsWith(operand1, operand2);
       case conditions.constants.NOT_STARTS_WITH:
-        return this.checkIfNotStartsWith(inputField, valueToCompare);
+        return this.checkIfNotStartsWith(operand1, operand2);
       case conditions.constants.ENDS_WITH:
-        return this.checkIfEndsWith(inputField, valueToCompare);
+        return this.checkIfEndsWith(operand1, operand2);
       case conditions.constants.NOT_ENDS_WITH:
-        return this.checkIfNotEndsWith(inputField, valueToCompare);
+        return this.checkIfNotEndsWith(operand1, operand2);
       case conditions.constants.GREATER_THAN:
-        return this.checkIfGreater(inputField, valueToCompare);
+        return this.checkIfGreater(operand1, operand2);
       case conditions.constants.GREATER_THAN_EQUALS:
-        return this.checkIfGreaterEquals(inputField, valueToCompare);
+        return this.checkIfGreaterEquals(operand1, operand2);
       case conditions.constants.LESS_THAN:
-        return this.checkIfLess(inputField, valueToCompare);
+        return this.checkIfLess(operand1, operand2);
       case conditions.constants.LESS_THAN_EQUALS:
-        return this.checkIfLessEquals(inputField, valueToCompare);
+        return this.checkIfLessEquals(operand1, operand2);
       case conditions.constants.EQUALS:
-        return this.checkIfEquals(inputField, valueToCompare);
+        return this.checkIfEquals(operand1, operand2);
       case conditions.constants.AFTER:
-        return this.checkIfAfter(inputField, valueToCompare);
+        return this.checkIfAfter(operand1, operand2);
       case conditions.constants.BEFORE:
-        return this.checkIfBefore(inputField, valueToCompare);
+        return this.checkIfBefore(operand1, operand2);
       case conditions.constants.DATE_EQUALS:
-        return this.checkIfDateEquals(inputField, valueToCompare);
+        return this.checkIfDateEquals(operand1, operand2);
       case conditions.constants.TRUE:
-        return this.checkIfTrue(inputField, valueToCompare);
+        return this.checkIfTrue(operand1, operand2);
       case conditions.constants.FALSE:
-        return this.checkIfFalse(inputField, valueToCompare);
+        return this.checkIfFalse(operand1, operand2);
       case conditions.constants.EXISTS:
-        return this.checkIfExists(inputField, valueToCompare);
+        return this.checkIfExists(operand1, operand2);
       case conditions.constants.NOT_EXISTS:
-        return this.checkIfNotExists(inputField, valueToCompare);
+        return this.checkIfNotExists(operand1, operand2);
       default:
         return false;
       }
     },
-    checkIfIn(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return inputField.includes(valueToCompare);
+    checkIfIn(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return operand1.includes(operand2);
     },
-    checkIfNotIn(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return !inputField.includes(valueToCompare);
+    checkIfNotIn(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return !operand1.includes(operand2);
     },
-    checkIfTextEquals(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return inputField === valueToCompare;
+    checkIfTextEquals(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return operand1 === operand2;
     },
-    checkIfTextNotEquals(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return inputField !== valueToCompare;
+    checkIfTextNotEquals(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return operand1 !== operand2;
     },
-    checkIfStartsWith(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return inputField.startsWith(valueToCompare);
+    checkIfStartsWith(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return operand1.startsWith(operand2);
     },
-    checkIfNotStartsWith(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return !inputField.startsWith(valueToCompare);
+    checkIfNotStartsWith(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return !operand1.startsWith(operand2);
     },
-    checkIfEndsWith(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return inputField.endsWith(valueToCompare);
+    checkIfEndsWith(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return operand1.endsWith(operand2);
     },
-    checkIfNotEndsWith(inputField, valueToCompare) {
-      inputField = this.convertToString(inputField);
-      valueToCompare = this.convertToString(valueToCompare);
-      return !inputField.endsWith(valueToCompare);
+    checkIfNotEndsWith(operand1, operand2) {
+      operand1 = this.convertToString(operand1);
+      operand2 = this.convertToString(operand2);
+      return !operand1.endsWith(operand2);
     },
-    checkIfGreater(inputField, valueToCompare) {
-      inputField = this.convertToNumber(inputField);
-      valueToCompare = this.convertToNumber(valueToCompare);
-      return inputField > valueToCompare;
+    checkIfGreater(operand1, operand2) {
+      operand1 = this.convertToNumber(operand1);
+      operand2 = this.convertToNumber(operand2);
+      return operand1 > operand2;
     },
-    checkIfGreaterEquals(inputField, valueToCompare) {
-      inputField = this.convertToNumber(inputField);
-      valueToCompare = this.convertToNumber(valueToCompare);
-      return inputField >= valueToCompare;
+    checkIfGreaterEquals(operand1, operand2) {
+      operand1 = this.convertToNumber(operand1);
+      operand2 = this.convertToNumber(operand2);
+      return operand1 >= operand2;
     },
-    checkIfLess(inputField, valueToCompare) {
-      inputField = this.convertToNumber(inputField);
-      valueToCompare = this.convertToNumber(valueToCompare);
-      return inputField < valueToCompare;
+    checkIfLess(operand1, operand2) {
+      operand1 = this.convertToNumber(operand1);
+      operand2 = this.convertToNumber(operand2);
+      return operand1 < operand2;
     },
-    checkIfLessEquals(inputField, valueToCompare) {
-      inputField = this.convertToNumber(inputField);
-      valueToCompare = this.convertToNumber(valueToCompare);
-      return inputField <= valueToCompare;
+    checkIfLessEquals(operand1, operand2) {
+      operand1 = this.convertToNumber(operand1);
+      operand2 = this.convertToNumber(operand2);
+      return operand1 <= operand2;
     },
-    checkIfEquals(inputField, valueToCompare) {
-      inputField = this.convertToNumber(inputField);
-      valueToCompare = this.convertToNumber(valueToCompare);
-      return inputField === valueToCompare;
+    checkIfEquals(operand1, operand2) {
+      operand1 = this.convertToNumber(operand1);
+      operand2 = this.convertToNumber(operand2);
+      return operand1 === operand2;
     },
-    checkIfAfter(inputField, valueToCompare) {
-      inputField = this.convertToDatetime(inputField);
-      valueToCompare = this.convertToDatetime(valueToCompare);
-      return inputField > valueToCompare;
+    checkIfAfter(operand1, operand2) {
+      operand1 = this.convertToDatetime(operand1);
+      operand2 = this.convertToDatetime(operand2);
+      return operand1 > operand2;
     },
-    checkIfBefore(inputField, valueToCompare) {
-      inputField = this.convertToDatetime(inputField);
-      valueToCompare = this.convertToDatetime(valueToCompare);
-      return inputField < valueToCompare;
+    checkIfBefore(operand1, operand2) {
+      operand1 = this.convertToDatetime(operand1);
+      operand2 = this.convertToDatetime(operand2);
+      return operand1 < operand2;
     },
-    checkIfDateEquals(inputField, valueToCompare) {
-      inputField = this.convertToDatetime(inputField);
-      valueToCompare = this.convertToDatetime(valueToCompare);
-      return inputField.getTime() === valueToCompare.getTime();
+    checkIfDateEquals(operand1, operand2) {
+      operand1 = this.convertToDatetime(operand1);
+      operand2 = this.convertToDatetime(operand2);
+      return operand1.getTime() === operand2.getTime();
     },
-    checkIfTrue(inputField) {
-      inputField = this.convertToBoolean(inputField);
-      return inputField;
+    checkIfTrue(operand1) {
+      operand1 = this.convertToBoolean(operand1);
+      return operand1;
     },
-    checkIfFalse(inputField) {
-      inputField = this.convertToBoolean(inputField);
-      return !inputField;
+    checkIfFalse(operand1) {
+      operand1 = this.convertToBoolean(operand1);
+      return !operand1;
     },
-    checkIfExists(inputField, valueToCompare) {
-      inputField = this.convertToObject(this.convertToString(inputField));
-      valueToCompare = this.convertToString(valueToCompare);
-      return valueToCompare in inputField;
+    checkIfExists(operand1, operand2) {
+      operand1 = this.convertToObject(this.convertToString(operand1));
+      operand2 = this.convertToString(operand2);
+      return operand2 in operand1;
     },
-    checkIfNotExists(inputField, valueToCompare) {
-      inputField = this.convertToObject(this.convertToString(inputField));
-      valueToCompare = this.convertToString(valueToCompare);
-      return !(valueToCompare in inputField);
+    checkIfNotExists(operand1, operand2) {
+      operand1 = this.convertToObject(this.convertToString(operand1));
+      operand2 = this.convertToString(operand2);
+      return !(operand2 in operand1);
     },
     convertToString(input) {
       return input.toString();
