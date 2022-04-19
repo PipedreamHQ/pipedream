@@ -1,10 +1,9 @@
-// import faunadb from "faunadb";
 import faunadb from "../../faunadb.app.mjs";
 
 export default {
   key: "faunadb-read-from-collection",
   name: "Read From FaunaDB Collection",
-  description: "Reads all documents from given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
+  description: "Reads all documents from a given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
   version: "0.4.2",
   type: "action",
   props: {
@@ -16,8 +15,8 @@ export default {
       ],
     },
     documentField: {
-      label: "Documents Field",
-      description: "The field that will be returned by query",
+      label: "Document Field",
+      description: "The value of the document field that will be returned by query",
       type: "string",
       optional: true,
     },
@@ -33,7 +32,7 @@ export default {
       documentField,
     });
 
-    $.export("summary", "Successfully retrieved collections documents");
+    $.export("summary", "Successfully retrieved the collection's documents");
 
     return response;
   },

@@ -26,7 +26,7 @@ export default {
         const collections = await this.getCollections();
 
         return collections.map((collection) => ({
-          label: collection.id,
+          label: collection.name,
           value: collection.id,
         }));
       },
@@ -60,7 +60,7 @@ export default {
       const client = this._createApiClient();
 
       const collections = [];
-      const collectionsPaginator = await client.paginate(Collections());
+      const collectionsPaginator = client.paginate(Collections());
 
       await collectionsPaginator.each((page) => {
         for (const collection of page) {
@@ -75,12 +75,12 @@ export default {
     }) {
       const client = this._createApiClient();
 
-      let { data } = await client.query(
+      const { data } = await client.query(
         Map(Paginate(Documents(Collection(collectionName))), Lambda("i", Get(Var("i")))),
       );
 
       if (documentField) {
-        data = data.map((x) => x.data[documentField]);
+        return data.map((x) => x.data[documentField]);
       }
 
       return data;
@@ -88,7 +88,7 @@ export default {
     async getEventsInCollectionAfterTs(collection, after) {
       const client = this._createApiClient();
 
-      const paginationHelper = await client.paginate(
+      const paginationHelper = client.paginate(
         Documents(Collection(collection)),
         {
           after,
