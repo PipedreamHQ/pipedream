@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import common from "../../common/common.mjs";
 
 export default {
   key: "create-bitlink",
@@ -37,6 +37,9 @@ export default {
       description: "Group GUID",
     },
   },
+  methods: {
+    ...common.methods,
+  },
   async run({ $ }) {
     const payload = {
       long_url: this.long_url,
@@ -45,14 +48,12 @@ export default {
       title: this.title,
     };
     this.tags && this.tags.length && (payload.tags = this.tags);
-    return await axios($, {
-      method: "post",
-      url: "https://api-ssl.bitly.com/v4/bitlinks",
-      headers: {
-        Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-      },
-      data: payload,
-    });
+    const result = await this.createBitlink(
+      $,
+      payload,
+      this.bitly.$auth.oauth_access_token
+    );
+    console.log("result", result);
+    return result;
   },
 };
