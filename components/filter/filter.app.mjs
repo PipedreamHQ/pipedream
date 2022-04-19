@@ -74,33 +74,6 @@ export default {
         return false;
       }
     },
-    convertToString(input) {
-      return input.toString();
-    },
-    convertToNumber(input) {
-      input = parseFloat(input);
-      if (isNaN(input)) {
-        throw new Error("Input cannot be converted to a number");
-      }
-      return input;
-    },
-    convertToBoolean(input) {
-      input = this.convertToString(input).toLowerCase();
-      if (input === "true") {
-        return true;
-      }
-      if (input === "false") {
-        return false;
-      }
-      throw new Error("Input cannot be converted to a boolean");
-    },
-    convertToDatetime(input) {
-      input = this.convertToNumber(input);
-      return new Date(input);
-    },
-    convertToObject(input) {
-      return JSON.parse(input);
-    },
     checkIfIn(inputField, valueToCompare) {
       inputField = this.convertToString(inputField);
       valueToCompare = this.convertToString(valueToCompare);
@@ -198,6 +171,33 @@ export default {
       inputField = this.convertToObject(this.convertToString(inputField));
       valueToCompare = this.convertToString(valueToCompare);
       return !(valueToCompare in inputField);
+    },
+    convertToString(input) {
+      return input.toString();
+    },
+    convertToNumber(input) {
+      input = parseFloat(input);
+      if (isNaN(input)) {
+        throw new Error("Input cannot be converted to a number");
+      }
+      return input;
+    },
+    convertToBoolean(input) {
+      input = this.convertToString(input).toLowerCase();
+      if (input === "true") {
+        return true;
+      }
+      if (input === "false") {
+        return false;
+      }
+      throw new Error("Input cannot be converted to a boolean");
+    },
+    convertToDatetime(input) {
+      input = this.convertToNumber(input);
+      return new Date(input);
+    },
+    convertToObject(input) {
+      return JSON.parse(input);
     },
   },
 };
