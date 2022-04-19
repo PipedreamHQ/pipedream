@@ -1,11 +1,12 @@
 // eslint-disable-next-line camelcase
 import data_stores from "../../data_stores.app.mjs";
+import xss from "xss";
 
 export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     data_stores,
@@ -23,82 +24,79 @@ export default {
     },
   },
   methods: {
-    //Parsing nested arrays recursively.
-    //e.g. [[{"a":"b"}],[[[{"c":"d"}, {"e":"f"}], {"g":"h"}]]]
-    //This allows to get key-value pairs in a nested array;
-    //So it will store the data even if there is no key provided for the array.
-    _parseDataRecursive(obj) {
-      let result = {};
-      if (Array.isArray(obj)) {
-        obj.forEach((o) => {
-          result = {
-            ...result,
-            ...this._parseDataRecursive(o),
-          };
-        });
-      } else if (typeof obj === "object") {
-        result = {
-          ...result,
-          ...obj,
-        };
-      } //else pass, because it is neither object nor array
-      return result;
-    },
-    //Handling all serialized and unserialized inputs
-    //to treat values as objects no matter how they entered.
-    _parseData(obj) {
-      if (typeof obj === "string") {
-        const sanitizedValue = this.data_stores.sanitizeJson(obj);
-        const json = JSON.parse(sanitizedValue);
-        return this._parseDataRecursive(json);
-      } else if (typeof obj === "object") {
-        const newObj = {};
-        for (const [
-          key,
-          value,
-        ] of Object.entries(obj)) {
-          if (typeof value === "string") {
-            try {
-              const sanitizedValue = this.data_stores.sanitizeJson(value);
-              const json = JSON.parse(sanitizedValue);
-              if (typeof json !== "object") {
-                newObj[key] = json;
-              } else {
-                newObj[key] = this._parseDataRecursive(json);
-              }
-            } catch (err) {
-              newObj[key] = value;
-            }
-          } else if (typeof value === "object") {
-            newObj[key] = this._parseDataRecursive(value);
-          } else {
-            newObj[key] = value;
-          }
-        }
-        return newObj;
+    /**
+     * Tries to convert a string to a JSON object or a primitive value.
+     * @param {any} value Value to be converted
+     * @returns The converted value
+     */
+    convertString(value) {
+      // If type is already primitive non string, return it
+      if ([
+        "boolean",
+        "number",
+      ].includes(typeof value)) {
+        return value;
       }
-      throw new Error("Unsupported expression");
+
+      // Tries to convert string to possible other primitive types
+      if (typeof value === "string") {
+        // Convert boolean
+        if (value.toLowerCase() === "true") {
+          return true;
+        }
+        if (value.toLowerCase() === "false") {
+          return false;
+        }
+
+        // Convert number
+        if (!isNaN(value)) {
+          return parseFloat(value);
+        }
+      }
+
+      // Try to evaluate string as javascript, using xss as extra security
+      // If some problem occurs, return the original string
+      try {
+        return eval(`(${xss(value)})`);
+      } catch {
+        return value;
+      }
+    },
+    /**
+     * Add all the key-value pairs in the map object to be used in the data store
+     * @param {*} data Data to be parsed
+     * @param {Map} map Hashmap to be updated
+     */
+    populateHashMapOfData(data, map) {
+      if (!Array.isArray(data) && typeof(data) === "object") {
+        const keys = Object.keys(data);
+        for (const key of keys) {
+          map[key] = this.convertString(data[key]);
+        }
+        return;
+      }
+
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          this.populateHashMapOfData(item, map);
+        }
+      }
+    },
+    getHashMapOfData(data) {
+      const map = {};
+      this.populateHashMapOfData(data, map);
+      return map;
     },
   },
   async run({ $ }) {
     if (typeof this.data === "string") {
-      try {
-        const sanitizedValue = this.data_stores.sanitizeJson(this.data);
-        JSON.parse(sanitizedValue);
-      } catch (err) {
-        throw new Error("please provide an object or object array!");
-      }
+      this.data = eval(`(${this.data})`);
     }
-    let data = this._parseData(this.data);
-    for (const [
-      key,
-      value,
-    ] of Object.entries(data)) {
-      this.data_store.set(key, value);
+    const map = this.getHashMapOfData(this.data);
+    const keys = Object.keys(map);
+    for (const key of keys) {
+      this.data_store.set(key, map[key]);
     }
-    let count = Object.keys(data).length;
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added or updated ${count} record${count !== 1 ? "s" : ""}.`);
-    return data;
+    $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
   },
 };
