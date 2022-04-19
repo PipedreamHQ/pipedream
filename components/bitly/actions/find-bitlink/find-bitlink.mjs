@@ -70,9 +70,7 @@ export default {
           "Content-Type": "application/json",
         },
       });
-    } catch (error) {
-      console.log("bitlinks", error);
-    }
+    } catch (error) {}
 
     if (!result && this.createBitlinkIfNotFound === "Yes") {
       const payload = {
