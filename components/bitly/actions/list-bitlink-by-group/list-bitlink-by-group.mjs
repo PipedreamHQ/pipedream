@@ -67,7 +67,8 @@ export default {
     },
     domain_deeplinks: {
       type: "string",
-      description: "Filter to only Bitlinks that contain deeplinks",
+      description:
+        "Filter to only Bitlinks that contain deeplinks configured with a custom domain",
       default: "both",
       optional: true,
       options: ["on", "off", "both"],
