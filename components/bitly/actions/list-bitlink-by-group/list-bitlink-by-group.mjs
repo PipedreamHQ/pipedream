@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { formatQueryString } from "../../common.utils.mjs";
+import { formatQueryString } from "../../common/common.utils.mjs";
 
 export default {
   key: "list-bitlink-by-group",
