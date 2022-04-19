@@ -39,7 +39,7 @@ export default {
         "issueState",
       ],
     },
-    assigneeUsername: {
+    assigneeId: {
       propDefinition: [
         gitlab,
         "assignee",
@@ -61,7 +61,7 @@ export default {
       "search",
       "labels",
       "state",
-      "assigneeUsername",
+      "assigneeId",
       "max",
     ]));
     opts.scope = constants.issues.scopes.ALL;
