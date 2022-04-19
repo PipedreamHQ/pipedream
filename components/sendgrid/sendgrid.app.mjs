@@ -1,9 +1,9 @@
-const axios = require("axios");
-const get = require("lodash/get");
-const retry = require("async-retry");
-const sendgrid = require("@sendgrid/client");
+import axios from "axios";
+import get from "lodash/get";
+import retry from "async-retry";
+import sendgrid from "@sendgrid/client";
 
-module.exports = {
+export default {
   type: "app",
   app: "sendgrid",
   methods: {

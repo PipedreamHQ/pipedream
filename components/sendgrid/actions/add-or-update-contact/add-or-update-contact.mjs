@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-add-or-update-contact",
   name: "Add or Update Contact",

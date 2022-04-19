@@ -1,6 +1,6 @@
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-add-email-to-global-supression",
   name: "Add Email to Global Supression",

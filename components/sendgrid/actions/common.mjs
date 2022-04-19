@@ -1,6 +1,6 @@
-const sendgrid = require("../sendgrid.app");
+import sendgrid from "../sendgrid.app.mjs";
 
-module.exports = {
+export default {
   props: {
     sendgrid,
   },

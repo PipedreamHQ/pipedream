@@ -1,6 +1,6 @@
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",

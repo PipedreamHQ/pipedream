@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     label: "Processed (Delivery Event)",
     value: "processed",

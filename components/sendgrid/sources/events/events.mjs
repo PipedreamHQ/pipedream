@@ -1,6 +1,6 @@
-const common = require("../common/http-based");
+import common from "../common/http-based";
 
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-events",
   name: "New Events (Instant)",

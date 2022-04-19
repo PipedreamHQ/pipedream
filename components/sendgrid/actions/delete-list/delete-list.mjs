@@ -1,5 +1,6 @@
-const common = require("../common");
-module.exports = {
+import common from "../common.mjs";
+
+export default {
   ...common,
   key: "sendgrid-delete-list",
   name: "Delete List",
