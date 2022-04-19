@@ -71,8 +71,8 @@ export default {
     const tags = this.tags ?
       Object.keys(this.tags).map((key) => this.tags[key])
       : null;
-    const to = this.to ?
-      JSON.parse(this.to)
+    const to = this.to
+      ? JSON.parse(this.to)
       : null;
     const cc = this.cc ?
       JSON.parse(this.cc)

@@ -5,10 +5,6 @@ export default {
   app: "sendinblue",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _getBaseUrl() {
       return "https://api.sendinblue.com/v3";
     },
@@ -32,8 +28,50 @@ export default {
           path: `/contacts/${identifier}`,
         }));
       } catch (exception) {
-        return false;
+        if (exception.status === 404) {
+          return false;
+        }
+        throw exception;
       }
+    },
+    async getContactsPaginated(prevContext) {
+      const limit = 20;
+      const offset = prevContext?.total
+        ? prevContext?.offset + limit
+        : 0;
+      const contactsLists = await this.getContacts(prevContext, limit, offset);
+      const options = contactsLists.contacts.map((element) => {
+        return {
+          label: element.email,
+          value: element.id,
+        };
+      });
+      return {
+        options,
+        context: {
+          offset: offset,
+          total: contactsLists.count,
+        },
+      };
+    },
+    async getContacts(ctx = this, limit, offset) {
+      try {
+        return await axios(ctx, this._getRequestParams({
+          method: "GET",
+          path: `/contacts?limit=${limit}&offset=${offset}`,
+        }));
+      } catch (exception) {
+        if (exception.status === 404) {
+          return false;
+        }
+        throw exception;
+      }
+    },
+    async getContactAttributes(ctx = this) {
+      return await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: "/contacts/attributes",
+      }));
     },
     async getListsPaginated(prevContext) {
       const limit = 20;
