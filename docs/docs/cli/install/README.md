@@ -4,6 +4,14 @@
 
 ## macOS
 
+### Homebrew
+
+```bash
+brew install pipedreamhq/pd-cli/pipedream
+```
+
+### From source
+
 Run the following command:
 
 ```bash
