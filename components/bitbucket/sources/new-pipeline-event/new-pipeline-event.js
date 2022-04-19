@@ -16,7 +16,7 @@ module.exports = {
       optional: true,
       propDefinition: [
         bitbucket,
-        "repositoryId",
+        "repositories",
         c => ({ workspaceId: c.workspaceId }),
       ],
     },

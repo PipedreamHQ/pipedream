@@ -9,7 +9,12 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
+    workspaceId: {
+      propDefinition: [
+        bitbucket,
+        "workspaces",
+      ],
+    },
   },
   hooks: {
     async activate() {
@@ -23,7 +28,7 @@ module.exports = {
       console.log(
         `Created webhook for ${JSON.stringify(hookPathProps)}.
         Hook parameters: ${JSON.stringify(hookParams)}.
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
+        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`,
       );
       this.db.set("hookId", hookId);
     },
@@ -37,7 +42,7 @@ module.exports = {
       await this.bitbucket.deleteHook(opts);
       console.log(
         `Deleted webhook for ${JSON.stringify(hookPathProps)}.
-        (Hook ID: ${hookId})`
+        (Hook ID: ${hookId})`,
       );
     },
   },

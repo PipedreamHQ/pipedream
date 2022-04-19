@@ -15,15 +15,17 @@ module.exports = {
     repositoryId: {
       propDefinition: [
         bitbucket,
-        "repositoryId",
-        c => ({ workspaceId: c.workspaceId }),
+        "repositories",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
     branchName: {
       propDefinition: [
         bitbucket,
-        "branchName",
-        c => ({
+        "branchs",
+        (c) => ({
           workspaceId: c.workspaceId,
           repositoryId: c.repositoryId,
         }),
@@ -52,7 +54,10 @@ module.exports = {
         "named_branch",
       ]);
       if (change.new) {
-        const { name, type } = change.new;
+        const {
+          name,
+          type,
+        } = change.new;
         return name === this.branchName && expectedChangeTypes.has(type);
       }
       return false;
@@ -125,10 +130,10 @@ module.exports = {
       const allCommitsCollected = [];
       for await (const commit of allCommits) {
         allCommitsCollected.push(commit);
-      };
+      }
 
-      allCommitsCollected.reverse().forEach(commit => {
-        const meta = this.generateMeta(commit)
+      allCommitsCollected.reverse().forEach((commit) => {
+        const meta = this.generateMeta(commit);
         this.$emit(commit, meta);
       });
     },
