@@ -14,10 +14,12 @@ export default {
     },
     long_url: {
       type: "string",
+      description: "URL to shorten",
     },
     title: {
       type: "string",
       optional: true,
+      description: "Bitlink title",
     },
     tags: {
       type: "string[]",
@@ -26,10 +28,13 @@ export default {
     domain: {
       type: "string",
       optional: true,
+      description:
+        "Bitlinks that contain deeplinks configured with a custom domain",
     },
     group_guid: {
       type: "string",
       optional: true,
+      description: "Group GUID",
     },
   },
   async run({ $ }) {
