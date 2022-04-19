@@ -13,6 +13,7 @@ export default {
     },
     bitlink_id: {
       type: "string",
+      description: "Bitlink ID",
     },
   },
   async run({ $ }) {
