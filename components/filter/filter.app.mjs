@@ -4,6 +4,12 @@ export default {
   type: "app",
   app: "filter",
   propDefinitions: {
+    reason: {
+      type: "string",
+      label: "Reason",
+      description: "The reason for continuing/ending the workflow. Please override this description",
+      optional: true,
+    },
     inputField: {
       type: "any",
       label: "Value to evaluate",
@@ -19,22 +25,6 @@ export default {
       type: "any",
       label: "Value to compare against",
       description: "Enter another value here or reference one from a previous step to compare the initial value against.",
-    },
-    continue: {
-      type: "string",
-      label: "Continue workflow?",
-      description: "Should workflow execution continue or stop if the condition is met?",
-      options: [
-        {
-          label: "Continue",
-          value: "true",
-        },
-        {
-          label: "Stop",
-          value: "false",
-        },
-      ],
-      default: "true",
     },
   },
   methods: {
