@@ -1,11 +1,11 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import _ from "lodash";
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
+export default {
   key: "google_calendar-new-or-updated-event",
   name: "New or Updated Event",
   description: "Emits when an event is created or updated (except when it's cancelled)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
@@ -13,8 +13,8 @@ module.exports = {
     calendarId: {
       type: "string",
       async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = _.get(calListResp, "data.items");
+        const calListResp = await this.googleCalendar.listCalendars();
+        const calendars = _.get(calListResp, "items");
         if (calendars) {
           const calendarIds = calendars.map((item) => {
             return {
@@ -47,9 +47,9 @@ module.exports = {
       singleEvents: true,
       orderBy: "startTime",
     };
-    const resp = await this.googleCalendar.getEvents(config);
+    const resp = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp.data, "items");
+    const events = _.get(resp, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
         if (event.status !== "cancelled") {
