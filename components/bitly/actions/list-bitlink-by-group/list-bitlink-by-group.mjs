@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 import { formatQueryString } from "../../common/common.utils.mjs";
 
 export default {
-  key: "list-bitlink-by-group",
+  key: "bitly-list-bitlink-by-group",
   name: "List Bitlinks by group",
   description: "Retrieves all Bitlinks for a given group.",
   version: "0.0.1",

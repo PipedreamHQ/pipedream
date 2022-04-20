@@ -1,7 +1,7 @@
 import common from "../../common/common.mjs";
 
 export default {
-  key: "create-bitlink",
+  key: "bitly-create-bitlink",
   name: "Create a Bitlink",
   description:
     "Converts a long url to a Bitlink and sets additional parameters.",

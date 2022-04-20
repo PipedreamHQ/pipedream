@@ -2,7 +2,7 @@ import common from "../../common/common.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "find-bitlink",
+  key: "bitly-find-bitlink",
   name: "Retrieve a Bitlink",
   description: "Returns information for the specified link.",
   version: "0.0.1",

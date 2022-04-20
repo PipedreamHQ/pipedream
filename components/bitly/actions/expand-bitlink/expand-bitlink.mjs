@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "expand-bitlink",
+  key: "bitly-expand-bitlink",
   name: "Expand a Bitlink",
   description: "Retrieves information about Bitlink using ID.",
   version: "0.0.1",
