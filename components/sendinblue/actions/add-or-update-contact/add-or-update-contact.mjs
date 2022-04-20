@@ -16,7 +16,7 @@ export default {
       optional: true,
       reloadProps: true,
       async options({ prevContext }) {
-        return this.sendinBlueApp.getContactsPaginated(prevContext);
+        return this.sendinBlueApp.getContactsPaginated(prevContext, false);
       },
     },
     email: {

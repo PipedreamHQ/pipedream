@@ -34,16 +34,23 @@ export default {
         throw exception;
       }
     },
-    async getContactsPaginated(prevContext) {
+    async getContactsPaginated(prevContext, serializedValue = false) {
       const limit = 20;
       const offset = prevContext?.total
         ? prevContext?.offset + limit
         : 0;
       const contactsLists = await this.getContacts(prevContext, limit, offset);
       const options = contactsLists.contacts.map((element) => {
+        const elementSerializedValue = {
+          id: element.id,
+          email: element.email,
+          name: element.attributes.NAME || element.attributes.FIRSTNAME || element.attributes.FNAME || "contact",
+        };
         return {
           label: element.email,
-          value: element.id,
+          value: serializedValue ?
+            JSON.stringify(elementSerializedValue) :
+            element.id,
         };
       });
       return {
@@ -99,6 +106,53 @@ export default {
         path: `/contacts/lists?limit=${limit}&offset=${offset}&sort=desc`,
       }));
     },
+    async getSendersFormattedOptions(prevContext) {
+      const sendersList = await this.getSenders(prevContext);
+      const options = sendersList.senders.map((element) => {
+        return {
+          label: element.name,
+          value: JSON.stringify({
+            name: element.name,
+            email: element.email,
+          }),
+        };
+      });
+      return {
+        options,
+      };
+    },
+    async getSenders(ctx = this) {
+      return await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: "/senders",
+      }));
+    },
+    async getTemplatesPaginated(prevContext) {
+      const limit = 20;
+      const offset = prevContext?.total
+        ? prevContext?.offset + limit
+        : 0;
+      const templatesList = await this.getTemplates(prevContext, limit, offset);
+      const options = templatesList.templates.map((element) => {
+        return {
+          label: element.name,
+          value: element.id,
+        };
+      });
+      return {
+        options,
+        context: {
+          offset: offset,
+          total: templatesList.count,
+        },
+      };
+    },
+    async getTemplates(ctx = this, limit, offset) {
+      return await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: `/smtp/templates?limit=${limit}&offset=${offset}&sort=desc`,
+      }));
+    },
     async addContact(ctx = this, attributes, listIds) {
       const newContactData = {
         email: attributes.EMAIL,
@@ -131,6 +185,8 @@ export default {
     },
     async sendTransactionalEmail(
       ctx = this,
+      useTemplate,
+      templateId,
       sender,
       replyTo,
       to,
@@ -142,19 +198,23 @@ export default {
       bcc,
     ) {
       const emailData = {
-        sender,
         to,
         replyTo,
-        subject,
-        htmlContent,
       };
-      if (tags) {
+      if (useTemplate) {
+        emailData.templateId = templateId;
+      } else {
+        emailData.sender = sender;
+        emailData.subject = subject;
+        emailData.htmlContent = htmlContent;
+      }
+      if (Array.isArray(tags) && tags.length > 0) {
         emailData.tags = tags;
       }
-      if (cc) {
+      if (Array.isArray(cc) && cc.length > 0) {
         emailData.cc = cc;
       }
-      if (bcc) {
+      if (Array.isArray(bcc) && bcc.length > 0) {
         emailData.bcc = bcc;
       }
       if (textContent) {
