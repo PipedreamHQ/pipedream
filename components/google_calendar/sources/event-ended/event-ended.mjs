@@ -11,21 +11,10 @@ export default {
   props: {
     googleCalendar,
     calendarId: {
-      type: "string",
-      async options() {
-        const calListResp = await this.googleCalendar.listCalendars();
-        const calendars = _.get(calListResp, "items");
-        if (calendars) {
-          const calendarIds = calendars.map((item) => {
-            return {
-              value: item.id,
-              label: item.summary,
-            };
-          });
-          return calendarIds;
-        }
-        return [];
-      },
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
     },
     timer: {
       type: "$.interface.timer",

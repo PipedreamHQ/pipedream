@@ -16,18 +16,10 @@ export default {
       type: "string[]",
       label: "Calendars",
       description: "Select one or more calendars to watch",
-      async options() {
-        const calListResp = await this.googleCalendar.listCalendars();
-        const calendars = calListResp?.items ?? [];
-        if (calendars && calendars.length) {
-          const calendarIds = calendars.map((item) => ({
-            value: item.id,
-            label: item.summary,
-          }));
-          return calendarIds;
-        }
-        return [];
-      },
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
     },
     newOnly: {
       label: "New events only?",

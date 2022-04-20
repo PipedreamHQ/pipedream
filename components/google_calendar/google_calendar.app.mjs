@@ -1,4 +1,4 @@
-import googleCalendar from "@googleapis/calendar";
+import calendar from "@googleapis/calendar";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -7,8 +7,54 @@ export default {
   propDefinitions: {
     calendarId: {
       label: "Calendar ID",
-      description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
       type: "string",
+      description: "Calendar identifier. To retrieve calendar IDs call the [calendarList.list](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list) method or **List Calendars** action component. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        if (nextPageToken === false) {
+          return [];
+        }
+        const response = await this.listCalendars({
+          pageToken: nextPageToken,
+        });
+        const options = response.items.map((item) => ({
+          label: item.summary,
+          value: item.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPageToken: response.nextPageToken ?? false,
+          },
+        };
+      },
+    },
+    eventId: {
+      label: "Event Name",
+      type: "string",
+      description: "Event identifier. To retreive event Ids from a calender.",
+      async options({
+        calendarId, prevContext,
+      }) {
+        const { nextPageToken } = prevContext;
+        if (nextPageToken === false) {
+          return [];
+        }
+        const response = await this.listEvents({
+          calendarId,
+          pageToken: nextPageToken,
+        });
+        const options = response.items.map((item) => ({
+          label: item.summary,
+          value: item.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPageToken: response.nextPageToken ?? false,
+          },
+        };
+      },
     },
     iCalUID: {
       label: "iCal UID",
@@ -33,18 +79,16 @@ export default {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
-      options() {
-        return [
-          {
-            label: "startTime",
-            value: "startTime",
-          },
-          {
-            label: "updated",
-            value: "updated",
-          },
-        ];
-      },
+      options: [
+        {
+          label: "startTime",
+          value: "startTime",
+        },
+        {
+          label: "updated",
+          value: "updated",
+        },
+      ],
       default: "startTime",
     },
     pageToken: {
@@ -119,18 +163,83 @@ export default {
       optional: true,
       type: "string",
     },
+    ruleId: {
+      label: "ACL rule identifier",
+      type: "string",
+      description: "ACL rule identifier.",
+      async options({
+        calendarId, prevContext,
+      }) {
+        const { nextPageToken } = prevContext;
+        if (nextPageToken === false) {
+          return [];
+        }
+        const response = await this.listAcls({
+          calendarId,
+          pageToken: nextPageToken,
+        });
+        const options = response.items.map((item) => ({
+          label: item.role,
+          value: item.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPageToken: response.nextPageToken ?? false,
+          },
+        };
+      },
+    },
+    role: {
+      label: "Role",
+      type: "string",
+      description: "The role assigned to the scope.",
+      optional: true,
+      options() {
+        const roles = [
+          "none",
+          "freeBusyReader",
+          "reader",
+          "writer",
+          "owner",
+        ];
+        return roles.map((role) => ({
+          label: role,
+          value: role,
+        }));
+      },
+    },
+    scopeType: {
+      label: "Type of the Scope",
+      type: "string",
+      description: "The extent to which calendar access is granted by this ACL rule.",
+      optional: true,
+      options() {
+        const types = [
+          "user",
+          "group",
+          "domain",
+        ];
+        return types.map((type) => ({
+          label: type,
+          value: type,
+        }));
+      },
+    },
+    scopeValue: {
+      label: "Value of the Scope",
+      type: "string",
+      description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
+      optional: true,
+    },
   },
   methods: {
-    _tokens() {
-      return {
-        access_token: this.$auth.oauth_access_token,
-        refresh_token: this.$auth.oauth_refresh_token,
-      };
-    },
     client() {
-      const auth = new googleCalendar.auth.OAuth2();
-      auth.setCredentials(this._tokens());
-      return new googleCalendar({
+      const auth = new calendar.auth.OAuth2();
+      auth.setCredentials({
+        access_token: this.$auth.oauth_access_token,
+      });
+      return calendar.calendar({
         version: "v3",
         auth,
       });
@@ -145,12 +254,12 @@ export default {
       try {
         const calendar = this.client();
         const response = await calendar[api][method](otherArgs);
-        console.log("response", `${api} ${method}`, otherArgs, response);
         return returnOnlyData
           ? response.data
           : response;
       } catch (error) {
-        console.error("Error!!!", error.response?.data || error);
+        console.error(JSON.stringify(error.response?.data, null, 2));
+        throw error.response?.data?.error?.message ?? error;
       }
     },
     async createCalendar(args = {}) {
@@ -213,6 +322,13 @@ export default {
       return this.requestHandler({
         api: constants.API.ACL.NAME,
         method: constants.API.ACL.METHOD.GET,
+        args,
+      });
+    },
+    async listAcls(args = {}) {
+      return this.requestHandler({
+        api: constants.API.ACL.NAME,
+        method: constants.API.ACL.METHOD.LIST,
         args,
       });
     },

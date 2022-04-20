@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-create-calendar",
   name: "Create a Calendar in an user account",
   description: "Create a Calendar in an user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendars.html#insert)",
-  version: "0.1.9",
+  version: "0.1.0",
   type: "action",
   props: {
     googleCalendar,
