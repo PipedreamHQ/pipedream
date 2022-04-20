@@ -5,7 +5,7 @@ export default {
   name: "Create a Bitlink",
   description:
     "Converts a long url to a Bitlink and sets additional parameters.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     bitly: {
