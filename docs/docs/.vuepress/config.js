@@ -18,6 +18,8 @@ module.exports = {
         stripExtension: true,
       },
     ],
+    "check-md",
+    "tabs"
   ],
   themeConfig,
   postcss: {

@@ -6,7 +6,7 @@ export default {
   name: "New Contact Note (Instant)",
   key: "activecampaign-new-contact-note",
   description: "Emit new event each time a new note is added to a contact.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -26,8 +26,8 @@ export default {
     },
     isRelevant(body) {
       return (
-        this.contacts.length === 0 ||
-        this.contacts.includes(body["contact[id]"])
+        this.contacts?.length === 0 ||
+        this.contacts?.includes(body["contact[id]"])
       );
     },
     getMeta(body) {

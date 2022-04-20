@@ -14,7 +14,7 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
 When you create a workflow, you'll see your available triggers:
 
@@ -41,7 +41,7 @@ Then you can select a specific test event and manually trigger your workflow wit
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[**Event sources**](/event-sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[**Event sources**](/sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
@@ -78,7 +78,7 @@ You can send any HTTP requests to this endpoint, from anywhere on the web. You c
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/workflows/steps/code/) or [action](/components/actions/) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/code/) or [action](/components#actions) step.
 
 ### Valid Requests
 
@@ -125,7 +125,7 @@ You can send any content, up to the [HTTP payload size limit](/limits/#http-requ
 
 _If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/event-sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
 
 ```bash
 curl -d '{ "name": "Yoda" }' \
@@ -140,11 +140,11 @@ In workflows, Pipedream saves the raw payload data in a file whose URL you can r
 
 ![Raw body URL in the event data under steps.trigger.event.body.raw_body_url](https://res.cloudinary.com/pipedreamin/image/upload/v1647895357/docs/components/CleanShot_2022-03-21_at_16.42.01_2x_w6dmqk.png)
 
-Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/code/nodejs/working-with-files/).
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
-_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
@@ -156,7 +156,7 @@ This will return the data in the variable `steps.send_http_request.$return_value
 
 #### Example: Download the HTTP payload to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 import stream from "stream";
@@ -171,7 +171,7 @@ await pipeline(
 );
 ```
 
-You can [read this file](/workflows/steps/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
+You can [read this file](/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
 
 #### How the payload data is saved
 
@@ -185,7 +185,7 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 _This interface is best used for uploading large files, like images or videos. If you're sending JSON or other data directly in the HTTP payload, and encountering a **Request Entity Too Large** error, review the section above for [sending large payloads](#sending-large-payloads)_.
 
-You can upload any file to a [workflow](/workflows/) or an [event source](/event-sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
+You can upload any file to a [workflow](/workflows/) or an [event source](/sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
 In workflows, these file URLs are provided in the `steps.trigger.event.body` variable, so you can download the file using the URL within your workflow, or pass the URL on to another third-party system for it to process.
 
@@ -193,7 +193,7 @@ In workflows, these file URLs are provided in the `steps.trigger.event.body` var
 <img alt="Raw file URL in event data" width="600px" src="./images/file-upload-urls.png">
 </div>
 
-Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/code/nodejs/working-with-files/).
 
 #### Example: upload a file using `cURL`
 
@@ -217,7 +217,7 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 
 #### Example: Download this file to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 import stream from "stream";
@@ -389,7 +389,7 @@ In this case, the request will still appear in the inspector, with information o
 
 Your API key is the host part of the endpoint, e.g. the `eniqtww30717` in `eniqtww30717.m.pipedream.net`. If you attempt to send a request to an endpoint that does not exist, we'll return a `404 Not Found` error.
 
-We'll also issue a 404 response on workflows with an HTTP trigger that have been [deactivated](/workflows/managing/#deactivating-workflows).
+We'll also issue a 404 response on workflows with an HTTP trigger that have been disabled.
 
 #### Too Many Requests
 
@@ -401,7 +401,7 @@ If you control the application sending requests, you should implement [a backoff
 
 ### Validating requests
 
-Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests using any [Node code](/workflows/steps/code/).
+Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests using any [Node.js code](/code/nodejs/).
 
 For example, you can [require requests pass a specific secret in a header](https://pipedream.com/@dylburger/end-a-workflow-early-on-invalid-secret-p_YyCmmK/edit). Just copy the workflow and add your secret as the value of the the **Secret** param. Add the rest of your code in steps below this initial one. Requests must contain the secret:
 
@@ -409,9 +409,9 @@ For example, you can [require requests pass a specific secret in a header](https
 curl -H 'X-Pipedream-Secret: abc123' https://myendpoint.m.pipedream.net
 ```
 
-Otherwise, the workflow will [end early](/workflows/steps/code/#end).
+Otherwise, the workflow will [end early](/code/nodejs/#ending-a-workflow-early).
 
-Since you can [run any Node code](/workflows/steps/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
+Since you can [run any code](/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
 
 ## Schedule
 
@@ -457,11 +457,11 @@ Clicking on a specific job shows the execution details for that job — all the 
 
 ### Trigger a notification to an external service (email, Slack, etc.)
 
-You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/components/actions/) or [Destination](/destinations/).
+You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/components#actions) or [Destination](/destinations/).
 
 If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/destinations/http/) to an external service.
 
-You can also [write code](/workflows/steps/code/) to trigger any complex notification logic you'd like.
+You can also [write code](/code/) to trigger any complex notification logic you'd like.
 
 ### Rate Limit
 
@@ -473,9 +473,9 @@ When you run a cron job, you may need to troubleshoot errors or other execution 
 
 Any time a cron job runs, you'll see a new execution appear in the [Inspector](/workflows/events/inspect/). This shows you when the cron job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
 
-Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
+Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
-[Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
+[Actions](/components#actions) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
 ## Email
 
@@ -505,7 +505,7 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 #### Example: Download the email using the Send HTTP Request action
 
-_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-large-email-content-p_A2CQedw/edit).
 
@@ -518,7 +518,7 @@ this.parsed = await simpleParser(steps.send_http_request.$return_value);
 
 #### Example: Download the email to the `/tmp` directory, read it and parse it
 
-[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
+[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
 import stream from "stream";
@@ -568,7 +568,7 @@ Choose the RSS trigger to watch an RSS feed for new items:
 <img alt="RSS source" width="400px" src="./images/rss.png">
 </div>
 
-This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
 ## Don't see a trigger you need?
 

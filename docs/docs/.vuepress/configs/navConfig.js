@@ -10,12 +10,18 @@ module.exports = {
       variant: "primary",
     },
     {
+      text: "Guides",
+      link: "/guides/",
+    },
+    {
       text: "Reference",
       items: [
         { text: "Building Components", link: "/components/" },
+        { text: "CLI", link: "/cli/install/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
-        { text: "Security & Privacy", link: "/privacy-and-security/"}
+        { text: "Security & Privacy", link: "/privacy-and-security/"},
+        { text: "Handling Cold Starts", link: "/workflows/events/cold-starts/"},
       ],
     },
   ], 
@@ -35,7 +41,7 @@ module.exports = {
       items: [
         {
           text: "v2",
-          link: "https://pipedream.com/docs-v2",
+          link: "https://pipedream.com/docs",
           internal: true,
           badge: "New",
           badgeVariation: "primary",
@@ -43,7 +49,7 @@ module.exports = {
         {
           text: "v1",
           internal: true,
-          link: "https://pipedream.com/docs",
+          link: "https://pipedream.com/docs/v1",
         },
       ],
     },

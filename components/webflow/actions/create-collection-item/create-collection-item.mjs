@@ -1,53 +1,63 @@
-// legacy_hash_id: a_q1ioGv
-import { axios } from "@pipedream/platform";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-create-collection-item",
-  name: "Create Item",
-  description: "Create new collection item",
-  version: "0.1.1",
+  name: "Create Collection Item",
+  description: "Create new collection item. [See the docs here](https://developers.webflow.com/#create-new-collection-item)",
+  version: "0.1.2",
   type: "action",
   props: {
-    webflow: {
-      type: "app",
-      app: "webflow",
+    webflow,
+    siteId: {
+      propDefinition: [
+        webflow,
+        "sites",
+      ],
+      optional: true,
     },
-    collection_id: {
-      type: "string",
+    collectionId: {
+      propDefinition: [
+        webflow,
+        "collections",
+        (c) => ({
+          siteId: c.siteId,
+        }),
+      ],
+    },
+    live: {
+      label: "Live",
+      description: "Indicate if the item should be published to the live site",
+      type: "boolean",
+      default: false,
     },
     name: {
+      label: "Name",
+      description: "Name given to the Item.",
       type: "string",
     },
     slug: {
+      label: "Slug",
+      description: "URL structure of the Item in your site.",
       type: "string",
-    },
-    _archived: {
-      type: "boolean",
-    },
-    _draft: {
-      type: "boolean",
     },
   },
   async run({ $ }) {
+    const webflow = this.webflow._createApiClient();
 
-    return await axios($, {
-      method: "post",
-      url: `https://api.webflow.com/collections/${this.collection_id}/items`,
-
-      headers: {
-        "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "accept-version": "1.0.0",
+    const response = await webflow.createItem({
+      collectionId: this.collectionId,
+      fields: {
+        name: this.name,
+        slug: this.slug,
+        _archived: false,
+        _draft: false,
       },
-      data: {
-        fields: {
-          name: this.name,
-          slug: this.slug,
-          _archived: this._archived,
-          _draft: this._draft,
-        },
-      },
+    }, {
+      live: this.live,
     });
+
+    $.export("$summary", `Successfully created collection item ${this.name}`);
+
+    return response;
   },
 };

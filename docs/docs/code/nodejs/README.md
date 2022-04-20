@@ -14,6 +14,8 @@ JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 :::
 
+[[toc]]
+
 ## Adding a code step
 
 1. Click the **+** button below any step of your workflow.
@@ -81,12 +83,12 @@ This defines [a Node.js component](/components/api/). Components let you:
 
 - Pass input to steps using [props](/code/nodejs/#passing-props-to-code-steps)
 - [Connect an account to a step](/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/triggers/#customizing-the-http-response)
+- [Issue HTTP responses](/workflows/steps/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
 
-- Any asynchronous code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any asynchronous code within a code step [**must** be run synchronously](/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 - You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/components/api/#actions).
 
@@ -101,7 +103,7 @@ export default defineComponent({
 });
 ```
 
-When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/steps/code/auth/#the-auths-object).
+When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/code/nodejs/auth/#accessing-connected-account-data-with-this-appname-auth).
 
 ## Logs
 
@@ -158,6 +160,34 @@ If you've used Node before, you'll notice there's no `package.json` file to uplo
 The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
 
 Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
+
+### Pinning package versions
+
+Each time you deploy a workflow with Node.js code, Pipedream downloads the npm packages you `import` in your step. **By default, Pipedream deploys the latest version of the npm package each time you deploy a change**.
+
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in the `import` string, for example: 
+
+```javascript
+import axios from "axios@0.19.2"
+``` 
+
+You can also pass the version specifiers used by npm to support [semantic version](https://semver.org/) upgrades. For example, to allow for future patch version upgrades:
+
+```javascript
+import axios from "axios@~0.20.0"
+```
+
+To allow for patch and minor version upgrades, use:
+
+```javascript
+import got from "got@^11.0.0"
+```
+
+::: warning
+The behavior of the caret (`^`) operator is different for 0.x versions, for which it will only match patch versions, and not minor versions.
+:::
+
+You can also specify different versions of the same package in different steps. Each step will used the associated version. Note that this also increases the size of your deployment, which can affect cold start times.
 
 ### CommonJS vs. ESM imports
 
@@ -218,14 +248,14 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 
 There are two ways to make HTTP requests in code steps:
 
-- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/steps/code/nodejs/http-requests/).
+- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/code/nodejs/http-requests/).
 - [Use `$send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/triggers/#http) using the [`$.respond()` function](/triggers/#customizing-the-http-response).
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#http-responses).
 
 ## Ending a workflow early
 

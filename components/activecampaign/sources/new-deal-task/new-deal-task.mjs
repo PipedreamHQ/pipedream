@@ -6,7 +6,7 @@ export default {
   name: "New Deal Task (Instant)",
   key: "activecampaign-new-deal-task",
   description: "Emit new event each time a new task is added to a deal.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -25,7 +25,7 @@ export default {
       ];
     },
     isRelevant(body) {
-      return this.deals.length === 0 || this.deals.includes(body["deal[id]"]);
+      return this.deals?.length === 0 || this.deals?.includes(body["deal[id]"]);
     },
     getMeta(body) {
       const { date_time: dateTimeIso } = body;
