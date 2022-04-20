@@ -16,8 +16,8 @@ export default {
         filter,
         "reason",
       ],
-      description: "The reason for ending the workflow",
-      default: reasons.END,
+      description: "The reason for continuing the workflow",
+      default: reasons.CONTINUE,
       optional: true,
     },
     ...common.props,
@@ -26,9 +26,9 @@ export default {
     ...common.methods,
     consolidateResult($, result) {
       if (result) {
-        return $.flow.exit(this.reason);
+        return $.flow.exit(reasons.END);
       }
-      return $.export("$summary", reasons.CONTINUE);
+      return $.export("$summary", this.reason);
     },
   },
 };
