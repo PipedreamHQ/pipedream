@@ -5,7 +5,7 @@ export default {
   key: "sendinblue-send-transactional-email",
   name: "Send transactional email",
   description: "Send transactional email",
-  version: "0.0.37",
+  version: "0.0.38",
   type: "action",
   props: {
     sendinBlueApp,
@@ -104,7 +104,6 @@ export default {
     return props;
   },
   async run({ $ }) {
-    $.export("data", this);
     const sender = this.sender ?
       JSON.parse(this.sender) :
       null;
