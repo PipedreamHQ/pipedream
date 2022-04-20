@@ -53,6 +53,11 @@ export default {
         optional: true,
         description: "Group GUID",
       };
+      props["deeplinks"] = {
+        type: "string[]",
+        optional: true,
+        description: `Provide an object. Each object should represent a row. (e.g. {"app_id":"com.bitly.app","app_uri_path": "/store?id=123456","install_url": "https://play.google.com/store/apps/details?id=com.bitly.app&hl=en_US","install_type": "promote_install" })`,
+      };
     }
     return props;
   },
@@ -73,6 +78,7 @@ export default {
     } catch (error) {}
 
     if (!result && this.createBitlinkIfNotFound === "Yes") {
+      const updatedDeepLink = this.formatDeepLink(this.deeplinks);
       const payload = {
         long_url: this.long_url,
         domain: this.domain,
@@ -80,12 +86,12 @@ export default {
         title: this.title,
       };
       this.tags && this.tags.length && (payload.tags = this.tags);
-      const resultA = await this.createBitlink(
+      updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
+      return await this.createBitlink(
         $,
         payload,
         this.bitly.$auth.oauth_access_token
       );
-      return resultA;
     }
     return result;
   },
