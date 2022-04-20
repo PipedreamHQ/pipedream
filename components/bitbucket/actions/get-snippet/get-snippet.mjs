@@ -1,5 +1,5 @@
 import common from "../common/common.mjs";
-import bitbucket from "../../bitbucket.app.mjs";
+const { bitbucket } = common.props;
 
 export default {
   key: "bitbucket-get-snippet",

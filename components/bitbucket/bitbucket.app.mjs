@@ -33,7 +33,7 @@ export default {
 
         return repositories.map((repository) => ({
           label: repository.name,
-          value: repository.uuid,
+          value: repository.name,
         }));
       },
     },
@@ -41,32 +41,18 @@ export default {
       type: "string",
       label: "Branch Name",
       description: "Select a branch",
-      async options(context) {
-        const {
+      async options({
+        workspaceId, repositoryId, page,
+      }) {
+        const branchs = await this.getBranchs({
           workspaceId,
           repositoryId,
-        } = context;
-        const url = this._repositoryBranchesEndpoint(workspaceId, repositoryId);
-        const params = {
-          sort: "name",
-          fields: [
-            "next",
-            "values.name",
-          ],
-        };
-
-        const data = await this._propDefinitionsOptions(url, params, context);
-        const options = data.values.map((branch) => ({
-          label: branch.name,
-          value: branch.name,
-        }));
-        return {
-          options,
-          context: {
-            // https://developer.atlassian.com/bitbucket/api/2/reference/meta/pagination
-            nextPageUrl: data.next,
+          params: {
+            page: page + 1 ?? 1,
           },
-        };
+        });
+
+        return branchs.map((branch) => branch.name);
       },
     },
     issues: {
@@ -214,17 +200,23 @@ export default {
         ...options,
       });
     },
-    async _createWebhook(data) {
-      return await this._makeRequest("webhooks", {
+    async _createWebhook({
+      path, workspaceId, url, events,
+    }) {
+      return await this._makeRequest(path, {
         method: "post",
         data: {
-          ...data,
-          externalSubscriber: "PIPEDREAM",
+          description: `Webhook ${workspaceId} ${events}`,
+          url,
+          events,
+          active: true,
         },
       });
     },
-    async _removeWebhook(webhookId) {
-      return await this._makeRequest(`webhooks/${webhookId}`, {
+    async _removeWebhook({
+      path, webhookId,
+    }) {
+      return await this._makeRequest(`${path}/${webhookId}`, {
         method: "delete",
       });
     },
@@ -503,6 +495,15 @@ export default {
       workspaceId, repositoryId, filename,
     }, $ = undefined) {
       return await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/downloads/${filename}`, {}, $);
+    },
+    async getBranchs({
+      workspaceId, repositoryId, params,
+    }, $ = undefined) {
+      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/refs/branches`, {
+        params,
+      }, $);
+
+      return response.values;
     },
   },
 };
