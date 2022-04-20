@@ -20,11 +20,13 @@ export default {
       type: "string",
       description: "The quantity of items to be be returned",
       optional: true,
+      default: "5",
     },
     page: {
       type: "string",
       description: "Integer specifying the numbered result at which to start",
       optional: true,
+      default: "1",
     },
     keyword: {
       type: "string",
@@ -110,6 +112,10 @@ export default {
     },
   },
   async run({ $ }) {
+    let next;
+    let data = [];
+    let pagination = {};
+    let result = null;
     const payload = {
       size: this.size,
       page: this.page,
@@ -128,16 +134,38 @@ export default {
       launchpad_ids: this.launchpad_ids,
       encoding_login: this.encoding_login,
     };
+
     const queryString = formatQueryString(payload);
-    return await axios($, {
-      method: "get",
-      url: `https://api-ssl.bitly.com/v4/groups/${this.group_guid}/bitlinks${
-        queryString ? `?${queryString}` : ""
-      }`,
-      headers: {
-        Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    let url = `https://api-ssl.bitly.com/v4/groups/${this.group_guid}/bitlinks${
+      queryString ? `?${queryString}` : ""
+    }`;
+    do {
+      next = null;
+      result = null;
+      try {
+        result = await axios($, {
+          method: "get",
+          url,
+          headers: {
+            Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        next = null;
+      }
+      if (result) {
+        next = result.pagination?.next;
+        next && (url = result.pagination?.next);
+        result.links?.length && (data = [...data, ...result.links]);
+        pagination = result.pagination;
+      }
+    } while (next);
+    if (result) {
+      $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
+    } else {
+      throw new Error("An error occured getting Bitlinks");
+    }
+    return { links: data, pagination };
   },
 };
