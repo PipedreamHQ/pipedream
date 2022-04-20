@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import { axios, ConfigurationError } from "@pipedream/platform";
 import { formatQueryString } from "../../common/common.utils.mjs";
 
 export default {
@@ -152,7 +152,7 @@ export default {
           },
         });
       } catch (error) {
-        next = null;
+        throw new ConfigurationError("An error occured getting Bitlinks");
       }
       if (result) {
         next = result.pagination?.next;
@@ -161,11 +161,7 @@ export default {
         pagination = result.pagination;
       }
     } while (next);
-    if (result) {
-      $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
-    } else {
-      throw new Error("An error occured getting Bitlinks");
-    }
+    $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
     return { links: data, pagination };
   },
 };
