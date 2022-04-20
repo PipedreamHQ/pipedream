@@ -8,7 +8,7 @@ Sign up for a [free Pipedream account (no credit card required)](https://pipedre
 
 First, create a new workflow by clicking **New** from [https://pipedream.com/workflows](https://pipedream.com/workflows):
 
-![image-20210516114638660](https://pipedream.com/docs/assets/img/image-20210516114638660.739caab0.png)
+![Create a new workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1649265557/docs/components/CleanShot_2022-04-06_at_13.19.08_2x_bncysa.png)
 
 ## Add an HTTP / Webhook trigger
 

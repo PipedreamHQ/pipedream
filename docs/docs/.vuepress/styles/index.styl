@@ -1,3 +1,5 @@
+@require '~vuepress-plugin-tabs/dist/themes/default.styl'
+
 body
 	font-family system-ui,BlinkMacSystemFont,-apple-system, sans-serif, Helvetica, Roboto, "Helvetica Neue", Arial, sans-serif
 
@@ -41,10 +43,14 @@ div .sidebar-button svg
 	margin-left: -25px
 	margin-top: 1px
 
-p, ol, ul {
+p {
   display: block
   margin-block-start: 1em
   margin-block-end: 1em
   margin-inline-start: 0px
   margin-inline-end: 0px
+}
+
+*:not(li)>ul {
+  margin-top: 1em;
 }

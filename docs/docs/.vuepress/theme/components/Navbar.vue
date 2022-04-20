@@ -55,6 +55,7 @@ import NavLinks from "@theme/components/NavLinks.vue";
 
 export default {
   name: "Navbar",
+  props: ["repoLink"],
 
   components: {
     SidebarButton,

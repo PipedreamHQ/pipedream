@@ -334,7 +334,7 @@ export default {
             offset: prevContext.offset || 0,
           },
         },
-        resourceName: "list",
+        resourceName: "lists",
         mapper: ({
           id, name,
         }) => ({
