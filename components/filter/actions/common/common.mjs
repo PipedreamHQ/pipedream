@@ -23,14 +23,36 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    props.operand1 = filter.propDefinitions.operand1;
+
+    if (this.filter.isArray(this.valueType)) {
+      this.buildArrayProps(props);
+    } else {
+      props.operand1 = filter.propDefinitions.operand1;
+    }
+
     if (this.filter.isBinary(this.valueType)) {
       props.operand2 = filter.propDefinitions.operand2;
     }
+
     if (this.filter.isText(this.valueType)) {
       props.caseSensitive = filter.propDefinitions.caseSensitive;
     }
+
     return props;
+  },
+  methods: {
+    buildArrayProps(props) {
+      props.arrayType = filter.propDefinitions.arrayType;
+
+      if (this.arrayType) {
+        props.operand1 = {
+          ...filter.propDefinitions.operand1,
+          type: this.arrayType,
+        };
+      } else {
+        props.operand1 = filter.propDefinitions.operand1;
+      }
+    },
   },
   async run({ $ }) {
     const result = this.filter.checkCondition(

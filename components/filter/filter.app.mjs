@@ -32,6 +32,8 @@ export default {
           return conditions.booleanOptions;
         case conditions.types.NULL:
           return conditions.nullOptions;
+        case conditions.types.ARRAY:
+          return conditions.arrayOptions;
         case conditions.types.OBJECT:
           return conditions.objectOptions;
         default:
@@ -49,6 +51,17 @@ export default {
       label: "Value to compare against",
       description: "Enter another value here or reference one from a previous step to compare the initial value against",
     },
+    arrayType: {
+      type: "string",
+      label: "Value Sub Type for Array Comparison",
+      description: "Type of the value to search for in the array",
+      options: [
+        "string",
+        "integer",
+        "boolean",
+      ],
+      reloadProps: true,
+    },
     caseSensitive: {
       type: "boolean",
       label: "Case Sensitive",
@@ -62,6 +75,7 @@ export default {
       case conditions.types.TEXT:
       case conditions.types.NUMBER:
       case conditions.types.DATETIME:
+      case conditions.types.ARRAY:
       case conditions.types.OBJECT:
         return true;
       default:
@@ -70,6 +84,9 @@ export default {
     },
     isText(valueType) {
       return valueType === conditions.types.TEXT;
+    },
+    isArray(valueType) {
+      return valueType === conditions.types.ARRAY;
     },
     checkCondition(condition, operand1, operand2, caseSensitive) {
       switch (condition) {
@@ -113,6 +130,10 @@ export default {
         return this.checkIfIsNull(operand1);
       case conditions.constants.NOT_NULL:
         return !this.checkIfIsNull(operand1);
+      case conditions.constants.IN_ARRAY:
+        return this.checkIfInArray(operand1, operand2);
+      case conditions.constants.NOT_IN_ARRAY:
+        return !this.checkIfInArray(operand1, operand2);
       case conditions.constants.KEY_EXISTS:
         return this.checkIfKeyExists(operand1, operand2);
       case conditions.constants.KEY_NOT_EXISTS:
@@ -189,6 +210,10 @@ export default {
       operand1 = this.convertToString(operand1);
       return (operand1 === "null" || operand1 === "undefined");
     },
+    checkIfInArray(operand1, operand2) {
+      operand2 = this.convertToArray(operand2);
+      return operand2.includes(operand1);
+    },
     checkIfKeyExists(operand1, operand2) {
       operand1 = this.convertToObject(this.convertToString(operand1));
       operand2 = this.convertToString(operand2);
@@ -225,12 +250,23 @@ export default {
       }
       return input;
     },
+    convertToArray(input) {
+      try {
+        input = JSON.parse(this.convertToString(input));
+        if (!Array.isArray(input)) {
+          throw new Error();
+        }
+        return input;
+      } catch (e) {
+        throw new Error("Input cannot be converted to an array");
+      }
+    },
     convertToObject(input) {
       try {
         input = this.convertToString(input);
         return JSON.parse(input);
       } catch (e) {
-        throw new Error("Input cannot be converted to an object:", e);
+        throw new Error("Input cannot be converted to an object");
       }
     },
   },

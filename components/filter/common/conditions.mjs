@@ -4,6 +4,7 @@ const types = {
   DATETIME: "DATETIME",
   BOOLEAN: "BOOLEAN",
   NULL: "NULL",
+  ARRAY: "ARRAY",
   OBJECT: "OBJECT",
 };
 
@@ -28,6 +29,8 @@ const constants = {
   FALSE: "FALSE",
   IS_NULL: "IS_NULL",
   NOT_NULL: "NOT_NULL",
+  IN_ARRAY: "IN_ARRAY",
+  NOT_IN_ARRAY: "NOT_IN_ARRAY",
   KEY_EXISTS: "KEY_EXISTS",
   KEY_NOT_EXISTS: "KEY_NOT_EXISTS",
 };
@@ -127,6 +130,17 @@ const nullOptions = [
   },
 ];
 
+const arrayOptions = [
+  {
+    label: "Is in array",
+    value: constants.IN_ARRAY,
+  },
+  {
+    label: "Is not in array",
+    value: constants.NOT_IN_ARRAY,
+  },
+];
+
 const objectOptions = [
   {
     label: "Key exists and value is not null or undefined",
@@ -146,5 +160,6 @@ export default {
   dateTimeOptions,
   booleanOptions,
   nullOptions,
+  arrayOptions,
   objectOptions,
 };
