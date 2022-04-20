@@ -49,6 +49,12 @@ export default {
       label: "Value to compare against",
       description: "Enter another value here or reference one from a previous step to compare the initial value against",
     },
+    caseSensitive: {
+      type: "boolean",
+      label: "Case Sensitive",
+      description: "Should the text comparison be case sensitive?",
+      default: false,
+    },
   },
   methods: {
     isBinary(valueType) {
@@ -62,24 +68,27 @@ export default {
         return false;
       }
     },
-    checkCondition(condition, operand1, operand2) {
+    isText(valueType) {
+      return valueType === conditions.types.TEXT;
+    },
+    checkCondition(condition, operand1, operand2, caseSensitive) {
       switch (condition) {
       case conditions.constants.IN:
-        return this.checkIfIn(operand1, operand2);
+        return this.checkIfIn(operand1, operand2, caseSensitive);
       case conditions.constants.NOT_IN:
-        return !this.checkIfIn(operand1, operand2);
+        return !this.checkIfIn(operand1, operand2, caseSensitive);
       case conditions.constants.TEXT_EQUALS:
-        return this.checkIfTextEquals(operand1, operand2);
+        return this.checkIfTextEquals(operand1, operand2, caseSensitive);
       case conditions.constants.TEXT_NOT_EQUALS:
-        return !this.checkIfTextEquals(operand1, operand2);
+        return !this.checkIfTextEquals(operand1, operand2, caseSensitive);
       case conditions.constants.STARTS_WITH:
-        return this.checkIfStartsWith(operand1, operand2);
+        return this.checkIfStartsWith(operand1, operand2, caseSensitive);
       case conditions.constants.NOT_STARTS_WITH:
-        return !this.checkIfStartsWith(operand1, operand2);
+        return !this.checkIfStartsWith(operand1, operand2, caseSensitive);
       case conditions.constants.ENDS_WITH:
-        return this.checkIfEndsWith(operand1, operand2);
+        return this.checkIfEndsWith(operand1, operand2, caseSensitive);
       case conditions.constants.NOT_ENDS_WITH:
-        return !this.checkIfEndsWith(operand1, operand2);
+        return !this.checkIfEndsWith(operand1, operand2, caseSensitive);
       case conditions.constants.GREATER_THAN:
         return this.checkIfGreater(operand1, operand2);
       case conditions.constants.GREATER_THAN_EQUALS:
@@ -112,24 +121,24 @@ export default {
         throw new Error("Condition operation not supported");
       }
     },
-    checkIfIn(operand1, operand2) {
-      operand1 = this.convertToString(operand1);
-      operand2 = this.convertToString(operand2);
+    checkIfIn(operand1, operand2, caseSensitive) {
+      operand1 = this.convertToString(operand1, caseSensitive);
+      operand2 = this.convertToString(operand2, caseSensitive);
       return operand1.includes(operand2);
     },
-    checkIfTextEquals(operand1, operand2) {
-      operand1 = this.convertToString(operand1);
-      operand2 = this.convertToString(operand2);
+    checkIfTextEquals(operand1, operand2, caseSensitive) {
+      operand1 = this.convertToString(operand1, caseSensitive);
+      operand2 = this.convertToString(operand2, caseSensitive);
       return operand1 === operand2;
     },
-    checkIfStartsWith(operand1, operand2) {
-      operand1 = this.convertToString(operand1);
-      operand2 = this.convertToString(operand2);
+    checkIfStartsWith(operand1, operand2, caseSensitive) {
+      operand1 = this.convertToString(operand1, caseSensitive);
+      operand2 = this.convertToString(operand2, caseSensitive);
       return operand1.startsWith(operand2);
     },
-    checkIfEndsWith(operand1, operand2) {
-      operand1 = this.convertToString(operand1);
-      operand2 = this.convertToString(operand2);
+    checkIfEndsWith(operand1, operand2, caseSensitive) {
+      operand1 = this.convertToString(operand1, caseSensitive);
+      operand2 = this.convertToString(operand2, caseSensitive);
       return operand1.endsWith(operand2);
     },
     checkIfGreater(operand1, operand2) {
@@ -185,8 +194,12 @@ export default {
       operand2 = this.convertToString(operand2);
       return operand2 in operand1 && !this.checkIfIsNull(operand1[operand2]);
     },
-    convertToString(input) {
-      return input.toString();
+    convertToString(input, caseSensitive = true) {
+      input = input.toString();
+      if (!caseSensitive) {
+        return input.toLowerCase();
+      }
+      return input;
     },
     convertToNumber(input) {
       input = parseFloat(input);

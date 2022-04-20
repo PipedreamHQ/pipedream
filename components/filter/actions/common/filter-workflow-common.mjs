@@ -27,6 +27,9 @@ export default {
     if (this.filter.isBinary(this.valueType)) {
       props.operand2 = filter.propDefinitions.operand2;
     }
+    if (this.filter.isText(this.valueType)) {
+      props.caseSensitive = filter.propDefinitions.caseSensitive;
+    }
     return props;
   },
   async run({ $ }) {
@@ -34,6 +37,7 @@ export default {
       this.condition,
       this.operand1,
       this.operand2,
+      this.caseSensitive,
     );
     return this.consolidateResult($, result);
   },
