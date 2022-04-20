@@ -31,7 +31,7 @@ export default {
                   ].includes(key)
                 ) {
                   this.deepLinkErrors.push(
-                    `deeplinks[${i}]error: ${key} is not present or allowed in object`
+                    `deeplinks[${i}] error: ${key} is not present or allowed in object`
                   );
                 }
               });

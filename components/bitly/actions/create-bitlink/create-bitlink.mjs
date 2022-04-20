@@ -53,14 +53,10 @@ export default {
     ...common.methods,
   },
   async run({ $ }) {
+    const { long_url, domain, group_guid, title, tags } = this;
     const updatedDeepLink = this.formatDeepLink(this.deeplinks);
-    const payload = {
-      long_url: this.long_url,
-      domain: this.domain,
-      group_guid: this.group_guid,
-      title: this.title,
-    };
-    this.tags && this.tags.length && (payload.tags = this.tags);
+    const payload = { long_url, domain, group_guid, title };
+    tags && tags.length && (payload.tags = tags);
     updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
     return await this.createBitlink(
       $,
