@@ -10,16 +10,39 @@ export default {
       description: "The reason for continuing/ending the workflow. Please override this description",
       optional: true,
     },
-    operand1: {
-      type: "any",
-      label: "Value to evaluate",
-      description: "Enter a value here or reference one from a previous step to evaluate",
+    valueType: {
+      type: "string",
+      label: "Value Type",
+      description: "Type of the value to evaluate",
+      options: Object.keys(conditions.types),
     },
     condition: {
       type: "string",
       label: "Condition",
       description: "The condition for evaluation",
-      options: conditions.options,
+      async options({ valueType }) {
+        switch (valueType) {
+        case conditions.types.TEXT:
+          return conditions.textOptions;
+        case conditions.types.NUMBER:
+          return conditions.numberOptions;
+        case conditions.types.DATETIME:
+          return conditions.dateTimeOptions;
+        case conditions.types.BOOLEAN:
+          return conditions.booleanOptions;
+        case conditions.types.NULL:
+          return conditions.nullOptions;
+        case conditions.types.OBJECT:
+          return conditions.objectOptions;
+        default:
+          throw new Error("Value Type not supported");
+        }
+      },
+    },
+    operand1: {
+      type: "any",
+      label: "Value to evaluate",
+      description: "Enter a value here or reference one from a previous step to evaluate",
     },
     operand2: {
       type: "any",
@@ -28,6 +51,17 @@ export default {
     },
   },
   methods: {
+    isBinary(valueType) {
+      switch (valueType) {
+      case conditions.types.TEXT:
+      case conditions.types.NUMBER:
+      case conditions.types.DATETIME:
+      case conditions.types.OBJECT:
+        return true;
+      default:
+        return false;
+      }
+    },
     checkCondition(condition, operand1, operand2) {
       switch (condition) {
       case conditions.constants.IN:
@@ -66,10 +100,14 @@ export default {
         return this.checkIfTrue(operand1, operand2);
       case conditions.constants.FALSE:
         return this.checkIfFalse(operand1, operand2);
-      case conditions.constants.EXISTS:
-        return this.checkIfExists(operand1, operand2);
-      case conditions.constants.NOT_EXISTS:
-        return this.checkIfNotExists(operand1, operand2);
+      case conditions.constants.IS_NULL:
+        return this.checkIfIsNull(operand1);
+      case conditions.constants.NOT_NULL:
+        return this.checkIfIsNotNull(operand1);
+      case conditions.constants.KEY_EXISTS:
+        return this.checkIfKeyExists(operand1, operand2);
+      case conditions.constants.KEY_NOT_EXISTS:
+        return this.checkIfKeyNotExists(operand1, operand2);
       default:
         return false;
       }
@@ -162,15 +200,23 @@ export default {
       operand1 = this.convertToBoolean(operand1);
       return !operand1;
     },
-    checkIfExists(operand1, operand2) {
-      operand1 = this.convertToObject(this.convertToString(operand1));
-      operand2 = this.convertToString(operand2);
-      return operand2 in operand1;
+    checkIfIsNull(operand1) {
+      operand1 = this.convertToString(operand1);
+      return (operand1 === "null" || operand1 === "undefined");
     },
-    checkIfNotExists(operand1, operand2) {
+    checkIfIsNotNull(operand1) {
+      operand1 = this.convertToString(operand1);
+      return (operand1 !== "null" && operand1 !== "undefined");
+    },
+    checkIfKeyExists(operand1, operand2) {
       operand1 = this.convertToObject(this.convertToString(operand1));
       operand2 = this.convertToString(operand2);
-      return !(operand2 in operand1);
+      return operand2 in operand1 && this.checkIfIsNotNull(operand1[operand2]);
+    },
+    checkIfKeyNotExists(operand1, operand2) {
+      operand1 = this.convertToObject(this.convertToString(operand1));
+      operand2 = this.convertToString(operand2);
+      return !(operand2 in operand1) || this.checkIfIsNull(operand1[operand2]);
     },
     convertToString(input) {
       return input.toString();

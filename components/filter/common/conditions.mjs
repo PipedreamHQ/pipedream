@@ -1,3 +1,12 @@
+const types = {
+  TEXT: "TEXT",
+  NUMBER: "NUMBER",
+  DATETIME: "DATETIME",
+  BOOLEAN: "BOOLEAN",
+  NULL: "NULL",
+  OBJECT: "OBJECT",
+};
+
 const constants = {
   IN: "IN",
   NOT_IN: "NOT_IN",
@@ -17,94 +26,125 @@ const constants = {
   DATE_EQUALS: "DATE_EQUALS",
   TRUE: "TRUE",
   FALSE: "FALSE",
-  EXISTS: "EXISTS",
-  NOT_EXISTS: "NOT_EXISTS",
+  IS_NULL: "IS_NULL",
+  NOT_NULL: "NOT_NULL",
+  KEY_EXISTS: "KEY_EXISTS",
+  KEY_NOT_EXISTS: "KEY_NOT_EXISTS",
 };
 
-const options = [
+const textOptions = [
   {
-    label: "Contains (text)",
+    label: "Contains",
     value: constants.IN,
   },
   {
-    label: "Does not contain (text)",
+    label: "Does not contain",
     value: constants.NOT_IN,
   },
   {
-    label: "Matches exactly (text)",
+    label: "Matches exactly",
     value: constants.TEXT_EQUALS,
   },
   {
-    label: "Does not exactly match (text)",
+    label: "Does not exactly match",
     value: constants.TEXT_NOT_EQUALS,
   },
   {
-    label: "Starts with (text)",
+    label: "Starts with",
     value: constants.STARTS_WITH,
   },
   {
-    label: "Does not start with (text)",
+    label: "Does not start with",
     value: constants.NOT_STARTS_WITH,
   },
   {
-    label: "Ends with (text)",
+    label: "Ends with",
     value: constants.ENDS_WITH,
   },
   {
-    label: "Does not end with (text)",
+    label: "Does not end with",
     value: constants.NOT_ENDS_WITH,
   },
+];
+
+const numberOptions = [
   {
-    label: "Greater than (number)",
+    label: "Greater than",
     value: constants.GREATER_THAN,
   },
   {
-    label: "Greater than or equals (number)",
+    label: "Greater than or equals",
     value: constants.GREATER_THAN_EQUALS,
   },
   {
-    label: "Less than (number)",
+    label: "Less than",
     value: constants.LESS_THAN,
   },
   {
-    label: "Less than or equals (number)",
+    label: "Less than or equals",
     value: constants.LESS_THAN_EQUALS,
   },
   {
-    label: "Is equal to (number)",
+    label: "Is equal to",
     value: constants.EQUALS,
   },
+];
+
+const dateTimeOptions = [
   {
-    label: "After (date/time)",
+    label: "After",
     value: constants.AFTER,
   },
   {
-    label: "Before (date/time)",
+    label: "Before",
     value: constants.BEFORE,
   },
   {
-    label: "Equals (date/time)",
+    label: "Equals",
     value: constants.DATE_EQUALS,
   },
+];
+
+const booleanOptions = [
   {
-    label: "Is True (boolean)",
+    label: "Is True",
     value: constants.TRUE,
   },
   {
-    label: "Is False (boolean)",
+    label: "Is False",
     value: constants.FALSE,
   },
+];
+
+const nullOptions = [
   {
-    label: "Exists (object key)",
-    value: constants.EXISTS,
+    label: "Is null or undefined",
+    value: constants.IS_NULL,
   },
   {
-    label: "Does not exist (object key)",
-    value: constants.NOT_EXISTS,
+    label: "Is not null or undefined",
+    value: constants.NOT_NULL,
+  },
+];
+
+const objectOptions = [
+  {
+    label: "Key exists and value is not null or undefined",
+    value: constants.KEY_EXISTS,
+  },
+  {
+    label: "Key does not exist or value is null or undefined",
+    value: constants.KEY_NOT_EXISTS,
   },
 ];
 
 export default {
+  types,
   constants,
-  options,
+  textOptions,
+  numberOptions,
+  dateTimeOptions,
+  booleanOptions,
+  nullOptions,
+  objectOptions,
 };

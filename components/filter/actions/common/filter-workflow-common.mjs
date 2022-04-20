@@ -1,42 +1,33 @@
 import filter from "../../filter.app.mjs";
-import conditions from "../../common/conditions.mjs";
 
 export default {
   props: {
     filter,
-    operand1: {
+    valueType: {
       propDefinition: [
         filter,
-        "operand1",
+        "valueType",
       ],
+      reloadProps: true,
     },
     condition: {
       propDefinition: [
         filter,
         "condition",
+        (c) => ({
+          valueType: c.valueType,
+        }),
       ],
       reloadProps: true,
     },
   },
   async additionalProps() {
     const props = {};
-    if (this.isConditionBinary(this.condition)) {
+    props.operand1 = filter.propDefinitions.operand1;
+    if (this.filter.isBinary(this.valueType)) {
       props.operand2 = filter.propDefinitions.operand2;
     }
     return props;
-  },
-  methods: {
-    isConditionBinary(condition) {
-      switch (condition) {
-      case conditions.constants.TRUE:
-      case conditions.constants.FALSE:
-      case conditions.constants.EXISTS:
-      case conditions.constants.NOT_EXISTS:
-        return false;
-      default:
-        return true;
-      }
-    },
   },
   async run({ $ }) {
     const result = this.filter.checkCondition(
