@@ -38,8 +38,15 @@ export default {
     deeplinks: {
       type: "string[]",
       optional: true,
-      description:
-        'Provide an object. Each object should represent a row. (e.g. {"app_id":"com.bitly.app","app_uri_path": "/store?id=123456","install_url": "https://play.google.com/store/apps/details?id=com.bitly.app&hl=en_US","install_type": "promote_install" })',
+      description: `Provide an object. Each object should represent a row.
+        See documentation: https://dev.bitly.com/api-reference#createFullBitlink
+        Example:
+        \`{
+          "app_id":"com.bitly.app",
+          "app_uri_path": "/store?id=123456",
+          "install_url": "https://play.google.com/store/apps/details?id=com.bitly.app&hl=en_US",
+          "install_type": "promote_install"
+        }\``,
     },
   },
   methods: {
