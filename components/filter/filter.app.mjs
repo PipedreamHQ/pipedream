@@ -70,24 +70,6 @@ export default {
     },
   },
   methods: {
-    isBinary(valueType) {
-      switch (valueType) {
-      case conditions.types.TEXT:
-      case conditions.types.NUMBER:
-      case conditions.types.DATETIME:
-      case conditions.types.ARRAY:
-      case conditions.types.OBJECT:
-        return true;
-      default:
-        return false;
-      }
-    },
-    isText(valueType) {
-      return valueType === conditions.types.TEXT;
-    },
-    isArray(valueType) {
-      return valueType === conditions.types.ARRAY;
-    },
     checkCondition(condition, operand1, operand2, caseSensitive) {
       switch (condition) {
       case conditions.constants.IN:
@@ -203,24 +185,18 @@ export default {
       return operand1.getTime() === operand2.getTime();
     },
     checkIfTrue(operand1) {
-      operand1 = this.convertToBoolean(operand1);
       return operand1;
     },
     checkIfIsNull(operand1) {
-      operand1 = this.convertToString(operand1);
       return (operand1 === "null" || operand1 === "undefined");
     },
     checkIfInArray(operand1, operand2) {
-      operand2 = this.convertToArray(operand2);
       return operand2.includes(operand1);
     },
     checkIfKeyExists(operand1, operand2) {
-      operand1 = this.convertToObject(this.convertToString(operand1));
-      operand2 = this.convertToString(operand2);
-      return operand2 in operand1 && !this.checkIfIsNull(operand1[operand2]);
+      return operand1 in operand2 && !this.checkIfIsNull(operand2[operand1]);
     },
     convertToString(input, caseSensitive = true) {
-      input = input.toString();
       if (!caseSensitive) {
         return input.toLowerCase();
       }
@@ -233,41 +209,12 @@ export default {
       }
       return input;
     },
-    convertToBoolean(input) {
-      input = this.convertToString(input).toLowerCase();
-      if (input === "true") {
-        return true;
-      }
-      if (input === "false") {
-        return false;
-      }
-      throw new Error("Input cannot be converted to a boolean");
-    },
     convertToDateTime(input) {
-      input = new Date(this.convertToNumber(input));
+      input = new Date(input);
       if (isNaN(input)) {
         throw new Error("Input cannot be converted to datetime");
       }
       return input;
-    },
-    convertToArray(input) {
-      try {
-        input = JSON.parse(this.convertToString(input));
-        if (!Array.isArray(input)) {
-          throw new Error();
-        }
-        return input;
-      } catch (e) {
-        throw new Error("Input cannot be converted to an array");
-      }
-    },
-    convertToObject(input) {
-      try {
-        input = this.convertToString(input);
-        return JSON.parse(input);
-      } catch (e) {
-        throw new Error("Input cannot be converted to an object");
-      }
     },
   },
 };

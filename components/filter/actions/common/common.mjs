@@ -1,3 +1,4 @@
+import conditions from "../../common/conditions.mjs";
 import filter from "../../filter.app.mjs";
 
 export default {
@@ -22,26 +23,79 @@ export default {
     },
   },
   async additionalProps() {
-    const props = {};
-
-    if (this.filter.isArray(this.valueType)) {
-      this.buildArrayProps(props);
-    } else {
-      props.operand1 = filter.propDefinitions.operand1;
+    switch (this.valueType) {
+    case conditions.types.TEXT:
+      return this.buildTextProps();
+    case conditions.types.NUMBER:
+      return this.buildNumberProps();
+    case conditions.types.DATETIME:
+      return this.buildDateTimeProps();
+    case conditions.types.BOOLEAN:
+      return this.buildBooleanProps();
+    case conditions.types.NULL:
+      return this.buildNullProps();
+    case conditions.types.ARRAY:
+      return this.buildArrayProps();
+    case conditions.types.OBJECT:
+      return this.buildObjectProps();
     }
-
-    if (this.filter.isBinary(this.valueType)) {
-      props.operand2 = filter.propDefinitions.operand2;
-    }
-
-    if (this.filter.isText(this.valueType)) {
-      props.caseSensitive = filter.propDefinitions.caseSensitive;
-    }
-
-    return props;
   },
   methods: {
-    buildArrayProps(props) {
+    buildTextProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "string",
+        },
+        operand2: {
+          ...filter.propDefinitions.operand2,
+          type: "string",
+        },
+        caseSensitive: filter.propDefinitions.caseSensitive,
+      };
+    },
+    buildNumberProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "string", // needs to accept float
+        },
+        operand2: {
+          ...filter.propDefinitions.operand2,
+          type: "string", // needs to accept float
+        },
+      };
+    },
+    buildDateTimeProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "integer",
+        },
+        operand2: {
+          ...filter.propDefinitions.operand2,
+          type: "integer",
+        },
+      };
+    },
+    buildBooleanProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "boolean",
+        },
+      };
+    },
+    buildNullProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "string",
+        },
+      };
+    },
+    buildArrayProps() {
+      const props = {};
       props.arrayType = filter.propDefinitions.arrayType;
 
       if (this.arrayType) {
@@ -49,9 +103,27 @@ export default {
           ...filter.propDefinitions.operand1,
           type: this.arrayType,
         };
+        props.operand2 = {
+          ...filter.propDefinitions.operand2,
+          type: `${this.arrayType}[]`,
+        };
       } else {
         props.operand1 = filter.propDefinitions.operand1;
       }
+
+      return props;
+    },
+    buildObjectProps() {
+      return {
+        operand1: {
+          ...filter.propDefinitions.operand1,
+          type: "string",
+        },
+        operand2: {
+          ...filter.propDefinitions.operand2,
+          type: "object",
+        },
+      };
     },
   },
   async run({ $ }) {
