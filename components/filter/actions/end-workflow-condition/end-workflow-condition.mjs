@@ -1,5 +1,5 @@
 import filter from "../../filter.app.mjs";
-import common from "../common/filter-workflow-common.mjs";
+import common from "../common/common.mjs";
 import reasons from "../../common/reasons.mjs";
 
 export default {
