@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "bitly-expand-bitlink",
@@ -17,16 +18,21 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      method: "post",
-      url: "https://api-ssl.bitly.com/v4/expand",
-      headers: {
-        Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-      },
-      data: {
-        bitlink_id: this.bitlink_id,
-      },
-    });
+    const { bitlink_id } = this;
+    const data = { bitlink_id };
+
+    try {
+      return await axios($, {
+        method: "post",
+        url: "https://api-ssl.bitly.com/v4/expand",
+        headers: {
+          Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+        },
+        data,
+      });
+    } catch (error) {
+      throw new ConfigurationError("An error occured expanding Bitlink");
+    }
   },
 };

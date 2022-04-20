@@ -1,4 +1,6 @@
-import common from "../../common/common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import bitly from "../../bitly.app.mjs";
+import { formatDeepLink } from "../../common/common.utils.mjs";
 
 export default {
   key: "bitly-create-bitlink",
@@ -8,10 +10,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    bitly: {
-      type: "app",
-      app: "bitly",
-    },
+    bitly,
     long_url: {
       type: "string",
       description: "URL to shorten",
@@ -49,19 +48,18 @@ export default {
         }\``,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run({ $ }) {
     const { long_url, domain, group_guid, title, tags } = this;
-    const updatedDeepLink = this.formatDeepLink(this.deeplinks);
+    const updatedDeepLink = formatDeepLink(this.deeplinks);
     const payload = { long_url, domain, group_guid, title };
     tags && tags.length && (payload.tags = tags);
     updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
-    return await this.createBitlink(
-      $,
-      payload,
-      this.bitly.$auth.oauth_access_token
-    );
+    try {
+      const response = await this.bitly.createBitlink(payload);
+      response && $.export("$summary", "Bitlink created successfully");
+      return response;
+    } catch (error) {
+      throw new ConfigurationError("An error occured creating Bitlink");
+    }
   },
 };

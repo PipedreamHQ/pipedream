@@ -1,5 +1,6 @@
-import common from "../../common/common.mjs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import { formatDeepLink } from "../../common/common.utils.mjs";
+import bitly from "../../bitly.app.mjs";
 
 export default {
   key: "bitly-find-bitlink",
@@ -8,10 +9,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    bitly: {
-      type: "app",
-      app: "bitly",
-    },
+    bitly,
     bitlink: {
       type: "string",
       description: "Bitlink url",
@@ -61,38 +59,34 @@ export default {
     }
     return props;
   },
-  methods: {
-    ...common.methods,
-  },
   async run({ $ }) {
-    let result;
+    let bitlinkDetail;
     try {
-      result = await axios($, {
-        method: "get",
-        url: `https://api-ssl.bitly.com/v4/bitlinks/${this.bitlink}`,
-        headers: {
-          Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {}
-
-    if (!result && this.createBitlinkIfNotFound === "Yes") {
-      const updatedDeepLink = this.formatDeepLink(this.deeplinks);
-      const payload = {
-        long_url: this.long_url,
-        domain: this.domain,
-        group_guid: this.group_guid,
-        title: this.title,
-      };
-      this.tags && this.tags.length && (payload.tags = this.tags);
-      updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
-      return await this.createBitlink(
-        $,
-        payload,
-        this.bitly.$auth.oauth_access_token
-      );
+      bitlinkDetail = await this.bitly.getBitlink(this.bitlink);
+    } catch (error) {
+      if (this.createBitlinkIfNotFound === "Yes") {
+        $.export("$summary", "Bitlink not found. Creating new Bitlink");
+      } else {
+        throw new ConfigurationError("Bitlink not found");
+      }
     }
-    return result;
+
+    if (!bitlinkDetail && this.createBitlinkIfNotFound === "Yes") {
+      const { long_url, domain, group_guid, title, tags } = this;
+      const payload = { long_url, domain, group_guid, title };
+      const updatedDeepLink = formatDeepLink(this.deeplinks);
+
+      tags && tags.length && (payload.tags = tags);
+      updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
+
+      try {
+        const response = await this.bitly.createBitlink(payload);
+        response && $.export("$summary", "Bitlink created successfully");
+        return response;
+      } catch (error) {
+        throw new ConfigurationError("An error occured creating Bitlink");
+      }
+    }
+    return bitlinkDetail;
   },
 };
