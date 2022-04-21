@@ -21,6 +21,19 @@ export default {
         headers: this._getHeaders(),
       };
     },
+    async createHook(ctx = this, createWebhookData) {
+      return await axios(ctx, this._getRequestParams({
+        method: "POST",
+        path: "/webhooks",
+        data: createWebhookData,
+      }));
+    },
+    async deleteHook(ctx = this, hookId) {
+      return await axios(ctx, this._getRequestParams({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+      }));
+    },
     async existingContactByIdentifier(ctx = this, identifier) {
       try {
         return await axios(ctx, this._getRequestParams({
