@@ -69,7 +69,7 @@ function fieldToProp(field) {
   return {
     type: fieldTypeToPropType(field.type),
     label: field.name,
-    description: field.description ?? "",
+    description: field.description,
     optional: true,
     options: field.options?.choices.map((choice) => ({
       label: choice.name,
@@ -93,7 +93,7 @@ function makeFieldProps(tableSchema) {
     throw new Error(`Error parsing table schema ${tableSchema}`);
   }
   for (const field of table.fields) {
-    props[`${FIELD_PREFIX}${field.id}`] = fieldToProp(field);
+    props[`${FIELD_PREFIX}${field.name}`] = fieldToProp(field);
   }
   return props;
 }
