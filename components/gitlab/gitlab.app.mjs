@@ -26,6 +26,26 @@ export default {
         };
       },
     },
+    groupPath: {
+      type: "string",
+      label: "Group ID",
+      description: "The group path, as displayed in the main group page",
+      async options({ prevContext }) {
+        const response = await this.listGroups({
+          min_access_level: 50, // owner role
+          page: prevContext.nextPage,
+        });
+        return {
+          options: response.data.map((group) => ({
+            label: group.fullPath,
+            value: group.path,
+          })),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+    },
     branch: {
       type: "string",
       label: "Branch Name",
@@ -199,6 +219,9 @@ export default {
     },
     async listProjects(opts = {}) {
       return this.listAll(this._gitlabClient().Projects, null, opts);
+    },
+    async listGroups(opts = {}) {
+      return this.listAll(this._gitlabClient().Groups, null, opts);
     },
     async listProjectMembers(projectId, opts = {}) {
       return this.listAll(this._gitlabClient().ProjectMembers, projectId, opts);
