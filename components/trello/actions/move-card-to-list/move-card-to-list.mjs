@@ -1,139 +1,53 @@
-// legacy_hash_id: a_vgi8nA
-import { axios } from "@pipedream/platform";
+import common from "../common.js";
 
 export default {
+  ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
-  description: "Moves a specific card to a list on the specified board.",
-  version: "0.1.1",
+  description: "Moves a card to the specified board/list pair. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
+  version: "0.1.2",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
     },
-    id: {
+    idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card to move.",
+      label: "Card",
+      description: "The ID of the card to move",
+      optional: false,
     },
-    name: {
+    toIdList: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "The new name for the card.",
-      optional: true,
-    },
-    desc: {
-      type: "string",
-      description: "The new description for the card.",
-      optional: true,
-    },
-    closed: {
-      type: "boolean",
-      description: "Whether the card should be archived (closed: true).",
-      optional: true,
-    },
-    idMembers: {
-      type: "string",
-      description: "Comma-separated list of member IDs.",
-      optional: true,
-    },
-    idAttachmentCover: {
-      type: "string",
-      description: "The ID of the image attachment the card should use as its cover, or null for none.",
-      optional: true,
-    },
-    idList: {
-      type: "string",
-      description: "The ID of the list the card should be in.",
-    },
-    idLabels: {
-      type: "string",
-      description: "Comma-separated list of label IDs.",
-      optional: true,
-    },
-    idBoard: {
-      type: "string",
-      description: "The ID of the board the card should be on.",
-      optional: true,
-    },
-    pos: {
-      type: "string",
-      description: "The position of the card in its list. top, bottom, or a positive float.",
-      optional: true,
-    },
-    due: {
-      type: "string",
-      description: "When the card is due, or null.",
-      optional: true,
-    },
-    dueComplete: {
-      type: "boolean",
-      description: "Whether the due date should be marked complete.",
-      optional: true,
-    },
-    subscribed: {
-      type: "boolean",
-      description: "Whether the member is should be subscribed to the card.",
-      optional: true,
-    },
-    address: {
-      type: "string",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
-    },
-    locationName: {
-      type: "string",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
-    },
-    coordinates: {
-      type: "string",
-      description: "For use with/by the Map Power-Up. Should be latitude, longitude.",
-      optional: true,
+      label: "List",
+      description: "The ID of the list that the card should be moved to.",
+      optional: false,
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-    const trelloParams = [
-      "name",
-      "desc",
-      "closed",
-      "idMembers",
-      "idAttachmentCover",
-      "idList",
-      "idLabels",
-      "idBoard",
-      "pos",
-      "due",
-      "dueComplete",
-      "subscribed",
-      "address",
-      "locationName",
-      "coordinates",
-    ];
-    let p = this;
-
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}?${queryString}`,
-      method: "PUT",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    const res = await this.trello.moveCardToList(this.idCard, {
+      idBoard: this.board,
+      idList: this.toIdList,
+    }, $);
+    $.export("$summary", `Successfully moved card ${this.idCard} to list ${this.toIdList}`);
+    return res;
   },
 };

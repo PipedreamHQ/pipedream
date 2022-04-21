@@ -2,7 +2,7 @@ import currencies from "./currencies.mjs";
 
 const VERSION_PATH = "/api/3";
 const UPDATED_TIMESTAMP = "updatedTimestamp";
-const DEFAULT_LIMIT = 1;
+const DEFAULT_LIMIT = 100;
 const ALL_SOURCES = [
   "public",
   "admin",

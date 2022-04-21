@@ -6,7 +6,7 @@ export default {
   name: "New Automation Webhook",
   key: "activecampaign-new-automation-webhook",
   description: "Emit new event each time an automation sends out webhook data.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -27,8 +27,8 @@ export default {
   methods: {
     isWatchedAutomation(automation) {
       return (
-        this.automations.length === 0 ||
-        this.automations.includes(automation.id)
+        this.automations?.length === 0 ||
+        this.automations?.includes(automation.id)
       );
     },
     isAutomationRelevant(automation) {
