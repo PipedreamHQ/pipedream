@@ -1,10 +1,10 @@
 import webflow from "../../webflow.app.mjs";
 
 export default {
-  key: "webflow-get-collection-item",
-  name: "Get Collection Item",
-  description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
-  version: "0.1.3",
+  key: "webflow-delete-collection-item",
+  name: "Delete Collection Item",
+  description: "Delete Item of a Collection. [See the docs here](https://developers.webflow.com/#remove-collection-item)",
+  version: "0.0.1",
   type: "action",
   props: {
     webflow,
@@ -37,12 +37,12 @@ export default {
   async run({ $ }) {
     const webflow = this.webflow._createApiClient();
 
-    const response = await webflow.item({
+    const response = await webflow.removeItem({
       collectionId: this.collectionId,
       itemId: this.itemId,
     });
 
-    $.export("$summary", "Successfully retrieved collection item");
+    $.export("$summary", "Successfully deleted item");
 
     return response;
   },

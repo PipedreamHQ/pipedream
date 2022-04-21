@@ -1,10 +1,10 @@
 import webflow from "../../webflow.app.mjs";
 
 export default {
-  key: "webflow-get-collection-item",
-  name: "Get Collection Item",
-  description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
-  version: "0.1.3",
+  key: "webflow-get-item-inventory",
+  name: "Get Item Inventory",
+  description: "Get the inventory of a specific item. [See the docs here](https://developers.webflow.com/#item-inventory)",
+  version: "0.0.1",
   type: "action",
   props: {
     webflow,
@@ -35,14 +35,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const webflow = this.webflow._createApiClient();
+    const apiClient = this.webflow._createApiClient();
 
-    const response = await webflow.item({
-      collectionId: this.collectionId,
-      itemId: this.itemId,
-    });
+    const response = await apiClient.apiClient.get(`/collections/${this.collectionId}/items/${this.itemId}/inventory`);
 
-    $.export("$summary", "Successfully retrieved collection item");
+    $.export("$summary", "Successfully retrieved item inventory");
 
     return response;
   },

@@ -1,20 +1,20 @@
 {
-  "name": "@pipedream/webflow",
+  "name": "@pipedream/segment",
   "version": "0.3.3",
-  "description": "Pipedream Webflow Components",
-  "main": "webflow.app.mjs",
+  "description": "Pipedream Segment Components",
+  "main": "segment.app.mjs",
   "keywords": [
     "pipedream",
-    "webflow"
+    "segment"
   ],
-  "homepage": "https://pipedream.com/apps/webflow",
+  "homepage": "https://pipedream.com/apps/segment",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
-  "dependencies": {
-    "webflow-api": "^0.5.0"
-  },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
   }
 }
