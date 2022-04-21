@@ -23,7 +23,7 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return `workspaces/${this.workspaceId}/hooks`;
+      return `repositories/${this.workspaceId}/${this.repositoryId}/hooks`;
     },
     getWebhookEventTypes() {
       return [
