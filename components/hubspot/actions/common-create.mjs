@@ -53,13 +53,11 @@ export default {
       return !property.modificationMetadata?.readOnlyValue
         && !property.hidden
         && !property.label.includes("(legacy)")
-        && (!property.options || property.options.length <= 500);
+        && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
+        && !property.fieldType === "checkbox"; // checkbox (string[]) props must be semicolon separated strings
     },
     makePropDefinition(property) {
       let type = "string";
-      if (property.fieldType === "checkbox") {
-        type = "string[]";
-      }
       let options = property.options?.length
         ? property.options?.filter((o) => !o.hidden)
           .map(({

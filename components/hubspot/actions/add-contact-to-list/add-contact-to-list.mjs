@@ -33,9 +33,9 @@ export default {
       list,
       contactEmail,
     } = this;
-    const response = await this.hubspot.addContactsToList(list, [
+    const response = await this.hubspot.addContactsToList(list.value, [
       contactEmail,
-    ]);
+    ], $);
     $.export("$summary", "Successfully added contact to list");
     return response;
   },

@@ -448,7 +448,7 @@ export default {
       } = await this.listObjectsInPage(referencedObjectType, nextAfter);
       return {
         options: results.map((object) => ({
-          label: this.getObjectLabel(object, referencedObjectType),
+          label: this.getObjectLabel(object, referencedObjectType) ?? object.id,
           value: object.id,
         })),
         context: {

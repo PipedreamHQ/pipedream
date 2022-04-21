@@ -36,7 +36,7 @@ export default {
     } = this;
     const objectType = this.getObjectType();
 
-    const response = await hubspot.createObject(objectType, properties);
+    const response = await hubspot.createObject(objectType, properties, $);
 
     const objectName = hubspot.getObjectTypeName(objectType);
     $.export("$summary", `Successfully created ${objectName}`);
