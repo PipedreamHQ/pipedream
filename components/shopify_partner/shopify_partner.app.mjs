@@ -69,12 +69,14 @@ export default {
 
       const queryVars = {
         ...variables,
-        ...(lastCursor
+        ...(lastCursor && this.paginationEnabled
           ? {
             after: lastCursor,
           }
           : {}),
       };
+
+      console.log("queryVars", queryVars);
 
       const data = await client.request(query || mutation, queryVars);
       console.log(JSON.stringify(data, null, 4));

@@ -1,38 +1,39 @@
-// legacy_hash_id: a_q1iol0
-import { axios } from "@pipedream/platform";
+import gitlab from "../../gitlab.app.mjs";
 
 export default {
   key: "gitlab-create-branch",
   name: "Create Branch",
-  description: "Create a new branch in the repository.",
-  version: "0.2.1",
+  description: "Create a new branch in the repository. [See docs](https://docs.gitlab.com/ee/api/branches.html#create-repository-branch)",
+  version: "0.3.0",
   type: "action",
   props: {
-    gitlab: {
-      type: "app",
-      app: "gitlab",
-    },
-    project_id: {
-      type: "string",
-      description: "ID or URL-encoded path of the project owned by the authenticated user.",
-    },
-    branch: {
-      type: "string",
-      description: "Name of the branch.",
+    gitlab,
+    projectId: {
+      propDefinition: [
+        gitlab,
+        "projectId",
+      ],
     },
     ref: {
+      propDefinition: [
+        gitlab,
+        "branch",
+        (c) => ({
+          projectId: c.projectId,
+        }),
+      ],
+      label: "Branch Ref",
+      description: "The branch name or commit SHA to create branch from",
+    },
+    branchName: {
       type: "string",
-      description: "Branch name or commit SHA to create branch from.",
+      label: "Branch Name",
+      description: "The name of the branch to create",
     },
   },
   async run({ $ }) {
-
-    return await axios($, {
-      url: `https://gitlab.com/api/v4/projects/${this.project_id}/repository/branches?branch=${this.branch}&ref=${this.ref}`,
-      method: "post",
-      headers: {
-        Authorization: `Bearer ${this.gitlab.$auth.oauth_access_token}`,
-      },
-    });
+    const response = await this.gitlab.createBranch(this.projectId, this.branchName, this.ref);
+    $.export("$summary", `Created branch ${this.branchName}`);
+    return response;
   },
 };
