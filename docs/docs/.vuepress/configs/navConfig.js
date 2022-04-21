@@ -17,7 +17,7 @@ module.exports = {
       text: "Reference",
       items: [
         { text: "Building Components", link: "/components/" },
-        // { text: "CLI", link: "/cli/" },
+        { text: "CLI", link: "/cli/install/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
         { text: "Security & Privacy", link: "/privacy-and-security/"},
