@@ -5,7 +5,7 @@ export default {
   name: "New Response",
   version: "0.0.1",
   key: "tally-new-response",
-  description: "Emit new events on each new message. [See docs here](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
+  description: "Emit new event on each form message. [See docs here](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,8 +17,6 @@ export default {
     },
     emitEvent(event) {
       const { data: response } = event;
-
-      console.log("Event:", event);
 
       this.$emit(response, {
         id: response.responseId,

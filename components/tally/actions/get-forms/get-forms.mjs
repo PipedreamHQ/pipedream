@@ -6,7 +6,6 @@ export default {
   key: "tally-get-forms",
   description: "Get a list of forms. [See docs here](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
   type: "action",
-  dedupe: "unique",
   props: {
     tally,
   },

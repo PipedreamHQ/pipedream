@@ -6,7 +6,7 @@ export default {
     formId: {
       propDefinition: [
         tally,
-        "forms",
+        "form",
       ],
     },
     db: "$.service.db",
@@ -28,7 +28,7 @@ export default {
   },
   hooks: {
     async activate() {
-      const response = await this.tally._createWebhook({
+      const response = await this.tally.createWebhook({
         formId: this.formId,
         url: this.http.endpoint,
         eventTypes: this.getWebhookEventTypes(),
@@ -38,7 +38,7 @@ export default {
     },
     async deactivate() {
       const webhookId = this._getWebhookId();
-      await this.tally._removeWebhook(webhookId);
+      await this.tally.removeWebhook(webhookId);
     },
   },
   async run(event) {
