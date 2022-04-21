@@ -13,7 +13,7 @@ export default {
     repositoryId: {
       propDefinition: [
         bitbucket,
-        "repositories",
+        "repository",
         (c) => ({
           workspaceId: c.workspaceId,
         }),
@@ -47,7 +47,7 @@ export default {
       description: "Select a user",
       propDefinition: [
         bitbucket,
-        "users",
+        "user",
         (c) => ({
           workspaceId: c.workspaceId,
         }),

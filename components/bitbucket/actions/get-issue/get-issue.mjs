@@ -12,7 +12,7 @@ export default {
     repositoryId: {
       propDefinition: [
         bitbucket,
-        "repositories",
+        "repository",
         (c) => ({
           workspaceId: c.workspaceId,
         }),
@@ -21,7 +21,7 @@ export default {
     issueId: {
       propDefinition: [
         bitbucket,
-        "issues",
+        "issue",
         (c) => ({
           workspaceId: c.workspaceId,
           repositoryId: c.repositoryId,

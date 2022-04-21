@@ -6,7 +6,7 @@ export default {
     workspaceId: {
       propDefinition: [
         bitbucket,
-        "workspaces",
+        "workspace",
       ],
     },
   },

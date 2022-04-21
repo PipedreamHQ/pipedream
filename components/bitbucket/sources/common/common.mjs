@@ -6,7 +6,7 @@ export default {
     workspaceId: {
       propDefinition: [
         bitbucket,
-        "workspaces",
+        "workspace",
       ],
     },
     db: "$.service.db",
@@ -31,7 +31,7 @@ export default {
   },
   hooks: {
     async activate() {
-      const response = await this.bitbucket._createWebhook({
+      const response = await this.bitbucket.createWebhook({
         path: this.getPath(),
         workspaceId: this.workspaceId,
         url: this.http.endpoint,
@@ -43,7 +43,7 @@ export default {
     async deactivate() {
       const webhookId = this._getWebhookId();
 
-      await this.bitbucket._removeWebhook({
+      await this.bitbucket.removeWebhook({
         path: this.getPath(),
         webhookId,
       });

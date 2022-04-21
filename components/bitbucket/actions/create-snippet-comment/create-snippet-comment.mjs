@@ -12,7 +12,7 @@ export default {
     snippetId: {
       propDefinition: [
         bitbucket,
-        "snippets",
+        "snippet",
         (c) => ({
           workspaceId: c.workspaceId,
         }),

@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "bitbucket",
   propDefinitions: {
-    workspaces: {
+    workspace: {
       type: "string",
       label: "Workspace",
       description: "Select a workspace",
@@ -17,7 +17,7 @@ export default {
         }));
       },
     },
-    repositories: {
+    repository: {
       type: "string",
       label: "Repository",
       description: "Select a repository",
@@ -37,7 +37,7 @@ export default {
         }));
       },
     },
-    branchs: {
+    branch: {
       type: "string",
       label: "Branch Name",
       description: "Select a branch",
@@ -55,7 +55,7 @@ export default {
         return branchs.map((branch) => branch.name);
       },
     },
-    issues: {
+    issue: {
       type: "string",
       label: "Issue",
       description: "Select a issue",
@@ -76,7 +76,7 @@ export default {
         }));
       },
     },
-    comments: {
+    comment: {
       type: "string",
       label: "Comment",
       description: "Select a comment",
@@ -98,7 +98,7 @@ export default {
         }));
       },
     },
-    snippets: {
+    snippet: {
       type: "string",
       label: "Snippet",
       description: "Select a snippet",
@@ -118,7 +118,7 @@ export default {
         }));
       },
     },
-    users: {
+    user: {
       type: "string",
       label: "Users",
       description: "Select a user",
@@ -188,7 +188,7 @@ export default {
         ...options,
       });
     },
-    async _createWebhook({
+    async createWebhook({
       path, workspaceId, url, events,
     }) {
       return await this._makeRequest(path, {
@@ -201,7 +201,7 @@ export default {
         },
       });
     },
-    async _removeWebhook({
+    async removeWebhook({
       path, webhookId,
     }) {
       return await this._makeRequest(`${path}/${webhookId}`, {
