@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get";
 import retry from "async-retry";
 import sendgrid from "@sendgrid/client";
@@ -43,8 +43,8 @@ export default {
         headers,
       };
     },
-    _makeRequest(customConfig) {
-      return this._withRetries(() => axios(customConfig));
+    _makeRequest(customConfig, $) {
+      return this._withRetries(() => axios($ ?? this, customConfig));
     },
     async _makeClientRequest(customConfig) {
       return this._withRetries(() => this.api().request(customConfig));
@@ -81,24 +81,30 @@ export default {
       }, retryOpts);
     },
     async getWebhookSettings() {
-      const url = this._webhookSettingsUrl();
-      const requestConfig = this._makeRequestConfig();
-      return this._withRetries(() => axios.get(url, requestConfig));
+      const config = {
+        url: this._webhookSettingsUrl(),
+        method: "GET",
+        headers: this._makeRequestConfig(),
+      };
+      return this._makeRequest(config);
     },
     async setWebhookSettings(webhookSettings) {
-      const url = this._webhookSettingsUrl();
-      const requestConfig = this._makeRequestConfig();
-      return this._withRetries(() =>
-        axios.patch(url, webhookSettings, requestConfig));
+      const config = {
+        url: this._webhookSettingsUrl(),
+        method: "PATCH",
+        headers: this._makeRequestConfig(),
+        data: webhookSettings,
+      };
+      return this._makeRequest(config);
     },
     async _setSignedWebhook(enabled) {
-      const url = this._setSignedWebhookUrl();
-      const requestData = {
-        enabled,
+      const config = {
+        url: this._setSignedWebhookUrl(),
+        method: "PATCH",
+        headers: this._makeRequestConfig(),
+        data: enabled,
       };
-      const requestConfig = this._makeRequestConfig();
-      return this._withRetries(() =>
-        axios.patch(url, requestData, requestConfig));
+      return this._makeRequest(config);
     },
     async enableSignedWebhook() {
       const { data } = await this._setSignedWebhook(true);
