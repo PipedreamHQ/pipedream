@@ -1,0 +1,66 @@
+import cloudtables from "./cloudtables.app.mjs";
+
+export default {
+  key: "cloudtables-add-single-row",
+  name: "Cloudtables test",
+  description: "Add a single row of data into CloudTable data set",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    cloudtables,
+    datasetID: {
+      propDefinition: [
+        cloudtables,
+        "datasetID",
+      ],
+      description: "",
+      withLabel: true,
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const datasetID = this.datasetID?.value || this.datasetID;
+    const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
+    const { datapoints } = dataSetSchema;
+
+    if (datapoints.length === 0) {
+      throw Error("No data points available");
+    }
+
+    const props = {};
+    for (const datapoint of datapoints) {
+      // the column type is not available in cloudtables API
+      props[`col_${datapoint.id}`] = {
+        type: "string",
+        label: datapoint.name,
+        optional: true,
+      };
+    }
+
+    return props;
+  },
+  async run({ $ }) {
+    const datasetID = this.datasetID?.value || this.datasetID;
+    const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
+    const { datapoints } = dataSetSchema;
+
+    if (datapoints.length === 0) {
+      throw Error("No data points available");
+    }
+
+    const rowData = datapoints
+      .reduce((prevValue, currValue) => {
+        return {
+          ...prevValue,
+          [currValue.id]: this[`col_${currValue.id}`],
+        };
+      }, {});
+
+    const postRowResponse = await this.cloudtables.postRowIntoDataSet(datasetID, rowData);
+
+    const summary = `Added 1 row to [${datasetID}].`;
+    $.export("$summary", summary);
+
+    return postRowResponse;
+  },
+};
