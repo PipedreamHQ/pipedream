@@ -42,12 +42,10 @@ export default {
           params,
           conversationId,
         });
-        return {
-          options: members.map((member) => ({
-            label: member.name,
-            value: member.id,
-          })),
-        };
+        return members.map((member) => ({
+          label: member.name,
+          value: member.id,
+        }));
       },
     },
     logo: {
