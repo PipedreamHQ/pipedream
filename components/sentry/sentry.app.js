@@ -14,7 +14,10 @@ module.exports = {
       async options(context) {
         const url = this._organizationsEndpoint();
         const params = {};  // We don't need to provide query parameters at the moment.
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url, params, context);
         const options = data.map(this._organizationObjectToOption);
         return {
           options,
@@ -36,7 +39,9 @@ module.exports = {
     _integrationsEndpoint(integrationSlug) {
       const baseUrl = this._apiUrl();
       const url = `${baseUrl}/sentry-apps`;
-      return integrationSlug ? `${url}/${integrationSlug}/` : `${url}/`;
+      return integrationSlug
+        ? `${url}/${integrationSlug}/`
+        : `${url}/`;
     },
     _authToken() {
       return this.$auth.auth_token;
@@ -52,14 +57,23 @@ module.exports = {
       };
     },
     _organizationObjectToOption(organization) {
-      const { name, slug } = organization;
+      const {
+        name,
+        slug,
+      } = organization;
       const label = `${name} (${slug})`;
       return {
         label,
         value: slug,
       };
     },
-    async _propDefinitionsOptions(url, params, { page, prevContext }) {
+    async _propDefinitionsOptions(
+      url,
+      params, {
+        page,
+        prevContext,
+      },
+    ) {
       let requestConfig = this._makeRequestConfig();  // Basic axios request config
       if (page === 0) {
         // First time the options are being retrieved.
@@ -74,7 +88,9 @@ module.exports = {
         url = prevContext.nextPage.url;
       } else {
         // No more options available.
-        return { data: [] };
+        return {
+          data: [],
+        };
       }
 
       const {
@@ -147,9 +163,7 @@ module.exports = {
     },
     isValidSource(event, clientSecret) {
       const {
-        headers: {
-            "sentry-hook-signature": signature,
-        },
+        headers: { "sentry-hook-signature": signature },
         bodyRaw,
       } = event;
       const hmac = createHmac("sha256", clientSecret);
