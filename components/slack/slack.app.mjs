@@ -326,14 +326,15 @@ export default {
       optional: true,
     },
     mrkdwn: {
+      label: "Send text as Slack mrkdwn",
       type: "boolean",
-      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
+      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
       default: true,
       optional: true,
     },
     post_at: {
-      label: "Post At",
-      description: "Schedule the message to a specific moment. [See the docs here] (https://api.slack.com/messaging/scheduling)",
+      label: "Schedule message",
+      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime format should be a unix timestamp (e.g., `1650507616`, [see here](https://www.epochconverter.com/) for help with this format).",
       type: "integer",
       optional: true,
     },
