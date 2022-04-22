@@ -1,7 +1,8 @@
 import rssApp from "../../rss.app.js";
-import fetch from "node-fetch";
+import { axios } from "@pipedream/platform";
 import FeedParser from "feedparser";
 import hash from "object-hash";
+import stringToStream from "string-to-stream";
 
 export default {
   key: "rss-new-item-from-multiple-feeds",
@@ -27,15 +28,25 @@ export default {
     itemKey(item) {
       return hash(item);
     },
-    async fetchFeed(url) {
-      const feed = await fetch(url, {
+    _getHeaders() {
+      return {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
         "accept": "text/html,application/xhtml+xml",
-      });
-      if (feed.status !== 200) {
-        throw new Error("Bad status code");
-      }
-      return feed.body;
+      };
+    },
+    _getRequestParams(opts = {}) {
+      return {
+        ...opts,
+        url: opts.path,
+        headers: this._getHeaders(),
+      };
+    },
+    async fetchFeed(ctx = this, url) {
+      const feed = await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: url,
+      }));
+      return feed;
     },
     async parseFeed(feed) {
       const feedParser = new FeedParser({
@@ -66,7 +77,7 @@ export default {
             items.push(item);
           }
         });
-        feed.pipe(feedParser);
+        stringToStream(feed).pipe(feedParser);
       });
       return items;
     },
@@ -74,7 +85,7 @@ export default {
   dedupe: "unique",
   async run() {
     for (const url of this.urls) {
-      const feed = await this.fetchFeed(url);
+      const feed = await this.fetchFeed(this, url);
       const items = await this.parseFeed(feed);
       for (const item of items) {
         const itemKey = this.itemKey(item);
