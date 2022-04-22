@@ -31,5 +31,11 @@ export default {
       ],
       optional: false,
     },
+    mrkdwn: {
+      propDefinition: [
+        slack,
+        "mrkdwn",
+      ],
+    },
   },
 };

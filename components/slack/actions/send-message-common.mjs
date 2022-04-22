@@ -30,12 +30,6 @@ export default {
         "icon_url",
       ],
     },
-    mrkdwn: {
-      propDefinition: [
-        slack,
-        "mrkdwn",
-      ],
-    },
     post_at: {
       propDefinition: [
         slack,
@@ -66,7 +60,7 @@ export default {
         ],
       };
     },
-    _makeTextBlock() {
+    _makeTextBlock(mrkdwn = true) {
       const { text } = this;
       let serializedText = text;
       // The Slack SDK expects the value of text's "text" property to be a string. If this.text is
@@ -74,10 +68,13 @@ export default {
       if (typeof text !== "string" && typeof text !== "number" && typeof text !== "boolean") {
         serializedText = JSON.stringify(text);
       }
+
       return {
         "type": "section",
         "text": {
-          "type": "mrkdwn",
+          "type": mrkdwn
+            ? "mrkdwn"
+            : "plain_text",
           "text": serializedText,
         },
       };
@@ -86,12 +83,12 @@ export default {
   async run() {
     let blocks = this.blocks;
 
-    if (this.include_sent_via_pipedream_flag == true) {
+    if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
 
       if (!blocks) {
         blocks = [
-          this._makeTextBlock(),
+          this._makeTextBlock(this.mrkdwn),
         ];
       } else if (typeof blocks === "string") {
         blocks = JSON.parse(blocks);

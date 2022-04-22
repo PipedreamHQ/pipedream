@@ -1,3 +1,4 @@
+import slack from "../../slack.app.mjs";
 import common from "../send-message-common.mjs";
 
 export default {
@@ -19,6 +20,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "text",
+      ],
+    },
+    mrkdwn: {
+      propDefinition: [
+        slack,
+        "mrkdwn",
       ],
     },
     username: {
