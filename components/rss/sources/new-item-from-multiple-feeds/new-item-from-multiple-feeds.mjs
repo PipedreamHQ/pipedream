@@ -4,7 +4,7 @@ import FeedParser from "feedparser";
 import hash from "object-hash";
 
 export default {
-  key: "new-item-from-multiple-feeds",
+  key: "rss-new-item-from-multiple-feeds",
   name: "New item from multiple RSS feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds.",
