@@ -12,14 +12,14 @@ export default {
   type: "source",
   props: {
     ...common.props,
-    tableId: {
-      type: "$.airtable.tableId",
+    table: {
+      type: "$.airtable.table",
       baseIdProp: "baseId",
     },
   },
   async run() {
     const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.table)}`,
       params: {},
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,
@@ -38,12 +38,12 @@ export default {
 
     const {
       baseId,
-      tableId,
+      table,
       viewId,
     } = this;
     const metadata = {
       baseId,
-      tableId,
+      tableId: table,
       viewId,
     };
 

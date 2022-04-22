@@ -12,7 +12,7 @@ export default {
     ...common.props,
     viewId: {
       type: "$.airtable.viewId",
-      tableIdProp: "table",
+      tableProp: "table",
     },
     ...commonList.props,
   },
