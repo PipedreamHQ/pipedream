@@ -48,7 +48,7 @@ const formatDeepLink = (deeplinks) => {
                 "install_type",
               ].includes(key)
             ) {
-              this.deepLinkErrors.push(
+              deepLinkErrors.push(
                 `deeplinks[${i}] error: ${key} is not present or allowed in object`
               );
             }
