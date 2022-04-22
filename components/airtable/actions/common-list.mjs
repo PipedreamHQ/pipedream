@@ -45,7 +45,7 @@ export default {
       ];
     }
 
-    await base(this.tableId).select({
+    await base(this.table).select({
       ...config,
     })
       .eachPage(function page(records, fetchNextPage) {

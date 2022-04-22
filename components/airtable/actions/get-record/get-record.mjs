@@ -20,7 +20,7 @@ export default {
     this.airtable.validateRecordID(this.recordId);
     const base = this.airtable.base(this.baseId);
     try {
-      return await base(this.tableId).find(this.recordId);
+      return await base(this.table).find(this.recordId);
     } catch (err) {
       this.airtable.throwFormattedError(err);
     }

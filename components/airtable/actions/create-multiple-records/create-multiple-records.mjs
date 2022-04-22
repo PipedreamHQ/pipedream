@@ -26,7 +26,7 @@ export default {
     },
   },
   async run() {
-    const table = this.airtable.base(this.baseId)(this.tableId);
+    const table = this.airtable.base(this.baseId)(this.table);
 
     let data = this.records;
     if (!Array.isArray(data)) {
