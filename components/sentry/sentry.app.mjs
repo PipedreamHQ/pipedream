@@ -1,9 +1,9 @@
-const axios = require("axios");
-const { createHmac } = require("crypto");
-const parseLinkHeader = require("parse-link-header");
-const slugify = require("slugify");
+import axios from "axios";
+import slugify from "slugify";
+import parseLinkHeader from "parse-link-header";
+import { createHmac } from "crypto";
 
-module.exports = {
+export default {
   type: "app",
   app: "sentry",
   propDefinitions: {
