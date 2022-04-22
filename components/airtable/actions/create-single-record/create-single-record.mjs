@@ -1,5 +1,6 @@
 import airtable from "../../airtable.app.mjs";
 import {
+  getTableId,
   makeFieldProps,
   makeRecord,
 } from "../../common/utils.mjs";
@@ -16,7 +17,7 @@ export default {
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     table: {
       ...common.props.table,
-      isSchema: true,
+      includeSchema: true,
       reloadProps: true,
     },
     typecast: {
@@ -30,7 +31,7 @@ export default {
     return makeFieldProps(this.table);
   },
   async run() {
-    const table = this.airtable.base(this.baseId)(this.tableId);
+    const table = this.airtable.base(this.baseId)(getTableId(this.table));
 
     const record = makeRecord(this);
 

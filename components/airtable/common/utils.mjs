@@ -107,7 +107,7 @@ function makeFieldProps(tableSchema) {
  */
 function makeRecord(props) {
   let record = {};
-  for (const key of props) {
+  for (const key of Object.keys(props)) {
     if (key.startsWith(FIELD_PREFIX)) {
       const fieldName = key.slice(FIELD_PREFIX.length);
       record[fieldName] = props[key];
@@ -116,9 +116,26 @@ function makeRecord(props) {
   return record;
 }
 
+/**
+ * Returns a table's ID from its schema
+ *
+ * @param {object} tableSchema - The schema of the Airtable table
+ * @returns {string} the table's ID
+ */
+function getTableId(tableSchema) {
+  let table;
+  try {
+    table = JSON.parse(tableSchema);
+  } catch (err) {
+    throw new Error(`Error parsing table schema ${tableSchema}`);
+  }
+  return table.id;
+}
+
 export {
   fieldTypeToPropType,
   fieldToProp,
   makeFieldProps,
   makeRecord,
+  getTableId,
 };
