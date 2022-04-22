@@ -30,10 +30,6 @@ export default {
     const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
     const { datapoints } = dataSetSchema;
 
-    if (datapoints.length === 0) {
-      throw Error("No data points available");
-    }
-
     const props = {};
     for (const datapoint of datapoints) {
       // the column type is not available in cloudtables API
@@ -54,7 +50,8 @@ export default {
     const { datapoints } = dataSetSchema;
 
     if (datapoints.length === 0) {
-      throw Error(`No data points available for data set [${datasetID}]`);
+      $.export("$summary", `No data points available at [${datasetID}].`);
+      return;
     }
 
     const rowData = datapoints

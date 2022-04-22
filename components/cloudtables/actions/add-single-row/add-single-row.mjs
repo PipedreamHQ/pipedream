@@ -2,7 +2,7 @@ import cloudtables from "./cloudtables.app.mjs";
 
 export default {
   key: "cloudtables-add-single-row",
-  name: "Cloudtables test",
+  name: "Add Single Row",
   description: "Add a single row of data into CloudTable data set",
   version: "0.0.1",
   type: "action",
@@ -23,10 +23,6 @@ export default {
     const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
     const { datapoints } = dataSetSchema;
 
-    if (datapoints.length === 0) {
-      throw Error("No data points available");
-    }
-
     const props = {};
     for (const datapoint of datapoints) {
       // the column type is not available in cloudtables API
@@ -45,7 +41,8 @@ export default {
     const { datapoints } = dataSetSchema;
 
     if (datapoints.length === 0) {
-      throw Error("No data points available");
+      $.export("$summary", `No data points available at [${datasetID}].`);
+      return;
     }
 
     const rowData = datapoints
@@ -58,8 +55,7 @@ export default {
 
     const postRowResponse = await this.cloudtables.postRowIntoDataSet(datasetID, rowData);
 
-    const summary = `Added 1 row to [${datasetID}].`;
-    $.export("$summary", summary);
+    $.export("$summary", `Added 1 row to [${datasetID}].`);
 
     return postRowResponse;
   },
