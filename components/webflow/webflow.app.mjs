@@ -75,36 +75,64 @@ export default {
     },
   },
   methods: {
+    /**
+     * Get the auth access token;
+     *
+     * @returns {string} The base auth access token.
+     */
     _authToken() {
       return this.$auth.oauth_access_token;
     },
+    /**
+     * Create a Webflow API client;
+     *
+     * @returns {params} The Webflow API client.
+     */
     _createApiClient() {
       return new Webflow({
         token: this._authToken(),
       });
     },
-    async listSites() {
-      const apiClient = this._createApiClient();
-      return apiClient.sites();
-    },
+    /**
+     * Create a Webflow webhook;
+     *
+     * @param {siteId} ID of the site to be monitored.
+     * @param {url} URL to webhook return.
+     * @param {triggerType} Type of event that will be triggered.
+     * @param {filter} Filters to be applied in webhook.
+     *
+     * @returns {params} The Webflow webhook.
+     */
     async createWebhook(siteId, url, triggerType, filter = {}) {
       const apiClient = this._createApiClient();
-      const params = {
+
+      return apiClient.createWebhook({
         siteId,
         triggerType,
         url,
         filter,
-      };
-      return apiClient.createWebhook(params);
+      });
     },
+    /**
+     * Remove a Webflow webhook;
+     *
+     * @param {siteId} ID of the site.
+     * @param {webhookId} ID of the webhook.
+     */
     async removeWebhook(siteId, webhookId) {
       const apiClient = this._createApiClient();
-      const params = {
+      return apiClient.removeWebhook({
         siteId,
         webhookId,
-      };
-      return apiClient.removeWebhook(params);
+      });
     },
+    /**
+     * Get an order;
+     *
+     * @param {options} Options to filter the order.
+     *
+     * @returns {params} An order.
+     */
     async getOrder({
       siteId, orderId,
     }) {
@@ -112,6 +140,13 @@ export default {
 
       return apiClient.get(`/sites/${siteId}/order/${orderId}`);
     },
+    /**
+     * Get a list of orders;
+     *
+     * @param {options} Options to filter the orders.
+     *
+     * @returns {params} A list of orders.
+     */
     async getOrders({
       page, siteId, status,
     }) {
@@ -123,47 +158,89 @@ export default {
         limit: 100,
       });
     },
+    /**
+     * Get a list of domains;
+     *
+     * @param {options} Options to filter the domains.
+     *
+     * @returns {params} A list of domains.
+     */
     async getDomains(siteId) {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
-      return await apiClient.domains({
+      return await webflow.domains({
         siteId,
       });
     },
+    /**
+     * Get a site;
+     *
+     * @param {options} Options to filter the site.
+     *
+     * @returns {params} A site.
+     */
     async getSite(siteId) {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
-      return await apiClient.site({
+      return await webflow.site({
         siteId,
       });
     },
+    /**
+     * Get a list of sites;
+     *
+     * @param {options} Options to filter the sites.
+     *
+     * @returns {params} A list of sites.
+     */
     async getSites() {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
-      return await apiClient.sites();
+      return await webflow.sites();
     },
+    /**
+     * Get a collection;
+     *
+     * @param {options} Options to filter the collection.
+     *
+     * @returns {params} A collection.
+     */
     async getCollection(collectionId) {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
-      return await apiClient.collection({
+      return await webflow.collection({
         collectionId,
       });
     },
+    /**
+     * Get a list of collections;
+     *
+     * @param {options} Options to filter the collections.
+     *
+     * @returns {params} A list of collections.
+     */
     async getCollections(siteId) {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
       if (!siteId) return [];
 
-      return await apiClient.collections({
+      return await webflow.collections({
         siteId: siteId,
       });
     },
+    /**
+     * Get a list of items;
+     *
+     * @param {options} Options to filter the items.
+     *
+     * @returns {params} A list of items.
+     */
     async getItems(page = 0, collectionId) {
-      const apiClient = this._createApiClient();
+      const webflow = this._createApiClient();
 
       if (!collectionId) return [];
 
-      const response = await apiClient.items({
+      const response = await webflow.items({
         collectionId,
       }, {
         limit: 100,
