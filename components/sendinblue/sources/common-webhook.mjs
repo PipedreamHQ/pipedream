@@ -43,7 +43,7 @@ export default {
     const { body } = event;
     const hookId = this.getHookId();
     if (body.id !== hookId) {
-      throw new Error("This request was aborted because the webhook id doesn't match with the expectation.");
+      throw new Error("The request was aborted: registered and requested webhook's id doesn't match.");
     }
     this.emitEvent(body);
   },

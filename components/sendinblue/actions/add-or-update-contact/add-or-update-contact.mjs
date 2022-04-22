@@ -1,11 +1,10 @@
 import sendinBlueApp from "../../sendinblue.app.mjs";
 
-// legacy_hash_id: a_0Mi7n5
 export default {
   key: "sendinblue-add-or-update-contact",
-  name: "Add or Updated a contact",
-  description: "Add or Updated a contact and list",
-  version: "0.0.79",
+  name: "Add or Update a contact",
+  description: "Add or Update a contact",
+  version: "0.0.1",
   type: "action",
   props: {
     sendinBlueApp,

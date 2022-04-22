@@ -1,11 +1,10 @@
 import sendinBlueApp from "../../sendinblue.app.mjs";
 
-// legacy_hash_id: a_0Mi7n5
 export default {
   key: "sendinblue-send-transactional-email",
   name: "Send transactional email",
   description: "Send transactional email",
-  version: "0.0.38",
+  version: "0.0.1",
   type: "action",
   props: {
     sendinBlueApp,
