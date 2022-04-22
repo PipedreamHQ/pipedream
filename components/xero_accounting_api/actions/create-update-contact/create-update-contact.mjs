@@ -1,4 +1,3 @@
-// legacy_hash_id: a_WYiwz2
 import { axios, ConfigurationError } from "@pipedream/platform";
 import { removeNullEntries } from "../../common/common.util.mjs";
 
@@ -94,7 +93,8 @@ export default {
       );
     }
     try {
-      return await axios($, {
+      console.log(this.xero_accounting_api.$auth.oauth_access_token);
+      const response = await axios($, {
         method: "post",
         url: "https://api.xero.com/api.xro/2.0/contacts",
         headers: {
@@ -103,6 +103,14 @@ export default {
         },
         data,
       });
+      response &&
+        $.export(
+          "$summary",
+          `Contact successfully ${
+            actionType === "UPDATE" ? "updated" : "created"
+          }`
+        );
+      return response;
     } catch (error) {
       throw new ConfigurationError(
         `An error occured ${
