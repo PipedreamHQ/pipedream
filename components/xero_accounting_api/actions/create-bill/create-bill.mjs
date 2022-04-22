@@ -5,7 +5,7 @@ import {
   deleteKeys,
   isValidDate,
 } from "../../common/common.util.mjs";
-import constant from "../../common/common.constant.mjs";
+import constant from "../../common/common.constants.mjs";
 
 export default {
   key: "xero_accounting_api-create-bill",
