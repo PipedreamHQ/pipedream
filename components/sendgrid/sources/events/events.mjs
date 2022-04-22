@@ -1,4 +1,6 @@
-import common from "../common/http-based";
+import common from "../common/http-based.mjs";
+import deliveryEventTypes from "./delivery-event-types.mjs";
+import engagementEventTypes from "./engagement-event-types.mjs";
 
 export default {
   ...common,
@@ -23,8 +25,8 @@ export default {
         }
 
         const options = [
-          ...require("./delivery-event-types"),
-          ...require("./engagement-event-types"),
+          ...deliveryEventTypes,
+          ...engagementEventTypes,
         ];
         return {
           options,
@@ -42,8 +44,8 @@ export default {
       // See the docs for more information:
       // https://sendgrid.com/docs/api-reference/
       const eventTypesData = [
-        ...require("./delivery-event-types"),
-        ...require("./engagement-event-types"),
+        ...deliveryEventTypes,
+        ...engagementEventTypes,
       ];
       return eventTypesData.reduce((accum, eventTypeData) => ({
         ...accum,

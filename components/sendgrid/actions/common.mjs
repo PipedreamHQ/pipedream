@@ -32,7 +32,7 @@ export default {
      * a JSON array string. Otherwise returns `null`.
      */
     validateArray(value, params) {
-      const arrayValidatorMsgFormat = "parameter must be an array of % objects or an string that will `JSON.parse` to an array of & objects.";
+      const arrayValidatorMsgFormat = "parameter must be an array of % objects or a string that will `JSON.parse` to an array of & objects.";
       let arrayValidatorMsg = arrayValidatorMsgFormat.replace("%", params.key);
       arrayValidatorMsg = arrayValidatorMsg.replace("&", params.key);
       if (Array.isArray(value)) {

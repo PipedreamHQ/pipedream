@@ -10,14 +10,22 @@ export default {
   props: {
     ...common.props,
     id: {
+      propDefinition: [
+        common.props.sendgrid,
+        "listIds",
+      ],
       type: "string",
       label: "Id",
-      description: "Unique Id of the List where the contact to remove off is located",
+      description: "Unique Id of the List where the contact to remove is located",
+      optional: false,
     },
     contactIds: {
-      type: "string[]",
-      label: "Contact Ids",
+      propDefinition: [
+        common.props.sendgrid,
+        "contactIds",
+      ],
       description: "String array of contact ids to be removed from the list.",
+      optional: false,
     },
   },
   async run({ $ }) {

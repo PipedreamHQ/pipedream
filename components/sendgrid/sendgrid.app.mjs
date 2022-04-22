@@ -1,11 +1,63 @@
 import { axios } from "@pipedream/platform";
-import get from "lodash/get";
+import get from "lodash/get.js";
 import retry from "async-retry";
 import sendgrid from "@sendgrid/client";
 
 export default {
   type: "app",
   app: "sendgrid",
+  propDefinitions: {
+    listIds: {
+      type: "string[]",
+      label: "List Ids",
+      description: "A string array of List IDs where the contact will be added. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
+      optional: true,
+      async options() {
+        const lists = await this.getAllContactLists();
+        return lists.map((list) => ({
+          label: list.name,
+          value: list.id,
+        }));
+      },
+    },
+    contactIds: {
+      type: "string[]",
+      label: "Contact ID's",
+      description: "An array of contact IDs to delete",
+      optional: true,
+      async options() {
+        const contacts = await this.listContacts();
+        return contacts.map(({
+          id, first_name: firstName, last_name: lastName,
+        }) => ({
+          label: (firstName && lastName)
+            ? `${firstName} ${lastName}`
+            : id,
+          value: id,
+        }));
+      },
+    },
+    contactEmail: {
+      type: "string",
+      label: "Email",
+      description: "The email address you want to remove from the global suppressions group",
+      async options() {
+        const contacts = await this.listContacts();
+        return contacts
+          .filter((contact) => contact.email)
+          .map((contact) => contact.email);
+      },
+    },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "The 'From' email address used to deliver the message. This address should be a verified sender in your Twilio SendGrid account.",
+      async options() {
+        const senders = await this.getVerifiedSenders();
+        return senders.map((sender) => sender.from_email);
+      },
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.api_key;
@@ -33,17 +85,15 @@ export default {
       const baseUrl = this._webhookSettingsUrl();
       return `${baseUrl}/signed`;
     },
-    _makeRequestConfig() {
+    _makeRequestHeader() {
       const authToken = this._authToken();
       const headers = {
         "Authorization": `Bearer ${authToken}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
-      return {
-        headers,
-      };
+      return headers;
     },
-    _makeRequest(customConfig, $) {
+    async _makeRequest(customConfig, $) {
       return this._withRetries(() => axios($ ?? this, customConfig));
     },
     async _makeClientRequest(customConfig) {
@@ -84,7 +134,7 @@ export default {
       const config = {
         url: this._webhookSettingsUrl(),
         method: "GET",
-        headers: this._makeRequestConfig(),
+        headers: this._makeRequestHeader(),
       };
       return this._makeRequest(config);
     },
@@ -92,7 +142,7 @@ export default {
       const config = {
         url: this._webhookSettingsUrl(),
         method: "PATCH",
-        headers: this._makeRequestConfig(),
+        headers: this._makeRequestHeader(),
         data: webhookSettings,
       };
       return this._makeRequest(config);
@@ -101,13 +151,15 @@ export default {
       const config = {
         url: this._setSignedWebhookUrl(),
         method: "PATCH",
-        headers: this._makeRequestConfig(),
-        data: enabled,
+        headers: this._makeRequestHeader(),
+        data: {
+          enabled,
+        },
       };
       return this._makeRequest(config);
     },
     async enableSignedWebhook() {
-      const { data } = await this._setSignedWebhook(true);
+      const data = await this._setSignedWebhook(true);
       return data.public_key;
     },
     async disableSignedWebhook() {
@@ -339,7 +391,7 @@ export default {
      * a link to the contat list, a `contact_count` with the count of contacts in the list, an `id`
      * as a unique identifier to the contat list, and the `name` of the list.
      */
-    async getAllContactLists(maxItems) {
+    async getAllContactLists(maxItems = 1000) {
       const pageSize = Math.min(maxItems, 1000);
       const contactLists = [];
       let url = `/v3/marketing/lists?page_size=${pageSize}`;
@@ -388,7 +440,7 @@ export default {
      * was created at SendGrid, `email` for the email address that was added to the item list,
      * `reason` with the reason for the item, and the `status` of the item.
      */
-    async listItems(listItemsEndpoint, startTime, endTime, maxItems) {
+    async listItems(listItemsEndpoint, startTime, endTime, maxItems = 100) {
       const pageSize = Math.min(maxItems, 100);
       const items = [];
       let url = `${listItemsEndpoint}?limit=${pageSize}`;
@@ -481,6 +533,14 @@ export default {
       };
       return (await this._makeClientRequest(config))[1];
     },
+    async listContacts() {
+      const config = {
+        method: "GET",
+        url: "/v3/marketing/contacts",
+      };
+      const { result } = (await this._makeClientRequest(config))[1];
+      return result;
+    },
     /**
      * Sends an email to the specified recipients.
      *
@@ -517,6 +577,14 @@ export default {
         body,
       };
       return this._makeClientRequest(config);
+    },
+    async getVerifiedSenders() {
+      const config = {
+        method: "GET",
+        url: "/v3/verified_senders",
+      };
+      const { results } = (await this._makeClientRequest(config))[1];
+      return results;
     },
   },
 };

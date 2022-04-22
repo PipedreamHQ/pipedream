@@ -26,6 +26,8 @@ export default {
       type: "integer",
       label: "Max # of Global Suppressions to Return",
       description: "Indicates the max number of global suppressions to return",
+      optional: true,
+      default: 20,
     },
   },
   async run({ $ }) {

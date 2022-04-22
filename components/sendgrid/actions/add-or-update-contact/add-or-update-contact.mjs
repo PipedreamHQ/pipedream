@@ -11,14 +11,16 @@ export default {
   props: {
     ...common.props,
     listIds: {
-      type: "string[]",
-      label: "List Ids",
-      description: "A string array of List IDs where the contact will be added. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "listIds",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        common.props.sendgrid,
+        "contactEmail",
+      ],
       description: "The contact's email address",
     },
     firstName: {

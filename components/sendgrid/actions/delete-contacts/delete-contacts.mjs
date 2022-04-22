@@ -16,10 +16,10 @@ export default {
       default: false,
     },
     ids: {
-      type: "string[]",
-      label: "Contact ID's",
-      description: "An array of contact IDs to delete",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "contactIds",
+      ],
     },
   },
   async run({ $ }) {

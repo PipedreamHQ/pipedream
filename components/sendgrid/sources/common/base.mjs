@@ -1,5 +1,5 @@
 import sendgrid from "../../sendgrid.app.mjs";
-import v4 from "uuid";
+import { v4 } from "uuid";
 const uuidv4 = v4;
 
 export default {

@@ -11,9 +11,10 @@ export default {
   props: {
     ...common.props,
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email address you want to remove from the global suppressions group",
+      propDefinition: [
+        common.props.sendgrid,
+        "contactEmail",
+      ],
     },
   },
   async run({ $ }) {

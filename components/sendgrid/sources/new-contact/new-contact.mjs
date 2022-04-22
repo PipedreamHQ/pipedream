@@ -1,10 +1,10 @@
-import orderBy from "lodash/orderBy";
+import orderBy from "lodash/orderBy.js";
 import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
   key: "sendgrid-new-contact",
-  name: "New Contact (Instant)",
+  name: "New Contact",
   description: "Emit new event when a new contact is created",
   version: "0.0.3",
   type: "source",

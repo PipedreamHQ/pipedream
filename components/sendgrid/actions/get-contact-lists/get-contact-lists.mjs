@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.mjs";
 
 export default {
@@ -12,27 +11,13 @@ export default {
     ...common.props,
     numberOfLists: {
       type: "integer",
-      label: "Number of Lists",
-      description: "The number of contact lists to return",
+      label: "Max Number of Lists",
+      description: "The maximum number of contact lists to return",
+      optional: true,
+      default: 20,
     },
   },
   async run({ $ }) {
-    const constraints = {
-      numberOfLists: {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero",
-        },
-      },
-    };
-    const validationResult = validate(
-      {
-        numberOfLists: this.numberOfLists,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const resp = await this.sendgrid.getAllContactLists(this.numberOfLists);
     $.export("$summary", "Successfully retrieved lists");
     return resp;

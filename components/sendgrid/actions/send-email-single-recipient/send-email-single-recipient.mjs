@@ -11,15 +11,10 @@ export default {
   props: {
     ...common.props,
     fromEmail: {
-      type: "string",
-      label: "From Email",
-      description: "The 'From' email address used to deliver the message. This address should be a verified sender in your Twilio SendGrid account.",
-    },
-    fromName: {
-      type: "string",
-      label: "From Name",
-      description: "A name or title associated with the sending email address",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "fromEmail",
+      ],
     },
     toEmail: {
       type: "string",
@@ -91,12 +86,6 @@ export default {
       description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
       optional: true,
     },
-    templateId: {
-      type: "string",
-      label: "Template Id",
-      description: "An email template ID. A template that contains a subject and content — either text or html — will override any subject and content values specified at the personalizations or message level.",
-      optional: true,
-    },
     headers: {
       type: "object",
       label: "Headers",
@@ -119,12 +108,6 @@ export default {
       type: "integer",
       label: "Send At",
       description: "A unix timestamp allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
-      optional: true,
-    },
-    batchId: {
-      type: "integer",
-      label: "Batch Id",
-      description: "An ID representing a batch of emails to be sent at the same time. Including a batch_id in your request allows you include this email in that batch. It also enables you to cancel or pause the delivery of that batch. For more information, see the [Cancel Scheduled Sends API](https://sendgrid.com/docs/api-reference/).",
       optional: true,
     },
     asm: {
@@ -162,12 +145,6 @@ export default {
       },
       fromEmail: {
         email: true,
-      },
-      content: {
-        arrayValidator: {
-          value: this.content,
-          key: "content",
-        },
       },
     };
     //Defines constraints for optional parameters
@@ -211,10 +188,6 @@ export default {
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
-    this.batchId = this.convertEmptyStringToUndefined(this.batchId);
-    if (this.batchId != null) {
-      constraints.batchId = this.getIntegerGtZeroConstraint();
-    }
     //Executes validation
     const validationResult = validate(
       {
@@ -223,11 +196,9 @@ export default {
         bcc: this.bcc,
         fromEmail: this.fromEmail,
         replyToEmail: this.replyToEmail,
-        content: this.content,
         attachments: this.attachments,
         categories: this.categories,
         sendAt: this.sendAt,
-        batchId: this.batchId,
       },
       constraints,
     );
@@ -285,12 +256,10 @@ export default {
       subject: this.subject,
       content: this.getArrayObject(this.content),
       attachments,
-      template_id: this.templateId,
       headers: this.headers,
       categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
-      batch_id: this.batchId,
       asm: this.asm,
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,

@@ -10,6 +10,10 @@ export default {
   props: {
     ...common.props,
     id: {
+      propDefinition: [
+        common.props.sendgrid,
+        "listIds",
+      ],
       type: "string",
       label: "Id",
       description: "Unique Id of the List to be deleted",
