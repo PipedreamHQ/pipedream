@@ -1,4 +1,4 @@
-import common from "../collection-common.mjs";
+import common from "../common/collection.mjs";
 
 export default {
   type: "source",
