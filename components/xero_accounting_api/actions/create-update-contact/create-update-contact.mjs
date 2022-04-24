@@ -26,6 +26,7 @@ export default {
     Name: {
       type: "string",
       description: "Full name of contact/organisation.",
+      optional: true,
     },
     FirstName: {
       type: "string",
@@ -93,7 +94,6 @@ export default {
       );
     }
     try {
-      console.log(this.xero_accounting_api.$auth.oauth_access_token);
       const response = await axios($, {
         method: "post",
         url: "https://api.xero.com/api.xro/2.0/contacts",

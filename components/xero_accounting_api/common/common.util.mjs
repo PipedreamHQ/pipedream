@@ -67,4 +67,45 @@ const isValidDate = (dateString, key) => {
   return d.toISOString().slice(0, 10) === dateString;
 };
 
-export { removeNullEntries, formatArrayObjects, deleteKeys, isValidDate };
+const formatQueryString = (payload, quoteValue= false) => {
+  const str = [];
+  Object.keys(payload).forEach((p) => {
+    const result = Array.isArray(payload[p])
+      ? formatArray(p, payload[p])
+      : formatNonArray(p, payload[p], quoteValue);
+    result && str.push(result);
+  });
+  return str.join("&");
+};
+
+const formatArray = (key, value) => {
+  const str = [];
+  if (value.length) {
+    for (let i = 0; i < value.length; i++) {
+      value[i] &&
+        str.push(
+          `${encodeURIComponent(key + `[${i}]`)}=${encodeURIComponent(
+            value[i]
+          )}`
+        );
+    }
+    return str.join("&");
+  }
+  return null;
+};
+
+const formatNonArray = (key, value, quoteValue) => {
+  return value
+    ? `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${encodeURIComponent(
+        value
+      )}${quoteValue ? '"' : ""}`
+    : null;
+};
+
+export {
+  removeNullEntries,
+  formatArrayObjects,
+  deleteKeys,
+  isValidDate,
+  formatQueryString,
+};
