@@ -37,6 +37,12 @@ export default {
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
     },
+    metadata: {
+      type: "object",
+      optional: true,
+      label: "Include metadata in the message",
+      description: "Slack message metadata allows your Slack app to link a message inside Slack to a corresponding outside event or pattern."
+    }
   },
   methods: {
     _makeSentViaPipedreamBlock() {
@@ -104,6 +110,7 @@ export default {
       link_names: this.link_names,
       reply_broadcast: this.reply_broadcast,
       thread_ts: this.thread_ts,
+      metadata: this.metadata
     });
   },
 };
