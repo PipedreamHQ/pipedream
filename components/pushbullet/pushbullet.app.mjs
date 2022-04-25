@@ -39,8 +39,8 @@ export default {
     _apiUrl() {
       return "https://api.pushbullet.com/v2";
     },
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return axios($ ?? this, {
+    async _makeRequest(path, options = {}, $ = this) {
+      return axios($, {
         ...options,
         url: `${this._apiUrl()}/${path}`,
         headers: {

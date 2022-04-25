@@ -36,8 +36,6 @@ export default {
     },
   },
   async additionalProps() {
-    const props = {};
-
     const title = {
       label: "Title",
       description: "",
@@ -69,35 +67,37 @@ export default {
       type: "string",
     };
 
-    if (this.type === "note") {
+    switch (this.type) {
+    case "note":
       title.description = "The note's title";
-      props["title"] = title;
-
       body.description = "The note's message";
-      props["body"] = body;
-    }
 
-    if (this.type === "link") {
+      return {
+        title,
+        body,
+      };
+
+    case "link":
       title.description = "The link's title";
-      props["title"] = title;
-
       body.description = "A message associated with the link";
-      props["body"] = body;
-
       url.description = "The url to open";
-      props["url"] = url;
-    }
 
-    if (this.type === "file") {
+      return {
+        title,
+        body,
+        url,
+      };
+
+    case "file":
       body.description = "A message to go with the file";
-      props["body"] = body;
 
-      props["fileName"] = fileName;
-      props["fileType"] = fileType;
-      props["fileUrl"] = fileUrl;
+      return {
+        body,
+        fileName,
+        fileType,
+        fileUrl,
+      };
     }
-
-    return props;
   },
   async run({ $ }) {
     if (this.type === "file") {
