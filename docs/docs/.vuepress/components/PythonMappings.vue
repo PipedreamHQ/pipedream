@@ -17,11 +17,10 @@
       Request to have a custom package mapping added:
       <form
         class="grid grid-cols-12"
-        action="https://eo7sttetfpbyysz.m.pipedream.net"
-        method="post"
+        v-on:submit.prevent="submitPackageRequest"
       >
         <input
-          v-model="requested_package"
+          v-model="requestedPackage"
           placeholder="PyPi package name"
           class="
             my-3
@@ -43,7 +42,7 @@
           "
         />
         <button
-          :disabled="!requested_package"
+          :disabled="!requestedPackage"
           class="
             bg-green-500
             border-green-500
@@ -59,6 +58,12 @@
         >
           Submit
         </button>
+        <span v-if="successMessage" class="text-green-500 font-semibold">
+          {{ successMessage }}
+        </span>
+        <span v-if="errorMessage" class="text-red-500 font-semibold">
+          {{ errorMessage }}
+        </span>
       </form>
     </div>
     <div class="m-auto my-8">
@@ -124,7 +129,10 @@ export default {
     return {
       mappings: [],
       query: "",
-      requested_package: "",
+      requestedPackage: "",
+      errorMessage: "",
+      successMessage: "",
+      loading: false,
     };
   },
   watch: {
@@ -141,6 +149,28 @@ export default {
       this.mappings = this.mappings.filter((mapping) =>
         new RegExp(query, "i").test(mapping[0])
       );
+    },
+    submitPackageRequest() {
+      this.successMessage = "";
+      this.errorMessage = "";
+
+      fetch("https://eo7sttetfpbyysz.m.pipedream.net", {
+        body: JSON.stringify({
+          requestedPackage: this.requestedPackage,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          this.successMessage = `Requested support for ${this.requestedPackage}`;
+          this.requestedPackage = "";
+        })
+        .catch(() => {
+          this.errorMessage =
+            "Unable to request for package, please contact support";
+        });
     },
   },
   mounted() {
