@@ -43,7 +43,7 @@ const docsNav = [
       { 
         title: "Python",
         type: "group",
-        children: ["/code/python/", "/code/python/import-mappings",]
+        children: ["/code/python/", "/code/python/import-mappings/",]
       },
       "/code/go/",
       {
