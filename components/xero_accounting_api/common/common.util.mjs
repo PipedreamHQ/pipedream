@@ -102,10 +102,19 @@ const formatNonArray = (key, value, quoteValue) => {
     : null;
 };
 
+const chainQueryString = (queryString) =>
+  queryString
+    ? queryString
+        .split("&")
+        .map((q) => `${encodeURIComponent(q)}`)
+        .join("+AND+")
+    : "";
+
 export {
   removeNullEntries,
   formatArrayObjects,
   deleteKeys,
   isValidDate,
   formatQueryString,
+  chainQueryString,
 };

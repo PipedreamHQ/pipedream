@@ -24,15 +24,10 @@ export default {
       });
     },
     async getContact(tenant_id, queryParam) {
-      const newQueryParam = queryParam
-        ? queryParam
-            .split("&")
-            .map((q) => `Where=${encodeURIComponent(q)}`)
-            .join("&")
-        : "";
+      const newQueryParam = chainQueryString(queryParam);
       return await axios(this.$auth, {
         method: "get",
-        url: `https://api.xero.com/api.xro/2.0/contacts?${newQueryParam}`,
+        url: `https://api.xero.com/api.xro/2.0/contacts?Where=${newQueryParam}`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           "xero-tenant-id": tenant_id,
