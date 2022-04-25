@@ -139,7 +139,7 @@ export default {
       }
 
       this.mappings = this.mappings.filter((mapping) =>
-        mapping[0].startsWith(query)
+        new RegExp(query, "i").test(mapping[0])
       );
     },
   },
