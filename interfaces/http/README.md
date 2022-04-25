@@ -301,7 +301,7 @@ This makes it easy to retrieve data processed by your component from another app
 
 Each time your job runs, Pipedream marks its start and end times in the **LOGS** attached to your source.
 
-Any standard output or errors rased by your source are also logged here. You can watch these logs in realtime using the `pd logs` CLI command:
+Any standard output or errors raised by your source are also logged here. You can watch these logs in real time using the `pd logs` CLI command:
 
 ```bash
 pd logs <source-name>

@@ -6,7 +6,7 @@ export default {
   key: "ghost_org_admin_api-page-published",
   name: "Page Published (Instant)",
   description: "Emit new event for each new page published on a site.",
-  version: "0.0.5",
+  version: "0.0.6",
   methods: {
     ...common.methods,
     getEvent() {

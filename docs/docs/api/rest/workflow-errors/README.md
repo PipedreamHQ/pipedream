@@ -1,6 +1,6 @@
 # REST API example: Workflow errors
 
-Any time your workflow throws an error, that error is sent to the [global error workflow](/workflows/error-handling/global-error-workflow/). By default, the global error workflow sends you an email with a summary of the error, but you can modify this workflow in any way you'd like (for example, you can send all errors to Slack or Discord, instead of email). This is helpful for most error-handling cases, but you'll often encounter cases the global error workflow can't cover.
+Any time your workflow throws an error, that error is sent to the raised in a workflow and Pipedream sends you an email. This is helpful for most error-handling cases, but you'll often encounter cases the default system errors can't cover.
 
 For example, you may want to handle errors from one workflow differently from errors in another. Or, you might want to operate on errors using the API, instead of with a workflow. This doc shows you how to handle both of these example scenarios.
 
@@ -71,7 +71,7 @@ By listing these errors, you may be able to replay them against your workflow pr
 
 Forwarding errors for a workflow to another workflow can be helpful in two situations:
 
-- You want to run code to handle errors _for a specific workflow_, distinct from the default code that runs in the [global error workflow](/workflows/error-handling/global-error-workflow/).
+- You want to run code to handle errors _for a specific workflow_.
 - You need access to more than the last 100 errors for a workflow. Sending each error to a workflow allows you to archive them (so you can replay the original event later, if necessary).
 
 Let's walk through an end-to-end example:

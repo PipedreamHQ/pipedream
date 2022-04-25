@@ -1,62 +1,20 @@
-import { axios } from "@pipedream/platform";
-import http from "../../http.app.mjs";
+import customRequest from "../custom-request/custom-request.mjs";
 
 export default {
+  ...customRequest,
   key: "http-put-request",
-  name: "PUT Request",
-  description: "Make an HTTP PUT request to any URL. Optionally configure query string parameters, headers and basic auth.",
+  name: "Send PUT Request",
+  description: "Send an HTTP PUT request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.1.1",
+  version: "1.0.1",
   props: {
-    http,
-    url: {
-      propDefinition: [
-        http,
-        "url",
-      ],
-    },
-    data: {
-      propDefinition: [
-        http,
-        "body",
-      ],
-    },
-    params: {
-      propDefinition: [
-        http,
-        "params",
-      ],
-    },
-    headers: {
-      propDefinition: [
-        http,
-        "headers",
-      ],
-    },
-    auth: {
-      propDefinition: [
-        http,
-        "auth",
-      ],
+    ...customRequest.props,
+    /* eslint-disable-next-line pipedream/props-label,pipedream/props-description */
+    httpRequest: {
+      ...customRequest.props.httpRequest,
+      default: {
+        method: "PUT",
+      },
     },
   },
-  methods: {},
-  async run({ $ }) {
-    const {
-      data,
-      headers,
-      params,
-      url,
-    } = this;
-    const config = {
-      url,
-      method: "PUT",
-      data,
-      params,
-      headers,
-    };
-    if (this.auth) config.auth = this.http.parseAuth(this.auth);
-    return await axios($, config);
-  },
-}
-;
+};

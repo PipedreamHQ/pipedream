@@ -27,8 +27,8 @@
         "pipedream/required-properties-version": "error",
         "pipedream/required-properties-description": "error",
         "pipedream/required-properties-type": "error",
-        "pipedream/props-label": "error",
-        "pipedream/props-description": "error",
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn",
         "pipedream/source-name": "warn",
         "pipedream/source-description": "warn",
         "pipedream/no-ts-version": "error"
@@ -39,7 +39,9 @@
         "**/actions/**/common*.*js",
         "**/actions/common/*",
         "**/sources/common/*",
-        "**/sources/**/common*.*js"
+        "**/sources/**/common*.*js",
+        "**/sources/**/constant*.*js",
+        "**/actions/**/constant*.*js"
       ],
       "rules": {
         "pipedream/required-properties-key": "off",
@@ -56,8 +58,19 @@
         "**/*.app.*js"
       ],
       "rules": {
-        "pipedream/props-label": "error",
-        "pipedream/props-description": "error"
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/components/bash/**/*.*js",
+        "**/components/go/**/*.*js",
+        "**/components/node/**/*.*js",
+        "**/components/python/**/*.*js"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
       }
     }
   ],

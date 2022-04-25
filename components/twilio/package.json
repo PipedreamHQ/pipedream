@@ -2,7 +2,7 @@
     "name": "@pipedream/twilio",
     "version": "0.3.3",
     "description": "Pipedream Twilio Components",
-    "main": "twilio.app.js",
+    "main": "twilio.app.mjs",
     "keywords": [
         "pipedream",
         "twilio"

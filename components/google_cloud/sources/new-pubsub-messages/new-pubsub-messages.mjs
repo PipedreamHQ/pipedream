@@ -8,7 +8,7 @@ export default {
   description:
     `Creates a Pub/Sub topic in your GCP account.
     Messages published to this topic are emitted from the Pipedream source.`,
-  version: "0.1.0",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {
@@ -32,7 +32,7 @@ export default {
         // Must start with a letter, otherwise we add `pd-` at the beginning.
         .replace(/^(?![a-zA-Z]+)/, "pd-")
         // Only certain characters are allowed, the rest will be replaced with a `-`.
-        .replace(/[^a-zA-Z0-9_\-\.~\+%]+/g, "-");
+        .replace(/[^a-zA-Z0-9_\-.~+%]+/g, "-");
     },
   },
   hooks: {

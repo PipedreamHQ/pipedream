@@ -1,9 +1,13 @@
 import axios from "axios";
-import { google } from "googleapis";
-import googleDrive from "../google_drive/google_drive.app.js";
+import sheets from "@googleapis/sheets";
+import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./constants.mjs";
+import isArray from "lodash/isArray.js";
+import get from "lodash/get.js";
+import isString from "lodash/isString.js";
+import isEmpty from "lodash/isEmpty.js";
 
 export default {
   ...googleDrive,
@@ -19,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -40,12 +44,12 @@ export default {
       type: "string",
       label: "Row Values",
       description:
-        "Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[['Foo',1,2],['Bar',3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
+        "Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
     },
     sheetID: {
       type: "string",
       label: "Spreadsheet",
-      description: "The Google spreadsheet",
+      description: "The Spreadsheet ID",
       options({
         prevContext,
         driveId,
@@ -57,7 +61,7 @@ export default {
     sheetName: {
       type: "string",
       label: "Sheet Name",
-      description: "Sheet Name",
+      description: "Your sheet name",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
@@ -67,7 +71,7 @@ export default {
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
-      description: "Worksheet(s)",
+      description: "The Worksheet ID",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
@@ -89,12 +93,56 @@ export default {
   },
   methods: {
     ...googleDrive.methods,
+    sanitizedArray(value) {
+      if (isArray(value)) {
+        return value.map((item) => get(item, "value", item));
+      }
+
+      // If is string, try to convert it in an array
+      if (isString(value)) {
+        // Return an empty array if string is empty
+        if (isEmpty(value)) {
+          return [];
+        }
+
+        return value
+          // Remove square brackets from ends ([ "foo", 5 ] ->  "foo", 5 )
+          .replace(/(^\[)|(]$)/g, "")
+          .trim() // ( "foo", 5  -> "foo", 5)
+          // Remove quotes from ends ("foo", 5  ->  foo", 5)
+          .replace(/^["']|["']$/g, "")
+          // Split on quotes, whitespace, and comma (foo", 5 ->  ["foo","5"])
+          .split(/["']?\s*,\s*["']?/);
+      }
+
+      throw new Error(`${value} is not an array or an array-like`);
+    },
+    arrayValuesToString(arr) {
+      const convertedIndexes = [];
+
+      const res = arr.map((val, i) => {
+        if (![
+          "string",
+          "number",
+          "boolean",
+        ].includes(typeof val)) {
+          convertedIndexes.push(i) ;
+          return JSON.stringify(val);
+        }
+        return val;
+      });
+
+      return {
+        arr: res,
+        convertedIndexes,
+      };
+    },
     sheets() {
-      const auth = new google.auth.OAuth2();
+      const auth = new sheets.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.sheets({
+      return sheets.sheets({
         version: "v4",
         auth,
       });
@@ -129,7 +177,7 @@ export default {
       endColumn = column,
       searchType = 1,
     } = {}) {
-      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+      return `=MATCH(${searchKey}, '${sheetName}'!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
     },
     /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing
@@ -344,7 +392,7 @@ export default {
     }) {
       const resp = await axios({
         method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`,
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURI(range)}:append`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
