@@ -1,4 +1,4 @@
-import cloudtables from "./cloudtables.app.mjs";
+import cloudtables from "../../cloudtables.app.mjs";
 
 export default {
   key: "cloudtables-add-single-row",
@@ -13,13 +13,12 @@ export default {
         cloudtables,
         "datasetID",
       ],
-      description: "",
       withLabel: true,
       reloadProps: true,
     },
   },
   async additionalProps() {
-    const datasetID = this.datasetID?.value || this.datasetID;
+    const datasetID = this.datasetID?.value ?? this.datasetID;
     const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
     const { datapoints } = dataSetSchema;
 
@@ -36,13 +35,12 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const datasetID = this.datasetID?.value || this.datasetID;
+    const datasetID = this.datasetID?.value ?? this.datasetID;
     const dataSetSchema = await this.cloudtables.getDataSetSchema(datasetID);
     const { datapoints } = dataSetSchema;
 
     if (datapoints.length === 0) {
-      $.export("$summary", `No data points available at [${datasetID}].`);
-      return;
+      throw new Error(`No data points available at [${datasetID}].`);
     }
 
     const rowData = datapoints

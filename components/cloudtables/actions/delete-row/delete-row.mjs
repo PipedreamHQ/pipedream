@@ -1,5 +1,4 @@
-// legacy_hash_id: a_bKijbM
-import cloudtables from "./cloudtables.app.mjs";
+import cloudtables from "../../cloudtables.app.mjs";
 
 export default {
   key: "cloudtables-delete-row",
@@ -14,7 +13,6 @@ export default {
         cloudtables,
         "datasetID",
       ],
-      description: "",
       withLabel: true,
     },
     rowID: {
@@ -25,7 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const datasetID = this.datasetID?.value || this.datasetID;
+    const datasetID = this.datasetID?.value ?? this.datasetID;
     const rowID = this.rowID?.value || this.rowID;
 
     const deleteRowResponse = await this.cloudtables.deleteRowFromDataSet(datasetID, rowID);
