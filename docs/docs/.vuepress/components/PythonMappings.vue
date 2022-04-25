@@ -60,11 +60,14 @@
         </button>
         <span
           v-if="successMessage"
-          class="text-green-500 font-semibold col-span-5"
+          class="text-green-500 font-semibold col-span-5 italic"
         >
           {{ successMessage }}
         </span>
-        <span v-if="errorMessage" class="text-red-500 font-semibold col-span-5">
+        <span
+          v-if="errorMessage"
+          class="text-red-500 font-semibold col-span-5 italic"
+        >
           {{ errorMessage }}
         </span>
       </form>
