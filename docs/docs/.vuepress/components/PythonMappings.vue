@@ -11,7 +11,7 @@
         border-l-8 border-green-500 border-solid
       "
     >
-      <h3 class="text-bold text-xl text-green-500 mb-2">
+      <h3 class="text-bold text-lg text-green-500 mb-2">
         Don't see a package listed?
       </h3>
       Request to have a custom package mapping added:
@@ -73,6 +73,12 @@
       </form>
     </div>
     <div class="m-auto my-8">
+      <h2 class="text-xl">Search PyPi Mappings</h2>
+      <p>
+        Search for the PyPi package you're intending to use, and use the
+        shorthand <code>import module</code> shortcut to import them into a
+        Python step.
+      </p>
       <label class="text-sm font-semibold text-gray-400 my-4"
         >Search for PyPi package</label
       >
