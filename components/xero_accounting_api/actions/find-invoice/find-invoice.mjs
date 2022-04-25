@@ -43,7 +43,6 @@ export default {
     });
     const queryString = formatQueryString(payload, true);
     const newQueryParam = chainQueryString(queryString);
-    console.log(newQueryParam);
     return await axios($, {
       url: `https://api.xero.com/api.xro/2.0/Invoices?Where=${newQueryParam}`,
       headers: {
