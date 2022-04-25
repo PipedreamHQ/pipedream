@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import constants from "./actions/constants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
