@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-cloudwatch-logs.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-cloudwatch-logs-put-log-event",
   name: "CloudWatch Logs - Put Log Event",
   description: toSingleLineString(`
@@ -11,36 +12,10 @@ export default {
   version: "0.1.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    logGroupName: {
-      type: "string",
-      description: "The name of the log group you'd like to write logs to",
-      propDefinition: [
-        aws,
-        "logGroupNames",
-        (configuredProps) => ({
-          region: configuredProps.region,
-        }),
-      ],
-    },
-    logStreamName: {
-      type: "string",
-      description: "The name of the log stream within your log group",
-      propDefinition: [
-        aws,
-        "logStreamNames",
-        (configuredProps) => ({
-          logGroupName: configuredProps.logGroupName,
-          region: configuredProps.region,
-        }),
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    logGroupName: common.props.logGroupName,
+    logStreamName: common.props.logStreamName,
     message: {
       type: "string",
       label: "Message",
@@ -65,7 +40,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.cloudWatchLogsPutLogEvents(this.region, {
+    const params = {
       logGroupName: this.logGroupName,
       logStreamName: this.logStreamName,
       logEvents: [
@@ -74,8 +49,11 @@ export default {
           timestamp: this.timestamp,
         },
       ],
-      sequenceToken: this.sequenceToken,
-    });
+    };
+    if (this.sequenceToken) {
+      params.sequenceToken = this.sequenceToken;
+    }
+    const response = await this.putLogEvents(params);
     if (response.rejectedLogEventsInfo) {
       $.export("$summary", "Log event was rejected");
     } else {

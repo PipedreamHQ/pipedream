@@ -1,8 +1,9 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import constants from "../../common/constants.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-update-table",
   name: "DynamoDB - Update Table",
   description: toSingleLineString(`
@@ -12,34 +13,17 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-        (c) => ({
-          region: c.region,
-        }),
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    tableName: common.props.tableName,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     billingMode: {
-      propDefinition: [
-        aws,
-        "billingMode",
-      ],
+      ...common.props.billingMode,
       reloadProps: true,
     },
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     streamSpecificationEnabled: {
-      propDefinition: [
-        aws,
-        "streamSpecificationEnabled",
-      ],
+      ...common.props.streamSpecificationEnabled,
       reloadProps: true,
     },
   },
@@ -89,7 +73,7 @@ export default {
       };
     }
 
-    const response = this.aws.dynamodbUpdateTable(this.region, params);
+    const response = this.updateTable(params);
     $.export("$summary", `Updated DynamoDB table ${this.tableName}`);
     return response;
   },

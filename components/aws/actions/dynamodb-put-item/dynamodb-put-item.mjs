@@ -1,8 +1,9 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import constants from "../../common/constants.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-put-item",
   name: "DynamoDB - Put Item",
   description: toSingleLineString(`
@@ -14,18 +15,11 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
+      ...common.props.tableName,
       reloadProps: true,
     },
   },
@@ -35,7 +29,7 @@ export default {
       const [
         primaryKey,
         secondaryKey,
-      ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+      ] = await this.getTableAttributes(this.tableName);
       props.primaryKey = {
         type: "string",
         label: primaryKey.AttributeName,
@@ -67,7 +61,7 @@ export default {
     const [
       primaryKey,
       secondaryKey,
-    ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+    ] = await this.getTableAttributes(this.tableName);
 
     params.Item[primaryKey.AttributeName] = {
       [primaryKey.AttributeType]: this.primaryKey,
@@ -83,9 +77,12 @@ export default {
       ? JSON.parse(this.item || "{}")
       : this.item;
 
-    const response = await this.aws.dynamodbPutItem(this.region, {
-      ...params.Item,
-      ...item,
+    const response = await this.putItem({
+      ...params,
+      Item: {
+        ...params.Item,
+        ...item,
+      },
     });
     $.export("$summary", `Successfully put item in table ${this.tableName}`);
     return response;

@@ -1,7 +1,9 @@
 import aws from "../../aws.app.mjs";
+import common from "../../common/common-sqs.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-sqs-send-message",
   name: "SQS - Send Message",
   description: toSingleLineString(`
@@ -11,29 +13,19 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-      description: "The AWS region tied to your SQS queue, e.g `us-east-1` or `us-west-2`",
-    },
-    queueUrl: {
-      propDefinition: [
-        aws,
-        "queueUrl",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    queueUrl: common.props.queueUrl,
     eventData: {
       propDefinition: [
         aws,
         "eventData",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {
-    const response = this.aws.sqsSendMessage(this.region, {
+    const response = await this.sqsSendMessage({
       MessageBody: JSON.stringify(this.eventData),
       QueueUrl: this.queueUrl,
     });

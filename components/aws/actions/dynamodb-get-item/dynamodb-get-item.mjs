@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-get-item",
   name: "DynamoDB - Get Item",
   description: toSingleLineString(`
@@ -12,18 +13,11 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
+      ...common.props.tableName,
       reloadProps: true,
     },
   },
@@ -33,7 +27,7 @@ export default {
       const [
         primaryKey,
         secondaryKey,
-      ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+      ] = await this.getTableAttributes(this.tableName);
       props.primaryKey = {
         type: "string",
         label: primaryKey.AttributeName,
@@ -58,7 +52,7 @@ export default {
     const [
       primaryKey,
       secondaryKey,
-    ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+    ] = await this.getTableAttributes(this.tableName);
 
     params.Key[primaryKey.AttributeName] = {
       [primaryKey.AttributeType]: this.primaryKey,
@@ -70,7 +64,7 @@ export default {
       };
     }
 
-    const response = await this.aws.dynamodbGetItem(this.region, params);
+    const response = await this.getItem(params);
     if (response.Item) {
       $.export("$summary", `Successfully got item in table ${this.tableName}`);
     } else {

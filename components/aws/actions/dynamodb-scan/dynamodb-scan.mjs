@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-scan",
   name: "DynamoDB - Scan",
   description: toSingleLineString(`
@@ -11,37 +12,12 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
-    },
-    projectionExpression: {
-      propDefinition: [
-        aws,
-        "projectionExpression",
-      ],
-    },
-    expressionAttributeNames: {
-      propDefinition: [
-        aws,
-        "expressionAttributeNames",
-      ],
-    },
-    expressionAttributeValues: {
-      propDefinition: [
-        aws,
-        "expressionAttributeValues",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    tableName: common.props.tableName,
+    projectionExpression: common.props.projectionExpression,
+    expressionAttributeNames: common.props.expressionAttributeNames,
+    expressionAttributeValues: common.props.expressionAttributeValues,
   },
   async run({ $ }) {
     const params = {
@@ -56,8 +32,7 @@ export default {
     };
 
     const response = await this.aws.pagination(
-      this.aws.dynamodbScan,
-      this.region,
+      this.scan,
       params,
       "ExclusiveStartKey",
       "LastEvaluatedKey",

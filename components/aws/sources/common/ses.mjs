@@ -1,14 +1,8 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/sns.mjs";
-import {
-  ListIdentitiesCommand,
-  CreateReceiptRuleCommand,
-  DeleteReceiptRuleCommand,
-  CreateReceiptRuleSetCommand,
-  SetActiveReceiptRuleSetCommand,
-  DescribeActiveReceiptRuleSetCommand,
-} from "@aws-sdk/client-ses";
-import { clients } from "../../common/clients.mjs";
+import commonS3 from "../../common/common-s3.mjs";
+import commonSts from "../../common/common-sts.mjs";
+import commonSes from "../../common/common-ses.mjs";
 
 export default {
   ...base,
@@ -17,14 +11,18 @@ export default {
     async deploy() {
       await base.hooks.activate.bind(this)();
 
-      const region = this.getRegion();
       const bucketName = this._getBucketName();
-      console.log(await this.aws.s3CreateBucket(region, bucketName));
+      console.log(await this.createBucket({
+        Bucket: bucketName,
+      }));
       const bucketPolicy = this._allowSESPutsBucketPolicy(
         bucketName,
-        await this.aws.getAWSAccountId(),
+        await this.getAWSAccountId(),
       );
-      console.log(await this.aws.s3PutBucketPolicy(region, bucketName, bucketPolicy));
+      console.log(await this.putBucketPolicy({
+        Bucket: bucketName,
+        Policy: bucketPolicy,
+      }));
     },
     // But since the SNS topic tied to the subcription is re-created on activate / deactivate,
     // receipt notification needs to run in these hooks, as well
@@ -50,14 +48,14 @@ export default {
   },
   methods: {
     ...base.methods,
-    _getSesClient() {
-      return this.aws.getAWSClient(clients.ses, this.getRegion());
-    },
+    ...commonS3.methods,
+    ...commonSts.methods,
+    ...commonSes.methods,
     async _getReceiptRuleSet() {
       const {
         Metadata: metadata,
         Rules: rules,
-      } = await this._getSesClient().send(new DescribeActiveReceiptRuleSetCommand({}));
+      } = await this.describeActiveReceiptRuleSet();
 
       if (!metadata) {
         await this._createReceiptRuleSet();
@@ -73,8 +71,8 @@ export default {
       const params = {
         RuleSetName: `pd-${uuid()}`,
       };
-      await this._getSesClient().send(new CreateReceiptRuleSetCommand(params));
-      await this._getSesClient().send(new SetActiveReceiptRuleSetCommand(params));
+      await this.createReceiptRuleSet(params);
+      await this.setActiveReceiptRuleSet(params);
     },
     _getRuleSetInfo() {
       return this.db.get("ses-rule");
@@ -135,7 +133,7 @@ export default {
         After: after,
         Rule: newRule,
       };
-      await this._getSesClient().send(new CreateReceiptRuleCommand(params));
+      await this.createReceiptRule(params);
 
       this._setRuleSetInfo({
         ruleName,
@@ -151,7 +149,7 @@ export default {
         RuleName: ruleName,
         RuleSetName: ruleSetName,
       };
-      await this._getSesClient().send(new DeleteReceiptRuleCommand(params));
+      await this.deleteReceiptRule(params);
     },
     getReceiptRule() {
       throw new Error("getReceiptRule is not implemented");
@@ -159,12 +157,6 @@ export default {
     getTopicName() {
       const topicNameCandidate = `pd-ses-${this.domain}-${uuid()}`;
       return this.convertNameToValidSNSTopicName(topicNameCandidate);
-    },
-    async sesIdentities() {
-      const { Identities: identities } = await this._getSesClient().send(
-        new ListIdentitiesCommand({}),
-      );
-      return identities;
     },
   },
 };

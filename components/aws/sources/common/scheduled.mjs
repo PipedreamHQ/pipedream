@@ -1,15 +1,10 @@
 import base from "./sns.mjs";
+import commonSfn from "../../common/common-sfn.mjs";
+import commonIam from "../../common/common-iam.mjs";
 import {
   generateRandomUniqueName,
   toSingleLineString,
 } from "../../common/utils.mjs";
-import { clients } from "../../common/clients.mjs";
-import {
-  CreateStateMachineCommand,
-  DeleteStateMachineCommand,
-  StartExecutionCommand,
-  StopExecutionCommand,
-} from "@aws-sdk/client-sfn";
 
 export default {
   ...base,
@@ -33,9 +28,8 @@ export default {
       const stateMachineArn = this._getStateMachineArn();
       await this._deleteStateMachine(stateMachineArn);
 
-      const region = this.getRegion();
       const roleName = this._getRoleName();
-      await this.aws.deleteRole(region, roleName);
+      await this.deleteRole(roleName);
 
       await base.hooks.deactivate.bind(this)();
     },
@@ -56,6 +50,8 @@ export default {
   },
   methods: {
     ...base.methods,
+    ...commonSfn.methods,
+    ...commonIam.methods,
     _getRoleArn() {
       return this.db.get("roleArn");
     },
@@ -74,24 +70,19 @@ export default {
     _setStateMachineArn(stateMachineArn) {
       this.db.set("stateMachineArn", stateMachineArn);
     },
-    _getSfnClient() {
-      return this.aws.getAWSClient(clients.sfn, this.getRegion());
-    },
     _createStateMachineRole() {
       const { PD_COMPONENT: componentId } = process.env;
       const roleDescription = `
         Service role for the Step Functions state machine created
         by the Pipedream Task Scheduler source ${componentId}
       `;
-      return this.aws.createServiceRole(
-        this.getRegion(),
+      return this.createServiceRole(
         "states.amazonaws.com",
         roleDescription,
       );
     },
     _grantNotificationPermissions(roleName) {
-      return this.aws.addPermissionsToRole(
-        this.getRegion(),
+      return this.addPermissionsToRole(
         roleName,
         this.getStateMachinePermissions(),
       );
@@ -105,22 +96,19 @@ export default {
         name: generateRandomUniqueName(),
         roleArn,
       };
-      const client = this._getSfnClient();
-      return client.send(new CreateStateMachineCommand(params));
+      return this.createStateMachine(params);
     },
     _deleteStateMachine(stateMachineArn) {
       const params = {
         stateMachineArn,
       };
-      const client = this._getSfnClient();
-      return client.send(new DeleteStateMachineCommand(params));
+      return this.deleteStateMachine(params);
     },
     _cancelExecution(executionArn) {
       const params = {
         executionArn,
       };
-      const client = this._getSfnClient();
-      return client.send(new StopExecutionCommand(params));
+      return this.stopExecution(params);
     },
     _scheduleExecution(event) {
       const stateMachineArn = this._getStateMachineArn();
@@ -129,8 +117,7 @@ export default {
         stateMachineArn,
         input,
       };
-      const client = this._getSfnClient();
-      return client.send(new StartExecutionCommand(params));
+      return this.startExecution(params);
     },
     _sendHttpResponse(status = 200, body = {}) {
       this.http.respond({

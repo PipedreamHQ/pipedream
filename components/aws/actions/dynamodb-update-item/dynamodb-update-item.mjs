@@ -1,8 +1,9 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-update-item",
   name: "DynamoDB - Update Item",
   description: toSingleLineString(`
@@ -12,43 +13,16 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
+      ...common.props.tableName,
       reloadProps: true,
     },
-    updateExpression: {
-      type: "string",
-      label: "Update Expression",
-      description: toSingleLineString(`
-        An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them.
-        Example:
-        \`SET command = :echo, #execs = :oneh\`
-        [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/modules/updateiteminput.html#updateexpression)
-      `),
-      optional: true,
-    },
-    expressionAttributeNames: {
-      propDefinition: [
-        aws,
-        "expressionAttributeNames",
-      ],
-    },
-    expressionAttributeValues: {
-      propDefinition: [
-        aws,
-        "expressionAttributeValues",
-      ],
-    },
+    updateExpression: common.props.updateExpression,
+    expressionAttributeNames: common.props.expressionAttributeNames,
+    expressionAttributeValues: common.props.expressionAttributeValues,
   },
   async additionalProps() {
     const props = {};
@@ -56,7 +30,7 @@ export default {
       const [
         primaryKey,
         secondaryKey,
-      ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+      ] = await this.getTableAttributes(this.tableName);
       props.primaryKey = {
         type: "string",
         label: primaryKey.AttributeName,
@@ -89,7 +63,7 @@ export default {
     const [
       primaryKey,
       secondaryKey,
-    ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
+    ] = await this.getTableAttributes(this.tableName);
 
     params.Key[primaryKey.AttributeName] = {
       [primaryKey.AttributeType]: this.primaryKey,
@@ -101,7 +75,7 @@ export default {
       };
     }
 
-    const response = await this.aws.dynamodbUpdateItem(this.region, params);
+    const response = await this.updateItem(params);
     $.export("$summary", `Successfully updated item in table ${this.tableName}`);
     return response;
   },

@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-lambda.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-lambda-invoke-function",
   name: "Lambda - Invoke Function",
   description: toSingleLineString(`
@@ -11,28 +12,15 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-      description: "The AWS region tied to your Lambda, e.g `us-east-1` or `us-west-2`",
-    },
-    lambdaFunction: {
-      propDefinition: [
-        aws,
-        "lambdaFunction",
-        (c) => ({
-          region: c.region,
-        }),
-      ],
-    },
-    eventData: {
-      propDefinition: [
-        aws,
-        "eventData",
-      ],
+    aws: common.props.aws,
+    region: common.props.region,
+    lambdaFunction: common.props.lambdaFunction,
+    eventData: common.props.eventData,
+  },
+  methods: {
+    ...common.methods,
+    decodeResponsePayload(payload) {
+      return JSON.parse(new TextDecoder("utf-8").decode(payload));
     },
   },
   async run({ $ }) {
@@ -41,7 +29,7 @@ export default {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html#invoke-property
     // This also assumes the eventData passed to the step is JSON.
     // Please modify the code accordingly if your data is in a different format.
-    const response = await this.aws.lambdaInvokeFunction(this.region, {
+    const response = await this.invokeFunction({
       FunctionName: this.lambdaFunction,
       Payload: JSON.stringify(this.eventData || {}),
       InvocationType: "RequestResponse",
@@ -50,7 +38,7 @@ export default {
     $.export("$summary", `Invoked ${this.lambdaFunction} lambda function`);
     return {
       ...response,
-      Payload: this.aws.decodeResponsePayload(response.Payload),
+      Payload: this.decodeResponsePayload(response.Payload),
     };
   },
 };

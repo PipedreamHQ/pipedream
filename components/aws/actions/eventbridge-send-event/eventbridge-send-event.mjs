@@ -1,7 +1,9 @@
 import aws from "../../aws.app.mjs";
+import common from "../../common/common-eventbridge.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-eventbridge-send-event",
   name: "EventBridge - Send event to Event Bus",
   description: toSingleLineString(`
@@ -11,25 +13,15 @@ export default {
   version: "0.4.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-      description: "Region tied to your EventBridge event bus, e.g. `us-east-1` or `us-west-2`",
-    },
-    eventBusName: {
-      propDefinition: [
-        aws,
-        "eventBusName",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    eventBusName: common.props.eventBusName,
     eventData: {
       propDefinition: [
         aws,
         "eventData",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {
@@ -44,7 +36,7 @@ export default {
       ],
     };
 
-    const response = this.aws.eventBridgeSendEvent(this.region, params);
+    const response = await this.eventBridgeSendEvent(params);
     $.export("$summary", `Sent event data to ${this.eventBusName} bridge`);
     return response;
   },

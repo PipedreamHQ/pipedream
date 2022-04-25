@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-execute-statement",
   name: "DynamoDB - Execute Statement",
   description: toSingleLineString(`
@@ -11,24 +12,10 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    statement: {
-      type: "string",
-      label: "Statement",
-      description: "The PartiQL statement representing the operation to run",
-    },
-    parameters: {
-      type: "string[]",
-      label: "Parameters",
-      description: "The parameters for the PartiQL statement, if any",
-      optional: true,
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    statement: common.props.statement,
+    parameters: common.props.parameters,
   },
   async run({ $ }) {
     const params = {
@@ -41,8 +28,7 @@ export default {
     }
 
     const response = await this.aws.pagination(
-      this.aws.dynamodbExecuteTransaction,
-      this.region,
+      this.executeTransaction,
       params,
       "NextToken",
     );

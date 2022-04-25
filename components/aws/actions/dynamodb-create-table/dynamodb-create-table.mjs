@@ -1,8 +1,9 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import constants from "../../common/constants.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-create-table",
   name: "DynamoDB - Create Table",
   description: toSingleLineString(`
@@ -12,53 +13,30 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
-    },
-    keyPrimaryAttributeName: {
-      propDefinition: [
-        aws,
-        "keyPrimaryAttributeName",
-      ],
-    },
-    keyPrimaryAttributeType: {
-      propDefinition: [
-        aws,
-        "keyPrimaryAttributeType",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    keyPrimaryAttributeName: common.props.keyPrimaryAttributeName,
+    keyPrimaryAttributeType: common.props.keyPrimaryAttributeType,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     keySecondaryAttributeName: {
-      propDefinition: [
-        aws,
-        "keySecondaryAttributeName",
-      ],
+      ...common.props.keySecondaryAttributeName,
       reloadProps: true,
     },
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     billingMode: {
-      propDefinition: [
-        aws,
-        "billingMode",
-      ],
-      default: constants.dynamodb.billingModes.PAY_PER_REQUEST,
+      ...common.props.billingMode,
       reloadProps: true,
     },
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     streamSpecificationEnabled: {
-      propDefinition: [
-        aws,
-        "streamSpecificationEnabled",
-      ],
+      ...common.props.streamSpecificationEnabled,
       reloadProps: true,
     },
+    streamSpecificationViewType: common.props.streamSpecificationViewType,
+    expressionAttributeNames: common.props.expressionAttributeNames,
+    expressionAttributeValues: common.props.expressionAttributeValues,
+    keyConditionExpression: common.props.keyConditionExpression,
+    projectionExpression: common.props.projectionExpression,
   },
   async additionalProps() {
     const props = {};
@@ -139,7 +117,7 @@ export default {
       }
     }
 
-    const response = await this.aws.dynamodbCreateTable(this.region, params);
+    const response = await this.createTable(params);
     $.export("$summary", `Created DynamoDB table ${this.tableName}`);
     return response;
   },

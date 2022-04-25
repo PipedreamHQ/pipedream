@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-dynamodb.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-dynamodb-query",
   name: "DynamoDB - Query",
   description: toSingleLineString(`
@@ -11,43 +12,13 @@ export default {
   version: "0.5.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    tableName: {
-      propDefinition: [
-        aws,
-        "tableName",
-      ],
-    },
-    keyConditionExpression: {
-      propDefinition: [
-        aws,
-        "keyConditionExpression",
-      ],
-    },
-    projectionExpression: {
-      propDefinition: [
-        aws,
-        "projectionExpression",
-      ],
-    },
-    expressionAttributeNames: {
-      propDefinition: [
-        aws,
-        "expressionAttributeNames",
-      ],
-    },
-    expressionAttributeValues: {
-      propDefinition: [
-        aws,
-        "expressionAttributeValues",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    tableName: common.props.tableName,
+    keyConditionExpression: common.props.keyConditionExpression,
+    projectionExpression: common.props.projectionExpression,
+    expressionAttributeNames: common.props.expressionAttributeNames,
+    expressionAttributeValues: common.props.expressionAttributeValues,
   },
   async run({ $ }) {
     const params = {
@@ -63,8 +34,7 @@ export default {
     };
 
     const response = await this.aws.pagination(
-      this.aws.dynamodbQuery,
-      this.region,
+      this.query,
       params,
       "ExclusiveStartKey",
       "LastEvaluatedKey",

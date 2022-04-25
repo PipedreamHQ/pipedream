@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-sns.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-sns-send-message",
   name: "SNS - Send Message",
   description: toSingleLineString(`
@@ -11,20 +12,9 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-      description: "Region tied to your SNS Topic, e.g. `us-east-1` or `us-west-2`",
-    },
-    topic: {
-      propDefinition: [
-        aws,
-        "topic",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    topic: common.props.topic,
     message: {
       type: "string",
       label: "Message",
@@ -32,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.snsSendMessage(this.region, {
+    const response = this.snsSendMessage({
       TopicArn: this.topic,
       Message: this.message,
     });

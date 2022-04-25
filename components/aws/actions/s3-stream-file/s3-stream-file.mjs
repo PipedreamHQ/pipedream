@@ -1,7 +1,8 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-s3.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "aws-s3-stream-file",
   name: "S3 - Stream file to S3 from URL",
   description: toSingleLineString(`
@@ -11,34 +12,15 @@ export default {
   version: "0.3.0",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
-    bucket: {
-      propDefinition: [
-        aws,
-        "bucket",
-      ],
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The absolute URL of the file you'd like to upload",
-    },
-    filename: {
-      propDefinition: [
-        aws,
-        "key",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    bucket: common.props.bucket,
+    fileUrl: common.props.fileUrl,
+    filename: common.props.key,
   },
   async run({ $ }) {
-    const fileResponse = await this.aws.streamFile(this.fileUrl);
-    const response = await this.aws.s3UploadFile(this.region, {
+    const fileResponse = await this.streamFile(this.fileUrl);
+    const response = await this.uploadFile({
       Bucket: this.bucket,
       Key: this.filename.replace(/^\/+/, ""),
       Body: fileResponse.data,

@@ -1,7 +1,10 @@
-import aws from "../../aws.app.mjs";
+import common from "../../common/common-lambda.mjs";
+import commonIam from "../../common/common-iam.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
+  ...common,
+  ...commonIam,
   key: "aws-lambda-create-function",
   name: "Lambda - Create Function",
   description: toSingleLineString(`
@@ -11,37 +14,18 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    aws,
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-      description: "The AWS region tied to your Lambda, e.g `us-east-1` or `us-west-2`",
-    },
-    role: {
-      propDefinition: [
-        aws,
-        "role",
-        (c) => ({
-          region: c.region,
-        }),
-      ],
-    },
-    functionName: {
-      type: "string",
-      label: "Function Name",
-      description: "The name of your Lambda function",
-    },
-    code: {
-      propDefinition: [
-        aws,
-        "lambdaCode",
-      ],
-    },
+    aws: common.props.aws,
+    region: common.props.region,
+    role: commonIam.props.role,
+    functionName: common.props.functionName,
+    code: common.props.code,
+  },
+  methods: {
+    ...common.methods,
+    ...commonIam.methods,
   },
   async run({ $ }) {
-    const response = await this.aws.lambdaCreateFunction(this.region, {
+    const response = await this.createFunction({
       Role: this.role,
       FunctionName: this.functionName,
       Runtime: "nodejs12.x",

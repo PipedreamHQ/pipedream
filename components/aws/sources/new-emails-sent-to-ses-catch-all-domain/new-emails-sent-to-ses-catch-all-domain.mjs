@@ -1,9 +1,8 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/ses.mjs";
+import commonS3 from "../../common/common-s3.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 import { MailParser } from "mailparser-mit";
-import { clients } from "../../common/clients.mjs";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 export default {
   ...base,
@@ -24,13 +23,15 @@ export default {
       label: "SES Domain",
       description: "The domain you'd like to configure a catch-all handler for",
       type: "string",
-      options() {
-        return this.sesIdentities();
+      async options() {
+        const { Identities: identities } = await this.listIdentities();
+        return identities;
       },
     },
   },
   methods: {
     ...base.methods,
+    ...commonS3.methods,
     getReceiptRule(bucketName, topicArn) {
       const name = `pd-catchall-${uuid()}`;
       const rule = {
@@ -75,11 +76,11 @@ export default {
           bucketName: Bucket,
           objectKey: Key,
         } = message?.receipt?.action;
-        const client = await this.aws.getAWSClient(clients.s3, this.getRegion());
-        const { Body } = await client.send(new GetObjectCommand({
+
+        const { Body } = await this.getObject({
           Bucket,
           Key,
-        }));
+        });
         const parsed = await new Promise((resolve) => {
           const mailparser = new MailParser();
           mailparser.on("end", resolve);
