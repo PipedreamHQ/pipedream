@@ -188,7 +188,12 @@ export default {
       return operand1;
     },
     checkIfIsNull(operand1) {
-      return (operand1 === "null" || operand1 === "undefined");
+      return (
+        operand1 === null ||
+        operand1 === undefined ||
+        operand1 === "null" ||
+        operand1 === "undefined"
+      );
     },
     checkIfInArray(operand1, operand2) {
       return operand2.includes(operand1);
