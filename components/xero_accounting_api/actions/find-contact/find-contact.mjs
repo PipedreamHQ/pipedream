@@ -10,7 +10,7 @@ export default {
   name: "Find Contact",
   description:
     "Finds a contact by name or account number.  Optionally, create one if none are found",
-  version: "0.0.1",
+  version: "0.0.6",
   type: "action",
   props: {
     xero_accounting_api,
@@ -24,8 +24,7 @@ export default {
     },
     AccountNumber: {
       type: "string",
-      description:
-        "Name of the contact associated to the bank transaction. If there is no contact matching this name, a new contact is created.",
+      description: "Account number of Contact.",
       optional: true,
     },
     createContactIfNotFound: {
@@ -38,6 +37,10 @@ export default {
   additionalProps() {
     const props = {};
     if (this.createContactIfNotFound === "Yes") {
+      props.Name = {
+        type: "string",
+        description: "Full name of contact/organisation.",
+      };
       props.FirstName = {
         type: "string",
         description: "First name of contact person .",
@@ -76,6 +79,11 @@ export default {
       ContactStatus,
       createContactIfNotFound,
     } = this;
+    if (createContactIfNotFound === "No" && AccountNumber && Name) {
+      throw new ConfigurationError(
+        "Only one of AccountNumber and Name is required to find contact"
+      );
+    }
     const findPayload = removeNullEntries({
       Name,
       AccountNumber,
@@ -102,20 +110,21 @@ export default {
       }
     }
 
-    if (!contactDetail && createContactIfNotFound === "Yes") {
+    if (
+      (!contactDetail || !contactDetail?.Contacts?.length) &&
+      createContactIfNotFound === "Yes"
+    ) {
       try {
         const response = await this.xero_accounting_api.createContact(
           tenant_id,
           createPayload
         );
-        console.log("response", response);
         response && $.export("$summary", "Contact created successfully");
         return response;
       } catch (error) {
         throw new ConfigurationError("An error occured creating Contact");
       }
     }
-    console.log("contactDetail", contactDetail);
     contactDetail && $.export("$summary", "Contact found");
     return contactDetail;
   },

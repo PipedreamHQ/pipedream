@@ -67,7 +67,7 @@ const isValidDate = (dateString, key) => {
   return d.toISOString().slice(0, 10) === dateString;
 };
 
-const formatQueryString = (payload, quoteValue= false) => {
+const formatQueryString = (payload, quoteValue = false) => {
   const str = [];
   Object.keys(payload).forEach((p) => {
     const result = Array.isArray(payload[p])
@@ -96,9 +96,9 @@ const formatArray = (key, value) => {
 
 const formatNonArray = (key, value, quoteValue) => {
   return value
-    ? `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${encodeURIComponent(
-        value
-      )}${quoteValue ? '"' : ""}`
+    ? `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${value}${
+        quoteValue ? '"' : ""
+      }`
     : null;
 };
 

@@ -12,29 +12,27 @@ export default {
   },
   methods: {
     // this.$auth contains connected account data
-    async createContact(tenant_id, payload) {
-      const response = await axios(this.$auth, {
+    async createContact(tenant_id, data) {
+      return await axios(this.$auth, {
         method: "post",
         url: "https://api.xero.com/api.xro/2.0/contacts",
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           "xero-tenant-id": tenant_id,
         },
-        payload,
+        data,
       });
-      // response &&
-      //   $.export(
-      //     "$summary",
-      //     `Contact successfully ${
-      //       actionType === "UPDATE" ? "updated" : "created"
-      //     }`
-      //   );
-      return response;
     },
     async getContact(tenant_id, queryParam) {
+      const newQueryParam = queryParam
+        ? queryParam
+            .split("&")
+            .map((q) => `Where=${encodeURIComponent(q)}`)
+            .join("&")
+        : "";
       return await axios(this.$auth, {
         method: "get",
-        url: `https://api.xero.com/api.xro/2.0/contacts?Where=${queryParam}`,
+        url: `https://api.xero.com/api.xro/2.0/contacts?${newQueryParam}`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           "xero-tenant-id": tenant_id,
