@@ -71,9 +71,9 @@ export default {
         } else {
           page = 0;
         }
-
-        return allResponses;
       }
+
+      return allResponses;
     },
     async getFormFields({
       formId, $,
