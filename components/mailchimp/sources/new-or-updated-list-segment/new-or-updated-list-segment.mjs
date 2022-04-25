@@ -42,7 +42,7 @@ export default {
       const segments = this.watchFor === "Created"
         ? await this.mailchimp.getAudienceSegmentsByCreatedDate(this.listId, config)
         : await this.mailchimp.getAudienceSegmentsByUpdatedDate(this.listId, config);
-      if (!segments.length) {
+      if (!segments?.length) {
         throw new Error("No segment data available");
       }
       const relevantDate = this.watchFor === "Created" ?
@@ -87,7 +87,7 @@ export default {
       segments = this.watchFor === "Created"
         ? segments = await this.mailchimp.getAudienceSegmentsByCreatedDate(this.listId, config)
         : segments = await this.mailchimp.getAudienceSegmentsByUpdatedDate(this.listId, config);
-      if (!segments.length) {
+      if (!segments?.length) {
         return;
       }
       segments.forEach(this.processEvent);

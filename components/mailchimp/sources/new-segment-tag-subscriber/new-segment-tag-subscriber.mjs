@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "mailchimp-new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
-  description: "Emit new event when an subscriber is added to a segment or tags within an audience list.",
+  description: "Emit new event when a subscriber is added to a segment or tags within an audience list.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -49,7 +49,7 @@ export default {
           this.segmentId,
           config,
         );
-      if (!subscribers.length) {
+      if (!subscribers?.length) {
         console.log("No data available, skipping iteration");
         return;
       }
@@ -85,7 +85,7 @@ export default {
         config,
       );
       mailchimpSegmentMembers = mailchimpSegmentMembersInfo.members;
-      if (!mailchimpSegmentMembers.length) {
+      if (!mailchimpSegmentMembers?.length) {
         return;
       }
       mailchimpSegmentMembers.forEach(this.processEvent);

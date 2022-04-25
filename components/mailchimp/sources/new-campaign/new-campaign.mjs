@@ -36,10 +36,10 @@ export default {
       const campaigns = this.mailchimp.statusIsSent(this.status)
         ? await this.mailchimp.getCampaignsBySentDate(config)
         : await this.mailchimp.getCampaignsByCreationDate(config);
-      const sinceDate = campaigns.length
+      const sinceDate = campaigns?.length
         ? this.mailchimp.getCampaignTimestamp(campaigns[0], this.status)
         : Date.now();
-      if (campaigns.length) {
+      if (campaigns?.length) {
         campaigns.status = this.status;
         campaigns.forEach(this.processEvent);
       }
@@ -76,7 +76,7 @@ export default {
       campaigns = this.mailchimp.statusIsSent(this.status)
         ? await this.mailchimp.getCampaignsBySentDate(config)
         : await this.mailchimp.getCampaignsByCreationDate(config);
-      if (!campaigns.length) {
+      if (!campaigns?.length) {
         throw new Error("No campaign data available");
       }
       sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);

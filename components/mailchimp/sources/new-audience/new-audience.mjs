@@ -18,7 +18,7 @@ export default {
           beforeDateCreated: null,
           sinceDateCreated: null,
         });
-      if (!audiences.length) {
+      if (!audiences?.length) {
         throw new Error("No campaign data available");
       }
       audiences.forEach(this.processEvent);
@@ -50,7 +50,7 @@ export default {
           beforeDateCreated,
           sinceDateCreated,
         });
-      if (!audiences.length) {
+      if (!audiences?.length) {
         return;
       }
       audiences.forEach(this.processEvent);
