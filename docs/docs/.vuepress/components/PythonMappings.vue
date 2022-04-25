@@ -58,10 +58,13 @@
         >
           Submit
         </button>
-        <span v-if="successMessage" class="text-green-500 font-semibold">
+        <span
+          v-if="successMessage"
+          class="text-green-500 font-semibold col-span-5"
+        >
           {{ successMessage }}
         </span>
-        <span v-if="errorMessage" class="text-red-500 font-semibold">
+        <span v-if="errorMessage" class="text-red-500 font-semibold col-span-5">
           {{ errorMessage }}
         </span>
       </form>
