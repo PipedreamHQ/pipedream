@@ -1,102 +1,147 @@
-// legacy_hash_id: a_2wimVb
-import { axios } from "@pipedream/platform";
+import common from "../common.js";
+import pickBy from "lodash/pickBy.js";
+import pick from "lodash/pick.js";
 
 export default {
+  ...common,
   key: "trello-update-card",
   name: "Update Card",
-  description: "Updates the specified card.",
-  version: "0.1.1",
+  description: "Updates a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
+  version: "0.1.2",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    idBoard: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
     },
-    id: {
+    idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card to update.",
+      label: "Card",
+      description: "Specify the card to update",
+      optional: false,
     },
     name: {
-      type: "string",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       description: "The new name for the card.",
-      optional: true,
     },
     desc: {
-      type: "string",
+      propDefinition: [
+        common.props.trello,
+        "desc",
+      ],
       description: "The new description for the card.",
-      optional: true,
     },
     closed: {
       type: "boolean",
-      description: "Whether the card should be archived (closed: true).",
-      optional: true,
+      label: "Archived",
+      description: "Whether to archive the card",
+      default: false,
     },
     idMembers: {
-      type: "string",
-      description: "Comma-separated list of member IDs.",
+      propDefinition: [
+        common.props.trello,
+        "member",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
+      type: "string[]",
+      label: "Members",
+      description: "Change the members that are assigned to the card",
       optional: true,
     },
     idAttachmentCover: {
       type: "string",
-      description: "The ID of the image attachment the card should use as its cover, or null for none.",
+      label: "Cover",
+      description:
+        "Assign an attachment to be the cover image for the card",
       optional: true,
     },
     idList: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
       type: "string",
-      description: "The ID of the list the card should be in.",
-      optional: true,
+      label: "List",
+      description: "Move the card to a particular list",
     },
     idLabels: {
-      type: "string",
-      description: "Comma-separated list of label IDs.",
-      optional: true,
-    },
-    idBoard: {
-      type: "string",
-      description: "The ID of the board the card should be on.",
+      propDefinition: [
+        common.props.trello,
+        "label",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
+      type: "string[]",
+      label: "Labels",
+      description: "Array of labelIDs to add to the card",
       optional: true,
     },
     pos: {
-      type: "string",
-      description: "The position of the card in its list. top, bottom, or a positive float.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "pos",
+      ],
     },
     due: {
-      type: "string",
-      description: "When the card is due, or null.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "due",
+      ],
     },
     dueComplete: {
-      type: "boolean",
+      propDefinition: [
+        common.props.trello,
+        "dueComplete",
+      ],
       description: "Whether the due date should be marked complete.",
-      optional: true,
+      default: false,
     },
     subscribed: {
       type: "boolean",
+      label: "Subscribed",
       description: "Whether the member is should be subscribed to the card.",
-      optional: true,
+      default: false,
     },
     address: {
-      type: "string",
-      description: "For use with/by the Map Power-Up,",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "address",
+      ],
     },
     locationName: {
-      type: "string",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "locationName",
+      ],
     },
     coordinates: {
-      type: "string",
-      description: "For use with/by the Map Power-Up. Should be latitude, longitude.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "coordinates",
+      ],
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-    const trelloParams = [
+    const opts = pickBy(pick(this, [
       "name",
       "desc",
       "closed",
@@ -112,29 +157,9 @@ export default {
       "address",
       "locationName",
       "coordinates",
-    ];
-    let p = this;
-
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}?${queryString}`,
-      method: "PUT",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    ]));
+    const res = await this.trello.updateCard(this.idCard, opts, $);
+    $.export("$summary", `Successfully updated card ${res.name}`);
+    return res;
   },
 };

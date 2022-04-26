@@ -49,6 +49,10 @@ module.exports = {
       with_title:
         "https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg",
     },
+    native: {
+      only_icon: "https://res.cloudinary.com/pipedreamin/image/upload/v1569526159/icons/pipedream_x6plab.svg",
+      with_title: "https://res.cloudinary.com/pipedreamin/image/upload/v1569526159/icons/pipedream_x6plab.svg"
+    }
   },
   // environment variables
   ...envVars,

@@ -1,56 +1,65 @@
-// legacy_hash_id: a_OOiaG4
-import { axios } from "@pipedream/platform";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-update-collection-item",
-  name: "Update Item",
-  description: "Update collection item",
-  version: "0.1.1",
+  name: "Update Collection Item",
+  description: "Update collection item. [See the docs here](https://developers.webflow.com/#update-collection-item)",
+  version: "0.1.2",
   type: "action",
   props: {
-    webflow: {
-      type: "app",
-      app: "webflow",
+    webflow,
+    siteId: {
+      propDefinition: [
+        webflow,
+        "sites",
+      ],
+      optional: true,
     },
-    collection_id: {
-      type: "string",
+    collectionId: {
+      propDefinition: [
+        webflow,
+        "collections",
+        (c) => ({
+          siteId: c.siteId,
+        }),
+      ],
     },
-    item_id: {
-      type: "string",
+    itemId: {
+      propDefinition: [
+        webflow,
+        "items",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
     name: {
+      label: "Name",
+      description: "Name given to the Item.",
       type: "string",
     },
     slug: {
+      label: "Slug",
+      description: "URL structure of the Item in your site. Note: Updates to an item slug will break all links referencing the old slug.",
       type: "string",
-    },
-    _archived: {
-      type: "boolean",
-    },
-    _draft: {
-      type: "boolean",
     },
   },
   async run({ $ }) {
+    const webflow = this.webflow._createApiClient();
 
-    return await axios($, {
-      method: "put",
-      url: `https://api.webflow.com/collections/${this.collection_id}/items/${this.item_id}`,
-
-      headers: {
-        "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "accept-version": "1.0.0",
-      },
-      data: {
-        fields: {
-          name: this.name,
-          slug: this.slug,
-          _archived: this._archived,
-          _draft: this._draft,
-        },
+    const response = await webflow.updateItem({
+      collectionId: this.collectionId,
+      itemId: this.itemId,
+      fields: {
+        name: this.name,
+        slug: this.slug,
+        _archived: false,
+        _draft: false,
       },
     });
+
+    $.export("$summary", "Successfully updated collection item");
+
+    return response;
   },
 };

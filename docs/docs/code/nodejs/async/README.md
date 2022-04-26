@@ -29,7 +29,7 @@ Most Node.js packages that run async code return Promises as the result of metho
 ```javascript
 const resp = axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 
@@ -38,7 +38,7 @@ It won't send the HTTP request, since **`axios` returns a Promise**. Instead, ad
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 

@@ -1,13 +1,13 @@
 {
-    "name": "@pipedream/brex_staging",
+    "name": "@pipedream/brex",
     "version": "0.0.1",
-    "description": "Pipedream Brex Staging Components",
-    "main": "brex_staging.app.js",
+    "description": "Pipedream Brex Components",
+    "main": "brex.app.js",
     "keywords": [
         "pipedream",
         "brex"
     ],
-    "homepage": "https://pipedream.com/apps/brex_staging",
+    "homepage": "https://pipedream.com/apps/brex",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "publishConfig": {
