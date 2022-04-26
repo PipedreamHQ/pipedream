@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default {
- type: "app",
+  type: "app",
   app: "bannerbear",
   propDefinitions: {
     template: {
