@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import contants from "./contants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -40,7 +40,7 @@ export default {
         method: "post",
         data: {
           ...data,
-          externalSubscriber: contants.EXTERNAL_SUBSCRIBER,
+          externalSubscriber: constants.EXTERNAL_SUBSCRIBER,
         },
       });
     },
@@ -81,7 +81,7 @@ export default {
       return this._makeRequest("integrations/output-fields", {
         params: {
           formId,
-          integrationType: contants.EXTERNAL_SUBSCRIBER,
+          integrationType: constants.EXTERNAL_SUBSCRIBER,
         },
       }, $);
     },
