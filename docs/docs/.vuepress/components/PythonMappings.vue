@@ -1,7 +1,7 @@
 <style lang="stylus"></style>
 
 <template>
-  <div class="md:w-3/4 m-auto">
+  <div class="m-auto">
     <div
       class="
         bg-gray-100
@@ -21,7 +21,7 @@
       >
         <input
           v-model="requestedPackage"
-          placeholder="PyPi package name"
+          placeholder="PyPI package name"
           class="
             my-3
             px-3
@@ -73,18 +73,18 @@
       </form>
     </div>
     <div class="m-auto my-8">
-      <h2 class="text-xl">Search PyPi Mappings</h2>
+      <h2 class="text-xl">Search PyPI Mappings</h2>
       <p>
-        Search for the PyPi package you're intending to use, and use the
+        Search for the PyPI package you're intending to use, and use the
         shorthand <code>import module</code> shortcut to import them into a
         Python step.
       </p>
       <label class="text-sm font-semibold text-gray-400 my-4"
-        >Search for PyPi package</label
+        >Search for PyPI package</label
       >
       <input
         v-model="query"
-        placeholder="PyPi package name"
+        placeholder="PyPI package name"
         class="
           my-3
           px-3
@@ -106,7 +106,7 @@
     </div>
     <table class="m-auto table w-full">
       <tr>
-        <th>PyPi Package Name</th>
+        <th>PyPI Package Name</th>
         <th>Import into Pipedream with</th>
       </tr>
       <tr v-for="mapping in mappings" :key="mapping[0]">
@@ -117,7 +117,7 @@
               target="_blank"
               class="text-sm external"
               :href="`https://pypi.org/project/${mapping[0]}`"
-              >PyPi Project
+              >PyPI Project
 
               <OutboundLink />
             </a>
