@@ -2,10 +2,10 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
   type: "action",
-  key: "microsoft_outlook-send-email",
-  version: "0.0.2",
-  name: "Send Email",
-  description: "Send an email to one or multiple recipients, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-sendmail)",
+  key: "microsoft_outlook-create-draft-email",
+  version: "0.0.1",
+  name: "Create Draft Email",
+  description: "Create a draft email, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
     microsoftOutlook,
     recipients: {
@@ -18,12 +18,6 @@ export default {
       propDefinition: [
         microsoftOutlook,
         "subject",
-      ],
-    },
-    contentType: {
-      propDefinition: [
-        microsoftOutlook,
-        "contentType",
       ],
     },
     content: {
@@ -47,13 +41,14 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.microsoftOutlook.sendEmail({
+    const response =  await this.microsoftOutlook.createDraft({
       $,
       data: {
-        ...this.microsoftOutlook.prepareMessageBody(this),
+        ...this.microsoftOutlook.prepareMessageBody(this, true),
         ...this.expand,
       },
     });
-    $.export("$summary", "Email has been sent.");
+    $.export("$summary", "Email draft has been created.");
+    return response;
   },
 };
