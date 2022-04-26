@@ -26,8 +26,8 @@ export default {
     getBaseUrl() {
       return this.base_url || DEFAULT_BASE_URL;
     },
-    async getCookie() {
-      const res = await axios({
+    async getCookie($) {
+      const res = await axios($, {
         method: 'POST',
         url: this.getBaseUrl() + "/api/v1/sessions",
         body: {
