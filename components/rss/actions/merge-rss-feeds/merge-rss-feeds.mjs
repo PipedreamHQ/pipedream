@@ -35,32 +35,34 @@ export default {
     },
     mergedResult(feeds) {
       let result = [];
-      for (const feedResult of feeds) {
+      feeds.map((feedResult) => {
         const feed = this.getFeedDetails(feedResult);
-        // merging
-        feedResult.items.forEach((item) => {
-          let newItem = item;
-          newItem.feed = feed;
-          result.push(newItem);
+        const innerResult = feedResult.items.map((item) => {
+          return {
+            feed,
+            ...item,
+          };
         });
-        // sorting
-        result = result.sort((a, b) => {
-          let aDate = new Date(a.isoDate);
-          let bDate = new Date(b.isoDate);
-          return bDate - aDate;
-        });
-      }
+        result = [
+          ...result,
+          ...innerResult,
+        ];
+      });
+      result = result.sort((a, b) => {
+        let aDate = new Date(a.isoDate);
+        let bDate = new Date(b.isoDate);
+        return bDate - aDate;
+      });
       return result;
     },
     groupedResult(feeds) {
-      let result = [];
-      for (const feedResult of feeds) {
+      let result = feeds.map((feedResult) => {
         const feed = this.getFeedDetails(feedResult);
-        result.push({
+        return {
           feed,
           items: feedResult.items,
-        });
-      }
+        };
+      });
       return result;
     },
   },
