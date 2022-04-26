@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/loomio",
+    "version": "0.0.1",
+    "description": "Pipedream Loomio Components",
+    "main": "loomio.app.mjs",
+    "keywords": [
+        "pipedream",
+        "loomio"
+    ],
+    "homepage": "https://pipedream.com/apps/loomio",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    }
+}
