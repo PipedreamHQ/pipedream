@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-list-all-contacts",
   name: "List All Contacts",
   description: "Retrieve all existing contacts.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

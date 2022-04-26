@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-get-contact",
   name: "Get Contact",
   description: "Retrieves an existing contact.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

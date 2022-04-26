@@ -1,5 +1,5 @@
 ---
-short_description: Make HTTP requests with Node.js in code steps.
+short_description: Make HTTP requests with Python in code steps.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
 ---
 

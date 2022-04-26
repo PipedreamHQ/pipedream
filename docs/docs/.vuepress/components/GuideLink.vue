@@ -1,4 +1,8 @@
 <style lang="stylus">
+.guide-container.native {
+  border-top: solid #34d28b 1em;
+}
+
 .guide-container.nodejs {
   border-top: solid #4DA925 1em;
 }
@@ -18,6 +22,10 @@
 
 .guide-container:hover {
   text-decoration: none !important;
+}
+
+.guide-container.native h3 {
+  color: #34d28b;
 }
 
 .guide-container.go h3 {
@@ -67,7 +75,7 @@
           </span>
         </div>
       </div>
-      <span class="absolute bottom-0 right-0">
+      <span class="absolute bottom-0 right-0 mb-3 mr-1">
         <img :src="guide.language_thumbnail" width="50" />
       </span>
     </a>
@@ -89,21 +97,29 @@ export default {
       "/code/python/",
       "/code/go/",
       "/code/bash/",
+      "/guides/",
     ];
 
     const guides = this.$site.pages
       .filter((page) => {
         return (
-          page.regularPath.startsWith("/code/") &&
+          (page.regularPath.startsWith("/code/") ||
+            page.regularPath.startsWith("/guides/")) &&
           !notApplicablePages.includes(page.regularPath)
         );
       })
       .map((guide) => {
-        guide.language = guide.path.match(/\/code\/(\w+)\/.*/)?.[1];
+        if (guide.regularPath.startsWith("/code/")) {
+          guide.language = guide.path.match(/\/code\/(\w+)\/.*/)?.[1];
+        } else {
+          guide.language = "native";
+        }
+
         guide.language_thumbnail =
           this.$site.themeConfig.icons[guide.language].only_icon;
         return guide;
       });
+    console.log(guides.map((guide) => guide.regularPath));
 
     this.guides = orderBy(guides, ["language"], "desc");
   },

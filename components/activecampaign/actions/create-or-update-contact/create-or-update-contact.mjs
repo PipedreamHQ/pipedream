@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates an existing contact.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     activecampaign: {

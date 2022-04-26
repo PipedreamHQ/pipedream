@@ -9,7 +9,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-a-file",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     dropbox,
@@ -22,7 +22,7 @@ export default {
     },
     name: {
       type: "string",
-      label: "Folder name",
+      label: "File name",
       description: "The name of your new file.",
     },
     fileUrl: {
@@ -51,7 +51,7 @@ export default {
     },
     strictConflict: {
       type: "boolean",
-      label: "Strict Ccnflict",
+      label: "Strict Conflict",
       description: "Be more strict about how each WriteMode detects conflict. For example, always return a conflict error when mode = WriteMode.update and the given \"rev\" doesn't match the existing file's \"rev\", even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents.",
       optional: true,
     },

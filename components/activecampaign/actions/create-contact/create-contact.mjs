@@ -5,7 +5,7 @@ export default {
   name: "Create Contact",
   description: "Create a new contact. See the docs [here](https://developers.activecampaign.com/reference#create-a-contact-new).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     activecampaign,
     email: {
