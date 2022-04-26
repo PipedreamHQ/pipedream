@@ -6,6 +6,8 @@ module.exports = {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "Pipedream will poll the API on this schedule",
       default: {
         intervalSeconds: 60 * 15,
       },

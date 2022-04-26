@@ -6,6 +6,7 @@ module.exports = {
   name: "New Database",
   description: "Emits an event when a new database is added",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

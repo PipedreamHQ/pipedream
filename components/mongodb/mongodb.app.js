@@ -7,6 +7,7 @@ module.exports = {
     database: {
       type: "string",
       label: "Database",
+      description: "A MongoDB database",
       async options() {
         const client = await this.getClient();
         const databases = await this.listDatabases(client);
@@ -20,6 +21,7 @@ module.exports = {
     collection: {
       type: "string",
       label: "Collection",
+      description: "A MongoDB collection",
       async options(opts) {
         const client = await this.getClient();
         const db = this.getDatabase(client, opts.database);
@@ -34,6 +36,7 @@ module.exports = {
     document: {
       type: "string",
       label: "Document",
+      description: "Select a document from the MongoDB database",
       async options(opts) {
         const client = await this.getClient();
         const db = this.getDatabase(client, opts.database);

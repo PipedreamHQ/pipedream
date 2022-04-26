@@ -6,6 +6,7 @@ module.exports = {
   name: "New Document",
   description: "Emits an event when a new document is added to a collection",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

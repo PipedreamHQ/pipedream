@@ -6,6 +6,7 @@ module.exports = {
   name: "New Collection",
   description: "Emits an event when a new collection is added to a database",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

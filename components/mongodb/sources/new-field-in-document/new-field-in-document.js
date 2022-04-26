@@ -6,6 +6,7 @@ module.exports = {
   name: "New Field in Document",
   description: "Emits an event when a new field is added to a document",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
