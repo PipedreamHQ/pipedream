@@ -32,11 +32,15 @@ export default {
     async executeCommand({ command }) {
       const client = await this._createClient();
 
-      return await new Promise((resolve) => {
+      const response = await new Promise((resolve) => {
         client.execCommand(command).then(function (result) {
           return resolve(result);
         });
       });
+
+      await client.dispose();
+
+      return response;
     },
   },
 };
