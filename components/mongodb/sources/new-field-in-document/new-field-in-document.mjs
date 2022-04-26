@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mongodb-new-field-in-document",
   name: "New Field in Document",
@@ -19,7 +19,7 @@ module.exports = {
     collection: {
       propDefinition: [
         common.props.mongodb,
-        "collection",
+        "sourceCollection",
         (c) => ({
           database: c.database,
         }),
@@ -28,7 +28,7 @@ module.exports = {
     document: {
       propDefinition: [
         common.props.mongodb,
-        "document",
+        "sourceDocument",
         (c) => ({
           database: c.database,
           collection: c.collection,

@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mongodb-new-document",
   name: "New Document",
@@ -19,7 +19,7 @@ module.exports = {
     collection: {
       propDefinition: [
         common.props.mongodb,
-        "collection",
+        "sourceCollection",
         (c) => ({
           database: c.database,
         }),

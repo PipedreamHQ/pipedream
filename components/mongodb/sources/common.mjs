@@ -1,6 +1,6 @@
-const mongodb = require("../mongodb.app.js");
+import mongodb from "../mongodb.app.mjs";
 
-module.exports = {
+export default {
   props: {
     mongodb,
     db: "$.service.db",
