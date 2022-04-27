@@ -15,7 +15,7 @@ export default {
   ...updateIssue,
   key: "linear-update-issue",
   description: "Update an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     linearApp,
     ...utils.buildPropDefinitions({
