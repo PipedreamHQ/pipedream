@@ -6,7 +6,7 @@
 
 Pipedream is an integration platform for developers. Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations.
 
-<a href="https://bit.ly/32eKudX"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
+<a href="https://bit.ly/3M2Yclb"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
 ## Key Features
 
@@ -28,7 +28,7 @@ Click the image below to watch a brief demo on YouTube.
 
 <p align="left">
   <br />
-  <a href="http://tod.ly/38ue0z1">
+  <a href="https://bit.ly/36fwHWs">
     <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
   </a>
 </p>

@@ -1,116 +1,129 @@
-// legacy_hash_id: a_vgi48J
-import { axios } from "@pipedream/platform";
+import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-update-deal",
   name: "Update Deal",
-  description: "Updates the properties of a deal.",
-  version: "0.1.1",
+  description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
+  version: "0.1.3",
   type: "action",
   props: {
-    pipedrive: {
-      type: "app",
-      app: "pipedrive",
-    },
-    companydomain: {
-      type: "string",
-      description: "Your company name as registered in Pipedrive, which becomes part of Pipedrive API base url.",
-    },
-    id: {
-      type: "string",
+    pipedriveApp,
+    dealId: {
       description: "ID of the deal",
+      optional: false,
+      propDefinition: [
+        pipedriveApp,
+        "dealId",
+      ],
     },
     title: {
-      type: "string",
-      description: "Deal title",
+      propDefinition: [
+        pipedriveApp,
+        "dealTitle",
+      ],
       optional: true,
     },
     value: {
-      type: "string",
-      description: "Value of the deal. If omitted, value will be set to 0.",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "dealValue",
+      ],
     },
     currency: {
-      type: "string",
-      description: "Currency of the deal. Accepts a 3-character currency code. If omitted, currency will be set to the default currency of the authorized user.",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "dealCurrency",
+      ],
     },
-    user_id: {
-      type: "integer",
-      description: "ID of the user who will be marked as the owner of this deal. If omitted, the authorized user ID will be used.",
-      optional: true,
+    userId: {
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
     },
-    person_id: {
-      type: "integer",
-      description: "ID of the person this deal will be associated with",
-      optional: true,
+    personId: {
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
     },
-    org_id: {
-      type: "integer",
-      description: "ID of the organization this deal will be associated with",
-      optional: true,
+    organizationId: {
+      propDefinition: [
+        pipedriveApp,
+        "organizationId",
+      ],
     },
-    stage_id: {
-      type: "integer",
-      description: "ID of the stage this deal will be placed in a pipeline (note that you can't supply the ID of the pipeline as this will be assigned automatically based on stage_id). If omitted, the deal will be placed in the first stage of the default pipeline.",
-      optional: true,
+    stageId: {
+      propDefinition: [
+        pipedriveApp,
+        "stageId",
+      ],
     },
     status: {
-      type: "string",
-      description: "open = Open, won = Won, lost = Lost, deleted = Deleted. If omitted, status will be set to open.",
-      optional: true,
-      options: [
-        "open",
-        "won",
-        "lost",
-        "deleted",
+      propDefinition: [
+        pipedriveApp,
+        "status",
       ],
     },
     probability: {
-      type: "integer",
-      description: "Deal success probability percentage. Used/shown only when deal_probability for the pipeline of the deal is enabled.",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "probability",
+      ],
     },
-    lost_reason: {
-      type: "string",
-      description: "Optional message about why the deal was lost (to be used when status=lost)",
-      optional: true,
+    lostReason: {
+      propDefinition: [
+        pipedriveApp,
+        "lostReason",
+      ],
     },
-    visible_to: {
-      type: "string",
-      description: "Visibility of the deal. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.\n1 - Owner & followers (private)\n3 - Entire company (shared)",
-      optional: true,
-      options: [
-        "1",
-        "3",
+    visibleTo: {
+      propDefinition: [
+        pipedriveApp,
+        "visibleTo",
       ],
     },
   },
   async run({ $ }) {
-  //See the Pipedrive API docs for Deals here: https://developers.pipedrive.com/docs/api/v1/#!/Deals
-    const config = {
-      method: "put",
-      url: `https://${this.companydomain}.pipedrive.com/v1/deals/${this.id}`,
-      data: {
-        title: this.title,
-        value: this.value,
-        currency: this.currency,
-        user_id: this.user_id,
-        person_id: this.person_id,
-        org_id: this.org_id,
-        stage_id: this.stage_id, //Get the stage_id from https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages
-        //getting all stages requires a pipeline_id, pipelines can be obtained
-        //from https://developers.pipedrive.com/docs/api/v1/#!/Pipelines/get_pipelines
-        status: this.status,
-        probability: this.probability,
-        lost_reason: this.lost_reason,
-        visible_to: this.visible_to,
-      },
-      headers: {
-        Authorization: `Bearer ${this.pipedrive.$auth.oauth_access_token}`,
-      },
+    const {
+      dealId,
+      title,
+      value,
+      currency,
+      userId,
+      personId,
+      organizationId,
+      stageId,
+      status,
+      probability,
+      lostReason,
+      visibleTo,
+    } = this;
 
-    };
-    return await axios($, config);
+    try {
+      const resp =
+        await this.pipedriveApp.updateDeal({
+          dealId,
+          title,
+          value,
+          currency,
+          user_id: userId,
+          person_id: personId,
+          org_id: organizationId,
+          stage_id: stageId,
+          status,
+          probability,
+          lost_reason: lostReason,
+          visible_to: visibleTo,
+        });
+
+      $.export("$summary", "Successfully updated deal");
+
+      return resp;
+
+    } catch (error) {
+      console.error(error.context?.body || error);
+      throw error.context?.body?.error || "Failed to update deal";
+    }
   },
 };

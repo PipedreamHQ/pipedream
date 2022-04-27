@@ -10,7 +10,7 @@ Pipedream is the fastest way to automate any process that connects APIs. Build a
 The Pipedream platform includes:
 
 - A [serverless runtime](/code/) and [workflow service](/workflows/)
-- Open source [triggers](/workflows/triggers/) and [actions](/components/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
+- Open source [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of integrated apps](https://pipedream.com/explore/)
 - One-click [OAuth and key-based authentication](/connected-accounts/) for hundreds of APIs (use tokens directly in code or with pre-built actions)
 
 Watch a demo or review our [quickstart guide](/quickstart/):
@@ -51,7 +51,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Open Source
 
-Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
+Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/components/guidelines/#process) via GitHub.
 
 ## Contributing
 

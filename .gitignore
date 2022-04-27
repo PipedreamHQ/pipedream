@@ -8,3 +8,5 @@ node_modules
 .eslintcache
 
 .vercel
+
+docs/.vuepress/dist

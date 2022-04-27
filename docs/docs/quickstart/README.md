@@ -8,7 +8,7 @@ Sign up for a [free Pipedream account (no credit card required)](https://pipedre
 
 First, create a new workflow by clicking **New** from [https://pipedream.com/workflows](https://pipedream.com/workflows):
 
-![image-20210516114638660](https://pipedream.com/docs/assets/img/image-20210516114638660.739caab0.png)
+![Create a new workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1649265557/docs/components/CleanShot_2022-04-06_at_13.19.08_2x_bncysa.png)
 
 ## Add an HTTP / Webhook trigger
 
@@ -155,7 +155,7 @@ Then select the sheet name (the default sheet name in Google Sheets is **Sheet1*
 
 Next, select if the spreadsheet has headers in the first row. When a header row exists, Pipedream will automatically retrieve the header labels to make it easy to enter data (if not, you can manually construct an array of values). Since the sheet for this example contains headers, select **Yes**.
 
-![image-20220329010200367](v2/README/image-20220329010200367.png)
+![image-20220329010200367](./v2/README/image-20220329010200367.png)
 
 Pipedream will retrieve the headers and generate a form to enter data in your sheet:
 
@@ -167,11 +167,11 @@ First, let's use the object explorer to pass the timestamp for the workflow even
 
 Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
 
-![image-20220329010348936](v2/README/image-20220329010348936.png)
+![image-20220329010348936](./v2/README/image-20220329010348936.png)
 
 Finally, let's copy a reference from a previous step. Scroll up to the `sentiment` step and expand the results:
 
-![image-20220329010525727](v2/README/image-20220329010525727.png)
+![image-20220329010525727](./v2/README/image-20220329010525727.png)
 
 Next,  click the **Copy Path** link next to the score.
 
