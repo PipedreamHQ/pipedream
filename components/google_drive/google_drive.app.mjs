@@ -619,18 +619,6 @@ export default {
       };
     },
     /**
-     * Creates a new file in a drive
-     *
-     * @param {object} [opts = {}] - an object containing parameters to be fed to the GDrive
-     * API call as defined in [the API docs](https://developers.google.com/drive/api/v3/reference/files/create)
-     *
-     * @returns a files resource
-     */
-    async createFile(opts = {}) {
-      const drive = this.drive();
-      return (await drive.files.create(opts)).data;
-    },
-    /**
      * This method yields comments made to a particular GDrive file. It is a
      * wrapper around [the `drive.comments.list` API](https://bit.ly/2UjYajv)
      * but defined as a generator to enable lazy loading of multiple pages.
@@ -982,40 +970,47 @@ export default {
       return (await drive.files.list(listOpts)).data.files;
     },
     /**
-     * Create a file in a drive with params generated using `opts`
+     * Create a file in a drive
      *
      * @param {object} [opts={}] - an object representing configuration options
      * used to create a file
      * @param {stream.Readable} [opts.file] - a file stream to create the file
      * with
-     * @param {string} [opts.mimeType] - the MIME type of the file to
-     * create
+     * @param {string} [opts.mimeType] - the MIME type of the file to create
      * @param {string} [opts.name] - the name of the file to create
      * @param {string} [opts.parentId] - the ID value of the parent folder to
      * create the file in
-     * @param {string} [opts.fields] - the paths of the fields to include in
-     * the response
+     * @param {string} [opts.driveId] - the ID value of a Google Drive to create
+     * the file in if `parentId` is undefined
+     * @param {string} [opts.fields] - the paths of the fields to include in the
+     * response
+     * @param {string} [opts.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
      * @param {object} [opts.requestBody] - extra/optional properties to be used
-     * in the request body of the GDrive API, as defined in
-     * [the API docs](https://bit.ly/3kuvbnq)
+     * in the request body of the GDrive API, as defined in [the API
+     * docs](https://bit.ly/3kuvbnq)
      * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
      * the GDrive API call, as defined in [the API docs](https://bit.ly/2VY0MVg)
      * @returns the created file
      */
-    async createFileFromOpts(opts = {}) {
+    async createFile(opts = {}) {
       const {
         file,
         mimeType,
         name,
         parentId,
+        driveId,
         fields,
+        supportsAllDrives = true,
         requestBody,
         ...extraParams
       } = opts;
       const drive = this.drive();
+      const parent = parentId ?? driveId;
       return (
         await drive.files.create({
           fields,
+          supportsAllDrives,
           media: file
             ? {
               mimeType,
@@ -1025,11 +1020,12 @@ export default {
           requestBody: {
             name,
             mimeType,
-            parents: parentId
+            parents: parent
               ? [
-                parentId,
+                parent,
               ]
               : undefined,
+            ...extraParams.resource,
             ...requestBody,
           },
           ...extraParams,
@@ -1057,7 +1053,7 @@ export default {
         fields = "*",
         ...extraParams
       } = opts;
-      return await this.createFileFromOpts({
+      return await this.createFile({
         name,
         parentId,
         fields,
@@ -1075,6 +1071,8 @@ export default {
      * used to update a file
      * @param {string} [opts.mimeType] - the MIME type of the file
      * used to update the file content
+     * @param {string} [opts.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
      * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
      * the GDrive API call, as defined in [the API docs](https://bit.ly/3lNg9Zw)
      * @returns the updated file
@@ -1082,12 +1080,14 @@ export default {
     async updateFileMedia(fileId, fileStream, opts = {}) {
       const {
         mimeType,
+        supportsAllDrives = true,
         ...extraParams
       } = opts;
       const drive = this.drive();
       return (
         await drive.files.update({
           fileId,
+          supportsAllDrives,
           media: {
             mimeType,
             body: fileStream,
@@ -1110,6 +1110,8 @@ export default {
      * folder IDs to add to the file's parents
      * @param {string} [opts.addParents] - a comma-separated list of parent
      * folder IDs to add to the file's parents
+     * @param {string} [opts.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
      * @param {object} [opts.requestBody] - extra/optional properties to be used
      * in the request body of the GDrive API, as defined in
      * [the API docs](https://bit.ly/3nTMi4n)
@@ -1124,6 +1126,7 @@ export default {
         fields,
         removeParents,
         addParents,
+        supportsAllDrives = true,
         requestBody,
         ...extraParams
       } = opts;
@@ -1134,6 +1137,7 @@ export default {
           removeParents,
           addParents,
           fields,
+          supportsAllDrives,
           requestBody: {
             name,
             mimeType,
@@ -1151,6 +1155,8 @@ export default {
      * used to copy a file
      * @param {string} [opts.fields="*"] - the paths of the fields to include in
      * the response
+     * @param {string} [opts.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
      * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
      * the GDrive API call, as defined in [the API docs](https://bit.ly/3kq5eFO)
      * @returns the copy of the file
@@ -1158,6 +1164,7 @@ export default {
     async copyFile(fileId, opts = {}) {
       const {
         fields = "*",
+        supportsAllDrives = true,
         ...extraParams
       } = opts;
       const drive = this.drive();
@@ -1165,6 +1172,7 @@ export default {
         await drive.files.copy({
           fileId,
           fields,
+          supportsAllDrives,
           ...extraParams,
         })
       ).data;
@@ -1173,13 +1181,26 @@ export default {
      * Delete a file
      *
      * @param {string} fileId - the ID value of the file to delete
+     * @param {object} [params={}] - an object representing parameters used to
+     * delete a file
+     * @param {string} [params.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
+     * @param {...*} [params.extraParams] - extra/optional parameters to be fed
+     * to the GDrive API call, as defined in [the API
+     * docs](https://bit.ly/3MjRkB7)
      * @returns {void}
      */
-    async deleteFile(fileId) {
+    async deleteFile(fileId, params = {}) {
+      const {
+        supportsAllDrives = true,
+        ...extraParams
+      } = params;
       const drive = this.drive();
       return (
         await drive.files.delete({
           fileId,
+          supportsAllDrives,
+          ...extraParams,
         })
       ).data;
     },
@@ -1228,6 +1249,8 @@ export default {
      * refers
      * @param {string} [opts.emailAddress] - the email address of the user or
      * group to which this permission refers
+     * @param {string} [opts.supportsAllDrives=true] - whether the requesting
+     * application supports both My Drives and shared drives
      * @returns the created Permission
      */
     async createPermission(fileId, opts = {}) {
@@ -1236,11 +1259,13 @@ export default {
         type,
         domain,
         emailAddress,
+        supportsAllDrives = true,
       } = opts;
       const drive = this.drive();
       return (
         await drive.permissions.create({
           fileId,
+          supportsAllDrives,
           requestBody: omitEmptyStringValues({
             role,
             type,
