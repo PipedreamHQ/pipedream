@@ -1,6 +1,11 @@
+---
+short_description: Connect to apps with Node.js code with ease.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/icons/icons8-connected-96_fcbhxc.png
+---
+
 # Connecting apps in Node.js 
 
-When you use [prebuilt actions](/components/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
+When you use [prebuilt actions](/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
 But sometimes you'll need to [write your own code](/code/nodejs/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
 
@@ -119,6 +124,6 @@ When you want to connect to a 3rd party service that isn't supported by Pipedrea
 
 ## Learn more about `props`
 
-Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/code/nodejs/#managing-state).
+Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/code/nodejs/using-data-stores/).
 
 <Footer />

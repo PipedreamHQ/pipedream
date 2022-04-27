@@ -1,44 +1,46 @@
-// legacy_hash_id: a_RAiav3
-import { axios } from "@pipedream/platform";
+import common from "../common.js";
 
 export default {
+  ...common,
   key: "trello-delete-checklist",
-  name: "Delete a Checklist",
-  description: "Deletes an existing checklist on a card.",
-  version: "0.1.1",
+  name: "Delete Checklist",
+  description: "Deletes the specified checklist. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-delete)",
+  version: "0.1.2",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
     },
-    id: {
+    idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "ID of the checklist to delete.",
+      label: "Card",
+      description: "The ID of the card containing the checklist do delete",
+      optional: false,
+    },
+    idChecklist: {
+      propDefinition: [
+        common.props.trello,
+        "checklist",
+        (c) => ({
+          card: c.idCard,
+        }),
+      ],
+      description: "The ID of the checklist to delete",
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-
-    const config = {
-      url: `https://api.trello.com/1/checklists/${id}`,
-      method: "DELETE",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    await this.trello.deleteChecklist(this.idChecklist, $);
+    $.export("$summary", `Successfully deleted checklist ${this.idChecklist}`);
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-find-contact",
   name: "Find Contact",
   description: "Finds a contact by email address.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

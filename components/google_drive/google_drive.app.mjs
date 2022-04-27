@@ -1,5 +1,5 @@
 import axios from "axios";
-import { google } from "googleapis";
+import drive from "@googleapis/drive";
 import { v4 as uuid } from "uuid";
 import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
@@ -266,11 +266,11 @@ export default {
 
     // Returns a drive object authenticated with the user's access token
     drive() {
-      const auth = new google.auth.OAuth2();
+      const auth = new drive.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.drive({
+      return drive.drive({
         version: "v3",
         auth,
       });
@@ -797,7 +797,7 @@ export default {
       ).data;
     },
     async activateHook(channelID, url, drive) {
-      const startPageToken = await this.getPageToken();
+      const startPageToken = await this.getPageToken(drive);
       const {
         expiration,
         resourceId,
@@ -811,6 +811,24 @@ export default {
         startPageToken,
         expiration,
         resourceId,
+      };
+    },
+    async activateFileHook(channelID, url, fileId) {
+      channelID = channelID || uuid();
+
+      const {
+        expiration,
+        resourceId,
+      } = await this.watchFile(
+        channelID,
+        url,
+        fileId,
+      );
+
+      return {
+        expiration,
+        resourceId,
+        channelID,
       };
     },
     async deactivateHook(channelID, resourceId) {
@@ -830,7 +848,7 @@ export default {
 
       await this.stopNotifications(channelID, resourceId);
     },
-    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
+    async renewSubscription(drive, subscription, url, channelID, pageToken) {
       const newChannelID = channelID || uuid();
       const driveId = this.getDriveId(drive);
       const newPageToken = pageToken || (await this.getPageToken(driveId));
@@ -879,6 +897,37 @@ export default {
         driveId,
       );
       return {
+        expiration,
+        resourceId,
+      };
+    },
+    async renewFileSubscription(subscription, url, channelID, fileId, nextRunTimestamp) {
+      if (nextRunTimestamp && subscription?.expiration < nextRunTimestamp) {
+        return subscription;
+      }
+
+      const newChannelID = channelID || uuid();
+
+      if (subscription?.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`,
+        );
+        await this.stopNotifications(
+          channelID,
+          subscription.resourceId,
+        );
+      }
+      const {
+        expiration,
+        resourceId,
+      } = await this.watchFile(
+        channelID,
+        url,
+        fileId,
+      );
+
+      return {
+        newChannelID,
         expiration,
         resourceId,
       };

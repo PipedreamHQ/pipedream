@@ -1,3 +1,5 @@
+@require '~vuepress-plugin-tabs/dist/themes/default.styl'
+
 body
 	font-family system-ui,BlinkMacSystemFont,-apple-system, sans-serif, Helvetica, Roboto, "Helvetica Neue", Arial, sans-serif
 
@@ -33,10 +35,6 @@ body .content .default
 	@media (max-width: 719px)
 		color $hoverColor
 
-.theme-container .navbar img
-	height 22px
-	padding-top: 0.5em
-
 div .sidebar-button svg
 	color: $sidebarColor
 
@@ -44,3 +42,15 @@ div .sidebar-button svg
 	color $sidebarColor
 	margin-left: -25px
 	margin-top: 1px
+
+p {
+  display: block
+  margin-block-start: 1em
+  margin-block-end: 1em
+  margin-inline-start: 0px
+  margin-inline-end: 0px
+}
+
+*:not(li)>ul {
+  margin-top: 1em;
+}
