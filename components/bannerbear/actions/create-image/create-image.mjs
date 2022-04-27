@@ -1,5 +1,3 @@
-import { axios } from "@pipedream/platform";
-
 import bannerbear from '../../bannerbear.app.mjs'
 
 export default {
@@ -22,19 +20,14 @@ export default {
     }
   },
   async run({ $ }) {
-    const response = await axios($, {
-      method: 'POST',
-      url: 'https://sync.api.bannerbear.com/v2/images',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${bannerbear.getAuthKey()}`
-      },
-      data: {
-        template: this.template,
-        modifications: this.modifications
-      }
-    })
+    const res = await this.bannerbear.createImage(
+      $,
+      this.template,
+      this.modifications,
+    );
 
-    return response;
+    $.export("$summary", "Create image successfully.");
+
+    return res;
   },
 };
