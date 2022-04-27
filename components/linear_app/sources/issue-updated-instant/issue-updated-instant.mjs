@@ -17,7 +17,7 @@ export default {
       ];
     },
     getWebhookLabel() {
-      return "Issue created";
+      return "Issue updated";
     },
     getActions() {
       return [
