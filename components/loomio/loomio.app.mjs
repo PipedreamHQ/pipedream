@@ -7,37 +7,32 @@ export default {
   version: "0.0.1",
   type: "app",
   props: {
-    email: { type: "string" },
-    password: { type: "string", secret: true },
-    group_id: {
-      type: "integer",
-      // TODO: load possible groups using other props
-    },
     base_url: {
       type: "string",
       description: "Base url for loomio",
       default: DEFAULT_BASE_URL,
+    },
+    api_key: { type: "string", secret: true, name: 'API key' },
+    group_id: {
+      type: "integer",
+      async options({ $ }) {
+        return (await this.getMemberships($)).map(group => {value: group.id, label: group.full_name});
+      },
     },
   },
   methods: {
     getGroupId() {
       return this.group_id;
     },
-    getBaseUrl() {
-      return this.base_url || DEFAULT_BASE_URL;
+    getApiKey() {
+      return this.api_key;
     },
-    async getCookie($) {
-      const res = await axios($, {
-        method: 'POST',
-        url: this.getBaseUrl() + "/api/v1/sessions",
-        body: {
-          user: {
-            email: this.email,
-            password: this.password,
-          }
-        }
-      });
-      return res.headers["set-cookie"].join("; ");
+    getBaseUrl() {
+      return (this.base_url || DEFAULT_BASE_URL) + '/api/b1;
+    },
+    async getMemberships($) {
+      const res = await axios($, { url: this.getBaseUrl() + "/memberships?api_key=" + this.api_key });
+      return res.groups;
     },
   },
 };
