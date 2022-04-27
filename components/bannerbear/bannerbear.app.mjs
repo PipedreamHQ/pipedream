@@ -10,7 +10,7 @@ export default {
       description: "BannerBear template. [See the docs](https://developers.bannerbear.com/#get-v2-templates)",
       async options({ prevContext }) {
         const currentPage = prevContext.nextPage || 1
-        const templates = await this.fetchTemplates({ page: currentPage });
+        const templates = await this.fetchTemplates(this, { page: currentPage });
         const options = this._extractTemplateOptions(templates);
 
         return this._buildPaginatedOptions(options, currentPage);
