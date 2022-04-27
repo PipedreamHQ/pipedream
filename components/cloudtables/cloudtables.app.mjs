@@ -28,7 +28,10 @@ export default {
       delete opts.path;
       opts.url = `https://${this.$auth.subdomain}.cloudtables.io/api/1${path[0] === "/"
         ? ""
-        : "/"}${path}?key=${this.$auth.api_key}`;
+        : "/"}${path}`;
+      opts.params = {
+        key: this.$auth.api_key,
+      };
       try {
         return await axios($ ?? this, opts);
       } catch (err) {
@@ -39,9 +42,10 @@ export default {
       err = err.response.data;
       throw Error(err.error);
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _getHeaders() {
+      return {
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
     },
     async getDataSets($) {
       const dataSetsData = await this._makeRequest($, {
@@ -63,9 +67,7 @@ export default {
       return this._makeRequest(this, {
         method: "POST",
         path: `/dataset/${datasetID}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: this._getHeaders(),
         data: stringify(data),
       });
     },
@@ -73,9 +75,7 @@ export default {
       return this._makeRequest(this, {
         method: "PUT",
         path: `/dataset/${datasetID}/${rowId}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: this._getHeaders(),
         data: stringify(data),
       });
     },
@@ -83,9 +83,7 @@ export default {
       return this._makeRequest(this, {
         method: "DELETE",
         path: `/dataset/${datasetID}/${rowId}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: this._getHeaders(),
       });
     },
   },
