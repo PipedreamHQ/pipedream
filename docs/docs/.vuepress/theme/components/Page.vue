@@ -2,7 +2,10 @@
   <main class="page flex flex-col h-screen justify-between">
     <slot name="top" />
 
-    <Content class="theme-default-content" />
+    <Content
+      class="theme-default-content"
+      :class="$frontmatter.content_class"
+    />
 
     <section>
       <PageNav v-bind="{ sidebarItems }" />
