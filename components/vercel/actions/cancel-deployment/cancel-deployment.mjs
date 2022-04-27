@@ -28,7 +28,7 @@ export default {
     const params = {
       teamId: this.team,
     };
-    const res = await this.vercel.cancelDeployments(this.deployment, params, $);
+    const res = await this.vercel.cancelDeployment(this.deployment, params, $);
     $.export("$summary", `Successfully canceled deployment ${this.deployment}`);
     return res;
   },
