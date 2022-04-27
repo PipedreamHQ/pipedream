@@ -16,7 +16,7 @@ export default {
     },
     filter: {
       label: "Filter",
-      description: "The filter to query. [See how fitler works here](https://developers.notion.com/reference/post-database-query-filter)",
+      description: "The filter to query. [See how to filters works here](https://developers.notion.com/reference/post-database-query-filter)",
       type: "string",
     },
   },
