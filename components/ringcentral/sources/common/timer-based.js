@@ -23,6 +23,7 @@ module.exports = {
     },
   },
   methods: {
+    ...base.methods,
     _timestampToIsoString(timestamp) {
       const timestampInMillis = Math.floor(timestamp * 1000);
       return new Date(timestampInMillis).toISOString();
