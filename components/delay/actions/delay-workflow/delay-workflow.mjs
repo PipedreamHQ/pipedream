@@ -2,7 +2,7 @@ import delay from "../../delay.app.mjs";
 
 export default {
   name: "Delay Workflow",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   key: "delay-delay-workflow",
   description: "Delay the execution of your workflow for a specific amount of time.",
   props: {
