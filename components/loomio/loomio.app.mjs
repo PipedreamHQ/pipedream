@@ -8,15 +8,17 @@ export default {
   type: "app",
   props: {
     base_url: {
+      label: 'Base URL',
       type: "string",
       description: "Base url for loomio",
-      default: DEFAULT_BASE_URL,
+      'default': DEFAULT_BASE_URL,
     },
-    api_key: { type: "string", secret: true, name: 'API key' },
+    api_key: { type: "string", secret: true, label: 'API Key' },
     group_id: {
+      label: 'Group ID',
       type: "integer",
       async options({ $ }) {
-        return (await this.getMemberships($)).map(group => {value: group.id, label: group.full_name});
+        return (await this.getMemberships($)).map(group => ({value: group.id, label: group.full_name}));
       },
     },
   },
@@ -28,7 +30,7 @@ export default {
       return this.api_key;
     },
     getBaseUrl() {
-      return (this.base_url || DEFAULT_BASE_URL) + '/api/b1;
+      return (this.base_url || DEFAULT_BASE_URL) + '/api/b1';
     },
     async getMemberships($) {
       const res = await axios($, { url: this.getBaseUrl() + "/memberships?api_key=" + this.api_key });
