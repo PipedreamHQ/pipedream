@@ -1,11 +1,11 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
-import utils from "../utils.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "symbl_ai-put-speaker-events",
   name: "Update Speaker Events",
   description: "Update the Speaker Events of the Conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/speaker-events/).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     symblAIApp,
