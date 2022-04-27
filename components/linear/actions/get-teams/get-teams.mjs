@@ -1,6 +1,9 @@
 import linearApp from "../../linear.app.mjs";
 import getTeams from "../../../linear_app/actions/get-teams/get-teams.mjs";
 
+/* eslint-disable pipedream/required-properties-type */
+/* eslint-disable pipedream/required-properties-name */
+
 export default {
   ...getTeams,
   key: "linear-get-teams",

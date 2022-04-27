@@ -2,6 +2,9 @@ import linearApp from "../../linear.app.mjs";
 import utils from "../../common/utils.mjs";
 import updateIssue from "../../../linear_app/actions/update-issue/update-issue.mjs";
 
+/* eslint-disable pipedream/required-properties-type */
+/* eslint-disable pipedream/required-properties-name */
+
 const {
   // eslint-disable-next-line no-unused-vars
   linearApp: app,
