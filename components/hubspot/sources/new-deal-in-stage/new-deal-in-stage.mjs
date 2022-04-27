@@ -25,6 +25,7 @@ export default {
           pipeline: c.pipeline,
         }),
       ],
+      withLabel: false,
     },
   },
   methods: {

@@ -15,6 +15,7 @@ export default {
         common.props.hubspot,
         "forms",
       ],
+      withLabel: false,
     },
   },
   hooks: {},

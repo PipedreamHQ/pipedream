@@ -15,6 +15,7 @@ export default {
         common.props.hubspot,
         "lists",
       ],
+      withLabel: true,
     },
   },
   methods: {
@@ -30,7 +31,7 @@ export default {
       } = list;
       return {
         id: `${vid}${value}`,
-        summary: `${properties.firstname.value} ${properties.lastname.value} added to ${label}`,
+        summary: `${properties?.firstname?.value} ${properties?.lastname?.value} added to ${label}`,
         ts: Date.now(),
       };
     },

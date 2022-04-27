@@ -1,10 +1,10 @@
 import hubspot from "../hubspot.app.mjs";
+import { monthAgo } from "../common/utils.mjs";
 
 export default {
   props: {
     hubspot,
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     _getAfter() {
-      return this.db.get("after") || Date.parse(this.hubspot.monthAgo());
+      return this.db.get("after") || Date.parse(monthAgo());
     },
     _setAfter(after) {
       this.db.set("after", after);

@@ -1,5 +1,9 @@
-import axios from "axios";
-import hubspotSDK from "@hubspot/api-client";
+import { axios } from "@pipedream/platform";
+import {
+  OBJECT_TYPE,
+  OBJECT_TYPES,
+  HUBSPOT_OWNER,
+} from "./common/object-types.mjs";
 
 export default {
   type: "app",
@@ -10,15 +14,19 @@ export default {
       label: "Lists",
       description: "Select the lists to watch for new contacts.",
       withLabel: true,
-      async options({ page }) {
-        const count = 250;
-        const offset = page * count;
+      async options({
+        prevContext, listType,
+      }) {
+        const { offset = 0 } = prevContext;
         const params = {
-          count,
+          count: 250,
           offset,
         };
-        const results = await this.getLists(params);
-        const options = results.map((result) => {
+        const { lists } = await this.getLists({
+          listType,
+          ...params,
+        });
+        const options = lists.map((result) => {
           const {
             name: label,
             listId,
@@ -28,7 +36,12 @@ export default {
             value: listId,
           };
         });
-        return options;
+        return {
+          options,
+          context: {
+            offset: params.offset + params.count,
+          },
+        };
       },
     },
     dealPipeline: {
@@ -36,8 +49,8 @@ export default {
       label: "Pipeline",
       description: "Select the pipeline to watch for new deals in",
       async options() {
-        const results = await this.getPipelines("deal");
-        const options = results.map((result) => {
+        const { results } = await this.getPipelines("deal");
+        return results.map((result) => {
           const {
             label,
             id: value,
@@ -47,111 +60,71 @@ export default {
             value,
           };
         });
-        return options;
       },
     },
     stages: {
       type: "string[]",
       label: "Stages",
       description: "Select the stages to watch for new deals in.",
+      withLabel: true,
       async options({ pipeline }) {
-        const results = await this.getDealStages(pipeline);
-        const options = results.map((result) => {
+        const { results } = await this.getDealStages(pipeline);
+        return results.map((result) => {
           const {
             label,
-            id: value,
+            id,
           } = result;
           return {
             label,
-            value,
+            value: id,
           };
         });
-        return options;
       },
     },
     objectType: {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      options: [
-        {
-          label: "Companies",
-          value: "company",
-        },
-        {
-          label: "Contacts",
-          value: "contact",
-        },
-        {
-          label: "Deals",
-          value: "deal",
-        },
-        {
-          label: "Tickets",
-          value: "ticket",
-        },
-      ],
+      options: OBJECT_TYPES,
     },
     objectIds: {
       type: "string[]",
       label: "Object",
       description: "Watch for new events concerning the objects selected.",
-      async options(opts) {
-        const objectType = (opts.objectType == "company")
-          ? "companies"
-          : `${opts.objectType}s`;
-        const results = await this.getObjects(objectType);
-        const options = results.map((result) => {
-          const {
-            id,
-            properties,
-          } = result;
-          let label;
-          switch (objectType) {
-          case "companies":
-            label = properties.name;
-            break;
-          case "contacts":
-            label = `${properties.firstname} ${properties.lastname}`;
-            break;
-          case "deals":
-            label = properties.dealname;
-            break;
-          case "tickets":
-            label = properties.subject;
-            break;
-          }
-          return {
-            label,
-            value: id,
-          };
-        });
-        return options;
+      async options({
+        objectType, ...opts
+      }) {
+        return this.createOptions(objectType, opts);
       },
     },
     forms: {
       type: "string[]",
       label: "Form",
       description: "Watch for new submissions of the specified forms.",
-      async options({ page }) {
-        const limit = 50;
-        const offset = page * limit;
+      withLabel: true,
+      async options(prevContext) {
+        const { offset } = prevContext;
         const params = {
-          limit,
-          offset,
+          count: 50,
+          offset: offset || 0,
         };
-        const results = await this.getForms(params);
+        const results = await this.getForms();
         const options = results.map((result) => {
           const {
             name: label,
-            guid: value,
+            guid,
           } = result;
           return {
             label,
-            value,
+            value: guid,
           };
         });
-        return options;
+        return {
+          options,
+          context: {
+            offset: params.offset + params.count,
+          },
+        };
       },
     },
     channel: {
@@ -160,7 +133,7 @@ export default {
       description: "Watch for new events from the specified channel",
       async options() {
         const channels = await this.getPublishingChannels();
-        const options = channels.map((channel) => {
+        return channels.map((channel) => {
           const {
             accountType,
             username,
@@ -172,138 +145,285 @@ export default {
             value,
           };
         });
-        return options;
       },
     },
   },
   methods: {
-    _client() {
-      return new hubspotSDK.Client({
-        accessToken: this.$auth.oauth_access_token,
-      });
+    _getBaseURL() {
+      return "https://api.hubapi.com";
     },
-    monthAgo() {
-      const monthAgo = new Date();
-      monthAgo.setMonth(monthAgo.getMonth() - 1);
-      return monthAgo;
+    _getHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
+      };
     },
-    async makeAxiosRequest(method, endpoint, params = null) {
+    async makeRequest(endpoint, opts = {}) {
+      const {
+        method = "GET",
+        params,
+        data,
+        $,
+      } = opts;
       const config = {
         method,
-        url: `https://api.hubapi.com${endpoint}`,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        url: `${this._getBaseURL()}${endpoint}`,
+        headers: this._getHeaders(),
         params,
+        data,
       };
-      return (await axios(config)).data;
+      return axios($ ?? this, config);
     },
-    async makeRequest(method, path, body = null) {
-      const client = this._client();
-      return client.apiRequest({
-        method,
-        path,
-        body,
+    async makeGetRequest(endpoint, params = null, $) {
+      return this.makeRequest(endpoint, {
+        params,
+        $,
       });
+    },
+    async makePostRequest({
+      endpoint, data,
+    }, $) {
+      return this.makeRequest(endpoint, {
+        method: "POST",
+        data,
+        $,
+      });
+    },
+    /**
+     * Returns the object type name of a CRM object to be used in Hubspot API
+     * calls
+     *
+     * {@see {@link https://developers.hubspot.com/docs/cms/data/crm-objects CRM Object}
+     *
+     * @param {string} objectSlug - The object type's plural label or fully qualified
+     * name
+     * @returns The object type name
+     */
+    getObjectTypeName(objectSlug) {
+      if (!objectSlug.endsWith("s")) {
+        return objectSlug.toLowerCase();
+      }
+      if (objectSlug === "companies") {
+        return "company";
+      }
+      return objectSlug.toLowerCase().slice(0, -1);
+    },
+    /**
+     * Returns a label for a CRM object, intended to be used as the label for
+     * prop options
+     *
+     * @param {object} object - The CRM object to get a label for
+     * @param {string} objectSlug - The object type's plural label or fully
+     * qualified name
+     * @returns A label for the object
+     */
+    getObjectLabel(object, objectSlug) {
+      const {
+        id,
+        properties,
+      } = object;
+      const objectName = this.getObjectTypeName(objectSlug);
+      switch (objectName) {
+      case OBJECT_TYPE.COMPANY:
+        return properties.name;
+      case OBJECT_TYPE.CONTACT:
+        return `${properties.firstname} ${properties.lastname}`;
+      case OBJECT_TYPE.DEAL:
+        return properties.dealname;
+      case OBJECT_TYPE.LINE_ITEM:
+        return properties.name;
+      case OBJECT_TYPE.TICKET:
+        return properties.subject;
+      case OBJECT_TYPE.QUOTE:
+        return properties.hs_title ?? id;
+      case HUBSPOT_OWNER:
+        return properties.email;
+      case OBJECT_TYPE.CALL:
+        return properties.hs_call_title ?? id;
+      case OBJECT_TYPE.MEETING:
+        return properties.hs_meeting_title ?? id;
+      case OBJECT_TYPE.EMAIL:
+        return properties.hs_email_subject ?? id;
+      case OBJECT_TYPE.TASK:
+        return properties.hs_task_subject ?? id;
+      case OBJECT_TYPE.NOTE:
+        return properties.hs_note_body;
+      default:
+        return id;
+      }
     },
     async searchCRM({
       object, ...data
-    }) {
-      const client = this._client();
-      return (await client.crm[object].searchApi.doSearch(data)).body;
+    }, $) {
+      const config = {
+        method: "POST",
+        url: `${this._getBaseURL()}/crm/v3/objects/${object}/search`,
+        headers: this._getHeaders(),
+        data,
+      };
+      return axios($ ?? this, config);
     },
-    async getBlogPosts(params) {
-      return (await this.makeRequest("GET", "/cms/v3/blogs/posts", params)).body;
+    async getBlogPosts(params, $) {
+      return this.makeGetRequest("/cms/v3/blogs/posts", params, $);
     },
-    async getCalendarTasks(endDate) {
+    async getCalendarTasks(endDate, $) {
       const params = {
         startDate: Date.now(),
         endDate,
       };
-      return this.makeAxiosRequest("GET", "/calendar/v1/events/task", params);
+      return this.makeGetRequest("/calendar/v1/events/task", params, $);
     },
-    async getContactProperties() {
-      return this.makeAxiosRequest("GET", "/properties/v1/contacts/properties");
+    async getContactProperties($) {
+      return this.makeGetRequest("/properties/v1/contacts/properties", $);
     },
-    async createPropertiesArray() {
-      const allProperties = await this.getContactProperties();
+    async createPropertiesArray($) {
+      const allProperties = await this.getContactProperties($);
       return allProperties.map((property) => property.name);
     },
-    async getDealProperties() {
-      return this.makeAxiosRequest("GET", "/properties/v1/deals/properties");
+    async getDealProperties($) {
+      return this.makeGetRequest("/properties/v1/deals/properties", $);
     },
-    async getDealStages(pipelineId) {
-      const pipelines = await this.getPipelines("deal");
-      const pipeline = pipelines.find((pipeline) => pipeline.id == pipelineId);
-      return pipeline?.stages;
+    async getDealStages(pipelineId, $) {
+      return this.makeGetRequest(`/crm/v3/pipelines/deal/${pipelineId}/stages`, $);
     },
-    async getEmailEvents(params) {
-      return this.makeAxiosRequest("GET", "/email/public/v1/events", params);
+    async getEmailEvents(params, $) {
+      return this.makeGetRequest("/email/public/v1/events", params, $);
     },
-    async getEngagements(params) {
-      return this.makeAxiosRequest(
-        "GET",
+    async getEngagements(params, $) {
+      return this.makeGetRequest(
         "/engagements/v1/engagements/paged",
         params,
+        $,
       );
     },
-    async getEvents(params) {
-      return this.makeAxiosRequest("GET", "/events/v3/events", params);
+    async getEvents(params, $) {
+      return this.makeGetRequest("/events/v3/events", params, $);
     },
-    async getForms(params) {
-      return this.makeAxiosRequest("GET", "/forms/v2/forms", params);
+    async getForms(params, $) {
+      return this.makeGetRequest("/forms/v2/forms", params, $);
     },
-    async getFormSubmissions(params) {
-      const { formId } = params;
-      delete params.formId;
-      return this.makeAxiosRequest(
-        "GET",
+    async getFormSubmissions({
+      formId, ...params
+    }, $) {
+      return this.makeGetRequest(
         `/form-integrations/v1/submissions/forms/${formId}`,
         params,
+        $,
       );
     },
-    async getLists(params) {
-      const { lists } = await this.makeAxiosRequest("GET", "/contacts/v1/lists", params);
-      return lists;
+    async getLists(params, $) {
+      const {
+        listType,
+        ...otherParams
+      } = params;
+      const basePath = "/contacts/v1/lists";
+      const path = listType
+        ? `${basePath}/${listType}`
+        : basePath;
+      return this.makeGetRequest(path, otherParams, $);
     },
-    async getListContacts(params, listId) {
-      return this.makeAxiosRequest(
-        "GET",
+    async getListContacts(params, listId, $) {
+      return this.makeGetRequest(
         `/contacts/v1/lists/${listId}/contacts/all`,
         params,
+        $,
       );
     },
-    async getObjects(objectType) {
-      const client = this._client();
-      return client.crm[objectType].getAll();
+    async listObjectsInPage(objectType, after, params, $) {
+      return this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
+        after,
+        ...params,
+      }, $);
     },
-    async getContact(contactId, properties) {
+    async getObjects(objectType, $) {
+      const params = {
+        limit: 100,
+      };
+      let results = null;
+      const objects = [];
+      while (!results || params.next) {
+        results = await this.makeGetRequest(
+          `/crm/v3/objects/${objectType}`,
+          params,
+          $,
+        );
+        params.next = results.paging?.next?.after;
+        for (const result of results.results) {
+          objects.push(result);
+        }
+      }
+      return objects;
+    },
+    async getContact(contactId, properties, $) {
       const params = {
         properties,
       };
-      return this.makeRequest(
-        "GET",
+      return this.makeGetRequest(
         `/crm/v3/objects/contacts/${contactId}`,
         params,
+        $,
       );
     },
-    async getLineItem(lineItemId) {
-      return this.makeRequest("GET", `/crm/v3/objects/line_items/${lineItemId}`);
+    async getLineItem(lineItemId, $) {
+      return this.makeGetRequest(
+        `/crm/v3/objects/line_items/${lineItemId}`,
+        $,
+      );
     },
-    async getPublishingChannels() {
-      return this.makeAxiosRequest("GET", "/broadcast/v1/channels/setting/publish/current");
+    async getPublishingChannels($) {
+      return this.makeGetRequest(
+        "/broadcast/v1/channels/setting/publish/current",
+        $,
+      );
     },
-    async getBroadcastMessages(params) {
-      return this.makeAxiosRequest("GET", "/broadcast/v1/broadcasts", params);
+    async getBroadcastMessages(params, $) {
+      return this.makeGetRequest(
+        "/broadcast/v1/broadcasts",
+        params,
+        $,
+      );
     },
-    async getEmailSubscriptionsTimeline(params) {
-      return this.makeAxiosRequest("GET", "/email/public/v1/subscriptions/timeline", params);
+    async getEmailSubscriptionsTimeline(params, $) {
+      return this.makeGetRequest(
+        "/email/public/v1/subscriptions/timeline",
+        params,
+        $,
+      );
     },
-    async getPipelines(objectType) {
-      const client = this._client();
-      const archived = false;
-      return (await client.crm.pipelines.pipelinesApi.getAll(objectType, archived)).body.results;
+    async getPipelines(objectType, $) {
+      return this.makeGetRequest(`/crm/v3/pipelines/${objectType}`, $);
+    },
+    /**
+     * Returns a list of prop options for a CRM object type
+     *
+     * @param {*} referencedObjectType The object type to
+     * @param {object} [opts = {}] - an object representing configuration
+     * options used to create prop options, intended to be passed from the first
+     * argument of the prop's async options
+     * @returns a list of prop options
+     */
+    async createOptions(referencedObjectType, opts = {}) {
+      const {
+        prevContext,
+        page,
+      } = opts;
+      const { nextAfter } = prevContext;
+      if (page !== 0 && !nextAfter) {
+        return [];
+      }
+      const {
+        paging,
+        results,
+      } = await this.listObjectsInPage(referencedObjectType, nextAfter);
+      return {
+        options: results.map((object) => ({
+          label: this.getObjectLabel(object, referencedObjectType) ?? object.id,
+          value: object.id,
+        })),
+        context: {
+          nextAfter: paging?.next.after,
+        },
+      };
     },
   },
 };

@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import { monthAgo } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -26,7 +27,7 @@ export default {
       };
     },
     getParams() {
-      const startTimestamp = Date.parse(this.hubspot.monthAgo());
+      const startTimestamp = Date.parse(monthAgo());
       return {
         limit: 100,
         startTimestamp,

@@ -35,7 +35,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        object: "lineItems",
+        object: "line_items",
       };
     },
     async processResults(after, params) {
