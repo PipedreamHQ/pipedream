@@ -40,7 +40,11 @@ const docsNav = [
           "/code/nodejs/sharing-code/"
         ],
       },
-      "/code/python/",
+      { 
+        title: "Python",
+        type: "group",
+        children: ["/code/python/", "/code/python/import-mappings/",]
+      },
       "/code/go/",
       {
         title: "Bash",
