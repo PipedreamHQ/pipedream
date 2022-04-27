@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   key: "linear_app-issue-created-instant",
-  name: "Issue Created (Instant)",
+  name: "New Created Issue (Instant)",
   description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
   version: "0.0.1",
