@@ -85,19 +85,18 @@ export default {
     }) {
       return this._makeRequest(`form/${formId}.json`, {}, $);
     },
-
-    async createSubmission({
-      formId, data, $,
-    }) {
-      return this._makeRequest(`form/${formId}/submission.json`, {
-        method: "post",
-        data,
-      }, $);
-    },
     async createForm({
       data, $,
     }) {
       return this._makeRequest("form.json", {
+        method: "post",
+        data,
+      }, $);
+    },
+    async createSubmission({
+      formId, data, $,
+    }) {
+      return this._makeRequest(`form/${formId}/submission.json`, {
         method: "post",
         data,
       }, $);
