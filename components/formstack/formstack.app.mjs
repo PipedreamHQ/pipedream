@@ -21,11 +21,6 @@ export default {
     },
   },
   methods: {
-    monthAgo() {
-      const monthAgo = new Date();
-      monthAgo.setMonth(monthAgo.getMonth() - 1);
-      return monthAgo;
-    },
     _accessToken() {
       return this.$auth.oauth_access_token;
     },
@@ -38,7 +33,8 @@ export default {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           ...options.headers,
-          Authorization: `Bearer ${this._accessToken()}`,
+          "Authorization": `Bearer ${this._accessToken()}`,
+          "Content-Type": "application/json",
         },
       });
     },
@@ -84,16 +80,27 @@ export default {
 
       return allForms;
     },
+    async getForm({
+      formId, $,
+    }) {
+      return this._makeRequest(`form/${formId}.json`, {}, $);
+    },
 
     async createSubmission({
       formId, data, $,
     }) {
-      const response = await this._makeRequest(`form/${formId}/submission.json`, {
+      return this._makeRequest(`form/${formId}/submission.json`, {
         method: "post",
         data,
       }, $);
-
-      return response;
+    },
+    async createForm({
+      data, $,
+    }) {
+      return this._makeRequest("form.json", {
+        method: "post",
+        data,
+      }, $);
     },
   },
 };
