@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,27 +11,47 @@ export default {
       async options({ prevContext }) {
         const currentPage = prevContext.nextPage || 1
         const templates = await this.fetchTemplates({ page: currentPage });
-        const options = this.extractTemplateOptions(templates);
+        const options = this._extractTemplateOptions(templates);
 
-        return this.buildPaginatedOptions(options, currentPage);
+        return this._buildPaginatedOptions(options, currentPage);
       },
     },
   },
   methods: {
-    async fetchTemplates(params = {}) {
-      const response = await axios.get('https://api.bannerbear.com/v2/templates', {
-        headers: {
-          'Authorization': `Bearer ${this.getAuthKey()}`
-        },
+    async fetchTemplates(ctx = this, params = {}) {
+      const response = await axios(ctx, this._getRequestParams({
+        method: 'GET',
+        url: 'https://api.bannerbear.com/v2/templates',
         ...params
-      })
+      }))
 
       return response.data
     },
-    getAuthKey() {
-      return this.$auth.api_key
+    async createImage(ctx = this, template, modifications, params = {}) {
+      const response = await axios(ctx, this._getRequestParams({
+        method: 'POST',
+        url: 'https://sync.api.bannerbear.com/v2/images',
+        data: {
+          template,
+          modifications,
+        },
+        ...params
+      }))
+
+      return response;
     },
-    buildPaginatedOptions(options, currentPage) {
+    _getHeaders() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _getRequestParams(opts = {}) {
+      return {
+        ...opts,
+        headers: this._getHeaders(),
+      };
+    },
+    _buildPaginatedOptions(options, currentPage) {
       return {
         options,
         context: {
@@ -39,7 +59,7 @@ export default {
         },
       };
     },
-    extractTemplateOptions(templates) {
+    _extractTemplateOptions(templates) {
       const options = templates.map((template) => {
         const {name, uid} = template
 
