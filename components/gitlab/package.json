@@ -12,7 +12,6 @@
     "license": "MIT",
     "dependencies": {
         "@gitbeaker/node": "^35.5.0",
-        "graphql": "^16.3.0",
         "lodash": "^4.17.21",
         "uuid": "^8.3.2"
     },

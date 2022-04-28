@@ -1,6 +1,10 @@
 import base from "../common/base.mjs";
 import fetch from 'node-fetch'
-import { eventTypes } from "../common/hook-events.mjs";
+import { 
+    create_destination,
+    list_destinations,
+    delete_destination 
+} from "./queries.mjs";
 
 export default {
     ...base,
@@ -18,26 +22,7 @@ export default {
             console.log(`Group name: ${this.groupPath}`);
 
             // the variable must be named "query" to work with JSON.stringify and GraphQL
-            const query = `
-                mutation {
-                    externalAuditEventDestinationCreate(input:
-                    {
-                        destinationUrl: "${this.http.endpoint}",
-                        groupPath: "${this.groupPath}",
-                        clientMutationId: "PipeDream destination"
-                    }) 
-                    {
-                        clientMutationId,
-                        errors
-                        externalAuditEventDestination {
-                            destinationUrl
-                            group {
-                                name
-                            }
-                        }
-                    }
-                }
-                `;
+            const query = create_destination(this.http.endpoint, this.groupPath);
 
             try {
                 const data = await fetch('https://gitlab.com/api/graphql', {
@@ -63,20 +48,8 @@ export default {
             console.log(`Group name: ${this.groupPath}`);
 
             // the variable must be named "query" to work with JSON.stringify and GraphQL
-            var query = `
-                query {
-                    group(fullPath: "${this.groupPath}") {
-                        id,
-                        externalAuditEventDestinations {
-                            nodes {
-                                destinationUrl,
-                                id
-                            }
-                        }
-                    }
-                }
-                `;
-            
+            var query = list_destinations(this.groupPath); 
+
             try {
 
                 const data = await fetch('https://gitlab.com/api/graphql', {
@@ -95,17 +68,7 @@ export default {
                 const todelete = data.data.group.externalAuditEventDestinations.nodes.filter(item => item.destinationUrl == this.http.endpoint)[0].id;
                 console.log(`Deleting object ID: ${JSON.stringify(todelete)}`);
 
-                query = `
-                mutation {
-                    externalAuditEventDestinationDestroy(input:
-                    {
-                        id: "${todelete}"
-                    }) 
-                    {
-                        errors
-                    }
-                }
-                `;
+                query = delete_destination(todelete);
             
                 const data_delete = await fetch('https://gitlab.com/api/graphql', {
                         method: 'POST',

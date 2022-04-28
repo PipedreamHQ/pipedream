@@ -2,13 +2,6 @@ import gitlab from "../../gitlab.app.mjs";
 import fetch from 'node-fetch'
 import { eventTypes } from "../common/hook-events.mjs";
 
-import {
-    graphql,
-    GraphQLSchema,
-    GraphQLObjectType,
-    GraphQLString,
-} from 'graphql';
-
 export default {
     props: {
         gitlab,
