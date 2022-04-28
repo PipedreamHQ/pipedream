@@ -51,16 +51,19 @@ export default {
     Date: {
       type: "string",
       optional: true,
+      label: "Invoice date",
       description: "Date invoice was issued - YYYY-MM-DD",
     },
     DueDate: {
       type: "string",
       optional: true,
+      label: "Invoice due date",
       description: "Date invoice is due - YYYY-MM-DD",
     },
     CurrencyCode: {
       type: "string",
       optional: true,
+      label: "The invoice currency",
       description:
         "The currency that invoice has been raised in. Refer to [object documentation](https://www.xe.com/iso4217.php)",
     },
