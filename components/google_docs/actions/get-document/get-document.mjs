@@ -4,7 +4,7 @@ export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the contents of the latest version of a document.",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     googleDocs,
@@ -16,9 +16,6 @@ export default {
     },
   },
   async run() {
-    const docs = this.googleDocs.docs();
-    return (await docs.documents.get({
-      documentId: this.docId,
-    })).data;
+    return this.googleDocs.getDocument(this.docId);
   },
 };

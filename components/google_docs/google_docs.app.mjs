@@ -73,6 +73,12 @@ export default {
         },
       });
     },
+    async getDocument(documentId) {
+      const { data } = await this.docs().documents.get({
+        documentId,
+      });
+      return data;
+    },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
         requestBody: {
