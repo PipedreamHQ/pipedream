@@ -8,7 +8,8 @@ import {
 export default {
   key: "xero_accounting_api-find-invoice",
   name: "Find Invoice",
-  description: "Finds an invoice by number or reference.",
+  description:
+    "Finds an invoice by number or reference.[See the docs here](https://developer.xero.com/documentation/api/accounting/invoices/#get-invoices)",
   version: "0.0.1",
   type: "action",
   props: {

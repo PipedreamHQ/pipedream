@@ -8,7 +8,9 @@ import constant from "../../common/common.constants.mjs";
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
   name: "Add Items to Existing Sales Invoice",
-  version: "0.0.2",
+  description:
+    "Adds line items to an existing sales invoice. [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices#post-invoices)",
+  version: "0.0.1",
   type: "action",
   props: {
     xero_accounting_api: {

@@ -7,10 +7,10 @@ import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-find-contact",
-  name: "Find Contact",
+  name: "Find contact.  Optionally, create one if none are found",
   description:
-    "Finds a contact by name or account number.  Optionally, create one if none are found",
-  version: "0.0.6",
+    "Finds a contact by name or account number. Optionally, create one if none are found. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
+  version: "0.0.1",
   type: "action",
   props: {
     xero_accounting_api,

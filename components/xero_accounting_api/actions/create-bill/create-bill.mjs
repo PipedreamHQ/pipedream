@@ -9,7 +9,9 @@ import constant from "../../common/common.constants.mjs";
 
 export default {
   key: "xero_accounting_api-create-bill",
-  name: "Creates a new bill (Accounts Payable)",
+  name: "Create Bill",
+  description:
+    "Creates a new bill (Accounts Payable). [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices)",
   version: "0.0.1",
   type: "action",
   props: {
