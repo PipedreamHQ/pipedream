@@ -17,6 +17,13 @@ export default {
         return this.listDocsOptions(driveId, nextPageToken);
       },
     },
+    appendAtBeginning: {
+      type: "boolean",
+      label: "Append at Beginning",
+      description: "Whether to append at the beginning (`true`) of the document or at the end (`false`). Defaults to `false`",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -29,6 +36,49 @@ export default {
         version: "v1",
         auth,
       });
+    },
+    _insertAtBeginning(requestObj) {
+      return {
+        ...requestObj,
+        location: {
+          index: 1,
+        },
+      };
+    },
+    _insertAtEnd(requestObj) {
+      return {
+        ...requestObj,
+        endOfSegmentLocation: {},
+      };
+    },
+    _buildRequest(requestObj, atBeginning) {
+      return atBeginning
+        ? this._insertAtBeginning(requestObj)
+        : this._insertAtEnd(requestObj);
+    },
+    _batchUpdate(documentId, requestName, request) {
+      return this.docs().documents.batchUpdate({
+        documentId,
+        requestBody: {
+          requests: [
+            {
+              [requestName]: request,
+            },
+          ],
+        },
+      });
+    },
+    async createEmptyDoc(title) {
+      const { data: createdDoc } = await this.docs().documents.create({
+        requestBody: {
+          title,
+        },
+      });
+      return createdDoc;
+    },
+    async insertText(documentId, text, atBeginning = false) {
+      const request = this._buildRequest(text, atBeginning);
+      return this._batchUpdate(documentId, "insertText", request);
     },
     async listDocsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.document'";
