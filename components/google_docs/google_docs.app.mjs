@@ -17,6 +17,21 @@ export default {
         return this.listDocsOptions(driveId, nextPageToken);
       },
     },
+    imageId: {
+      type: "string",
+      label: "Image ID",
+      description: "The Image ID",
+      async options({ documentId }) {
+        const { inlineObjects: images } = await this.getDocument(documentId);
+        if (!images) return [];
+        return Object.values(images)
+          .map((image) => ({
+            label: image.inlineObjectProperties?.embeddedObject?.imageProperties?.sourceUri,
+            value: image.objectId,
+          }))
+          .filter((image) => image.label);
+      },
+    },
     imageUri: {
       type: "string",
       label: "Image URL",
@@ -94,6 +109,9 @@ export default {
     async appendImage(documentId, image, atBeginning = false) {
       const request = this._buildRequest(image, atBeginning);
       return this._batchUpdate(documentId, "insertInlineImage", request);
+    },
+    async replaceImage(documentId, image) {
+      return this._batchUpdate(documentId, "replaceImage", image);
     },
     async listDocsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.document'";
