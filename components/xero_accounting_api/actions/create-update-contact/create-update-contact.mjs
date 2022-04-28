@@ -1,5 +1,6 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 import { removeNullEntries } from "../../common/common.util.mjs";
+import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-create-update-contact",
@@ -9,10 +10,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
+    xero_accounting_api,
     tenant_id: {
       type: "string",
       description:
@@ -66,6 +64,11 @@ export default {
         type: "string",
         description: "ID of the contact that requires update.",
       };
+      props.Name = {
+        type: "string",
+        description: "Full name of contact/organisation.",
+        optional: true,
+      };
     }
     return props;
   },
@@ -95,30 +98,17 @@ export default {
         "ContactID must be set if actionType is UPDATE"
       );
     }
-    try {
-      const response = await axios($, {
-        method: "post",
-        url: "https://api.xero.com/api.xro/2.0/contacts",
-        headers: {
-          Authorization: `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
-        data,
-      });
-      response &&
-        $.export(
-          "$summary",
-          `Contact successfully ${
-            actionType === "UPDATE" ? "updated" : "created"
-          }`
-        );
-      return response;
-    } catch (error) {
-      throw new ConfigurationError(
-        `An error occured ${
-          actionType === "UPDATE" ? "updating" : "creating"
-        } contact`
+    const response = await this.xero_accounting_api.createContact(
+      tenant_id,
+      data
+    );
+    response &&
+      $.export(
+        "$summary",
+        `Contact successfully ${
+          actionType === "UPDATE" ? "updated" : "created"
+        }`
       );
-    }
+    return response;
   },
 };
