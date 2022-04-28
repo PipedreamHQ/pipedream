@@ -1,14 +1,20 @@
-const common = require("../common/timer-based");
+import common from "../common/timer-based.js";
 
-module.exports = {
+export default {
   ...common,
   key: "ringcentral-new-call-recording",
   name: "New Call Recording",
-  description: "Emits an event when a call recording is created",
-  version: "0.0.1",
+  description: "Emit new events when a call recording is created",
+  type: "source",
+  version: "0.1.0",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -20,7 +26,9 @@ module.exports = {
       } = data;
       const ts = Date.parse(timestamp);
 
-      const { phoneNumber } = direction === "Outbound" ? data.to : data.from;
+      const { phoneNumber } = direction === "Outbound"
+        ? data.to
+        : data.from;
       const maskedPhoneNumber = this.getMaskedNumber(phoneNumber);
       const summary = `New call recording (${maskedPhoneNumber})`;
 
@@ -45,6 +53,6 @@ module.exports = {
         const meta = this.generateMeta(record);
         this.$emit(record, meta);
       }
-    }
+    },
   },
 };

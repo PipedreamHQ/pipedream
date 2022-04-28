@@ -53,7 +53,7 @@ export default ({
     if (typeof window === "undefined") { 
       return; 
     }
-    debugger;
+    
     if (savedPosition) {
       return window.scrollTo({
         top: savedPosition.y,
