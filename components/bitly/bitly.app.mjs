@@ -38,5 +38,15 @@ export default {
         data,
       });
     },
+    async listBitlinkByGroup(url) {
+      return await axios(this.$auth, {
+        method: "get",
+        url,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    },
   },
 };

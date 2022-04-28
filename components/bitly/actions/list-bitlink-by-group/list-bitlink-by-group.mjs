@@ -1,5 +1,6 @@
 import { axios, ConfigurationError } from "@pipedream/platform";
 import { formatQueryString } from "../../common/common.utils.mjs";
+import bitly from "../../bitly.app.mjs";
 
 export default {
   key: "bitly-list-bitlink-by-group",
@@ -9,10 +10,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    bitly: {
-      type: "app",
-      app: "bitly",
-    },
+    bitly,
     group_guid: {
       type: "string",
       description: "A GUID for a Bitly group",
@@ -142,19 +140,7 @@ export default {
     }`;
     do {
       next = null;
-      result = null;
-      try {
-        result = await axios($, {
-          method: "get",
-          url,
-          headers: {
-            Authorization: `Bearer ${this.bitly.$auth.oauth_access_token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      } catch (error) {
-        throw new ConfigurationError("An error occured getting Bitlinks");
-      }
+      result = await this.bitly.listBitlinkByGroup(url);
       if (result) {
         next = result.pagination?.next;
         next && (url = result.pagination?.next);
