@@ -84,16 +84,12 @@ export default {
       const payload = { long_url, domain, group_guid, title };
       const updatedDeepLink = formatDeepLink(this.deeplinks);
 
-      tags && tags.length && (payload.tags = tags);
-      updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
+      tags?.length && (payload.tags = tags);
+      updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
 
-      try {
-        const response = await this.bitly.createBitlink(payload);
-        response && $.export("$summary", "Bitlink created successfully");
-        return response;
-      } catch (error) {
-        throw new ConfigurationError("An error occured creating Bitlink");
-      }
+      const response = await this.bitly.createBitlink(payload);
+      response && $.export("$summary", "Bitlink created successfully");
+      return response;
     }
     return bitlinkDetail;
   },

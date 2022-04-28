@@ -54,8 +54,8 @@ export default {
       ALLOWED_DEEPLINK_KEYS
     );
     const payload = { long_url, domain, group_guid, title };
-    tags.length && (payload.tags = tags);
-    updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
+    tags?.length && (payload.tags = tags);
+    updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
     const response = await this.bitly.createBitlink(payload);
     response && $.export("$summary", "Bitlink created successfully");
     return response;
