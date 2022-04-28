@@ -11,16 +11,13 @@ export default {
   },
   methods: {
     async activate({ events }) {
-      console.log("activating");
       const response = await this.close.createHook({
         data: {
           events,
           url: this.http.endpoint,
         },
       });
-      console.log("activate", response);
       this.db.set("hookId", response.data.id);
-      //this.db.set("hookId", response.id);
     },
   },
   hooks: {

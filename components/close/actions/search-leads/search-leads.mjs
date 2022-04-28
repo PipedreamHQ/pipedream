@@ -3,7 +3,7 @@ import close from "../../close.app.mjs";
 export default {
   type: "action",
   key: "close-search-leads",
-  version: "0.0.2",
+  version: "0.0.1",
   name: "Search Leads",
   description: "Searching leads with a given field and word, [See the docs](https://developer.close.com/resources/advanced-filtering/)",
   props: {
@@ -31,7 +31,6 @@ export default {
       moreFields[key] = this.close.parseObject(this.moreFields[key]);
     }
     const response = await this.close.searchLeads({
-      $,
       data: {
         query: {
           queries: [
@@ -59,6 +58,5 @@ export default {
     });
     $.export("$summary", `${response.data.data.length} Leads has been found.`);
     return response.data;
-    //return response;
   },
 };

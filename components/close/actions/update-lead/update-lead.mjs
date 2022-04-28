@@ -3,7 +3,7 @@ import close from "../../close.app.mjs";
 export default {
   type: "action",
   key: "close-update-lead",
-  version: "0.0.12",
+  version: "0.0.1",
   name: "Update Lead",
   description: "Updates a lead, [See the docs](https://developer.close.com/resources/leads/#update-an-existing-lead)",
   props: {
@@ -84,7 +84,6 @@ export default {
       moreFields[key] = this.close.parseObject(this.moreFields[key]);
     }
     const response = await this.close.updateLead({
-      $,
       leadId: this.lead,
       data: {
         ...data,
@@ -93,6 +92,5 @@ export default {
     });
     $.export("$summary", "Lead has been created.");
     return response.data;
-    //return response;
   },
 };

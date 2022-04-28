@@ -1,4 +1,3 @@
-//import { axios } from "@pipedream/platform"; //@Jacob
 import axios from "axios";
 
 export default {
@@ -61,7 +60,6 @@ export default {
       };
     },
     async _makeRequest({
-      $,
       path,
       headers,
       ...otherConfig
@@ -72,9 +70,7 @@ export default {
         auth: this._getAuthKeys(),
         ...otherConfig,
       };
-      console.log(config); //@Jacob
       return axios(config);
-      //return axios($ ?? this, config); //@Jacob
     },
     parseObject(obj) {
       let parsed;
