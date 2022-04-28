@@ -11,7 +11,6 @@ export default {
   ],
   transactionalEventOptions: [
     "sent",
-    "request",
     "delivered",
     "hardBounce",
     "softBounce",

@@ -11,6 +11,8 @@ export default {
       const meta = this.generateMeta(body);
       this.$emit(meta, {
         id: meta.ts,
+        summary: meta.event,
+        ts: meta.ts,
       });
     },
     setHookId(hookId) {
