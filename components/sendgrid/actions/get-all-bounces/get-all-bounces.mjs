@@ -11,16 +11,16 @@ export default {
   props: {
     ...common.props,
     startTime: {
-      type: "integer",
-      label: "Start Time",
-      description: "Refers start of the time range in unix timestamp when a bounce was created (inclusive)",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "startTime",
+      ],
     },
     endTime: {
-      type: "integer",
-      label: "End Time",
-      description: "Refers end of the time range in unix timestamp when a bounce was created (inclusive)",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "endTime",
+      ],
     },
   },
   async run({ $ }) {

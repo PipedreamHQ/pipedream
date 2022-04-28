@@ -19,10 +19,12 @@ export default {
       description: "Unique Id of the List to be deleted",
     },
     deleteContacts: {
-      type: "boolean",
+      propDefinition: [
+        common.props.sendgrid,
+        "deleteAll",
+      ],
       label: "Delete Contacts?",
       description: "Indicates that all contacts on the list are also to be deleted",
-      default: false,
     },
   },
   async run({ $ }) {

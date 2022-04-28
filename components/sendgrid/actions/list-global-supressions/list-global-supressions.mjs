@@ -11,16 +11,18 @@ export default {
   props: {
     ...common.props,
     startTime: {
-      type: "integer",
-      label: "Start Time",
+      propDefinition: [
+        common.props.sendgrid,
+        "startTime",
+      ],
       description: "Refers start of the time range in unix timestamp when an unsubscribe email was created (inclusive)",
-      optional: true,
     },
     endTime: {
-      type: "integer",
-      label: "End Time",
+      propDefinition: [
+        common.props.sendgrid,
+        "endTime",
+      ],
       description: "Refers end of the time range in unix timestamp when an unsubscribe email was created (inclusive)",
-      optional: true,
     },
     numberOfSupressions: {
       type: "integer",

@@ -10,16 +10,18 @@ export default {
   props: {
     ...common.props,
     deleteAll: {
-      type: "boolean",
-      label: "Delete All",
+      propDefinition: [
+        common.props.sendgrid,
+        "deleteAll",
+      ],
       description: "This parameter allows you to delete every email in your bounce list. This can not be used with the `emails` parameter.",
-      default: false,
     },
     emails: {
-      type: "string[]",
-      label: "Emails",
+      propDefinition: [
+        common.props.sendgrid,
+        "emails",
+      ],
       description: "A string array of emails to delete from your bounce list at the same time. This can not be used with the `deleteAll` parameter. Example:  `[\"email1@example.com\",\"email2@example.com\"]`",
-      optional: true,
     },
   },
   async run({ $ }) {

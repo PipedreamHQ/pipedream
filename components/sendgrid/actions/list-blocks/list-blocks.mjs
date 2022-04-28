@@ -11,16 +11,18 @@ export default {
   props: {
     ...common.props,
     startTime: {
-      type: "integer",
-      label: "Start Time",
+      propDefinition: [
+        common.props.sendgrid,
+        "startTime",
+      ],
       description: "The start of the time range when a blocked email was created (inclusive). This is a unix timestamp.",
-      optional: true,
     },
     endTime: {
-      type: "integer",
-      label: "End Time",
+      propDefinition: [
+        common.props.sendgrid,
+        "endTime",
+      ],
       description: "The end of the time range when a blocked email was created (inclusive). This is a unix timestamp.",
-      optional: true,
     },
     numberOfBlocks: {
       type: "integer",

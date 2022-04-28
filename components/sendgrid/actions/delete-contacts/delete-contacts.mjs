@@ -10,10 +10,12 @@ export default {
   props: {
     ...common.props,
     deleteAllContacts: {
-      type: "boolean",
+      propDefinition: [
+        common.props.sendgrid,
+        "deleteAll",
+      ],
       label: "Delete All Contacts?",
       description: "This parameter allows you to delete all of your contacts. This can not be used with the `ids` parameter.",
-      default: false,
     },
     ids: {
       propDefinition: [

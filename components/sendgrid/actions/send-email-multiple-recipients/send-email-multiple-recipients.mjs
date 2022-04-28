@@ -22,86 +22,89 @@ export default {
       ],
     },
     fromName: {
-      type: "string",
-      label: "From Name",
-      description: "A name or title associated with the sending email address",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "fromName",
+      ],
     },
     replyToEmail: {
-      type: "string",
-      label: "Reply To Email",
-      description: "The email address where any replies or bounces will be returned",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "replyToEmail",
+      ],
     },
     replyToName: {
-      type: "string",
-      label: "Reply To Name",
-      description: "A name or title associated with the `replyToEmail` address",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "replyToName",
+      ],
     },
     subject: {
-      type: "string",
-      label: "Subject",
+      propDefinition: [
+        common.props.sendgrid,
+        "subject",
+      ],
       description: "The global or `message level` subject of your email. This may be overridden by subject lines set -in personalizations.",
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "A string array where you can specify the content of your email. You can include multiple of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
+      propDefinition: [
+        common.props.sendgrid,
+        "content",
+      ],
     },
     attachments: {
-      type: "string",
-      label: "Attachments",
-      description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "attachments",
+      ],
     },
     headers: {
-      type: "object",
-      label: "Headers",
-      description: "An object containing key/value pairs of header names and the value to substitute for them. The key/value pairs must be strings. You must ensure these are properly encoded if they contain unicode characters. These headers cannot be one of the reserved headers.",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "headers",
+      ],
     },
     categories: {
-      type: "string[]",
-      label: "Categories",
-      description: "A string array of category names for this message. Each category name may not exceed 255 characters. Example: `[\"category1\",\"category2\"]`",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "categories",
+      ],
     },
     customArgs: {
-      type: "string",
-      label: "Custom Args",
-      description: "Values that are specific to the entire send that will be carried along with the email and its activity data. Key/value pairs must be strings. Substitutions will not be made on custom arguments, so any string that is entered into this parameter will be assumed to be the custom argument that you would like to be used. This parameter is overridden by `custom_args` set at the personalizations level. Total `custom_args` size may not exceed 10,000 bytes.",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "customArgs",
+      ],
     },
     sendAt: {
-      type: "integer",
-      label: "Send At",
-      description: "A unix timestamp allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "sendAt",
+      ],
     },
     asm: {
-      type: "object",
-      label: "ASM",
-      description: "Advanced Suppression Manager. An object allowing you to specify how to handle unsubscribes.",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "asm",
+      ],
     },
     ipPoolName: {
-      type: "string",
-      label: "Ip Pool Name",
-      description: "The IP Pool that you would like to send this email from",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "ipPoolName",
+      ],
     },
     mailSettings: {
-      type: "object",
-      label: "Mail Settings",
-      description: "A collection of different mail settings that you can use to specify how you would like this email to be handled",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "mailSettings",
+      ],
     },
     trackingSettings: {
-      type: "object",
-      label: "Tracking Settings",
-      description: "Settings to determine how you would like to track the metrics of how your recipients interact with your email",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "trackingSettings",
+      ],
     },
   },
   async run({ $ }) {

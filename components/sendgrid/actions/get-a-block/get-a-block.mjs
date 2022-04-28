@@ -11,9 +11,10 @@ export default {
   props: {
     ...common.props,
     email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the specific block",
+      propDefinition: [
+        common.props.sendgrid,
+        "email",
+      ],
     },
   },
   async run({ $ }) {

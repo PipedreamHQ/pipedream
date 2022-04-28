@@ -10,16 +10,16 @@ export default {
   props: {
     ...common.props,
     deleteAll: {
-      type: "boolean",
-      label: "Delete All",
-      description: "Indicates if you want to delete all blocked email addresses. This can not be used with the `emails` parameter.",
-      default: false,
+      propDefinition: [
+        common.props.sendgrid,
+        "deleteAll",
+      ],
     },
     emails: {
-      type: "string[]",
-      label: "Emails",
-      description: "A string array of the specific blocked email addresses that you want to delete. This can not be used with the `deleteAll` parameter. Example: `[\"email1@example.com\",\"email2@example.com\"]`",
-      optional: true,
+      propDefinition: [
+        common.props.sendgrid,
+        "emails",
+      ],
     },
   },
   async run({ $ }) {

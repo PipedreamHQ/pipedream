@@ -11,8 +11,10 @@ export default {
   props: {
     ...common.props,
     email: {
-      type: "string",
-      label: "Email",
+      propDefinition: [
+        common.props.sendgrid,
+        "email",
+      ],
       description: "The email address of the global suppression you want to retrieve",
     },
   },
