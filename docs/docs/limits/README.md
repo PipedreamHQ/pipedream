@@ -125,10 +125,14 @@ Events that trigger a **Timeout** error will appear in red in the [Inspector](/w
 
 ### Event / Execution History
 
-The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. There are two limits that impact this history:
+The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}} per workflow:
 
-- You can view the last {{$site.themeConfig.INSPECTOR_EVENT_LIMIT}} events sent to your workflow. Sending events over this limit removes the oldest event in the history from Pipedream's system.
-- The execution details for a specific run also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days. So if a workflow was triggered once a day, you’d only see a rolling history of {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} executions.
+|    Tier    | Events retained per workflow |
+| :--------: | :------------------------: |
+| Free tiers |    {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}     |
+| Paid tiers |   {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}}   |
+
+The execution details for a specific event also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days.
 
 ### Logs, Step Exports, and other observability
 
