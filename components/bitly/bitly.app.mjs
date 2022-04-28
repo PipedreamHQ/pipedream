@@ -27,5 +27,16 @@ export default {
         },
       });
     },
+    async expandBitlink(data) {
+      return await axios(this.$auth, {
+        method: "post",
+        url: "https://api-ssl.bitly.com/v4/expand",
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
+        },
+        data,
+      });
+    },
   },
 };
