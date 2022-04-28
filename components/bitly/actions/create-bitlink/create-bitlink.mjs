@@ -1,6 +1,6 @@
-import { ConfigurationError } from "@pipedream/platform";
 import bitly from "../../bitly.app.mjs";
-import { formatDeepLink } from "../../common/common.utils.mjs";
+import { formatArrayStrings } from "../../common/common.utils.mjs";
+import { ALLOWED_DEEPLINK_KEYS } from "../../common/common.constants.mjs";
 
 export default {
   key: "bitly-create-bitlink",
@@ -38,7 +38,6 @@ export default {
       type: "string[]",
       optional: true,
       description: `Provide an object. Each object should represent a row.
-        See documentation: https://dev.bitly.com/api-reference#createFullBitlink
         Example:
         \`{
           "app_id":"com.bitly.app",
@@ -49,17 +48,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const { long_url, domain, group_guid, title, tags } = this;
-    const updatedDeepLink = formatDeepLink(this.deeplinks);
+    const { long_url, deeplinks, domain, group_guid, title, tags } = this;
+    const updatedDeepLink = formatArrayStrings(
+      deeplinks,
+      ALLOWED_DEEPLINK_KEYS
+    );
     const payload = { long_url, domain, group_guid, title };
-    tags && tags.length && (payload.tags = tags);
+    tags.length && (payload.tags = tags);
     updatedDeepLink.length && (payload.deeplinks = updatedDeepLink);
-    try {
-      const response = await this.bitly.createBitlink(payload);
-      response && $.export("$summary", "Bitlink created successfully");
-      return response;
-    } catch (error) {
-      throw new ConfigurationError("An error occured creating Bitlink");
-    }
+    const response = await this.bitly.createBitlink(payload);
+    response && $.export("$summary", "Bitlink created successfully");
+    return response;
   },
 };

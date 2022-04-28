@@ -1,36 +1,3 @@
-const formatQueryString = (payload) => {
-  const str = [];
-  Object.keys(payload).forEach((p) => {
-    const result = Array.isArray(payload[p])
-      ? formatArray(p, payload[p])
-      : formatNonArray(p, payload[p]);
-    result && str.push(result);
-  });
-  return str.join("&");
-};
-
-const formatArray = (key, value) => {
-  const str = [];
-  if (value.length) {
-    for (let i = 0; i < value.length; i++) {
-      value[i] &&
-        str.push(
-          `${encodeURIComponent(key + `[${i}]`)}=${encodeURIComponent(
-            value[i]
-          )}`
-        );
-    }
-    return str.join("&");
-  }
-  return null;
-};
-
-const formatNonArray = (key, value) => {
-  return value
-    ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-    : null;
-};
-
 const formatDeepLink = (deeplinks) => {
   const updatedDeepLink = [];
   const deepLinkErrors = [];
@@ -83,4 +50,34 @@ const removeNullEntries = (obj) =>
     {}
   );
 
-export { formatQueryString, formatDeepLink, removeNullEntries };
+const formatArrayStrings = (objectArray, ALLOWED_KEYS) => {
+  const updatedArray = [];
+  const errors = [];
+  if (objectArray?.length) {
+    for (let i = 0; i < objectArray.length; i++) {
+      if (objectArray[i]) {
+        try {
+          const obj = JSON.parse(objectArray[i]);
+          Object.keys(obj).forEach((key) => {
+            if (!ALLOWED_KEYS.includes(key)) {
+              errors.push(
+                `[${i}] error: ${key} is not present or allowed in object`
+              );
+            }
+          });
+          updatedArray.push(obj);
+        } catch (error) {
+          throw new ConfigurationError(`Object is malformed on [${i}]`);
+        }
+      }
+    }
+  }
+  if (errors.length) {
+    throw new ConfigurationError(
+      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`
+    );
+  }
+  return updatedArray;
+};
+
+export { formatDeepLink, removeNullEntries, formatArrayStrings };

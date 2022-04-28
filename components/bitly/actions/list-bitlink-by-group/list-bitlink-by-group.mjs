@@ -1,8 +1,4 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
-import {
-  removeNullEntries,
-  formatQueryString,
-} from "../../common/common.utils.mjs";
+import { removeNullEntries } from "../../common/common.utils.mjs";
 import bitly from "../../bitly.app.mjs";
 
 export default {

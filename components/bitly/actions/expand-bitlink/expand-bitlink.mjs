@@ -1,5 +1,3 @@
-import { axios } from "@pipedream/platform";
-import { ConfigurationError } from "@pipedream/platform";
 import bitly from "../../bitly.app.mjs";
 
 export default {
