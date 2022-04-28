@@ -1,6 +1,6 @@
 import bitly from "../../bitly.app.mjs";
 import { formatArrayStrings } from "../../common/common.utils.mjs";
-import { ALLOWED_DEEPLINK_KEYS } from "../../common/common.constants.mjs";
+import constants from "../../common/common.constants.mjs";
 
 export default {
   key: "bitly-create-bitlink",
@@ -51,13 +51,15 @@ export default {
     const { long_url, deeplinks, domain, group_guid, title, tags } = this;
     const updatedDeepLink = formatArrayStrings(
       deeplinks,
-      ALLOWED_DEEPLINK_KEYS
+      constants.ALLOWED_DEEPLINK_KEYS,
+      "updatedDeepLink"
     );
     const payload = { long_url, domain, group_guid, title };
     tags?.length && (payload.tags = tags);
     updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
     const response = await this.bitly.createBitlink(payload);
     response && $.export("$summary", "Bitlink created successfully");
+    console.log(response);
     return response;
   },
 };
