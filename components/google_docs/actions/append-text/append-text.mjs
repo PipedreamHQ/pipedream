@@ -3,7 +3,7 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-append-text",
   name: "Append Text",
-  description: "Append text to an existing document",
+  description: "Append text to an existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
   version: "0.1.0",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
-  description: "Replace all instances of matched text in a existing document",
+  description: "Replace all instances of matched text in a existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
   version: "0.0.1",
   type: "action",
   props: {
