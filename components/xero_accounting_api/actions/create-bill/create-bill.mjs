@@ -1,11 +1,11 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
 import {
-  formatArrayObjects,
+  formatArrayStrings,
   removeNullEntries,
   deleteKeys,
   isValidDate,
 } from "../../common/common.util.mjs";
 import constant from "../../common/common.constants.mjs";
+import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-create-bill",
@@ -15,22 +15,21 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
+    xero_accounting_api,
     tenant_id: {
       type: "string",
+      label: "Tenant ID",
       description:
         "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
     },
     Contact: {
       type: "object",
+      label: "Contact information",
       description: `Provide an object. Enter the column name for the key and the corresponding column value. 
       [See object documentation](https://developer.xero.com/documentation/api/accounting/contacts/#post-contacts). 
         Example:
         \`{
-            "ContactID":"Existing contact ID. *Note: If contactID is populated, other key-value pairs would be ignored"
+            "ContactID":"Existing contact ID. *Note: If contactID is populated, other key-value pairs would be ignored",
             "Name":"Tmann Inc",
             "FirstName":"Sir",
             "LastName":"Bush",
@@ -39,6 +38,7 @@ export default {
     },
     LineItems: {
       type: "string[]",
+      label: "Line items",
       description: `Provide multiple items using the example below. At least one is required to create a complete Invoice. 
         Example:
         \`{
@@ -72,25 +72,17 @@ export default {
       Contact: Contact?.ContactID
         ? deleteKeys(Contact, ["Name", "FirstName", "LastName", "EmailAddress"])
         : Contact,
-      LineItems: formatArrayObjects(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
+      LineItems: formatArrayStrings(
+        LineItems,
+        constant.ALLOWED_LINEITEMS_KEYS,
+        "LineItems"
+      ),
       Date: isValidDate(Date, "Date"),
       DueDate: isValidDate(DueDate, "DueDate"),
       CurrencyCode,
     });
-    try {
-      const response = await axios($, {
-        method: "post",
-        url: "https://api.xero.com/api.xro/2.0/invoices",
-        headers: {
-          Authorization: `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
-        data,
-      });
-      response && $.export("$summary", "Bill successfully created");
-      return response;
-    } catch (error) {
-      throw new ConfigurationError(`An error occured creating Bill`);
-    }
+    const response = await this.xero_accounting_api.createBill(tenant_id, data);
+    response && $.export("$summary", "Bill successfully created");
+    return response;
   },
 };

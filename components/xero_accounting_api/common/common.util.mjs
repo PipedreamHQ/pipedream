@@ -14,7 +14,7 @@ const removeNullEntries = (obj) =>
     {}
   );
 
-const formatArrayObjects = (objectArray, ALLOWED_KEYS) => {
+const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   const updatedArray = [];
   const errors = [];
   if (objectArray?.length) {
@@ -25,7 +25,7 @@ const formatArrayObjects = (objectArray, ALLOWED_KEYS) => {
           Object.keys(obj).forEach((key) => {
             if (!ALLOWED_KEYS.includes(key)) {
               errors.push(
-                `[${i}] error: ${key} is not present or allowed in object`
+                `${fieldName}[${i}] error: ${key} is not present or allowed in object`
               );
             }
           });
@@ -112,7 +112,7 @@ const chainQueryString = (queryString) =>
 
 export {
   removeNullEntries,
-  formatArrayObjects,
+  formatArrayStrings,
   deleteKeys,
   isValidDate,
   formatQueryString,

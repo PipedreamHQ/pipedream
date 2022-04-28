@@ -35,5 +35,16 @@ export default {
         },
       });
     },
+    async createBill(tenant_id, data) {
+      return await axios(this.$auth, {
+        method: "post",
+        url: "https://api.xero.com/api.xro/2.0/invoices",
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "xero-tenant-id": tenant_id,
+        },
+        data,
+      });
+    },
   },
 };
