@@ -17,6 +17,11 @@ export default {
         return this.listDocsOptions(driveId, nextPageToken);
       },
     },
+    imageUri: {
+      type: "string",
+      label: "Image URL",
+      description: "The URL of the image you want to insert to the doc",
+    },
     appendAtBeginning: {
       type: "boolean",
       label: "Append at Beginning",
@@ -79,6 +84,10 @@ export default {
     async insertText(documentId, text, atBeginning = false) {
       const request = this._buildRequest(text, atBeginning);
       return this._batchUpdate(documentId, "insertText", request);
+    },
+    async appendImage(documentId, image, atBeginning = false) {
+      const request = this._buildRequest(image, atBeginning);
+      return this._batchUpdate(documentId, "insertInlineImage", request);
     },
     async listDocsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.document'";
