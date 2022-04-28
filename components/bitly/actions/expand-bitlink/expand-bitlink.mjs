@@ -11,13 +11,13 @@ export default {
     bitly,
     bitlink_id: {
       type: "string",
-      description: "Bitlink ID",
+      description: "This is the shortened url",
+      label: "Enter Bitlink url",
     },
   },
-  async run({ $ }) {
+  async run() {
     const { bitlink_id } = this;
     const data = { bitlink_id };
-
     return await this.bitly.expandBitlink(data);
   },
 };

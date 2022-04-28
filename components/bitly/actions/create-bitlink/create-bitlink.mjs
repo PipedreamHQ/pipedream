@@ -13,12 +13,13 @@ export default {
     bitly,
     long_url: {
       type: "string",
+      label: "Long url",
       description: "URL to shorten",
     },
     title: {
       type: "string",
       optional: true,
-      description: "Bitlink title",
+      label: "Bitlink title",
     },
     tags: {
       type: "string[]",
@@ -27,16 +28,17 @@ export default {
     domain: {
       type: "string",
       optional: true,
-      description: "Custom domain. e.g. bit.ly",
+      label: "Custom domain. e.g. bit.ly",
     },
     group_guid: {
       type: "string",
       optional: true,
-      description: "Group GUID",
+      label: "Group guid",
     },
     deeplinks: {
       type: "string[]",
       optional: true,
+      label: "Deeplinks",
       description: `Provide an object. Each object should represent a row.
         Example:
         \`{
@@ -52,14 +54,13 @@ export default {
     const updatedDeepLink = formatArrayStrings(
       deeplinks,
       constants.ALLOWED_DEEPLINK_KEYS,
-      "updatedDeepLink"
+      "deeplinks"
     );
     const payload = { long_url, domain, group_guid, title };
     tags?.length && (payload.tags = tags);
     updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
     const response = await this.bitly.createBitlink(payload);
     response && $.export("$summary", "Bitlink created successfully");
-    console.log(response);
     return response;
   },
 };

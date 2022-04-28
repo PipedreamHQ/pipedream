@@ -16,43 +16,51 @@ export default {
     },
     size: {
       type: "string",
+      label: "Size",
       description: "The quantity of items to be be returned",
       optional: true,
       default: "10",
     },
     page: {
       type: "string",
+      label: "Page",
       description: "Integer specifying the numbered result at which to start",
       optional: true,
       default: "1",
     },
     keyword: {
       type: "string",
+      label: "Keyword",
       description: "Custom keyword to filter on history entries",
       optional: true,
     },
     query: {
       type: "string",
+      label: "Query",
       description: "The value that you would like to search",
       optional: true,
     },
     created_before: {
       type: "string",
+      label: "Created before",
       description: "Timestamp as an integer unix epoch",
       optional: true,
     },
     created_after: {
       type: "string",
+      label: "Created after",
       description: "Timestamp as an integer unix epoch",
       optional: true,
     },
     modified_after: {
       type: "string",
+      label: "Modified after",
       description: "Timestamp as an integer unix epoch",
       optional: true,
     },
     archived: {
       type: "string",
+      label: "Archived",
       description: "Whether or not to include archived bitlinks",
       default: "off",
       optional: true,
@@ -60,6 +68,7 @@ export default {
     },
     deeplinks: {
       type: "string",
+      label: "Deeplinks",
       description: "Filter to only Bitlinks that contain deeplinks",
       default: "both",
       optional: true,
@@ -67,6 +76,7 @@ export default {
     },
     domain_deeplinks: {
       type: "string",
+      label: "Domain deeplinks",
       description:
         "Filter to only Bitlinks that contain deeplinks configured with a custom domain",
       default: "both",
@@ -75,18 +85,21 @@ export default {
     },
     campaign_guid: {
       type: "string",
+      label: "Campaign guid",
       description:
         "Filter to return only links for the given campaign GUID, can be provided",
       optional: true,
     },
     channel_guid: {
       type: "string",
+      label: "Channel guid",
       description:
         "Filter to return only links for the given channel GUID, can be provided, overrides all other parameters",
       optional: true,
     },
     custom_bitlink: {
       type: "string",
+      label: "Custom bitlink",
       description: "Filter to only Bitlinks that contain deeplinks",
       default: "both",
       optional: true,
@@ -94,18 +107,21 @@ export default {
     },
     tags: {
       type: "string[]",
+      label: "Tags",
       description: "Filter by given tags",
       optional: true,
     },
     launchpad_ids: {
       type: "string[]",
-      description: "Filter by launchpad id",
+      label: "Launchpad IDs",
+      description: "This is an array of strings",
       optional: true,
     },
     encoding_login: {
       type: "string[]",
+      label: "Encoding Login",
       description:
-        "Filter by the login of the authenticated user that created the Bitlink",
+        "Filter by the login of the authenticated user that created the Bitlink. This is an array of strings",
       optional: true,
     },
   },

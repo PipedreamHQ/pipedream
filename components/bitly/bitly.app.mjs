@@ -1,51 +1,45 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/common.constants.mjs";
 
 export default {
   type: "app",
   app: "bitly",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
+    _getHeaders() {
+      return {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
     async createBitlink(data) {
       return await axios(this.$auth, {
         method: "post",
-        url: "https://api-ssl.bitly.com/v4/bitlinks",
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        url: `${constants.BASE_URL}/bitlinks`,
+        headers: this._getHeaders(),
         data,
       });
     },
     async getBitlink(bitlink) {
       return await axios(this.$auth, {
         method: "get",
-        url: `https://api-ssl.bitly.com/v4/bitlinks/${bitlink}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        url: `${constants.BASE_URL}/${bitlink}`,
+        headers: this._getHeaders(),
       });
     },
     async expandBitlink(data) {
       return await axios(this.$auth, {
         method: "post",
-        url: "https://api-ssl.bitly.com/v4/expand",
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        url: `${constants.BASE_URL}/expand`,
+        headers: this._getHeaders(),
         data,
       });
     },
     async listBitlinkByGroup(groupGuid, params) {
       return await axios(this.$auth, {
         method: "get",
-        url:`https://api-ssl.bitly.com/v4/groups/${groupGuid}/bitlinks`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        url: `${constants.BASE_URL}/groups/${groupGuid}/bitlinks`,
+        headers: this._getHeaders(),
         params,
       });
     },

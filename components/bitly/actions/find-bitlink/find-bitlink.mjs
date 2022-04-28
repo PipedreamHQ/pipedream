@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { formatDeepLink } from "../../common/common.utils.mjs";
+import { formatArrayStrings } from "../../common/common.utils.mjs";
+import constants from "../../common/common.constants.mjs";
 import bitly from "../../bitly.app.mjs";
 
 export default {
@@ -13,15 +14,14 @@ export default {
     bitly,
     bitlink: {
       type: "string",
-      description: "Bitlink url",
+      label: "Bitlink url",
     },
     createBitlinkIfNotFound: {
-      label: "Create a new bitlink if the bitlink is not found?",
+      label: "Create new Bitlink if not found?",
       description:
         "Create a new bitlink if no record is found for the specified bitlink.",
       type: "string",
       options: ["Yes", "No"],
-      default: "No",
       reloadProps: true,
     },
   },
@@ -30,19 +30,23 @@ export default {
     if (this.createBitlinkIfNotFound === "Yes") {
       props["long_url"] = {
         type: "string",
-        description: "URL to shorten",
+        label: "Long url",
+        description: "This is the url to be shortened",
       };
       props["title"] = {
         type: "string",
         optional: true,
-        description: "Bitlink title",
+        label: "Bitlink title",
       };
       props["tags"] = {
         type: "string[]",
         optional: true,
+        label: "Tags",
+        description: "This is an array of strings",
       };
       props["domain"] = {
         type: "string",
+        label: "Domain",
         description:
           "Bitlinks that contain deeplinks configured with a custom domain",
         optional: true,
@@ -50,11 +54,12 @@ export default {
       props["group_guid"] = {
         type: "string",
         optional: true,
-        description: "Group GUID",
+        label: "Group guid",
       };
       props["deeplinks"] = {
         type: "string[]",
         optional: true,
+        label: "Deeplinks",
         description: `Provide an object. Each object should represent a row.
         Example:
         \`{
@@ -82,7 +87,11 @@ export default {
     if (!bitlinkDetail && this.createBitlinkIfNotFound === "Yes") {
       const { long_url, domain, group_guid, title, tags } = this;
       const payload = { long_url, domain, group_guid, title };
-      const updatedDeepLink = formatDeepLink(this.deeplinks);
+      const updatedDeepLink = formatArrayStrings(
+        deeplinks,
+        constants.ALLOWED_DEEPLINK_KEYS,
+        "deeplinks"
+      );
 
       tags?.length && (payload.tags = tags);
       updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
