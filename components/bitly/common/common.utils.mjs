@@ -69,4 +69,18 @@ const formatDeepLink = (deeplinks) => {
   return updatedDeepLink;
 };
 
-export { formatQueryString, formatDeepLink };
+const removeNullEntries = (obj) =>
+  Object.entries(obj).reduce(
+    (acc, [k, v]) =>
+      v &&
+      (typeof v === "string" ||
+        (Array.isArray(v) && v.length) ||
+        (typeof v === "object" &&
+          !Array.isArray(v) &&
+          Object.keys(v).length !== 0))
+        ? { ...acc, [k]: v }
+        : acc,
+    {}
+  );
+
+export { formatQueryString, formatDeepLink, removeNullEntries };

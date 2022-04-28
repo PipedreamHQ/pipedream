@@ -1,5 +1,8 @@
 import { axios, ConfigurationError } from "@pipedream/platform";
-import { formatQueryString } from "../../common/common.utils.mjs";
+import {
+  removeNullEntries,
+  formatQueryString,
+} from "../../common/common.utils.mjs";
 import bitly from "../../bitly.app.mjs";
 
 export default {
@@ -19,7 +22,7 @@ export default {
       type: "string",
       description: "The quantity of items to be be returned",
       optional: true,
-      default: "5",
+      default: "10",
     },
     page: {
       type: "string",
@@ -115,7 +118,7 @@ export default {
     let data = [];
     let pagination = {};
     let result = null;
-    const payload = {
+    let params = removeNullEntries({
       size: this.size,
       page: this.page,
       keyword: this.keyword,
@@ -132,23 +135,15 @@ export default {
       tags: this.tags,
       launchpad_ids: this.launchpad_ids,
       encoding_login: this.encoding_login,
-    };
-
-    const queryString = formatQueryString(payload);
-    let url = `https://api-ssl.bitly.com/v4/groups/${this.group_guid}/bitlinks${
-      queryString ? `?${queryString}` : ""
-    }`;
+    });
     do {
-      next = null;
-      result = await this.bitly.listBitlinkByGroup(url);
-      if (result) {
-        next = result.pagination?.next;
-        next && (url = result.pagination?.next);
-        result.links?.length && (data = [...data, ...result.links]);
-        pagination = result.pagination;
-      }
+      params.page++;
+      result = await this.bitly.listBitlinkByGroup(this.group_guid, params);
+      next = result.pagination?.next;
+      result?.links?.length && (data = [...data, ...result.links]);
+      pagination = result?.pagination;
     } while (next);
     $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
-    return { links: data, pagination };
+    return data;
   },
 };

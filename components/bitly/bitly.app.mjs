@@ -38,14 +38,15 @@ export default {
         data,
       });
     },
-    async listBitlinkByGroup(url) {
+    async listBitlinkByGroup(groupGuid, params) {
       return await axios(this.$auth, {
         method: "get",
-        url,
+        url:`https://api-ssl.bitly.com/v4/groups/${groupGuid}/bitlinks`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
+        params,
       });
     },
   },
