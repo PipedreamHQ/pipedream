@@ -5,7 +5,8 @@ import bitly from "../../bitly.app.mjs";
 export default {
   key: "bitly-find-bitlink",
   name: "Retrieve a Bitlink",
-  description: "Returns information for the specified link.",
+  description:
+    "Finds an existing Bitlink in your account. Optionally, creates one if none are found.  [See the docs here](https://dev.bitly.com/api-reference#expandBitlink)",
   version: "0.0.1",
   type: "action",
   props: {

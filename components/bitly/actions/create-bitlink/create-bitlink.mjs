@@ -6,7 +6,7 @@ export default {
   key: "bitly-create-bitlink",
   name: "Create a Bitlink",
   description:
-    "Converts a long url to a Bitlink and sets additional parameters.",
+    "Converts a long url to a Bitlink and sets additional parameters.[See the docs here](https://dev.bitly.com/api-reference#createFullBitlink)",
   version: "0.0.1",
   type: "action",
   props: {
