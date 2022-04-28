@@ -37,10 +37,22 @@ export default {
       label: "Image URL",
       description: "The URL of the image you want to insert to the doc",
     },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "Enter static text (e.g., `hello world`) or a reference to a string exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
+    },
     appendAtBeginning: {
       type: "boolean",
       label: "Append at Beginning",
       description: "Whether to append at the beginning (`true`) of the document or at the end (`false`). Defaults to `false`",
+      default: false,
+      optional: true,
+    },
+    matchCase: {
+      type: "boolean",
+      label: "Match Case",
+      description: "Case sensitive search (`true`) or not (`false`). Defaults to `false`",
       default: false,
       optional: true,
     },
@@ -105,6 +117,9 @@ export default {
     async insertText(documentId, text, atBeginning = false) {
       const request = this._buildRequest(text, atBeginning);
       return this._batchUpdate(documentId, "insertText", request);
+    },
+    async replaceText(documentId, text) {
+      return this._batchUpdate(documentId, "replaceAllText", text);
     },
     async appendImage(documentId, image, atBeginning = false) {
       const request = this._buildRequest(image, atBeginning);

@@ -15,9 +15,10 @@ export default {
       ],
     },
     text: {
-      type: "string",
-      label: "Text",
-      description: "Enter static text (e.g., `hello world`) or a reference to a string exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
+      propDefinition: [
+        googleDocs,
+        "text",
+      ],
     },
     appendAtBeginning: {
       propDefinition: [

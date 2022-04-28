@@ -9,7 +9,12 @@ export default {
   props: {
     googleDocs,
     title: "string",
-    text: "string",
+    text: {
+      propDefinition: [
+        googleDocs,
+        "text",
+      ],
+    },
   },
   async run({ $ }) {
     const { documentId } = await this.googleDocs.createEmptyDoc(this.title);
