@@ -4,7 +4,7 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     jotform,
@@ -16,6 +16,7 @@ export default {
     },
     http: "$.interface.http",
   },
+  dedupe: "unique",
   hooks: {
     async activate() {
       return (await this.jotform.createHook({
