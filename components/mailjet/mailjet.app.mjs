@@ -82,6 +82,8 @@ export default {
       resourceFn,
       resourceFnArgs,
       max = 1000,
+      lastResourceProperty,
+      done,
     }) {
       let offset = resourceFnArgs.params?.Offset || 0;
       let limit = resourceFnArgs.params?.Limit || 100;
@@ -106,6 +108,15 @@ export default {
         offset += limit;
 
         for (const resource of nextResources) {
+          const isDone = done && done({
+            lastResourceProperty,
+            resource,
+          });
+
+          if (isDone) {
+            return;
+          }
+
           yield resource;
           resourcesCount += 1;
         }

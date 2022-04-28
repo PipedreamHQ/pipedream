@@ -43,8 +43,8 @@ export default {
           max: this.max,
         });
 
-      for await (const team of resourcesStream) {
-        contacts.push(team);
+      for await (const contact of resourcesStream) {
+        contacts.push(contact);
       }
 
       $.export("$summary", `Successfully retrieved ${contacts.length} contacts.`);
