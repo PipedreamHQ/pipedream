@@ -4,7 +4,7 @@ export default {
   key: "bannerbear-create-image",
   name: "Create an Image",
   description: "Create an image using template and modifications. [See the docs](https://developers.bannerbear.com/#post-v2-images)",
-  version: "0.0.1",
+  version: "0.0.6",
   type: "action",
   props: {
     bannerbear,
@@ -15,19 +15,27 @@ export default {
       ],
     },
     modifications: {
-      type: 'object',
-      description: 'A list of modifications you want to make. [See the docs](https://developers.bannerbear.com/#post-v2-images)'
+      type: 'string',
+      description: 'A list of modifications in JSON string format, for example: "[{"name": "message", "text": "test message"}]". [See the docs](https://developers.bannerbear.com/#post-v2-images)',
     }
   },
   async run({ $ }) {
-    const res = await this.bannerbear.createImage(
+    const rawModification = this.modifications
+    let modifications
+    try {
+      modifications = JSON.parse(rawModification)
+    } catch(err){
+      throw new Error('Failed to parse `modifications` as JSON. Please fix your input and try again.')
+    }
+
+    const response = await this.bannerbear.createImage(
       $,
       this.template,
-      this.modifications,
+      modifications,
     );
 
     $.export("$summary", "Create image successfully.");
 
-    return res;
+    return response;
   },
 };
