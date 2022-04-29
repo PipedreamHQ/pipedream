@@ -1,4 +1,3 @@
-import _ from "lodash";
 import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
@@ -36,9 +35,8 @@ export default {
       singleEvents: true,
       orderBy: "startTime",
     };
-    const resp = await this.googleCalendar.listEvents(config);
+    const { items: events } = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
         if (event.status !== "cancelled") {

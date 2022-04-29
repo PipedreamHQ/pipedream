@@ -1,4 +1,3 @@
-import _ from "lodash";
 import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
@@ -37,12 +36,11 @@ export default {
       singleEvents: true,
       orderBy: this.orderBy,
     };
-    const resp = await this.googleCalendar.listEvents(config);
+    const { items: events } = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
-        const eventEnd = _.get(event, "end.dateTime");
+        const eventEnd = event?.end?.dateTime;
         const end = new Date(eventEnd);
         const msFromEnd = now.getTime() - end.getTime();
         if (eventEnd && msFromEnd > 0 && msFromEnd < intervalMs) {

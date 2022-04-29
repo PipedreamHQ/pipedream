@@ -48,6 +48,30 @@ export default {
     },
   },
   methods: {
+    setNextSyncToken(calendarId, nextSyncToken) {
+      this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
+    },
+    getNextSyncToken(calendarId) {
+      return this.db.get(`${calendarId}.nextSyncToken`);
+    },
+    setChannelId(calendarId, channelId) {
+      this.db.set(`${calendarId}.channelId`, channelId);
+    },
+    getChannelId(calendarId) {
+      return this.db.get(`${calendarId}.channelId`);
+    },
+    setResourceId(calendarId, resourceId) {
+      this.db.set(`${calendarId}.resourceId`, resourceId);
+    },
+    getResourceId(calendarId) {
+      return this.db.get(`${calendarId}.resourceId`);
+    },
+    setExpiration(calendarId, expiration) {
+      this.db.set(`${calendarId}.expiration`, expiration);
+    },
+    getExpiration(calendarId) {
+      return this.db.get(`${calendarId}.expiration`);
+    },
     /**
      * A utility method to compute whether the provided event is newly created
      * or not. Since the Google Calendar API does not provide a specific way to
@@ -112,16 +136,16 @@ export default {
         // Initial full sync. Get next sync token
         const nextSyncToken = await this.googleCalendar.fullSync(calendarId);
 
-        this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
-        this.db.set(`${calendarId}.channelId`, watchResp.id);
-        this.db.set(`${calendarId}.resourceId`, watchResp.resourceId);
-        this.db.set(`${calendarId}.expiration`, watchResp.expiration);
+        this.setNextSyncToken(calendarId, nextSyncToken);
+        this.setChannelId(calendarId, watchResp.id);
+        this.setResourceId(calendarId, watchResp.resourceId);
+        this.setExpiration(calendarId, watchResp.expiration);
       }
     },
     async stopWatchRequest() {
       for (const calendarId of this.calendarIds) {
-        const id = this.db.get(`${calendarId}.channelId`);
-        const resourceId = this.db.get(`${calendarId}.resourceId`);
+        const id = this.getChannelId(calendarId);
+        const resourceId = this.getResourceId(calendarId);
         if (id && resourceId) {
           const { status } =
             await this.googleCalendar.stopChannel({
@@ -133,10 +157,10 @@ export default {
             });
           if (status === 204) {
             console.log("webhook deactivated");
-            this.db.set(`${calendarId}.nextSyncToken`, null);
-            this.db.set(`${calendarId}.channelId`, null);
-            this.db.set(`${calendarId}.resourceId`, null);
-            this.db.set(`${calendarId}.expiration`, null);
+            this.setNextSyncToken(calendarId, null);
+            this.setChannelId(calendarId, null);
+            this.setResourceId(calendarId, null);
+            this.setExpiration(calendarId, null);
           } else {
             console.log("There was a problem deactivating the webhook");
           }
@@ -145,91 +169,75 @@ export default {
     },
   },
   async run(event) {
-    // refresh watch
-    if (event.interval_seconds) {
-      // get time
-      const now = new Date();
-      const intervalMs = event.interval_seconds * 1000;
-      // get expiration
-      const expiration = this.db.get("expiration");
-      const expireDate = new Date(parseInt(expiration));
+    // Verify channel ID
+    const channelIds = [];
+    for (const calendarId of this.calendarIds) {
+      const channelId = this.getChannelId(calendarId);
+      channelIds.push(channelId);
+    }
+    const incomingChannelId = event?.headers?.["x-goog-channel-id"];
+    if (!channelIds.includes(incomingChannelId)) {
+      console.log(
+        `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
+      );
+      return;
+    }
 
-      // if now + interval > expiration, refresh watch
-      if (now.getTime() + intervalMs > expireDate.getTime()) {
-        await this.makeWatchRequest();
-        await this.stopWatchRequest();
-      }
-    } else {
-      // Verify channel ID
-      const channelIds = [];
-      for (const calendarId of this.calendarIds) {
-        const channelId = this.db.get(`${calendarId}.channelId`);
-        channelIds.push(channelId);
-      }
-      const incomingChannelId = event?.headers?.["x-goog-channel-id"];
-      if (!channelIds.includes(incomingChannelId)) {
-        console.log(
-          `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
-        );
-        return;
-      }
+    // Check that resource state === exists
+    const state = event?.headers?.["x-goog-resource-state"];
+    switch (state) {
+    case "exists":
+      // there's something to emit, so keep going
+      break;
+    case "not_exists":
+      console.log("Resource does not exist. Exiting.");
+      return;
+    case "sync":
+      console.log("New channel created");
+      return;
+    default:
+      console.log(`Unknown state: ${state}`);
+      return;
+    }
 
-      // Check that resource state === exists
-      const state = event?.headers?.["x-goog-resource-state"];
-      switch (state) {
-      case "exists":
-        // there's something to emit, so keep going
-        break;
-      case "not_exists":
-        console.log("Resource does not exist. Exiting.");
-        return;
-      case "sync":
-        console.log("New channel created");
-        return;
-      default:
-        console.log(`Unknown state: ${state}`);
-        return;
-      }
-
-      // Fetch and emit events
-      for (const calendarId of this.calendarIds) {
-        const syncToken = this.db.get(`${calendarId}.nextSyncToken`);
-        let nextSyncToken = null;
-        let nextPageToken = null;
-        while (!nextSyncToken) {
-          const {
-            data: syncData = {},
-            status: syncStatus,
-          } = await this.googleCalendar.listEvents({
-            returnOnlyData: false,
-            calendarId,
-            syncToken,
-            pageToken: nextPageToken,
-          });
-          if (syncStatus === 410) {
-            console.log("Sync token invalid, resyncing");
-            nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
-            break;
-          }
-          nextPageToken = syncData.nextPageToken;
-          nextSyncToken = syncData.nextSyncToken;
-
-          const { items: events = [] } = syncData;
-          events
-            .filter(this.isEventRelevant, this)
-            .forEach((event) => {
-              const { status } = event;
-              if (status === "cancelled") {
-                console.log("Event cancelled. Exiting.");
-                return;
-              }
-              const meta = this.generateMeta(event);
-              this.$emit(event, meta);
-            });
+    // Fetch and emit events
+    for (const calendarId of this.calendarIds) {
+      const syncToken = this.getNextSyncToken(calendarId);
+      let nextSyncToken = null;
+      let nextPageToken = null;
+      while (!nextSyncToken) {
+        const {
+          data: syncData = {},
+          status: syncStatus,
+        } = await this.googleCalendar.listEvents({
+          returnOnlyData: false,
+          calendarId,
+          syncToken,
+          pageToken: nextPageToken,
+        });
+        if (syncStatus === 410) {
+          console.log("Sync token invalid, resyncing");
+          nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
+          break;
         }
+        nextPageToken = syncData.nextPageToken;
+        nextSyncToken = syncData.nextSyncToken;
 
-        this.db.set("nextSyncToken", nextSyncToken);
+        const { items: events = [] } = syncData;
+        events
+          .filter(this.isEventRelevant, this)
+          .forEach((event) => {
+            const { status } = event;
+            if (status === "cancelled") {
+              console.log("Event cancelled. Exiting.");
+              return;
+            }
+            const meta = this.generateMeta(event);
+            this.$emit(event, meta);
+          });
       }
+
+      this.setNextSyncToken(calendarId, nextSyncToken);
     }
   },
 };

@@ -1,3 +1,4 @@
+import timezones from "moment-timezone";
 import calendar from "@googleapis/calendar";
 import constants from "./common/constants.mjs";
 
@@ -152,10 +153,19 @@ export default {
       type: "string",
     },
     timeZone: {
+      type: "string",
       label: "Time zone",
       description: "Time zone used in the response. Optional. The default is the time zone of the calendar.",
       optional: true,
-      type: "string",
+      options() {
+        const timeZonesList = timezones.tz.names().map((timezone) => {
+          return {
+            label: timezone,
+            value: timezone,
+          };
+        });
+        return timeZonesList;
+      },
     },
     updatedMin: {
       label: "Minimum updated time",

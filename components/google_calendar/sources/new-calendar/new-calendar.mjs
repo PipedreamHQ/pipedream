@@ -1,4 +1,3 @@
-import _ from "lodash";
 import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
@@ -19,21 +18,26 @@ export default {
   },
   hooks: {
     async activate() {
-      // get list of calendars
-      const calListResp = await this.googleCalendar.listCalendars();
-      const calendars = _.get(calListResp, "items");
+      const { items: calendars = [] } = await this.googleCalendar.listCalendars();
       const calendarIds = calendars.map((item) => item.id);
-      this.db.set("calendarIds", calendarIds);
+      this.setCalendarIds(calendarIds);
     },
     deactivate() {
-      this.db.set("calendarIds", []);
+      this.setCalendarIds([]);
+    },
+  },
+  methods: {
+    setCalendarIds(calendarIds) {
+      this.db.set("calendarIds", calendarIds);
+    },
+    getCalendarIds() {
+      return this.db.get("calendarIds") || [];
     },
   },
   async run() {
-    const previousCalendarIds = this.db.get("calendarIds") || [];
+    const previousCalendarIds = this.getCalendarIds();
 
-    const calListResp = await this.googleCalendar.listCalendars();
-    const calendars = _.get(calListResp, "items");
+    const { items: calendars = [] } = await this.googleCalendar.listCalendars();
     const currentCalendarIds = [];
 
     for (const calendar of calendars) {
@@ -49,6 +53,6 @@ export default {
         });
       }
     }
-    this.db.set("calendarIds", currentCalendarIds);
+    this.setCalendarIds(currentCalendarIds);
   },
 };

@@ -1,5 +1,4 @@
 import googleCalendar from "../../google_calendar.app.mjs";
-import timezones from "moment-timezone";
 
 export default {
   key: "google_calendar-create-event",
@@ -50,18 +49,7 @@ export default {
         googleCalendar,
         "timeZone",
       ],
-      options() {
-        const timeZonesList = timezones.tz.names().map((timezone) => {
-          return {
-            label: timezone,
-            value: timezone,
-          };
-        });
-
-        return timeZonesList;
-      },
     },
-    // TODO: Should I add reminders
   },
   async run({ $ }) {
     if (!Array.isArray(this.attendees)) {
