@@ -43,9 +43,10 @@ export default {
     )?.Contacts;
     contacts &&
       contacts.reverse().forEach((contact) => {
-        this.db.set("lastDateChecked", formatJsonDate(contact.UpdatedDateUTC));
+        const formmatedDate = formatJsonDate(contact.UpdatedDateUTC);
+        this.db.set("lastDateChecked", formmatedDate);
         this.$emit(contact, {
-          id: contact.ContactID,
+          id: `${contact.ContactID}D${formmatedDate || ""}`,
           summary: `${contact.Name} - ${lastDateChecked}`,
         });
       });
