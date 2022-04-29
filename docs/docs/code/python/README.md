@@ -47,6 +47,22 @@ And that's it.
 
 No need to update a `requirements.txt` or specify elsewhere in your workflow of which packages you need. Pipedream will automatically install the dependency for you.
 
+### If your package's `import` name differs from its PyPI package name
+
+Pipedream's package installation uses [the `pipreqs` package](https://github.com/bndr/pipreqs) to detect package imports and install the associated package for you. Some packages, like [`python-telegram-bot`](https://python-telegram-bot.org/), use an `import` name that differs from their PyPI name:
+
+```bash
+pip install python-telegram-bot
+```
+
+vs.
+
+```python
+import telegram
+```
+
+We maintain a custom mapping for these cases, so that we can install the right package given your `import` statements. **If you try to install a package that doesn't work, please [reach out to our team](/code/python/import-mappings/) and we can add the custom mapping for you**.
+
 ## Making an HTTP request
 
 We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests.
@@ -152,14 +168,12 @@ export('pokemon', pokemon)
 Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
-Not all data types can be stored in the `steps` data shared between workflow steps.
+You can only export JSON-serializable data from steps. Things like:
 
-For the best experience, we recommend only exporting these types of data from Python steps:
-
+* strings
+* numbers
 * lists 
 * dictionaries
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
 
 ## Using environment variables

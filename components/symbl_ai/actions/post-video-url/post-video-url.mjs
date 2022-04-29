@@ -1,19 +1,19 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
-import languages from "../languages.mjs";
+import languages from "../common/languages.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
-  description: "Submit a Video by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
-  version: "0.0.3",
+  description: "Submit a Video file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url).",
+  version: "0.0.8",
   type: "action",
   props: {
     symblAIApp,
     videoUrl: {
       type: "string",
       label: "Video URL",
-      description: "The URL of the video to be processed.",
-      optional: false,
+      description: "The URL of the video file to be processed.",
     },
     meetingName: {
       type: "string",
@@ -75,7 +75,7 @@ export default {
       optional: true,
     },
     enableAllTrackers: {
-      type: "string",
+      type: "boolean",
       label: "Enable All Trackers",
       description: "Set this parameter to `true` to enable detection of all the Trackers configured for your account. Default value is `false`.",
       optional: true,
@@ -92,33 +92,44 @@ export default {
       description: "The number of unique speakers in this conversation. See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url/#speaker-separation) for reference.",
       optional: true,
     },
+    trackers: {
+      type: "string",
+      label: "Trackers",
+      description: "Provide a JSON array of the information to be tracked containing the `name` and the `vocabulary` information. The tracker object is represented by the following structure: `[{\"name\": \"Promotion Mention\",\"vocabulary\": [\"We have a special promotion going on if you book this before\",\"I can offer you a discount of 10 or 20 percent you being a new customer for us\",\"We have a sale right now on\"]}]`. See doc [here](https://docs.symbl.ai/docs/management-api/trackers/create-tracker).",
+      optional: true,
+    },
+    channelMetadata: {
+      type: "string",
+      label: "Channel Metadata",
+      description: "Provide a JSON array of participants with their `channel` and `speaker` information. Each participant object is represented by the following structure:  `[{\"channel\": 1,\"speaker\": {\"name\": \"Joe Doe\",\"email\": \"joe@doe.com\"}},{\"channel\": 2,\"speaker\": {\"name\": \"Mary Jones\",\"email\": \"mary@email.com\"}}]`. See doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video#channel-metadata)",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    try {
-      const response =
-        await this.symblAIApp.postVideoUrl({
-          $,
-          data: {
-            url: this.videoUrl,
-            name: this.meetingName,
-            customVocabulary: this.customVocabulary,
-            confidenceThreshold: this.confidenceThreshold,
-            detectPhrases: this.detectPhrases,
-            webhookUrl: this.webhookUrl,
-            detectEntities: this.detectEntities,
-            languageCode: this.languageCode,
-            mode: this.mode,
-            enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
-            enableAllTrackers: this.enableAllTrackers,
-            enableSpeakerDiarization: this.enableSpeakerDiarization,
-            diarizationSpeakerCount: this.diarizationSpeakerCount,
-          },
-        });
-      $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
-      return response;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("summary", "Failed to post video URL");
-    }
+    const trackers = utils.emptyStrToUndefined(this.trackers);
+    const channelMetadata = utils.emptyStrToUndefined(this.channelMetadata);
+    const response =
+      await this.symblAIApp.postVideoUrl({
+        $,
+        data: {
+          url: this.videoUrl,
+          name: this.meetingName,
+          customVocabulary: this.customVocabulary,
+          confidenceThreshold: this.confidenceThreshold,
+          detectPhrases: this.detectPhrases,
+          webhookUrl: this.webhookUrl,
+          detectEntities: this.detectEntities,
+          languageCode: this.languageCode,
+          mode: this.mode,
+          enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
+          enableAllTrackers: this.enableAllTrackers,
+          enableSpeakerDiarization: this.enableSpeakerDiarization,
+          diarizationSpeakerCount: this.diarizationSpeakerCount,
+          trackers: JSON.parse(trackers || "[]"),
+          channelMetadata: JSON.parse(channelMetadata || "[]"),
+        },
+      });
+    $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
+    return response;
   },
 };

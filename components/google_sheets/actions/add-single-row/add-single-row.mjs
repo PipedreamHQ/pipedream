@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.5",
+  version: "2.0.7",
   type: "action",
   props: {
     googleSheets,
@@ -53,7 +53,7 @@ export default {
     if (this.hasHeaders === "Yes") {
       const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
       if (!values[0]?.length) {
-        throw new ConfigurationError("Sheet has no header row. Please either add headers or adjust the action configuration and re-test.");
+        throw new ConfigurationError("Cound not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
       }
       for (let i = 0; i < values[0]?.length; i++) {
         props[`col_${i.toString().padStart(4, "0")}`] = {
@@ -83,7 +83,7 @@ export default {
       ] = rows;
       cells = headers
         .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
-        .map((column) => this[column] || "");
+        .map((column) => this[column] ?? "");
     } else {
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
     }
@@ -112,7 +112,7 @@ export default {
 
     let summary = `Added 1 row to [${this.sheetId?.label || this.sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
     if (convertedIndexes.length > 0) {
-      summary += " We detected something other than a string in at least one of the fields and automatically converted it to a string.";
+      summary += " We detected something other than a string/number/boolean in at least one of the fields and automatically converted it to a string.";
     }
     $.export("$summary", summary);
 

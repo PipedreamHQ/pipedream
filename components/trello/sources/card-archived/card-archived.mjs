@@ -1,12 +1,11 @@
 import common from "../common-webhook.mjs";
-import get from "lodash/get.js";
 
 export default {
   ...common,
   key: "trello-card-archived",
   name: "Card Archived (Instant)",
   description: "Emit new event for each card archived.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,
@@ -29,15 +28,12 @@ export default {
   methods: {
     ...common.methods,
     isCorrectEventType(event) {
-      const eventTranslationKey = get(
-        event,
-        "body.action.display.translationKey",
-      );
+      const eventTranslationKey = event.body?.action?.display?.translationKey;
       return eventTranslationKey === "action_archived_card";
     },
     async getResult(event) {
-      const cardId = get(event, "body.action.data.card.id");
-      return await this.trello.getCard(cardId);
+      const cardId = event.body?.action?.data?.card?.id;
+      return this.trello.getCard(cardId);
     },
     isRelevant({ result: card }) {
       return (

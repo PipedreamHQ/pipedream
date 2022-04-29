@@ -1,3 +1,8 @@
+---
+short_description: How to write code that requires waiting for an asynchronous action.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/icons/icons8-time-96_kupxpi.png
+---
+
 # Running asynchronous code in Node.js
 
 If you're not familiar with asynchronous programming concepts like [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) or [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), see [this overview](https://eloquentjavascript.net/11_async.html).
@@ -19,12 +24,12 @@ As the warning notes, this often arises from one of two issues:
 
 ### `await` all Promises
 
-Most Node.js packages that run async code return Promises as the result of method calls. For example, [`axios`](https://docs.pipedream.com/workflows/steps/code/nodejs/http-requests/#basic-axios-usage-notes) is an HTTP client. If you make an HTTP request like this in a Pipedream code step:
+Most Node.js packages that run async code return Promises as the result of method calls. For example, [`axios`](/code/nodejs/http-requests/#basic-axios-usage-notes) is an HTTP client. If you make an HTTP request like this in a Pipedream code step:
 
 ```javascript
 const resp = axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 
@@ -33,7 +38,7 @@ It won't send the HTTP request, since **`axios` returns a Promise**. Instead, ad
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 

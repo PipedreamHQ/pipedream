@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-add-contact-to-automation",
   name: "Add Contact to Automation",
   description: "Adds an existing contact to an existing automation.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {
