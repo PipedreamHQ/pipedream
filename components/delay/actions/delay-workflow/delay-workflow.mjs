@@ -4,7 +4,7 @@ export default {
   name: "Delay Workflow",
   version: "0.0.1",
   key: "delay-delay-workflow",
-  description: "Delay the execution of your workflow for a specific amount of time.",
+  description: "Delay the execution of your workflow for a specific amount of time (does not count against your compute time).",
   props: {
     delay,
     delayDurationValue: {
@@ -31,13 +31,10 @@ export default {
       this.delayDurationUnit,
       this.delayDurationValue,
     );
-    console.log(`${this.delayDurationValue} ${this.delayDurationUnit} = ${milliseconds} ms`);
-    // What are the nuances wrt test mode? Can we show a meaningful $summary?
-    const resp = $.flow.delay(milliseconds);
+    $.flow.delay(milliseconds);
     $.export(
       "$summary",
       `Successfully configured this workflow to delay for ${this.delayDurationValue} ${this.delayDurationUnit}.`,
     );
-    return resp;
   },
 };
