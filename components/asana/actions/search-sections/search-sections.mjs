@@ -5,7 +5,7 @@ export default {
   key: "asana-search-sections",
   name: "Find Section in Project",
   description: "Searches for a section by name within a particular project.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     asana: {
