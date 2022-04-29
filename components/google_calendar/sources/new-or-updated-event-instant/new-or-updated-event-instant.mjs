@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import googleCalendar from "../../google_calendar.app.js";
+import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
@@ -7,7 +7,7 @@ export default {
   name: "New or Updated Event (Instant)",
   description:
     "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -16,18 +16,10 @@ export default {
       type: "string[]",
       label: "Calendars",
       description: "Select one or more calendars to watch",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = calListResp?.data?.items ?? [];
-        if (calendars && calendars.length) {
-          const calendarIds = calendars.map((item) => ({
-            value: item.id,
-            label: item.summary,
-          }));
-          return calendarIds;
-        }
-        return [];
-      },
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
     },
     newOnly: {
       label: "New events only?",
@@ -107,24 +99,23 @@ export default {
     async makeWatchRequest() {
       // Make watch request for this HTTP endpoint
       for (const calendarId of this.calendarIds) {
-        const config = {
-          calendarId,
-          requestBody: {
-            id: uuid(),
-            type: "web_hook",
-            address: this.http.endpoint,
-          },
-        };
-        const watchResp = await this.googleCalendar.watch(config);
-        const data = watchResp.data;
+        const watchResp =
+          await this.googleCalendar.watchEvents({
+            calendarId,
+            requestBody: {
+              id: uuid(),
+              type: "web_hook",
+              address: this.http.endpoint,
+            },
+          });
 
         // Initial full sync. Get next sync token
         const nextSyncToken = await this.googleCalendar.fullSync(calendarId);
 
         this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
-        this.db.set(`${calendarId}.channelId`, data.id);
-        this.db.set(`${calendarId}.resourceId`, data.resourceId);
-        this.db.set(`${calendarId}.expiration`, data.expiration);
+        this.db.set(`${calendarId}.channelId`, watchResp.id);
+        this.db.set(`${calendarId}.resourceId`, watchResp.resourceId);
+        this.db.set(`${calendarId}.expiration`, watchResp.expiration);
       }
     },
     async stopWatchRequest() {
@@ -132,14 +123,15 @@ export default {
         const id = this.db.get(`${calendarId}.channelId`);
         const resourceId = this.db.get(`${calendarId}.resourceId`);
         if (id && resourceId) {
-          const config = {
-            requestBody: {
-              id,
-              resourceId,
-            },
-          };
-          const stopResp = await this.googleCalendar.stop(config);
-          if (stopResp.status === 204) {
+          const { status } =
+            await this.googleCalendar.stopChannel({
+              returnOnlyData: false,
+              requestBody: {
+                id,
+                resourceId,
+              },
+            });
+          if (status === 204) {
             console.log("webhook deactivated");
             this.db.set(`${calendarId}.nextSyncToken`, null);
             this.db.set(`${calendarId}.channelId`, null);
@@ -205,15 +197,15 @@ export default {
         let nextSyncToken = null;
         let nextPageToken = null;
         while (!nextSyncToken) {
-          const listConfig = {
-            calendarId,
-            syncToken,
-            pageToken: nextPageToken,
-          };
           const {
             data: syncData = {},
             status: syncStatus,
-          } = await this.googleCalendar.list(listConfig);
+          } = await this.googleCalendar.listEvents({
+            returnOnlyData: false,
+            calendarId,
+            syncToken,
+            pageToken: nextPageToken,
+          });
           if (syncStatus === 410) {
             console.log("Sync token invalid, resyncing");
             nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);

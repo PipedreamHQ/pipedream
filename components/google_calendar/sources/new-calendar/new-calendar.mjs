@@ -1,11 +1,11 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import _ from "lodash";
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
+export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
   description: "Emit an event when a calendar is created.",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   props: {
     db: "$.service.db",
@@ -20,8 +20,8 @@ module.exports = {
   hooks: {
     async activate() {
       // get list of calendars
-      const calListResp = await this.googleCalendar.calendarList();
-      const calendars = _.get(calListResp, "data.items");
+      const calListResp = await this.googleCalendar.listCalendars();
+      const calendars = _.get(calListResp, "items");
       const calendarIds = calendars.map((item) => item.id);
       this.db.set("calendarIds", calendarIds);
     },
@@ -32,8 +32,8 @@ module.exports = {
   async run() {
     const previousCalendarIds = this.db.get("calendarIds") || [];
 
-    const calListResp = await this.googleCalendar.calendarList();
-    const calendars = _.get(calListResp, "data.items");
+    const calListResp = await this.googleCalendar.listCalendars();
+    const calendars = _.get(calListResp, "items");
     const currentCalendarIds = [];
 
     for (const calendar of calendars) {
