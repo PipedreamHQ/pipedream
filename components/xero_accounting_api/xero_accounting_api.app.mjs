@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/common.constants.mjs";
 import { chainQueryString } from "./common/common.util.mjs";
 
 export default {
@@ -13,15 +14,17 @@ export default {
     },
   },
   methods: {
-    // this.$auth contains connected account data
+    getHeader(tenant_id) {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "xero-tenant-id": tenant_id,
+      };
+    },
     async createContact(tenant_id, data) {
       return await axios(this.$auth, {
         method: "post",
-        url: "https://api.xero.com/api.xro/2.0/contacts",
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
+        url: constants.CONTACT_API,
+        headers: this.getHeader(tenant_id),
         data,
       });
     },
@@ -29,33 +32,23 @@ export default {
       const newQueryParam = chainQueryString(queryParam);
       return await axios(this.$auth, {
         method: "get",
-        url: `https://api.xero.com/api.xro/2.0/contacts?Where=${newQueryParam}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
+        url: `${constants.CONTACT_API}?Where=${newQueryParam}`,
+        headers: this.getHeader(tenant_id),
       });
     },
-    async createBill(tenant_id, data) {
+    async createInvoice(tenant_id, data) {
       return await axios(this.$auth, {
         method: "post",
-        url: "https://api.xero.com/api.xro/2.0/invoices",
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
+        url: constants.INVOICE_API,
+        headers: this.getHeader(tenant_id),
         data,
       });
     },
     async getInvoice(tenant_id, queryParam) {
       const newQueryParam = chainQueryString(queryParam);
-      console.log(newQueryParam);
       return await axios(this.$auth, {
-        url: `https://api.xero.com/api.xro/2.0/Invoices?Where=${newQueryParam}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
+        url: `${constants.INVOICE_API}?Where=${newQueryParam}`,
+        headers: this.getHeader(tenant_id),
       });
     },
   },

@@ -1,6 +1,5 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
 import {
-  formatArrayObjects,
+  formatArrayStrings,
   removeNullEntries,
 } from "../../common/common.util.mjs";
 import constant from "../../common/common.constants.mjs";
@@ -20,10 +19,12 @@ export default {
     },
     InvoiceID: {
       type: "string",
+      label: "Invoice ID",
       description: "ID of Invoice to be updated",
     },
     LineItems: {
       type: "string[]",
+      label: "Line items",
       description: `Provide multiple items using the example below. At least one is required to create a complete Invoice. 
         Example:
         \`{
@@ -38,23 +39,8 @@ export default {
     const { tenant_id, InvoiceID, LineItems } = this;
     const data = removeNullEntries({
       InvoiceID,
-      LineItems: formatArrayObjects(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
+      LineItems: formatArrayStrings(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
     });
-    console.log("payload", data);
-    try {
-      const response = await axios($, {
-        method: "post",
-        url: "https://api.xero.com/api.xro/2.0/invoices",
-        headers: {
-          Authorization: `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-          "xero-tenant-id": tenant_id,
-        },
-        data,
-      });
-      response && $.export("$summary", "Line item added successfully");
-      return response;
-    } catch (error) {
-      throw new ConfigurationError(`An error occured creating line item`);
-    }
+    return await this.xero_accounting_api.createInvoice(tenant_id, data);
   },
 };
