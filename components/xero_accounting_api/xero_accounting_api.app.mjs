@@ -28,12 +28,13 @@ export default {
         data,
       });
     },
-    async getContact(tenant_id, queryParam) {
+    async getContact(tenant_id, queryParam = null) {
       const newQueryParam = chainQueryString(queryParam);
       return await axios(this.$auth, {
         method: "get",
-        url: `${constants.CONTACT_API}?Where=${newQueryParam}`,
+        url: constants.CONTACT_API,
         headers: this.getHeader(tenant_id),
+        params: { Where: newQueryParam },
       });
     },
     async createInvoice(tenant_id, data) {
@@ -47,8 +48,9 @@ export default {
     async getInvoice(tenant_id, queryParam) {
       const newQueryParam = chainQueryString(queryParam);
       return await axios(this.$auth, {
-        url: `${constants.INVOICE_API}?Where=${newQueryParam}`,
+        url: constants.INVOICE_API,
         headers: this.getHeader(tenant_id),
+        params: { Where: newQueryParam },
       });
     },
   },

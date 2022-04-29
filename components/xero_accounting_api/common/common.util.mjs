@@ -94,21 +94,14 @@ const formatArray = (key, value) => {
   return null;
 };
 
-const formatNonArray = (key, value, quoteValue) => {
-  return value
-    ? `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${value}${
-        quoteValue ? '"' : ""
-      }`
-    : null;
-};
+const formatNonArray = (key, value, quoteValue) =>
+  value &&
+  `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${value}${
+    quoteValue ? '"' : ""
+  }`;
 
 const chainQueryString = (queryString) =>
-  queryString
-    ? queryString
-        .split("&")
-        .map((q) => `${encodeURIComponent(q)}`)
-        .join("+AND+")
-    : "";
+  queryString && queryString.split("&").join(" AND ");
 
 export {
   removeNullEntries,

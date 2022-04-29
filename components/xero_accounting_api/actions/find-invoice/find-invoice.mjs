@@ -44,9 +44,11 @@ export default {
       Reference,
     });
     const queryString = formatQueryString(payload, true);
-    return await this.xero_accounting_api.getInvoice(
+    const rep = await this.xero_accounting_api.getInvoice(
       this.tenant_id,
       queryString
     );
+    console.log(rep);
+    return rep;
   },
 };
