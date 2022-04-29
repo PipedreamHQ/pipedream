@@ -94,9 +94,11 @@ export default {
     }
     const map = this.getHashMapOfData(this.data);
     const keys = Object.keys(map);
+    const promises = [];
     for (const key of keys) {
-      this.data_store.set(key, map[key]);
+      promises.push(this.data_store.set(key, map[key]));
     }
+    await Promise.all(promises);
     $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
   },
 };

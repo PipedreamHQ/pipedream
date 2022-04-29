@@ -32,7 +32,7 @@ export default {
       key,
       value,
     } = this;
-    const record = this.data_store.get(key);
+    const record = await this.data_store.get(key);
     let parsedValue;
     if (typeof value !== "string") {
       parsedValue = value;
@@ -44,7 +44,7 @@ export default {
         parsedValue = value;
       }
     }
-    this.data_store.set(key, parsedValue);
+    await this.data_store.set(key, parsedValue);
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully ${record ? "updated the record for" : "added a new record with the"} key, \`${key}\`.`);
     return {

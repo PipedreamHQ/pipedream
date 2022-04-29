@@ -23,10 +23,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const record = this.data_store.get(this.key);
+    const record = await this.data_store.get(this.key);
 
     if (record) {
-      this.data_store.set(this.key, undefined);
+      await this.data_store.set(this.key, undefined);
       $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
     } else {
       $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");
