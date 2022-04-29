@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import constants from "./actions/constants.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -22,6 +22,29 @@ export default {
         return conversations.map((conversation) => ({
           label: conversation.name,
           value: conversation.id,
+        }));
+      },
+    },
+    memberId: {
+      type: "string",
+      label: "Member Id",
+      description: "The unique identifier of the member in the Conversation.",
+      async options({
+        page, conversationId,
+      }) {
+        const limit = 50;
+        const params = {
+          limit,
+          offset: limit * page,
+          order: "desc",
+        };
+        const { members } = await this.getMembers({
+          params,
+          conversationId,
+        });
+        return members.map((member) => ({
+          label: member.name,
+          value: member.id,
         }));
       },
     },
@@ -285,6 +308,24 @@ export default {
       return this.makeRequest({
         $,
         path: `/conversations/${conversationId}/trackers-detected`,
+      });
+    },
+    async putMember({
+      conversationId, memberId, ...args
+    }) {
+      return this.makeRequest({
+        method: "put",
+        path: `/conversations/${conversationId}/members/${memberId}`,
+        ...args,
+      });
+    },
+    async putSpeakerEvents({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: "put",
+        path: `/conversations/${conversationId}/speakers`,
+        ...args,
       });
     },
     async postFormattedTranscript({
