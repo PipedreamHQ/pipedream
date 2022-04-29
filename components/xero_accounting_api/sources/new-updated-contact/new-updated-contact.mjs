@@ -1,4 +1,4 @@
-import twitter from "../../twitter.app.mjs";
+import { formatJsonDate } from "../../common/common.util.mjs";
 import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -9,10 +9,13 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
-    twitter,
+    xero_accounting_api,
+    tenant_id: {
+      propDefinition: [xero_accounting_api, "tenant_id"],
+    },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the Twitter API on this schedule",
+      description: "Pipedream will poll Xero accounting API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
@@ -21,10 +24,12 @@ export default {
   },
   dedupe: "unique",
   async run() {
-    (await this.twitter.getLikedTweets()).reverse().forEach((tweet) => {
-      this.$emit(this.twitter.enrichTweet(tweet), {
-        id: tweet.id_str,
-        summary: tweet.full_text,
+    const contacts = await this.xero_accounting_api.getContact(this.tenant_id);
+    contacts.Contacts.forEach((contact) => {
+      console.log("Contact", contact, formatJsonDate(contact.UpdatedDateUTC));
+      this.$emit(contact, {
+        id: contact.ContactID,
+        summary: contact.Name,
       });
     });
   },

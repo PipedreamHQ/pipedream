@@ -100,6 +100,17 @@ const formatNonArray = (key, value, quoteValue) =>
     quoteValue ? '"' : ""
   }`;
 
+const formatJsonDate = (d) => {
+  const pattern = /Date\(([^)]+)\)/;
+  const m = pattern.exec(d);
+  return m && new Date(parseFloat(m[1])).toLocaleDateString("en-US");
+  //  new Date(parseFloat(m[1])).toLocaleDateString("en-US", {
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //     year: "numeric",
+  //   })
+};
+
 const chainQueryString = (queryString) =>
   queryString && queryString.split("&").join(" AND ");
 
@@ -110,4 +121,5 @@ export {
   isValidDate,
   formatQueryString,
   chainQueryString,
+  formatJsonDate,
 };
