@@ -1,40 +1,38 @@
-// legacy_hash_id: a_52iBGM
-import { axios } from "@pipedream/platform";
+import gitlab from "../../gitlab.app.mjs";
 
 export default {
   key: "gitlab-list-repo-branches",
   name: "List Repo Branches",
-  description: "Get a list of repository branches from a project",
-  version: "0.1.1",
+  description: "Get a list of repository branches from a project. [See docs](https://docs.gitlab.com/ee/api/branches.html#list-repository-branches)",
+  version: "0.2.0",
   type: "action",
   props: {
-    gitlab: {
-      type: "app",
-      app: "gitlab",
+    gitlab,
+    projectId: {
+      propDefinition: [
+        gitlab,
+        "projectId",
+      ],
     },
-    search_string: {
+    search: {
+      propDefinition: [
+        gitlab,
+        "query",
+      ],
       type: "string",
-      description: "Return list of branches containing the search string. You can use ^term and term$ to find branches that begin and end with term respectively.",
+      description: "Return list of branches containing the search string. You can use ^term and term$ to find branches that begin and end with term respectively",
       optional: true,
-    },
-    project_id: {
-      type: "string",
-      description: "ID or URL-encoded path of the project owned by the authenticated user.",
     },
   },
   async run({ $ }) {
-
-    var searchString = "";
-    if (this.search_string) {
-      searchString = "?search=" + this.search_string;
-    }
-
-    return await axios($, {
-      url: `https://gitlab.com/api/v4/projects/${this.project_id}/repository/branches${searchString}`,
-
-      headers: {
-        Authorization: `Bearer ${this.gitlab.$auth.oauth_access_token}`,
-      },
+    const response = await this.gitlab.listBranches(this.projectId, {
+      search: this.search,
     });
+    const { data: branches } = response;
+    const suffix = branches.length === 1
+      ? ""
+      : "es";
+    $.export("$summary", `Retrieved ${branches.length} branch${suffix}`);
+    return branches;
   },
 };
