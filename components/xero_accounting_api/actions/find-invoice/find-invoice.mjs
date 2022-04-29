@@ -1,9 +1,9 @@
-import { axios, ConfigurationError } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 import {
-  chainQueryString,
   formatQueryString,
   removeNullEntries,
 } from "../../common/common.util.mjs";
+import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-find-invoice",
@@ -13,20 +13,21 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
+    xero_accounting_api,
     tenant_id: {
-      type: "string",
+      propDefinition: [xero_accounting_api, "tenant_id"],
     },
     InvoiceNumber: {
       type: "string",
       optional: true,
+      label: "Invoice number",
+      description: "Unique alpha numeric code identifying invoice",
     },
     Reference: {
       type: "string",
       optional: true,
+      label: "Reference",
+      description: "ACCREC only - additional reference number",
     },
   },
   async run({ $ }) {
@@ -43,13 +44,9 @@ export default {
       Reference,
     });
     const queryString = formatQueryString(payload, true);
-    const newQueryParam = chainQueryString(queryString);
-    return await axios($, {
-      url: `https://api.xero.com/api.xro/2.0/Invoices?Where=${newQueryParam}`,
-      headers: {
-        Authorization: `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-        "xero-tenant-id": this.tenant_id,
-      },
-    });
+    return await this.xero_accounting_api.getInvoice(
+      this.tenant_id,
+      queryString
+    );
   },
 };

@@ -7,6 +7,7 @@ export default {
   propDefinitions: {
     tenant_id: {
       type: "string",
+      label: "Tenant ID",
       description:
         "Id of the organization tenant to use on the Xero Accounting API.  See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
     },
@@ -44,6 +45,17 @@ export default {
           "xero-tenant-id": tenant_id,
         },
         data,
+      });
+    },
+    async getInvoice(tenant_id, queryParam) {
+      const newQueryParam = chainQueryString(queryParam);
+      console.log(newQueryParam);
+      return await axios(this.$auth, {
+        url: `https://api.xero.com/api.xro/2.0/Invoices?Where=${newQueryParam}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "xero-tenant-id": tenant_id,
+        },
       });
     },
   },

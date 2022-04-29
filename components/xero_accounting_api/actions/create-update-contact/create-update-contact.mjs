@@ -12,13 +12,10 @@ export default {
   props: {
     xero_accounting_api,
     tenant_id: {
-      type: "string",
-      label: "Tenant ID",
-      description:
-        "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      propDefinition: [xero_accounting_api, "tenant_id"],
     },
     actionType: {
-      label: "Type of action to be performed.",
+      label: "Type of action",
       description: "This triggers an update if UPDATE is selected",
       type: "string",
       options: ["NEW", "UPDATE"],
@@ -26,34 +23,39 @@ export default {
     },
     Name: {
       type: "string",
+      label: "Contact name",
       description: "Full name of contact/organisation.",
       optional: true,
     },
     FirstName: {
       type: "string",
+      label: "First name",
       description: "First name of contact person .",
       optional: true,
     },
     LastName: {
       type: "string",
+      label: "Last name",
       description: "Last name of contact person.",
       optional: true,
     },
     EmailAddress: {
       type: "string",
+      label: "Email address",
       description: "Email address of contact person.",
       optional: true,
     },
     AccountNumber: {
       type: "string",
-      description:
-        "Name of the contact associated to the bank transaction. If there is no contact matching this name, a new contact is created.",
+      label: "Account number",
+      description: "User defined account number..",
       optional: true,
     },
     ContactStatus: {
       type: "string",
+      label: "Contact status",
       description:
-        "See [Contact Status Codes](https://developer.xero.com/documentation/api/accounting/types#contacts)",
+        "See https://developer.xero.com/documentation/api/accounting/types#contacts",
       options: ["ACTIVE", "ARCHIVED", "GDPRREQUEST"],
       default: "ACTIVE",
     },
@@ -63,6 +65,7 @@ export default {
     if (this.actionType === "UPDATE") {
       props.ContactID = {
         type: "string",
+        label: "Contact ID",
         description: "ID of the contact that requires update.",
       };
       props.Name = {

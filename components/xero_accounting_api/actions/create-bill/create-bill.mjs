@@ -17,10 +17,19 @@ export default {
   props: {
     xero_accounting_api,
     tenant_id: {
+      propDefinition: [xero_accounting_api, "tenant_id"],
+    },
+    InvoiceNumber: {
       type: "string",
-      label: "Tenant ID",
-      description:
-        "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      optional: true,
+      label: "Invoice number",
+      description: "Unique alpha numeric code identifying invoice",
+    },
+    Reference: {
+      type: "string",
+      optional: true,
+      label: "Reference",
+      description: "ACCREC only - additional reference number",
     },
     Contact: {
       type: "object",
@@ -69,7 +78,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const { tenant_id, Contact, LineItems, Date, DueDate, CurrencyCode } = this;
+    const {
+      tenant_id,
+      Contact,
+      InvoiceNumber,
+      Reference,
+      LineItems,
+      Date,
+      DueDate,
+      CurrencyCode,
+    } = this;
     const data = removeNullEntries({
       Type: "ACCPAY",
       Contact: Contact?.ContactID
@@ -83,6 +101,8 @@ export default {
       Date: isValidDate(Date, "Date"),
       DueDate: isValidDate(DueDate, "DueDate"),
       CurrencyCode,
+      InvoiceNumber,
+      Reference,
     });
     const response = await this.xero_accounting_api.createBill(tenant_id, data);
     response && $.export("$summary", "Bill successfully created");

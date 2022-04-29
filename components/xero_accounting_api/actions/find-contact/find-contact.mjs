@@ -19,11 +19,13 @@ export default {
     },
     Name: {
       type: "string",
+      label: "Contact name",
       description: "Full name of contact/organisation ",
       optional: true,
     },
     AccountNumber: {
       type: "string",
+      label: "Account number",
       description: "Account number of Contact.",
       optional: true,
     },
@@ -39,27 +41,32 @@ export default {
     if (this.createContactIfNotFound === "Yes") {
       props.Name = {
         type: "string",
+        label: "Contact name",
         description: "Full name of contact/organisation.",
       };
       props.FirstName = {
         type: "string",
+        label: "First name",
         description: "First name of contact person .",
         optional: true,
       };
       props.LastName = {
         type: "string",
+        label: "Last name",
         description: "Last name of contact person.",
         optional: true,
       };
       props.EmailAddress = {
         type: "string",
+        label: "Email address",
         description: "Email address of contact person.",
         optional: true,
       };
       props.ContactStatus = {
         type: "string",
+        label: "Contact status",
         description:
-          "See [Contact Status Codes](https://developer.xero.com/documentation/api/accounting/types#contacts)",
+          "See https://developer.xero.com/documentation/api/accounting/types#contacts",
         options: ["ACTIVE", "ARCHIVED", "GDPRREQUEST"],
         optional: true,
         default: "ACTIVE",
@@ -114,16 +121,12 @@ export default {
       (!contactDetail || !contactDetail?.Contacts?.length) &&
       createContactIfNotFound === "Yes"
     ) {
-      try {
-        const response = await this.xero_accounting_api.createContact(
-          tenant_id,
-          createPayload
-        );
-        response && $.export("$summary", "Contact created successfully");
-        return response;
-      } catch (error) {
-        throw new ConfigurationError("An error occured creating Contact");
-      }
+      const response = await this.xero_accounting_api.createContact(
+        tenant_id,
+        createPayload
+      );
+      response && $.export("$summary", "Contact created successfully");
+      return response;
     }
     contactDetail && $.export("$summary", "Contact found");
     return contactDetail;

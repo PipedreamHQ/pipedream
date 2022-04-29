@@ -4,6 +4,7 @@ import {
   removeNullEntries,
 } from "../../common/common.util.mjs";
 import constant from "../../common/common.constants.mjs";
+import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
@@ -13,14 +14,9 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
+    xero_accounting_api,
     tenant_id: {
-      type: "string",
-      description:
-        "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      propDefinition: [xero_accounting_api, "tenant_id"],
     },
     InvoiceID: {
       type: "string",
