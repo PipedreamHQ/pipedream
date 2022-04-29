@@ -18,11 +18,6 @@ export default {
         "organizations",
       ],
     },
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
     timer: {
       type: "$.interface.timer",
       default: {

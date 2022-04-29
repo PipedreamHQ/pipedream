@@ -29,12 +29,12 @@ export default {
     },
   },
   async run({ $ }) {
-  //
-  // Contributed to the pipedream community by https://taskforce.services
-  //
-  // Asana organizes work so teams know what to do, why it matters, and how to get it done.
-  // https://tfs.link/asana
-  //
+    //
+    // Contributed to the pipedream community by https://taskforce.services
+    //
+    // Asana organizes work so teams know what to do, why it matters, and how to get it done.
+    // https://tfs.link/asana
+    //
 
     // Return list of projects given the user and workspace gid
     const optFields = this.opt_fields;
@@ -64,7 +64,7 @@ export default {
         }
 
         if (projects.next_page != null)
-        // loop again to next page
+          // loop again to next page
           uri = projects.next_page.uri;
         else
           break;

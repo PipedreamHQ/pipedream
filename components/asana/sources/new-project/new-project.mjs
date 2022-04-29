@@ -1,6 +1,7 @@
-import asana from "../../asana.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   type: "source",
   key: "asana-new-project",
   name: "New Project Added To Workspace (Instant)",
@@ -8,60 +9,42 @@ export default {
   version: "0.1.0",
   dedupe: "unique",
   props: {
-    asana,
+    ...common.props,
     workspace: {
+      ...common.props.workspace,
       label: "Workspace",
       description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-    },
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+      optional: false,
     },
   },
 
-  hooks: {
-    async activate() {
-      const response = await this.asana.createWebHook({
-        data: {
-          filters: [
-            {
-              action: "added",
-              resource_type: "project",
-            },
-          ],
-          resource: this.workspace,
-          target: this.http.endpoint,
-        },
-      });
-
-      this.db.set("hookId", response.gid);
+  methods: {
+    ...common.methods,
+    getWebhookFilter() {
+      return {
+        filters: [
+          {
+            action: "added",
+            resource_type: "project",
+          },
+        ],
+        resource: this.workspace,
+      };
     },
-    async deactivate() {
-      await this.asana.deleteHook(this.db.get("hookId"));
+    async emitEvent(event) {
+      const { body } = event;
+
+      if (!body || !body.events) return;
+
+      for (const e of body.events) {
+        const project = await this.asana.getProject(e.resource.gid);
+
+        this.$emit(project, {
+          id: project.gid,
+          summary: project.name,
+          ts: Date.now(),
+        });
+      }
     },
-  },
-
-  async run(event) {
-    this.asana.respondWebHook(this.http, event);
-
-    const { body } = event;
-
-    if (!body || !body.events) return;
-
-    for (const e of body.events) {
-      const project = await this.asana.getProject(e.resource.gid);
-
-      this.$emit(project, {
-        id: project.gid,
-        summary: project.name,
-        ts: Date.now(),
-      });
-    }
   },
 };

@@ -52,7 +52,6 @@ export default {
         Authorization: `Bearer ${this.asana.$auth.oauth_access_token}`,
       },
     });
-    console.log(sections);
     if (sections) {
       sections.data.forEach(function(section) {
         if (section.name.includes(query))

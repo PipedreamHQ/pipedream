@@ -47,8 +47,8 @@ export default {
       label: "Projects",
       description: "List of projects. This field use the project GID.",
       type: "string[]",
-      async options() {
-        const projects = await this.getProjects();
+      async options({ workspace }) {
+        const projects = await this.getProjects(workspace);
 
         return projects.map((tag) => ({
           label: tag.name,
@@ -171,23 +171,9 @@ export default {
      *
      * @param {string} hookId - The Asana Webhook GID.
      */
-    async deleteHook(hookId) {
+    async deleteWebhook(hookId) {
       await this._makeRequest(`webhooks/${hookId}`, {
         method: "delete",
-      });
-    },
-    /**
-     * Respond Asana request to validate the webhook.
-     *
-     * @param {object} http - Pipedream http object.
-     * @param {string} hookId - Pipedream event object.
-     */
-    async respondWebHook(http, event) {
-      http.respond({
-        status: 200,
-        headers: {
-          "x-hook-secret": event.headers["x-hook-secret"],
-        },
       });
     },
     /**

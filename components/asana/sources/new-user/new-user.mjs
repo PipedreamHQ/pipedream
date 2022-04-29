@@ -1,6 +1,7 @@
-import asana from "../../asana.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "asana-new-user",
   type: "source",
   name: "New User (Instant)",
@@ -8,60 +9,42 @@ export default {
   version: "0.1.0",
   dedupe: "unique",
   props: {
-    asana,
+    ...common.props,
     workspace: {
+      ...common.props.workspace,
       label: "Workspace",
       description: "Gid of a workspace.",
-      type: "string",
-      propDefinition: [
-        asana,
-        "workspaces",
-      ],
-      optional: true,
-    },
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+      optional: false,
     },
   },
 
-  hooks: {
-    async activate() {
-      const response = await this.asana.createWebHook({
-        data: {
-          filters: [
-            {
-              action: "added",
-              resource_type: "workspace_membership",
-            },
-          ],
-          resource: this.workspace,
-          target: this.http.endpoint,
-        },
-      });
-
-      this.db.set("hookId", response.gid);
+  methods: {
+    ...common.methods,
+    getWebhookFilter() {
+      return {
+        filters: [
+          {
+            action: "added",
+            resource_type: "workspace_membership",
+          },
+        ],
+        resource: this.workspace,
+      };
     },
-    async deactivate() {
-      await this.asana.deleteHook(this.db.get("hookId"));
+    async emitEvent(event) {
+      const { body } = event;
+      if (!body || !body.events) return;
+
+      for (const e of body.events) {
+        const membership = await this.asana.getWorkspaceMembership(e.resource.gid);
+        const user = await this.asana.getUser(membership.user.gid);
+
+        this.$emit(user, {
+          id: user.gid,
+          summary: user.name,
+          ts: Date.now(),
+        });
+      }
     },
-  },
-
-  async run(event) {
-    this.asana.respondWebHook(this.http, event);
-    const { body } = event;
-    if (!body || !body.events) return;
-
-    for (const e of body.events) {
-      const membership = await this.asana.getWorkspaceMembership(e.resource.gid);
-      const user = await this.asana.getUser(membership.user.gid);
-
-      this.$emit(user, {
-        id: user.gid,
-        summary: user.name,
-        ts: Date.now(),
-      });
-    }
   },
 };
