@@ -17,12 +17,18 @@ export default {
     filter: {
       label: "Filter",
       description: "The filter to query. [See how to filters works here](https://developers.notion.com/reference/post-database-query-filter)",
-      type: "string",
+      type: "object",
     },
   },
   async run({ $ }) {
+    const { filter } = this;
+
+    const objectFilter = typeof filter === "string"
+      ? JSON.parse(filter)
+      : filter;
+
     const response = await this.notion.queryDatabase(this.databaseId, {
-      filter: JSON.parse(this.filter),
+      filter: objectFilter,
     });
 
     $.export("$summary", "Retrieved database query result");
