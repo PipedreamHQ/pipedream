@@ -55,7 +55,7 @@ const removeNullEntries = (obj) =>
 const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   const updatedArray = [];
   const errors = [];
-  if (objectArray?.length) {
+  if (Array.isArray(objectArray) && objectArray?.length) {
     for (let i = 0; i < objectArray.length; i++) {
       if (objectArray[i]) {
         try {

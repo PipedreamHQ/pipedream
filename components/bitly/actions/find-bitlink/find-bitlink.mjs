@@ -20,43 +20,42 @@ export default {
       label: "Create new Bitlink if not found?",
       description:
         "Create a new bitlink if no record is found for the specified bitlink.",
-      type: "string",
-      options: ["Yes", "No"],
+      type: "boolean",
+      default: false,
       reloadProps: true,
     },
   },
   async additionalProps() {
-    const props = {};
-    if (this.createBitlinkIfNotFound === "Yes") {
-      props["long_url"] = {
+    const props = {
+      long_url: {
         type: "string",
         label: "Long url",
         description: "This is the url to be shortened",
-      };
-      props["title"] = {
+      },
+      title: {
         type: "string",
         optional: true,
         label: "Bitlink title",
-      };
-      props["tags"] = {
+      },
+      tags: {
         type: "string[]",
         optional: true,
         label: "Tags",
         description: "This is an array of strings",
-      };
-      props["domain"] = {
+      },
+      domain: {
         type: "string",
         label: "Domain",
         description:
           "Bitlinks that contain deeplinks configured with a custom domain",
         optional: true,
-      };
-      props["group_guid"] = {
+      },
+      group_guid: {
         type: "string",
         optional: true,
         label: "Group guid",
-      };
-      props["deeplinks"] = {
+      },
+      deeplinks: {
         type: "string[]",
         optional: true,
         label: "Deeplinks",
@@ -68,24 +67,32 @@ export default {
           "install_url": "https://play.google.com/store/apps/details?id=com.bitly.app&hl=en_US",
           "install_type": "promote_install"
         }\``,
-      };
-    }
-    return props;
+      },
+    };
+    return this.createBitlinkIfNotFound && props;
   },
   async run({ $ }) {
     let bitlinkDetail;
+    const {
+      long_url,
+      domain,
+      group_guid,
+      title,
+      tags,
+      createBitlinkIfNotFound,
+      deeplinks,
+    } = this;
     try {
       bitlinkDetail = await this.bitly.getBitlink(this.bitlink);
     } catch (error) {
-      if (this.createBitlinkIfNotFound === "Yes") {
-        $.export("$summary", "Bitlink not found. Creating new Bitlink");
+      if (createBitlinkIfNotFound) {
+        // $.export("$summary", "Bitlink not found. Creating new Bitlink");
       } else {
         throw new ConfigurationError("Bitlink not found");
       }
     }
 
-    if (!bitlinkDetail && this.createBitlinkIfNotFound === "Yes") {
-      const { long_url, domain, group_guid, title, tags } = this;
+    if (!bitlinkDetail && createBitlinkIfNotFound) {
       const payload = { long_url, domain, group_guid, title };
       const updatedDeepLink = formatArrayStrings(
         deeplinks,

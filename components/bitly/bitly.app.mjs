@@ -23,7 +23,7 @@ export default {
     async getBitlink(bitlink) {
       return await axios(this.$auth, {
         method: "get",
-        url: `${constants.BASE_URL}/${bitlink}`,
+        url: `${constants.BASE_URL}/bitlinks/${bitlink}`,
         headers: this._getHeaders(),
       });
     },
