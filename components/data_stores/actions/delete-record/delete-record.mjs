@@ -5,7 +5,7 @@ export default {
   key: "data_stores-delete-record",
   name: "Delete a single record",
   description: "Delete a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     data_stores,
