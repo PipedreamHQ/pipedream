@@ -12,27 +12,29 @@ export default {
       };
     },
     _defaultConfig({
-      path, method = "get",
+      path, method = "get", params = {},
     }) {
       return {
         auth: this._auth(),
         url: `https://${this.$auth.domain}/api/${path}`,
         method,
+        params,
       };
     },
     async _makeRequest({
-      path, method,
+      path, method, params,
     }) {
       const config = this._defaultConfig({
         path,
         method,
+        params,
       });
-      const { data } = await axios(this, config);
-      return data;
+      return axios(this, config);
     },
-    async getEvents() {
+    async getEvents(params) {
       return this._makeRequest({
         path: "/events",
+        params,
       });
     },
   },
