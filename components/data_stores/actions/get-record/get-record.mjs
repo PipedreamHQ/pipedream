@@ -1,5 +1,4 @@
-// eslint-disable-next-line camelcase
-import data_stores from "../../data_stores.app.mjs";
+import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-get-record",
@@ -8,12 +7,11 @@ export default {
   version: "0.0.4",
   type: "action",
   props: {
-    data_stores,
+    app,
     dataStore: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
-        data_stores,
-        "data_store",
+        app,
+        "dataStore",
       ],
     },
     key: {

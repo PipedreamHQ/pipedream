@@ -1,20 +1,18 @@
-// eslint-disable-next-line camelcase
-import data_stores from "../../data_stores.app.mjs";
+import app from "../../data_stores.app.mjs";
 import xss from "xss";
 
 export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.5",
+  version: "0.0.4",
   type: "action",
   props: {
-    data_stores,
-    data_store: {
+    app,
+    dataStore: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
-        data_stores,
-        "data_store",
+        app,
+        "dataStore",
       ],
     },
     data: {
@@ -31,10 +29,11 @@ export default {
      */
     convertString(value) {
       // If type is already primitive non string, return it
-      if ([
+      const primitives = [
         "boolean",
         "number",
-      ].includes(typeof value)) {
+      ];
+      if (primitives.includes(typeof value)) {
         return value;
       }
 
@@ -69,10 +68,8 @@ export default {
      */
     populateHashMapOfData(data, map) {
       if (!Array.isArray(data) && typeof(data) === "object") {
-        const keys = Object.keys(data);
-        for (const key of keys) {
-          map[key] = this.convertString(data[key]);
-        }
+        Object.keys(data)
+          .forEach((key) => map[key] = this.convertString(data[key]));
         return;
       }
 
@@ -94,11 +91,12 @@ export default {
     }
     const map = this.getHashMapOfData(this.data);
     const keys = Object.keys(map);
-    const promises = [];
-    for (const key of keys) {
-      promises.push(this.data_store.set(key, map[key]));
-    }
+    const promises = Object.keys(map).map((key) => this.dataStore.set(key, map[key]));
     await Promise.all(promises);
-    $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
+    if (keys.length === 0) {
+      $.export("$summary", "No data was added to the data store.");
+    } else {
+      $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
+    }
   },
 };

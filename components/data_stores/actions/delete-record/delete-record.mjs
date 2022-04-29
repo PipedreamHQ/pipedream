@@ -1,5 +1,4 @@
-// eslint-disable-next-line camelcase
-import data_stores from "../../data_stores.app.mjs";
+import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-delete-record",
@@ -8,12 +7,11 @@ export default {
   version: "0.0.4",
   type: "action",
   props: {
-    data_stores,
-    data_store: {
+    app,
+    dataStore: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
-        data_stores,
-        "data_store",
+        app,
+        "dataStore",
       ],
     },
     key: {
@@ -23,10 +21,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const record = await this.data_store.get(this.key);
+    const record = await this.dataStore.get(this.key);
 
     if (record) {
-      await this.data_store.set(this.key, undefined);
+      await this.dataStore.set(this.key, undefined);
       $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
     } else {
       $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");
