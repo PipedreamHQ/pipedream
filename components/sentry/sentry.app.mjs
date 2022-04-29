@@ -27,6 +27,18 @@ export default {
         };
       },
     },
+    projectId: {
+      type: "string",
+      label: "Project",
+      description: "The project to perform your action",
+      async options() {
+        const { data } = await this.listUserProjects();
+        return data.map((project) => ({
+          label: project.name,
+          value: project.slug,
+        }));
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -170,6 +182,24 @@ export default {
       hmac.update(bodyRaw, "utf8");
       const digest = hmac.digest("hex");
       return digest === signature;
+    },
+    async listUserProjects(cursor) {
+      const url = `${this._apiUrl()}/projects/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.get(url, {
+        ...requestConfig,
+        params: {
+          cursor,
+        },
+      });
+    },
+    async listProjectEvents(organizationSlug, projectSlug, params) {
+      const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectSlug}/events/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.get(url, {
+        ...requestConfig,
+        params,
+      });
     },
   },
 };
