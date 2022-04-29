@@ -25,7 +25,7 @@ export default {
         ...params
       }))
 
-      return response.data
+      return response
     },
     async createImage(ctx = this, template, modifications, params = {}) {
       const response = await axios(ctx, this._getRequestParams({
