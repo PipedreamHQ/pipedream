@@ -21,16 +21,33 @@ export default {
         intervalSeconds: 60 * 15,
       },
     },
+    db: "$.service.db",
   },
   dedupe: "unique",
   async run() {
-    const contacts = await this.xero_accounting_api.getContact(this.tenant_id);
-    contacts.Contacts.forEach((contact) => {
-      console.log("Contact", contact, formatJsonDate(contact.UpdatedDateUTC));
-      this.$emit(contact, {
-        id: contact.ContactID,
-        summary: contact.Name,
+    let lastDateChecked;
+
+    this.db.get("lastDateChecked") &&
+      (lastDateChecked = this.db.get("lastDateChecked"));
+
+    if (!this.db.get("lastDateChecked")) {
+      lastDateChecked = new Date().toISOString();
+      this.db.set("lastDateChecked", lastDateChecked);
+    }
+    const contacts = (
+      await this.xero_accounting_api.getContact(
+        this.tenant_id,
+        null,
+        lastDateChecked
+      )
+    )?.Contacts;
+    contacts &&
+      contacts.reverse().forEach((contact) => {
+        this.db.set("lastDateChecked", formatJsonDate(contact.UpdatedDateUTC));
+        this.$emit(contact, {
+          id: contact.ContactID,
+          summary: `${contact.Name} - ${lastDateChecked}`,
+        });
       });
-    });
   },
 };

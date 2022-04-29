@@ -14,11 +14,13 @@ export default {
     },
   },
   methods: {
-    getHeader(tenant_id) {
-      return {
+    getHeader(tenant_id, modifiedSince = null) {
+      const header = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         "xero-tenant-id": tenant_id,
       };
+      modifiedSince && (header["If-Modified-Since"] = modifiedSince);
+      return header;
     },
     async createContact(tenant_id, data) {
       return await axios(this.$auth, {
@@ -28,13 +30,14 @@ export default {
         data,
       });
     },
-    async getContact(tenant_id, queryParam = null) {
+    async getContact(tenant_id, queryParam, modifiedSince = null) {
       const newQueryParam = chainQueryString(queryParam);
+      const params = newQueryParam && { Where: newQueryParam };
       return await axios(this.$auth, {
         method: "get",
         url: constants.CONTACT_API,
-        headers: this.getHeader(tenant_id),
-        params: { Where: newQueryParam },
+        headers: this.getHeader(tenant_id, modifiedSince),
+        params,
       });
     },
     async createInvoice(tenant_id, data) {
