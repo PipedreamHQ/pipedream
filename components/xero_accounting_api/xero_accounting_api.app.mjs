@@ -48,12 +48,22 @@ export default {
         data,
       });
     },
-    async getInvoice(tenant_id, queryParam) {
+    async getInvoice(tenant_id, queryParam, modifiedSince = null) {
       const newQueryParam = chainQueryString(queryParam);
+      const params = newQueryParam && { Where: newQueryParam };
       return await axios(this.$auth, {
         url: constants.INVOICE_API,
-        headers: this.getHeader(tenant_id),
-        params: { Where: newQueryParam },
+        headers: this.getHeader(tenant_id, modifiedSince),
+        params,
+      });
+    },
+    async getSubscription(tenant_id, modifiedSince = null) {
+      const newQueryParam = chainQueryString(queryParam);
+      const params = newQueryParam && { Where: newQueryParam };
+      return await axios(this.$auth, {
+        url: constants.INVOICE_API,
+        headers: this.getHeader(tenant_id, modifiedSince),
+        params,
       });
     },
   },

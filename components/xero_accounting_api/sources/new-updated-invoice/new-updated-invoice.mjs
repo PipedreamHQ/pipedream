@@ -2,10 +2,10 @@ import { formatJsonDate } from "../../common/common.util.mjs";
 import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
-  key: "xero_accounting_api-new-updated-contact",
-  name: "New or updated contact",
+  key: "xero_accounting_api-new-updated-invoice",
+  name: "New or updated invoice",
   description:
-    "Emit notifications when you create a new or update existing contact",
+    "Emit notifications when you create a new or update existing invoice",
   version: "0.0.1",
   type: "source",
   props: {
@@ -34,20 +34,19 @@ export default {
       lastDateChecked = new Date().toISOString();
       this.db.set("lastDateChecked", lastDateChecked);
     }
-    const contacts = (
-      await this.xero_accounting_api.getContact(
+    const invoices = (
+      await this.xero_accounting_api.getInvoice(
         this.tenant_id,
         null,
         lastDateChecked
       )
-    )?.Contacts;
-    contacts &&
-      contacts.reverse().forEach((contact) => {
-        const formatedDate = formatJsonDate(contact.UpdatedDateUTC);
+    )?.Invoices;
+    invoices &&
+      invoices.reverse().forEach((invoice) => {
+        const formatedDate = formatJsonDate(invoice.UpdatedDateUTC);
         this.db.set("lastDateChecked", formatedDate);
-        this.$emit(contact, {
-          id: `${contact.ContactID}D${formatedDate || ""}`,
-          summary: contact.Name,
+        this.$emit(invoice, {
+          id: `${invoice.InvoiceID}D${formatedDate || ""}`,
         });
       });
   },
