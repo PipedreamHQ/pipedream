@@ -1,0 +1,39 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+       int a[] = {5,6,7,8,9,0,1,2,3,4};
+        int target = 2;
+        SearchTargetIndex(a , target);
+        System.out.print(SearchTargetIndex(a , target));
+        
+    }
+    public static int SearchTargetIndex(int a[] , int target){
+        int start = 0;
+        int end = a.length-1;
+        while (start <= end){
+            int mid = (start+end)/2;
+            if (target == a[mid]){
+                return mid;
+            }
+            
+            if (a[start]<=a[mid]){
+                if (target >= a[start] && target < a[mid]){
+                    end = mid-1;
+                }
+                else{
+                    start = mid+1;
+                }
+            }
+            else{
+                if (target >a[mid] && target <= a[end]){
+                    start = mid+1;
+                }
+                else{
+                    end = mid-1;
+                }
+            }
+        }
+        return -1;
+     
+    }
+}
