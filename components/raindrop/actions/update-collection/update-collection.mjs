@@ -3,7 +3,7 @@ import raindrop from "../../raindrop.app.mjs";
 export default {
   key: "raindrop-update-collection",
   name: "Update Collection",
-  description: "Update collection",
+  description: "Update an existing collection",
   version: "0.0.1",
   type: "action",
   props: {

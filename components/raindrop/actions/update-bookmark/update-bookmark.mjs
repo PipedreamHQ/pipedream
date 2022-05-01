@@ -3,7 +3,7 @@ import raindrop from "../../raindrop.app.mjs";
 export default {
   key: "raindrop-update-bookmark",
   name: "Update Bookmark",
-  description: "Update bookmark",
+  description: "Update an existing bookmark",
   version: "0.0.1",
   type: "action",
   props: {

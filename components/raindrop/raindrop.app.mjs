@@ -147,5 +147,16 @@ export default {
         headers: this._getHeaders(),
       });
     },
+    importFile(formData) {
+      return this._makeRequest(this, {
+        method: "POST",
+        path: "/import/file",
+        headers: {
+          ...this._getHeaders(),
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        },
+        data: formData,
+      });
+    },
   },
 };
