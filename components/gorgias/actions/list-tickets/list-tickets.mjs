@@ -3,7 +3,7 @@ import gorgias from "../../gorgias.app.mjs";
 export default {
   key: "gorgias-list-tickets",
   name: "List Tickets",
-  description: "List all tickets",
+  description: "List all tickets. [See the docs](https://developers.gorgias.com/reference/get_api-tickets)",
   version: "0.0.1",
   type: "action",
   props: {

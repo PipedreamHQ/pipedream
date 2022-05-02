@@ -3,7 +3,7 @@ import gorgias from "../../gorgias.app.mjs";
 export default {
   key: "gorgias-create-ticket",
   name: "Create Ticket",
-  description: "Create a new ticket",
+  description: "Create a new ticket. [See the docs](https://developers.gorgias.com/reference/post_api-tickets)",
   version: "0.0.1",
   type: "action",
   props: {
