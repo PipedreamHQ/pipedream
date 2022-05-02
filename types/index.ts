@@ -116,7 +116,7 @@ interface PropDefinitionReference {
 }
 
 // https://pipedream.com/docs/components/api/#app-props
-type AppThis = AppPropDefinitions & Methods
+type AppThis = keyof AppPropDefinitions & keyof Methods
 
 interface App {
   type: "app"
@@ -209,10 +209,12 @@ export interface EmitConfig {
   metadata?: EmitMetadata
 }
 
-type EmitFunction = (config: EmitConfig) => Promise<void>
-type ComponentThis = ComponentPropDefinitions & Methods
-type SourceThis = SourcePropDefinitions & Methods & EmitFunction
-type ActionThis = ActionPropDefinitions & Methods
+type EmitFunction = {
+  $emit: (config: EmitConfig) => Promise<void>
+}
+type ComponentThis = keyof ComponentPropDefinitions & keyof Methods
+type SourceThis = keyof SourcePropDefinitions & keyof Methods & keyof EmitFunction
+type ActionThis = keyof ActionPropDefinitions & keyof Methods
 
 interface BaseComponent {
   key?: string
