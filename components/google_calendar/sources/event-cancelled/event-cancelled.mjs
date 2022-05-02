@@ -1,31 +1,19 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
+export default {
   key: "google_calendar-event-cancelled",
   name: "Event Cancelled",
   description: "Emits when an event is cancelled or deleted",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
     calendarId: {
-      type: "string",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = _.get(calListResp, "data.items");
-        if (calendars) {
-          const calendarIds = calendars.map((item) => {
-            return {
-              value: item.id,
-              label: item.summary,
-            };
-          });
-          return calendarIds;
-        }
-        return [];
-      },
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
     },
     timer: {
       type: "$.interface.timer",
@@ -47,9 +35,8 @@ module.exports = {
       singleEvents: true,
       orderBy: "startTime",
     };
-    const resp = await this.googleCalendar.getEvents(config);
+    const { items: events } = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp.data, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
         // only emit if status is cancelled
