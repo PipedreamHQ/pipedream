@@ -107,8 +107,8 @@ export default {
     },
     methods: {
         ...base.methods,
-        generateMeta(branch) {
-            const id = branch.ref;
+        generateMeta(event) {
+            const id = event.id;
             return {
                 id,
                 summary: `New Audit Event: ${id}`,
@@ -116,10 +116,16 @@ export default {
             };
         },
         emitEvent(event) {
-            // Gitlab doesn't offer a specific hook for "new branch" events,
-            // but such event can be deduced from the payload of "push" events.
             const meta = this.generateMeta(event);
             this.$emit(event, meta);
         },
+        isValidSource(headers) {
+        	// GitLab doesn't currently send a x-gitlab-token
+        	// with streaming audit events
+        	return true;
+		},
+		isValidEvent(headers) {
+			return true;
+		}
     },
 };
