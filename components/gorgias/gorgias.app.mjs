@@ -3,7 +3,36 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "gorgias",
-  propDefinitions: {},
+  propDefinitions: {
+    customerId: {
+      type: "integer",
+      label: "Customer ID",
+      description: "The ID of a customer",
+      async options({ prevContext }) {
+        const {
+          data: customers,
+          meta,
+        } = await this.listCustomers({
+          cursor: prevContext.nextCursor,
+        });
+        return {
+          options: customers.map((customer) => ({
+            label: customer.email,
+            value: customer.id,
+          })),
+          context: {
+            nextCursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number to return",
+      optional: true,
+    },
+  },
   methods: {
     _auth() {
       return {
@@ -53,6 +82,18 @@ export default {
     async getEvents(params) {
       return this._makeRequest({
         path: "/events",
+        params,
+      });
+    },
+    async listCustomers(params) {
+      return this._makeRequest({
+        path: "/customers",
+        params,
+      });
+    },
+    async listTickets(params) {
+      return this._makeRequest({
+        path: "/tickets",
         params,
       });
     },
