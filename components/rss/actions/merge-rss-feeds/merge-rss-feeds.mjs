@@ -1,10 +1,11 @@
-const Parser = require("rss-parser");
+import rss from "../../rss.app.mjs";
+import Parser from "rss-parser";
 
-module.exports = {
+export default {
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date.",
   key: "rss-merge-rss-feeds",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     feeds: {
@@ -18,10 +19,7 @@ module.exports = {
       default: true,
       description: "If `true`, all items are returned in a date sorted array. If `false`, each feed is returned as one result in the array.",
     },
-    rss: {
-      type: "app",
-      app: "rss",
-    },
+    rss,
   },
   async run() {
 
@@ -39,7 +37,7 @@ module.exports = {
     let result = [];
 
     let parser = new Parser();
-    const requests = this.feeds.map(feed => parser.parseURL(feed));
+    const requests = this.feeds.map((feed) => parser.parseURL(feed));
 
     const results = await Promise.all(requests);
 
@@ -53,7 +51,7 @@ module.exports = {
       };
 
       if (this.merge) {
-        feedResult.items.forEach(f => {
+        feedResult.items.forEach((f) => {
           let newItem = f;
           newItem.feed = feed;
           result.push(newItem);

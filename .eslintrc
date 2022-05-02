@@ -6,7 +6,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:jsonc/recommended-with-jsonc"
+    "plugin:jsonc/recommended-with-jsonc",
+    "plugin:@typescript-eslint/recommended"
   ],
   "overrides": [
     {
@@ -72,6 +73,15 @@
       "rules": {
         "no-unused-vars": "off"
       }
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+      }
     }
   ],
   "parserOptions": {
@@ -81,7 +91,8 @@
   "plugins": [
     "jsonc",
     "putout",
-    "pipedream"
+    "pipedream",
+    "@typescript-eslint"
   ],
   "root": true,
   "rules": {
@@ -96,12 +107,6 @@
     "array-element-newline": [
       "error",
       "always"
-    ],
-    "camelcase": [
-      "error",
-      {
-        "properties": "never"
-      }
     ],
     "comma-dangle": [
       "error",

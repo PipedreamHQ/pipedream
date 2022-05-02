@@ -1,0 +1,21 @@
+{
+    "name": "@pipedream/types",
+    "version": "0.0.1",
+    "description": "Pipedream TypeScript types",
+    "main": "dist/index.js",
+    "keywords": [
+        "pipedream",
+        "typescript",
+        "types"
+    ],
+    "types": "dist/index.d.ts",
+    "prepublish": "tsc",
+    "homepage": "https://github.com/PipedreamHQ/pipedream",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {},
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {}
+}
