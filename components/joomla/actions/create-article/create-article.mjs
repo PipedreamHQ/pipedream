@@ -1,0 +1,41 @@
+import joomla from "../../joomla.app.mjs";
+
+export default {
+  name: "Create Article",
+  description: "Create an article",
+  key: "joomla-create-article",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    joomla,
+    title: {
+      propDefinition: [
+        joomla,
+        "title",
+      ],
+    },
+    text: {
+      propDefinition: [
+        joomla,
+        "text",
+      ],
+    },
+    categoryId: {
+      propDefinition: [
+        joomla,
+        "categoryId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const params = {
+      title: this.title,
+      articletext: this.text,
+      catid: this.categoryId,
+      language: "*",
+    };
+    const response = await this.joomla.createArticle($, params);
+    $.export("$summary", `Created article ${response.data.attributes.title}`);
+    return response;
+  },
+};

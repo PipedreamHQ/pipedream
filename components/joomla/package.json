@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/joomla",
+  "version": "0.0.1",
+  "description": "Pipedream Joomla Components",
+  "main": "joomla.app.mjs",
+  "keywords": [
+      "pipedream",
+      "joomla"
+  ],
+  "homepage": "https://pipedream.com/apps/joomla",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+      "access": "public"
+  }
+}
