@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.3",
-  description: "Emit an event when a new message is posted to one or more channels",
+  version: "0.0.4",
+  description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
   props: {
@@ -71,6 +71,7 @@ export default {
         };
       },
     },
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
