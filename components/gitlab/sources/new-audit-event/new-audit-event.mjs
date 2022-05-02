@@ -79,6 +79,8 @@ export default {
                         })
                     })
                     .then(r => r.json())
+				console.log('Group list received.');
+				console.log(`Received: ${JSON.stringify(data)}`);
 
                 const todelete = data.data.group.externalAuditEventDestinations.nodes.filter(item => item.destinationUrl == this.http.endpoint)[0].id;
                 console.log(`Deleting object ID: ${JSON.stringify(todelete)}`);

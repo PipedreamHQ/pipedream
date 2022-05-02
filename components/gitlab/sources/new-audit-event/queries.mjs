@@ -29,8 +29,7 @@ export function list_destinations(groupPath) { return `
                             }
                         }
                     }
-                }
-            }`};
+                }`};
 
 export function delete_destination(destinationId) { return `
             mutation {
