@@ -29,10 +29,11 @@ export default {
     groupPath: {
       type: "string",
       label: "Group ID",
-      description: "The group path, as displayed in the main group page",
+      description: "The group path, as displayed in the main group page. You must be an Owner of this group",
       async options({ prevContext }) {
         const response = await this.listGroups({
           min_access_level: 50, // owner role
+          top_level_only: true, // only can use on root groups
           page: prevContext.nextPage,
         });
         return {

@@ -1,6 +1,4 @@
 import gitlab from "../../gitlab.app.mjs";
-import fetch from 'node-fetch'
-import { eventTypes } from "../common/hook-events.mjs";
 
 export default {
     props: {
@@ -15,12 +13,6 @@ export default {
                 gitlab,
                 "projectId",
             ],
-        },
-        groupPath: {
-            propDefinition: [
-                gitlab,
-                "groupPath",
-            ]
         },
     },
     hooks: {
@@ -71,7 +63,8 @@ export default {
             hookId,
             token,
         } = await this.gitlab.createProjectHook(this.projectId, url, opts);
-        console.log( `Created "${eventType}" webhook for project ID ${this.projectId}.
+        console.log(
+        `Created "${eventType}" webhook for project ID ${this.projectId}.
         (Hook ID: ${hookId}, endpoint: ${url})`,
         );
         this.setHookId(hookId);

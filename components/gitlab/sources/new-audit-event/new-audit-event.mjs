@@ -1,3 +1,4 @@
+import gitlab from "../../gitlab.app.mjs";
 import base from "../common/base.mjs";
 import fetch from 'node-fetch'
 import { 
@@ -14,6 +15,20 @@ export default {
     version: "0.1.0",
     dedupe: "unique",
     type: "source",
+	props: {
+		gitlab,
+        http: {
+        	// doesn't include base because base has a project, which we don't need
+            type: "$.interface.http",
+            customResponse: true,
+        },
+		groupPath: {
+			propDefinition: [
+			gitlab,
+			"groupPath",
+			]
+		}
+	},
     hooks: {
         ...base.hooks,
         async activate() {
