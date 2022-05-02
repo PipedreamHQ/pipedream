@@ -16,9 +16,6 @@ export default {
         "Hours",
       ],
     },
-    hello: {
-      type: "string",
-    },
   },
   methods: {
     // $.flow.delay() API requires milliseconds

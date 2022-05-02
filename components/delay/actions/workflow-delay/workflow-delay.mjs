@@ -4,6 +4,7 @@ export default {
   name: "Delay Workflow",
   version: "0.0.1",
   key: "delay-workflow-delay",
+  type: "action",
   description: "Delay the execution of your workflow for a specific amount of time (does not count against your compute time).",
   props: {
     delay,
@@ -24,14 +25,12 @@ export default {
       description: "Specify the time unit for delaying the workflow.",
     },
   },
-  type: "action",
-  methods: {},
   async run({ $ }) {
     const milliseconds = this.delay.convertToMilliseconds(
       this.delayDurationUnit,
       this.delayDurationValue,
     );
-    const resp = $.flow.delay(milliseconds);
+    const resp = await $.flow.delay(milliseconds);
     $.export(
       "$summary",
       `Successfully configured this workflow to delay for ${this.delayDurationValue} ${this.delayDurationUnit}.`,
