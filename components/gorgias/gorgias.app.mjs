@@ -31,6 +31,25 @@ export default {
       });
       return axios(this, config);
     },
+    async *paginate(fn, params = {}, cursor = undefined) {
+      let n = 0;
+      do {
+        console.log(`run number ${++n}`);
+        const {
+          data,
+          meta,
+        } = await fn({
+          ...params,
+          cursor,
+        });
+
+        for (const d of data) {
+          yield d;
+        }
+
+        cursor = meta.next_cursor;
+      } while (cursor);
+    },
     async getEvents(params) {
       return this._makeRequest({
         path: "/events",
