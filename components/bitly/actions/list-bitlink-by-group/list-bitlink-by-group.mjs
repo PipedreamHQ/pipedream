@@ -155,7 +155,6 @@ export default {
       result?.links?.length && (data = [...data, ...result.links]);
       pagination = result?.pagination;
     } while (next);
-    $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
     return data;
   },
 };

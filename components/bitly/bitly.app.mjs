@@ -1,45 +1,54 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/common.constants.mjs";
 
 export default {
   type: "app",
   app: "bitly",
   propDefinitions: {},
   methods: {
-    _getHeaders() {
+    getHeader() {
       return {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
+    getUrl(path) {
+      const BASE_URL = "https://api-ssl.bitly.com";
+      const VERSION_PATH = "/v4";
+      return `${BASE_URL}${VERSION_PATH}${path}`;
+    },
+    async makeRequest(args = {}) {
+      const { $ = this, method = "get", path, params, data } = args;
+      const config = {
+        method,
+        url: this.getUrl(path),
+        headers: this.getHeader(),
+        params,
+        data,
+      };
+      return axios($, config);
+    },
     async createBitlink(data) {
-      return await axios(this.$auth, {
+      return this.makeRequest({
         method: "post",
-        url: `${constants.BASE_URL}/bitlinks`,
-        headers: this._getHeaders(),
+        path: "/bitlinks",
         data,
       });
     },
     async getBitlink(bitlink) {
-      return await axios(this.$auth, {
-        method: "get",
-        url: `${constants.BASE_URL}/bitlinks/${bitlink}`,
-        headers: this._getHeaders(),
+      return this.makeRequest({
+        path: `/bitlinks/${bitlink}`,
       });
     },
     async expandBitlink(data) {
-      return await axios(this.$auth, {
+      return this.makeRequest({
         method: "post",
-        url: `${constants.BASE_URL}/expand`,
-        headers: this._getHeaders(),
+        path: "/expand",
         data,
       });
     },
     async listBitlinkByGroup(groupGuid, params) {
-      return await axios(this.$auth, {
-        method: "get",
-        url: `${constants.BASE_URL}/groups/${groupGuid}/bitlinks`,
-        headers: this._getHeaders(),
+      return this.makeRequest({
+        path: `/groups/${groupGuid}/bitlinks`,
         params,
       });
     },
