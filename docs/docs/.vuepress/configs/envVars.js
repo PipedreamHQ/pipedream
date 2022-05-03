@@ -27,4 +27,5 @@ module.exports = {
   CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   SERVICE_DB_SIZE_LIMIT: "60KB",
   TMP_SIZE_LIMIT: "512MB",
+  DELAY_MIN_MAX_TIME: "You can pause your workflow for as little as one millisecond, or as long as one year",
 }
