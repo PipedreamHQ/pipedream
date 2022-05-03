@@ -25,7 +25,7 @@ export default {
         const item = await this.microsoftOutlook.getCalendarEvent({
           eventId: resourceId,
         });
-        return [
+        this.$emit(
           {
             message: item,
           },
@@ -34,7 +34,7 @@ export default {
             ts: Date.parse(item.createdDateTime),
             summary: `New calendar event (ID:${item.id})`,
           },
-        ];
+        );
       },
     });
   },

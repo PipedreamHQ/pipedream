@@ -88,10 +88,9 @@ export default {
           const notification = eventBody.value[i];
           if (!notification.clientState || notification.clientState == this.db.get("clientState")) {
             const resourceId = notification.resourceData.id;
-            const emitVal = await emitFn({
+            await emitFn({
               resourceId,
             });
-            this.$emit(...emitVal);
           }
         }
       }

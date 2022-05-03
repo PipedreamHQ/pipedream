@@ -25,7 +25,7 @@ export default {
         const item = await this.microsoftOutlook.getMessage({
           messageId: resourceId,
         });
-        return [
+        this.$emit(
           {
             email: item,
           },
@@ -34,7 +34,7 @@ export default {
             ts: Date.parse(item.createdDateTime),
             summary: `New email (ID:${item.id})`,
           },
-        ];
+        );
       },
     });
   },

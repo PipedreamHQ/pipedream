@@ -25,7 +25,7 @@ export default {
         const item = await this.microsoftOutlook.getContact({
           contactId: resourceId,
         });
-        return [
+        this.$emit(
           {
             contact: item,
           },
@@ -34,7 +34,7 @@ export default {
             ts: Date.parse(item.createdDateTime),
             summary: `New contact (ID:${item.id})`,
           },
-        ];
+        );
       },
     });
   },
