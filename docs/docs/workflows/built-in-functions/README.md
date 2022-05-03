@@ -63,9 +63,9 @@ If you use [`$.flow.delay`](/code/nodejs/delay/), you can send these URLs to you
 
 ## Filter
 
-Using filters within your workflow allows you to only proceed when certain conditions are met. You can configure specific criteria that must be met, as well as whether you'd like to stop or proceed with your workflow. Filters are a simple yet powerful tool for customizing your workflow, and can be used two few different ways:
+Using filters within your workflow allows you to only proceed when certain conditions are met. You can configure specific criteria that must be met, as well as whether you'd like to stop or proceed with your workflow. Filters are a simple yet powerful tool for customizing your workflow, and can be a few different ways:
 
-1. The built-in **Filter** actions
+1. One of the built-in **Filter** actions
 2. `$.flow.exit` in code 
 
 ### Filter actions
