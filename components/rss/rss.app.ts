@@ -1,6 +1,7 @@
 import { STATUS_CODES } from "http";
-import { inherits } from "util";
-import { defineApp } from "@pipedream/types";
+import {
+  defineApp, HTTPError,
+} from "@pipedream/types";
 
 export default defineApp({
   type: "app",
@@ -12,32 +13,27 @@ export default defineApp({
       description: "Enter the URL for any public RSS feed",
     },
   },
-  $auth: {
-    oauth_access_token: true,
-  },
   methods: {
-    // Generate a Node error class for every HTTP error
-    // in the STATUS_CODES object.
-    createHTTPError(code, name): (message: string) => void {
-      return function(message) {
-        Error.captureStackTrace(this, this.constructor);
-        this.name = `HTTP${code}Error`;
-        this.message = `(${name}) ${message}`;
-        this.statusCode = code;
+    // XXX Move these to a generic utils file
+    createHTTPError(code: number, name: string): (message: string) => HTTPError {
+      return function (message: string): HTTPError {
+        return new HTTPError(code, name, message);
       };
     },
-    generateHTTPErrorClasses(): { [code: number]: typeof Error } {
-      const errorClasses = {};
-      Object.keys(STATUS_CODES)
+    generateHTTPErrorClasses(): { [code: number]: (message: string) => HTTPError } {
+      const errorClasses: { [code: number]: (message: string) => HTTPError } = {};
+      const badStatusCodes = Object.keys(STATUS_CODES)
         .map((code) => Number(code))
-        .filter((code) => code >= 400)
-        .forEach((code) => {
-          const name = STATUS_CODES[code]
-            .replace(/\W/g, "")
-            .concat("Error");
-          errorClasses[code] = this.createHTTPError(code, name);
-          inherits(errorClasses[code], Error);
-        });
+        .filter((code) => code >= 400);
+
+      for (const code of badStatusCodes) {
+        const errorMsg = STATUS_CODES[code];
+        if (!errorMsg) {
+          continue;
+        }
+        const name = errorMsg.replace(/\W/g, "").concat("Error");
+        errorClasses[code] = this.createHTTPError(code, name);
+      }
       return errorClasses;
     },
   },

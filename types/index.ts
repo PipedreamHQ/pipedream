@@ -121,18 +121,28 @@ interface PropDefinitionReference {
 type AuthKeys = {
   [key: string]: string
 }
-type DollarAuth = {
+type DollarAuth<AuthKeys> = {
   $auth: Record<keyof AuthKeys, string>
 }
 
 // https://pipedream.com/docs/components/api/#app-props
+// See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
+// for more information on this technique
 interface App<AppPropDefinitions, Methods, AuthKeys> {
   type: "app"
   app: string
   propDefinitions?: AppPropDefinitions | undefined
-  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth>
+  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth<AuthKeys>>
   $auth?: AuthKeys
 }
+
+export function defineApp<AppPropDefinitions, Methods, AuthKeys> (app: App<AppPropDefinitions, Methods, AuthKeys>): App<AppPropDefinitions, Methods, AuthKeys> {
+  return {
+    ...app,
+  };
+}
+
+// Props
 
 interface DefaultConfig {
   intervalSeconds?: number
@@ -273,8 +283,21 @@ Source<SourcePropDefinitions, Methods, EmitFunction> {
   };
 }
 //export declare function defineAction(component: Action): Action
-export function defineApp<AppPropDefinitions, Methods, AuthKeys> (app: App<AppPropDefinitions, Methods, AuthKeys>): App<AppPropDefinitions, Methods, AuthKeys> {
-  return {
-    ...app,
-  };
+
+// Custom errors
+
+// HTTPErrors are used to throw status-code specific errors
+// in components that make HTTP requests
+export class HTTPError extends Error {
+  statusCode: number
+  name: string
+  message: string
+
+  constructor(code: number, name: string, message: string) {
+    super(message);
+    Error.captureStackTrace(this, this.constructor);
+    this.name = `HTTP${code}Error`;
+    this.message = `(${name}) ${message}`;
+    this.statusCode = code;
+  }
 }
