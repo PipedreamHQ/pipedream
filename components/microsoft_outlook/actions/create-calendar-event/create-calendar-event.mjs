@@ -20,9 +20,11 @@ export default {
       ],
     },
     content: {
-      label: "Content",
+      propDefinition: [
+        microsoftOutlook,
+        "content",
+      ],
       description: "Content",
-      type: "string",
     },
     timeZone: {
       propDefinition: [
@@ -43,21 +45,22 @@ export default {
       ],
     },
     attendees: {
-      label: "Attendees",
-      description: "Array of email addresses",
-      type: "string[]",
+      propDefinition: [
+        microsoftOutlook,
+        "attendees",
+      ],
     },
     location: {
-      label: "Location",
-      description: "Location of the event",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "location",
+      ],
     },
     isOnlineMeeting: {
-      label: "Is Online Meeting",
-      description: "If it is online meeting or not",
-      type: "boolean",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "isOnlineMeeting",
+      ],
     },
     expand: {
       propDefinition: [

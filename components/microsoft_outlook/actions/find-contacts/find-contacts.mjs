@@ -26,7 +26,8 @@ export default {
           e.address == this.searchString ||
           e.name.includes(this.searchString));
     });
-    $.export("$summary", `${relatedContacts.length} contacts has been filtered.`);
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `${relatedContacts.length} contact${relatedContacts.length != 1 ? "s" : ""} has been filtered.`);
     return relatedContacts;
   },
 };

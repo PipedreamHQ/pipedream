@@ -15,28 +15,28 @@ export default {
       ],
     },
     givenName: {
-      label: "Given name",
-      description: "Given name of the contact",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "givenName",
+      ],
     },
     surname: {
-      label: "Surname",
-      description: "Surname of the contact",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "surname",
+      ],
     },
     emailAddresses: {
-      label: "Email adresses",
-      description: "Email addresses",
-      type: "string[]",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "emailAddresses",
+      ],
     },
     businessPhones: {
-      label: "Recipients",
-      description: "Array of phone numbers",
-      type: "string[]",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "businessPhones",
+      ],
     },
     expand: {
       propDefinition: [

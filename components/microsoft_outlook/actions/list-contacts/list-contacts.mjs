@@ -20,7 +20,8 @@ export default {
       $,
       filterAddress: this.filterAddress,
     });
-    $.export("$summary", `${response.value.length} contacts has been retrieved.`);
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `${response.value.length} contact${response.value.length != 1 ? "s" : ""} has been retrieved.`);
     return response.value;
   },
 };

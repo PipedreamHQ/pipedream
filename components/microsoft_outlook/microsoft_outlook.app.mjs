@@ -70,6 +70,47 @@ export default {
       description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
       type: "string",
     },
+    givenName: {
+      label: "Given name",
+      description: "Given name of the contact",
+      type: "string",
+      optional: true,
+    },
+    surname: {
+      label: "Surname",
+      description: "Surname of the contact",
+      type: "string",
+      optional: true,
+    },
+    emailAddresses: {
+      label: "Email adresses",
+      description: "Email addresses",
+      type: "string[]",
+      optional: true,
+    },
+    businessPhones: {
+      label: "Recipients",
+      description: "Array of phone numbers",
+      type: "string[]",
+      optional: true,
+    },
+    attendees: {
+      label: "Attendees",
+      description: "Array of email addresses",
+      type: "string[]",
+    },
+    location: {
+      label: "Location",
+      description: "Location of the event",
+      type: "string",
+      optional: true,
+    },
+    isOnlineMeeting: {
+      label: "Is Online Meeting",
+      description: "If it is online meeting or not",
+      type: "boolean",
+      optional: true,
+    },
     expand: {
       label: "Expand",
       description: "Additional properties",
@@ -78,9 +119,6 @@ export default {
     },
   },
   methods: {
-    _getHost() {
-      return "https://graph.microsoft.com/v1.0";
-    },
     _getUrl(path) {
       return `https://graph.microsoft.com/v1.0${path}`;
     },
@@ -142,7 +180,7 @@ export default {
         });
       }
       const attachments = [];
-      for (let i = 0; i < self.files.length; i++) {
+      for (let i = 0; self.files && i < self.files.length; i++) {
         attachments.push({
           "@odata.type": "#microsoft.graph.fileAttachment",
           "name": path.basename(self.files[i]),

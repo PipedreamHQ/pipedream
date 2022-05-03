@@ -9,33 +9,28 @@ export default {
   props: {
     microsoftOutlook,
     givenName: {
-      label: "Given name",
-      description: "Given name of the contact",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "givenName",
+      ],
     },
     surname: {
-      label: "Surname",
-      description: "Surname of the contact",
-      type: "string",
-      optional: true,
-    },
-    displayName: {
-      label: "Display Name",
-      description: "Display name of the contact",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "surname",
+      ],
     },
     emailAddresses: {
-      label: "Email adresses",
-      description: "Email addresses",
-      type: "string[]",
+      propDefinition: [
+        microsoftOutlook,
+        "emailAddresses",
+      ],
     },
     businessPhones: {
-      label: "Business Phones",
-      description: "Array of phone numbers",
-      type: "string[]",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "businessPhones",
+      ],
     },
     expand: {
       propDefinition: [
