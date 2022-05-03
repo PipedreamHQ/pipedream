@@ -54,3 +54,9 @@ These URLs are specific to a single execution of your workflow. While the workfl
 - Hitting the `resume_url` will immediately resume that execution early
 
 If you use [`$.flow.delay`](/code/nodejs/delay/), you can send these URLs to your own system to handle cancellation / resumption. You can even email your customers to let them cancel / resume workflows that run on their behalf.
+
+## Filter
+
+### Filter actions
+
+### Using `$.flow.exit` in code
