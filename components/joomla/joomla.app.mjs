@@ -81,13 +81,17 @@ export default {
     async _makeRequest({
       $, url, method = "get", params = {}, data = {},
     }) {
-      return axios($ ?? this, {
-        headers: this._headers(),
-        url,
-        method,
-        params,
-        data,
-      });
+      try {
+        return await axios($ ?? this, {
+          headers: this._headers(),
+          url,
+          method,
+          params,
+          data,
+        });
+      } catch (e) {
+        throw new Error(JSON.stringify(e.response.data.errors));
+      }
     },
     async *paginate({
       $, url, params,
