@@ -115,12 +115,16 @@ interface PropDefinitionReference {
   propDefinition: [App<AppPropDefinitions, Methods>, string]
 }
 
+type DollarAuth = {
+  $auth: object
+}
+
 // https://pipedream.com/docs/components/api/#app-props
 interface App<AppPropDefinitions, Methods> {
   type: "app"
   app: string
   propDefinitions?: AppPropDefinitions | undefined
-  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods>
+  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth>
 }
 
 interface DefaultConfig {
