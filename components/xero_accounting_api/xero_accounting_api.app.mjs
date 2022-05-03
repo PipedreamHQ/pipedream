@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import constants from "./common/common.constants.mjs";
 import { chainQueryString } from "./common/common.util.mjs";
 
 export default {
@@ -14,56 +13,75 @@ export default {
     },
   },
   methods: {
-    getHeader(tenant_id, modifiedSince = null) {
+    getHeader(tenantId, modifiedSince = null) {
       const header = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        "xero-tenant-id": tenant_id,
+        "xero-tenant-id": tenantId,
       };
       modifiedSince && (header["If-Modified-Since"] = modifiedSince);
       return header;
     },
-    async createContact(tenant_id, data) {
-      return await axios(this.$auth, {
+    getUrl(path) {
+      const BASE_URL = "https://api.xero.com";
+      const VERSION_PATH = "/2.0";
+      const DEFAULT_API_PATH = "/api.xro";
+      return `${BASE_URL}${DEFAULT_API_PATH}${VERSION_PATH}${path}`;
+    },
+    async makeRequest(args = {}) {
+      const {
+        $ = this,
+        tenantId,
+        modifiedSince,
+        method = "get",
+        path,
+        params,
+        data,
+      } = args;
+      const config = {
+        method,
+        url: this.getUrl(path),
+        headers: this.getHeader(tenantId, modifiedSince),
+        params,
+        data,
+      };
+      return axios($, config);
+    },
+    async createContact(tenantId, data) {
+      return this.makeRequest({
+        tenantId,
         method: "post",
-        url: constants.CONTACT_API,
-        headers: this.getHeader(tenant_id),
+        path: "/contacts",
         data,
       });
     },
-    async getContact(tenant_id, queryParam, modifiedSince = null) {
-      const newQueryParam = chainQueryString(queryParam);
-      const params = newQueryParam && { Where: newQueryParam };
-      return await axios(this.$auth, {
-        method: "get",
-        url: constants.CONTACT_API,
-        headers: this.getHeader(tenant_id, modifiedSince),
-        params,
+    async getContact(tenantId, queryParam, modifiedSince = null) {
+      const where = chainQueryString(queryParam);
+      return this.makeRequest({
+        tenantId,
+        modifiedSince,
+        path: "/contacts",
+        params: where && {
+          Where: where,
+        },
       });
     },
-    async createInvoice(tenant_id, data) {
-      return await axios(this.$auth, {
+    async createInvoice(tenantId, data) {
+      return this.makeRequest({
+        tenantId,
         method: "post",
-        url: constants.INVOICE_API,
-        headers: this.getHeader(tenant_id),
+        path: "/invoices",
         data,
       });
     },
-    async getInvoice(tenant_id, queryParam, modifiedSince = null) {
-      const newQueryParam = chainQueryString(queryParam);
-      const params = newQueryParam && { Where: newQueryParam };
-      return await axios(this.$auth, {
-        url: constants.INVOICE_API,
-        headers: this.getHeader(tenant_id, modifiedSince),
-        params,
-      });
-    },
-    async getSubscription(tenant_id, modifiedSince = null) {
-      const newQueryParam = chainQueryString(queryParam);
-      const params = newQueryParam && { Where: newQueryParam };
-      return await axios(this.$auth, {
-        url: constants.INVOICE_API,
-        headers: this.getHeader(tenant_id, modifiedSince),
-        params,
+    async getInvoice(tenantId, queryParam, modifiedSince = null) {
+      const where = chainQueryString(queryParam);
+      return this.makeRequest({
+        tenantId,
+        modifiedSince,
+        path: "/invoices",
+        params: where && {
+          Where: where,
+        },
       });
     },
   },
