@@ -1,31 +1,25 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
-  key: "google_calendar-new-or-updated-event",
-  name: "New or Updated Event",
-  description: "Emits when an event is created or updated (except when it's cancelled)",
-  version: "0.0.2",
+export default {
+  key: "google_calendar-new-event-search",
+  name: "Event Search",
+  description: "Emit when an event is created that matches a search",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
+    q: {
+      propDefinition: [
+        googleCalendar,
+        "q",
+      ],
+    },
     calendarId: {
-      type: "string",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = _.get(calListResp, "data.items");
-        if (calendars) {
-          const calendarIds = calendars.map((item) => {
-            return {
-              value: item.id,
-              label: item.summary,
-            };
-          });
-          return calendarIds;
-        }
-        return [];
-      },
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
     },
     timer: {
       type: "$.interface.timer",
@@ -44,15 +38,17 @@ module.exports = {
     const config = {
       calendarId: this.calendarId,
       updatedMin,
+      q: this.q,
       singleEvents: true,
       orderBy: "startTime",
     };
-    const resp = await this.googleCalendar.getEvents(config);
+    const { items: events } = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp.data, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
-        if (event.status !== "cancelled") {
+        const created = new Date(event.created);
+        // created in last 5 mins and not cancelled
+        if (created > past && event.status !== "cancelled") {
           const {
             summary,
             id,

@@ -1,11 +1,10 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
+export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
   description: "Emit an event when a calendar is created.",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   props: {
     db: "$.service.db",
@@ -19,21 +18,26 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      // get list of calendars
-      const calListResp = await this.googleCalendar.calendarList();
-      const calendars = _.get(calListResp, "data.items");
+      const { items: calendars = [] } = await this.googleCalendar.listCalendars();
       const calendarIds = calendars.map((item) => item.id);
-      this.db.set("calendarIds", calendarIds);
+      this.setCalendarIds(calendarIds);
     },
     deactivate() {
-      this.db.set("calendarIds", []);
+      this.setCalendarIds([]);
+    },
+  },
+  methods: {
+    setCalendarIds(calendarIds) {
+      this.db.set("calendarIds", calendarIds);
+    },
+    getCalendarIds() {
+      return this.db.get("calendarIds") || [];
     },
   },
   async run() {
-    const previousCalendarIds = this.db.get("calendarIds") || [];
+    const previousCalendarIds = this.getCalendarIds();
 
-    const calListResp = await this.googleCalendar.calendarList();
-    const calendars = _.get(calListResp, "data.items");
+    const { items: calendars = [] } = await this.googleCalendar.listCalendars();
     const currentCalendarIds = [];
 
     for (const calendar of calendars) {
@@ -49,6 +53,6 @@ module.exports = {
         });
       }
     }
-    this.db.set("calendarIds", currentCalendarIds);
+    this.setCalendarIds(currentCalendarIds);
   },
 };
