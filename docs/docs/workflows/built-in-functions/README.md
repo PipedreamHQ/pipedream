@@ -57,6 +57,34 @@ If you use [`$.flow.delay`](/code/nodejs/delay/), you can send these URLs to you
 
 ## Filter
 
+Using filters within your workflow allows you to only proceed when certain conditions are met. You can configure specific criteria that must be met, as well as whether you'd like to stop or proceed with your workflow. Filters are a simple yet powerful tool for customizing your workflow, and can be used two few different ways:
+
+1. The built-in **Filter** actions
+2. `$.flow.exit` in code 
+
 ### Filter actions
 
+To apply filters within your workflow without writing any code,
+
+1. Click the **+** button below any step
+2. Search for the **Filter** app
+3. Select the action that makes sense for your use case
+
+#### Continue or End Workflow on Condition
+
+These actions let you configure the specific condition you'd like to evaluate:
+
+- **Value type**: What type of input would you like to evaluate?
+- **Condition**: Based on the value type, what is the condition to evaluate?
+- **Value to evaluate**: The field you want to check (e.g., something like, "Name").
+- **Value to compare against**: The value you want to compare the field against (e.g., something like, "Luke Skywalker").
+
+![Filter step](https://res.cloudinary.com/pipedreamin/image/upload/v1651610369/docs/components/Screenshot_2022-05-03_at_1.31.57_PM_glsds4.png)
+
+#### End Workflow on Custom Condition
+
+This is a basic action that will immediately end your workflow. You can also add an optional prop that must evaluate to `true` (the most common use case here would be to evaluate the output of an earlier step within the workflow).
+
 ### Using `$.flow.exit` in code
+
+If you need to extend the functionality even further and want to do this in code, [check out the docs](/code/nodejs/#ending-a-workflow-early) on `$.flow.exit()`.
