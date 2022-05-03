@@ -1,8 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import {
-  formatQueryString,
-  removeNullEntries,
-} from "../../common/common.util.mjs";
+import { formatQueryString, removeNullEntries } from "../../common/util.mjs";
 import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {

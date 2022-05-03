@@ -1,7 +1,4 @@
-import {
-  formatArrayStrings,
-  removeNullEntries,
-} from "../../common/common.util.mjs";
+import { formatArrayStrings, removeNullEntries } from "../../common/util.mjs";
 import constant from "../../common/common.constants.mjs";
 import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
