@@ -1,4 +1,5 @@
-import salesforce_rest_api from "../../salesforce_rest_api.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-salesforce-find-create-record",
@@ -8,20 +9,20 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    salesforce_rest_api,
-    sobject_name: {
+    salesForceRestApi,
+    sobjectName: {
       type: "string",
       label: "Object name",
       description:
         "Salesforce standard object type of the record to get field values from.",
     },
-    sobject_id: {
+    sobjectId: {
       type: "string",
       label: "Object id",
       description:
         "Id of the Salesforce standard object to get field values from.",
     },
-    sobject_fields: {
+    sobjectFields: {
       type: "string[]",
       label: "Fields to get values from",
       description:
@@ -44,27 +45,34 @@ export default {
       },
     };
   },
-  async run() {
+  async run({ $ }) {
     const {
-      sobject_fields,
-      sobject_name,
-      sobject_id,
+      sobjectName,
+      sobjectId,
+      sobjectFields,
       sobject,
       createIfNotFound,
     } = this;
     let createData;
     try {
-      createData = await this.salesforce_rest_api.getSObject(
-        sobject_name,
-        sobject_id,
-        sobject_fields && { fields: sobject_fields.join(",") }
+      createData = await this.salesForceRestApi.getSObject(
+        sobjectName,
+        sobjectId,
+        sobjectFields && {
+          fields: sobjectFields.join(","),
+        },
       );
-    } catch (error) {}
+    } catch (error) {
+      if (!createIfNotFound)  throw new ConfigurationError("Record not found");
+    }
 
     if (createIfNotFound && !createData) {
-      const response = await this.salesforce_rest_api.createSObject(
+      const response = await this.salesForceRestApi.createSObject(
         "Account",
-        sobject
+        sobject,
+      );
+      response &&  $.export(
+        "$summary", "Record successfully created",
       );
       return response;
     }
