@@ -11,7 +11,7 @@ export default {
   type: "action",
   props: {
     bitly,
-    long_url: {
+    longUrl: {
       type: "string",
       label: "Long url",
       description: "URL to shorten",
@@ -34,7 +34,7 @@ export default {
       description: "Custom domain. e.g. bit.ly",
       label: "Custom domain",
     },
-    group_guid: {
+    groupGuid: {
       type: "string",
       optional: true,
       label: "Group guid",
@@ -56,10 +56,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      long_url,
       deeplinks,
       domain,
-      group_guid,
       title,
       tags,
     } = this;
@@ -69,9 +67,9 @@ export default {
       "deeplinks",
     );
     const payload = {
-      long_url,
+      long_url: this.longUrl,
       domain,
-      group_guid,
+      group_guid: this.groupGuid,
       title,
     };
     tags?.length && (payload.tags = tags);

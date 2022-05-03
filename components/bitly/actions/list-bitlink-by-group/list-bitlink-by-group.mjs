@@ -10,7 +10,7 @@ export default {
   type: "action",
   props: {
     bitly,
-    group_guid: {
+    groupGuid: {
       type: "string",
       label: "Group GUID",
       description: "A GUID for a Bitly group",
@@ -41,19 +41,19 @@ export default {
       description: "The value that you would like to search",
       optional: true,
     },
-    created_before: {
+    createdBefore: {
       type: "string",
       label: "Created before",
       description: "Timestamp as an integer unix epoch",
       optional: true,
     },
-    created_after: {
+    createdAfter: {
       type: "string",
       label: "Created after",
       description: "Timestamp as an integer unix epoch",
       optional: true,
     },
-    modified_after: {
+    modifiedAfter: {
       type: "string",
       label: "Modified after",
       description: "Timestamp as an integer unix epoch",
@@ -83,7 +83,7 @@ export default {
         "both",
       ],
     },
-    domain_deeplinks: {
+    domainDeeplinks: {
       type: "string",
       label: "Domain deeplinks",
       description:
@@ -96,21 +96,21 @@ export default {
         "both",
       ],
     },
-    campaign_guid: {
+    campaignGuid: {
       type: "string",
       label: "Campaign guid",
       description:
         "Filter to return only links for the given campaign GUID, can be provided",
       optional: true,
     },
-    channel_guid: {
+    channelGuid: {
       type: "string",
       label: "Channel guid",
       description:
         "Filter to return only links for the given channel GUID, can be provided, overrides all other parameters",
       optional: true,
     },
-    custom_bitlink: {
+    customBitlink: {
       type: "string",
       label: "Custom bitlink",
       description: "Filter to only Bitlinks that contain deeplinks",
@@ -128,13 +128,13 @@ export default {
       description: "Filter by given tags",
       optional: true,
     },
-    launchpad_ids: {
+    launchpadIds: {
       type: "string[]",
       label: "Launchpad IDs",
       description: "This is an array of strings",
       optional: true,
     },
-    encoding_login: {
+    encodingLogin: {
       type: "string[]",
       label: "Encoding Login",
       description:
@@ -151,22 +151,22 @@ export default {
       page: this.page,
       keyword: this.keyword,
       query: this.query,
-      created_before: this.created_before,
-      created_after: this.created_after,
-      modified_after: this.modified_after,
+      created_before: this.createdBefore,
+      created_after: this.createdAfter,
+      modified_after: this.modifiedAfter,
       archived: this.archived,
       deeplinks: this.deeplinks,
-      domain_deeplinks: this.domain_deeplinks,
-      campaign_guid: this.campaign_guid,
-      channel_guid: this.channel_guid,
-      custom_bitlink: this.custom_bitlink,
+      domain_deeplinks: this.domainDeeplinks,
+      campaign_guid: this.campaignGuid,
+      channel_guid: this.channelGuid,
+      custom_bitlink: this.customBitlink,
       tags: this.tags,
-      launchpad_ids: this.launchpad_ids,
-      encoding_login: this.encoding_login,
+      launchpad_ids: this.launchpadIds,
+      encoding_login: this.encodingLogin,
     });
     do {
       params.page++;
-      result = await this.bitly.listBitlinkByGroup(this.group_guid, params);
+      result = await this.bitly.listBitlinkByGroup(this.groupGuid, params);
       next = result.pagination?.next;
       result?.links?.length && (data = [
         ...data,

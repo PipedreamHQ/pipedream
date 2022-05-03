@@ -9,16 +9,15 @@ export default {
   type: "action",
   props: {
     bitly,
-    bitlink_id: {
+    bitlinkId: {
       type: "string",
       description: "This is the shortened url",
       label: "Enter Bitlink url",
     },
   },
   async run() {
-    const { bitlink_id } = this;
     const data = {
-      bitlink_id,
+      bitlink_id: this.bitlinkId,
     };
     return await this.bitly.expandBitlink(data);
   },

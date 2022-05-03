@@ -28,7 +28,7 @@ export default {
   },
   async additionalProps() {
     const props = {
-      long_url: {
+      longUrl: {
         type: "string",
         label: "Long url",
         description: "This is the url to be shortened",
@@ -51,7 +51,7 @@ export default {
           "Bitlinks that contain deeplinks configured with a custom domain",
         optional: true,
       },
-      group_guid: {
+      groupGuid: {
         type: "string",
         optional: true,
         label: "Group guid",
@@ -75,9 +75,7 @@ export default {
   async run({ $ }) {
     let bitlinkDetail;
     const {
-      long_url,
       domain,
-      group_guid,
       title,
       tags,
       createBitlinkIfNotFound,
@@ -95,9 +93,9 @@ export default {
 
     if (!bitlinkDetail && createBitlinkIfNotFound) {
       const payload = {
-        long_url,
+        long_url: this.longUrl,
         domain,
-        group_guid,
+        group_guid: this.groupGuid,
         title,
       };
       const updatedDeepLink = formatArrayStrings(
