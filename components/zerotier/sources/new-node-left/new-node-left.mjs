@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "zerotier-new-node-left",
   name: "New Node Left",
-  description: "Emit new event when a node left a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
+  description: "Emit new event when a node left a network.",
   type: "source",
   dedupe: "unique",
   version: "0.0.1",

@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "zerotier-new-node-offline",
   name: "New Node Offline",
-  description: "Emit new event for each offline node. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
+  description: "Emit new event for each offline node.",
   type: "source",
   dedupe: "unique",
   version: "0.0.1",
