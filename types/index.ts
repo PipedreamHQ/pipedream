@@ -115,6 +115,9 @@ interface PropDefinitionReference {
   propDefinition: [App<AppPropDefinitions, Methods, AuthKeys>, string]
 }
 
+// The whole implementation of this.$auth helpers is not ideal, but
+// this lets a user provide keys to the $auth object in the app configuration,
+// and those keys get exposed in `this.$auth` in Intellisense / typing.
 type AuthKeys = {
   [key: string]: string
 }
@@ -127,8 +130,7 @@ interface App<AppPropDefinitions, Methods, AuthKeys> {
   type: "app"
   app: string
   propDefinitions?: AppPropDefinitions | undefined
-  methods?: (Methods | undefined) &
-    ThisType<AppPropDefinitions & Methods & DollarAuth>
+  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth>
   $auth?: AuthKeys
 }
 
@@ -174,19 +176,15 @@ export interface DataStoreProp extends BasePropInterface {
 } */
 
 interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods, AuthKeys> | UserProp | DataStoreProp
+  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | DataStoreProp
 }
 
 interface ComponentPropDefinitions {
-  [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods, AuthKeys> |
-    UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
+  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
 }
 
 interface AppPropDefinitions {
-  [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods, AuthKeys> | UserProp
+  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp
 }
 
 interface Hooks {
@@ -243,8 +241,7 @@ export interface Component<ComponentPropDefinitions, Methods>
     Promise<void> & ThisType<ComponentPropDefinitions & Methods>
 }
 
-export interface Source<SourcePropDefinitions, Methods, EmitFunction>
-extends BaseComponent<ComponentPropDefinitions, Methods> {
+export interface Source<SourcePropDefinitions, Methods, EmitFunction> extends BaseComponent<ComponentPropDefinitions, Methods> {
   type: "source"
   hooks?: Hooks & ThisType<SourcePropDefinitions & Methods & EmitFunction>
   props: SourcePropDefinitions
@@ -265,6 +262,8 @@ export interface Action<ActionThis> extends BaseComponent<ComponentPropDefinitio
   run: (options?: ActionRunOptions) => Promise<void> & ThisType<ActionThis>
 }
 
+// See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
+
 //export declare function defineComponent(component: Component): Component
 export function defineSource<SourcePropDefinitions, Methods, EmitFunction>
 (component: Source<SourcePropDefinitions, Methods, EmitFunction>):
@@ -274,9 +273,7 @@ Source<SourcePropDefinitions, Methods, EmitFunction> {
   };
 }
 //export declare function defineAction(component: Action): Action
-export function defineApp<AppPropDefinitions, Methods, AuthKeys>
-(app: App<AppPropDefinitions, Methods, AuthKeys>):
-App<AppPropDefinitions, Methods, AuthKeys> {
+export function defineApp<AppPropDefinitions, Methods, AuthKeys> (app: App<AppPropDefinitions, Methods, AuthKeys>): App<AppPropDefinitions, Methods, AuthKeys> {
   return {
     ...app,
   };
