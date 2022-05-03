@@ -1,18 +1,17 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 const removeNullEntries = (obj) =>
-  Object.entries(obj).reduce(
-    (acc, [k, v]) =>
-      v &&
-      (typeof v === "string" ||
-        (Array.isArray(v) && v.length) ||
-        (typeof v === "object" &&
-          !Array.isArray(v) &&
-          Object.keys(v).length !== 0))
-        ? { ...acc, [k]: v }
-        : acc,
-    {}
-  );
+  Object.entries(obj).reduce((acc, [key, value]) => {
+    const isNotEmpyString = typeof value === "string";
+    const isNotEmptyArray = Array.isArray(value) && value.length;
+    const isNotEmptyObject =
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value).length !== 0;
+    return v && (isNotEmpyString || isNotEmptyArray || isNotEmptyObject)
+      ? { ...acc, [key]: value }
+      : acc;
+  }, {});
 
 const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   const updatedArray = [];

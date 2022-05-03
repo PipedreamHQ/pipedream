@@ -4,7 +4,7 @@ import {
   deleteKeys,
   isValidDate,
 } from "../../common/util.mjs";
-import constant from "../../common/common.constants.mjs";
+import constant from "../../common/constants.mjs";
 import xero_accounting_api from "../../xero_accounting_api.app.mjs";
 
 export default {
