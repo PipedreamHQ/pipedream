@@ -42,6 +42,12 @@ Delayed executions can hold one of three states:
 
 You'll see the current state of an execution by [viewing its event data](/workflows/events/inspect/).
 
+### How invocations are charged for delayed invocations
+
+Each time a workflow is resumed from a paused state, Pipedream charges another [invocation](/pricing/#invocations). For example, if you pause your workflow once, each incoming event will charge two invocations: one for the steps before the delay, and another for the steps that ran after the delay.
+
+You are not charged [compute time](/limits/#compute-time-per-day) for the time your workflow is paused.
+
 ### Cancelling or resuming execution manually
 
 The [**Delay** actions](#delay-actions) and [`$.flow.delay`](/code/nodejs/delay/) return two URLs each time they run:
