@@ -16,8 +16,8 @@ export default {
   type: "action",
   props: {
     xero_accounting_api,
-    tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+    tenantId: {
+      propDefinition: [xero_accounting_api, "tenantId"],
     },
     InvoiceNumber: {
       type: "string",
@@ -79,7 +79,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      tenant_id,
+      tenantId,
       Contact,
       InvoiceNumber,
       Reference,
@@ -105,7 +105,7 @@ export default {
       Reference,
     });
     const response = await this.xero_accounting_api.createInvoice(
-      tenant_id,
+      tenantId,
       data
     );
     response && $.export("$summary", "Bill successfully created");

@@ -11,8 +11,8 @@ export default {
   type: "action",
   props: {
     xero_accounting_api,
-    tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+    tenantId: {
+      propDefinition: [xero_accounting_api, "tenantId"],
     },
     actionType: {
       label: "Type of action",
@@ -79,7 +79,7 @@ export default {
   async run({ $ }) {
     const {
       ContactID,
-      tenant_id,
+      tenantId,
       Name,
       FirstName,
       LastName,
@@ -103,7 +103,7 @@ export default {
       );
     }
     const response = await this.xero_accounting_api.createContact(
-      tenant_id,
+      tenantId,
       data
     );
     response &&

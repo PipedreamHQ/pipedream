@@ -11,8 +11,8 @@ export default {
   type: "action",
   props: {
     xero_accounting_api,
-    tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+    tenantId: {
+      propDefinition: [xero_accounting_api, "tenantId"],
     },
     Name: {
       type: "string",
@@ -74,7 +74,7 @@ export default {
   async run({ $ }) {
     let contactDetail;
     const {
-      tenant_id,
+      tenantId,
       Name,
       FirstName,
       LastName,
@@ -103,7 +103,7 @@ export default {
     const queryString = formatQueryString(findPayload, true);
     try {
       contactDetail = await this.xero_accounting_api.getContact(
-        tenant_id,
+        tenantId,
         queryString
       );
     } catch (error) {
@@ -119,7 +119,7 @@ export default {
       createContactIfNotFound === "Yes"
     ) {
       const response = await this.xero_accounting_api.createContact(
-        tenant_id,
+        tenantId,
         createPayload
       );
       response && $.export("$summary", "Contact created successfully");

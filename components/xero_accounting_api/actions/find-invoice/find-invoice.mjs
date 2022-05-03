@@ -11,8 +11,8 @@ export default {
   type: "action",
   props: {
     xero_accounting_api,
-    tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+    tenantId: {
+      propDefinition: [xero_accounting_api, "tenantId"],
     },
     InvoiceNumber: {
       type: "string",
@@ -27,8 +27,8 @@ export default {
       description: "ACCREC only - additional reference number",
     },
   },
-  async run({ $ }) {
-    const { InvoiceNumber, Reference } = this;
+  async run() {
+    const { InvoiceNumber, Reference, tenantId } = this;
     if ((InvoiceNumber && Reference) || (!InvoiceNumber && !Reference)) {
       throw new ConfigurationError(
         `${
@@ -41,9 +41,6 @@ export default {
       Reference,
     });
     const queryString = formatQueryString(payload, true);
-    return await this.xero_accounting_api.getInvoice(
-      this.tenant_id,
-      queryString
-    );
+    return await this.xero_accounting_api.getInvoice(tenantId, queryString);
   },
 };

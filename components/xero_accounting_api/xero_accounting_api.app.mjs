@@ -6,7 +6,7 @@ export default {
   type: "app",
   app: "xero_accounting_api",
   propDefinitions: {
-    tenant_id: {
+    tenantId: {
       type: "string",
       label: "Tenant ID",
       description:

@@ -11,8 +11,8 @@ export default {
   type: "action",
   props: {
     xero_accounting_api,
-    tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+    tenantId: {
+      propDefinition: [xero_accounting_api, "tenantId"],
     },
     InvoiceID: {
       type: "string",
@@ -33,11 +33,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const { tenant_id, InvoiceID, LineItems } = this;
+    const { tenantId, InvoiceID, LineItems } = this;
     const data = removeNullEntries({
       InvoiceID,
       LineItems: formatArrayStrings(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
     });
-    return await this.xero_accounting_api.createInvoice(tenant_id, data);
+    return await this.xero_accounting_api.createInvoice(tenantId, data);
   },
 };
