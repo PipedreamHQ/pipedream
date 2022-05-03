@@ -10,3 +10,4 @@ node_modules
 .vercel
 
 docs/.vuepress/dist
+*.swp
