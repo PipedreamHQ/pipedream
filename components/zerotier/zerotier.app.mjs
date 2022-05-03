@@ -72,5 +72,8 @@ export default {
     } = {}) {
       return this._makeRequest(`user/${userId}`, {}, $);
     },
+    async getStatus({ $ } = {}) {
+      return this._makeRequest("status", {}, $);
+    },
   },
 };
