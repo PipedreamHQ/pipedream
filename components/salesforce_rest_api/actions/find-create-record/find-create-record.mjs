@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
 
 export default {
-  key: "salesforce_rest_api-salesforce-find-create-record",
+  key: "salesforce_rest_api-find-create-record",
   name: "Get Field Values from Object Record and optionally create one is none is found. ",
   description:
     "Finds a specified Salesforce record by a field. Optionally, create one if none is found. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
@@ -10,11 +10,11 @@ export default {
   type: "action",
   props: {
     salesForceRestApi,
-    sobjectName: {
+    sobjectType: {
       type: "string",
       label: "Object name",
       description:
-        "Salesforce standard object type of the record to get field values from.",
+       "Salesforce standard object type of the record to get field values from. [Object types](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)",
     },
     sobjectId: {
       type: "string",
@@ -47,7 +47,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      sobjectName,
+      sobjectType,
       sobjectId,
       sobjectFields,
       sobject,
@@ -56,7 +56,7 @@ export default {
     let createData;
     try {
       createData = await this.salesForceRestApi.getSObject(
-        sobjectName,
+        sobjectType,
         sobjectId,
         sobjectFields && {
           fields: sobjectFields.join(","),
@@ -67,8 +67,8 @@ export default {
     }
 
     if (createIfNotFound && !createData) {
-      const response = await this.salesForceRestApi.createSObject(
-        "Account",
+      const response = await this.salesForceRestApi.createObject(
+        sobjectType,
         sobject,
       );
       response &&  $.export(

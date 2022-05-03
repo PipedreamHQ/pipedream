@@ -239,12 +239,19 @@ export default {
       );
       return historyObject;
     },
-    async createSObject(objectType, data) {
+    async createObject(objectType, data) {
       const url = `${this._sObjectsApiUrl()}/${objectType}`;
       return this._makeRequest({
         url,
         data,
         method: "POST",
+      });
+    },
+    async deleteObject(objectType, sobjectId) {
+      const url = `${this._sObjectsApiUrl()}/${objectType}/${sobjectId}`;
+      return this._makeRequest({
+        url,
+        method: "DELETE",
       });
     },
     async getSObject(objectType, id, params = null) {
