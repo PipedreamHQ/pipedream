@@ -1,3 +1,8 @@
+---
+short_description: How to delay a workflow's execution with Node.js.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/icons/icons8-time-96_kupxpi.png
+---
+
 # Delaying a workflow in Node.js
 
 Use `$.flow.delay` to [delay a step in a workflow](/workflows/built-in-functions/#delay). {{$site.themeConfig.DELAY_MIN_MAX_TIME}}.
