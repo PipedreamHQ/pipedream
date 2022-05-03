@@ -112,17 +112,15 @@ type OptionsMethodArgs = {
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 interface PropDefinitionReference {
-  propDefinition: [App, string]
+  propDefinition: [App<AppPropDefinitions, Methods>, string]
 }
 
 // https://pipedream.com/docs/components/api/#app-props
-type AppThis = keyof AppPropDefinitions & keyof Methods
-
-interface App {
+interface App<AppPropDefinitions, Methods> {
   type: "app"
   app: string
-  propDefinitions?: AppPropDefinitions
-  methods?: Methods & ThisType<AppThis>
+  propDefinitions?: AppPropDefinitions | undefined
+  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods>
 }
 
 interface DefaultConfig {
@@ -161,21 +159,25 @@ export interface DataStoreProp extends BasePropInterface {
   type: DataStorePropType
 }
 
-interface SourcePropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp | InterfaceProp | ServiceDBProp
-}
+/* interface SourcePropDefinitions {
+  [name: string]: PropDefinitionReference |
+    App<AppPropDefinitions, Methods> | UserProp | InterfaceProp | ServiceDBProp
+} */
 
 interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp | DataStoreProp
+  [name: string]: PropDefinitionReference |
+    App<AppPropDefinitions, Methods> | UserProp | DataStoreProp
 }
 
 interface ComponentPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp |
-    InterfaceProp | ServiceDBProp | DataStoreProp
+  [name: string]: PropDefinitionReference |
+    App<AppPropDefinitions, Methods> |
+    UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
 }
 
 interface AppPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp
+  [name: string]: PropDefinitionReference |
+    App<AppPropDefinitions, Methods> | UserProp
 }
 
 interface Hooks {
@@ -209,51 +211,64 @@ export interface EmitConfig {
   metadata?: EmitMetadata
 }
 
-type EmitFunction = {
+/* type EmitFunction = {
   $emit: (config: EmitConfig) => Promise<void>
-}
-type ComponentThis = keyof ComponentPropDefinitions & keyof Methods
-type SourceThis = keyof SourcePropDefinitions & keyof Methods & keyof EmitFunction
-type ActionThis = keyof ActionPropDefinitions & keyof Methods
+} */
 
-interface BaseComponent {
+interface BaseComponent<ComponentPropDefinitions, Methods> {
   key?: string
   name?: string
   description?: string
   version?: string
-  methods?: Methods & ThisType<ComponentThis>
+  methods?: Methods & ThisType<ComponentPropDefinitions & Methods>
 }
 
-export interface Component extends BaseComponent {
+export interface Component<ComponentPropDefinitions, Methods>
+  extends BaseComponent<ComponentPropDefinitions, Methods> {
   type: "action" | "source"
   props: ComponentPropDefinitions
   additionalProps?: (
     previousPropDefs: ComponentPropDefinitions
   ) => Promise<ComponentPropDefinitions>
-  run: (options?: ComponentRunOptions) => Promise<void> & ThisType<ComponentThis>
+  run: (options?: ComponentRunOptions) =>
+    Promise<void> & ThisType<ComponentPropDefinitions & Methods>
 }
 
-export interface Source extends BaseComponent {
+export interface Source<SourcePropDefinitions, Methods, EmitFunction>
+extends BaseComponent<ComponentPropDefinitions, Methods> {
   type: "source"
-  hooks?: Hooks
+  hooks?: Hooks & ThisType<SourcePropDefinitions & Methods & EmitFunction>
   props: SourcePropDefinitions
   dedupe?: "last" | "greatest" | "unique"
   additionalProps?: (
     previousPropDefs: SourcePropDefinitions
   ) => Promise<SourcePropDefinitions>
-  run: (options?: SourceRunOptions) => Promise<void> & ThisType<SourceThis>
+  run: (options?: SourceRunOptions) =>
+    Promise<void> & ThisType<SourcePropDefinitions & Methods & EmitFunction>
 }
 
-export interface Action extends BaseComponent {
+export interface Action<ActionThis> extends BaseComponent<ComponentPropDefinitions, Methods> {
   type: "action"
-  props: ActionPropDefinitions
+  props: ActionPropDefinitions & ThisType<ActionThis>
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>
   run: (options?: ActionRunOptions) => Promise<void> & ThisType<ActionThis>
 }
 
-export declare function defineComponent(component: Component): Component
-export declare function defineSource(component: Source): Source
-export declare function defineAction(component: Action): Action
-export declare function defineApp(app: App): App
+//export declare function defineComponent(component: Component): Component
+export function defineSource<SourcePropDefinitions, Methods, EmitFunction>
+(component: Source<SourcePropDefinitions, Methods, EmitFunction>):
+Source<SourcePropDefinitions, Methods, EmitFunction> {
+  return {
+    ...component,
+  };
+}
+//export declare function defineAction(component: Action): Action
+export function defineApp<AppPropDefinitions, Methods>
+(app: App<AppPropDefinitions, Methods>):
+App<AppPropDefinitions, Methods> {
+  return {
+    ...app,
+  };
+}

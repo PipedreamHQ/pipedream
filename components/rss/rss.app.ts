@@ -5,6 +5,13 @@ import { defineApp } from "@pipedream/types";
 export default defineApp({
   type: "app",
   app: "rss",
+  propDefinitions: {
+    url: {
+      type: "string",
+      label: "Feed URL",
+      description: "Enter the URL for any public RSS feed",
+    },
+  },
   methods: {
     // Generate a Node error class for every HTTP error
     // in the STATUS_CODES object.
