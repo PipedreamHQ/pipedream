@@ -112,19 +112,24 @@ type OptionsMethodArgs = {
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 interface PropDefinitionReference {
-  propDefinition: [App<AppPropDefinitions, Methods>, string]
+  propDefinition: [App<AppPropDefinitions, Methods, AuthKeys>, string]
 }
 
+type AuthKeys = {
+  [key: string]: string
+}
 type DollarAuth = {
-  $auth: object
+  $auth: Record<keyof AuthKeys, string>
 }
 
 // https://pipedream.com/docs/components/api/#app-props
-interface App<AppPropDefinitions, Methods> {
+interface App<AppPropDefinitions, Methods, AuthKeys> {
   type: "app"
   app: string
   propDefinitions?: AppPropDefinitions | undefined
-  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth>
+  methods?: (Methods | undefined) &
+    ThisType<AppPropDefinitions & Methods & DollarAuth>
+  $auth?: AuthKeys
 }
 
 interface DefaultConfig {
@@ -170,18 +175,18 @@ export interface DataStoreProp extends BasePropInterface {
 
 interface ActionPropDefinitions {
   [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods> | UserProp | DataStoreProp
+    App<AppPropDefinitions, Methods, AuthKeys> | UserProp | DataStoreProp
 }
 
 interface ComponentPropDefinitions {
   [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods> |
+    App<AppPropDefinitions, Methods, AuthKeys> |
     UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
 }
 
 interface AppPropDefinitions {
   [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods> | UserProp
+    App<AppPropDefinitions, Methods, AuthKeys> | UserProp
 }
 
 interface Hooks {
@@ -269,9 +274,9 @@ Source<SourcePropDefinitions, Methods, EmitFunction> {
   };
 }
 //export declare function defineAction(component: Action): Action
-export function defineApp<AppPropDefinitions, Methods>
-(app: App<AppPropDefinitions, Methods>):
-App<AppPropDefinitions, Methods> {
+export function defineApp<AppPropDefinitions, Methods, AuthKeys>
+(app: App<AppPropDefinitions, Methods, AuthKeys>):
+App<AppPropDefinitions, Methods, AuthKeys> {
   return {
     ...app,
   };

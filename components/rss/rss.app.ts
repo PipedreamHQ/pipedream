@@ -12,6 +12,9 @@ export default defineApp({
       description: "Enter the URL for any public RSS feed",
     },
   },
+  $auth: {
+    oauth_access_token: true,
+  },
   methods: {
     // Generate a Node error class for every HTTP error
     // in the STATUS_CODES object.
