@@ -57,7 +57,8 @@ export default {
     fieldUpdatedTo: {
       type: "string",
       label: "Field Updated to",
-      description: "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
+      description:
+        "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
       optional: true,
     },
     fieldSelector: {
@@ -90,8 +91,7 @@ export default {
     },
     _baseApiUrl() {
       return (
-        this._instanceUrl() ||
-        `https://${this._subdomain()}.salesforce.com`
+        this._instanceUrl() || `https://${this._subdomain()}.salesforce.com`
       );
     },
     _userApiUrl() {
@@ -172,7 +172,10 @@ export default {
       }), {});
     },
     isHistorySObject(sobject) {
-      return sobject.associateEntityType === "History" && sobject.name.includes("History");
+      return (
+        sobject.associateEntityType === "History" &&
+        sobject.name.includes("History")
+      );
     },
     listAllowedSObjectTypes(eventType) {
       const verbose = true;
@@ -230,15 +233,25 @@ export default {
     async getHistorySObjectForObjectType(objectType) {
       const { sobjects } = await this.listSObjectTypes();
       const historyObject = sobjects.find(
-        (sobject) => sobject.associateParentEntity === objectType
-            && this.isHistorySObject(sobject),
+        (sobject) =>
+          sobject.associateParentEntity === objectType &&
+          this.isHistorySObject(sobject),
       );
       return historyObject;
     },
-    async getSObject(objectType, id) {
+    async createSObject(objectType, data) {
+      const url = `${this._sObjectsApiUrl()}/${objectType}`;
+      return this._makeRequest({
+        url,
+        data,
+        method: "POST",
+      });
+    },
+    async getSObject(objectType, id, params = null) {
       const url = this._sObjectDetailsApiUrl(objectType, id);
       return this._makeRequest({
         url,
+        params,
       });
     },
     async getUpdatedForObjectType(objectType, start, end) {
@@ -269,7 +282,7 @@ export default {
         url,
         headers: {
           ...this._makeRequestHeaders(),
-          "Authorization": `Bearer ${authToken}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
     },
