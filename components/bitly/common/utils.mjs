@@ -18,7 +18,7 @@ const formatDeepLink = (deeplinks) => {
               ].includes(key)
             ) {
               deepLinkErrors.push(
-                `deeplinks[${i}] error: ${key} is not present or allowed in object`
+                `deeplinks[${i}] error: ${key} is not present or allowed in object`,
               );
             }
           });
@@ -32,25 +32,30 @@ const formatDeepLink = (deeplinks) => {
   if (deepLinkErrors.length) {
     throw new Error(
       deepLinkErrors.join(",") +
-        ". Allowed keys are app_id,app_uri_path,install_url,install_type"
+        ". Allowed keys are app_id,app_uri_path,install_url,install_type",
     );
   }
   return updatedDeepLink;
 };
 
 const removeNullEntries = (obj) =>
-  Object.entries(obj).reduce(
-    (acc, [k, v]) =>
-      v &&
-      (typeof v === "string" ||
-        (Array.isArray(v) && v.length) ||
-        (typeof v === "object" &&
-          !Array.isArray(v) &&
-          Object.keys(v).length !== 0))
-        ? { ...acc, [k]: v }
-        : acc,
-    {}
-  );
+  Object.entries(obj).reduce((acc, [
+    key,
+    value,
+  ]) => {
+    const isNotEmpyString = typeof value === "string";
+    const isNotEmptyArray = Array.isArray(value) && value.length;
+    const isNotEmptyObject =
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value).length !== 0;
+    return value && (isNotEmpyString || isNotEmptyArray || isNotEmptyObject)
+      ? {
+        ...acc,
+        [key]: value,
+      }
+      : acc;
+  }, {});
 
 const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   const updatedArray = [];
@@ -63,7 +68,7 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
           Object.keys(obj).forEach((key) => {
             if (!ALLOWED_KEYS.includes(key)) {
               errors.push(
-                `${fieldName}[${i}] error: ${key} is not present or allowed in object`
+                `${fieldName}[${i}] error: ${key} is not present or allowed in object`,
               );
             }
           });
@@ -76,10 +81,12 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   }
   if (errors.length) {
     throw new ConfigurationError(
-      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`
+      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
     );
   }
   return updatedArray;
 };
 
-export { formatDeepLink, removeNullEntries, formatArrayStrings };
+export {
+  formatDeepLink, removeNullEntries, formatArrayStrings,
+};

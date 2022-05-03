@@ -1,4 +1,4 @@
-import { removeNullEntries } from "../../common/common.utils.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
 import bitly from "../../bitly.app.mjs";
 
 export default {
@@ -12,6 +12,7 @@ export default {
     bitly,
     group_guid: {
       type: "string",
+      label: "Group GUID",
       description: "A GUID for a Bitly group",
     },
     size: {
@@ -64,7 +65,11 @@ export default {
       description: "Whether or not to include archived bitlinks",
       default: "off",
       optional: true,
-      options: ["on", "off", "both"],
+      options: [
+        "on",
+        "off",
+        "both",
+      ],
     },
     deeplinks: {
       type: "string",
@@ -72,7 +77,11 @@ export default {
       description: "Filter to only Bitlinks that contain deeplinks",
       default: "both",
       optional: true,
-      options: ["on", "off", "both"],
+      options: [
+        "on",
+        "off",
+        "both",
+      ],
     },
     domain_deeplinks: {
       type: "string",
@@ -81,7 +90,11 @@ export default {
         "Filter to only Bitlinks that contain deeplinks configured with a custom domain",
       default: "both",
       optional: true,
-      options: ["on", "off", "both"],
+      options: [
+        "on",
+        "off",
+        "both",
+      ],
     },
     campaign_guid: {
       type: "string",
@@ -103,7 +116,11 @@ export default {
       description: "Filter to only Bitlinks that contain deeplinks",
       default: "both",
       optional: true,
-      options: ["on", "off", "both"],
+      options: [
+        "on",
+        "off",
+        "both",
+      ],
     },
     tags: {
       type: "string[]",
@@ -125,10 +142,9 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
     let next;
     let data = [];
-    let pagination = {};
     let result = null;
     let params = removeNullEntries({
       size: this.size,
@@ -152,8 +168,10 @@ export default {
       params.page++;
       result = await this.bitly.listBitlinkByGroup(this.group_guid, params);
       next = result.pagination?.next;
-      result?.links?.length && (data = [...data, ...result.links]);
-      pagination = result?.pagination;
+      result?.links?.length && (data = [
+        ...data,
+        ...result.links,
+      ]);
     } while (next);
     return data;
   },

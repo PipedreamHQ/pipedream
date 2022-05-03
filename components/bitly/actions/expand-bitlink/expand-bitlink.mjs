@@ -17,7 +17,9 @@ export default {
   },
   async run() {
     const { bitlink_id } = this;
-    const data = { bitlink_id };
+    const data = {
+      bitlink_id,
+    };
     return await this.bitly.expandBitlink(data);
   },
 };

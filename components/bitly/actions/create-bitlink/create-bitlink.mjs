@@ -1,6 +1,6 @@
 import bitly from "../../bitly.app.mjs";
-import { formatArrayStrings } from "../../common/common.utils.mjs";
-import constants from "../../common/common.constants.mjs";
+import { formatArrayStrings } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "bitly-create-bitlink",
@@ -20,20 +20,25 @@ export default {
       type: "string",
       optional: true,
       label: "Bitlink title",
+      description: "Bitlink title",
     },
     tags: {
       type: "string[]",
       optional: true,
+      label: "Tags",
+      description: "Enter array of tags",
     },
     domain: {
       type: "string",
       optional: true,
-      label: "Custom domain. e.g. bit.ly",
+      description: "Custom domain. e.g. bit.ly",
+      label: "Custom domain",
     },
     group_guid: {
       type: "string",
       optional: true,
       label: "Group guid",
+      description: "Group guid",
     },
     deeplinks: {
       type: "string[]",
@@ -50,13 +55,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const { long_url, deeplinks, domain, group_guid, title, tags } = this;
+    const {
+      long_url,
+      deeplinks,
+      domain,
+      group_guid,
+      title,
+      tags,
+    } = this;
     const updatedDeepLink = formatArrayStrings(
       deeplinks,
       constants.ALLOWED_DEEPLINK_KEYS,
-      "deeplinks"
+      "deeplinks",
     );
-    const payload = { long_url, domain, group_guid, title };
+    const payload = {
+      long_url,
+      domain,
+      group_guid,
+      title,
+    };
     tags?.length && (payload.tags = tags);
     updatedDeepLink?.length && (payload.deeplinks = updatedDeepLink);
     const response = await this.bitly.createBitlink(payload);

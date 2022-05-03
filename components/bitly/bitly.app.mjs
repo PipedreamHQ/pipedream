@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,16 +9,24 @@ export default {
     getHeader() {
       return {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
     getUrl(path) {
-      const BASE_URL = "https://api-ssl.bitly.com";
-      const VERSION_PATH = "/v4";
+      const {
+        BASE_URL,
+        VERSION_PATH,
+      } = constants;
       return `${BASE_URL}${VERSION_PATH}${path}`;
     },
     async makeRequest(args = {}) {
-      const { $ = this, method = "get", path, params, data } = args;
+      const {
+        $ = this,
+        method = "get",
+        path,
+        params,
+        data,
+      } = args;
       const config = {
         method,
         url: this.getUrl(path),

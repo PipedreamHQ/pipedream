@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { formatArrayStrings } from "../../common/common.utils.mjs";
-import constants from "../../common/common.constants.mjs";
+import { formatArrayStrings } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 import bitly from "../../bitly.app.mjs";
 
 export default {
@@ -15,6 +15,7 @@ export default {
     bitlink: {
       type: "string",
       label: "Bitlink url",
+      description: "This is the shortened url",
     },
     createBitlinkIfNotFound: {
       label: "Create new Bitlink if not found?",
@@ -93,11 +94,16 @@ export default {
     }
 
     if (!bitlinkDetail && createBitlinkIfNotFound) {
-      const payload = { long_url, domain, group_guid, title };
+      const payload = {
+        long_url,
+        domain,
+        group_guid,
+        title,
+      };
       const updatedDeepLink = formatArrayStrings(
         deeplinks,
         constants.ALLOWED_DEEPLINK_KEYS,
-        "deeplinks"
+        "deeplinks",
       );
 
       tags?.length && (payload.tags = tags);

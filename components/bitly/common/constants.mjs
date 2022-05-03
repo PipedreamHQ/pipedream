@@ -5,6 +5,11 @@ const ALLOWED_DEEPLINK_KEYS = [
   "install_type",
 ];
 
+const BASE_URL = "https://api-ssl.bitly.com";
+const VERSION_PATH = "/v4";
+
 export default {
   ALLOWED_DEEPLINK_KEYS,
+  BASE_URL,
+  VERSION_PATH,
 };
