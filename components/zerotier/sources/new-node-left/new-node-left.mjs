@@ -7,7 +7,7 @@ export default {
   description: "Emit new event when a node left a network.",
   type: "source",
   dedupe: "unique",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     _setNodes(nodes) {
       return this.db.set("nodes", nodes);

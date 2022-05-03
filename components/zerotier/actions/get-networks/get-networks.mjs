@@ -3,7 +3,7 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-get-networks",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Networks",
   description: "Get all networks. Returns a list of Networks you have access to.",
   props: {

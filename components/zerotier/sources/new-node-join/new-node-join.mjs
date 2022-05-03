@@ -7,7 +7,7 @@ export default {
   description: "Emit new event when a node joins a network.",
   type: "source",
   dedupe: "unique",
-  version: "0.0.1",
+  version: "0.0.2",
   async run({ $ }) {
     const nodes = await this.zerotier.getNetworkNodes({
       networkId: this.networkId,
