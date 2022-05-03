@@ -1,6 +1,6 @@
 # Delaying a workflow in Node.js
 
-Use `$.flow.delay` to [delay a step in a workflow](/workflows/built-in-functions/#delay). {{$site.themeConfig.DELAY_MIN_MAX_TIME}}.
+Use `$.flow.delay` to [delay a step in a workflow](/workflows/built-in-functions/#delay).
 
 These docs show you how write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/built-in-functions/#delay-actions).
 
