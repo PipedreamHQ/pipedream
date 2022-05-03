@@ -5,7 +5,7 @@ export default {
   type: "action",
   version: "0.0.1",
   name: "Get Network",
-  description: "Get a specific network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkByID)",
+  description: "Get a specific network. Returns a single network.",
   props: {
     zerotier,
     networkId: {
