@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved account status");
+    $.export("summary", "Successfully retrieved account status");
 
     return response;
   },
