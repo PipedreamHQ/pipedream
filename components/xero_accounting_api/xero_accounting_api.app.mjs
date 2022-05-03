@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 import { chainQueryString } from "./common/util.mjs";
 
 export default {
@@ -22,9 +23,7 @@ export default {
       return header;
     },
     getUrl(path) {
-      const BASE_URL = "https://api.xero.com";
-      const VERSION_PATH = "/2.0";
-      const DEFAULT_API_PATH = "/api.xro";
+      const { BASE_URL, DEFAULT_API_PATH, VERSION_PATH } = constants;
       return `${BASE_URL}${DEFAULT_API_PATH}${VERSION_PATH}${path}`;
     },
     async makeRequest(args = {}) {
