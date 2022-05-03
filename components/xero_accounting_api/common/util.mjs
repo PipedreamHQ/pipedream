@@ -1,15 +1,21 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 const removeNullEntries = (obj) =>
-  Object.entries(obj).reduce((acc, [key, value]) => {
+  Object.entries(obj).reduce((acc, [
+    key,
+    value,
+  ]) => {
     const isNotEmpyString = typeof value === "string";
     const isNotEmptyArray = Array.isArray(value) && value.length;
     const isNotEmptyObject =
       typeof value === "object" &&
       !Array.isArray(value) &&
       Object.keys(value).length !== 0;
-    return v && (isNotEmpyString || isNotEmptyArray || isNotEmptyObject)
-      ? { ...acc, [key]: value }
+    return value && (isNotEmpyString || isNotEmptyArray || isNotEmptyObject)
+      ? {
+        ...acc,
+        [key]: value,
+      }
       : acc;
   }, {});
 
@@ -24,7 +30,7 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
           Object.keys(obj).forEach((key) => {
             if (!ALLOWED_KEYS.includes(key)) {
               errors.push(
-                `${fieldName}[${i}] error: ${key} is not present or allowed in object`
+                `${fieldName}[${i}] error: ${key} is not present or allowed in object`,
               );
             }
           });
@@ -37,7 +43,7 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   }
   if (errors.length) {
     throw new ConfigurationError(
-      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`
+      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
     );
   }
   return updatedArray;
@@ -84,8 +90,8 @@ const formatArray = (key, value) => {
       value[i] &&
         str.push(
           `${encodeURIComponent(key + `[${i}]`)}=${encodeURIComponent(
-            value[i]
-          )}`
+            value[i],
+          )}`,
         );
     }
     return str.join("&");
@@ -95,14 +101,18 @@ const formatArray = (key, value) => {
 
 const formatNonArray = (key, value, quoteValue) =>
   value &&
-  `${encodeURIComponent(key)}=${quoteValue ? '"' : ""}${value}${
-    quoteValue ? '"' : ""
+  `${encodeURIComponent(key)}=${quoteValue
+    ? "\""
+    : ""}${value}${
+    quoteValue
+      ? "\""
+      : ""
   }`;
 
-const formatJsonDate = (d) => {
+const formatJsonDate = (date) => {
   const pattern = /Date\(([^)]+)\)/;
-  const m = pattern.exec(d);
-  return m && new Date(parseFloat(m[1])).toISOString();
+  const modified = pattern.exec(date);
+  return modified && new Date(parseFloat(modified[1])).toISOString();
 };
 
 const chainQueryString = (queryString) =>
