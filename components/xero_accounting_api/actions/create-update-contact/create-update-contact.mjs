@@ -85,7 +85,7 @@ export default {
     }
     return props;
   },
-  async run() {
+  async run({ $ }) {
     const {
       ContactID,
       tenantId,
@@ -105,6 +105,8 @@ export default {
       ContactStatus,
     });
     ContactID && (data.ContactID = ContactID);
-    return await this.xeroAccountingApi.createContact(tenantId, data);
+    const response = await this.xeroAccountingApi.createContact(tenantId, data);
+    response && $.export("$summary", "Contact created successfully");
+    return response;
   },
 };
