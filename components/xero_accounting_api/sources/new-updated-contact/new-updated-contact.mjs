@@ -1,17 +1,20 @@
 import { formatJsonDate } from "../../common/util.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-new-updated-contact",
   name: "New or updated contact",
   description:
-    "Emit notifications when you create a new or update existing contact",
+    "Emit new notifications when you create a new or update existing contact",
   version: "0.0.1",
   type: "source",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenant_id: {
-      propDefinition: [xero_accounting_api, "tenant_id"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenant_id",
+      ],
     },
     timer: {
       label: "Polling interval",
@@ -25,30 +28,27 @@ export default {
   },
   dedupe: "unique",
   async run() {
-    let lastDateChecked;
+    let lastDateChecked = this.xeroAccountingApi.getLastDateChecked();
 
-    this.db.get("lastDateChecked") &&
-      (lastDateChecked = this.db.get("lastDateChecked"));
-
-    if (!this.db.get("lastDateChecked")) {
+    if (!lastDateChecked) {
       lastDateChecked = new Date().toISOString();
-      this.db.set("lastDateChecked", lastDateChecked);
+      this.xeroAccountingApi.setLastDateChecked(lastDateChecked);
     }
     const contacts = (
-      await this.xero_accounting_api.getContact(
+      await this.xeroAccountingApi.getContact(
         this.tenant_id,
         null,
-        lastDateChecked
+        lastDateChecked,
       )
     )?.Contacts;
-    contacts &&
-      contacts.reverse().forEach((contact) => {
-        const formatedDate = formatJsonDate(contact.UpdatedDateUTC);
-        this.db.set("lastDateChecked", formatedDate);
-        this.$emit(contact, {
+    contacts && contacts.reverse().forEach((contact) => {
+      const formatedDate = formatJsonDate(contact.UpdatedDateUTC);
+      this.xeroAccountingApi.setLastDateChecked(formatedDate);
+      this.$emit(contact,
+        {
           id: `${contact.ContactID}D${formatedDate || ""}`,
           summary: contact.Name,
         });
-      });
+    });
   },
 };

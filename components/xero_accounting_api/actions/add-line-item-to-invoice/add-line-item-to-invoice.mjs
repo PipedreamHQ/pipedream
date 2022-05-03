@@ -1,6 +1,8 @@
-import { formatArrayStrings, removeNullEntries } from "../../common/util.mjs";
+import {
+  formatArrayStrings, removeNullEntries,
+} from "../../common/util.mjs";
 import constant from "../../common/common.constants.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
@@ -10,9 +12,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenantId: {
-      propDefinition: [xero_accounting_api, "tenantId"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     InvoiceID: {
       type: "string",
@@ -32,12 +37,16 @@ export default {
         }\``,
     },
   },
-  async run({ $ }) {
-    const { tenantId, InvoiceID, LineItems } = this;
+  async run() {
+    const {
+      tenantId,
+      InvoiceID,
+      LineItems,
+    } = this;
     const data = removeNullEntries({
       InvoiceID,
       LineItems: formatArrayStrings(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
     });
-    return await this.xero_accounting_api.createInvoice(tenantId, data);
+    return await this.xeroAccountingApi.createInvoice(tenantId, data);
   },
 };

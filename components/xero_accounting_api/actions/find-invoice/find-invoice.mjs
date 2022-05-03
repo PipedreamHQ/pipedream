@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { formatQueryString, removeNullEntries } from "../../common/util.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import {
+  formatQueryString, removeNullEntries,
+} from "../../common/util.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-find-invoice",
@@ -10,9 +12,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenantId: {
-      propDefinition: [xero_accounting_api, "tenantId"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     InvoiceNumber: {
       type: "string",
@@ -28,12 +33,18 @@ export default {
     },
   },
   async run() {
-    const { InvoiceNumber, Reference, tenantId } = this;
+    const {
+      InvoiceNumber,
+      Reference,
+      tenantId,
+    } = this;
     if ((InvoiceNumber && Reference) || (!InvoiceNumber && !Reference)) {
       throw new ConfigurationError(
         `${
-          InvoiceNumber && Reference ? "Only o" : "O"
-        }ne of InvoiceNumber and Reference is required to find contact`
+          InvoiceNumber && Reference
+            ? "Only o"
+            : "O"
+        }ne of InvoiceNumber and Reference is required to find contact`,
       );
     }
     const payload = removeNullEntries({
@@ -41,6 +52,6 @@ export default {
       Reference,
     });
     const queryString = formatQueryString(payload, true);
-    return await this.xero_accounting_api.getInvoice(tenantId, queryString);
+    return await this.xeroAccountingApi.getInvoice(tenantId, queryString);
   },
 };

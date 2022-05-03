@@ -14,16 +14,26 @@ export default {
     },
   },
   methods: {
+    setLastDateChecked(value) {
+      this.db.set(constants.DB_LAST_DATE_CHECK, value);
+    },
+    getLastDateChecked() {
+      return this.db.get(constants.DB_LAST_DATE_CHECK);
+    },
     getHeader(tenantId, modifiedSince = null) {
       const header = {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "xero-tenant-id": tenantId,
       };
       modifiedSince && (header["If-Modified-Since"] = modifiedSince);
       return header;
     },
     getUrl(path) {
-      const { BASE_URL, DEFAULT_API_PATH, VERSION_PATH } = constants;
+      const {
+        BASE_URL,
+        DEFAULT_API_PATH,
+        VERSION_PATH,
+      } = constants;
       return `${BASE_URL}${DEFAULT_API_PATH}${VERSION_PATH}${path}`;
     },
     async makeRequest(args = {}) {

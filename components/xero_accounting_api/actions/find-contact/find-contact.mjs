@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { removeNullEntries, formatQueryString } from "../../common/util.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import {
+  removeNullEntries, formatQueryString,
+} from "../../common/util.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-find-contact",
@@ -10,9 +12,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenantId: {
-      propDefinition: [xero_accounting_api, "tenantId"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     Name: {
       type: "string",
@@ -27,9 +32,13 @@ export default {
       optional: true,
     },
     createContactIfNotFound: {
-      description: "Create a new contact if not found.",
+      description: "Create a new contact if not found?.",
+      label: "Create a new contact if not found",
       type: "string",
-      options: ["Yes", "No"],
+      options: [
+        "Yes",
+        "No",
+      ],
       reloadProps: true,
     },
   },
@@ -64,7 +73,11 @@ export default {
         label: "Contact status",
         description:
           "See https://developer.xero.com/documentation/api/accounting/types#contacts",
-        options: ["ACTIVE", "ARCHIVED", "GDPRREQUEST"],
+        options: [
+          "ACTIVE",
+          "ARCHIVED",
+          "GDPRREQUEST",
+        ],
         optional: true,
         default: "ACTIVE",
       };
@@ -85,7 +98,7 @@ export default {
     } = this;
     if (createContactIfNotFound === "No" && AccountNumber && Name) {
       throw new ConfigurationError(
-        "Only one of AccountNumber and Name is required to find contact"
+        "Only one of AccountNumber and Name is required to find contact",
       );
     }
     const findPayload = removeNullEntries({
@@ -102,9 +115,9 @@ export default {
     });
     const queryString = formatQueryString(findPayload, true);
     try {
-      contactDetail = await this.xero_accounting_api.getContact(
+      contactDetail = await this.xeroAccountingApi.getContact(
         tenantId,
-        queryString
+        queryString,
       );
     } catch (error) {
       if (createContactIfNotFound === "Yes") {
@@ -118,14 +131,11 @@ export default {
       (!contactDetail || !contactDetail?.Contacts?.length) &&
       createContactIfNotFound === "Yes"
     ) {
-      const response = await this.xero_accounting_api.createContact(
+      return await this.xeroAccountingApi.createContact(
         tenantId,
-        createPayload
+        createPayload,
       );
-      response && $.export("$summary", "Contact created successfully");
-      return response;
     }
-    contactDetail && $.export("$summary", "Contact found");
     return contactDetail;
   },
 };

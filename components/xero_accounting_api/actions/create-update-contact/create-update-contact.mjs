@@ -1,6 +1,5 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { removeNullEntries } from "../../common/util.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-create-update-contact",
@@ -10,15 +9,21 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenantId: {
-      propDefinition: [xero_accounting_api, "tenantId"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     actionType: {
       label: "Type of action",
       description: "This triggers an update if UPDATE is selected",
       type: "string",
-      options: ["NEW", "UPDATE"],
+      options: [
+        "NEW",
+        "UPDATE",
+      ],
       reloadProps: true,
     },
     Name: {
@@ -56,7 +61,11 @@ export default {
       label: "Contact status",
       description:
         "See https://developer.xero.com/documentation/api/accounting/types#contacts",
-      options: ["ACTIVE", "ARCHIVED", "GDPRREQUEST"],
+      options: [
+        "ACTIVE",
+        "ARCHIVED",
+        "GDPRREQUEST",
+      ],
       default: "ACTIVE",
     },
   },
@@ -76,7 +85,7 @@ export default {
     }
     return props;
   },
-  async run({ $ }) {
+  async run() {
     const {
       ContactID,
       tenantId,
@@ -86,7 +95,6 @@ export default {
       EmailAddress,
       AccountNumber,
       ContactStatus,
-      actionType,
     } = this;
     const data = removeNullEntries({
       Name,
@@ -97,22 +105,6 @@ export default {
       ContactStatus,
     });
     ContactID && (data.ContactID = ContactID);
-    if (!ContactID && actionType === "UPDATE") {
-      throw new ConfigurationError(
-        "ContactID must be set if actionType is UPDATE"
-      );
-    }
-    const response = await this.xero_accounting_api.createContact(
-      tenantId,
-      data
-    );
-    response &&
-      $.export(
-        "$summary",
-        `Contact successfully ${
-          actionType === "UPDATE" ? "updated" : "created"
-        }`
-      );
-    return response;
+    return await this.xeroAccountingApi.createContact(tenantId, data);
   },
 };

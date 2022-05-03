@@ -5,7 +5,7 @@ import {
   isValidDate,
 } from "../../common/util.mjs";
 import constant from "../../common/constants.mjs";
-import xero_accounting_api from "../../xero_accounting_api.app.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-create-bill",
@@ -15,9 +15,12 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    xero_accounting_api,
+    xeroAccountingApi,
     tenantId: {
-      propDefinition: [xero_accounting_api, "tenantId"],
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     InvoiceNumber: {
       type: "string",
@@ -91,12 +94,17 @@ export default {
     const data = removeNullEntries({
       Type: "ACCPAY",
       Contact: Contact?.ContactID
-        ? deleteKeys(Contact, ["Name", "FirstName", "LastName", "EmailAddress"])
+        ? deleteKeys(Contact, [
+          "Name",
+          "FirstName",
+          "LastName",
+          "EmailAddress",
+        ])
         : Contact,
       LineItems: formatArrayStrings(
         LineItems,
         constant.ALLOWED_LINEITEMS_KEYS,
-        "LineItems"
+        "LineItems",
       ),
       Date: isValidDate(Date, "Date"),
       DueDate: isValidDate(DueDate, "DueDate"),
@@ -104,10 +112,7 @@ export default {
       InvoiceNumber,
       Reference,
     });
-    const response = await this.xero_accounting_api.createInvoice(
-      tenantId,
-      data
-    );
+    const response = await this.xeroAccountingApi.createInvoice(tenantId, data);
     response && $.export("$summary", "Bill successfully created");
     return response;
   },
