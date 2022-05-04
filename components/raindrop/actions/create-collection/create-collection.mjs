@@ -3,7 +3,7 @@ import raindrop from "../../raindrop.app.mjs";
 export default {
   key: "raindrop-create-collection",
   name: "Create New Collection",
-  description: "Creates an additional collection",
+  description: "Creates an additional collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#create-collection)",
   version: "0.0.1",
   type: "action",
   props: {

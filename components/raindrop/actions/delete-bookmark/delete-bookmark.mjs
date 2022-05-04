@@ -3,7 +3,7 @@ import raindrop from "../../raindrop.app.mjs";
 export default {
   key: "raindrop-delete-bookmark",
   name: "Delete Bookmark",
-  description: "Delete a bookmark",
+  description: "Delete a bookmark. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#remove-raindrop)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import raindrop from "../../raindrop.app.mjs";
 export default {
   key: "raindrop-get-collection",
   name: "Get Collection",
-  description: "Get collection",
+  description: "Get collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#get-collection)",
   version: "0.0.1",
   type: "action",
   props: {
