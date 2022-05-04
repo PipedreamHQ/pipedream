@@ -13,7 +13,7 @@ export default {
           links,
           data,
         } = await this.listArticles({
-          context: prevContext,
+          nextLink: prevContext.next,
         });
         return {
           options: data.map((article) => ({
@@ -35,7 +35,7 @@ export default {
           links,
           data,
         } = await this.listCategories({
-          context: prevContext,
+          nextLink: prevContext.next,
         });
         return {
           options: data.map((category) => ({
@@ -60,11 +60,6 @@ export default {
     },
   },
   methods: {
-    _buildUrl(context, defaultPath) {
-      return Object.keys(context).length > 0
-        ? context.next
-        : `${this._baseUrl()}${defaultPath}`;
-    },
     _getNextLink(links) {
       return links.next
         ? decodeURI(links.next)
@@ -72,6 +67,15 @@ export default {
     },
     _baseUrl() {
       return `${this.$auth.joomla_host_domain}/api/index.php/v1`;
+    },
+    _usersUrl() {
+      return `${this._baseUrl()}/users`;
+    },
+    _articlesUrl() {
+      return `${this._baseUrl()}/content/articles`;
+    },
+    _categoriesUrl() {
+      return `${this._baseUrl()}/content/categories`;
     },
     _headers() {
       return {
@@ -122,21 +126,19 @@ export default {
       return data;
     },
     async listUsers({
-      $, context = {},
+      $, nextLink,
     }) {
-      const url = this._buildUrl(context, "/users");
       return this._makeRequest({
         $,
-        url,
+        url: nextLink ?? this._usersUrl(),
       });
     },
     async listArticles({
-      $, context = {},
+      $, nextLink,
     }) {
-      const url = this._buildUrl(context, "/content/articles");
       return this._makeRequest({
         $,
-        url,
+        url: nextLink ?? this._articlesUrl(),
       });
     },
     async createArticle({
@@ -144,7 +146,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        url: `${this._baseUrl()}/content/articles`,
+        url: this._articlesUrl(),
         method: "post",
         data,
       });
@@ -154,18 +156,17 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        url: `${this._baseUrl()}/content/articles/${id}`,
+        url: `${this._articlesUrl()}/${id}`,
         method: "patch",
         data,
       });
     },
     async listCategories({
-      $, context = {},
+      $, nextLink,
     }) {
-      const url = this._buildUrl(context, "/content/categories");
       return this._makeRequest({
         $,
-        url,
+        url: nextLink ?? this._categoriesUrl(),
       });
     },
   },
