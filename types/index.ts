@@ -180,18 +180,18 @@ export interface DataStoreProp extends BasePropInterface {
   type: DataStorePropType
 }
 
-/* interface SourcePropDefinitions {
+interface SourcePropDefinitions {
   [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods> | UserProp | InterfaceProp | ServiceDBProp
-} */
+    App<AppPropDefinitions, Methods, AuthKeys> | UserProp | InterfaceProp | ServiceDBProp
+}
 
-interface ActionPropDefinitions {
+/* interface ActionPropDefinitions {
   [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | DataStoreProp
 }
 
 interface ComponentPropDefinitions {
   [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
-}
+} */
 
 interface AppPropDefinitions {
   [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp
@@ -201,11 +201,6 @@ interface Hooks {
   deploy?: () => Promise<void>
   activate?: () => Promise<void>
   deactivate?: () => Promise<void>
-}
-
-interface ComponentRunOptions {
-  $: Pipedream
-  steps: { [key: string]: JSONValue }
 }
 
 interface SourceRunOptions {
@@ -228,61 +223,55 @@ export interface EmitConfig {
   metadata?: EmitMetadata
 }
 
-/* type EmitFunction = {
+type EmitFunction = {
   $emit: (config: EmitConfig) => Promise<void>
-} */
+}
 
-interface BaseComponent<ComponentPropDefinitions, Methods> {
+// When we access props, we need to access them by key and assign the type
+// designated by their `type` string. This requires a bit of logic.
+type PropKeys<PropDefinitions> = Record<keyof PropDefinitions, string>
+
+export interface Source<SourcePropDefinitions, Methods> {
   key?: string
   name?: string
   description?: string
   version?: string
-  methods?: Methods & ThisType<ComponentPropDefinitions & Methods>
-}
-
-export interface Component<ComponentPropDefinitions, Methods>
-  extends BaseComponent<ComponentPropDefinitions, Methods> {
-  type: "action" | "source"
-  props: ComponentPropDefinitions
-  additionalProps?: (
-    previousPropDefs: ComponentPropDefinitions
-  ) => Promise<ComponentPropDefinitions>
-  run: (options?: ComponentRunOptions) =>
-    Promise<void> & ThisType<ComponentPropDefinitions & Methods>
-}
-
-export interface Source<SourcePropDefinitions, Methods, EmitFunction> extends BaseComponent<ComponentPropDefinitions, Methods> {
   type: "source"
-  hooks?: Hooks & ThisType<SourcePropDefinitions & Methods & EmitFunction>
+  methods?: Methods & ThisType<PropKeys<SourcePropDefinitions> & Methods>
+  hooks?: Hooks & ThisType<PropKeys<SourcePropDefinitions> & Methods & EmitFunction>
   props: SourcePropDefinitions
   dedupe?: "last" | "greatest" | "unique"
   additionalProps?: (
     previousPropDefs: SourcePropDefinitions
   ) => Promise<SourcePropDefinitions>
-  run: (options?: SourceRunOptions) =>
-    Promise<void> & ThisType<SourcePropDefinitions & Methods & EmitFunction>
+  run: (this: PropKeys<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => Promise<void>
 }
 
-export interface Action<ActionThis> extends BaseComponent<ComponentPropDefinitions, Methods> {
+export function defineSource<SourcePropDefinitions, Methods> (source: Source<SourcePropDefinitions, Methods>): Source<SourcePropDefinitions, Methods> {
+  return {
+    ...source,
+  };
+}
+
+export interface Action<ActionPropDefinitions, Methods> {
+  key?: string
+  name?: string
+  description?: string
+  version?: string
   type: "action"
-  props: ActionPropDefinitions & ThisType<ActionThis>
+  methods?: Methods & ThisType<PropKeys<ActionPropDefinitions> & Methods>
+  props: ActionPropDefinitions & ThisType<PropKeys<ActionPropDefinitions> & Methods>
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>
-  run: (options?: ActionRunOptions) => Promise<void> & ThisType<ActionThis>
+  run: (options?: ActionRunOptions) => Promise<void> & ThisType<PropKeys<ActionPropDefinitions> & Methods>
 }
 
-// See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
-
-//export declare function defineComponent(component: Component): Component
-export function defineSource<SourcePropDefinitions, Methods, EmitFunction>
-(component: Source<SourcePropDefinitions, Methods, EmitFunction>):
-Source<SourcePropDefinitions, Methods, EmitFunction> {
+export function defineAction<ActionPropDefinitions, Methods> (action: Action<ActionPropDefinitions, Methods>): Action<ActionPropDefinitions, Methods> {
   return {
-    ...component,
+    ...action,
   };
 }
-//export declare function defineAction(component: Action): Action
 
 // Custom errors
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import FeedParser from "feedparser";
 import hash from "object-hash";
 import {
-  defineSource, UserProp,
+  defineSource, UserProp, SourceRunThis,
 } from "@pipedream/types";
 
 class NoProtocolError extends Error {
@@ -114,6 +114,7 @@ export default defineSource({
     },
   },
   async run() {
+
     const items = await this.fetchAndParseFeed(this.url);
     items.forEach((item) => {
       this.$emit(item, {
