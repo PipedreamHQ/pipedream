@@ -68,6 +68,36 @@ export default {
         headers,
       };
     },
+    async _paginate(maxResults = 1000, apiRequestFunction, ...params) {
+      const ITEMS_PER_PAGE = 100;
+      let currentPage = 0;
+      let data = [];
+      do {
+        // This is the sentry cursor format
+        const cursor = `0:${currentPage * ITEMS_PER_PAGE}:0`;
+
+        // Here we make the request using the params and the cursor
+        const res = await apiRequestFunction(...params, cursor);
+
+        // Break the loop if there are no more results
+        if (res?.data.length == 0) {
+          break;
+        }
+
+        // Add the results to the data array
+        data.push(...res.data);
+
+        // If we reach the maxResults limit, break the loop and slice the array
+        if (data.length > maxResults) {
+          data = data.slice(0, maxResults);
+          break;
+        }
+
+        // Increment the currentPage
+        currentPage++;
+      } while (true);
+      return data;
+    },
     _organizationObjectToOption(organization) {
       const {
         name,
@@ -193,12 +223,15 @@ export default {
         },
       });
     },
-    async listProjectEvents(organizationSlug, projectSlug, params) {
+    async listProjectEvents(organizationSlug, projectSlug, params, cursor) {
       const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectSlug}/events/`;
       const requestConfig = this._makeRequestConfig();
       return axios.get(url, {
         ...requestConfig,
-        params,
+        params: {
+          ...params,
+          cursor,
+        },
       });
     },
   },
