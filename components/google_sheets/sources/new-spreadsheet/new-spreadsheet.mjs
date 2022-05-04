@@ -32,16 +32,18 @@ export default {
     },
     getSpreadsheetsFromFolderOpts(folderId) {
       const mimeQuery = "mimeType = 'application/vnd.google-apps.spreadsheet'";
-      let opts = {};
+      let opts = {
+        q: `${mimeQuery} and parents in '${folderId}' and trashed = false`,
+      };
       if (!this.isMyDrive()) {
         opts = {
           corpora: "drive",
           driveId: this.getDriveId(),
           includeItemsFromAllDrives: true,
           supportsAllDrives: true,
+          ...opts,
         };
       }
-      opts.q = `${mimeQuery} and parents in '${folderId}' and trashed = false`;
       return opts;
     },
     async getSpreadsheets(limit) {
