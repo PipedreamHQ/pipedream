@@ -303,6 +303,33 @@ export default defineComponent({
 
 [Errors](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) raised in a code step will stop the execution of code or destinations that follow.
 
+
+### Configuration Error
+
+Throwing a `ConfigurationError` in a Node.js step will display the error message in a dedicated area.
+
+This is useful for providing feedback during validation of `props`. In the example below, a required Header value is missing from the Google Sheets action:
+
+![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651680315/docs/components/CleanShot_2022-05-04_at_12.04.38_2x_vf8jny.png)
+
+Or you can use it for validating the format of a given `email` prop:
+
+```javascript
+import { ConfigurationError } from "@pipedream/platform";
+
+export default defineComponent({
+  props: {
+    email: { type: "string" }
+  },
+  async run({ steps, $ }) {
+    // if the email address doesn't include a @, it's not valid
+    if(!this.email.includes("@")) {
+      throw new ConfigurationError('Provide a valid email address');
+    }
+  }
+});
+```
+
 ## Using secrets in code
 
 Workflow code is private. Still, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
