@@ -5,7 +5,7 @@ export default {
   key: "slack-send-custom-message",
   name: "Send a Custom Message",
   description: "Customize advanced setttings and send a message to a channel, group or user",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     ...common.props,

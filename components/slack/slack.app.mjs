@@ -383,6 +383,18 @@ export default {
       label: "Email",
       description: "An email address belonging to a user in the workspace",
     },
+    metadata_event_type: {
+      type: "string",
+      label: "Metadata Event Type",
+      description: "The name of the metadata event",
+      optional: true,
+    },
+    metadata_event_payload: {
+      type: "string",
+      label: "Metadata Event Payload",
+      description: "The payload of the metadata event",
+      optional: true,
+    },
   },
   methods: {
     mySlackId() {

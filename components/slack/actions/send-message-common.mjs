@@ -37,12 +37,18 @@ export default {
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
     },
-    metadata: {
-      type: "object",
-      optional: true,
-      label: "Include metadata in the message",
-      description: "Slack message metadata allows your Slack app to link a message inside Slack to a corresponding outside event or pattern."
-    }
+    metadata_event_type: {
+      propDefinition: [
+        slack,
+        "metadata_event_type",
+      ],
+    },
+    metadata_event_payload: {
+      propDefinition: [
+        slack,
+        "metadata_event_payload",
+      ],
+    },
   },
   methods: {
     _makeSentViaPipedreamBlock() {
@@ -94,6 +100,13 @@ export default {
       blocks.push(sentViaPipedreamText);
     }
 
+    if (this.metadata_event_type) {
+      this.metadata = {
+        event_type: this.metadata_event_type,
+        event_payload: this.metadata_event_payload,
+      };
+    }
+
     return await this.slack.sdk().chat.postMessage({
       text: this.text,
       channel: this.conversation,
@@ -110,7 +123,7 @@ export default {
       link_names: this.link_names,
       reply_broadcast: this.reply_broadcast,
       thread_ts: this.thread_ts,
-      metadata: this.metadata
+      metadata: this.metadata || null,
     });
   },
 };
