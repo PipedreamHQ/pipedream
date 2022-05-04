@@ -87,7 +87,7 @@ export default {
       );
     },
     _apiVersion() {
-      return "50.0";
+      return "54.0";
     },
     _baseApiUrl() {
       return (
@@ -106,6 +106,11 @@ export default {
     _sObjectsApiUrl() {
       const baseUrl = this._baseApiVersionUrl();
       return `${baseUrl}/sobjects`;
+    },
+    _sCompositeApiUrl() {
+      const baseUrl = this._baseApiUrl();
+      const apiVersion = this._apiVersion();
+      return `${baseUrl}/services/data/v${apiVersion}/composite/sobjects`;
     },
     _sObjectTypeApiUrl(sObjectType) {
       const baseUrl = this._sObjectsApiUrl();
@@ -252,6 +257,13 @@ export default {
       return this._makeRequest({
         url,
         method: "DELETE",
+      });
+    },
+    async getRecords(objectType, params) {
+      const url = `${this._sCompositeApiUrl()}/${objectType}`;
+      return this._makeRequest({
+        url,
+        params,
       });
     },
     async getSObject(objectType, id, params = null) {
