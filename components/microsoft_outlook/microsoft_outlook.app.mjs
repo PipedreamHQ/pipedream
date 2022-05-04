@@ -170,7 +170,7 @@ export default {
         ...args,
       });
     },
-    prepareMessageBody(self, draft = false) {
+    prepareMessageBody(self) {
       const toRecipients = [];
       for (const address of self.recipients) {
         toRecipients.push({
@@ -201,11 +201,7 @@ export default {
         toRecipients,
         attachments,
       };
-      return draft ?
-        message :
-        {
-          message,
-        };
+      return message;
     },
     async getSupportedTimeZones() {
       return await this._makeRequest({

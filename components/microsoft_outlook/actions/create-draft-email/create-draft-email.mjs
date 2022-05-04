@@ -44,7 +44,7 @@ export default {
     const response =  await this.microsoftOutlook.createDraft({
       $,
       data: {
-        ...this.microsoftOutlook.prepareMessageBody(this, true),
+        ...this.microsoftOutlook.prepareMessageBody(this),
         ...this.expand,
       },
     });

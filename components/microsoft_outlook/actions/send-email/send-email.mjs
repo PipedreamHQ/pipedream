@@ -47,11 +47,20 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.microsoftOutlook.sendEmail({
+    console.log({
       $,
       data: {
         ...this.microsoftOutlook.prepareMessageBody(this),
         ...this.expand,
+      },
+    });
+    await this.microsoftOutlook.sendEmail({
+      $,
+      data: {
+        message: {
+          ...this.microsoftOutlook.prepareMessageBody(this),
+          ...this.expand,
+        },
       },
     });
     $.export("$summary", "Email has been sent.");
