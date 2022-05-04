@@ -85,7 +85,7 @@ export default {
       bitlinkDetail = await this.bitly.getBitlink(this.bitlink);
     } catch (error) {
       if (createBitlinkIfNotFound) {
-        // $.export("$summary", "Bitlink not found. Creating new Bitlink");
+        $.export("$summary", "Bitlink not found. Creating new Bitlink");
       } else {
         throw new ConfigurationError("Bitlink not found");
       }

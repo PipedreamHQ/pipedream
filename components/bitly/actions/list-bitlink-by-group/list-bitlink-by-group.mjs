@@ -142,7 +142,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     let next;
     let data = [];
     let result = null;
@@ -173,6 +173,7 @@ export default {
         ...result.links,
       ]);
     } while (next);
+    $.export("$summary", `Successfully listed ${data.length} bitlinks.`);
     return data;
   },
 };
