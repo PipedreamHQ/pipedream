@@ -44,7 +44,7 @@ export default {
 
     const config = {
       method: "put",
-      url: `https://track.customer.io/api/v1/customers/$${this.customer_id}`,
+      url: `https://track.customer.io/api/v1/customers/${this.customer_id}`,
       headers: {
         Authorization: `Basic ${base64BasicauthUserPwd}`,
       },
