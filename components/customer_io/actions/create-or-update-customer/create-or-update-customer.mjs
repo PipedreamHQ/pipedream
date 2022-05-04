@@ -51,10 +51,10 @@ export default {
       data: {
         email: this.email,
         created_at: this.created_at,
-        attributes: this.attributes,
+        ...this.attributes,
       },
     };
 
-    return await axios($, config);
+    return await axios(config);
   },
 };
