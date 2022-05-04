@@ -310,24 +310,38 @@ Throwing a `ConfigurationError` in a Node.js step will display the error message
 
 This is useful for providing feedback during validation of `props`. In the example below, a required Header value is missing from the Google Sheets action:
 
+<<<<<<< HEAD
 ![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651680315/docs/components/CleanShot_2022-05-04_at_12.04.38_2x_vf8jny.png)
+=======
+![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651674756/docs/components/image_6_mj6jmi.png)
+>>>>>>> master
 
 Or you can use it for validating the format of a given `email` prop:
 
 ```javascript
+<<<<<<< HEAD
 import { ConfigurationError } from "@pipedream/platform";
 
+=======
+>>>>>>> master
 export default defineComponent({
   props: {
     email: { type: "string" }
   },
   async run({ steps, $ }) {
     // if the email address doesn't include a @, it's not valid
+<<<<<<< HEAD
     if(!this.email.includes("@")) {
       throw new ConfigurationError('Provide a valid email address');
     }
   }
 });
+=======
+    if(this.email.includes("@")) {
+      throw ConfigurationError('Provide a valid email address');
+    }
+  }
+>>>>>>> master
 ```
 
 ## Using secrets in code
