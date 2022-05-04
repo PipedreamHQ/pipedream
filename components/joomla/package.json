@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/joomla",
-  "version": "0.0.1",
+  "version": "0.3.4",
   "description": "Pipedream Joomla Components",
   "main": "joomla.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
   "dependencies": {
     "@pipedream/platform": "^0.10.0"
   },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
       "access": "public"
   }
