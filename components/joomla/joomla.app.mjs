@@ -12,8 +12,8 @@ export default {
         const {
           links,
           data,
-        } = await this._makeRequest({
-          url: this._buildUrl(prevContext, "/content/articles"),
+        } = await this.listArticles({
+          context: prevContext,
         });
         return {
           options: data.map((article) => ({
@@ -34,8 +34,8 @@ export default {
         const {
           links,
           data,
-        } = await this._makeRequest({
-          url: this._buildUrl(prevContext, "/content/categories"),
+        } = await this.listCategories({
+          context: prevContext,
         });
         return {
           options: data.map((category) => ({
@@ -121,19 +121,23 @@ export default {
       }
       return data;
     },
-    async listUsers($) {
-      const generator = this.paginate({
+    async listUsers({
+      $, context = {},
+    }) {
+      const url = this._buildUrl(context, "/users");
+      return this._makeRequest({
         $,
-        url: `${this._baseUrl()}/users`,
+        url,
       });
-      return this.iterateGenerator(generator);
     },
-    async listArticles($) {
-      const generator = this.paginate({
+    async listArticles({
+      $, context = {},
+    }) {
+      const url = this._buildUrl(context, "/content/articles");
+      return this._makeRequest({
         $,
-        url: `${this._baseUrl()}/content/articles`,
+        url,
       });
-      return this.iterateGenerator(generator);
     },
     async createArticle($, data) {
       return this._makeRequest({
@@ -149,6 +153,15 @@ export default {
         url: `${this._baseUrl()}/content/articles/${id}`,
         method: "patch",
         data,
+      });
+    },
+    async listCategories({
+      $, context = {},
+    }) {
+      const url = this._buildUrl(context, "/content/categories");
+      return this._makeRequest({
+        $,
+        url,
       });
     },
   },
