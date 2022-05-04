@@ -5,5 +5,8 @@ gh-md-toc
 .vscode
 .idea
 node_modules
+.eslintcache
 
 .vercel
+
+docs/.vuepress/dist

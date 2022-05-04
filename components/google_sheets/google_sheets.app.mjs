@@ -1,5 +1,5 @@
 import axios from "axios";
-import { google } from "googleapis";
+import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
@@ -117,12 +117,32 @@ export default {
 
       throw new Error(`${value} is not an array or an array-like`);
     },
+    arrayValuesToString(arr) {
+      const convertedIndexes = [];
+
+      const res = arr.map((val, i) => {
+        if (![
+          "string",
+          "number",
+          "boolean",
+        ].includes(typeof val)) {
+          convertedIndexes.push(i) ;
+          return JSON.stringify(val);
+        }
+        return val;
+      });
+
+      return {
+        arr: res,
+        convertedIndexes,
+      };
+    },
     sheets() {
-      const auth = new google.auth.OAuth2();
+      const auth = new sheets.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.sheets({
+      return sheets.sheets({
         version: "v4",
         auth,
       });
@@ -157,7 +177,7 @@ export default {
       endColumn = column,
       searchType = 1,
     } = {}) {
-      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+      return `=MATCH(${searchKey}, '${sheetName}'!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
     },
     /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing

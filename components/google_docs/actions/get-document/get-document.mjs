@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-get-document",
   name: "Get Document",
-  description: "Get the contents of the latest version of a document.",
-  version: "0.0.5",
+  description: "Get the contents of the latest version of a document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/get)",
+  version: "0.1.0",
   type: "action",
   props: {
     googleDocs,
@@ -16,9 +16,6 @@ export default {
     },
   },
   async run() {
-    const docs = this.googleDocs.docs();
-    return (await docs.documents.get({
-      documentId: this.docId,
-    })).data;
+    return this.googleDocs.getDocument(this.docId);
   },
 };

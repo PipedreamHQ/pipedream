@@ -4,7 +4,7 @@ export default {
   key: "mongodb-delete-a-document",
   name: "Delete a Document",
   description: "Delete a single document by ID. [See the docs here](https://docs.mongodb.com/manual/tutorial/remove-documents/)",
-  version: "0.0.1",
+  version: "0.0.34",
   type: "action",
   props: {
     mongodbApp,
@@ -13,15 +13,11 @@ export default {
         mongodbApp,
         "collection",
       ],
-      description: "Collection containing the document to be deleted.",
     },
     document: {
       propDefinition: [
         mongodbApp,
         "document",
-        ({ collection }) => ({
-          collection,
-        }),
       ],
     },
   },

@@ -2,9 +2,10 @@
     "name": "@pipedream/mongodb",
     "version": "0.0.1",
     "description": "Pipedream MongoDB Components",
-    "main": "mongodb.app.js",
+    "main": "mongodb.app.mjs",
     "keywords": [
         "pipedream",
+        "mongo",
         "mongodb"
     ],
     "homepage": "https://pipedream.com/apps/mongodb",
@@ -14,6 +15,6 @@
         "access": "public"
     },
     "dependencies": {
-        "mongoose": "^6.2.1"
+        "mongoose": "^6.1.6"
     }
 }

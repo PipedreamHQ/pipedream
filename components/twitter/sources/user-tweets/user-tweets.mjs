@@ -5,7 +5,7 @@ export default {
   key: "twitter-user-tweets",
   name: "User Tweets",
   description: "Emit new Tweets posted by a user",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   props: {
     ...base.props,

@@ -1,23 +1,63 @@
 {
   "rewrites": [
     {
-      "source": "/docs",
+      "source": "/docs/v2",
       "destination": "/"
+    },
+    {
+      "source": "/docs/v2/(.*)",
+      "destination": "/$1"
     },
     {
       "source": "/docs/(.*)",
       "destination": "/$1"
+    },
+    {
+      "source": "/docs-v2/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/docs/assets/(.*)",
+      "destination": "/assets/$1"
     }
   ],
   "redirects": [
     {
+      "source": "/docs-v2",
+      "destination": "/docs/"
+    },
+    {
+      "source": "/docs-v2/(.*)",
+      "destination": "/docs/$1"
+    },
+    {
+      "source": "/docs/v2",
+      "destination": "/docs"
+    },
+    {
+      "source": "/docs/v2/(.*)",
+      "destination": "/docs/$1"
+    },
+    {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
     },
-    { "source": "/docs/cron", "destination": "/workflows/steps/triggers" },
-    { "source": "/docs/notebook", "destination": "/workflows/steps" },
-    { "source": "/docs/workflows/fork", "destination": "/workflows/copy" },
-    { "source": "/docs/notebook/fork", "destination": "/workflows/copy" },
+    {
+      "source": "/docs/cron",
+      "destination": "/workflows/steps/triggers"
+    },
+    {
+      "source": "/docs/notebook",
+      "destination": "/workflows/steps"
+    },
+    {
+      "source": "/docs/workflows/fork",
+      "destination": "/workflows/copy"
+    },
+    {
+      "source": "/docs/notebook/fork",
+      "destination": "/workflows/copy"
+    },
     {
       "source": "/docs/notebook/inspector/",
       "destination": "/workflows/events/inspect/"
@@ -62,8 +102,14 @@
       "source": "/docs/security/",
       "destination": "/docs/privacy-and-security/"
     },
-    { "source": "/docs/notebook/sql/", "destination": "/destinations/sql/" },
-    { "source": "/docs/what-is-pipedream/", "destination": "/" },
+    {
+      "source": "/docs/notebook/sql/",
+      "destination": "/destinations/"
+    },
+    {
+      "source": "/docs/what-is-pipedream/",
+      "destination": "/"
+    },
     {
       "source": "/docs/apps/intercom",
       "destination": "https://pipedream.com/apps/intercom"
@@ -87,6 +133,15 @@
     {
       "source": "/docs/support",
       "destination": "https://pipedream.com/support"
+    },
+    {
+      "source": "/docs/workflows/steps/code/async/",
+      "destination": "/docs/code/nodejs/async/"
+    },
+    {
+      "source": "/docs/workflows/steps/code/state",
+      "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state"
     }
   ]
 }
+

@@ -5,7 +5,7 @@ export default {
   key: "google_drive-move-file-to-trash",
   name: "Move File to Trash",
   description: "Move a file or folder to trash. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,
