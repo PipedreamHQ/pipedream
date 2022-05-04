@@ -53,12 +53,12 @@ export default {
     };
     const fileName = {
       label: "File Name",
-      description: "The name of the file.",
+      description: "The name of the file. E.g. \"john.jpg\"",
       type: "string",
     };
     const fileType = {
       label: "File Type",
-      description: "The MIME type of the file.",
+      description: "The MIME type of the file. E.g. \"image/jpeg\"",
       type: "string",
     };
     const fileUrl = {
