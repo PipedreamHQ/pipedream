@@ -2,7 +2,7 @@ import joomla from "../../joomla.app.mjs";
 
 export default {
   name: "Update Article",
-  description: "Update an article",
+  description: "Update an article. See the docs [here](https://docs.joomla.org/J4.x:Joomla_Core_APIs#Update_Article)",
   key: "joomla-update-article",
   version: "0.0.1",
   type: "action",
