@@ -39,6 +39,13 @@ export default {
         }));
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of registers to return. Defaults to `1000`.",
+      optional: true,
+      max: 10000,
+    },
   },
   methods: {
     _apiUrl() {
@@ -69,20 +76,12 @@ export default {
       };
     },
     async _paginate(maxResults = 1000, apiRequestFunction, ...params) {
-      const ITEMS_PER_PAGE = 100;
-      let currentPage = 0;
       let data = [];
+      let cursor = null;
       do {
-        // This is the sentry cursor format
-        const cursor = `0:${currentPage * ITEMS_PER_PAGE}:0`;
-
         // Here we make the request using the params and the cursor
-        const res = await apiRequestFunction(...params, cursor);
-
-        // Break the loop if there are no more results
-        if (res?.data.length == 0) {
-          break;
-        }
+        const res = await apiRequestFunction(...params, cursor?.cursor);
+        cursor = parseLinkHeader(res.headers["link"]).next;
 
         // Add the results to the data array
         data.push(...res.data);
@@ -93,8 +92,10 @@ export default {
           break;
         }
 
-        // Increment the currentPage
-        currentPage++;
+        // Break the loop if there are no more results
+        if (cursor.results == "false") {
+          break;
+        }
       } while (true);
       return data;
     },
@@ -225,6 +226,17 @@ export default {
     },
     async listProjectEvents(organizationSlug, projectSlug, params, cursor) {
       const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectSlug}/events/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.get(url, {
+        ...requestConfig,
+        params: {
+          ...params,
+          cursor,
+        },
+      });
+    },
+    async listProjectIssues(organizationSlug, projectSlug, params, cursor) {
+      const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectSlug}/issues/`;
       const requestConfig = this._makeRequestConfig();
       return axios.get(url, {
         ...requestConfig,

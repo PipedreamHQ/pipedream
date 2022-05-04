@@ -2,7 +2,7 @@ import app from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-list-project-events",
-  version: "0.0.25",
+  version: "0.0.1",
   type: "action",
   name: "List Project Events.",
   description: "Return a list of events bound to a project. [See the docs here](https://docs.sentry.io/api/events/list-a-projects-events/)",
@@ -27,23 +27,28 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of events to return. Defaults to `1000`.",
-      optional: true,
-      max: 10000,
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
     },
   },
-  async run () {
+  async run ({ $ }) {
     const params = {
       full: this.full,
     };
-    return this.app._paginate(
+    const data = await this.app._paginate(
       this.maxResults ?? 1000,
       this.app.listProjectEvents,
       this.organizationSlug,
       this.projectId,
       params,
     );
+    if (data.length === 0) {
+      $.export("$summary", "No events found");
+    } else {
+      $.export("$summary", `${data.length} event(s) found`);
+    }
+    return data;
   },
 };
