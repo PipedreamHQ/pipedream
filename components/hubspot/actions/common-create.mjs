@@ -51,7 +51,7 @@ export default {
     },
     isRelevantProperty(property) {
       return !property.modificationMetadata?.readOnlyValue
-        && !property.hidden
+        && (!property.hidden || property.name === "hs_email_direction") // hack - Hubspot's "hs_email_direction" property is hidden AND required
         && !property.label.includes("(legacy)")
         && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
         && !(property.fieldType === "checkbox"); // checkbox (string[]) props must be semicolon separated strings
