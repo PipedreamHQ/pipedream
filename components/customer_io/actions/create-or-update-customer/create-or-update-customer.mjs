@@ -5,7 +5,7 @@ export default {
   key: "customer_io-create-or-update-customer",
   name: "Create or Update Customer",
   description: "Creates or update a customer.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     customer_io: {
