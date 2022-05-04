@@ -5,7 +5,7 @@ export default {
   key: "customer_io-create-or-update-customer",
   name: "Create or Update Customer",
   description: "Creates or update a customer.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     customer_io: {
@@ -51,10 +51,10 @@ export default {
       data: {
         email: this.email,
         created_at: this.created_at,
-        attributes: this.attributes,
+        ...this.attributes,
       },
     };
 
-    return await axios($, config);
+    return await axios(config);
   },
 };
