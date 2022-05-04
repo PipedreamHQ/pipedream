@@ -54,7 +54,7 @@ export default {
         && !property.hidden
         && !property.label.includes("(legacy)")
         && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
-        && !property.fieldType === "checkbox"; // checkbox (string[]) props must be semicolon separated strings
+        && !(property.fieldType === "checkbox"); // checkbox (string[]) props must be semicolon separated strings
     },
     makePropDefinition(property) {
       let type = "string";
