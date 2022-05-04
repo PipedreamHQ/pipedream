@@ -5,7 +5,7 @@ import axiosModule from "axios";
 export default {
   key: "activecampaign-remove-tag-from-contact",
   name: "ActiveCampaign - Remove Contact Tag",
-  version: "0.4.1",
+  version: "0.4.2",
   type: "action",
   props: {
     activecampaign: {

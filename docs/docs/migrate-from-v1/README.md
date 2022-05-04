@@ -22,9 +22,9 @@ That all said, we are not (yet) making v2 the default for existing users until w
 * Ability to replay events from the event inspector
 
 _Get Started_
-* Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#FAQ) :point_left:
+* Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faqs) :point_left:
 * Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
-* As a reminder, all integration components are open-source and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/contributing) or improve existing ones.
+* As a reminder, all integration components are open-source and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/components/guidelines/) or improve existing ones.
 
 Watch a demo:
 
@@ -197,13 +197,13 @@ defineComponent({
 
 ### Params vs Props
 
-In the v1 builder, you could pass input to steps using [params](/v1/workflows/steps/params/). In the v2 builder, you pass input using [props](/components/api/#component-api).
+In the v1 builder, you could pass input to steps using `params`. In the v2 builder, you pass input using [props](/components/api/#component-api).
 
 You can still enter free text and select data from other steps in pre-built actions. Also can add your own custom props that accept input like strings, numbers and more just like in v1.
 
 #### Defining params
 
-In the v1 workflow builder, params could be structured or unstructured. The [params schema builder](/v1/workflows/steps/params/#configuring-custom-params) allowed you to add your own custom params to steps.
+In the v1 workflow builder, params could be structured or unstructured. The [params schema builder](https://pipedream.com/docs/v1/workflows/steps/params/#configuring-custom-params) allowed you to add your own custom params to steps.
 
 In v2, you can add your own custom props without leaving the code editor.
 
@@ -230,7 +230,7 @@ Additionally, Pipedream renders a visual component in the step **Configuration**
 
 ### Connecting apps
 
-In the v2 builder, you can connect apps with your code using [props](/components/props).
+In the v2 builder, you can connect apps with your code using [props](/components/api/#props).
 
 Above the `run` function, define an app prop that your Node.js step integrates with:
 
@@ -239,7 +239,7 @@ import { axios } from "@pipedream/platform"
 
 export default defineComponent({
   props: {
-    twitter: {
+    slack: {
       type: "app",
       app: "slack",
     }
@@ -286,23 +286,17 @@ Please note, you'll also need to configure the HTTP trigger step to also allow c
 
 ## Known Gaps & Limitations
 
-However, some features from the original builder are not currently available in v2. The Pipedream team is working to quickly address these items, but if you have feedback that isn't listed here, please [reach out](/support).
+However, some features from the original builder are not currently available in v2. The Pipedream team is working to quickly address these items, but if you have feedback that isn't listed here, please [reach out](https://pipedream.com/support).
 
 ### Sharing workflows
 
 At this time, sharing is not yet implemented in v2 of the workflow builder. As workaround, create your workflows in a organization which make workflows available to your team members.
 
-If you need assistance transferring workflows across accounts, [please contact us](/docs/support).
+If you need assistance transferring workflows across accounts, [please contact us](https://pipedream.com/support).
 
 ### `$checkpoint`
 
-The `$checkpoint` functionality to save data between workflow runs is not yet supported in v2.
-
-However, you can leverage the `$.service.db` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.service.db` here.](/code/nodejs/#managing-state)
-
-::: warning
-Please note that any values stored in `$.service.db` are only accessible in subsequent workflow runs _in the same step_.
-:::
+The `$checkpoint` functionality to save data between workflow runs is not supported in v2, and has been replaced by [Data Stores](/code/nodejs/using-data-stores/).
 
 ### Public workflows
 
@@ -336,12 +330,9 @@ However, at this time it's replaying past events against your deploy v2 workflow
 
 ### What are the limitations of the new (v2) workflow builder?
 
-* `$checkpoint` has been removed from v2 workflows, but `$.service.db` provides a similar API.
+* `$checkpoint` has been removed from v2 workflows, but [Data Stores](/code/nodejs/using-data-stores/) provides a similar API.
 * Sharing workflows is not supported
 * Making workflows public is not supported
-* Workflows are no longer versioned
-
-[You can read more about these limitations here](/docs/migrate-from-v1#limitations).
 
 ### Are v2 workflows backwards compatible?
 

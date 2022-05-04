@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-create-deal",
   name: "Create Deal",
   description: "Creates a new deal.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

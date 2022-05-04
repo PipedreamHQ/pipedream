@@ -7,7 +7,7 @@ export default {
   name: "New Contact Added to List (Instant)",
   key: "activecampaign-contact-added-to-list",
   description: "Emit new event each time a new contact is added to a list.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -22,12 +22,12 @@ export default {
   hooks: {
     async activate() {
       const sources =
-        this.sources.length > 0
+        this.sources?.length > 0
           ? this.sources
           : constants.ALL_SOURCES;
       const hookIds = [];
       const events = this.getEvents();
-      if (this.lists.length > 0) {
+      if (this.lists?.length > 0) {
         try {
           for (const list of this.lists) {
             const { webhook } = await this.activecampaign.createHook(

@@ -4,16 +4,41 @@ import base from "../common/sns.mjs";
 export default {
   ...base,
   hooks: {
-    ...base.hooks,
-    async activate() {
+    // We only want to create the S3 bucket once, on deploy
+    async deploy() {
       await base.hooks.activate.bind(this)();
 
-      const topicArn = this.getTopicArn();
-      await this._enableReceiptNotifications(topicArn);
+      const region = this.getRegion();
+      const bucketName = this._getBucketName();
+      console.log(await this.aws.createS3Bucket(region, bucketName));
+      const bucketPolicy = this._allowSESPutsBucketPolicy(
+        bucketName,
+        await this.aws.getAWSAccountId(),
+      );
+      console.log(await this.aws.putS3BucketPolicy(region, bucketName, bucketPolicy));
+    },
+    // But since the SNS topic tied to the subcription is re-created on activate / deactivate,
+    // receipt notification needs to run in these hooks, as well
+    async activate() {
+      try {
+        const topicName = this.getTopicName();
+        const topicArn = await this._createTopic(topicName);
+        this._setTopicArn(topicArn);
+
+        await this._subscribeToTopic(topicArn);
+        await this._enableReceiptNotifications(this._getBucketName(), topicArn);
+      } catch (err) {
+        console.log("Failed to enable receipt notifications", err);
+      }
     },
     async deactivate() {
+      const subscriptionArn = this._getSubscriptionArn();
+      await this._unsubscribeFromTopic(subscriptionArn);
+
+      const topicArn = this.getTopicArn();
+      await this._deleteTopic(topicArn);
+      this._setTopicArn(null);
       await this._disableReceiptNotifications();
-      await base.hooks.deactivate.bind(this)();
     },
   },
   methods: {
@@ -58,10 +83,46 @@ export default {
     _getRuleSetInfo() {
       return this.db.get("ses-rule");
     },
+    _setBucketUUID() {
+      const bucketUUID = uuid();
+      this.db.set("bucketUUID", bucketUUID);
+      return bucketUUID;
+    },
+    _getBucketUUID() {
+      return this.db.get("bucketUUID");
+    },
+    _getBucketName() {
+      let bucketUUID = this._getBucketUUID();
+      if (!bucketUUID) {
+        bucketUUID = this._setBucketUUID();
+      }
+      return `pd-catchall-${bucketUUID}`;
+    },
     _setRuleSetInfo(ruleSetInfo) {
       this.db.set("ses-rule", ruleSetInfo);
     },
-    async _enableReceiptNotifications(topicArn) {
+    _allowSESPutsBucketPolicy(bucketName, accountId) {
+      return `{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AllowSESPuts",
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "ses.amazonaws.com"
+                },
+                "Action": "s3:PutObject",
+                "Resource": "arn:aws:s3:::${bucketName}/*",
+                "Condition": {
+                    "StringEquals": {
+                        "aws:Referer": "${accountId}"
+                    }
+                }
+            }
+        ]
+      }`;
+    },
+    async _enableReceiptNotifications(bucketName, topicArn) {
       const {
         metadata,
         rules,
@@ -69,7 +130,7 @@ export default {
       const {
         name: ruleName,
         rule: newRule,
-      } = this.getReceiptRule(topicArn);
+      } = this.getReceiptRule(bucketName, topicArn);
 
       const { Name: ruleSetName } = metadata;
       const { Name: after } = rules.pop() || {};

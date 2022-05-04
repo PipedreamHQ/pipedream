@@ -39,7 +39,9 @@
         "**/actions/**/common*.*js",
         "**/actions/common/*",
         "**/sources/common/*",
-        "**/sources/**/common*.*js"
+        "**/sources/**/common*.*js",
+        "**/sources/**/constant*.*js",
+        "**/actions/**/constant*.*js"
       ],
       "rules": {
         "pipedream/required-properties-key": "off",
@@ -58,6 +60,17 @@
       "rules": {
         "pipedream/props-label": "warn",
         "pipedream/props-description": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/components/bash/**/*.*js",
+        "**/components/go/**/*.*js",
+        "**/components/node/**/*.*js",
+        "**/components/python/**/*.*js"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
       }
     }
   ],
