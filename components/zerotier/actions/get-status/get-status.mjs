@@ -5,7 +5,7 @@ export default {
   type: "action",
   version: "0.0.1",
   name: "Get Account Status",
-  description: "Get the overall account status. Returns the overall status of the account tied to the API token in use.",
+  description: "Get the overall account status. Returns the overall status of the account tied to the API token in use. [See docs here](https://docs.zerotier.com/central/v1/#operation/getStatus)",
   props: {
     zerotier,
   },

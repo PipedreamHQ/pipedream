@@ -5,7 +5,7 @@ export default {
   type: "action",
   version: "0.0.2",
   name: "Get User",
-  description: "Get a specific user. Returns a single user.",
+  description: "Get a specific user. Returns a single user. [See docs here](https://docs.zerotier.com/central/v1/#operation/getUserByID)",
   props: {
     zerotier,
     userId: {

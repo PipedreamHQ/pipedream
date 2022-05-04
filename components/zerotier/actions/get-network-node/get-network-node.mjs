@@ -5,7 +5,7 @@ export default {
   type: "action",
   version: "0.0.2",
   name: "Get Network Node",
-  description: "Get a specific node of a specific network. Returns an individual member (node) on a network.",
+  description: "Get a specific node of a specific network. Returns an individual member (node) on a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMember)",
   props: {
     zerotier,
     networkId: {
