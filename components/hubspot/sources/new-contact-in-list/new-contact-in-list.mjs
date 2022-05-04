@@ -1,21 +1,33 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emits an event for each new contact in a list.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    lists: { propDefinition: [common.props.hubspot, "lists"] },
+    lists: {
+      propDefinition: [
+        common.props.hubspot,
+        "lists",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     generateMeta(contact, list) {
-      const { vid, properties } = contact;
-      const { value, label } = list;
+      const {
+        vid,
+        properties,
+      } = contact;
+      const {
+        value,
+        label,
+      } = list;
       return {
         id: `${vid}${value}`,
         summary: `${properties.firstname.value} ${properties.lastname.value} added to ${label}`,
@@ -25,16 +37,18 @@ module.exports = {
     async emitEvent(contact, properties, list) {
       const contactInfo = await this.hubspot.getContact(
         contact.vid,
-        properties
+        properties,
       );
       const meta = this.generateMeta(contact, list);
-      this.$emit({ contact, contactInfo }, meta);
+      this.$emit({
+        contact,
+        contactInfo,
+      }, meta);
     },
   },
-  async run(event) {
+  async run() {
     const properties = this.db.get("properties");
     for (let list of this.lists) {
-      list = JSON.parse(list);
       const params = {
         count: 100,
       };

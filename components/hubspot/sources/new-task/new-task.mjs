@@ -1,17 +1,22 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-task",
   name: "New Calendar Task",
   description: "Emits an event for each new task added.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
     generateMeta(task) {
-      const { id, name, eventType } = task;
+      const {
+        id,
+        name,
+        eventType,
+      } = task;
       return {
         id,
         summary: `${name} - ${eventType}`,
@@ -19,7 +24,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const yearFromNow = new Date();
     yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
 
