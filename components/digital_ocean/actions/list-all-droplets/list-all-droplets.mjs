@@ -6,7 +6,7 @@ export default {
   key: "digital_ocean-list-all-droplets",
   name: "List all Droplets",
   description: "List all Droplets",
-  version: "0.0.8",
+  version: "0.0.1",
   type: "action",
   props: {
     digitalOceanApp: digitalOceanApp,
@@ -20,7 +20,7 @@ export default {
     tagName: {
       label: "Tag name",
       type: "string",
-      description: "Optionally used to filter Droplets by a specific tag.\n\n**Example:** `production`",
+      description: "Optionally used to filter by a specific tag.\n\n**Example:** `production`",
       optional: true,
     },
   },
@@ -38,7 +38,7 @@ export default {
         pageSize: {
           label: "Page size",
           type: "integer",
-          description: "Number of items per page.",
+          description: "Desired pagination size when pulling results",
           default: digitalOceanOptions.defaultPageSize,
         },
       };
@@ -46,8 +46,9 @@ export default {
     return dynamicProps;
   },
   async run({ $ }) {
+    const pageSize = this.pageSize || digitalOceanOptions.defaultCurrentPage;
     const DigitalOcean = doWrapperModule.default;
-    const api = new DigitalOcean(this.digitalOceanApp.$auth.oauth_access_token, this.page_size);
+    const api = new DigitalOcean(this.digitalOceanApp.$auth.oauth_access_token, pageSize);
     try {
       const includeAll = this.includeAll;
       const tagName = this.tagName || undefined;
@@ -55,7 +56,6 @@ export default {
         return await api.droplets.getAll(tagName, includeAll);
       } else {
         const currentPage = this.currentPage || digitalOceanOptions.defaultCurrentPage;
-        const pageSize = this.pageSize || digitalOceanOptions.defaultCurrentPage;
         return await api.droplets.getAll(tagName, includeAll, currentPage, pageSize);
       }
     } catch (error) {
