@@ -19,6 +19,12 @@ export default {
       label: "JSON Payload",
       description: "A JSON payload to be sent",
     },
+    value: {
+      type: "any",
+      label: "Value X",
+      description: "The value to pass ot the webhook trigger",
+      optional: true,
+    },
     method: {
       type: "string",
       label: "HTTP Method",
@@ -63,6 +69,17 @@ export default {
       $, webhookKey, eventName, method, data,
     }) {
       const url = encodeURI(`https://maker.ifttt.com/trigger/${eventName}/json/with/key/${webhookKey}`);
+      return this._callWebhook({
+        $,
+        url,
+        method,
+        data,
+      });
+    },
+    async callWebhookWithValues({
+      $, webhookKey, eventName, method, data,
+    }) {
+      const url = encodeURI(`https://maker.ifttt.com/trigger/${eventName}/with/key/${webhookKey}`);
       return this._callWebhook({
         $,
         url,
