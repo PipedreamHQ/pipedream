@@ -143,11 +143,10 @@ export default {
         username,
         application_password: applicationPassword,
       } = this.$auth;
-      return WPAPI.discover(`https://${url}`).then(function(site) {
-        return site.auth({
-          username,
-          password: applicationPassword,
-        });
+      const site = await WPAPI.discover(`https://${url}`);
+      return site.auth({
+        username,
+        password: applicationPassword,
       });
     },
     async getAuthors(page) {
