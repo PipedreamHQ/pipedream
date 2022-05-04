@@ -30,11 +30,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      title: this.title,
-      introtext: this.text,
-    };
-    const response = await this.joomla.updateArticle($, this.articleId, params);
+    const response = await this.joomla.updateArticle({
+      $,
+      id: this.articleId,
+      data: {
+        title: this.title,
+        introtext: this.text,
+      },
+    });
     $.export("$summary", `Updated article ${response.data.attributes.title}`);
     return response;
   },

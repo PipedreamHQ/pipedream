@@ -28,13 +28,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      title: this.title,
-      articletext: this.text,
-      catid: this.categoryId,
-      language: "*",
-    };
-    const response = await this.joomla.createArticle($, params);
+    const response = await this.joomla.createArticle({
+      $,
+      data: {
+        title: this.title,
+        articletext: this.text,
+        catid: this.categoryId,
+        language: "*",
+      },
+    });
     $.export("$summary", `Created article ${response.data.attributes.title}`);
     return response;
   },

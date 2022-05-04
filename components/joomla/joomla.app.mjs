@@ -139,7 +139,9 @@ export default {
         url,
       });
     },
-    async createArticle($, data) {
+    async createArticle({
+      $, data,
+    }) {
       return this._makeRequest({
         $,
         url: `${this._baseUrl()}/content/articles`,
@@ -147,7 +149,9 @@ export default {
         data,
       });
     },
-    async updateArticle($, id, data) {
+    async updateArticle({
+      $, id, data,
+    }) {
       return this._makeRequest({
         $,
         url: `${this._baseUrl()}/content/articles/${id}`,
