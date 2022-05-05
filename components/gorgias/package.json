@@ -2,7 +2,7 @@
     "name": "@pipedream/gorgias",
     "version": "0.3.3",
     "description": "Pipedream Gorgias Components",
-    "main": "gorgias.app.js",
+    "main": "gorgias.app.mjs",
     "keywords": [
         "pipedream",
         "gorgias"
