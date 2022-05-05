@@ -41,5 +41,6 @@ export default {
       },
     );
     response && $.export("$summary", "Record found!" );
+    return response;
   },
 };

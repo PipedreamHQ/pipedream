@@ -87,7 +87,7 @@ export default {
       );
     },
     _apiVersion() {
-      return "54.0";
+      return "50.0";
     },
     _baseApiUrl() {
       return (
@@ -112,16 +112,7 @@ export default {
       const apiVersion = this._apiVersion();
       return `${baseUrl}/services/data/v${apiVersion}/composite/sobjects`;
     },
-<<<<<<< HEAD
     _sObjectTypeApiUrl(sObjectType) {
-=======
-    _sCompositeApiUrl() {
-      const baseUrl = this._baseApiUrl();
-      const apiVersion = this._apiVersion();
-      return `${baseUrl}/services/data/v${apiVersion}/composite/sobjects`;
-    },
-    _sObjectTypeDescriptionApiUrl(sObjectType) {
->>>>>>> Find records done
       const baseUrl = this._sObjectsApiUrl();
       return `${baseUrl}/${sObjectType}`;
     },
