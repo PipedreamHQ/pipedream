@@ -1,19 +1,19 @@
 import digitalOceanApp from "../../digital_ocean.app.mjs";
-import options from "../../common/options.mjs";
+import digitalOceanConstants from "../../common/constants.mjs";
 
 export default {
   key: "digital_ocean-turnonoff-droplet",
   name: "Turn on/off Droplet",
   description: "Turns a droplet on or off",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
-    digitalOceanApp: digitalOceanApp,
+    digitalOceanApp,
     turn_onoff: {
       label: "Power status",
       type: "string",
       description: "Must be `power_on` to turn on, or `power_off` to turn off.",
-      options: options.powerOptions,
+      options: digitalOceanConstants.powerOptions,
     },
     droplet_id: {
       label: "Droplet",
@@ -26,11 +26,11 @@ export default {
   },
   async run({ $ }) {
     const api = this.digitalOceanApp.digitalOceanWrapper();
-    var powerOnOffData = {
+    const powerOnOffData = {
       type: this.turn_onoff,
     };
-    $.export("dropletId", this.droplet_id);
-    $.export("powerOnOffData", powerOnOffData);
-    return await api.droplets.requestAction(this.droplet_id, powerOnOffData);
+    const response = await api.droplets.requestAction(this.droplet_id, powerOnOffData);
+    $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
+    return response;
   },
 };

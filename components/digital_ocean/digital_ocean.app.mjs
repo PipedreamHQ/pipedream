@@ -1,5 +1,5 @@
 import doWrapperModule from "do-wrapper";
-import digitalOceanOptions from "./common/options.mjs";
+import digitalOceanConstants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,8 +9,7 @@ export default {
     authKeys() {
       console.log(Object.keys(this.$auth));
     },
-    digitalOceanWrapper() {
-      const pageSize = digitalOceanOptions.defaultCurrentPage;
+    digitalOceanWrapper(pageSize = digitalOceanConstants.defaultCurrentPage) {
       const DigitalOcean = doWrapperModule.default;
       const api = new DigitalOcean(this.$auth.oauth_access_token, pageSize);
       return api;

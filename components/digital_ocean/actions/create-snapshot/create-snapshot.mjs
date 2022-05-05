@@ -7,7 +7,7 @@ export default {
   version: "0.2.2",
   type: "action",
   props: {
-    digitalOceanApp: digitalOceanApp,
+    digitalOceanApp,
     snapshot_name: {
       label: "Snapshot name",
       type: "string",
@@ -25,12 +25,12 @@ export default {
   },
   async run({ $ }) {
     const api = this.digitalOceanApp.digitalOceanWrapper();
-    var newSnapshotData = {
+    const newSnapshotData = {
       type: "snapshot",
       name: this.snapshot_name,
     };
-    $.export("dropletId", this.droplet_id);
-    $.export("newSnapshotData", newSnapshotData);
-    return await api.droplets.requestAction(this.droplet_id, newSnapshotData);
+    const response = await api.droplets.requestAction(this.droplet_id, newSnapshotData);
+    $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
+    return response;
   },
 };

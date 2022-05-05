@@ -7,7 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    digitalOceanApp: digitalOceanApp,
+    digitalOceanApp,
     name: {
       label: "Name",
       type: "string",
@@ -21,11 +21,12 @@ export default {
   },
   async run({ $ }) {
     const api = this.digitalOceanApp.digitalOceanWrapper();
-    var newDomainData = {
+    const newDomainData = {
       name: this.name,
       ip_address: this.ip_address,
     };
-    $.export("newDomainData", newDomainData);
-    return await api.domains.create(newDomainData);
+    const response = await api.domains.create(newDomainData);
+    $.export("$summary", `Successfully created domain ${response.domain.name}.`);
+    return response;
   },
 };

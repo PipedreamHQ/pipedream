@@ -1,6 +1,5 @@
 import digitalOceanApp from "../../digital_ocean.app.mjs";
-import digitalOceanOptions from "../../common/options.mjs";
-import doWrapperModule from "do-wrapper";
+import digitalOceanConstants from "../../common/constants.mjs";
 
 export default {
   key: "digital_ocean-list-all-droplets",
@@ -9,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    digitalOceanApp: digitalOceanApp,
+    digitalOceanApp,
     includeAll: {
       label: "Include all",
       type: "boolean",
@@ -25,42 +24,44 @@ export default {
     },
   },
   async additionalProps() {
-    let dynamicProps = {};
-    if (!this.includeAll) {
-      dynamicProps = {
-        ...dynamicProps,
-        currentPage: {
-          label: "Current page",
-          type: "integer",
-          description: "Which 'page' of paginated results to return.",
-          default: digitalOceanOptions.defaultCurrentPage,
-        },
-        pageSize: {
-          label: "Page size",
-          type: "integer",
-          description: "Desired pagination size when pulling results",
-          default: digitalOceanOptions.defaultPageSize,
-        },
-      };
+    if (this.includeAll === true) {
+      return {};
     }
-    return dynamicProps;
+    return {
+      currentPage: {
+        label: "Current page",
+        type: "integer",
+        description: "Which 'page' of paginated results to return.",
+        default: digitalOceanConstants.defaultCurrentPage,
+      },
+      pageSize: {
+        label: "Page size",
+        type: "integer",
+        description: "Desired pagination size when pulling results",
+        default: digitalOceanConstants.defaultPageSize,
+      },
+    };
   },
   async run({ $ }) {
-    const pageSize = this.pageSize || digitalOceanOptions.defaultCurrentPage;
-    const DigitalOcean = doWrapperModule.default;
-    const api = new DigitalOcean(this.digitalOceanApp.$auth.oauth_access_token, pageSize);
-    try {
-      const includeAll = this.includeAll;
-      const tagName = this.tagName || undefined;
-      if (includeAll) {
-        return await api.droplets.getAll(tagName, includeAll);
-      } else {
-        const currentPage = this.currentPage || digitalOceanOptions.defaultCurrentPage;
-        return await api.droplets.getAll(tagName, includeAll, currentPage, pageSize);
-      }
-    } catch (error) {
-      $.export("Error", error);
-      throw error;
-    }
+    const includeAll = this.includeAll;
+    const tagName = this.tagName || undefined;
+    const pageSize = this.pageSize || digitalOceanConstants.defaultCurrentPage;
+    const currentPage = this.currentPage || digitalOceanConstants.defaultCurrentPage;
+    const api = this.digitalOceanApp.digitalOceanWrapper(pageSize);
+
+    const args = includeAll
+      ? [
+        tagName,
+        includeAll,
+      ]
+      : [
+        tagName,
+        includeAll,
+        currentPage,
+        pageSize,
+      ];
+    const response = await api.droplets.getAll(...args);
+    $.export("$summary", `Successfully fetched ${response?.length || response?.droplets?.length} droplet(s).`);
+    return response;
   },
 };
