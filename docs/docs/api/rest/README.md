@@ -1152,6 +1152,37 @@ creating [subscriptions](#subscriptions).
 You can list webhooks you've created in your account using the
 [`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
 
+### Delete a webhook
+
+---
+
+Use this endpoint to delete a webhook in your account.
+
+#### Endpoint
+
+```
+DELETE /webhooks/{id}
+```
+
+#### Path Parameters
+
+---
+
+`id` **string**
+
+The ID of a webhook in your account.
+
+---
+
+#### Example Request
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
 ## Workflows
 
 ### Get Workflow Emits
