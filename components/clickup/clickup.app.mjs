@@ -463,9 +463,9 @@ export default {
     async getCustomFields({
       listId, $,
     }) {
-      const { fields } = this._makeRequest(`list/${listId}/field`, {}, $);
+      const { fields } = await this._makeRequest(`list/${listId}/field`, {}, $);
 
-      return fields;
+      return fields ?? [];
     },
     async getTaskTemplates({
       workspaceId, params, $,
