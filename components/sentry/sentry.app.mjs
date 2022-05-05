@@ -39,6 +39,45 @@ export default {
         }));
       },
     },
+    issueId: {
+      type: "string",
+      label: "Issue",
+      description: "The issue to be updated",
+      async options(context) {
+        const {
+          organizationSlug,
+          projectId,
+        } = context;
+        const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectId}/issues/`;
+        const params = {};
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url, params, context);
+        return {
+          options: data.map((issue) => ({
+            label: `[${issue.id}] ${issue.title} - ${issue.status}`,
+            value: issue.id,
+          })),
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User",
+      description: "The user to perform your action",
+      optional: true,
+      async options({ organizationSlug }) {
+        const res = await this.listOrganizationUser(organizationSlug);
+        return res.data?.map((user) => ({
+          label: user.name,
+          value: user.user.id,
+        }));
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -245,6 +284,16 @@ export default {
           cursor,
         },
       });
+    },
+    async listOrganizationUser(organizationSlug) {
+      const url = `${this._apiUrl()}/organizations/${organizationSlug}/users/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.get(url, requestConfig);
+    },
+    async updateIssue(issueId, data) {
+      const url = `${this._apiUrl()}/issues/${issueId}/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.put(url, data, requestConfig);
     },
   },
 };
