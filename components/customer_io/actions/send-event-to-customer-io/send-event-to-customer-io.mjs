@@ -5,7 +5,7 @@ export default {
   key: "customer_io-send-event-to-customer-io",
   name: "Send Event To Customer io",
   description: "Sends, tracks a customer event to Customer io",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     customer_io: {
@@ -55,6 +55,6 @@ export default {
       },
     };
 
-    return await axios($, config);
+    return axios($, config);
   },
 };
