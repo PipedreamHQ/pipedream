@@ -1,15 +1,20 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emits an event each time a contact is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   methods: {
     ...common.methods,
     generateMeta(contact) {
-      const { id, properties, updatedAt } = contact;
+      const {
+        id,
+        properties,
+        updatedAt,
+      } = contact;
       const ts = Date.parse(updatedAt);
       return {
         id: `${id}${ts}`,
@@ -21,7 +26,7 @@ module.exports = {
       return Date.parse(contact.updatedAt) > updatedAfter;
     },
   },
-  async run(event) {
+  async run() {
     const updatedAfter = this._getAfter();
     const data = {
       limit: 100,
@@ -38,7 +43,7 @@ module.exports = {
       data,
       this.hubspot.searchCRM.bind(this),
       "results",
-      updatedAfter
+      updatedAfter,
     );
     this._setAfter(Date.now());
   },

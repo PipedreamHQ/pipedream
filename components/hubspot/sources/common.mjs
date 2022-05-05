@@ -1,6 +1,7 @@
-const hubspot = require("../hubspot.app.js");
+import { monthAgo } from "../common/utils.mjs";
+import hubspot from "../hubspot.app.mjs";
 
-module.exports = {
+export default {
   props: {
     hubspot,
     db: "$.service.db",
@@ -21,7 +22,7 @@ module.exports = {
   },
   methods: {
     _getAfter() {
-      return this.db.get("after") || Date.parse(this.hubspot.monthAgo());
+      return this.db.get("after") || Date.parse(monthAgo());
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -48,7 +49,7 @@ module.exports = {
       params,
       resourceFn,
       resultType = null,
-      after = null
+      after = null,
     ) {
       let hasMore = true;
       let results, items;
@@ -67,7 +68,7 @@ module.exports = {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     },
-    isRelevant(result, after) {
+    isRelevant(/* result, after */) {
       return true;
     },
   },

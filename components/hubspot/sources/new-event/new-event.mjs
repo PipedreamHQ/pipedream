@@ -1,20 +1,28 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emits an event for each new Hubspot event.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    objectType: { propDefinition: [common.props.hubspot, "objectType"] },
+    objectType: {
+      propDefinition: [
+        common.props.hubspot,
+        "objectType",
+      ],
+    },
     objectIds: {
       propDefinition: [
         common.props.hubspot,
         "objectIds",
-        (c) => ({ objectType: c.objectType }),
+        (c) => ({
+          objectType: c.objectType,
+        }),
       ],
     },
   },
@@ -22,7 +30,10 @@ module.exports = {
   methods: {
     ...common.methods,
     generateMeta(result) {
-      const { id, eventType } = result;
+      const {
+        id,
+        eventType,
+      } = result;
       return {
         id,
         summary: eventType,
@@ -30,7 +41,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const occurredAfter = this._getAfter();
 
     for (const objectId of this.objectIds) {
@@ -45,7 +56,7 @@ module.exports = {
         params,
         this.hubspot.getEvents.bind(this),
         "results",
-        occurredAfter
+        occurredAfter,
       );
     }
 
