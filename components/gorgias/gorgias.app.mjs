@@ -73,10 +73,8 @@ export default {
         },
         method,
         params,
+        data,
       };
-      if (data) {
-        config.data = data;
-      }
       return config;
     },
     async _makeRequest({
