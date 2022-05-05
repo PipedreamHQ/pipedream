@@ -51,6 +51,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if ((!this.workspace || !this.assignee) && !this.project && !this.section) {
+      throw new Error("You must specify exactly one of workspace, project, or section");
+    }
+
     const tasks = await this.asana.getTasks({
       params: {
         assignee: this.assignee,

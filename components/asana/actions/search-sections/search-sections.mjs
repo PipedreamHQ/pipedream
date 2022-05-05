@@ -15,11 +15,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const sections = await this.asana.getSections(this.project_gid, $);
+    const sections = await this.asana.getSections(this.project, $);
 
     $.export("$summary", "Successfully retrieved sections");
 
-    if (this.name) return sections.data.filter((section) => section.name.includes(this.name));
-    else return sections.data;
+    if (this.name) return sections.filter((section) => section.name.includes(this.name));
+    else return sections;
   },
 };

@@ -111,7 +111,6 @@ export default {
           due_on: this.due_on,
           html_notes: this.html_notes,
           notes: this.notes,
-          projects: this.project,
           start_on: this.start_on,
           workspace: this.workspace,
           custom_fields: customFields,

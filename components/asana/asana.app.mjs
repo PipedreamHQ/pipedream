@@ -356,9 +356,7 @@ export default {
      * @returns {string} An Asana Task list.
      */
     async getTasks(params, $) {
-      const response = (await this._makeRequest("tasks", {
-        params,
-      }, $));
+      const response = await this._makeRequest("tasks", params, $);
 
       return response.data;
     },
@@ -372,7 +370,7 @@ export default {
     async getSections(project, $) {
       const response = await this._makeRequest(`projects/${project}/sections`, {}, $);
 
-      return response.data;
+      return response.data ?? [];
     },
     /**
      * Get an Asana Tag.
