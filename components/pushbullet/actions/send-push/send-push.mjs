@@ -132,6 +132,7 @@ export default {
     const response = await this.pushbullet.sendPush({
       data: {
         type: this.type,
+        email: this.email,
         title: this.title,
         body: this.body,
         url: this.url,
