@@ -41,12 +41,6 @@ export default {
       ],
       label: "Value 3",
     },
-    method: {
-      propDefinition: [
-        ifttt,
-        "method",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.ifttt.callWebhookWithValues({
@@ -58,7 +52,6 @@ export default {
         value2: this.value2,
         value3: this.value3,
       },
-      method: this.method,
     });
     $.export("$summary", `Triggered webhook ${this.eventName}`);
     return response;

@@ -25,17 +25,6 @@ export default {
       description: "The value to pass ot the webhook trigger",
       optional: true,
     },
-    method: {
-      type: "string",
-      label: "HTTP Method",
-      description: "The HTTP method to be used. Defaults to `post`",
-      options: [
-        "get",
-        "post",
-      ],
-      optional: true,
-      default: "post",
-    },
   },
   methods: {
     _defaultHeaders() {
@@ -49,15 +38,15 @@ export default {
     }) {
       return axios($ ?? this, {
         headers: this._defaultHeaders(),
+        method: "post",
         ...opts,
       });
     },
     async _callWebhook({
-      $, url, method, data,
+      $, url, data,
     }) {
       const opts = {
         url,
-        method,
         data,
       };
       return this._makeRequest({
@@ -66,24 +55,22 @@ export default {
       });
     },
     async callWebhookWithJSON({
-      $, webhookKey, eventName, method, data,
+      $, webhookKey, eventName, data,
     }) {
       const url = encodeURI(`https://maker.ifttt.com/trigger/${eventName}/json/with/key/${webhookKey}`);
       return this._callWebhook({
         $,
         url,
-        method,
         data,
       });
     },
     async callWebhookWithValues({
-      $, webhookKey, eventName, method, data,
+      $, webhookKey, eventName, data,
     }) {
       const url = encodeURI(`https://maker.ifttt.com/trigger/${eventName}/with/key/${webhookKey}`);
       return this._callWebhook({
         $,
         url,
-        method,
         data,
       });
     },

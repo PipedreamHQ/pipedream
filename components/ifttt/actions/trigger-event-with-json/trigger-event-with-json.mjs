@@ -26,12 +26,6 @@ export default {
         "data",
       ],
     },
-    method: {
-      propDefinition: [
-        ifttt,
-        "method",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.ifttt.callWebhookWithJSON({
@@ -39,7 +33,6 @@ export default {
       webhookKey: this.webhookKey,
       eventName: this.eventName,
       data: this.data,
-      method: this.method,
     });
     $.export("$summary", `Triggered webhook ${this.eventName}`);
     return response;
