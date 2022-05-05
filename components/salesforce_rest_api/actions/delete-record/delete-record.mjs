@@ -22,14 +22,16 @@ export default {
         "Id of the Salesforce standard object to get field values from.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       sobjectType,
       sobjectId,
     } = this;
-    return await this.salesForceRestApi.deleteObject(
+    const response = await this.salesForceRestApi.deleteObject(
       sobjectType,
       sobjectId,
     );
+    response && $.export("$summary", `Successfully deleted record with ID ${sobjectId}`);
+    return response;
   },
 };

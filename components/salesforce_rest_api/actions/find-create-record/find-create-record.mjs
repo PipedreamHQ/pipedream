@@ -53,9 +53,9 @@ export default {
       sobject,
       createIfNotFound,
     } = this;
-    let createData;
+    let data;
     try {
-      createData = await this.salesForceRestApi.getSObject(
+      data = await this.salesForceRestApi.getSObject(
         sobjectType,
         sobjectId,
         sobjectFields && {
@@ -66,7 +66,7 @@ export default {
       if (!createIfNotFound)  throw new ConfigurationError("Record not found");
     }
 
-    if (createIfNotFound && !createData) {
+    if (createIfNotFound && !data) {
       const response = await this.salesForceRestApi.createObject(
         sobjectType,
         sobject,
@@ -76,6 +76,7 @@ export default {
       );
       return response;
     }
-    return createData;
+    data && $.export("$summary", "Record found!" );
+    return data;
   },
 };

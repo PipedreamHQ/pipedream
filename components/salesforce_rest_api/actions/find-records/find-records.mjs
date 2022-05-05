@@ -28,17 +28,18 @@ export default {
         "list of the Salesforce standard object's fields to get values from.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       sobjectType,
       fields,
       ids,
     } = this;
-    return  await this.salesForceRestApi.getRecords(
+    const response =  await this.salesForceRestApi.getRecords(
       sobjectType, {
         fields: fields.join(","),
         ids: ids.join(","),
       },
     );
+    response && $.export("$summary", "Record found!" );
   },
 };
