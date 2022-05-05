@@ -62,7 +62,10 @@ export default {
       title,
       link,
     };
+    const response = await this.raindrop.putBookmark($, bookmarkID, body);
 
-    return this.raindrop.putBookmark($, bookmarkID, body);
+    $.export("$summary", `Successfully updated bookmark with ID ${bookmarkID}`);
+
+    return response;
   },
 };

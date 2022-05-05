@@ -84,7 +84,10 @@ export default {
       view,
       cover,
     };
+    const response = await this.raindrop.putCollection($, collectionID, body);
 
-    return this.raindrop.putCollection($, collectionID, body);
+    $.export("$summary", `Successfully updated collection with ID ${collectionID}`);
+
+    return response;
   },
 };

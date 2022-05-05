@@ -67,7 +67,10 @@ export default {
       view,
       cover,
     };
+    const response = await this.raindrop.postCollection($, body);
 
-    return this.raindrop.postCollection($, body);
+    $.export("$summary", `Successfully created collection with ID ${response.item._id}`);
+
+    return response;
   },
 };

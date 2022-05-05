@@ -19,7 +19,10 @@ export default {
   },
   async run({ $ }) {
     const collectionID = this.collectionID?.value ?? this.collectionID;
+    const response = await this.raindrop.deleteCollection($, collectionID);
 
-    return this.raindrop.deleteCollection($, collectionID);
+    $.export("$summary", `Successfully deleted collection with ID ${collectionID}`);
+
+    return response;
   },
 };
