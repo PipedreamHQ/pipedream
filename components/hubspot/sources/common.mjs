@@ -1,5 +1,5 @@
-import hubspot from "../hubspot.app.mjs";
 import { monthAgo } from "../common/utils.mjs";
+import hubspot from "../hubspot.app.mjs";
 
 export default {
   props: {

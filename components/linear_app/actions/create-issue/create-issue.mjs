@@ -1,63 +1,60 @@
-// legacy_hash_id: a_YEiPqm
-import { axios } from "@pipedream/platform";
+import linearApp from "../../linear_app.app.mjs";
 
 export default {
-  key: "linear_app-create-issue",
-  name: "Create issue",
-  description: "Create a new issue in Linear",
-  version: "0.3.1",
   type: "action",
+  key: "linear_app-create-issue",
+  name: "Create Issue",
+  description: "Create an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
+  version: "0.3.3",
   props: {
-    linear_app: {
-      type: "app",
-      app: "linear_app",
+    linearApp,
+    teamId: {
+      propDefinition: [
+        linearApp,
+        "teamId",
+      ],
     },
     title: {
-      type: "string",
+      propDefinition: [
+        linearApp,
+        "issueTitle",
+      ],
     },
     description: {
-      type: "string",
-      optional: true,
+      propDefinition: [
+        linearApp,
+        "issueDescription",
+      ],
     },
-    teamId: {
-      type: "string",
+    assigneeId: {
+      propDefinition: [
+        linearApp,
+        "assigneeId",
+      ],
     },
   },
   async run({ $ }) {
-    const data = {
-      query: `
-  mutation(
-    $title: String!
-    $description: String
-    $teamId: String!
-  ) {
-    issueCreate(
-      input: {
-        title: $title
-        description: $description
-        teamId: $teamId
-      }
-    ) {
-      success
-      issue {
-        id
-        title
-      }
+    const {
+      title,
+      description,
+      teamId,
+      assigneeId,
+    } = this;
+
+    const response =
+      await this.linearApp.createIssue({
+        teamId,
+        title,
+        description,
+        assigneeId,
+      });
+
+    if (response.success) {
+      $.export("summary", `Created issue ${response._issue.id}`);
+    } else {
+      $.export("summary", "Failed to create issue");
     }
-  }`,
-      variables: {
-        title: this.title,
-        description: this.description,
-        teamId: this.teamId,
-      },
-    };
-    return await axios($, {
-      method: "post",
-      url: "https://api.linear.app/graphql",
-      headers: {
-        "Authorization": `${this.linear_app.$auth.api_key}`,
-      },
-      data,
-    });
+
+    return response;
   },
 };

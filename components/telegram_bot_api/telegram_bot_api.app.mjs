@@ -217,6 +217,40 @@ export default {
       `),
       optional: true,
     },
+    link_name: {
+      type: "string",
+      label: "Invite link name",
+      description: toSingleLineString(`
+        Invite link name; 0-32 characters
+      `),
+      optional: true,
+    },
+    expire_date: {
+      type: "integer",
+      label: "Invite link expire date",
+      description: toSingleLineString(`
+        Point in time (Unix timestamp) when the link will expire, in [unix
+        time](https://en.wikipedia.org/wiki/Unix_time) (e.g. \`1567780450\`).
+      `),
+      optional: true,
+    },
+    member_limit: {
+      type: "integer",
+      label: "Maximum number of users",
+      description: toSingleLineString(`
+        Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+      `),
+      optional: true,
+    },
+    creates_join_request: {
+      type: "boolean",
+      label: "Creates join request",
+      description: toSingleLineString(`
+        True, if users joining the chat via the link need to be approved by chat administrators.
+        If True, member_limit can't be specified
+      `),
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -614,6 +648,35 @@ export default {
      */
     async restrictChatMember(chatId, userId, opts) {
       return this.sdk().restrictChatMember(chatId, userId, opts);
+    },
+    /**
+    * Use this method to export an invite link to a supergroup or a channel.
+    * The bot must be an administrator in the chat for this to work and must
+    * have the appropriate admin rights. Returns exported invite link as
+    * String on success.
+    *
+    * @param {Number|String} chatId - Unique identifier for the target chat or
+    * username of the target supergroup
+    * @returns the new invite link as String on success.
+    */
+    async exportChatInviteLink(chatId) {
+      return this.sdk().exportChatInviteLink(chatId);
+    },
+    /**
+    * Use this method to export an invite link to a supergroup or a channel.
+    * The bot must be an administrator in the chat for this to work and must
+    * have the appropriate admin rights. Returns exported invite link as
+    * String on success.
+    *
+    * @param {Number|String} chatId - Unique identifier for the target chat or
+    * username of the target supergroup
+    * @param {Object} [opts] - Additional Telegram query options to be fed to
+    * the Telegram Bot API call, as defined in [the API docs]
+    * (https://core.telegram.org/bots/api#createchatinvitelink)
+    * @returns the new invite link as ChatInviteLink object.
+    */
+    async createChatInviteLink(chatId, opts) {
+      return this.sdk().createChatInviteLink(chatId, opts);
     },
   },
 };

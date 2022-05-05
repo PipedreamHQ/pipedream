@@ -1,9 +1,10 @@
 import { axios } from "@pipedream/platform";
 import {
+  ASSOCIATION_CATEGORY,
+  HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  HUBSPOT_OWNER,
-} from "./common/object-types.mjs";
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -145,6 +146,71 @@ export default {
             value,
           };
         });
+      }
+    },
+    // eslint-disable-next-line pipedream/props-description
+    propertyGroups: {
+      type: "string[]",
+      label: "Property Groups",
+      reloadProps: true,
+      async options({ objectType }) {
+        const { results: groups } = await this.getPropertyGroups(objectType);
+        return groups.map((group) => ({
+          label: group.label,
+          value: group.name,
+        }));
+      },
+    },
+    contactEmail: {
+      type: "string",
+      label: "Contact Email",
+      description: "Note - this needs to be a contact that already exists within HubSpot. You may need to add a Create or Update Contact step before this one. Then, use the email created in that step in this field.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results: contacts,
+          paging,
+        } = await this.listObjectsInPage("contacts", nextAfter);
+        return {
+          options: contacts
+            .filter(({ properties }) => properties.email)
+            .map(({ properties }) => ({
+              label: `${properties.firstname} ${properties.lastname}`,
+              value: `${properties.email}`,
+            })),
+          context: {
+            nextAfter: paging?.next?.after,
+          },
+        };
+      },
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL returned after a file has been uploaded to a HubSpot Form",
+      async options() {
+        const { results: files } = await this.searchFiles();
+        return files.map((file) => ({
+          label: file.name,
+          value: file.url,
+        }));
+      },
+    },
+    associationType: {
+      type: "string",
+      label: "Association Type",
+      description: "Type of the association",
+      async options({
+        fromObjectType, toObjectType,
+      }) {
+        const { results: associationTypes } = await this.getAssociationTypes(
+          fromObjectType,
+          toObjectType,
+        );
+        return associationTypes.map((associationType) => ({
+          label: associationType.label ?? `${fromObjectType}_to_${toObjectType}`,
+          value: associationType.typeId,
+        }));
       },
     },
   },
@@ -329,6 +395,9 @@ export default {
         $,
       );
     },
+    async getOwners(params, $) {
+      return this.makeGetRequest("/crm/v3/owners", params, $);
+    },
     async listObjectsInPage(objectType, after, params, $) {
       return this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
         after,
@@ -364,6 +433,17 @@ export default {
         $,
       );
     },
+    async getObject(objectType, objectId, properties, $) {
+      const params = {
+        properties: properties?.join(","),
+      };
+
+      return this.makeGetRequest(
+        `/crm/v3/objects/${objectType}/${objectId}`,
+        params,
+        $,
+      );
+    },
     async getLineItem(lineItemId, $) {
       return this.makeGetRequest(
         `/crm/v3/objects/line_items/${lineItemId}`,
@@ -392,6 +472,33 @@ export default {
     },
     async getPipelines(objectType, $) {
       return this.makeGetRequest(`/crm/v3/pipelines/${objectType}`, $);
+    },
+    async getContact(contactId, properties, $) {
+      const params = {
+        properties,
+      };
+      return this.makeGetRequest(
+        `/crm/v3/objects/contacts/${contactId}`,
+        params,
+        $,
+      );
+    },
+    async createObject(objectType, properties, $) {
+      return this.makePostRequest({
+        endpoint: `/crm/v3/objects/${objectType}`,
+        data: {
+          properties,
+        },
+      }, $);
+    },
+    async getPropertyGroups(objectType, $) {
+      return this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`, null, $);
+    },
+    async getProperties(objectType, $) {
+      return this.makeGetRequest(`/crm/v3/properties/${objectType}`, null, $);
+    },
+    async getSchema(objectType, $) {
+      return this.makeGetRequest(`/crm/v3/schemas/${objectType}`, null, $);
     },
     /**
      * Returns a list of prop options for a CRM object type
@@ -424,6 +531,89 @@ export default {
           nextAfter: paging?.next.after,
         },
       };
+    },
+    async getCompaniesOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.COMPANY, opts);
+    },
+    async getContactsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.CONTACT, opts);
+    },
+    async getLineItemsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.LINE_ITEM, opts);
+    },
+    async getTicketsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.TICKET, opts);
+    },
+    async getQuotesOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.QUOTE, opts);
+    },
+    async getCallsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.CALL, opts);
+    },
+    async getTasksOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.TASK, opts);
+    },
+    async getNotesOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.NOTE, opts);
+    },
+    async getMeetingsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.MEETING, opts);
+    },
+    async getEmailsOptions(opts) {
+      return this.createOptions(OBJECT_TYPE.EMAIL, opts);
+    },
+    async getOwnersOptions(params) {
+      const { results } = await this.getOwners(params);
+      return results.map((object) => ({
+        label: object.email,
+        value: object.id,
+      }));
+    },
+    async searchFiles(params, $) {
+      return this.makeGetRequest("/files/v3/files/search", params, $);
+    },
+    async getSignedUrl(fileId, params, $) {
+      return this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params, $);
+    },
+    async addContactsToList(listId, emails, $) {
+      return this.makePostRequest({
+        endpoint: `/contacts/v1/lists/${listId}/add`,
+        data: {
+          emails,
+        },
+      }, $);
+    },
+    async getAssociationTypes(fromObjectType, toObjectType, $) {
+      return this.makeGetRequest(`/crm/v4/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
+    },
+    async createAssociation(fromObjectType, toObjectType, fromId, toId, $) {
+      return this.makeRequest(
+        `/crm/v4/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
+        {
+          $,
+        },
+      );
+    },
+    async createAssociations(fromObjectType, toObjectType, fromId, toIds, associationTypeId, $) {
+      return this.makePostRequest({
+        endpoint: `/crm/v4/associations/${fromObjectType}/${toObjectType}/batch/create`,
+        data: {
+          inputs: toIds.map((toId) => ({
+            from: {
+              id: fromId,
+            },
+            to: {
+              id: toId,
+            },
+            types: [
+              {
+                associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
+                associationTypeId: associationTypeId,
+              },
+            ],
+          })),
+        },
+      }, $);
     },
   },
 };
