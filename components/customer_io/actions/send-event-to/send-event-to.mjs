@@ -37,6 +37,6 @@ export default {
       },
       data,
     };
-    return await axios($, config);
+    return axios($, config);
   },
 };

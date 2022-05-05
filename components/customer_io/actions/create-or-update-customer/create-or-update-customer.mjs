@@ -55,6 +55,6 @@ export default {
       },
     };
 
-    return await axios(config);
+    return axios($, config);
   },
 };
