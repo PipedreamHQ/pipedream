@@ -18,7 +18,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID?.value ?? this.bookmarkID;
+    const bookmarkID = this.bookmarkID;
     const response = await this.raindrop.deleteBookmark($, bookmarkID);
 
     $.export("$summary", `Successfully deleted bookmark with ID ${bookmarkID}`);

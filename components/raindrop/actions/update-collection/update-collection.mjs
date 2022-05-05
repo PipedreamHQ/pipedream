@@ -64,14 +64,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID?.value ?? this.collectionID;
-    const expanded = this.expanded?.value ?? this.expanded;
-    const title = this.title?.value ?? this.title;
-    const sort = this.sort?.value ?? this.sort;
-    const publicInput = this.public?.value ?? this.public;
-    const parentId = this.parentID?.value ?? this.parentID;
-    const view = this.view?.value ?? this.view;
-    const cover = this.cover?.value ?? this.cover;
+    const {
+      collectionID,
+      expanded,
+      title,
+      sort,
+      view,
+      cover,
+    } = this;
+    const parentId = this.parentID;
+    const publicInput = this.public;
 
     const body = {
       expanded,

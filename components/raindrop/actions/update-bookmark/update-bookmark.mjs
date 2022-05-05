@@ -48,12 +48,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID?.value ?? this.bookmarkID;
-    const order = this.order?.value ?? this.order;
-    const important = this.important?.value ?? this.important;
-    const tags = this.tags?.value ?? this.tags;
-    const title = this.title?.value ?? this.title;
-    const link = this.link?.value ?? this.link;
+    const {
+      bookmarkID,
+      order,
+      important,
+      tags,
+      title,
+      link,
+    } = this;
 
     const body = {
       order,

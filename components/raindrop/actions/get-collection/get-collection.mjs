@@ -18,7 +18,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID?.value ?? this.collectionID;
+    const collectionID = this.collectionID;
 
     return this.raindrop.getCollection($, collectionID);
   },

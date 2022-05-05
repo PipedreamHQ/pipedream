@@ -18,7 +18,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID?.value ?? this.collectionID;
+    const collectionID = this.collectionID;
     const response = await this.raindrop.deleteCollection($, collectionID);
 
     $.export("$summary", `Successfully deleted collection with ID ${collectionID}`);

@@ -8,7 +8,6 @@ export default {
   type: "action",
   props: {
     raindrop,
-    // We call bookmarks (or items) as "raindrops" [https://developer.raindrop.io/v1/raindrops]
     bookmarkID: {
       propDefinition: [
         raindrop,
@@ -19,7 +18,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID?.value ?? this.bookmarkID;
+    const bookmarkID = this.bookmarkID;
 
     return this.raindrop.getRaindrop($, bookmarkID);
   },

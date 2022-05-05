@@ -50,12 +50,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const title = this.title?.value ?? this.title;
-    const sort = this.sort?.value ?? this.sort;
-    const publicInput = this.public?.value ?? this.public;
-    const parentId = this.parentID?.value ?? this.parentID;
-    const view = this.view?.value ?? this.view;
-    const cover = this.cover?.value ?? this.cover;
+    const {
+      title,
+      sort,
+      view,
+      cover,
+    } = this;
+    const publicInput = this.public;
+    const parentId = this.parentID;
 
     const body = {
       title,
