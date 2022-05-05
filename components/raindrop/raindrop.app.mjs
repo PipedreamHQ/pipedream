@@ -59,23 +59,26 @@ export default {
     },
   },
   methods: {
-    async _makeRequest($, opts) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      if (!opts.method) opts.method = "get";
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `https://api.raindrop.io/rest/v1${path[0] === "/"
-        ? ""
-        : "/"}${path}`;
-      try {
-        return await axios($ ?? this, opts);
-      } catch (err) {
-        this._throwFormattedError(err);
-      }
-    },
-    _throwFormattedError(err) {
-      throw Error(err);
+    async _makeRequest($ = this, opts) {
+      const {
+        method = "get",
+        path,
+        data,
+        params,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        method,
+        url: `https://api.raindrop.io/rest/v1${path}`,
+        headers: {
+          ...opts.headers,
+          "user-agent": "@PipedreamHQ/pipedream v0.1",
+          ...this._getHeaders(),
+        },
+        data,
+        params,
+        ...otherOpts,
+      });
     },
     _getHeaders() {
       return {
@@ -85,7 +88,6 @@ export default {
     getCollections($) {
       return this._makeRequest($, {
         path: "/collections",
-        headers: this._getHeaders(),
       });
     },
     async getRootCollections() {
@@ -101,7 +103,6 @@ export default {
       return this._makeRequest($, {
         method: "POST",
         path: "/collection",
-        headers: this._getHeaders(),
         data: collectionData,
       });
     },
@@ -109,7 +110,6 @@ export default {
       return this._makeRequest($, {
         method: "PUT",
         path: `/collection/${collectionId}`,
-        headers: this._getHeaders(),
         data: collectionData,
       });
     },
@@ -117,26 +117,22 @@ export default {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/collection/${collectionId}`,
-        headers: this._getHeaders(),
       });
     },
     getCollection($, collectionId) {
       return this._makeRequest($, {
         path: `/collection/${collectionId}`,
-        headers: this._getHeaders(),
       });
     },
     getRaindrop($, raindropId) {
       return this._makeRequest($, {
         path: `/raindrop/${raindropId}`,
-        headers: this._getHeaders(),
       });
     },
     putBookmark($, bookmarkId, bookmarkData) {
       return this._makeRequest($, {
         method: "PUT",
         path: `/raindrop/${bookmarkId}`,
-        headers: this._getHeaders(),
         data: bookmarkData,
       });
     },
@@ -144,7 +140,6 @@ export default {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/raindrop/${bookmarkId}`,
-        headers: this._getHeaders(),
       });
     },
     importFile($, formData) {
@@ -152,7 +147,6 @@ export default {
         method: "POST",
         path: "/import/file",
         headers: {
-          ...this._getHeaders(),
           "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
         },
         data: formData,
