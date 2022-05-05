@@ -207,15 +207,15 @@ export interface EmitConfig {
 type PropKeys<PropDefinitions> = Record<keyof PropDefinitions, string>
 
 export interface Source {
-  key?: string
+  key: string
   name?: string
   description?: string
-  version?: string
+  version: string
   type: "source"
   // XXX should be something like methods?: Methods & ThisType<PropKeys<SourcePropDefinitions> & Methods>
   methods?: Methods & ThisType<any>
   hooks?: Hooks & ThisType<any>
-  props: SourcePropDefinitions
+  props?: SourcePropDefinitions
   dedupe?: "last" | "greatest" | "unique"
   additionalProps?: (
     previousPropDefs: SourcePropDefinitions
@@ -226,13 +226,13 @@ export interface Source {
 }
 
 export interface Action {
-  key?: string
+  key: string
   name?: string
   description?: string
-  version?: string
+  version: string
   type: "action"
   methods?: Methods & ThisType<any>
-  props: ActionPropDefinitions & ThisType<any>
+  props?: ActionPropDefinitions & ThisType<any>
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>
