@@ -82,8 +82,8 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    getCollections() {
-      return this._makeRequest(this, {
+    getCollections($) {
+      return this._makeRequest($, {
         path: "/collections",
         headers: this._getHeaders(),
       });
@@ -97,58 +97,58 @@ export default {
         };
       });
     },
-    postCollection(collectionData) {
-      return this._makeRequest(this, {
+    postCollection($, collectionData) {
+      return this._makeRequest($, {
         method: "POST",
         path: "/collection",
         headers: this._getHeaders(),
         data: collectionData,
       });
     },
-    putCollection(collectionId, collectionData) {
-      return this._makeRequest(this, {
+    putCollection($, collectionId, collectionData) {
+      return this._makeRequest($, {
         method: "PUT",
         path: `/collection/${collectionId}`,
         headers: this._getHeaders(),
         data: collectionData,
       });
     },
-    deleteCollection(collectionId) {
-      return this._makeRequest(this, {
+    deleteCollection($, collectionId) {
+      return this._makeRequest($, {
         method: "DELETE",
         path: `/collection/${collectionId}`,
         headers: this._getHeaders(),
       });
     },
-    getCollection(collectionId) {
-      return this._makeRequest(this, {
+    getCollection($, collectionId) {
+      return this._makeRequest($, {
         path: `/collection/${collectionId}`,
         headers: this._getHeaders(),
       });
     },
-    getRaindrop(raindropId) {
-      return this._makeRequest(this, {
+    getRaindrop($, raindropId) {
+      return this._makeRequest($, {
         path: `/raindrop/${raindropId}`,
         headers: this._getHeaders(),
       });
     },
-    putBookmark(bookmarkId, bookmarkData) {
-      return this._makeRequest(this, {
+    putBookmark($, bookmarkId, bookmarkData) {
+      return this._makeRequest($, {
         method: "PUT",
         path: `/raindrop/${bookmarkId}`,
         headers: this._getHeaders(),
         data: bookmarkData,
       });
     },
-    deleteBookmark(bookmarkId) {
-      return this._makeRequest(this, {
+    deleteBookmark($, bookmarkId) {
+      return this._makeRequest($, {
         method: "DELETE",
         path: `/raindrop/${bookmarkId}`,
         headers: this._getHeaders(),
       });
     },
-    importFile(formData) {
-      return this._makeRequest(this, {
+    importFile($, formData) {
+      return this._makeRequest($, {
         method: "POST",
         path: "/import/file",
         headers: {

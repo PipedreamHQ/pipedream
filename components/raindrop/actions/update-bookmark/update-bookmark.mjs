@@ -47,7 +47,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const bookmarkID = this.bookmarkID?.value ?? this.bookmarkID;
     const order = this.order?.value ?? this.order;
     const important = this.important?.value ?? this.important;
@@ -63,6 +63,6 @@ export default {
       link,
     };
 
-    return this.raindrop.putBookmark(bookmarkID, body);
+    return this.raindrop.putBookmark($, bookmarkID, body);
   },
 };

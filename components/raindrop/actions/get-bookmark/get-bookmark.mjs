@@ -18,9 +18,9 @@ export default {
       description: "Existing bookmark ID",
     },
   },
-  async run() {
+  async run({ $ }) {
     const bookmarkID = this.bookmarkID?.value ?? this.bookmarkID;
 
-    return this.raindrop.getRaindrop(bookmarkID);
+    return this.raindrop.getRaindrop($, bookmarkID);
   },
 };

@@ -26,7 +26,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       fileUrl,
       filePath,
@@ -51,6 +51,6 @@ export default {
       form.append("import", readStream);
     }
 
-    return this.raindrop.importFile(form);
+    return this.raindrop.importFile($, form);
   },
 };

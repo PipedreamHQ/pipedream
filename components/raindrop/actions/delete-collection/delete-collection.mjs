@@ -17,9 +17,9 @@ export default {
       description: "The collection ID",
     },
   },
-  async run() {
+  async run({ $ }) {
     const collectionID = this.collectionID?.value ?? this.collectionID;
 
-    return this.raindrop.deleteCollection(collectionID);
+    return this.raindrop.deleteCollection($, collectionID);
   },
 };

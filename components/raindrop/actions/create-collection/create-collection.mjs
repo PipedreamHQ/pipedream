@@ -49,7 +49,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const title = this.title?.value ?? this.title;
     const sort = this.sort?.value ?? this.sort;
     const publicInput = this.public?.value ?? this.public;
@@ -68,6 +68,6 @@ export default {
       cover,
     };
 
-    return this.raindrop.postCollection(body);
+    return this.raindrop.postCollection($, body);
   },
 };

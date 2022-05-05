@@ -63,7 +63,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const collectionID = this.collectionID?.value ?? this.collectionID;
     const expanded = this.expanded?.value ?? this.expanded;
     const title = this.title?.value ?? this.title;
@@ -85,6 +85,6 @@ export default {
       cover,
     };
 
-    return this.raindrop.putCollection(collectionID, body);
+    return this.raindrop.putCollection($, collectionID, body);
   },
 };

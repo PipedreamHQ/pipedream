@@ -9,7 +9,7 @@ export default {
   props: {
     raindrop,
   },
-  async run() {
-    return this.raindrop.getCollections();
+  async run({ $ }) {
+    return this.raindrop.getCollections($);
   },
 };
