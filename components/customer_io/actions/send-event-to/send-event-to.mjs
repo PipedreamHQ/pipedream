@@ -5,7 +5,7 @@ export default {
   key: "customer_io-send-event-to",
   name: "POST /customers/{customer_id}/events",
   description: "Sends an event to Customer.io.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     customer_io: {
