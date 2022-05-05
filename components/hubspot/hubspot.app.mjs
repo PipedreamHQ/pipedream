@@ -4,6 +4,8 @@ import {
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
+  BASE_URL,
+  API_PATH,
 } from "./common/constants.mjs";
 
 export default {
@@ -67,7 +69,6 @@ export default {
       type: "string[]",
       label: "Stages",
       description: "Select the stages to watch for new deals in.",
-      withLabel: true,
       async options({ pipeline }) {
         const { results } = await this.getDealStages(pipeline);
         return results.map((result) => {
@@ -146,7 +147,7 @@ export default {
             value,
           };
         });
-      }
+      },
     },
     // eslint-disable-next-line pipedream/props-description
     propertyGroups: {
@@ -215,16 +216,13 @@ export default {
     },
   },
   methods: {
-    _getBaseURL() {
-      return "https://api.hubapi.com";
-    },
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
     },
-    async makeRequest(endpoint, opts = {}) {
+    async makeRequest(api, endpoint, opts = {}) {
       const {
         method = "GET",
         params,
@@ -233,46 +231,27 @@ export default {
       } = opts;
       const config = {
         method,
-        url: `${this._getBaseURL()}${endpoint}`,
+        url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
         params,
         data,
       };
       return axios($ ?? this, config);
     },
-    async makeGetRequest(endpoint, params = null, $) {
-      return this.makeRequest(endpoint, {
+    async makeGetRequest(api, endpoint, params = null, $) {
+      return this.makeRequest(api, endpoint, {
         params,
         $,
       });
     },
     async makePostRequest({
-      endpoint, data,
+      api, endpoint, data,
     }, $) {
-      return this.makeRequest(endpoint, {
+      return this.makeRequest(api, endpoint, {
         method: "POST",
         data,
         $,
       });
-    },
-    /**
-     * Returns the object type name of a CRM object to be used in Hubspot API
-     * calls
-     *
-     * {@see {@link https://developers.hubspot.com/docs/cms/data/crm-objects CRM Object}
-     *
-     * @param {string} objectSlug - The object type's plural label or fully qualified
-     * name
-     * @returns The object type name
-     */
-    getObjectTypeName(objectSlug) {
-      if (!objectSlug.endsWith("s")) {
-        return objectSlug.toLowerCase();
-      }
-      if (objectSlug === "companies") {
-        return "company";
-      }
-      return objectSlug.toLowerCase().slice(0, -1);
     },
     /**
      * Returns a label for a CRM object, intended to be used as the label for
@@ -288,8 +267,7 @@ export default {
         id,
         properties,
       } = object;
-      const objectName = this.getObjectTypeName(objectSlug);
-      switch (objectName) {
+      switch (objectSlug) {
       case OBJECT_TYPE.COMPANY:
         return properties.name;
       case OBJECT_TYPE.CONTACT:
@@ -323,56 +301,58 @@ export default {
     }, $) {
       const config = {
         method: "POST",
-        url: `${this._getBaseURL()}/crm/v3/objects/${object}/search`,
+        url: `${BASE_URL}${API_PATH.CRMV3}/objects/${object}/search`,
         headers: this._getHeaders(),
         data,
       };
       return axios($ ?? this, config);
     },
     async getBlogPosts(params, $) {
-      return this.makeGetRequest("/cms/v3/blogs/posts", params, $);
+      return this.makeGetRequest(API_PATH.CMS, "/blogs/posts", params, $);
     },
     async getCalendarTasks(endDate, $) {
       const params = {
         startDate: Date.now(),
         endDate,
       };
-      return this.makeGetRequest("/calendar/v1/events/task", params, $);
+      return this.makeGetRequest(API_PATH.CALENDAR, "/events/task", params, $);
     },
     async getContactProperties($) {
-      return this.makeGetRequest("/properties/v1/contacts/properties", $);
+      return this.makeGetRequest(API_PATH.PROPERTIES, "/contacts/properties", $);
     },
     async createPropertiesArray($) {
       const allProperties = await this.getContactProperties($);
       return allProperties.map((property) => property.name);
     },
     async getDealProperties($) {
-      return this.makeGetRequest("/properties/v1/deals/properties", $);
+      return this.makeGetRequest(API_PATH.PROPERTIES, "/deals/properties", $);
     },
     async getDealStages(pipelineId, $) {
-      return this.makeGetRequest(`/crm/v3/pipelines/deal/${pipelineId}/stages`, $);
+      return this.makeGetRequest(API_PATH.CRMV3, `/pipelines/deal/${pipelineId}/stages`, $);
     },
     async getEmailEvents(params, $) {
-      return this.makeGetRequest("/email/public/v1/events", params, $);
+      return this.makeGetRequest(API_PATH.EMAIL, "/events", params, $);
     },
     async getEngagements(params, $) {
       return this.makeGetRequest(
-        "/engagements/v1/engagements/paged",
+        API_PATH.ENGAGEMENTS,
+        "/engagements/paged",
         params,
         $,
       );
     },
     async getEvents(params, $) {
-      return this.makeGetRequest("/events/v3/events", params, $);
+      return this.makeGetRequest(API_PATH.EVENTS, "/events", params, $);
     },
     async getForms(params, $) {
-      return this.makeGetRequest("/forms/v2/forms", params, $);
+      return this.makeGetRequest(API_PATH.FORMS, "/forms", params, $);
     },
     async getFormSubmissions({
       formId, ...params
     }, $) {
       return this.makeGetRequest(
-        `/form-integrations/v1/submissions/forms/${formId}`,
+        API_PATH.FORM_INTEGRATIONS,
+        `/submissions/forms/${formId}`,
         params,
         $,
       );
@@ -382,24 +362,25 @@ export default {
         listType,
         ...otherParams
       } = params;
-      const basePath = "/contacts/v1/lists";
+      const basePath = "/lists";
       const path = listType
         ? `${basePath}/${listType}`
         : basePath;
-      return this.makeGetRequest(path, otherParams, $);
+      return this.makeGetRequest(API_PATH.CONTACTS, path, otherParams, $);
     },
     async getListContacts(params, listId, $) {
       return this.makeGetRequest(
-        `/contacts/v1/lists/${listId}/contacts/all`,
+        API_PATH.CONTACTS,
+        `/lists/${listId}/contacts/all`,
         params,
         $,
       );
     },
     async getOwners(params, $) {
-      return this.makeGetRequest("/crm/v3/owners", params, $);
+      return this.makeGetRequest(API_PATH.CRMV3, "/owners", params, $);
     },
     async listObjectsInPage(objectType, after, params, $) {
-      return this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
+      return this.makeGetRequest(API_PATH.CRMV3, `/objects/${objectType}`, {
         after,
         ...params,
       }, $);
@@ -412,7 +393,8 @@ export default {
       const objects = [];
       while (!results || params.next) {
         results = await this.makeGetRequest(
-          `/crm/v3/objects/${objectType}`,
+          API_PATH.CRMV3,
+          `/objects/${objectType}`,
           params,
           $,
         );
@@ -428,7 +410,8 @@ export default {
         properties,
       };
       return this.makeGetRequest(
-        `/crm/v3/objects/contacts/${contactId}`,
+        API_PATH.CRMV3,
+        `/objects/contacts/${contactId}`,
         params,
         $,
       );
@@ -439,66 +422,62 @@ export default {
       };
 
       return this.makeGetRequest(
-        `/crm/v3/objects/${objectType}/${objectId}`,
+        API_PATH.CRMV3,
+        `/objects/${objectType}/${objectId}`,
         params,
         $,
       );
     },
     async getLineItem(lineItemId, $) {
       return this.makeGetRequest(
-        `/crm/v3/objects/line_items/${lineItemId}`,
+        API_PATH.CRMV3,
+        `/objects/line_items/${lineItemId}`,
         $,
       );
     },
     async getPublishingChannels($) {
       return this.makeGetRequest(
-        "/broadcast/v1/channels/setting/publish/current",
+        API_PATH.BROADCAST,
+        "/channels/setting/publish/current",
         $,
       );
     },
     async getBroadcastMessages(params, $) {
       return this.makeGetRequest(
-        "/broadcast/v1/broadcasts",
+        API_PATH.BROADCAST,
+        "broadcasts",
         params,
         $,
       );
     },
     async getEmailSubscriptionsTimeline(params, $) {
       return this.makeGetRequest(
-        "/email/public/v1/subscriptions/timeline",
+        API_PATH.EMAIL,
+        "/subscriptions/timeline",
         params,
         $,
       );
     },
     async getPipelines(objectType, $) {
-      return this.makeGetRequest(`/crm/v3/pipelines/${objectType}`, $);
-    },
-    async getContact(contactId, properties, $) {
-      const params = {
-        properties,
-      };
-      return this.makeGetRequest(
-        `/crm/v3/objects/contacts/${contactId}`,
-        params,
-        $,
-      );
+      return this.makeGetRequest(API_PATH.CRMV3, `/pipelines/${objectType}`, $);
     },
     async createObject(objectType, properties, $) {
       return this.makePostRequest({
-        endpoint: `/crm/v3/objects/${objectType}`,
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}`,
         data: {
           properties,
         },
       }, $);
     },
     async getPropertyGroups(objectType, $) {
-      return this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`, null, $);
+      return this.makeGetRequest(API_PATH.CRMV3, `/properties/${objectType}/groups`, null, $);
     },
     async getProperties(objectType, $) {
-      return this.makeGetRequest(`/crm/v3/properties/${objectType}`, null, $);
+      return this.makeGetRequest(API_PATH.CRMV3, `/properties/${objectType}`, null, $);
     },
     async getSchema(objectType, $) {
-      return this.makeGetRequest(`/crm/v3/schemas/${objectType}`, null, $);
+      return this.makeGetRequest(API_PATH.CRMV3, `/schemas/${objectType}`, null, $);
     },
     /**
      * Returns a list of prop options for a CRM object type
@@ -570,25 +549,27 @@ export default {
       }));
     },
     async searchFiles(params, $) {
-      return this.makeGetRequest("/files/v3/files/search", params, $);
+      return this.makeGetRequest(API_PATH.FILES, "/files/search", params, $);
     },
     async getSignedUrl(fileId, params, $) {
-      return this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params, $);
+      return this.makeGetRequest(API_PATH.FILES, `/files/${fileId}/signed-url`, params, $);
     },
     async addContactsToList(listId, emails, $) {
       return this.makePostRequest({
-        endpoint: `/contacts/v1/lists/${listId}/add`,
+        api: API_PATH.CONTACTS,
+        endpoint: `/lists/${listId}/add`,
         data: {
           emails,
         },
       }, $);
     },
     async getAssociationTypes(fromObjectType, toObjectType, $) {
-      return this.makeGetRequest(`/crm/v4/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
+      return this.makeGetRequest(API_PATH.CRMV4`/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
     },
     async createAssociation(fromObjectType, toObjectType, fromId, toId, $) {
       return this.makeRequest(
-        `/crm/v4/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
+        API_PATH.CRMV4,
+        `/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
         {
           $,
         },
@@ -596,7 +577,8 @@ export default {
     },
     async createAssociations(fromObjectType, toObjectType, fromId, toIds, associationTypeId, $) {
       return this.makePostRequest({
-        endpoint: `/crm/v4/associations/${fromObjectType}/${toObjectType}/batch/create`,
+        api: API_PATH.CRMV4,
+        endpoint: `/associations/${fromObjectType}/${toObjectType}/batch/create`,
         data: {
           inputs: toIds.map((toId) => ({
             from: {

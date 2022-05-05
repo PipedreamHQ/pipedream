@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emit new event for each new contact in a list.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -15,7 +15,6 @@ export default {
         common.props.hubspot,
         "lists",
       ],
-      withLabel: true,
     },
   },
   methods: {
