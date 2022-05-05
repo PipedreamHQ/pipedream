@@ -2,7 +2,7 @@ import sentry from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-issue-events",
-  version: "0.0.3",
+  version: "0.0.4",
   name: "New Issue Event (Instant)",
   description: "Emit new events for issues that have been created or updated.",
   type: "source",
@@ -27,17 +27,29 @@ export default {
         this.organizationSlug,
         this.http.endpoint,
       );
-      this.db.set("integrationSlug", integrationSlug);
+      this._setIntegrationSlug(integrationSlug);
 
       const clientSecret = await this.sentry.getClientSecret(integrationSlug);
-      this.db.set("clientSecret", clientSecret);
+      this._setClientSecret(clientSecret);
     },
     async deactivate() {
-      const integrationSlug = this.db.get("integrationSlug");
+      const integrationSlug = this._getIntegrationSlug();
       await this.sentry.disableIntegration(integrationSlug);
     },
   },
   methods: {
+    _setIntegrationSlug(integrationSlug) {
+      this.db.set("integrationSlug", integrationSlug);
+    },
+    _getIntegrationSlug() {
+      return this.db.get("integrationSlug");
+    },
+    _setClientSecret(clientSecret) {
+      this.db.set("clientSecret", clientSecret);
+    },
+    _getClientSecret() {
+      return this.db.get("clientSecret");
+    },
     getEventSourceName() {
       return "Issue Event (Instant)";
     },
@@ -65,7 +77,7 @@ export default {
     },
   },
   async run(event) {
-    const clientSecret = this.db.get("clientSecret");
+    const clientSecret = this._getClientSecret();
     if (!this.sentry.isValidSource(event, clientSecret)) {
       this.http.respond({
         statusCode: 404,
