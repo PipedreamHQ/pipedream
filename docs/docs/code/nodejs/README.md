@@ -259,6 +259,8 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 
 ## Ending a workflow early
 
+<VideoPlayer title="Conditionally run Workflows" url="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />
+
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
 - You may want to end your workflow early if you don't receive all the fields you expect in the event data.

@@ -5,6 +5,8 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841376/docs/
 
 # Delaying a workflow in Node.js
 
+<VideoPlayer title="Delaying Workflow Steps" url="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
+
 Use `$.flow.delay` to [delay a step in a workflow](/workflows/built-in-functions/#delay).
 
 These docs show you how write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/built-in-functions/#delay-actions).
