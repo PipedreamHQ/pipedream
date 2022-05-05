@@ -69,7 +69,7 @@ interface HTTPResponse {
   /**
    * Http Body
    */
-  body: string | Buffer | ReadableStream
+  body: string | Buffer | NodeJS.ReadableStream
   /**
    * If true, issue the response when the promise returned is resolved, otherwise issue
    * the response at the end of the workflow execution
@@ -112,34 +112,17 @@ type OptionsMethodArgs = {
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 interface PropDefinitionReference {
-  propDefinition: [App<AppPropDefinitions, Methods, AuthKeys>, string]
-}
-
-// The whole implementation of this.$auth helpers is not ideal, but
-// this lets a user provide keys to the $auth object in the app configuration,
-// and those keys get exposed in `this.$auth` in Intellisense / typing.
-type AuthKeys = {
-  [key: string]: string
-}
-type DollarAuth<AuthKeys> = {
-  $auth: Record<keyof AuthKeys, string>
+  propDefinition: [App, string]
 }
 
 // https://pipedream.com/docs/components/api/#app-props
 // See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
 // for more information on this technique
-interface App<AppPropDefinitions, Methods, AuthKeys> {
+export interface App {
   type: "app"
   app: string
   propDefinitions?: AppPropDefinitions | undefined
-  methods?: (Methods | undefined) & ThisType<AppPropDefinitions & Methods & DollarAuth<AuthKeys>>
-  $auth?: AuthKeys
-}
-
-export function defineApp<AppPropDefinitions, Methods, AuthKeys> (app: App<AppPropDefinitions, Methods, AuthKeys>): App<AppPropDefinitions, Methods, AuthKeys> {
-  return {
-    ...app,
-  };
+  methods?: (Methods | undefined) & ThisType<any>
 }
 
 // Props
@@ -182,25 +165,21 @@ export interface DataStoreProp extends BasePropInterface {
 
 interface SourcePropDefinitions {
   [name: string]: PropDefinitionReference |
-    App<AppPropDefinitions, Methods, AuthKeys> | UserProp | InterfaceProp | ServiceDBProp
+    App | UserProp | InterfaceProp | ServiceDBProp
 }
 
-/* interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | DataStoreProp
+interface ActionPropDefinitions {
+  [name: string]: PropDefinitionReference | App | UserProp | DataStoreProp
 }
-
-interface ComponentPropDefinitions {
-  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp | InterfaceProp | ServiceDBProp | DataStoreProp
-} */
 
 interface AppPropDefinitions {
-  [name: string]: PropDefinitionReference | App<AppPropDefinitions, Methods, AuthKeys> | UserProp
+  [name: string]: PropDefinitionReference | App | UserProp
 }
 
 interface Hooks {
-  deploy?: () => Promise<void>
-  activate?: () => Promise<void>
-  deactivate?: () => Promise<void>
+  deploy?: (this: any) => Promise<void>
+  activate?: (this: any) => Promise<void>
+  deactivate?: (this: any) => Promise<void>
 }
 
 interface SourceRunOptions {
@@ -223,54 +202,43 @@ export interface EmitConfig {
   metadata?: EmitMetadata
 }
 
-type EmitFunction = {
-  $emit: (config: EmitConfig) => Promise<void>
-}
-
 // When we access props, we need to access them by key and assign the type
 // designated by their `type` string. This requires a bit of logic.
 type PropKeys<PropDefinitions> = Record<keyof PropDefinitions, string>
 
-export interface Source<SourcePropDefinitions, Methods> {
+export interface Source {
   key?: string
   name?: string
   description?: string
   version?: string
   type: "source"
-  methods?: Methods & ThisType<PropKeys<SourcePropDefinitions> & Methods>
-  hooks?: Hooks & ThisType<PropKeys<SourcePropDefinitions> & Methods & EmitFunction>
+  // XXX should be something like methods?: Methods & ThisType<PropKeys<SourcePropDefinitions> & Methods>
+  methods?: Methods & ThisType<any>
+  hooks?: Hooks & ThisType<any>
   props: SourcePropDefinitions
   dedupe?: "last" | "greatest" | "unique"
   additionalProps?: (
     previousPropDefs: SourcePropDefinitions
   ) => Promise<SourcePropDefinitions>
-  run: (this: PropKeys<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => Promise<void>
+  // XXX `this` should be strictly typed. For some reason the approach I took above
+  // did not work here.
+  run: (this: any, options?: SourceRunOptions) => Promise<void>
 }
 
-export function defineSource<SourcePropDefinitions, Methods> (source: Source<SourcePropDefinitions, Methods>): Source<SourcePropDefinitions, Methods> {
-  return {
-    ...source,
-  };
-}
-
-export interface Action<ActionPropDefinitions, Methods> {
+export interface Action {
   key?: string
   name?: string
   description?: string
   version?: string
   type: "action"
-  methods?: Methods & ThisType<PropKeys<ActionPropDefinitions> & Methods>
-  props: ActionPropDefinitions & ThisType<PropKeys<ActionPropDefinitions> & Methods>
+  methods?: Methods & ThisType<any>
+  props: ActionPropDefinitions & ThisType<any>
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>
-  run: (options?: ActionRunOptions) => Promise<void> & ThisType<PropKeys<ActionPropDefinitions> & Methods>
-}
-
-export function defineAction<ActionPropDefinitions, Methods> (action: Action<ActionPropDefinitions, Methods>): Action<ActionPropDefinitions, Methods> {
-  return {
-    ...action,
-  };
+  // XXX `this` should be strictly typed. For some reason the approach I took above
+  // did not work here.
+  run: (this: any, options?: ActionRunOptions) => Promise<void> & ThisType<PropKeys<ActionPropDefinitions> & Methods>
 }
 
 // Custom errors

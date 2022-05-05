@@ -1,9 +1,10 @@
-import rss from "../../rss.app";
+import { STATUS_CODES } from "http";
 import axios from "axios";
 import FeedParser from "feedparser";
+import { Item } from "feedparser";
 import hash from "object-hash";
 import {
-  defineSource, UserProp, SourceRunThis,
+  App, UserProp, HTTPError,
 } from "@pipedream/types";
 
 class NoProtocolError extends Error {
@@ -18,34 +19,22 @@ class NoProtocolError extends Error {
   }
 }
 
-export default defineSource({
-  key: "rss-new-item-in-feed",
-  name: "New Item in Feed",
-  description: "Emit new items from an RSS feed",
-  version: "1.0.4",
-  type: "source",
-  dedupe: "unique",
-  props: {
+export default {
+  type: "app",
+  app: "rss",
+  propDefinitions: {
     url: {
       type: "string",
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
     } as UserProp,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
-    rss,
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
-    itemKey(item = {} as FeedParser.Item): string {
-      // XXX Do the RSS feeds truly not contain an id in items?
-      return item.guid ?? item.id ?? hash(item);
+    itemKey(item = {} as Item): string {
+      return item.guid ?? hash(item);
     },
-    async fetchFeed(url: string) {
+    async fetchFeed(url: string): Promise<any> {
       const res = await axios({
         url,
         method: "GET",
@@ -57,25 +46,25 @@ export default defineSource({
         responseType: "stream", // stream is required for feedparser
       });
       // Handle status codes as error codes
-      const errors = this.rss.generateHTTPErrorClasses();
-      if (res.status === 404) throw new errors[404]("The URL does not exist. Please double-check the URL and try again.");
-      if (res.status === 429) throw new errors[429](`${this.url} rate-limited the request. Please reach out to the site hosting the RSS feed to confirm or increase their rate limit.`);
-      if (res.status >= 500) throw new errors[res.status](`${this.url} encountered an error. Please try again later or reach out to the site hosting the RSS feed if you continue to see this error.`);
+      const errors = this.generateHTTPErrorClasses();
+      if (res.status === 404) throw errors[404]("The URL does not exist. Please double-check the URL and try again.");
+      if (res.status === 429) throw errors[429](`${this.url} rate-limited the request. Please reach out to the site hosting the RSS feed to confirm or increase their rate limit.`);
+      if (res.status >= 500) throw errors[res.status](`${this.url} encountered an error. Please try again later or reach out to the site hosting the RSS feed if you continue to see this error.`);
       if (res.status >= 400) {
-        throw new errors[res.status]("Error fetching URL. Please check the URL and try again.");
+        throw errors[res.status]("Error fetching URL. Please check the URL and try again.");
       }
-      return res;
+      return res.data;
     },
-    async parseFeed(data) {
+    async parseFeed(data: any) {
       const feedparser = new FeedParser({
         addmeta: false,
       });
-      const items = [];
+      const items: Item[] = [];
       await new Promise((resolve, reject) => {
         feedparser.on("error", reject);
         feedparser.on("end", resolve);
-        feedparser.on("readable", function() {
-          let item = this.read;
+        feedparser.on("readable", function(this: FeedParser) {
+          let item: any = this.read();
           while (item) {
             for (const k in item) {
               if (item[`rss:${k}`]) {
@@ -96,32 +85,36 @@ export default defineSource({
       });
       return items;
     },
-    async fetchAndParseFeed(url) {
+    async fetchAndParseFeed(url: string) {
       this.validateFeedURL(url);
-      const res = await this.fetchFeed(url);
-      return this.parseFeed(res.data);
+      const data = await this.fetchFeed(url);
+      return this.parseFeed(data);
     },
-    validateFeedURL(url) {
+    validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
       if (!url.match(/^(?:(ht|f)tp(s?):\/\/)?/)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
     },
-  },
-  hooks: {
-    async activate() {
-      // Try to parse the feed one time to confirm we can fetch and parse.
-      // The code will throw any errors to the user.
-      await this.fetchAndParseFeed(this.url);
+    // XXX Move these to a generic utils file
+    createHTTPError(code: number, name: string): (message: string) => HTTPError {
+      return function (message: string): HTTPError {
+        return new HTTPError(code, name, message);
+      };
+    },
+    generateHTTPErrorClasses(): { [code: number]: (message: string) => HTTPError } {
+      const errorClasses: { [code: number]: (message: string) => HTTPError } = {};
+      const badStatusCodes = Object.keys(STATUS_CODES)
+        .map((code) => Number(code))
+        .filter((code) => code >= 400);
+
+      for (const code of badStatusCodes) {
+        const errorMsg = STATUS_CODES[code];
+        if (!errorMsg) {
+          continue;
+        }
+        const name = errorMsg.replace(/\W/g, "").concat("Error");
+        errorClasses[code] = this.createHTTPError(code, name);
+      }
+      return errorClasses;
     },
   },
-  async run() {
-
-    const items = await this.fetchAndParseFeed(this.url);
-    items.forEach((item) => {
-      this.$emit(item, {
-        id: this.itemKey(item),
-        summary: item.title,
-        ts: item.pubdate && +new Date(item.pubdate),
-      });
-    });
-  },
-});
+} as App;

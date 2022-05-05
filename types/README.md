@@ -8,7 +8,3 @@ TO DO
 
 - `npm link`
 - (in this directory) `npm run dev`
-
-## Deploying
-
-Lerna deploys this package automatically on merge to `master`. Make sure to increment the `version` in `package.json`.
