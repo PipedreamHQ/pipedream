@@ -76,7 +76,8 @@
     },
     {
       "files": [
-        "*.ts"
+        "*.ts",
+        "*.mts"
       ],
       "parser": "@typescript-eslint/parser",
       "rules": {

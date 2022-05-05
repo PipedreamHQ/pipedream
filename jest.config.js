@@ -5,6 +5,7 @@ module.exports = {
   // See https://kulshekhar.github.io/ts-jest/docs/guides/esm-support
   extensionsToTreatAsEsm: [
     ".ts",
+    ".mts",
   ],
   globals: {
     "ts-jest": {
