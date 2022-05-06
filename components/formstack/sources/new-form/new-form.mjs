@@ -18,7 +18,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const forms = await this.formstack.getForms({
+    const forms = await this.formstack.getAllResources({
+      getResourcesFn: this.formstack.getForms,
       $,
     });
 

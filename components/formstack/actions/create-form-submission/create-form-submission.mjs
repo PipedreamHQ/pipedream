@@ -33,7 +33,9 @@ export default {
       encryptionPassword,
     } = this;
 
-    const parsedFields = JSON.parse(fields);
+    const parsedFields = fields
+      ? JSON.parse(fields)
+      : {};
 
     const response = await this.formstack.createSubmission({
       formId,

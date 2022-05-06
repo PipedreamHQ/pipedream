@@ -15,8 +15,8 @@ export default {
     },
     fields: {
       label: "Fields",
-      description: "Array of Field resources",
-      type: "string",
+      description: "Array of Field resources. [See fields docs here](https://formstack.readme.io/docs/field-types)",
+      type: "string[]",
       optional: true,
     },
     language: {
@@ -66,7 +66,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully created form");
+    $.export("summary", `Successfully created form with ID ${response.id}`);
 
     return response;
   },

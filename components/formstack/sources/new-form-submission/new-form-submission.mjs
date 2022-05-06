@@ -1,7 +1,7 @@
-import common from "../common/common.mjs";
+import base from "../common/base.mjs";
 
 export default {
-  ...common,
+  ...base,
   key: "formstack-new-form-submission",
   name: "New Form Submission (Instant)",
   description: "Emit new event for each new form submission. [See docs here](https://formstack.readme.io/docs/form-id-webhook-post)",
@@ -9,7 +9,7 @@ export default {
   dedupe: "unique",
   type: "source",
   methods: {
-    ...common.methods,
+    ...base.methods,
     async emitEvent(event) {
       const { body } = event;
 

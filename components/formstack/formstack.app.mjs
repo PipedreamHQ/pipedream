@@ -24,13 +24,16 @@ export default {
     _accessToken() {
       return this.$auth.oauth_access_token;
     },
+    _apiUrlSuffix() {
+      return ".json";
+    },
     _apiUrl() {
       return "https://www.formstack.com/api/v2";
     },
     async _makeRequest(path, options = {}, $ = this) {
       return axios($, {
         ...options,
-        url: `${this._apiUrl()}/${path}`,
+        url: `${this._apiUrl()}/${path}${this._apiUrlSuffix()}`,
         headers: {
           ...options.headers,
           "Authorization": `Bearer ${this._accessToken()}`,
@@ -41,7 +44,7 @@ export default {
     async createWebhook({
       formId, data,
     }) {
-      return this._makeRequest(`form/${formId}/webhook.json`, {
+      return this._makeRequest(`form/${formId}/webhook`, {
         method: "post",
         data: {
           ...data,
@@ -51,44 +54,56 @@ export default {
       });
     },
     async removeWebhook(webhookId) {
-      return this._makeRequest(`webhooks/${webhookId}.json`, {
+      return this._makeRequest(`webhooks/${webhookId}`, {
         method: "delete",
       });
     },
-    async getForms({ $ }) {
-      let allForms = [];
+    async getAllResources({
+      getResourcesFn, $,
+    }) {
+      let allResources = [];
 
       let page = 1;
 
       while (page > 0) {
-        const response = await this._makeRequest("form.json", {
-          params: {
-            page,
-            per_page: 100,
-            folders: false,
-          },
-        }, $);
+        const resources = await getResourcesFn({
+          page,
+          $,
+        });
 
-        if (response.forms.length >= 100) {
+        if (resources?.length >= 100) {
           page++;
         } else {
           page = 0;
         }
 
-        allForms = allForms.concat(response.forms);
+        allResources = allResources.concat(resources);
       }
 
-      return allForms;
+      return allResources;
+    },
+    async getForms({
+      page, $,
+    }) {
+      const response = await this._makeRequest("form", {
+        params: {
+          page,
+          per_page: 100,
+          folders: false,
+        },
+      }, $);
+
+      return response?.forms;
     },
     async getForm({
       formId, $,
     }) {
-      return this._makeRequest(`form/${formId}.json`, {}, $);
+      return this._makeRequest(`form/${formId}`, {}, $);
     },
     async createForm({
       data, $,
     }) {
-      return this._makeRequest("form.json", {
+      return this._makeRequest("form", {
         method: "post",
         data,
       }, $);
@@ -96,7 +111,7 @@ export default {
     async createSubmission({
       formId, data, $,
     }) {
-      return this._makeRequest(`form/${formId}/submission.json`, {
+      return this._makeRequest(`form/${formId}/submission`, {
         method: "post",
         data,
       }, $);
