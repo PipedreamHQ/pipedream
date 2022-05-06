@@ -13,6 +13,7 @@ const docsNav = [
       "/workflows/events/",
       "/workflows/events/inspect/",
       "/workflows/events/test/",
+      "/workflows/built-in-functions/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
@@ -35,12 +36,17 @@ const docsNav = [
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
           "/code/nodejs/using-data-stores/",
+          "/code/nodejs/delay/",
           "/environment-variables/",
           "/code/nodejs/async/",
           "/code/nodejs/sharing-code/"
         ],
       },
-      "/code/python/",
+      { 
+        title: "Python",
+        type: "group",
+        children: ["/code/python/", "/code/python/import-mappings/",]
+      },
       "/code/go/",
       {
         title: "Bash",
@@ -105,7 +111,6 @@ const referenceNav = [
       "/api/rest/rss/",
       "/api/rest/workflow-errors/",
       "/api/sse/",
-      "/scheduling-future-tasks/",
     ],
   },
   "/limits/",

@@ -8,6 +8,17 @@ Pipedream is an integration platform for developers. Pipedream provides a free, 
 
 <a href="https://bit.ly/3M2Yclb"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
+## Demo
+
+Click the image below to watch a brief demo on YouTube.
+
+<p align="left">
+  <br />
+  <a href="https://bit.ly/36fwHWs">
+    <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
+  </a>
+</p>
+
 ## Key Features
 
 - [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, new row added to a Google Sheet, and more).
@@ -21,17 +32,6 @@ Pipedream is an integration platform for developers. Pipedream provides a free, 
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
 
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
-
-## Demo
-
-Click the image below to watch a brief demo on YouTube.
-
-<p align="left">
-  <br />
-  <a href="https://bit.ly/36fwHWs">
-    <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
-  </a>
-</p>
 
 ## Workflows
 
