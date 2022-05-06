@@ -79,7 +79,7 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully updated network "${this.networkId}" member "${this.nodeId}"`);
+    $.export("$summary", `Successfully updated member "${this.nodeId}" on network "${this.networkId}"`);
 
     return response;
   },
