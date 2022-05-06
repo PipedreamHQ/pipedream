@@ -18,5 +18,8 @@
         "@types/axios": "^0.14.0",
         "@types/feedparser": "^2.2.5",
         "@types/object-hash": "^2.2.1"
+    },
+    "dependencies": {
+        "rss-parser": "^3.12.0"
     }
 }

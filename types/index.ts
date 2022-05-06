@@ -142,12 +142,12 @@ type PropOptions = string[] | { [key: string]: string }[]
 // https://pipedream.com/docs/components/api/#user-input-props
 export interface UserProp extends BasePropInterface {
   type: UserPropType
-  options: PropOptions | ((opts: OptionsMethodArgs) => Promise<PropOptions>)
-  optional: boolean
-  default: string
-  secret: boolean
-  min: number
-  max: number
+  options?: PropOptions | ((opts: OptionsMethodArgs) => Promise<PropOptions>)
+  optional?: boolean
+  default?: JSONValue
+  secret?: boolean
+  min?: number
+  max?: number
 }
 
 export interface InterfaceProp extends BasePropInterface {
@@ -202,10 +202,6 @@ export interface EmitConfig {
   metadata?: EmitMetadata
 }
 
-// When we access props, we need to access them by key and assign the type
-// designated by their `type` string. This requires a bit of logic.
-type PropKeys<PropDefinitions> = Record<keyof PropDefinitions, string>
-
 export interface Source {
   key: string
   name?: string
@@ -238,7 +234,7 @@ export interface Action {
   ) => Promise<ActionPropDefinitions>
   // XXX `this` should be strictly typed. For some reason the approach I took above
   // did not work here.
-  run: (this: any, options?: ActionRunOptions) => Promise<void> & ThisType<PropKeys<ActionPropDefinitions> & Methods>
+  run: (this: any, options?: ActionRunOptions) => Promise<any>
 }
 
 // Custom errors

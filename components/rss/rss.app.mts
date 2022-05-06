@@ -92,7 +92,7 @@ export default {
     },
     validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
-      if (!url.match(/^(?:(ht|f)tp(s?):\/\/)?/)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
+      if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
     },
     // XXX Move these to a generic utils file
     createHTTPError(code: number, name: string): (message: string) => HTTPError {
