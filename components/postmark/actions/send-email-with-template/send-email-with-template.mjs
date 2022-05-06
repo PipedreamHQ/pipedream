@@ -5,7 +5,7 @@ export default {
   key: "postmark-send-email-with-template",
   name: "Send an Email using a Template",
   description: "Send an Email using a Template",
-  version: "0.1.12",
+  version: "0.1.16",
   type: "action",
   props: {
     postmark: {
@@ -39,7 +39,7 @@ export default {
               : [
                 {
                   label:
-                    "No templates found for this Postmark account. Create a template, then refresh this field.",
+                      "No templates found for this Postmark account. Create a template, then refresh this field.",
                   value: -1,
                 },
               ])
@@ -134,7 +134,13 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "List of attachments",
+      description: `Each attachment should be a string with the parameters separated by \`|\`, in the format: \`Name|Content|ContentType\`
+      \\
+      - \`Name\` is the filename with extension, i.e. \`readme.txt\`
+      \\
+      - \`Content\` is the base64-encoded string with the binary data for the file, i.e. \`dGVzdCBjb250ZW50\`
+      \\
+      - \`ContentType\` is the MIME content type, i.e. \`text/plain\``,
       optional: true,
     },
     metadata: {
@@ -173,7 +179,14 @@ export default {
         Headers: this.custom_headers,
         TrackOpens: this.track_opens,
         TrackLinks: this.track_links,
-        Attachments: this.attachments,
+        Attachments: this.attachments?.map((str) => {
+          let params = str.split("|");
+          return {
+            Name: params[0],
+            Content: params[1],
+            ContentType: params[2],
+          };
+        }),
         Metadata: this.metadata,
         MessageStream: this.message_stream,
       },
