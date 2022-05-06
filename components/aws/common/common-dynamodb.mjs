@@ -101,7 +101,7 @@ export default {
       optional: true,
     },
     expressionAttributeNames: {
-      type: "object",
+      type: "string",
       label: "Expression Attribute Names",
       description: toSingleLineString(`
         One or more substitution tokens for attribute names in an expression.
@@ -116,7 +116,7 @@ export default {
       optional: true,
     },
     expressionAttributeValues: {
-      type: "object",
+      type: "string",
       label: "Expression Attribute Values",
       description: toSingleLineString(`
         One or more values that can be substituted in an expression.

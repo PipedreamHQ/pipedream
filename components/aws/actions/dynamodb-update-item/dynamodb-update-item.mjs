@@ -1,6 +1,9 @@
 import common from "../../common/common-dynamodb.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
+import {
+  toSingleLineString,
+  attemptToParseJSON,
+} from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -52,12 +55,8 @@ export default {
       ReturnValues: constants.dynamodb.returnValues.ALL_OLD,
       Key: {},
       UpdateExpression: this.updateExpression,
-      ExpressionAttributeNames: typeof (this.expressionAttributeNames) === "string"
-        ? JSON.parse(this.expressionAttributeNames)
-        : this.expressionAttributeNames,
-      ExpressionAttributeValues: typeof (this.expressionAttributeValues) === "string"
-        ? JSON.parse(this.expressionAttributeValues)
-        : this.expressionAttributeValues,
+      ExpressionAttributeNames: attemptToParseJSON(this.expressionAttributeNames),
+      ExpressionAttributeValues: attemptToParseJSON(this.expressionAttributeValues),
     };
 
     const [

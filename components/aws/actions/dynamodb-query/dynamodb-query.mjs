@@ -1,5 +1,8 @@
 import common from "../../common/common-dynamodb.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import {
+  toSingleLineString,
+  attemptToParseJSON,
+} from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -25,12 +28,8 @@ export default {
       TableName: this.tableName,
       KeyConditionExpression: this.keyConditionExpression,
       ProjectionExpression: this.projectionExpression,
-      ExpressionAttributeNames: typeof (this.expressionAttributeNames) === "string"
-        ? JSON.parse(this.expressionAttributeNames)
-        : this.expressionAttributeNames,
-      ExpressionAttributeValues: typeof (this.expressionAttributeValues) === "string"
-        ? JSON.parse(this.expressionAttributeValues)
-        : this.expressionAttributeValues,
+      ExpressionAttributeNames: attemptToParseJSON(this.expressionAttributeNames),
+      ExpressionAttributeValues: attemptToParseJSON(this.expressionAttributeValues),
     };
 
     const response = await this.aws.pagination(

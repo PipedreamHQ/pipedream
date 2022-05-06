@@ -1,6 +1,9 @@
 import common from "../../common/common-dynamodb.mjs";
 import constants from "../../common/constants.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import {
+  toSingleLineString,
+  attemptToParseJSON,
+} from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -73,14 +76,10 @@ export default {
       };
     }
 
-    try {
-      params.Item = {
-        ...item,
-        ...JSON.parse(this.item),
-      };
-    } catch (e) {
-      throw new Error("JSON input could not be parsed");
-    }
+    params.Item = {
+      ...item,
+      ...attemptToParseJSON(this.item),
+    };
 
     const response = await this.putItem(params);
     $.export("$summary", `Successfully put item in table ${this.tableName}`);
