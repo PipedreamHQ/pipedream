@@ -1,11 +1,15 @@
+import linearApp from "../linear_app/linear_app.app.mjs";
+
 export default {
-  type: "app",
+  ...linearApp,
   app: "linear",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...linearApp.methods,
+    getClientOptions(options = {}) {
+      return {
+        accessToken: this.$auth.oauth_access_token,
+        ...options,
+      };
     },
   },
 };

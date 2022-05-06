@@ -15,8 +15,8 @@ export default {
   methods: {
     isRelevant(body) {
       return (
-        this.campaigns.length === 0 ||
-        this.campaigns.includes(body["campaign[id]"])
+        this.campaigns?.length === 0 ||
+        this.campaigns?.includes(body["campaign[id]"])
       );
     },
     getMeta(body) {

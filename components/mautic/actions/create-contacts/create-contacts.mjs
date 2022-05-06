@@ -5,7 +5,7 @@ export default {
   key: "mautic-create-contacts",
   name: "Create Contact",
   description: "Creates a new contact.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     mautic: {
@@ -196,6 +196,11 @@ export default {
       description: "If true, then empty values are set to fields. Otherwise empty values are skipped",
       optional: true,
     },
+    tags: {
+      type: "string[]",
+      description: "Tags that will be assigned to new contact.",
+      optional: true,
+    },
   },
   async run({ $ }) {
   //See the API docs at: https://developer.mautic.org/#create-contact
@@ -252,6 +257,7 @@ export default {
         lastActive: this.lastActive,
         owner: this.owner,
         overwriteWithBlank: this.overwriteWithBlank,
+        tags: this.tags,
       },
     });
   },

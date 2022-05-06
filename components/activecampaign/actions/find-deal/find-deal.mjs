@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-find-deal",
   name: "Find Deal",
   description: "Finds an existing deal by title or email.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

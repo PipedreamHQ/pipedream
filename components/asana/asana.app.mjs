@@ -1,80 +1,20 @@
 import { axios } from "@pipedream/platform";
-import crypto from "crypto";
 
 export default {
   type: "app",
   app: "asana",
   propDefinitions: {
-    workspaceId: {
-      label: "Workspace ID",
-      description: "The workspace unique identifier.",
-      type: "string",
-      optional: false,
-      async options() {
-        const workspaces = await this.getWorkspaces();
-        return workspaces.map((workspace) => {
-          return {
-            label: workspace.name,
-            value: workspace.gid,
-          };
-        });
-      },
-    },
-    projectId: {
-      label: "Project ID",
-      description: "The project unique identifier.",
-      type: "string",
-      optional: false,
-      async options(opts) {
-        const projects = await this.getProjects(opts.workspaceId);
-        return projects.map((project) => {
-          return {
-            label: project.name,
-            value: project.gid,
-          };
-        });
-      },
-    },
-    taskIds: {
-      label: "Tasks",
-      description: "The task unique identifiers.",
-      type: "string[]",
-      async options(opts) {
-        const tasks = await this.getTasks({
-          project: opts.projectId,
-        });
-
-        return tasks.map((task) => {
-          return {
-            label: task.name,
-            value: task.gid,
-          };
-        });
-      },
-    },
-    organizationId: {
-      label: "Organization",
-      description: "The organization unique identifier.",
-      type: "string",
-      optional: false,
-      async options() {
-        const organizations = await this.getOrganizations();
-        return organizations.map((organization) => {
-          return {
-            label: organization.name,
-            value: organization.gid,
-          };
-        });
-      },
-    },
     organizations: {
       label: "Organizations",
       description: "List of organizations. This field use the organization GID.",
       type: "string[]",
       async options() {
         const organizations = await this.getOrganizations();
-
-        return this.generateObjectOptions(organizations);
+        
+        return organizations.map((organization) => ({
+          label: organization.name,
+          value: organization.gid,
+        }));
       },
     },
     workspaces: {
@@ -84,7 +24,10 @@ export default {
       async options() {
         const workspaces = await this.getWorkspaces();
 
-        return this.generateObjectOptions(workspaces);
+        return workspaces.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.gid,
+        }));
       },
     },
     teams: {
@@ -94,17 +37,23 @@ export default {
       async options() {
         const teams = await this.getTeams();
 
-        return this.generateObjectOptions(teams);
+        return teams.map((team) => ({
+          label: team.name,
+          value: team.gid,
+        }));
       },
     },
     projects: {
       label: "Projects",
       description: "List of projects. This field use the project GID.",
       type: "string[]",
-      async options() {
-        const projects = await this.getProjects();
+      async options({ workspace }) {
+        const projects = await this.getProjects(workspace);
 
-        return this.generateObjectOptions(projects);
+        return projects.map((tag) => ({
+          label: tag.name,
+          value: tag.gid,
+        }));
       },
     },
     tags: {
@@ -114,7 +63,12 @@ export default {
       async options() {
         const tags = await this.getTags();
 
-        return this.generateObjectOptions(tags);
+        return tags.map((tag) => {
+          return {
+            label: tag.name,
+            value: tag.gid,
+          };
+        });
       },
     },
     users: {
@@ -124,7 +78,10 @@ export default {
       async options() {
         const users = await this.getUsers();
 
-        return this.generateObjectOptions(users);
+        return users.map((user) => ({
+          label: user.name,
+          value: user.gid,
+        }));
       },
     },
     tasks: {
@@ -179,9 +136,8 @@ export default {
     },
     _headers() {
       return {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": `Bearer ${this._accessToken()}`,
+        Accept: "application/json",
+        Authorization: `Bearer ${this._accessToken()}`,
       };
     },
     /**
@@ -192,81 +148,36 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return await axios($ ?? this, {
+    async _makeRequest(path, options = {}, $ = this) {
+      return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
       });
     },
-    async _getAuthorizationHeader({
-      data, headers,
-    }) {
-      return await axios({
-        method: "POST",
-        url: `${await this._getBaseUrl()}/webhooks`,
-        data: data.body,
-        headers,
-      });
-    },
-    async createHook(body) {
-      const config = {
+    /**
+     * Create a webhook
+     *
+     * @param {string} body - The body that will be send on request.
+     *
+     * @returns {object} A Asana Webhook.
+     */
+    async createWebHook(body) {
+      const authorization = await this._makeRequest("webhooks", {
         method: "post",
-        url: `${await this._getBaseUrl()}/webhooks`,
-        headers: {
-          "Content-Type": "applicaton/json",
-          "Accept": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data: {
-          body,
-        },
-      };
-      const authorization = await this._getAuthorizationHeader(config);
-      config.headers.authorization = authorization;
-      try {
-        await axios(config);
-      } catch (err) {
-        console.log(err);
-      }
+        data: body,
+      });
+
       return authorization.data;
     },
-    async deleteHook(hookId) {
-      const config = {
-        method: "delete",
-        url: `${await this._getBaseUrl()}/webhooks/${hookId}`,
-        headers: await this._getHeaders(),
-      };
-      try {
-        await axios(config);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async verifyAsanaWebhookRequest(request) {
-      let secret = this.$auth.oauth_refresh_token;
-      var base64Digest = function (s) {
-        return crypto.createHmac("sha1", secret).update(s)
-          .digest("base64");
-      };
-      var content = JSON.stringify(request.body);
-      var doubleHash = base64Digest(content);
-      var headerHash = request.headers["x-hook-secret"];
-      return doubleHash === headerHash;
-    },
     /**
-     * Generate a options object to show in a select list UI.
+     * Remove a Webhook.
      *
-     * @param {string} objects - The list of objects. E.g. { name: "The Name", gid: "123456789"}
-     *
-     * @returns {string} The list of objects formatted.
+     * @param {string} hookId - The Asana Webhook GID.
      */
-    generateObjectOptions(objects) {
-      return objects.map((obj) => {
-        return {
-          label: obj.name,
-          value: obj.gid,
-        };
+    async deleteWebhook(hookId) {
+      await this._makeRequest(`webhooks/${hookId}`, {
+        method: "delete",
       });
     },
     /**
@@ -293,13 +204,13 @@ export default {
      * @returns {string} An Asana Organizations list.
      */
     async getOrganizations() {
-      const organizations = [];
       const workspaces = await this.getWorkspaces();
 
-      for (const workspace of workspaces) {
-        let responseWorkspace = await this.getWorkspace(workspace.gid);
-        if (responseWorkspace.is_organization) organizations.push(responseWorkspace);
-      }
+      const organizations = workspaces.filter(async (workspace) => {
+        workspace = await this.getWorkspace(workspace.gid);
+
+        return workspace.is_organization;
+      });
 
       return organizations;
     },
@@ -421,6 +332,16 @@ export default {
       }
 
       return teams;
+    },
+    /**
+     * Get an Asana Workspace Membership.
+     *
+     * @param {string} membership - A Workspace Membership GID.
+     *
+     * @returns {string} A Workspace Membership.
+     */
+    async getWorkspaceMembership(membership) {
+      return (await this._makeRequest(`workspace_memberships/${membership}`)).data;
     },
     /**
      * Get an Asana User.

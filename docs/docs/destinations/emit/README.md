@@ -1,12 +1,12 @@
 # Emit events
 
-Like [event sources](/event-sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits). 
+Like [event sources](/sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits). 
 
 [[toc]]
 
 ## Using `$.send.emit()` in workflows
 
-You can emit arbitrary events from any [Node.js code steps](/workflows/steps/code/) using `$.send.emit()`.
+You can emit arbitrary events from any [Node.js code steps](/code/nodejs/) using `$.send.emit()`.
 
 ```javascript
 defineComponent({
@@ -30,7 +30,7 @@ $.send.emit({
 
 ## Using `$.send.emit` in component actions
 
-If you're authoring a [component action](/components/actions/), you can emit data using `$.send.emit`.
+If you're authoring a [component action](/components#actions), you can emit data using `$.send.emit`.
 
 `$.send.emit` functions the same as [`$.send.emit` in workflow code steps](#using-send-emit-in-workflows):
 
