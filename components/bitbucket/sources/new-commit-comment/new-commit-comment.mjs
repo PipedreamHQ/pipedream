@@ -36,7 +36,7 @@ export default {
       this.$emit(comment, {
         id: comment.id,
         summary: `New comment created on commit ${comment.commit.hash}`,
-        ts: comment.created_on,
+        ts: Date.parse(comment.created_on),
       });
     },
   },

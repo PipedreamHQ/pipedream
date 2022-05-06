@@ -23,7 +23,7 @@ export default {
       this.$emit(repository, {
         id: repository.id,
         summary: `New repository ${repository.name} created`,
-        ts: repository.created_on,
+        ts: Date.parse(repository.created_on),
       });
     },
   },

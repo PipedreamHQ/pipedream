@@ -41,7 +41,7 @@ export default {
         this.$emit(reviewer, {
           id: `${pullrequest.id}-${reviewer.display_name}`,
           summary: `New reviewer ${reviewer.display_name} added in ${pullrequest.title}`,
-          ts: +new Date(event.headers["x-event-time"]),
+          ts: Date.parse(event.headers["x-event-time"]),
         });
       });
     },

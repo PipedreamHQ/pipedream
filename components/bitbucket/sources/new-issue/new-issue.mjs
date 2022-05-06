@@ -36,7 +36,7 @@ export default {
       this.$emit(issue, {
         id: issue.id,
         summary: `New issue ${issue.title} created`,
-        ts: issue.created_on,
+        ts: Date.parse(issue.created_on),
       });
     },
   },

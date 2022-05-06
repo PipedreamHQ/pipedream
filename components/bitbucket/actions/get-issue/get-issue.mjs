@@ -1,5 +1,5 @@
-import common from "../common/common.mjs";
-const { bitbucket } = common.props;
+import base from "../common/base.mjs";
+const { bitbucket } = base.props;
 
 export default {
   key: "bitbucket-get-issue",
@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
+    ...base.props,
     repositoryId: {
       propDefinition: [
         bitbucket,

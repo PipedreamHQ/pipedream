@@ -8,8 +8,12 @@ export default {
       type: "string",
       label: "Workspace",
       description: "Select a workspace",
-      async options() {
-        const workspaces = await this.getWorkspaces();
+      async options({ page }) {
+        const workspaces = await this.getWorkspaces({
+          params: {
+            page: page + 1,
+          },
+        });
 
         return workspaces.map((workspace) => ({
           label: workspace.name,
@@ -27,7 +31,7 @@ export default {
         const repositories = await this.getRepositories({
           workspaceId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -48,7 +52,7 @@ export default {
           workspaceId,
           repositoryId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -66,7 +70,7 @@ export default {
           workspaceId,
           repositoryId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -88,7 +92,7 @@ export default {
           repositoryId,
           issueId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -108,7 +112,7 @@ export default {
         const snippets = await this.getWorkspaceSnippets({
           workspaceId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -128,7 +132,7 @@ export default {
         const members = await this.getWorkspaceMembers({
           workspaceId,
           params: {
-            page: page + 1 ?? 1,
+            page: page + 1,
           },
         });
 
@@ -179,8 +183,8 @@ export default {
     _apiUrl() {
       return "https://api.bitbucket.org/2.0";
     },
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return await axios($ ?? this, {
+    async _makeRequest(path, options = {}, $ = this) {
+      return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
@@ -210,7 +214,7 @@ export default {
     },
     async getWorkspaceSnippets({
       workspaceId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`snippets/${workspaceId}`, {
         params,
       }, $);
@@ -219,12 +223,12 @@ export default {
     },
     async getSnippet({
       workspaceId, snippetId,
-    }, $ = undefined) {
+    }, $) {
       return await this._makeRequest(`snippets/${workspaceId}/${snippetId}`, {}, $);
     },
     async createSnippetComment({
       workspaceId, snippetId, data,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`snippets/${workspaceId}/${snippetId}/comments`, {
         method: "post",
         data,
@@ -234,7 +238,7 @@ export default {
     },
     async getIssues({
       workspaceId, repositoryId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues`, {
         params,
       }, $);
@@ -243,12 +247,12 @@ export default {
     },
     async getIssue({
       workspaceId, repositoryId, issueId,
-    }, $ = undefined) {
+    }, $) {
       return await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}`, {}, $);
     },
     async createIssue({
       workspaceId, repositoryId, data,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues`, {
         method: "post",
         data,
@@ -258,7 +262,7 @@ export default {
     },
     async getIssueComments({
       workspaceId, repositoryId, issueId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments`, {
         params,
       }, $);
@@ -267,7 +271,7 @@ export default {
     },
     async createIssueComment({
       workspaceId, repositoryId, issueId, data,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments`, {
         method: "post",
         data,
@@ -277,7 +281,7 @@ export default {
     },
     async updateIssueComment({
       workspaceId, repositoryId, issueId, commentId, data,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/issues/${issueId}/comments/${commentId}`, {
         method: "put",
         data,
@@ -287,21 +291,23 @@ export default {
     },
     async getWorkspaceMembers({
       workspaceId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`workspaces/${workspaceId}/members`, {
         params,
       }, $);
 
       return response.values;
     },
-    async getWorkspaces($ = undefined) {
-      const response = await this._makeRequest("workspaces", {}, $);
+    async getWorkspaces({ params }, $) {
+      const response = await this._makeRequest("workspaces", {
+        params,
+      }, $);
 
       return response.values;
     },
     async getRepositories({
       workspaceId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}`, {
         params,
       }, $);
@@ -310,7 +316,7 @@ export default {
     },
     async getRepositoryFiles({
       workspaceId, repositoryId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/downloads/`, {
         params,
       }, $);
@@ -319,19 +325,19 @@ export default {
     },
     async getRepositoryFile({
       workspaceId, repositoryId, filename,
-    }, $ = undefined) {
+    }, $) {
       return await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/downloads/${filename}`, {}, $);
     },
     async getBranchs({
       workspaceId, repositoryId, params,
-    }, $ = undefined) {
+    }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/refs/branches`, {
         params,
       }, $);
 
       return response.values;
     },
-    async getEventTypes({ subjectType }, $ = undefined) {
+    async getEventTypes({ subjectType }, $) {
       const response = await this._makeRequest(`hook_events/${subjectType}`, {}, $);
 
       return response.values;

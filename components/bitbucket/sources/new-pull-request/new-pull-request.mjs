@@ -36,7 +36,7 @@ export default {
       this.$emit(pullrequest, {
         id: pullrequest.id,
         summary: `New pull request ${pullrequest.title} created`,
-        ts: pullrequest.created_on,
+        ts: Date.parse(pullrequest.created_on),
       });
     },
   },

@@ -71,7 +71,7 @@ export default {
       this.$emit(event.body, {
         id: id,
         summary: `New pipeline event in ${repository.name}: ${eventType}`,
-        ts: +new Date(eventDate),
+        ts: Date.parse(eventDate),
       });
     },
   },

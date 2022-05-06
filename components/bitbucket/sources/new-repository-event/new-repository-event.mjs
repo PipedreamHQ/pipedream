@@ -46,7 +46,7 @@ export default {
       this.$emit(body, {
         id: headers["x-request-uuid"],
         summary: `New repository event ${headers["x-event-key"]}`,
-        ts: +new Date(headers["x-event-time"]),
+        ts: Date.parse(headers["x-event-time"]),
       });
     },
   },

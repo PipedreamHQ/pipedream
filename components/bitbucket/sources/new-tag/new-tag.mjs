@@ -40,7 +40,7 @@ export default {
       } = event;
       const { changes = [] } = body.push;
 
-      const ts = +new Date(headers["x-event-time"]);
+      const ts = Date.parse(headers["x-event-time"]);
 
       changes.filter(this.isNewTag).forEach((change) => {
         this.$emit(change, {

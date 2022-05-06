@@ -59,7 +59,7 @@ export default {
           this.$emit(commit, {
             id: commit.hash,
             summary: `New commit created on branch ${change.new.name}`,
-            ts: commit.date,
+            ts: Date.parse(commit.date),
           });
         });
       });
