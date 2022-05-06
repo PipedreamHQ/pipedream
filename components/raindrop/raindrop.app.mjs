@@ -127,6 +127,19 @@ export default {
         path: `/raindrop/${raindropId}`,
       });
     },
+    getRaindrops($, collectionId, params) {
+      return this._makeRequest($, {
+        path: `/raindrops/${collectionId}`,
+        params,
+      });
+    },
+    postBookmark($, bookmarkData) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: "/raindrop",
+        data: bookmarkData,
+      });
+    },
     putBookmark($, bookmarkId, bookmarkData) {
       return this._makeRequest($, {
         method: "PUT",
