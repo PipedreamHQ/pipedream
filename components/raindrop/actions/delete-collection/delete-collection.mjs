@@ -8,20 +8,20 @@ export default {
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       label: "Collection ID",
       description: "The collection ID",
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID;
-    const response = await this.raindrop.deleteCollection($, collectionID);
+    const collectionId = this.collectionId;
+    const response = await this.raindrop.deleteCollection($, collectionId);
 
-    $.export("$summary", `Successfully deleted collection with ID ${collectionID}`);
+    $.export("$summary", `Successfully deleted collection with ID ${collectionId}`);
 
     return response;
   },

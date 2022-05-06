@@ -9,7 +9,7 @@ export default {
       label: "Raindrop ID",
       description: "Existing raindrop ID",
     },
-    collectionID: {
+    collectionId: {
       type: "string",
       label: "Collection ID",
       description: "The collection ID",

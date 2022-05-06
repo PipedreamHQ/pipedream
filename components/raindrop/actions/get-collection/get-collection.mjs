@@ -8,18 +8,18 @@ export default {
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       label: "Collection ID",
       description: "The collection ID",
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID;
+    const collectionId = this.collectionId;
 
-    return this.raindrop.getCollection($, collectionID);
+    return this.raindrop.getCollection($, collectionId);
   },
 };

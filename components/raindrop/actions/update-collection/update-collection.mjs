@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       label: "Collection ID",
       description: "The collection ID",
@@ -43,7 +43,7 @@ export default {
     parentID: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       optional: true,
       label: "Parent ID",
@@ -65,7 +65,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      collectionID,
+      collectionId,
       expanded,
       title,
       sort,
@@ -86,9 +86,9 @@ export default {
       view,
       cover,
     };
-    const response = await this.raindrop.putCollection($, collectionID, body);
+    const response = await this.raindrop.putCollection($, collectionId, body);
 
-    $.export("$summary", `Successfully updated collection with ID ${collectionID}`);
+    $.export("$summary", `Successfully updated collection with ID ${collectionId}`);
 
     return response;
   },

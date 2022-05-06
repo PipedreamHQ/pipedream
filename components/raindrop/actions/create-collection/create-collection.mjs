@@ -29,7 +29,7 @@ export default {
     parentID: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       optional: true,
       label: "Parent ID",
