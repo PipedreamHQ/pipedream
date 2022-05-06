@@ -70,6 +70,6 @@ export default {
   async run(event) {
     await this._respondWebHook(this.http, event);
 
-    this.emitEvent(event);
+    await this.emitEvent(event);
   },
 };
