@@ -4,7 +4,13 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "openweather_api",
-  propDefinitions: {},
+  propDefinitions: {
+    appId: {
+      type: "string",
+      label: "App Id",
+      description: "Please refer to [Doc here](https://home.openweathermap.org/api_keys) for your app ID.",
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -56,7 +62,7 @@ export default {
       } = args;
       const config = {
         method,
-        url: this.getUrl(category, path),
+        url: this.getAPIUrl(category, path),
         headers: this.getHeader(),
         params,
         data,
