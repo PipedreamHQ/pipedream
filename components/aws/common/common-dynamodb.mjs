@@ -143,7 +143,7 @@ export default {
         The condition that specifies the key values for items to be retrieved by the Query action.
         Example:
         \`
-        partitionKeyName = :partitionkeyval AND sortKeyName = :sorteyval
+        partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval
         \`
         [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/interfaces/querycommandinput.html#keyconditionexpression)
       `),

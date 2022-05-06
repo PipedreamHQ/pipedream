@@ -15,6 +15,8 @@ export default {
   props: {
     aws: common.props.aws,
     region: common.props.region,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    tableName: common.props.tableName,
     keyPrimaryAttributeName: common.props.keyPrimaryAttributeName,
     keyPrimaryAttributeType: common.props.keyPrimaryAttributeType,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
@@ -22,24 +24,10 @@ export default {
       ...common.props.keySecondaryAttributeName,
       reloadProps: true,
     },
-    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
-    billingMode: {
-      ...common.props.billingMode,
-      reloadProps: true,
-    },
-    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
-    streamSpecificationEnabled: {
-      ...common.props.streamSpecificationEnabled,
-      reloadProps: true,
-    },
-    streamSpecificationViewType: common.props.streamSpecificationViewType,
-    expressionAttributeNames: common.props.expressionAttributeNames,
-    expressionAttributeValues: common.props.expressionAttributeValues,
-    keyConditionExpression: common.props.keyConditionExpression,
-    projectionExpression: common.props.projectionExpression,
   },
   async additionalProps() {
     const props = {};
+
     if (this.keySecondaryAttributeName) {
       props.keySecondaryAttributeType = {
         type: "string",
@@ -48,6 +36,13 @@ export default {
         options: constants.dynamodb.keyAttributeTypes,
       };
     }
+
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    props.billingMode = {
+      ...common.props.billingMode,
+      reloadProps: true,
+    };
+
     if (this.billingMode === constants.dynamodb.billingModes.PROVISIONED) {
       props.readCapacityUnits = {
         type: "integer",
@@ -60,6 +55,13 @@ export default {
         description: "The maximum number of writes consumed per second before DynamoDB returns a `ThrottlingException`",
       };
     }
+
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    props.streamSpecificationEnabled = {
+      ...common.props.streamSpecificationEnabled,
+      reloadProps: true,
+    };
+
     if (this.streamSpecificationEnabled) {
       props.streamSpecificationViewType = {
         type: "string",
@@ -68,6 +70,7 @@ export default {
         options: constants.dynamodb.streamSpecificationViewTypes,
       };
     }
+
     return props;
   },
   async run({ $ }) {
