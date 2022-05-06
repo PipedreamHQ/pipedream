@@ -137,7 +137,10 @@ export default {
       return new Promise((resolve, reject) => {
         this.connect().then(async () => {
           try {
-            const Model = mongoose.model(collection, this.getSchemaByData(data));
+            const Model = mongoose.models[collection] || mongoose.model(
+              collection,
+              this.getSchemaByData(data),
+            );
             const document = new Model(this.parseStrings(
               data,
               parseNumbers,
@@ -161,7 +164,10 @@ export default {
       return new Promise((resolve, reject) => {
         this.connect().then(async () => {
           try {
-            const Model = mongoose.model(collection, this.getSchemaByData(data));
+            const Model = mongoose.models[collection] || mongoose.model(
+              collection,
+              this.getSchemaByData(data),
+            );
             await Model.findByIdAndUpdate(_id, this.parseStrings(
               data,
               parseNumbers,
@@ -188,16 +194,16 @@ export default {
               const schema = new mongoose.Schema(undefined, {
                 strict: false,
               });
-              const Model = mongoose.model(collection, schema);
+              const Model = mongoose.models[collection] || mongoose.model(collection, schema);
               await Model.deleteOne({
                 _id,
               });
               mongoose.connection.close(() => {
-                setTimeout(resolve());
+                setTimeout(() => resolve());
               });
             } catch (err) {
               mongoose.connection.close(() => {
-                setTimeout(reject(err));
+                setTimeout(() => reject(err));
               });
             }
           })
@@ -212,7 +218,7 @@ export default {
               const schema = new mongoose.Schema(undefined, {
                 strict: false,
               });
-              const Model = mongoose.model(collection, schema);
+              const Model = mongoose.models[collection] || mongoose.model(collection, schema);
               const document = await Model.findById(_id);
               mongoose.connection.close(() => {
                 setTimeout(() => resolve(document));
@@ -234,7 +240,7 @@ export default {
               const schema = new mongoose.Schema(undefined, {
                 strict: false,
               });
-              const Model = mongoose.model(collection, schema);
+              const Model = mongoose.models[collection] || mongoose.model(collection, schema);
               const documents = await Model.find(filter);
               mongoose.connection.close(() => {
                 setTimeout(() => resolve(documents));
