@@ -49,7 +49,7 @@ export default {
       this.db.set("topicName", topicName);
     },
     _getSubscriptionName() {
-      this.db.get("subscriptionName");
+      return this.db.get("subscriptionName");
     },
     _setSubscriptionName(subscriptionName) {
       this.db.set("subscriptionName", subscriptionName);
