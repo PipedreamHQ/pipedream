@@ -1,7 +1,7 @@
 import axios from "axios";
-import slugify from "slugify";
 import parseLinkHeader from "parse-link-header";
 import { createHmac } from "crypto";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -179,7 +179,6 @@ export default {
         data,
         headers: { link },
       } = await axios.get(url, requestConfig);
-      // https://docs.sentry.io/api/pagination/
       const { next } = parseLinkHeader(link);
 
       return {
@@ -200,17 +199,9 @@ export default {
         verifyInstall: false,
       };
     },
-    _formatIntegrationName(rawName) {
-      const options = {
-        remove: /[()]/g,
-        lower: true,
-      };
-      const enrichedRawName = `pd-${rawName}`;
-      return slugify(enrichedRawName, options).substring(0, 57);
-    },
     async createIntegration(eventSourceName, organization, webhookUrl) {
       const url = this._integrationsEndpoint();
-      const name = this._formatIntegrationName(eventSourceName);
+      const name = utils.formatIntegrationName(eventSourceName);
       const requestData = {
         ...this._baseIntegrationParams(),
         name,
