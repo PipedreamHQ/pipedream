@@ -13,6 +13,13 @@ export default {
       type: "string",
       label: "Collection ID",
       description: "The collection ID",
+      async options() {
+        const { items } = await this.getCollections();
+        return items.map((e) => ({
+          value: e._id,
+          label: e.title,
+        }));
+      },
     },
     expanded: {
       type: "boolean",
@@ -88,15 +95,6 @@ export default {
     getCollections($) {
       return this._makeRequest($, {
         path: "/collections",
-      });
-    },
-    async getRootCollections() {
-      const rootCollections = await this.getCollections();
-      return rootCollections.items.map((e) => {
-        return {
-          value: e._id,
-          label: e.title,
-        };
       });
     },
     postCollection($, collectionData) {
