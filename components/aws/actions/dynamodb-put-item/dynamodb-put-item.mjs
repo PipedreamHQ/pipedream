@@ -43,19 +43,19 @@ export default {
         };
       }
       props.item = {
-        type: "object",
+        type: "string",
         label: "Item",
-        description: "A map of attribute name/value pairs, one for each attribute. This JSON object must have the following format: `{ \"AttributeName\": { \"AttributeType\": \"AttributeValue\" } }`. Example: `{\"genre\": { \"S\": \"rock\" }, \"hits\": { \"N\": \"1050\" } }`. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/interfaces/putitemcommandinput.html#item)",
+        description: "A valid JSON of attribute name/value pairs, one for each attribute. This object must have the following format: `{ \"AttributeName\": { \"AttributeType\": \"AttributeValue\" } }`. Example: `{\"genre\": { \"S\": \"rock\" }, \"hits\": { \"N\": \"1050\" } }`. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/interfaces/putitemcommandinput.html#item)",
         optional: true,
       };
     }
     return props;
   },
   async run({ $ }) {
+    const item = {};
     const params = {
       TableName: this.tableName,
       ReturnValues: constants.dynamodb.returnValues.ALL_OLD,
-      Item: {},
     };
 
     const [
@@ -63,27 +63,26 @@ export default {
       secondaryKey,
     ] = await this.getTableAttributes(this.tableName);
 
-    params.Item[primaryKey.AttributeName] = {
+    item[primaryKey.AttributeName] = {
       [primaryKey.AttributeType]: this.primaryKey,
     };
 
     if (secondaryKey) {
-      params.Item[secondaryKey.AttributeName] = {
+      item[secondaryKey.AttributeName] = {
         [secondaryKey.AttributeType]: this.secondaryKey,
       };
     }
 
-    const item = typeof(this.item) === "string"
-      ? JSON.parse(this.item || "{}")
-      : this.item;
-
-    const response = await this.putItem({
-      ...params,
-      Item: {
-        ...params.Item,
+    try {
+      params.Item = {
         ...item,
-      },
-    });
+        ...JSON.parse(this.item),
+      };
+    } catch (e) {
+      throw new Error("JSON input could not be parsed");
+    }
+
+    const response = await this.putItem(params);
     $.export("$summary", `Successfully put item in table ${this.tableName}`);
     return response;
   },
