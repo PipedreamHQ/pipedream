@@ -392,7 +392,7 @@ export default {
     metadata_event_payload: {
       type: "string",
       label: "Metadata Event Payload",
-      description: "The payload of the metadata event",
+      description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
       optional: true,
     },
   },
