@@ -39,6 +39,15 @@ function toSingleLineString(multiLineString) {
 }
 
 function attemptToParseJSON(strObj) {
+  switch (strObj) {
+  case "":
+  case "null":
+  case "undefined":
+  case null:
+  case undefined:
+    return undefined;
+  }
+
   try {
     return JSON.parse(strObj);
   } catch (e) {
