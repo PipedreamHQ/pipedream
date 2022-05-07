@@ -100,10 +100,18 @@ export default {
       blocks.push(sentViaPipedreamText);
     }
 
+    let metadataEventPayload;
+
     if (this.metadata_event_type) {
+      try {
+        metadataEventPayload = JSON.parse(this.metadata_event_payload);
+      } catch (error) {
+        throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+      }
+
       this.metadata = {
         event_type: this.metadata_event_type,
-        event_payload: this.metadata_event_payload,
+        event_payload: metadataEventPayload,
       };
     }
 
