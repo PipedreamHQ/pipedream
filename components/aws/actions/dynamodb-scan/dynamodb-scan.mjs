@@ -19,15 +19,19 @@ export default {
     region: common.props.region,
     tableName: common.props.tableName,
     projectionExpression: common.props.projectionExpression,
+    filterExpression: common.props.filterExpression,
     expressionAttributeNames: common.props.expressionAttributeNames,
     expressionAttributeValues: common.props.expressionAttributeValues,
+    limit: common.props.limit,
   },
   async run({ $ }) {
     const params = {
       TableName: this.tableName,
       ProjectionExpression: this.projectionExpression,
+      FilterExpression: this.filterExpression,
       ExpressionAttributeNames: attemptToParseJSON(this.expressionAttributeNames),
       ExpressionAttributeValues: attemptToParseJSON(this.expressionAttributeValues),
+      Limit: this.limit,
     };
 
     const response = await this.aws.pagination(

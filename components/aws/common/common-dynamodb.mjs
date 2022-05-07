@@ -169,6 +169,21 @@ export default {
       description: "The parameters for the PartiQL statement, if any",
       optional: true,
     },
+    filterExpression: {
+      type: "string",
+      label: "Filter Expression",
+      description: toSingleLineString(`
+        A string expression that determines which items should be returned.
+        [See the docs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.FilterExpression)
+      `),
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of items to evaluate (not necessarily the number of matching items)",
+      optional: true,
+    },
   },
   methods: {
     _clientDynamodb() {
