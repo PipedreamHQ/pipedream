@@ -75,6 +75,8 @@ export default {
       description: "The name of item",
     },
     assignee: {
+      label: "Assignee",
+      type: "string",
       propDefinition: [
         clickup,
         "assignees",
