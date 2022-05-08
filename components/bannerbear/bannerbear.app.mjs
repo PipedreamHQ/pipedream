@@ -9,8 +9,10 @@ export default {
       label: "Template",
       description: "BannerBear template. [See the docs](https://developers.bannerbear.com/#get-v2-templates)",
       async options({ prevContext }) {
-        const currentPage = prevContext.nextPage || 1
-        const templates = await this.fetchTemplates(this, { page: currentPage });
+        const currentPage = prevContext.nextPage || 1;
+        const templates = await this.fetchTemplates(this, {
+          page: currentPage,
+        });
         const options = this._extractTemplateOptions(templates);
 
         return this._buildPaginatedOptions(options, currentPage);
@@ -20,23 +22,23 @@ export default {
   methods: {
     async fetchTemplates(ctx = this, params = {}) {
       const response = await axios(ctx, this._getRequestParams({
-        method: 'GET',
-        url: 'https://api.bannerbear.com/v2/templates',
-        ...params
-      }))
+        method: "GET",
+        url: "https://api.bannerbear.com/v2/templates",
+        ...params,
+      }));
 
-      return response
+      return response;
     },
     async createImage(ctx = this, template, modifications, params = {}) {
       const response = await axios(ctx, this._getRequestParams({
-        method: 'POST',
-        url: 'https://sync.api.bannerbear.com/v2/images',
+        method: "POST",
+        url: "https://sync.api.bannerbear.com/v2/images",
         data: {
           template,
           modifications,
         },
-        ...params
-      }))
+        ...params,
+      }));
 
       return response;
     },
@@ -61,7 +63,10 @@ export default {
     },
     _extractTemplateOptions(templates) {
       const options = templates.map((template) => {
-        const {name, uid} = template
+        const {
+          name,
+          uid,
+        } = template;
 
         return {
           label: name || "Untitled",
