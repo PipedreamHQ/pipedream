@@ -5,7 +5,7 @@ export default {
   key: "digital_ocean-turnonoff-droplet",
   name: "Turn on/off Droplet",
   description: "Turns a droplet on or off",
-  version: "0.1.4",
+  version: "0.1.2",
   type: "action",
   props: {
     digitalOceanApp,
@@ -20,7 +20,7 @@ export default {
       type: "string",
       description: "The unique identifier of Droplet to snapshot.",
       async options() {
-        return await this.digitalOceanApp.fetchDropletOps();
+        return this.digitalOceanApp.fetchDropletOps();
       },
     },
   },

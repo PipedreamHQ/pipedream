@@ -4,7 +4,7 @@ export default {
   key: "digital_ocean-create-droplet",
   name: "Create Droplet",
   description: "Creates a droplet",
-  version: "0.1.16",
+  version: "0.1.2",
   type: "action",
   props: {
     digitalOceanApp,
@@ -19,7 +19,7 @@ export default {
       description: "Unique slug identifier for the region to deploy this Droplet in.",
       reloadProps: true,
       async options() {
-        return await this.digitalOceanApp.fetchRegionsOpts();
+        return this.digitalOceanApp.fetchRegionsOpts();
       },
     },
   },
@@ -34,7 +34,7 @@ export default {
         description: "The image ID of a public or private image, or the unique slug identifier for a public image. This image will be the base image for this Droplet.",
         reloadProps: false,
         options: async () => {
-          return await this.digitalOceanApp.fetchImageOpts(this.region);
+          return this.digitalOceanApp.fetchImageOpts(this.region);
         },
       },
       size: {
@@ -43,7 +43,7 @@ export default {
         description: "Unique slug identifier for the size to select for this Droplet.",
         reloadProps: false,
         options: async () => {
-          return await this.digitalOceanApp.fetchSizeOpts(this.region);
+          return this.digitalOceanApp.fetchSizeOpts(this.region);
         },
       },
       volumes: {
@@ -53,7 +53,7 @@ export default {
         optional: true,
         reloadProps: false,
         options: async () => {
-          return await this.digitalOceanApp.fetchVolumeOpts(this.region);
+          return this.digitalOceanApp.fetchVolumeOpts(this.region);
         },
       },
       ssh_keys: {
@@ -63,7 +63,7 @@ export default {
         optional: true,
         reloadProps: false,
         options: async () => {
-          return await this.digitalOceanApp.fetchSshKeys();
+          return this.digitalOceanApp.fetchSshKeys();
         },
       },
       backups: {

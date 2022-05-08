@@ -13,7 +13,7 @@ export default {
       type: "string",
       description: "The name of the domain itself. This should follow the standard domain format of domain.TLD. For instance, example.com is a valid domain name.",
     },
-    ip_address: {
+    ipAddress: {
       label: "Ip address",
       type: "string",
       description: "This optional attribute may contain an IP address. When provided, an A record will be automatically created pointing to the apex domain.",
@@ -23,7 +23,7 @@ export default {
     const api = this.digitalOceanApp.digitalOceanWrapper();
     const newDomainData = {
       name: this.name,
-      ip_address: this.ip_address,
+      ip_address: this.ipAddress,
     };
     const response = await api.domains.create(newDomainData);
     $.export("$summary", `Successfully created domain ${response.domain.name}.`);

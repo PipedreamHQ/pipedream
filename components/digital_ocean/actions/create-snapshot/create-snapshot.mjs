@@ -19,7 +19,7 @@ export default {
       type: "string",
       description: "The unique identifier of Droplet to snapshot.",
       async options() {
-        return await this.digitalOceanApp.fetchDropletOps();
+        return this.digitalOceanApp.fetchDropletOps();
       },
     },
   },
