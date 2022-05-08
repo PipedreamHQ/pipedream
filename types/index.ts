@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-type JSONValue =
+export type JSONValue =
   | string
   | number
   | boolean
@@ -235,22 +235,4 @@ export interface Action {
   // XXX `this` should be strictly typed. For some reason the approach I took above
   // did not work here.
   run: (this: any, options?: ActionRunOptions) => Promise<any>
-}
-
-// Custom errors
-
-// HTTPErrors are used to throw status-code specific errors
-// in components that make HTTP requests
-export class HTTPError extends Error {
-  statusCode: number
-  name: string
-  message: string
-
-  constructor(code: number, name: string, message: string) {
-    super(message);
-    Error.captureStackTrace(this, this.constructor);
-    this.name = `HTTP${code}Error`;
-    this.message = `(${name}) ${message}`;
-    this.statusCode = code;
-  }
 }

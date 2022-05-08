@@ -1,11 +1,12 @@
-import isArray from "lodash/isArray.js";
-import get from "lodash/get.js";
-import isString from "lodash/isString.js";
-import isEmpty from "lodash/isEmpty.js";
+import isArray from "lodash/isArray";
+import get from "lodash/get";
+import isString from "lodash/isString";
+import isEmpty from "lodash/isEmpty";
+import { JSONValue } from "@pipedream/types";
 
-export const sanitizedArray = (value) => {
+export const sanitizedArray = (value: JSONValue) => {
   if (isArray(value)) {
-    return value.map((item) => get(item, "value", item));
+    return value.map((item: any) => get(item, "value", item));
   }
 
   // If is string, try to convert it in an array

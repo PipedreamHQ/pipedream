@@ -1,23 +1,13 @@
-import { STATUS_CODES } from "http";
 import axios from "axios";
 import FeedParser from "feedparser";
 import { Item } from "feedparser";
 import hash from "object-hash";
 import {
-  App, UserProp, HTTPError,
+  NoProtocolError, generateHTTPErrorClasses,
+} from "@pipedream/helpers";
+import {
+  App, UserProp,
 } from "@pipedream/types";
-
-class NoProtocolError extends Error {
-  constructor (message: string) {
-    super(message);
-
-    // assign the error class name in your custom error (as a shortcut)
-    this.name = this.constructor.name;
-
-    // capturing the stack trace keeps the reference to your error class
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
 
 export default {
   type: "app",
@@ -46,7 +36,7 @@ export default {
         responseType: "stream", // stream is required for feedparser
       });
       // Handle status codes as error codes
-      const errors = this.generateHTTPErrorClasses();
+      const errors = generateHTTPErrorClasses();
       if (res.status === 404) throw errors[404]("The URL does not exist. Please double-check the URL and try again.");
       if (res.status === 429) throw errors[429](`${this.url} rate-limited the request. Please reach out to the site hosting the RSS feed to confirm or increase their rate limit.`);
       if (res.status >= 500) throw errors[res.status](`${this.url} encountered an error. Please try again later or reach out to the site hosting the RSS feed if you continue to see this error.`);
@@ -93,28 +83,6 @@ export default {
     validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
       if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
-    },
-    // XXX Move these to a generic utils file
-    createHTTPError(code: number, name: string): (message: string) => HTTPError {
-      return function (message: string): HTTPError {
-        return new HTTPError(code, name, message);
-      };
-    },
-    generateHTTPErrorClasses(): { [code: number]: (message: string) => HTTPError } {
-      const errorClasses: { [code: number]: (message: string) => HTTPError } = {};
-      const badStatusCodes = Object.keys(STATUS_CODES)
-        .map((code) => Number(code))
-        .filter((code) => code >= 400);
-
-      for (const code of badStatusCodes) {
-        const errorMsg = STATUS_CODES[code];
-        if (!errorMsg) {
-          continue;
-        }
-        const name = errorMsg.replace(/\W/g, "").concat("Error");
-        errorClasses[code] = this.createHTTPError(code, name);
-      }
-      return errorClasses;
     },
   },
 } as App;
