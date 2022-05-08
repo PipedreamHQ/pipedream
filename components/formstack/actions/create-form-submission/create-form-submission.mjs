@@ -1,4 +1,5 @@
 import formstack from "../../formstack.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   type: "action",
@@ -33,7 +34,7 @@ export default {
       encryptionPassword,
     } = this;
 
-    const parsedFields = fields
+    const parsedFields = utils.emptyStrToUndefined(fields)
       ? JSON.parse(fields)
       : {};
 
