@@ -8,4 +8,11 @@ export default {
     }
     return parsed;
   },
+  parseArray(arr) {
+    const parsed = [];
+    arr.forEach(e => {
+      parsed.push(this.parseObject(e));
+    });
+    return parsed;
+  },
 };

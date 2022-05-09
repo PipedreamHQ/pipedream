@@ -17,6 +17,33 @@ export default {
         }));
       },
     },
+    contacts: {
+      label: "Contacts",
+      description: "Please provide an object structure for each row like e.g.:, \n\
+        { \n\
+          \"name\": \"Gob\",\n\
+          \"title\": \"Sr. Vice President\",\n\
+          \"emails\": [ { \"type\": \"office\", \"email\": \"gob@example.com\" } ],\n\
+          \"phones\": [ { \"type\": \"office\", \"phone\": \"8004445555\" } ] \n\
+        }",
+      type: "string[]",
+      optional: true,
+    },
+    addresses: {
+      label: "Addresses",
+      description: "Please provide an object structure for each row like e.g.:,\n\
+      {\n\
+          \"label\": \"business\",\n\
+          \"address_1\": \"747 Howard St\",\n\
+          \"address_2\": \"Room 3\",\n\
+          \"city\": \"San Francisco\",\n\
+          \"state\": \"CA\",\n\
+          \"zipcode\": \"94103\",\n\
+          \"country\":\"US\",\n\
+        }",
+      type: "string[]",
+      optional: true,
+    },
     moreFields: {
       label: "More Fields",
       description: "Additional properties not listed as a prop",

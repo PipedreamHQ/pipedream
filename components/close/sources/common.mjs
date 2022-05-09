@@ -19,7 +19,6 @@ export default {
   },
   hooks: {
     async activate() {
-      console.log("activate this.getEvents()", this.getEvents());
       const response = await this.close.createHook({
         data: {
           events: this.getEvents(),
