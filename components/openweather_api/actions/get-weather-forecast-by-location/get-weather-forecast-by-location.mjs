@@ -3,7 +3,7 @@ import openweatherApi from "../../openweather_api.app.mjs";
 
 export default {
   key: "openweather_api-get-weather-forecast-by-location",
-  name: "Get Current Weather Forcast by Location",
+  name: "Get Current Weather Forecast by Location",
   description: `Retrieves 1-16 days weather forecast for a specified location. 
   [See the docs here](https://openweathermap.org/forecast16#geo16). For more accurate reading, you are advised to fill in the country code and/or state code `,
   version: "0.0.1",
