@@ -2,15 +2,14 @@ import delightedApp from "../../delighted.app.mjs";
 
 export default {
   key: "delighted-sending-to-people",
-  name: "Sending to people",
+  name: "Sending to People",
   description: "Create or update a person and send a survey email. [See the docs here](https://app.delighted.com/docs/api/sending-to-people)",
-  version: "0.0.7",
+  version: "0.0.1",
   type: "action",
   props: {
     delightedApp,
     email: {
       type: "string",
-      optional: false,
       label: "Email",
       description: "Email of the person.",
     },
