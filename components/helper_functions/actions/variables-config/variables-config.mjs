@@ -1,7 +1,7 @@
 export default {
+  key: "helper_functions-variables-config",
   name: "Variables",
   description: "Configure variables for use in your workflow",
-  key: "helpers-variables-config",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,6 +13,5 @@ export default {
   },
   run({ $ }) {
     $.export("config", this.config);
-    return this.config;
   },
 };
