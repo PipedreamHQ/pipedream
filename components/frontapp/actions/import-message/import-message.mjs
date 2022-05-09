@@ -1,16 +1,17 @@
-// legacy_hash_id: a_a4iKLb
-import { axios } from "@pipedream/platform";
+import frontApp from "../../frontapp.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "frontapp-import-message",
   name: "Import Message",
-  description: "Appends a new message into an inbox.",
-  version: "0.1.2",
+  description: "Appends a new message into an inbox. [See the docs here](https://dev.frontapp.com/reference/import-inbox-message",
+  version: "0.1.3",
   type: "action",
   props: {
-    frontapp: {
-      type: "app",
-      app: "frontapp",
+    frontApp,
+    inboxId: {
+      type: "string",
+      description: "Id of the inbox into which the message should be append.",
     },
     handle: {
       type: "string",
@@ -21,22 +22,22 @@ export default {
       description: "Name of the contact.",
       optional: true,
     },
-    author_id: {
+    authorId: {
       type: "string",
       description: "ID of the teammate who is the author of the message. Ignored if the message is inbound.",
       optional: true,
     },
     to: {
-      type: "any",
+      type: "string[]",
       description: "List of recipient handles who received the message.",
     },
     cc: {
-      type: "any",
+      type: "string[]",
       description: "List of recipient handles who received a copy of the message.",
       optional: true,
     },
     bcc: {
-      type: "any",
+      type: "string[]",
       description: "List of the recipeient handles who received a blind copy of the message.",
       optional: true,
     },
@@ -49,7 +50,7 @@ export default {
       type: "string",
       description: "Body of the message.",
     },
-    body_format: {
+    bodyFormat: {
       type: "string",
       description: "Format of the message body. Ignored if the message type is not email. Can be one of: 'html', 'markdown'. (Default: 'markdown')",
       optional: true,
@@ -58,11 +59,11 @@ export default {
         "markdown",
       ],
     },
-    external_id: {
+    externalId: {
       type: "string",
       description: "External identifier of the message. Front won't import two messages with the same external ID.",
     },
-    created_at: {
+    createdAt: {
       type: "integer",
       description: "Date at which the message as been sent or received. A timestamp is expected as in 1453770984.123",
     },
@@ -77,94 +78,100 @@ export default {
         "custom",
       ],
     },
-    assignee_id: {
+    assigneeId: {
       type: "string",
       description: "ID of the teammate who will be assigned to the conversation.",
       optional: true,
     },
     tags: {
-      type: "any",
+      type: "string[]",
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
       optional: true,
     },
-    thread_ref: {
+    threadRef: {
       type: "string",
       description: "Custom reference which will be used to thread messages. If you omit this field, we'll thread by sender instead.",
       optional: true,
     },
-    is_inbound: {
+    isInbound: {
       type: "boolean",
       description: "Whether or not the message is received (inbound) or sent (outbound) by you",
     },
-    archive: {
+    isArchive: {
       type: "boolean",
       description: "Whether or not the message should be directly archived once imported. (Default: true)",
       optional: true,
     },
-    should_skip_rules: {
+    shouldSkipRules: {
       type: "boolean",
       description: "Whether or not the rules should apply to this message. (Default: true)",
       optional: true,
     },
-    inbox_id: {
-      type: "string",
-      description: "Id of the inbox into which the message should be append.",
-    },
   },
   async run({ $ }) {
-  //FrontApp api specifies body should be sent as a data binary.
-  //One way to comply with this is to populate an JS object normally
-  //and stringify it before requesting.
+    const {
+      inboxId,
+      handle,
+      name,
+      authorId,
+      subject,
+      body,
+      bodyFormat,
+      externalId,
+      createdAt,
+      type,
+      assigneeId,
+      threadRef,
+      isArchive,
+      isInbound,
+      shouldSkipRules,
+    } = this;
 
-    var messageToImportData = {
+    const to = utils.parse(this.to);
+    const cc = utils.parse(this.cc);
+    const bcc = utils.parse(this.bcc);
+    const tags = utils.parse(this.tags);
+
+    const data = {
       sender: {
-        handle: this.handle,
-        name: this.name,
-        author_id: this.author_id,
+        handle,
+        name,
+        author_id: authorId,
       },
-      to: typeof this.to == "undefined"
-        ? this.to
-        : JSON.parse(this.to),
-      cc: typeof this.cc == "undefined"
-        ? this.cc
-        : JSON.parse(this.cc),
-      bcc: typeof this.bcc == "undefined"
-        ? this.bcc
-        : JSON.parse(this.bcc),
-      subject: this.subject,
-      body: this.body,
-      body_format: this.body_format,
-      external_id: this.external_id,
-      created_at: this.created_at,
-      type: this.type,
-      assignee_id: this.assignee_id,
-      tags: typeof this.tags == "undefined"
-        ? this.tags
-        : JSON.parse(this.tags),
+      to,
+      cc,
+      bcc,
+      subject,
+      body,
+      body_format: bodyFormat,
+      external_id: externalId,
+      created_at: createdAt,
+      type,
+      assignee_id: assigneeId,
+      tags,
       metadata: {
-        thread_ref: this.thread_ref,
-        is_inbound: new Boolean(this.is_inbound),
-        is_archived: typeof this.archive == "undefined"
-          ? true
-          : new Boolean(this.archive),
-        should_skip_rules: typeof this.should_skip_rules == "undefined"
-          ? true
-          : new Boolean(this.should_skip_rules),
+        thread_ref: threadRef,
+        is_inbound: isInbound,
+        is_archived: isArchive,
+        should_skip_rules: shouldSkipRules,
       },
     };
 
-    const effectiveRequestBody = JSON.stringify(messageToImportData);
+    const effectiveRequestBody = JSON.stringify(data);
     $.export("effective_request_body", effectiveRequestBody);
 
-    return await axios($, {
-      method: "post",
-      url: `https://api2.frontapp.com/inboxes/${this.inbox_id}/messages`,
-      headers: {
-        "Authorization": `Bearer ${this.frontapp.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      data: effectiveRequestBody,
-    });
+    const response =
+      await this.frontApp.importMessage({
+        params: {
+          inbox_id: inboxId,
+        },
+        data,
+      });
+
+    const { message_uid: messageId } = response;
+
+    $.export("$summary", `Successfully imported message with ID ${messageId}`);
+
+    return response;
   },
 };

@@ -1,23 +1,24 @@
-// legacy_hash_id: a_A6i7wv
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-update-conversation",
   name: "Update Conversation",
   description: "Updates a conversation",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
-    frontapp: {
-      type: "app",
-      app: "frontapp",
+    frontApp,
+    conversationId: {
+      type: "string",
+      description: "Conversation unique identifier",
     },
-    assignee_id: {
+    assigneeId: {
       type: "string",
       description: "ID of the teammate to assign the conversation to. Set it to null to unassign.",
       optional: true,
     },
-    inbox_id: {
+    inboxId: {
       type: "string",
       description: "ID of the inbox to move the conversation to.",
       optional: true,
@@ -33,42 +34,41 @@ export default {
         "open",
       ],
     },
-    tag_ids: {
-      type: "any",
+    tagIds: {
+      type: "string[]",
       description: "List of all the tag IDs replacing the old conversation tags",
       optional: true,
     },
-    conversation_id: {
-      type: "string",
-      description: "Conversation unique identifier",
-    },
   },
   async run({ $ }) {
-  //FrontApp api specifies body should be sent as a data binary.
-  //One way to comply with this is to populate an JS object normally
-  //and stringify it before requesting.
+    const {
+      conversationId,
+      assigneeId,
+      inboxId,
+      status,
+    } = this;
 
-    var conversationData = {
-      assignee_id: this.assignee_id,
-      inbox_id: this.inbox_id,
-      status: this.status,
-      tag_ids: typeof this.tag_ids == "undefined"
-        ? this.tag_ids
-        : JSON.parse(this.tag_ids),
+    const tagIds = utils.parse(this.tagIds);
+
+    const data = {
+      assignee_id: assigneeId,
+      inbox_id: inboxId,
+      status,
+      tag_ids: tagIds,
     };
 
-    const effectiveRequestBody = JSON.stringify(conversationData);
+    const effectiveRequestBody = JSON.stringify(data);
     $.export("effective_request_body", effectiveRequestBody);
 
-    return await axios($, {
-      method: "patch",
-      url: `https://api2.frontapp.com/conversations/${this.conversation_id}`,
-      headers: {
-        "Authorization": `Bearer ${this.frontapp.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+    const response = await this.frontApp.updateConversation({
+      params: {
+        conversation_id: conversationId,
       },
-      data: effectiveRequestBody,
+      data,
     });
+
+    $.export("$summary", `Successfully updated conversation with ID ${response.id}`);
+
+    return response;
   },
 };

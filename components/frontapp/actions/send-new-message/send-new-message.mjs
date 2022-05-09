@@ -1,27 +1,23 @@
-// legacy_hash_id: a_poikPY
-import { axios } from "@pipedream/platform";
+import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-send-new-message",
   name: "Send new message",
-  description: "Sends a new message from a channel. It will create a new conversation.",
-  version: "0.2.1",
+  description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
+  version: "0.2.2",
   type: "action",
   props: {
-    frontapp: {
-      type: "app",
-      app: "frontapp",
-    },
-    channel_id: {
+    frontApp,
+    channelId: {
       type: "string",
       description: "Id or address of the channel from which to send the message",
     },
-    author_id: {
+    authorId: {
       type: "string",
       description: "ID of the teammate on behalf of whom the answer is sent",
       optional: true,
     },
-    sender_name: {
+    senderName: {
       type: "string",
       description: "Name used for the sender info of the message",
       optional: true,
@@ -50,12 +46,12 @@ export default {
       description: "Sending options",
       optional: true,
     },
-    options_tags: {
+    optionsTags: {
       type: "any",
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
       optional: true,
     },
-    options_archive: {
+    optionsArchive: {
       type: "boolean",
       description: "Archive the conversation right when sending the message (Default: true)",
       optional: true,
@@ -76,27 +72,44 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://api2.frontapp.com/channels/${this.channel_id}/messages`,
-      headers: {
-        "Authorization": `Bearer ${this.frontapp.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
+    const {
+      channelId,
+      authorId,
+      senderName,
+      subject,
+      body,
+      text,
+      attachments,
+      options,
+      optionsTags,
+      optionsArchive,
+      to,
+      cc,
+      bcc,
+    } = this;
+
+    const response = await this.frontApp.sendMessage({
       params: {
-        author_id: this.author_id,
-        sender_name: this.sender_name,
-        subject: this.subject,
-        body: this.body,
-        text: this.text,
-        attachments: this.attachments,
-        options: this.options,
-        options_tags: this.options_tags,
-        options_archive: this.options_archive,
-        to: this.to,
-        cc: this.cc,
-        bcc: this.bcc,
+        channel_id: channelId,
+      },
+      data: {
+        author_id: authorId,
+        sender_name: senderName,
+        subject,
+        body,
+        text,
+        attachments,
+        options,
+        options_tags: optionsTags,
+        options_archive: optionsArchive,
+        to,
+        cc,
+        bcc,
       },
     });
+
+    $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
+
+    return response;
   },
 };
