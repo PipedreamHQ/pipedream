@@ -5,7 +5,7 @@ export default {
   key: "people_data_labs-enrich",
   name: "Enrich a person",
   description: "Full enrichment API.  See docs for minimum combination of data points a request must contain for a 200 response.",
-  version: "0.8.1",
+  version: "0.8.2",
   type: "action",
   props: {
     people_data_labs: {
@@ -119,7 +119,7 @@ export default {
   },
   async run({ $ }) {
     return await axios($, {
-      url: "https://api.peopledatalabs.com/v4/person",
+      url: "https://api.peopledatalabs.com/v5/person",
       params: {
         api_key: this.people_data_labs.$auth.api_key,
         name: this.name,

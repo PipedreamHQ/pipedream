@@ -18,7 +18,7 @@ export default {
     },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
@@ -26,23 +26,15 @@ export default {
     },
   },
   methods: {
-    _addParsedId(tweet) {
-      // This is needed since the numeric value of a Tweet's ID can exceed the
-      // maximum supported value of `number`
-      const parsedId = BigInt(tweet.id_str);
-      return {
-        ...tweet,
-        parsedId,
-      };
-    },
-    _compareByIdAsc({ parsedId: a }, { parsedId: b }) {
-      if (a < b) return -1;
-      if (a > b) return 1;
+    _compareByIdAsc({ id_str: a }, { id_str: b }) {
+      const A = BigInt(a);
+      const B = BigInt(b);
+      if (A < B) return -1;
+      if (A > B) return 1;
       return 0;
     },
     sortTweets(tweets) {
       return tweets
-        .map(this._addParsedId)
         .sort(this._compareByIdAsc);
     },
     /**

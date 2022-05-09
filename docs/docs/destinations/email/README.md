@@ -1,6 +1,6 @@
 # Email
 
-The Email Destination allows you send an email to _yourself_ — the email address tied to the account you signed up with — at any step of a workflow. You can also email [any collaborators on your workflow](#emailing-workflow-collaborators).
+The Email Destination allows you send an email to _yourself_ — the email address tied to the account you signed up with — at any step of a workflow.
 
 You can use this to email yourself when you receive a specific event, for example when a user signs up on your app. You can send yourself an email when a cron job finishes running, or when a job fails. Anywhere you need an email notification, you can use the Email Destination! 
 
@@ -10,11 +10,12 @@ You can use this to email yourself when you receive a specific event, for exampl
 
 ### Adding an Email Action
 
-First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
+1. Add a new step to your workflow
+2. Select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
 
 ### Using `$.send.email` in workflows
 
-You can send data to an Email Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$.send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
+You can send data to an Email Destination in [Node.js code steps](/code/nodejs/), too, using the `$.send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
 
 `$.send.email()` takes the same parameters as the corresponding action:
 
@@ -25,7 +26,6 @@ defineComponent({
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
-      include_collaborators: false,
     });
   }
 });
@@ -37,7 +37,7 @@ Like with any `$.send` function, you can use `$.send.email()` conditionally, wit
 
 ### Using `$.send.email` in component actions
 
-If you're authoring a [component action](/components/actions/), you can deliver data to an email destination using `$.send.email`.
+If you're authoring a [component action](/components#actions), you can deliver data to an email destination using `$.send.email`.
 
 `$.send.email` functions the same as [`$.send.email` in workflow code steps](#using-send-email-in-workflows):
 
@@ -48,15 +48,10 @@ defineComponent({
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
-      include_collaborators: false,
     });
   }
 })
 ```
-
-## Emailing workflow collaborators
-
-The `include_collaborators` flag defaults to `false`. When set to `true`, `$.send.email()` will email any [collaborators](/workflows/settings/#collaborators) you've added to your workflow.
 
 ## Delivery details
 

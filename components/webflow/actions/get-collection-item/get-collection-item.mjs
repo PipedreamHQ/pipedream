@@ -1,38 +1,49 @@
-// legacy_hash_id: a_A6iPGB
-import { axios } from "@pipedream/platform";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-get-collection-item",
-  name: "Get a collection item",
-  version: "0.1.1",
+  name: "Get Collection Item",
+  description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
+  version: "0.1.3",
   type: "action",
   props: {
-    webflow: {
-      type: "app",
-      app: "webflow",
+    webflow,
+    siteId: {
+      propDefinition: [
+        webflow,
+        "sites",
+      ],
+      optional: true,
     },
-    collection_id: {
-      type: "string",
+    collectionId: {
+      propDefinition: [
+        webflow,
+        "collections",
+        (c) => ({
+          siteId: c.siteId,
+        }),
+      ],
     },
-    item_id: {
-      type: "string",
+    itemId: {
+      propDefinition: [
+        webflow,
+        "items",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    $.export("request", {
-      method: "get",
-      url: `https://api.webflow.com/collections/${this.collection_id}/items/${this.item_id}`,
+    const webflow = this.webflow._createApiClient();
 
-      headers: {
-        "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "accept-version": "1.0.0",
-      },
+    const response = await webflow.item({
+      collectionId: this.collectionId,
+      itemId: this.itemId,
     });
-    $.export(
-      "response",
-      await axios($, this.request),
-    );
-    $.export("item", this.response.items[0]);
+
+    $.export("$summary", "Successfully retrieved collection item");
+
+    return response;
   },
 };

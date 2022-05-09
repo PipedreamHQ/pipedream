@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emit new event for each new Youtube video added to a Playlist.",
-  version: "0.0.5",
+  version: "0.0.7",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
@@ -50,31 +50,6 @@ export default {
       if (!publishedAfter) return true;
       const publishedAt = video.snippet.publishedAt;
       return Date.parse(publishedAt) > Date.parse(publishedAfter);
-    },
-    async paginatePlaylistItems(params, publishedAfter = null) {
-      let totalResults = 1;
-      let count = 0;
-      let countEmitted = 0;
-      let lastPublished;
-
-      while (count < totalResults && countEmitted < params.maxResults) {
-        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
-        totalResults = results.pageInfo.totalResults;
-        for (const video of results.items) {
-          if (this.isRelevant(video, publishedAfter)) {
-            if (
-              !lastPublished ||
-              Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)
-            )
-              lastPublished = video.snippet.publishedAt;
-            this.emitEvent(video);
-            countEmitted++;
-          }
-          count++;
-        }
-        params.pageToken = results.nextPageToken;
-      }
-      return lastPublished;
     },
   },
   async run() {

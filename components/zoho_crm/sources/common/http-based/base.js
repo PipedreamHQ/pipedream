@@ -2,7 +2,7 @@ const {
   randomBytes,
   randomInt,
 } = require("crypto");
-const zohoCrm = require("../../../zoho_crm.app.js");
+const zohoCrm = require("../../../zoho_crm.app.mjs");
 
 // Zoho CRM webhooks subscriptions have an expiration date of up to 1 day. This
 // event source renews the subscription every 12 hours by default. More info can
@@ -166,7 +166,12 @@ module.exports = {
       } = opts;
       if (operation === "delete") {
         // We won't attempt to retrieve resources that no longer exist
-        return;
+        // Return list of objects with `id`s, as the resources
+        return ids.map((id) => ([
+          {
+            id,
+          },
+        ]));
       }
 
       const apiCalls = ids
@@ -240,18 +245,17 @@ module.exports = {
     generateMeta({
       event, resource,
     }) {
+      const { body } = event;
       const {
-        headers: { "x-amzn-trace-id": eventId },
-        body: {
-          module, operation,
-        },
-      } = event;
+        module,
+        operation,
+      } = body;
       const {
         id: resourceId,
         Created_Time: creationTime,
         Modified_Time: editionTime,
       } = resource;
-      const id = `${eventId}-${resourceId}`;
+      const id = `${editionTime}-${resourceId}`;
       const summary = `${module} ${operation}`;
       const ts = Math.max(Date.parse(creationTime), Date.parse(editionTime));
       return {

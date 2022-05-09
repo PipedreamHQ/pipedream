@@ -1,5 +1,7 @@
 # Sources
 
+<VideoPlayer url="https://www.youtube.com/embed/RjsWeXW_DC0" title="Understanding Sources in Pipedream" />
+
 Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
 <div>
@@ -55,7 +57,7 @@ Finally, you can consume events programmatically, outside the Pipedream platform
 
 - In real-time, using the [SSE stream](/api/sse/) linked to your source
 - In real-time, via the CLI's [`pd events` command](/api/sse/#subscribe-to-new-events-using-the-pipedream-cli)
-- In batch, using the [REST API](#rest-api)
+- In batch, using the [REST API](/api/rest/)
 
 ## Example: HTTP source
 

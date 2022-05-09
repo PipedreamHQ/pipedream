@@ -5,7 +5,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Asana - Get list of user projects",
   description: "Return list of projects given the user and workspace gid",
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   props: {
     asana: {
@@ -29,18 +29,18 @@ export default {
     },
   },
   async run({ $ }) {
-  //
-  // Contributed to the pipedream community by https://taskforce.services
-  //
-  // Asana organizes work so teams know what to do, why it matters, and how to get it done.
-  // https://tfs.link/asana
-  //
+    //
+    // Contributed to the pipedream community by https://taskforce.services
+    //
+    // Asana organizes work so teams know what to do, why it matters, and how to get it done.
+    // https://tfs.link/asana
+    //
 
     // Return list of projects given the user and workspace gid
     const optFields = this.opt_fields;
     const limit = this.limit; // returned number of items per call
     const workspace = this.workspace;
-    $.export("projects", []);
+    let userProjects = [];
     let uri = `https://app.asana.com/api/1.0/projects/?opt_fields=${optFields}&archived=false&limit=${limit}&workspace=${workspace}`;
     const user = this.user_id;
 
@@ -58,13 +58,13 @@ export default {
             let member = item.members.find((m) => m.gid == user);
 
             if (typeof member !== "undefined") {
-              this.projects.push(item);
+              userProjects.push(item);
             }
           }
         }
 
         if (projects.next_page != null)
-        // loop again to next page
+          // loop again to next page
           uri = projects.next_page.uri;
         else
           break;
@@ -73,11 +73,13 @@ export default {
       }
     }
 
-    if (this.projects.length == 0) {
-      console.log("No project found for user: " + email);
+    $.export("projects", userProjects);
+
+    if (userProjects.length == 0) {
+      console.log("No project found for user: " + this.user_id);
       return null;
     }
 
-    return this.projects;
+    return userProjects;
   },
 };

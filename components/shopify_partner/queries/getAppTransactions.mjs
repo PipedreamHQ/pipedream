@@ -15,7 +15,7 @@ export default gql`
       createdAtMin: $createdAtMin
       createdAtMax: $createdAtMax
       after: $after
-      first: 50
+      first: 100
     ) {
       pageInfo {
         hasNextPage
@@ -36,6 +36,12 @@ export default gql`
               amount
               currencyCode
             }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
+            }
           }
           ... on AppUsageSale {
             app {
@@ -46,6 +52,12 @@ export default gql`
               amount
               currencyCode
             }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
+            }
           }
           ... on AppOneTimeSale {
             app {
@@ -55,6 +67,12 @@ export default gql`
             netAmount {
               amount
               currencyCode
+            }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
             }
           }
         }

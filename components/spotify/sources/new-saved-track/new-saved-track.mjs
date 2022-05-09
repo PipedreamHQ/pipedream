@@ -3,11 +3,11 @@ import common from "../common.mjs";
 export default {
   dedupe: "unique",
   type: "source",
-  key: "spotify-source-new-saved-track",
+  key: "spotify-new-saved-track",
   name: "New Saved Track",
   description:
     "Emit new event for each new track saved to the current Spotify user's Music Library.",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     ...common.props,
     db: "$.service.db",

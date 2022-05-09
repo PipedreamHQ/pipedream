@@ -22,8 +22,14 @@ export default {
       type: "string",
       description:
         "Only include events up to this specific time (ISO timestamp)",
-      label: "occurredAtMin",
+      label: "occurredAtMax",
       optional: true,
+    },
+    paginationEnabled: {
+      type: "boolean",
+      label: "Paginate results",
+      description: "Paginate through all of your Shopify Partner records until occurredAtMin is reached. This can cause many invocations.",
+      default: false,
     },
   },
   methods: {
@@ -50,7 +56,7 @@ export default {
       hasNextPagePath = "transactions.pageInfo.hasNextPage",
       getCursor,
     }) {
-      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2021-04/graphql.json`;
+      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2021-07/graphql.json`;
       const client = new GraphQLClient(endpoint, {
         headers: {
           "Content-Type": "application/json",
@@ -63,23 +69,28 @@ export default {
 
       const queryVars = {
         ...variables,
-        ...(lastCursor
+        ...(lastCursor && this.paginationEnabled
           ? {
             after: lastCursor,
           }
           : {}),
       };
 
+      console.log("queryVars", queryVars);
+
       const data = await client.request(query || mutation, queryVars);
       console.log(JSON.stringify(data, null, 4));
 
       if (data) {
         handleEmit(data);
-        db.set(key, getCursor(data));
+        const cursor = getCursor(data);
+        if (cursor) {
+          db.set(key, getCursor(data));
+        }
       }
 
-      // paginate the results recursively
-      if (data && get(data, hasNextPagePath)) {
+      // paginate the results recursively if enabled
+      if (data && get(data, hasNextPagePath) && this.paginationEnabled) {
         await this.query({
           db,
           key,
