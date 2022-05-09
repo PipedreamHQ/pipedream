@@ -1,7 +1,7 @@
 export default {
-  key: "helper_functions-variables-config",
-  name: "Variables",
-  description: "Configure variables for use in your workflow",
+  key: "helper_functions-export-variables",
+  name: "Export Variables",
+  description: "Export variables for use in your workflow",
   version: "0.0.1",
   type: "action",
   props: {
