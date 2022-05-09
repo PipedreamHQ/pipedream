@@ -62,14 +62,22 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      memberHidden = null,
+      memberName = null,
+      memberDescription = null,
+      memberAuthorized = null,
+      memberActiveBridge = null,
+      memberNoAutoAssignIps = null,
+    } = this;
     const data = {
-      hidden: this.memberHidden,
-      name: this.memberName,
-      description: this.memberDescription,
+      hidden: memberHidden,
+      name: memberName,
+      description: memberDescription,
       config: {
-        authorized: this.memberAuthorized,
-        activeBridge: this.memberActiveBridge,
-        noAutoAssignIps: this.memberNoAutoAssignIps,
+        authorized: memberAuthorized,
+        activeBridge: memberActiveBridge,
+        noAutoAssignIps: memberNoAutoAssignIps,
       },
     };
     const response = await this.zerotier.updateNetworkMember({
