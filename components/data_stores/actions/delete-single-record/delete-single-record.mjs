@@ -1,10 +1,10 @@
 import app from "../../data_stores.app.mjs";
 
 export default {
-  key: "data_stores-delete-record",
+  key: "data_stores-delete-single-record",
   name: "Delete a single record",
   description: "Delete a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -24,7 +24,7 @@ export default {
     const record = await this.dataStore.get(this.key);
 
     if (record) {
-      await this.dataStore.set(this.key, undefined);
+      await this.dataStore.delete(this.key);
       $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
     } else {
       $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");
