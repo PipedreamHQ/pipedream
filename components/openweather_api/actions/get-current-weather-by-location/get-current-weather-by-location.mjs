@@ -62,7 +62,7 @@ export default {
       lon: location[0].lon,
       appid,
     }, $);
-    weather && $.export("$summary", `${location[0].name},${location[0]?.state} weather report loaded `);
+    weather && $.export("$summary", `${location[0].name},${location[0]?.state} weather report loaded.`);
     return weather;
   },
 };

@@ -94,7 +94,7 @@ export default {
       units,
       lang,
     }, $);
-    weatherForcast && $.export("$summary", `${location[0].name},${location[0]?.state} weather forcast loaded `);
+    weatherForcast && $.export("$summary", `${location[0].name},${location[0]?.state} weather forcast loaded.`);
     return weatherForcast;
   },
 };
