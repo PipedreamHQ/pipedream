@@ -73,7 +73,7 @@ export default {
       return axios(config);
     },
     async createHook(args = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/webhook",
         ...args,
@@ -83,28 +83,28 @@ export default {
       hookId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "DELETE",
         path: `/webhook/${hookId}`,
         ...args,
       });
     },
     async listLeads(args = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/lead",
         ...args,
       });
     },
     async listLeadStatus(args = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/status/lead",
         ...args,
       });
     },
     async createLead(args = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/lead",
         ...args,
@@ -114,14 +114,14 @@ export default {
       leadId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "PUT",
         path: `/lead/${leadId}`,
         ...args,
       });
     },
     async searchLeads(args = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/data/search/",
         ...args,
