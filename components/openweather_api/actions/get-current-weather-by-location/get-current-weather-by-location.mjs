@@ -5,7 +5,7 @@ export default {
   key: "openweather_api-get-current-weather-by-location",
   name: "Get Current Weather by Location",
   description: `Retrieves the current weather condition by location longitude and latitude. 
-  [See the docs here](https://openweathermap.org/current). For more accurate reading, you are adviced to fill in the state code and/or country code`,
+  [See the docs here](https://openweathermap.org/current). For more accurate reading, you are advised to fill in the state code and/or country code`,
   version: "0.0.1",
   type: "action",
   props: {
