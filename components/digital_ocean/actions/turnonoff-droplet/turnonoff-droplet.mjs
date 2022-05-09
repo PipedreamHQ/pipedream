@@ -9,13 +9,13 @@ export default {
   type: "action",
   props: {
     digitalOceanApp,
-    turn_onoff: {
+    turnOnOff: {
       label: "Power status",
       type: "string",
       description: "Must be `power_on` to turn on, or `power_off` to turn off.",
       options: digitalOceanConstants.powerOptions,
     },
-    droplet_id: {
+    dropletId: {
       label: "Droplet",
       type: "string",
       description: "The unique identifier of Droplet to snapshot.",
@@ -27,9 +27,9 @@ export default {
   async run({ $ }) {
     const api = this.digitalOceanApp.digitalOceanWrapper();
     const powerOnOffData = {
-      type: this.turn_onoff,
+      type: this.turnOnOff,
     };
-    const response = await api.droplets.requestAction(this.droplet_id, powerOnOffData);
+    const response = await api.droplets.requestAction(this.dropletId, powerOnOffData);
     $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
     return response;
   },

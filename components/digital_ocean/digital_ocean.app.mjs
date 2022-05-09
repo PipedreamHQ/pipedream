@@ -6,9 +6,6 @@ export default {
   app: "digital_ocean",
   propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     digitalOceanWrapper(pageSize = digitalOceanConstants.defaultCurrentPage) {
       const DigitalOcean = doWrapperModule.default;
       const api = new DigitalOcean(this.$auth.oauth_access_token, pageSize);

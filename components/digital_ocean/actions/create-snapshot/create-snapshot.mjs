@@ -8,13 +8,13 @@ export default {
   type: "action",
   props: {
     digitalOceanApp,
-    snapshot_name: {
+    snapshotName: {
       label: "Snapshot name",
       type: "string",
       description: "The name to give the new snapshot",
       optional: true,
     },
-    droplet_id: {
+    dropletId: {
       label: "Droplet",
       type: "string",
       description: "The unique identifier of Droplet to snapshot.",
@@ -27,9 +27,9 @@ export default {
     const api = this.digitalOceanApp.digitalOceanWrapper();
     const newSnapshotData = {
       type: "snapshot",
-      name: this.snapshot_name,
+      name: this.snapshotName,
     };
-    const response = await api.droplets.requestAction(this.droplet_id, newSnapshotData);
+    const response = await api.droplets.requestAction(this.dropletId, newSnapshotData);
     $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
     return response;
   },

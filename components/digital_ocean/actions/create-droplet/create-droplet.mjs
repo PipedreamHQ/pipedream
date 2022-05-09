@@ -56,7 +56,7 @@ export default {
           return this.digitalOceanApp.fetchVolumeOpts(this.region);
         },
       },
-      ssh_keys: {
+      sshKeys: {
         label: "SSH keys",
         type: "string[]",
         description: "An array containing the IDs or fingerprints of the SSH keys that you wish to embed in the Droplet's root account upon creation.",
@@ -78,13 +78,13 @@ export default {
         description: "A boolean indicating whether IPv6 is enabled on the Droplet.",
         optional: true,
       },
-      user_data: {
+      userData: {
         label: "User Data",
         type: "string",
         description: "A string containing 'user data' which may be used to configure the Droplet on first boot, often a 'cloud-config' file or Bash script. It must be plain text and may not exceed 64 KiB in size.",
         optional: true,
       },
-      private_networking: {
+      privateNetworking: {
         label: "Enable Private Networking",
         type: "boolean",
         description: "A boolean indicating whether private networking is enabled for the Droplet. Private networking is currently only available in certain regions.",
@@ -111,11 +111,11 @@ export default {
       region: this.region,
       size: this.size,
       image: this.image,
-      ssh_keys: this.ssh_keys,
+      ssh_keys: this.sshKeys,
       backups: this.backups,
       ipv6: this.ipv6,
-      user_data: this.user_data,
-      private_networking: this.private_networking,
+      user_data: this.userData,
+      private_networking: this.privateNetworking,
       volumes: this.volumes,
       tags: this.tags,
       monitoring: this.monitoring,
