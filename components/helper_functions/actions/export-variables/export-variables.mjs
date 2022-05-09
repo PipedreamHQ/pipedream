@@ -1,3 +1,5 @@
+import helperFunctionsApp from "../../helper_functions.app.mjs";
+
 export default {
   key: "helper_functions-export-variables",
   name: "Export Variables",
@@ -5,6 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
+    helperFunctionsApp,
     config: {
       type: "object",
       label: "Configuration",
