@@ -4,7 +4,7 @@ export default {
   key: "delighted-sending-to-people",
   name: "Sending to people",
   description: "Create or update a person and send a survey email. [See the docs here](https://app.delighted.com/docs/api/sending-to-people)",
-  version: "0.0.1",
+  version: "0.0.7",
   type: "action",
   props: {
     delightedApp,
@@ -35,7 +35,8 @@ export default {
         properties: this.properties,
       });
 
-    $.export("$summary", "Successfully created or updated a person and scheduled a survey email.");
+    $.export("$summary", `Successfully sent survey to person with ID ${response.id}`);
+
     return response;
   },
 };

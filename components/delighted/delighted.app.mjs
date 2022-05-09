@@ -11,7 +11,7 @@ export default {
       return delightedLib(this.$auth.api_key);
     },
     async sendingToPeople(params) {
-      return this.lib().sendingToPeople(params);
+      return this.lib().person.create(params);
     },
   },
 };
