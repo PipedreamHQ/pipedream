@@ -1,7 +1,7 @@
 import app from "../../data_stores.app.mjs";
 
 export default {
-  key: "data_store-has-key",
+  key: "data_stores-has-key",
   name: "Has Key",
   description: "Check if a key exists in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
   version: "0.0.1",

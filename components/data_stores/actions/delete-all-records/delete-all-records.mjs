@@ -1,7 +1,7 @@
 import app from "../../data_stores.app.mjs";
 
 export default {
-  key: "data_store-delete-all-records",
+  key: "data_stores-delete-all-records",
   name: "Delete All Records",
   description: "Delete all records in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
   version: "0.0.1",
