@@ -72,8 +72,7 @@ export default {
         q: `${city},${stateCode},${countryCode}`,
         limit,
         appid,
-        $,
-      });
+      }, $);
       if (!location?.length) {
         throw new Error();
       }
@@ -94,8 +93,7 @@ export default {
       cnt,
       units,
       lang,
-      $,
-    });
+    }, $);
     weatherForcast && $.export("$summary", `${location[0].name},${location[0]?.state} weather forcast loaded `);
     return weatherForcast;
   },

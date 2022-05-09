@@ -43,8 +43,7 @@ export default {
         q: `${city},${stateCode},${countryCode}`,
         limit,
         appid,
-        $,
-      });
+      }, $);
       if (!location?.length) {
         throw new Error();
       }
@@ -62,8 +61,7 @@ export default {
       lat: location[0].lat,
       lon: location[0].lon,
       appid,
-      $,
-    });
+    }, $);
     weather && $.export("$summary", `${location[0].name},${location[0]?.state} weather report loaded `);
     return weather;
   },

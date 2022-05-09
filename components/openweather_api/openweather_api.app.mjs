@@ -78,9 +78,7 @@ export default {
       };
       return axios($ ?? this, config);
     },
-    async getLocationCordinate({
-      $, ...params
-    }) {
+    async getLocationCordinate(params, $) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/direct",
@@ -89,9 +87,7 @@ export default {
         $,
       });
     },
-    async getCurrentWeather({
-      $, ...params
-    }) {
+    async getCurrentWeather(params, $) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/weather",
@@ -100,9 +96,7 @@ export default {
         $,
       });
     },
-    async getDailyWeatherForcast({
-      $, ...params
-    }) {
+    async getDailyWeatherForcast(params, $) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/daily",
