@@ -49,10 +49,10 @@ export default {
       optional: true,
     },
     lang: {
-      type: "string",
-      label: "Language",
-      description: "See doc [here](https://openweathermap.org/forecast16#multi)",
-      optional: true,
+      propDefinition: [
+        openweatherApi,
+        "lang",
+      ],
     },
   },
   async run({ $ }) {
@@ -86,7 +86,7 @@ export default {
       throw new ConfigurationError("Error getting location coordinates");
     }
 
-    const weatherForcast = await this.openweatherApi.getDailyWeatherForcast({
+    const weatherForecast = await this.openweatherApi.getDailyWeatherForcast({
       lat: location[0].lat,
       lon: location[0].lon,
       appid,
@@ -94,7 +94,7 @@ export default {
       units,
       lang,
     }, $);
-    weatherForcast && $.export("$summary", `${location[0].name},${location[0]?.state} weather forecast loaded.`);
-    return weatherForcast;
+    weatherForecast && $.export("$summary", `${location[0].name},${location[0]?.state} weather forecast loaded.`);
+    return weatherForecast;
   },
 };

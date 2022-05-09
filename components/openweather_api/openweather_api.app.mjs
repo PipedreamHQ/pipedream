@@ -22,6 +22,18 @@ export default {
       description: "The 2 or 3-letter country code, for example \"US\" for the United States.",
       optional: true,
     },
+    lang: {
+      type: "string",
+      label: "Language",
+      description: "See doc [here](https://openweathermap.org/forecast16#multi)",
+      optional: true,
+      options() {
+        return Object.keys(constants.LANGUAGES).map((key) => ({
+          label: constants.LANGUAGES[key],
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
     getHeader() {
@@ -45,19 +57,19 @@ export default {
     },
     getForcastAPI() {
       const {
-        FORCAST_PATH,
-        FORCAST_VERSION_PATH,
+        FORECAST_PATH,
+        FORECAST_VERSION_PATH,
       } = constants;
-      return FORCAST_PATH + FORCAST_VERSION_PATH;
+      return FORECAST_PATH + FORECAST_VERSION_PATH;
     },
     getAPIUrl(category, path) {
       const {
         BASE_URL,
-        Category,
+        CATEGORIES,
       } = constants;
-      const route = (category === Category.GEO && this.getLocationAPI() )
-      || (category === Category.WEATHER && this.getWeatherAPI() )
-      || (category === Category.FORCAST && this.getForcastAPI() );
+      const route = (category === CATEGORIES.GEO && this.getLocationAPI() )
+      || (category === CATEGORIES.WEATHER && this.getWeatherAPI() )
+      || (category === CATEGORIES.FORECAST && this.getForcastAPI() );
       return BASE_URL + route + path;
     },
     async makeRequest(args = {}) {
@@ -79,29 +91,29 @@ export default {
       return axios($ ?? this, config);
     },
     async getLocationCordinate(params, $) {
-      const {  Category } = constants;
+      const {  CATEGORIES } = constants;
       return this.makeRequest({
         path: "/direct",
         params,
-        category: Category.GEO,
+        category: CATEGORIES.GEO,
         $,
       });
     },
     async getCurrentWeather(params, $) {
-      const {  Category } = constants;
+      const {  CATEGORIES } = constants;
       return this.makeRequest({
         path: "/weather",
         params,
-        category: Category.WEATHER,
+        category: CATEGORIES.WEATHER,
         $,
       });
     },
     async getDailyWeatherForcast(params, $) {
-      const {  Category } = constants;
+      const {  CATEGORIES } = constants;
       return this.makeRequest({
         path: "/daily",
         params,
-        category: Category.FORCAST,
+        category: CATEGORIES.FORECAST,
         $,
       });
     },
