@@ -38,7 +38,25 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+function attemptToParseJSON(strObj) {
+  switch (strObj) {
+  case "":
+  case "null":
+  case "undefined":
+  case null:
+  case undefined:
+    return undefined;
+  }
+
+  try {
+    return JSON.parse(strObj);
+  } catch (e) {
+    throw new Error("JSON input could not be parsed");
+  }
+}
+
 export {
   generateRandomUniqueName,
   toSingleLineString,
+  attemptToParseJSON,
 };
