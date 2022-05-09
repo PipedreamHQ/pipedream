@@ -15,8 +15,11 @@ export default {
   props: {
     aws: common.props.aws,
     region: common.props.region,
-    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
-    tableName: common.props.tableName,
+    tableName: {
+      type: common.props.tableName.type,
+      label: common.props.tableName.label,
+      description: common.props.tableName.description,
+    },
     keyPrimaryAttributeName: common.props.keyPrimaryAttributeName,
     keyPrimaryAttributeType: common.props.keyPrimaryAttributeType,
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
