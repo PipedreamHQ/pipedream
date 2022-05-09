@@ -40,7 +40,7 @@ Searching for sources matching http
 Deletes an event source. Run:
 
 ```
-pd describe <source-id-or-name>
+pd delete <source-id-or-name>
 ```
 
 Run `pd list so` to display a list of your event sources.
