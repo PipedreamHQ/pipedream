@@ -5,11 +5,6 @@ export default {
   type: "app",
   app: "openweather_api",
   propDefinitions: {
-    appId: {
-      type: "string",
-      label: "App Id",
-      description: "Please refer to [Doc here](https://home.openweathermap.org/api_keys) for your app ID.",
-    },
     city: {
       type: "string",
       label: "City",
@@ -67,7 +62,7 @@ export default {
     },
     async makeRequest(args = {}) {
       const {
-        $ = this,
+        $,
         method = "get",
         path,
         params,
@@ -81,30 +76,39 @@ export default {
         params,
         data,
       };
-      return axios($, config);
+      return axios($ ?? this, config);
     },
-    async getLocationCordinate(params) {
+    async getLocationCordinate({
+      $, ...params
+    }) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/direct",
         params,
         category: Category.GEO,
+        $,
       });
     },
-    async getCurrentWeather(params) {
+    async getCurrentWeather({
+      $, ...params
+    }) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/weather",
         params,
         category: Category.WEATHER,
+        $,
       });
     },
-    async getDailyWeatherForcast(params) {
+    async getDailyWeatherForcast({
+      $, ...params
+    }) {
       const {  Category } = constants;
       return this.makeRequest({
         path: "/daily",
         params,
         category: Category.FORCAST,
+        $,
       });
     },
   },

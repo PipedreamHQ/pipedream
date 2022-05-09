@@ -10,12 +10,6 @@ export default {
   type: "action",
   props: {
     openweatherApi,
-    appid: {
-      propDefinition: [
-        openweatherApi,
-        "appId",
-      ],
-    },
     city: {
       propDefinition: [
         openweatherApi,
@@ -36,9 +30,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const appid = this.openweatherApi.$auth.api_key;
     const limit = 1;
     const {
-      appid,
       city,
       stateCode,
       countryCode,
@@ -49,6 +43,7 @@ export default {
         q: `${city},${stateCode},${countryCode}`,
         limit,
         appid,
+        $,
       });
       if (!location?.length) {
         throw new Error();
@@ -67,6 +62,7 @@ export default {
       lat: location[0].lat,
       lon: location[0].lon,
       appid,
+      $,
     });
     weather && $.export("$summary", `${location[0].name},${location[0]?.state} weather report loaded `);
     return weather;
