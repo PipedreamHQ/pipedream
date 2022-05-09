@@ -20,6 +20,10 @@
         "@types/object-hash": "^2.2.1"
     },
     "dependencies": {
-        "rss-parser": "^3.12.0"
+        "rss-parser": "^3.12.0",
+        "@pipedream/platform": "^0.10.0",
+        "feedparser": "^2.2.10",
+        "object-hash": "^3.0.0",
+        "string-to-stream": "^3.0.1"
     }
 }

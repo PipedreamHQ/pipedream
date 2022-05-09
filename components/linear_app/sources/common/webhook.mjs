@@ -4,6 +4,19 @@ import constants from "../../common/constants.mjs";
 export default {
   props: {
     linearApp,
+    teamId: {
+      propDefinition: [
+        linearApp,
+        "teamId",
+      ],
+      optional: true,
+    },
+    projectId: {
+      propDefinition: [
+        linearApp,
+        "projectId",
+      ],
+    },
     http: "$.interface.http",
     db: "$.service.db",
   },
@@ -15,7 +28,13 @@ export default {
       return this.db.get(constants.WEBHOOK_ID);
     },
     isRelevant(body) {
-      return this.getActions().includes(body?.action);
+      if (!this.getActions().includes(body?.action)) {
+        return false;
+      }
+      if (this.projectId) {
+        return body.data.projectId === this.projectId;
+      }
+      return true;
     },
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
@@ -35,13 +54,19 @@ export default {
   },
   hooks: {
     async activate() {
-      const { _webhook: webhook } =
-        await this.linearApp.createWebhook({
-          resourceTypes: this.getResourceTypes(),
-          url: this.http.endpoint,
-          allPublicTeams: true,
-          label: this.getWebhookLabel(),
-        });
+      const params = {
+        resourceTypes: this.getResourceTypes(),
+        url: this.http.endpoint,
+        label: this.getWebhookLabel(),
+      };
+
+      if (this.teamId) {
+        params.teamId = this.teamId;
+      } else {
+        params.allPublicTeams = true;
+      }
+
+      const { _webhook: webhook } = await this.linearApp.createWebhook(params);
       this.setWebhookId(webhook.id);
     },
     async deactivate() {

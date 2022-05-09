@@ -5,7 +5,7 @@ export default {
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     linearApp,
     query: {
@@ -14,34 +14,35 @@ export default {
         "query",
       ],
     },
+    teamId: {
+      propDefinition: [
+        linearApp,
+        "teamId",
+      ],
+      optional: true,
+    },
+    projectId: {
+      propDefinition: [
+        linearApp,
+        "projectId",
+      ],
+    },
+    assigneeId: {
+      propDefinition: [
+        linearApp,
+        "assigneeId",
+      ],
+    },
+    issueLabels: {
+      propDefinition: [
+        linearApp,
+        "issueLabels",
+      ],
+    },
     orderBy: {
       propDefinition: [
         linearApp,
         "orderBy",
-      ],
-    },
-    after: {
-      propDefinition: [
-        linearApp,
-        "after",
-      ],
-    },
-    first: {
-      propDefinition: [
-        linearApp,
-        "first",
-      ],
-    },
-    before: {
-      propDefinition: [
-        linearApp,
-        "before",
-      ],
-    },
-    last: {
-      propDefinition: [
-        linearApp,
-        "last",
       ],
     },
     includeArchived: {
@@ -51,55 +52,61 @@ export default {
       ],
     },
   },
+  methods: {
+    buildFilter() {
+      return {
+        team: {
+          id: {
+            eq: this.teamId,
+          },
+        },
+        project: {
+          id: {
+            eq: this.projectId,
+          },
+        },
+        assignee: {
+          id: {
+            eq: this.assigneeId,
+          },
+        },
+        labels: {
+          name: {
+            in: this.issueLabels,
+          },
+        },
+      };
+    },
+  },
   async run({ $ }) {
     const {
       query,
       orderBy,
-      first,
-      last,
       includeArchived,
     } = this;
 
-    const hasAfterOrFirst = !!(this.after || first);
-    const hasBeforeOrLast = !!(this.before || last);
-
-    if (hasAfterOrFirst && hasBeforeOrLast) {
-      throw new Error("Cannot use both `after/first` and `before/last` at the same time.");
-    }
-
     let issues = [];
     let hasNextPage;
-    let after = this.after;
-    let before = this.before;
+    let after;
+    const filter = this.buildFilter();
 
     do {
       const {
         nodes,
         pageInfo,
-      } =
-        await this.linearApp.searchIssues({
-          query,
-          variables: {
-            orderBy,
-            after,
-            first,
-            before,
-            last,
-            includeArchived,
-          },
-        });
-
-      if (hasAfterOrFirst) {
-        after = pageInfo.endCursor;
-      }
-
-      if (hasBeforeOrLast) {
-        before = pageInfo.endCursor;
-      }
+      } = await this.linearApp.searchIssues({
+        query,
+        variables: {
+          filter,
+          orderBy,
+          after,
+          includeArchived,
+        },
+      });
 
       issues = issues.concat(nodes);
+      after = pageInfo.endCursor;
       hasNextPage = pageInfo.hasNextPage;
-
     } while (hasNextPage);
 
     $.export("summary", `Found ${issues.length} issues`);
