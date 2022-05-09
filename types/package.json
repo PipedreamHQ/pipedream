@@ -8,7 +8,7 @@
         "typescript",
         "types"
     ],
-    "types": "dist/index.d.ts",
+    "types": "src",
     "prepublish": "tsc",
     "homepage": "https://github.com/PipedreamHQ/pipedream",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -18,5 +18,8 @@
     },
     "devDependencies": {
         "dtslint": "^4.2.1"
+    },
+    "scripts": {
+        "dtslint": "dtslint src"
     }
 }

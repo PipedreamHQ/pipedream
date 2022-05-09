@@ -82,7 +82,29 @@
       "parser": "@typescript-eslint/parser",
       "rules": {
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-        "max-len": "off"
+        "max-len": "off",
+        // note you must disable the base rule as it can report incorrect errors
+        "semi": "off",
+        "@typescript-eslint/semi": ["error"],
+        "@typescript-eslint/member-delimiter-style": ["error", {
+          "multiline": {
+            "delimiter": "semi",
+            "requireLast": true
+          },
+          "singleline": {
+            "delimiter": "semi",
+            "requireLast": true
+          },
+          "multilineDetection": "brackets",
+          "overrides": {
+            "interface": {
+              "multiline": {
+                "delimiter": "semi",
+                "requireLast": true
+              }
+            } 
+          }
+        }]
       }
     }
   ],
