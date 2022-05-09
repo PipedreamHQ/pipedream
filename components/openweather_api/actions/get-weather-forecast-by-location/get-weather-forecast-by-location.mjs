@@ -83,7 +83,7 @@ export default {
         .join();
       locationDetail && $.export("$summary", `Location retrieved: ${locationDetail}. Getting weather report...`);
     } catch (error) {
-      throw new ConfigurationError("Error getting location cordinates" );
+      throw new ConfigurationError("Error getting location coordinates" );
     }
 
     const weatherForcast = await  this.openweatherApi.getDailyWeatherForcast({
