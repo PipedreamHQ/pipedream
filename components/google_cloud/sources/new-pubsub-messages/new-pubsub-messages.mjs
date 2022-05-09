@@ -5,25 +5,64 @@ import google_cloud from "../../google_cloud.app.mjs";
 export default {
   key: "google_cloud-new-pubsub-messages",
   name: "New Pub/Sub Messages",
-  description:
-    `Creates a Pub/Sub topic in your GCP account.
-    Messages published to this topic are emitted from the Pipedream source.`,
-  version: "0.1.2",
+  description: "Creates a Pub/Sub topic in your GCP account. Messages published to this topic are emitted from the Pipedream source.",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {
     google_cloud,
     http: "$.interface.http",
     db: "$.service.db",
-    topic: {
-      label: "Pub/Sub Topic Name",
-      description:
-        `**Pipedream will create a Pub/Sub topic with this name in your account**,
-        converting it to a [valid Pub/Sub topic name](https://cloud.google.com/pubsub/docs/admin#resource_names).`,
+    topicType: {
       type: "string",
+      label: "Type",
+      description: "Do you have an existing Pub/Sub topic, or would you like to create a new one?",
+      options: [
+        "existing",
+        "new",
+      ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const topic = {
+      type: "string",
+      label: "Pub/Sub Topic Name",
+      description: "Select a Pub/Sub topic from your GCP account to watch",
+      options: async () => {
+        return this.getTopics();
+      },
+    };
+    if (this.topicType === "new") {
+      topic.description = "**Pipedream will create a Pub/Sub topic with this name in your account**, converting it to a [valid Pub/Sub topic name](https://cloud.google.com/pubsub/docs/admin#resource_names).";
+      delete topic.options;
+    }
+    return {
+      topic,
+    };
+  },
   methods: {
+    _getTopicName() {
+      return this.db.get("topicName");
+    },
+    _setTopicName(topicName) {
+      this.db.set("topicName", topicName);
+    },
+    _getSubscriptionName() {
+      return this.db.get("subscriptionName");
+    },
+    _setSubscriptionName(subscriptionName) {
+      this.db.set("subscriptionName", subscriptionName);
+    },
+    async getTopics() {
+      const sdkParams = this.google_cloud.sdkParams();
+      const pubSubClient = new PubSub(sdkParams);
+      const topics = (await pubSubClient.getTopics())[0];
+      if (topics.length > 0) {
+        return topics.map((topic) => topic.name);
+      }
+      return [];
+    },
     convertNameToValidPubSubTopicName(name) {
       // For valid names, see https://cloud.google.com/pubsub/docs/admin#resource_names
       return name
@@ -40,12 +79,18 @@ export default {
       const sdkParams = this.google_cloud.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
 
-      const topicName = this.convertNameToValidPubSubTopicName(this.topic);
-      console.log(`Creating Pub/Sub topic ${topicName}`);
-      const [
-        topic,
-      ] = await pubSubClient.createTopic(topicName);
-      this.db.set("topicName", topic.name);
+      const currentTopic = {
+        name: this.topic,
+      };
+      if (this.topicType === "new") {
+        const topicName = this.convertNameToValidPubSubTopicName(this.topic);
+        console.log(`Creating Pub/Sub topic ${topicName}`);
+        const [
+          topic,
+        ] = await pubSubClient.createTopic(topicName);
+        currentTopic.name = topic.name;
+      }
+      this._setTopicName(currentTopic.name);
 
       const pushEndpoint = this.http.endpoint;
       const subscriptionName = this.convertNameToValidPubSubTopicName(pushEndpoint);
@@ -61,22 +106,24 @@ export default {
       const [
         subscriptionResult,
       ] = await pubSubClient
-        .topic(topic.name)
+        .topic(currentTopic.name)
         .createSubscription(subscriptionName, subscriptionOptions);
-      this.db.set("subscriptionName", subscriptionResult.name);
+      this._setSubscriptionName(subscriptionResult.name);
     },
     async deactivate() {
       const sdkParams = this.google_cloud.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
 
-      const subscriptionName = this.db.get("subscriptionName");
+      const subscriptionName = this._getSubscriptionName();
       if (subscriptionName) {
         await pubSubClient.subscription(subscriptionName).delete();
       }
 
-      const topicName = this.db.get("topicName");
-      if (topicName) {
-        await pubSubClient.topic(topicName).delete();
+      if (this.topicType === "new") {
+        const topicName = this._getTopicName();
+        if (topicName) {
+          await pubSubClient.topic(topicName).delete();
+        }
       }
     },
   },
