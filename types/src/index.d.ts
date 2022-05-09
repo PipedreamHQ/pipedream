@@ -78,11 +78,15 @@ export interface HTTPResponse {
 }
 
 export interface Methods {
-  [key: string]: () => unknown;
+  [key: string]: (...args: any) => unknown;
 }
 
 export interface FlowFunctions {
   exit: (reason: string) => void;
+  delay: (ms: number) => {
+    resume_url: string;
+    cancel_url: string;
+  };
 }
 
 export interface Pipedream {
@@ -97,19 +101,10 @@ export interface Pipedream {
   flow: FlowFunctions;
 }
 
-// https://pipedream.com/docs/components/api/#props
-export type UserPropType = "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
-// https://pipedream.com/docs/components/api/#interface-props
-export type InterfacePropType = "$.interface.http" | "$.interface.timer";
-// https://pipedream.com/docs/components/api/#db
-export type ServiceDBPropType = "$.service.db";
-// https://pipedream.com/docs/code/nodejs/using-data-stores/#using-the-data-store
-export type DataStorePropType = "data_store";
-
 // https://pipedream.com/docs/components/api/#async-options-example
 export interface OptionsMethodArgs {
-  page: number;
-  prevContext: string;
+  page?: number;
+  prevContext?: string;
 }
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
@@ -139,11 +134,11 @@ export interface BasePropInterface {
   description?: string;
 }
 
-export type PropOptions = string[] | Array<{ [key: string]: string; }>;
+export type PropOptions = any[] | Array<{ [key: string]: string; }>;
 
 // https://pipedream.com/docs/components/api/#user-input-props
 export interface UserProp extends BasePropInterface {
-  type: UserPropType;
+  type: "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
   options?: PropOptions | ((opts: OptionsMethodArgs) => Promise<PropOptions>);
   optional?: boolean;
   default?: JSONValue;
@@ -152,17 +147,20 @@ export interface UserProp extends BasePropInterface {
   max?: number;
 }
 
+// https://pipedream.com/docs/components/api/#interface-props
 export interface InterfaceProp extends BasePropInterface {
-  type: InterfacePropType;
-  default: string | DefaultConfig;
+  type: "$.interface.http" | "$.interface.timer";
+  default?: string | DefaultConfig;
 }
 
+// https://pipedream.com/docs/components/api/#db
 export interface ServiceDBProp extends BasePropInterface {
-  type: ServiceDBPropType;
+  type: "$.service.db";
 }
 
+// https://pipedream.com/docs/code/nodejs/using-data-stores/#using-the-data-store
 export interface DataStoreProp extends BasePropInterface {
-  type: DataStorePropType;
+  type: "data_store";
 }
 
 export interface SourcePropDefinitions {
@@ -220,7 +218,7 @@ export interface Source {
   ) => Promise<SourcePropDefinitions>;
   // XXX `this` should be strictly typed. For some reason the approach I took above
   // did not work here.
-  run: (this: any, options?: SourceRunOptions) => Promise<void>;
+  run: (this: any, options?: SourceRunOptions) => void | Promise<void>;
 }
 
 export interface Action {
@@ -236,5 +234,5 @@ export interface Action {
   ) => Promise<ActionPropDefinitions>;
   // XXX `this` should be strictly typed. For some reason the approach I took above
   // did not work here.
-  run: (this: any, options?: ActionRunOptions) => Promise<any>;
+  run: (this: any, options?: ActionRunOptions) => any;
 }
