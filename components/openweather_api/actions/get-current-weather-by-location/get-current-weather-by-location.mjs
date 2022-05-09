@@ -3,7 +3,7 @@ import openweatherApi from "../../openweather_api.app.mjs";
 
 export default {
   key: "openweather_api-get-current-weather-by-location",
-  name: "Get current weather by location",
+  name: "Get Current Weather by Location",
   description: `Retrieves the current weather condition by location longitude and latitude. 
   [See the docs here](https://openweathermap.org/current). For more accurate reading, you are adviced to fill in the stateccode and/or country code`,
   version: "0.0.1",
