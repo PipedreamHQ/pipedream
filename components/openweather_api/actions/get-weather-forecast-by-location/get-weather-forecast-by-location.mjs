@@ -68,7 +68,7 @@ export default {
     } = this ;
     let location;
     try {
-      location = await  this.openweatherApi.getLocationCordinate({
+      location = await this.openweatherApi.getLocationCordinate({
         q: `${city},${stateCode},${countryCode}`,
         limit,
         appid,
