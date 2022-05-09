@@ -10,6 +10,23 @@ export default {
       label: "App Id",
       description: "Please refer to [Doc here](https://home.openweathermap.org/api_keys) for your app ID.",
     },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City location. For example \"Houston\" in the United States.",
+    },
+    stateCode: {
+      type: "string",
+      label: "State code",
+      description: "State code. For example \"TX\" for Texas.",
+      optional: true,
+    },
+    countryCode: {
+      type: "string",
+      label: "Country Code",
+      description: "The 2 or 3-letter country code, for example \"US\" for the United States.",
+      optional: true,
+    },
   },
   methods: {
     _authToken() {

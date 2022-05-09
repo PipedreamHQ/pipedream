@@ -17,21 +17,22 @@ export default {
       ],
     },
     city: {
-      type: "string",
-      label: "City",
-      description: "City location. For example \"Houston\" in the United States.",
+      propDefinition: [
+        openweatherApi,
+        "city",
+      ],
     },
     stateCode: {
-      type: "string",
-      label: "State code",
-      description: "State code. For example \"TX\" for Texas.",
-      optional: true,
+      propDefinition: [
+        openweatherApi,
+        "stateCode",
+      ],
     },
     countryCode: {
-      type: "string",
-      label: "Country Code",
-      description: "The 2 or 3-letter country code, for example \"US\" for the United States.",
-      optional: true,
+      propDefinition: [
+        openweatherApi,
+        "countryCode",
+      ],
     },
     cnt: {
       type: "integer",
