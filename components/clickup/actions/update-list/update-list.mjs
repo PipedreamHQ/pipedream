@@ -3,10 +3,10 @@ import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
-  key: "clickup-create-list",
-  name: "Create List",
-  description: "Creates a new list. See the docs [here](https://clickup.com/api) in **Lists  / Create List** section.",
-  version: "0.0.6",
+  key: "clickup-update-list",
+  name: "Update List",
+  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -29,6 +29,16 @@ export default {
         }),
       ],
       optional: true,
+    },
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
     },
     name: {
       label: "Name",
@@ -61,41 +71,28 @@ export default {
   },
   async run({ $ }) {
     const {
-      spaceId,
-      folderId,
+      listId,
       name,
       content,
       priority,
       assignee,
     } = this;
 
-    let response;
+    const data = {
+      name,
+      content,
+      assignee,
+    };
 
-    if (!folderId) {
-      response = await this.clickup.createFolderlessList({
-        $,
-        spaceId,
-        data: {
-          name,
-          content,
-          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
-          assignee,
-        },
-      });
-    } else {
-      response = await this.clickup.createList({
-        $,
-        folderId,
-        data: {
-          name,
-          content,
-          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
-          assignee,
-        },
-      });
-    }
+    if (priority) data[priority] = constants.PRIORITIES[priority];
 
-    $.export("$summary", "Successfully created list");
+    const response = await this.clickup.updateList({
+      $,
+      listId,
+      data,
+    });
+
+    $.export("$summary", "Successfully updated list");
 
     return response;
   },
