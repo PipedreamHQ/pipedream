@@ -1,4 +1,5 @@
 import close from "../../close.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   type: "action",
@@ -24,11 +25,11 @@ export default {
     if (this.name) data.name = this.name;
     if (this.url) data.url = this.url;
     if (this.statusId) data.status_id = this.statusId;
-    if (this.contacts) data.contacts = this.close.parseObject(this.contacts);
-    if (this.addresses) data.addresses = this.close.parseObject(this.addresses);
+    if (this.contacts) data.contacts = utils.parseObject(this.contacts);
+    if (this.addresses) data.addresses = utils.parseObject(this.addresses);
     const moreFields = {};
     for (let key in this.moreFields) {
-      moreFields[key] = this.close.parseObject(this.moreFields[key]);
+      moreFields[key] = utils.parseObject(this.moreFields[key]);
     }
     const response = await this.close.searchLeads({
       data: {

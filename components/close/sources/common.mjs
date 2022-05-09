@@ -10,19 +10,26 @@ export default {
     db: "$.service.db",
   },
   methods: {
-    async activate({ events }) {
-      const response = await this.close.createHook({
-        data: {
-          events,
-          url: this.http.endpoint,
-        },
-      });
-      this.db.set("hookId", response.data.id);
+    _getHookID() {
+      return this.db.get("hookId");
+    },
+    _setHookID(hookID) {
+      this.db.set("hookId", hookID);
     },
   },
   hooks: {
+    async activate() {
+      console.log("activate this.getEvents()", this.getEvents());
+      const response = await this.close.createHook({
+        data: {
+          events: this.getEvents(),
+          url: this.http.endpoint,
+        },
+      });
+      this._setHookID(response.data.id);
+    },
     async deactivate() {
-      const hookId = this.db.get("hookId");
+      const hookId = this._getHookID();
       await this.close.deleteHook({
         hookId,
       });
@@ -33,9 +40,9 @@ export default {
       event,
     },
     {
-      id: event.id,
-      ts: Date.parse(event.date_created),
-      summary: `New event (ID:${event.id})`,
+      id: event.body.event.id,
+      ts: Date.parse(event.body.event.date_created),
+      summary: `New event (ID:${event.body.event.id})`,
     });
   },
 };

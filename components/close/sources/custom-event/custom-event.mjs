@@ -21,17 +21,15 @@ export default {
       type: "string",
     },
   },
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      await this.activate({
-        events: [
-          {
-            object_type: this.objectType,
-            action: this.action,
-          },
-        ],
-      });
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [
+        {
+          object_type: this.objectType,
+          action: this.action,
+        },
+      ];
     },
   },
 };

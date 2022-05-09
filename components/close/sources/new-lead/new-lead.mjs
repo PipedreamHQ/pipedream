@@ -8,17 +8,15 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      await this.activate({
-        events: [
-          {
-            object_type: "lead",
-            action: "created",
-          },
-        ],
-      });
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [
+        {
+          object_type: "lead",
+          action: "created",
+        },
+      ];
     },
   },
 };

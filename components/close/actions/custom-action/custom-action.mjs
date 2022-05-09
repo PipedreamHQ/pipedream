@@ -1,4 +1,5 @@
 import close from "../../close.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "close-custom-action",
@@ -48,7 +49,7 @@ export default {
     this.queryString = this.queryString || "";
     const requestBody = {};
     for (let key in this.requestBody) {
-      requestBody[key] = this.close.parseObject(this.requestBody[key]);
+      requestBody[key] = utils.parseObject(this.requestBody[key]);
     }
     const response = await this.close._makeRequest({
       method: this.requestMethod,

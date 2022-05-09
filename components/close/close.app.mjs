@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     statusId: {
       label: "Status ID",
-      description: "TODO",
+      description: "Lead Statuses represent a Lead's current relationship to your company. [See the docs](https://help.close.com/docs/lead-statuses)",
       type: "string",
       optional: true,
       async options() {
@@ -72,22 +72,12 @@ export default {
       };
       return axios(config);
     },
-    parseObject(obj) {
-      let parsed;
-      try {
-        parsed = JSON.parse(obj);
-      } catch (e) {
-        parsed = obj;
-      }
-      return parsed;
-    },
-    async createHook({ ...args } = {}) {
-      const response = await this._makeRequest({
+    async createHook(args = {}) {
+      return await this._makeRequest({
         method: "POST",
         path: "/webhook",
         ...args,
       });
-      return response;
     },
     async deleteHook({
       hookId,
@@ -99,21 +89,21 @@ export default {
         ...args,
       });
     },
-    async listLeads({ ...args } = {}) {
+    async listLeads(args = {}) {
       return await this._makeRequest({
         method: "GET",
         path: "/lead",
         ...args,
       });
     },
-    async listLeadStatus({ ...args } = {}) {
+    async listLeadStatus(args = {}) {
       return await this._makeRequest({
         method: "GET",
         path: "/status/lead",
         ...args,
       });
     },
-    async createLead({ ...args } = {}) {
+    async createLead(args = {}) {
       return await this._makeRequest({
         method: "POST",
         path: "/lead",
@@ -130,7 +120,7 @@ export default {
         ...args,
       });
     },
-    async searchLeads({ ...args } = {}) {
+    async searchLeads(args = {}) {
       return await this._makeRequest({
         method: "POST",
         path: "/data/search/",
