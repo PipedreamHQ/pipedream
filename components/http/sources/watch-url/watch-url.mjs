@@ -57,13 +57,13 @@ export default {
     },
     emitAsArray: {
       label: "Emit as array",
-      description: "Is expected that the provided URL should return a JSON Array, on this case this source will emit changes individually for each item of the array",
+      description: "Is expected that the provided URL should return a JSON Array, on this case this source will emit changes individually for each item of the array.",
       type: "boolean",
       optional: false,
     },
     emitBodyOnly: {
       label: "Emit body only",
-      description: "If set as true the emitted item will contain only the body, else it will also contain status information of the request.",
+      description: "If set as true the emitted item will contain only the response body, otherwise, it will be included the request status information.",
       type: "boolean",
       optional: false,
     },
