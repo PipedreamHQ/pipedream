@@ -16,5 +16,8 @@
     },
     "publishConfig": {
         "access": "public"
+    },
+    "devDependencies": {
+        "dtslint": "^4.2.1"
     }
 }
