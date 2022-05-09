@@ -2,7 +2,7 @@ export default {
   type: "app",
   app: "data_stores",
   propDefinitions: {
-    data_store: {
+    dataStore: {
       label: "Data Store",
       type: "data_store",
       description: "Select an existing Data Store or create a new one.",

@@ -61,7 +61,7 @@ vs.
 import telegram
 ```
 
-We maintain a custom mapping for these cases, so that we can install the right package given your `import` statements. **If you try to install a package that doesn't work, please [reach out to our team](https://pipedream.com/support) and we can add the custom mapping for you**.
+We maintain a custom mapping for these cases, so that we can install the right package given your `import` statements. **If you try to install a package that doesn't work, please [reach out to our team](/code/python/import-mappings/) and we can add the custom mapping for you**.
 
 ## Making an HTTP request
 
