@@ -29,9 +29,6 @@ export default {
     },
   },
   methods: {
-    _authToken() {
-      return this.$auth.oauth_access_token;
-    },
     getHeader() {
       return {
         "Content-Type": "application/json",
