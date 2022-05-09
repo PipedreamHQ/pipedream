@@ -20,6 +20,6 @@
         "dtslint": "^4.2.1"
     },
     "scripts": {
-        "dtslint": "dtslint src"
+        "test": "dtslint src"
     }
 }

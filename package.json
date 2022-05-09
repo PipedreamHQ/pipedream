@@ -1,7 +1,7 @@
 {
   "name": "pipedream",
-  "version": "0.2.3",
-  "description": "Pipedream Components",
+  "version": "0.2.4",
+  "description": "Pipedream Monorepo",
   "keywords": [
     "pipedream",
     "integration",
@@ -24,7 +24,6 @@
     "example": "examples"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
     "prepare": "husky install",
     "test": "jest --passWithNoTests"
   },
@@ -40,8 +39,8 @@
     "eslint-plugin-putout": "^6.13.1",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
-    "lerna": "^3.22.1",
     "lint-staged": "^12.3.4",
+    "pnpm": "^7.0.1",
     "putout": "^12.12.0",
     "ts-jest": "^27.1.4",
     "tsc-watch": "^5.0.3",
@@ -50,7 +49,5 @@
   "lint-staged": {
     "*.{js,mjs}": "eslint --cache --fix"
   },
-  "dependencies": {
-    "xss": "^1.0.11"
-  }
+  "private": true
 }
