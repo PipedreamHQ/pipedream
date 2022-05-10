@@ -31,7 +31,9 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '12'
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 7.0.0
@@ -126,7 +128,9 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '12'
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 7.0.0
