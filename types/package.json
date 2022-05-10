@@ -20,7 +20,8 @@
         "dtslint": "^4.2.1"
     },
     "scripts": {
-        "test": "dtslint src"
+        "test": "dtslint src",
+        "build": "tsc"
     },
     "dependencies": {
         "typescript": "^4.6.4"

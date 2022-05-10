@@ -4,7 +4,18 @@ TypeScript types for [Pipedream components](https://pipedream.com/docs/component
 
 ## Developing 
 
-TO DO
+```bash
+npm install
+```
 
-- `npm link`
-- (in this directory) `npm run dev`
+Run tests, which use `dtslint`:
+
+```bash
+npm run tests
+```
+
+Build:
+
+```bash
+npm run build
+```
