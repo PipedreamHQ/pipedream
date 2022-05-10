@@ -5,17 +5,25 @@ module.exports = {
   ...common,
   key: "ringcentral-new-inbound-message-event",
   name: "New Inbound Message Event (Instant)",
-  description: "Emits an event for each status change of inbound messages of a specific type",
+  description: "Emit new event for each status change of inbound messages of a specific type",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
     messageType: {
       type: "string",
       label: "Message Type",
       description: "The type of message to monitor for status changes",
-      options({ page = 0}) {
-        return page === 0 ? messageTypes : [];
+      options({ page = 0 }) {
+        return page === 0
+          ? messageTypes
+          : [];
       },
     },
   },

@@ -7,6 +7,8 @@ module.exports = {
     ...base.props,
     db: "$.service.db",
     timer: {
+      label: "Timer",
+      description: "The timer that will trigger the event source",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes

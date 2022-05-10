@@ -85,9 +85,7 @@ module.exports = {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      const {
-        base_url: baseUrl = "https://platform.ringcentral.com/restapi/v1.0",
-      } = this.$auth;
+      const { base_url: baseUrl = "https://platform.ringcentral.com/restapi/v1.0" } = this.$auth;
       return baseUrl;
     },
     _accountUrl() {
@@ -109,7 +107,7 @@ module.exports = {
     _subscriptionUrl(id) {
       const baseUrl = this._apiUrl();
       const basePath = "/subscription";
-      const path = id ? `${basePath}/${id}` : basePath;
+      const path = id && `${basePath}/${id}` || basePath;
       return `${baseUrl}${path}`;
     },
     _makeRequestConfig() {
@@ -147,9 +145,7 @@ module.exports = {
     async _getExtensionCallLog(extensionId, params, nextPage = {}) {
       // `params` refers to the query params listed in the API docs:
       // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
-      const {
-        uri: url = this._callLogUrl(extensionId),
-      } = nextPage;
+      const { uri: url = this._callLogUrl(extensionId) } = nextPage;
       const requestConfig = {
         ...this._makeRequestConfig(),
         params,

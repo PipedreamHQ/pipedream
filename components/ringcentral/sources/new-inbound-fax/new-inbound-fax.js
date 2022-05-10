@@ -4,11 +4,17 @@ module.exports = {
   ...common,
   key: "ringcentral-new-inbound-fax",
   name: "New Inbound Fax (Instant)",
-  description: "Emits an event on each incoming fax",
+  description: "Emit new event on each incoming fax",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -23,11 +29,7 @@ module.exports = {
         timestamp,
         uuid: id,
       } = data;
-      const {
-        from: {
-          phoneNumber: callerPhoneNumber,
-        },
-      } = eventDetails;
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails;
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
       const summary = `New inbound fax from ${maskedCallerNumber}`;

@@ -4,11 +4,17 @@ module.exports = {
   ...common,
   key: "ringcentral-new-inbound-call",
   name: "New Inbound Call (Instant)",
-  description: "Emits an event on each incoming call",
+  description: "Emit new event on each incoming call",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -22,14 +28,8 @@ module.exports = {
         timestamp,
         body: eventDetails,
       } = data;
-      const {
-        telephonySessionId: id,
-      } = eventDetails;
-      const {
-        from: {
-          phoneNumber: callerPhoneNumber,
-        },
-      } = eventDetails.parties[0];
+      const { telephonySessionId: id } = eventDetails;
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails.parties[0];
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
       const summary = `New inbound call from ${maskedCallerNumber}`;
@@ -43,9 +43,7 @@ module.exports = {
     },
     isEventRelevant(event) {
       const { body: eventDetails } = event.body;
-      const {
-        status: { code: statusCode }
-      } = eventDetails.parties[0];
+      const { status: { code: statusCode } } = eventDetails.parties[0];
       return statusCode === "Setup";
     },
   },

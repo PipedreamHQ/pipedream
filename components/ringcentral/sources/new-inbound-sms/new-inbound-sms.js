@@ -4,11 +4,17 @@ module.exports = {
   ...common,
   key: "ringcentral-new-inbound-sms",
   name: "New Inbound SMS (Instant)",
-  description: "Emits an event on each incoming SMS",
+  description: "Emit new event on each incoming SMS",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -25,11 +31,7 @@ module.exports = {
       } = data;
       const ts = Date.parse(timestamp);
 
-      const {
-        from: {
-          phoneNumber: senderPhoneNumber,
-        },
-      } = eventDetails;
+      const { from: { phoneNumber: senderPhoneNumber } } = eventDetails;
       const maskedCallerNumber = this.getMaskedNumber(senderPhoneNumber);
       const summary = `New inbound SMS from ${maskedCallerNumber}`;
 

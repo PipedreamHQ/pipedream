@@ -1,20 +1,29 @@
 const common = require("../common/http-based");
+const messageTypes = require("../common/message-types");
 
 module.exports = {
   ...common,
   key: "ringcentral-new-outbound-message-event",
   name: "New Outbound Message Event (Instant)",
-  description: "Emits an event for each outbound message status update",
+  description: "Emit new event for each outbound message status update",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
     messageType: {
       type: "string",
       label: "Message Type",
       description: "The type of message to monitor for status changes",
-      options({ page = 0}) {
-        return page === 0 ? messageTypes : [];
+      options({ page = 0 }) {
+        return page === 0
+          ? messageTypes
+          : [];
       },
     },
   },

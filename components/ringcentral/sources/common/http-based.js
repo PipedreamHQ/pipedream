@@ -10,6 +10,8 @@ module.exports = {
   props: {
     ...base.props,
     http: {
+      label: "HTTP",
+      description: "HTTP based source",
       type: "$.interface.http",
       customResponse: true,
     },
@@ -25,9 +27,7 @@ module.exports = {
         eventFilters: this._getEventFilters(),
         verificationToken,
       };
-      const {
-        id: webhookId,
-      } = await this.ringcentral.createHook(opts);
+      const { id: webhookId } = await this.ringcentral.createHook(opts);
       this.db.set("webhookId", webhookId);
     },
     async deactivate() {
@@ -41,8 +41,13 @@ module.exports = {
     ...base.methods,
     _getPropValues() {
       return Object.entries(this)
-        .filter(([_, value]) => value != null)
-        .reduce((accum, [prop, value]) => ({
+        .filter(([
+          , value,
+        ]) => value != null)
+        .reduce((accum, [
+          prop,
+          value,
+        ]) => ({
           ...accum,
           [prop]: value,
         }), {});
@@ -92,7 +97,9 @@ module.exports = {
 
       const expectedVerificationToken = this.db.get("verificationToken") || verificationToken;
       if (verificationToken !== expectedVerificationToken) {
-        this.http.respond({ status: 404 });
+        this.http.respond({
+          status: 404,
+        });
         return false;
       }
 
@@ -113,7 +120,7 @@ module.exports = {
      * @return {boolean}  Whether the incoming event is relevant to this event
      * source or not
      */
-    isEventRelevant(event) {
+    isEventRelevant() {
       return true;
     },
     processEvent(event) {
@@ -124,7 +131,7 @@ module.exports = {
       }
 
       if (!this.isEventRelevant(event)) {
-        console.log("Event is irrelevant. Skipping...")
+        console.log("Event is irrelevant. Skipping...");
         return;
       }
 

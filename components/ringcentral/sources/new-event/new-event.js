@@ -5,8 +5,9 @@ module.exports = {
   ...common,
   key: "ringcentral-new-event",
   name: "New Event (Instant)",
-  description: "Emits an event for each notification from RingCentral of a specified type",
+  description: "Emit new event for each notification from RingCentral of a specified type",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
     extensionId: {
@@ -21,7 +22,9 @@ module.exports = {
       propDefinition: [
         common.props.ringcentral,
         "deviceId",
-        c => ({ extensionId: c.extensionId }),
+        ({ extensionId }) => ({
+          extensionId,
+        }),
       ],
     },
     notificationTypes: {
@@ -33,7 +36,9 @@ module.exports = {
           return [];
         }
 
-        return notificationTypes.map(({ label, key }) => ({
+        return notificationTypes.map(({
+          label, key,
+        }) => ({
           label,
           value: key,
         }));

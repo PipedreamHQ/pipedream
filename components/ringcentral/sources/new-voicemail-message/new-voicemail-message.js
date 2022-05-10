@@ -4,11 +4,17 @@ module.exports = {
   ...common,
   key: "ringcentral-new-voicemail-message",
   name: "New Voicemail Message (Instant)",
-  description: "Emits an event when a new voicemail message is received",
+  description: "Emit new event when a new voicemail message is received",
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -23,11 +29,7 @@ module.exports = {
         timestamp,
         body: eventDetails,
       } = data;
-      const {
-        from: {
-          phoneNumber: callerPhoneNumber,
-        },
-      } = eventDetails;
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails;
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
       const summary = `New voicemail from ${maskedCallerNumber}`;
