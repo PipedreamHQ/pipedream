@@ -25,4 +25,4 @@ jobs:
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: pnpm publish
-        run: pnpm publish -r --dry-run
+        run: pnpm publish -r --dry-run --no-git-checks
