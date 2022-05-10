@@ -28,15 +28,15 @@ jobs:
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7.0.0
       - name: Install Dependencies
         run: npm ci
       - name: pnpm install
@@ -125,15 +125,15 @@ jobs:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7.0.0
       - name: Install Dependencies
         run: npm ci
       - name: pnpm install
