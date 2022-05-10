@@ -28,7 +28,7 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.0.1",
+    "@pipedream/types": "^0.0.2",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
