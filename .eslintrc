@@ -9,6 +9,7 @@
     "plugin:jsonc/recommended-with-jsonc",
     "plugin:@typescript-eslint/recommended"
   ],
+  "ignorePatterns": ["scripts"],
   "overrides": [
     {
       "files": [
