@@ -105,7 +105,7 @@ export default {
       ContactStatus,
     });
     ContactID && (data.ContactID = ContactID);
-    const response = await this.xeroAccountingApi.createContact(tenantId, data);
+    const response = await this.xeroAccountingApi.createContact($, tenantId, data);
     response && $.export("$summary", "Contact created successfully");
     return response;
   },

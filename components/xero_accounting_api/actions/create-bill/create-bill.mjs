@@ -112,7 +112,7 @@ export default {
       InvoiceNumber,
       Reference,
     });
-    const response = await this.xeroAccountingApi.createInvoice(tenantId, data);
+    const response = await this.xeroAccountingApi.createInvoice($, tenantId, data);
     response && $.export("$summary", "Bill successfully created");
     return response;
   },

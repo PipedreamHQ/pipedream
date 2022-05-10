@@ -116,6 +116,7 @@ export default {
     const queryString = formatQueryString(findPayload, true);
     try {
       contactDetail = await this.xeroAccountingApi.getContact(
+        $,
         tenantId,
         queryString,
       );
@@ -132,6 +133,7 @@ export default {
       createContactIfNotFound === "Yes"
     ) {
       return await this.xeroAccountingApi.createContact(
+        $,
         tenantId,
         createPayload,
       );

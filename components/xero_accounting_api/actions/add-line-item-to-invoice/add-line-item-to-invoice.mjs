@@ -47,7 +47,7 @@ export default {
       InvoiceID,
       LineItems: formatArrayStrings(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
     });
-    const response = await this.xeroAccountingApi.createInvoice(tenantId, data);
+    const response = await this.xeroAccountingApi.createInvoice($, tenantId, data);
     response && $.export("$summary", "Line item created successfully");
     return response;
   },

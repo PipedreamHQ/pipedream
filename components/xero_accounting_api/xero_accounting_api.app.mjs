@@ -38,7 +38,7 @@ export default {
     },
     async makeRequest(args = {}) {
       const {
-        $ = this,
+        $,
         tenantId,
         modifiedSince,
         method = "get",
@@ -53,19 +53,21 @@ export default {
         params,
         data,
       };
-      return axios($, config);
+      return axios($ ?? this, config);
     },
-    async createContact(tenantId, data) {
+    async createContact($, tenantId, data) {
       return this.makeRequest({
+        $,
         tenantId,
         method: "post",
         path: "/contacts",
         data,
       });
     },
-    async getContact(tenantId, queryParam, modifiedSince = null) {
+    async getContact($, tenantId, queryParam, modifiedSince = null) {
       const where = chainQueryString(queryParam);
       return this.makeRequest({
+        $,
         tenantId,
         modifiedSince,
         path: "/contacts",
@@ -74,17 +76,19 @@ export default {
         },
       });
     },
-    async createInvoice(tenantId, data) {
+    async createInvoice($, tenantId, data) {
       return this.makeRequest({
+        $,
         tenantId,
         method: "post",
         path: "/invoices",
         data,
       });
     },
-    async getInvoice(tenantId, queryParam, modifiedSince = null) {
+    async getInvoice($, tenantId, queryParam, modifiedSince = null) {
       const where = chainQueryString(queryParam);
       return this.makeRequest({
+        $,
         tenantId,
         modifiedSince,
         path: "/invoices",
