@@ -1,6 +1,6 @@
 # Using Props
 
-<VideoPlayer url="https://www.youtube.com/embed/RW9FBVuHDHQ">
+<VideoPlayer url="https://www.youtube.com/embed/RW9FBVuHDHQ" />
 
 Props are fields that can be added to code steps in a workflow to abstract data from the code and improve reusability. Most actions use props to capture user input (e.g., to allow users to customize the URL, method and payload for the Send HTTP Request action). Props support the entry of simple values (e.g., `hello world` or `123`) or expressions in <ClientOnly><code v-pre>{{...}}</code></ClientOnly> that can reference objects in scope (e.g., <ClientOnly><code v-pre>{{event.foo}}</code></ClientOnly>) or run basic Node.js code (e.g., <ClientOnly><code v-pre>{{JSON.stringify(event.foo)}}</code></ClientOnly>). 
 
