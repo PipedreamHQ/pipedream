@@ -14,7 +14,6 @@ export default {
       type: "string",
       label: "State code",
       description: "State code. For example \"TX\" for Texas.",
-      optional: true,
     },
     countryCode: {
       type: "string",
