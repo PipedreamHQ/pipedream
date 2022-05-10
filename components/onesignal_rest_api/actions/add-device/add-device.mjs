@@ -2,7 +2,7 @@ import onesignalRestApi from "../../onesignal_rest_api.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
-  key: "onesignal-rest-api-add-device",
+  key: "onesignal_rest_api-add-device",
   name: "Add Device",
   description: "Register a new device to your app. [See docs here](https://documentation.onesignal.com/reference/add-a-device)",
   version: "0.0.1",

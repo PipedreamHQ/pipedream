@@ -2,7 +2,7 @@ import onesignalRestApi from "../../onesignal_rest_api.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
-  key: "onesignal-rest-api-get-devices",
+  key: "onesignal_rest_api-get-devices",
   name: "Get Devices",
   description: "Get all devices. [See docs here](https://documentation.onesignal.com/reference/view-devices)",
   version: "0.0.1",
