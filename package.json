@@ -25,6 +25,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "build": "tsc",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {

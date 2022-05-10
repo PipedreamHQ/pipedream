@@ -31,6 +31,20 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 7.0.0
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
@@ -39,10 +53,8 @@ jobs:
           cache: 'pnpm'
       - name: Install Dependencies
         run: npm ci
-      - name: pnpm install
-        run: npx pnpm install -r && npx tsc
       - name: Compile TypeScript
-        run: npx tsc
+        run: npm run build
       - uses: jitterbit/get-changed-files@v1
         id: changed_files
         name: Get changed files
