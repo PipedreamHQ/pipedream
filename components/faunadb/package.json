@@ -1,8 +1,8 @@
 {
     "name": "@pipedream/faunadb",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "Pipedream Faunadb Components",
-    "main": "faunadb.app.js",
+    "main": "faunadb.app.mjs",
     "keywords": [
         "pipedream",
         "faunadb"
