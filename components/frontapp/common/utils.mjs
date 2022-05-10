@@ -8,16 +8,14 @@ function emptyStrToUndefined(value) {
 export default {
   emptyStrToUndefined,
   parse(value) {
-    if (emptyStrToUndefined(value) === undefined) {
-      return undefined;
-    }
-    if (typeof(value) !== "string") {
-      return value;
+    const valueToParse = this.emptyStrToUndefined(value);
+    if (typeof(valueToParse) === "object" || valueToParse === undefined) {
+      return valueToParse;
     }
     try {
-      return JSON.parse(value);
-    } catch (error) {
-      throw `Malformed JSON string ${value}. Please check your input.`;
+      return JSON.parse(valueToParse);
+    } catch (e) {
+      throw "Make sure the custom expression contains a valid object";
     }
   },
 };

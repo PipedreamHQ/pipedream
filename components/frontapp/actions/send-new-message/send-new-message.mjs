@@ -1,10 +1,11 @@
+import utils from "../../common/utils.mjs";
 import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-send-new-message",
   name: "Send new message",
   description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     frontApp,
@@ -37,36 +38,32 @@ export default {
       optional: true,
     },
     attachments: {
-      type: "any",
-      description: "Binary data of the attached files. Available only for [multipart request](https://dev.frontapp.com/#send-multipart-request).",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "attachments",
+      ],
     },
-    options: {
-      type: "object",
-      description: "Sending options",
-      optional: true,
-    },
-    optionsTags: {
-      type: "any",
+    optionsTagIds: {
+      type: "string[]",
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
       optional: true,
     },
-    optionsArchive: {
+    optionsIsArchive: {
       type: "boolean",
       description: "Archive the conversation right when sending the message (Default: true)",
       optional: true,
     },
     to: {
-      type: "any",
+      type: "string[]",
       description: "List of the recipient handles who will receive this message",
     },
     cc: {
-      type: "any",
+      type: "string[]",
       description: "List of the recipient handles who will receive a copy of this message",
       optional: true,
     },
     bcc: {
-      type: "any",
+      type: "string[]",
       description: "List of the recipient handles who will receive a blind copy of this message",
       optional: true,
     },
@@ -79,32 +76,31 @@ export default {
       subject,
       body,
       text,
-      attachments,
-      options,
-      optionsTags,
-      optionsArchive,
-      to,
-      cc,
-      bcc,
+      optionsIsArchive,
     } = this;
 
+    const to = utils.parse(this.to);
+    const cc = utils.parse(this.cc);
+    const bcc = utils.parse(this.bcc);
+    const tagIds = utils.parse(this.optionsTagIds);
+    const attachments = utils.parse(this.attachments);
+
     const response = await this.frontApp.sendMessage({
-      params: {
-        channel_id: channelId,
-      },
+      channelId,
       data: {
-        author_id: authorId,
-        sender_name: senderName,
-        subject,
-        body,
-        text,
-        attachments,
-        options,
-        options_tags: optionsTags,
-        options_archive: optionsArchive,
         to,
         cc,
         bcc,
+        sender_name: senderName,
+        subject,
+        author_id: authorId,
+        body,
+        text,
+        options: {
+          tag_ids: tagIds,
+          archive: optionsIsArchive,
+        },
+        attachments,
       },
     });
 

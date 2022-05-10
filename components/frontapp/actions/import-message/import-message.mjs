@@ -5,7 +5,7 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox. [See the docs here](https://dev.frontapp.com/reference/import-inbox-message",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     frontApp,
@@ -51,12 +51,9 @@ export default {
       description: "Body of the message.",
     },
     bodyFormat: {
-      type: "string",
-      description: "Format of the message body. Ignored if the message type is not email. Can be one of: 'html', 'markdown'. (Default: 'markdown')",
-      optional: true,
-      options: [
-        "html",
-        "markdown",
+      propDefinition: [
+        frontApp,
+        "bodyFormat",
       ],
     },
     externalId: {
@@ -89,9 +86,10 @@ export default {
       optional: true,
     },
     threadRef: {
-      type: "string",
-      description: "Custom reference which will be used to thread messages. If you omit this field, we'll thread by sender instead.",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "threadRef",
+      ],
     },
     isInbound: {
       type: "boolean",
@@ -134,9 +132,9 @@ export default {
 
     const data = {
       sender: {
-        handle,
-        name,
         author_id: authorId,
+        name,
+        handle,
       },
       to,
       cc,

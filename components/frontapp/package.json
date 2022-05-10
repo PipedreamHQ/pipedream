@@ -1,15 +1,20 @@
 {
-  "name": "frontapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "@pipedream/frontapp",
+  "version": "0.3.4",
+  "description": "Pipedream Frontapp Components",
+  "main": "frontapp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "frontapp"
+  ],
+  "homepage": "https://pipedream.com/apps/frontapp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
   "dependencies": {
     "api": "^4.4.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
   }
 }
