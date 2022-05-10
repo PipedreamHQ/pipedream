@@ -12,6 +12,9 @@ function checkKeys(p, nameSlug) {
   const names = fs.readdirSync(p);
   for (const name of names) {
     const pp = path.join(p, name);
+    if (name === "node_modules") {
+      continue;
+    }
     if (name.endsWith(".mjs") || name.endsWith(".js")) {
       const data = fs.readFileSync(pp, "utf8");
       const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
@@ -37,6 +40,9 @@ for (const name of dirs) {
   const subnames = fs.readdirSync(p);
   let nameSlug;
   for (const subname of subnames) {
+    if (subname === "node_modules") {
+      continue;
+    }
     if (subname.endsWith(".app.mjs") || subname.endsWith(".app.js")) {
       const appPath = path.join(p, subname);
       const data = fs.readFileSync(appPath, "utf8");
