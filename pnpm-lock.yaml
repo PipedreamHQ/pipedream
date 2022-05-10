@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@pipedream/types': ^0.0.1
+  '@pipedream/types': ^0.0.2
   '@tsconfig/node14': ^1.0.1
   '@types/jest': ^27.4.1
   '@typescript-eslint/eslint-plugin': ^5.21.0
@@ -20,7 +20,7 @@ specifiers:
   typescript: ^4.6.4
 
 devDependencies:
-  '@pipedream/types': 0.0.1
+  '@pipedream/types': 0.0.2
   '@tsconfig/node14': 1.0.1
   '@types/jest': 27.5.0
   '@typescript-eslint/eslint-plugin': 5.23.0_mb64btdtw33wm6tnwldrxlgg2m
@@ -1583,8 +1583,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@pipedream/types/0.0.1:
-    resolution: {integrity: sha512-GCf/ZKF3x6jE6nqmVlD/5i0OLlxmO5ED3+mmwYa0l8fOzSZTFdZkdQSo2vI1LRJ27Imryz+nDPGRT/oJ9FUQfg==}
+  /@pipedream/types/0.0.2:
+    resolution: {integrity: sha512-XaWyHnVBT5q2fAjrdlu2PGzrCaDRcZWBXWXPXKgwKtcvj/mTkhsT5muLPzj3QeFgWo5Pup4XR5epHLs4kpRF0A==}
     dev: true
 
   /@putout/compare/6.1.1:
