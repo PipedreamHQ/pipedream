@@ -1,0 +1,73 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@linear/sdk': ^1.22.0
+
+dependencies:
+  '@linear/sdk': 1.22.0
+
+packages:
+
+  /@graphql-typed-document-node/core/3.1.1_graphql@15.8.0:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 15.8.0
+    dev: false
+
+  /@linear/sdk/1.22.0:
+    resolution: {integrity: sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==}
+    engines: {node: '>=12.x', yarn: 1.x}
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
+      graphql: 15.8.0
+      isomorphic-unfetch: 3.1.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /graphql/15.8.0:
+    resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==}
+    engines: {node: '>= 10.x'}
+    dev: false
+
+  /isomorphic-unfetch/3.1.0:
+    resolution: {integrity: sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==}
+    dependencies:
+      node-fetch: 2.6.7
+      unfetch: 4.2.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /node-fetch/2.6.7:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: false
+
+  /tr46/0.0.3:
+    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    dev: false
+
+  /unfetch/4.2.0:
+    resolution: {integrity: sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==}
+    dev: false
+
+  /webidl-conversions/3.0.1:
+    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    dev: false
+
+  /whatwg-url/5.0.0:
+    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
+    dev: false

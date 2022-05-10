@@ -1,0 +1,33 @@
+lockfileVersion: 5.4
+
+specifiers:
+  axios: ^0.21.1
+  convert-array-to-csv: ^2.0.0
+
+dependencies:
+  axios: 0.21.4
+  convert-array-to-csv: 2.0.0
+
+packages:
+
+  /axios/0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /convert-array-to-csv/2.0.0:
+    resolution: {integrity: sha512-dxUINCt28k6WbXGMoB+AaKjGY0Y6GkKwZmT+kvD4nJgVCOKsnIQ3G6n0v2II1lG4NwXQk6EWZ+pPDub9wcqqMg==}
+    dev: false
+
+  /follow-redirects/1.15.0:
+    resolution: {integrity: sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false

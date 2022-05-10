@@ -1,0 +1,47 @@
+lockfileVersion: 5.4
+
+specifiers:
+  axios: ^0.21.1
+  parse-link-header: ^1.0.1
+  slugify: ^1.4.6
+
+dependencies:
+  axios: 0.21.4
+  parse-link-header: 1.0.1
+  slugify: 1.6.5
+
+packages:
+
+  /axios/0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /follow-redirects/1.15.0:
+    resolution: {integrity: sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
+  /parse-link-header/1.0.1:
+    resolution: {integrity: sha1-vt/g0hGK64S+deewJUGeyKYRQKc=}
+    dependencies:
+      xtend: 4.0.2
+    dev: false
+
+  /slugify/1.6.5:
+    resolution: {integrity: sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
+  /xtend/4.0.2:
+    resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
+    engines: {node: '>=0.4'}
+    dev: false

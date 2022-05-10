@@ -1,0 +1,75 @@
+lockfileVersion: 5.4
+
+specifiers:
+  lodash.flatmap: ^4.5.0
+  lodash.map: ^4.6.0
+  lodash.uniqby: ^4.7.0
+  monday-sdk-js: ^0.1.3
+
+dependencies:
+  lodash.flatmap: 4.5.0
+  lodash.map: 4.6.0
+  lodash.uniqby: 4.7.0
+  monday-sdk-js: 0.1.3
+
+packages:
+
+  /@types/source-map/0.5.7:
+    resolution: {integrity: sha512-LrnsgZIfJaysFkv9rRJp4/uAyqw87oVed3s1hhF83nwbo9c7MG9g5DqR0seHP+lkX4ldmMrVolPjQSe2ZfD0yA==}
+    deprecated: This is a stub types definition for source-map (https://github.com/mozilla/source-map). source-map provides its own type definitions, so you don't need @types/source-map installed!
+    dependencies:
+      source-map: 0.7.3
+    dev: false
+
+  /lodash.flatmap/4.5.0:
+    resolution: {integrity: sha1-74y/QI9uSCaGYzRTBcaswLd4cC4=}
+    dev: false
+
+  /lodash.map/4.6.0:
+    resolution: {integrity: sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=}
+    dev: false
+
+  /lodash.uniqby/4.7.0:
+    resolution: {integrity: sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI=}
+    dev: false
+
+  /monday-sdk-js/0.1.3:
+    resolution: {integrity: sha512-Yl5mALmf33Q54WmOgGJf0wn4FyWpfCv3Wg8JszcqB/Jx9Ay7PmSB71ytm+jgLBCojzeUupuNANrv9imfftVXaw==}
+    dependencies:
+      '@types/source-map': 0.5.7
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /node-fetch/2.6.7:
+    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: false
+
+  /source-map/0.7.3:
+    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
+    engines: {node: '>= 8'}
+    dev: false
+
+  /tr46/0.0.3:
+    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    dev: false
+
+  /webidl-conversions/3.0.1:
+    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    dev: false
+
+  /whatwg-url/5.0.0:
+    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
+    dev: false

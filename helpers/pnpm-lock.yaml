@@ -1,0 +1,40 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@types/lodash': ^4.14.182
+  lodash.get: ^4.4.2
+  lodash.isarray: ^4.0.0
+  lodash.isempty: ^4.4.0
+  lodash.isstring: ^4.0.1
+
+dependencies:
+  lodash.get: 4.4.2
+  lodash.isarray: 4.0.0
+  lodash.isempty: 4.4.0
+  lodash.isstring: 4.0.1
+
+devDependencies:
+  '@types/lodash': 4.14.182
+
+packages:
+
+  /@types/lodash/4.14.182:
+    resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: true
+
+  /lodash.get/4.4.2:
+    resolution: {integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=}
+    dev: false
+
+  /lodash.isarray/4.0.0:
+    resolution: {integrity: sha1-KspJayjEym1yZxUxNZDALm6jRAM=}
+    deprecated: This package is deprecated. Use Array.isArray.
+    dev: false
+
+  /lodash.isempty/4.4.0:
+    resolution: {integrity: sha1-b4bL7di+TsmHvpqvM8loTbGzHn4=}
+    dev: false
+
+  /lodash.isstring/4.0.1:
+    resolution: {integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=}
+    dev: false

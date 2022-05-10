@@ -1,0 +1,13 @@
+lockfileVersion: 5.4
+
+specifiers:
+  fraudlabspro-nodejs: ^2.1.0
+
+dependencies:
+  fraudlabspro-nodejs: 2.1.0
+
+packages:
+
+  /fraudlabspro-nodejs/2.1.0:
+    resolution: {integrity: sha512-yqup43EVXMq7vF+ecQ7XBysB4s5/eQZDZf8gK3pGOAkQXsXsyWFAeZMBfj2sIBBiSDmyf9KcxvHkkC30DD5tXQ==}
+    dev: false
