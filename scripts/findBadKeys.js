@@ -15,7 +15,7 @@ function checkKeys(p, nameSlug) {
     if (name === "node_modules") {
       continue;
     }
-    if (name.endsWith(".mjs") || name.endsWith(".js")) {
+    if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
       const data = fs.readFileSync(pp, "utf8");
       const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
       if (md) {
@@ -43,7 +43,7 @@ for (const name of dirs) {
     if (subname === "node_modules") {
       continue;
     }
-    if (subname.endsWith(".app.mjs") || subname.endsWith(".app.js")) {
+    if (subname.endsWith(".app.mjs") || subname.endsWith(".app.js") || subname.endsWith(".app.mts") || subname.endsWith(".app.ts")) {
       const appPath = path.join(p, subname);
       const data = fs.readFileSync(appPath, "utf8");
       const md = data.match(/['"]?app['"]?: ['"]([^'"]+)/);

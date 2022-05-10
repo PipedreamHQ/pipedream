@@ -9,5 +9,6 @@
     "docs",
     "helpers",
   ],
-  "forceConsistentCasingInFileNames": true
+  "forceConsistentCasingInFileNames": true,
+  "esModuleInterop": true
 }
