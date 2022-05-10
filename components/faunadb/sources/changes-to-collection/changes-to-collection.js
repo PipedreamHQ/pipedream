@@ -1,4 +1,4 @@
-const fauna = require("../../faunadb.app.js");
+const fauna = require("../../faunadb.app.mjs");
 const maxBy = require("lodash.maxby");
 
 module.exports = {
