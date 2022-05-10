@@ -25,10 +25,7 @@ export default {
       async options() {
         const collections = await this.getCollections();
 
-        return collections.map((collection) => ({
-          label: collection.name,
-          value: collection.id,
-        }));
+        return collections.map((collection) => collection.id);
       },
     },
   },
