@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import postmark from "../../postmark.app.mjs";
 
 let objSharedProps = {};
@@ -15,7 +14,7 @@ export default {
   key: "postmark-send-email-with-template",
   name: "Send an email with template",
   description: "Send an email with Postmark using a template",
-  version: "0.1.21",
+  version: "0.1.23",
   type: "action",
   props: {
     postmark,
@@ -43,40 +42,10 @@ export default {
     ...objSharedProps,
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://api.postmarkapp.com/email/withTemplate",
-      headers: {
-        "X-Postmark-Server-Token": `${this.postmark.$auth.api_key}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      method: "POST",
-      data: {
-        TemplateAlias: this.template_alias,
-        TemplateModel: this.template_model,
-        InlineCSS: this.inline_css,
-        From: this.from_email,
-        To: this.to_email,
-        Cc: this.cc_email,
-        Bcc: this.bcc_email,
-        Tag: this.tag,
-        ReplyTo: this.reply_to,
-        Headers: this.custom_headers,
-        TrackOpens: this.track_opens,
-        TrackLinks: this.track_links,
-        Attachments: this.attachments?.map((str) => {
-          let params = str.split("|");
-          return params.length === 3
-            ? {
-              Name: params[0],
-              Content: params[1],
-              ContentType: params[2],
-            }
-            : JSON.parse(str);
-        }),
-        Metadata: this.metadata,
-        MessageStream: this.message_stream,
-      },
+    return this.postmark.sharedRequest($, this, "email/withTemplate", {
+      TemplateAlias: this.template_alias,
+      TemplateModel: this.template_model,
+      InlineCSS: this.inline_css,
     });
   },
 };

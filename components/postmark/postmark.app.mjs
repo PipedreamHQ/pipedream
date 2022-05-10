@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axios as axiosPipedream } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -111,7 +112,7 @@ export default {
       return await axios({
         url: "https://api.postmarkapp.com/templates?count=500&offset=0",
         headers: {
-          "X-Postmark-Server-Token": `${this.postmark.$auth.api_key}`,
+          "X-Postmark-Server-Token": `${this.$auth.api_key}`,
           "Accept": "application/json",
           "Content-Type": "application/json",
         },
@@ -158,19 +159,40 @@ export default {
         "message_stream",
       ];
     },
-    getSharedPropDefinitions() {
-      const SHARED_PROPS = this.listSharedProps();
-
-      let obj = {};
-      SHARED_PROPS.forEach((propName) => {
-        obj[propName] = {
-          propDefinition: [
-            this,
-            propName,
-          ],
-        };
+    async sharedRequest($, action, endpoint, uniqueProps) {
+      return await axiosPipedream($, {
+        url: `https://api.postmarkapp.com/${endpoint}`,
+        headers: {
+          "X-Postmark-Server-Token": `${this.$auth.api_key}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        method: "POST",
+        data: {
+          ...uniqueProps,
+          From: action.from_email,
+          To: action.to_email,
+          Cc: action.cc_email,
+          Bcc: action.bcc_email,
+          Tag: action.tag,
+          ReplyTo: action.reply_to,
+          Headers: action.custom_headers,
+          TrackOpens: action.track_opens,
+          TrackLinks: action.track_links,
+          Attachments: action.attachments?.map((str) => {
+            let params = str.split("|");
+            return params.length === 3
+              ? {
+                Name: params[0],
+                Content: params[1],
+                ContentType: params[2],
+              }
+              : JSON.parse(str);
+          }),
+          Metadata: action.metadata,
+          MessageStream: action.message_stream,
+        },
       });
-      return obj;
     },
   },
 };
