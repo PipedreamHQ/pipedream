@@ -1,23 +1,8 @@
-import axios from "axios";
-import { axios as axiosPipedream } from "@pipedream/platform";
-
+import { axios } from "@pipedream/platform";
 import postmark from "../../postmark.app.mjs";
 
 let objSharedProps = {};
-[
-  "from_email",
-  "to_email",
-  "cc_email",
-  "bcc_email",
-  "tag",
-  "reply_to",
-  "custom_headers",
-  "track_opens",
-  "track_links",
-  "attachments",
-  "metadata",
-  "message_stream",
-].forEach((propName) => {
+postmark.methods.listSharedProps().forEach((propName) => {
   objSharedProps[propName] = {
     propDefinition: [
       postmark,
@@ -28,47 +13,10 @@ let objSharedProps = {};
 
 export default {
   key: "postmark-send-email-with-template",
-  name: "Send an Email using a Template",
-  description: "Send an Email using a Template",
-  version: "0.1.20",
+  name: "Send an email with template",
+  description: "Send an email with Postmark using a template",
+  version: "0.1.21",
   type: "action",
-  methods: {
-    async listTemplates() {
-      return await axios({
-        url: "https://api.postmarkapp.com/templates?count=500&offset=0",
-        headers: {
-          "X-Postmark-Server-Token": `${this.postmark.$auth.api_key}`,
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      })
-        .then(({ data }) =>
-          data.TotalCount
-            ? data.Templates.filter(
-              (obj) => obj.TemplateType === "Standard",
-            ).map((obj) => {
-              return {
-                label: obj.Name,
-                value: obj.Alias,
-              };
-            })
-            : [
-              {
-                label:
-                    "No templates found for this Postmark account. Create a template, then refresh this field.",
-                value: -1,
-              },
-            ])
-        .catch(() => [
-          {
-            label:
-              "An error ocurred while fetching the list of templates for this Postmark account. Please try again.",
-            value: -2,
-          },
-        ]);
-    },
-  },
   props: {
     postmark,
     template_alias: {
@@ -76,7 +24,7 @@ export default {
       label: "Template",
       description: "The template to use for this email.",
       options() {
-        return this.listTemplates();
+        return this.postmark.listTemplates();
       },
     },
     template_model: {
@@ -95,7 +43,7 @@ export default {
     ...objSharedProps,
   },
   async run({ $ }) {
-    return await axiosPipedream($, {
+    return await axios($, {
       url: "https://api.postmarkapp.com/email/withTemplate",
       headers: {
         "X-Postmark-Server-Token": `${this.postmark.$auth.api_key}`,

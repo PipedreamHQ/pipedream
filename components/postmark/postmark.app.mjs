@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default {
   type: "app",
   app: "postmark",
@@ -104,6 +106,71 @@ export default {
     // this.$auth contains connected account data
     authKeys() {
       console.log(Object.keys(this.$auth));
+    },
+    async listTemplates() {
+      return await axios({
+        url: "https://api.postmarkapp.com/templates?count=500&offset=0",
+        headers: {
+          "X-Postmark-Server-Token": `${this.postmark.$auth.api_key}`,
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      })
+        .then(({ data }) =>
+          data.TotalCount
+            ? data.Templates.filter(
+              (obj) => obj.TemplateType === "Standard",
+            ).map((obj) => {
+              return {
+                label: obj.Name,
+                value: obj.Alias,
+              };
+            })
+            : [
+              {
+                label:
+                    "No templates found for this Postmark account. Create a template, then refresh this field.",
+                value: -1,
+              },
+            ])
+        .catch(() => [
+          {
+            label:
+              "An error ocurred while fetching the list of templates for this Postmark account. Please try again.",
+            value: -2,
+          },
+        ]);
+    },
+    listSharedProps() {
+      return [
+        "from_email",
+        "to_email",
+        "cc_email",
+        "bcc_email",
+        "tag",
+        "reply_to",
+        "custom_headers",
+        "track_opens",
+        "track_links",
+        "attachments",
+        "metadata",
+        "message_stream",
+      ];
+    },
+    getSharedPropDefinitions() {
+      const SHARED_PROPS = this.listSharedProps();
+
+      let obj = {};
+      SHARED_PROPS.forEach((propName) => {
+        obj[propName] = {
+          propDefinition: [
+            this,
+            propName,
+          ],
+        };
+      });
+      return obj;
     },
   },
 };

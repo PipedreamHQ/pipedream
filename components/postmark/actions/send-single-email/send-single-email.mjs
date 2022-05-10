@@ -1,69 +1,45 @@
 // legacy_hash_id: a_8KiGrJ
 import { axios } from "@pipedream/platform";
+import postmark from "../../postmark.app.mjs";
+
+let objSharedProps = {};
+postmark.methods.listSharedProps().forEach((propName) => {
+  objSharedProps[propName] = {
+    propDefinition: [
+      postmark,
+      propName,
+    ],
+  };
+});
 
 export default {
   key: "postmark-send-single-email",
-  name: "Send an Email with Postmark to a Single Recipient",
-  description: "Send an Email with Postmark to a Single Recipient",
-  version: "0.1.1",
+  name: "Send an email",
+  description: "Send an email with Postmark",
+  version: "0.1.2",
   type: "action",
   props: {
-    postmark: {
-      type: "app",
-      app: "postmark",
-    },
-    from_email: {
-      type: "string",
-      label: "From Email",
-    },
-    to_email: {
-      type: "string",
-      label: "To Email",
-    },
-    cc_email: {
-      type: "string",
-      label: "CC Email",
-      optional: true,
-    },
-    bcc_email: {
-      type: "string",
-      label: "BCC Email",
-      optional: true,
-    },
+    postmark,
     subject: {
       type: "string",
       label: "Subject",
-    },
-    tag: {
-      type: "string",
-      label: "Tag",
-      optional: true,
+      description: "Email subject",
     },
     html_body: {
       type: "string",
-      label: "Html Body",
+      label: "HTML Body",
+      description:
+        "HTML email message. Required if no `TextBody` is specified.",
       optional: true,
     },
     text_body: {
       type: "string",
       label: "Text Body",
+      description:
+        "Plain text email message. Required if no `HtmlBody` is specified.",
       optional: true,
     },
-    reply_to: {
-      type: "string",
-      label: "Reply To Email",
-      optional: true,
-    },
-    track_opens: {
-      type: "boolean",
-      optional: true,
-    },
-    track_links: {
-      type: "string",
-      label: "Track Links",
-      description: "Activate link tracking for links in the HTML or Text bodies of this email. Possible options: None HtmlAndText HtmlOnly TextOnly",
-      optional: true,
-    },
+    ...objSharedProps,
   },
   async run({ $ }) {
     return await axios($, {
@@ -75,17 +51,30 @@ export default {
       },
       method: "POST",
       data: {
-        "From": this.from_email,
-        "To": this.to_email,
-        "Cc": this.cc_email,
-        "Bcc": this.bcc_email,
-        "Subject": this.subject,
-        "Tag": this.tag,
-        "HtmlBody": this.html_body,
-        "TextBody": this.text_body,
-        "ReplyTo": this.reply_to,
-        "TrackOpens": this.track_opens,
-        "TrackLinks": this.track_links,
+        Subject: this.subject,
+        HtmlBody: this.html_body,
+        TextBody: this.text_body,
+        From: this.from_email,
+        To: this.to_email,
+        Cc: this.cc_email,
+        Bcc: this.bcc_email,
+        Tag: this.tag,
+        ReplyTo: this.reply_to,
+        Headers: this.custom_headers,
+        TrackOpens: this.track_opens,
+        TrackLinks: this.track_links,
+        Attachments: this.attachments?.map((str) => {
+          let params = str.split("|");
+          return params.length === 3
+            ? {
+              Name: params[0],
+              Content: params[1],
+              ContentType: params[2],
+            }
+            : JSON.parse(str);
+        }),
+        Metadata: this.metadata,
+        MessageStream: this.message_stream,
       },
     });
   },
