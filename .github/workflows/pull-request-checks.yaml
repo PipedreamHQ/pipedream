@@ -40,7 +40,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: pnpm install
-        run: pnpm install -r
+        run: npx pnpm install -r && npx tsc
       - name: Compile TypeScript
         run: npx tsc
       - uses: jitterbit/get-changed-files@v1
