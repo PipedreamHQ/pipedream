@@ -30,7 +30,7 @@ export default {
     },
     cnt: {
       type: "integer",
-      label: "Days count",
+      label: "Days Count",
       description: "Number of days, which will be returned in the API response",
       min: 1,
       max: 16,
