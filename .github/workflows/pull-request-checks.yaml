@@ -14,7 +14,6 @@ jobs:
   check_version:
     name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2.4.0
       name: Checkout repo
@@ -28,6 +27,10 @@ jobs:
         # we have to fetch the entire history. See
         # https://github.com/actions/checkout/issues/266#issuecomment-638346893
         fetch-depth: 0
+    - name: Install Dependencies
+      run: npm ci
+    - name: Compile TypeScript
+      run: npx tsc
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
       name: Get changed files
@@ -99,7 +102,6 @@ jobs:
         source_files: ${{ env.files }}
         task_name: Markdown
 
-
   lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
@@ -111,15 +113,14 @@ jobs:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
           node-version: '12'
-
       - name: Install Dependencies
         run: npm ci
-
+      - name: Compile TypeScript
+        run: npx tsc
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
@@ -133,5 +134,29 @@ jobs:
 
       - name: Check component keys
         run: node scripts/findBadKeys.js
+
+  publish-dry-run:
+    name: pnpm publish dry run
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
+      - uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: npm install
+        run: npm ci
+      - name: pnpm install
+        run: pnpm install
+      # See https://pnpm.io/using-changesets
+      - name: Setup npmrc for pnpm publish
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: pnpm publish
+        run: pnpm publish -r --no-git-checks --dry-run
 
 

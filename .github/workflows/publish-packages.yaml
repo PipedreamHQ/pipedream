@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - rss-improvements ## XXX change to master when merging
+      - master
 
 jobs:
   # See https://pnpm.io/continuous-integration#github-actions
@@ -25,4 +25,4 @@ jobs:
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: pnpm publish
-        run: pnpm publish -r --dry-run --no-git-checks
+        run: pnpm publish -r --no-git-checks

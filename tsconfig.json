@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ES2020",
     "moduleResolution": "node"
   },
   "exclude": [
