@@ -20,7 +20,7 @@ specifiers:
   typescript: ^4.6.4
 
 devDependencies:
-  '@pipedream/types': 0.0.2
+  '@pipedream/types': link:types
   '@tsconfig/node14': 1.0.1
   '@types/jest': 27.5.0
   '@typescript-eslint/eslint-plugin': 5.23.0_mb64btdtw33wm6tnwldrxlgg2m
@@ -1581,10 +1581,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
-    dev: true
-
-  /@pipedream/types/0.0.2:
-    resolution: {integrity: sha512-XaWyHnVBT5q2fAjrdlu2PGzrCaDRcZWBXWXPXKgwKtcvj/mTkhsT5muLPzj3QeFgWo5Pup4XR5epHLs4kpRF0A==}
     dev: true
 
   /@putout/compare/6.1.1:
