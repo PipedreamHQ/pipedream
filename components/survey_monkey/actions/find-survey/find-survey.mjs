@@ -2,7 +2,8 @@ import surveyMonkey from "../../survey_monkey.app.mjs";
 
 export default {
   key: "survey_monkey-find-survey",
-  name: "Find survey",
+  name: "Find Survey",
+  description: "Find one of your surveys",
   version: "0.0.1",
   type: "action",
   props: {

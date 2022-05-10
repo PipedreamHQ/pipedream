@@ -1,15 +1,15 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   name: "New Survey Response",
   version: "0.0.1",
   type: "source",
   key: "survey_monkey-new-survey-response",
-  description: "Triggers when a new response is added",
+  description: "Emit new survey response",
   props: {
-    surveyMonkey,
-    http: "$.interface.http",
-    db: "$.service.db",
+    ...common.props,
     survey: {
       propDefinition: [
         surveyMonkey,
@@ -18,25 +18,19 @@ export default {
     },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       const hookId = await this.surveyMonkey.createHook(
         this.http.endpoint,
         this.survey,
       );
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      await this.surveyMonkey.deleteHook(this.db.get("hookId"));
+      this.setHookId(hookId);
     },
   },
-  methods: {},
-  async run(event) {
-    this.http.respond({
-      status: 200,
-    });
-    this.$emit(event, {
-      summary: `New response from survey - ${event.body.object_id}`,
-      ts: Date.now(),
-    });
+  methods: {
+    ...common.methods,
+    getSummary(event) {
+      return `New response from survey - ${event.body.object_id}`;
+    },
   },
 };

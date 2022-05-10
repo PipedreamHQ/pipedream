@@ -1,26 +1,28 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
-  name: "Custom webhook events",
+  ...common,
+  name: "New Custom webhook events",
   version: "0.0.1",
   type: "source",
   key: "survey_monkey-custom-webhook-events",
-  description: "Triggers on new events",
+  description: "Emmit new custom webhook event",
   props: {
-    surveyMonkey,
-    http: "$.interface.http",
-    db: "$.service.db",
+    ...common.props,
     objectType: {
       propDefinition: [
         surveyMonkey,
         "objectType",
       ],
+      reloadProps: true,
     },
     eventType: {
       propDefinition: [
         surveyMonkey,
         "eventType",
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
@@ -81,6 +83,7 @@ export default {
     }
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       const hookId = await this.surveyMonkey.createCustomHook({
         endpoint: this.http.endpoint,
@@ -89,19 +92,13 @@ export default {
         objectIds: this.object_ids,
       });
 
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      await this.surveyMonkey.deleteHook(this.db.get("hookId"));
+      this.setHookId(hookId);
     },
   },
-  async run(event) {
-    this.http.respond({
-      status: 200,
-    });
-    this.$emit(event, {
-      summary: `New response from survey - ${event.body.object_id}`,
-      ts: Date.now(),
-    });
+  methods: {
+    ...common.methods,
+    getSummary(event) {
+      return `New custom event - ${event.body.object_id}`;
+    },
   },
 };

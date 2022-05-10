@@ -31,7 +31,6 @@ export default {
       ],
       optional: false,
       default: "",
-      reloadProps: true,
     },
     eventType: {
       type: "string",
@@ -41,7 +40,6 @@ export default {
         ...constants.EVENT_TYPES,
         ...constants.ADDITIONAL_EVENT_TYPES,
       ],
-      reloadProps: true,
     },
   },
   methods: {
