@@ -3,8 +3,8 @@ import hash from "object-hash";
 
 export default {
   key: "http-watch-url",
-  name: "New event when the content of an URL changes.",
-  description: "Emit new event when the content of an URL changes.",
+  name: "New event when the content of the URL changes.",
+  description: "Emit new event when the content of the URL changes.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
