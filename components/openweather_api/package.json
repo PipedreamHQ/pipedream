@@ -2,7 +2,7 @@
     "name": "@pipedream/openweather_api",
     "version": "0.0.1",
     "description": "Pipedream Openweather Components",
-    "main": "openweather_api.app.js",
+    "main": "openweather_api.app.mjs",
     "keywords": [
         "pipedream",
         "openweather_api"
