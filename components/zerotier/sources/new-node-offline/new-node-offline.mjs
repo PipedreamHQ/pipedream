@@ -7,7 +7,7 @@ export default {
   description: "Emit new event for each offline node. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
   type: "source",
   dedupe: "unique",
-  version: "0.0.1",
+  version: "0.0.2",
   async run({ $ }) {
     const nodes = await this.zerotier.getNetworkNodes({
       networkId: this.networkId,

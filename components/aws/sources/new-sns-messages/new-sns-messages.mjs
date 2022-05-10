@@ -1,5 +1,5 @@
 import base from "../common/sns.mjs";
-import { toSingleLineString } from "../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   ...base,
@@ -9,7 +9,7 @@ export default {
     Creates an SNS topic in your AWS account.
     Messages published to this topic are emitted from the Pipedream source.
   `),
-  version: "0.2.1",
+  version: "0.3.0",
   type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {
