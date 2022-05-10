@@ -1,10 +1,10 @@
 const stripe = require("../../stripe.app.js");
 
-export default {
+module.exports = {
   name: "Retrieve Product",
   description: "Retrieve a product by ID. [See the docs](https://stripe.com/docs/api/products/retrieve)",
   key: "stripe-retrieve-product",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     stripe,

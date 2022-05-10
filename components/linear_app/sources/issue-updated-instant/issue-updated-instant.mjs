@@ -4,10 +4,10 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   key: "linear_app-issue-updated-instant",
-  name: "Issue Updated (Instant)",
+  name: "New Updated Issue (Instant)",
   description: "Emit new event when an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.0.1",
+  version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -17,7 +17,7 @@ export default {
       ];
     },
     getWebhookLabel() {
-      return "Issue created";
+      return "Issue updated";
     },
     getActions() {
       return [
