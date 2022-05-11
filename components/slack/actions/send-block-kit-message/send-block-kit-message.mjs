@@ -1,4 +1,4 @@
-import common from "../send-message-common.mjs";
+import common from "../common/send-message.mjs";
 
 export default {
   ...common,
