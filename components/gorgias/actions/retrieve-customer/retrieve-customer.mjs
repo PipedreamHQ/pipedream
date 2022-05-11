@@ -16,7 +16,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.gorgias.retrieveCustomer(this.customerId);
+    const response = await this.gorgias.retrieveCustomer({
+      $,
+      id: this.customerId,
+    });
     $.export("$summary", `Succesfully retrieved customer ${this.customerId}`);
     return response;
   },

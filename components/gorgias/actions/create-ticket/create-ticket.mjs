@@ -68,7 +68,10 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.createTicket(params);
+    const response = await this.gorgias.createTicket({
+      $,
+      params,
+    });
     $.export("$summary", `Succesfully created ticket ${response.id}`);
     return response;
   },

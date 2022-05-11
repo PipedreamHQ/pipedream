@@ -15,7 +15,7 @@ export default {
         const {
           data: customers,
           meta,
-        } = await this.listCustomers({
+        } = await this.listCustomers(this, {
           cursor: prevContext.nextCursor,
         });
         return {
@@ -106,7 +106,7 @@ export default {
       return config;
     },
     async _makeRequest({
-      path, method, params, data,
+      $, path, method, params, data,
     }) {
       try {
         const config = this._defaultConfig({
@@ -115,14 +115,16 @@ export default {
           params,
           data,
         });
-        const response = await axios(this, config);
+        const response = await axios($ ?? this, config);
         return response;
       } catch (e) {
         const errorMsg = JSON.stringify(e.response.data);
         throw new Error(errorMsg);
       }
     },
-    async *paginate(fn, params = {}, cursor = undefined) {
+    async *paginate({
+      $, fn, params = {}, cursor = undefined,
+    }) {
       let n = 0;
       do {
         console.log(`run number ${++n}`);
@@ -130,8 +132,11 @@ export default {
           data,
           meta,
         } = await fn({
-          ...params,
-          cursor,
+          $,
+          params: {
+            ...params,
+            cursor,
+          },
         });
 
         for (const d of data) {
@@ -141,46 +146,67 @@ export default {
         cursor = meta.next_cursor;
       } while (cursor);
     },
-    async getEvents(params) {
+    async getEvents({
+      $, params,
+    }) {
       return this._makeRequest({
+        $,
         path: "/events",
         params,
       });
     },
-    async createCustomer(data) {
+    async createCustomer({
+      $, data,
+    }) {
       return this._makeRequest({
+        $,
         path: "/customers",
         method: "post",
         data,
       });
     },
-    async updateCustomer(id, data) {
+    async updateCustomer({
+      $, id, data,
+    }) {
       return this._makeRequest({
+        $,
         path: `/customers/${id}`,
         method: "put",
         data,
       });
     },
-    async retrieveCustomer(id) {
+    async retrieveCustomer({
+      $, id,
+    }) {
       return this._makeRequest({
+        $,
         path: `/customers/${id}`,
       });
     },
-    async listCustomers(params) {
+    async listCustomers({
+      $, params,
+    }) {
       return this._makeRequest({
+        $,
         path: "/customers",
         params,
       });
     },
-    async createTicket(data) {
+    async createTicket({
+      $, data,
+    }) {
       return this._makeRequest({
+        $,
         path: "/tickets",
         method: "post",
         data,
       });
     },
-    async listTickets(params) {
+    async listTickets({
+      $, params,
+    }) {
       return this._makeRequest({
+        $,
         path: "/tickets",
         params,
       });

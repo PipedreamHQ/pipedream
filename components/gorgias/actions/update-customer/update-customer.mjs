@@ -84,7 +84,10 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.updateCustomer(this.customerId, params);
+    const response = await this.gorgias.updateCustomer({
+      id: this.customerId,
+      params,
+    });
     $.export("$summary", `Succesfully updated customer ${this.customerId}`);
     return response;
   },

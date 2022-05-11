@@ -30,7 +30,11 @@ export default {
     };
 
     const tickets = [];
-    const paginator = this.gorgias.paginate(this.gorgias.listTickets, params);
+    const paginator = this.gorgias.paginate({
+      $,
+      fn: this.gorgias.listTickets,
+      params,
+    });
     for await (const ticket of paginator) {
       tickets.push(ticket);
     }

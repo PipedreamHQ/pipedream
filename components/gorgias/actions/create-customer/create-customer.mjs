@@ -78,7 +78,10 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.createCustomer(params);
+    const response = await this.gorgias.createCustomer({
+      $,
+      params,
+    });
     $.export("$summary", `Succesfully created customer ${response.id}`);
     return response;
   },
