@@ -161,6 +161,11 @@ export default {
         data,
       });
     },
+    async retrieveCustomer(id) {
+      return this._makeRequest({
+        path: `/customers/${id}`,
+      });
+    },
     async listCustomers(params) {
       return this._makeRequest({
         path: "/customers",
