@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import languages from "./common/languages.mjs";
+import timezones from "./common/timezones.mjs";
 
 export default {
   type: "app",
@@ -47,6 +49,32 @@ export default {
       optional: true,
       default: "help-center",
       options: constants.vias,
+    },
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "ID of the customer in a foreign system. This field is not used by Gorgias",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "The customer's preferred language (format: ISO_639-1)",
+      optional: true,
+      options: languages,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The customer's preferred timezone (format: IANA timezone name)",
+      optional: true,
+      options: timezones,
+    },
+    data: {
+      type: "object",
+      label: "Customer Data",
+      description: "Object containing custom data associated with the customer that will be shown in the helpdesk along with integration data",
+      optional: true,
     },
     limit: {
       type: "integer",
@@ -117,6 +145,13 @@ export default {
       return this._makeRequest({
         path: "/events",
         params,
+      });
+    },
+    async createCustomer(data) {
+      return this._makeRequest({
+        path: "/customers",
+        method: "post",
+        data,
       });
     },
     async listCustomers(params) {
