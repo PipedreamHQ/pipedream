@@ -75,6 +75,13 @@ export default {
       description: "User defined name of the network",
       optional: false,
     },
+    privateNetwork: {
+      type: "boolean",
+      label: "Private Network",
+      description: "If `FALSE`, members will _NOT_ need to be authorized to join.",
+      default: true,
+      optional: true,
+    },
   },
   methods: {
     _accessToken() {

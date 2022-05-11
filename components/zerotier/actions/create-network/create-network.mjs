@@ -15,12 +15,19 @@ export default {
         "networkName",
       ],
     },
+    privateNetwork: {
+      propDefinition: [
+        zerotier,
+        "privateNetwork",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.zerotier.createNetwork({
       data: {
         config: {
           name: this.networkName,
+          private: this.privateNetwork,
         },
       },
       $,
