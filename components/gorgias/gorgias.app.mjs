@@ -91,7 +91,7 @@ export default {
       };
     },
     _defaultConfig({
-      path, method = "get", params = {}, data = null,
+      path, method = "get", params = {}, data = undefined,
     }) {
       const config = {
         auth: this._auth(),
