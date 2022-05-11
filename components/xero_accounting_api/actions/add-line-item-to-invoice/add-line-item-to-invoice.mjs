@@ -1,7 +1,7 @@
 import {
   formatArrayStrings, removeNullEntries,
 } from "../../common/util.mjs";
-import constant from "../../common/common.constants.mjs";
+import constant from "../../common/constants.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
