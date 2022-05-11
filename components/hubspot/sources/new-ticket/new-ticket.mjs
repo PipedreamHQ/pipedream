@@ -2,30 +2,30 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-deal",
-  name: "New Deals",
-  description: "Emit new event for each new deal created.",
-  version: "0.0.4",
+  key: "hubspot-new-ticket",
+  name: "New Tickets",
+  description: "Emit new event for each new ticket created.",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
-    generateMeta(deal) {
+    generateMeta(ticket) {
       const {
         id,
         properties,
         createdAt,
-      } = deal;
+      } = ticket;
       const ts = Date.parse(createdAt);
       return {
         id,
-        summary: properties.dealname,
+        summary: properties.subject,
         ts,
       };
     },
-    isRelevant(deal, createdAfter) {
-      return Date.parse(deal.createdAt) > createdAfter;
+    isRelevant(ticket, createdAfter) {
+      return Date.parse(ticket.createdAt) > createdAfter;
     },
     getParams() {
       return {
@@ -36,7 +36,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        object: "deals",
+        object: "tickets",
       };
     },
     async processResults(after, params) {

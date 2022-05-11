@@ -2,30 +2,29 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-deal",
-  name: "New Deals",
-  description: "Emit new event for each new deal created.",
-  version: "0.0.4",
+  key: "hubspot-new-line-item",
+  name: "New Line Item",
+  description: "Emit new event for each new line item added.",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
-    generateMeta(deal) {
+    generateMeta(lineItem) {
       const {
         id,
-        properties,
         createdAt,
-      } = deal;
+      } = lineItem;
       const ts = Date.parse(createdAt);
       return {
         id,
-        summary: properties.dealname,
+        summary: `New Line Item ID: ${id}`,
         ts,
       };
     },
-    isRelevant(deal, createdAfter) {
-      return Date.parse(deal.createdAt) > createdAfter;
+    isRelevant(lineItem, createdAfter) {
+      return Date.parse(lineItem.createdAt) > createdAfter;
     },
     getParams() {
       return {
@@ -36,7 +35,7 @@ export default {
             direction: "DESCENDING",
           },
         ],
-        object: "deals",
+        object: "line_items",
       };
     },
     async processResults(after, params) {

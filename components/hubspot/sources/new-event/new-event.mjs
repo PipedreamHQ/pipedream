@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
-  description: "Emits an event for each new Hubspot event.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new Hubspot event.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     objectType: {
@@ -40,26 +40,27 @@ export default {
         ts: Date.now(),
       };
     },
-  },
-  async run() {
-    const occurredAfter = this._getAfter();
-
-    for (const objectId of this.objectIds) {
-      const params = {
+    getParams() {
+      return null;
+    },
+    getEventParams(objectId, occurredAfter) {
+      return {
         limit: 100,
         objectType: this.objectType,
         objectId,
         occurredAfter,
       };
-
-      await this.paginate(
-        params,
-        this.hubspot.getEvents.bind(this),
-        "results",
-        occurredAfter,
-      );
-    }
-
-    this._setAfter(Date.now());
+    },
+    async processResults(after) {
+      for (const objectId of this.objectIds) {
+        const params = this.getEventParams(objectId, after);
+        await this.paginate(
+          params,
+          this.hubspot.getEvents.bind(this),
+          "results",
+          after,
+        );
+      }
+    },
   },
 };

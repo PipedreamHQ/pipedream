@@ -2,41 +2,41 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-deal",
-  name: "New Deals",
-  description: "Emit new event for each new deal created.",
-  version: "0.0.4",
+  key: "hubspot-company-updated",
+  name: "Company Updated",
+  description: "Emit new event each time a company is updated.",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
-    generateMeta(deal) {
+    generateMeta(company) {
       const {
         id,
         properties,
-        createdAt,
-      } = deal;
-      const ts = Date.parse(createdAt);
+        updatedAt,
+      } = company;
+      const ts = Date.parse(updatedAt);
       return {
-        id,
-        summary: properties.dealname,
+        id: `${id}${ts}`,
+        summary: properties.name,
         ts,
       };
     },
-    isRelevant(deal, createdAfter) {
-      return Date.parse(deal.createdAt) > createdAfter;
+    isRelevant(company, updatedAfter) {
+      return Date.parse(company.updatedAt) > updatedAfter;
     },
     getParams() {
       return {
         limit: 100,
         sorts: [
           {
-            propertyName: "createdate",
+            propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
-        object: "deals",
+        object: "companies",
       };
     },
     async processResults(after, params) {
