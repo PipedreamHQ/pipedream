@@ -1,5 +1,7 @@
 # What are Workflows?
 
+<VideoPlayer url="https://www.youtube.com/embed/wnDijEtYaT0" title="What are workflows?" />
+
 [**Follow our quickstart to build your first workflow**](/quickstart/).
 
 Workflows make it easy to integrate your apps, data, and APIs - all with no servers or infrastructure to manage.

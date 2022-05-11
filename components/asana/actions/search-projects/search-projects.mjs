@@ -1,40 +1,50 @@
-// legacy_hash_id: a_2wimKj
-import { axios } from "@pipedream/platform";
+import asana from "../../asana.app.mjs";
 
 export default {
-  key: "asana-search-projects",
-  name: "Search Projects",
-  description: "Finds an existing project by name.",
-  version: "0.1.1",
   type: "action",
+  key: "asana-search-projects",
+  version: "0.2.0",
+  name: "Search Projects",
+  description: "Finds an existing project. [See the docs here](https://developers.asana.com/docs/get-multiple-projects)",
   props: {
-    asana: {
-      type: "app",
-      app: "asana",
-    },
+    asana,
     name: {
+      label: "Name",
+      description: "The name to filter projects on.",
       type: "string",
+      optional: true,
+    },
+    workspace: {
+      label: "Workspace",
+      description: "The workspace or organization to filter projects on.",
+      type: "string",
+      optional: true,
+      propDefinition: [
+        asana,
+        "workspaces",
+      ],
+    },
+    archived: {
+      label: "Archived",
+      description: "Only return projects whose `archived` field takes on the value of this parameter.",
+      type: "boolean",
+      optional: true,
     },
   },
   async run({ $ }) {
-    let projects = null;
-    let matches = [];
-    let query = this.name;
+    const {
+      name,
+      workspace,
+      archived,
+    } = this;
 
-    projects = await axios($, {
-      url: "https://app.asana.com/api/1.0/projects",
-      headers: {
-        Authorization: `Bearer ${this.asana.$auth.oauth_access_token}`,
-      },
-    });
+    const projects = await this.asana.getProjects(workspace, {
+      archived,
+    }, $);
 
-    if (projects.data) {
-      projects.data.forEach(function(project) {
-        if (project.name.includes(query))
-          matches.push(project);
-      });
-    }
+    $.export("$summary", "Successfully retrieved projects");
 
-    return matches;
+    if (this.name) return projects.filter((project) => project.name.includes(name));
+    else return projects;
   },
 };

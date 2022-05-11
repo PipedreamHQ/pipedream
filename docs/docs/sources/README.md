@@ -1,5 +1,7 @@
 # Sources
 
+<VideoPlayer url="https://www.youtube.com/embed/RjsWeXW_DC0" title="Understanding Sources in Pipedream" />
+
 Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
 <div>

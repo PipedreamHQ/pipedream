@@ -1,40 +1,66 @@
-// legacy_hash_id: a_l0iLdL
-import { axios } from "@pipedream/platform";
+import asana from "../../asana.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "asana-create-task-comment",
   name: "Create Task Comment",
-  description: "Create a comment on a task",
-  version: "0.1.1",
+  description: "Adds a comment to a task. [See the docs here](https://developers.asana.com/docs/create-a-story-on-a-task)",
+  version: "0.2.0",
   type: "action",
   props: {
-    asana: {
-      type: "app",
-      app: "asana",
-    },
+    ...common.props,
     task_gid: {
+      label: "Task GID",
+      description: "The task GID to operate on.",
       type: "string",
+      propDefinition: [
+        asana,
+        "tasks",
+        (c) => ({
+          project: c.project,
+        }),
+      ],
     },
     text: {
+      label: "Text",
+      description: "The plain text of the comment to add. Cannot be used with html_text.",
       type: "string",
+      optional: true,
+    },
+    html_text: {
+      label: "HTML Text",
+      description: "HTML formatted text for a comment. This will not include the name of the creator.",
+      type: "string",
+      optional: true,
+    },
+    is_pinned: {
+      label: "Is Pinned",
+      description: "Conditional. Whether the story should be pinned on the resource.",
+      type: "boolean",
+      optional: true,
+    },
+    sticker_name: {
+      label: "Sticker Name",
+      description: "The name of the sticker in this story. null if there is no sticker.",
+      type: "string",
+      optional: true,
     },
   },
   async run({ $ }) {
-
-    return await axios($, {
+    const response = await this.asana._makeRequest(`tasks/${this.task_gid}/stories`, {
       method: "post",
-      url: `https://app.asana.com/api/1.0/tasks/${this.task_gid}/stories`,
-      headers: {
-        "Authorization": `Bearer ${this.asana.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
       data: {
         data: {
-          task: this.task_gid,
           text: this.text,
+          html_text: this.html_text,
+          is_pinned: this.is_pinned,
+          sticker_name: this.sticker_name,
         },
       },
-    });
+    }, $);
+
+    $.export("$summary", "Successfully created task comment");
+
+    return response;
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "customer_io-create-or-update-customer",
   name: "Create or Update Customer",
   description: "Creates or update a customer.",
-  version: "0.1.1",
+  version: "0.1.4",
   type: "action",
   props: {
     customer_io: {
@@ -44,17 +44,17 @@ export default {
 
     const config = {
       method: "put",
-      url: `https://track.customer.io/api/v1/customers/$${this.customer_id}`,
+      url: `https://track.customer.io/api/v1/customers/${this.customer_id}`,
       headers: {
         Authorization: `Basic ${base64BasicauthUserPwd}`,
       },
       data: {
         email: this.email,
         created_at: this.created_at,
-        attributes: this.attributes,
+        ...this.attributes,
       },
     };
 
-    return await axios($, config);
+    return axios($, config);
   },
 };
