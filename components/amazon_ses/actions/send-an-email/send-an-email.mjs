@@ -5,7 +5,7 @@ export default {
   key: "amazon_ses-send-an-email",
   name: "Send an Email",
   description: "Send an email using Amazon SES",
-  version: "0.8.1",
+  version: "0.8.2",
   type: "action",
   props: {
     amazon_ses: {
@@ -18,24 +18,24 @@ export default {
       description: "The AWS region tied to your SES identity",
     },
     CcAddresses: {
-      type: "any",
+      type: "string[]",
       label: "CC Addresses",
       description: "An array of email addresses you want to CC",
       optional: true,
     },
     BccAddresses: {
-      type: "any",
+      type: "string[]",
       label: "BCC Addresses",
       description: "An array of email addresses you want to BCC",
       optional: true,
     },
     ToAddresses: {
-      type: "any",
+      type: "string[]",
       label: "To Addresses",
       description: "An array of email addresses you want to send email to",
     },
     ReplyToAddresses: {
-      type: "any",
+      type: "string[]",
       label: "Reply To Addresses",
       description: "An array of Reply-To addresses",
       optional: true,
