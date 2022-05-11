@@ -10,6 +10,8 @@ export default {
     raindrop,
   },
   async run({ $ }) {
-    return this.raindrop.getCollections($);
+    const response = await this.raindrop.getCollections($);
+    $.export("$summary", `Successfully retrieved ${response.length} collection(s)`);
+    return response;
   },
 };

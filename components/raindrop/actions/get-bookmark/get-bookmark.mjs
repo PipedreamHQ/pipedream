@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const bookmarkId = this.bookmarkId;
-
+    $.export("$summary", `Successfully retrieved bookmark with ID ${bookmarkId}`);
     return this.raindrop.getRaindrop($, bookmarkId);
   },
 };

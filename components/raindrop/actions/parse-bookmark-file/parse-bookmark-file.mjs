@@ -51,6 +51,7 @@ export default {
       form.append("import", readStream);
     }
 
+    $.export("$summary", "Successfully parsed bookmark file");
     return this.raindrop.importFile($, form);
   },
 };

@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const collectionId = this.collectionId;
-
+    $.export("$summary", `Successfully retrieved collection with ID ${collectionId}`);
     return this.raindrop.getCollection($, collectionId);
   },
 };
