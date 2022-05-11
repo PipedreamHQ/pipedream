@@ -20,7 +20,7 @@ export default {
         });
         return {
           options: customers.map((customer) => ({
-            label: customer.email,
+            label: customer.name,
             value: customer.id,
           })),
           context: {
