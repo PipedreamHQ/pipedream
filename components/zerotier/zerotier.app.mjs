@@ -69,6 +69,12 @@ export default {
         "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
       optional: true,
     },
+    networkName: {
+      type: "string",
+      label: "Network Name",
+      description: "User defined name of the network",
+      optional: false,
+    },
   },
   methods: {
     _accessToken() {
@@ -123,6 +129,21 @@ export default {
         },
         $,
       );
+    },
+    async createNetwork({
+      data, $,
+    } = {}) {
+      return this._makeRequest("network", {
+        method: "POST",
+        data,
+      }, $);
+    },
+    async deleteNetworkMember({
+      networkId, nodeId, $,
+    } = {}) {
+      return this._makeRequest(`network/${networkId}/member/${nodeId}`, {
+        method: "DELETE",
+      }, $);
     },
   },
 };

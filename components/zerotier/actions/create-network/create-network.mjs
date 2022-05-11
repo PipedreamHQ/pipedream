@@ -1,0 +1,33 @@
+import zerotier from "../../zerotier.app.mjs";
+
+export default {
+  key: "zerotier-create-network",
+  type: "action",
+  version: "0.0.1",
+  name: "Create A Network",
+  description:
+    "Create a new network on your ZeroTier account. [See docs here](https://docs.zerotier.com/central/v1/#operation/newNetwork)",
+  props: {
+    zerotier,
+    networkName: {
+      propDefinition: [
+        zerotier,
+        "networkName",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.zerotier.createNetwork({
+      data: {
+        config: {
+          name: this.networkName,
+        },
+      },
+      $,
+    });
+
+    $.export("summary", `Sucessfully created new network: ${this.networkName}`);
+
+    return response;
+  },
+};
