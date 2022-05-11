@@ -1,4 +1,4 @@
-import slack from "../slack.app.mjs";
+import slack from "../../slack.app.mjs";
 
 /* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
   pipedream/required-properties-version, pipedream/required-properties-description */
@@ -82,20 +82,6 @@ export default {
   },
   async run() {
     let blocks = this.blocks;
-
-    // if (this.include_sent_via_pipedream_flag) {
-    // const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
-
-    // if (!blocks) {
-    //   blocks = [
-    //     this._makeTextBlock(this.mrkdwn),
-    //   ];
-    // } else if (typeof blocks === "string") {
-    //   blocks = JSON.parse(blocks);
-    // }
-
-    // blocks.push(sentViaPipedreamText);
-    // }
 
     if (!blocks) {
       blocks = [
