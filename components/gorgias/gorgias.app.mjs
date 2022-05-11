@@ -154,6 +154,13 @@ export default {
         data,
       });
     },
+    async updateCustomer(id, data) {
+      return this._makeRequest({
+        path: `/customers/${id}`,
+        method: "put",
+        data,
+      });
+    },
     async listCustomers(params) {
       return this._makeRequest({
         path: "/customers",
