@@ -1,22 +1,21 @@
-// legacy_hash_id: a_K5i2KK
-import { axios } from "@pipedream/platform";
+import app from "../../imgbb.app.mjs";
 import { stringify } from "qs";
 
 export default {
   key: "imgbb-upload-picture",
   name: "Upload picture",
-  version: "0.2.1",
+  description: "Upload a picture to imgbb. [See the docs here](https://api.imgbb.com/)",
+  version: "0.2.2",
   type: "action",
   props: {
-    imgbb: {
-      type: "app",
-      app: "imgbb",
-    },
+    app,
     image: {
+      label: "Image",
       type: "string",
       description: "A binary file, base64 data, or a URL for an image. (up to 16MB)",
     },
     name: {
+      label: "Name",
       type: "string",
       description: "The name of the file, this is automatically detected if uploading a file with a POST and multipart / form-data",
       optional: true,
@@ -27,14 +26,8 @@ export default {
       image: this.image,
       name: this.name,
     };
-    const config = {
-      method: "post",
-      url: `https://api.imgbb.com/1/upload?key=${this.imgbb.$auth.api_key}`,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: stringify(data),
-    };
-    return await axios($, config);
+    const res = await this.app.uploadPicture($, stringify(data));
+    $.export("$summary", "Successfully uploaded picture");
+    return res;
   },
 };
