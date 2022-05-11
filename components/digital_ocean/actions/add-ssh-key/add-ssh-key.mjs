@@ -3,7 +3,7 @@ import digitalOceanApp from "../../digital_ocean.app.mjs";
 export default {
   key: "digital_ocean-add-ssh-key",
   name: "Add SSH Key",
-  description: "Adds a new SSH to your account.",
+  description: "Adds a new SSH to your account. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_ssh_key)",
   version: "0.1.2",
   type: "action",
   props: {

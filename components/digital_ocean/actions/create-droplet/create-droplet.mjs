@@ -3,7 +3,7 @@ import digitalOceanApp from "../../digital_ocean.app.mjs";
 export default {
   key: "digital_ocean-create-droplet",
   name: "Create Droplet",
-  description: "Creates a droplet",
+  description: "Creates a droplet. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_droplet)",
   version: "0.1.2",
   type: "action",
   props: {

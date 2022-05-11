@@ -4,7 +4,7 @@ import digitalOceanConstants from "../../common/constants.mjs";
 export default {
   key: "digital_ocean-list-all-droplets",
   name: "List all Droplets",
-  description: "List all Droplets",
+  description: "List all Droplets. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/list_all_droplets)",
   version: "0.0.1",
   type: "action",
   props: {

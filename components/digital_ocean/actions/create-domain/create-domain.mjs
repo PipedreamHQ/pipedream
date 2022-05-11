@@ -2,8 +2,8 @@ import digitalOceanApp from "../../digital_ocean.app.mjs";
 
 export default {
   key: "digital_ocean-create-domain",
-  name: "Create a new domain record",
-  description: "Create a new domain record",
+  name: "Create a new domain",
+  description: "Create a new domain. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_domain)",
   version: "0.0.1",
   type: "action",
   props: {

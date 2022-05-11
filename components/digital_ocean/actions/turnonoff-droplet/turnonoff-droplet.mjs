@@ -4,7 +4,7 @@ import digitalOceanConstants from "../../common/constants.mjs";
 export default {
   key: "digital_ocean-turnonoff-droplet",
   name: "Turn on/off Droplet",
-  description: "Turns a droplet on or off",
+  description: "Turns a droplet power status either on or off. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/post_droplet_action)",
   version: "0.1.2",
   type: "action",
   props: {
