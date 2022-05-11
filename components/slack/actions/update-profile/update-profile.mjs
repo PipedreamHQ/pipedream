@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-update-profile",
   name: "Update Profile",
-  description: "Update basic profile field such as name or title",
-  version: "0.0.2",
+  description: "Update basic profile field such as name or title. [See docs here](https://api.slack.com/methods/users.profile.set)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
