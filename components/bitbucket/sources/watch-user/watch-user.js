@@ -1,14 +1,12 @@
 const common = require("../../common");
 const { bitbucket } = common.props;
 
-const EVENT_SOURCE_NAME = "Watch a User";
-
 module.exports = {
   ...common,
-  name: EVENT_SOURCE_NAME,
+  name: "Watch a User",
   key: "bitbucket-watch-user",
-  description: "Emits an event occurs from any repository belonging to the user.",
-  type:"source",
+  description: "Emits new event occurs from any repository belonging to the user.",
+  type: "source",
   version: "0.0.1",
   props: {
     ...common.props,
@@ -25,7 +23,7 @@ module.exports = {
       propDefinition: [
         bitbucket,
         "eventTypes",
-        (c) => ({
+        () => ({
           subjectType: "repository",
         }),
       ],
@@ -34,7 +32,7 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventSourceName() {
-      return EVENT_SOURCE_NAME;
+      return "Watch a User";
     },
     getHookEvents() {
       return this.eventTypes;
