@@ -13,8 +13,6 @@ export default {
         raindrop,
         "raindropId",
       ],
-      label: "Bookmark ID",
-      description: "Existing bookmark ID",
     },
     order: {
       type: "integer",

@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     raindropId: {
       type: "string",
-      label: "Raindrop ID",
-      description: "Existing raindrop ID",
+      label: "Bookmark ID",
+      description: "Existing Bookmark ID",
     },
     collectionId: {
       type: "string",

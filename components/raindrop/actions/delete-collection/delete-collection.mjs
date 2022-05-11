@@ -13,8 +13,6 @@ export default {
         raindrop,
         "collectionId",
       ],
-      label: "Collection ID",
-      description: "The collection ID",
     },
   },
   async run({ $ }) {
