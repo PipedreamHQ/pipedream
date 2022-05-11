@@ -80,17 +80,12 @@ export default {
         headers: {
           ...opts.headers,
           "user-agent": "@PipedreamHQ/pipedream v0.1",
-          ...this._getHeaders(),
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
         data,
         params,
         ...otherOpts,
       });
-    },
-    _getHeaders() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
     },
     getCollections($) {
       return this._makeRequest($, {
