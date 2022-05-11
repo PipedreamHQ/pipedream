@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "raindrop",
   propDefinitions: {
-    raindropId: {
-      type: "string",
-      label: "Bookmark ID",
-      description: "Existing Bookmark ID",
-    },
     collectionId: {
       type: "string",
       label: "Collection ID",
@@ -19,6 +14,30 @@ export default {
           value: e._id,
           label: e.title,
         }));
+      },
+    },
+    raindropId: {
+      type: "string",
+      label: "Bookmark ID",
+      description: "Existing Bookmark ID",
+      async options({
+        prevContext, collectionId,
+      }) {
+        const page = prevContext.page
+          ? prevContext.page
+          : 0;
+        const { items } = await this.getRaindrops(this, collectionId, {
+          page,
+        });
+        return {
+          options: items.map((e) => ({
+            value: e._id,
+            label: e.title,
+          })),
+          context: {
+            page: page + 1,
+          },
+        };
       },
     },
     expanded: {

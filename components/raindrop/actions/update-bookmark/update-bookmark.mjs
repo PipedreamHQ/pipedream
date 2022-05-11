@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     raindrop,
+    collectionId: {
+      propDefinition: [
+        raindrop,
+        "collectionId",
+      ],
+    },
     bookmarkId: {
       propDefinition: [
         raindrop,
         "raindropId",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
       ],
     },
     order: {
