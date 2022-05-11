@@ -80,13 +80,19 @@ export default {
     async _makeRequest({
       path, method, params, data,
     }) {
-      const config = this._defaultConfig({
-        path,
-        method,
-        params,
-        data,
-      });
-      return axios(this, config);
+      try {
+        const config = this._defaultConfig({
+          path,
+          method,
+          params,
+          data,
+        });
+        const response = await axios(this, config);
+        return response;
+      } catch (e) {
+        const errorMsg = JSON.stringify(e.response.data);
+        throw new Error(errorMsg);
+      }
     },
     async *paginate(fn, params = {}, cursor = undefined) {
       let n = 0;
