@@ -8,18 +8,18 @@ export default {
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    bookmarkId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "raindropId",
       ],
       label: "Bookmark ID",
       description: "Existing bookmark ID",
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID;
+    const bookmarkId = this.bookmarkId;
 
-    return this.raindrop.getRaindrop($, bookmarkID);
+    return this.raindrop.getRaindrop($, bookmarkId);
   },
 };

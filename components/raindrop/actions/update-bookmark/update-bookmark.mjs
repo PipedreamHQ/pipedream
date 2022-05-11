@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    bookmarkId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "raindropId",
       ],
       label: "Bookmark ID",
       description: "Existing bookmark ID",
@@ -49,7 +49,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      bookmarkID,
+      bookmarkId,
       order,
       important,
       tags,
@@ -64,9 +64,9 @@ export default {
       title,
       link,
     };
-    const response = await this.raindrop.putBookmark($, bookmarkID, body);
+    const response = await this.raindrop.putBookmark($, bookmarkId, body);
 
-    $.export("$summary", `Successfully updated bookmark with ID ${bookmarkID}`);
+    $.export("$summary", `Successfully updated bookmark with ID ${bookmarkId}`);
 
     return response;
   },

@@ -8,20 +8,20 @@ export default {
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    bookmarkId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "raindropId",
       ],
       label: "Bookmark ID",
       description: "Existing bookmark ID",
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID;
-    const response = await this.raindrop.deleteBookmark($, bookmarkID);
+    const bookmarkId = this.bookmarkId;
+    const response = await this.raindrop.deleteBookmark($, bookmarkId);
 
-    $.export("$summary", `Successfully deleted bookmark with ID ${bookmarkID}`);
+    $.export("$summary", `Successfully deleted bookmark with ID ${bookmarkId}`);
 
     return response;
   },

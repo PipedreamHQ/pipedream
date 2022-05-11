@@ -40,7 +40,7 @@ export default {
         "public",
       ],
     },
-    parentID: {
+    parentId: {
       propDefinition: [
         raindrop,
         "collectionId",
@@ -72,7 +72,7 @@ export default {
       view,
       cover,
     } = this;
-    const parentId = this.parentID;
+    const parentId = this.parentId;
     const publicInput = this.public;
 
     const body = {

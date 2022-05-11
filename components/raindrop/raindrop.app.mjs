@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "raindrop",
   propDefinitions: {
-    raindropID: {
+    raindropId: {
       type: "string",
       label: "Raindrop ID",
       description: "Existing raindrop ID",
