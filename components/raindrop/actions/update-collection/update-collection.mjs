@@ -48,7 +48,6 @@ export default {
       optional: true,
       label: "Parent ID",
       description: "The ID of parent collection. Empty for root collections",
-      withLabel: true,
     },
     view: {
       propDefinition: [
