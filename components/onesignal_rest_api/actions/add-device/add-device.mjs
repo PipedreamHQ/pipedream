@@ -12,7 +12,7 @@ export default {
     deviceType: {
       label: "Device Type",
       description: "The device's platform. E.g. 0 = iOS, 1 = Android...",
-      type: "integer",
+      type: "string",
       options: constants.DEVICE_TYPES,
     },
     identifier: {
@@ -29,9 +29,14 @@ export default {
     },
   },
   async run({ $ }) {
+    console.log({
+      device_type: this.deviceType,
+      identifier: this.identifier,
+      timezone: this.timezone,
+    });
     const response = await this.onesignalRestApi.addDevice({
       data: {
-        device_type: this.deviceType,
+        device_type: +this.deviceType,
         identifier: this.identifier,
         timezone: this.timezone,
       },

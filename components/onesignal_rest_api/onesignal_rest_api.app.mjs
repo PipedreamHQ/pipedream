@@ -64,7 +64,7 @@ export default {
     async getDevices({ $ } = {}) {
       const response = await this._makeRequest("players", {}, $);
 
-      return response.players ?? [];
+      return response?.players ?? [];
     },
     async getDevice({
       deviceId, $,
