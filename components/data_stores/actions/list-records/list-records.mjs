@@ -16,6 +16,17 @@ export default {
         "dataStore",
       ],
     },
+    keys: {
+      propDefinition: [
+        app,
+        "key",
+        ({ dataStore }) => ({
+          dataStore,
+        }),
+      ],
+      description: "Keys to search for.",
+      type: "string[]",
+    },
     returnType: {
       label: "Return Type",
       description: "The type of data to return.",
@@ -25,7 +36,10 @@ export default {
     },
   },
   async run ({ $ }) {
-    const keys = await this.dataStore.keys();
+    let keys = await this.dataStore.keys();
+    if (this.keys.length > 0) {
+      keys = keys.filter((key) => this.keys.includes(key));
+    }
     const promises = [];
     for (const key of keys) {
       promises.push(new Promise((resolve, reject) => {
