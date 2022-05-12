@@ -4,7 +4,7 @@ export default {
   key: "data_stores-has-key",
   name: "Has Key",
   description: "Check if a key exists in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -15,8 +15,13 @@ export default {
       ],
     },
     key: {
-      label: "Key",
-      type: "string",
+      propDefinition: [
+        app,
+        "key",
+        ({ dataStore }) => ({
+          dataStore,
+        }),
+      ],
       description: "The key to check.",
     },
   },
