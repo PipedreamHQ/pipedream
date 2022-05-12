@@ -66,7 +66,7 @@ export default {
         : undefined;
     },
     _baseUrl() {
-      return `${this.$auth.joomla_host_domain}/api/index.php/v1`;
+      return `${this.$auth.joomla_host_domain.replace(/\/$/, "")}/api/index.php/v1`;
     },
     _usersUrl() {
       return `${this._baseUrl()}/users`;
