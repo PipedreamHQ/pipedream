@@ -51,7 +51,8 @@ export default {
       form.append("import", readStream);
     }
 
+    const response = await this.raindrop.importFile($, form);
     $.export("$summary", "Successfully parsed bookmark file");
-    return this.raindrop.importFile($, form);
+    return response;
   },
 };

@@ -26,7 +26,8 @@ export default {
   },
   async run({ $ }) {
     const bookmarkId = this.bookmarkId;
+    const response = await this.raindrop.getRaindrop($, bookmarkId);
     $.export("$summary", `Successfully retrieved bookmark with ID ${bookmarkId}`);
-    return this.raindrop.getRaindrop($, bookmarkId);
+    return response;
   },
 };
