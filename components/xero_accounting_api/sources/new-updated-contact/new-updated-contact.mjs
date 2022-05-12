@@ -10,11 +10,11 @@ export default {
   type: "source",
   props: {
     xeroAccountingApi,
-    tenant_id: {
-      propDefinition: [
-        xeroAccountingApi,
-        "tenant_id",
-      ],
+    tenantId: {
+      type: "string",
+      label: "Tenant ID",
+      description:
+        "Id of the organization tenant to use on the Xero Accounting API.  See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
     },
     timer: {
       label: "Polling interval",
@@ -36,7 +36,7 @@ export default {
     }
     const contacts = (
       await this.xeroAccountingApi.getContact(
-        this.tenant_id,
+        this.tenantId,
         null,
         lastDateChecked,
       )
