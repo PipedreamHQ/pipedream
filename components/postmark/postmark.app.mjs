@@ -112,7 +112,7 @@ export default {
       return await axios({
         url: "https://api.postmarkapp.com/templates?count=500&offset=0",
         headers: {
-          "X-Postmark-Server-Token": `${this.$auth.api_key}`,
+          "X-Postmark-Server-Token": this.$auth.api_key,
           "Accept": "application/json",
           "Content-Type": "application/json",
         },
@@ -163,7 +163,7 @@ export default {
       return await axiosPipedream($, {
         url: `https://api.postmarkapp.com/${endpoint}`,
         headers: {
-          "X-Postmark-Server-Token": `${this.$auth.api_key}`,
+          "X-Postmark-Server-Token": this.$auth.api_key,
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
@@ -194,5 +194,48 @@ export default {
         },
       });
     },
+    async setInboundWebhookUrl(hookUrl) {
+      return await axios
+        .put(
+          "https://api.postmarkapp.com/server",
+          {
+            InboundHookUrl: hookUrl,
+          },
+          {
+            headers: {
+              "X-Postmark-Server-Token": "a414a2ce-8779-4373-a281-197e7830353f",
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          },
+        )
+        .then(({ data }) => data);
+    },
+    // async webhookRequest(params) {
+    //   let { endpoint, method, body } = params;
+    //   return await axios({
+    //     url: `https://api.postmarkapp.com/webhooks${endpoint ?? ""}`,
+    //     headers: {
+    //       "X-Postmark-Server-Token": `${this.$auth.api_key}`,
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //     },
+    //     body,
+    //     method,
+    //   }).then(({ data }) => data);
+    // },
+    // async createWebhook(pipedreamUrl, type) {
+    //   return this.webhookRequest({
+    //     method: "POST",
+    //     body: {
+    //       Url: pipedreamUrl,
+    //       Triggers: {
+    //         [type]: {
+    //           Enabled: true,
+    //         },
+    //       },
+    //     },
+    //   });
+    // },
   },
 };
