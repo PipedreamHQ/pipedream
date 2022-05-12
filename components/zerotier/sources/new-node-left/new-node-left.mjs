@@ -4,7 +4,8 @@ export default {
   ...common,
   key: "zerotier-new-node-left",
   name: "New Node Left",
-  description: "Emit new event when a node left a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
+  description:
+    "Emit new event when a node left a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
   type: "source",
   dedupe: "unique",
   version: "0.0.2",
@@ -16,10 +17,9 @@ export default {
       return this.db.get("nodes") ?? [];
     },
   },
-  async run({ $ }) {
+  async run() {
     const nodes = await this.zerotier.getNetworkNodes({
       networkId: this.networkId,
-      $,
     });
 
     const storedNodes = this._getNodes();

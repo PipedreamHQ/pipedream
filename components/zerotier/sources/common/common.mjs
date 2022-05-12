@@ -27,10 +27,9 @@ export default {
       return this.db.set(nodeId, status);
     },
   },
-  async run({ $ }) {
+  async run() {
     const nodes = await this.zerotier.getNetworkNodes({
       networkId: this.networkId,
-      $,
     });
 
     for (const node of nodes) {
