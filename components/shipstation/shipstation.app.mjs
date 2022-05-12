@@ -87,12 +87,12 @@ export default {
       }, $);
     },
     async getStores({ $ } = {}) {
-      return this._makeRequest("/stores", {}, $);
+      return this._makeRequest("stores", {}, $);
     },
     async getCustomers({
       params, $,
     } = {}) {
-      const response = await this._makeRequest("/customers", {
+      const response = await this._makeRequest("customers", {
         params: {
           ...params,
           pageSize: 500,
