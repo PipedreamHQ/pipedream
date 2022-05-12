@@ -28,15 +28,16 @@ export default {
   },
   dedupe: "unique",
   async run() {
-    let lastDateChecked = this.xeroAccountingApi.getLastDateChecked();
+    let lastDateChecked = this.xeroAccountingApi.getLastDateChecked(this.db);
 
     if (!lastDateChecked) {
       lastDateChecked = new Date().toISOString();
-      this.xeroAccountingApi.setLastDateChecked(lastDateChecked);
+      this.xeroAccountingApi.setLastDateChecked(this.db, lastDateChecked);
     }
 
     const invoices = (
       await this.xeroAccountingApi.getInvoice(
+        null,
         this.tenantId,
         null,
         lastDateChecked,
@@ -45,7 +46,7 @@ export default {
     invoices &&
       invoices.reverse().forEach((invoice) => {
         const formatedDate = formatJsonDate(invoice.UpdatedDateUTC);
-        this.xeroAccountingApi.setLastDateChecked(formatedDate);
+        this.xeroAccountingApi.setLastDateChecked(this.db, formatedDate);
         this.$emit(invoice, {
           id: `${invoice.InvoiceID}D${formatedDate || ""}`,
         });

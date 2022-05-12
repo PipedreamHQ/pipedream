@@ -14,11 +14,11 @@ export default {
     },
   },
   methods: {
-    setLastDateChecked(value) {
-      this.db.set(constants.DB_LAST_DATE_CHECK, value);
+    setLastDateChecked(db, value) {
+      db && db.set(constants.DB_LAST_DATE_CHECK, value);
     },
-    getLastDateChecked() {
-      return this.db.get(constants.DB_LAST_DATE_CHECK);
+    getLastDateChecked(db) {
+      return db && db.get(constants.DB_LAST_DATE_CHECK);
     },
     getHeader(tenantId, modifiedSince = null) {
       const header = {

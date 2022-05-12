@@ -28,14 +28,15 @@ export default {
   },
   dedupe: "unique",
   async run() {
-    let lastDateChecked = this.xeroAccountingApi.getLastDateChecked();
+    let lastDateChecked = this.xeroAccountingApi.getLastDateChecked(this.db);
 
     if (!lastDateChecked) {
       lastDateChecked = new Date().toISOString();
-      this.xeroAccountingApi.setLastDateChecked(lastDateChecked);
+      this.xeroAccountingApi.setLastDateChecked(this.db, lastDateChecked);
     }
     const contacts = (
       await this.xeroAccountingApi.getContact(
+        null,
         this.tenantId,
         null,
         lastDateChecked,
@@ -43,7 +44,7 @@ export default {
     )?.Contacts;
     contacts && contacts.reverse().forEach((contact) => {
       const formatedDate = formatJsonDate(contact.UpdatedDateUTC);
-      this.xeroAccountingApi.setLastDateChecked(formatedDate);
+      this.xeroAccountingApi.setLastDateChecked(this.db, formatedDate);
       this.$emit(contact,
         {
           id: `${contact.ContactID}D${formatedDate || ""}`,
