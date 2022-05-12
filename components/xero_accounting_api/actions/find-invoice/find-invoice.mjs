@@ -32,7 +32,7 @@ export default {
       description: "ACCREC only - additional reference number",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       InvoiceNumber,
       Reference,
@@ -40,10 +40,9 @@ export default {
     } = this;
     if ((InvoiceNumber && Reference) || (!InvoiceNumber && !Reference)) {
       throw new ConfigurationError(
-        `${
-          InvoiceNumber && Reference
-            ? "Only o"
-            : "O"
+        `${InvoiceNumber && Reference
+          ? "Only o"
+          : "O"
         }ne of InvoiceNumber and Reference is required to find contact`,
       );
     }
@@ -52,6 +51,12 @@ export default {
       Reference,
     });
     const queryString = formatQueryString(payload, true);
-    return await this.xeroAccountingApi.getInvoice(tenantId, queryString);
+    console.log({
+      tenantId,
+      queryString,
+    });
+    const response = await this.xeroAccountingApi.getInvoice($, tenantId, queryString);
+    response && $.export("$summary", "Invoice loaded successfullty");
+    return response;
   },
 };
