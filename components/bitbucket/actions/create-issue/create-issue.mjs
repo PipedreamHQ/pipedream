@@ -93,12 +93,20 @@ export default {
       priority,
     } = this;
 
+    if (!rawContent && !htmlContent) {
+      return new Error("You need provide a HTML or a Raw content");
+    }
+
     const response = await this.bitbucket.createIssue({
       workspaceId,
       repositoryId,
       data: {
         title,
-        assigneeId,
+        assignee: assigneeId
+          ? {
+            uuid: assigneeId,
+          }
+          : undefined,
         content: {
           raw: rawContent,
           html: htmlContent,

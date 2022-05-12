@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import defaultAxios from "axios";
 
 export default {
   type: "app",
@@ -325,8 +326,16 @@ export default {
     },
     async getRepositoryFile({
       workspaceId, repositoryId, filename,
-    }, $) {
-      return await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/downloads/${filename}`, {}, $);
+    }) {
+      // We are using Default Axios here because of a bug in @pipedream/platform axios
+      // lib, in the future need refact this
+
+      return defaultAxios({
+        url: `${this._apiUrl()}/repositories/${workspaceId}/${repositoryId}/downloads/${filename}`,
+        headers: {
+          Authorization: `Bearer ${this._accessToken()}`,
+        },
+      });
     },
     async getBranchs({
       workspaceId, repositoryId, params,

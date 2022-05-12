@@ -35,7 +35,7 @@ export default {
       workspaceId,
       repositoryId,
       filename,
-    }, $);
+    });
 
     $.export("summary", "Successfully retrieved repository file");
 
