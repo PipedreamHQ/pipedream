@@ -21,7 +21,7 @@ export default {
       this.$emit(resource, {
         id: ts,
         summary: `New event ${ts.getTime()} received`,
-        ts: ts,
+        ts,
       });
     },
   },

@@ -45,8 +45,11 @@ export default {
     customerEmail: {
       label: "Customer Email",
       description: "The customer's email address.",
-      type: "string",
       optional: true,
+      propDefinition: [
+        shipstation,
+        "customerEmail",
+      ],
     },
     items: {
       label: "Items",

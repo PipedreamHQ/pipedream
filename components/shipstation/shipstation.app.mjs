@@ -17,6 +17,18 @@ export default {
         }));
       },
     },
+    customerEmail: {
+      label: "Customer Email",
+      description: "A list of customers",
+      type: "string",
+      async options({ page }) {
+        const customers = await this.getCustomers({
+          page,
+        });
+
+        return customers.map((customer) => customer.email);
+      },
+    },
   },
   methods: {
     _accessApiKey() {
@@ -76,6 +88,18 @@ export default {
     },
     async getStores({ $ } = {}) {
       return this._makeRequest("/stores", {}, $);
+    },
+    async getCustomers({
+      params, $,
+    } = {}) {
+      const response = await this._makeRequest("/customers", {
+        params: {
+          ...params,
+          pageSize: 500,
+        },
+      }, $);
+
+      return response.customers;
     },
   },
 };
