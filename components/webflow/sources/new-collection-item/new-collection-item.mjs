@@ -1,11 +1,11 @@
-import common from "../collection-common.mjs";
+import common from "../common/collection.mjs";
 
 export default {
   type: "source",
   key: "webflow-new-collection-item",
   name: "New Collection Item",
   description: "Emit new event when a collection item is created. [See the docs here](https://developers.webflow.com/#item-model)",
-  version: "0.1.1",
+  version: "0.1.2",
   ...common,
   methods: {
     ...common.methods,

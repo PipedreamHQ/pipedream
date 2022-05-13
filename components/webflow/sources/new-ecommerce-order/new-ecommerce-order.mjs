@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   type: "source",
   key: "webflow-new-ecommerce-order",
   name: "New E-commerce Order",
   description: "Emit new event when an e-commerce order is created. [See the docs here](https://developers.webflow.com/#order-model)",
-  version: "0.1.1",
+  version: "0.1.2",
   ...common,
   methods: {
     ...common.methods,
