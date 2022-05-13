@@ -4,76 +4,80 @@ export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
-  description: "Emits an event for each new deal in a stage.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new deal in a stage.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   props: {
     ...common.props,
+    pipeline: {
+      propDefinition: [
+        common.props.hubspot,
+        "dealPipeline",
+      ],
+    },
     stages: {
       propDefinition: [
         common.props.hubspot,
         "stages",
+        (c) => ({
+          pipeline: c.pipeline,
+        }),
       ],
     },
   },
   methods: {
     ...common.methods,
-    generateMeta(deal, stage) {
+    generateMeta(deal) {
       const {
         id,
         properties,
         updatedAt,
       } = deal;
-      const { label } = stage;
       const ts = Date.parse(updatedAt);
       return {
         id: `${id}${properties.dealstage}`,
-        summary: `${properties.dealname} ${label}`,
+        summary: `${properties.dealname}`,
         ts,
       };
-    },
-    emitEvent(deal) {
-      const stage = this.db.get("stage");
-      const meta = this.generateMeta(deal, stage);
-      this.$emit(deal, meta);
     },
     isRelevant(deal, updatedAfter) {
       return Date.parse(deal.updatedAt) > updatedAfter;
     },
-  },
-  async run() {
-    const updatedAfter = this._getAfter();
-
-    for (let stage of this.stages) {
-      this.db.set("stage", stage);
-      const data = {
-        limit: 100,
+    getParams() {
+      return null;
+    },
+    getStageParams(stage) {
+      const filter = {
+        propertyName: "dealstage",
+        operator: "EQ",
+        value: stage,
+      };
+      const filterGroup = {
         filters: [
-          {
-            propertyName: "dealstage",
-            operator: "EQ",
-            value: stage.value,
-          },
+          filter,
+        ],
+      };
+      return {
+        limit: 100,
+        filterGroups: [
+          filterGroup,
         ],
         sorts: [
           {
-            propertyName: "lastmodifieddate",
+            propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
         object: "deals",
       };
-
-      await this.paginate(
-        data,
-        this.hubspot.searchCRM.bind(this),
-        "results",
-        updatedAfter,
-      );
-    }
-
-    this._setAfter(Date.now());
+    },
+    async processResults(after) {
+      for (let stage of this.stages) {
+        const params = this.getStageParams(stage);
+        await this.searchCRM(params, after);
+      }
+    },
   },
 };

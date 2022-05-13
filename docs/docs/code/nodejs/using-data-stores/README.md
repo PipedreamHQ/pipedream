@@ -38,7 +38,7 @@ Once you have defined a data store prop for your component, then you'll be able 
 
 ## Saving data
 
-Data Stores are a key-value stores. Save data within a Data Store using the `this.data.set` method. The first argument is the _key_ where the data should be held, and the second argument is the _value_ assigned to that key.
+Data Stores are key-value stores. Save data within a Data Store using the `this.data.set` method. The first argument is the _key_ where the data should be held, and the second argument is the _value_ assigned to that key.
 
 ```javascript
 export default defineComponent({
@@ -48,6 +48,36 @@ export default defineComponent({
   async run({ steps, $ }) {
     // Store a timestamp each time this step is executed in the workflow
     await this.data.set('lastRanAt', new Date());
+  },
+})
+```
+
+## Retrieving keys
+
+Fetch all the keys in a given Data Store using the `keys` method:
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Return a list of all the keys in a given Data Store
+    return await this.data.keys();
+  },
+})
+```
+
+## Checking for the existence of specific keys
+
+If you need to check whether a specific `key` exists in a Data Store, you can pass the `key` to the `has` method to get back a `true` or `false`:
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Check if a specific key exists in your Data Store
+    return await this.data.has('lastRanAt');
   },
 })
 ```
@@ -62,8 +92,56 @@ export default defineComponent({
     data: { type: "data_store" },
   },
   async run({ steps, $ }) {
-    // Retrieve the timestamp representing last time this step executed
+    // Check if the lastRanAt key exists
     const lastRanAt = await this.data.get('lastRanAt'); 
+  },
+})
+```
+
+## Deleting or updating values within a record
+
+To delete or update the _value_ of an individual record, use the `set` method for an existing `key` and pass either the new value or `''` as the second argument to remove the value but retain the key.
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Update the value associated with the key, myKey
+    await this.data.set('myKey','newValue')
+
+    // Remove the value but retain the key
+    await this.data.set('myKey','')
+  },
+})
+```
+
+## Deleting specific records
+
+To delete individual records in a Data Store, use the `delete` method for a specific `key`:
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Delete the lastRanAt record
+    const lastRanAt = await this.data.delete('lastRanAt'); 
+  },
+})
+```
+
+## Deleting all records from a specific Data Store
+
+If you need to delete all records in a given Data Store, you can use the `clear` method. **Note that this is an irreversible change, even when testing code in the workflow builder.**
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Delete all records from a specific Data Store
+    return await this.data.clear();
   },
 })
 ```
@@ -143,7 +221,7 @@ export default defineComponent({
 
 ## Data store limitations
 
-Pipedream Data Stores are currently in Alpha and are subject to change.
+Pipedream Data Stores are currently in Preview and are subject to change.
 
 Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 

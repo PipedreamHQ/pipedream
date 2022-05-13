@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-contact",
   name: "New Contacts",
-  description: "Emits an event for each new contact added.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new contact added.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   methods: {
     ...common.methods,
     generateMeta(contact) {
@@ -26,28 +26,21 @@ export default {
     isRelevant(contact, createdAfter) {
       return Date.parse(contact.createdAt) > createdAfter;
     },
-  },
-  async run() {
-    const createdAfter = this._getAfter();
-    const data = {
-      limit: 100,
-      sorts: [
-        {
-          propertyName: "createdate",
-          direction: "DESCENDING",
-        },
-      ],
-      properties: this.db.get("properties"),
-      object: "contacts",
-    };
-
-    await this.paginate(
-      data,
-      this.hubspot.searchCRM.bind(this),
-      "results",
-      createdAfter,
-    );
-
-    this._setAfter(Date.now());
+    getParams() {
+      return {
+        limit: 100,
+        sorts: [
+          {
+            propertyName: "createdate",
+            direction: "DESCENDING",
+          },
+        ],
+        properties: this._getProperties(),
+        object: "contacts",
+      };
+    },
+    async processResults(after, params) {
+      await this.searchCRM(params, after);
+    },
   },
 };
