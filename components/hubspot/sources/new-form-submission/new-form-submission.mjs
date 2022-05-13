@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
-  description: "Emits an event for each new submission of a form.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new submission of a form.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     forms: {
@@ -15,6 +15,7 @@ export default {
         common.props.hubspot,
         "forms",
       ],
+      withLabel: false,
     },
   },
   hooks: {},
@@ -35,28 +36,26 @@ export default {
     isRelevant(result, submittedAfter) {
       return result.submittedAt > submittedAfter;
     },
-  },
-  async run() {
-    const submittedAfter = this._getAfter();
-    const baseParams = {
-      limit: 50,
-    };
-
-    await Promise.all(
-      this.forms
-        .map(({ value }) => ({
-          ...baseParams,
-          formId: value,
-        }))
-        .map((params) =>
-          this.paginate(
-            params,
-            this.hubspot.getFormSubmissions.bind(this),
-            "results",
-            submittedAfter,
-          )),
-    );
-
-    this._setAfter(Date.now());
+    getParams() {
+      return {
+        limit: 50,
+      };
+    },
+    async processResults(after, baseParams) {
+      await Promise.all(
+        this.forms
+          .map((form) => ({
+            ...baseParams,
+            formId: form,
+          }))
+          .map((params) =>
+            this.paginate(
+              params,
+              this.hubspot.getFormSubmissions.bind(this),
+              "results",
+              after,
+            )),
+      );
+    },
   },
 };

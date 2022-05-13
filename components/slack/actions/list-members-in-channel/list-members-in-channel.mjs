@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-members-in-channel",
   name: "List Members in Channel",
-  description: "Retrieve members of a channel",
-  version: "0.0.2",
+  description: "Retrieve members of a channel. [See docs here](https://api.slack.com/methods/conversations.members)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

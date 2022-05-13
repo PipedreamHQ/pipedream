@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-task",
   name: "New Calendar Task",
-  description: "Emits an event for each new task added.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new task added.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,
@@ -23,15 +23,17 @@ export default {
         ts: Date.now(),
       };
     },
-  },
-  async run() {
-    const yearFromNow = new Date();
-    yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
-
-    const results = await this.hubspot.getCalendarTasks(yearFromNow.getTime());
-    for (const task of results) {
-      const meta = this.generateMeta(task);
-      this.$emit(task, meta);
-    }
+    getParams() {
+      const yearFromNow = new Date();
+      yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
+      return yearFromNow.getTime();
+    },
+    async processResults(after, params) {
+      const results = await this.hubspot.getCalendarTasks(params);
+      for (const task of results) {
+        const meta = this.generateMeta(task);
+        this.$emit(task, meta);
+      }
+    },
   },
 };

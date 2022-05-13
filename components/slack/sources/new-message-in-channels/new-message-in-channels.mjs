@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.3",
-  description: "Emit an event when a new message is posted to one or more channels",
+  version: "0.0.4",
+  description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
   props: {
@@ -54,11 +54,11 @@ export default {
                 value: c.id,
               };
             } else {
+              const privacyProp = c.is_private ?
+                "Private" :
+                "Public";
               return {
-                label: `${c.is_private ?
-                  "Private" :
-                  "Public"
-                } channel: ${c.name}`,
+                label: `${privacyProp} channel: ${c.name}`,
                 value: c.id,
               };
             }
@@ -71,6 +71,7 @@ export default {
         };
       },
     },
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
@@ -168,8 +169,10 @@ export default {
     if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
       return;
     }
-    if (this.ignoreBot && event.subtype == "bot_message") {
-      return;
+    if (this.ignoreBot) {
+      if (event.subtype == "bot_message" || event.bot_id) {
+        return;
+      }
     }
     if (this.resolveNames) {
       if (event.user) {
