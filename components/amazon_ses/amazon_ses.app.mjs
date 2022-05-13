@@ -1,11 +1,22 @@
+import aws from "../aws/aws.app.mjs";
+import {
+  SESv2Client,
+  SendEmailCommand,
+} from "@aws-sdk/client-sesv2";
+
 export default {
   type: "app",
   app: "amazon_ses",
-  propDefinitions: {},
+  propDefinitions: {
+    ...aws.propDefinitions,
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...aws.methods,
+    _client() {
+      return this.getAWSClient(SESv2Client, this.region);
+    },
+    async sendEmail(params) {
+      return this._client().send(new SendEmailCommand(params));
     },
   },
 };
