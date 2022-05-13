@@ -49,6 +49,7 @@ export default {
         this.xeroAccountingApi.setLastDateChecked(this.db, formatedDate);
         this.$emit(invoice, {
           id: `${invoice.InvoiceID}D${formatedDate || ""}`,
+          summary: invoice.InvoiceID,
         });
       });
   },
