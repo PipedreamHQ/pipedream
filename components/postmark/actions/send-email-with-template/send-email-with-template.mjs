@@ -42,7 +42,7 @@ export default {
     ...objSharedProps,
   },
   async run({ $ }) {
-    return this.postmark.sharedRequest($, this, "email/withTemplate", {
+    return this.postmark.sharedActionRequest($, this, "email/withTemplate", {
       TemplateAlias: this.template_alias,
       TemplateModel: this.template_model,
       InlineCSS: this.inline_css,

@@ -41,7 +41,7 @@ export default {
     ...objSharedProps,
   },
   async run({ $ }) {
-    return this.postmark.sharedRequest($, this, "email", {
+    return this.postmark.sharedActionRequest($, this, "email", {
       Subject: this.subject,
       HtmlBody: this.html_body,
       TextBody: this.text_body,

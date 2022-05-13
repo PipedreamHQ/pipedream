@@ -111,11 +111,7 @@ export default {
     async listTemplates() {
       return await axios({
         url: "https://api.postmarkapp.com/templates?count=500&offset=0",
-        headers: {
-          "X-Postmark-Server-Token": this.$auth.api_key,
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
+        headers: this.getHeaders(),
         method: "GET",
       })
         .then(({ data }) =>
@@ -143,6 +139,13 @@ export default {
           },
         ]);
     },
+    getHeaders() {
+      return {
+        "X-Postmark-Server-Token": this.$auth.api_key,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+    },
     listSharedProps() {
       return [
         "from_email",
@@ -159,14 +162,10 @@ export default {
         "message_stream",
       ];
     },
-    async sharedRequest($, action, endpoint, uniqueProps) {
+    async sharedActionRequest($, action, endpoint, uniqueProps) {
       return await axiosPipedream($, {
         url: `https://api.postmarkapp.com/${endpoint}`,
-        headers: {
-          "X-Postmark-Server-Token": this.$auth.api_key,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
+        headers: this.getHeaders(),
         method: "POST",
         data: {
           ...uniqueProps,
@@ -200,11 +199,7 @@ export default {
           "https://api.postmarkapp.com/server",
           params,
           {
-            headers: {
-              "X-Postmark-Server-Token": "a414a2ce-8779-4373-a281-197e7830353f",
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-            },
+            headers: this.getHeaders(),
           },
         )
         .then(({ data }) => data);
