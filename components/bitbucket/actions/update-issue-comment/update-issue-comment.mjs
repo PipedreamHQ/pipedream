@@ -1,57 +1,93 @@
-// legacy_hash_id: a_MdiegY
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+const { bitbucket } = base.props;
 
 export default {
   key: "bitbucket-update-issue-comment",
   name: "Update Issue Comment",
-  description: "Updates the content of the specified issue comment.",
-  version: "0.1.1",
+  description: "Updates a existent issue comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-comments-comment-id-put)",
+  version: "0.1.2",
   type: "action",
   props: {
-    bitbucket: {
-      type: "app",
-      app: "bitbucket",
+    ...base.props,
+    repositoryId: {
+      propDefinition: [
+        bitbucket,
+        "repository",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
     },
-    workspace: {
-      type: "string",
-      description: "This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example: {workspace UUID}.",
+    issueId: {
+      propDefinition: [
+        bitbucket,
+        "issue",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          repositoryId: c.repositoryId,
+        }),
+      ],
     },
-    repo_slug: {
+    commentId: {
+      label: "Comment",
+      description: "Select the comment",
       type: "string",
-      label: "repo_slug",
-      description: "This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: {repository UUID}.",
+      propDefinition: [
+        bitbucket,
+        "comment",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          repositoryId: c.repositoryId,
+          issueId: c.issueId,
+        }),
+      ],
     },
-    comment_id: {
-      type: "string",
-      description: "Id of the comment to update.",
+    rawContent: {
+      propDefinition: [
+        bitbucket,
+        "rawContent",
+      ],
     },
-    content_raw: {
-      type: "string",
-      description: "The text as it was typed by a user. This is the only comment field that can be updated.",
+    htmlContent: {
+      propDefinition: [
+        bitbucket,
+        "htmlContent",
+      ],
     },
-    issue_id: {
-      type: "string",
-      description: "ID of the issue parent to the comment that will be updated.",
+    markupContent: {
+      propDefinition: [
+        bitbucket,
+        "markupContent",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/issues/%7Bissue_id%7D/comments/%7Bcomment_id%7D#put
+    const {
+      workspaceId,
+      repositoryId,
+      issueId,
+      commentId,
+      rawContent,
+      htmlContent,
+      markupContent,
+    } = this;
 
-    if (!this.workspace || !this.repo_slug || !this.comment_id || !this.content_raw) {
-      throw new Error("Must provide workspace, repo_slug, comment_id, content_raw parameters.");
-    }
-
-    return await axios($, {
-      method: "put",
-      url: `https://api.bitbucket.org/2.0/repositories/${this.workspace}/${this.repo_slug}/issues/${this.issue_id}/comments/${this.comment_id}`,
-      headers: {
-        Authorization: `Bearer ${this.bitbucket.$auth.oauth_access_token}`,
-      },
+    const response = await this.bitbucket.updateIssueComment({
+      workspaceId,
+      repositoryId,
+      issueId,
+      commentId,
       data: {
         content: {
-          raw: this.content_raw,
+          raw: rawContent,
+          html: htmlContent,
+          markup: markupContent,
         },
       },
-    });
+    }, $);
+
+    $.export("summary", "Successfully updated issue comment");
+
+    return response;
   },
 };
