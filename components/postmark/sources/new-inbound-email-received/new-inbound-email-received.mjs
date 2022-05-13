@@ -9,7 +9,6 @@ export default {
   type: "source",
   props: {
     postmark,
-    db: "$.service.db",
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -17,10 +16,14 @@ export default {
   },
   hooks: {
     async activate() {
-      return this.postmark.setInboundWebhookUrl(this.http.endpoint);
+      return this.postmark.setServerInfo({
+        InboundHookUrl: this.http.endpoint,
+      });
     },
     async deactivate() {
-      return "";
+      return this.postmark.setServerInfo({
+        InboundHookUrl: "",
+      });
     },
   },
   async run(event) {

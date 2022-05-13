@@ -194,13 +194,11 @@ export default {
         },
       });
     },
-    async setInboundWebhookUrl(hookUrl) {
+    async setServerInfo(params) {
       return await axios
         .put(
           "https://api.postmarkapp.com/server",
-          {
-            InboundHookUrl: hookUrl,
-          },
+          params,
           {
             headers: {
               "X-Postmark-Server-Token": "a414a2ce-8779-4373-a281-197e7830353f",
@@ -211,31 +209,5 @@ export default {
         )
         .then(({ data }) => data);
     },
-    // async webhookRequest(params) {
-    //   let { endpoint, method, body } = params;
-    //   return await axios({
-    //     url: `https://api.postmarkapp.com/webhooks${endpoint ?? ""}`,
-    //     headers: {
-    //       "X-Postmark-Server-Token": `${this.$auth.api_key}`,
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //     },
-    //     body,
-    //     method,
-    //   }).then(({ data }) => data);
-    // },
-    // async createWebhook(pipedreamUrl, type) {
-    //   return this.webhookRequest({
-    //     method: "POST",
-    //     body: {
-    //       Url: pipedreamUrl,
-    //       Triggers: {
-    //         [type]: {
-    //           Enabled: true,
-    //         },
-    //       },
-    //     },
-    //   });
-    // },
   },
 };
