@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-remove-star",
   name: "Remove Star",
-  description: "Remove a star from an item on behalf of the authenticated user",
-  version: "0.0.2",
+  description: "Remove a star from an item on behalf of the authenticated user. [See docs here](https://api.slack.com/methods/stars.remove)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-leave-channel",
   name: "Leave Channel",
-  description: "Leave an existing channel",
-  version: "0.0.2",
+  description: "Leave an existing channel. [See docs here](https://api.slack.com/methods/conversations.leave)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
