@@ -1,4 +1,4 @@
-import slack from "../slack.app.mjs";
+import slack from "../../slack.app.mjs";
 
 /* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
   pipedream/required-properties-version, pipedream/required-properties-description */
