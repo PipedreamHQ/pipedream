@@ -1,4 +1,5 @@
 import notion from "../../notion.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "notion-query-database",
@@ -17,18 +18,14 @@ export default {
     filter: {
       label: "Filter",
       description: "The filter to query. [See how to filters works here](https://developers.notion.com/reference/post-database-query-filter). E.g. { \"property\": \"Email\", \"rich_text\": { \"contains\": \"gmail.com\" } }",
-      type: "object",
+      type: "string",
     },
   },
   async run({ $ }) {
     const { filter } = this;
 
-    const objectFilter = typeof filter === "string"
-      ? JSON.parse(filter)
-      : filter;
-
     const response = await this.notion.queryDatabase(this.databaseId, {
-      filter: objectFilter,
+      filter: utils.parseStringToJSON(filter),
     });
 
     $.export("$summary", "Retrieved database query result");
