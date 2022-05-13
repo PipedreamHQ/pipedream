@@ -151,7 +151,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "/events",
+        path: "events",
         params,
       });
     },
@@ -160,7 +160,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "/customers",
+        path: "customers",
         method: "post",
         data,
       });
@@ -170,7 +170,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/customers/${id}`,
+        path: `customers/${id}`,
         method: "put",
         data,
       });
@@ -180,7 +180,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/customers/${id}`,
+        path: `customers/${id}`,
       });
     },
     async listCustomers({
@@ -188,7 +188,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "/customers",
+        path: "customers",
         params,
       });
     },
@@ -197,7 +197,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "/tickets",
+        path: "tickets",
         method: "post",
         data,
       });
@@ -207,7 +207,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: "/tickets",
+        path: "tickets",
         params,
       });
     },
