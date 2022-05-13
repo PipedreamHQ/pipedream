@@ -259,6 +259,8 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 
 ## Ending a workflow early
 
+<VideoPlayer title="Conditionally run Workflows" url="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />
+
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
 - You may want to end your workflow early if you don't receive all the fields you expect in the event data.
@@ -302,6 +304,33 @@ export default defineComponent({
 ## Errors
 
 [Errors](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) raised in a code step will stop the execution of code or destinations that follow.
+
+
+### Configuration Error
+
+Throwing a `ConfigurationError` in a Node.js step will display the error message in a dedicated area.
+
+This is useful for providing feedback during validation of `props`. In the example below, a required Header value is missing from the Google Sheets action:
+
+![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651680315/docs/components/CleanShot_2022-05-04_at_12.04.38_2x_vf8jny.png)
+
+Or you can use it for validating the format of a given `email` prop:
+
+```javascript
+import { ConfigurationError } from "@pipedream/platform";
+
+export default defineComponent({
+  props: {
+    email: { type: "string" }
+  },
+  async run({ steps, $ }) {
+    // if the email address doesn't include a @, it's not valid
+    if(!this.email.includes("@")) {
+      throw new ConfigurationError('Provide a valid email address');
+    }
+  }
+});
+```
 
 ## Using secrets in code
 

@@ -11,11 +11,11 @@
       <span class="prefix">{{ lastUpdatedText }}:</span>
       <span class="time">{{ lastUpdated }}</span>
     </div>
-    <a href="/privacy-and-security/" class="text-gray-400"
+    <a href="/docs/privacy-and-security/" class="text-gray-400"
       >Security & Privacy</a
     >
-    <a href="/status/" class="text-gray-400">Status</a>
-    <a href="/pricing/" class="text-gray-400">Pricing</a>
+    <a href="https://status.pipedream.com" class="text-gray-400">Status</a>
+    <a href="/docs/pricing/" class="text-gray-400">Pricing</a>
   </footer>
 </template>
 

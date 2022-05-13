@@ -37,7 +37,7 @@ You can create a webhook using the [`POST /webhooks` endpoint](/api/rest/#create
 You can make a request to this endpoint using `cURL`:
 
 ```bash
-curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
   -X POST \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"
