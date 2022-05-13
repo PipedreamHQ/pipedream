@@ -3,9 +3,9 @@ import frontApp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-send-new-message",
-  name: "Send new message",
+  name: "Send New Message",
   description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
-  version: "0.2.3",
+  version: "0.2.2",
   type: "action",
   props: {
     frontApp,
