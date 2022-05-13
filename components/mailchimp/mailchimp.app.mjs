@@ -1,6 +1,8 @@
 import mailchimp from "@mailchimp/mailchimp_marketing";
+import { axios } from "@pipedream/platform";
 import retry from "async-retry";
 import constants from "./sources/constants.mjs";
+import rootConstants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,7 +16,7 @@ export default {
       async options({ page }) {
         const count = constants.PAGE_SIZE;
         const offset = count * page;
-        const audienceLists =  await this.getAudienceLists({
+        const audienceLists = await this.getAudienceLists({
           count,
           offset,
         });
@@ -32,7 +34,7 @@ export default {
       async options({ page }) {
         const count = constants.PAGE_SIZE;
         const offset = count * page;
-        const campaigns =  await this.getCampaignsByCreationDate({
+        const campaigns = await this.getCampaignsByCreationDate({
           count,
           offset,
         });
@@ -67,7 +69,7 @@ export default {
           count,
           offset: count * page,
         };
-        const storeResults =  await this.getAllStores(config);
+        const storeResults = await this.getAllStores(config);
         return storeResults.stores.map((store) => ({
           label: store.name,
           value: store.id,
@@ -101,7 +103,7 @@ export default {
           count,
           offset,
         };
-        const segmentsResults =  await this.getAllAudienceSegments(
+        const segmentsResults = await this.getAllAudienceSegments(
           opts.listId,
           config,
         );
@@ -128,6 +130,37 @@ export default {
     },
     _server() {
       return this.$auth.dc;
+    },
+    _getHeader() {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _getUrl(path) {
+      const {
+        BASE_URL,
+        HTTP_PROTOCOL,
+        VERSION_PATH,
+      } = rootConstants;
+      return `${HTTP_PROTOCOL}${this._server()}${BASE_URL}${VERSION_PATH}${path}`;
+    },
+    async _makeRequest(args = {}) {
+      const {
+        $,
+        method = "get",
+        path,
+        params,
+        data,
+      } = args;
+      const config = {
+        method,
+        url: this._getUrl(path),
+        headers: this._getHeader(),
+        params,
+        data,
+      };
+      return axios($ ?? this, config);
     },
     api() {
       mailchimp.setConfig({
@@ -174,7 +207,7 @@ export default {
      */
     async createWebhook(listId, config) {
       const mailchimp = this.api();
-      const { id } =  await this._withRetries(() =>
+      const { id } = await this._withRetries(() =>
         mailchimp.lists.createListWebhook(listId, config));
       return id;
     },
@@ -213,7 +246,7 @@ export default {
      */
     async getAudienceLists(config) {
       const mailchimp = this.api();
-      const { lists = [] } =  await this._withRetries(() =>
+      const { lists = [] } = await this._withRetries(() =>
         mailchimp.lists.getAllLists({
           ...config,
           sortField: "date_created",
@@ -582,6 +615,15 @@ export default {
     },
     async listCampaignOpenDetails(campaignId) {
       return await this._withRetries(() => this.api().reports.getCampaignOpenDetails(campaignId));
+    },
+    async getCampaignsCustom($, params) {
+      return axios($, {
+        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/campaigns`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        params,
+      });
     },
   },
 };
