@@ -1,5 +1,5 @@
-import constants from "../constants.mjs";
-import common from "../common.mjs";
+import constants from "../common/constants.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,

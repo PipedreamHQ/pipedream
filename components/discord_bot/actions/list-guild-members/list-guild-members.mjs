@@ -1,6 +1,6 @@
-import utils from "../../utils.mjs";
+import utils from "../../common/utils.mjs";
 import common from "../common.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 const { discord } = common.props;
 const { emptyStrToUndefined } = utils;
