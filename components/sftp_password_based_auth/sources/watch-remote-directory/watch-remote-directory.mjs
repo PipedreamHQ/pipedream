@@ -1,6 +1,5 @@
 import sftpPasswordBasedAuthApp from "../../sftp_password_based_auth.app.mjs";
 import ftp from "basic-ftp";
-import hash from "object-hash";
 
 export default {
   key: "github-new-watcher",
@@ -17,6 +16,7 @@ export default {
         intervalSeconds: 60 * 5,
       },
     },
+    db: "$.service.db",
     rootDirectory: {
       label: "Root directory",
       description: "Root watched directory. example: `/public`",
@@ -46,6 +46,50 @@ export default {
     },
   },
   methods: {
+    storeFileList(files) {
+      this.db.set("files", files);
+    },
+    getFilesFromStore() {
+      return this.db.get("files") || [];
+    },
+    getChangesWithEvent(currentFiles, previousFiles) {
+      const fileChanges = [];
+      // deleted file detection;
+      for (const prvFile of previousFiles) {
+        const file = currentFiles.find((p) => p.path === prvFile.path);
+        if (!file) {
+          fileChanges.push({
+            ...prvFile,
+            event: "deleted",
+          });
+        }
+      }
+      // created, updated file detection;
+      for (const file of currentFiles) {
+        const prvFile = previousFiles.find((p) => p.path === file.path);
+        if (prvFile) {
+          // unchanged files (checking size and last update time)
+          if (prvFile.size === file.size && prvFile.modifiedAt === file.modifiedAt) {
+            continue;
+          }
+          // file has changed
+          fileChanges.push({
+            ...file,
+            event: "updated",
+          });
+          continue;
+        }
+        // new file detection
+        if (!prvFile) {
+          fileChanges.push({
+            ...file,
+            event: "created",
+          });
+          continue;
+        }
+      }
+      return fileChanges;
+    },
     async listDirectories(client, parent) {
       const files = await client.list(parent);
       let directories = files
@@ -124,15 +168,19 @@ export default {
     } else {
       directories = directories.concat(await this.listDirectories(client, this.rootDirectory));
     }
-    const files = await this.listAllFilesFromDirectories(client, directories);
-    client.close();
+    const currentFiles = await this.listAllFilesFromDirectories(client, directories);
+    const previousFiles = this.getFilesFromStore();
+    const filesChangesWithEvent = this.getChangesWithEvent(currentFiles, previousFiles);
 
-    for (const file of files) {
-      this.$emit(file, {
-        ts: Date.now(),
-        summary: `File: ${file.name} (${file.directory})`,
-        id: hash(file),
+    for (const fileChangeEvent of filesChangesWithEvent) {
+      this.$emit(fileChangeEvent, {
+        id: `${fileChangeEvent.path}|${fileChangeEvent.size}|${fileChangeEvent.modifiedAt}`,
+        summary: `${fileChangeEvent.event} ${fileChangeEvent.path}`,
+        ts: new Date(fileChangeEvent.modifiedAt),
       });
     }
+
+    this.storeFileList(currentFiles);
+    client.close();
   },
 };
