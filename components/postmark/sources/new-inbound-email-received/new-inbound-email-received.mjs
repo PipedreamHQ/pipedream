@@ -1,7 +1,7 @@
 import postmark from "../../postmark.app.mjs";
 
 export default {
-  key: "new-inbound-email-received",
+  key: "postmark-new-inbound-email-received",
   name: "New inbound email received",
   description:
     "Emit new event when an email is received by the Postmark server",

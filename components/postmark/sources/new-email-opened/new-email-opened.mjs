@@ -1,7 +1,7 @@
 import postmark from "../../postmark.app.mjs";
 
 export default {
-  key: "new-email-opened",
+  key: "postmark-new-email-opened",
   name: "New email opened",
   description: "Emit new event when an email is opened by a recipient",
   version: "0.0.1",
