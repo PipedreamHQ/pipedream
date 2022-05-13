@@ -1,12 +1,12 @@
-const fauna = require("../../faunadb.app.js");
-const maxBy = require("lodash.maxby");
+import fauna from "../../faunadb.app.mjs";
+import _ from "lodash";
 
-module.exports = {
+export default {
+  type: "source",
   key: "faunadb-changes-to-collection",
   name: "New or Removed Documents in a Collection",
-  description:
-    "This source tracks add and remove events to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event with the details of the document.",
-  version: "0.0.3",
+  description: "Emit new event each time you add or remove a document from a specific collection, with the details of the document.",
+  version: "0.0.6",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
     timer: {
@@ -20,7 +20,7 @@ module.exports = {
     collection: {
       propDefinition: [
         fauna,
-        "collection",
+        "collections",
       ],
     },
     emitEventsInBatch: {
@@ -73,7 +73,7 @@ module.exports = {
     // Finally, set cursor for the next run to the max timestamp of the changed events, ensuring we
     // get all events after that on the next run. We need to add 1 since the timestamp filter in
     // Fauna is inclusive: https://docs.fauna.com/fauna/current/api/fql/functions/paginate
-    const maxEventTs = maxBy(events, (event) => event.ts).ts + 1;
+    const maxEventTs = _.maxBy(events, (event) => event.ts).ts + 1;
 
     this.db.set("cursor", maxEventTs);
   },

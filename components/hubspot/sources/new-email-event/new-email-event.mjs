@@ -1,13 +1,14 @@
 import common from "../common.mjs";
+import { monthAgo } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
-  description: "Emits an event for each new Hubspot email event.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new Hubspot email event.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,
@@ -25,18 +26,19 @@ export default {
         ts,
       };
     },
-  },
-  async run() {
-    const startTimestamp = this._getAfter();
-    const params = {
-      limit: 100,
-      startTimestamp,
-    };
-
-    await this.paginateUsingHasMore(
-      params,
-      this.hubspot.getEmailEvents.bind(this),
-      "events",
-    );
+    getParams() {
+      const startTimestamp = Date.parse(monthAgo());
+      return {
+        limit: 100,
+        startTimestamp,
+      };
+    },
+    async processResults(after, params) {
+      await this.paginateUsingHasMore(
+        params,
+        this.hubspot.getEmailEvents.bind(this),
+        "events",
+      );
+    },
   },
 };

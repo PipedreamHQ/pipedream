@@ -1,11 +1,12 @@
-import common from "../send-message-common.mjs";
+import slack from "../../slack.app.mjs";
+import common from "../common/send-message.mjs";
 
 export default {
   ...common,
   key: "slack-send-custom-message",
   name: "Send a Custom Message",
-  description: "Customize advanced setttings and send a message to a channel, group or user",
-  version: "0.2.1",
+  description: "Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,
@@ -19,6 +20,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "text",
+      ],
+    },
+    mrkdwn: {
+      propDefinition: [
+        slack,
+        "mrkdwn",
       ],
     },
     attachments: {
@@ -43,12 +50,6 @@ export default {
       propDefinition: [
         common.props.slack,
         "parse",
-      ],
-    },
-    mrkdwn: {
-      propDefinition: [
-        common.props.slack,
-        "mrkdwn",
       ],
     },
     blocks: {
