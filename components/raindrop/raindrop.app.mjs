@@ -106,68 +106,68 @@ export default {
         ...otherOpts,
       });
     },
-    getCollections($) {
+    async getCollections($) {
       return this._makeRequest($, {
         path: "/collections",
       });
     },
-    postCollection($, collectionData) {
+    async postCollection($, collectionData) {
       return this._makeRequest($, {
         method: "POST",
         path: "/collection",
         data: collectionData,
       });
     },
-    putCollection($, collectionId, collectionData) {
+    async putCollection($, collectionId, collectionData) {
       return this._makeRequest($, {
         method: "PUT",
         path: `/collection/${collectionId}`,
         data: collectionData,
       });
     },
-    deleteCollection($, collectionId) {
+    async deleteCollection($, collectionId) {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/collection/${collectionId}`,
       });
     },
-    getCollection($, collectionId) {
+    async getCollection($, collectionId) {
       return this._makeRequest($, {
         path: `/collection/${collectionId}`,
       });
     },
-    getRaindrop($, raindropId) {
+    async getRaindrop($, raindropId) {
       return this._makeRequest($, {
         path: `/raindrop/${raindropId}`,
       });
     },
-    getRaindrops($, collectionId, params) {
+    async getRaindrops($, collectionId, params) {
       return this._makeRequest($, {
         path: `/raindrops/${collectionId}`,
         params,
       });
     },
-    postBookmark($, bookmarkData) {
+    async postBookmark($, bookmarkData) {
       return this._makeRequest($, {
         method: "POST",
         path: "/raindrop",
         data: bookmarkData,
       });
     },
-    putBookmark($, bookmarkId, bookmarkData) {
+    async putBookmark($, bookmarkId, bookmarkData) {
       return this._makeRequest($, {
         method: "PUT",
         path: `/raindrop/${bookmarkId}`,
         data: bookmarkData,
       });
     },
-    deleteBookmark($, bookmarkId) {
+    async deleteBookmark($, bookmarkId) {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/raindrop/${bookmarkId}`,
       });
     },
-    importFile($, formData) {
+    async importFile($, formData) {
       return this._makeRequest($, {
         method: "POST",
         path: "/import/file",
