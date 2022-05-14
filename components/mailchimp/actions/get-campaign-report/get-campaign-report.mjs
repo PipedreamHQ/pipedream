@@ -2,9 +2,9 @@ import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-get-a-campaign",
-  name: "Get a Campaign",
-  description: "Gets metadata of a specific campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/get-campaign-info/)",
+  key: "mailchimp-get-a-campaign-report",
+  name: "Get a Campaign Report",
+  description: "Gets a campaign report. [See docs here](https://mailchimp.com/developer/marketing/api/campaign-advice/)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -37,8 +37,8 @@ export default {
       exclude_fields: excludeFields.join(","),
       campaignId,
     });
-    const response = await this.mailchimp.getACampaignCustom($, payload);
-    response && $.export("$summary", "Campaign found");
+    const response = await this.mailchimp.findCampaignReport($, payload);
+    response && $.export("$summary", "Campaign report found");
     return response;
   },
 };

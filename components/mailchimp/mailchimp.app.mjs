@@ -636,5 +636,16 @@ export default {
         params,
       });
     },
+    async findCampaignReport($, {
+      campaignId, ...params
+    }) {
+      return axios($, {
+        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/reports/${campaignId}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        params,
+      });
+    },
   },
 };
