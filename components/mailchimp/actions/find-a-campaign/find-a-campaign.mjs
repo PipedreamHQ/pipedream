@@ -3,7 +3,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-find-a-campaign",
-  name: "Get a Campaign",
+  name: "Find a Campaign",
   description: "Gets metadata of a specific campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/get-campaign-info/)",
   version: "0.0.1",
   type: "action",
@@ -37,7 +37,7 @@ export default {
       exclude_fields: excludeFields.join(","),
       campaignId,
     });
-    const response = await this.mailchimp.getACampaignCustom($, payload);
+    const response = await this.mailchimp.findACampaign($, payload);
     response && $.export("$summary", "Campaign found");
     return response;
   },

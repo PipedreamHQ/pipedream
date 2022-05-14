@@ -4,11 +4,16 @@ import mailchimp from "../../mailchimp.app.mjs";
 export default {
   key: "mailchimp-search-campaign",
   name: "Search Campaigns",
-  description: "Searches for the campaigns. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/list-campaigns/)",
+  description: "Searches for the campaigns. [See docs here](https://mailchimp.com/developer/marketing/api/search-campaigns/search-campaigns/)",
   version: "0.0.1",
   type: "action",
   props: {
     mailchimp,
+    query: {
+      type: "string",
+      label: "Query text",
+      description: "Search query text used to filter results.",
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -19,143 +24,22 @@ export default {
       type: "string[]",
       label: "Exclude Fields",
       description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
-    },
-    count: {
-      type: "integer",
-      label: "Count",
-      max: 10,
-      min: 1,
-      default: 10,
-      description: "The number of records to return.",
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The campaign type",
       optional: true,
-      default: "",
-      options: [
-        "",
-        "regular",
-        "plaintext",
-        "absplit",
-        "rss",
-        "variate",
-      ],
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "The status of the campaign",
-      optional: true,
-      default: "",
-      options: [
-        "",
-        "save",
-        "paused",
-        "schedule",
-        "sending",
-        "sent",
-      ],
-    },
-    beforeSendTime: {
-      type: "string",
-      label: "ISO 8601 time format",
-      description: "Restrict the response to campaigns sent before the set time. Format: 2015-10-21T15:41:36+00:00.",
-      optional: true,
-    },
-    sinceSendTime: {
-      type: "string",
-      label: "Since send time",
-      description: "Restrict the response to campaigns sent after the set time. format: 2015-10-21T15:41:36+00:00.",
-      optional: true,
-    },
-    beforeCreateTime: {
-      type: "string",
-      label: "Before create time",
-      description: "Restrict the response to campaigns created before the set time. format: 2015-10-21T15:41:36+00:00.",
-      optional: true,
-    },
-    sinceCreateTime: {
-      type: "string",
-      label: "Since create time",
-      description: "Restrict the response to campaigns created after the set time. format: 2015-10-21T15:41:36+00:00.",
-      optional: true,
-    },
-    listId: {
-      type: "string",
-      label: "List Id",
-      description: "The unique id for the list",
-      optional: true,
-    },
-    folderId: {
-      type: "string",
-      label: "Folder Id",
-      description: "The unique folder id.",
-      optional: true,
-    },
-    memberId: {
-      type: "string",
-      label: "Campaigns sent to a list member",
-      description: "Retrieve campaigns sent to a particular list member. Member ID is The MD5 hash of the lowercase version of the list member’s email address.",
-      optional: true,
-    },
-    sortField: {
-      type: "string",
-      label: "Sort field",
-      description: "Returns files sorted by the specified field. e.g. create_time or create_time.",
-      optional: true,
-      options: [
-        "create_time",
-        "create_time",
-      ],
-      default: "create_time",
-    },
-    sortDir: {
-      type: "string",
-      label: "Sort direction",
-      description: "Determines the order direction for sorted results. Possible values: ASC or DESC.",
-      optional: true,
-      options: [
-        "ASC",
-        "DESC",
-      ],
-      default: "DESC",
     },
   },
   async run({ $ }) {
     const {
       fields,
       excludeFields,
-      count,
-      type,
-      status,
-      beforeSendTime,
-      sinceSendTime,
-      beforeCreateTime,
-      sinceCreateTime,
-      listId,
-      folderId,
-      memberId,
-      sortField,
-      sortDir,
+      query,
     } = this;
-    const payload =  removeNullEntries({
+    const payload = removeNullEntries({
       fields: fields.join(","),
       exclude_fields: excludeFields.join(","),
-      count,
-      type,
-      status,
-      before_send_time: beforeSendTime,
-      since_send_time: sinceSendTime,
-      before_create_time: beforeCreateTime,
-      sinceCreateTime: sinceCreateTime,
-      list_id: listId,
-      folder_id: folderId,
-      member_id: memberId,
-      sort_field: sortField,
-      sort_dir: sortDir,
+      query,
     });
-    return await this.mailchimp.getCampaignsCustom($, payload);
+    const response = await this.mailchimp.searchCampaign($, payload);
+    response?.results?.length && $.export("$summary", "Result found");
+    return response;
   },
 };

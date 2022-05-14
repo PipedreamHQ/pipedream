@@ -616,16 +616,16 @@ export default {
     async listCampaignOpenDetails(campaignId) {
       return await this._withRetries(() => this.api().reports.getCampaignOpenDetails(campaignId));
     },
-    async getCampaignsCustom($, params) {
+    async searchCampaign($, params) {
       return axios($, {
-        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/campaigns`,
+        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/search-campaigns`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         params,
       });
     },
-    async getACampaignCustom($, {
+    async findACampaign($, {
       campaignId, ...params
     }) {
       return axios($, {
