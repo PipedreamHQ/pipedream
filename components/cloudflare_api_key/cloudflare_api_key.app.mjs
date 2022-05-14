@@ -126,14 +126,12 @@ export default {
         path,
         data,
         params,
-        ...otherOpts
       } = opts;
       return axios($, {
         method,
         url: `https://api.cloudflare.com/client/v4${path}`,
         data,
         params,
-        ...otherOpts,
         headers: {
           ...this._getHeaders(),
           ...opts.headers,
@@ -190,6 +188,17 @@ export default {
       const cf = this._getCloudflareClient();
       try {
         const response = await cf.zones.add(zoneData);
+        return response;
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async changeZoneSslSetting(zoneID, sslSetting) {
+      const cf = this._getCloudflareClient();
+      try {
+        const response = await cf.zoneSettings.edit(zoneID, "ssl", {
+          value: sslSetting,
+        });
         return response;
       } catch (error) {
         this._throwFormattedError(error);
