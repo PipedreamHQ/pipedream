@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-channels",
   name: "List Channels",
-  description: "Return a list of all channels in a workspace",
+  description: "Return a list of all channels in a workspace. [See docs here](https://api.slack.com/methods/conversations.list)",
   version: "0.0.3",
   type: "action",
   props: {

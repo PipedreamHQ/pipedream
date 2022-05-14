@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-get-reminder",
   name: "Get Reminder",
-  description: "Return information about a reminder",
+  description: "Return information about a reminder. [See docs here](https://api.slack.com/methods/reminders.info)",
   version: "0.0.3",
   type: "action",
   props: {

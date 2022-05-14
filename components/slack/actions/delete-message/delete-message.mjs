@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-delete-message",
   name: "Delete Message",
-  description: "Delete a message",
+  description: "Delete a message. [See docs here](https://api.slack.com/methods/chat.delete)",
   version: "0.0.3",
   type: "action",
   props: {

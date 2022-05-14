@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-get-channel",
   name: "Get Channel",
-  description: "Return information about a workspace channel",
+  description: "Return information about a workspace channel. [See docs here](https://api.slack.com/methods/conversations.info)",
   version: "0.0.3",
   type: "action",
   props: {

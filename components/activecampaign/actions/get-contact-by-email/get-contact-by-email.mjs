@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-get-contact-by-email",
   name: "Activecampaign - Get contact by email",
   description: "Retrieves contact data from the ActiveCampaign CRM by email address",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     activecampaign: {

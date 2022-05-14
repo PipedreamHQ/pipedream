@@ -7,7 +7,7 @@ export default {
   key: "google_drive-create-file",
   name: "Create a New File",
   description: "Create a new file from a URL or /tmp/filepath. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   props: {
     googleDrive,
@@ -21,12 +21,15 @@ export default {
       propDefinition: [
         googleDrive,
         "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
       ],
       label: "Parent Folder",
       description: toSingleLineString(`
-        The ID of the parent folder which contains the file. If not specified as part of a 
-        create request, the file will be placed directly in the user's My Drive folder.
-      `),
+        The ID of the parent folder which contains the file. If not specified, the file will be
+        placed directly in the drive's top-level folder.
+    `),
       optional: true,
     },
     uploadType: {
@@ -195,6 +198,7 @@ export default {
     const body = this.fileUrl
       ? await got.stream(this.fileUrl)
       : fs.createReadStream(this.filePath);
+    const driveId = this.googleDrive.getDriveId(this.drive);
     const resp = await this.googleDrive.createFile({
       ignoreDefaultVisibility: this.ignoreDefaultVisibility,
       includePermissionsForView: this.includePermissionsForView,
@@ -206,7 +210,7 @@ export default {
         name: this.name,
         originalFilename: this.originalFilename,
         parents: [
-          this.parent,
+          this.parent ?? driveId,
         ],
         mimeType: this.mimeType,
         description: this.description,

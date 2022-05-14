@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-update-message",
   name: "Update Message",
-  description: "Update a message",
+  description: "Update a message. [See docs here](https://api.slack.com/methods/chat.update)",
   version: "0.1.2",
   type: "action",
   props: {

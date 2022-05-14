@@ -178,6 +178,27 @@ export default {
         };
       },
     },
+    team: {
+      type: "string",
+      label: "Team",
+      description: "Select a team.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+
+        const resp = await this.getTeams(cursor);
+
+        return {
+          options: resp.teams.map((team) => ({
+            label: team.name,
+            value: team.id,
+          })),
+
+          context: {
+            cursor: resp.cursor,
+          },
+        };
+      },
+    },
     notificationText: {
       type: "string",
       label: "Notification Text",
@@ -256,10 +277,16 @@ export default {
       optional: true,
     },
     mrkdwn: {
+      label: "Send text as Slack mrkdwn",
       type: "boolean",
-      label: "Mrkdwn",
-      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
+      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
       default: true,
+      optional: true,
+    },
+    post_at: {
+      label: "Schedule message",
+      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime format should be a unix timestamp (e.g., `1650507616`, [see here](https://www.epochconverter.com/) for help with this format).",
+      type: "integer",
       optional: true,
     },
     username: {
@@ -453,6 +480,21 @@ export default {
         cursor = nextCursor;
       } while (cursor);
       return userNames;
+    },
+    async getTeams(cursor) {
+      const resp = await this.sdk().auth.teams.list({
+        cursor,
+      });
+
+      if (resp.ok) {
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          teams: resp.teams,
+        };
+      } else {
+        console.log("Error getting teams", resp.error);
+        throw (resp.error);
+      }
     },
   },
 };

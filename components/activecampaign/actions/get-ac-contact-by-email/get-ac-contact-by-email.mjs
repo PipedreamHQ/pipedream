@@ -4,7 +4,7 @@ import axiosModule from "axios";
 export default {
   key: "activecampaign-get-ac-contact-by-email",
   name: "Get ActiveCampaign Contact by Email",
-  version: "0.9.1",
+  version: "0.9.2",
   type: "action",
   props: {
     activecampaign: {

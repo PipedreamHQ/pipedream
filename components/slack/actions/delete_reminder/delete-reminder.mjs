@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-delete-reminder",
   name: "Delete Reminder",
-  description: "Delete a reminder",
+  description: "Delete a reminder. [See docs here](https://api.slack.com/methods/reminders.delete)",
   version: "0.0.3",
   type: "action",
   props: {

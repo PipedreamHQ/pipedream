@@ -8,7 +8,7 @@ export default {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,

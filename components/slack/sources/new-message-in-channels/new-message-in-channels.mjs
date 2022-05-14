@@ -117,8 +117,10 @@ export default {
     if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
       return;
     }
-    if (this.ignoreBot && event.subtype == "bot_message") {
-      return;
+    if (this.ignoreBot) {
+      if (event.subtype == "bot_message" || event.bot_id) {
+        return;
+      }
     }
     if (this.resolveNames) {
       if (event.user) {

@@ -8,9 +8,8 @@ export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
-  description:
-    "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.12",
+  description: "Emit new event any time a new file is added in your linked Google Drive",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   props: {
@@ -83,7 +82,7 @@ export default {
         }
 
         this.$emit(fileInfo, {
-          summary: `New File ID: ${file.id}`,
+          summary: `New File: ${fileInfo.name}`,
           id: file.id,
           ts: createdTime,
         });

@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-archive-channel",
   name: "Archive Channel",
-  description: "Archive a channel",
+  description: "Archive a channel. [See docs here](https://api.slack.com/methods/conversations.archive)",
   version: "0.0.3",
   type: "action",
   props: {

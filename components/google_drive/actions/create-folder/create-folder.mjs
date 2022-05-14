@@ -4,7 +4,7 @@ export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,
@@ -24,7 +24,7 @@ export default {
         }),
       ],
       description:
-        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the user's My Drive folder.",
+        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the drive's top-level folder.",
       optional: true,
     },
     name: {
@@ -42,9 +42,11 @@ export default {
       parentId,
       name,
     } = this;
+    const driveId = this.googleDrive.getDriveId(this.drive);
     const resp = await this.googleDrive.createFolder({
       name,
       parentId,
+      driveId,
     });
     $.export("$summary", `Successfully created a new folder, "${resp.name}"`);
     return resp;

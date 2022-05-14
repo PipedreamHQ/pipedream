@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-files",
   name: "List Files",
-  description: "Return a list of files within a team",
+  description: "Return a list of files within a team. [See docs here](https://api.slack.com/methods/files.list)",
   version: "0.0.31",
   type: "action",
   props: {
@@ -24,7 +24,7 @@ export default {
     team_id: {
       propDefinition: [
         slack,
-        "team_id",
+        "team",
       ],
       optional: true,
     },

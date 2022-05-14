@@ -518,7 +518,7 @@ GET /orgs/<org_id>/subscriptions
 
 `org_id` **string**
 
-[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
 
 #### Example Request
 
@@ -564,7 +564,7 @@ GET /orgs/<org_id>/sources
 
 `org_id` **string**
 
-[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
 
 #### Example Request
 
@@ -606,7 +606,7 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
 
 Event sources run code to collect events from an API, or receive events via
 webhooks, emitting those events for use on Pipedream. Event sources can function
-as workflow triggers. [Read more here](/event-sources/).
+as workflow triggers. [Read more here](/sources/).
 
 ### List Current User Sources
 
@@ -1054,7 +1054,7 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own.
 Webhooks are managed at an account-level, and you send data to these webhooks
 using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources/) that listens
+For example, you can run a Twitter [event source](/sources/) that listens
 for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
@@ -1151,6 +1151,37 @@ creating [subscriptions](#subscriptions).
 
 You can list webhooks you've created in your account using the
 [`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
+
+### Delete a webhook
+
+---
+
+Use this endpoint to delete a webhook in your account.
+
+#### Endpoint
+
+```
+DELETE /webhooks/{id}
+```
+
+#### Path Parameters
+
+---
+
+`id` **string**
+
+The ID of a webhook in your account.
+
+---
+
+#### Example Request
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
 
 ## Workflows
 

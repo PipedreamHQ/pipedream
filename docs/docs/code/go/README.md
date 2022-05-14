@@ -9,7 +9,7 @@ Go steps are available in a limited alpha release.
 
 You can still run arbitrary Go code, including [sharing data between steps](/code/go/#sharing-data-between-steps) as well as [accessing environment variables](/code/go/#using-environment-variables).
 
-However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
 :::
 
 
@@ -55,84 +55,6 @@ import "net/http"
 
 And that's it.
 
-## Making an HTTP request
-
-We recommend using the `http` HTTP client package included in the Go Standard Library for making HTTP requests.
-
-### Making a `GET` request
-
-You'll typically use `GET` requests to retrieve data from an API:
-
-```go
-package main
-
-import (
-  "net/http" // HTTP client
-  "io/ioutil" // Reads the body of the response
-  "log" // Logger
-)
-
-func main() {
-  resp, err := http.Get("https://swapi.dev/api/people/1")
-
-  if err != nil {
-    log.Fatalln(err)
-  }
-  defer resp.Body.Close()
-
-  body, err := ioutil.ReadAll(resp.Body)
-  if err != nil {
-    log.Fatalln(err)
-  }
-
-  // The response status code is logged in your Pipedream step results:
-  log.Println(resp.Status)
-
-  // The response is logged in your Pipedream step results:
-  sb := string(body)
-  log.Println(sb) 
-}
-```
-
-### Making a `POST` request
-
-```go
-package main
-
-import (
-   "bytes"
-   "encoding/json"
-   "io/ioutil"
-   "log"
-   "net/http"
-)
-
-func main() {
-  // JSON encode our payload
-   payload, _ := json.Marshal(map[string]string{
-      "name":  "Bulbasaur",
-   })
-   payloadBuf:= bytes.NewBuffer(payload)
-
-  // Send the POST request
-   resp, err := http.Post("https://postman-echo.com/post", "application/json", payloadBuf)
-
-   if err != nil {
-      log.Fatalln(err)
-   }
-   defer resp.Body.Close()
-
-  // Read the response body
-   body, err := ioutil.ReadAll(resp.Body)
-   if err != nil {
-      log.Fatalln(err)
-   }
-   // Convert the body into a string
-   sb := string(body)
-   // Log the body to our Workflow Results
-   log.Println(sb)
-}
-```
 
 ### Sending files
 
@@ -250,8 +172,6 @@ Now this `pokemon` data is accessible to downstream steps within `pd.Steps["code
 Not all data types can be stored in the `Steps` data shared between workflow steps.
 
 For the best experience, we recommend only [exporting structs that can be marshalled into JSON](https://go.dev/blog/json).
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
 
 ## Using environment variables
