@@ -192,6 +192,44 @@ const timerProp: Pipedream.InterfaceProp = {
   },
 };
 
+const httpRequestProp: Pipedream.HttpRequestProp = {
+  type: "http_request",
+  default: {
+    auth: {
+      type: "basic",
+      username: "u",
+      password: "p",
+      token: "t",
+    },
+    body: {
+      contentType: "application/json",
+      fields: [
+        {
+          name: "n",
+          value: "v",
+        },
+      ],
+      mode: "fields",
+      raw: "r",
+    },
+    headers: [
+      {
+        name: "n",
+        value: "v",
+      },
+    ],
+    method: "POST",
+    params: [
+      {
+        name: "n",
+        value: "v",
+      },
+    ],
+    tab: "Params",
+    url: "example.com",
+  },
+};
+
 const hooks: Pipedream.Hooks = {
   deploy: async () => { return; },
   activate: async () => { return; },
