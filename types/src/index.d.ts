@@ -137,24 +137,24 @@ export interface DefaultConfig {
   cron?: string;
 }
 
-type Field = {
+export interface Field {
   name: string;
   value: string;
-};
-type HttpAuth = {
+}
+export interface HttpAuth {
   type?: "basic" | "bearer" | "none";
   username?: string;
   password?: string;
   token?: string;
-};
-type HttpBody = {
+}
+export interface HttpBody {
   type?: "fields" | "raw";
   contentType?: string;
   fields?: Field[];
   mode?: "fields" | "raw";
   raw?: string;
-};
-type DefaultHttpRequestPropConfig = {
+}
+export interface DefaultHttpRequestPropConfig {
   auth?: HttpAuth;
   body?: HttpBody;
   headers?: Field[];
@@ -162,7 +162,7 @@ type DefaultHttpRequestPropConfig = {
   tab?: string;
   method?: string;
   url?: string;
-};
+}
 
 export interface BasePropInterface {
   label?: string;
