@@ -1,98 +1,102 @@
-import common from "../common.mjs";
+import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
-  ...common,
   key: "clickup-create-list",
   name: "Create List",
-  description: "Creates a new list. See the docs [here](https://clickup.com/api) in either the **Lists / Create List** section or the **Spaces / Create Space** section.",
-  version: "0.0.5",
+  description: "Creates a new list. See the docs [here](https://clickup.com/api) in **Lists  / Create List** section.",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
-    name: {
+    spaceId: {
       propDefinition: [
-        common.props.clickup,
-        "name",
+        clickup,
+        "spaces",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
-      description: "New list name",
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "New list content",
       optional: true,
     },
-    dueDate: {
+    folderId: {
       propDefinition: [
-        common.props.clickup,
-        "dueDate",
+        clickup,
+        "folders",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
-      description:
-        `The date by which you must complete the tasks in this list. Use [UTC time](https://www.epochconverter.com/) in 
-        milliseconds (e.g. \`1508369194377\`)`,
+      optional: true,
     },
-    dueDateTime: {
+    name: {
+      label: "Name",
+      type: "string",
+      description: "The name of list",
+    },
+    content: {
+      label: "Content",
+      type: "string",
+      description: "The content of list",
+      optional: true,
+    },
+    priority: {
       propDefinition: [
-        common.props.clickup,
-        "dueDateTime",
+        clickup,
+        "priorities",
       ],
-      description:
-        "Set to `true` if you want to enable the due date time for the tasks in this list",
+      optional: true,
     },
     assignee: {
       propDefinition: [
-        common.props.clickup,
+        clickup,
         "assignees",
         (c) => ({
-          workspace: c.workspace,
+          workspaceId: c.workspaceId,
         }),
       ],
-      type: "string",
-      label: "Assignee",
-      description: "Assignee to be added to this list",
-      optional: true,
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description:
-        "The status refers to the List color rather than the task Statuses available in the List",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
-      space,
-      folder,
-      priority,
+      spaceId,
+      folderId,
       name,
       content,
-      dueDate,
-      dueDateTime,
+      priority,
       assignee,
-      status,
     } = this;
-    const data = {
-      name,
-      content,
-      due_date: dueDate,
-      due_date_time: dueDateTime,
-      priority,
-      assignee,
-      status,
-    };
-    const res = folder
-      ? await this.clickup.createList({
-        folder,
-        data,
+
+    let response;
+
+    if (!folderId) {
+      response = await this.clickup.createFolderlessList({
         $,
-      })
-      : await this.clickup.createFolderlessList({
-        space,
-        data,
-        $,
+        spaceId,
+        data: {
+          name,
+          content,
+          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
+          assignee,
+        },
       });
-    $.export("$summary", `Successfully created list ${name}`);
-    return res;
+    } else {
+      response = await this.clickup.createList({
+        $,
+        folderId,
+        data: {
+          name,
+          content,
+          priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
+          assignee,
+        },
+      });
+    }
+
+    $.export("$summary", "Successfully created list");
+
+    return response;
   },
 };

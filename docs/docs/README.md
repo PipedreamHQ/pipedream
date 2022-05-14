@@ -15,7 +15,7 @@ The Pipedream platform includes:
 
 Watch a demo or review our [quickstart guide](/quickstart/):
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pRHsQyyfYl0" title="Introduction to Pipedream" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<VideoPlayer src="https://www.youtube.com/embed/pRHsQyyfYl0" title="Introduction to Pipedream" />
 
 ## Getting Started
 

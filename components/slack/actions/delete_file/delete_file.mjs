@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-delete-file",
   name: "Delete File",
-  description: "Delete a file",
-  version: "0.0.2",
+  description: "Delete a file. [See docs here](https://api.slack.com/methods/files.delete)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

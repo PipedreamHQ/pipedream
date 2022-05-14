@@ -39,6 +39,24 @@ export default {
         });
       },
     },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The identifier or key of the project associated with the issue.",
+      optional: true,
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listProjects,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
     issueTitle: {
       type: "string",
       label: "Title",
@@ -74,6 +92,19 @@ export default {
       description: "The issue description in markdown format.",
       optional: true,
     },
+    issueLabels: {
+      type: "string[]",
+      label: "Issue Labels",
+      description: "The labels in the issue.",
+      optional: true,
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssueLabels,
+          resouceMapper: ({ name }) => name,
+        });
+      },
+    },
     query: {
       type: "string",
       label: "Query",
@@ -85,30 +116,6 @@ export default {
       description: "By which field should the pagination order by. Available options are `createdAt` (default) and `updatedAt`.",
       optional: true,
       options: constants.ORDER_BY_OPTIONS,
-    },
-    after: {
-      type: "string",
-      label: "After",
-      description: "A cursor to be used with **First** for forward pagination.",
-      optional: true,
-    },
-    first: {
-      type: "integer",
-      label: "First",
-      description: "The number of items to forward paginate (used with **After**). Defaults to `50`.",
-      optional: true,
-    },
-    before: {
-      type: "string",
-      label: "Before",
-      description: "A cursor to be used with **Last** for backward pagination.",
-      optional: true,
-    },
-    last: {
-      type: "integer",
-      label: "Last",
-      description: "The number of items to backward paginate (used with **Before**). Defaults to `50`.",
-      optional: true,
     },
     includeArchived: {
       type: "boolean",
@@ -149,11 +156,17 @@ export default {
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
+    async listProjects(variables = {}) {
+      return this.client().projects(variables);
+    },
     async listUsers(variables = {}) {
       return this.client().users(variables);
     },
     async listIssues(variables = {}) {
       return this.client().issues(variables);
+    },
+    async listIssueLabels(variables = {}) {
+      return this.client().issueLabels(variables);
     },
     async listResourcesOptions({
       prevContext, resourcesFn, resouceMapper,
