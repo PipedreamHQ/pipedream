@@ -37,7 +37,7 @@ export default {
       exclude_fields: excludeFields.join(","),
       campaignId,
     });
-    const response = await this.mailchimp.findACampaign($, payload);
+    const response = await this.mailchimp.getACampaign($, payload);
     response && $.export("$summary", "Campaign found");
     return response;
   },

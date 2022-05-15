@@ -1,4 +1,5 @@
 import mailchimp from "../../mailchimp.app.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
 
 export default {
   key: "mailchimp-update-campaign",
@@ -221,37 +222,7 @@ export default {
     },
   },
   async run({ $ }) {
-    // const deleteC = {
-    //   "variate_settings": {
-    //     "winner_criteria": "opens",
-    //     "wait_time": 0,
-    //     "test_size": 0,
-    //     "subject_lines": [],
-    //     "send_times": [],
-    //     "from_names": [],
-    //     "reply_to_addresses": [],
-    //   },
-    //   "rss_opts": {
-    //     "feed_url": "",
-    //     "frequency": "daily",
-    //     "schedule": {
-    //       "hour": 0,
-    //       "daily_send": {
-    //         "sunday": false,
-    //         "monday": false,
-    //         "tuesday": false,
-    //         "wednesday": false,
-    //         "thursday": false,
-    //         "friday": false,
-    //         "saturday": false,
-    //       },
-    //       "weekly_send_day": "sunday",
-    //       "monthly_send_date": 0,
-    //     },
-    //     "constrain_rss_img": false,
-    //   },
-    // };
-    const payload = {
+    const payload = removeNullEntries({
       campaignId: this.campaignId,
       recipients: {
         list_id: this.listId,
@@ -300,9 +271,9 @@ export default {
         description: this.socialDescritpion,
         title: this.socialTitle,
       },
-    };
-    const result = await this.mailchimp.updateCampaign($, payload);
-    console.log(result);
-    return result;
+    });
+    const response = await this.mailchimp.updateCampaign($, payload);
+    response && $.export("$summary", "Campaign updated successfully");
+    return response;
   },
 };

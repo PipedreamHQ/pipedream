@@ -624,9 +624,10 @@ export default {
         path: "/search-campaigns",
       });
     },
-    async findACampaign($, {
+    async getACampaign($, {
       campaignId, ...params
     }) {
+      console.log(campaignId, params);
       return this._makeRequest({
         $,
         params,
@@ -649,7 +650,7 @@ export default {
         $,
         data,
         path: `/campaigns/${campaignId}`,
-        method: "PATCH",
+        method: "patch",
       });
     },
   },
