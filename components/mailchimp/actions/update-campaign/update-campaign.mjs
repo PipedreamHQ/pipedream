@@ -4,7 +4,7 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "mailchimp-update-campaign",
   name: "Update Campaign",
-  description: "Updates a campaign",
+  description: "Update a campaign",
   version: "0.0.1",
   type: "action",
   props: {

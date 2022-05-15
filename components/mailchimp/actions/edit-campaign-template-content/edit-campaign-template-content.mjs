@@ -1,0 +1,112 @@
+import mailchimp from "../../mailchimp.app.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+
+export default {
+  key: "mailchimp-edit-campaign-template-content",
+  name: "Edit a Campaign Template Content",
+  description: "Edits a defined content area of a custom HTML template. [See docs here](https://mailchimp.com/developer/marketing/api/campaign-content/set-campaign-content/)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    mailchimp,
+    campaignId: {
+      type: "string",
+      label: "Campaign Id",
+      description: "The unique id for the campaign",
+    },
+    archiveType: {
+      type: "string",
+      label: "Archive type",
+      description: "The type of encoded file. Defaults to zip.",
+      optional: true,
+      options: [
+        "",
+        "zip",
+        "tar.gz",
+        "tar.bz2",
+        "tar",
+        "tgz",
+        "tbz",
+      ],
+    },
+    templateSections: {
+      type: "object",
+      label: "Template sections",
+      description: "Content for the sections of the template. Each key should be the unique mc:edit area name from the template.",
+      optional: true,
+      reloadProps: true,
+    },
+    plainText: {
+      type: "string",
+      label: "Plain text",
+      description: "The plain-text portion of the campaign. If left unspecified, we'll generate this automatically.",
+      optional: true,
+    },
+    html: {
+      type: "string",
+      label: "Plain text",
+      description: "The plain-text portion of the campaign. If left unspecified, we'll generate this automatically.",
+      optional: true,
+    },
+    url: {
+      type: "string",
+      label: "URL",
+      description: "When importing a campaign, the URL where the HTML lives.",
+      optional: true,
+    },
+    variateContents: {
+      type: "string[]",
+      label: "Variate contents",
+      optional: true,
+      description: `Content options for [Multivariate Campaigns](https://mailchimp.com/help/about-multivariate-campaigns/). 
+        Each content option must provide HTML content and may optionally provide plain text. 
+        For campaigns not testing content, only one object should be provided.`,
+    },
+  },
+  additionalProps() {
+    const props = {};
+    if (Object.keys(this.templateSections).length > 0) {
+      props.templateId = {
+        type: "string",
+        label: "Template id",
+        description: "The id of the template to use.",
+      };
+    }
+    if (this.archiveType && this.archiveType !== "zip") {
+      props.archiveContent = {
+        type: "string",
+        label: "Archive content",
+        description: "The base64-encoded representation of the archive file",
+      };
+    }
+    return props;
+  },
+  async run({ $ }) {
+    let variateContents;
+    try {
+      variateContents = this.variate_contents?.map((content) => JSON.parse(content));
+    } catch (error) {
+      throw new ConfigurationError("Invalid object in variate_contents");
+    }
+
+    const payload = removeNullEntries({
+      campaignId: this.campaignId,
+      archive: {
+        archive_content: this.archiveContent,
+        archive_type: this.archiveType,
+      },
+      plain_text: this.plainText,
+      html: this.html,
+      url: this.url,
+      template: {
+        sections: this.templateSections,
+        id: this.templateId,
+      },
+      variate_contents: variateContents,
+    });
+    const response = await this.mailchimp.editCampaignTemplate($, payload);
+    response && $.export("$summary", "Campaign updated successfully");
+    return response;
+  },
+};
