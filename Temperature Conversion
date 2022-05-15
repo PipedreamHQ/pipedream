@@ -1,0 +1,21 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class WorkAtTech
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		// your code goes here
+		try(Scanner i  = new Scanner(System.in)){
+		double t = i.nextDouble();
+		for(int j = 1; j<=t; j++){
+		double n = i.nextDouble();
+			
+		double temp = (9*n/5)+32;
+		System.out.format("\n" + "%.2f",temp );
+		  }
+		}
+	}
+}
+		
