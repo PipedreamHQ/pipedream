@@ -38,7 +38,8 @@ export default {
       campaignId,
     });
     const response = await this.mailchimp.findCampaignReport($, payload);
-    response && $.export("$summary", "Campaign report found");
+    // response && $.export("$summary", "Campaign report found");
+    console.log(response);
     return response;
   },
 };

@@ -133,7 +133,6 @@ export default {
     },
     _getHeader() {
       return {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
@@ -143,7 +142,7 @@ export default {
         HTTP_PROTOCOL,
         VERSION_PATH,
       } = rootConstants;
-      return `${HTTP_PROTOCOL}${this._server()}${BASE_URL}${VERSION_PATH}${path}`;
+      return `${HTTP_PROTOCOL}${this._server()}.${BASE_URL}${VERSION_PATH}${path}`;
     },
     async _makeRequest(args = {}) {
       const {
@@ -160,6 +159,7 @@ export default {
         params,
         data,
       };
+      console.log(config);
       return axios($ ?? this, config);
     },
     api() {
@@ -645,6 +645,20 @@ export default {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         params,
+      });
+    },
+    async updateCampaign($, {
+      campaignId, ...body
+    }) {
+      console.log("body", body);
+      console.log("campaignId", campaignId);
+      return axios($, {
+        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/campaigns/${campaignId}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        method: "PATCH",
+        body,
       });
     },
   },
