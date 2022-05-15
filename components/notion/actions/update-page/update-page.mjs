@@ -14,12 +14,14 @@ export default {
         notion,
         "pageId",
       ],
+      reloadProps: true,
     },
     title: {
       propDefinition: [
         notion,
         "title",
       ],
+      optional: true,
     },
     iconType: {
       propDefinition: [
@@ -41,34 +43,53 @@ export default {
     },
   },
   async additionalProps() {
-    let props = {};
+    let additionalProps = {};
+
     if (this.iconType) {
-      props = {
-        ...props,
-        iconValue: {
-          type: "string",
-          label: "Icon Value",
-          description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
-        },
+      additionalProps.iconValue = {
+        type: "string",
+        label: "Icon Value",
+        description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
       };
     }
     if (this.coverType) {
-      props = {
-        ...props,
-        coverValue: {
-          type: "string",
-          label: "Cover Value",
-          description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
-        },
+      additionalProps.coverValue = {
+        type: "string",
+        label: "Cover Value",
+        description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
       };
     }
-    return props;
+
+    if (this.pageId) {
+      const { properties } = await this.notion.retrievePage(this.pageId);
+
+      for (const propertyName in properties) {
+        const property = properties[propertyName];
+
+        additionalProps[propertyName] = {
+          label: propertyName,
+          description: `The type of this property is \`${property.type}\`. [See the properties docs here](https://developers.notion.com/reference/property-object) and [properties values docs here](https://developers.notion.com/reference/property-value-object). E.g. \`{ "title": [ { "type": "text", "text": { "content": "Title Updated" } } ] }\``,
+          type: "string",
+          optional: true,
+        };
+      }
+    }
+
+    return additionalProps;
   },
   async run({ $ }) {
+    const { properties } = await this.notion.retrievePage(this.pageId);
+
     const params = {
       properties: {},
       archived: this.archive || undefined,
     };
+
+    for (const propertyName in properties) {
+      const value = utils.parseStringToJSON(this[propertyName], false);
+
+      if (value) params.properties[propertyName] = value;
+    }
 
     if (this.title) {
       params.properties.title = {
@@ -93,7 +114,9 @@ export default {
     }
 
     const response = await this.notion.updatePage(this.pageId, params);
+
     $.export("$summary", "Updated page successfully");
+
     return response;
   },
 };
