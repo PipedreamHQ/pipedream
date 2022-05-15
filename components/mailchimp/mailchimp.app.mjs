@@ -617,48 +617,38 @@ export default {
       return await this._withRetries(() => this.api().reports.getCampaignOpenDetails(campaignId));
     },
     async searchCampaign($, params) {
-      return axios($, {
-        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/search-campaigns`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+      return this._makeRequest({
+        $,
         params,
+        path: "/search-campaigns",
       });
     },
     async findACampaign($, {
       campaignId, ...params
     }) {
-      return axios($, {
-        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/campaigns/${campaignId}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+      return this._makeRequest({
+        $,
         params,
+        path: `/campaigns/${campaignId}`,
       });
     },
     async findCampaignReport($, {
       campaignId, ...params
     }) {
-      return axios($, {
-        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/reports/${campaignId}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+      return this._makeRequest({
+        $,
         params,
+        path: `/reports/${campaignId}`,
       });
     },
     async updateCampaign($, {
       campaignId, ...body
     }) {
-      console.log("body", body);
-      console.log("campaignId", campaignId);
-      return axios($, {
-        url: `https://${this.$auth.dc}.api.mailchimp.com/3.0/campaigns/${campaignId}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        method: "PATCH",
+      return this._makeRequest({
+        $,
         body,
+        path: `/campaigns/${campaignId}`,
+        method: "PATCH",
       });
     },
   },
