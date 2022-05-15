@@ -1,15 +1,20 @@
 const removeNullEntries = (obj) =>
-  Object.entries(obj).reduce((acc, [
+  obj && Object.entries(obj).reduce((acc, [
     key,
     value,
   ]) => {
+    const isNumber = typeof value === "number";
+    const isBoolean = typeof value === "boolean";
     const isNotEmpyString = typeof value === "string";
     const isNotEmptyArray = Array.isArray(value) && value.length;
     const isNotEmptyObject =
       typeof value === "object" &&
+      value !== null &&
       !Array.isArray(value) &&
       Object.keys(value).length !== 0;
-    return value && (isNotEmpyString || isNotEmptyArray || isNotEmptyObject)
+    isNotEmptyObject && (value = removeNullEntries(value));
+    return (value &&
+      (isNotEmpyString || isNotEmptyArray || isNotEmptyObject || isBoolean || isNumber))
       ? {
         ...acc,
         [key]: value,

@@ -120,7 +120,7 @@ export default {
       optional: true,
     },
     autoFbPost: {
-      type: "any",
+      type: "string[]",
       label: "Auto facebook post",
       description: "An array of Facebook page ids to auto-post to.",
       optional: true,
@@ -221,6 +221,36 @@ export default {
     },
   },
   async run({ $ }) {
+    // const deleteC = {
+    //   "variate_settings": {
+    //     "winner_criteria": "opens",
+    //     "wait_time": 0,
+    //     "test_size": 0,
+    //     "subject_lines": [],
+    //     "send_times": [],
+    //     "from_names": [],
+    //     "reply_to_addresses": [],
+    //   },
+    //   "rss_opts": {
+    //     "feed_url": "",
+    //     "frequency": "daily",
+    //     "schedule": {
+    //       "hour": 0,
+    //       "daily_send": {
+    //         "sunday": false,
+    //         "monday": false,
+    //         "tuesday": false,
+    //         "wednesday": false,
+    //         "thursday": false,
+    //         "friday": false,
+    //         "saturday": false,
+    //       },
+    //       "weekly_send_day": "sunday",
+    //       "monthly_send_date": 0,
+    //     },
+    //     "constrain_rss_img": false,
+    //   },
+    // };
     const payload = {
       campaignId: this.campaignId,
       recipients: {

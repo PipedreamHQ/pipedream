@@ -133,6 +133,7 @@ export default {
     },
     _getHeader() {
       return {
+        "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
@@ -642,11 +643,11 @@ export default {
       });
     },
     async updateCampaign($, {
-      campaignId, ...body
+      campaignId, ...data
     }) {
       return this._makeRequest({
         $,
-        body,
+        data,
         path: `/campaigns/${campaignId}`,
         method: "PATCH",
       });
