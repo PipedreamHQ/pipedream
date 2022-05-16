@@ -269,7 +269,7 @@ export default {
     async stop(config) {
       const calendar = this.client();
       return calendar.channels.stop(config);
-    }
+    },
     client() {
       const auth = new calendar.auth.OAuth2();
       auth.setCredentials({

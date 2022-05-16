@@ -63,6 +63,6 @@ export default {
     this.emitNewCalendars(calendars);
 
     const calendarIds = calendars.map((item) => item.id);
-    this.setCalendarIds(currentCalendarIds);
+    this.setCalendarIds(calendarIds);
   },
 };

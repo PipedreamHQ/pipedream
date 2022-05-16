@@ -225,36 +225,6 @@ export default {
         console.log(`Unknown state: ${state}`);
         return;
       }
-
-    // Verify channel ID
-    const channelIds = [];
-    for (const calendarId of this.calendarIds) {
-      const channelId = this.getChannelId(calendarId);
-      channelIds.push(channelId);
-    }
-    const incomingChannelId = event?.headers?.["x-goog-channel-id"];
-    if (!channelIds.includes(incomingChannelId)) {
-      console.log(
-        `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
-      );
-      return;
-    }
-
-    // Check that resource state === exists
-    const state = event?.headers?.["x-goog-resource-state"];
-    switch (state) {
-    case "exists":
-      // there's something to emit, so keep going
-      break;
-    case "not_exists":
-      console.log("Resource does not exist. Exiting.");
-      return;
-    case "sync":
-      console.log("New channel created");
-      return;
-    default:
-      console.log(`Unknown state: ${state}`);
-      return;
     }
 
     // Fetch and emit events
