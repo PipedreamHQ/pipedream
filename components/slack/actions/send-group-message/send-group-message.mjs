@@ -23,7 +23,7 @@ export default {
     },
     mrkdwn: {
       propDefinition: [
-        slack,
+        common.props.slack,
         "mrkdwn",
       ],
     },
