@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "google_calendar-new-or-updated-event",
   name: "New or Updated Event",
-  description: "Emit new event when a Google Calendar event is created or updated (except when it's cancelled)",
-  version: "0.0.3",
+  description: "Emits when an event is created or updated (except when it's cancelled)",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   methods: {

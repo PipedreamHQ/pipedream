@@ -1,19 +1,17 @@
-// eslint-disable-next-line camelcase
-import data_stores from "../../data_stores.app.mjs";
+import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-add-update-record",
   name: "Add or update a single record",
   description: "Add or update a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
-    data_stores,
-    data_store: {
+    app,
+    dataStore: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
-        data_stores,
-        "data_store",
+        app,
+        "dataStore",
       ],
     },
     key: {
@@ -32,19 +30,19 @@ export default {
       key,
       value,
     } = this;
-    const record = this.data_store.get(key);
+    const record = await this.dataStore.get(key);
     let parsedValue;
     if (typeof value !== "string") {
       parsedValue = value;
     } else {
       try {
-        let json = this.data_stores.sanitizeJson(value);
+        let json = this.app.sanitizeJson(value);
         parsedValue = JSON.parse(json);
       } catch (err) {
         parsedValue = value;
       }
     }
-    this.data_store.set(key, parsedValue);
+    await this.dataStore.set(key, parsedValue);
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully ${record ? "updated the record for" : "added a new record with the"} key, \`${key}\`.`);
     return {

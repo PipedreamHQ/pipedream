@@ -1,198 +1,133 @@
-import common from "../common.mjs";
+import clickup from "../../clickup.app.mjs";
+import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
-  ...common,
   key: "clickup-create-task",
   name: "Create Task",
-  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.3",
+  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks  / Create Task** section.",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
-    list: {
+    spaceId: {
       propDefinition: [
-        common.props.clickup,
-        "list",
+        clickup,
+        "spaces",
         (c) => ({
-          folder: c.folder,
-          space: c.space,
+          workspaceId: c.workspaceId,
+        }),
+      ],
+      optional: true,
+    },
+    folderId: {
+      propDefinition: [
+        clickup,
+        "folders",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          spaceId: c.spaceId,
+          folderId: c.folderId,
         }),
       ],
     },
     name: {
-      propDefinition: [
-        common.props.clickup,
-        "name",
-      ],
-      description: "New task name",
+      label: "Name",
+      type: "string",
+      description: "The name of task",
     },
     description: {
-      type: "string",
       label: "Description",
-      description: "New task description",
+      type: "string",
+      description: "The description of task",
+      optional: true,
+    },
+    priority: {
+      propDefinition: [
+        clickup,
+        "priorities",
+      ],
       optional: true,
     },
     assignees: {
       propDefinition: [
-        common.props.clickup,
+        clickup,
         "assignees",
         (c) => ({
-          workspace: c.workspace,
+          workspaceId: c.workspaceId,
         }),
       ],
+      optional: true,
     },
     tags: {
       propDefinition: [
-        common.props.clickup,
+        clickup,
         "tags",
         (c) => ({
-          space: c.space,
+          spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
     status: {
       propDefinition: [
-        common.props.clickup,
-        "status",
+        clickup,
+        "statuses",
         (c) => ({
-          list: c.list,
+          listId: c.listId,
         }),
       ],
-    },
-    dueDate: {
-      propDefinition: [
-        common.props.clickup,
-        "dueDate",
-      ],
-      description:
-        `The date by which you must complete the task. Use UTC time in 
-        milliseconds (ex. 1508369194377)`,
-    },
-    dueDateTime: {
-      propDefinition: [
-        common.props.clickup,
-        "dueDateTime",
-      ],
-      description:
-        "Set to true if you want to enable the due date time for the task",
-    },
-    timeEstimate: {
-      type: "integer",
-      label: "Time Estimate",
-      description: "Use milliseconds",
-      optional: true,
-    },
-    startDate: {
-      type: "integer",
-      label: "Start Date",
-      description:
-        "The start date of the task. Use UTC time in milliseconds (ex. 1567780450202)",
-      optional: true,
-    },
-    startDateTime: {
-      type: "boolean",
-      label: "Start Date Time",
-      description: "Select true if you want to enable the start date time",
-      optional: true,
-    },
-    notifyAll: {
-      type: "boolean",
-      label: "Notify All",
-      description:
-        `If Notify All is true, creation notifications will be sent to everyone including the 
-        creator of the task.`,
       optional: true,
     },
     parent: {
+      label: "Parent Task",
       propDefinition: [
-        common.props.clickup,
-        "parent",
+        clickup,
+        "tasks",
         (c) => ({
-          list: c.list,
+          listId: c.listId,
         }),
       ],
-      optional: true,
-    },
-    linksTo: {
-      propDefinition: [
-        common.props.clickup,
-        "task",
-        (c) => ({
-          list: c.list,
-        }),
-      ],
-      label: "Links To",
-      description:
-        "Accepts a task ID to create a linked dependency on the new task",
-      optional: true,
-    },
-    checkRequiredCustomFields: {
-      type: "boolean",
-      label: "Check Required Custom Fields",
-      description:
-        `Indicates whether or not your new task will include data for required 
-        Custom Fields (true) or not (false). The default is false. If you set this option to true, 
-        and do not include information for required Custom Fields, then you will receive an error 
-        that 'One or more required fields is missing'.`,
-      optional: true,
-    },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: `An array of objects containing 'id' and 'value' keys.
-        Example:
-        {
-          "id": "0a52c486-5f05-403b-b4fd-c512ff05131c",
-          "value": 23
-        },
-      `,
       optional: true,
     },
   },
   async run({ $ }) {
     const {
-      priority,
-      list,
+      listId,
       name,
       description,
+      priority,
       assignees,
       tags,
       status,
-      dueDate,
-      dueDateTime,
-      timeEstimate,
-      startDate,
-      startDateTime,
-      notifyAll,
       parent,
-      linksTo,
-      checkRequiredCustomFields,
-      customFields,
     } = this;
-    const data = {
-      name,
-      description,
-      assignees,
-      tags,
-      status,
-      priority,
-      due_date: dueDate,
-      due_date_time: dueDateTime,
-      time_estimate: timeEstimate,
-      start_date: startDate,
-      start_date_time: startDateTime,
-      notify_all: notifyAll,
-      parent,
-      links_to: linksTo,
-      check_required_custom_fields: checkRequiredCustomFields,
-      custom_fields: customFields,
-    };
-    const res = await this.clickup.createTask({
-      list,
-      data,
+
+    const response = await this.clickup.createTask({
       $,
+      listId,
+      data: {
+        name,
+        description,
+        priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
+        assignees,
+        tags,
+        status,
+        parent,
+      },
     });
-    $.export("$summary", `Successfully created task ${name}`);
-    return res;
+
+    $.export("$summary", "Successfully created task");
+
+    return response;
   },
 };

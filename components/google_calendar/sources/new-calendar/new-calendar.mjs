@@ -3,8 +3,8 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
-  description: "Emit new event when a calendar is created.",
-  version: "0.0.3",
+  description: "Emit an event when a calendar is created.",
+  version: "0.1.1",
   type: "source",
   props: {
     db: "$.service.db",
@@ -19,18 +19,22 @@ export default {
   hooks: {
     async activate() {
       // get list of calendars
-      const calListResp = await this.googleCalendar.calendarList();
-      const calendars = calListResp?.data.items;
+      const { items: calendars = [] } = await this.googleCalendar.listCalendars();
       this.emitNewCalendars(calendars);
-
       const calendarIds = calendars.map((item) => item.id);
-      this.db.set("calendarIds", calendarIds);
+      this.setCalendarIds(calendarIds);
     },
     deactivate() {
-      this.db.set("calendarIds", []);
+      this.setCalendarIds([]);
     },
   },
   methods: {
+    setCalendarIds(calendarIds) {
+      this.db.set("calendarIds", calendarIds);
+    },
+    getCalendarIds() {
+      return this.db.get("calendarIds") || [];
+    },
     generateMeta(calendar) {
       const {
         summary,
@@ -43,7 +47,7 @@ export default {
       };
     },
     emitNewCalendars(calendars) {
-      const previousCalendarIds = this.db.get("calendarIds") || [];
+      const previousCalendarIds = this.getCalendarIds();
 
       for (const calendar of calendars) {
         if (!previousCalendarIds.includes(calendar.id)) {
@@ -54,12 +58,11 @@ export default {
     },
   },
   async run() {
-    const calListResp = await this.googleCalendar.calendarList();
-    const calendars = calListResp?.data?.items;
+    const { items: calendars = [] } = await this.googleCalendar.listCalendars();
 
     this.emitNewCalendars(calendars);
 
     const calendarIds = calendars.map((item) => item.id);
-    this.db.set("calendarIds", calendarIds);
+    this.setCalendarIds(currentCalendarIds);
   },
 };

@@ -5,7 +5,7 @@ next: false
 
 # Limits
 
-Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits. 
+Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an error if you encounter these limits. See our [troubleshooting guide](/troubleshooting/) for more information on these specific errors.
 
 Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier. **On paid tiers, you can run an unlimited number of invocations, for any amount of execution time**.
 
@@ -125,28 +125,20 @@ Events that trigger a **Timeout** error will appear in red in the [Inspector](/w
 
 ### Event / Execution History
 
-The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. There are two limits that impact this history:
+The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}} per workflow:
 
-- You can view the last {{$site.themeConfig.INSPECTOR_EVENT_LIMIT}} events sent to your workflow. Sending events over this limit removes the oldest event in the history from Pipedream's system.
-- The execution details for a specific run also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days. So if a workflow was triggered once a day, you’d only see a rolling history of {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} executions.
+|    Tier    | Events retained per workflow |
+| :--------: | :------------------------: |
+| Free tiers |    {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}     |
+| Paid tiers |   {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}}   |
 
-If you'd like to store execution or error history for a longer period, consider sending execution data to a table in the [SQL Service](/destinations/sql/), an [Amazon S3 bucket](/destinations/s3/), or another external data store.
+The execution details for a specific event also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days.
 
 ### Logs, Step Exports, and other observability
 
 The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
-
-## SQL Service
-
-You can create any number of tables in the SQL service, and store any number of records. However, there are a few limits you should be aware of
-
-- Events sent to a SQL Destination are stored for 30 days. After 30 days, the record is completely deleted. Records newer than 30 days (for example, data sent a day ago) will be retained, until that record is 30 days old, at which point it will be deleted. [Read more here](/destinations/sql/#data-retention).
-- Queries are limited to a runtime of 60 seconds.
-- You cannot issue a query that returns over `1GB` of data.
-
-[Read more about the SQL Service here](/destinations/sql/).
 
 ## Acceptable Use
 

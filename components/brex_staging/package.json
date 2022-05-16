@@ -5,7 +5,7 @@
     "main": "brex_staging.app.js",
     "keywords": [
         "pipedream",
-        "brex"
+        "brex_staging"
     ],
     "homepage": "https://pipedream.com/apps/brex_staging",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

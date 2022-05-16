@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-create-note",
   name: "Create Note",
   description: "Adds a note, arbitrary information to a contact, deal, or other Active Campaign objects.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

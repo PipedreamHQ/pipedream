@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-get-deal",
   name: "Get Deal",
   description: "Retrieves an existing deal.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

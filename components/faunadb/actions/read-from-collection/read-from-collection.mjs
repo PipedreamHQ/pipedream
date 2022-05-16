@@ -1,43 +1,39 @@
-// legacy_hash_id: a_poizPB
-import faunadb from "faunadb";
+import faunadb from "../../faunadb.app.mjs";
 
 export default {
   key: "faunadb-read-from-collection",
   name: "Read From FaunaDB Collection",
-  description: "Reads all documents from given FaunaDB collection",
-  version: "0.4.1",
+  description: "Reads all documents from a given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
+  version: "0.4.2",
   type: "action",
   props: {
-    faunadb: {
-      type: "app",
-      app: "faunadb",
-    },
+    faunadb,
     collectionName: {
-      type: "string",
+      propDefinition: [
+        faunadb,
+        "collections",
+      ],
     },
     documentField: {
+      label: "Document Field",
+      description: "The value of the document field that will be returned by query",
       type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-    const q = faunadb.query;
+    const {
+      collectionName,
+      documentField,
+    } = this;
 
-    const client = new faunadb.Client({
-      secret: this.faunadb.$auth.secret,
+    const response = await this.faunadb.getDocumentsInCollection({
+      collectionName,
+      documentField,
     });
-    // Lists collections in the database tied to your secret key
-    try {
-      let { data } = await client.query(
-        q.Map(q.Paginate(q.Documents(q.Collection(this.collectionName))), q.Lambda("i", q.Get(q.Var("i")))),
-      );
 
-      if ("documentField" in this) {
-        data = data.map((x) => x.data[this.documentField]);
-      }
-      $.export("documents", data);
-    } catch (error) {
-      console.error(error.message);
-    }
+    $.export("summary", "Successfully retrieved the collection's documents");
+
+    return response;
   },
 };

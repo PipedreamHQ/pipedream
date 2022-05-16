@@ -6,7 +6,7 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 
 ## Using `$.send.http` in workflows
 
-You can send HTTP requests in [Node.js code steps](/workflows/steps/code/) using `$.send.http()`.
+You can send HTTP requests in [Node.js code steps](/code/nodejs/) using `$.send.http()`.
 
 ```javascript
 defineComponent({
@@ -66,7 +66,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ## Using `$.send.http` in component actions
 
-If you're authoring a [component action](/components/actions/), you can deliver data to an HTTP destination using `$.send.http`.
+If you're authoring a [component action](/components#actions), you can deliver data to an HTTP destination using `$.send.http`.
 
 `$.send.http` functions the same as [`$.send.http` in workflow code steps](#using-send-http-in-workflows):
 
@@ -97,7 +97,7 @@ Below your code step, you'll see both the data that was sent in the HTTP request
 
 Since HTTP requests sent with `$.send.http()` are sent asynchronously, after your workflow runs, **you cannot access the HTTP response in your workflow**.
 
-If you need to access the HTTP response data in your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/) or another HTTP client.
+If you need to access the HTTP response data in your workflow, [use `axios`](/code/nodejs/http-requests/) or another HTTP client.
 
 ## Timeout
 

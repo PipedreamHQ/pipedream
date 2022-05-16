@@ -5,7 +5,7 @@ export default {
   key: "activecampaign-create-tracked-event",
   name: "Create Tracked Event",
   description: "Tracks an event using event tracking.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     activecampaign: {

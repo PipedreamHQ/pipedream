@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "google_calendar-new-event-search",
   name: "Event Search",
-  description: "Emit new event when a Google Calendar event is created that matches a search",
-  version: "0.0.3",
+  description: "Emit when an event is created that matches a search",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {

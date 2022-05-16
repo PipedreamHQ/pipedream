@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "google_calendar-event-cancelled",
   name: "Event Cancelled",
-  description: "Emit new event when a Google Calendar event is cancelled or deleted",
-  version: "0.0.3",
+  description: "Emits when an event is cancelled or deleted",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   methods: {

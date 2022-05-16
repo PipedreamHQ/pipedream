@@ -9,12 +9,16 @@
       "destination": "/$1"
     },
     {
-      "source": "/docs",
-      "destination": "/"
-    },
-    {
       "source": "/docs/(.*)",
       "destination": "/$1"
+    },
+    {
+      "source": "/docs-v2/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/docs/assets/(.*)",
+      "destination": "/assets/$1"
     }
   ],
   "redirects": [
@@ -100,7 +104,7 @@
     },
     {
       "source": "/docs/notebook/sql/",
-      "destination": "/destinations/sql/"
+      "destination": "/destinations/"
     },
     {
       "source": "/docs/what-is-pipedream/",
@@ -137,6 +141,10 @@
     {
       "source": "/docs/workflows/steps/code/state",
       "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state"
+    },
+    {
+      "source": "/docs/workflows/steps/params/",
+      "destination": "/docs/workflows/steps/using-props/"
     }
   ]
 }
