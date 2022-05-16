@@ -4,7 +4,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 export default {
   key: "mailchimp-search-lists",
   name: "Search Lists",
-  description: "Searches for the lists. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
+  description: "Searches for lists. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
   version: "0.0.1",
   type: "action",
   props: {

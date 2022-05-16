@@ -676,6 +676,15 @@ export default {
         params,
       });
     },
+    async getList($, {
+      listId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}`,
+        params,
+      });
+    },
 
   },
 };
