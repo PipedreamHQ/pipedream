@@ -669,5 +669,13 @@ export default {
         method: "delete",
       });
     },
+    async searchLists($, params) {
+      return this._makeRequest({
+        $,
+        path: "/lists",
+        params,
+      });
+    },
+
   },
 };
