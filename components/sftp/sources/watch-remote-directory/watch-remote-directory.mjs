@@ -4,7 +4,7 @@ import Client from "ssh2-sftp-client";
 export default {
   key: "sftp-new-watcher",
   name: "New remote directory watcher",
-  description: "Emit new events when files get created, changes it's contents or gets deleted on a remote directory.",
+  description: "Emit new events when files get created, changed or deleted from a remote directory.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
