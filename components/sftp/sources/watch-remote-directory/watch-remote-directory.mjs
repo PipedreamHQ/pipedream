@@ -1,15 +1,15 @@
-import sftpPasswordBasedAuthApp from "../../sftp_password_based_auth.app.mjs";
+import sftpApp from "../../sftp.app.mjs";
 import Client from "ssh2-sftp-client";
 
 export default {
-  key: "sftp_password_based_auth-new-watcher",
+  key: "sftp-new-watcher",
   name: "New remote directory watcher",
   description: "Emit new events when files get created, changes it's contents or gets deleted on a remote directory.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    sftpPasswordBasedAuthApp,
+    sftpApp,
     timer: {
       type: "$.interface.timer",
       default: {
@@ -149,13 +149,13 @@ export default {
     const {
       host,
       username,
-      password,
-    } = this.sftpPasswordBasedAuthApp.$auth;
+      privateKey,
+    } = this.sftpApp.$auth;
 
     const config = {
       host,
       username,
-      password,
+      privateKey,
     };
 
     const sftp = new Client();
