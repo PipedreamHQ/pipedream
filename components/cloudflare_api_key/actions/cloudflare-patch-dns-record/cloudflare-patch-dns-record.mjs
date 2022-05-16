@@ -1,7 +1,7 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
-  key: "cloudflare-patch-dns-record",
+  key: "cloudflare_api_key-patch-dns-record",
   name: "Patch DNS Record",
   description: "Patches a DNS record of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-patch-dns-record)",
   version: "0.0.1",

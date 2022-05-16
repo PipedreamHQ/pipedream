@@ -1,7 +1,7 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
-  key: "cloudflare-revoke-certificate",
+  key: "cloudflare_api_key-revoke-certificate",
   name: "Revoke Certificate",
   description: "Revoke an existing Origin CA certificate by its serial number. [See the docs here](https://api.cloudflare.com/#origin-ca-revoke-certificate)",
   version: "0.0.1",

@@ -1,7 +1,7 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
-  key: "cloudflare-create-zone",
+  key: "cloudflare_api_key-create-zone",
   name: "Create Zone",
   description: "Create Zone. [See the docs here](https://api.cloudflare.com/#zone-create-zone)",
   version: "0.0.1",

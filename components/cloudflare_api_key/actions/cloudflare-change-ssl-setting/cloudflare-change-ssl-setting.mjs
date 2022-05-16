@@ -1,7 +1,7 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
-  key: "cloudflare-change-ssl-setting",
+  key: "cloudflare_api_key-change-ssl-setting",
   name: "Change Zone's SSL Setting",
   description: "Choose the appropriate SSL setting for your zone. [See the docs here](https://api.cloudflare.com/#zone-settings-change-ssl-setting)",
   version: "0.0.1",
