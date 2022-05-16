@@ -5,4 +5,10 @@ export default {
       ? undefined
       : value;
   },
+
+  parseStringToJSON(value, defaultValue = {}) {
+    return this.emptyStrToUndefined(value)
+      ? JSON.parse(value)
+      : defaultValue;
+  },
 };

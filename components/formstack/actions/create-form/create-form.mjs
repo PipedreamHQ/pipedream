@@ -1,11 +1,12 @@
 import formstack from "../../formstack.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   type: "action",
   key: "formstack-create-form",
   name: "Create Form",
   description: "Create a new form in your account. [See docs here](https://formstack.readme.io/docs/form-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     formstack,
     name: {
@@ -15,8 +16,8 @@ export default {
     },
     fields: {
       label: "Fields",
-      description: "Array of Field resources. [See fields docs here](https://formstack.readme.io/docs/field-types)",
-      type: "string[]",
+      description: "Array of Field resources IDs. [See fields docs here](https://formstack.readme.io/docs/field-types). E.g. `[ { \"field_type\": \"name\", \"label\": \"Name\" } ]`",
+      type: "string",
       optional: true,
     },
     language: {
@@ -57,7 +58,7 @@ export default {
     const response = await this.formstack.createForm({
       data: {
         name,
-        fields,
+        fields: utils.parseStringToJSON(fields, []),
         language,
         db,
         password,

@@ -93,7 +93,7 @@ export default {
         },
       }, $);
 
-      return response?.forms;
+      return response?.forms ?? [];
     },
     async getForm({
       formId, $,
