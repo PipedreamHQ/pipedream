@@ -1,12 +1,12 @@
-const common = require("../common/http-based");
-const messageTypes = require("../common/message-types");
+import common from "../common/http-based.mjs";
+import messageTypes from "../common/message-types.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "ringcentral-new-inbound-message-event",
-  name: "New Inbound Message Event (Instant)",
-  description: "Emit new event for each status change of inbound messages of a specific type",
-  version: "0.0.1",
+  key: "ringcentral-new-outbound-message-event",
+  name: "New Outbound Message Event (Instant)",
+  description: "Emit new event for each outbound message status update",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -20,11 +20,7 @@ module.exports = {
       type: "string",
       label: "Message Type",
       description: "The type of message to monitor for status changes",
-      options({ page = 0 }) {
-        return page === 0
-          ? messageTypes
-          : [];
-      },
+      options: messageTypes,
     },
   },
   methods: {
@@ -34,12 +30,18 @@ module.exports = {
         "message-event-inbound",
       ]);
     },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+        messageType: this.messageType,
+      };
+    },
     generateMeta(data) {
       const {
         timestamp,
         uuid: id,
       } = data;
-      const summary = "New inbound message event";
+      const summary = "New outbound message event";
       const ts = Date.parse(timestamp);
       return {
         id,

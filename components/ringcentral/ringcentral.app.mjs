@@ -1,6 +1,6 @@
-const axios = require("axios");
+import { axios } from "@pipedream/platform";
 
-module.exports = {
+export default {
   type: "app",
   app: "ringcentral",
   propDefinitions: {
@@ -85,8 +85,8 @@ module.exports = {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      const { base_url: baseUrl = "https://platform.ringcentral.com/restapi/v1.0" } = this.$auth;
-      return baseUrl;
+      const platform = this.$auth.instancetype ?? "https://platform";
+      return `${platform}.ringcentral.com/restapi/v1.0`;
     },
     _accountUrl() {
       const baseUrl = this._apiUrl();
@@ -110,48 +110,70 @@ module.exports = {
       const path = id && `${basePath}/${id}` || basePath;
       return `${baseUrl}${path}`;
     },
-    _makeRequestConfig() {
+    getHeaders() {
       const authToken = this._authToken();
-      const headers = {
+      return {
         "Authorization": `Bearer ${authToken}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
-      return {
-        headers,
       };
     },
     async _getExtensionList(params) {
       // `params` refers to the query params listed in the API docs:
       // https://developers.ringcentral.com/api-reference/Extensions/listExtensions
-      const url = this._extensionUrl();
-      const requestConfig = {
-        ...this._makeRequestConfig(),
+      return axios(this, {
+        url: this._extensionUrl(),
+        headers: this.getHeaders(),
         params,
-      };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      });
     },
     async _getDeviceList(extensionId, params) {
       // `params` refers to the query params listed in the API docs:
       // https://developers.ringcentral.com/api-reference/Devices/listExtensionDevices
-      const url = this._deviceUrl(extensionId);
-      const requestConfig = {
-        ...this._makeRequestConfig(),
+      return axios(this, {
+        url: this._deviceUrl(extensionId),
+        headers: this.getHeaders(),
         params,
-      };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      });
     },
     async _getExtensionCallLog(extensionId, params, nextPage = {}) {
       // `params` refers to the query params listed in the API docs:
       // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
       const { uri: url = this._callLogUrl(extensionId) } = nextPage;
-      const requestConfig = {
-        ...this._makeRequestConfig(),
+      return axios(this, {
+        url,
+        headers: this.getHeaders(),
         params,
-      };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      });
+    },
+    async makeCallOut({
+      accountId = "~", ...args
+    } = {}) {
+      return axios(this, {
+        method: "post",
+        url: `${this._apiUrl()}/account/${accountId}/telephony/call-out`,
+        headers: this.getHeaders(),
+        ...args,
+      });
+    },
+    async createMeeting({
+      accountId = "~", extensionId, ...args
+    } = {}) {
+      return axios(this, {
+        method: "post",
+        url: `${this._apiUrl()}/account/${accountId}/extension/${extensionId}/meeting`,
+        headers: this.getHeaders(),
+        ...args,
+      });
+    },
+    async sendSMS({
+      accountId = "~", extensionId, ...args
+    }) {
+      return axios(this, {
+        method: "post",
+        url: `${this._apiUrl()}/account/${accountId}/extension/${extensionId}/sms`,
+        headers: this.getHeaders(),
+        ...args,
+      });
     },
     async *getCallRecordings(extensionId, dateFrom, dateTo) {
       const params = {
@@ -179,32 +201,34 @@ module.exports = {
       eventFilters,
       verificationToken,
     }) {
-      const url = this._subscriptionUrl();
-      const requestConfig = this._makeRequestConfig();
-
       // Details about the different webhook parameters can be found in the
       // RingCentral API docs:
       // https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription
-      const requestData = {
-        eventFilters,
-        deliveryMode: {
-          transportType: "WebHook",
-          address,
-          verificationToken,
-          expiresIn: 630720000, // 20 years (max. allowed by the API)
+      const data = await axios(this, {
+        method: "post",
+        url: this._subscriptionUrl(),
+        headers: this.getHeaders(),
+        data: {
+          eventFilters,
+          deliveryMode: {
+            transportType: "WebHook",
+            address,
+            verificationToken,
+            expiresIn: 630720000, // 20 years (max. allowed by the API)
+          },
         },
-      };
-
-      const { data } = await axios.post(url, requestData, requestConfig);
+      });
       return {
         ...data,
         verificationToken,
       };
     },
     deleteHook(hookId) {
-      const url = this._subscriptionUrl(hookId);
-      const requestConfig = this._makeRequestConfig();
-      return axios.delete(url, requestConfig);
+      return axios(this, {
+        method: "delete",
+        url: this._subscriptionUrl(hookId),
+        headers: this.getHeaders(),
+      });
     },
   },
 };

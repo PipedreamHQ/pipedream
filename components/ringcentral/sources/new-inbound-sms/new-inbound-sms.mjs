@@ -1,11 +1,11 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "ringcentral-new-inbound-sms",
   name: "New Inbound SMS (Instant)",
   description: "Emit new event on each incoming SMS",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -22,6 +22,11 @@ module.exports = {
       return new Set([
         "instant-message-event",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {

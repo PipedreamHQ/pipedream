@@ -1,4 +1,4 @@
-import common from "../common/timer-based.js";
+import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   name: "New Call Recording",
   description: "Emit new events when a call recording is created",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     ...common.props,
     extensionId: {

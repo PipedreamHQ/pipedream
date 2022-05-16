@@ -1,11 +1,11 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "ringcentral-missed-inbound-call",
-  name: "New Missed Inbound Call (Instant)",
-  description: "Emit new event each time an incoming call is missed",
-  version: "0.0.1",
+  key: "ringcentral-new-voicemail-message",
+  name: "New Voicemail Message (Instant)",
+  description: "Emit new event when a new voicemail message is received",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -20,19 +20,24 @@ module.exports = {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "extension-telephony-sessions-event-missed-inbound-call",
+        "voicemail-message-event",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {
+        uuid: id,
         timestamp,
         body: eventDetails,
       } = data;
-      const { telephonySessionId: id } = eventDetails;
-      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails.parties[0];
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails;
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
-      const summary = `Missed inbound call from ${maskedCallerNumber}`;
+      const summary = `New voicemail from ${maskedCallerNumber}`;
       const ts = Date.parse(timestamp);
 
       return {

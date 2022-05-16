@@ -1,11 +1,11 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "ringcentral-new-voicemail-message",
-  name: "New Voicemail Message (Instant)",
-  description: "Emit new event when a new voicemail message is received",
-  version: "0.0.1",
+  key: "ringcentral-new-inbound-fax",
+  name: "New Inbound Fax (Instant)",
+  description: "Emit new event on each incoming fax",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -20,19 +20,24 @@ module.exports = {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "voicemail-message-event",
+        "inbound-fax-event",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {
-        uuid: id,
-        timestamp,
         body: eventDetails,
+        timestamp,
+        uuid: id,
       } = data;
       const { from: { phoneNumber: callerPhoneNumber } } = eventDetails;
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
-      const summary = `New voicemail from ${maskedCallerNumber}`;
+      const summary = `New inbound fax from ${maskedCallerNumber}`;
       const ts = Date.parse(timestamp);
 
       return {
@@ -40,6 +45,11 @@ module.exports = {
         summary,
         ts,
       };
+    },
+    isEventRelevant(event) {
+      const { body: eventDetails } = event.body;
+      const { messageStatus } = eventDetails;
+      return messageStatus === "Received";
     },
   },
 };

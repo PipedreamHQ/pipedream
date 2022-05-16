@@ -1,11 +1,11 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "ringcentral-new-outbound-call",
-  name: "New Outbound Call (Instant)",
-  description: "Emit new event on each outgoing call",
-  version: "0.0.1",
+  key: "ringcentral-new-inbound-call",
+  name: "New Inbound Call (Instant)",
+  description: "Emit new event on each incoming call",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -20,8 +20,13 @@ module.exports = {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "extension-telephony-sessions-event-outbound-call",
+        "extension-telephony-sessions-event-inbound-call",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {
@@ -29,10 +34,10 @@ module.exports = {
         body: eventDetails,
       } = data;
       const { telephonySessionId: id } = eventDetails;
-      const { to: { phoneNumber: calleePhoneNumber } } = eventDetails.parties[0];
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails.parties[0];
 
-      const maskedCallerNumber = this.getMaskedNumber(calleePhoneNumber);
-      const summary = `New outbound call to ${maskedCallerNumber}`;
+      const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
+      const summary = `New inbound call from ${maskedCallerNumber}`;
       const ts = Date.parse(timestamp);
 
       return {
@@ -44,7 +49,7 @@ module.exports = {
     isEventRelevant(event) {
       const { body: eventDetails } = event.body;
       const { status: { code: statusCode } } = eventDetails.parties[0];
-      return statusCode === "Proceeding";
+      return statusCode === "Setup";
     },
   },
 };

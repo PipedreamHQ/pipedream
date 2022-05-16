@@ -1,10 +1,9 @@
-const template = require("lodash/template");
-const { v4: uuid } = require("uuid");
+import template from "lodash/template";
+import { v4 as uuid } from "uuid";
+import base  from "./base.mjs";
+import notificationTypes from "./notification-types.mjs";
 
-const base = require("./base");
-const notificationTypes = require("./notification-types");
-
-module.exports = {
+export default {
   ...base,
   dedupe: "unique",
   props: {
@@ -39,29 +38,18 @@ module.exports = {
   },
   methods: {
     ...base.methods,
-    _getPropValues() {
-      return Object.entries(this)
-        .filter(([
-          , value,
-        ]) => value != null)
-        .reduce((accum, [
-          prop,
-          value,
-        ]) => ({
-          ...accum,
-          [prop]: value,
-        }), {});
-    },
     _getEventFilters() {
       const eventKeys = this.getSupportedNotificationTypes();
-      const propValues = this._getPropValues();
+      const propValues = this.getPropValues();
       return notificationTypes
         .filter(({ key }) => eventKeys.has(key))
-        .map(({ filter }) => template(filter))
-        .map((templateFn) => templateFn(propValues));
+        .map(({ filter }) => template(filter)(propValues));
     },
     _getVerificationToken() {
       return uuid().replace(/-/g, "");
+    },
+    getPropValues() {
+      throw new Error("getPropValues is not implemented");
     },
     /**
      * Provides the set of notification types to which an HTTP-based event
