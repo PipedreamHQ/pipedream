@@ -662,5 +662,12 @@ export default {
         method: "put",
       });
     },
+    async deleteCampaign($, campaignId) {
+      return this._makeRequest({
+        $,
+        path: `/campaigns/${campaignId}`,
+        method: "delete",
+      });
+    },
   },
 };
