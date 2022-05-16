@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Meeting Started",
   description: "Emits an event each time a meeting starts in your Zoom account",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoomAdmin,
@@ -19,11 +19,10 @@ export default {
   },
   async run(event) {
     const { payload } = event;
-    const { object } = payload;
     this.$emit(event, {
-      summary: `Meeting ${object.topic} started`,
-      id: object.uuid,
-      ts: +new Date(object.start_time),
+      summary: `Meeting ${payload?.object.topic} started`,
+      id: payload?.object.uuid,
+      ts: +new Date(payload?.object.start_time),
     });
   },
 };
