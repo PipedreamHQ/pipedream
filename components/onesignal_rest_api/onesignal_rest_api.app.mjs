@@ -12,7 +12,7 @@ export default {
         const devices = await this.getDevices();
 
         return devices.map((device) => ({
-          label: device.identifier,
+          label: device.identifier ?? device.id,
           value: device.id,
         }));
       },
