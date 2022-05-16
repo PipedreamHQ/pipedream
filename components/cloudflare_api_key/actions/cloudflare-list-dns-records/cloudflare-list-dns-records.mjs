@@ -1,5 +1,5 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 const {
   ANY: DNS_RECORD_MATCH_ANY,
