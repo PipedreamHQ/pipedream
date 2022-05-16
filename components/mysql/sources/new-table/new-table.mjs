@@ -23,7 +23,9 @@ export default {
     ...common.methods,
     async listResults() {
       const lastResult = this._getLastResult();
-      const tables = await this.mysql.listBaseTables(lastResult);
+      const tables = lastResult ?
+        await this.mysql.listBaseTables(lastResult) :
+        await this.mysql.listTopTables();
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
     },

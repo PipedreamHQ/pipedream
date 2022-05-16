@@ -182,11 +182,8 @@ export default {
           SELECT * FROM INFORMATION_SCHEMA.TABLES 
             WHERE TABLE_TYPE = 'BASE TABLE'
             ORDER BY CREATE_TIME DESC
-            LIMIT ?
+            LIMIT ${maxCount}
         `,
-        values: [
-          maxCount,
-        ],
       };
       return this.executeQueryConnectionHandler(preparedStatement);
     },
@@ -240,11 +237,8 @@ export default {
         sql: `
           SELECT * FROM \`${table}\`
             ORDER BY \`${column}\` DESC
-            LIMIT ?
+            LIMIT ${maxCount}
         `,
-        values: [
-          maxCount,
-        ],
       };
       return this.executeQueryConnectionHandler(preparedStatement);
     },
