@@ -43,6 +43,18 @@ export default {
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
     },
+    metadata_event_type: {
+      propDefinition: [
+        slack,
+        "metadata_event_type",
+      ],
+    },
+    metadata_event_payload: {
+      propDefinition: [
+        slack,
+        "metadata_event_payload",
+      ],
+    },
   },
   methods: {
     _makeSentViaPipedreamBlock() {
@@ -68,7 +80,6 @@ export default {
       if (typeof text !== "string" && typeof text !== "number" && typeof text !== "boolean") {
         serializedText = JSON.stringify(text);
       }
-
       return {
         "type": "section",
         "text": {
@@ -93,8 +104,22 @@ export default {
 
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
-
       blocks.push(sentViaPipedreamText);
+    }
+
+    let metadataEventPayload;
+
+    if (this.metadata_event_type) {
+      try {
+        metadataEventPayload = JSON.parse(this.metadata_event_payload);
+      } catch (error) {
+        throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+      }
+
+      this.metadata = {
+        event_type: this.metadata_event_type,
+        event_payload: metadataEventPayload,
+      };
     }
 
     const obj = {
@@ -113,6 +138,7 @@ export default {
       link_names: this.link_names,
       reply_broadcast: this.reply_broadcast,
       thread_ts: this.thread_ts,
+      metadata: this.metadata || null,
     };
 
     console.log({
@@ -131,6 +157,7 @@ export default {
       link_names: this.link_names,
       reply_broadcast: this.reply_broadcast,
       thread_ts: this.thread_ts,
+      metadata: this.metadata || null,
     });
 
     if (this.post_at) {

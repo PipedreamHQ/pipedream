@@ -1,4 +1,3 @@
-import slack from "../../slack.app.mjs";
 import common from "../common/send-message.mjs";
 
 export default {
@@ -6,7 +5,7 @@ export default {
   key: "slack-send-direct-message",
   name: "Send a Direct Message",
   description: "Send a direct message to a single user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     ...common.props,
@@ -24,7 +23,7 @@ export default {
     },
     mrkdwn: {
       propDefinition: [
-        slack,
+        common.props.slack,
         "mrkdwn",
       ],
     },
