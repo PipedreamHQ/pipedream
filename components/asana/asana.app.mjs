@@ -10,7 +10,7 @@ export default {
       type: "string[]",
       async options() {
         const organizations = await this.getOrganizations();
-
+        
         return organizations.map((organization) => ({
           label: organization.name,
           value: organization.gid,
@@ -88,26 +88,32 @@ export default {
       label: "Tasks",
       description: "List of tasks. This field use the task GID.",
       type: "string[]",
-      async options({ projects }) {
-        const tasks = await this.getTasks(projects);
+      async options({ project }) {
+        const tasks = await this.getTasks({
+          project,
+        });
 
-        return tasks.map((task) => ({
-          label: task.name,
-          value: task.gid,
-        }));
+        return tasks.map((task) => {
+          return {
+            label: task.name,
+            value: task.gid,
+          };
+        });
       },
     },
     sections: {
       label: "Sections",
       description: "List of sections. This field use the section GID.",
       type: "string[]",
-      async options({ projects }) {
-        const sections = await this.getSections(projects);
+      async options({ project }) {
+        const sections = await this.getSections(project);
 
-        return sections.map((section) => ({
-          label: section.name,
-          value: section.gid,
-        }));
+        return sections.map((section) => {
+          return {
+            label: section.name,
+            value: section.gid,
+          };
+        });
       },
     },
   },
@@ -206,11 +212,6 @@ export default {
         return workspace.is_organization;
       });
 
-      // for (const workspace of workspaces) {
-      //   let responseWorkspace = await this.getWorkspace(workspace.gid);
-      //   if (responseWorkspace.is_organization) organizations.push(responseWorkspace);
-      // }
-
       return organizations;
     },
     /**
@@ -230,12 +231,13 @@ export default {
      *
      * @returns {string} An Asana Project list.
      */
-    async getProjects(workspaceId) {
+    async getProjects(workspaceId, params = {}, $) {
       return (await this._makeRequest("projects", {
         params: {
           workspace: workspaceId,
+          ...params,
         },
-      })).data;
+      }, $)).data;
     },
     /**
      * Get an Asana Story.
@@ -254,58 +256,32 @@ export default {
      *
      * @returns {string} An Asana Task.
      */
-    async getTask(taskId) {
-      const response = await this._makeRequest(`tasks/${taskId}`);
-
-      return response?.data;
+    async getTask(taskId, $) {
+      return (await this._makeRequest(`tasks/${taskId}`), {}, $).data;
     },
     /**
      * Get an Asana Task list.
      *
-     * @param {string} projects - A Project GID list.
+     * @param {string} params - The params to filter tasks.
      *
      * @returns {string} An Asana Task list.
      */
-    async getTasks(projects) {
-      if (!Array.isArray(projects)) projects = [
-        projects,
-      ];
+    async getTasks(params, $) {
+      const response = await this._makeRequest("tasks", params, $);
 
-      let tasks = [];
-
-      for (const project of projects) {
-        const response = (await this._makeRequest("tasks", {
-          params: {
-            project: project,
-          },
-        }));
-
-        tasks = tasks.concat(response.data);
-      }
-
-      return tasks;
+      return response.data;
     },
     /**
      * Get an Asana Section list.
      *
-     * @param {string} projects - A Project GID list.
+     * @param {string} project - A Project GID.
      *
      * @returns {string} An Asana Section list.
      */
-    async getSections(projects) {
-      if (!Array.isArray(projects)) projects = [
-        projects,
-      ];
+    async getSections(project, $) {
+      const response = await this._makeRequest(`projects/${project}/sections`, {}, $);
 
-      let sections = [];
-
-      for (const project of projects) {
-        const response = (await this._makeRequest(`projects/${project}/sections`));
-
-        sections = sections.concat(response.data);
-      }
-
-      return sections;
+      return response.data ?? [];
     },
     /**
      * Get an Asana Tag.

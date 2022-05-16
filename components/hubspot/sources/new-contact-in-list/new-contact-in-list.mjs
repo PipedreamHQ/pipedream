@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
-  description: "Emits an event for each new contact in a list.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new contact in a list.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     lists: {
@@ -30,7 +30,7 @@ export default {
       } = list;
       return {
         id: `${vid}${value}`,
-        summary: `${properties.firstname.value} ${properties.lastname.value} added to ${label}`,
+        summary: `${properties?.firstname?.value} ${properties?.lastname?.value} added to ${label}`,
         ts: Date.now(),
       };
     },
@@ -45,22 +45,25 @@ export default {
         contactInfo,
       }, meta);
     },
-  },
-  async run() {
-    const properties = this.db.get("properties");
-    for (let list of this.lists) {
-      const params = {
+    getParams() {
+      return {
         count: 100,
       };
-      let hasMore = true;
-      while (hasMore) {
-        const results = await this.hubspot.getListContacts(params, list.value);
-        hasMore = results["has-more"];
-        if (hasMore) params.vidOffset = results["vid-offset"];
-        for (const contact of results.contacts) {
-          await this.emitEvent(contact, properties, list);
+    },
+    async processResults() {
+      const properties = this._getProperties();
+      for (let list of this.lists) {
+        const params = this.getParams();
+        let hasMore = true;
+        while (hasMore) {
+          const results = await this.hubspot.getListContacts(params, list.value);
+          hasMore = results["has-more"];
+          if (hasMore) params.vidOffset = results["vid-offset"];
+          for (const contact of results.contacts) {
+            await this.emitEvent(contact, properties, list);
+          }
         }
       }
-    }
+    },
   },
 };

@@ -4,8 +4,9 @@ export default {
   ...common,
   key: "hubspot-contact-updated",
   name: "Contact Updated",
-  description: "Emits an event each time a contact is updated.",
-  version: "0.0.3",
+  description: "Emit new event each time a contact is updated.",
+  version: "0.0.4",
+  dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
@@ -25,26 +26,21 @@ export default {
     isRelevant(contact, updatedAfter) {
       return Date.parse(contact.updatedAt) > updatedAfter;
     },
-  },
-  async run() {
-    const updatedAfter = this._getAfter();
-    const data = {
-      limit: 100,
-      sorts: [
-        {
-          propertyName: "lastmodifieddate",
-          direction: "DESCENDING",
-        },
-      ],
-      properties: this.db.get("properties"),
-      object: "contacts",
-    };
-    await this.paginate(
-      data,
-      this.hubspot.searchCRM.bind(this),
-      "results",
-      updatedAfter,
-    );
-    this._setAfter(Date.now());
+    getParams() {
+      return {
+        limit: 100,
+        sorts: [
+          {
+            propertyName: "lastmodifieddate",
+            direction: "DESCENDING",
+          },
+        ],
+        properties: this._getProperties(),
+        object: "contacts",
+      };
+    },
+    async processResults(after, params) {
+      await this.searchCRM(params, after);
+    },
   },
 };

@@ -32,6 +32,43 @@ export default {
         }));
       },
     },
+    memberHidden: {
+      type: "boolean",
+      label: "Member Hidden?",
+      description: "Whether or not the member is hidden in the UI",
+      optional: true,
+    },
+    memberName: {
+      type: "string",
+      label: "Member Name",
+      description: "User defined name of the member",
+      optional: true,
+    },
+    memberDescription: {
+      type: "string",
+      label: "Member Description",
+      description: "User defined description of the member",
+      optional: true,
+    },
+    memberAuthorized: {
+      type: "boolean",
+      label: "Member Authorized?",
+      description: "Is the member authorized on the network",
+      optional: true,
+    },
+    memberActiveBridge: {
+      type: "boolean",
+      label: "Allow Ethernet Bridging?",
+      description: "Allow the member to be a bridge on the network",
+      optional: true,
+    },
+    memberNoAutoAssignIps: {
+      type: "boolean",
+      label: "Do Not Auto-Assign IPs",
+      description:
+        "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
+      optional: true,
+    },
   },
   methods: {
     _accessToken() {
@@ -74,6 +111,18 @@ export default {
     },
     async getStatus({ $ } = {}) {
       return this._makeRequest("status", {}, $);
+    },
+    async updateNetworkMember({
+      networkId, nodeId, data, $,
+    } = {}) {
+      return this._makeRequest(
+        `network/${networkId}/member/${nodeId}`,
+        {
+          method: "POST",
+          data,
+        },
+        $,
+      );
     },
   },
 };
