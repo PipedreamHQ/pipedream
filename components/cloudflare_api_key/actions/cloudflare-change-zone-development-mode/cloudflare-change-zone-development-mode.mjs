@@ -1,11 +1,6 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 import constants from "../../common/constants.mjs";
 
-const {
-  ON: DEVELOPMENT_MODE_ON,
-  OFF: DEVELOPMENT_MODE_OFF,
-} = constants.DEVELOPMENT_MODES;
-
 export default {
   key: "cloudflare_api_key-change-development-mode",
   name: "Change Development Mode",
@@ -24,18 +19,7 @@ export default {
       type: "string",
       label: "Development Mode",
       description: "Development mode value",
-      options() {
-        return [
-          {
-            label: "On",
-            value: DEVELOPMENT_MODE_ON,
-          },
-          {
-            label: "Off",
-            value: DEVELOPMENT_MODE_OFF,
-          },
-        ];
-      },
+      options: constants.DEVELOPMENT_MODE_OPTIONS,
     },
   },
   async run({ $ }) {

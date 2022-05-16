@@ -1,15 +1,6 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
 import constants from "../../common/constants.mjs";
 
-const {
-  OFF: SECURITY_LEVEL_OFF,
-  ESSENTIALLY_OFF: SECURITY_LEVEL_ESSENTIALLY_OFF,
-  LOW: SECURITY_LEVEL_LOW,
-  MEDIUM: SECURITY_LEVEL_MEDIUM,
-  HIGH: SECURITY_LEVEL_HIGH,
-  UNDER_ATTACK: SECURITY_LEVEL_UNDER_ATTACK,
-} = constants.SECURITY_LEVELS;
-
 export default {
   key: "cloudflare_api_key-update-zone-security-level",
   name: "Update Zone Security Level",
@@ -28,34 +19,7 @@ export default {
       type: "string",
       label: "Security Level",
       description: "Security level value",
-      options() {
-        return [
-          {
-            label: "Off",
-            value: SECURITY_LEVEL_OFF,
-          },
-          {
-            label: "Essentially Off",
-            value: SECURITY_LEVEL_ESSENTIALLY_OFF,
-          },
-          {
-            label: "Low",
-            value: SECURITY_LEVEL_LOW,
-          },
-          {
-            label: "Medium",
-            value: SECURITY_LEVEL_MEDIUM,
-          },
-          {
-            label: "High",
-            value: SECURITY_LEVEL_HIGH,
-          },
-          {
-            label: "Under Attack",
-            value: SECURITY_LEVEL_UNDER_ATTACK,
-          },
-        ];
-      },
+      options: constants.ZONE_SECURITY_LEVEL_OPTIONS,
     },
   },
   async run({ $ }) {
