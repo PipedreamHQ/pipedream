@@ -12,7 +12,7 @@ export default {
       async options({ prevContext }) {
         const page = prevContext.page || 1;
         const zones = await this.getZones({
-          page: page,
+          page,
         });
 
         return {
@@ -36,7 +36,7 @@ export default {
       }) {
         const page = prevContext.page || 1;
         const dnsRecords = await this.listDnsRecords(zoneIdentifier, {
-          page: page,
+          page,
         });
 
         return {
@@ -60,7 +60,7 @@ export default {
       }) {
         const page = prevContext.page || 1;
         const certificates = await this.getCertificates(zoneIdentifier, {
-          page: page,
+          page,
         });
 
         return {
@@ -143,12 +143,7 @@ export default {
         throw new Error(error);
       }
       const cloudflareResponse = error.response.body;
-      const cloudflareError = cloudflareResponse.errors[0];
-      const errorMessage = cloudflareResponse.errors[0].message;
-      if (cloudflareError.error_chain && cloudflareError.error_chain.length > 0) {
-        throw new Error(cloudflareError.error_chain[0].message);
-      }
-      throw new Error(errorMessage);
+      this._throwApiRequestFormattedError(cloudflareResponse);
     },
     _throwApiRequestFormattedError(cloudflareResponse) {
       if (!cloudflareResponse.errors) {

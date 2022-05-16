@@ -51,9 +51,7 @@ export default {
 
     const form = new FormData();
     if (this.proxied) {
-      form.append("proxied", this.proxied
-        ? "true"
-        : "false");
+      form.append("proxied", this.proxied.toString());
     }
 
     if (filePath) {

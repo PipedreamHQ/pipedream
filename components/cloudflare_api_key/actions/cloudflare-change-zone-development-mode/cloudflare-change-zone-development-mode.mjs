@@ -27,7 +27,7 @@ export default {
     const developmentMode = this.developmentMode;
 
     const response = await this.cloudflare.changeDevelopmentMode(zoneId, developmentMode);
-    $.export("$summary", `Successfully updated zone #${zoneId} development mode to '${developmentMode}'`);
+    $.export("$summary", `Turned ${developmentMode} development mode for #${zoneId}`);
 
     return response;
   },
