@@ -1,8 +1,8 @@
 {
     "name": "@pipedream/bitbucket",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "Pipedream Bitbucket Components",
-    "main": "bitbucket.app.js",
+    "main": "bitbucket.app.mjs",
     "keywords": [
         "pipedream",
         "bitbucket"
@@ -11,7 +11,8 @@
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.21.1"
+        "@pipedream/platform": "^0.10.0",
+        "axios": "^0.27.2"
     },
     "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
     "publishConfig": {

@@ -1,24 +1,27 @@
-// eslint-disable-next-line camelcase
-import data_stores from "../../data_stores.app.mjs";
+import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-get-record",
   name: "Get record",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
-    data_stores,
+    app,
     dataStore: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
-        data_stores,
-        "data_store",
+        app,
+        "dataStore",
       ],
     },
     key: {
-      label: "Key",
-      type: "string",
+      propDefinition: [
+        app,
+        "key",
+        ({ dataStore }) => ({
+          dataStore,
+        }),
+      ],
       description: "Key for the data you'd like to fetch. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
     },
     addRecordIfNotFound: {
@@ -45,13 +48,13 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const record = this.dataStore.get(this.key);
+    const record = await this.dataStore.get(this.key);
 
     if (record) {
       $.export("$summary", "Found data for the key, `" + this.key + "`.");
     } else {
       if (this.addRecordIfNotFound === "Yes") {
-        this.dataStore.set(this.key, this.value);
+        await this.dataStore.set(this.key, this.value);
         $.export("$summary", "Successfully added a new record with the key, `" + this.key + "`.");
         return this.dataStore.get(this.key);
       } else {

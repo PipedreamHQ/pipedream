@@ -41,5 +41,8 @@
   },
   "lint-staged": {
     "*.{js,mjs}": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "xss": "^1.0.11"
   }
 }

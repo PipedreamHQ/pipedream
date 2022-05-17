@@ -1,13 +1,15 @@
 import slack from "../../slack.app.mjs";
+import common from "../common/send-message.mjs";
 
 export default {
+  ...common,
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
-  description: "Send a message as a threaded reply",
-  version: "0.1.1",
+  description: "Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
+  version: "0.1.3",
   type: "action",
   props: {
-    slack,
+    ...common.props,
     thread_ts: {
       propDefinition: [
         slack,
@@ -15,10 +17,10 @@ export default {
       ],
       optional: false,
     },
-    reply_channel: {
+    conversation: {
       propDefinition: [
         slack,
-        "reply_channel",
+        "conversation",
       ],
       optional: false,
     },
@@ -29,40 +31,11 @@ export default {
       ],
       optional: false,
     },
-    as_user: {
+    mrkdwn: {
       propDefinition: [
         slack,
-        "as_user",
+        "mrkdwn",
       ],
     },
-    username: {
-      propDefinition: [
-        slack,
-        "username",
-      ],
-    },
-    icon_emoji: {
-      propDefinition: [
-        slack,
-        "icon_emoji",
-      ],
-    },
-    icon_url: {
-      propDefinition: [
-        slack,
-        "icon_url",
-      ],
-    },
-  },
-  async run() {
-    return await this.slack.sdk().chat.postMessage({
-      text: this.text,
-      channel: this.reply_channel,
-      thread_ts: this.thread_ts,
-      as_user: this.as_user,
-      username: this.username,
-      icon_emoji: this.icon_emoji,
-      icon_url: this.icon_url,
-    });
   },
 };
