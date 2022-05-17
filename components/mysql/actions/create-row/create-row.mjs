@@ -1,11 +1,11 @@
 import mysql from "../../mysql.app.mjs";
 
 export default {
-  key: "mysql-new-row",
-  name: "New Row",
+  key: "mysql-create-row",
+  name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     mysql,
     table: {
