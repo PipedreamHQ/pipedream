@@ -65,7 +65,8 @@ export default {
     memberNoAutoAssignIps: {
       type: "boolean",
       label: "Do Not Auto-Assign IPs",
-      description: "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
+      description:
+        "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
       optional: true,
     },
   },
@@ -114,10 +115,14 @@ export default {
     async updateNetworkMember({
       networkId, nodeId, data, $,
     } = {}) {
-      return this._makeRequest(`network/${networkId}/member/${nodeId}`, {
-        method: "POST",
-        data,
-      }, $);
+      return this._makeRequest(
+        `network/${networkId}/member/${nodeId}`,
+        {
+          method: "POST",
+          data,
+        },
+        $,
+      );
     },
   },
 };

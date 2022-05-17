@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-replies",
   name: "List Replies",
-  description: "Retrieve a thread of messages posted to a conversation",
-  version: "0.0.2",
+  description: "Retrieve a thread of messages posted to a conversation. [See docs here](https://api.slack.com/methods/conversations.replies)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

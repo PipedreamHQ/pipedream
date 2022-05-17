@@ -1,71 +1,94 @@
-// legacy_hash_id: a_k6ijrp
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+const { bitbucket } = base.props;
 
 export default {
   key: "bitbucket-create-issue-comment",
   name: "Create Issue Comment",
-  description: "Creates a new issue comment.",
-  version: "0.1.1",
+  description: "Creates a new issue comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-comments-post)",
+  version: "0.1.2",
   type: "action",
   props: {
-    bitbucket: {
-      type: "app",
-      app: "bitbucket",
-    },
-    workspace: {
-      type: "string",
-      description: "This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example: {workspace UUID}.",
-    },
-    repo_slug: {
-      type: "string",
-      label: "repo_slug",
-      description: "This can either be the repository slug or the UUID of the repository, surrounded by curly-braces, for example: {repository UUID}.",
-    },
-    issue_id: {
-      type: "string",
-      description: "ID of the issue where the comment will be created.",
-    },
-    content_raw: {
-      type: "string",
-      description: "The text as it was typed by a user.",
-      optional: true,
-    },
-    content_markup: {
-      type: "string",
-      description: "The type of markup language the raw content is to be interpreted in.",
-      optional: true,
-      options: [
-        "markdown",
-        "creole",
-        "plaintext",
+    ...base.props,
+    repositoryId: {
+      propDefinition: [
+        bitbucket,
+        "repository",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
-    content_html: {
+    issueId: {
+      propDefinition: [
+        bitbucket,
+        "issue",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          repositoryId: c.repositoryId,
+        }),
+      ],
+    },
+    rawContent: {
+      propDefinition: [
+        bitbucket,
+        "rawContent",
+      ],
+    },
+    htmlContent: {
+      propDefinition: [
+        bitbucket,
+        "htmlContent",
+      ],
+    },
+    markupContent: {
+      propDefinition: [
+        bitbucket,
+        "markupContent",
+      ],
+    },
+    parent: {
+      label: "Comment Parent",
+      description: "The comment that will be replied",
       type: "string",
-      description: "The user's content rendered as HTML.",
+      propDefinition: [
+        bitbucket,
+        "comment",
+        (c) => ({
+          workspaceId: c.workspaceId,
+          repositoryId: c.repositoryId,
+          issueId: c.issueId,
+        }),
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/issues/%7Bissue_id%7D/comments#post
+    const {
+      workspaceId,
+      repositoryId,
+      issueId,
+      parent,
+      rawContent,
+      htmlContent,
+      markupContent,
+    } = this;
 
-    if (!this.workspace || !this.repo_slug || !this.issue_id) {
-      throw new Error("Must provide workspace, repo_slug, and issue_id parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://api.bitbucket.org/2.0/repositories/${this.workspace}/${this.repo_slug}/issues/${this.issue_id}/comments`,
-      headers: {
-        Authorization: `Bearer ${this.bitbucket.$auth.oauth_access_token}`,
-      },
+    const response = await this.bitbucket.createIssueComment({
+      workspaceId,
+      repositoryId,
+      issueId,
       data: {
+        parent,
         content: {
-          raw: this.content_raw,
-          markup: this.content_markup,
-          html: this.content_html,
+          raw: rawContent,
+          html: htmlContent,
+          markup: markupContent,
         },
       },
-    });
+    }, $);
+
+    $.export("summary", "Successfully created issue comment");
+
+    return response;
   },
 };
