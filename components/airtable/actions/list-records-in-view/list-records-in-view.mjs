@@ -11,8 +11,21 @@ export default {
   props: {
     ...common.props,
     viewId: {
-      type: "$.airtable.viewId",
-      tableProp: "table",
+      type: "string",
+      label: "View",
+      withLabel: true,
+      async options() {
+        const baseId = this.baseId?.value ?? this.baseId;
+        const tableId = this.tableId?.value ?? this.tableId;
+        const tableSchema = await this.airtable.table(baseId, tableId);
+        if (!tableSchema?.views) {
+          return [];
+        }
+        return tableSchema.views.map((view) => ({
+          label: view.name || view.id,
+          value: view.id,
+        }));
+      },
     },
     ...commonList.props,
   },

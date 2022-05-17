@@ -1,6 +1,6 @@
-import { FIELD_PREFIX } from "./constants.mjs";
-
-import { FieldType } from "@airtable/blocks/models.js";
+import {
+  FIELD_PREFIX, FieldType,
+} from "./constants.mjs";
 
 /**
  * Transforms an Airtable field type to a Pipedream prop type
@@ -86,13 +86,10 @@ function fieldToProp(field) {
  */
 function makeFieldProps(tableSchema) {
   let props = {};
-  let table;
-  try {
-    table = JSON.parse(tableSchema);
-  } catch (err) {
-    throw new Error(`Error parsing table schema ${tableSchema}`);
+  if (!tableSchema?.fields) {
+    return {};
   }
-  for (const field of table.fields) {
+  for (const field of tableSchema.fields) {
     props[`${FIELD_PREFIX}${field.name}`] = fieldToProp(field);
   }
   return props;
@@ -116,26 +113,9 @@ function makeRecord(props) {
   return record;
 }
 
-/**
- * Returns a table's ID from its schema
- *
- * @param {object} tableSchema - The schema of the Airtable table
- * @returns {string} the table's ID
- */
-function getTableId(tableSchema) {
-  let table;
-  try {
-    table = JSON.parse(tableSchema);
-  } catch (err) {
-    throw new Error(`Error parsing table schema ${tableSchema}`);
-  }
-  return table.id;
-}
-
 export {
   fieldTypeToPropType,
   fieldToProp,
   makeFieldProps,
   makeRecord,
-  getTableId,
 };

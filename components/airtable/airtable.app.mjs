@@ -1,5 +1,5 @@
 import Airtable from "airtable";
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash.isempty";
 
 export default {
   type: "app",
@@ -50,11 +50,22 @@ export default {
       optional: true,
     },
     sortFieldId: {
-      type: "$.airtable.fieldId",
-      tableProp: "table",
+      type: "string",
       label: "Sort: Field",
       description: "Optionally select a field to sort results. To sort by multiple fields, use the `Filter by Forumla` field.",
       optional: true,
+      async options({
+        baseId, tableId,
+      }) {
+        const tableSchema = await this.table(baseId?.value ?? baseId, tableId?.value ?? tableId);
+        if (!tableSchema?.fields) {
+          return [];
+        }
+        return tableSchema.fields.map((field) => ({
+          label: field.name || field.id,
+          value: field.id,
+        }));
+      },
     },
     typecast: {
       type: "boolean",

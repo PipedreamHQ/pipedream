@@ -19,8 +19,8 @@ export default {
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
     ...common.props,
-    table: {
-      type: "$.airtable.table",
+    tableId: {
+      type: "$.airtable.tableId",
       baseIdProp: "baseId",
     },
   },
@@ -37,7 +37,7 @@ export default {
     };
 
     const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.table)}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
       params: {},
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,

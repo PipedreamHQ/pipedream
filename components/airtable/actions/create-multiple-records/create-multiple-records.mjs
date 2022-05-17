@@ -25,8 +25,11 @@ export default {
       ],
     },
   },
-  async run() {
-    const table = this.airtable.base(this.baseId)(this.table);
+  async run({ $ }) {
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+
+    const table = this.airtable.base(baseId)(tableId);
 
     let data = this.records;
     if (!Array.isArray(data)) {
@@ -51,6 +54,11 @@ export default {
         this.airtable.throwFormattedError(err);
       }
     }
+
+    const l = responses.length;
+    $.export("$summary", `Added ${l} record${l === 1
+      ? ""
+      : "s"} to ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
 
     return responses;
   },

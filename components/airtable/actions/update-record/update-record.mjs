@@ -1,6 +1,5 @@
 import airtable from "../../airtable.app.mjs";
 import {
-  getTableId,
   makeFieldProps,
   makeRecord,
 } from "../../common/utils.mjs";
@@ -15,9 +14,8 @@ export default {
   props: {
     ...common.props,
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    table: {
-      ...common.props.table,
-      includeSchema: true,
+    tableId: {
+      ...common.props.tableId,
       reloadProps: true,
     },
     recordId: {
@@ -28,23 +26,34 @@ export default {
     },
   },
   async additionalProps() {
-    return makeFieldProps(this.table);
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const tableSchema = await this.airtable.table(baseId, tableId);
+    return makeFieldProps(tableSchema);
   },
-  async run() {
-    this.airtable.validateRecordID(this.recordId);
+  async run({ $ }) {
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const recordId = this.recordId;
+
+    this.airtable.validateRecordID(recordId);
 
     const record = makeRecord(this);
 
-    const base = this.airtable.base(this.baseId);
+    const base = this.airtable.base(baseId);
+    let response;
     try {
-      return (await base(getTableId(this.table)).update([
+      response = (await base(tableId).update([
         {
-          id: this.recordId,
+          id: recordId,
           fields: record,
         },
-      ]))[0];
+      ]));
     } catch (err) {
       this.airtable.throwFormattedError(err);
     }
+
+    $.export("$summary", `Updated record "${recordId}" in ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    return response[0];
   },
 };

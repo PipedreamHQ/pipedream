@@ -4,13 +4,33 @@ export default {
   props: {
     airtable,
     baseId: {
-      type: "$.airtable.baseId",
-      appProp: "airtable",
+      type: "string",
+      withLabel: true,
+      async options() {
+        const bases = await this.airtable.bases();
+        if (!bases) {
+          return [];
+        }
+        return bases.map((base) => ({
+          label: base.name || base.id,
+          value: base.id,
+        }));
+      },
     },
-    // Prop value is either an ID or a stringified table schema object (if `includeSchema: true`)
-    table: {
-      type: "$.airtable.table",
-      baseIdProp: "baseId",
+    tableId: {
+      type: "string",
+      withLabel: true,
+      async options() {
+        const baseId = this.baseId?.value ?? this.baseId;
+        const tables = await this.airtable.tables(baseId);
+        if (!tables) {
+          return [];
+        }
+        return tables.map((table) => ({
+          label: table.name || table.id,
+          value: table.id,
+        }));
+      },
     },
   },
 };

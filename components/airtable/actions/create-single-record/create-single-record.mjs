@@ -1,6 +1,5 @@
 import airtable from "../../airtable.app.mjs";
 import {
-  getTableId,
   makeFieldProps,
   makeRecord,
 } from "../../common/utils.mjs";
@@ -15,9 +14,8 @@ export default {
   props: {
     ...common.props,
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    table: {
-      ...common.props.table,
-      includeSchema: true,
+    tableId: {
+      ...common.props.tableId,
       reloadProps: true,
     },
     typecast: {
@@ -28,10 +26,16 @@ export default {
     },
   },
   async additionalProps() {
-    return makeFieldProps(this.table);
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const tableSchema = await this.airtable.table(baseId, tableId);
+    return makeFieldProps(tableSchema);
   },
-  async run() {
-    const table = this.airtable.base(this.baseId)(getTableId(this.table));
+  async run({ $ }) {
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+
+    const table = this.airtable.base(baseId)(tableId);
 
     const record = makeRecord(this);
 
@@ -47,13 +51,16 @@ export default {
       typecast: this.typecast,
     };
 
+    let response;
     try {
-      const [
+      [
         response,
       ] = await table.create(data, params);
-      return response;
     } catch (err) {
       this.airtable.throwFormattedError(err);
     }
+
+    $.export("$summary", `Added 1 record to ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    return response;
   },
 };

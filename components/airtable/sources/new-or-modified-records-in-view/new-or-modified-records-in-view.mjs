@@ -12,8 +12,8 @@ export default {
   type: "source",
   props: {
     ...common.props,
-    table: {
-      type: "$.airtable.table",
+    tableId: {
+      type: "$.airtable.tableId",
       baseIdProp: "baseId",
     },
     viewId: {
@@ -23,7 +23,7 @@ export default {
   },
   async run(event) {
     const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.table)}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
       params: {
         view: this.viewId,
       },

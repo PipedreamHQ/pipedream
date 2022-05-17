@@ -16,13 +16,21 @@ export default {
       ],
     },
   },
-  async run() {
-    this.airtable.validateRecordID(this.recordId);
-    const base = this.airtable.base(this.baseId);
+  async run({ $ }) {
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const recordId = this.recordId?.value ?? this.recordId;
+
+    this.airtable.validateRecordID(recordId);
+    const base = this.airtable.base(baseId);
+    let response;
     try {
-      return await base(this.table).destroy(this.recordId);
+      response = await base(this.tableId.value).destroy(recordId);
     } catch (err) {
       this.airtable.throwFormattedError(err);
     }
+
+    $.export("$summary", `Deleted record "${this.recordId?.label || recordId}" from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+    return response;
   },
 };

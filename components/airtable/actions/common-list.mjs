@@ -7,6 +7,12 @@ export default {
       propDefinition: [
         airtable,
         "sortFieldId",
+        ({
+          baseId, tableId,
+        }) => ({
+          baseId,
+          tableId,
+        }),
       ],
     },
     sortDirection: {
@@ -28,12 +34,16 @@ export default {
       ],
     },
   },
-  async run() {
-    const base = this.airtable.base(this.baseId);
+  async run({ $ }) {
+    const baseId = this.baseId?.value ?? this.baseId;
+    const tableId = this.tableId?.value ?? this.tableId;
+    const viewId = this.viewId?.value ?? this.viewId;
+
+    const base = this.airtable.base(baseId);
     const data = [];
     const config = {};
 
-    if (this.viewId) { config.view = this.viewId; }
+    if (this.viewId) { config.view = viewId; }
     if (this.filterByFormula) { config.filterByFormula = this.filterByFormula; }
     if (this.maxRecords) { config.maxRecords = this.maxRecords; }
     if (this.sortFieldId && this.sortDirection) {
@@ -45,7 +55,7 @@ export default {
       ];
     }
 
-    await base(this.table).select({
+    await base(tableId).select({
       ...config,
     })
       .eachPage(function page(records, fetchNextPage) {
@@ -60,6 +70,10 @@ export default {
         fetchNextPage();
       });
 
+    const l = data.length;
+    $.export("$summary", `Fetched ${l} record${l === 1
+      ? ""
+      : "s"} from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
     return data;
   },
 };
