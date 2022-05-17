@@ -21,7 +21,9 @@ export default {
   async run(event) {
     const { payload } = event;
     this.$emit(event, {
-      summary: `Meeting ${payload?.object?.topic} started`,
+      summary: payload?.object?.topic
+        ? `Meeting ${payload?.object?.topic} started`
+        : "Meeting started",
       id: payload?.object?.uuid ?? uuidv4(),
       ts: payload?.object?.start_time
         ? +new Date(payload.object.start_time)
