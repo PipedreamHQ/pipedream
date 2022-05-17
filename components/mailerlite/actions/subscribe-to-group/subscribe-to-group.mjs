@@ -4,7 +4,7 @@ export default {
   key: "mailerlite-subscribe-to-group",
   name: "Subscribe to MailerLite Group",
   description: "Add a subscriber to a group. [See the docs here](https://developers.mailerlite.com/reference/add-single-subscriber)",
-  version: "0.3.1",
+  version: "0.3.0",
   type: "action",
   props: {
     mailerlite,
