@@ -126,7 +126,7 @@ export default {
       return axios($, {
         url: `${this._apiUrl()}/notify`,
         method: "post",
-        data: this.line.convertJSONToUrlEncoded(message),
+        data: this.convertJSONToUrlEncoded(message),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Authorization": `Bearer ${accessToken ?? this._accessToken()}`,
