@@ -1,26 +1,14 @@
-const docusign = require("../../docusign.app.js");
-
-module.exports = {
-  key: "docusign-envelope-sent-or-complete",
-  name: "Envelope Sent or Complete",
-  description:
-    "Emits an event when an envelope status is set to sent or complete",
-  version: "0.0.2",
+export default {
   dedupe: "unique",
   props: {
-    docusign,
     db: "$.service.db",
     timer: {
+      label: "Polling Interval",
+      description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
-    account: {
-      propDefinition: [
-        docusign,
-        "account",
-      ],
     },
     status: {
       type: "string[]",
@@ -60,7 +48,9 @@ module.exports = {
   async run(event) {
     const { timestamp: ts } = event;
     const lastEvent = this._getLastEvent() || this.monthAgo().toISOString();
-    const baseUri = await this.docusign.getBaseUri(this.account);
+    const baseUri = await this.docusign.getBaseUri({
+      accountId: this.account,
+    });
     let done = false;
     const params = {
       from_date: lastEvent,
@@ -72,7 +62,9 @@ module.exports = {
         nextUri,
         endPosition,
       } = await this.docusign.listEnvelopes(baseUri, params);
-      if (nextUri) params.start_position += endPosition + 1;
+      if (nextUri) {
+        params.start_position += endPosition + 1;
+      }
       else done = true;
 
       for (const envelope of envelopes) {

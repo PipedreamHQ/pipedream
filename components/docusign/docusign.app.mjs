@@ -1,15 +1,15 @@
-import common from "../docusign/common.mjs";
+import common from "./common.mjs";
 
 export default {
   ...common,
   type: "app",
-  app: "docusign_developer",
+  app: "docusign",
   methods: {
     ...common.methods,
     async getUserInfo({ $ }) {
       const config = {
         method: "GET",
-        url: "https://account-d.docusign.com/oauth/userinfo",
+        url: "https://account.docusign.com/oauth/userinfo",
       };
       return this._makeRequest({
         $,

@@ -1,25 +1,14 @@
-const docusign = require("../../docusign.app.js");
-
-module.exports = {
-  key: "docusign-new-folder",
-  name: "New Folder",
-  description: "Emits an event when a new folder is created",
-  version: "0.0.2",
+export default {
   dedupe: "unique",
   props: {
-    docusign,
     db: "$.service.db",
     timer: {
+      label: "Polling Interval",
+      description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
-    account: {
-      propDefinition: [
-        docusign,
-        "account",
-      ],
     },
     include: {
       type: "string[]",
@@ -71,7 +60,9 @@ module.exports = {
   },
   async run(event) {
     const { timestamp: ts } = event;
-    const baseUri =  await this.docusign.getBaseUri(this.account);
+    const baseUri =  await this.docusign.getBaseUri({
+      accountId: this.account,
+    });
     let done = false;
     const params = {
       start_position: 0,
