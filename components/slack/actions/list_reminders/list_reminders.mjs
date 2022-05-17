@@ -3,15 +3,15 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-reminders",
   name: "List Reminders",
-  description: "List all reminders for a given user",
-  version: "0.0.2",
+  description: "List all reminders for a given user. [See docs here](https://api.slack.com/methods/reminders.list)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
     team_id: {
       propDefinition: [
         slack,
-        "team_id",
+        "team",
       ],
       optional: true,
     },

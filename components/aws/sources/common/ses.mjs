@@ -1,5 +1,8 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/sns.mjs";
+import commonS3 from "../../common/common-s3.mjs";
+import commonSts from "../../common/common-sts.mjs";
+import commonSes from "../../common/common-ses.mjs";
 
 export default {
   ...base,
@@ -8,24 +11,26 @@ export default {
     async deploy() {
       await base.hooks.activate.bind(this)();
 
-      const region = this.getRegion();
       const bucketName = this._getBucketName();
-      console.log(await this.aws.createS3Bucket(region, bucketName));
+      console.log(await this.createBucket({
+        Bucket: bucketName,
+      }));
       const bucketPolicy = this._allowSESPutsBucketPolicy(
         bucketName,
-        await this.aws.getAWSAccountId(),
+        await this.getAWSAccountId(),
       );
-      console.log(await this.aws.putS3BucketPolicy(region, bucketName, bucketPolicy));
+      console.log(await this.putBucketPolicy({
+        Bucket: bucketName,
+        Policy: bucketPolicy,
+      }));
     },
     // But since the SNS topic tied to the subcription is re-created on activate / deactivate,
     // receipt notification needs to run in these hooks, as well
     async activate() {
       try {
-        const topicName = this.getTopicName();
-        const topicArn = await this._createTopic(topicName);
-        this._setTopicArn(topicArn);
+        await base.hooks.activate.bind(this)();
 
-        await this._subscribeToTopic(topicArn);
+        const topicArn = this.getTopicArn();
         await this._enableReceiptNotifications(this._getBucketName(), topicArn);
       } catch (err) {
         console.log("Failed to enable receipt notifications", err);
@@ -43,19 +48,14 @@ export default {
   },
   methods: {
     ...base.methods,
-    _getSesClient() {
-      const region = this.getRegion();
-      const AWS = this.aws.sdk(region);
-      return new AWS.SES();
-    },
+    ...commonS3.methods,
+    ...commonSts.methods,
+    ...commonSes.methods,
     async _getReceiptRuleSet() {
       const {
         Metadata: metadata,
         Rules: rules,
-      } = await this
-        ._getSesClient()
-        .describeActiveReceiptRuleSet()
-        .promise();
+      } = await this.describeActiveReceiptRuleSet();
 
       if (!metadata) {
         await this._createReceiptRuleSet();
@@ -71,14 +71,8 @@ export default {
       const params = {
         RuleSetName: `pd-${uuid()}`,
       };
-      await this
-        ._getSesClient()
-        .createReceiptRuleSet(params)
-        .promise();
-      await this
-        ._getSesClient()
-        .setActiveReceiptRuleSet(params)
-        .promise();
+      await this.createReceiptRuleSet(params);
+      await this.setActiveReceiptRuleSet(params);
     },
     _getRuleSetInfo() {
       return this.db.get("ses-rule");
@@ -139,10 +133,7 @@ export default {
         After: after,
         Rule: newRule,
       };
-      await this
-        ._getSesClient()
-        .createReceiptRule(params)
-        .promise();
+      await this.createReceiptRule(params);
 
       this._setRuleSetInfo({
         ruleName,
@@ -158,10 +149,7 @@ export default {
         RuleName: ruleName,
         RuleSetName: ruleSetName,
       };
-      await this
-        ._getSesClient()
-        .deleteReceiptRule(params)
-        .promise();
+      await this.deleteReceiptRule(params);
     },
     getReceiptRule() {
       throw new Error("getReceiptRule is not implemented");
@@ -169,13 +157,6 @@ export default {
     getTopicName() {
       const topicNameCandidate = `pd-ses-${this.domain}-${uuid()}`;
       return this.convertNameToValidSNSTopicName(topicNameCandidate);
-    },
-    async sesIdentities() {
-      const { Identities: identities } = await this
-        ._getSesClient()
-        .listIdentities()
-        .promise();
-      return identities;
     },
   },
 };

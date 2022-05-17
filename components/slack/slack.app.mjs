@@ -231,6 +231,27 @@ export default {
         };
       },
     },
+    team: {
+      type: "string",
+      label: "Team",
+      description: "Select a team.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+
+        const resp = await this.getTeams(cursor);
+
+        return {
+          options: resp.teams.map((team) => ({
+            label: team.name,
+            value: team.id,
+          })),
+
+          context: {
+            cursor: resp.cursor,
+          },
+        };
+      },
+    },
     notificationText: {
       type: "string",
       label: "Notification Text",
@@ -305,9 +326,16 @@ export default {
       optional: true,
     },
     mrkdwn: {
+      label: "Send text as Slack mrkdwn",
       type: "boolean",
-      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
+      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
       default: true,
+      optional: true,
+    },
+    post_at: {
+      label: "Schedule message",
+      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime format should be a unix timestamp (e.g., `1650507616`, [see here](https://www.epochconverter.com/) for help with this format).",
+      type: "integer",
       optional: true,
     },
     username: {
@@ -383,6 +411,18 @@ export default {
       label: "Email",
       description: "An email address belonging to a user in the workspace",
     },
+    metadata_event_type: {
+      type: "string",
+      label: "Metadata Event Type",
+      description: "The name of the metadata event",
+      optional: true,
+    },
+    metadata_event_payload: {
+      type: "string",
+      label: "Metadata Event Payload",
+      description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
+      optional: true,
+    },
   },
   methods: {
     mySlackId() {
@@ -440,6 +480,21 @@ export default {
         };
       } else {
         console.log("Error getting users", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getTeams(cursor) {
+      const resp = await this.sdk().auth.teams.list({
+        cursor,
+      });
+
+      if (resp.ok) {
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          teams: resp.teams,
+        };
+      } else {
+        console.log("Error getting teams", resp.error);
         throw (resp.error);
       }
     },

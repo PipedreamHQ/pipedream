@@ -1,11 +1,20 @@
+import common from "../docusign/common.mjs";
+
 export default {
+  ...common,
   type: "app",
   app: "docusign_developer",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...common.methods,
+    async getUserInfo({ $ }) {
+      const config = {
+        method: "GET",
+        url: "https://account-d.docusign.com/oauth/userinfo",
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
     },
   },
 };
