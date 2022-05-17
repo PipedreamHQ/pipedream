@@ -710,5 +710,14 @@ export default {
         method: "delete",
       });
     },
+    async listSegmentMember($, {
+      listId, segmentId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/segments/${segmentId}/members`,
+        params,
+      });
+    },
   },
 };
