@@ -14,9 +14,10 @@ export default {
       description: "The domain name",
     },
     account: {
-      type: "string",
-      label: "Account ID",
-      description: "Account of which the zone is created in",
+      propDefinition: [
+        cloudflare,
+        "accountIdentifier",
+      ],
     },
     jumpStart: {
       type: "boolean",

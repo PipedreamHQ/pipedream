@@ -5,6 +5,27 @@ export default {
   type: "app",
   app: "cloudflare_api_key",
   propDefinitions: {
+    accountIdentifier: {
+      type: "string",
+      label: "Account ID",
+      description: "Account of which the zone is created in",
+      async options({ prevContext }) {
+        const page = prevContext.page || 1;
+        const accounts = await this.getAccounts({
+          page,
+        });
+
+        return {
+          options: accounts.result.map((account) => ({
+            value: account.id,
+            label: account.name,
+          })),
+          context: {
+            page: page + 1,
+          },
+        };
+      },
+    },
     zoneIdentifier: {
       type: "string",
       label: "Zone ID",
@@ -316,6 +337,18 @@ export default {
         const response = await this._makeRequest(this, {
           method: "DELETE",
           path: `/certificates/${certificateID}`,
+        });
+        return response;
+      } catch (error) {
+        this._throwApiRequestFormattedError(error);
+      }
+    },
+    async getAccounts(params) {
+      try {
+        const response = await this._makeRequest(this, {
+          method: "GET",
+          path: "/accounts/",
+          params,
         });
         return response;
       } catch (error) {
