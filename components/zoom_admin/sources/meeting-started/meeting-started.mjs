@@ -1,4 +1,5 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "zoom_admin-meeting-started",
@@ -20,9 +21,11 @@ export default {
   async run(event) {
     const { payload } = event;
     this.$emit(event, {
-      summary: `Meeting ${payload?.object.topic} started`,
-      id: payload?.object.uuid,
-      ts: +new Date(payload?.object.start_time),
+      summary: `Meeting ${payload?.object?.topic} started`,
+      id: payload?.object?.uuid ?? uuidv4(),
+      ts: payload?.object?.start_time
+        ? +new Date(payload.object.start_time)
+        : new Date(),
     });
   },
 };
