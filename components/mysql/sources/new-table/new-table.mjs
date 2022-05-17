@@ -1,11 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mysql-new-table",
   name: "New Table",
-  description: "Emits an event when a new table is added to a database",
-  version: "0.0.1",
+  description: "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  type: "source",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -13,22 +14,24 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      const connection = await this.mysql.getConnection();
-      const tables = await this.mysql.listTopTables(connection);
+      const tables = await this.mysql.listTopTables();
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
-      await this.mysql.closeConnection(connection);
     },
   },
   methods: {
     ...common.methods,
-    async listResults(connection) {
+    async listResults() {
       const lastResult = this._getLastResult();
-      const tables = await this.mysql.listBaseTables(connection, lastResult);
+      const tables = lastResult ?
+        await this.mysql.listBaseTables(lastResult) :
+        await this.mysql.listTopTables();
       this.iterateAndEmitEvents(tables);
       this._setLastResult(tables, "CREATE_TIME");
     },
-    generateMeta({ TABLE_NAME: tableName, CREATE_TIME: createTime }) {
+    generateMeta({
+      TABLE_NAME: tableName, CREATE_TIME: createTime,
+    }) {
       return {
         id: tableName,
         summary: tableName,
