@@ -14,48 +14,38 @@ export default {
       type: "string",
       label: "Organization Id",
       description: "ID of the organization that will author the post",
+      async options({ page }) {
+        const { elements } = await this.getOrganizations(page);
+
+        const responseArray = [];
+        for (let item of elements) {
+          const orgId = item.organization.split(":")[3];
+          const orgData = await this.getOrganization(orgId);
+
+          responseArray.push({
+            label: orgData.localizedName,
+            value: orgId,
+          });
+        }
+        return responseArray;
+      },
     },
     type: {
       type: "string",
       label: "Type",
       description: "Type of the post",
-      options: [
-        {
-          label: "Text/URL",
-          value: "NONE",
-        },
-        {
-          label: "Article",
-          value: "ARTICLE",
-        },
-      ],
-      optional: false,
+      options: constants.TYPES,
     },
     visibility: {
       type: "string",
       label: "Visibility",
       description: "Visibility restrictions on content",
-      options: [
-        {
-          label: "Connections",
-          value: "CONNECTIONS",
-        },
-        {
-          label: "Public",
-          value: "PUBLIC",
-        },
-        {
-          label: "Logged in",
-          value: "LOGGED_IN",
-        },
-      ],
-      optional: false,
+      options: constants.VISIBILITIES,
     },
     postId: {
       type: "string",
       label: "Post ID",
       description: "Id of the post that will be deleted",
-      optional: false,
     },
   },
   methods: {
@@ -65,26 +55,14 @@ export default {
         "X-Restli-Protocol-Version": "2.0.0",
       };
     },
-    async _makeRequest(customConfig) {
-      const {
-        $,
-        url,
-        path,
-        method,
-        params,
-        data,
-        ...otherConfig
-      } =
-        customConfig;
-
+    async _makeRequest({
+      $, url, path, ...otherConfig
+    }) {
       const BASE_URL = constants.BASE_URL;
 
       const config = {
-        method,
         url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
         headers: this._getHeaders(),
-        params,
-        data,
         ...otherConfig,
       };
 
@@ -98,6 +76,7 @@ export default {
       originalUrl,
       thumbnail,
       title,
+      visibility,
     }) {
       const data = {
         author: `urn:li:${orgId
@@ -115,7 +94,7 @@ export default {
           },
         },
         visibility: {
-          "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+          "com.linkedin.ugc.MemberNetworkVisibility": visibility,
         },
       };
       if (type === "ARTICLE") {
@@ -138,17 +117,29 @@ export default {
         ];
       }
 
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "POST",
         path: "/ugcPosts",
         data,
       });
     },
+    async getOrganizations(page) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/organizationAcls?q=roleAssignee&count=5&start=${page * 5}`,
+      });
+    },
+    async getOrganization(organizationId) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/organizations/${organizationId}`,
+      });
+    },
     async deletePost({
       $, postId,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "DELETE",
         path: `/shares/${postId}`,

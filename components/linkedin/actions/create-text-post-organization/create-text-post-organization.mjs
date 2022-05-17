@@ -4,7 +4,7 @@ export default {
   key: "linkedin-create-text-share-organization",
   name: "Create a Simple Post (Organization)",
   description:
-    "Create post on LinkedIn using text, URL or article. [See the docs](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api?tabs=http#sharecontent) for more information",
+    "Create post on LinkedIn using text, URL or article. [See the docs](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api?tabs=http#create-ugc-posts) for more information",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,12 +21,6 @@ export default {
         "type",
       ],
       reloadProps: true,
-    },
-    visibility: {
-      propDefinition: [
-        linkedin,
-        "visibility",
-      ],
     },
     text: {
       propDefinition: [
@@ -66,20 +60,17 @@ export default {
     }
   },
   async run({ $ }) {
-    try {
-      const response = await this.linkedin.createPost({
-        $,
-        orgId: this.organizationId,
-        type: this.type,
-        text: this.text,
-        originalUrl: this.originalUrl,
-        thumbnail: this.thumbnail,
-        title: this.title,
-      });
-      $.export("$summary", "Successfully created a new Post as Organization");
-      return response;
-    } catch (err) {
-      $.export("$summary", "It wasn't possible to create Post");
-    }
+    const response = await this.linkedin.createPost({
+      $,
+      orgId: this.organizationId,
+      type: this.type,
+      text: this.text,
+      originalUrl: this.originalUrl,
+      thumbnail: this.thumbnail,
+      title: this.title,
+      visibility: "PUBLIC",
+    });
+    $.export("$summary", "Successfully created a new Post as Organization");
+    return response;
   },
 };

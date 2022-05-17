@@ -4,7 +4,7 @@ export default {
   key: "linkedin-create-text-share-user",
   name: "Create a Simple Post (User)",
   description:
-    "Create post on LinkedIn using text, URL or article. [See the docs](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api?tabs=http#sharecontent) for more information",
+    "Create post on LinkedIn using text, URL or article. [See the docs](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api?tabs=http#create-ugc-posts) for more information",
   version: "0.0.1",
   type: "action",
   props: {
@@ -60,19 +60,16 @@ export default {
     }
   },
   async run({ $ }) {
-    try {
-      const response = await this.linkedin.createPost({
-        $,
-        type: this.type,
-        text: this.text,
-        originalUrl: this.originalUrl,
-        thumbnail: this.thumbnail,
-        title: this.title,
-      });
-      $.export("$summary", "Successfully created a new Post as User");
-      return response;
-    } catch (err) {
-      $.export("$summary", "It wasn't possible to create Post");
-    }
+    const response = await this.linkedin.createPost({
+      $,
+      type: this.type,
+      text: this.text,
+      originalUrl: this.originalUrl,
+      thumbnail: this.thumbnail,
+      title: this.title,
+      visibility: this.visibility,
+    });
+    $.export("$summary", "Successfully created a new Post as User");
+    return response;
   },
 };
