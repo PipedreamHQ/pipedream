@@ -21,6 +21,7 @@ export default {
           tableId,
         }),
       ],
+      withLabel: true,
     },
     ...commonList.props,
   },

@@ -43,7 +43,7 @@ export default {
     const data = [];
     const config = {};
 
-    if (this.viewId) { config.view = viewId; }
+    if (viewId) { config.view = viewId; }
     if (this.filterByFormula) { config.filterByFormula = this.filterByFormula; }
     if (this.maxRecords) { config.maxRecords = this.maxRecords; }
     if (this.sortFieldId && this.sortDirection) {
@@ -73,7 +73,8 @@ export default {
     const l = data.length;
     $.export("$summary", `Fetched ${l} record${l === 1
       ? ""
-      : "s"} from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);
+      // eslint-disable-next-line multiline-ternary
+      : "s"} from ${this.baseId?.label || baseId}: [${this.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId}${viewId ? `/${viewId}` : ""})`);
     return data;
   },
 };

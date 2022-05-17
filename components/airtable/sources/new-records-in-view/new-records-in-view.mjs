@@ -44,7 +44,7 @@ export default {
     const config = {
       url: `https://api.airtable.com/v0/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
       params: {
-        view: this.viewId,
+        view: viewId,
       },
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,
