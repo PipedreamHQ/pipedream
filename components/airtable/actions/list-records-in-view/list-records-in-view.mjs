@@ -11,21 +11,16 @@ export default {
   props: {
     ...common.props,
     viewId: {
-      type: "string",
-      label: "View",
-      withLabel: true,
-      async options() {
-        const baseId = this.baseId?.value ?? this.baseId;
-        const tableId = this.tableId?.value ?? this.tableId;
-        const tableSchema = await this.airtable.table(baseId, tableId);
-        if (!tableSchema?.views) {
-          return [];
-        }
-        return tableSchema.views.map((view) => ({
-          label: view.name || view.id,
-          value: view.id,
-        }));
-      },
+      propDefinition: [
+        common.props.airtable,
+        "viewId",
+        ({
+          baseId, tableId,
+        }) => ({
+          baseId,
+          tableId,
+        }),
+      ],
     },
     ...commonList.props,
   },

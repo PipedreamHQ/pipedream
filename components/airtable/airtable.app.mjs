@@ -5,6 +5,56 @@ export default {
   type: "app",
   app: "airtable",
   propDefinitions: {
+    baseId: {
+      type: "string",
+      label: "Base",
+      description: "The base ID",
+      async options() {
+        const bases = await this.bases();
+        if (!bases) {
+          return [];
+        }
+        return bases.map((base) => ({
+          label: base.name || base.id,
+          value: base.id,
+        }));
+      },
+    },
+    tableId: {
+      type: "string",
+      label: "Table",
+      description: "The table ID",
+      async options({ baseId }) {
+        const tables = await this.tables(baseId?.value ?? baseId);
+        if (!tables) {
+          return [];
+        }
+        return tables.map((table) => ({
+          label: table.name || table.id,
+          value: table.id,
+        }));
+      },
+    },
+    viewId: {
+      type: "string",
+      label: "View",
+      description: "The view ID",
+      async options({
+        baseId, tableId,
+      }) {
+        const tableSchema = await this.table(
+          baseId?.value ?? baseId,
+          tableId?.value ?? tableId,
+        );
+        if (!tableSchema?.views) {
+          return [];
+        }
+        return tableSchema.views.map((view) => ({
+          label: view.name || view.id,
+          value: view.id,
+        }));
+      },
+    },
     filterByFormula: {
       type: "string",
       label: "Filter by Formula",

@@ -11,8 +11,10 @@ export default {
       },
     },
     baseId: {
-      type: "$.airtable.baseId",
-      appProp: "airtable",
+      propDefinition: [
+        airtable,
+        "baseId",
+      ],
     },
   },
   hooks: {
