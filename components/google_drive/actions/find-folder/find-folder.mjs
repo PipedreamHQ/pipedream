@@ -29,6 +29,7 @@ export default {
       type: "boolean",
       label: "Include Trashed",
       default: true,
+      optional: true,
       description: "If set to true, returns all matches including items currently in the trash."
     }
   },
