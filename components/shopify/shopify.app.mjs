@@ -2,171 +2,8 @@ import get from "lodash.get";
 import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
 import retry from "async-retry";
+import events from "./sources/common/events.mjs";
 import { toSingleLineString } from "./actions/commons.mjs";
-
-const events = [
-  {
-    label: "Article Created",
-    value: JSON.stringify({
-      filter: "Article",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Article Destroyed",
-    value: JSON.stringify({
-      filter: "Article",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Article Published",
-    value: JSON.stringify({
-      filter: "Article",
-      verb: "published",
-    }),
-  },
-  {
-    label: "Article Unpublished",
-    value: JSON.stringify({
-      filter: "Article",
-      verb: "unpublished",
-    }),
-  },
-  {
-    label: "Article Updated",
-    value: JSON.stringify({
-      filter: "Article",
-      verb: "update",
-    }),
-  },
-  {
-    label: "Blog Created",
-    value: JSON.stringify({
-      filter: "Blog",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Blog Destroyed",
-    value: JSON.stringify({
-      filter: "Blog",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Collection Created",
-    value: JSON.stringify({
-      filter: "Collection",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Collection Destroyed",
-    value: JSON.stringify({
-      filter: "Collection",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Collection Published",
-    value: JSON.stringify({
-      filter: "Collection",
-      verb: "published",
-    }),
-  },
-  {
-    label: "Collection Unpublished",
-    value: JSON.stringify({
-      filter: "Collection",
-      verb: "unpublished",
-    }),
-  },
-  {
-    label: "Order Confirmed",
-    value: JSON.stringify({
-      filter: "Order",
-      verb: "confirmed",
-    }),
-  },
-  {
-    label: "Page Created",
-    value: JSON.stringify({
-      filter: "Page",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Page Destroyed",
-    value: JSON.stringify({
-      filter: "Page",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Page Published",
-    value: JSON.stringify({
-      filter: "Page",
-      verb: "published",
-    }),
-  },
-  {
-    label: "Page Unpublished",
-    value: JSON.stringify({
-      filter: "Page",
-      verb: "unpublished",
-    }),
-  },
-  {
-    label: "Price Rule Created",
-    value: JSON.stringify({
-      filter: "PriceRule",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Price Rule Destroyed",
-    value: JSON.stringify({
-      filter: "PriceRule",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Price Rule Updated",
-    value: JSON.stringify({
-      filter: "PriceRule",
-      verb: "update",
-    }),
-  },
-  {
-    label: "Product Created",
-    value: JSON.stringify({
-      filter: "Product",
-      verb: "create",
-    }),
-  },
-  {
-    label: "Product Destroyed",
-    value: JSON.stringify({
-      filter: "Product",
-      verb: "destroy",
-    }),
-  },
-  {
-    label: "Product Published",
-    value: JSON.stringify({
-      filter: "Product",
-      verb: "published",
-    }),
-  },
-  {
-    label: "Product Unpublished",
-    value: JSON.stringify({
-      filter: "Product",
-      verb: "unpublished",
-    }),
-  },
-];
 
 export default {
   type: "app",
@@ -575,7 +412,7 @@ export default {
       } = opts;
       return retry(async (bail, retryCount) => {
         try {
-          return await apiCall();
+          return apiCall();
         } catch (err) {
           const errCode = get(err, errCodePath);
           if (!isRetriableErrCode(errCode)) {
@@ -777,43 +614,43 @@ export default {
     },
     async getAbandonedCheckouts(sinceId) {
       const params = this.getSinceParams(sinceId, true);
-      return await this.getObjects("checkout", params);
+      return this.getObjects("checkout", params);
     },
     async getArticles(blogId, sinceId) {
       const params = this.getSinceParams(sinceId, true);
-      return await this.getObjects("article", params, blogId);
+      return this.getObjects("article", params, blogId);
     },
     async getBlogs() {
-      return await this.getObjects("blog");
+      return this.getObjects("blog");
     },
     async getCustomers(sinceId, updatedAfter, params = {}) {
       if (Object.values(this._makeRequestOpts(params)).length > 0) {
-        return await this.resourceAction("customer", "list", params);
+        return this.resourceAction("customer", "list", params);
       } else {
         params = this.getSinceParams(sinceId, true, updatedAfter);
-        return await this.getObjects("customer", params);
+        return this.getObjects("customer", params);
       }
     },
     async createCustomer(params) {
-      return await this.resourceAction("customer", "create", params);
+      return this.resourceAction("customer", "create", params);
     },
     async updateCustomer(customerId, params) {
-      return await this.resourceAction("customer", "update", params, customerId);
+      return this.resourceAction("customer", "update", params, customerId);
     },
     async searchCustomers(params = {}) {
-      return await this.resourceAction("customer", "search", params);
+      return this.resourceAction("customer", "search", params);
     },
     async getEvents(sinceId, filter = null, verb = null) {
       const params = this.getSinceParams(sinceId, true);
       params.filter = filter;
       params.verb = verb;
-      return await this.getObjects("event", params);
+      return this.getObjects("event", params);
     },
     async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
       const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
       params.status = status;
       params.fulfillment_status = fulfillmentStatus;
-      return await this.getObjects("order", params);
+      return this.getObjects("order", params);
     },
     async getOrdersById(ids = []) {
       if (ids.length === 0) {
@@ -824,27 +661,27 @@ export default {
         status: "any",
         limit: 100,
       };
-      return await this.getObjects("order", params);
+      return this.getObjects("order", params);
     },
     async createOrder(params) {
-      return await this.resourceAction("order", "create", params);
+      return this.resourceAction("order", "create", params);
     },
     async getPages(sinceId) {
       const params = this.getSinceParams(sinceId, true);
-      return await this.getObjects("page", params);
+      return this.getObjects("page", params);
     },
     async getProducts(sinceId, useCreatedAt = true, params = {}) {
       this.getSinceParams(sinceId, useCreatedAt, null, params);
-      return await this.getObjects("product", params);
+      return this.getObjects("product", params);
     },
     async getProduct(productId, params) {
-      return await this.resourceAction("product", "get", params, productId);
+      return this.resourceAction("product", "get", params, productId);
     },
     async updateProduct(productId, params) {
-      return await this.resourceAction("product", "update", params, productId);
+      return this.resourceAction("product", "update", params, productId);
     },
     async getProductVariant(productVariantId, params) {
-      return await this.resourceAction("productVariant", "get", params, productVariantId);
+      return this.resourceAction("productVariant", "get", params, productVariantId);
     },
     async getProductVariantByTitle(productId, title, params) {
       let list = (await this.resourceAction("productVariant", "list", params, productId)).result;
@@ -855,19 +692,22 @@ export default {
       return list[0];
     },
     async updateProductVariant(productVariantId, params) {
-      return await this.resourceAction("productVariant", "update", params, productVariantId);
+      return this.resourceAction("productVariant", "update", params, productVariantId);
     },
     async createProduct(params) {
-      return await this.resourceAction("product", "create", params);
+      return this.resourceAction("product", "create", params);
     },
     async createProductVariant(productId, params) {
-      return await this.resourceAction("productVariant", "create", params, productId);
+      return this.resourceAction("productVariant", "create", params, productId);
+    },
+    async createSmartCollection(params) {
+      return this.resourceAction("smartCollection", "create", params);
     },
     async getLocationIds() {
-      return await this.resourceAction("location", "list");
+      return this.resourceAction("location", "list");
     },
     async updateInventoryLevel(params) {
-      return await this.resourceAction("inventoryLevel", "set", params);
+      return this.resourceAction("inventoryLevel", "set", params);
     },
     async *queryOrders(opts = {}) {
       const {

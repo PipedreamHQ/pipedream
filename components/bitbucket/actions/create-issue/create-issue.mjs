@@ -1,126 +1,125 @@
-// legacy_hash_id: a_OOiaQ0
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
+const { bitbucket } = base.props;
 
 export default {
   key: "bitbucket-create-issue",
   name: "Creates a new issue",
-  description: "Creates a new issue",
-  version: "0.1.1",
+  description: "Creates a new issue. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-post)",
+  version: "0.1.2",
   type: "action",
   props: {
-    bitbucket: {
-      type: "app",
-      app: "bitbucket",
-    },
-    username: {
-      type: "string",
-      label: "username",
-    },
-    repo_slug: {
-      type: "string",
-      label: "repo_slug",
-    },
-    priority: {
-      type: "string",
-      optional: true,
-    },
-    kind: {
-      type: "string",
-      optional: true,
-    },
-    repository: {
-      type: "object",
-      optional: true,
-    },
-    links: {
-      type: "object",
-      optional: true,
-    },
-    reporter: {
-      type: "object",
-      optional: true,
+    ...base.props,
+    repositoryId: {
+      propDefinition: [
+        bitbucket,
+        "repository",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
     },
     title: {
+      label: "Title",
+      description: "The title of the issue",
       type: "string",
-      label: "title",
     },
-    component: {
-      type: "string",
-      optional: true,
+    rawContent: {
+      propDefinition: [
+        bitbucket,
+        "rawContent",
+      ],
     },
-    votes: {
-      type: "string",
-      optional: true,
+    htmlContent: {
+      propDefinition: [
+        bitbucket,
+        "htmlContent",
+      ],
     },
-    watches: {
-      type: "string",
-      optional: true,
+    markupContent: {
+      propDefinition: [
+        bitbucket,
+        "markupContent",
+      ],
     },
-    content: {
-      type: "object",
-    },
-    assignee: {
-      type: "string",
+    assigneeId: {
+      label: "Assignee",
+      description: "Select a user",
+      propDefinition: [
+        bitbucket,
+        "user",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
       optional: true,
     },
     state: {
+      label: "State",
+      description: "The state of the issue",
       type: "string",
+      default: constants.ISSUE_STATES[0],
+      options: constants.ISSUE_STATES,
       optional: true,
     },
-    version: {
+    kind: {
+      label: "Kind",
+      description: "The kind of the issue",
       type: "string",
+      default: constants.ISSUE_KINDS[0],
+      options: constants.ISSUE_KINDS,
       optional: true,
     },
-    edited_on: {
+    priority: {
+      label: "Priority",
+      description: "The priority of the issue",
       type: "string",
-      optional: true,
-    },
-    created_on: {
-      type: "string",
-      optional: true,
-    },
-    milestone: {
-      type: "string",
-      optional: true,
-    },
-    updated_on: {
-      type: "string",
-      optional: true,
-    },
-    type: {
-      type: "string",
+      default: constants.ISSUE_PRIORITIES[0],
+      options: constants.ISSUE_PRIORITIES,
       optional: true,
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      method: "post",
-      url: `https://api.bitbucket.org/2.0/repositories/${this.username}/${this.repo_slug}/issues`,
-      headers: {
-        Authorization: `Bearer ${this.bitbucket.$auth.oauth_access_token}`,
-      },
+    const {
+      workspaceId,
+      repositoryId,
+      title,
+      rawContent,
+      htmlContent,
+      markupContent,
+      assigneeId,
+      state,
+      kind,
+      priority,
+    } = this;
+
+    if (!rawContent && !htmlContent) {
+      return new Error("You need provide a HTML or a Raw content");
+    }
+
+    const response = await this.bitbucket.createIssue({
+      workspaceId,
+      repositoryId,
       data: {
-        username: this.username,
-        repo_slug: this.repo_slug,
-        priority: this.priority,
-        kind: this.kind,
-        repository: this.repository,
-        links: this.links,
-        reporter: this.reporter,
-        title: this.title,
-        component: this.component,
-        votes: this.votes,
-        watches: this.watches,
-        content: this.content,
-        assignee: this.assignee,
-        state: this.state,
-        version: this.version,
-        edited_on: this.edited_on,
-        created_on: this.created_on,
-        milestone: this.milestone,
-        updated_on: this.updated_on,
-        type: this.type,
+        title,
+        assignee: assigneeId
+          ? {
+            uuid: assigneeId,
+          }
+          : undefined,
+        content: {
+          raw: rawContent,
+          html: htmlContent,
+          markup: markupContent,
+        },
+        state,
+        kind,
+        priority,
       },
-    });
+    }, $);
+
+    $.export("summary", "Successfully created issue");
+
+    return response;
   },
 };

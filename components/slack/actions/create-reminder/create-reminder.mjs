@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-create-reminder",
   name: "Create Reminder",
-  description: "Create a reminder",
-  version: "0.0.2",
+  description: "Create a reminder. [See docs here](https://api.slack.com/methods/reminders.add)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
@@ -24,7 +24,7 @@ export default {
     team_id: {
       propDefinition: [
         slack,
-        "team_id",
+        "team",
       ],
       optional: true,
     },

@@ -15,6 +15,7 @@ export default {
         "watchedDrive",
       ],
       description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      optional: false,
     },
     watchForPropertiesChanges: {
       propDefinition: [
@@ -137,7 +138,7 @@ export default {
         newPageToken,
         expiration,
         resourceId,
-      } = await this.googleDrive.invokedByTimer(
+      } = await this.googleDrive.renewSubscription(
         this.drive,
         subscription,
         this.http.endpoint,

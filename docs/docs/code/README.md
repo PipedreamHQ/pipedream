@@ -1,5 +1,7 @@
 # Overview
 
+<VideoPlayer url="https://www.youtube.com/embed/2mQgJbl8FMA" title="Creating a code step in your Pipedream workflows" />
+
 _This document details how to use code in [workflow steps](/workflows/steps/), without leaving your browser. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
 
 Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of apps](https://pipedream.com/apps). Often, these will be sufficient for building simple workflows.
@@ -11,10 +13,10 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 Choose a language to get started:
 
 <div class="grid grid-cols-2">
-<LanguageLink name="Node.js" link="/code/nodejs/" :icon="this.$site.themeConfig.icons.nodejs.with_title"/>
-<LanguageLink name="Python" link="/code/python/" :icon="this.$site.themeConfig.icons.python.with_title"/>
-<LanguageLink name="Go" link="/code/go/" :icon="this.$site.themeConfig.icons.go.with_title"/>
-<LanguageLink name="Bash" link="/code/bash/" :icon="this.$site.themeConfig.icons.bash.with_title"/>
+<LanguageLink name="Node.js" link="/docs/code/nodejs/" :icon="this.$site.themeConfig.icons.nodejs.with_title"/>
+<LanguageLink name="Python" link="/docs/code/python/" :icon="this.$site.themeConfig.icons.python.with_title"/>
+<LanguageLink name="Go" link="/docs/code/go/" :icon="this.$site.themeConfig.icons.go.with_title"/>
+<LanguageLink name="Bash" link="/docs/code/bash/" :icon="this.$site.themeConfig.icons.bash.with_title"/>
 </div>
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).

@@ -5,9 +5,9 @@ export default {
   ...common,
   type: "source",
   key: "reddit-new-saved-post-by-user",
-  name: "New saved post by user",
+  name: "New Saved Post by User",
   description: "Emit new event each time a user saves a post.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     username: {
@@ -31,20 +31,8 @@ export default {
   },
   methods: {
     ...common.methods,
-    _getBefore() {
-      return this.db.get("before");
-    },
-    _setBefore(before) {
-      this.db.set("before", before);
-    },
-    _setCache(cache) {
-      this.db.set("cache", cache);
-    },
-    _getCache() {
-      return this.db.get("cache") || {};
-    },
     async fetchData(before) {
-      var res = await this.reddit.getNewSavedPosts(
+      const res = await this.reddit.getNewSavedPosts(
         before,
         this.username,
         this.timeFilter,
@@ -65,11 +53,21 @@ export default {
         ts: redditEvent.data.created,
       };
     },
+    async isBeforeValid(before) {
+      // verify this post is still saved by user
+      const { data } = await this.reddit.getSubredditByName(before);
+      const isSaved = data?.children[0]?.data?.saved;
+      return isSaved;
+    },
   },
   async run() {
     let redditPosts;
-    const previousEmittedEvents = this._getCache();
-    const emittedEvents = {};
+    const {
+      cache: previousEmittedEvents,
+      keys,
+    } = await this.validateBefore(this._getCache(),
+      this._getBefore(),
+      this._getKeys());
     do {
       redditPosts = await this.fetchData(this._getBefore());
       if (redditPosts.length == 0) {
@@ -80,12 +78,13 @@ export default {
       redditPosts.reverse().forEach((event) => {
         if (!previousEmittedEvents[event.data.name]) {
           this.emitRedditEvent(event);
-          emittedEvents[event.data.name] = true;
+          previousEmittedEvents[event.data.name] = true;
+          keys.push(event.data.name);
         }
       });
 
     } while (redditPosts);
-
-    this._setCache(emittedEvents);
+    this._setCache(previousEmittedEvents);
+    this._setKeys(keys);
   },
 };

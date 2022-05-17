@@ -1,5 +1,7 @@
 # Data Stores
 
+<VideoPlayer url="https://www.youtube.com/embed/0WMcAnDF7FA" title="Data Store Basics" />
+
 **Data stores** are key-value databases to easily set and get any JSON-serializable data and maintain state across workflow executions.
 
 It's useful for counting values, summing up data between run, or tracking unique data points like email addresses.
