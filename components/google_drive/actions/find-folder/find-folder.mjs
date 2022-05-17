@@ -25,10 +25,17 @@ export default {
       ],
       description: "The name of the folder to search for",
     },
+    includeTrashed: {
+      type: "boolean",
+      label: "Include Trashed",
+      default: true,
+      description: "If set to true, returns all matches including items currently in the trash."
+    }
   },
   async run({ $ }) {
     const opts = getListFilesOpts(this.drive, {
       q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`,
+      trashed: this.includeTrashed
     });
     const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;
     // eslint-disable-next-line multiline-ternary
