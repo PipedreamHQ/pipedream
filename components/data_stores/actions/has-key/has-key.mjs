@@ -28,8 +28,8 @@ export default {
   async run ({ $ }) {
     const hasKey = await this.dataStore.has(this.key);
     $.export("$summary", hasKey
-      ? "Key \"" + this.key + "\" exists."
-      : "Key \"" + this.key + "\" does not exist.");
+      ? `Key "${this.key}" exists.`
+      : `Key "${this.key}" does not exist.`);
     return hasKey;
   },
 };

@@ -18,7 +18,7 @@ export default {
   async run ({ $ }) {
     const keys = await this.dataStore.keys();
     if (keys.length > 0) {
-      $.export("$summary", "Found " + keys.length + " key(s).");
+      $.export("$summary", `Found ${keys.length} key(s).`);
     } else {
       $.export("$summary", "No keys found.");
     }

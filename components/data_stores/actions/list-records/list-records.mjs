@@ -56,7 +56,7 @@ export default {
 
     const records = await Promise.all(promises);
     if (keys.length > 0) {
-      $.export("$summary", "Found " + keys.length + " record(s).");
+      $.export("$summary", `Found ${keys.length} record(s).`);
     } else {
       $.export("$summary", "No record found.");
     }
