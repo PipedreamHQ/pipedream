@@ -82,6 +82,7 @@ export default {
     },
     validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
+      // Add https:// to the URL if it doesn't have a protocol
       if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
     },
   },
