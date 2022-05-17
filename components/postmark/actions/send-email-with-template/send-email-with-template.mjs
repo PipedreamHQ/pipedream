@@ -12,8 +12,8 @@ postmark.methods.listSharedProps().forEach((propName) => {
 
 export default {
   key: "postmark-send-email-with-template",
-  name: "Send an email with template",
-  description: "Send an email with Postmark using a template",
+  name: "Send Email With Template",
+  description: "Send a single email with Postmark using a template [(See docs here)](https://postmarkapp.com/developer/api/templates-api#email-with-template)",
   version: "0.1.23",
   type: "action",
   props: {

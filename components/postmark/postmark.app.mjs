@@ -104,9 +104,8 @@ export default {
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _apikey() {
+      return this.$auth.api_key;
     },
     async listTemplates() {
       return await axios({
@@ -141,7 +140,7 @@ export default {
     },
     getHeaders() {
       return {
-        "X-Postmark-Server-Token": this.$auth.api_key,
+        "X-Postmark-Server-Token": this._apikey(),
         "Content-Type": "application/json",
         "Accept": "application/json",
       };

@@ -2,8 +2,8 @@ import postmark from "../../postmark.app.mjs";
 
 export default {
   key: "postmark-new-email-opened",
-  name: "New email opened",
-  description: "Emit new event when an email is opened by a recipient",
+  name: "New Email Opened",
+  description: "Emit new event when an email is opened by a recipient [(See docs here)](https://postmarkapp.com/developer/webhooks/open-tracking-webhook)",
   version: "0.0.1",
   type: "source",
   props: {
