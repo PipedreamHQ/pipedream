@@ -61,7 +61,7 @@ export default {
       stickerId,
     } = this;
 
-    return this.sendNotification($, {
+    return this.line.sendNotification($, {
       message,
       imageThumbnail,
       imageFullsize,
