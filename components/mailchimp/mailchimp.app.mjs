@@ -685,6 +685,14 @@ export default {
         params,
       });
     },
+    async createList($, data) {
+      return this._makeRequest({
+        $,
+        path: "/lists",
+        data,
+        method: "post",
+      });
+    },
 
   },
 };

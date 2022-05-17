@@ -13,8 +13,7 @@ const removeNullEntries = (obj) =>
       !Array.isArray(value) &&
       Object.keys(value).length !== 0;
     isNotEmptyObject && (value = removeNullEntries(value));
-    return (value &&
-      (isNotEmpyString || isNotEmptyArray || isNotEmptyObject || isBoolean || isNumber))
+    return (isNotEmpyString || isNotEmptyArray || isNotEmptyObject || isBoolean || isNumber)
       ? {
         ...acc,
         [key]: value,
