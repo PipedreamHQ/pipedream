@@ -10,6 +10,7 @@ export default {
       label: "Base",
       description: "The base ID",
       async options() {
+        // Uses special .bases method on airtable app prop
         const bases = await this.bases();
         if (!bases) {
           return [];
@@ -25,6 +26,7 @@ export default {
       label: "Table",
       description: "The table ID",
       async options({ baseId }) {
+        // Uses special .tables method on airtable app prop
         const tables = await this.tables(baseId?.value ?? baseId);
         if (!tables) {
           return [];
@@ -42,6 +44,7 @@ export default {
       async options({
         baseId, tableId,
       }) {
+        // Uses special .table method on airtable app prop
         const tableSchema = await this.table(
           baseId?.value ?? baseId,
           tableId?.value ?? tableId,
@@ -102,11 +105,12 @@ export default {
     sortFieldId: {
       type: "string",
       label: "Sort: Field",
-      description: "Optionally select a field to sort results. To sort by multiple fields, use the `Filter by Forumla` field.",
+      description: "Optionally select a field to sort results. To sort by multiple fields, use the **Filter by Forumla** field.",
       optional: true,
       async options({
         baseId, tableId,
       }) {
+        // Uses special .table method on airtable app prop
         const tableSchema = await this.table(baseId?.value ?? baseId, tableId?.value ?? tableId);
         if (!tableSchema?.fields) {
           return [];

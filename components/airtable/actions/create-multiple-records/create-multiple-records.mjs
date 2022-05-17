@@ -1,4 +1,4 @@
-import chunk from "lodash/chunk.js";
+import chunk from "lodash.chunk";
 import airtable from "../../airtable.app.mjs";
 import common from "../common.mjs";
 
