@@ -4,7 +4,7 @@ export default {
   name: "Send Notification Message",
   description: "Sends notifications to users or groups from LINE Notify. [See docs](https://notify-bot.line.me/doc/en/)",
   key: "line-send-notification-message",
-  version: "0.0.1",
+  version: "0.0.1652794143",
   type: "action",
   props: {
     line,
@@ -30,13 +30,13 @@ export default {
     imageThumbnail: {
       label: "Image Thumbnail",
       type: "string",
-      description: "The image that will be displayed on notification thumbnail. Maximum size of 240×240px JPEG",
+      description: "The image that will be displayed on notification thumbnail. Maximum size of 240×240px JPEG. E.g. `https://test-bucket-from-leo.s3.us-east-1.amazonaws.com/github_dark.png`",
       optional: true,
     },
     imageFullsize: {
       label: "Image Fullsize",
       type: "string",
-      description: "The image that will be displayed on open the notification. Maximum size of 2048×2048px JPEG",
+      description: "The image that will be displayed on open the notification. Maximum size of 2048×2048px JPEG. E.g. `https://test-bucket-from-leo.s3.us-east-1.amazonaws.com/github_dark.png`",
       optional: true,
     },
     stickerPackageId: {
@@ -60,6 +60,10 @@ export default {
       stickerPackageId,
       stickerId,
     } = this;
+
+    if ((!!imageThumbnail && !imageFullsize) || (!imageThumbnail && !!imageFullsize)) {
+      throw new Error("You need set the Image Fullsize and Image Thumbnail together.");
+    }
 
     return this.line.sendNotification($, {
       message,
