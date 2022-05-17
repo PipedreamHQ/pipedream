@@ -47,7 +47,22 @@ function buildBlock(type, propList = []) {
   };
 }
 
+function emptyStrToUndefined(value) {
+  const trimmed = typeof (value) === "string" && value.trim();
+  return trimmed === ""
+    ? undefined
+    : value;
+}
+
+function parseStringToJSON(value, defaultValue = {}) {
+  return this.emptyStrToUndefined(value)
+    ? JSON.parse(value)
+    : defaultValue;
+}
+
 export default {
   buildTextProperty,
   buildBlock,
+  emptyStrToUndefined,
+  parseStringToJSON,
 };

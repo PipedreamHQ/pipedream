@@ -4,10 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-deal",
   name: "New Deals",
-  description: "Emits an event for each new deal created.",
-  version: "0.0.3",
-  type: "source",
+  description: "Emit new event for each new deal created.",
+  version: "0.0.4",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,
@@ -27,27 +27,20 @@ export default {
     isRelevant(deal, createdAfter) {
       return Date.parse(deal.createdAt) > createdAfter;
     },
-  },
-  async run() {
-    const createdAfter = this._getAfter();
-    const data = {
-      limit: 100,
-      sorts: [
-        {
-          propertyName: "createdate",
-          direction: "DESCENDING",
-        },
-      ],
-      object: "deals",
-    };
-
-    await this.paginate(
-      data,
-      this.hubspot.searchCRM.bind(this),
-      "results",
-      createdAfter,
-    );
-
-    this._setAfter(Date.now());
+    getParams() {
+      return {
+        limit: 100,
+        sorts: [
+          {
+            propertyName: "createdate",
+            direction: "DESCENDING",
+          },
+        ],
+        object: "deals",
+      };
+    },
+    async processResults(after, params) {
+      await this.searchCRM(params, after);
+    },
   },
 };

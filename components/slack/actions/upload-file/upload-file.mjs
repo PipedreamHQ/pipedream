@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-upload-file",
   name: "Upload File",
-  description: "Upload a file",
-  version: "0.0.2",
+  description: "Upload a file. [See docs here](https://api.slack.com/methods/files.upload)",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
