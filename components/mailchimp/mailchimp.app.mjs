@@ -693,6 +693,15 @@ export default {
         method: "post",
       });
     },
-
+    async updateList($, {
+      listId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}`,
+        data,
+        method: "patch",
+      });
+    },
   },
 };
