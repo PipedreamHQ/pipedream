@@ -4,7 +4,7 @@ export default {
   key: "data_stores-get-record",
   name: "Get record",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,
@@ -15,8 +15,13 @@ export default {
       ],
     },
     key: {
-      label: "Key",
-      type: "string",
+      propDefinition: [
+        app,
+        "key",
+        ({ dataStore }) => ({
+          dataStore,
+        }),
+      ],
       description: "Key for the data you'd like to fetch. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
     },
     addRecordIfNotFound: {
