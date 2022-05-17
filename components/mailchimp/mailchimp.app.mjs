@@ -703,5 +703,12 @@ export default {
         method: "patch",
       });
     },
+    async deleteList($, listId) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}`,
+        method: "delete",
+      });
+    },
   },
 };
