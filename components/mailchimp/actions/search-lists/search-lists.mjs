@@ -62,6 +62,7 @@ export default {
       type: "string",
       label: "Sort field",
       description: "Returns files sorted by the specified field. Possible value: \"date_created\"",
+      default: "date_created",
       optional: true,
     },
     sortDir: {
@@ -105,7 +106,8 @@ export default {
       include_total_contacts: this.includeTotalContacts,
     });
     const response = await this.mailchimp.searchLists($, payload);
-    response?.lists?.length > 0 && $.export("$summary", "Lists found");
+    // response?.lists?.length > 0 && $.export("$summary", "Lists found");
+    console.log(response);
     return response;
   },
 };

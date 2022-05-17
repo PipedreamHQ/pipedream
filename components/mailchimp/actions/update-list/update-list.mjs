@@ -4,14 +4,14 @@ import mailchimp from "../../mailchimp.app.mjs";
 export default {
   key: "mailchimp-update-list",
   name: "Update List",
-  description: "Updates an existing list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
+  description: "Updates an existing list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/update-lists/)",
   version: "0.0.1",
   type: "action",
   props: {
     mailchimp,
     listId: {
       type: "string",
-      label: "List is",
+      label: "List id",
       description: "The unique ID for the list.",
     },
     name: {
