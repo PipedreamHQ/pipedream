@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-create-payment-intent",
   name: "Create a Payment Intent",
   type: "action",
-  version: "0.0.1",
-  description: "Create a [payment intent](https://stripe.com/docs/payments/payment-intents)",
+  version: "0.0.2",
+  description: "Create a [payment intent](https://stripe.com/docs/payments/payment-intents). [See" +
+    "the docs](https://stripe.com/docs/api/payment_intents/create) for more information",
   props: {
     stripe,
     amount: {
@@ -27,6 +28,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "currency",
+        ({ country }) => ({
+          country,
+        }),
       ],
       optional: false,
     },
@@ -60,7 +64,7 @@ module.exports = {
         "(https://stripe.com/docs/api/payment_intents/create) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "amount",
       "currency",
@@ -74,13 +78,15 @@ module.exports = {
     if (params.statement_descriptor) {
       params.statement_descriptor = String(params.statement_descriptor).slice(0, 21);
     }
-    if (advanced.statement_descriptor_suffix) {
+    if (advanced?.statement_descriptor_suffix) {
       advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
         .slice(0, 21);
     }
-    return await this.stripe.sdk().paymentIntents.create({
+    const resp = await this.stripe.sdk().paymentIntents.create({
       ...params,
       ...advanced,
     });
+    $.export("$summary", `Successfully created a new payment intent for ${resp.amount} of the smallest currency unit of ${resp.currency}`);
+    return resp;
   },
 };

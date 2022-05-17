@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-milestone",
   name: "New Milestone (Instant)",
   description: "Emit new events when new milestones are created in a repo",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

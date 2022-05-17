@@ -12,7 +12,9 @@ module.exports = {
      * @param {string} id - The id of the item being emitted.
      * @param {string} name - The name of the item of the book.
      */
-    generateMeta({ id, name: summary }) {
+    generateMeta({
+      id, name: summary,
+    }) {
       return {
         id,
         summary,
