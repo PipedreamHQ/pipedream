@@ -452,7 +452,7 @@ export default {
         if (Array.isArray(value)
           && (value.length === 0
             || (value.length === 1
-            && value[0] === ""))) {
+              && value[0] === ""))) {
           delete params[key];
         }
         else if (!(key && (value || value === 0))) {
@@ -645,6 +645,12 @@ export default {
       params.filter = filter;
       params.verb = verb;
       return this.getObjects("event", params);
+    },
+    async getDraftOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
+      const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
+      params.status = status;
+      params.fulfillment_status = fulfillmentStatus;
+      return this.getObjects("draftOrder", params);
     },
     async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
       const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
