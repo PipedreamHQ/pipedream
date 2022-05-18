@@ -16,14 +16,14 @@ export default {
         ...options,
         url: `${this._baseApiUrl()}/${path}`,
         headers: {
-          Authorization: `Bearer  ${this._developerAccessToken()}`,
+          Authorization: `Bearer ${this._developerAccessToken()}`,
         },
       };
 
       return axios($, config);
     },
     async createWebhook(data) {
-      return await this._makeRequest("webhooks", {
+      return this._makeRequest("webhooks", {
         method: "post",
         data,
       });
@@ -42,9 +42,30 @@ export default {
       }, $);
     },
     async getUsers({ $ } = {}) {
-      const response = await this._makeRequest("users", {}, $);
+      let allUsers = [];
+      let after = null;
 
-      return response.data;
+      do {
+        const response = await this._makeRequest("users", {
+          params: {
+            after,
+            sort: {
+              field: "createdAt",
+              order: "desc",
+            },
+            match: "all",
+          },
+        }, $);
+        const users = response.data;
+
+        after = users?.length >= 40
+          ? users[users.length - 1].id
+          : null;
+
+        allUsers = allUsers.concat(users);
+      } while (after);
+
+      return allUsers;
     },
   },
 };
