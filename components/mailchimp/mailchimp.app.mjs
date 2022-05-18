@@ -738,5 +738,14 @@ export default {
         method: "delete",
       });
     },
+    async getListActivities($, {
+      listId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/activity`,
+        params,
+      });
+    },
   },
 };
