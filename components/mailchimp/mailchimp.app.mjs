@@ -765,5 +765,15 @@ export default {
         params,
       });
     },
+    async addRemoveMemberTags($, {
+      listId, subscriberHash, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}/tags`,
+        data,
+        method: "post",
+      });
+    },
   },
 };
