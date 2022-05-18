@@ -26,10 +26,11 @@ export default {
     },
   },
   async run({ $ }) {
+    const tags = this.tags?.length && this.tags.map((tag) => JSON.parse(tag));
     const payload = removeNullEntries({
       listId: this.listId,
-      tags: this.tags,
       subscriberHash: this.subscriberHash,
+      tags,
     });
     return await this.mailchimp.addRemoveMemberTags($, payload);
   },
