@@ -1,52 +1,52 @@
-import { axios } from "@pipedream/platform"
-import paytrace from '../../paytrace.app.mjs';
+import paytrace from "../../paytrace.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   name: "List Transactions",
   description: "This method can be used to export a set of credit card transaction details with a provided date range.  You can optimize your search by providing optional parameters.",
-  key: 'paytrace-list-transactions',
+  key: "paytrace-list-transactions",
   version: "0.0.2",
   type: "action",
   props: {
     paytrace,
-    start_date: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date formatted MM/DD/YYYY",
-      optional: false,
+    startDate: {
+      propDefinition: [
+        paytrace,
+        "startDate",
+      ],
     },
-    end_date: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date formatted MM/DD/YYYY",
-      optional: false,
+    endDate: {
+      propDefinition: [
+        paytrace,
+        "endDate",
+      ],
     },
-    transaction_id: {
+    transactionId: {
       type: "string",
       label: "Transaction ID",
       description: "A unique identifier for each transaction in the PayTrace system.",
       optional: true,
     },
-    transaction_type: {
+    transactionType: {
       type: "string",
       label: "Transaction Type",
       description: "The transaction type to find transactions.",
       optional: true,
-      options: ["SALE", "AUTHORIZATION", "STR/FWD", "REFUND", "VOID", "SETTLED", "PENDING", "DECLINED"],
+      options: constants.TRANSACTION_TYPES,
     },
-    customer_id: {
+    customerId: {
       type: "string",
       label: "Customer ID",
       description: "A unique identifier for an existing customer profile stored in your Customer Database (Vault) at PayTrace.",
       optional: true,
     },
-    include_bin: {
+    includeBin: {
       type: "boolean",
       label: "Include BIN",
       description: "If set to true, this will return the first 6 and last 4 digits of the card number.",
       optional: true,
     },
-    including_text: {
+    includingText: {
       type: "string",
       label: "Search Text",
       description: "The text submitted will be used to locate transactions containing this text. This will help to narrow down the export results.",
@@ -54,25 +54,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      start_date: this.start_date,
-      end_date: this.end_date,
-      transaction_id: this.transaction_id,
-      transaction_type: this.transaction_type,
-      customer_id: this.customer_id,
-      include_bin: this.include_bin,
-      including_text: this.including_text,
-    };
-    const config = {
-      url: "https://api.paytrace.com/v1/transactions/export/by_date_range",
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.paytrace.$auth.oauth_access_token}`,
-        'Content-Type': 'application/json'
+    const response = await this.paytrace.getTransactions({
+      data: {
+        start_date: this.startDate,
+        end_date: this.endDate,
+        transaction_id: this.transactionId,
+        transaction_type: this.transactionType,
+        customer_id: this.customerId,
+        include_bin: this.includeBin,
+        including_text: this.includingText,
       },
-      data
-    }
+      $,
+    });
 
-    return await axios($, config);
-  }
-}
+    this.export("$summary", "Successfully retrieved transactions");
+
+    return response;
+  },
+};

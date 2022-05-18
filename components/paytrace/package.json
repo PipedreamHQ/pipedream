@@ -1,11 +1,19 @@
 {
-  "name": "paytrace",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@pipedream/paytrace",
+  "version": "0.0.1",
+  "description": "Pipedream Paytrace Components",
   "main": "paytrace.app.mjs",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [
+    "pipedream",
+    "paytrace"
+  ],
+  "homepage": "https://pipedream.com/apps/paytrace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   },
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
 }

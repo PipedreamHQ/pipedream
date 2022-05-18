@@ -1,41 +1,37 @@
-import { axios } from "@pipedream/platform"
-import paytrace from '../../paytrace.app.mjs';
+import paytrace from "../../paytrace.app.mjs";
 
 export default {
   name: "List Batches by Date Range",
-  description: "This method can be used to export a set of batch summary details with a provided date range.  This method will return one or more batch summary records.",
-  key: 'paytrace-list-batches',
+  description: "This method can be used to export a set of batch summary details with a provided date range.  This method will return one or more batch summary records. [See docs here](https://developers.paytrace.com/support/home#14000045545)",
+  key: "paytrace-list-batches",
   version: "0.0.4",
   type: "action",
   props: {
     paytrace,
-    start_date: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date formatted MM/DD/YYYY",
-      optional: false,
+    startDate: {
+      propDefinition: [
+        paytrace,
+        "startDate",
+      ],
     },
-    end_date: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date formatted MM/DD/YYYY",
-      optional: false,
+    endDate: {
+      propDefinition: [
+        paytrace,
+        "endDate",
+      ],
     },
   },
   async run({ $ }) {
-    const config = {
-      url: "https://api.paytrace.com/v1/batches/export",
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.paytrace.$auth.oauth_access_token}`,
-        'Content-Type': 'application/json'
-      },
+    const response = await this.paytrace.getBatches({
       data: {
-        start_date: this.start_date,
-        end_date: this.end_date
-      }
-    }
+        start_date: this.startDate,
+        end_date: this.endDate,
+      },
+      $,
+    });
 
-    return await axios($, config);
-  }
-}
+    this.export("$summary", "Successfully retrieved batches");
+
+    return response;
+  },
+};

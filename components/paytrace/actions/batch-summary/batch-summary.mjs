@@ -1,35 +1,37 @@
-import { axios } from "@pipedream/platform"
-import paytrace from '../../paytrace.app.mjs';
+import paytrace from "../../paytrace.app.mjs";
 
 export default {
   name: "Batch Summary",
-  description: "This method can be used to export a summary of specific batch details or currently pending settlement details by card and transaction type.  If no optional parameter is provided, the latest batch details will be returned.",
-  key: 'paytrace-batch-summary',
-  version: "0.0.2",
+  description: "This method can be used to export a summary of specific batch details or currently pending settlement details by card and transaction type.  If no optional parameter is provided, the latest batch details will be returned. [See docs here](https://developers.paytrace.com/support/home#14000045456)",
+  key: "paytrace-batch-summary",
+  version: "0.0.3",
   type: "action",
   props: {
     paytrace,
-    batch_number: {
-      type: "integer",
-      label: "Batch Number",
-      optional: true,
-    }
+    integratorId: {
+      propDefinition: [
+        paytrace,
+        "integratorId",
+      ],
+    },
+    batchNumber: {
+      propDefinition: [
+        paytrace,
+        "batchNumber",
+      ],
+    },
   },
   async run({ $ }) {
-    const data = {
-      batchNumber: this.batch_number
-    };
-
-    const config = {
-      url: "https://api.paytrace.com/v1/batches/export_one",
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.paytrace.$auth.oauth_access_token}`,
-        'Content-Type': 'application/json'
+    const response = await this.paytrace.batchSummary({
+      data: {
+        integrator_id: this.integratorId,
+        batch_number: this.batchNumber,
       },
-      data,
-    }
+      $,
+    });
 
-    return await axios($, config);
-  }
-}
+    this.export("$summary", "Successfully retrieved batch summary");
+
+    return response;
+  },
+};
