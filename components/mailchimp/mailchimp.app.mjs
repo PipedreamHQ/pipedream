@@ -719,5 +719,15 @@ export default {
         params,
       });
     },
+    async addSegmentMember($, {
+      listId, segmentId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/segments/${segmentId}/members`,
+        data,
+        method: "post",
+      });
+    },
   },
 };
