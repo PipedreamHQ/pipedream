@@ -38,7 +38,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const zoneId = this.zoneIdentifier;
     const {
       fileUrl,
@@ -50,7 +50,7 @@ export default {
     }
 
     const form = new FormData();
-    if (this.proxied) {
+    if (this.proxied !== undefined) {
       form.append("proxied", this.proxied.toString());
     }
 
@@ -69,6 +69,7 @@ export default {
     }
 
     const response = await this.cloudflare.importDnsRecords(zoneId, form);
+    $.export("$summary", "BIND config file successfully imported");
 
     return response;
   },

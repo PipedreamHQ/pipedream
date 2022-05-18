@@ -15,10 +15,11 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const zoneId = this.zoneIdentifier;
 
     const response = await this.cloudflare.getCertificates(zoneId);
+    $.export("$summary", "Certificates successfully retrieved");
 
     return response;
   },

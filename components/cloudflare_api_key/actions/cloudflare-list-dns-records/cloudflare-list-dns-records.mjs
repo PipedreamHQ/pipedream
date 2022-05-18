@@ -78,7 +78,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const zoneId = this.zoneIdentifier;
     const dnsRecordData = {
       match: this.match,
@@ -93,6 +93,7 @@ export default {
     };
 
     const response = await this.cloudflare.listDnsRecords(zoneId, dnsRecordData);
+    $.export("$summary", "DNS records successfully retrieved");
 
     return response;
   },

@@ -29,12 +29,10 @@ export default {
       type: "string",
       label: "Type",
       description: "A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup",
-      options() {
-        return [
-          "full",
-          "partial",
-        ];
-      },
+      options: [
+        "full",
+        "partial",
+      ],
       optional: true,
     },
   },

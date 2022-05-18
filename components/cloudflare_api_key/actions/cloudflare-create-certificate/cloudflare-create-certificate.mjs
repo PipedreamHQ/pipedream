@@ -24,13 +24,11 @@ export default {
       type: "string",
       label: "Request Type",
       description: "Signature type desired on certificate",
-      options() {
-        return [
-          "origin-rsa",
-          "origin-ecc",
-          "keyless-certificate",
-        ];
-      },
+      options: [
+        "origin-rsa",
+        "origin-ecc",
+        "keyless-certificate",
+      ],
     },
     csr: {
       type: "string",
