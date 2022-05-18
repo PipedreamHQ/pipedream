@@ -38,6 +38,9 @@ export default {
 
     const form = new FormData();
     if (filePath) {
+      if (!fs.existsSync(filePath)) {
+        throw new Error(`${filePath} does not exists`);
+      }
       const readStream = fs.createReadStream(filePath);
       form.append("import", readStream);
     } else if (fileUrl) {
