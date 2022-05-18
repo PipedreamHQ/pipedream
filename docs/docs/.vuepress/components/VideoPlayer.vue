@@ -8,7 +8,7 @@ iframe {
   <iframe
     width="660"
     height="371"
-    :src="url"
+    :src="embedUrl"
     :title="title"
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -22,6 +22,12 @@ export default {
   props: {
     url: String,
     title: String,
+    startAt: String,
+  },
+  computed: {
+    embedUrl() {
+      return `${this.url}${this.startAt ? `?start=${this.startAt}` : ""}`;
+    },
   },
 };
 </script>

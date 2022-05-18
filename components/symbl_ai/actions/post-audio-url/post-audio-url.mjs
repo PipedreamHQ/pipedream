@@ -1,11 +1,12 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
 import languages from "../common/languages.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "symbl_ai-post-audio-url",
   name: "Submit Audio URL",
   description: "Submit an Audio file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/audio/post-audio-url).",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     symblAIApp,
@@ -13,7 +14,6 @@ export default {
       type: "string",
       label: "Audio URL",
       description: "The URL of the audio file to be processed.",
-      optional: false,
     },
     meetingName: {
       type: "string",
@@ -98,8 +98,22 @@ export default {
       description: "Provide a JSON array of the information to be tracked containing the `name` and the `vocabulary` information. The tracker object is represented by the following structure: `[{\"name\": \"Promotion Mention\",\"vocabulary\": [\"We have a special promotion going on if you book this before\",\"I can offer you a discount of 10 or 20 percent you being a new customer for us\",\"We have a sale right now on\"]}]`. See doc [here](https://docs.symbl.ai/docs/management-api/trackers/create-tracker).",
       optional: true,
     },
+    channelMetadata: {
+      type: "string",
+      label: "Channel Metadata",
+      description: "Provide a JSON array of participants with their `channel` and `speaker` information. Each participant object is represented by the following structure:  `[{\"channel\": 1,\"speaker\": {\"name\": \"Joe Doe\",\"email\": \"joe@doe.com\"}},{\"channel\": 2,\"speaker\": {\"name\": \"Mary Jones\",\"email\": \"mary@email.com\"}}]`. See doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video#channel-metadata)",
+      optional: true,
+    },
+    enableSummary: {
+      type: "boolean",
+      label: "Enable Summary",
+      description: "Generate the Conversation summary automatically. Accepts `true` or `false` values.",
+      optional: true,
+    },
   },
   async run({ $ }) {
+    const trackers = utils.emptyStrToUndefined(this.trackers);
+    const channelMetadata = utils.emptyStrToUndefined(this.channelMetadata);
     const response =
       await this.symblAIApp.postAudioUrl({
         $,
@@ -117,7 +131,9 @@ export default {
           enableAllTrackers: this.enableAllTrackers,
           enableSpeakerDiarization: this.enableSpeakerDiarization,
           diarizationSpeakerCount: this.diarizationSpeakerCount,
-          trackers: JSON.parse(this.trackers),
+          trackers: JSON.parse(trackers || "[]"),
+          channelMetadata: JSON.parse(channelMetadata || "[]"),
+          enableSummary: this.enableSummary,
         },
       });
     $.export("$summary", `Successfully posted audio file URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);

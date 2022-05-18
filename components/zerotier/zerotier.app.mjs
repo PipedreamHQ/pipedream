@@ -32,6 +32,56 @@ export default {
         }));
       },
     },
+    memberHidden: {
+      type: "boolean",
+      label: "Member Hidden?",
+      description: "Whether or not the member is hidden in the UI",
+      optional: true,
+    },
+    memberName: {
+      type: "string",
+      label: "Member Name",
+      description: "User defined name of the member",
+      optional: true,
+    },
+    memberDescription: {
+      type: "string",
+      label: "Member Description",
+      description: "User defined description of the member",
+      optional: true,
+    },
+    memberAuthorized: {
+      type: "boolean",
+      label: "Member Authorized?",
+      description: "Is the member authorized on the network",
+      optional: true,
+    },
+    memberActiveBridge: {
+      type: "boolean",
+      label: "Allow Ethernet Bridging?",
+      description: "Allow the member to be a bridge on the network",
+      optional: true,
+    },
+    memberNoAutoAssignIps: {
+      type: "boolean",
+      label: "Do Not Auto-Assign IPs",
+      description:
+        "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
+      optional: true,
+    },
+    networkName: {
+      type: "string",
+      label: "Network Name",
+      description: "User defined name of the network",
+      optional: false,
+    },
+    privateNetwork: {
+      type: "boolean",
+      label: "Private Network",
+      description: "If `FALSE`, members will _NOT_ need to be authorized to join.",
+      default: true,
+      optional: true,
+    },
   },
   methods: {
     _accessToken() {
@@ -71,6 +121,36 @@ export default {
       userId, $,
     } = {}) {
       return this._makeRequest(`user/${userId}`, {}, $);
+    },
+    async getStatus({ $ } = {}) {
+      return this._makeRequest("status", {}, $);
+    },
+    async updateNetworkMember({
+      networkId, nodeId, data, $,
+    } = {}) {
+      return this._makeRequest(
+        `network/${networkId}/member/${nodeId}`,
+        {
+          method: "POST",
+          data,
+        },
+        $,
+      );
+    },
+    async createNetwork({
+      data, $,
+    } = {}) {
+      return this._makeRequest("network", {
+        method: "POST",
+        data,
+      }, $);
+    },
+    async deleteNetworkMember({
+      networkId, nodeId, $,
+    } = {}) {
+      return this._makeRequest(`network/${networkId}/member/${nodeId}`, {
+        method: "DELETE",
+      }, $);
     },
   },
 };
