@@ -747,5 +747,14 @@ export default {
         params,
       });
     },
+    async getListMemberActivities($, {
+      listId, subscriberHash, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}/activity`,
+        params,
+      });
+    },
   },
 };
