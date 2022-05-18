@@ -23,7 +23,7 @@ export default {
   },
   async run() {
     return await this.slack.sdk().conversations.kick({
-      conversation: this.conversation,
+      channel: this.conversation,
       user: this.user,
     });
   },

@@ -32,7 +32,7 @@ export default {
   },
   async run() {
     return await this.slack.sdk().stars.remove({
-      conversation: this.conversation,
+      channel: this.conversation,
       timestamp: this.timestamp,
       file: this.file,
     });
