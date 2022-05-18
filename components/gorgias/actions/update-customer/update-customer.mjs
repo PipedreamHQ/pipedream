@@ -68,7 +68,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const data = {
       name: this.name,
       email: this.email,
       data: this.data,
@@ -86,7 +86,7 @@ export default {
 
     const response = await this.gorgias.updateCustomer({
       id: this.customerId,
-      params,
+      data,
     });
     $.export("$summary", `Succesfully updated customer ${this.customerId}`);
     return response;

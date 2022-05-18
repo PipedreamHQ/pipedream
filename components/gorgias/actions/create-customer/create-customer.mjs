@@ -62,7 +62,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const data = {
       name: this.name,
       email: this.email,
       data: this.data,
@@ -80,7 +80,7 @@ export default {
 
     const response = await this.gorgias.createCustomer({
       $,
-      params,
+      data,
     });
     $.export("$summary", `Succesfully created customer ${response.id}`);
     return response;

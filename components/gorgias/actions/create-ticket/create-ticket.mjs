@@ -46,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const data = {
       messages: [
         {
           from_agent: false,
@@ -70,7 +70,7 @@ export default {
 
     const response = await this.gorgias.createTicket({
       $,
-      params,
+      data,
     });
     $.export("$summary", `Succesfully created ticket ${response.id}`);
     return response;
