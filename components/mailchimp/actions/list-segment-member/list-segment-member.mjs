@@ -48,6 +48,7 @@ export default {
       listId: this.listId,
     };
     const response = await this.mailchimp.listSegmentMember($, payload);
+    response && $.export("$summary", "Segment member found");
     return response;
   },
 };

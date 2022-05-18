@@ -31,7 +31,8 @@ export default {
       listId: this.listId,
     };
     const response =  await this.mailchimp.addSegmentMember($, payload);
-    response && $.export("$summary", "Segment member added");
+    // response && $.export("$summary", "Segment member added");
+    console.log(response);
     return response;
   },
 };
