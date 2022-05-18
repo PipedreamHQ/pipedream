@@ -775,5 +775,14 @@ export default {
         method: "post",
       });
     },
+    async deleteListMember($, {
+      listId, subscriberHash,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}/actions/delete-permanent`,
+        method: "post",
+      });
+    },
   },
 };
