@@ -14,17 +14,15 @@ export default {
   key: "postmark-send-email-with-template",
   name: "Send Email With Template",
   description: "Send a single email with Postmark using a template [(See docs here)](https://postmarkapp.com/developer/api/templates-api#email-with-template)",
-  version: "0.1.23",
+  version: "0.0.1",
   type: "action",
   props: {
     postmark,
-    template_alias: {
-      type: "string",
-      label: "Template",
-      description: "The template to use for this email.",
-      options() {
-        return this.postmark.listTemplates();
-      },
+    templateAlias: {
+      propDefinition: [
+        postmark,
+        "templateAlias",
+      ],
     },
     template_model: {
       type: "object",
@@ -43,7 +41,7 @@ export default {
   },
   async run({ $ }) {
     return this.postmark.sharedActionRequest($, this, "email/withTemplate", {
-      TemplateAlias: this.template_alias,
+      TemplateAlias: this.templateAlias,
       TemplateModel: this.template_model,
       InlineCSS: this.inline_css,
     });

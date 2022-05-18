@@ -41,11 +41,20 @@ export default {
       });
     },
   },
-  async run(event) {
+  async run(data) {
     this.http.respond({
       status: 200,
     });
 
-    this.$emit(event);
+    let date = new Date(data.ReceivedAt);
+    let msgId = data.MessageID;
+
+    let id = `${msgId}-${date.toISOString()}`;
+
+    this.$emit(data, {
+      id,
+      summary: data.Subject,
+      ts: date.valueOf(),
+    });
   },
 };

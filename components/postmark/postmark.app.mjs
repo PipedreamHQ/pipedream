@@ -5,26 +5,34 @@ export default {
   type: "app",
   app: "postmark",
   propDefinitions: {
-    from_email: {
+    templateAlias: {
+      type: "string",
+      label: "Template",
+      description: "The template to use for this email.",
+      async options() {
+        return this.listTemplates();
+      },
+    },
+    fromEmail: {
       type: "string",
       label: "\"From\" email address",
       description:
         "The sender email address. Must have a registered and confirmed Sender Signature. To include a name, use the format 'Full Name &lt;sender@domain.com&gt;' for the address.",
     },
-    to_email: {
+    toEmail: {
       type: "string",
       label: "Recipient email address(es)",
       description:
         "Recipient email address. Multiple addresses are comma separated. Max 50.",
     },
-    cc_email: {
+    ccEmail: {
       type: "string",
       label: "CC email address(es)",
       description:
         "Cc recipient email address. Multiple addresses are comma separated. Max 50.",
       optional: true,
     },
-    bcc_email: {
+    bccEmail: {
       type: "string",
       label: "BCC email address(es)",
       description:
@@ -38,26 +46,26 @@ export default {
         "Email tag that allows you to categorize outgoing emails and get detailed statistics.",
       optional: true,
     },
-    reply_to: {
+    replyTo: {
       type: "string",
       label: "\"Reply To\" email address",
       description:
         "Reply To override email address. Defaults to the Reply To set in the sender signature.",
       optional: true,
     },
-    custom_headers: {
+    customHeaders: {
       type: "string[]",
       label: "Custom Headers",
       description: "List of custom headers to include.",
       optional: true,
     },
-    track_opens: {
+    trackOpens: {
       type: "boolean",
       label: "Track Opens",
       description: "Activate open tracking for this email.",
       optional: true,
     },
-    track_links: {
+    trackLinks: {
       type: "string",
       label: "Track Links",
       description:
@@ -95,7 +103,7 @@ export default {
       description: "Custom metadata key/value pairs.",
       optional: true,
     },
-    message_stream: {
+    messageStream: {
       type: "string",
       label: "Message stream",
       description:
@@ -108,35 +116,21 @@ export default {
       return this.$auth.api_key;
     },
     async listTemplates() {
-      return await axios({
-        url: "https://api.postmarkapp.com/templates?count=500&offset=0",
+      const { data } = await axios({
+        url: "https://api.postmarkapp.com/templates?Count=500&Offset=0&TemplateType=Standard",
         headers: this.getHeaders(),
         method: "GET",
-      })
-        .then(({ data }) =>
-          data.TotalCount
-            ? data.Templates.filter(
-              (obj) => obj.TemplateType === "Standard",
-            ).map((obj) => {
-              return {
-                label: obj.Name,
-                value: obj.Alias,
-              };
-            })
-            : [
-              {
-                label:
-                    "No templates found for this Postmark account. Create a template, then refresh this field.",
-                value: -1,
-              },
-            ])
-        .catch(() => [
-          {
-            label:
-              "An error ocurred while fetching the list of templates for this Postmark account. Please try again.",
-            value: -2,
-          },
-        ]);
+      });
+
+      return data.TotalCount
+        ? data.Templates.map((obj) => {
+          return {
+            label: obj.Name,
+            value: obj.Alias,
+          };
+        })
+        : [];
+
     },
     getHeaders() {
       return {
@@ -145,20 +139,32 @@ export default {
         "Accept": "application/json",
       };
     },
+    getAttachmentData(attachments) {
+      return attachments?.map((str) => {
+        let params = str.split("|");
+        return params.length === 3
+          ? {
+            Name: params[0],
+            Content: params[1],
+            ContentType: params[2],
+          }
+          : JSON.parse(str);
+      });
+    },
     listSharedProps() {
       return [
-        "from_email",
-        "to_email",
-        "cc_email",
-        "bcc_email",
+        "fromEmail",
+        "toEmail",
+        "ccEmail",
+        "bccEmail",
         "tag",
-        "reply_to",
-        "custom_headers",
-        "track_opens",
-        "track_links",
+        "replyTo",
+        "customHeaders",
+        "trackOpens",
+        "trackLinks",
         "attachments",
         "metadata",
-        "message_stream",
+        "messageStream",
       ];
     },
     async sharedActionRequest($, action, endpoint, uniqueProps) {
@@ -168,27 +174,18 @@ export default {
         method: "POST",
         data: {
           ...uniqueProps,
-          From: action.from_email,
-          To: action.to_email,
-          Cc: action.cc_email,
-          Bcc: action.bcc_email,
+          From: action.fromEmail,
+          To: action.toEmail,
+          Cc: action.ccEmail,
+          Bcc: action.bccEmail,
           Tag: action.tag,
-          ReplyTo: action.reply_to,
-          Headers: action.custom_headers,
-          TrackOpens: action.track_opens,
-          TrackLinks: action.track_links,
-          Attachments: action.attachments?.map((str) => {
-            let params = str.split("|");
-            return params.length === 3
-              ? {
-                Name: params[0],
-                Content: params[1],
-                ContentType: params[2],
-              }
-              : JSON.parse(str);
-          }),
+          ReplyTo: action.replyTo,
+          Headers: action.customHeaders,
+          TrackOpens: action.trackOpens,
+          TrackLinks: action.trackLinks,
+          Attachments: this.getAttachmentData(this.attachments),
           Metadata: action.metadata,
-          MessageStream: action.message_stream,
+          MessageStream: action.messageStream,
         },
       });
     },

@@ -15,7 +15,7 @@ export default {
   key: "postmark-send-single-email",
   name: "Send Single Email",
   description: "Send a single email with Postmark [(See docs here)](https://postmarkapp.com/developer/api/email-api#send-a-single-email)",
-  version: "0.1.4",
+  version: "0.2.0",
   type: "action",
   props: {
     postmark,
