@@ -756,5 +756,14 @@ export default {
         params,
       });
     },
+    async getListMemberTags($, {
+      listId, subscriberHash, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}/tags`,
+        params,
+      });
+    },
   },
 };
