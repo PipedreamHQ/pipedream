@@ -16,13 +16,6 @@ export default {
       ],
       reloadProps: true,
     },
-    title: {
-      propDefinition: [
-        notion,
-        "title",
-      ],
-      optional: true,
-    },
     iconType: {
       propDefinition: [
         notion,
@@ -89,12 +82,6 @@ export default {
       const value = utils.parseStringToJSON(this[propertyName], false);
 
       if (value) params.properties[propertyName] = value;
-    }
-
-    if (this.title) {
-      params.properties.title = {
-        title: utils.buildTextProperty(this.title),
-      };
     }
 
     if (this.iconType) {
