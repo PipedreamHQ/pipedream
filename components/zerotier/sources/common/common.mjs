@@ -37,6 +37,7 @@ export default {
         clock,
         online,
         nodeId,
+        name,
         networkId,
       } = node;
       const previousStatus = this._getNodeStatus(nodeId);
@@ -51,7 +52,7 @@ export default {
             : "offline";
           this.$emit(node, {
             id: `${networkId} - ${nodeId} - ${clock}`,
-            summary: `Node ${nodeId} is ${statusName}`,
+            summary: `Node ${nodeId} (${name}) is ${statusName}`,
             ts: Date.now(),
           });
         }
