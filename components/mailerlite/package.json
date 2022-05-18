@@ -1,7 +1,7 @@
 {
-  "name": "@pipedream/mailchimp",
+  "name": "@pipedream/mailerlite",
   "version": "1.0.0",
-  "description": "Pipedream Mailchimp Components",
+  "description": "Pipedream Mailerlite Components",
   "main": "mailerlite.app.mjs",
   "keywords": [
     "pipedream",
@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "lodash.pickby": "^4.6.0",
     "mailerlite-api-v2-node": "^1.2.0"
   }
 }

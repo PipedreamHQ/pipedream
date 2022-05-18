@@ -35,35 +35,47 @@ export default {
       label: "Subscriber",
       description: "Subscriber to update",
       async options({
-        group, page,
+        group, prevContext,
       }) {
         const limit = constants.PAGE_LIMIT;
+        const { offset = 0 } = prevContext;
         const params = {
           limit,
-          offset: (page - 1) * limit,
+          offset,
         };
         const subscribers = await this.listSubscribers(group, params);
-        return subscribers.map((subscriber) => ({
-          label: subscriber.name,
-          value: subscriber.email,
-        }));
+        return {
+          options: subscribers.map((subscriber) => ({
+            label: subscriber.name,
+            value: subscriber.email,
+          })),
+          context: {
+            offset: offset + limit,
+          },
+        };
       },
     },
     group: {
       type: "string",
       label: "Group",
       description: "Group to add subscriber to",
-      async options({ page }) {
+      async options({ prevContext }) {
         const limit = constants.PAGE_LIMIT;
+        const { offset = 0 } = prevContext;
         const params = {
           limit,
-          offset: (page - 1) * limit,
+          offset,
         };
         const groups = await this.listGroups(params);
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id,
-        }));
+        return {
+          options: groups.map((group) => ({
+            label: group.name,
+            value: group.id,
+          })),
+          context: {
+            offset: offset + limit,
+          },
+        };
       },
     },
     fields: {
@@ -105,7 +117,7 @@ export default {
       const client = await this._getClient();
       return client.getCampaigns(status);
     },
-    async createSubscriber(data) { console.log(data);
+    async createSubscriber(data) {
       const client = await this._getClient();
       return client.addSubscriber(data);
     },
