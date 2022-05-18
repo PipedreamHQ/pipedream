@@ -95,7 +95,7 @@ export default {
     }) {
       const config = {
         auth: this._auth(),
-        url: `https://${this.$auth.domain}/api/${path}`,
+        url: `https://${this.$auth.domain}.gorgias.com/api/${path}`,
         headers: {
           "Content-type": "application/json",
         },
