@@ -57,12 +57,17 @@ export default {
           },
         }, $);
         const users = response.data;
-
-        after = users?.length >= 40
-          ? users[users.length - 1].id
-          : null;
+        if (!users) {
+          break;
+        }
 
         allUsers = allUsers.concat(users);
+
+        if (users.length => 40) {
+          after = users[users.length - 1].id;
+        } else {
+          after = null;
+        }
       } while (after);
 
       return allUsers;
