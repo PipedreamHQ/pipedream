@@ -1,4 +1,4 @@
-import ringcentral from "../../ringcentral.app";
+import ringcentral from "../../ringcentral.app.mjs";
 
 export default {
   key: "ringcentral-create-meeting",
@@ -9,9 +9,10 @@ export default {
   props: {
     ringcentral,
     accountId: {
-      type: "string",
-      description: "Internal identifier of a RingCentral account.",
-      default: "~",
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
     extensionId: {
       propDefinition: [
@@ -22,6 +23,7 @@ export default {
     },
     topic: {
       type: "string",
+      label: "Topic",
       description: "Topic of the meeting.",
       optional: true,
     },

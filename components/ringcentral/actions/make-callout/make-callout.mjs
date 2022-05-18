@@ -4,15 +4,15 @@ export default {
   key: "ringcentral-make-callout",
   name: "Make  CallOut",
   description: "Creates a new outbound call out session. See the API docs [here](https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)",
-  version: "0.4.4",
+  version: "0.4.7",
   type: "action",
   props: {
     ringcentral,
     accountId: {
-      type: "string",
-      label: "Account ID",
-      description: "Internal identifier of a RingCentral account.",
-      default: "~",
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
     deviceId: {
       propDefinition: [
@@ -42,6 +42,7 @@ export default {
 
     const response =
       await this.ringcentral.makeCallOut({
+        $,
         accountId,
         data: {
           from: {

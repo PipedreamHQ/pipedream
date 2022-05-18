@@ -4,20 +4,27 @@ export default {
   type: "app",
   app: "ringcentral",
   propDefinitions: {
-    extensionId: {
+    accountId: {
       type: "string",
-      label: "Extension",
+      label: "Account ID",
+      description: "Internal identifier of a RingCentral account or tilde (`~`) to indicate the account logged-in within the current session.",
+      default: "~",
+    },
+    extensionId: {
+      type: "string[]",
+      label: "Extensions",
       description: "The extension (or user) that will trigger the event source",
-      async options(context) {
-        const { page } = context;
-
-        const { records: extensions } = await this._getExtensionList({
-          // Pages in the RingCentral API are 1-indexed
-          page: page + 1,
-          perPage: 10,
-          status: "Enabled",
-        });
-        const options = extensions.map((extension) => {
+      async options({ page }) {
+        const { records: extensions } =
+          await this._getExtensionList({
+            params: {
+              // Pages in the RingCentral API are 1-indexed
+              page: page + 1,
+              perPage: 10,
+              status: "Enabled",
+            },
+          });
+        return extensions.map((extension) => {
           const {
             id: value,
             extensionNumber,
@@ -32,13 +39,6 @@ export default {
             value,
           };
         });
-
-        return {
-          options,
-          context: {
-            nextPage: page + 1,
-          },
-        };
       },
     },
     deviceId: {
@@ -46,18 +46,19 @@ export default {
       label: "Device",
       description: "The extension's device that will trigger the event source",
       default: "",
-      async options(context) {
-        const {
-          page,
-          extensionId,
-        } = context;
-
-        const { records: devices } = await this._getDeviceList(extensionId, {
-          // Pages in the RingCentral API are 1-indexed
-          page: page + 1,
-          perPage: 10,
-        });
-        const options = devices.map((extension) => {
+      async options({
+        page, extensionId,
+      }) {
+        const { records: devices } =
+          await this._getDeviceList({
+            extensionId,
+            params: {
+              // Pages in the RingCentral API are 1-indexed
+              page: page + 1,
+              perPage: 10,
+            },
+          });
+        return devices.map((extension) => {
           const {
             id: value,
             type,
@@ -69,14 +70,6 @@ export default {
             value,
           };
         });
-
-        return {
-          options,
-          context: {
-            nextPage: page + 1,
-            extensionId,
-          },
-        };
       },
     },
   },
@@ -88,28 +81,6 @@ export default {
       const platform = this.$auth.instancetype ?? "https://platform";
       return `${platform}.ringcentral.com/restapi/v1.0`;
     },
-    _accountUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/account/~`;
-    },
-    _extensionUrl() {
-      const baseUrl = this._accountUrl();
-      return `${baseUrl}/extension`;
-    },
-    _deviceUrl(extensionId = "~") {
-      const baseUrl = this._extensionUrl();
-      return `${baseUrl}/${extensionId}/device`;
-    },
-    _callLogUrl(extensionId = "~") {
-      const baseUrl = this._extensionUrl();
-      return `${baseUrl}/${extensionId}/call-log`;
-    },
-    _subscriptionUrl(id) {
-      const baseUrl = this._apiUrl();
-      const basePath = "/subscription";
-      const path = id && `${basePath}/${id}` || basePath;
-      return `${baseUrl}${path}`;
-    },
     getHeaders() {
       const authToken = this._authToken();
       return {
@@ -117,118 +88,114 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
-    async _getExtensionList(params) {
-      // `params` refers to the query params listed in the API docs:
-      // https://developers.ringcentral.com/api-reference/Extensions/listExtensions
-      return axios(this, {
-        url: this._extensionUrl(),
+    async makeRequest({
+      $ = this, url, path, method = "get", ...args
+    } = {}) {
+      const config = {
+        method,
+        url: url ?? `${this._apiUrl()}${path}`,
         headers: this.getHeaders(),
-        params,
+        ...args,
+      };
+      console.log("config!!!", config);
+      try {
+        return await axios($, config);
+      } catch (error) {
+        throw error.response?.data?.message ?? error;
+      }
+    },
+    // https://developers.ringcentral.com/api-reference/Extensions/listExtensions
+    async _getExtensionList(args = {}) {
+      return this.makeRequest({
+        path: "/account/~/extension",
+        ...args,
       });
     },
-    async _getDeviceList(extensionId, params) {
-      // `params` refers to the query params listed in the API docs:
-      // https://developers.ringcentral.com/api-reference/Devices/listExtensionDevices
-      return axios(this, {
-        url: this._deviceUrl(extensionId),
-        headers: this.getHeaders(),
-        params,
+    // https://developers.ringcentral.com/api-reference/Devices/listExtensionDevices
+    async _getDeviceList({
+      extensionId = "~", ...args
+    }) {
+      return this.makeRequest({
+        path: `/account/~/extension/${extensionId}/device`,
+        ...args,
       });
     },
-    async _getExtensionCallLog(extensionId, params, nextPage = {}) {
-      // `params` refers to the query params listed in the API docs:
-      // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
-      const { uri: url = this._callLogUrl(extensionId) } = nextPage;
-      return axios(this, {
-        url,
-        headers: this.getHeaders(),
-        params,
+    // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
+    async getUserCallLogRecords({
+      accountId = "~", extensionId = "~", ...args
+    }) {
+      return this.makeRequest({
+        path: `/account/${accountId}/extension/${extensionId}/call-log`,
+        ...args,
       });
     },
     async makeCallOut({
       accountId = "~", ...args
     } = {}) {
-      return axios(this, {
+      return this.makeRequest({
         method: "post",
-        url: `${this._apiUrl()}/account/${accountId}/telephony/call-out`,
-        headers: this.getHeaders(),
+        path: `/account/${accountId}/telephony/call-out`,
         ...args,
       });
     },
     async createMeeting({
       accountId = "~", extensionId, ...args
     } = {}) {
-      return axios(this, {
+      return this.makeRequest({
         method: "post",
-        url: `${this._apiUrl()}/account/${accountId}/extension/${extensionId}/meeting`,
-        headers: this.getHeaders(),
+        path: `/account/${accountId}/extension/${extensionId}/meeting`,
         ...args,
       });
     },
     async sendSMS({
       accountId = "~", extensionId, ...args
     }) {
-      return axios(this, {
+      return this.makeRequest({
         method: "post",
-        url: `${this._apiUrl()}/account/${accountId}/extension/${extensionId}/sms`,
-        headers: this.getHeaders(),
+        path: `/account/${accountId}/extension/${extensionId}/sms`,
         ...args,
       });
     },
+    // Details about the different webhook parameters can be found in the
+    // RingCentral API docs:
+    // https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription
+    async createHook(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/subscription",
+        ...args,
+      });
+    },
+    deleteHook(hookId) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/subscription/${hookId}`,
+      });
+    },
     async *getCallRecordings(extensionId, dateFrom, dateTo) {
-      const params = {
-        dateFrom,
-        dateTo,
-        withRecording: true,
-      };
+      let url;
 
-      let nextPage = {};
       do {
         const {
           records,
           navigation,
-        } = await this._getExtensionCallLog(extensionId, params, nextPage);
+        } = await this.getUserCallLogRecords({
+          url,
+          extensionId,
+          params: {
+            dateFrom,
+            dateTo,
+            // withRecording: true,
+            recordingType: "All", // undefined | "Automatic" | "OnDemand" | "All"
+          },
+        });
 
         for (const record of records) {
           yield record;
         }
 
-        nextPage = navigation.nextPage;
-      } while (nextPage);
-    },
-    async createHook({
-      address,
-      eventFilters,
-      verificationToken,
-    }) {
-      // Details about the different webhook parameters can be found in the
-      // RingCentral API docs:
-      // https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription
-      const data = await axios(this, {
-        method: "post",
-        url: this._subscriptionUrl(),
-        headers: this.getHeaders(),
-        data: {
-          eventFilters,
-          deliveryMode: {
-            transportType: "WebHook",
-            address,
-            verificationToken,
-            expiresIn: 630720000, // 20 years (max. allowed by the API)
-          },
-        },
-      });
-      return {
-        ...data,
-        verificationToken,
-      };
-    },
-    deleteHook(hookId) {
-      return axios(this, {
-        method: "delete",
-        url: this._subscriptionUrl(hookId),
-        headers: this.getHeaders(),
-      });
+        url = navigation.nextPage?.uri;
+      } while (url);
     },
   },
 };

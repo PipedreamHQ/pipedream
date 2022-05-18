@@ -1,4 +1,4 @@
-import template from "lodash/template";
+import template from "lodash.template";
 import { v4 as uuid } from "uuid";
 import base  from "./base.mjs";
 import notificationTypes from "./notification-types.mjs";
@@ -21,12 +21,17 @@ export default {
       const verificationToken = this._getVerificationToken();
       this.db.set("verificationToken", verificationToken);
 
-      const opts = {
-        address: this.http.endpoint,
-        eventFilters: this._getEventFilters(),
-        verificationToken,
-      };
-      const { id: webhookId } = await this.ringcentral.createHook(opts);
+      const { id: webhookId } = await this.ringcentral.createHook({
+        data: {
+          eventFilters: this._getEventFilters(),
+          deliveryMode: {
+            transportType: "WebHook",
+            address: this.http.endpoint,
+            verificationToken,
+            expiresIn: 630720000, // 20 years (max. allowed by the API)
+          },
+        },
+      });
       this.db.set("webhookId", webhookId);
     },
     async deactivate() {
@@ -41,9 +46,27 @@ export default {
     _getEventFilters() {
       const eventKeys = this.getSupportedNotificationTypes();
       const propValues = this.getPropValues();
+      const {
+        extensionId,
+        ...otherPropValues
+      } = propValues;
       return notificationTypes
         .filter(({ key }) => eventKeys.has(key))
-        .map(({ filter }) => template(filter)(propValues));
+        .reduce((reduction, { filter }) => {
+          if (!Array.isArray(extensionId)) {
+            const eventFilter = template(filter)(propValues);
+            return reduction.concat(eventFilter);
+          }
+          const eventFilters =
+            extensionId?.map((extensionId) => {
+              const eventFilter = template(filter)({
+                ...otherPropValues,
+                extensionId,
+              });
+              return eventFilter;
+            });
+          return reduction.concat(eventFilters);
+        }, []);
     },
     _getVerificationToken() {
       return uuid().replace(/-/g, "");

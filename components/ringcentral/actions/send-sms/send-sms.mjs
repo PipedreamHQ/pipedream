@@ -5,14 +5,15 @@ export default {
   key: "ringcentral-send-sms",
   name: "Send SMS",
   description: "Creates and sends a new text message. See the API docs [here](https://developers.ringcentral.com/api-reference/SMS/createSMSMessage)",
-  version: "0.5.1",
+  version: "0.5.4",
   type: "action",
   props: {
     ringcentral,
     accountId: {
-      type: "string",
-      description: "Internal identifier of a RingCentral account.",
-      default: "~",
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
     extensionId: {
       propDefinition: [
@@ -79,10 +80,22 @@ export default {
       countryCallingCode,
     } = this;
 
-    const to = utils.parse(this.toPhoneNumbers);
+    const toPhoneNumbers = utils.parse(this.toPhoneNumbers);
+    const to = toPhoneNumbers.map((phoneNumber) => ({
+      phoneNumber,
+    }));
+    const country = utils.emptyObjectToUndefined({
+      id: countryId,
+      uri: countryUri,
+      name: countryName,
+      isoCode: countryIsoCode,
+      callingCode: countryCallingCode,
+    });
+    console.log("country", country);
 
     const response =
       await this.ringcentral.sendSMS({
+        $,
         accountId,
         extensionId,
         data: {
@@ -91,13 +104,7 @@ export default {
           },
           to,
           text,
-          country: {
-            id: countryId,
-            uri: countryUri,
-            name: countryName,
-            isoCode: countryIsoCode,
-            callingCode: countryCallingCode,
-          },
+          country,
         },
       });
 
