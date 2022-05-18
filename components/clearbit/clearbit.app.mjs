@@ -11,26 +11,35 @@ export default {
     },
   },
   methods: {
-    _getBaseUrl() {
-      return "https://company.clearbit.com/v1";
+    _getCompanyBaseUrl(version) {
+      return `https://company.clearbit.com/${version}`;
     },
     _getHeaders() {
       return {
         Authorization: `Bearer ${this.$auth.secret_api_key}`,
       };
     },
-    _getAxiosParams(opts = {}) {
+    _getRequestParams(opts = {}) {
       const res = {
         ...opts,
-        url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
       return res;
     },
     companyNameToDomain(ctx = this, companyName) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "GET",
-        path: `/domains/find?name=${companyName}`,
+        url: `${this._getCompanyBaseUrl("v1")}/domains/find`,
+        params: {
+          name: companyName,
+        },
+      }));
+    },
+    domainLookup(ctx = this, params) {
+      return axios(ctx, this._getRequestParams({
+        method: "GET",
+        url: `${this._getCompanyBaseUrl("v2")}/companies/find`,
+        params,
       }));
     },
   },
