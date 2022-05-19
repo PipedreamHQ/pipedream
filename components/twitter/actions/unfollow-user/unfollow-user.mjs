@@ -2,7 +2,7 @@ import twitter from "../../twitter.app.mjs";
 
 export default {
   key: "twitter-unfollow-user",
-  name: "Unfollow user",
+  name: "Unfollow User",
   description: "Unfollow the user specified by ID or screen name parameter. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy)",
   version: "0.0.1",
   type: "action",
