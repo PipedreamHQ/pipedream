@@ -1076,6 +1076,26 @@ export default {
         config,
       }));
     },
+    async unfollowUser(opts = {}) {
+      const {
+        $,
+        userId,
+        screenName,
+      } = opts;
+      const params = {
+        user_id: userId,
+        screen_name: screenName,
+      };
+      const config = {
+        url: "https://api.twitter.com/1.1/friendships/destroy.json",
+        method: "post",
+        params,
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
     webhooks: {},
   },
 };
