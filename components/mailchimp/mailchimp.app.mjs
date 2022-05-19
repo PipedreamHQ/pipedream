@@ -813,5 +813,16 @@ export default {
         data,
       });
     },
+    async addOrUpdateSubscriber($, {
+      listId, subscriberHash, data, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}`,
+        method: "put",
+        data,
+        params,
+      });
+    },
   },
 };
