@@ -1,4 +1,7 @@
 import base from "../../../gorgias/actions/list-tickets/list-tickets.mjs";
+import overrideApp from "../../common/override-app.mjs";
+
+overrideApp(base);
 
 export default {
   ...base,

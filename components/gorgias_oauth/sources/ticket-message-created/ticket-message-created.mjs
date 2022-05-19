@@ -1,4 +1,7 @@
 import base from "../../../gorgias/sources/ticket-message-created/ticket-message-created.mjs";
+import overrideApp from "../../common/override-app.mjs";
+
+overrideApp(base);
 
 export default {
   ...base,

@@ -1,4 +1,7 @@
 import base from "../../../gorgias/actions/create-customer/create-customer.mjs";
+import overrideApp from "../../common/override-app.mjs";
+
+overrideApp(base);
 
 export default {
   ...base,
