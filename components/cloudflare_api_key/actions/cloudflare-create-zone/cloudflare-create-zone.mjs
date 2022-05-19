@@ -1,4 +1,5 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "cloudflare_api_key-create-zone",
@@ -29,10 +30,7 @@ export default {
       type: "string",
       label: "Type",
       description: "A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup",
-      options: [
-        "full",
-        "partial",
-      ],
+      options: constants.ZONE_TYPE_OPTIONS,
       optional: true,
     },
   },

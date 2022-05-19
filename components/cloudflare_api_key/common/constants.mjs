@@ -47,8 +47,43 @@ const DEVELOPMENT_MODE_OPTIONS = [
   },
 ];
 
+const DNS_RECORD_TYPE_OPTIONS = [
+  "A",
+  "AAAA",
+  "CNAME",
+  "HTTPS",
+  "TXT",
+  "SRV",
+  "LOC",
+  "MX",
+  "NS",
+  "CERT",
+  "DNSKEY",
+  "DS",
+  "NAPTR",
+  "SMIMEA",
+  "SSHFP",
+  "SVCB",
+  "TLSA",
+  "URI read only",
+];
+
+const ZONE_TYPE_OPTIONS = [
+  "full",
+  "partial",
+];
+
+const CERTIFICATE_REQUEST_TYPE_OPTIONS = [
+  "origin-rsa",
+  "origin-ecc",
+  "keyless-certificate",
+];
+
 export default {
   ZONE_SECURITY_LEVEL_OPTIONS,
   DNS_RECORD_MATCH_OPTIONS,
   DEVELOPMENT_MODE_OPTIONS,
+  DNS_RECORD_TYPE_OPTIONS,
+  ZONE_TYPE_OPTIONS,
+  CERTIFICATE_REQUEST_TYPE_OPTIONS,
 };

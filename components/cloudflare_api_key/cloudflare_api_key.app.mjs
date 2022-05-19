@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import cloudflare from "cloudflare";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -96,26 +97,7 @@ export default {
       type: "string",
       label: "Type",
       description: "DNS record type",
-      options: [
-        "A",
-        "AAAA",
-        "CNAME",
-        "HTTPS",
-        "TXT",
-        "SRV",
-        "LOC",
-        "MX",
-        "NS",
-        "CERT",
-        "DNSKEY",
-        "DS",
-        "NAPTR",
-        "SMIMEA",
-        "SSHFP",
-        "SVCB",
-        "TLSA",
-        "URI read only",
-      ],
+      options: constants.DNS_RECORD_TYPE_OPTIONS,
     },
     dnsName: {
       type: "string",

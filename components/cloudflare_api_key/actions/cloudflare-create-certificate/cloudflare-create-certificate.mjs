@@ -1,4 +1,5 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "cloudflare_api_key-create-certificate",
@@ -24,11 +25,7 @@ export default {
       type: "string",
       label: "Request Type",
       description: "Signature type desired on certificate",
-      options: [
-        "origin-rsa",
-        "origin-ecc",
-        "keyless-certificate",
-      ],
+      options: constants.CERTIFICATE_REQUEST_TYPE_OPTIONS,
     },
     csr: {
       type: "string",
