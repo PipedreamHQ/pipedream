@@ -430,6 +430,18 @@ export default {
         params,
       });
     },
+    async createDm({
+      $, recipientID,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "post",
+        path: "/users/@me/channels",
+        data: {
+          recipient_id: recipientID,
+        },
+      });
+    },
     async getChannels({
       $, guildId,
     }) {
