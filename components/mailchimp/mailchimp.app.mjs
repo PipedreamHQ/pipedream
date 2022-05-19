@@ -131,7 +131,7 @@ export default {
     _server() {
       return this.$auth.dc;
     },
-    _getHeader() {
+    _getHeaders() {
       return {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -156,7 +156,7 @@ export default {
       const config = {
         method,
         url: this._getUrl(path),
-        headers: this._getHeader(),
+        headers: this._getHeaders(),
         params,
         data,
       };
