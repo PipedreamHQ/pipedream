@@ -165,6 +165,18 @@ export default {
       } = rootConstants;
       return `${HTTP_PROTOCOL}${this._server()}.${BASE_URL}${VERSION_PATH}${path}`;
     },
+    _campaignPath(campaignId = null) {
+      return `/campaigns/${campaignId || ""}`;
+    },
+    _listPath(listId = null) {
+      return `/lists/${listId || ""}`;
+    },
+    _segmentMemberPath(listId, segmentId, subscriberHash = null) {
+      return  `${this._listPath(listId)}/segments/${segmentId}/members/${subscriberHash || ""}`;
+    },
+    _listMemberPath(listId,  subscriberHash) {
+      return  `${this._listPath(listId)}/members/${subscriberHash}`;
+    },
     async _makeRequest(args = {}) {
       const {
         $,
@@ -649,7 +661,7 @@ export default {
       return this._makeRequest({
         $,
         params,
-        path: `/campaigns/${campaignId}`,
+        path: this._campaignPath(campaignId),
       });
     },
     async findCampaignReport($, {
@@ -667,8 +679,16 @@ export default {
       return this._makeRequest({
         $,
         data,
-        path: `/campaigns/${campaignId}`,
+        path: this._campaignPath(campaignId),
         method: "patch",
+      });
+    },
+    async createCampaign($, data) {
+      return this._makeRequest({
+        $,
+        data,
+        path: this._campaignPath(),
+        method: "post",
       });
     },
     async editCampaignTemplate($, {
@@ -677,14 +697,14 @@ export default {
       return this._makeRequest({
         $,
         data,
-        path: `/campaigns/${campaignId}/content`,
+        path: `${this._campaignPath(campaignId)}/content`,
         method: "put",
       });
     },
     async deleteCampaign($, campaignId) {
       return this._makeRequest({
         $,
-        path: `/campaigns/${campaignId}`,
+        path: this._campaignPath(campaignId),
         method: "delete",
       });
     },
@@ -700,7 +720,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}`,
+        path: this._listPath(listId),
         params,
       });
     },
@@ -717,7 +737,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}`,
+        path: this._listPath(listId),
         data,
         method: "patch",
       });
@@ -725,16 +745,16 @@ export default {
     async deleteList($, listId) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}`,
+        path: this._listPath(listId),
         method: "delete",
       });
     },
-    async listSegmentMember($, {
+    async listSegmentMembers($, {
       listId, segmentId, ...params
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/segments/${segmentId}/members`,
+        path: this._segmentMemberPath(listId, segmentId),
         params,
       });
     },
@@ -743,7 +763,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/segments/${segmentId}/members`,
+        path: this._segmentMemberPath(listId, segmentId),
         data,
         method: "post",
       });
@@ -753,7 +773,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/segments/${segmentId}/members/${subscriberHash}`,
+        path: this._segmentMemberPath(listId, segmentId, subscriberHash),
         method: "delete",
       });
     },
@@ -762,7 +782,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/activity`,
+        path: `${this._listPath(listId)}/activity`,
         params,
       });
     },
@@ -771,7 +791,7 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}/activity`,
+        path: `${this._listMemberPath(listId, subscriberHash)}/activity`,
         params,
       });
     },
@@ -780,16 +800,16 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}/tags`,
+        path: `${this._listMemberPath(listId, subscriberHash)}/tags`,
         params,
       });
     },
-    async addRemoveMemberTags($, {
+    async addRemoveListMemberTags($, {
       listId, subscriberHash, ...data
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}/tags`,
+        path: `${this._listMemberPath(listId, subscriberHash)}/tags`,
         data,
         method: "post",
       });
@@ -799,26 +819,26 @@ export default {
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}/actions/delete-permanent`,
+        path: `${this._listMemberPath(listId, subscriberHash)}/actions/delete-permanent`,
         method: "post",
       });
     },
-    async addNoteToSubscriber($, {
+    async addNoteToListMember($, {
       listId, subscriberHash, ...data
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}/notes`,
+        path: `${this._listMemberPath(listId, subscriberHash)}/notes`,
         method: "post",
         data,
       });
     },
-    async addOrUpdateSubscriber($, {
+    async addOrUpdateListMember($, {
       listId, subscriberHash, data, params,
     }) {
       return this._makeRequest({
         $,
-        path: `/lists/${listId}/members/${subscriberHash}`,
+        path: this._listMemberPath(listId, subscriberHash),
         method: "put",
         data,
         params,
