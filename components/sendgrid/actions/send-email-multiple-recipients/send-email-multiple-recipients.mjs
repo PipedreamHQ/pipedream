@@ -184,7 +184,12 @@ export default {
       from,
       reply_to: replyTo,
       subject: this.subject,
-      content: this.getArrayObject(this.content),
+      content: [
+        {
+          type: "text/html",
+          value: this.content,
+        },
+      ],
       attachments,
       headers: this.headers,
       categories: this.categories,

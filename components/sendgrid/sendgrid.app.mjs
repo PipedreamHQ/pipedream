@@ -112,7 +112,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "An string array where you can specify the content of your email. You can include multiple of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
+      description: "Content of the email in `text/html`",
     },
     attachments: {
       type: "string",
@@ -152,7 +152,7 @@ export default {
     },
     ipPoolName: {
       type: "string",
-      label: "Ip Pool Name",
+      label: "IP Pool Name",
       description: "The IP Pool that you would like to send this email from",
       optional: true,
     },
