@@ -15,12 +15,14 @@ export default {
         const {
           data: customers,
           meta,
-        } = await this.listCustomers(this, {
-          cursor: prevContext.nextCursor,
+        } = await this.listCustomers({
+          params: {
+            cursor: prevContext.nextCursor,
+          },
         });
         return {
           options: customers.map((customer) => ({
-            label: customer.name,
+            label: customer.name ?? customer.email,
             value: customer.id,
           })),
           context: {
