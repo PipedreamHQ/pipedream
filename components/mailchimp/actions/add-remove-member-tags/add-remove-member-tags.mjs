@@ -33,6 +33,8 @@ export default {
       subscriberHash: this.subscriberHash,
       tags: convertStringObjects("tags", this.tags),
     });
-    return await this.mailchimp.addRemoveMemberTags($, payload);
+    const response =  await this.mailchimp.addRemoveMemberTags($, payload);
+    response && $.export("$summary", "Action successful");
+    return response;
   },
 };
