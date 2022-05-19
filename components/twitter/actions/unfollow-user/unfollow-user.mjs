@@ -1,4 +1,5 @@
 import twitter from "../../twitter.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "twitter-unfollow-user",
@@ -30,16 +31,15 @@ export default {
     } = this;
 
     if (!userId && !screenName) {
-      throw new Error("This action requires either User ID or Screen Name. Please enter one or the other above.");
+      throw new ConfigurationError("This action requires either User ID or Screen Name. Please enter one or the other above.");
     }
 
     const params = {
-      $,
-      userId,
-      screenName,
+       user_id: userId,
+       screen_name: screenName,
     };
-    const res = await this.twitter.unfollowUser(params);
+    const response = await this.twitter.unfollowUser(params);
     $.export("$summary", "Successfully unfollowed user");
-    return res;
+    return response;
   },
 };
