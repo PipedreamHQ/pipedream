@@ -9,6 +9,63 @@ export default {
       type: "string",
       description: "The name of the company.",
     },
+    linkedin: {
+      label: "LinkedIn",
+      type: "string",
+      description: "The LinkedIn URL for the company.",
+      optional: true,
+    },
+    twitter: {
+      label: "Twitter",
+      type: "string",
+      description: "The Twitter handle for the company.",
+      optional: true,
+    },
+    facebook: {
+      label: "Facebook",
+      type: "string",
+      description: "The Facebook URL for the company.",
+      optional: true,
+    },
+    webhookUrl: {
+      label: "Webhook URL",
+      type: "string",
+      description: "A webhook URL that results will be sent to.",
+      optional: true,
+    },
+    email: {
+      label: "Email",
+      type: "string",
+      description: "The email address to look up.",
+    },
+    domain: {
+      label: "Domain",
+      type: "string",
+      description: "The domain to look up.",
+    },
+    query: {
+      label: "Query",
+      type: "string",
+      description: "Search query string.",
+    },
+    page: {
+      label: "Page",
+      type: "string",
+      description: "Which results page to show.",
+      optional: true,
+    },
+    pageSize: {
+      label: "Page Size",
+      type: "integer",
+      description: "The amount of results to return per page.",
+      optional: true,
+    },
+    limit: {
+      label: "Limit",
+      type: "integer",
+      description: "How many paginated results to return in total.",
+      optional: true,
+    },
   },
   methods: {
     _getCompanyBaseUrl(version) {

@@ -1,5 +1,5 @@
-// legacy_hash_id: a_G1ieWm
-import { axios } from "@pipedream/platform";
+import app from "../../clearbit.app.mjs";
+import options from "../../common/options.mjs";
 
 export default {
   key: "clearbit-find-companies",
@@ -8,56 +8,47 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    clearbit: {
-      type: "app",
-      app: "clearbit",
-    },
+    app,
     query: {
-      type: "string",
-      description: "Search query string.",
+      propDefinition: [
+        app,
+        "query",
+      ],
     },
     page: {
-      type: "string",
-      description: "Which results page to show.",
-      optional: true,
+      propDefinition: [
+        app,
+        "page",
+      ],
     },
-    page_size: {
-      type: "integer",
-      description: "The amount of results to return per page.",
-      optional: true,
+    pageSize: {
+      propDefinition: [
+        app,
+        "pageSize",
+      ],
     },
     limit: {
-      type: "integer",
-      description: "How many paginated results to return in total.",
-      optional: true,
+      propDefinition: [
+        app,
+        "limit",
+      ],
     },
     sort: {
+      label: "Sort",
       type: "string",
       description: "By default search, results are sorted by the best match available. You can change this to a specific sort.",
       optional: true,
-      options: [
-        "score_asc",
-        "score_desc",
-        "alexa_rank_asc",
-        "alexa_rank_desc",
-        "employees_asc",
-        "employees_desc",
-        "market_cap_asc",
-        "market_cap_desc",
-        "raised_asc",
-        "raised_desc",
-        "twitter_followers_desc",
-        "twitter_followers_asc",
-      ],
+      options: options.SORT,
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://clearbit.com/docs#discovery-api-request
+    /*//See the API docs here: https://clearbit.com/docs#discovery-api-request
     return await axios($, {
       url: `https://discovery.clearbit.com/v1/companies/search?query=${this.query}&page=${this.page}&page_size=${this.page_size}&limit=${this.limit}&sort=${this.sort}`,
       headers: {
         Authorization: `Bearer ${this.clearbit.$auth.api_key}`,
       },
-    });
+    });*/
+    return $;
   },
 };

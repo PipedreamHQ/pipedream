@@ -9,15 +9,16 @@ export default {
   props: {
     app,
     domain: {
-      label: "Domain",
-      type: "string",
-      description: "The domain to look up.",
+      propDefinition: [
+        app,
+        "domain",
+      ],
     },
     webhookUrl: {
-      label: "Webhook URL",
-      type: "string",
-      description: "A webhook URL that results will be sent to.",
-      optional: true,
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
     },
     companyName: {
       propDefinition: [
@@ -27,22 +28,22 @@ export default {
       optional: true,
     },
     linkedin: {
-      label: "LinkedIn",
-      type: "string",
-      description: "The LinkedIn URL for the company.",
-      optional: true,
+      propDefinition: [
+        app,
+        "linkedin",
+      ],
     },
     twitter: {
-      label: "Twitter",
-      type: "string",
-      description: "The Twitter handle for the company.",
-      optional: true,
+      propDefinition: [
+        app,
+        "twitter",
+      ],
     },
     facebook: {
-      label: "Facebook",
-      type: "string",
-      description: "The Facebook URL for the company.",
-      optional: true,
+      propDefinition: [
+        app,
+        "facebook",
+      ],
     },
   },
   async run({ $ }) {
