@@ -1,7 +1,8 @@
 import mailchimp from "../../mailchimp.app.mjs";
 import {
-  parseStringObjects, removeNullEntries,
+  formatArrayStrings, removeNullEntries,
 } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-edit-campaign-template-content",
@@ -60,7 +61,8 @@ export default {
       type: "string[]",
       label: "Variate contents",
       optional: true,
-      description: `Content options for [Multivariate Campaigns](https://mailchimp.com/help/about-multivariate-campaigns/). 
+      description: `Stringified object list of content options for [Multivariate Campaigns](https://mailchimp.com/help/about-multivariate-campaigns/). 
+      Allowed keys are archive, template, content_label, plain_text, html, and url.
         Each content option must provide HTML content and may optionally provide plain text. 
         For campaigns not testing content, only one object should be provided.`,
     },
@@ -98,7 +100,7 @@ export default {
         sections: this.templateSections,
         id: this.templateId,
       },
-      variate_contents: parseStringObjects("Variate Contents", this.variate_contents),
+      variate_contents: formatArrayStrings(this.variateContents, constants.ALLOWED_VARIATE_CONTENTS, "Variate contents"),
     });
     const response = await this.mailchimp.editCampaignTemplate($, payload);
     response && $.export("$summary", "Campaign template updated successfully");

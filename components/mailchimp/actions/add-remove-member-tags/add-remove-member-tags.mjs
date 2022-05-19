@@ -1,5 +1,6 @@
+import constants from "../../common/constants.mjs";
 import {
-  parseStringObjects, removeNullEntries,
+  formatArrayStrings, removeNullEntries,
 } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
@@ -23,15 +24,20 @@ export default {
     },
     tags: {
       type: "string[]",
-      label: "Fields",
-      description: "Stringified object list of fields to return. name, or status properties allowed",
+      label: "Tags",
+      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active")  properties allowed.
+        Example:
+        \`{
+            "name":"",
+            "status":"active",
+        }\``,
     },
   },
   async run({ $ }) {
     const payload = removeNullEntries({
       listId: this.listId,
       subscriberHash: this.subscriberHash,
-      tags: parseStringObjects("tags", this.tags),
+      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
     const response =  await this.mailchimp.addRemoveMemberTags($, payload);
     response && $.export("$summary", "Action successful");

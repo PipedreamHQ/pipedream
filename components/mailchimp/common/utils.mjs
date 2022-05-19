@@ -31,15 +31,38 @@ const emptyStrToUndefined = (value) => {
     : true;
 };
 
-const parseStringObjects = (name, arr) => {
-  try {
-    return Array.isArray(arr) &&
-      arr.filter(emptyStrToUndefined).map((elem) => JSON.parse(elem));
-  } catch (e) {
-    throw new ConfigurationError(`Invalid JSON string found in ${name}.`);
+const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
+  const updatedArray = [];
+  const errors = [];
+  if (objectArray?.length) {
+    for (let i = 0; i < objectArray.length; i++) {
+      try {
+        if (emptyStrToUndefined(objectArray[i])) {
+          const obj = JSON.parse(objectArray[i]);
+          Object.keys(obj).forEach((key) => {
+            if (!ALLOWED_KEYS.includes(key)) {
+              errors.push(
+                `${fieldName}[${i}] error: ${key} is not present or allowed in object`,
+              );
+            }
+          });
+          updatedArray.push(obj);
+        } else {
+          throw new Error();
+        }
+      } catch (error) {
+        throw new ConfigurationError(`Object is empty or malformed on [${i}]`);
+      }
+    }
   }
+  if (errors.length) {
+    throw new ConfigurationError(
+      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
+    );
+  }
+  return updatedArray;
 };
 
 export {
-  removeNullEntries, parseStringObjects,
+  removeNullEntries, formatArrayStrings,
 };

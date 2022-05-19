@@ -1,5 +1,9 @@
 // legacy_hash_id: a_74iE5o
-import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
+import {
+  formatArrayStrings, removeNullEntries,
+} from "../../common/utils.mjs";
+import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-add-subscriber-to-tag",
@@ -8,49 +12,37 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    mailchimp: {
-      type: "app",
-      app: "mailchimp",
-    },
-    list_id: {
+    mailchimp,
+    listId: {
+      label: "List ID",
       type: "string",
       description: "The unique ID for the list.",
     },
-    subscriber_hash: {
+    subscriberHash: {
+      label: "Subscriber hash",
       type: "string",
       description: "The MD5 hash of the lowercase version of the list member's email address.",
     },
-    name: {
-      type: "string",
-      description: "The name of the tag.",
-    },
-    status: {
-      type: "string",
-      description: "The status for the tag on the member, pass in active to add a tag or inactive to remove it.",
-      options: [
-        "active",
-        "inactive",
-      ],
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active")  properties allowed.
+        Example:
+        \`{
+            "name":"college",
+            "status":"active",
+        }\``,
     },
   },
   async run({ $ }) {
-    let listId = this.list_id;
-    let subscriberHash = this.subscriber_hash;
 
-    return await axios($, {
-      url: `https://${this.mailchimp.$auth.dc}.api.mailchimp.com/3.0/lists/${listId}/members/${subscriberHash}/tags`,
-      headers: {
-        Authorization: `Bearer ${this.mailchimp.$auth.oauth_access_token}`,
-      },
-      method: "POST",
-      data: {
-        "tags": [
-          {
-            "name": this.name,
-            "status": this.status,
-          },
-        ],
-      },
+    const payload = removeNullEntries({
+      listId: this.listId,
+      subscriberHash: this.subscriberHash,
+      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
+    const response = await this.mailchimp.addRemoveMemberTags($, payload);
+    response && $.export("$summary", "Action successful");
+    return response;
   },
 };

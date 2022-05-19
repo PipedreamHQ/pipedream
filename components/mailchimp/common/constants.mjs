@@ -6,4 +6,16 @@ export default {
     "any",
     "all",
   ],
+  ALLOWED_TAG_KEYS: [
+    "name",
+    "status",
+  ],
+  ALLOWED_VARIATE_CONTENTS: [
+    "archive",
+    "template",
+    "content_label",
+    "plain_text",
+    "html",
+    "url",
+  ],
 };
