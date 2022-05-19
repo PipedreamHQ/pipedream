@@ -21,10 +21,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const recipientID = this.userId;
+    const recipientId = this.userId;
     const response = await this.discord.createDm({
       $,
-      recipientID,
+      recipientId,
     });
 
     return response;

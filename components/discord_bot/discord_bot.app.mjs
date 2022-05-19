@@ -431,14 +431,14 @@ export default {
       });
     },
     async createDm({
-      $, recipientID,
+      $, recipientId,
     }) {
       return await this._makeRequest({
         $,
         method: "post",
         path: "/users/@me/channels",
         data: {
-          recipient_id: recipientID,
+          recipient_id: recipientId,
         },
       });
     },
