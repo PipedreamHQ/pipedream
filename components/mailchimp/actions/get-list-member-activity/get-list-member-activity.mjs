@@ -2,8 +2,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-get-a-list",
-  name: "List List Members Activities",
+  key: "mailchimp-get-list-member-activity",
+  name: "Get List Members Activities",
   description: "Get the last 50 events of a member's activity on a specific list. [See docs here](https://mailchimp.com/developer/marketing/api/list-activity/view-recent-activity-50/)",
   version: "0.0.1",
   type: "action",

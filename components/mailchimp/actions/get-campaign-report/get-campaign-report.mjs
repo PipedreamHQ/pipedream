@@ -33,7 +33,7 @@ export default {
       excludeFields,
       campaignId,
     } = this;
-    const payload =  removeNullEntries({
+    const payload = removeNullEntries({
       fields: fields.join(","),
       exclude_fields: excludeFields.join(","),
       campaignId,

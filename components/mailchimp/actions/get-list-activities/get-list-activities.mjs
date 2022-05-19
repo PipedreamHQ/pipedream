@@ -2,8 +2,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-get-a-list",
-  name: "List Lists Activities",
+  key: "mailchimp-get-list-activities",
+  name: "Get Lists Activities",
   description: "Retrieves up to the previous 180 days of daily detailed aggregated activity stats for a list. [See docs here](https://mailchimp.com/developer/marketing/api/list-activity/list-recent-activity/)",
   version: "0.0.1",
   type: "action",
