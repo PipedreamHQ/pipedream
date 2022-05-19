@@ -19,7 +19,6 @@ export default {
   hooks: {
     async activate() {
       return this.postmark.setServerInfo({
-        Name: `New Test Name ${Date.now()}`,
         [this.getWebhookType()]: this.http.endpoint,
         ...this.getWebhookProps(),
       });
