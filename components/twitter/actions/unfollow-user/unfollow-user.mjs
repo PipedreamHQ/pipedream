@@ -35,10 +35,13 @@ export default {
     }
 
     const params = {
-       user_id: userId,
-       screen_name: screenName,
+      user_id: userId,
+      screen_name: screenName,
     };
-    const response = await this.twitter.unfollowUser(params);
+    const response = await this.twitter.unfollowUser({
+      params,
+      $,
+    });
     $.export("$summary", "Successfully unfollowed user");
     return response;
   },
