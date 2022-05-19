@@ -31,7 +31,7 @@ export default {
     const payload = removeNullEntries({
       listId: this.listId,
       subscriberHash: this.subscriberHash,
-      tags: convertStringObjects(this.tags),
+      tags: convertStringObjects("tags", this.tags),
     });
     return await this.mailchimp.addRemoveMemberTags($, payload);
   },
