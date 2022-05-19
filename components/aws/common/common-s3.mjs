@@ -6,6 +6,8 @@ import {
   GetObjectCommand,
   PutObjectCommand,
   PutBucketPolicyCommand,
+  GetBucketNotificationConfigurationCommand,
+  PutBucketNotificationConfigurationCommand,
 } from "@aws-sdk/client-s3";
 import axios from "axios"; // need axios response headers
 
@@ -85,6 +87,12 @@ export default {
       return axios.get(fileUrl, {
         responseType: "stream",
       });
+    },
+    async getBucketNotificationConfiguration(params) {
+      return this._clientS3().send(new GetBucketNotificationConfigurationCommand(params));
+    },
+    async putBucketNotificationConfiguration(params) {
+      return this._clientS3().send(new PutBucketNotificationConfigurationCommand(params));
     },
   },
 };

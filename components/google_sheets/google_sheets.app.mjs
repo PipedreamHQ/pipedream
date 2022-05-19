@@ -258,10 +258,11 @@ export default {
       ];
       const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
       return sheets
-        .map(({ properties }) => properties)
         .map(({
-          sheetId,
-          gridProperties: { rowCount },
+          properties: {
+            sheetId,
+            gridProperties: { rowCount = 0 } = {},
+          } = {},
         }) => ({
           spreadsheetId,
           worksheetId: sheetId,
