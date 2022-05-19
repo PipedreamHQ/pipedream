@@ -48,22 +48,16 @@ export default {
       type: "string",
       description: "Search query string.",
     },
-    page: {
-      label: "Page",
-      type: "string",
-      description: "Which results page to show.",
+    maxResults: {
+      label: "Max Results",
+      type: "integer",
+      description: "Maximum results to be fetched. Defaults to `100`.",
       optional: true,
     },
     pageSize: {
       label: "Page Size",
       type: "integer",
       description: "The amount of results to return per page.",
-      optional: true,
-    },
-    limit: {
-      label: "Limit",
-      type: "integer",
-      description: "How many paginated results to return in total.",
       optional: true,
     },
     errorIfNoRecords: {
@@ -81,6 +75,12 @@ export default {
     _getPersonBaseUrl() {
       return "https://person.clearbit.com/v2";
     },
+    _getDiscoveryUrl() {
+      return "https://discovery.clearbit.com/v1";
+    },
+    _getProspectorUrl() {
+      return "https://prospector.clearbit.com/v1";
+    },
     _getHeaders() {
       return {
         Authorization: `Bearer ${this.$auth.secret_api_key}`,
@@ -92,6 +92,29 @@ export default {
         headers: this._getHeaders(),
       };
       return res;
+    },
+    async _paginate(ctx, maxResults, apiRequestFunction, params) {
+      let page = 1;
+      let items = [];
+      while (true) {
+        const res = await apiRequestFunction(ctx, {
+          ...params,
+          page,
+          page_size: 100,
+        });
+
+        if (res.results?.length == 0) {
+          break;
+        }
+
+        items.push(...res.results);
+        if (items.length >= maxResults) {
+          items = items.slice(0, maxResults);
+          break;
+        }
+        page++;
+      }
+      return items;
     },
     companyNameToDomain(ctx = this, companyName) {
       return axios(ctx, this._getRequestParams({
@@ -110,10 +133,23 @@ export default {
       }));
     },
     emailLookup(ctx = this, params) {
-      console.log(params);
       return axios(ctx, this._getRequestParams({
         method: "GET",
         url: `${this._getPersonBaseUrl()}/people/find`,
+        params,
+      }));
+    },
+    findCompanies(ctx = this, params) {
+      return axios(ctx, this._getRequestParams({
+        method: "GET",
+        url: `${this._getDiscoveryUrl()}/companies/search`,
+        params,
+      }));
+    },
+    findContacts(ctx = this, params) {
+      return axios(ctx, this._getRequestParams({
+        method: "GET",
+        url: `${this._getProspectorUrl()}/people/search`,
         params,
       }));
     },

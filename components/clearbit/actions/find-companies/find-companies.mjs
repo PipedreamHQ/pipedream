@@ -4,8 +4,8 @@ import options from "../../common/options.mjs";
 export default {
   key: "clearbit-find-companies",
   name: "Find Companies",
-  description: "Find companies via specific criteria.",
-  version: "0.2.1",
+  description: "Find companies via specific criteria. [See the docs here](https://dashboard.clearbit.com/docs#discovery-api-attributes)",
+  version: "0.2.2",
   type: "action",
   props: {
     app,
@@ -15,22 +15,10 @@ export default {
         "query",
       ],
     },
-    page: {
+    maxResults: {
       propDefinition: [
         app,
-        "page",
-      ],
-    },
-    pageSize: {
-      propDefinition: [
-        app,
-        "pageSize",
-      ],
-    },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
+        "maxResults",
       ],
     },
     sort: {
@@ -42,13 +30,17 @@ export default {
     },
   },
   async run({ $ }) {
-    /*//See the API docs here: https://clearbit.com/docs#discovery-api-request
-    return await axios($, {
-      url: `https://discovery.clearbit.com/v1/companies/search?query=${this.query}&page=${this.page}&page_size=${this.page_size}&limit=${this.limit}&sort=${this.sort}`,
-      headers: {
-        Authorization: `Bearer ${this.clearbit.$auth.api_key}`,
-      },
-    });*/
-    return $;
+    const params = {
+      query: this.query,
+      maxResults: this.maxResults,
+    };
+    const res = await this.app._paginate(
+      $,
+      this.maxResults || 100,
+      this.app.findCompanies,
+      params,
+    );
+    $.export("$summary", `Found ${res.length} company(ies)`);
+    return res;
   },
 };
