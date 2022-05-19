@@ -13,7 +13,7 @@ export default {
     mailchimp,
     listId: {
       type: "string",
-      label: "List id",
+      label: "List ID",
       description: "The unique id for the list.",
     },
     subscriberHash: {

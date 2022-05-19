@@ -15,16 +15,16 @@ export default {
       description: "Search query text used to filter results.",
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "fields",
+      ],
     },
     excludeFields: {
-      type: "string[]",
-      label: "Exclude Fields",
-      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "excludeFields",
+      ],
     },
   },
   async run({ $ }) {

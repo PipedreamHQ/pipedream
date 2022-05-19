@@ -11,7 +11,7 @@ export default {
     mailchimp,
     listId: {
       type: "string",
-      label: "List id",
+      label: "List ID",
       description: "The unique id for the list.",
     },
     subscriberHash: {
@@ -20,18 +20,16 @@ export default {
       description: "The MD5 hash of the lowercase version of the list member's email address. This endpoint also accepts a list member's email address or contact_id.",
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
-      default: [],
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "fields",
+      ],
     },
     excludeFields: {
-      type: "string[]",
-      label: "Exclude Fields",
-      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
-      default: [],
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "excludeFields",
+      ],
     },
     action: {
       type: "object",

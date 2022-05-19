@@ -113,6 +113,26 @@ export default {
         }));
       },
     },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
+      optional: true,
+    },
+    excludeFields: {
+      type: "string[]",
+      label: "Exclude Fields",
+      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      max: constants.PAGE_SIZE,
+      min: 1,
+      default: 10,
+      description: "The number of records to return.",
+    },
   },
   methods: {
     _auths() {

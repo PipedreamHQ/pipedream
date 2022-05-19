@@ -11,29 +11,26 @@ export default {
     mailchimp,
     listId: {
       type: "string",
-      label: "List id",
+      label: "List ID",
       description: "The unique ID for the list.",
     },
     count: {
-      type: "integer",
-      label: "Count",
-      max: 10,
-      min: 1,
-      default: 10,
-      description: "The number of records to return.",
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "excludeFields",
+      ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "fields",
+      ],
     },
     excludeFields: {
-      type: "string[]",
-      label: "Exclude Fields",
-      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
-      optional: true,
+      propDefinition: [
+        mailchimp,
+        "excludeFields",
+      ],
     },
   },
   async run({ $ }) {

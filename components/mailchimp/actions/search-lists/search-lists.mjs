@@ -9,25 +9,6 @@ export default {
   type: "action",
   props: {
     mailchimp,
-    fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
-      optional: true,
-    },
-    excludeFields: {
-      type: "string[]",
-      label: "Exclude Fields",
-      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
-    },
-    count: {
-      type: "integer",
-      label: "Count",
-      max: 10,
-      min: 1,
-      default: 10,
-      description: "The number of records to return.",
-    },
     beforeDateCreated: {
       type: "string",
       label: "Before date created",
@@ -84,7 +65,7 @@ export default {
     },
     includeTotalContacts: {
       type: "boolean",
-      label: "Include total contacts?",
+      label: "Include total contacts",
       description: "Return the total_contacts field in the stats response, which contains an approximate count of all contacts in any state.",
       optional: true,
     },
