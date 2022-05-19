@@ -2,8 +2,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-create-a-list",
-  name: "Create A List",
+  key: "mailchimp-create-list",
+  name: "Create List",
   description: "Creates a new list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/add-list/)",
   version: "0.0.1",
   type: "action",
@@ -104,7 +104,7 @@ export default {
       email_type_option: this.emailTypeOption,
     });
     const response = await this.mailchimp.createList($, payload);
-    response && $.export("$summary", "List created");
+    response && $.export("$summary", "List created successfully");
     return response;
   },
 };

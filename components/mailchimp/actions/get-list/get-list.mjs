@@ -2,8 +2,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-get-a-list",
-  name: "Get A List",
+  key: "mailchimp-get-list",
+  name: "Get List",
   description: "Searches for lists. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
   version: "0.0.1",
   type: "action",

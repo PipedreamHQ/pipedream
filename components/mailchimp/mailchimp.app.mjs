@@ -623,7 +623,7 @@ export default {
         path: "/search-campaigns",
       });
     },
-    async getACampaign($, {
+    async getCampaign($, {
       campaignId, ...params
     }) {
       return this._makeRequest({
