@@ -160,7 +160,6 @@ export default {
         params,
         data,
       };
-      console.log(config);
       return axios($ ?? this, config);
     },
     api() {
