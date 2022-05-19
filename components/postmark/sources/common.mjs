@@ -8,20 +8,43 @@ export default {
       customResponse: true,
     },
   },
+  methods: {
+    getWebhookType() {
+      throw new Error("Component is missing Webhook type definition");
+    },
+    getWebhookProps() {
+      return {};
+    },
+  },
+  hooks: {
+    async activate() {
+      return this.postmark.setServerInfo({
+        Name: `New Test Name ${Date.now()}`,
+        [this.getWebhookType()]: this.http.endpoint,
+        ...this.getWebhookProps(),
+      });
+    },
+    async deactivate() {
+      return this.postmark.setServerInfo({
+        [this.getWebhookType()]: "",
+      });
+    },
+  },
   async run(data) {
     this.http.respond({
       status: 200,
     });
 
-    let date = new Date(data.ReceivedAt);
-    let msgId = data.MessageID;
+    let dateParam = data.ReceivedAt ?? data.Date ?? Date.now();
+    let dateObj = new Date(dateParam);
 
-    let id = `${msgId}-${date.toISOString()}`;
+    let msgId = data.MessageID;
+    let id = `${msgId}-${dateObj.toISOString()}`;
 
     this.$emit(data, {
       id,
       summary: data.Subject,
-      ts: date.valueOf(),
+      ts: dateObj.valueOf(),
     });
   },
 };

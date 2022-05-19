@@ -4,7 +4,8 @@ export default {
   ...common,
   key: "postmark-new-email-opened",
   name: "New Email Opened",
-  description: "Emit new event when an email is opened by a recipient [(See docs here)](https://postmarkapp.com/developer/webhooks/open-tracking-webhook)",
+  description:
+    "Emit new event when an email is opened by a recipient [(See docs here)](https://postmarkapp.com/developer/webhooks/open-tracking-webhook)",
   version: "0.0.1",
   type: "source",
   props: {
@@ -24,18 +25,16 @@ export default {
         Otherwise, the event will be emitted every time an open occurs.`,
     },
   },
-  hooks: {
-    async activate() {
-      return this.postmark.setServerInfo({
-        OpenHookUrl: this.http.endpoint,
+  methods: {
+    ...common.methods,
+    getWebhookProps() {
+      return {
         PostFirstOpenOnly: this.postFirstOpenOnly,
         TrackOpens: this.trackOpensByDefault,
-      });
+      };
     },
-    async deactivate() {
-      return this.postmark.setServerInfo({
-        OpenHookUrl: "",
-      });
+    getWebhookType() {
+      return "OpenHookUrl";
     },
   },
 };
