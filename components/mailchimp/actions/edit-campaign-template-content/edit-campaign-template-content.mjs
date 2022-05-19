@@ -106,7 +106,7 @@ export default {
       variate_contents: variateContents,
     });
     const response = await this.mailchimp.editCampaignTemplate($, payload);
-    response && $.export("$summary", "Campaign updated successfully");
+    response && $.export("$summary", "Campaign template updated successfully");
     return response;
   },
 };

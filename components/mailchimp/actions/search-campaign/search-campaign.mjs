@@ -39,7 +39,7 @@ export default {
       query,
     });
     const response = await this.mailchimp.searchCampaign($, payload);
-    response?.results?.length && $.export("$summary", "Result found");
+    response?.results?.length && $.export("$summary", "Search campaign found");
     return response;
   },
 };

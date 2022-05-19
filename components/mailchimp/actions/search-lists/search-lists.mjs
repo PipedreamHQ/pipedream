@@ -106,8 +106,7 @@ export default {
       include_total_contacts: this.includeTotalContacts,
     });
     const response = await this.mailchimp.searchLists($, payload);
-    // response?.lists?.length > 0 && $.export("$summary", "Lists found");
-    console.log(response);
+    response?.lists?.length > 0 && $.export("$summary", "Lists found");
     return response;
   },
 };

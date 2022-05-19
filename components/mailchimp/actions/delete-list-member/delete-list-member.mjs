@@ -24,6 +24,8 @@ export default {
       listId: this.listId,
       subscriberHash: this.subscriberHash,
     };
-    return await this.mailchimp.deleteListMember($, payload);
+    const response = await this.mailchimp.deleteListMember($, payload);
+    response && $.export("$summary", "List member deleted");
+    return response;
   },
 };

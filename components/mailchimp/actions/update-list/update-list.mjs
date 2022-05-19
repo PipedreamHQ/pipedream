@@ -110,7 +110,7 @@ export default {
       email_type_option: this.emailTypeOption,
     });
     const response = await this.mailchimp.updateList($, payload);
-    response && $.export("$summary", "List updated");
+    response && $.export("$summary", "List updated successfully");
     return response;
   },
 };

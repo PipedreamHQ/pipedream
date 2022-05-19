@@ -44,7 +44,7 @@ export default {
       count: this.count,
     });
     const response = await this.mailchimp.getList($, payload);
-    response && $.export("$summary", "List found");
+    response && $.export("$summary", "List activities found");
     return response;
   },
 };
