@@ -18,14 +18,12 @@ export default {
       type: "string",
       label: "SSL Setting",
       description: "Value of the zone SSL setting",
-      options() {
-        return [
-          "off",
-          "flexible",
-          "full",
-          "strict",
-        ];
-      },
+      options: [
+        "off",
+        "flexible",
+        "full",
+        "strict",
+      ],
     },
   },
   async run({ $ }) {
