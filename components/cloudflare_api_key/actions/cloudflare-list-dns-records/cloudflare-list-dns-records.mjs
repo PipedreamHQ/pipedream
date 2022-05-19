@@ -29,25 +29,6 @@ export default {
       ],
       optional: true,
     },
-    order: {
-      type: "string",
-      label: "Order",
-      description: "Field to order records by",
-      options: constants.DNS_RECORD_ORDER_OPTIONS,
-      optional: true,
-    },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number of paginated results",
-      optional: true,
-    },
-    perPage: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of DNS records per page",
-      optional: true,
-    },
     content: {
       propDefinition: [
         cloudflare,
@@ -70,31 +51,31 @@ export default {
       description: "DNS record proxied status",
       optional: true,
     },
-    dnsRecordDirection: {
-      type: "string",
-      label: "Direction",
-      description: "Direction to order domains",
-      options: constants.DNS_RECORD_DIRECTION_OPTIONS,
-      optional: true,
-    },
   },
   async run({ $ }) {
     const zoneId = this.zoneIdentifier;
     const dnsRecordData = {
       match: this.match,
       name: this.name,
-      order: this.order,
-      page: this.page,
-      per_page: this.perPage,
       content: this.content,
       type: this.dnsRecordType,
       proxied: this.proxied,
-      direction: this.dnsRecordDirection,
     };
 
-    const response = await this.cloudflare.listDnsRecords(zoneId, dnsRecordData);
+    let page = 1;
+    const dnsRecords = [];
+    let tempDnsRecords;
+    do {
+      tempDnsRecords = await this.cloudflare.listDnsRecords(zoneId, {
+        ...dnsRecordData,
+        page,
+      });
+      dnsRecords.push(...tempDnsRecords.result);
+      page++;
+    } while (tempDnsRecords.result_info.total_count > 0);
+
     $.export("$summary", "DNS records successfully retrieved");
 
-    return response;
+    return dnsRecords;
   },
 };
