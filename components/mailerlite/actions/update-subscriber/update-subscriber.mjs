@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         mailerlite,
         "type",
+        () => ({
+          type: "update",
+        }),
       ],
     },
     fields: {

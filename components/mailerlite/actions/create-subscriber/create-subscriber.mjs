@@ -25,6 +25,9 @@ export default {
       propDefinition: [
         mailerlite,
         "type",
+        () => ({
+          type: "create",
+        }),
       ],
     },
   },

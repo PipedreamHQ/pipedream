@@ -21,7 +21,14 @@ export default {
       label: "Type",
       description: "Subscriber type",
       optional: true,
-      options: constants.TYPE_OPTIONS,
+      options({ type }) {
+        switch (type) {
+        case "create":
+          return constants.CREATE_TYPE_OPTIONS;
+        case "update":
+          return constants.UPDATE_TYPE_OPTIONS;
+        }
+      },
     },
     status: {
       type: "string",
