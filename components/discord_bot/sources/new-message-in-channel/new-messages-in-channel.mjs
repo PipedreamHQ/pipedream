@@ -7,9 +7,9 @@ export default {
   ...common,
   key: "discord_bot-new-message-in-channel",
   name: "New Message in Channel",
-  description: "Emit an event for each new message posted to one or more channel.",
+  description: "Emit new event for each message posted to one or more channels",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -43,7 +43,7 @@ export default {
   },
   async run({ $ }) {
     // We store a cursor to the last message ID
-    let lastMessageIDs = this._getLastMessageIDs() || {};
+    let lastMessageIDs = this._getLastMessageIDs();
 
     // If this is our first time running this source,
     // get the last N messages, emit them, and checkpoint

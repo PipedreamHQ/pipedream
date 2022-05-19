@@ -1,82 +1,65 @@
-// legacy_hash_id: a_G1il3v
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+const { bitbucket } = base.props;
 
 export default {
   key: "bitbucket-create-snippet-comment",
   name: "Create Snippet Comment",
-  description: "Creates a new comment in a Snippet.",
-  version: "0.4.1",
+  description: "Creates a new snippet comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-comments-post)",
+  version: "0.4.2",
   type: "action",
   props: {
-    bitbucket: {
-      type: "app",
-      app: "bitbucket",
-    },
-    workspace: {
-      type: "string",
-      description: "This can either be the workspace ID (slug) or the workspace UUID surrounded by curly-braces, for example: {workspace UUID}.",
-    },
-    encoded_id: {
-      type: "string",
-      description: "Identifier of the snippet.",
-    },
-    content_raw: {
-      type: "string",
-      description: "The text as it was typed by a user.",
-    },
-    content_markup: {
-      type: "string",
-      description: "The type of markup language the raw content is to be interpreted in.",
-      options: [
-        "markdown",
-        "creole",
-        "plaintext",
+    ...base.props,
+    snippetId: {
+      propDefinition: [
+        bitbucket,
+        "snippet",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
     },
-    content_html: {
-      type: "string",
-      description: "The user's content rendered as HTML.",
-      optional: true,
+    rawContent: {
+      propDefinition: [
+        bitbucket,
+        "rawContent",
+      ],
     },
-    parent_id: {
-      type: "integer",
-      description: "Id of the parent comment, if creating a threaded reply to an existing comment.",
-      optional: true,
+    htmlContent: {
+      propDefinition: [
+        bitbucket,
+        "htmlContent",
+      ],
+    },
+    markupContent: {
+      propDefinition: [
+        bitbucket,
+        "markupContent",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets/%7Bworkspace%7D/%7Bencoded_id%7D/comments#post
+    const {
+      workspaceId,
+      snippetId,
+      rawContent,
+      htmlContent,
+      markupContent,
+    } = this;
 
-    if (!this.workspace || !this.encoded_id || !this.content_raw || !this.content_markup) {
-      throw new Error("Must provide workspace, encoded_id, content_raw, and content_markup parameters.");
-    }
-
-    //Prepares the request body
-    var data = {
-      content: {
-        raw: this.content_raw,
-        markup: this.content_markup,
-        html: this.content_html,
+    const response = await this.bitbucket.createSnippetComment({
+      workspaceId,
+      snippetId,
+      data: {
+        content: {
+          raw: rawContent,
+          html: htmlContent,
+          markup: markupContent,
+        },
       },
-    };
+    }, $);
 
-    if (this.parent_id) {
-      data["parent"] = {
-        id: parseInt(this.parent_id),
-      };
-    }
+    $.export("summary", "Successfully created snippet comment");
 
-    //Sends the request against Bitbucket API
-    const config = {
-      method: "post",
-      url: `https://api.bitbucket.org/2.0/snippets/${this.workspace}/${this.encoded_id}/comments`,
-      headers: {
-        "Authorization": `Bearer ${this.bitbucket.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-      },
-      data,
-    };
-
-    return await axios($, config);
+    return response;
   },
 };
