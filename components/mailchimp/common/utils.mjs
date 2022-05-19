@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 const removeNullEntries = (obj) =>
   obj && Object.entries(obj).reduce((acc, [
     key,
@@ -22,6 +24,22 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
+const emptyStrToUndefined = (value) => {
+  const trimmed = typeof (value) === "string" && value.trim();
+  return trimmed === ""
+    ? false
+    : true;
+};
+
+const convertStringObjects = (name, arr) => {
+  try {
+    return Array.isArray(arr) &&
+      arr.filter(emptyStrToUndefined).map((elem) => JSON.parse(elem));
+  } catch (e) {
+    throw new ConfigurationError(`Invalid JSON string found in ${name}.`);
+  }
+};
+
 export {
-  removeNullEntries,
+  removeNullEntries, convertStringObjects,
 };

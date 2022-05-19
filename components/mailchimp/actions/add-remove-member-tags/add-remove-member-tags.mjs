@@ -1,4 +1,6 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  convertStringObjects, removeNullEntries,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -26,11 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const tags = this.tags?.length && this.tags.map((tag) => JSON.parse(tag));
     const payload = removeNullEntries({
       listId: this.listId,
       subscriberHash: this.subscriberHash,
-      tags,
+      tags: convertStringObjects(this.tags),
     });
     return await this.mailchimp.addRemoveMemberTags($, payload);
   },
