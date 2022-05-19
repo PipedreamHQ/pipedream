@@ -31,7 +31,7 @@ const emptyStrToUndefined = (value) => {
     : true;
 };
 
-const convertStringObjects = (name, arr) => {
+const parseStringObjects = (name, arr) => {
   try {
     return Array.isArray(arr) &&
       arr.filter(emptyStrToUndefined).map((elem) => JSON.parse(elem));
@@ -41,5 +41,5 @@ const convertStringObjects = (name, arr) => {
 };
 
 export {
-  removeNullEntries, convertStringObjects,
+  removeNullEntries, parseStringObjects,
 };

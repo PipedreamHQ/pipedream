@@ -1,6 +1,7 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  parseStringObjects, removeNullEntries,
+} from "../../common/utils.mjs";
 
 export default {
   key: "mailchimp-edit-campaign-template-content",
@@ -83,12 +84,6 @@ export default {
     return props;
   },
   async run({ $ }) {
-    let variateContents;
-    try {
-      variateContents = this.variate_contents?.map((content) => JSON.parse(content));
-    } catch (error) {
-      throw new ConfigurationError("Invalid object in variate_contents");
-    }
 
     const payload = removeNullEntries({
       campaignId: this.campaignId,
@@ -103,7 +98,7 @@ export default {
         sections: this.templateSections,
         id: this.templateId,
       },
-      variate_contents: variateContents,
+      variate_contents: parseStringObjects("Variate Contents", this.variate_contents),
     });
     const response = await this.mailchimp.editCampaignTemplate($, payload);
     response && $.export("$summary", "Campaign template updated successfully");

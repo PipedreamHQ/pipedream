@@ -4,7 +4,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 export default {
   key: "mailchimp-create-a-list",
   name: "Create A List",
-  description: "Creates a new list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
+  description: "Creates a new list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/add-list/)",
   version: "0.0.1",
   type: "action",
   props: {

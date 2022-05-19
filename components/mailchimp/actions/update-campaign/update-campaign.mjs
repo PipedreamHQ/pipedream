@@ -1,5 +1,6 @@
 import mailchimp from "../../mailchimp.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-update-campaign",
@@ -37,10 +38,7 @@ export default {
       label: "Segment match",
       description: "Segment match type.",
       optional: true,
-      options: [
-        "any",
-        "all",
-      ],
+      options: constants.SEGMENT_MATCHES,
     },
     segmentConditions: {
       type: "any",

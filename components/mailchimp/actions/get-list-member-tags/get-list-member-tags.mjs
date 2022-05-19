@@ -51,7 +51,7 @@ export default {
       subscriberHash: this.subscriberHash,
     });
     const response = await this.mailchimp.getListMemberTags($, payload);
-    response?.tags?.length && $.export("$summary", "Member's tag found");
+    response?.tags?.length && $.export("$summary", "List member's tag found");
     return response;
   },
 };
