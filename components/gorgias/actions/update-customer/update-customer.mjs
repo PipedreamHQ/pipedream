@@ -1,5 +1,11 @@
 import gorgias from "../../gorgias.app.mjs";
 import channels from "../../common/customer-channels.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import lodash from "lodash";
+const {
+  pick,
+  pickBy,
+} = lodash;
 
 export default {
   key: "gorgias-update-customer",
@@ -19,6 +25,7 @@ export default {
       type: "string",
       label: "Full Name",
       description: "Full name of the customer",
+      optional: true,
     },
     channelType: {
       propDefinition: [
@@ -27,7 +34,7 @@ export default {
       ],
       description: "The channel used to send the message. Defaults to `email`. Will be set as the preferred (primary) channel to contact this customer.",
       options: channels,
-      optional: false,
+      default: "",
     },
     channelAddress: {
       propDefinition: [
@@ -35,6 +42,7 @@ export default {
         "address",
       ],
       label: "Channel Address",
+      optional: true,
     },
     email: {
       type: "string",
@@ -68,21 +76,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-      email: this.email,
-      data: this.data,
-      external_id: this.externalId,
-      language: this.language,
-      timezone: this.timezone,
-      channels: [
-        {
-          type: this.channelType,
-          address: this.channelAddress,
-          preferred: true,
-        },
-      ],
-    };
+    const data = pickBy(pick(this, [
+      "name",
+      "email",
+      "data",
+      "externalId",
+      "language",
+      "timezone",
+    ]));
+
+    if (this.channelType || this.channelAddress) {
+      if (this.channelType && this.channelAddress) {
+        data.channels = [
+          {
+            type: this.channelType,
+            address: this.channelAddress,
+            preferred: true,
+          },
+        ];
+      } else {
+        throw new ConfigurationError("Both `Channel` and `Channel Address` must be sent together");
+      }
+    }
 
     const response = await this.gorgias.updateCustomer({
       id: this.customerId,
