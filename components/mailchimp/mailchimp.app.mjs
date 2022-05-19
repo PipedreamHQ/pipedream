@@ -803,5 +803,15 @@ export default {
         method: "post",
       });
     },
+    async addNoteToSubscriber($, {
+      listId, subscriberHash, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/lists/${listId}/members/${subscriberHash}/notes`,
+        method: "post",
+        data,
+      });
+    },
   },
 };
