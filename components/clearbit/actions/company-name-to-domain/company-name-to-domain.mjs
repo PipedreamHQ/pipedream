@@ -15,11 +15,10 @@ export default {
       ],
     },
     errorIfNoRecords: {
-      type: "boolean",
-      label: "Handle lack of records found as an error?",
-      description: "Defaults to `false`. If no records are found, the step will still be considered a success. If `false`, the step will return an error and workflow execution will stop.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        app,
+        "errorIfNoRecords",
+      ],
     },
   },
   async run({ $ }) {

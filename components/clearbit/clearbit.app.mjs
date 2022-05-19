@@ -66,10 +66,20 @@ export default {
       description: "How many paginated results to return in total.",
       optional: true,
     },
+    errorIfNoRecords: {
+      type: "boolean",
+      label: "Handle lack of records found as an error?",
+      description: "Defaults to `false`. If no records are found, the step will still be considered a success. If `false`, the step will return an error and workflow execution will stop.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     _getCompanyBaseUrl(version) {
       return `https://company.clearbit.com/${version}`;
+    },
+    _getPersonBaseUrl() {
+      return "https://person.clearbit.com/v2";
     },
     _getHeaders() {
       return {
@@ -96,6 +106,14 @@ export default {
       return axios(ctx, this._getRequestParams({
         method: "GET",
         url: `${this._getCompanyBaseUrl("v2")}/companies/find`,
+        params,
+      }));
+    },
+    emailLookup(ctx = this, params) {
+      console.log(params);
+      return axios(ctx, this._getRequestParams({
+        method: "GET",
+        url: `${this._getPersonBaseUrl()}/people/find`,
         params,
       }));
     },

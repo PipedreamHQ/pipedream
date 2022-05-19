@@ -4,7 +4,7 @@ export default {
   key: "clearbit-email-lookup",
   name: "Email lookup",
   description: "This endpoint retrieves a person by email address. [See the docs here](https://dashboard.clearbit.com/docs#enrichment-api-person-api-email-lookup)",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     app,
@@ -50,7 +50,7 @@ export default {
       description: "The name of the person's employer.",
       optional: true,
     },
-    company_domain: {
+    companyDomain: {
       label: "Company Domain",
       type: "string",
       description: "The domain for the person's employer.",
@@ -77,15 +77,36 @@ export default {
       ],
       description: "The Facebook URL for the person.",
     },
+    errorIfNoRecords: {
+      propDefinition: [
+        app,
+        "errorIfNoRecords",
+      ],
+    },
   },
   async run({ $ }) {
-    /*return await axios($, {
-      url: `https://person.clearbit.com/v2/people/find?email=${this.email}&webhook_url=${this.webhook_url}&given_name=${this.given_name}&family_name=${this.family_name}&ip_address=${this.ip_address}&location=${this.location}&company=${this.company}&company_domain=${this.company_domain}&linkedin=${this.linkedin}&twitter=${this.twitter}&facebook=${this.facebook}`,
-      headers: {
-        Authorization: `Bearer ${this.clearbit.$auth.api_key}`,
-      },
-    });
-    */
-    return $;
+    try {
+      const res = await this.app.emailLookup($, {
+        email: this.email,
+        webhook_url: this.webhookUrl,
+        given_name: this.givenName,
+        family_name: this.familyName,
+        ip_address: this.ipAddress,
+        location: this.location,
+        company: this.company,
+        company_domain: this.companyDomain,
+        linkedin: this.linkedin,
+        twitter: this.twitter,
+        facebook: this.facebook,
+      });
+      $.export("$summary", "Successfully looked up email.");
+      return res;
+    } catch (err) {
+      if (!this.errorIfNoRecords && err.response?.status == 404) {
+        $.export("$summary", "No person found.");
+      } else {
+        throw err;
+      }
+    }
   },
 };
