@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "mailchimp-edit-campaign-template-content",
-  name: "Edit a Campaign Template Content",
+  name: "Edit A Campaign Template Content",
   description: "Edits a defined content area of a custom HTML template. [See docs here](https://mailchimp.com/developer/marketing/api/campaign-content/set-campaign-content/)",
   version: "0.0.1",
   type: "action",

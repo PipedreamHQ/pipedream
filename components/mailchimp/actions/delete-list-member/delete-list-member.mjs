@@ -2,7 +2,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-delete-list-member",
-  name: "Delete a List Member",
+  name: "Delete A List Member",
   description: "Permanently deletes a member. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/delete-list-member/)",
   version: "0.0.1",
   type: "action",

@@ -2,7 +2,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-delete-a-list",
-  name: "Delete a List",
+  name: "Delete A List",
   description: "Deletes an existing list. [See docs here](https://mailchimp.com/developer/marketing/api/lists)",
   version: "0.0.1",
   type: "action",

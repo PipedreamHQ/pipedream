@@ -3,7 +3,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-add-remove-member-tags",
-  name: "Add or remove Members' Tags",
+  name: "Add Or Remove Members Tags",
   description: "Add or remove member tags. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/add-or-remove-member-tags/)",
   version: "0.0.1",
   type: "action",

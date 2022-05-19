@@ -3,7 +3,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-get-a-list",
-  name: "Get a List",
+  name: "Get A List",
   description: "Searches for lists. [See docs here](https://mailchimp.com/developer/marketing/api/lists/)",
   version: "0.0.1",
   type: "action",

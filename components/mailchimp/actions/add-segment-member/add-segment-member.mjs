@@ -2,7 +2,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-add-segment-member",
-  name: "Add a Member to a Segment",
+  name: "Add A Member To A Segment",
   description: "Adds a new member to a static segment. [See docs here](https://mailchimp.com/developer/marketing/api/list-segment-members/add-member-to-segment/)",
   version: "0.0.1",
   type: "action",

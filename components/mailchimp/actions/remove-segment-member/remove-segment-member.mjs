@@ -2,7 +2,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-remove-segment-member",
-  name: "Remove a Member from a Segment ",
+  name: "Remove A Member From A Segment",
   description: "Removes a member from the specified static segment. [See docs here](https://mailchimp.com/developer/marketing/api/list-segment-members/remove-list-member-from-segment/)",
   version: "0.0.1",
   type: "action",
