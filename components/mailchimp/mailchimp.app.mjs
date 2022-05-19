@@ -28,7 +28,7 @@ export default {
     },
     campaignId: {
       type: "string",
-      label: "Campaign Id",
+      label: "Campaign ID",
       description: "The unique ID of the campaign",
       useQuery: true,
       async options({ page }) {
@@ -43,7 +43,7 @@ export default {
           const campaignName = lsdIdx > 0
             ? campaign.long_archive_url.substring(lsdIdx + 1)
             : "";
-          const label = `Campaign Id/Name from URL (if any): ${campaign.id}/${campaignName}, List Id/Name: ${campaign.recipients.list_id}/${campaign.recipients.list_name}, Subject: ${campaign.settings.subject_line}`;
+          const label = `Campaign ID/Name from URL (if any): ${campaign.id}/${campaignName}, List Id/Name: ${campaign.recipients.list_id}/${campaign.recipients.list_name}, Subject: ${campaign.settings.subject_line}`;
           return {
             label,
             value: campaign.id,

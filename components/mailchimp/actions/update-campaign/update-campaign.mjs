@@ -12,7 +12,7 @@ export default {
     mailchimp,
     campaignId: {
       type: "string",
-      label: "Campaign Id",
+      label: "Campaign ID",
       description: "The unique id for the campaign",
     },
     listId: {
@@ -90,7 +90,7 @@ export default {
     },
     folderId: {
       type: "string",
-      label: "Folder id",
+      label: "Folder ID",
       description: "If the campaign is listed in a folder, the id for that folder.",
       optional: true,
     },

@@ -11,7 +11,7 @@ export default {
     mailchimp,
     campaignId: {
       type: "string",
-      label: "Campaign Id",
+      label: "Campaign ID",
       description: "The unique id for the campaign",
     },
     fields: {
