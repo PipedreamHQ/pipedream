@@ -15,7 +15,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.mailchimp.updateList($, this.listId);
+    const response = await this.mailchimp.deleteList($, this.listId);
     response && $.export("$summary", "List deleted successfully");
     return response;
   },

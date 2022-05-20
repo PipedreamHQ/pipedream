@@ -715,6 +715,13 @@ export default {
         params,
       });
     },
+    async searchMembers($, params) {
+      return this._makeRequest({
+        $,
+        path: "/search-members",
+        params,
+      });
+    },
     async getList($, {
       listId, ...params
     }) {
