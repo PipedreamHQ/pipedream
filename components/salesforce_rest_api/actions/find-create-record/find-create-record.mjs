@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-find-create-record",
   name: "Get Field Values from Object Record and optionally create one is none is found. ",
   description:
-    "Finds a specified Salesforce record by a field. Optionally, create one if none is found. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
+    "Finds a specified Salesforce record by a field. Optionally, create one if none is found. [API Docs](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
   version: "0.0.1",
   type: "action",
   props: {
