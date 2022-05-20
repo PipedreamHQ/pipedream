@@ -16,10 +16,10 @@ export default {
   type: "action",
   props: {
     salesforce,
-    Name: {
+    name: {
       type: "string",
       label: "Name",
-      description: "Name of the account. Maximum size is 255 characters. If the account has a record type of Person Account: This value is the concatenation of the FirstName, MiddleName, LastName, and Suffix of the associated person contact.",
+      description: "Name of the account.",
     },
     selector: {
       propDefinition: [
@@ -36,14 +36,14 @@ export default {
   },
   async run({ $ }) {
     const data = lodash.pickBy(lodash.pick(this, [
-      "Name",
+      "name",
       ...this.selector,
     ]));
     const response = await this.salesforce.createAccount({
       $,
       data,
     });
-    $.export("$summary", `Created account "${this.Name}"`);
+    $.export("$summary", `Created account "${this.name}"`);
     return response;
   },
 };

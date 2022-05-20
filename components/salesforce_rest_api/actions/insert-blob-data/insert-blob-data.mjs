@@ -12,17 +12,17 @@ export default {
   type: "action",
   props: {
     salesforce,
-    entiy_name: {
+    entiyName: {
       type: "string",
       label: "Entity Name",
-      description: "Name of the entity to insert as part of the form-data sent along the Salesforce API as a request with multipart/form-data content type. I.e. entity_document for Documents.",
+      description: "Name of the entity to insert as part of the form-data sent along the Salesforce API as a request with multipart/form-data content type. I.e. entityDocument for Documents.",
     },
-    entity_document: {
+    entityDocument: {
       type: "string",
       label: "Entity Document",
       description: "Salesforce object entity to insert.",
     },
-    form_content_name: {
+    formContentName: {
       type: "string",
       label: "Form Content Name",
       description: "Name of the binary content to insert as part of  the form-data sent along the Salesforce API as a request with multipart/form-data content type.",
@@ -32,17 +32,17 @@ export default {
       label: "Filename",
       description: "Filename of the blob data to insert.",
     },
-    content_type: {
+    contentType: {
       type: "string",
       label: "Content Type",
       description: "Mime type of the content to insert.",
     },
-    attachment_binarycontent: {
+    attachmentBinarycontent: {
       type: "string",
       label: "Attachment Binary Content",
       description: "Binary content of the blob data to insert.",
     },
-    sobject_name: {
+    sobjectName: {
       type: "string",
       label: "SObject Type",
       description: "Salesforce standard object type to insert.",
@@ -50,28 +50,28 @@ export default {
   },
   async run({ $ }) {
     const payloadPart1 = `----------------------------932677621329676389151855
-    \r\nContent-Disposition: form-data; name="${this.entiy_name}""
+    \r\nContent-Disposition: form-data; name="${this.entiyName}""
     \r\nContent-Type: application/json
-    \r\n\r\n${this.entity_document}\r\n\r\n
+    \r\n\r\n${this.entityDocument}\r\n\r\n
     \r\n\r\n----------------------------932677621329676389151855
-    \r\nContent-Disposition: form-data; name="${this.form_content_name}"; filename="${this.filename}"
-    \r\nContent-Type: ${this.content_type}
+    \r\nContent-Disposition: form-data; name="${this.formContentName}"; filename="${this.filename}"
+    \r\nContent-Type: ${this.contentType}
     \r\n\r\n`;
 
     const payloadPart2 = "\r\n\r\n----------------------------932677621329676389151855--";
 
-    const data = `${payloadPart1}${this.attachment_binarycontent}${payloadPart2}`;
+    const data = `${payloadPart1}${this.attachmentBinarycontent}${payloadPart2}`;
 
     const headers = {
       "Content-Type": "multipart/form-data; boundary=--------------------------932677621329676389151855",
     };
 
-    const response = await this.salesforce.insertBlobData(this.sobject_name, {
+    const response = await this.salesforce.insertBlobData(this.sobjectName, {
       $,
       headers,
       data,
     });
-    $.export("$summary", `Inserted Blob data to ${this.sobject_name}`);
+    $.export("$summary", `Inserted Blob data to ${this.sobjectName}`);
     return response;
   },
 };

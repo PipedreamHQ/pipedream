@@ -15,10 +15,10 @@ export default {
   type: "action",
   props: {
     salesforce,
-    DurationInMinutes: {
+    durationInMinutes: {
       type: "integer",
       label: "Duration In Minutes",
-      description: "Contains the event length, in minutes. Even though this field represents a temporal value, it is an integer typenot a Date/Time type.Required in versions 12.0 and earlier if IsAllDayEvent is false. In versions 13.0 and later, this field is optional, depending on the following: If IsAllDayEvent is true, you can supply a value for either DurationInMinutes or EndDateTime. Supplying values in both fields is allowed if the values add up to the same amount of time. If both fields are null, the duration defaults to one day. If IsAllDayEvent is false, a value must be supplied for either DurationInMinutes or EndDateTime. Supplying values in both fields is allowed if the values add up to the same amount of time. If the multiday event feature is enabled, then API versions 13.0 and later support values greater than 1440 for the DurationInMinutes field. API versions 12.0 and earlier can't access event objects whose DurationInMinutes is greater than 1440. For more information, see Multiday Events. Depending on your API version, errors with the DurationInMinutes and EndDateTime fields may appear in different places. Versions 38.0 and beforeErrors always appear in the DurationInMinutes field. Versions 39.0 and laterIf there's no value for the DurationInMinutes field, errors appear in the EndDateTime field. Otherwise, they appear in the DurationInMinutes field.",
+      description: "Contains the event length, in minutes.",
     },
     selector: {
       propDefinition: [
@@ -35,7 +35,7 @@ export default {
   },
   async run({ $ }) {
     const data = lodash.pickBy(lodash.pick(this, [
-      "DurationInMinutes",
+      "durationInMinutes",
       ...this.selector,
     ]));
     const response = await this.salesforce.createEvent({

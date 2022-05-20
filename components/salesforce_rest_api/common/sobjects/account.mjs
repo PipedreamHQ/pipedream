@@ -1,3 +1,5 @@
+import constants from "../constants.mjs";
+
 export default {
   AccountNumber: {
     type: "string",
@@ -78,16 +80,7 @@ export default {
     type: "string",
     label: "Clean Status",
     description: "Indicates the record's clean status as compared with Data.com. Values are: Matched, Different, Acknowledged, NotFound, Inactive, Pending, SelectMatch, or Skipped. Several values for CleanStatus display with different labels on the account record detail page.\nMatched displays as In Sync\nAcknowledged displays as Reviewed\nPending displays as Not Compared",
-    options: [
-      "Matched",
-      "Different",
-      "Acknowledged",
-      "NotFound",
-      "Inactive",
-      "Pending",
-      "SelectMatch",
-      "Skipped",
-    ],
+    options: constants.CLEAN_STATUS,
   },
   Description: {
     type: "string",

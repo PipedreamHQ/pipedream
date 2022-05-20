@@ -15,7 +15,7 @@ export default {
   type: "action",
   props: {
     salesforce,
-    Name: {
+    name: {
       type: "string",
       label: "Name",
       description: "Required. Name of the campaign. Limit: is 80 characters.",
@@ -35,14 +35,14 @@ export default {
   },
   async run({ $ }) {
     const data = lodash.pickBy(lodash.pick(this, [
-      "Name",
+      "name",
       ...this.selector,
     ]));
     const response = await this.salesforce.createCampaign({
       $,
       data,
     });
-    $.export("$summary", `Created campaign "${this.Name}"`);
+    $.export("$summary", `Created campaign "${this.name}"`);
     return response;
   },
 };
