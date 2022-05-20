@@ -53,4 +53,12 @@ export default {
     "ASC",
     "DESC",
   ],
+  ARCHIVE_TYPES: [
+    "zip",
+    "tar.gz",
+    "tar.bz2",
+    "tar",
+    "tgz",
+    "tbz",
+  ],
 };

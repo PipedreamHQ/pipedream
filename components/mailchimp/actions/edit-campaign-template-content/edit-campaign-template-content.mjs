@@ -20,17 +20,9 @@ export default {
     archiveType: {
       type: "string",
       label: "Archive type",
-      description: "The type of encoded file. Defaults to zip.",
+      description: "The type of encoded file.",
       optional: true,
-      options: [
-        "",
-        "zip",
-        "tar.gz",
-        "tar.bz2",
-        "tar",
-        "tgz",
-        "tbz",
-      ],
+      options: constants.ARCHIVE_TYPES,
     },
     templateSections: {
       type: "object",
