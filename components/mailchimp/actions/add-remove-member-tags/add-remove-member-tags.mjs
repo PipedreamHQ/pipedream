@@ -25,7 +25,7 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active")  properties allowed.
+      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active") properties allowed.
         Example:
         \`{
             "name":"",
@@ -39,7 +39,7 @@ export default {
       subscriberHash: this.subscriberHash,
       tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
-    const response =  await this.mailchimp.addRemoveListMemberTags($, payload);
+    const response = await this.mailchimp.addRemoveListMemberTags($, payload);
     response && $.export("$summary", "Action successful");
     return response;
   },

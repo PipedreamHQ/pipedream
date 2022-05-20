@@ -31,7 +31,7 @@ export default {
     prebuiltSegmentId: {
       label: "Prebuilt segment ID",
       type: "string",
-      description: "The prebuilt segment id, if a prebuilt segment has been designated for this campaign.",
+      description: "The prebuilt segment ID, if a prebuilt segment has been designated for this campaign.",
       optional: true,
     },
     segmentMatch: {
@@ -95,7 +95,7 @@ export default {
     folderId: {
       label: "Folder ID",
       type: "string",
-      description: "If the campaign is listed in a folder, the id for that folder.",
+      description: "If the campaign is listed in a folder, the ID for that folder.",
       optional: true,
     },
     authenticate: {
@@ -137,7 +137,7 @@ export default {
     templateId: {
       label: "Template ID",
       type: "integer",
-      description: "The id of the template to use.",
+      description: "The ID of the template to use.",
       optional: true,
     },
     opens: {

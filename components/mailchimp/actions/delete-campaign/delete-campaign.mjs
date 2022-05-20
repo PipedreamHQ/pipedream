@@ -11,11 +11,11 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The unique id for the campaign",
+      description: "The unique ID for the campaign",
     },
   },
   async run({ $ }) {
-    const {  campaignId } = this;
+    const { campaignId } = this;
     const response = await this.mailchimp.deleteCampaign($, campaignId);
     response && $.export("$summary", "Campaign deleted");
     return response;
