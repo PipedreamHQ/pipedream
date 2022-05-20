@@ -9,7 +9,7 @@ export default {
   key: "mailchimp-add-subscriber-to-tag",
   name: "Add Subscriber to Tag",
   description: "Adds an email address to a tag within an audience.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     mailchimp,
@@ -41,7 +41,7 @@ export default {
       subscriberHash: this.subscriberHash,
       tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
-    const response = await this.mailchimp.addRemoveMemberTags($, payload);
+    const response = await this.mailchimp.addRemoveListMemberTags($, payload);
     response && $.export("$summary", "Action successful");
     return response;
   },

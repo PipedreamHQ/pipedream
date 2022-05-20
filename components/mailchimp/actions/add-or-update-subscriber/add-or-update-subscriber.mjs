@@ -173,7 +173,7 @@ export default {
       },
     });
 
-    const response = await this.mailchimp.addOrUpdateSubscriber($, payload);
+    const response = await this.mailchimp.addOrUpdateListMember($, payload);
     response && $.export("$summary", "Successful");
     return response;
   },
