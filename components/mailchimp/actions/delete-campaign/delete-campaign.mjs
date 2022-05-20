@@ -11,7 +11,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The unique id for the campaign",
+      description: "The unique ID for the campaign",
     },
   },
   async run({ $ }) {
