@@ -94,6 +94,7 @@ export default {
         ...otherOpts
       } = opts;
       return axios($, {
+        ...otherOpts,
         method,
         url: `https://api.raindrop.io/rest/v1${path}`,
         headers: {
@@ -103,7 +104,6 @@ export default {
         },
         data,
         params,
-        ...otherOpts,
       });
     },
     async getCollections($) {
