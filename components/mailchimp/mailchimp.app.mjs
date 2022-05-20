@@ -809,6 +809,15 @@ export default {
         params,
       });
     },
+    async archiveListMember($, {
+      listId, subscriberHash,
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._listMemberPath(listId, subscriberHash),
+        method: "delete",
+      });
+    },
     async getListMemberTags($, {
       listId, subscriberHash, ...params
     }) {
