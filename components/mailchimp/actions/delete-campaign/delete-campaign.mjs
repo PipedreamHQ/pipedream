@@ -15,7 +15,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const {  campaignId } = this;
+    const { campaignId } = this;
     const response = await this.mailchimp.deleteCampaign($, campaignId);
     response && $.export("$summary", "Campaign deleted");
     return response;
