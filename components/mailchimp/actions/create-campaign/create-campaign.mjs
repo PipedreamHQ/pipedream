@@ -31,7 +31,7 @@ export default {
     prebuiltSegmentId: {
       label: "Prebuilt segment ID",
       type: "string",
-      description: "The prebuilt segment id, if a prebuilt segment has been designated for this campaign.",
+      description: "The prebuilt segment ID, if a prebuilt segment has been designated for this campaign.",
       optional: true,
     },
     segmentMatch: {
