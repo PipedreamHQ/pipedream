@@ -28,7 +28,7 @@ export default {
       description: "The unique list id.",
     },
     savedSegmentId: {
-      label: "Saved segment id",
+      label: "Saved segment ID",
       type: "integer",
       description: "The id for an existing saved segment.",
       optional: true,
