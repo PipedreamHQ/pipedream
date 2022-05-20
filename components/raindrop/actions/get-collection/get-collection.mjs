@@ -4,22 +4,21 @@ export default {
   key: "raindrop-get-collection",
   name: "Get Collection",
   description: "Get collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#get-collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
-      label: "Collection ID",
-      description: "The collection ID",
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID;
-
-    return this.raindrop.getCollection($, collectionID);
+    const collectionId = this.collectionId;
+    const response = await this.raindrop.getCollection($, collectionId);
+    $.export("$summary", `Successfully retrieved collection with ID ${collectionId}`);
+    return response;
   },
 };
