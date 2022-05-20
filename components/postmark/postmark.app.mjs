@@ -1,5 +1,4 @@
-import axios from "axios";
-import { axios as axiosPipedream } from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -18,8 +17,8 @@ export default {
     _apikey() {
       return this.$auth.api_key;
     },
-    async listTemplates() {
-      const { data } = await axios({
+    async listTemplates($ = this) {
+      const data = await axios($, {
         url: "https://api.postmarkapp.com/templates?Count=500&Offset=0&TemplateType=Standard",
         headers: this.getHeaders(),
         method: "GET",
@@ -42,50 +41,27 @@ export default {
         "Accept": "application/json",
       };
     },
-    getAttachmentData(attachments) {
-      return attachments?.map((str) => {
-        let params = str.split("|");
-        return params.length === 3
-          ? {
-            Name: params[0],
-            Content: params[1],
-            ContentType: params[2],
-          }
-          : JSON.parse(str);
-      });
-    },
-    async sharedActionRequest($, action, endpoint, uniqueProps) {
-      return await axiosPipedream($, {
+    async sharedActionRequest($, endpoint, data) {
+      return axios($, {
         url: `https://api.postmarkapp.com/${endpoint}`,
         headers: this.getHeaders(),
         method: "POST",
-        data: {
-          ...uniqueProps,
-          From: action.fromEmail,
-          To: action.toEmail,
-          Cc: action.ccEmail,
-          Bcc: action.bccEmail,
-          Tag: action.tag,
-          ReplyTo: action.replyTo,
-          Headers: action.customHeaders,
-          TrackOpens: action.trackOpens,
-          TrackLinks: action.trackLinks,
-          Attachments: this.getAttachmentData(this.attachments),
-          Metadata: action.metadata,
-          MessageStream: action.messageStream,
-        },
+        data,
       });
     },
+    async sendSingleEmail($, data) {
+      return this.sharedActionRequest($, "email", data);
+    },
+    async sendEmailWithTemplate($, data) {
+      return this.sharedActionRequest($, "email/withTemplate", data);
+    },
     async setServerInfo(params) {
-      return await axios
-        .put(
-          "https://api.postmarkapp.com/server",
-          params,
-          {
-            headers: this.getHeaders(),
-          },
-        )
-        .then(({ data }) => data);
+      return axios(this, {
+        method: "put",
+        path: "https://api.postmarkapp.com/server",
+        params,
+        headers: this.getHeaders(),
+      });
     },
   },
 };

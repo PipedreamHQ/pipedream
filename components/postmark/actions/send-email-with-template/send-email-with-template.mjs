@@ -31,10 +31,14 @@ export default {
     },
   },
   async run({ $ }) {
-    return this.postmark.sharedActionRequest($, this, "email/withTemplate", {
+    const data = {
+      ...this.getActionRequestCommonData(),
       TemplateAlias: this.templateAlias,
       TemplateModel: this.templateModel,
       InlineCSS: this.inlineCss,
-    });
+    };
+    const response = await this.postmark.sendEmailWithTemplate($, data);
+    $.export("$summary", "Sent email with template successfully");
+    return response;
   },
 };

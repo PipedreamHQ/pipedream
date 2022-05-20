@@ -30,10 +30,14 @@ export default {
     },
   },
   async run({ $ }) {
-    return this.postmark.sharedActionRequest($, this, "email", {
+    const data = {
+      ...this.getActionRequestCommonData(),
       Subject: this.subject,
       HtmlBody: this.htmlBody,
       TextBody: this.textBody,
-    });
+    };
+    const response = await this.postmark.sendSingleEmail($, data);
+    $.export("$summary", "Sent email successfully");
+    return response;
   },
 };
