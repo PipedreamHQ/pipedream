@@ -95,7 +95,7 @@ export default {
     folderId: {
       label: "Folder ID",
       type: "string",
-      description: "If the campaign is listed in a folder, the id for that folder.",
+      description: "If the campaign is listed in a folder, the ID for that folder.",
       optional: true,
     },
     authenticate: {
