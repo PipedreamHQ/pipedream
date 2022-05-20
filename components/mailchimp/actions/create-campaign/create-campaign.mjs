@@ -89,7 +89,7 @@ export default {
     toName: {
       label: "To name",
       type: "string",
-      description: "The campaign's custom 'To' name.",
+      description: "The campaign's custom to name.",
       optional: true,
     },
     folderId: {
