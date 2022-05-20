@@ -63,7 +63,7 @@ export default {
 
         allUsers = allUsers.concat(users);
 
-        if (users.length => 40) {
+        if (users.length >= 40) {
           after = users[users.length - 1].id;
         } else {
           after = null;
