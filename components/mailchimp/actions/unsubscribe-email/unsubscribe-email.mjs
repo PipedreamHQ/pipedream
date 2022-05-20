@@ -1,4 +1,3 @@
-// legacy_hash_id: a_PNiwMj
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {

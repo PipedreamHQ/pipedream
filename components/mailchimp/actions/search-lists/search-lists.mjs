@@ -58,7 +58,7 @@ export default {
     hasEcommerceStore: {
       type: "boolean",
       label: "Has ecommerce store?",
-      description: "The unique id for the list",
+      description: "The unique ID for the list",
       optional: true,
     },
     includeTotalContacts: {

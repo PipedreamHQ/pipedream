@@ -15,7 +15,7 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The unique id for the campaign",
+      description: "The unique ID for the campaign",
     },
     archiveType: {
       type: "string",
@@ -72,8 +72,8 @@ export default {
     if (Object.keys(this.templateSections).length > 0) {
       props.templateId = {
         type: "string",
-        label: "Template id",
-        description: "The id of the template to use.",
+        label: "Template ID",
+        description: "The ID of the template to use.",
       };
     }
     if (this.archiveType && this.archiveType !== "zip") {

@@ -1,4 +1,3 @@
-// legacy_hash_id: a_Xzi2bx
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -12,7 +11,7 @@ export default {
     campaignId: {
       label: "Campaign ID",
       type: "string",
-      description: "The unique id for the campaign.",
+      description: "The unique ID for the campaign.",
     },
   },
   async run({ $ }) {

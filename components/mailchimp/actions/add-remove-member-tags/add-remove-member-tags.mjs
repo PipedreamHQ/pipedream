@@ -15,7 +15,7 @@ export default {
     listId: {
       type: "string",
       label: "List ID",
-      description: "The unique id for the list.",
+      description: "The unique ID for the list.",
     },
     subscriberHash: {
       type: "string",

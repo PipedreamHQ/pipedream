@@ -1,4 +1,3 @@
-// legacy_hash_id: a_RAiaJ1
 import mailchimp from "../../mailchimp.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
@@ -89,9 +88,9 @@ export default {
       optional: true,
     },
     marketingPermissionId: {
-      label: "Marketing permission id",
+      label: "Marketing permission ID",
       type: "string",
-      description: "The id for the marketing permission on the list.",
+      description: "The ID for the marketing permission on the list.",
       optional: true,
     },
     marketingPermissionsEnabled: {

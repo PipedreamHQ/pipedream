@@ -1,4 +1,3 @@
-// legacy_hash_id: a_74iE5o
 import constants from "../../common/constants.mjs";
 import {
   formatArrayStrings, removeNullEntries,

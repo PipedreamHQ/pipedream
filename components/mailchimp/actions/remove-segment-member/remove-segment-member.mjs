@@ -15,8 +15,8 @@ export default {
     },
     segmentId: {
       type: "string",
-      label: "Segment id",
-      description: "The unique id for the segment.",
+      label: "Segment ID",
+      description: "The unique ID for the segment.",
     },
     subscriberHash: {
       type: "string",
@@ -30,7 +30,7 @@ export default {
       segmentId: this.segmentId,
       listId: this.listId,
     };
-    const response =  await this.mailchimp.removeSegmentMember($, payload);
+    const response = await this.mailchimp.removeSegmentMember($, payload);
     response && $.export("$summary", "Segment member removed");
     return response;
   },

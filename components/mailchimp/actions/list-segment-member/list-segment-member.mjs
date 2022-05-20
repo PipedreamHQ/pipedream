@@ -15,8 +15,8 @@ export default {
     },
     segmentId: {
       type: "string",
-      label: "Segment id",
-      description: "The unique id for the segment.",
+      label: "Segment ID",
+      description: "The unique ID for the segment.",
     },
     fields: {
       propDefinition: [

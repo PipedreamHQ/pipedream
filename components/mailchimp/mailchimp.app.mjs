@@ -172,10 +172,10 @@ export default {
       return `/lists/${listId || ""}`;
     },
     _segmentMemberPath(listId, segmentId, subscriberHash = null) {
-      return  `${this._listPath(listId)}/segments/${segmentId}/members/${subscriberHash || ""}`;
+      return `${this._listPath(listId)}/segments/${segmentId}/members/${subscriberHash || ""}`;
     },
-    _listMemberPath(listId,  subscriberHash) {
-      return  `${this._listPath(listId)}/members/${subscriberHash}`;
+    _listMemberPath(listId, subscriberHash) {
+      return `${this._listPath(listId)}/members/${subscriberHash}`;
     },
     async _makeRequest(args = {}) {
       const {

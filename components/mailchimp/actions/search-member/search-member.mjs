@@ -1,4 +1,3 @@
-// legacy_hash_id: a_WYiedE
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -31,7 +30,7 @@ export default {
     listId: {
       label: "List ID",
       type: "string",
-      description: "The unique id for the list.",
+      description: "The unique ID for the list.",
       optional: true,
     },
   },

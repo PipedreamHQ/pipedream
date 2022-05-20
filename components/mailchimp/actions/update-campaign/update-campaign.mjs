@@ -13,24 +13,24 @@ export default {
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The unique id for the campaign",
+      description: "The unique ID for the campaign",
     },
     listId: {
       type: "string",
       label: "List Id",
-      description: "The unique list id.",
+      description: "The unique list ID.",
       optional: true,
     },
     savedSegmentId: {
       type: "string",
-      label: "Saved segment id",
-      description: "The id for an existing saved segment.",
+      label: "Saved segment ID",
+      description: "The ID for an existing saved segment.",
       optional: true,
     },
     prebuiltSegmentId: {
       type: "string",
-      label: "Prebuilt segment id",
-      description: "The prebuilt segment id, if a prebuilt segment has been designated for this campaign.",
+      label: "Prebuilt segment ID",
+      description: "The prebuilt segment ID, if a prebuilt segment has been designated for this campaign.",
       optional: true,
     },
     segmentMatch: {
@@ -91,7 +91,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "If the campaign is listed in a folder, the id for that folder.",
+      description: "If the campaign is listed in a folder, the ID for that folder.",
       optional: true,
     },
     authenticate: {
@@ -121,7 +121,7 @@ export default {
     autoFbPost: {
       type: "string[]",
       label: "Auto facebook post",
-      description: "An array of Facebook page ids to auto-post to.",
+      description: "An array of Facebook page ID to auto-post to.",
       optional: true,
     },
     fbComments: {
@@ -132,8 +132,8 @@ export default {
     },
     templateId: {
       type: "string",
-      label: "Template id",
-      description: "The id of the template to use.",
+      label: "Template ID",
+      description: "The ID of the template to use.",
       optional: true,
     },
     opens: {

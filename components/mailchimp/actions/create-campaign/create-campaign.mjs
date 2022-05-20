@@ -1,4 +1,3 @@
-// legacy_hash_id: a_vgi8lg
 import mailchimp from "../../mailchimp.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
@@ -20,7 +19,7 @@ export default {
     listId: {
       label: "List ID",
       type: "string",
-      description: "The unique list id.",
+      description: "The unique list ID.",
     },
     savedSegmentId: {
       label: "Saved segment ID",
@@ -125,7 +124,7 @@ export default {
     autoFbPost: {
       label: "Auto fb post",
       type: "any",
-      description: "An array of Facebook page ids to auto-post to.",
+      description: "An array of Facebook page ID to auto-post to.",
       optional: true,
     },
     fbComments: {
