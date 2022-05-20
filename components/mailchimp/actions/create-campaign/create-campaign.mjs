@@ -137,7 +137,7 @@ export default {
     templateId: {
       label: "Template ID",
       type: "integer",
-      description: "The id of the template to use.",
+      description: "The ID of the template to use.",
       optional: true,
     },
     opens: {
