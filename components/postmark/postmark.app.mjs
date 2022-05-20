@@ -8,8 +8,9 @@ export default {
       type: "string",
       label: "Template",
       description: "The template to use for this email.",
-      async options() {
-        return this.listTemplates();
+      async options(context) {
+        const { page } = context;
+        return this.listTemplates(page);
       },
     },
   },
@@ -17,11 +18,14 @@ export default {
     _apikey() {
       return this.$auth.api_key;
     },
-    async listTemplates($ = this) {
-      const data = await axios($, {
-        url: "https://api.postmarkapp.com/templates?Count=500&Offset=0&TemplateType=Standard",
-        headers: this.getHeaders(),
+    async listTemplates(page) {
+      const amountPerPage = 3;
+      const offset = page * amountPerPage;
+
+      const data = await axios(this, {
+        url: `https://api.postmarkapp.com/templates?Count=${amountPerPage}&Offset=${offset}&TemplateType=Standard`,
         method: "GET",
+        headers: this.getHeaders(),
       });
 
       return data.TotalCount
@@ -44,8 +48,8 @@ export default {
     async sharedActionRequest($, endpoint, data) {
       return axios($, {
         url: `https://api.postmarkapp.com/${endpoint}`,
-        headers: this.getHeaders(),
         method: "POST",
+        headers: this.getHeaders(),
         data,
       });
     },
@@ -55,12 +59,12 @@ export default {
     async sendEmailWithTemplate($, data) {
       return this.sharedActionRequest($, "email/withTemplate", data);
     },
-    async setServerInfo(params) {
+    async setServerInfo(data) {
       return axios(this, {
+        url: "https://api.postmarkapp.com/server",
         method: "put",
-        path: "https://api.postmarkapp.com/server",
-        params,
         headers: this.getHeaders(),
+        data,
       });
     },
   },
