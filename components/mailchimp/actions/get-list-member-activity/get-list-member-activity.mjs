@@ -1,9 +1,11 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  removeNullEntries, validateObject,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-get-list-member-activity",
-  name: "Get List Members Activities",
+  name: "Get List Member Activities",
   description: "Get the last 50 events of a member's activity on a specific list. [See docs here](https://mailchimp.com/developer/marketing/api/list-activity/view-recent-activity-50/)",
   version: "0.0.1",
   type: "action",
@@ -36,7 +38,6 @@ export default {
       label: "Action",
       description: "A comma seperated list of actions to return. Possible values: abuse, bounce, click, open, sent, unsub, or ecomm.",
       optional: true,
-      default: {},
     },
   },
   async run({ $ }) {
@@ -44,7 +45,7 @@ export default {
       listId: this.listId,
       fields: this.fields.join(","),
       exclude_fields: this.excludeFields.join(","),
-      action: this.action,
+      action: validateObject(this.action),
       subscriberHash: this.subscriberHash,
     });
     const response = await this.mailchimp.getListMemberActivities($, payload);

@@ -18,4 +18,13 @@ export default {
     "html",
     "url",
   ],
+  ALLOWED_ACTIONS: [
+    "abuse",
+    "bounce",
+    "click",
+    "open",
+    "sent",
+    "unsub",
+    "ecomm",
+  ],
 };

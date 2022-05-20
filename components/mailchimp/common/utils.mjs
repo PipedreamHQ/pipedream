@@ -1,5 +1,15 @@
 import { ConfigurationError } from "@pipedream/platform";
 
+const validateObject = (obj, ALLOWED_KEYS, fieldName) => {
+  if (!obj || !Object.keys(obj)?.length) return;
+  for (const key of Object.keys(obj)) {
+    if (!ALLOWED_KEYS.includes(key)) {
+      throw new ConfigurationError(`${fieldName} error: Key ${key} not allowed`);
+    }
+  }
+  return obj;
+};
+
 const removeNullEntries = (obj) =>
   obj && Object.entries(obj).reduce((acc, [
     key,
@@ -64,5 +74,5 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
 };
 
 export {
-  removeNullEntries, formatArrayStrings,
+  removeNullEntries, formatArrayStrings, validateObject,
 };

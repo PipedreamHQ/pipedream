@@ -664,7 +664,7 @@ export default {
         path: this._campaignPath(campaignId),
       });
     },
-    async findCampaignReport($, {
+    async getCampaignReport($, {
       campaignId, ...params
     }) {
       return this._makeRequest({
@@ -706,6 +706,13 @@ export default {
         $,
         path: this._campaignPath(campaignId),
         method: "delete",
+      });
+    },
+    async sendCampaign($, campaignId) {
+      return this._makeRequest({
+        $,
+        path: `${this._campaignPath(campaignId)}/actions/send`,
+        method: "post",
       });
     },
     async searchLists($, params) {

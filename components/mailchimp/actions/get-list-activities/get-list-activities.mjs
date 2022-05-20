@@ -3,7 +3,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-get-list-activities",
-  name: "Get Lists Activities",
+  name: "Get List Activities",
   description: "Retrieves up to the previous 180 days of daily detailed aggregated activity stats for a list. [See docs here](https://mailchimp.com/developer/marketing/api/list-activity/list-recent-activity/)",
   version: "0.0.1",
   type: "action",
@@ -40,7 +40,7 @@ export default {
       exclude_fields: this.excludeFields.join(","),
       count: this.count,
     });
-    const response = await this.mailchimp.getList($, payload);
+    const response = await this.mailchimp.getListActivities($, payload);
     response && $.export("$summary", "List activities found");
     return response;
   },

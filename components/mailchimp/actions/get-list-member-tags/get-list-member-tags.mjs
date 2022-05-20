@@ -3,7 +3,7 @@ import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-get-list-member-tags",
-  name: "Get List Members Tags",
+  name: "Get List Member Tags",
   description: "Retrieves a list of all member tags. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/list-member-tags/)",
   version: "0.0.1",
   type: "action",
