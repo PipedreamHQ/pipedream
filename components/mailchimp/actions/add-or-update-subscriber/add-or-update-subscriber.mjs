@@ -1,6 +1,7 @@
 // legacy_hash_id: a_RAiaJ1
 import mailchimp from "../../mailchimp.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-add-or-update-subscriber",
@@ -35,36 +36,21 @@ export default {
       label: "Status if new",
       type: "string",
       description: "Subscriber's status. This value is required only if the email address is not already present on the list.",
-      options: [
-        "subscribed",
-        "unsubscribed",
-        "cleaned",
-        "pending",
-        "transactional",
-      ],
+      options: constants.STATUS,
     },
     emailType: {
       label: "Email type",
       type: "string",
       description: "Type of email this member asked to get ('html' or 'text').",
       optional: true,
-      options: [
-        "html",
-        "text",
-      ],
+      options: constants.EMAIL_TYPES,
     },
     status: {
       label: "Status",
       type: "string",
       description: "Subscriber's current status.",
       optional: true,
-      options: [
-        "subscribed",
-        "unsubscribed",
-        "cleaned",
-        "pending",
-        "transactional",
-      ],
+      options: constants.STATUS,
     },
     mergeFields: {
       label: "Merge fields",

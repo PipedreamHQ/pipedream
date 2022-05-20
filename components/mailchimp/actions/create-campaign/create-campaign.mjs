@@ -1,6 +1,7 @@
 // legacy_hash_id: a_vgi8lg
 import mailchimp from "../../mailchimp.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-create-campaign",
@@ -14,13 +15,7 @@ export default {
       label: "Type",
       type: "string",
       description: "There are four types of campaigns you can create in Mailchimp. A/B Split campaigns have been deprecated and variate campaigns should be used instead.",
-      options: [
-        "regular",
-        "plaintext",
-        "absplit",
-        "rss",
-        "variate",
-      ],
+      options: constants.CAMPAIGN_TYPE,
     },
     listId: {
       label: "List ID",

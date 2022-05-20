@@ -10,6 +10,13 @@ export default {
     "name",
     "status",
   ],
+  CAMPAIGN_TYPE: [
+    "regular",
+    "plaintext",
+    "absplit",
+    "rss",
+    "variate",
+  ],
   ALLOWED_VARIATE_CONTENTS: [
     "archive",
     "template",
@@ -26,5 +33,24 @@ export default {
     "sent",
     "unsub",
     "ecomm",
+  ],
+  STATUS: [
+    "subscribed",
+    "unsubscribed",
+    "cleaned",
+    "pending",
+    "transactional",
+  ],
+  EMAIL_TYPES: [
+    "html",
+    "text",
+  ],
+  SOCIAL_TITLES: [
+    "active",
+    "inactive",
+  ],
+  SORT_DIRECTIONS: [
+    "ASC",
+    "DESC",
   ],
 };

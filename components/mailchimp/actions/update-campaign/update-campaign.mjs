@@ -213,10 +213,7 @@ export default {
       label: "Social title",
       description: "The title for the preview card. Typically the subject line of the campaign.",
       optional: true,
-      options: [
-        "active",
-        "inactive",
-      ],
+      options: constants.SOCIAL_TITLES,
     },
   },
   async run({ $ }) {

@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
@@ -51,10 +52,7 @@ export default {
       label: "Sort direction",
       description: "Determines the order direction for sorted results. Possible values: ASC or DESC.",
       optional: true,
-      options: [
-        "ASC",
-        "DESC",
-      ],
+      options: constants.SORT_DIRECTIONS,
       default: "DESC",
     },
     hasEcommerceStore: {
