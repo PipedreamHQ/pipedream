@@ -1,5 +1,5 @@
 import sortBy from "lodash/sortBy.js";
-import common from "../common/http-based/base.js";
+import common from "../common/http-based/base.mjs";
 import crudOps from "../common/http-based/crud-operations.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "zoho_crm-new-event",
   name: "New Event (Instant)",
   description: "Emit new custom events from Zoho CRM",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   props: {
     ...common.props,
