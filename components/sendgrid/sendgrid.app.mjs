@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import retry from "async-retry";
 import sendgrid from "@sendgrid/client";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -226,10 +227,10 @@ export default {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, [
-            "response",
-            "status",
-          ]);
+          const statusCode = get(err, "code");
+          if (statusCode === 403) {
+            throw new ConfigurationError("The SendGrid API Key for this account does not have permmission for this action. Enter the data manually, or update permissions.");
+          }
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
