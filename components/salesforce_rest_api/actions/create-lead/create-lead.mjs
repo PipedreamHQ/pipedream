@@ -18,7 +18,7 @@ export default {
     Company: {
       type: "string",
       label: "Company",
-      description: "Required. The lead's company. Note If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account.",
+      description: "The lead's company. Note If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account.",
     },
     LastName: {
       type: "string",
