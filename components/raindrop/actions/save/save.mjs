@@ -1,47 +1,44 @@
-// legacy_hash_id: a_NqilJ3
+import raindrop from "../../raindrop.app.mjs";
+
 export default {
   key: "raindrop-save",
   name: "Save to Raindrop Collection",
-  description: "Receive a link and save it into a specific collection. You can get the collection id by accessing you collection and grabbing the numbers at the end of the address.",
-  version: "1.0.1",
+  description: "Receive a link and save it into a specified collection. [See docs](https://developer.raindrop.io/v1/raindrops/single)",
+  version: "1.1.0",
   type: "action",
   props: {
-    raindrop: {
-      type: "app",
-      app: "raindrop",
-    },
+    raindrop,
     link: {
       type: "string",
+      label: "Bookmark Link",
+      description: "Link of the bookmark to save",
     },
-    collectionid: {
-      type: "string",
+    collectionId: {
+      propDefinition: [
+        raindrop,
+        "collectionId",
+      ],
+      description: "The Collection ID. Default collection is `Unsorted`",
+      optional: true,
     },
-    bookmarktag: {
-      type: "string",
+    tags: {
+      type: "string[]",
+      label: "Bookmark Tags",
+      description: "A list of tags for the bookmark",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      link,
-      collectionid,
-      bookmarktag,
-    } = this;
+    const bookmarkData = {
+      link: this.link,
+      collection: {
+        $id: this.collectionId,
+      },
+      tags: this.tags ?? [],
+    };
 
-    $.send.http({
-      method: "POST",
-      url: "https://api.raindrop.io/rest/v1/raindrop",
-      headers: {
-        Authorization: `Bearer ${this.raindrop.$auth.oauth_access_token}`,
-      },
-      data: {
-        link,
-        collection: {
-          $id: collectionid,
-        },
-        tags: [
-          bookmarktag,
-        ],
-      },
-    });
+    const response = await this.raindrop.postBookmark($, bookmarkData);
+    $.export("$summary", "Bookmark saved");
+    return response;
   },
 };
