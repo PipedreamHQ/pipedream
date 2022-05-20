@@ -19,7 +19,7 @@ export default {
     Name: {
       type: "string",
       label: "Name",
-      description: "Name of the account. Maximum size is 255 characters. If the account has a record type of Person Account:\nThis value is the concatenation of the FirstName, MiddleName, LastName, and Suffix of the associated person contact.",
+      description: "Name of the account. Maximum size is 255 characters. If the account has a record type of Person Account: This value is the concatenation of the FirstName, MiddleName, LastName, and Suffix of the associated person contact.",
     },
     selector: {
       propDefinition: [
