@@ -229,7 +229,7 @@ export default {
         } catch (err) {
           const statusCode = get(err, "code");
           if (statusCode === 403) {
-            throw new ConfigurationError("The SendGrid API Key for this account does not have permmission for this action. Enter the data manually, or update permissions.");
+            throw new ConfigurationError("The SendGrid API Key for this account does not have permission for this action. Enter the data manually, or update permissions.");
           }
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
