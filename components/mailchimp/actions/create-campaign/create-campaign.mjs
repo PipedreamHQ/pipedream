@@ -28,13 +28,13 @@ export default {
       description: "The unique list id.",
     },
     savedSegmentId: {
-      label: "Saved segment id",
+      label: "Saved segment ID",
       type: "integer",
-      description: "The id for an existing saved segment.",
+      description: "The ID for an existing saved segment.",
       optional: true,
     },
     prebuiltSegmentId: {
-      label: "Prebuilt segment id",
+      label: "Prebuilt segment ID",
       type: "string",
       description: "The prebuilt segment id, if a prebuilt segment has been designated for this campaign.",
       optional: true,
