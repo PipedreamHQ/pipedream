@@ -25,7 +25,7 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active")  properties allowed.
+      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active") properties allowed.
         Example:
         \`{
             "name":"college",
