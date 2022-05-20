@@ -25,7 +25,7 @@ export default {
     });
     this.$emit(event, {
       summary: this.getSummary(),
-      ts: Date.now(),
+      ts: event.data.created_at,
     });
   },
 };
