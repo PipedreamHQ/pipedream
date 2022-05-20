@@ -9,8 +9,22 @@ export default {
       label: "Template",
       description: "The template to use for this email.",
       async options(context) {
-        const { page } = context;
-        return this.listTemplates(page);
+        let { page } = context;
+        const data = await this.listTemplates(page++);
+        const options =
+          data.Templates?.map((obj) => {
+            return {
+              label: obj.Name,
+              value: obj.Alias,
+            };
+          }) ?? [];
+
+        return {
+          options,
+          context: {
+            page,
+          },
+        };
       },
     },
   },
@@ -19,24 +33,13 @@ export default {
       return this.$auth.api_key;
     },
     async listTemplates(page) {
-      const amountPerPage = 3;
+      const amountPerPage = 10;
       const offset = page * amountPerPage;
 
-      const data = await axios(this, {
-        url: `https://api.postmarkapp.com/templates?Count=${amountPerPage}&Offset=${offset}&TemplateType=Standard`,
+      return this.sharedRequest(this, {
+        endpoint: `templates?Count=${amountPerPage}&Offset=${offset}&TemplateType=Standard`,
         method: "GET",
-        headers: this.getHeaders(),
       });
-
-      return data.TotalCount
-        ? data.Templates.map((obj) => {
-          return {
-            label: obj.Name,
-            value: obj.Alias,
-          };
-        })
-        : [];
-
     },
     getHeaders() {
       return {
@@ -45,11 +48,24 @@ export default {
         "Accept": "application/json",
       };
     },
-    async sharedActionRequest($, endpoint, data) {
+    async sharedRequest($, params) {
+      const {
+        endpoint,
+        method,
+        data,
+      } = params;
+
       return axios($, {
         url: `https://api.postmarkapp.com/${endpoint}`,
-        method: "POST",
+        method,
         headers: this.getHeaders(),
+        data,
+      });
+    },
+    async sharedActionRequest($, endpoint, data) {
+      return this.sharedRequest($, {
+        endpoint,
+        method: "POST",
         data,
       });
     },
@@ -60,10 +76,9 @@ export default {
       return this.sharedActionRequest($, "email/withTemplate", data);
     },
     async setServerInfo(data) {
-      return axios(this, {
-        url: "https://api.postmarkapp.com/server",
+      return this.sharedRequest(this, {
+        endpoint: "server",
         method: "put",
-        headers: this.getHeaders(),
         data,
       });
     },
