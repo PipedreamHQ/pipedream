@@ -1,11 +1,12 @@
 import notion from "../../notion.app.mjs";
+import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
 
 export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set via the properties parameter will remain unchanged. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "0.1.0",
+  version: "0.1.1653045445",
   type: "action",
   props: {
     notion,
@@ -59,12 +60,23 @@ export default {
       for (const propertyName in properties) {
         const property = properties[propertyName];
 
-        additionalProps[propertyName] = {
+        if (!constants.NOTION_PROPERTIES[property.type]) continue;
+
+        const {
+          type,
+          example,
+        } = constants.NOTION_PROPERTIES[property.type];
+
+        const prop = {
           label: propertyName,
-          description: `The type of this property is \`${property.type}\`. [See the properties docs here](https://developers.notion.com/reference/property-object) and [properties values docs here](https://developers.notion.com/reference/property-value-object). E.g. \`{ "title": [ { "type": "text", "text": { "content": "Title Updated" } } ] }\``,
-          type: "string",
+          description: `The type of this property is \`${property.type}\`. [See ${property.type} type docs here](https://developers.notion.com/reference/property-object#${property.type}-configuration) ` + (example
+            ? (" E.g. " + `\`${example}\``)
+            : ""),
+          type: type,
           optional: true,
         };
+
+        additionalProps[propertyName] = prop;
       }
     }
 
@@ -79,9 +91,13 @@ export default {
     };
 
     for (const propertyName in properties) {
-      const value = utils.parseStringToJSON(this[propertyName], false);
+      const property = properties[propertyName];
 
-      if (value) params.properties[propertyName] = value;
+      const value = utils.emptyStrToUndefined(this[propertyName]);
+
+      if (value !== undefined) {
+        params.properties[propertyName] = utils.formatPropertyToProp(value, property.type);
+      }
     }
 
     if (this.iconType) {

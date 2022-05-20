@@ -49,131 +49,65 @@ const BLOCK_TYPES = {
       },
     },
   },
-  /**
-   * These block types are not yet supported
-   *
-  heading_1: {
-    name: "heading_1",
-    prop: {
-      type: "boolean",
-      label: "Heading 1",
-      description: "",
-    },
-    additionalProps: {
-      heading1Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
+};
+
+const NOTION_PROPERTIES = {
+  "title": {
+    type: "string",
+    example: "New Beauty Title",
   },
-  heading_2: {
-    name: "heading_2",
-    prop: {
-      type: "boolean",
-      label: "Heading 2",
-      description: "",
-    },
-    additionalProps: {
-      heading2Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
+  "rich_text": {
+    type: "string",
+    example: "A beauty text value",
   },
-  heading_3: {
-    name: "heading_3",
-    prop: {
-      type: "boolean",
-      label: "Heading 3",
-      description: "",
-    },
-    additionalProps: {
-      heading3Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
+  "number": {
+    type: "integer",
+    example: "59",
   },
-  bulleted_list_item: {
-    name: "bulleted_list_item",
+  "select": {
+    type: "string",
+    example: "3f806034-9c48-4519-871e-60c9c32d73d8",
   },
-  numbered_list_item: {
-    name: "numbered_list_item",
+  "multi_select": {
+    type: "string[]",
+    example: "[\"8d033c95-5515-4662-b8f3-60cb7d86487a\", \"bf3fcc55-aefc-43a8-82a0-2d4ac1e74d30\"]",
   },
-  toggle: {
-    name: "toggle",
+  "date": {
+    type: "string",
+    example: "2022-05-15T18:47:00.000Z",
   },
-  child_page: {
-    name: "child_page",
+  "people": {
+    type: "string[]",
+    example: "[\"16799fa1-f1f7-437e-8a12-5eb2eedc1b05\"]",
   },
-  child_database: {
-    name: "child_database",
+  "files": {
+    type: "string[]",
+    example: "[\"https://site.com/image1.png\", \"https://site.com/image2.png\"]",
   },
-  embed: {
-    name: "embed",
+  "checkbox": {
+    type: "boolean",
   },
-  image: {
-    name: "image",
+  "url": {
+    type: "string",
+    example: "https://pipedream.com",
   },
-  video: {
-    name: "video",
+  "email": {
+    type: "string",
+    example: "example@pipedream.com",
   },
-  file: {
-    name: "file",
+  "phone_number": {
+    type: "string",
+    example: "999-999-9999",
   },
-  pdf: {
-    name: "pdf",
+  "relation": {
+    type: "string[]",
+    example: "[\"cd11c7df-d793-49cf-9501-70c7ba59950d\", \"532c3f83-51c0-4789-b53c-f05461582f73\"]",
   },
-  bookmark: {
-    name: "bookmark",
-  },
-  callout: {
-    name: "callout",
-  },
-  quote: {
-    name: "quote",
-  },
-  equation: {
-    name: "equation",
-  },
-  divider: {
-    name: "divider",
-  },
-  table_of_contents: {
-    name: "table_of_contents",
-  },
-  column: {
-    name: "column",
-  },
-  column_list: {
-    name: "column_list",
-  },
-  link_preview: {
-    name: "link_preview",
-  },
-  synced_block: {
-    name: "synced_block",
-  },
-  template: {
-    name: "template",
-  },
-  link_to_page: {
-    name: "link_to_page",
-  },
-  table: {
-    name: "table",
-  },
-  table_row: {
-    name: "table_row",
-  },
-  */
 };
 
 export default {
   ICON_TYPES,
   COVER_TYPES,
   BLOCK_TYPES,
+  NOTION_PROPERTIES,
 };
