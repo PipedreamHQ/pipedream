@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "mailchimp-update-campaign",
   name: "Update Campaign",
-  description: "Update a campaign",
+  description: "Update a campaign. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
   version: "0.0.1",
   type: "action",
   props: {

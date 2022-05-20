@@ -4,7 +4,9 @@ import mailchimp from "../../mailchimp.app.mjs";
 export default {
   key: "mailchimp-search-member",
   name: "Search Members/Subscribers",
-  description: "Searches for a subscriber. The search can be restricted to a specific list, or can be used to search across all lists in an account.",
+  description: `Searches for a subscriber. The search can be restricted to a specific list, or can be used to search across all lists in an account.
+   [See docs here](https://mailchimp.com/developer/marketing/api/search-members/)
+  `,
   version: "0.0.1",
   type: "action",
   props: {

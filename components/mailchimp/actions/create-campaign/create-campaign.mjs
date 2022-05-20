@@ -5,7 +5,7 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
-  description: "Creates a new campaign draft.",
+  description: "Creates a new campaign draft. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
   version: "0.2.2",
   type: "action",
   props: {
