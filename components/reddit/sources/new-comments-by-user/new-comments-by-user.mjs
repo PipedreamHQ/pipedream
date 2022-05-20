@@ -5,9 +5,9 @@ export default {
   ...common,
   type: "source",
   key: "reddit-new-comments-by-user",
-  name: "New comments by user",
+  name: "New Comments by User",
   description: "Emit new event each time a user posts a new comment.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -56,8 +56,14 @@ export default {
         console.log("No data available, skipping iteration");
         return;
       }
-      const { name: before = this.db.get("before") } = comments[0].data;
-      this.db.set("before", before);
+      const { name = this._getBefore() } = comments[0].data;
+      this._setBefore(name);
+      const {
+        cache,
+        keys,
+      } = this.getAllCommentsData(comments);
+      this._setCache(cache);
+      this._setKeys(keys);
       comments.reverse().forEach(this.emitRedditEvent);
     },
   },
@@ -70,12 +76,44 @@ export default {
         ts: redditEvent.data.created,
       };
     },
+    async isBeforeValid(before, cache) {
+      // verify this comment still exists as a comment by this user
+      const res = await this.reddit.getComment(cache[before]);
+      const author = res[1]?.data?.children[0]?.data?.author;
+      return author === this.username;
+    },
+    getCommentData(comment) {
+      return {
+        name: comment?.data?.name,
+        id: comment?.data?.id,
+        article: comment?.data?.link_id.slice(3),
+        subreddit: comment?.data?.subreddit,
+      };
+    },
+    getAllCommentsData(comments) {
+      const cache = this._getCache();
+      const keys = this._getKeys();
+      comments.reverse().forEach((comment) => {
+        cache[comment?.data?.name] = this.getCommentData(comment);
+        keys.push(comment?.data?.name);
+      });
+      return {
+        cache,
+        keys,
+      };
+    },
   },
   async run() {
     let redditComments;
+    const {
+      cache: previousEmittedEvents,
+      keys,
+    } = await this.validateBefore(this._getCache(),
+      this._getBefore(),
+      this._getKeys());
     do {
       redditComments = await this.reddit.getNewUserComments(
-        this.db.get("before"),
+        this._getBefore(),
         this.username,
         this.numberOfParents,
         this.timeFilter,
@@ -86,9 +124,18 @@ export default {
         console.log("No data available, skipping iteration");
         break;
       }
-      const { name: before = this.db.get("before") } = comments[0].data;
-      this.db.set("before", before);
-      comments.reverse().forEach(this.emitRedditEvent);
+      const { name = this._getBefore() } = comments[0].data;
+      this._setBefore(name);
+
+      comments.reverse().forEach((comment) => {
+        if (!previousEmittedEvents[comment.data.name]) {
+          previousEmittedEvents[comment.data.name] = this.getCommentData(comment);
+          keys.push(comment.data.name);
+          this.emitRedditEvent(comment);
+        }
+      });
     } while (redditComments);
+    this._setCache(previousEmittedEvents);
+    this._setKeys(keys);
   },
 };
