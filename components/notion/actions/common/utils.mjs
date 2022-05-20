@@ -92,12 +92,18 @@ function formatPropertyToProp(value, type) {
       id: value,
     };
     break;
-  case "multi_select":
   case "relation":
     value = parseStringToJSON(value, value);
 
     property[type] = value.map((id) => ({
       id,
+    }));
+    break;
+  case "multi_select":
+    value = parseStringToJSON(value, value);
+
+    property[type] = value.map((name) => ({
+      name,
     }));
     break;
   case "date":

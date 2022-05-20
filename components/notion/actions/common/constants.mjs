@@ -70,7 +70,9 @@ const NOTION_PROPERTIES = {
   },
   "multi_select": {
     type: "string[]",
-    example: "[\"8d033c95-5515-4662-b8f3-60cb7d86487a\", \"bf3fcc55-aefc-43a8-82a0-2d4ac1e74d30\"]",
+    // example: "[\"8d033c95-5515-4662-b8f3-60cb7d86487a\",
+    // \"bf3fcc55-aefc-43a8-82a0-2d4ac1e74d30\"]",
+    example: "[\"Tasks\", \"Sprints\"]",
   },
   "date": {
     type: "string",
