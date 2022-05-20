@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-list-objects",
   name: "List Objects",
   description: "Gets the list of available records from a module.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -116,7 +116,7 @@ export default {
     }
 
     return await axios($, {
-      url: `https://www.zohoapis.com/crm/v2/${this.module}`,
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/${this.module}`,
       params: {
         fields: this.fields,
         ids: this.ids,

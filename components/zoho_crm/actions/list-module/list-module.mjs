@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-list-module",
   name: "List Modules",
   description: "Retrieves a list of all the modules available in your CRM account.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -17,7 +17,7 @@ export default {
   //See Zoho CRM API docs at: https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html
 
     return await axios($, {
-      url: "https://www.zohoapis.com/crm/v2/settings/modules",
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/settings/modules`,
       headers: {
         "Authorization": `Zoho-oauthtoken ${this.zoho_crm.$auth.oauth_access_token}`,
       },
