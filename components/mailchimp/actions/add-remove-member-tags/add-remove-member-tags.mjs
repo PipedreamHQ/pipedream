@@ -39,7 +39,7 @@ export default {
       subscriberHash: this.subscriberHash,
       tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
-    const response =  await this.mailchimp.addRemoveListMemberTags($, payload);
+    const response = await this.mailchimp.addRemoveListMemberTags($, payload);
     response && $.export("$summary", "Action successful");
     return response;
   },
