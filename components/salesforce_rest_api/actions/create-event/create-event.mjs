@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Created event");
+    $.export("$summary", "Succcessfully created event");
     return response;
   },
 };
