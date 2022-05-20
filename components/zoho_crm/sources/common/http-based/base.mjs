@@ -1,8 +1,7 @@
-const {
-  randomBytes,
-  randomInt,
-} = require("crypto");
-const zohoCrm = require("../../../zoho_crm.app.mjs");
+import {
+  randomBytes, randomInt,
+} from "crypto";
+import zohoCrm from "../../../zoho_crm.app.mjs";
 
 // Zoho CRM webhooks subscriptions have an expiration date of up to 1 day. This
 // event source renews the subscription every 12 hours by default. More info can
@@ -13,7 +12,7 @@ const hookRenewalPeriod = 60 * 60 * 12;
 /* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
   pipedream/required-properties-version, pipedream/required-properties-description,
   pipedream/required-properties-type */
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     zohoCrm,
@@ -228,7 +227,7 @@ module.exports = {
      * reacts to creation or edition events can implement this function in the
      * following way:
      * @example
-     * const { createOpData, editOpData } = require("./crud-operations");
+     * import { createOpData, editOpData } from "./crud-operations";
      * function getEvents() {
      *   return [
      *     createOpData(),
