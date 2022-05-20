@@ -28,7 +28,7 @@ export default {
     ParentId: {
       type: "string",
       label: "ParentId",
-      description: "ID of the parent object of the attachment. The following objects are supported as parents of attachments:\n* Account\n* Asset\n* Campaign\n* Case\n* Contact\n* Contract\n* Custom objects\n* EmailMessage\n* EmailTemplate\n* Event\n* Lead\n* Opportunity\n* Product2\n*  Solution\n* Task",
+      description: "ID of the parent object of the attachment. The following objects are supported as parents of attachments:\n* Account\n* Asset\n* Campaign\n* Case\n* Contact\n* Contract\n* Custom objects\n* EmailMessage\n* EmailTemplate\n* Event\n* Lead\n* Opportunity\n* Product2\n* Solution\n* Task",
     },
     selector: {
       propDefinition: [
