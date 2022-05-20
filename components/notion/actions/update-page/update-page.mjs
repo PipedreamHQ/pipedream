@@ -6,7 +6,7 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set via the properties parameter will remain unchanged. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "0.1.1653045445",
+  version: "0.1.0",
   type: "action",
   props: {
     notion,
