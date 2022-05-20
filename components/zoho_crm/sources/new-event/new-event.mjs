@@ -1,5 +1,5 @@
 import sortBy from "lodash/sortBy.js";
-import common from "../common/http-based/base.js";
+import common from "../common/http-based/base.mjs";
 import crudOps from "../common/http-based/crud-operations.mjs";
 
 export default {
