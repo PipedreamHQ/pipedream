@@ -38,7 +38,7 @@ export default {
       list_id: this.listId,
       query: this.query,
       exclude_fields: this.excludeFields,
-      fields: this.this.query,
+      fields: this.this.fields,
     };
 
     return await this.mailchimp.searchMembers($, payload);
