@@ -40,9 +40,11 @@ export default {
     description: {
       type: "object",
       description: "Description object of the issue.",
+      optional: true,
     },
     reporter_id: {
       type: "string",
+      optional: true,
     },
     fixVersions: {
       type: "any",
