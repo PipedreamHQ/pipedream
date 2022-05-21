@@ -38,7 +38,7 @@ export default {
       description: "The ID of the project where the issue will be created.",
     },
     description: {
-      type: "object",
+      type: "string",
       description: "Description object of the issue.",
       optional: true,
     },
