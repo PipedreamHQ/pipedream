@@ -1077,8 +1077,8 @@ export default {
       }));
     },
     async unfollowUser({
-        params,
-        $,
+      params,
+      $,
     }) {
       const config = {
         url: "https://api.twitter.com/1.1/friendships/destroy.json",
