@@ -172,6 +172,30 @@ export default {
       },
     };
 
+    if (this.description) {
+      fields["description"] = {
+        type: "doc",
+        version: 1,
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                text: this.description,
+                type: "text"
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    if (this.reporter_id) {
+      fields["reporter"] = {
+        id: this.reporter_id,
+      };
+    }
+
     if (this.priority_id) {
       fields["priority"] = {
         id: this.priority_id,
