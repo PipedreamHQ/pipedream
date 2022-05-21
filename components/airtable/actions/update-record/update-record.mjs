@@ -33,7 +33,7 @@ export default {
       const tableSchema = await this.airtable.table(baseId, tableId);
       return makeFieldProps(tableSchema);
     } catch (err) {
-      throw new ConfigurationError("Could not find a table for the specified table ID. Please adjust the action configuration to continue.");
+      throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");
     }
   },
   async run({ $ }) {
