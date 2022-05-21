@@ -123,6 +123,7 @@ export default {
         "Authorization": `Bearer ${this.jira.$auth.oauth_access_token}`,
         "Accept": "application/json",
       },
+      method: 'post',
       data: {
         "transition": this.transition,
         "fields": this.fields,
