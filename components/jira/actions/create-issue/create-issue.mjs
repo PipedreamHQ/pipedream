@@ -182,11 +182,11 @@ export default {
             content: [
               {
                 text: this.description,
-                type: "text"
-              }
-            ]
-          }
-        ]
+                type: "text",
+              },
+            ],
+          },
+        ],
       };
     }
 
