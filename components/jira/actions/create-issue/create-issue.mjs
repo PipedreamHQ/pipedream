@@ -158,10 +158,6 @@ export default {
       project: {
         id: this.projectID,
       },
-      description: this.description,
-      reporter: {
-        id: this.reporter_id,
-      },
       fixVersions: this.fixVersions,
       labels: this.labels,
       environment: this.environment,
