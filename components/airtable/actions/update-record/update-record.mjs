@@ -4,6 +4,7 @@ import {
   makeRecord,
 } from "../../common/utils.mjs";
 import common from "../common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "airtable-update-record",
@@ -28,8 +29,12 @@ export default {
   async additionalProps() {
     const baseId = this.baseId?.value ?? this.baseId;
     const tableId = this.tableId?.value ?? this.tableId;
-    const tableSchema = await this.airtable.table(baseId, tableId);
-    return makeFieldProps(tableSchema);
+    try {
+      const tableSchema = await this.airtable.table(baseId, tableId);
+      return makeFieldProps(tableSchema);
+    } catch (err) {
+      throw new ConfigurationError("Could not find a table for the specified table ID. Please adjust the action configuration to continue.");
+    }
   },
   async run({ $ }) {
     const baseId = this.baseId?.value ?? this.baseId;

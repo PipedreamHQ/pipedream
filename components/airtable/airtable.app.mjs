@@ -1,5 +1,6 @@
 import Airtable from "airtable";
 import isEmpty from "lodash.isempty";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -12,10 +13,7 @@ export default {
       async options() {
         // Uses special .bases method on airtable app prop
         const bases = await this.bases();
-        if (!bases) {
-          return [];
-        }
-        return bases.map((base) => ({
+        return (bases ?? []).map((base) => ({
           label: base.name || base.id,
           value: base.id,
         }));
@@ -27,11 +25,13 @@ export default {
       description: "The table ID",
       async options({ baseId }) {
         // Uses special .tables method on airtable app prop
-        const tables = await this.tables(baseId?.value ?? baseId);
-        if (!tables) {
-          return [];
+        let tables;
+        try {
+          tables = await this.tables(baseId?.value ?? baseId);
+        } catch (err) {
+          throw new ConfigurationError(`Could not find tables for base ID "${baseId}"`);
         }
-        return tables.map((table) => ({
+        return (tables ?? []).map((table) => ({
           label: table.name || table.id,
           value: table.id,
         }));
@@ -44,15 +44,17 @@ export default {
       async options({
         baseId, tableId,
       }) {
-        // Uses special .table method on airtable app prop
-        const tableSchema = await this.table(
-          baseId?.value ?? baseId,
-          tableId?.value ?? tableId,
-        );
-        if (!tableSchema?.views) {
-          return [];
+        let tableSchema;
+        try {
+          // Uses special .table method on airtable app prop
+          tableSchema = await this.table(
+            baseId?.value ?? baseId,
+            tableId?.value ?? tableId,
+          );
+        } catch (err) {
+          throw new ConfigurationError(`Could not find fields for table ID "${tableId}"`);
         }
-        return tableSchema.views.map((view) => ({
+        return (tableSchema?.views ?? []).map((view) => ({
           label: view.name || view.id,
           value: view.id,
         }));
@@ -110,12 +112,17 @@ export default {
       async options({
         baseId, tableId,
       }) {
-        // Uses special .table method on airtable app prop
-        const tableSchema = await this.table(baseId?.value ?? baseId, tableId?.value ?? tableId);
-        if (!tableSchema?.fields) {
-          return [];
+        let tableSchema;
+        try {
+          // Uses special .table method on airtable app prop
+          tableSchema = await this.table(
+            baseId?.value ?? baseId,
+            tableId?.value ?? tableId,
+          );
+        } catch (err) {
+          throw new ConfigurationError(`Could not find views for table ID "${tableId}"`);
         }
-        return tableSchema.fields.map((field) => ({
+        return (tableSchema?.fields ?? []).map((field) => ({
           label: field.name || field.id,
           value: field.id,
         }));

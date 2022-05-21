@@ -1,5 +1,7 @@
 import {
-  FIELD_PREFIX, FieldType,
+  FIELD_PREFIX,
+  FieldType,
+
 } from "./constants.mjs";
 
 /**
@@ -86,10 +88,7 @@ function fieldToProp(field) {
  */
 function makeFieldProps(tableSchema) {
   let props = {};
-  if (!tableSchema?.fields) {
-    return {};
-  }
-  for (const field of tableSchema.fields) {
+  for (const field of tableSchema?.fields ?? []) {
     props[`${FIELD_PREFIX}${field.name}`] = fieldToProp(field);
   }
   return props;
