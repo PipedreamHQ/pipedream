@@ -41,8 +41,8 @@ export default {
         screenName: this.screenName,
         count: this.count,
         sinceId: this.getSinceId(),
-        exclude_replies: this.shouldExcludeReplies(),
-        include_rts: this.shouldIncludeRetweets(),
+        excludeReplies: this.shouldExcludeReplies(),
+        includeRts: this.shouldIncludeRetweets(),
       });
     },
   },
