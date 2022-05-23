@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created case comment for ${this.ParentId}`);
+    $.export("$summary", `Successfully created case comment for ${this.ParentId}`);
     return response;
   },
 };
