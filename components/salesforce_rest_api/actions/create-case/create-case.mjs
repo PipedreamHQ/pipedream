@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created case for ${this.SuppliedEmail}`);
+    $.export("$summary", `Successfully created case for ${this.SuppliedEmail}`);
     return response;
   },
 };
