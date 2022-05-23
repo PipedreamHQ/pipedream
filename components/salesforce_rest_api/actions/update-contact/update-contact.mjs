@@ -18,7 +18,7 @@ export default {
     ContactId: {
       type: "string",
       label: "ContactId",
-      description: "Id of the Contact to update.",
+      description: "ID of the Contact to update.",
     },
     LastName: {
       type: "string",
