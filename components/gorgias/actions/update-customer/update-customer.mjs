@@ -11,7 +11,7 @@ export default {
   key: "gorgias-update-customer",
   name: "Update Customer",
   description: "Update a customer. [See the docs](https://developers.gorgias.com/reference/put_api-customers-id-)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     gorgias,
