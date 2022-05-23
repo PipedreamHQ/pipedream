@@ -1,11 +1,4 @@
 import datadog from "../../datadog.app.mjs";
-import constants from "../common/constants.mjs";
-import lodash from "lodash";
-const {
-  pick,
-  pickBy,
-} = lodash;
-const { MetricType } = constants;
 
 export default {
   key: "datadog-post-metric-data",
@@ -15,20 +8,10 @@ export default {
   type: "action",
   props: {
     datadog,
-    host: {
-      propDefinition: [
-        datadog,
-        "host",
-      ],
-      optional: true,
-    },
     metric: {
       propDefinition: [
         datadog,
         "metric",
-        (c) => ({
-          host: c.host,
-        }),
       ],
     },
     points: {
@@ -36,33 +19,6 @@ export default {
       label: "Points",
       description: "Points relating to a metric. The `key` should be the an Unix timestamp in seconds and `value` should be the point value. Example: `{ \"1640995200\": 1.0 , \"1640998800\": 1.1, \"1641002400\": 1.2 }`. This field will be converted to the expected value for Datadog API",
     },
-    tags: {
-      propDefinition: [
-        datadog,
-        "tags",
-        (c) => ({
-          hostName: c.host,
-        }),
-      ],
-    },
-    metricType: {
-      propDefinition: [
-        datadog,
-        "metricType",
-      ],
-      reloadProps: true,
-    },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.metricType === MetricType.RATE || this.metricType === MetricType.COUNT) {
-      props.interval = {
-        type: "integer",
-        label: "Interval",
-        description: "The corresponding interval in seconds for the metric aggregation",
-      };
-    }
-    return props;
   },
   methods: {
     convertMetricPoints(points) {
@@ -73,21 +29,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = pickBy(pick(this, [
-      "metric",
-      "host",
-      "tags",
-      "metricType",
-      "interval",
-    ]));
-    params.points = this.convertMetricPoints(this.points);
+    const metric = this.metric;
+    const points = this.convertMetricPoints(this.points);
 
     const response = await this.datadog.postMetricData({
       series: [
-        params,
+        {
+          metric,
+          points,
+        },
       ],
     });
-    $.export("$summary", `Posted metric to ${this.metric} timeseries`);
+    $.export("$summary", `Posted to ${metric} timeseries`);
     return response;
   },
 };

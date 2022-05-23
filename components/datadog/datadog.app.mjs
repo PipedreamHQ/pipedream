@@ -54,7 +54,6 @@ export default {
       type: "string",
       label: "Metric Type",
       description: "The type of the metric",
-      optional: true,
       options: constants.metricTypes,
     },
   },
