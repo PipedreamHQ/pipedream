@@ -107,7 +107,7 @@ export default {
     sortFieldId: {
       type: "string",
       label: "Sort: Field",
-      description: "Optionally select a field to sort results. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic field options won't work when configuring this step. Please enter a custom expression to specify the **Sort: Field**.",
+      description: "Optionally select a field to sort results. To sort by multiple fields, use the **Filter by Forumla** field. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic field options won't work when configuring this step. Please enter a custom expression to specify the **Sort: Field**.",
       optional: true,
       async options({
         baseId, tableId,
