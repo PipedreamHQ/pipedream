@@ -16,7 +16,7 @@ export default {
   },
   CampaignMemberRecordTypeId: {
     type: "string",
-    label: "CampaignMemberRecordTypeId",
+    label: "Campaign Member Record Type ID",
     description: "The record type ID for CampaignMember records associated with the campaign.",
   },
   CurrencyIsoCode: {
