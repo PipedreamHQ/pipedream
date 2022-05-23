@@ -23,7 +23,7 @@ export default {
       $,
       query: this.query,
     });
-    $.export("$summary", "Returned results for SOQL query");
+    $.export("$summary", "Successfully returned ${response.length} results for SOQL query");
     return response;
   },
 };
