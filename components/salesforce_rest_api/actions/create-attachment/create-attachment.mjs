@@ -54,7 +54,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created attachment "${this.Name}"`);
+    $.export("$summary", `Successfully created attachment "${this.Name}"`);
     return response;
   },
 };
