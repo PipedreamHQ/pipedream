@@ -1,0 +1,26 @@
+import base from "../common/base.mjs";
+
+export default {
+  key: "amazon_ses-get-email-template",
+  name: "Get Email Template",
+  description: "Get Email Template in Amazon SES. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/getemailtemplatecommand.html)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    ...base.props,
+    TemplateName: {
+      propDefinition: [
+        base.props.amazonSes,
+        "TemplateName",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const params = {
+      TemplateName: this.TemplateName,
+    };
+    const response = await this.amazonSes.getEmailTemplate(params);
+    $.export("$summary", "Successfully retrieved email template");
+    return response;
+  },
+};

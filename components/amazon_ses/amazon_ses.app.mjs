@@ -3,6 +3,8 @@ import {
   SESv2Client,
   SendEmailCommand,
   CreateEmailTemplateCommand,
+  GetEmailTemplateCommand,
+  ListEmailTemplatesCommand,
 } from "@aws-sdk/client-sesv2";
 import constants from "./actions/common/constants.mjs";
 
@@ -11,6 +13,25 @@ export default {
   app: "amazon_ses",
   propDefinitions: {
     ...aws.propDefinitions,
+    TemplateName: {
+      type: "string",
+      label: "Template Name",
+      description: "The email template name",
+      async options({ prevContext }) {
+        const {
+          NextToken,
+          TemplatesMetadata: templates,
+        } = await this.listEmailTemplates({
+          NextToken: prevContext.NextToken,
+        });
+        return {
+          options: templates.map((template) => template.TemplateName),
+          context: {
+            NextToken,
+          },
+        };
+      },
+    },
     Subject: {
       type: "string",
       label: "Subject",
@@ -40,6 +61,12 @@ export default {
     },
     async sendEmail(params) {
       return this._client().send(new SendEmailCommand(params));
+    },
+    async getEmailTemplate(params) {
+      return this._client().send(new GetEmailTemplateCommand(params));
+    },
+    async listEmailTemplates(params) {
+      return this._client().send(new ListEmailTemplatesCommand(params));
     },
     async createEmailTemplate(params) {
       return this._client().send(new CreateEmailTemplateCommand(params));
