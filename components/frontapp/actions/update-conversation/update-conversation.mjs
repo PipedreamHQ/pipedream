@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         frontApp,
         "contactId",
+        () => ({
+          appendNull: true,
+        }),
       ],
       label: "Assignee ID",
       description: "ID of the teammate to assign the conversation to. Set it to null to unassign.",

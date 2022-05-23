@@ -83,7 +83,9 @@ export default {
       label: "Contact ID",
       description: "ID of the contact in Front corresponding to the sender",
       optional: true,
-      async options({ prevContext }) {
+      async options({
+        prevContext, appendNull,
+      }) {
         return this.paginateOptions({
           prevContext,
           listResourcesFn: this.listContacts,
@@ -93,6 +95,7 @@ export default {
             label: name,
             value: id,
           }),
+          appendNull,
         });
       },
     },
@@ -242,11 +245,19 @@ export default {
       listResourcesFn,
       filter = () => true,
       mapper = (resource) => resource,
+      appendNull = false,
     } = {}) {
       const { pageToken } = prevContext;
 
       if (pageToken === false) {
-        return [];
+        return appendNull
+          ? [
+            {
+              label: "Null",
+              value: "null",
+            },
+          ]
+          : [];
       }
 
       const {
