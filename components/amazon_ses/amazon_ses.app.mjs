@@ -10,6 +10,21 @@ export default {
   app: "amazon_ses",
   propDefinitions: {
     ...aws.propDefinitions,
+    Subject: {
+      type: "string",
+      label: "Subject",
+      description: "The email subject line",
+    },
+    Text: {
+      type: "string",
+      label: "Text",
+      description: "The plaintext email body",
+    },
+    Html: {
+      type: "string",
+      label: "HTML",
+      description: "The HTML email body",
+    },
   },
   methods: {
     ...aws.methods,

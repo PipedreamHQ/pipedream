@@ -33,20 +33,23 @@ export default {
       optional: true,
     },
     Subject: {
-      type: "string",
-      label: "Subject",
-      description: "The subject line of the email",
+      propDefinition: [
+        base.props.amazonSes,
+        "Subject",
+      ],
     },
-    Body: {
-      type: "string",
-      label: "Text",
-      description: "The plaintext email body of the message",
+    Text: {
+      propDefinition: [
+        base.props.amazonSes,
+        "Text",
+      ],
       default: "",
     },
     Html: {
-      type: "string",
-      label: "HTML",
-      description: "The HTML email body of the message",
+      propDefinition: [
+        base.props.amazonSes,
+        "Html",
+      ],
       optional: true,
     },
     FromEmailAddress: {
@@ -65,7 +68,7 @@ export default {
         Simple: {
           Subject: this.amazonSes.createCharsetContent(this.Subject),
           Body: {
-            Text: this.amazonSes.createCharsetContent(this.Body),
+            Text: this.amazonSes.createCharsetContent(this.Text),
           },
         },
       },
