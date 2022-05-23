@@ -1,7 +1,10 @@
 import datadog from "../../datadog.app.mjs";
-import pick from "lodash.pick";
-import pickBy from "lodash.pickby";
 import constants from "../common/constants.mjs";
+import lodash from "lodash";
+const {
+  pick,
+  pickBy,
+} = lodash;
 const { MetricType } = constants;
 
 export default {

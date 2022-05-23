@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@datadog/datadog-api-client": "^1.0.0-beta.9",
-    "lodash": "^4.17.21"
+    "@datadog/datadog-api-client": "^1.0.0-beta.8",
+    "uuid": "^8.3.2"
   }
 }

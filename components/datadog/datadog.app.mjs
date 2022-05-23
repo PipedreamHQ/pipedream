@@ -1,4 +1,4 @@
-import { v1 } from "@datadog/datadog-api-client";
+import { v1 } from "@datadog/datadog-api-client@1.0.0-beta.8";
 import { v4 as uuid } from "uuid";
 import constants from "./actions/common/constants.mjs";
 
