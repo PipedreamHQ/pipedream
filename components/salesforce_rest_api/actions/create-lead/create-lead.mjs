@@ -48,7 +48,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created lead for ${this.Company}`);
+    $.export("$summary", `Successfully created lead for ${this.Company}`);
     return response;
   },
 };
