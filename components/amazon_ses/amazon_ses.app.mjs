@@ -36,17 +36,17 @@ export default {
     Subject: {
       type: "string",
       label: "Subject",
-      description: "The email subject line",
+      description: `The email subject line. ${constants.TAGNAME_DESCRIPTION}`,
     },
     Text: {
       type: "string",
       label: "Text",
-      description: "The plaintext email body",
+      description: `The plaintext email body. ${constants.TAGNAME_DESCRIPTION}`,
     },
     Html: {
       type: "string",
       label: "HTML",
-      description: "The HTML email body",
+      description: `The HTML email body. ${constants.TAGNAME_DESCRIPTION}`,
     },
   },
   methods: {
@@ -59,6 +59,9 @@ export default {
         Charset,
         Data,
       };
+    },
+    replaceCurlyBrackets(text) {
+      return text.replace(/\\{/g, "{").replace(/\\}/g, "}");
     },
     async sendEmail(params) {
       return this._client().send(new SendEmailCommand(params));

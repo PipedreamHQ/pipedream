@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "amazon_ses-update-email-template",
@@ -50,7 +51,7 @@ export default {
         Text: {
           type: Text.type,
           label: Text.label,
-          description: "The email body that will be visible to recipients whose email clients do not display HTML",
+          description: `The email body that will be visible to recipients whose email clients do not display HTML. ${constants.TAGNAME_DESCRIPTION}`,
           default: TemplateContent.Text,
         },
       };
@@ -61,9 +62,9 @@ export default {
     const params = {
       TemplateName: this.TemplateName,
       TemplateContent: {
-        Subject: this.Subject,
-        Html: this.Html,
-        Text: this.Text,
+        Subject: this.amazonSes.replaceCurlyBrackets(this.Subject),
+        Html: this.amazonSes.replaceCurlyBrackets(this.Html),
+        Text: this.amazonSes.replaceCurlyBrackets(this.Text),
       },
     };
     const response = await this.amazonSes.updateEmailTemplate(params);
