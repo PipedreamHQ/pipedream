@@ -11,7 +11,7 @@ export default {
   },
   CampaignImageId: {
     type: "string",
-    label: "CampaignImageId",
+    label: "Campaign Image ID",
     description: "ID of the campaign image. Available in API version 42.0 and later.",
   },
   CampaignMemberRecordTypeId: {
