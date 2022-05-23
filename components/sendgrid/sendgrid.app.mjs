@@ -49,10 +49,10 @@ export default {
           .map((contact) => contact.email);
       },
     },
-    globalSuppressionEmail: {
+    globalSupressionEmail: {
       type: "string",
       label: "Email",
-      description: "The email address you want to remove from the global suppressions group",
+      description: "The email address you want to remove from the global supressions group",
       async options() {
         const emails = await this.listGlobalSupressions();
         return emails.map((email) => email.email);
