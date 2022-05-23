@@ -221,11 +221,12 @@ export default {
       return this._withRetries(() => this.api().request(customConfig));
     },
     _isRetriableStatusCode(statusCode) {
-      [
+      const retriableStatusCodes = [
         408,
         429,
         500,
-      ].includes(statusCode);
+      ];
+      return retriableStatusCodes.includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
