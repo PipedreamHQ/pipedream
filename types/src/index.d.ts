@@ -104,12 +104,20 @@ export interface Pipedream {
 // https://pipedream.com/docs/components/api/#async-options-example
 export interface OptionsMethodArgs {
   page?: number;
-  prevContext?: string;
+  prevContext?; // XXX could be typed using context from OptionalOptsFn ReturnValue?
+  [key: string]; // XXX properties in the return value of OptionalOptsFn can be included. Strictly type this instead?
 }
+
+// https://pipedream.com/docs/components/api/#referencing-values-from-previous-props
+export interface OptionalOptsFn {
+  (configuredProps: { [key: string]; }): object; // XXX strictly type configuredProps
+}
+
+export type PropDefinition = [App, string] | [App, string, OptionalOptsFn];
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 export interface PropDefinitionReference {
-  propDefinition: [App, string];
+  propDefinition: PropDefinition;
 }
 
 // https://pipedream.com/docs/components/api/#app-props
@@ -129,6 +137,33 @@ export interface DefaultConfig {
   cron?: string;
 }
 
+export interface Field {
+  name: string;
+  value: string;
+}
+export interface HttpAuth {
+  type?: "basic" | "bearer" | "none";
+  username?: string;
+  password?: string;
+  token?: string;
+}
+export interface HttpBody {
+  type?: "fields" | "raw";
+  contentType?: string;
+  fields?: Field[];
+  mode?: "fields" | "raw";
+  raw?: string;
+}
+export interface DefaultHttpRequestPropConfig {
+  auth?: HttpAuth;
+  body?: HttpBody;
+  headers?: Field[];
+  params?: Field[];
+  tab?: string;
+  method?: string;
+  url?: string;
+}
+
 export interface BasePropInterface {
   label?: string;
   description?: string;
@@ -139,7 +174,7 @@ export type PropOptions = any[] | Array<{ [key: string]: string; }>;
 // https://pipedream.com/docs/components/api/#user-input-props
 export interface UserProp extends BasePropInterface {
   type: "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
-  options?: PropOptions | ((opts: OptionsMethodArgs) => Promise<PropOptions>);
+  options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
   optional?: boolean;
   default?: JSONValue;
   secret?: boolean;
@@ -163,13 +198,18 @@ export interface DataStoreProp extends BasePropInterface {
   type: "data_store";
 }
 
+export interface HttpRequestProp extends BasePropInterface {
+  type: "http_request";
+  default?: DefaultHttpRequestPropConfig;
+}
+
 export interface SourcePropDefinitions {
   [name: string]: PropDefinitionReference |
-    App | UserProp | InterfaceProp | ServiceDBProp;
+    App | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
 }
 
 export interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp | DataStoreProp;
+  [name: string]: PropDefinitionReference | App | UserProp | DataStoreProp | HttpRequestProp;
 }
 
 export interface AppPropDefinitions {
