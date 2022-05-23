@@ -43,7 +43,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created account "${this.name}"`);
+    $.export("$summary", `Successfully created account "${this.name}"`);
     return response;
   },
 };
