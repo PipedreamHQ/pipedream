@@ -214,14 +214,6 @@
         "allowAllPropertiesOnSameLine": false
       }
     ],
-    "putout/for-of-multiple-properties-destructuring": "error",
-    "putout/multiple-properties-destructuring": [
-      "error",
-      {
-        "minProperties": 1
-      }
-    ],
-    "putout/single-property-destructuring": "error",
     "quote-props": [
       "error",
       "consistent"

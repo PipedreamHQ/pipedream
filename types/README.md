@@ -11,7 +11,7 @@ npm install
 Run tests, which use `dtslint`:
 
 ```bash
-npm run tests
+npm run test
 ```
 
 Build:

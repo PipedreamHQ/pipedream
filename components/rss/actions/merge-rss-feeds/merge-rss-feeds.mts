@@ -1,7 +1,8 @@
 import rss from "../../rss.app.mjs";
 import Parser from "rss-parser";
 import {
-  Action, UserProp,
+  Action,
+  UserProp,
 } from "@pipedream/types";
 
 export default {

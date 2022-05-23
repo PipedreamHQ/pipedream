@@ -244,7 +244,7 @@ const sourceMissingVersion: Pipedream.Source = {
 };
 
 // @ts-expect-error $ExpectError - Missing type
-const sourceMissingVersion: Pipedream.Source = {
+const sourceMissingType: Pipedream.Source = {
   key: "foo",
   version: "0.0.1",
   run(event) { console.log("foo"); },
@@ -314,7 +314,7 @@ const actionMissingVersion: Pipedream.Action = {
 };
 
 // @ts-expect-error $ExpectError - Missing type
-const actionMissingVersion: Pipedream.Action = {
+const actionMissingType: Pipedream.Action = {
   key: "foo",
   version: "0.0.1",
   run(event) { console.log("foo"); },
