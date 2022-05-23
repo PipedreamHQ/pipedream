@@ -9,4 +9,22 @@ export default {
     "SelectMatch",
     "Skipped",
   ],
+  CALL_TYPES: [
+    "Inbound",
+    "Internal",
+    "Outbound",
+  ],
+  RECURRENCE_REGENERATED_TYPE: [
+    "None",
+    "After due date",
+    "After the task is closed",
+    "(Task closed)",
+  ],
+  TASK_SUB_TYPES: [
+    "Task",
+    "Email",
+    "List Email",
+    "Cadence",
+    "Call",
+  ],
 };
