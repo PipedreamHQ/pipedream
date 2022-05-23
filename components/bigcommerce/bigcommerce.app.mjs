@@ -19,6 +19,11 @@ export default {
       optional: true,
       default: 1,
     },
+    productId: {
+      type: "integer",
+      label: "Product Id",
+      description: "The id of the product",
+    },
   },
   methods: {
     _getHeaders() {
@@ -52,7 +57,7 @@ export default {
       channel = null,
       channelId = null,
     ) {
-      const channelScope = `${channel
+      const channelScope = type`${channel
         ? `channel/${channelId}/`
         : ""}`;
 
@@ -67,6 +72,24 @@ export default {
       });
 
       return data.id;
+    },
+    async getAllProducts({
+      $, page,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/catalog/products?limit=50&page=${page}`,
+      });
+    },
+    async getProduct({
+      $, productId,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/catalog/products/${productId}`,
+      });
     },
   },
 };
