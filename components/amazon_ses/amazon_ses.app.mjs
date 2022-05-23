@@ -2,6 +2,7 @@ import aws from "../aws/aws.app.mjs";
 import {
   SESv2Client,
   SendEmailCommand,
+  CreateEmailTemplateCommand,
 } from "@aws-sdk/client-sesv2";
 import constants from "./actions/common/constants.mjs";
 
@@ -39,6 +40,9 @@ export default {
     },
     async sendEmail(params) {
       return this._client().send(new SendEmailCommand(params));
+    },
+    async createEmailTemplate(params) {
+      return this._client().send(new CreateEmailTemplateCommand(params));
     },
   },
 };
