@@ -71,7 +71,7 @@ export default {
   },
   RecordTypeId: {
     type: "string",
-    label: "RecordTypeId",
+    label: "Record Type ID",
     description: "ID of the record type assigned to this object.",
   },
   StartDate: {
