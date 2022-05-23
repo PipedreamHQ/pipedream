@@ -174,7 +174,7 @@ export default {
   },
   RecordTypeId: {
     type: "string",
-    label: "Record Type Id",
+    label: "Record Type ID",
     description: "ID of the record type assigned to this object.",
   },
   Salutation: {
