@@ -66,7 +66,7 @@ export default {
   },
   ParentId: {
     type: "string",
-    label: "ParentId",
+    label: "Parent ID",
     description: "ID of the parent Campaign record, if any.",
   },
   RecordTypeId: {
