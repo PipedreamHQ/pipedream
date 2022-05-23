@@ -14,6 +14,8 @@ export default {
         common.props.ringcentral,
         "extensionId",
       ],
+      type: "string",
+      label: "Extension",
     },
   },
   methods: {
