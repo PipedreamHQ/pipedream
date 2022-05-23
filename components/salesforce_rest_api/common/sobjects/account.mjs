@@ -154,7 +154,7 @@ export default {
   },
   PersonIndividualId: {
     type: "string",
-    label: "Person Individual Id",
+    label: "Person Individual ID",
     description: "ID of the data privacy record associated with this person's account. This field is available if you enabled Data Protection and Privacy in Setup.\nAvailable in API version 42.0 and later.",
   },
   Phone: {
