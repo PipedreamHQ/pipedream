@@ -185,7 +185,6 @@ export default {
           params: {
             dateFrom,
             dateTo,
-            // withRecording: true,
             recordingType: "All", // undefined | "Automatic" | "OnDemand" | "All"
           },
         });

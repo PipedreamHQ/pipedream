@@ -20,7 +20,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "extension-telephony-sessions-event-outbound-call",
+        "ringcentral-extension-telephony-sessions-event-outbound-call",
       ]);
     },
     getPropValues() {

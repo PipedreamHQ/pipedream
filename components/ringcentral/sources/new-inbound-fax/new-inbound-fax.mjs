@@ -20,7 +20,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "inbound-fax-event",
+        "ringcentral-inbound-fax-event",
       ]);
     },
     getPropValues() {

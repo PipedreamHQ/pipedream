@@ -20,7 +20,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "instant-message-event",
+        "ringcentral-instant-message-event",
       ]);
     },
     getPropValues() {

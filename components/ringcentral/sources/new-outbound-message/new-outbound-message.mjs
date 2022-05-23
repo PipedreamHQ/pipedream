@@ -27,7 +27,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "message-event-inbound",
+        "ringcentral-message-event-inbound",
       ]);
     },
     getPropValues() {

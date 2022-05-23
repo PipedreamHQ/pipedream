@@ -20,7 +20,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "voicemail-message-event",
+        "ringcentral-voicemail-message-event",
       ]);
     },
     getPropValues() {
