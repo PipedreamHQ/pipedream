@@ -56,7 +56,7 @@ export default {
   },
   OwnerId: {
     type: "string",
-    label: "OwnerId",
+    label: "Owner ID",
     description: "ID of the user who owns this campaign. Default value is the user logging in to the API to perform the create.",
   },
   ParentCampaign: {
