@@ -4,17 +4,24 @@ export default {
   key: "raindrop-update-bookmark",
   name: "Update Bookmark",
   description: "Update an existing bookmark. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#update-raindrop)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "collectionId",
       ],
-      label: "Bookmark ID",
-      description: "Existing bookmark ID",
+    },
+    bookmarkId: {
+      propDefinition: [
+        raindrop,
+        "raindropId",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
     order: {
       type: "integer",
@@ -49,7 +56,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      bookmarkID,
+      bookmarkId,
       order,
       important,
       tags,
@@ -64,9 +71,9 @@ export default {
       title,
       link,
     };
-    const response = await this.raindrop.putBookmark($, bookmarkID, body);
+    const response = await this.raindrop.putBookmark($, bookmarkId, body);
 
-    $.export("$summary", `Successfully updated bookmark with ID ${bookmarkID}`);
+    $.export("$summary", `Successfully updated bookmark with ID ${bookmarkId}`);
 
     return response;
   },
