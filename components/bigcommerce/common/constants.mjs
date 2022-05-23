@@ -1,5 +1,5 @@
 const VERSION_PATH = "/v3";
-const BASE_URL = "https://api.bigcommerce.com/stores/{storeHash}";
+const BASE_URL = "https://api.bigcommerce.com/stores";
 
 const WEBHOOK_SCOPES = {
   cart: {
