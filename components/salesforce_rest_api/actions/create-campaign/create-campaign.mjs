@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created campaign "${this.name}"`);
+    $.export("$summary", `Successfully created campaign "${this.name}"`);
     return response;
   },
 };
