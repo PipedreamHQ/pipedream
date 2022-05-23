@@ -22,7 +22,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table",
-      description: "The table ID",
+      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic table options won't work when configuring this step. Please enter a custom expression to specify the **Table**.",
       async options({ baseId }) {
         // Uses special .tables method on airtable app prop
         let tables;
@@ -40,7 +40,7 @@ export default {
     viewId: {
       type: "string",
       label: "View",
-      description: "The view ID",
+      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic view options won't work when configuring this step. Please enter a custom expression to specify the **View**.",
       async options({
         baseId, tableId,
       }) {
@@ -107,7 +107,7 @@ export default {
     sortFieldId: {
       type: "string",
       label: "Sort: Field",
-      description: "Optionally select a field to sort results. To sort by multiple fields, use the **Filter by Forumla** field.",
+      description: "Optionally select a field to sort results. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic field options won't work when configuring this step. Please enter a custom expression to specify the **Sort: Field**.",
       optional: true,
       async options({
         baseId, tableId,
