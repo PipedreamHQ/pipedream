@@ -48,7 +48,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Created task");
+    $.export("$summary", "Successfully created task");
     return response;
   },
 };
