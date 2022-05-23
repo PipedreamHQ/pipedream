@@ -92,7 +92,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.21.1
+    - uses: rojopolis/spellcheck-github-actions@0.24.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
