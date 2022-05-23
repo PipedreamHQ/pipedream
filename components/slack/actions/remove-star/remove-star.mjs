@@ -1,10 +1,10 @@
 import slack from "../../slack.app.mjs";
 
 export default {
-  key: "slack-add-star",
-  name: "Add Star",
-  description: "Add a star to an item on behalf of the authenticated user. [See docs here](https://api.slack.com/methods/stars.add)",
-  version: "0.0.3",
+  key: "slack-remove-star",
+  name: "Remove Star",
+  description: "Remove a star from an item on behalf of the authenticated user. [See docs here](https://api.slack.com/methods/stars.remove)",
+  version: "0.0.4",
   type: "action",
   props: {
     slack,
@@ -14,7 +14,6 @@ export default {
         "conversation",
       ],
       optional: true,
-      description: "Channel to add star to, or channel where the message to add star to was posted (used with timestamp).",
     },
     timestamp: {
       propDefinition: [
@@ -22,7 +21,6 @@ export default {
         "timestamp",
       ],
       optional: true,
-      description: "Timestamp of the message to add star to.",
     },
     file: {
       propDefinition: [
@@ -30,12 +28,11 @@ export default {
         "file",
       ],
       optional: true,
-      description: "File to add star to.",
     },
   },
   async run() {
-    return await this.slack.sdk().stars.add({
-      conversation: this.conversation,
+    return await this.slack.sdk().stars.remove({
+      channel: this.conversation,
       timestamp: this.timestamp,
       file: this.file,
     });
