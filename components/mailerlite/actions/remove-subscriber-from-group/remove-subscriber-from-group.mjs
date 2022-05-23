@@ -15,12 +15,22 @@ export default {
       ],
       description: "Group to remove subscriber from",
     },
+    type: {
+      propDefinition: [
+        mailerlite,
+        "type",
+        () => ({
+          type: "subscriber",
+        }),
+      ],
+    },
     subscriber: {
       propDefinition: [
         mailerlite,
         "subscriber",
         (c) => ({
           group: c.group,
+          type: c.type,
         }),
       ],
       description: "Subscriber to remove from group",

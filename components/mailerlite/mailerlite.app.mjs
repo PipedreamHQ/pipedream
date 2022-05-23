@@ -19,14 +19,17 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "Subscriber type",
+      description: "Subscriber type. Defaults to `active`",
       optional: true,
+      default: "active",
       options({ type }) {
         switch (type) {
         case "create":
           return constants.CREATE_TYPE_OPTIONS;
         case "update":
           return constants.UPDATE_TYPE_OPTIONS;
+        case "subscriber":
+          return constants.SUBSCRIBER_TYPE_OPTIONS;
         }
       },
     },
@@ -42,11 +45,12 @@ export default {
       label: "Subscriber",
       description: "Subscriber to update",
       async options({
-        group, prevContext,
+        group, type = "active", prevContext,
       }) {
         const limit = constants.PAGE_LIMIT;
         const { offset = 0 } = prevContext;
         const params = {
+          type,
           limit,
           offset,
         };
@@ -112,9 +116,13 @@ export default {
     },
     async listSubscribers(group, params = {}) {
       const client = await this._getClient();
-      return group
-        ? client.getGroupSubscribers(group, params)
-        : client.getSubscribers(params);
+      if (group) {
+        const { type = "active" } = params;
+        delete params.type;
+        return client.getGroupSubscribersByType(group, type, params);
+      }
+      // getSubscribers returns active subscribers only
+      return client.getSubscribers(params);
     },
     async listFields() {
       const client = await this._getClient();

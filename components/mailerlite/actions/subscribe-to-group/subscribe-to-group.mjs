@@ -19,7 +19,7 @@ export default {
         mailerlite,
         "subscriber",
       ],
-      description: "Email of the subscriber to add to group",
+      description: "Email of the active subscriber to add to group",
     },
   },
   async run({ $ }) {

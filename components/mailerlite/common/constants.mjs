@@ -9,6 +9,13 @@ export default {
     "unsubscribed",
     "active",
   ],
+  SUBSCRIBER_TYPE_OPTIONS: [
+    "active",
+    "unsubscribed",
+    "bounced",
+    "junk",
+    "unconfirmed",
+  ],
   STATUS_OPTIONS: [
     "sent",
     "draft",
