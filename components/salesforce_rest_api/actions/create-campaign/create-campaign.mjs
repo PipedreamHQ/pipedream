@@ -18,7 +18,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "Required. Name of the campaign. Limit: is 80 characters.",
+      description: "Name of the campaign. Limit: is 80 characters.",
     },
     selector: {
       propDefinition: [
