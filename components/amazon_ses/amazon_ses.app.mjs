@@ -5,6 +5,7 @@ import {
   CreateEmailTemplateCommand,
   GetEmailTemplateCommand,
   ListEmailTemplatesCommand,
+  UpdateEmailTemplateCommand,
 } from "@aws-sdk/client-sesv2";
 import constants from "./actions/common/constants.mjs";
 
@@ -70,6 +71,9 @@ export default {
     },
     async createEmailTemplate(params) {
       return this._client().send(new CreateEmailTemplateCommand(params));
+    },
+    async updateEmailTemplate(params) {
+      return this._client().send(new UpdateEmailTemplateCommand(params));
     },
   },
 };
