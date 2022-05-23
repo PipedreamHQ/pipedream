@@ -23,7 +23,7 @@ export default {
       $,
       search: this.search,
     });
-    $.export("$summary", "Returned results for SOSL search");
+    $.export("$summary", "Successfully returned ${response.length} results for SOSL search");
     return response;
   },
 };
