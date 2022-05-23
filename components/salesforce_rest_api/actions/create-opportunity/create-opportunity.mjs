@@ -54,7 +54,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created opportunity "${this.Name}"`);
+    $.export("$summary", `Successfully created opportunity "${this.Name}"`);
     return response;
   },
 };
