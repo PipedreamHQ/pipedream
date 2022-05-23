@@ -19,7 +19,7 @@ export default {
       type: "string",
       label: "Object id",
       description:
-        "Id of the Salesforce standard object to get field values from.",
+        "ID of the Salesforce standard object to get field values from.",
     },
   },
   async run({ $ }) {
