@@ -10,44 +10,56 @@ export default {
   props: {
     frontApp,
     inboxId: {
-      type: "string",
-      description: "Id of the inbox into which the message should be append.",
+      propDefinition: [
+        frontApp,
+        "inboxId",
+      ],
     },
     handle: {
       type: "string",
+      label: "Handle",
       description: "Handle used to reach the contact. Can be an email address, a twitter, handle, a phone number, custom handle ...",
     },
     name: {
       type: "string",
+      label: "Name",
       description: "Name of the contact.",
       optional: true,
     },
     authorId: {
-      type: "string",
+      propDefinition: [
+        frontApp,
+        "contactId",
+      ],
+      label: "Author ID",
       description: "ID of the teammate who is the author of the message. Ignored if the message is inbound.",
-      optional: true,
     },
     to: {
       type: "string[]",
+      label: "To",
       description: "List of recipient handles who received the message.",
     },
     cc: {
       type: "string[]",
+      label: "CC",
       description: "List of recipient handles who received a copy of the message.",
       optional: true,
     },
     bcc: {
       type: "string[]",
+      label: "BCC",
       description: "List of the recipeient handles who received a blind copy of the message.",
       optional: true,
     },
     subject: {
       type: "string",
+      label: "Subject",
       description: "Subject of the message.",
       optional: true,
     },
     body: {
       type: "string",
+      label: "Body",
       description: "Body of the message.",
     },
     bodyFormat: {
@@ -58,14 +70,17 @@ export default {
     },
     externalId: {
       type: "string",
+      label: "External ID",
       description: "External identifier of the message. Front won't import two messages with the same external ID.",
     },
     createdAt: {
       type: "integer",
-      description: "Date at which the message as been sent or received. A timestamp is expected as in 1453770984.123",
+      label: "Created At",
+      description: "Date at which the message as been sent or received. A timestamp is expected as in `1453770984.123`",
     },
     type: {
       type: "string",
+      label: "Type",
       description: "Type of the message to import. Can be one of: 'email', 'sms', 'intercom', 'custom'. (Default: 'email')",
       optional: true,
       options: [
@@ -76,14 +91,19 @@ export default {
       ],
     },
     assigneeId: {
-      type: "string",
+      propDefinition: [
+        frontApp,
+        "contactId",
+      ],
+      label: "Assignee ID",
       description: "ID of the teammate who will be assigned to the conversation.",
-      optional: true,
     },
     tags: {
-      type: "string[]",
+      propDefinition: [
+        frontApp,
+        "tagIds",
+      ],
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
-      optional: true,
     },
     threadRef: {
       propDefinition: [
@@ -93,15 +113,18 @@ export default {
     },
     isInbound: {
       type: "boolean",
+      label: "Is Inbound",
       description: "Whether or not the message is received (inbound) or sent (outbound) by you",
     },
     isArchive: {
       type: "boolean",
+      label: "Is Archive",
       description: "Whether or not the message should be directly archived once imported. (Default: true)",
       optional: true,
     },
     shouldSkipRules: {
       type: "boolean",
+      label: "Should Skip Rules",
       description: "Whether or not the rules should apply to this message. (Default: true)",
       optional: true,
     },

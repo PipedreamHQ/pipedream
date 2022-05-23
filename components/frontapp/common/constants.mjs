@@ -5,6 +5,7 @@ const METHOD = {
   DELETE: "delete",
   PATCH: "patch",
   IMPORT_INBOX_MESSAGE: "import-inbox-message",
+  LIST_CONVERSATIONS: "list-conversations",
 };
 
 export default {

@@ -4,15 +4,16 @@ import frontApp from "../../frontapp.app.mjs";
 export default {
   key: "frontapp-receive-custom-messages",
   name: "Receive Custom Messages",
-  description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
+  description: "Receive a custom message in Front. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-incoming-messages).",
   version: "0.0.1",
   type: "action",
   props: {
     frontApp,
     channelId: {
-      type: "string",
-      label: "Channel ID",
-      description: "Id or address of the channel from which to send the message",
+      propDefinition: [
+        frontApp,
+        "channelId",
+      ],
     },
     handle: {
       type: "string",
@@ -20,10 +21,10 @@ export default {
       description: "Handle of the sender. It can be any string used to uniquely identify the sender",
     },
     contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "ID of the contact in Front corresponding to the sender",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "contactId",
+      ],
     },
     senderName: {
       type: "string",

@@ -10,21 +10,30 @@ export default {
   props: {
     frontApp,
     conversationId: {
-      type: "string",
-      description: "Conversation unique identifier",
+      propDefinition: [
+        frontApp,
+        "conversationId",
+      ],
     },
     assigneeId: {
-      type: "string",
+      propDefinition: [
+        frontApp,
+        "contactId",
+      ],
+      label: "Assignee ID",
       description: "ID of the teammate to assign the conversation to. Set it to null to unassign.",
-      optional: true,
     },
     inboxId: {
-      type: "string",
+      propDefinition: [
+        frontApp,
+        "inboxId",
+      ],
       description: "ID of the inbox to move the conversation to.",
       optional: true,
     },
     status: {
       type: "string",
+      label: "Status",
       description: "New status of the conversation",
       optional: true,
       options: [
@@ -35,9 +44,11 @@ export default {
       ],
     },
     tagIds: {
-      type: "string[]",
+      propDefinition: [
+        frontApp,
+        "tagIds",
+      ],
       description: "List of all the tag IDs replacing the old conversation tags",
-      optional: true,
     },
   },
   async run({ $ }) {

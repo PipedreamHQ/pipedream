@@ -10,30 +10,39 @@ export default {
   props: {
     frontApp,
     channelId: {
-      type: "string",
-      description: "Id or address of the channel from which to send the message",
+      propDefinition: [
+        frontApp,
+        "channelId",
+      ],
     },
     authorId: {
-      type: "string",
+      propDefinition: [
+        frontApp,
+        "contactId",
+      ],
+      label: "Author ID",
       description: "ID of the teammate on behalf of whom the answer is sent",
-      optional: true,
     },
     senderName: {
       type: "string",
+      label: "Sender Name",
       description: "Name used for the sender info of the message",
       optional: true,
     },
     subject: {
       type: "string",
+      label: "Subject",
       description: "Subject of the message for email message",
       optional: true,
     },
     body: {
       type: "string",
+      label: "Body",
       description: "Body of the message",
     },
     text: {
       type: "string",
+      label: "Text",
       description: "Text version of the body for messages with non-text body",
       optional: true,
     },
@@ -44,26 +53,32 @@ export default {
       ],
     },
     optionsTagIds: {
-      type: "string[]",
+      propDefinition: [
+        frontApp,
+        "tagIds",
+      ],
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
-      optional: true,
     },
     optionsIsArchive: {
       type: "boolean",
+      label: "Is Archive",
       description: "Archive the conversation right when sending the message (Default: true)",
       optional: true,
     },
     to: {
       type: "string[]",
+      label: "To",
       description: "List of the recipient handles who will receive this message",
     },
     cc: {
       type: "string[]",
+      label: "CC",
       description: "List of the recipient handles who will receive a copy of this message",
       optional: true,
     },
     bcc: {
       type: "string[]",
+      label: "BCC",
       description: "List of the recipient handles who will receive a blind copy of this message",
       optional: true,
     },
