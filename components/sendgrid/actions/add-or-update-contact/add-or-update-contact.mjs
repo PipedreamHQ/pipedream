@@ -21,7 +21,6 @@ export default {
         common.props.sendgrid,
         "contactEmail",
       ],
-      description: "The contact's email address",
     },
     firstName: {
       type: "string",

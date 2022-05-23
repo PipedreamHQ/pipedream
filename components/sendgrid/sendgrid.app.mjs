@@ -41,12 +41,21 @@ export default {
     contactEmail: {
       type: "string",
       label: "Email",
-      description: "The email address you want to remove from the global suppressions group",
+      description: "The contact's email address",
       async options() {
         const contacts = await this.listContacts();
         return contacts
           .filter((contact) => contact.email)
           .map((contact) => contact.email);
+      },
+    },
+    globalSuppressionEmail: {
+      type: "string",
+      label: "Email",
+      description: "The email address you want to remove from the global suppressions group",
+      async options() {
+        const emails = await this.listGlobalSupressions();
+        return emails.map((email) => email.email);
       },
     },
     fromEmail: {

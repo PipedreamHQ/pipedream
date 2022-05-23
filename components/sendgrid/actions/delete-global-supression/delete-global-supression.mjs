@@ -13,7 +13,7 @@ export default {
     email: {
       propDefinition: [
         common.props.sendgrid,
-        "contactEmail",
+        "globalSuppressionEmail",
       ],
     },
   },
