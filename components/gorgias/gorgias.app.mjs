@@ -93,7 +93,7 @@ export default {
       };
     },
     _defaultConfig({
-      path, method = "get", params = {}, data = undefined,
+      path, method = "get", params = {}, data,
     }) {
       const config = {
         auth: this._auth(),
@@ -125,11 +125,9 @@ export default {
       }
     },
     async *paginate({
-      $, fn, params = {}, cursor = undefined,
+      $, fn, params = {}, cursor,
     }) {
-      let n = 0;
       do {
-        console.log(`run number ${++n}`);
         const {
           data,
           meta,
