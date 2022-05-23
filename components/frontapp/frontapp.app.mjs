@@ -62,10 +62,13 @@ export default {
       type: "string",
       label: "Channel ID",
       description: "Id or address of the channel from which to send the message",
-      async options({ prevContext }) {
+      async options({
+        prevContext, filter,
+      }) {
         return this.paginateOptions({
           prevContext,
           listResourcesFn: this.listChannels,
+          filter,
           mapper: ({
             id, address,
           }) => ({
@@ -235,8 +238,11 @@ export default {
       });
     },
     async paginateOptions({
-      prevContext, listResourcesFn, mapper,
-    }) {
+      prevContext,
+      listResourcesFn,
+      filter = () => true,
+      mapper = (resource) => resource,
+    } = {}) {
       const { pageToken } = prevContext;
 
       if (pageToken === false) {
@@ -253,7 +259,7 @@ export default {
       });
 
       return {
-        options: resources.map(mapper),
+        options: resources.filter(filter).map(mapper),
         context: {
           pageToken: nextPageToken || false,
         },

@@ -13,6 +13,11 @@ export default {
       propDefinition: [
         frontApp,
         "channelId",
+        () => ({
+          filter: (channel) => [
+            "custom",
+          ].includes(channel.type),
+        }),
       ],
     },
     handle: {
