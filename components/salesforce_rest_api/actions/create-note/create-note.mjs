@@ -48,7 +48,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created note "${this.Title}"`);
+    $.export("$summary", `Successfully created note "${this.Title}"`);
     return response;
   },
 };
