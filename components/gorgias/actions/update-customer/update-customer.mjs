@@ -1,11 +1,10 @@
 import gorgias from "../../gorgias.app.mjs";
 import channels from "../../common/customer-channels.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import lodash from "lodash";
-const {
+import {
   pick,
   pickBy,
-} = lodash;
+} from "lodash-es";
 
 export default {
   key: "gorgias-update-customer",
@@ -80,11 +79,11 @@ export default {
       "name",
       "email",
       "data",
-      "externalId",
       "language",
       "timezone",
     ]));
 
+    data.external_id = this.externalId;
     if (this.channelType || this.channelAddress) {
       if (this.channelType && this.channelAddress) {
         data.channels = [
