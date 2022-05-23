@@ -3,9 +3,9 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "sendgrid-get-a-global-supression",
-  name: "Get A Global Supression",
-  description: "Gets a global supression. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/retrieve-a-global-suppression)",
+  key: "sendgrid-get-a-global-suppression",
+  name: "Get A Global Suppression",
+  description: "Gets a global suppression. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/retrieve-a-global-suppression)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -28,8 +28,8 @@ export default {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    const resp = await this.sendgrid.getGlobalSupression(this.email);
-    $.export("$summary", "Successfully retrieved global supression.");
+    const resp = await this.sendgrid.getGlobalSuppression(this.email);
+    $.export("$summary", "Successfully retrieved global suppression.");
     return resp;
   },
 };

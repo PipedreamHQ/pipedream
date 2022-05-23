@@ -49,12 +49,12 @@ export default {
           .map((contact) => contact.email);
       },
     },
-    globalSupressionEmail: {
+    globalSuppressionEmail: {
       type: "string",
       label: "Email",
-      description: "The email address you want to remove from the global supressions group",
+      description: "The email address you want to remove from the global suppressions group",
       async options() {
-        const emails = await this.listGlobalSupressions();
+        const emails = await this.listGlobalSuppressions();
         return emails.map((email) => email.email);
       },
     },
@@ -288,13 +288,13 @@ export default {
       return this._setSignedWebhook(false);
     },
     /**
-     * Adds an email to global supressions
+     * Adds an email to global suppressions
      *
      * @param {array}  recipientEmails the email addresses to be added to the global
      * suppressions group.
      * @returns {recipient_emails: array} the email addresses that are globally suppressed.
      */
-    async addEmailToGlobalSupression(recipientEmails) {
+    async addEmailToGlobalSuppression(recipientEmails) {
       const config = {
         method: "POST",
         url: "/v3/asm/suppressions/global",
@@ -425,7 +425,7 @@ export default {
      * @param {string}  email the email address to remove from the global suppressions group.
      * @returns this endpoint replies with HTTP 204 code "No content".
      */
-    async deleteGlobalSupression(email) {
+    async deleteGlobalSuppression(email) {
       const config = {
         method: "DELETE",
         url: `/v3/asm/suppressions/global/${email}`,
@@ -469,13 +469,13 @@ export default {
       return (await this._makeClientRequest(config))[1];
     },
     /**
-     * Gets a global supression
+     * Gets a global suppression
      *
      * @param {string}  email the email address of the global suppression to retrieve.
      * @returns {recipient_email: string} the email address that is globally suppressed. This will
      * be an empty object if the email address you included in your call is not globally suppressed.
      */
-    async getGlobalSupression(email) {
+    async getGlobalSuppression(email) {
       const config = {
         url: `/v3/asm/suppressions/global/${email}`,
       };
@@ -549,13 +549,13 @@ export default {
       return this.listItems(listItemsEndpoint, startTime, endTime, maxItems);
     },
     /**
-     * Lists all items of the requested account entity, blocks or global supressions.
+     * Lists all items of the requested account entity, blocks or global suppressions.
      *
      * @param {integer}  startTime start of the time range in unix timestamp when an item was
      * created (inclusive).
      * @param {integer}  endTime end of the time range in unix timestamp when an item was
      * created (inclusive).
-     * @param {integer}  numberOfBlocks the number of items (blocks or global supressions)
+     * @param {integer}  numberOfBlocks the number of items (blocks or global suppressions)
      * to return.
      * @returns {{created: number, email: string, reason: string, status: string}: array} an array
      * with details of each item returned: `created` for unix timestamp for when the item record
@@ -605,16 +605,16 @@ export default {
      * Lists all email addresses that are globally suppressed.
      *
      * @param {integer}  startTime start of the time range in unix timestamp when a global
-     * supression was created (inclusive).
+     * suppression was created (inclusive).
      * @param {integer}  endTime end of the time range in unix timestamp when  a global
-     * supression was created (inclusive).
-     * @param {integer}  numberOfSupressions the number of global supressions to return.
+     * suppression was created (inclusive).
+     * @param {integer}  numberOfSuppressions the number of global suppressions to return.
      * @returns {{created: number, email: string}: array} an array
-     * with details of each global supression returned: `created` for unix timestamp for when
+     * with details of each global suppression returned: `created` for unix timestamp for when
      * the recipient was added to the global suppression list, `email` for the email address of
      * the recipient who is globally suppressed.
      */
-    async listGlobalSupressions(startTime, endTime, maxItems) {
+    async listGlobalSuppressions(startTime, endTime, maxItems) {
       const listItemsEndpoint = "/v3/suppression/unsubscribes";
       return this.listItems(listItemsEndpoint, startTime, endTime, maxItems);
     },
