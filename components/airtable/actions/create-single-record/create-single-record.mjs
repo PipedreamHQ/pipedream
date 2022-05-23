@@ -33,6 +33,18 @@ export default {
       const tableSchema = await this.airtable.table(baseId, tableId);
       return makeFieldProps(tableSchema);
     } catch (err) {
+      const hasManualTableInput = !this.tableId?.label;
+      // If manual input and .table throws error, return a record prop
+      // otherwise, throw ConfigurationError
+      if (hasManualTableInput) {
+        return {
+          record: {
+            type: "object",
+            label: "Record",
+            description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values.",
+          },
+        };
+      }
       throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");
     }
   },
@@ -42,7 +54,7 @@ export default {
 
     const table = this.airtable.base(baseId)(tableId);
 
-    const record = makeRecord(this);
+    const record = this.record ?? makeRecord(this);
 
     this.airtable.validateRecord(record);
 
