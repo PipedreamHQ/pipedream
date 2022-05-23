@@ -134,7 +134,7 @@ export default {
   },
   OperatingHoursId: {
     type: "string",
-    label: "Operating Hours Id",
+    label: "Operating Hours ID",
     description: "The operating hours associated with the account. Available only if Field Service Lightning is enabled.",
   },
   OwnerId: {
