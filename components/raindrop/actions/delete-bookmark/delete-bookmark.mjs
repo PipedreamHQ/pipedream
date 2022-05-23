@@ -4,24 +4,31 @@ export default {
   key: "raindrop-delete-bookmark",
   name: "Delete Bookmark",
   description: "Delete a bookmark. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#remove-raindrop)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "collectionId",
       ],
-      label: "Bookmark ID",
-      description: "Existing bookmark ID",
+    },
+    bookmarkId: {
+      propDefinition: [
+        raindrop,
+        "raindropId",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID;
-    const response = await this.raindrop.deleteBookmark($, bookmarkID);
+    const bookmarkId = this.bookmarkId;
+    const response = await this.raindrop.deleteBookmark($, bookmarkId);
 
-    $.export("$summary", `Successfully deleted bookmark with ID ${bookmarkID}`);
+    $.export("$summary", `Successfully deleted bookmark with ID ${bookmarkId}`);
 
     return response;
   },
