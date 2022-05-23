@@ -42,7 +42,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Created contact "${this.LastName}"`);
+    $.export("$summary", `Successfully created contact "${this.LastName}"`);
     return response;
   },
 };
