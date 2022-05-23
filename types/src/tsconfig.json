@@ -9,7 +9,7 @@
     "noImplicitThis": true,                           /* Enable error reporting when `this` is given the type `any`. */
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "noEmit": true,
-    "lib": ["es6"],
+    "lib": ["es6", "dom"],
     "strictFunctionTypes": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
