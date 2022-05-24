@@ -6,6 +6,7 @@ export default {
   description: "Emit new event for each new message in an AMQP 1.0 queue",
   type: "source",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     amqp,
     timer: {
@@ -63,9 +64,11 @@ export default {
     try {
       const message = await this.amqp.onMessageReceiver(receiver);
 
+      const id = Date.parse(timestamp);
+
       this.$emit(message, {
-        id: message.message_id,
-        ts: Date.parse(timestamp),
+        id,
+        ts: id,
         summary: `New Message with ID ${message.message_id}`,
       });
 
