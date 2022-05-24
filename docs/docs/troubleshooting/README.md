@@ -28,11 +28,12 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
-### Why is my trigger not emitting events?
+## Why is my trigger not emitting events?
 
 Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
 
 #### Webhook-based instant sources
+
 - These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation.
 - To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
 - For example, if you've configured the "[Message Updates (Instant)](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) Telegram source, you'll need to send a message in the Telegram account you've selected in order for an event to appear.
@@ -40,6 +41,7 @@ Most Pipedream sources fall into one of two categories: webhook-based or timer-b
 - Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
 
 #### Timer-based polling sources
+
 - These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
 ![Configure polling timer](https://res.cloudinary.com/pipedreamin/image/upload/v1653434591/docs/polling-triggers-timer_ooz26c.png)
 - In most cases, Pipedream will automatically fetch recent historical events to help enable easier workflow development.
