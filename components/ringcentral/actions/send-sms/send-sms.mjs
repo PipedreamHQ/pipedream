@@ -91,7 +91,6 @@ export default {
       isoCode: countryIsoCode,
       callingCode: countryCallingCode,
     });
-    console.log("country", country);
 
     const response =
       await this.ringcentral.sendSMS({

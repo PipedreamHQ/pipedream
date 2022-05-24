@@ -97,7 +97,6 @@ export default {
         headers: this.getHeaders(),
         ...args,
       };
-      console.log("config!!!", config);
       try {
         return await axios($, config);
       } catch (error) {

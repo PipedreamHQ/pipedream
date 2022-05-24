@@ -49,19 +49,10 @@ export default {
     isEventRelevant(event) {
       const { body: eventDetails } = event.body;
       const { status: { code: statusCode } } = eventDetails.parties[0];
-      // return statusCode === "Proceeding";
-      console.log("statusCode", statusCode);
       return [
         "Setup",
         "Proceeding",
         "Answered",
-        // "Disconnected",
-        // "Gone",
-        // "Parked",
-        // "Hold",
-        // "VoiceMail",
-        // "FaxReceive",
-        // "VoiceMailScreening",
       ].includes(statusCode);
     },
   },
