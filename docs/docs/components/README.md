@@ -14,13 +14,13 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 
 ### Sources
 
-[Sources](/event-sources/) must be instantiated and they run as independent resources on Pipedream. They are commonly used as workflow triggers (but can also be used as standalone serverless functions).
+[Sources](/sources/) must be instantiated and they run as independent resources on Pipedream. They are commonly used as workflow triggers (but can also be used as standalone serverless functions).
 
 **Capabilities**
 
 - Accept user input on deploy via `props`
 - [Trigger](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
-- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/overview/)
+- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/)
 - Store and retrieve state using the [built-in key-value store](api/#db) 
 - Use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
 - Deploy via Pipedream's UI, CLI or API
@@ -74,7 +74,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api/) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
 
 ## Sharing Components
 

@@ -1,14 +1,12 @@
-/* eslint-disable no-unused-vars */
+import omit from "lodash.omit";
 import typeform from "../../typeform.app.mjs";
-import common from "../common.mjs";
 
 export default {
   key: "typeform-duplicate-form",
   name: "Duplicate a Form",
-  description: "Duplicates an existing form in your Typeform account with a different `title`. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
+  description: "Duplicates an existing form in your Typeform account and adds \"(copy)\" to the end of the title. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
-  version: "0.0.1",
-  methods: common.methods,
+  version: "0.0.2",
   props: {
     typeform,
     formId: {
@@ -19,29 +17,17 @@ export default {
     },
   },
   async run({ $ }) {
-    let formResponse;
+    const formResponse =
+      await this.typeform.getForm({
+        $,
+        formId: this.formId,
+      });
 
-    try {
-      formResponse =
-        await this.typeform.getForm({
-          $,
-          formId: this.formId,
-        });
-
-    } catch (error) {
-      const message =
-        error.response?.status === 404
-          ? "Form not found. Please enter the ID again."
-          : error;
-      throw new Error(message);
-    }
-
-    const {
-      id,
-      _links,
-      title,
-      ...otherData
-    } = formResponse;
+    const otherData = omit(formResponse, [
+      "id",
+      "_links",
+      "title",
+    ]);
 
     const dataStr = JSON.stringify(otherData);
     const idFields = /"id":"\w+",?/g;
@@ -49,18 +35,17 @@ export default {
     const dataWithoutIds = JSON.parse(dataWithoutIdsStr);
 
     const data = {
-      title: `${title} (copy)`,
+      title: `${formResponse.title} (copy)`,
       ...dataWithoutIds,
     };
 
-    try {
-      return await this.typeform.createForm({
-        $,
-        data,
-      });
+    const resp = await this.typeform.createForm({
+      $,
+      data,
+    });
 
-    } catch (error) {
-      throw new Error(error);
-    }
+    $.export("$summary", `Successully created a duplicate form titled, "${resp.title}"`);
+
+    return resp;
   },
 };

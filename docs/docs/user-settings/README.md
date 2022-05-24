@@ -10,7 +10,7 @@ You'll find your Pipedream username, email, and other basic account details in y
 
 ### Username
 
-Your Pipedream username functions as your user or org identity. If you've made any resources [public](/public-workflows/), these resources will appear on your public profile at:
+Your Pipedream username functions as your user or org identity. If you've made any resources public, these resources will appear on your public profile at:
 
 ```text
 https://pipedream.com/@username
@@ -26,15 +26,13 @@ Existing workflow URLs that contain your old username will continue to resolve t
 
 ### Changing your email
 
-Pipedream sends system emails to the email address tied to your Pipedream login - for example, [error notifications](/workflows/error-handling/global-error-workflow/) and emails sent using [`$send.email()`](/destinations/email/).
-
-You can change the email address to which these emails are delivered by modifying the **Email** in your Account Settings. Once changed, an email will be delivered to the new address requesting you verify it.
+Pipedream sends system emails to the email address tied to your Pipedream login. You can change the email address to which these emails are delivered by modifying the **Email** in your Account Settings. Once changed, an email will be delivered to the new address requesting you verify it.
 
 Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
 
 ### Pipedream API Key
 
-Pipedream provides a [REST API](/api/overview/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
+Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
 
 You can revoke and regenerate your API key from here at any time.
 

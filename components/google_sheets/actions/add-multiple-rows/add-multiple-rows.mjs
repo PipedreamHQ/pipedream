@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to a Google Sheet",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
     },
     sheetId: {
       propDefinition: [

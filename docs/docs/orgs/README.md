@@ -1,4 +1,4 @@
-# Organizations
+# Managing your Organization
 
 Organizations ("orgs") provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
 
@@ -47,11 +47,21 @@ Org admins have permission to:
 - Remove users from orgs
 - Manage the org's billing details
 
-## Adding new org admins
+Org admins can assign other users as admins:
 
-By default, the user who created the org is the org admin. To change ownership or assign new admins, [reach out to the Pipedream team](https://pipedream.com/support).
+1. Visit [https://pipedream.com/settings/users](https://pipedream.com/settings/users)
+2. Find the user you want to add as an admin
+3. Select the **...** to the right of the user, and select the option to **Add Admin**.
 
 ## Finding your organization's ID
 
 1. Visit [pipedream.com](https://pipedream.com) and [switch your context](#switching-context) to your organization.
 2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your org ID here.
+
+## Configuring Single-sign on (SS0)
+
+Organizations on the [Enterprise Plan](/pricing/#enterprise-plan) can configure Single-sign on in their account, so that your users can login to Pipedream using your identity provider.
+
+Pipedream supports SSO with GSuite, Okta, and other SAML providers. See the guides below to configure SSO for your identity provider:
+
+- [Okta](/orgs/sso/okta/)

@@ -8,7 +8,7 @@ Pipedream doesn't yet provide a built-in step to pause / delay a specific workfl
 
 ## Step 1 - Create a Task Scheduler event source
 
-[Click here to create a Pipedream Task Scheduler source](https://pipedream.com/sources/new?key=pipedream-new-scheduled-tasks). This [event source](/event-sources) allows you to schedule a message to trigger a workflow at a specific time (for example, "run this workflow one day in the future, with this event data"). _This is how we'll delay our step_.
+[Click here to create a Pipedream Task Scheduler source](https://pipedream.com/sources/new?key=pipedream-new-scheduled-tasks). This [event source](/sources/) allows you to schedule a message to trigger a workflow at a specific time (for example, "run this workflow one day in the future, with this event data"). _This is how we'll delay our step_.
 
 You'll need to connect your Pipedream API key to run this source. You'll find this in [your settings](https://pipedream.com/settings/account). Next, enter a secret value in the **Secret** field - this ensures only users with this secret can schedule tasks. We'll use this in **Step 3** below.
 
