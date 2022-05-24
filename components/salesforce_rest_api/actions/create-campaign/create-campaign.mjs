@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import campaign from "../../common/sobjects/campaign.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -15,10 +17,10 @@ export default {
   type: "action",
   props: {
     salesforce,
-    name: {
+    Name: {
       type: "string",
       label: "Name",
-      description: "Name of the campaign. Limit: is 80 characters.",
+      description: "Required. Name of the campaign. Limit: is 80 characters.",
     },
     selector: {
       propDefinition: [
@@ -34,15 +36,15 @@ export default {
     return this.salesforce.additionalProps(this.selector, campaign);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
-      "name",
+    const data = pickBy(pick(this, [
+      "Name",
       ...this.selector,
     ]));
     const response = await this.salesforce.createCampaign({
       $,
       data,
     });
-    $.export("$summary", `Successfully created campaign "${this.name}"`);
+    $.export("$summary", `Created campaign "${this.Name}"`);
     return response;
   },
 };

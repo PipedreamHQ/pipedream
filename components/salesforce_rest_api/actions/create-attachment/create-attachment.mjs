@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -27,7 +29,7 @@ export default {
     },
     ParentId: {
       type: "string",
-      label: "ParentId",
+      label: "Parent ID",
       description: "ID of the parent object of the attachment. The following objects are supported as parents of attachments:\n* Account\n* Asset\n* Campaign\n* Case\n* Contact\n* Contract\n* Custom objects\n* EmailMessage\n* EmailTemplate\n* Event\n* Lead\n* Opportunity\n* Product2\n* Solution\n* Task",
     },
     selector: {
@@ -44,7 +46,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, attachment);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "Body",
       "Name",
       "ParentId",

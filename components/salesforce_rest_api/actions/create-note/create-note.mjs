@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import note from "../../common/sobjects/note.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -17,7 +19,7 @@ export default {
     salesforce,
     ParentId: {
       type: "string",
-      label: "ParentId",
+      label: "Parent ID",
       description: "ID of the object associated with the note.",
     },
     Title: {
@@ -39,7 +41,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, note);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "ParentId",
       "Title",
       ...this.selector,

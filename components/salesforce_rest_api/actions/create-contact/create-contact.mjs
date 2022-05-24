@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import contact from "../../common/sobjects/contact.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -17,7 +19,7 @@ export default {
     salesforce,
     LastName: {
       type: "string",
-      label: "LastName",
+      label: "Last name",
       description: "Last name of the contact up to 80 characters.",
     },
     selector: {
@@ -34,7 +36,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, contact);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "LastName",
       ...this.selector,
     ]));

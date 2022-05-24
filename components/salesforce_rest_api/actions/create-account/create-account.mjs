@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import account from "../../common/sobjects/account.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -16,7 +18,7 @@ export default {
   type: "action",
   props: {
     salesforce,
-    name: {
+    Name: {
       type: "string",
       label: "Name",
       description: "Name of the account.",
@@ -35,15 +37,15 @@ export default {
     return this.salesforce.additionalProps(this.selector, account);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
-      "name",
+    const data = pickBy(pick(this, [
+      "Name",
       ...this.selector,
     ]));
     const response = await this.salesforce.createAccount({
       $,
       data,
     });
-    $.export("$summary", `Successfully created account "${this.name}"`);
+    $.export("$summary", `Successfully created account "${this.Name}"`);
     return response;
   },
 };

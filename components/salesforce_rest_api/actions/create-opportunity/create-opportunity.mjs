@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -17,7 +19,7 @@ export default {
     salesforce,
     CloseDate: {
       type: "string",
-      label: "CloseDate",
+      label: "Close date",
       description: "Date when the opportunity is expected to close.",
     },
     Name: {
@@ -44,7 +46,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, opportunity);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "CloseDate",
       "Name",
       "StageName",

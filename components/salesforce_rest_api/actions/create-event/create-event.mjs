@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import event from "../../common/sobjects/event.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -17,7 +19,7 @@ export default {
     salesforce,
     durationInMinutes: {
       type: "integer",
-      label: "Duration In Minutes",
+      label: "Duration in minutes",
       description: "Contains the event length, in minutes.",
     },
     selector: {
@@ -34,7 +36,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, event);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "durationInMinutes",
       ...this.selector,
     ]));

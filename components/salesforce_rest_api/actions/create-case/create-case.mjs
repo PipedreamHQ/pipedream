@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import salesforceCase from "../../common/sobjects/case.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -17,7 +19,7 @@ export default {
     salesforce,
     SuppliedEmail: {
       type: "string",
-      label: "SuppliedEmail",
+      label: "Supplied email",
       description: "The email address that was entered when the case was created. Label is Email.If your organization has an active auto-response rule, SuppliedEmail is required when creating a case via the API. Auto-response rules use the email in the contact specified by ContactId. If no email address is in the contact record, the email specified here is used.",
     },
     selector: {
@@ -34,7 +36,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, salesforceCase);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "SuppliedEmail",
       ...this.selector,
     ]));

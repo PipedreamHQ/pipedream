@@ -6,7 +6,7 @@ export default {
   name: "Create Record",
   description: toSingleLineString(`
     Create new records of a given resource.
-    See [docs](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)
+    See [docs](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)
   `),
   version: "0.2.2",
   type: "action",
