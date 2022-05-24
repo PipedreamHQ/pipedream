@@ -56,7 +56,7 @@ export default {
         && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
         && !(property.fieldType === "checkbox"); // checkbox (string[]) props must be semicolon separated strings
     },
-    makePropDefinition(property) {
+    makePropDefinition(property, requiredProperties) {
       let type = "string";
       let options = property.options?.length
         ? property.options?.filter((o) => !o.hidden)
@@ -71,21 +71,23 @@ export default {
         const objectTypeName = this.hubspot.getObjectTypeName(property.referencedObjectType);
         options = getOptionsMethod(objectTypeName);
       }
+      const optional = !requiredProperties.includes(property);
       return {
         name: property.name,
         type,
         label: property.label,
         description: property.description,
-        optional: true,
+        optional,
         options,
       };
     },
   },
   async additionalProps() {
+    const schema = await this.hubspot.getSchema(this.getObjectType());
     const { results: properties } = await this.hubspot.getProperties(this.getObjectType());
     return properties
       .filter(this.isRelevantProperty)
-      .map(this.makePropDefinition)
+      .map((property) => this.makePropDefinition(property, schema.requiredProperties))
       .reduce((props, {
         name, ...definition
       }) => {
