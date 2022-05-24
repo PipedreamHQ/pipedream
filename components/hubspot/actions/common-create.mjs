@@ -53,31 +53,38 @@ export default {
       return !property.modificationMetadata?.readOnlyValue
         && (!property.hidden || property.name === "hs_email_direction") // hack - Hubspot's "hs_email_direction" property is hidden AND required
         && !property.label.includes("(legacy)")
-        && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
-        && !(property.fieldType === "checkbox"); // checkbox (string[]) props must be semicolon separated strings
+        && (!property.options || property.options.length <= 500); // too many prop options cause the action to fail
+    },
+    makeLabelValueOptions(property) {
+      return property.options
+        .filter((o) => !o.hidden)
+        .map(({
+          label, value,
+        }) => ({
+          label,
+          value,
+        }))
+        .filter(({ label }) => label);
     },
     makePropDefinition(property, requiredProperties) {
       let type = "string";
-      let options = property.options?.length
-        ? property.options?.filter((o) => !o.hidden)
-          .map(({
-            label, value,
-          }) => ({
-            label,
-            value,
-          }))
-        : undefined;
+      let options = this.makeLabelValueOptions(property);
+
       if (property.referencedObjectType) {
         const objectTypeName = this.hubspot.getObjectTypeName(property.referencedObjectType);
         options = getOptionsMethod(objectTypeName);
       }
-      const optional = !requiredProperties.includes(property);
+
+      if (property.fieldType === "checkbox") {
+        type = "string[]";
+      }
+
       return {
-        name: property.name,
         type,
+        name: property.name,
         label: property.label,
         description: property.description,
-        optional,
+        optional: !requiredProperties.includes(property),
         options,
       };
     },
