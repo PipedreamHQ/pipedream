@@ -36,11 +36,9 @@ export default {
       const hasManualTableInput = !this.tableId?.label;
       if (hasManualTableInput) {
         return {
-          record: {
-            type: "object",
-            label: "Record",
-            description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values.",
-          },
+          // Use record propDefinition directly to workaround lack of support
+          // for propDefinition in additionalProps
+          record: airtable.propDefinitions.record,
         };
       }
       throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");
