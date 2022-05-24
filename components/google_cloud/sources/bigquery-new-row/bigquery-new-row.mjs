@@ -8,7 +8,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
   description: "Emit new events when a new row is added to a table",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -35,11 +35,7 @@ export default {
     uniqueKey: {
       type: "string",
       label: "Unique Key",
-      description: `
-        The name of a column in the table to use for deduplication. See [the
-        docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-new-row#technical-details)
-        for more info.
-      `,
+      description: "The name of a column in the table to use for deduplication. See [the docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-new-row#technical-details) for more info.",
       async options(context) {
         const { page } = context;
         if (page !== 0) {

@@ -188,7 +188,7 @@
     "putout/multiple-properties-destructuring": [
       "error",
       {
-        "minProperties": 1
+        "minProperties": 2
       }
     ],
     "putout/single-property-destructuring": "error",
