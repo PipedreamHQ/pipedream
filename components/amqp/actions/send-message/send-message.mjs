@@ -1,45 +1,23 @@
-import { Connection } from "rhea-promise";
+import amqp from "../../amqp.app.mjs";
 
 export default {
   key: "amqp-send-message",
   name: "Send a Message",
-  description: "Send a new message to an AMQP queue",
+  description: "Send a new message to an AMQP 1.0 queue",
   version: "0.0.1",
   type: "action",
   props: {
-    amqp: {
-      type: "app",
-      app: "amqp",
-    },
-    host: {
-      type: "string",
-      label: "Host",
-      description: "The hostname of the AMQP broker. e.g. (`shark.rmq.cloudamqp.com`)",
-    },
-    port: {
-      type: "integer",
-      label: "Port",
-      description: "The port of the AMQP broker. e.g. (`5672`)",
-    },
-    username: {
-      type: "string",
-      label: "Username",
-      description: "The username of the AMQP broker.",
-    },
-    password: {
-      type: "string",
-      label: "Password",
-      description: "The password of the AMQP broker.",
-    },
+    amqp,
     senderName: {
       type: "string",
       label: "Sender Name",
       description: "The name of the sender. e.g. (`my-sender`)",
     },
     queueName: {
-      type: "string",
-      label: "Queue Name",
-      description: "The name of the queue to send the message to.",
+      propDefinition: [
+        amqp,
+        "queueName",
+      ],
     },
     messageId: {
       type: "string",
@@ -58,25 +36,24 @@ export default {
       port,
       username,
       password,
+    } = this.amqp.$auth;
+
+    const {
       senderName,
       queueName,
       messageId,
       body,
     } = this;
 
-    const connection = new Connection({
-      transport: "tls",
+    const connection = await this.amqp.openConnection({
       host,
-      hostname: host,
+      port,
       username,
       password,
-      port,
-      reconnect: false,
     });
 
-    await connection.open();
-
-    const sender = await connection.createAwaitableSender({
+    const sender = await this.amqp.createSender({
+      connection,
       name: senderName,
       target: {
         address: queueName,
@@ -84,14 +61,21 @@ export default {
       sendTimeoutInSeconds: 10,
     });
 
-    const delivery = await sender.send({
-      body,
-      messageId,
-    });
+    try {
+      const delivery = await this.amqp.sendMessage({
+        sender,
+        body,
+        message_id: messageId,
+      });
 
-    $.export("$summary", `${connection.id} await sendMessage -> Delivery id: ${delivery.id}, settled: ${delivery.settled}`);
+      $.export("$summary", `Sucessfully sent message with Delivery ID ${delivery.id}`);
 
-    await sender.close();
-    await connection.close();
+    } catch (error) {
+      console.log("Error sending message", JSON.stringify(error.innerError));
+
+    } finally {
+      await this.amqp.close(sender);
+      await this.amqp.close(connection);
+    }
   },
 };
