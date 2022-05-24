@@ -127,6 +127,9 @@ export default {
     async *paginate({
       $, fn, params = {}, cursor,
     }) {
+      const { limit } = params;
+      let count = 0;
+
       do {
         const {
           data,
@@ -141,6 +144,10 @@ export default {
 
         for (const d of data) {
           yield d;
+
+          if (limit && ++count === limit) {
+            return count;
+          }
         }
 
         cursor = meta.next_cursor;
