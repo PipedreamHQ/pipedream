@@ -52,7 +52,9 @@ export default {
     trackOpens: {
       type: "boolean",
       label: "Track Opens",
-      description: "Activate open tracking for this email.",
+      description: `Activate open tracking for this email.
+      \\
+      **Note:** the email must have \`HTML Body\` to enable open tracking.`,
       optional: true,
     },
     trackLinks: {
