@@ -13,9 +13,10 @@ export default {
     trackOpensByDefault: {
       type: "boolean",
       label: "Track opens by default",
-      description: `If enabled, all emails being sent through this server will have open tracking enabled.
+      description: `If enabled, all emails being sent through this server will have open tracking enabled by default. Otherwise, only emails that have open tracking explicitly set will trigger this event when opened.
         \\
-        Otherwise, only emails that have open tracking explicitly set will trigger this event when opened.`,
+        **Note:** only emails with \`HTML Body\` will have open tracking enabled.
+        `,
     },
     postFirstOpenOnly: {
       type: "boolean",

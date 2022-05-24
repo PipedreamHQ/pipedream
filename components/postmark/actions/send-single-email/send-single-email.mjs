@@ -8,7 +8,6 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    ...common.props,
     subject: {
       type: "string",
       label: "Subject",
@@ -18,16 +17,24 @@ export default {
       type: "string",
       label: "HTML Body",
       description:
-        "HTML email message. **Required** if no `TextBody` is specified.",
+        `HTML email message.
+        \\
+        **Required** if no \`Text Body\` is specified.
+        \\
+        **Required** to enable \`Open Tracking\`.`,
       optional: true,
     },
     textBody: {
       type: "string",
       label: "Text Body",
       description:
-        "Plain text email message. **Required** if no `HtmlBody` is specified.",
+        `Plain text email message.
+        \\
+        **Required** if no \`HTML Body\` is specified.`,
       optional: true,
     },
+    // The above props are intentionally placed first
+    ...common.props,
   },
   async run({ $ }) {
     const data = {
