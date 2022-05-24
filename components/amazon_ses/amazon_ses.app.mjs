@@ -37,6 +37,34 @@ export default {
         };
       },
     },
+    ToAddresses: {
+      type: "string[]",
+      label: "To Addresses",
+      description: "An array of recipient email addresses you want to send to",
+    },
+    CcAddresses: {
+      type: "string[]",
+      label: "CC Addresses",
+      description: "An array of email addresses you want to CC",
+      optional: true,
+    },
+    BccAddresses: {
+      type: "string[]",
+      label: "BCC Addresses",
+      description: "An array of email addresses you want to BCC",
+      optional: true,
+    },
+    ReplyToAddresses: {
+      type: "string[]",
+      label: "Reply To Addresses",
+      description: "An array of reply-to addresses",
+      optional: true,
+    },
+    FromEmailAddress: {
+      type: "string",
+      label: "From",
+      description: "The email from which the email is addressed",
+    },
     Subject: {
       type: "string",
       label: "Subject",

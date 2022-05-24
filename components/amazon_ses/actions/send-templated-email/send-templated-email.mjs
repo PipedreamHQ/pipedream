@@ -9,32 +9,34 @@ export default {
   props: {
     ...base.props,
     ToAddresses: {
-      type: "string[]",
-      label: "To Addresses",
-      description: "An array of recipient email addresses you want to send to",
+      propDefinition: [
+        base.props.amazonSes,
+        "ToAddresses",
+      ],
     },
     CcAddresses: {
-      type: "string[]",
-      label: "CC Addresses",
-      description: "An array of email addresses you want to CC",
-      optional: true,
+      propDefinition: [
+        base.props.amazonSes,
+        "CcAddresses",
+      ],
     },
     BccAddresses: {
-      type: "string[]",
-      label: "BCC Addresses",
-      description: "An array of email addresses you want to BCC",
-      optional: true,
+      propDefinition: [
+        base.props.amazonSes,
+        "BccAddresses",
+      ],
     },
     ReplyToAddresses: {
-      type: "string[]",
-      label: "Reply To Addresses",
-      description: "An array of reply-to addresses",
-      optional: true,
+      propDefinition: [
+        base.props.amazonSes,
+        "ReplyToAddresses",
+      ],
     },
     FromEmailAddress: {
-      type: "string",
-      label: "From",
-      description: "The email from which the email is addressed",
+      propDefinition: [
+        base.props.amazonSes,
+        "FromEmailAddress",
+      ],
     },
     Template: {
       propDefinition: [
