@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   key: "amazon_ses-update-email-template",
   name: "Update Email Template",
-  description: "Update an Email Template in Amazon SES. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/updateemailtemplatecommand.html)",
+  description: "Update an email template. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/updateemailtemplatecommand.html)",
   version: "0.0.1",
   type: "action",
   props: {

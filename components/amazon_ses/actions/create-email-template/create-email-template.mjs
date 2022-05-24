@@ -5,7 +5,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "amazon_ses-create-email-template",
   name: "Create Email Template",
-  description: "Create a HTML or Plain Text Email Template in Amazon SES. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/createemailtemplatecommand.html)",
+  description: "Create a HTML or a plain text email template. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/createemailtemplatecommand.html)",
   version: "0.0.1",
   type: "action",
   props: {
