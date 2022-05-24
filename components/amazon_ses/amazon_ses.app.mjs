@@ -1,5 +1,9 @@
 import aws from "../aws/aws.app.mjs";
 import {
+  SESClient,
+  SendTemplatedEmailCommand,
+} from "@aws-sdk/client-ses";
+import {
   SESv2Client,
   SendEmailCommand,
   CreateEmailTemplateCommand,
@@ -51,7 +55,10 @@ export default {
   },
   methods: {
     ...aws.methods,
-    _client() {
+    _clientV1() {
+      return this.getAWSClient(SESClient, this.region);
+    },
+    _clientV2() {
       return this.getAWSClient(SESv2Client, this.region);
     },
     createCharsetContent(Data, Charset = constants.UTF_8) {
@@ -64,19 +71,22 @@ export default {
       return text.replace(/\\{/g, "{").replace(/\\}/g, "}");
     },
     async sendEmail(params) {
-      return this._client().send(new SendEmailCommand(params));
+      return this._clientV2().send(new SendEmailCommand(params));
+    },
+    async sendTemplatedEmail(params) {
+      return this._clientV1().send(new SendTemplatedEmailCommand(params));
     },
     async getEmailTemplate(params) {
-      return this._client().send(new GetEmailTemplateCommand(params));
+      return this._clientV2().send(new GetEmailTemplateCommand(params));
     },
     async listEmailTemplates(params) {
-      return this._client().send(new ListEmailTemplatesCommand(params));
+      return this._clientV2().send(new ListEmailTemplatesCommand(params));
     },
     async createEmailTemplate(params) {
-      return this._client().send(new CreateEmailTemplateCommand(params));
+      return this._clientV2().send(new CreateEmailTemplateCommand(params));
     },
     async updateEmailTemplate(params) {
-      return this._client().send(new UpdateEmailTemplateCommand(params));
+      return this._clientV2().send(new UpdateEmailTemplateCommand(params));
     },
   },
 };
