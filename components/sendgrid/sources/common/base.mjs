@@ -1,8 +1,8 @@
-const { v4: uuidv4 } = require("uuid");
+import sendgrid from "../../sendgrid.app.mjs";
+import { v4 } from "uuid";
+const uuidv4 = v4;
 
-const sendgrid = require("../../sendgrid.app");
-
-module.exports = {
+export default {
   props: {
     db: "$.service.db",
     sendgrid,
@@ -11,13 +11,13 @@ module.exports = {
     slugifyEmail(email) {
       return email
         .replace(/[@]/g, "-at-")
-        .replace(/[\.]/g, "-");
+        .replace(/[.]/g, "-");
     },
     toISOString(timestamp) {
       const date = new Date(timestamp);
       return date.toISOString();
     },
-    generateMeta(data) {
+    generateMeta() {
       return {
         id: uuidv4(),
         summary: "New event",

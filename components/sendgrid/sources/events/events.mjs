@@ -1,11 +1,14 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
+import deliveryEventTypes from "./delivery-event-types.mjs";
+import engagementEventTypes from "./engagement-event-types.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-events",
-  name: "Events (Instant)",
-  description: "Emit an event when any of the specified SendGrid events is received",
-  version: "0.0.2",
+  name: "New Events (Instant)",
+  description: "Emit new event when any of the specified SendGrid events is received",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -22,8 +25,8 @@ module.exports = {
         }
 
         const options = [
-          ...require("./delivery-event-types"),
-          ...require("./engagement-event-types"),
+          ...deliveryEventTypes,
+          ...engagementEventTypes,
         ];
         return {
           options,
@@ -41,8 +44,8 @@ module.exports = {
       // See the docs for more information:
       // https://sendgrid.com/docs/api-reference/
       const eventTypesData = [
-        ...require("./delivery-event-types"),
-        ...require("./engagement-event-types"),
+        ...deliveryEventTypes,
+        ...engagementEventTypes,
       ];
       return eventTypesData.reduce((accum, eventTypeData) => ({
         ...accum,

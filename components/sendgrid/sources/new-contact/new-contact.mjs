@@ -1,13 +1,13 @@
-const orderBy = require("lodash/orderBy");
+import orderBy from "lodash/orderBy.js";
+import common from "../common/timer-based.mjs";
 
-const common = require("../common/timer-based");
-
-module.exports = {
+export default {
   ...common,
   key: "sendgrid-new-contact",
-  name: "New Contact (Instant)",
-  description: "Emit an event when a new contact is created",
-  version: "0.0.2",
+  name: "New Contact",
+  description: "Emit new event when a new contact is created",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {
     async activate() {

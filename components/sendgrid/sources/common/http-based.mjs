@@ -1,10 +1,10 @@
-const {
+import {
   EventWebhook,
   EventWebhookHeader,
-} = require("@sendgrid/eventwebhook");
-const base = require("./base");
+} from "@sendgrid/eventwebhook";
+import base from "./base.mjs";
 
-module.exports = {
+export default {
   ...base,
   props: {
     ...base.props,
