@@ -40,7 +40,9 @@ export default {
         ids: ids.join(","),
       },
     );
-    $.export("$summary", "Record found successfully" );
+    if (response) {
+      $.export("$summary", "Record found successfully" );
+    }
     return response;
   },
 };

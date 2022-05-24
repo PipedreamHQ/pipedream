@@ -14,7 +14,7 @@ export default {
       type: "string",
       label: "Object type",
       description:
-       "Salesforce standard object type of the record to get field values from. [Object types](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)",
+        "Salesforce standard object type of the record to get field values from. [Object types](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)",
     },
     sobjectId: {
       type: "string",
@@ -63,7 +63,7 @@ export default {
         },
       );
     } catch (error) {
-      if (!createIfNotFound)  throw new ConfigurationError("Record not found");
+      if (!createIfNotFound) throw new ConfigurationError("Record not found");
     }
 
     if (createIfNotFound && !data) {
@@ -71,12 +71,14 @@ export default {
         sobjectType,
         sobject,
       );
-      response &&  $.export(
+      response && $.export(
         "$summary", "Record successfully created",
       );
       return response;
     }
-    data && $.export("$summary", "Record found!" );
+    if (data) {
+      $.export("$summary", "Record found!");
+    }
     return data;
   },
 };
