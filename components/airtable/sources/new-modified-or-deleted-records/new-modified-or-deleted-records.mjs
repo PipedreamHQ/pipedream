@@ -1,26 +1,32 @@
-const moment = require("moment");
-const axios = require("axios");
-const Bottleneck = require("bottleneck");
+import moment from "moment";
+import axios from "axios";
+import Bottleneck from "bottleneck";
 
-const common = require("../common");
+import common from "../common.mjs";
 
 const limiter = new Bottleneck({
   minTime: 200, // 5 requets per second
 });
 const axiosRateLimiter = limiter.wrap(axios);
 
-module.exports = {
+export default {
   ...common,
   name: "New, Modified or Deleted Records",
   key: "airtable-new-modified-or-deleted-records",
-  version: "0.0.4",
+  version: "0.1.0",
+  type: "source",
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
     ...common.props,
     tableId: {
-      type: "$.airtable.tableId",
-      baseIdProp: "baseId",
+      propDefinition: [
+        common.props.airtable,
+        "tableId",
+        ({ baseId }) => ({
+          baseId,
+        }),
+      ],
     },
   },
   async run(event) {
@@ -29,6 +35,7 @@ module.exports = {
       tableId,
       viewId,
     } = this;
+
     const metadata = {
       baseId,
       tableId,
@@ -36,7 +43,7 @@ module.exports = {
     };
 
     const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
       params: {},
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,

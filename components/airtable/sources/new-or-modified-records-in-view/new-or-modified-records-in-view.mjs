@@ -1,30 +1,50 @@
-const moment = require("moment");
-const axios = require("axios");
+import moment from "moment";
+import axios from "axios";
 
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: "airtable-new-or-modified-records-in-view",
-  version: "0.0.5",
+  version: "0.1.0",
+  type: "source",
   props: {
     ...common.props,
     tableId: {
-      type: "$.airtable.tableId",
-      baseIdProp: "baseId",
+      propDefinition: [
+        common.props.airtable,
+        "tableId",
+        ({ baseId }) => ({
+          baseId,
+        }),
+      ],
     },
     viewId: {
-      type: "$.airtable.viewId",
-      tableIdProp: "tableId",
+      propDefinition: [
+        common.props.airtable,
+        "viewId",
+        ({
+          baseId, tableId,
+        }) => ({
+          baseId,
+          tableId,
+        }),
+      ],
     },
   },
   async run(event) {
+    const {
+      baseId,
+      tableId,
+      viewId,
+    } = this;
+
     const config = {
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(baseId)}/${encodeURIComponent(tableId)}`,
       params: {
-        view: this.viewId,
+        view: viewId,
       },
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,
@@ -41,11 +61,6 @@ module.exports = {
       return;
     }
 
-    const {
-      baseId,
-      tableId,
-      viewId,
-    } = this;
     const metadata = {
       baseId,
       tableId,

@@ -1,6 +1,6 @@
-const airtable = require("../airtable.app");
+import airtable from "../airtable.app.mjs";
 
-module.exports = {
+export default {
   props: {
     airtable,
     db: "$.service.db",
@@ -11,8 +11,10 @@ module.exports = {
       },
     },
     baseId: {
-      type: "$.airtable.baseId",
-      appProp: "airtable",
+      propDefinition: [
+        airtable,
+        "baseId",
+      ],
     },
   },
   hooks: {
