@@ -24,6 +24,20 @@ export default {
       label: "Product Id",
       description: "The id of the product",
     },
+    categoryId: {
+      type: "integer",
+      label: "Category Id",
+      description: "The id of the category",
+      async options({ page }) {
+        const categories = await this.getAllCategories({
+          page: page + 1,
+        });
+        return categories.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -82,6 +96,15 @@ export default {
         path: `/catalog/products?limit=50&page=${page}`,
       });
     },
+    async getAllProductsSortOrder({
+      $, categoryId, page,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/catalog/categories/${categoryId}/products/sort-order?limit=50&page=${page}`,
+      });
+    },
     async getProduct({
       $, productId,
     }) {
@@ -134,11 +157,8 @@ export default {
       });
     },
     async getAllCategories({
-      $, prevContext, page = 1, limit = 100,
+      $, page = 1, limit = 100,
     }) {
-      console.log("getAllCategories prevContext: ", prevContext);
-      console.log("getAllCategories page: ", page);
-
       return await this._makeRequest({
         $,
         method: "GET",

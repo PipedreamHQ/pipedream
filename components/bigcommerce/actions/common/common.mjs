@@ -117,11 +117,8 @@ const PROPS = {
     description:
       "An array of IDs for the categories to which this product belongs. When updating a product, if an array of categories is supplied, all product categories will be overwritten. Does not accept more than 1,000 ID values.",
     optional: true,
-    async options({
-      prevContext, page,
-    }) {
+    async options({ page }) {
       const categories = await this.bigcommerce.getAllCategories({
-        prevContext,
         page: page + 1,
       });
       return categories.map((item) => ({
