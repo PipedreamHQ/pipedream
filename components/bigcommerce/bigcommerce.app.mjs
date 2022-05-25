@@ -114,6 +114,15 @@ export default {
         path: `/catalog/products/${productId}`,
       });
     },
+    async getProductVariants({
+      $, productId,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/catalog/products/${productId}/variants`,
+      });
+    },
     async createProduct({
       $, props,
     }) {
