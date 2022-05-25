@@ -1,5 +1,7 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  md5Hash, removeNullEntries,
+} from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
@@ -18,25 +20,16 @@ export default {
       label: "List Id",
       description: "The unique ID of the list",
     },
-    subscriberHash: {
-      propDefinition: [
-        mailchimp,
-        "subscriberHash",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
+    emailAddress: {
+      label: "Email address",
+      type: "string",
+      description: "Email address for a subscriber.",
     },
     skipMergeValidation: {
       label: "Skip merge validation",
       type: "boolean",
       description: "If skip_merge_validation is true, member data will be accepted without merge field values, even if the merge field is usually required. This defaults to False.",
       optional: true,
-    },
-    emailAddress: {
-      label: "Email address",
-      type: "string",
-      description: "Email address for a subscriber. This value is required only if the email address is not already present on the list.",
     },
     statusIfNew: {
       label: "Status if new",
@@ -135,7 +128,7 @@ export default {
 
     const payload = removeNullEntries({
       listId: this.listId,
-      subscriberHash: this.subscriberHash,
+      subscriberHash: md5Hash(this.emailAddress),
       data: {
         email_address: this.emailAddress,
         status_if_new: this.statusIfNew,

@@ -29,27 +29,10 @@ export default {
       label: "Contact city",
       description: "The city for the list contact.",
     },
-    contactState: {
-      type: "string",
-      label: "Contact state",
-      description: "The state for the list contact.",
-    },
     contactCountry: {
       type: "string",
       label: "Contact country",
       description: "A two-character ISO3166 country code. Defaults to US if invalid.",
-    },
-    contactPhone: {
-      type: "string",
-      label: "Contact phone",
-      description: "The phone number for the list contact.",
-      optional: true,
-    },
-    contactZip: {
-      type: "string",
-      label: "Contact zip code",
-      description: "The postal or zip code for the list contact.",
-      optional: true,
     },
     permissionReminder: {
       type: "string",
@@ -90,9 +73,6 @@ export default {
         city: this.contactCity,
         address1: this.contactAddress1,
         company: this.contactCompany,
-        phone: this.contactPhone,
-        zip: this.contactZip,
-        state: this.contactState,
       },
       permission_reminder: this.permissionReminder,
       campaign_defaults: {
@@ -103,8 +83,10 @@ export default {
       },
       email_type_option: this.emailTypeOption,
     });
+    console.log("payload", payload);
     const response = await this.mailchimp.createList($, payload);
-    response && $.export("$summary", "List created successfully");
+    console.log(response);
+    // response && $.export("$summary", "List created successfully");
     return response;
   },
 };

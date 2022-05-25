@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import crypto from "crypto";
 
 const validateObject = (obj, ALLOWED_KEYS, fieldName) => {
   if (!obj || !Object.keys(obj)?.length) return;
@@ -79,8 +80,13 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues 
   return updatedArray;
 };
 
-const commaSeparateArray = (arr) =>  arr?.length && arr.join(",");
+const commaSeparateArray = (arr) => arr?.length && arr.join(",");
+
+const md5Hash = (str) => crypto
+  .createHash("md5")
+  .update(str.trim())
+  .digest("hex");
 
 export {
-  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray,
+  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray, md5Hash,
 };
