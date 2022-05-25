@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/amqp",
+    "version": "0.0.1",
+    "description": "Pipedream AMQP Components",
+    "main": "amqp.app.js",
+    "keywords": [
+      "pipedream",
+      "amqp"
+    ],
+    "homepage": "https://pipedream.com/apps/amqp",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "publishConfig": {
+      "access": "public"
+    }
+  }

@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
   description: "Emit an event when a calendar is created.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     db: "$.service.db",
@@ -12,13 +12,15 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 5 * 60,
+        intervalSeconds: 15 * 60,
       },
     },
   },
   hooks: {
     async activate() {
+      // get list of calendars
       const { items: calendars = [] } = await this.googleCalendar.listCalendars();
+      this.emitNewCalendars(calendars);
       const calendarIds = calendars.map((item) => item.id);
       this.setCalendarIds(calendarIds);
     },
@@ -33,26 +35,34 @@ export default {
     getCalendarIds() {
       return this.db.get("calendarIds") || [];
     },
+    generateMeta(calendar) {
+      const {
+        summary,
+        id,
+      } = calendar;
+      return {
+        summary,
+        id,
+        ts: Date.now(),
+      };
+    },
+    emitNewCalendars(calendars) {
+      const previousCalendarIds = this.getCalendarIds();
+
+      for (const calendar of calendars) {
+        if (!previousCalendarIds.includes(calendar.id)) {
+          const meta = this.generateMeta(calendar);
+          this.$emit(calendar, meta);
+        }
+      }
+    },
   },
   async run() {
-    const previousCalendarIds = this.getCalendarIds();
-
     const { items: calendars = [] } = await this.googleCalendar.listCalendars();
-    const currentCalendarIds = [];
 
-    for (const calendar of calendars) {
-      currentCalendarIds.push(calendar.id);
-      if (!previousCalendarIds.includes(calendar.id)) {
-        const {
-          summary,
-          id,
-        } = calendar;
-        this.$emit(calendar, {
-          summary,
-          id,
-        });
-      }
-    }
-    this.setCalendarIds(currentCalendarIds);
+    this.emitNewCalendars(calendars);
+
+    const calendarIds = calendars.map((item) => item.id);
+    this.setCalendarIds(calendarIds);
   },
 };
