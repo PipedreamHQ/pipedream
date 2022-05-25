@@ -289,6 +289,9 @@ export default {
 
       const keys = Object.keys(data);
       for (let i = 0; i < keys.length; i++) {
+        if (typeof data[keys[i]] !== "string") {
+          continue;
+        }
         if (parseBooleans && this.isBooleanString(data[keys[i]])) {
           data[keys[i]] = this.parseBoolean(data[keys[i]]);
           continue;
