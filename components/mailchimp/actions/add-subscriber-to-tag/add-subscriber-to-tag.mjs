@@ -13,14 +13,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      label: "List ID",
-      type: "string",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      label: "Subscriber hash",
-      type: "string",
-      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     tags: {
       type: "string[]",
@@ -38,10 +45,14 @@ export default {
     const payload = removeNullEntries({
       listId: this.listId,
       subscriberHash: this.subscriberHash,
-      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
+      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags", {
+        status: [
+          "active",
+          "inactive",
+        ],
+      }),
     });
-    const response = await this.mailchimp.addRemoveListMemberTags($, payload);
-    response && $.export("$summary", "Action successful");
-    return response;
+    await this.mailchimp.addRemoveListMemberTags($, payload);
+    $.export("$summary", "Action successful");
   },
 };

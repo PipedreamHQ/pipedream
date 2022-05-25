@@ -9,14 +9,23 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     segmentId: {
-      type: "string",
+      propDefinition: [
+        mailchimp,
+        "segmentId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
       label: "Segment ID",
-      description: "The unique ID for the segment.",
+      description: "The unique ID of the segment",
     },
     emailAddress: {
       type: "string",
@@ -31,7 +40,7 @@ export default {
       listId: this.listId,
     };
     const response = await this.mailchimp.addSegmentMember($, payload);
-    response && $.export("$summary", "Segment member added");
+    response && $.export("$summary", "Segment member added successfully");
     return response;
   },
 };

@@ -9,9 +9,10 @@ export default {
   props: {
     mailchimp,
     campaignId: {
-      label: "Campaign ID",
-      type: "string",
-      description: "The unique ID for the campaign.",
+      propDefinition: [
+        mailchimp,
+        "campaignId",
+      ],
     },
   },
   async run({ $ }) {

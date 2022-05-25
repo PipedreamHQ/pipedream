@@ -41,7 +41,7 @@ const emptyStrToUndefined = (value) => {
     : true;
 };
 
-const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
+const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues = null) => {
   const updatedArray = [];
   const errors = [];
   if (objectArray?.length) {
@@ -50,9 +50,15 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
         if (emptyStrToUndefined(objectArray[i])) {
           const obj = JSON.parse(objectArray[i]);
           Object.keys(obj).forEach((key) => {
+            const value = obj[key];
             if (!ALLOWED_KEYS.includes(key)) {
               errors.push(
-                `${fieldName}[${i}] error: ${key} is not present or allowed in object`,
+                `${fieldName}[${i}] error: ${key} is not present or allowed in object. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
+              );
+            }
+            if (allowedValues[key] && !allowedValues[key].includes(value)) {
+              errors.push(
+                `${fieldName}[${i}] error: value ${value} is not present or allowed in key ${key}.`,
               );
             }
           });
@@ -67,12 +73,14 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
   }
   if (errors.length) {
     throw new ConfigurationError(
-      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
+      errors.join(","),
     );
   }
   return updatedArray;
 };
 
+const commaSeparateArray = (arr) =>  arr?.length && arr.join(",");
+
 export {
-  removeNullEntries, formatArrayStrings, validateObject,
+  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray,
 };

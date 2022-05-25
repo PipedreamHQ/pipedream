@@ -11,14 +11,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      label: "List ID",
-      type: "string",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      label: "Subscriber hash",
-      type: "string",
-      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     skipMergeValidation: {
       label: "Skip merge validation",

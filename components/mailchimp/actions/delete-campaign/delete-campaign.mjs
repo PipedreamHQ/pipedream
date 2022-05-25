@@ -9,15 +9,14 @@ export default {
   props: {
     mailchimp,
     campaignId: {
-      type: "string",
-      label: "Campaign ID",
-      description: "The unique ID for the campaign",
+      propDefinition: [
+        mailchimp,
+        "campaignId",
+      ],
     },
   },
   async run({ $ }) {
-    const { campaignId } = this;
-    const response = await this.mailchimp.deleteCampaign($, campaignId);
-    response && $.export("$summary", "Campaign deleted");
-    return response;
+    await this.mailchimp.deleteCampaign($, this.campaignId);
+    $.export("$summary", "Campaign deleted");
   },
 };

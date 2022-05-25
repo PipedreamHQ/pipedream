@@ -1,3 +1,4 @@
+import { commaSeparateArray } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -38,8 +39,8 @@ export default {
     const payload = {
       list_id: this.listId,
       query: this.query,
-      exclude_fields: this.excludeFields,
-      fields: this.this.fields,
+      exclude_fields: commaSeparateArray(this.excludeFields),
+      fields: commaSeparateArray(this.fields),
     };
 
     return await this.mailchimp.searchMembers($, payload);

@@ -1,5 +1,7 @@
 import constants from "../../common/constants.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  commaSeparateArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -70,8 +72,8 @@ export default {
   },
   async run({ $ }) {
     const payload = removeNullEntries({
-      fields: this.fields.join(","),
-      exclude_fields: this.excludeFields.join(","),
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
       count: this.count,
       offset: 0,
       before_date_created: this.beforeDateCreated,
@@ -85,6 +87,7 @@ export default {
       include_total_contacts: this.includeTotalContacts,
     });
     const response = await this.mailchimp.searchLists($, payload);
+    response?.total_items && $.export("$summary", "List found");
     return response;
   },
 };

@@ -1,4 +1,6 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  commaSeparateArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -10,9 +12,12 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     fields: {
       propDefinition: [
@@ -36,8 +41,8 @@ export default {
   async run({ $ }) {
     const payload = removeNullEntries({
       listId: this.listId,
-      fields: this.fields.join(","),
-      exclude_fields: this.excludeFields.join(","),
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
       include_total_contacts: this.includeTotalContacts,
     });
     const response = await this.mailchimp.getList($, payload);

@@ -1,4 +1,6 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  commaSeparateArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -28,18 +30,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      fields,
-      excludeFields,
-      query,
-    } = this;
     const payload = removeNullEntries({
-      fields: fields.join(","),
-      exclude_fields: excludeFields.join(","),
-      query,
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
+      query: this.query,
     });
     const response = await this.mailchimp.searchCampaign($, payload);
-    response?.results?.length && $.export("$summary", "Campaign found");
+    console.log(response);
+    response?.total_items && $.export("$summary", "Campaign found");
     return response;
   },
 };

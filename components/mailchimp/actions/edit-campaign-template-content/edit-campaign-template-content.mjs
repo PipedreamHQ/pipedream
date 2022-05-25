@@ -13,9 +13,10 @@ export default {
   props: {
     mailchimp,
     campaignId: {
-      type: "string",
-      label: "Campaign ID",
-      description: "The unique ID for the campaign",
+      propDefinition: [
+        mailchimp,
+        "campaignId",
+      ],
     },
     archiveType: {
       type: "string",

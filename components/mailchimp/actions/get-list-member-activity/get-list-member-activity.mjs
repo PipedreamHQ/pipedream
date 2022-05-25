@@ -1,4 +1,5 @@
 import {
+  commaSeparateArray,
   removeNullEntries, validateObject,
 } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
@@ -12,9 +13,12 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
       type: "string",
@@ -36,15 +40,15 @@ export default {
     action: {
       type: "object",
       label: "Action",
-      description: "A comma seperated list of actions to return. Possible values: abuse, bounce, click, open, sent, unsub, or ecomm.",
+      description: "A comma separated list of actions to return. Possible values: abuse, bounce, click, open, sent, unsub, or ecomm.",
       optional: true,
     },
   },
   async run({ $ }) {
     const payload = removeNullEntries({
       listId: this.listId,
-      fields: this.fields.join(","),
-      exclude_fields: this.excludeFields.join(","),
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
       action: validateObject(this.action),
       subscriberHash: this.subscriberHash,
     });

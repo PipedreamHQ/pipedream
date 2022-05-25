@@ -13,19 +13,26 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      type: "string",
-      label: "Subscriber hash",
-      description: "The MD5 hash of the lowercase version of the list member's email address. This endpoint also accepts a list member's email address or contact_id.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     tags: {
       type: "string[]",
       label: "Tags",
-      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active") properties allowed.
+      description: `Stringified object list of tags assigned to the list member.. name, or status (Possible status values: "inactive" or "active") properties allowed.
         Example:
         \`{
             "name":"",
@@ -40,7 +47,7 @@ export default {
       tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
     const response = await this.mailchimp.addRemoveListMemberTags($, payload);
-    response && $.export("$summary", "Action successful");
+    response && $.export("$summary", "Successful");
     return response;
   },
 };

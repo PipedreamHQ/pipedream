@@ -9,14 +9,16 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
   },
   async run({ $ }) {
-    const response = await this.mailchimp.deleteList($, this.listId);
-    response && $.export("$summary", "List deleted successfully");
-    return response;
+    await this.mailchimp.deleteList($, this.listId);
+    $.export("$summary", "List deleted successfully");
   },
 };

@@ -9,19 +9,30 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     segmentId: {
-      type: "string",
-      label: "Segment ID",
-      description: "The unique ID for the segment.",
+      propDefinition: [
+        mailchimp,
+        "segmentId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     subscriberHash: {
-      type: "string",
-      label: "Subscriber hash",
-      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
@@ -31,7 +42,7 @@ export default {
       listId: this.listId,
     };
     const response = await this.mailchimp.removeSegmentMember($, payload);
-    response && $.export("$summary", "Segment member removed");
+    response && $.export("$summary", "Segment member removed successfully");
     return response;
   },
 };

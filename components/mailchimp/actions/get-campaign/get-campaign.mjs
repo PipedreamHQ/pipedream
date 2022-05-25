@@ -1,4 +1,6 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  removeNullEntries, commaSeparateArray,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -10,9 +12,10 @@ export default {
   props: {
     mailchimp,
     campaignId: {
-      type: "string",
-      label: "Campaign ID",
-      description: "The unique ID for the campaign",
+      propDefinition: [
+        mailchimp,
+        "campaignId",
+      ],
     },
     fields: {
       propDefinition: [
@@ -34,8 +37,8 @@ export default {
       campaignId,
     } = this;
     const payload = removeNullEntries({
-      fields: fields.join(","),
-      exclude_fields: excludeFields.join(","),
+      fields: commaSeparateArray(fields),
+      exclude_fields: commaSeparateArray(excludeFields),
       campaignId,
     });
     const response = await this.mailchimp.getCampaign($, payload);

@@ -11,18 +11,27 @@ export default {
   props: {
     mailchimp,
     campaignId: {
-      type: "string",
-      label: "Campaign ID",
-      description: "The unique ID for the campaign",
+      propDefinition: [
+        mailchimp,
+        "campaignId",
+      ],
     },
     listId: {
-      type: "string",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
       label: "List Id",
-      description: "The unique list ID.",
-      optional: true,
+      description: "The unique ID of the list",
     },
     savedSegmentId: {
-      type: "string",
+      propDefinition: [
+        mailchimp,
+        "segmentId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
       label: "Saved segment ID",
       description: "The ID for an existing saved segment.",
       optional: true,
@@ -222,7 +231,7 @@ export default {
       recipients: {
         list_id: this.listId,
         segment_ops: {
-          saved_segment_id: this.savedSegmentId && Number(this.savedSegmentId),
+          saved_segment_id: this.savedSegmentId,
           prebuilt_segment_id: this.prebuiltSegmentId,
           match: this.segmentMatch,
           conditions: this.segmentConditions,

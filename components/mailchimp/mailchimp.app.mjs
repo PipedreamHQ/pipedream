@@ -133,6 +133,29 @@ export default {
       default: 10,
       description: "The number of records to return.",
     },
+    subscriberHash: {
+      type: "string",
+      label: "Subscriber Hash",
+      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      useQuery: true,
+      async options(opts) {
+        const count = constants.PAGE_SIZE;
+        const offset = count * opts.page;
+        const config = {
+          count,
+          offset,
+        };
+        const result = await this.getAllMembers(
+          opts.listId,
+          config,
+        );
+
+        return result.members.map((member) => ({
+          label: `${member.full_name}`,
+          value: member.id,
+        }));
+      },
+    },
   },
   methods: {
     _auths() {
@@ -217,7 +240,7 @@ export default {
               ${JSON.stringify(err.response)}
             `);
           }
-          console.warn(`Temporary error: ${err.message}`);
+
           throw err;
         }
       }, retryOpts);
@@ -396,6 +419,11 @@ export default {
       const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.listSegments(listId, config));
+    },
+    async getAllMembers(listId, config) {
+      const mailchimp = this.api();
+      return await this._withRetries(() =>
+        mailchimp.lists.getListMembersInfo(listId, config));
     },
     /**
      * Gets a list with information about Facebook ads (outreach).

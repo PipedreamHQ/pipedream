@@ -1,3 +1,4 @@
+import { commaSeparateArray } from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -9,14 +10,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     segmentId: {
-      type: "string",
-      label: "Segment ID",
-      description: "The unique ID for the segment.",
+      propDefinition: [
+        mailchimp,
+        "segmentId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     fields: {
       propDefinition: [
@@ -33,21 +41,22 @@ export default {
     count: {
       propDefinition: [
         mailchimp,
-        "excludeFields",
+        "count",
       ],
     },
   },
   async run({ $ }) {
     const payload = {
-      fields: this.fields.join(","),
-      exclude_fields: this.excludeFields.join(","),
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
       count: this.count,
       offset: 0,
       segmentId: this.segmentId,
       listId: this.listId,
     };
     const response = await this.mailchimp.listSegmentMembers($, payload);
-    response && $.export("$summary", "List segment members found");
+    // response && $.export("$summary", "List segment members found");
+    console.log(response);
     return response;
   },
 };

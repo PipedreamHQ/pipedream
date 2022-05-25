@@ -9,14 +9,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      label: "Subscriber Hash",
-      type: "string",
-      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     note: {
       label: "Note",
@@ -28,8 +35,9 @@ export default {
     const payload = {
       listId: this.listId,
       subscriberHash: this.subscriberHash,
+      note: this.note,
     };
-
+    console.log("payload", payload);
     const response = await this.mailchimp.addNoteToListMember($, payload);
     response && $.export("$summary", "Note added successfully");
     return response;

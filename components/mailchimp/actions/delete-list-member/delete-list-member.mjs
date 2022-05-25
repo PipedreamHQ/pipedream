@@ -9,14 +9,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      type: "string",
-      label: "Subscriber hash",
-      description: "The MD5 hash of the lowercase version of the list member's email address. This endpoint also accepts a list member's email address or contact_id.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
@@ -24,8 +31,7 @@ export default {
       listId: this.listId,
       subscriberHash: this.subscriberHash,
     };
-    const response = await this.mailchimp.deleteListMember($, payload);
-    response && $.export("$summary", "List member deleted");
-    return response;
+    await this.mailchimp.deleteListMember($, payload);
+    $.export("$summary", "List member deleted");
   },
 };

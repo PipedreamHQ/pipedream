@@ -1,4 +1,6 @@
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  commaSeparateArray, removeNullEntries,
+} from "../../common/utils.mjs";
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
@@ -10,14 +12,21 @@ export default {
   props: {
     mailchimp,
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The unique ID for the list.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     subscriberHash: {
-      type: "string",
-      label: "Subscriber hash",
-      description: "The MD5 hash of the lowercase version of the list member's email address. This endpoint also accepts a list member's email address or contact_id.",
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     fields: {
       propDefinition: [
@@ -34,15 +43,15 @@ export default {
     count: {
       propDefinition: [
         mailchimp,
-        "excludeFields",
+        "count",
       ],
     },
   },
   async run({ $ }) {
     const payload = removeNullEntries({
       listId: this.listId,
-      fields: this.fields.join(","),
-      exclude_fields: this.excludeFields.join(","),
+      fields: commaSeparateArray(this.fields),
+      exclude_fields: commaSeparateArray(this.excludeFields),
       action: this.action,
       subscriberHash: this.subscriberHash,
     });
