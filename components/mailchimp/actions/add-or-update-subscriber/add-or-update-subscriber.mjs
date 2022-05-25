@@ -1,7 +1,5 @@
 import mailchimp from "../../mailchimp.app.mjs";
-import {
-  md5Hash, removeNullEntries,
-} from "../../common/utils.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
@@ -19,6 +17,15 @@ export default {
       ],
       label: "List Id",
       description: "The unique ID of the list",
+    },
+    subscriberHash: {
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     emailAddress: {
       label: "Email address",
@@ -77,13 +84,13 @@ export default {
     },
     latitude: {
       label: "Latitude",
-      type: "integer",
+      type: "string",
       description: "The location latitude.",
       optional: true,
     },
     longitude: {
       label: "Longitude",
-      type: "integer",
+      type: "string",
       description: "The location longitude.",
       optional: true,
     },
@@ -128,7 +135,7 @@ export default {
 
     const payload = removeNullEntries({
       listId: this.listId,
-      subscriberHash: md5Hash(this.emailAddress),
+      subscriberHash: this.subscriberHash,
       data: {
         email_address: this.emailAddress,
         status_if_new: this.statusIfNew,
@@ -139,8 +146,8 @@ export default {
         language: this.language,
         vip: this.vip,
         location: {
-          latitude: this.latitude,
-          longitude: this.longitude,
+          latitude: this.latitude && Number(this.latitude),
+          longitude: this.longitude && Number(this.longitude),
         },
         marketing_permissions: [
           {
@@ -157,7 +164,6 @@ export default {
         skip_merge_validation: this.skipMergeValidation,
       },
     });
-
     const response = await this.mailchimp.addOrUpdateListMember($, payload);
     response && $.export("$summary", "Successful");
     return response;

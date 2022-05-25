@@ -83,10 +83,8 @@ export default {
       },
       email_type_option: this.emailTypeOption,
     });
-    console.log("payload", payload);
     const response = await this.mailchimp.createList($, payload);
-    console.log(response);
-    // response && $.export("$summary", "List created successfully");
+    response && $.export("$summary", "List created successfully");
     return response;
   },
 };

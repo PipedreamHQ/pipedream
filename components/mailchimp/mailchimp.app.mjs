@@ -135,7 +135,7 @@ export default {
     },
     subscriberHash: {
       type: "string",
-      label: "Subscriber Hash",
+      label: "Subscriber",
       description: "The MD5 hash of the lowercase version of the list member's email address.",
       useQuery: true,
       async options(opts) {

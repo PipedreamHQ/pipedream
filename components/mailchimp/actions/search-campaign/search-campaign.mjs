@@ -36,7 +36,6 @@ export default {
       query: this.query,
     });
     const response = await this.mailchimp.searchCampaign($, payload);
-    console.log(response);
     response?.total_items && $.export("$summary", "Campaign found");
     return response;
   },

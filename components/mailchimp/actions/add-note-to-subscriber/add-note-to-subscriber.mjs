@@ -37,7 +37,6 @@ export default {
       subscriberHash: this.subscriberHash,
       note: this.note,
     };
-    console.log("payload", payload);
     const response = await this.mailchimp.addNoteToListMember($, payload);
     response && $.export("$summary", "Note added successfully");
     return response;
