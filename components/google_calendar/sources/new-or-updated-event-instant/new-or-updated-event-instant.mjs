@@ -5,21 +5,20 @@ export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New or Updated Event (Instant)",
-  description:
-    "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.1",
+  description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     googleCalendar,
     db: "$.service.db",
     calendarIds: {
-      type: "string[]",
-      label: "Calendars",
-      description: "Select one or more calendars to watch",
       propDefinition: [
         googleCalendar,
         "calendarId",
       ],
+      type: "string[]",
+      label: "Calendars",
+      description: "Select one or more calendars to watch",
     },
     newOnly: {
       label: "New events only?",
@@ -31,8 +30,7 @@ export default {
     http: "$.interface.http",
     timer: {
       label: "Push notification renewal schedule",
-      description:
-        "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+      description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
         intervalSeconds: 60 * 60 * 23,
@@ -167,37 +165,66 @@ export default {
         }
       }
     },
+    getSoonestExpirationDate() {
+      let min;
+      for (const calendarId of this.calendarIds) {
+        const expiration = parseInt(this.db.get(`${calendarId}.expiration`));
+        if (!min || expiration < min) {
+          min = expiration;
+        }
+      }
+      return new Date(min);
+    },
+    getChannelIds() {
+      const channelIds = [];
+      for (const calendarId of this.calendarIds) {
+        const channelId = this.db.get(`${calendarId}.channelId`);
+        channelIds.push(channelId);
+      }
+      return channelIds;
+    },
   },
   async run(event) {
-    // Verify channel ID
-    const channelIds = [];
-    for (const calendarId of this.calendarIds) {
-      const channelId = this.getChannelId(calendarId);
-      channelIds.push(channelId);
-    }
-    const incomingChannelId = event?.headers?.["x-goog-channel-id"];
-    if (!channelIds.includes(incomingChannelId)) {
-      console.log(
-        `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
-      );
-      return;
-    }
+    // refresh watch
+    if (event.interval_seconds) {
+      // get time
+      const now = new Date();
+      const intervalMs = event.interval_seconds * 1000;
+      // get expiration
+      const expireDate = this.getSoonestExpirationDate();
 
-    // Check that resource state === exists
-    const state = event?.headers?.["x-goog-resource-state"];
-    switch (state) {
-    case "exists":
-      // there's something to emit, so keep going
-      break;
-    case "not_exists":
-      console.log("Resource does not exist. Exiting.");
-      return;
-    case "sync":
-      console.log("New channel created");
-      return;
-    default:
-      console.log(`Unknown state: ${state}`);
-      return;
+      // if now + interval > expiration, refresh watch
+      if (now.getTime() + intervalMs > expireDate.getTime()) {
+        await this.makeWatchRequest();
+        await this.stopWatchRequest();
+      }
+    } else {
+      // Verify channel ID
+      const channelIds = this.getChannelIds();
+      const incomingChannelId = event?.headers?.["x-goog-channel-id"];
+      if (!channelIds.includes(incomingChannelId)) {
+        console.log(
+          `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
+        );
+        return;
+      }
+
+      // Check that resource state === exists
+      const state = event?.headers?.["x-goog-resource-state"];
+      switch (state) {
+      case "exists":
+        // there's something to emit, so keep going
+        break;
+      case "not_exists":
+        console.log("Resource does not exist. Exiting.");
+        return;
+      case "sync":
+        console.log("New channel created");
+        return;
+      default:
+        console.log(`Unknown state: ${state}`);
+        return;
+      }
     }
 
     // Fetch and emit events
