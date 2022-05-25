@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "kanbanize-list-all-tasks",
   name: "List Tasks",
-  description: "Get All Tasks. [See the docs here](https://kanbanize.com/api#get_all_tasks)",
+  description: "Get All Tasks. [See the docs here](https://kanbanize.com/api)",
   version: "0.0.17",
   type: "action",
   props: {
@@ -38,18 +38,14 @@ export default {
       label: "Text Format",
       description: "If the plain text format is used, the HTML tags are stripped from the task description.",
       type: "string",
-      async options() {
-        return constants.textFormatOpts;
-      },
+      options: constants.textFormatOpts,
     },
     section: {
       label: "Section",
       description: "Get card from a specific board area.",
       type: "string",
       optional: true,
-      async options() {
-        return constants.sectionOpts;
-      },
+      options: constants.sectionOpts,
     },
   },
   async additionalProps() {

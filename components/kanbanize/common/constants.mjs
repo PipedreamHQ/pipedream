@@ -10,4 +10,9 @@ export default {
     "plain",
     "html",
   ],
+  priorityOpts: [
+    "low",
+    "average",
+    "high",
+  ],
 };

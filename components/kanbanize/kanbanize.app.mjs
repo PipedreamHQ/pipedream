@@ -63,11 +63,59 @@ export default {
         value: lane.lcname,
       }));
     },
+    async getUsernames(boardId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/get_board_settings",
+        data: {
+          boardid: boardId,
+        },
+      }));
+      return response.usernames;
+    },
+    async getTemplates(boardId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/get_board_settings",
+        data: {
+          boardid: boardId,
+        },
+      }));
+      return response.templates;
+    },
+    async getTypes(boardId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/get_board_settings",
+        data: {
+          boardid: boardId,
+        },
+      }));
+      return response.types;
+    },
+    async getCustomFields(boardId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/get_board_settings",
+        data: {
+          boardid: boardId,
+        },
+      }));
+      return response.customFields;
+    },
     async getAllTasks(searchParams) {
       const response = await axios(this, this._getRequestParams({
         method: "POST",
         path: "/get_all_tasks",
         data: searchParams,
+      }));
+      return response;
+    },
+    async createNewTask(taskParam) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/create_new_task",
+        data: taskParam,
       }));
       return response;
     },
