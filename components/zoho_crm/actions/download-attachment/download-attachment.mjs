@@ -6,13 +6,16 @@ export default {
   key: "zoho_crm-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment file from Zoho CRM, saves it in the temporary file system and exports the file path for use in a future step.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
+    // eslint-disable-next-line pipedream/props-label
+    // eslint-disable-next-line pipedream/props-description
     zoho_crm: {
       type: "app",
       app: "zoho_crm",
     },
+    // eslint-disable-next-line pipedream/props-description
     module: {
       type: "string",
       label: "Module",
@@ -38,10 +41,12 @@ export default {
         "Activities",
       ],
     },
+    // eslint-disable-next-line pipedream/props-description
     record_id: {
       type: "string",
       label: "Record ID",
     },
+    // eslint-disable-next-line pipedream/props-description
     attachment_id: {
       type: "string",
       label: "Attachment ID",
