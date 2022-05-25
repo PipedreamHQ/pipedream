@@ -5,7 +5,7 @@ export default {
   key: "frontapp-receive-custom-messages",
   name: "Receive Custom Messages",
   description: "Receive a custom message in Front. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-incoming-messages).",
-  version: "0.0.1",
+  version: "0.0.37",
   type: "action",
   props: {
     frontApp,
@@ -30,6 +30,7 @@ export default {
         frontApp,
         "contactId",
       ],
+      optional: true,
     },
     senderName: {
       type: "string",
@@ -43,16 +44,17 @@ export default {
       description: "Subject of the message",
       optional: true,
     },
-    body: {
-      type: "string",
-      label: "Body",
-      description: "Body of the message",
-    },
     bodyFormat: {
       propDefinition: [
         frontApp,
         "bodyFormat",
       ],
+      optional: true,
+    },
+    body: {
+      type: "string",
+      label: "Body",
+      description: "Body of the message",
     },
     threadRef: {
       propDefinition: [
@@ -88,26 +90,36 @@ export default {
 
     const attachments = utils.parse(this.attachments);
 
-    const response = await this.frontApp.receiveCustomMessages({
-      channelId,
-      data: {
-        sender: {
-          contact_id: contactId,
-          name: senderName,
-          handle,
-        },
-        subject,
+    const sender = utils.emptyObjectToUndefined({
+      contact_id: contactId,
+      name: senderName,
+      handle,
+    });
+
+    const metadata = utils.emptyObjectToUndefined({
+      thread_ref: threadRef,
+      headers,
+    });
+
+    const data = utils.reduceProperties({
+      initialProps: {
         body,
+        sender,
+      },
+      additionalProps: {
         body_format: bodyFormat,
-        metadata: {
-          thread_ref: threadRef,
-          headers,
-        },
+        metadata,
         attachments,
+        subject,
       },
     });
 
-    $.export("$summary", `Successfully received message with ID ${response.id}`);
+    const response = await this.frontApp.receiveCustomMessages({
+      channelId,
+      data,
+    });
+
+    $.export("$summary", `Successfully received message with ID ${response.message_uid}`);
 
     return response;
   },

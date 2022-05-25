@@ -1,7 +1,5 @@
-import api from "api";
 import constants from "./common/constants.mjs";
-
-const frontapp = api("@front/v1.0.0#dfe7jl3d7mp2h");
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,7 +9,6 @@ export default {
       type: "string",
       label: "Body Format",
       description: "Format of the message body. Ignored if the message type is not email. Can be one of: 'html', 'markdown'. (Default: 'markdown')",
-      optional: true,
       options: [
         "html",
         "markdown",
@@ -82,7 +79,6 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "ID of the contact in Front corresponding to the sender",
-      optional: true,
       async options({
         prevContext, appendNull,
       }) {
@@ -154,20 +150,31 @@ export default {
     },
   },
   methods: {
-    async sdk({
-      method = constants.METHOD.GET, path, data, params,
+    getUrl(path, url) {
+      return url || `${constants.BASE_URL}${path}`;
+    },
+    getHeaders(headers) {
+      return {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        ...headers,
+      };
+    },
+    async makeRequest({
+      $ = this, path, url, ...args
     } = {}) {
-      const args = [
-        path,
-        data,
-        params,
-      ].filter((arg) => arg);
+      const config = {
+        headers: this.getHeaders(args.headers),
+        url: this.getUrl(path, url),
+        ...args,
+      };
+      console.log("config", config);
 
-      frontapp.auth(this.$auth.oauth_access_token);
-      return frontapp[method](...args);
+      return axios($, config);
     },
     async importMessage(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.IMPORT_INBOX_MESSAGE,
         ...args,
       });
@@ -175,7 +182,7 @@ export default {
     async sendMessage({
       channelId, ...args
     } = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.POST,
         path: `/channels/${channelId}/messages`,
         ...args,
@@ -184,7 +191,7 @@ export default {
     async updateConversation({
       conversationId, ...args
     } = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.PATCH,
         path: `/conversations/${conversationId}`,
         ...args,
@@ -193,48 +200,48 @@ export default {
     async receiveCustomMessages({
       channelId, ...args
     }) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.POST,
         path: `/channels/${channelId}/incoming_messages`,
         ...args,
       });
     },
     async listChannels(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.GET,
         path: "/channels",
         ...args,
       });
     },
     async listContacts(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.GET,
         path: "/contacts",
         ...args,
       });
     },
     async listConversations(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.LIST_CONVERSATIONS,
         ...args,
       });
     },
     async listInboxes(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.GET,
         path: "/inboxes",
         ...args,
       });
     },
     async listAccounts(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.GET,
         path: "/accounts",
         ...args,
       });
     },
     async listTags(args = {}) {
-      return this.sdk({
+      return this.makeRequest({
         method: constants.METHOD.GET,
         path: "/tags",
         ...args,
