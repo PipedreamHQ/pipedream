@@ -37,7 +37,7 @@ export default {
     permissionReminder: {
       type: "string",
       label: "Permission reminder",
-      description: "The [permission reminder](https://mailchimp.com/help/edit-the-permission-reminder/) for the list.",
+      description: "The [permission reminder](https://mailchimp.com/help/edit-the-permission-reminder/) for the list. e.g You signed up for updates on our website",
     },
     campaignDefaultsFromName: {
       type: "string",
@@ -62,7 +62,9 @@ export default {
     emailTypeOption: {
       type: "boolean",
       label: "Email type option",
-      description: "Whether the list supports [multiple formats for emails](https://mailchimp.com/help/change-audience-name-defaults/).",
+      description: `Whether the list supports [multiple formats for emails](https://mailchimp.com/help/change-audience-name-defaults/).
+        When set to true, subscribers can choose whether they want to receive HTML or plain-text emails. 
+        When set to false, subscribers will receive HTML emails, with a plain-text alternative backup.`,
     },
   },
   async run({ $ }) {
