@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import languages from "./common/languages.mjs";
+import timezones from "./common/timezones.mjs";
 
 export default {
   type: "app",
@@ -14,11 +16,13 @@ export default {
           data: customers,
           meta,
         } = await this.listCustomers({
-          cursor: prevContext.nextCursor,
+          params: {
+            cursor: prevContext.nextCursor,
+          },
         });
         return {
           options: customers.map((customer) => ({
-            label: customer.email,
+            label: customer.name ?? customer.email,
             value: customer.id,
           })),
           context: {
@@ -48,6 +52,32 @@ export default {
       default: "help-center",
       options: constants.vias,
     },
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "ID of the customer in a foreign system. This field is not used by Gorgias",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "The customer's preferred language (format: ISO_639-1)",
+      optional: true,
+      options: languages,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The customer's preferred timezone (format: IANA timezone name)",
+      optional: true,
+      options: timezones,
+    },
+    data: {
+      type: "object",
+      label: "Customer Data",
+      description: "Object containing custom data associated with the customer that will be shown in the helpdesk along with integration data",
+      optional: true,
+    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -63,11 +93,11 @@ export default {
       };
     },
     _defaultConfig({
-      path, method = "get", params = {}, data = null,
+      path, method = "get", params = {}, data,
     }) {
       const config = {
         auth: this._auth(),
-        url: `https://${this.$auth.domain}/api/${path}`,
+        url: `https://${this.$auth.domain}.gorgias.com/api/${path}`,
         headers: {
           "Content-type": "application/json",
         },
@@ -78,57 +108,113 @@ export default {
       return config;
     },
     async _makeRequest({
-      path, method, params, data,
+      $, path, method, params, data,
     }) {
-      const config = this._defaultConfig({
-        path,
-        method,
-        params,
-        data,
-      });
-      return axios(this, config);
+      try {
+        const config = this._defaultConfig({
+          path,
+          method,
+          params,
+          data,
+        });
+        const response = await axios($ ?? this, config);
+        return response;
+      } catch (e) {
+        const errorMsg = JSON.stringify(e.response.data);
+        throw new Error(errorMsg);
+      }
     },
-    async *paginate(fn, params = {}, cursor = undefined) {
-      let n = 0;
+    async *paginate({
+      $, fn, params = {}, cursor,
+    }) {
+      const { limit } = params;
+      let count = 0;
+
       do {
-        console.log(`run number ${++n}`);
         const {
           data,
           meta,
         } = await fn({
-          ...params,
-          cursor,
+          $,
+          params: {
+            ...params,
+            cursor,
+          },
         });
 
         for (const d of data) {
           yield d;
+
+          if (limit && ++count === limit) {
+            return count;
+          }
         }
 
         cursor = meta.next_cursor;
       } while (cursor);
     },
-    async getEvents(params) {
+    async getEvents({
+      $, params,
+    }) {
       return this._makeRequest({
-        path: "/events",
+        $,
+        path: "events",
         params,
       });
     },
-    async listCustomers(params) {
+    async createCustomer({
+      $, data,
+    }) {
       return this._makeRequest({
-        path: "/customers",
-        params,
-      });
-    },
-    async createTicket(data) {
-      return this._makeRequest({
-        path: "/tickets",
+        $,
+        path: "customers",
         method: "post",
         data,
       });
     },
-    async listTickets(params) {
+    async updateCustomer({
+      $, id, data,
+    }) {
       return this._makeRequest({
-        path: "/tickets",
+        $,
+        path: `customers/${id}`,
+        method: "put",
+        data,
+      });
+    },
+    async retrieveCustomer({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `customers/${id}`,
+      });
+    },
+    async listCustomers({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "customers",
+        params,
+      });
+    },
+    async createTicket({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "tickets",
+        method: "post",
+        data,
+      });
+    },
+    async listTickets({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "tickets",
         params,
       });
     },
