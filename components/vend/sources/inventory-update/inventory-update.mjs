@@ -32,7 +32,7 @@ export default {
       const response = await this.vend.createWebhook({
         url: this.http.endpoint,
         active: true,
-        type: "product.update",
+        type: this.eventType,
       });
 
       this._setWebhookId(response.id);
