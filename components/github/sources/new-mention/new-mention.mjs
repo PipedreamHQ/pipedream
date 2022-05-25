@@ -14,8 +14,17 @@ export default {
     },
   },
   dedupe: "unique",
+  methods: {
+    ...common.methods,
+    _getUserLogin() {
+      return this.db.get("userLogin");
+    },
+    _setUserLogin(userLogin) {
+      this.db.set("userLogin", userLogin);
+    },
+  },
   async run() {
-    const login = this.db.get("login");
+    const login = this._getUserLogin();
 
     const mentions = await this.github.getFilteredNotifications({
       reason: "mention",

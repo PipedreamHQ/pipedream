@@ -166,22 +166,25 @@ export default {
       return response.data;
     },
     async searchIssueAndPullRequests({
-      query, paginate,
+      query, maxResults,
     }) {
-      const client = this._client();
+      let issues = [];
 
-      const data = {
-        q: query,
-        per_page: 100,
-      };
+      for await (const response of this._client().paginate.iterator(
+        "GET /search/issues",
+        {
+          q: query,
+          per_page: 100,
+        },
+      )) {
+        issues = issues.concat(response.data);
 
-      if (paginate) {
-        return await client.paginate("GET /search/issues", data);
+        if (issues.length >= maxResults) {
+          break;
+        }
       }
 
-      const response = await this._client().request("GET /search/issues", data);
-
-      return response.data.items;
+      return issues;
     },
   },
 };

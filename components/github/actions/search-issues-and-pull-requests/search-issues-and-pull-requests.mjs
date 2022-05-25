@@ -3,7 +3,7 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-search-issues-and-pull-requests",
   name: "Search Issues and Pull Requests",
-  description: "Find issues and pull requests by state and keyword.",
+  description: "Find issues and pull requests by state and keyword. [See docs here](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
   version: "0.1.0",
   type: "action",
   props: {
@@ -13,18 +13,17 @@ export default {
       description: "The query contains one or more search keywords and qualifiers",
       type: "string",
     },
-    paginate: {
-      label: "Paginate",
-      description: "By default, retrieve all matching search results across all result pages. Set to `false` to limit results to the first page.",
-      type: "boolean",
-      default: true,
-      optional: true,
+    maxResults: {
+      label: "Maximum Results",
+      description: "The maximum of resources that will be returned",
+      type: "integer",
+      default: 100,
     },
   },
   async run() {
     return this.github.searchIssueAndPullRequests({
       query: this.query,
-      paginate: this.paginate,
+      maxResults: this.maxResults,
     });
   },
 };
