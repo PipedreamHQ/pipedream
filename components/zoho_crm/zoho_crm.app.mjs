@@ -73,7 +73,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      return "https://www.zohoapis.com/crm/v2";
+      return `${this.$auth.api_domain}/crm/v2`;
     },
     _metadataUrl() {
       const baseUrl = this._apiUrl();
