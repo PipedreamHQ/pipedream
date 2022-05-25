@@ -269,6 +269,19 @@ export default {
 
       return schema;
     },
+    parseFilter(filter) {
+      const data = this.parseStrings(filter, true, true, true);
+      const keys = Object.keys(data);
+      for (let i = 0; i < keys.length; i++) {
+        if (data[keys[i]] === "null") {
+          data[keys[i]] = null;
+        }
+        if (this.isObject(data[keys[i]])) {
+          data[keys[i]] = JSON.parse(data[keys[i]]);
+        }
+      }
+      return data;
+    },
     parseStrings(dataParam, parseNumbers, parseBooleans, parseDates) {
       const data = {
         ...dataParam,
@@ -323,6 +336,14 @@ export default {
     },
     isDate(str) {
       return !isNaN(new Date(str).getDate());
+    },
+    isObject(str) {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
     },
   },
 };
