@@ -8,6 +8,7 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
+    shopify,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -15,11 +16,9 @@ export default {
         intervalSeconds: 60 * 15,
       },
     },
-    shopify,
   },
   async run() {
-    const sinceId = this.db.get("since_id") || null;
-    let results = await this.shopify.getDraftOrders("any", true, sinceId);
+    let results = await this.shopify.getDraftOrders("any");
 
     for (const order of results) {
       this.$emit(order, {

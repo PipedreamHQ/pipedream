@@ -646,11 +646,10 @@ export default {
       params.verb = verb;
       return this.getObjects("event", params);
     },
-    async getDraftOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
-      const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
-      params.status = status;
-      params.fulfillment_status = fulfillmentStatus;
-      return this.getObjects("draftOrder", params);
+    async getDraftOrders(fulfillmentStatus) {
+      return this.getObjects("draftOrder", {
+        fulfillment_status: fulfillmentStatus,
+      });
     },
     async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
       const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
