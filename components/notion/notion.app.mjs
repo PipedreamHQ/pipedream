@@ -58,6 +58,19 @@ export default {
       options: Object.keys(constants.BLOCK_TYPES),
       reloadProps: true,
     },
+    userIds: {
+      type: "string[]",
+      label: "Users",
+      description: "A list of users",
+      async options() {
+        const users = await this.getUsers();
+
+        return users.map((user) => ({
+          label: user.name,
+          value: user.id,
+        }));
+      },
+    },
   },
   methods: {
     _getNotionClient() {
@@ -217,6 +230,11 @@ export default {
         ...params,
         block_id: blockId,
       });
+    },
+    async getUsers() {
+      const response = await this._getNotionClient().users.list();
+
+      return response.results;
     },
   },
 };

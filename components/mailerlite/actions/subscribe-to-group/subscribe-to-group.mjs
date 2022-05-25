@@ -1,41 +1,33 @@
-// legacy_hash_id: a_VpiVXP
-import { axios } from "@pipedream/platform";
+import mailerlite from "../../mailerlite.app.mjs";
 
 export default {
   key: "mailerlite-subscribe-to-group",
   name: "Subscribe to MailerLite Group",
-  description: "Subscribe to the mailer lite group with given group, email, anem",
-  version: "0.2.1",
+  description: "Add a subscriber to a group. [See the docs here](https://developers.mailerlite.com/reference/add-single-subscriber)",
+  version: "0.3.0",
   type: "action",
   props: {
-    mailerlite: {
-      type: "app",
-      app: "mailerlite",
-    },
-    groupId: {
-      type: "string",
-    },
-    name: {
-      type: "string",
+    mailerlite,
+    group: {
+      propDefinition: [
+        mailerlite,
+        "group",
+      ],
     },
     email: {
-      type: "string",
+      propDefinition: [
+        mailerlite,
+        "subscriber",
+      ],
+      description: "Email of the active subscriber to add to group",
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      method: "post",
-      url: `https://api.mailerlite.com/api/v2/groups/${this.groupId}/subscribers`,
-      headers: {
-        "X-MailerLite-ApiKey": `${this.mailerlite.$auth.api_key}`,
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify({
-        "name": this.name,
-        "email": this.email,
-      }),
-    }).then((response) => {
-      return response.id;
-    });
+    const data = {
+      email: this.email,
+    };
+    const resp = await this.mailerlite.addSubscriberToGroup(data, this.group);
+    $.export("$summary", "Added subscriber to group");
+    return resp;
   },
 };
