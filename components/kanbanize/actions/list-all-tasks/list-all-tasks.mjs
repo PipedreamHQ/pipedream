@@ -10,13 +10,10 @@ export default {
   props: {
     kanbanizeApp,
     boardId: {
-      label: "Board Id",
-      description: "The ID of the board to move the task into.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
-      type: "string",
-      reloadProps: true,
-      async options() {
-        return this.kanbanizeApp.getBoardsOptions();
-      },
+      propDefinition: [
+        kanbanizeApp,
+        "boardId",
+      ],
     },
     subtasks: {
       label: "Subtasks",

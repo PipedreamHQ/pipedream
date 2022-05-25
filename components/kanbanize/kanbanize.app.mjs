@@ -1,9 +1,93 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "kanbanize",
-  propDefinitions: {},
+  propDefinitions: {
+    boardId: {
+      label: "Board Id",
+      description: "The ID of the board to move the task into.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
+      type: "string",
+      reloadProps: true,
+      async options() {
+        return this.getBoardsOptions();
+      },
+    },
+    title: {
+      label: "Title",
+      description: "Title of the task.",
+      type: "string",
+      optional: true,
+    },
+    description: {
+      label: "Description",
+      description: "Description of the task.",
+      type: "string",
+      optional: true,
+    },
+    type: {
+      label: "Type",
+      description: "The type of the task.",
+      type: "string",
+      optional: true,
+      async options(opts) {
+        if (!opts.boardId) {
+          return [];
+        }
+        return this.getTypes(opts.boardId);
+      },
+    },
+    assignee: {
+      label: "Assignee",
+      description: "Username of the assignee.",
+      type: "string",
+      optional: true,
+      async options(opts) {
+        if (!opts.boardId) {
+          return [];
+        }
+        return this.getUsernames(opts.boardId);
+      },
+    },
+    priority: {
+      label: "Priority",
+      description: "Priority of the task.",
+      type: "string",
+      optional: true,
+      options: constants.priorityOpts,
+    },
+    size: {
+      label: "Size",
+      description: "Size of the task.",
+      type: "integer",
+      optional: true,
+    },
+    extLink: {
+      label: "External Link",
+      description: "A external link in the following format: `https://domain.com/resource`",
+      type: "string",
+      optional: true,
+    },
+    deadline: {
+      label: "Deadline",
+      description: "Deadline in the format: yyyy-mm-dd (e.g. 2011-12-13).",
+      type: "string",
+      optional: true,
+    },
+    color: {
+      label: "Color",
+      description: "Any color code (e.g. #34A97B).",
+      type: "string",
+      optional: true,
+    },
+    tags: {
+      label: "Tags",
+      description: "List of tags.",
+      type: "string[]",
+      optional: true,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return `https://${this.$auth.subdomain}.kanbanize.com/index.php/api/kanbanize`;
@@ -101,7 +185,6 @@ export default {
           boardid: boardId,
         },
       }));
-      console.log(response);
       return response.map((task) => (
         {
           label: task.title,
