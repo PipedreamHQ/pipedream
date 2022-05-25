@@ -93,6 +93,22 @@ export default {
       }));
       return response.types;
     },
+    async getTasksOpts(boardId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/get_all_tasks",
+        data: {
+          boardid: boardId,
+        },
+      }));
+      console.log(response);
+      return response.map((task) => (
+        {
+          label: task.title,
+          value: task.taskid,
+        }
+      ));
+    },
     async getCustomFields(boardId) {
       const response = await axios(this, this._getRequestParams({
         method: "POST",
@@ -102,6 +118,24 @@ export default {
         },
       }));
       return response.customFields;
+    },
+    async getCustomFieldsProps(boardId) {
+      const props = {};
+      const customFields = await this.getCustomFields(boardId);
+      for (const customField of customFields) {
+        props[`cf-${customField.fieldid}`] = {
+          label: `${customField.name}`,
+          optional: !customField.mandatory,
+          description: `This is a custom field, the expected type is: \`${customField.type}\``,
+          type: customField.type === "number" ?
+            "integer" :
+            "string",
+        };
+        if (customField.possibleValues) {
+          props[`cf-${customField.fieldid}`].options = customField.possibleValues.split(",");
+        }
+      }
+      return props;
     },
     async getAllTasks(searchParams) {
       const response = await axios(this, this._getRequestParams({
@@ -115,6 +149,14 @@ export default {
       const response = await axios(this, this._getRequestParams({
         method: "POST",
         path: "/create_new_task",
+        data: taskParam,
+      }));
+      return response;
+    },
+    async editTask(taskParam) {
+      const response = await axios(this, this._getRequestParams({
+        method: "POST",
+        path: "/edit_task",
         data: taskParam,
       }));
       return response;

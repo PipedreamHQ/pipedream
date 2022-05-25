@@ -2,9 +2,9 @@ import kanbanizeApp from "../../kanbanize.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "kanbanize-create-new-task",
-  name: "Create New Task",
-  description: "Create New Task. [See the docs here](https://kanbanize.com/api)",
+  key: "kanbanize-edit-task",
+  name: "Edit Task",
+  description: "Edit Task. [See the docs here](https://kanbanize.com/api)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,6 +16,17 @@ export default {
       reloadProps: true,
       async options() {
         return this.kanbanizeApp.getBoardsOptions();
+      },
+    },
+    taskId: {
+      label: "Task Id",
+      description: "The ID of the task to edit.",
+      type: "string",
+      async options() {
+        if (!this.boardId) {
+          return [];
+        }
+        return this.kanbanizeApp.getTasksOpts(this.boardId);
       },
     },
     title: {
@@ -53,54 +64,6 @@ export default {
         }
         return this.kanbanizeApp.getUsernames(this.boardId);
       },
-    },
-    column: {
-      label: "Column",
-      description: "Get only cards from a specific column.\n\nThis field has higher priority than the section option.",
-      type: "string",
-      optional: true,
-      async options() {
-        if (!this.boardId) {
-          return [];
-        }
-        return this.kanbanizeApp.getBoardsColumns(this.boardId);
-      },
-    },
-    lane: {
-      label: "Lane",
-      description: "Only get cards from that specific lane.",
-      type: "string",
-      optional: true,
-      async options() {
-        if (!this.boardId) {
-          return [];
-        }
-        return this.kanbanizeApp.getBoardsLanes(this.boardId);
-      },
-    },
-    position: {
-      label: "Position",
-      description: "The position of the task in the new column/swimlane (zero-based).\n\nIf omitted, the task will be placed at the bottom of the column.",
-      type: "integer",
-      optional: true,
-    },
-    template: {
-      label: "Template",
-      description: "The name of the template you want to apply.\n\nIf you specify any property as part of the request, the one specified in the template will be overwritten.",
-      type: "string",
-      optional: true,
-      async options() {
-        if (!this.boardId) {
-          return [];
-        }
-        return this.kanbanizeApp.getTemplates(this.boardId);
-      },
-    },
-    exceedingReason: {
-      label: "Exceeding Reason",
-      description: "If you can exceed a limit with a reason, supply it with this parameter.\n\nApplicable only if column, lane and/or position are supplied.",
-      type: "string",
-      optional: true,
     },
     priority: {
       label: "Priority",
@@ -171,6 +134,7 @@ export default {
     const taskParam = this.removeUnusedParams({
       ...customFieldsTaskParam,
       boardid: this.boardId,
+      taskid: this.taskId,
       title: this.title,
       description: this.description,
       priority: this.priority,
@@ -178,22 +142,18 @@ export default {
       deadline: this.deadline,
       type: this.type,
       assignee: this.assignee,
-      column: this.column,
-      lane: this.lane,
-      template: this.template,
       size: this.size,
-      position: this.position,
-      exceedingreason: this.exceedingReason,
       tags: this.tags ?
         this.tags.join(" ") :
         null,
       color: this.color ?
         this.color.replace("#", "") :
         null,
-      returntaskdetails: true,
     });
-    const response = await this.kanbanizeApp.createNewTask(taskParam);
-    $.export("$summary", `Successfully created new task #${response.id}`);
+    const response = await this.kanbanizeApp.editTask(taskParam);
+    if (response === 1) {
+      $.export("$summary", `Successfully edited task #${this.taskId}`);
+    }
     return response;
   },
 };
