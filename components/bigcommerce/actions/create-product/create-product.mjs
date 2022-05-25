@@ -11,9 +11,12 @@ export default {
     ...common.PROPS,
   },
   async run({ $ }) {
-    const response = await this.bigcommerce.createProduct({
+    const {
+      bigcommerce, ...props
+    } = this;
+    const response = await bigcommerce.createProduct({
       $,
-      props: this.props,
+      props,
     });
 
     $.export("$summary", `Successfully created product ${this.name}`);

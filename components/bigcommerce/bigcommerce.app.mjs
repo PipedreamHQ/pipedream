@@ -101,6 +101,28 @@ export default {
         data: props,
       });
     },
+    async updateProduct({
+      $, props,
+    }) {
+      const {
+        productId, ...data
+      } = props;
+      return await this._makeRequest({
+        $,
+        method: "PUT",
+        path: `/catalog/products/${productId}`,
+        data,
+      });
+    },
+    async deleteProduct({
+      $, productId,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "DELETE",
+        path: `/catalog/products/${productId}`,
+      });
+    },
     async getAllTaxClasses({
       $, page = 1, limit = 2,
     }) {
