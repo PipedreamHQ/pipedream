@@ -10,10 +10,26 @@ export default {
   type: "source",
   methods: {
     ...base.methods,
-    getEventTypes() {
+    getEventType() {
+      return eventTypes.TICKET_MESSAGE_CREATED;
+    },
+    getData() {
       return {
-        types: eventTypes.TICKET_MESSAGE_CREATED,
+        messages: "{{ ticket.messages }}",
       };
     },
+  },
+  async run(event) {
+    console.log("Raw received event:");
+    console.log(event);
+    // Have to convert python dict to JS
+    const messages = event.query.messages
+      .replace(/'/g, "\"")
+      .replace(/True/g, "true")
+      .replace(/False/g, "false");
+    console.log("Extracting latest message:");
+    const message = JSON.parse(messages).pop();
+    const { created_datetime: createdAt } = message;
+    this.emitEvent(message, createdAt);
   },
 };

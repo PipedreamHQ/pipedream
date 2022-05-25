@@ -10,10 +10,20 @@ export default {
   type: "source",
   methods: {
     ...base.methods,
-    getEventTypes() {
+    getEventType() {
+      return eventTypes.TICKET_CREATED;
+    },
+    getData() {
       return {
-        types: eventTypes.TICKET_CREATED,
+        id: "{{ ticket.id }}",
       };
     },
+  },
+  async run(event) {
+    console.log("Raw received event:");
+    console.log(event);
+    const ticket = await this.retrieveTicket(event.query.id);
+    const { created_datetime: createdAt } = ticket;
+    this.emitEvent(ticket, createdAt);
   },
 };

@@ -156,6 +156,7 @@ export default {
     async createWebhook({
       url,
       eventType,
+      form,
     }) {
       return this._makeRequest({
         path: "integrations",
@@ -165,9 +166,10 @@ export default {
           type: "http",
           http: {
             method: "GET",
-            request_content_type: "application/json",
+            request_content_type: "application/x-www-form-urlencoded",
             response_content_type: "application/json",
             url,
+            form,
             triggers: {
               [eventType]: true,
             },
@@ -244,6 +246,14 @@ export default {
         $,
         path: "tickets",
         params,
+      });
+    },
+    async retrieveTicket({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `tickets/${id}`,
       });
     },
   },

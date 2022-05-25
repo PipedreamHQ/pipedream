@@ -9,6 +9,21 @@ export default {
   },
   hooks: {
     async deploy() {
+      // Retrieve historical events
+
+      // const params = {
+      //   cursor: this.getNextCursor(),
+      // };
+
+      // const {
+      //   data: events,
+      //   meta,
+      // } = await this.gorgias.getEvents({
+      //   params,
+      // });
+
+      // this.emitEvents(events);
+      // this.setNextCursor(meta.next_cursor);
       await this.createWebhook();
     },
     async activate() {
@@ -24,8 +39,11 @@ export default {
     },
   },
   methods: {
-    getEventTypes() {
-      throw new Error("getEventTypes is not implemented");
+    getEventType() {
+      throw new Error("getEventType is not implemented");
+    },
+    getData() {
+      throw new Error("getData is not implemented");
     },
     getWebhookId() {
       return this.db.get("webhookId");
@@ -45,7 +63,8 @@ export default {
       console.log("Creating webhook...");
       const { id } = await this.gorgias.createWebhook({
         url: this.http.endpoint,
-        eventType: this.getEventTypes().types,
+        eventType: this.getEventType(),
+        form: this.getData(),
       });
       this.setWebhookId(id);
       console.log(`Webhook ${id} created successfully`);
@@ -59,30 +78,21 @@ export default {
       this.setWebhookId(null);
       console.log(`Webhook ${id} deleted successfully`);
     },
-    async emitEvents(events) {
-      for (const event of events) {
-        this.$emit(event, {
-          id: event.id,
-          ts: Date.parse(event.created_datetime),
-          summary: `New ${event.type} event: ${event.id}`,
-        });
-      }
+    async retrieveTicket(id) {
+      console.log(`Received ${this.getEventType()} for ticket ${id}`);
+      console.log(`Fetching data for ticket ${id}`);
+      return this.gorgias.retrieveTicket({
+        id,
+      });
     },
-  },
-  async run() {
-    const params = {
-      cursor: this.getNextCursor(),
-      ...this.getEventTypes(),
-    };
-
-    const {
-      data: events,
-      meta,
-    } = await this.gorgias.getEvents({
-      params,
-    });
-
-    this.emitEvents(events);
-    this.setNextCursor(meta.next_cursor);
+    async emitEvent(event, ts) {
+      console.log(`Emitting event ${event.id}:`);
+      console.log(event);
+      this.$emit(event, {
+        id: event.id,
+        ts: Date.parse(ts),
+        summary: `New ${this.getEventType()}: ${event.id}`,
+      });
+    },
   },
 };
