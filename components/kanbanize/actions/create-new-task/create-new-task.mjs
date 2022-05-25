@@ -5,7 +5,7 @@ export default {
   key: "kanbanize-create-new-task",
   name: "Create New Task",
   description: "Create New Task. [See the docs here](https://kanbanize.com/api)",
-  version: "0.0.1",
+  version: "0.0.21",
   type: "action",
   props: {
     kanbanizeApp,
@@ -190,7 +190,7 @@ export default {
       color: this.color ?
         this.color.replace("#", "") :
         null,
-      returntaskdetails: true,
+      returntaskdetails: 1,
     });
     const response = await this.kanbanizeApp.createNewTask(taskParam);
     $.export("$summary", `Successfully created new task #${response.id}`);
