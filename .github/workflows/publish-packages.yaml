@@ -21,6 +21,8 @@ jobs:
         run: npm ci
       - name: pnpm install
         run: pnpm install -r
+      - name: Compile TypeScript
+        run: npm run build
       # See https://pnpm.io/using-changesets
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc

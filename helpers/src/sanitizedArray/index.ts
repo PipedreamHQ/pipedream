@@ -1,11 +1,10 @@
-import isArray from "lodash/isArray";
-import get from "lodash/get";
-import isString from "lodash/isString";
-import isEmpty from "lodash/isEmpty";
+import {
+  get, isEmpty, isString,
+} from "lodash-es";
 import { JSONValue } from "@pipedream/types";
 
 export const sanitizedArray = (value: JSONValue) => {
-  if (isArray(value)) {
+  if (Array.isArray(value)) {
     return value.map((item: any) => get(item, "value", item));
   }
 
@@ -28,5 +27,3 @@ export const sanitizedArray = (value: JSONValue) => {
 
   throw new Error(`${value} is not an array or an array-like`);
 };
-
-export default sanitizedArray;
