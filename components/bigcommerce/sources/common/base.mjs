@@ -23,7 +23,6 @@ export default {
     this.http.respond({
       status: 200,
     });
-    console.log("event: ", event);
 
     this.$emit(event, {
       summary: this.getSummary(),

@@ -32,12 +32,12 @@ export default {
       };
     },
     async _makeRequest({
-      $, url, path, ...otherConfig
+      $, url, path, version = "v3", ...otherConfig
     }) {
       const baseUrl = `${constants.BASE_URL}/${this.$auth.store_hash}`;
 
       const config = {
-        url: url || `${baseUrl}${constants.VERSION_PATH}${path}`,
+        url: url || `${baseUrl}/${version}${path}`,
         headers: this._getHeaders(),
         ...otherConfig,
       };
@@ -57,7 +57,7 @@ export default {
       channel = null,
       channelId = null,
     ) {
-      const channelScope = type`${channel
+      const channelScope = `${channel
         ? `channel/${channelId}/`
         : ""}`;
 
@@ -89,6 +89,48 @@ export default {
         $,
         method: "GET",
         path: `/catalog/products/${productId}`,
+      });
+    },
+    async createProduct({
+      $, props,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "POST",
+        path: "/catalog/products",
+        data: props,
+      });
+    },
+    async getAllTaxClasses({
+      $, page = 1, limit = 2,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/tax_classes?page=${page}&limit=${limit}`,
+        version: "v2",
+      });
+    },
+    async getAllCategories({
+      $, prevContext, page = 1, limit = 100,
+    }) {
+      console.log("getAllCategories prevContext: ", prevContext);
+      console.log("getAllCategories page: ", page);
+
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/categories?page=${page}&limit=${limit}`,
+        version: "v2",
+      });
+    },
+    async getAllBrands({
+      $, page = 1, limit = 50,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "GET",
+        path: `/catalog/brands?page=${page}&limit=${limit}`,
       });
     },
   },
