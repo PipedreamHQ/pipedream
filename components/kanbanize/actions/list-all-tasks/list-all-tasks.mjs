@@ -1,16 +1,17 @@
 import kanbanizeApp from "../../kanbanize.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "kanbanize-list-all-tasks",
   name: "List Tasks",
   description: "Get All Tasks. [See the docs here](https://kanbanize.com/api#get_all_tasks)",
-  version: "0.0.12",
+  version: "0.0.17",
   type: "action",
   props: {
     kanbanizeApp,
     boardId: {
       label: "Board Id",
-      description: "The ID of the board to move the task into. You can see the board ID on the dashboard screen, in the upper right corner of each board.",
+      description: "The ID of the board to move the task into.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
       type: "string",
       reloadProps: true,
       async options() {
@@ -19,44 +20,35 @@ export default {
     },
     subtasks: {
       label: "Subtasks",
-      description: "Set to “yes” if you want to get subtask details for each task.",
+      description: "Set true if you want to get subtask details for each task.",
       type: "boolean",
     },
     comments: {
       label: "Comments",
-      description: "Set to “yes” if you want to get comments for each task.",
+      description: "Set true if you want to get comments for each task.",
       type: "boolean",
     },
     container: {
       label: "Container",
-      description: "Set to “yes” if you want to get tasks from archive.",
+      description: "Set true if you want to get tasks from archive.",
       type: "boolean",
       reloadProps: true,
     },
     textFormat: {
       label: "Text Format",
-      description: "Options: “plain” (default) and “html”. If the plain text format is used, the HTML tags are stripped from the task description.",
+      description: "If the plain text format is used, the HTML tags are stripped from the task description.",
       type: "string",
       async options() {
-        return [
-          "plain",
-          "html",
-        ];
+        return constants.textFormatOpts;
       },
     },
     section: {
       label: "Section",
-      description: "Get card from a specific board area (backlog, requested, progress, done, archive)",
+      description: "Get card from a specific board area.",
       type: "string",
       optional: true,
       async options() {
-        return [
-          "backlog",
-          "requested",
-          "progress",
-          "done",
-          "archive",
-        ];
+        return constants.sectionOpts;
       },
     },
   },
@@ -65,7 +57,7 @@ export default {
     if (this.boardId) {
       props.column = {
         label: "Column",
-        description: "Get only cards from a specific column. This field has higher priority than the section option. If the name of the column is unique, you can specify it alone but if there are more than one columns with that name, you must specify it as ParentColumn.ColumnName",
+        description: "Get only cards from a specific column.\n\nThis field has higher priority than the section option.",
         type: "string",
         optional: true,
         options: async () => {
@@ -85,39 +77,72 @@ export default {
     if (this.container) {
       props.fromDate = {
         label: "From date",
-        description: "Only applicable with container=”archive”. The date after which the tasks have been archived. Accepts the format: ‘2012-05-05’. Default valuе is ‘1970-01-01’",
+        description: "Only applicable with container=”archive”.\n\nThe date after which the tasks have been archived. Accepts the format: `2012-05-05`. Default value is `1970-01-01`",
         type: "string",
         optional: true,
       };
       props.toDate = {
         label: "To date",
-        description: "Only applicable with container=”archive”. The date before which the tasks have been archived. Accepts the following format: ‘2012-05-05’. Default valuе is ‘now’",
+        description: "Only applicable with container=”archive”.\n\nThe date before which the tasks have been archived. Accepts the following format: `2012-05-05`. Default value is `now`",
         type: "string",
         optional: true,
       };
       props.showInitiatives = {
         label: "Show initiatives",
-        description: "Only applicable with container=”archive”. If this parameter is set to “yes” the response will return only initiatives. Otherwise, it will return only tasks.",
+        description: "Only applicable with container=”archive”.\n\nIf this parameter is set true the response will return only initiatives. Otherwise, it will return only tasks.",
         type: "boolean",
         optional: true,
       };
       props.version = {
         label: "Version",
-        description: "Gives the tasks from the specified archive version. The From Date and To Date parameters are ignored.",
+        description: "Gives the tasks from the specified archive version.\n\nThe From Date and To Date parameters are ignored.",
         type: "string",
         optional: true,
       };
       props.page = {
         label: "Page",
-        description: "Only applicable with container=”archive”. With this parameter you control which page number to get. The method returns 30 tasks per page. If not set, the first 30 values will be returned i.e. “page” = 1.",
+        description: "Only applicable with container=”archive”.\n\nBy default this method returns 30 tasks per page. If not set, the first 30 values will be returned.",
         type: "integer",
         optional: true,
       };
     }
     return props;
   },
+  methods: {
+    removeUnusedParams(searchParams) {
+      return Object.keys(searchParams).reduce((acc, key) => (
+        (searchParams[key] === undefined || searchParams[key] === null) ?
+          acc :
+          {
+            ...acc,
+            [key]: searchParams[key],
+          }
+      ), {});
+    },
+  },
   async run({ $ }) {
-    const response = await this.kanbanizeApp.getAllTasks(this.boardId);
+    const searchParams = this.removeUnusedParams({
+      boardid: this.boardId,
+      subtasks: this.subtasks ?
+        "yes" :
+        null,
+      comments: this.comments ?
+        "yes" :
+        null,
+      container: this.container
+        ? "archive" :
+        null,
+      fromdate: this.fromDate,
+      todate: this.toDate,
+      showInitiatives: this.showInitiatives,
+      version: this.version,
+      page: this.page,
+      textformat: this.textFormat,
+      column: this.column,
+      lane: this.lane,
+      section: this.section,
+    });
+    const response = await this.kanbanizeApp.getAllTasks(searchParams);
     $.export("$summary", `Successfully fetched ${response.length} tasks`);
     return response;
   },

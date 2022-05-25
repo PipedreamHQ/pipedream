@@ -63,13 +63,11 @@ export default {
         value: lane.lcname,
       }));
     },
-    async getAllTasks(boardId) {
+    async getAllTasks(searchParams) {
       const response = await axios(this, this._getRequestParams({
         method: "POST",
         path: "/get_all_tasks",
-        data: {
-          boardid: boardId,
-        },
+        data: searchParams,
       }));
       return response;
     },
