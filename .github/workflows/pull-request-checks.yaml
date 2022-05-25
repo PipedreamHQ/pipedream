@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
       name: Checkout repo
       with:
         # See https://github.com/actions/checkout#checkout-v2
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -106,7 +106,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.2
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
