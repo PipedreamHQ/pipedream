@@ -22,8 +22,6 @@ export default {
     },
   },
   run() {
-    return {
-      random_integer: Math.floor(Math.random() * (this.max - this.min + 1) + this.min),
-    };
+    return Math.floor(Math.random() * (this.max - this.min + 1) + this.min);
   },
 };
