@@ -26,8 +26,7 @@ export default {
       description: "A MongoDB collection",
       async options(opts) {
         const client = await this.getClient();
-        const db = this.getDatabase(client, opts.database);
-        const collections = await this.listCollections(db);
+        const collections = await this.listCollections(client, opts.database);
         await client.close();
         await new Promise((resolve) => setTimeout(resolve, 3000));
         return collections.map((collection) => {
@@ -41,8 +40,7 @@ export default {
       description: "Select a document from the MongoDB database",
       async options(opts) {
         const client = await this.getClient();
-        const db = this.getDatabase(client, opts.database);
-        const collection = this.getCollection(db, opts.collection);
+        const collection = this.getCollection(client, opts.database, opts.collection);
         const documents = await this.listDocuments(collection);
         await client.close();
         await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -90,7 +88,8 @@ export default {
       const { databases } = await adminDb.listDatabases();
       return databases;
     },
-    async listCollections(db) {
+    async listCollections(client, dbName) {
+      const db = this.getDatabase(client, dbName);
       return await db.listCollections().toArray();
     },
     async listDocuments(collection) {

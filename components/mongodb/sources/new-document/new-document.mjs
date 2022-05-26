@@ -1,10 +1,10 @@
-import common from "../common.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "mongodb-new-document",
   name: "New Document",
-  description: "Emits an event when a new document is added to a collection",
+  description: "Emit new an event when a new document is added to a collection",
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
@@ -38,12 +38,14 @@ export default {
       return !documentIds.includes(id);
     },
     async processEvent(client, ts) {
-      let documentIds = this._getDocumentIds() || [];
+      const documentIds = this._getDocumentIds() || [];
       const collection = this.mongodb.getCollection(client, this.database, this.collection);
       const documents = await this.mongodb.listDocuments(collection);
       for (const doc of documents) {
         const id = JSON.stringify(doc._id);
-        if (!this.isRelevant(id, documentIds)) continue;
+        if (!this.isRelevant(id, documentIds)) {
+          continue;
+        }
         documentIds.push(id);
         this.emitEvent(doc, ts);
       }
