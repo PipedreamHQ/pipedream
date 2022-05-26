@@ -1,12 +1,13 @@
-const datadog = require("../../datadog.app");
-const payloadFormat = require("../payload-format");
+import datadog from "../../datadog.app.mjs";
+import { payloadFormat } from "../common/payload-format.mjs";
 
-module.exports = {
+export default {
   key: "datadog-new-monitor-event",
   name: "New Monitor Event (Instant)",
-  description: "Captures events emitted by a Datadog monitor",
+  description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   props: {
     datadog,
     db: "$.service.db",
@@ -23,7 +24,7 @@ module.exports = {
         const { page } = context;
         const pageSize = 10;
         const monitors = await this.datadog.listMonitors(page, pageSize);
-        const options = monitors.map(monitor => ({
+        const options = monitors.map((monitor) => ({
           label: monitor.name,
           value: monitor.id,
         }));
@@ -49,9 +50,8 @@ module.exports = {
       this.db.set("webhookSecretKey", webhookSecretKey);
 
       await Promise.all(
-        this.monitors.map(monitorId =>
-          this.datadog.addWebhookNotification(webhookName, monitorId)
-        )
+        this.monitors.map((monitorId) =>
+          this.datadog.addWebhookNotification(webhookName, monitorId)),
       );
     },
     async deactivate() {
@@ -77,7 +77,7 @@ module.exports = {
   async run(event) {
     const webhookSecretKey = this.db.get("webhookSecretKey");
     if (!this.datadog.isValidSource(event, webhookSecretKey)) {
-      console.log(`Skipping event from unrecognized source`);
+      console.log("Skipping event from unrecognized source");
       this.http.respond({
         status: 404,
       });
