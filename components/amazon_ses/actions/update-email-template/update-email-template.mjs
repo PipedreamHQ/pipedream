@@ -17,59 +17,44 @@ export default {
           region: c.region,
         }),
       ],
-      reloadProps: true,
     },
-  },
-  async additionalProps() {
-    /**
-     * This endpoint requires Subject and one of Html or Text values so we are getting the
-     * default values
-     */
-    if (this.TemplateName) {
-      const { TemplateContent } = await this.amazonSes.getEmailTemplate(this.region, {
-        TemplateName: this.TemplateName,
-      });
-      return this.createTemplateProps(TemplateContent);
-    }
-  },
-  methods: {
-    createTemplateProps(TemplateContent) {
-      const baseProps = base.props.amazonSes.propDefinitions;
-      const Subject = baseProps.Subject;
-      const Html = baseProps.Html;
-      const Text = baseProps.Text;
-      const props = {
-        Subject: {
-          type: Subject.type,
-          label: Subject.label,
-          description: Subject.description,
-          default: TemplateContent.Subject,
-        },
-        Html: {
-          type: Html.type,
-          label: Html.label,
-          description: Html.description,
-          default: TemplateContent.Html,
-        },
-        Text: {
-          type: Text.type,
-          label: Text.label,
-          description: `The email body that will be visible to recipients whose email clients do not display HTML. ${constants.TAGNAME_DESCRIPTION}`,
-          default: TemplateContent.Text,
-        },
-      };
-      return props;
+    Subject: {
+      propDefinition: [
+        base.props.amazonSes,
+        "Subject",
+      ],
+      optional: true,
+    },
+    Html: {
+      propDefinition: [
+        base.props.amazonSes,
+        "Html",
+      ],
+      optional: true,
+    },
+    Text: {
+      propDefinition: [
+        base.props.amazonSes,
+        "Text",
+      ],
+      description: `The email body that will be visible to recipients whose email clients do not display HTML. ${constants.TAGNAME_DESCRIPTION}`,
+      optional: true,
     },
   },
   async run({ $ }) {
+    const { TemplateContent } = await this.amazonSes.getEmailTemplate(this.region, {
+      TemplateName: this.TemplateName,
+    });
+
     const params = {
       TemplateName: this.TemplateName,
       TemplateContent: {
-        Subject: this.amazonSes.replaceCurlyBrackets(this.Subject),
-        Html: this.amazonSes.replaceCurlyBrackets(this.Html),
-        Text: this.amazonSes.replaceCurlyBrackets(this.Text),
+        Subject: this.amazonSes.replaceCurlyBrackets(this.Subject) ?? TemplateContent.Subject,
+        Html: this.amazonSes.replaceCurlyBrackets(this.Html) ?? TemplateContent.Html,
+        Text: this.amazonSes.replaceCurlyBrackets(this.Text) ?? TemplateContent.Text,
       },
     };
+
     const response = await this.amazonSes.updateEmailTemplate(this.region, params);
     $.export("$summary", "Successfully updated email template");
     return response;
