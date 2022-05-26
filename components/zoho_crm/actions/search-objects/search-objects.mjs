@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-search-objects",
   name: "Search Objects",
   description: "Retrieves the records that match your search criteria.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -51,7 +51,7 @@ export default {
     }
 
     return await axios($, {
-      url: `https://www.zohoapis.com/crm/v2/${this.module}/search`,
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/${this.module}/search`,
       params: {
         criteria: this.criteria,
       },
