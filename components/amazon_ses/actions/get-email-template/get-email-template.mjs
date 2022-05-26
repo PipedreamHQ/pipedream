@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         base.props.amazonSes,
         "TemplateName",
+        (c) => ({
+          region: c.region,
+        }),
       ],
     },
   },
