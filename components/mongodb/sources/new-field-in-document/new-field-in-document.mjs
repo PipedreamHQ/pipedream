@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-field-in-document",
   name: "New Field in Document",
   description: "Emits an event when a new field is added to a document",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -49,8 +49,7 @@ export default {
     },
     async processEvent(client, ts) {
       let fields = this._getFields() || [];
-      const db = this.mongodb.getDatabase(client, this.database);
-      const collection = this.mongodb.getCollection(db, this.collection);
+      const collection = this.mongodb.getCollection(client, this.database, this.collection);
       const documents = await this.mongodb.listDocuments(collection);
       const doc = documents.find((obj) => {
         return obj._id == this.document;

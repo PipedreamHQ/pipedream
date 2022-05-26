@@ -4,20 +4,33 @@ export default {
   key: "mongodb-update-a-document",
   name: "Update a Document",
   description: "Updates a single document by ID. [See the docs here](https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     mongodbApp,
+    database: {
+      propDefinition: [
+        mongodbApp,
+        "database",
+      ],
+    },
     collection: {
       propDefinition: [
         mongodbApp,
         "collection",
+        (c) => ({
+          database: c.database,
+        }),
       ],
     },
     document: {
       propDefinition: [
         mongodbApp,
         "document",
+        (c) => ({
+          database: c.database,
+          collection: c.collection,
+        }),
       ],
     },
     data: {
@@ -46,6 +59,7 @@ export default {
   },
   async run({ $ }) {
     await this.mongodbApp.updateDocument(
+      this.database,
       this.collection,
       this.document,
       this.data,

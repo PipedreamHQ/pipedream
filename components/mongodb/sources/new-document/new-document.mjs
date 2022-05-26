@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emits an event when a new document is added to a collection",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -39,8 +39,7 @@ export default {
     },
     async processEvent(client, ts) {
       let documentIds = this._getDocumentIds() || [];
-      const db = this.mongodb.getDatabase(client, this.database);
-      const collection = this.mongodb.getCollection(db, this.collection);
+      const collection = this.mongodb.getCollection(client, this.database, this.collection);
       const documents = await this.mongodb.listDocuments(collection);
       for (const doc of documents) {
         const id = JSON.stringify(doc._id);

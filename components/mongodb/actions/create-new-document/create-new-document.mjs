@@ -4,14 +4,23 @@ export default {
   key: "mongodb-create-new-document",
   name: "Create New Document",
   description: "Create a new document in a collection of your choice. [See the docs here](https://docs.mongodb.com/manual/tutorial/insert-documents/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     mongodbApp,
+    database: {
+      propDefinition: [
+        mongodbApp,
+        "database",
+      ],
+    },
     collection: {
       propDefinition: [
         mongodbApp,
         "collection",
+        (c) => ({
+          database: c.database,
+        }),
       ],
     },
     data: {
@@ -41,12 +50,13 @@ export default {
   async run({ $ }) {
     const document = await this.mongodbApp.createDocument(
       this.data,
+      this.database,
       this.collection,
       this.parseNumbers,
       this.parseBooleans,
       this.parseDates,
     );
-    $.export("$summary", `Document ${document._id} successfully created`);
+    $.export("$summary", `Document "${document.insertedId}" successfully created`);
     return document;
   },
 };
