@@ -5,7 +5,7 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     jira: {
