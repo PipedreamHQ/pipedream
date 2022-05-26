@@ -3,9 +3,9 @@ const { bitbucket } = common.props;
 
 module.exports = {
   ...common,
-  name: "Watch a User",
+  name: "New User Watcher",
   key: "bitbucket-watch-user",
-  description: "Emits new event occurs from any repository belonging to the user.",
+  description: "Emit new event that occurs from any repository belonging to the user.",
   type: "source",
   version: "0.0.1",
   props: {
@@ -32,7 +32,7 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventSourceName() {
-      return "Watch a User";
+      return "New User Watcher";
     },
     getHookEvents() {
       return this.eventTypes;
