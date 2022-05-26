@@ -25,7 +25,7 @@ You can send data to an SSE Destination in [Node.js code steps](/code/nodejs/) u
 3. Add this code to that step:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.sse({
       channel: "events",
@@ -44,7 +44,7 @@ Send a test event to your workflow, then review the section on [Receiving events
 `$.send.sse()` accepts an object with the following properties:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.sse({
       channel, // Required, corresponds to the event in the SSE spec
@@ -57,7 +57,7 @@ defineComponent({
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an SSE for each:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     names.forEach(name => {
@@ -81,7 +81,7 @@ If you're authoring a [component action](/components#actions), you can send even
 `$.send.sse` functions the same as [`$.send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.sse({
       channel: "events",
