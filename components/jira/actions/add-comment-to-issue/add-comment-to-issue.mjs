@@ -1,97 +1,98 @@
-// legacy_hash_id: a_Jmi8AK
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
+import utils from "../common/utils.mjs";
+
+const { jira } = base.props;
 
 export default {
+  ...base,
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
-  description: "Adds a new comment to an issue.",
+  description: "Adds a new comment to an issue. [See docs here]()",
   version: "0.1.1",
   type: "action",
   props: {
-    jira: {
-      type: "app",
-      app: "jira",
-    },
-    issueIdOrKey: {
-      type: "string",
-      description: "The ID or key of the issue where the comment will be added.",
-    },
-    expand: {
-      type: "object",
-      description: "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. Use [expand](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
-      optional: true,
+    ...base.props,
+    issueId: {
+      propDefinition: [
+        jira,
+        "issueId",
+        (c) => ({
+          projectId: c.projectId,
+        }),
+      ],
     },
     body: {
-      type: "object",
+      label: "Body",
       description: "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/).",
+      type: "string",
     },
-    visibility_type: {
+    expand: {
+      label: "Expand",
+      description: "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. Use [expand](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
+      type: "object",
+      optional: true,
+    },
+    visibilityType: {
+      label: "Visibility Type",
       type: "string",
       description: "Whether visibility of this item is restricted to a group or role.",
       optional: true,
-      options: [
-        "group",
-        "role",
-      ],
+      options: constants.VISIBILITY_TYPES,
     },
-    visibility_value: {
-      type: "string",
+    visibilityValue: {
+      label: "Visibility Value",
       description: "The name of the group or role to which visibility of this item is restricted.",
+      type: "string",
       optional: true,
     },
-    visibility_additional_properties: {
-      type: "object",
+    visibilityAdditionalProperties: {
+      label: "Visibility Additional Properties",
       description: "Extra properties of any type may be provided to the visibility object.",
+      type: "string",
       optional: true,
     },
     properties: {
-      type: "any",
+      label: "Properties",
       description: "A list of comment properties.",
+      type: "string[]",
       optional: true,
     },
-    additional_properties: {
-      type: "string",
+    additionalProperties: {
+      label: "Additional Properties",
       description: "Extra properties of any type may be provided to this object.",
+      type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-  // First we must make a request to get our the cloud instance ID tied
-  // to our connected account, which allows us to construct the correct REST API URL. See Section 3.2 of
-  // https://developer.atlassian.com/cloud/jira/platform/oauth-2-authorization-code-grants-3lo-for-apps/
-    const resp = await axios($, {
-      url: "https://api.atlassian.com/oauth/token/accessible-resources",
-      headers: {
-        Authorization: `Bearer ${this.jira.$auth.oauth_access_token}`,
-      },
-    });
+    const parsedProperties = utils.parseStringToJSON(this.properties);
+    const parsedBody = utils.parseStringToJSON(this.body);
+    const parsedVisibilityAdditionalProperties = utils.parseStringToJSON(
+      this.visibilityAdditionalProperties,
+    );
 
-    // Assumes the access token has access to a single instance
-    const cloudId = resp[0].id;
-
-    // See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post
-    // for all options
-    return await axios($, {
-      method: "post",
-      url: `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${this.issueIdOrKey}/comment`,
-      headers: {
-        "Authorization": `Bearer ${this.jira.$auth.oauth_access_token}`,
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
+    const response = await this.jira.createIssueComment({
+      $,
+      projectId: this.projectId,
+      issueId: this.issueId,
       params: {
         expand: this.expand,
       },
       data: {
-        body: this.body,
+        body: parsedBody,
         visibility: {
-          type: this.visibility_type,
-          value: this.visibility_value,
-          additional_properties: this.visibility_additional_properties,
+          type: this.visibilityType,
+          value: this.visibilityValue,
+          additional_properties: parsedVisibilityAdditionalProperties,
         },
-        properties: this.properties,
-        additional_properties: this.additional_properties,
+        properties: parsedProperties,
+        additional_properties: this.additionalProperties,
       },
     });
+
+    $.export("$summary", "Successfully added comment to issue");
+
+    return response;
   },
 };
