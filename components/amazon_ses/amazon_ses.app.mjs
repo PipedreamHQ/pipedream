@@ -75,7 +75,7 @@ export default {
     Text: {
       type: "string",
       label: "Text",
-      description: `The plaintext email body. ${constants.TAGNAME_DESCRIPTION}`,
+      description: `The email body that will be visible to recipients whose email clients do not display HTML. ${constants.TAGNAME_DESCRIPTION}`,
     },
     Html: {
       type: "string",

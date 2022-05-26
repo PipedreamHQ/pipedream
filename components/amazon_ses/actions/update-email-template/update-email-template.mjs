@@ -1,5 +1,4 @@
 import base from "../common/base.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   key: "amazon_ses-update-email-template",
@@ -37,7 +36,6 @@ export default {
         base.props.amazonSes,
         "Text",
       ],
-      description: `The email body that will be visible to recipients whose email clients do not display HTML. ${constants.TAGNAME_DESCRIPTION}`,
       optional: true,
     },
   },
