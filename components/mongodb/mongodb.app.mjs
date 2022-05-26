@@ -157,10 +157,10 @@ export default {
       await client.close();
       return doc;
     },
-    async searchDocuments(databaseName, collectionName, filter = {}) {
+    async searchDocuments(databaseName, collectionName, filter = {}, options = {}) {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
-      const doc = await collection.find(filter).toArray();
+      const doc = await collection.find(filter, options).toArray();
       await client.close();
       return doc;
     },

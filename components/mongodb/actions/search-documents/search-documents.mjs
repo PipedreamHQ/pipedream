@@ -29,6 +29,12 @@ export default {
       type: "object",
       optional: true,
     },
+    options: {
+      label: "Options",
+      description: "Additional props for sorting and ordering. [See docs](https://www.mongodb.com/docs/drivers/node/current/usage-examples/find/)",
+      type: "object",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const parsedFilter = this.mongodbApp.parseFilter(this.filter);
@@ -36,9 +42,10 @@ export default {
       this.database,
       this.collection,
       parsedFilter,
+      this.options,
     );
 
-    $.export("$summary", "Documents successfully fetched");
+    $.export("$summary", `Successfully retrieved ${documents.length} document(s)`);
     return documents;
   },
 };
