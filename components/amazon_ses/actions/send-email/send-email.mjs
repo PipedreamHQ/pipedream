@@ -61,7 +61,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!(this.Body || this.Html)) {
+    if (!(this.Text || this.Html)) {
       throw new ConfigurationError("Email Text or HTML must be supplied");
     }
 
