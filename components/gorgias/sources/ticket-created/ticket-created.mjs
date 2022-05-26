@@ -23,7 +23,6 @@ export default {
     console.log("Raw received event:");
     console.log(event);
     const ticket = await this.retrieveTicket(event.query.id);
-    const { created_datetime: createdAt } = ticket;
-    this.emitEvent(ticket, createdAt);
+    this.emitEvent(ticket);
   },
 };

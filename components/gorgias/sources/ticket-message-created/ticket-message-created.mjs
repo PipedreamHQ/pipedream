@@ -29,7 +29,6 @@ export default {
       .replace(/False/g, "false");
     console.log("Extracting latest message:");
     const message = JSON.parse(messages).pop();
-    const { created_datetime: createdAt } = message;
-    this.emitEvent(message, createdAt);
+    this.emitEvent(message);
   },
 };
