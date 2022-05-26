@@ -1,10 +1,8 @@
-import rss from "../../rss.app.mjs";
+import rss from "../../rss.app.js";
 import { Item } from "feedparser";
-import {
-  Source, UserProp,
-} from "@pipedream/types";
+import { defineSource } from "@pipedream/types";
 
-export default {
+export default defineSource({
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
@@ -16,7 +14,11 @@ export default {
       type: "string",
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
-    } as UserProp,
+    },
+    num: {
+      type: "integer",
+      label: "foo",
+    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -24,6 +26,10 @@ export default {
       },
     },
     rss,
+  },
+  methods: {
+    foo() {
+    },
   },
   hooks: {
     async activate() {
@@ -42,4 +48,4 @@ export default {
       });
     });
   },
-} as Source;
+});

@@ -113,7 +113,7 @@ export interface OptionalOptsFn {
   (configuredProps: { [key: string]; }): object; // XXX strictly type configuredProps
 }
 
-export type PropDefinition = [App, string] | [App, string, OptionalOptsFn];
+export type PropDefinition = [App<M, P>, string] | [App<M, P>, string, OptionalOptsFn];
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 export interface PropDefinitionReference {
@@ -123,11 +123,24 @@ export interface PropDefinitionReference {
 // https://pipedream.com/docs/components/api/#app-props
 // See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
 // for more information on this technique
-export interface App {
+export interface App<
+  Methods,
+  PropDefinitions extends AppPropDefinitions = {}
+> {
   type: "app";
   app: string;
-  propDefinitions?: AppPropDefinitions | undefined;
-  methods?: (Methods | undefined) & ThisType<any>;
+  propDefinitions?: PropDefinitions;
+  methods?: Methods & ThisType<Methods & PropDefinitions>;
+}
+
+export function defineApp<
+  M,
+  P,
+>
+(app: App<M, P>): App<M, P> {
+  return {
+    ...app,
+  };
 }
 
 // Props
@@ -172,7 +185,7 @@ export interface BasePropInterface {
 export type PropOptions = any[] | Array<{ [key: string]: string; }>;
 
 // https://pipedream.com/docs/components/api/#user-input-props
-export interface UserProp extends BasePropInterface {
+export interface BaseUserProp extends BasePropInterface {
   type: "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
   options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
   optional?: boolean;
@@ -181,6 +194,41 @@ export interface UserProp extends BasePropInterface {
   min?: number;
   max?: number;
 }
+
+export interface UserBooleanProp extends BaseUserProp {
+  type: "boolean";
+}
+export interface UserBooleanArrayProp extends BaseUserProp {
+  type: "boolean[]";
+}
+export interface UserIntegerProp extends BaseUserProp {
+  type: "integer";
+}
+export interface UserIntegerArrayProp extends BaseUserProp {
+  type: "integer[]";
+}
+export interface UserStringProp extends BaseUserProp {
+  type: "string";
+}
+export interface UserStringArrayProp extends BaseUserProp {
+  type: "string[]";
+}
+export interface UserObjectProp extends BaseUserProp {
+  type: "object";
+}
+export interface UserAnyProp extends BaseUserProp {
+  type: "any";
+}
+
+export type UserProp =
+  UserBooleanProp |
+  UserBooleanArrayProp |
+  UserIntegerProp |
+  UserIntegerArrayProp |
+  UserStringProp |
+  UserStringArrayProp |
+  UserObjectProp |
+  UserAnyProp;
 
 // https://pipedream.com/docs/components/api/#interface-props
 export interface InterfaceProp extends BasePropInterface {
@@ -204,16 +252,15 @@ export interface HttpRequestProp extends BasePropInterface {
 }
 
 export interface SourcePropDefinitions {
-  [name: string]: PropDefinitionReference |
-    App | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<M, P> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
 }
 
 export interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp | DataStoreProp | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<M, P> | UserProp | DataStoreProp | HttpRequestProp;
 }
 
 export interface AppPropDefinitions {
-  [name: string]: PropDefinitionReference | App | UserProp;
+  [name: string]: PropDefinitionReference | App<M, P> | UserProp;
 }
 
 export interface Hooks {
@@ -241,24 +288,52 @@ export interface EmitConfig {
   event: JSONValue;
   metadata?: EmitMetadata;
 }
+type EmitFunction = {
+  $emit: (config: EmitConfig) => Promise<void>;
+};
 
-export interface Source {
+// TO DO: Support interface, data store, and other props
+type PropThis<Type> = {
+  [Prop in keyof Type]:
+    Type[Prop] extends App<M, P> ? App<M, P> :
+    Type[Prop] extends UserBooleanProp ? boolean :
+    Type[Prop] extends UserBooleanArrayProp ? Array<boolean> :
+    Type[Prop] extends UserIntegerProp ? number :
+    Type[Prop] extends UserIntegerArrayProp ? Array<number> :
+    Type[Prop] extends UserStringProp ? string :
+    Type[Prop] extends UserStringArrayProp ? Array<string> :
+    Type[Prop] extends UserObjectProp ? object :
+    Type[Prop] extends UserAnyProp ? any :
+    string
+};
+
+export interface Source<
+  Methods,
+  Props extends SourcePropDefinitions = {}
+> {
   key: string;
   name?: string;
   description?: string;
   version: string;
   type: "source";
-  // XXX should be something like methods?: Methods & ThisType<PropKeys<SourcePropDefinitions> & Methods>
-  methods?: Methods & ThisType<any>;
-  hooks?: Hooks & ThisType<any>;
-  props?: SourcePropDefinitions;
+  methods?: Methods & ThisType<PropThis<Props> & Methods & EmitFunction>;
+  hooks?: Hooks & ThisType<PropThis<Props> & Methods & EmitFunction>;
+  props?: Props;
   dedupe?: "last" | "greatest" | "unique";
   additionalProps?: (
-    previousPropDefs: SourcePropDefinitions
-  ) => Promise<SourcePropDefinitions>;
-  // XXX `this` should be strictly typed. For some reason the approach I took above
-  // did not work here.
+    previousPropDefs: Props
+  ) => Promise<Props>;
   run: (this: any, options?: SourceRunOptions) => void | Promise<void>;
+}
+
+export function defineSource<
+  M,
+  P,
+>
+(component: Source<M, P>): Source<M, P> {
+  return {
+    ...component,
+  };
 }
 
 export interface Action {

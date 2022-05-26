@@ -5,11 +5,9 @@ import hash from "object-hash";
 import {
   NoProtocolError, generateHTTPErrorClasses,
 } from "@pipedream/helpers";
-import {
-  App, UserProp,
-} from "@pipedream/types";
+import { defineApp } from "@pipedream/types";
 
-export default {
+export default defineApp({
   type: "app",
   app: "rss",
   propDefinitions: {
@@ -17,7 +15,7 @@ export default {
       type: "string",
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
-    } as UserProp,
+    },
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
@@ -35,6 +33,7 @@ export default {
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
       });
+
       // Handle status codes as error codes
       const errors = generateHTTPErrorClasses();
       if (res.status === 404) throw errors[404]("The URL does not exist. Please double-check the URL and try again.");
@@ -82,8 +81,8 @@ export default {
     },
     validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
-      // Add https:// to the URL if it doesn't have a protocol
+      // TODO: Add https:// to the URL if it doesn't have a protocol
       if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
     },
   },
-} as App;
+});
