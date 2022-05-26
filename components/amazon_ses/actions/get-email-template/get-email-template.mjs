@@ -19,7 +19,7 @@ export default {
     const params = {
       TemplateName: this.TemplateName,
     };
-    const response = await this.amazonSes.getEmailTemplate(params);
+    const response = await this.amazonSes.getEmailTemplate(this.region, params);
     $.export("$summary", "Successfully retrieved email template");
     return response;
   },

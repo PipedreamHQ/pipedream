@@ -50,7 +50,7 @@ export default {
         Text: this.amazonSes.replaceCurlyBrackets(this.Text),
       },
     };
-    const response = await this.amazonSes.createEmailTemplate(params);
+    const response = await this.amazonSes.createEmailTemplate(this.region, params);
     $.export("$summary", "Successfully created email template");
     return response;
   },

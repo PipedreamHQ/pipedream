@@ -22,11 +22,13 @@ export default {
       type: "string",
       label: "Template Name",
       description: "The email template name",
-      async options({ prevContext }) {
+      async options({
+        prevContext, region,
+      }) {
         const {
           NextToken,
           TemplatesMetadata: templates,
-        } = await this.listEmailTemplates({
+        } = await this.listEmailTemplates(region, {
           NextToken: prevContext.NextToken,
         });
         return {
@@ -83,11 +85,11 @@ export default {
   },
   methods: {
     ...aws.methods,
-    _clientV1() {
-      return this.getAWSClient(SESClient, this.region);
+    _clientV1(region) {
+      return this.getAWSClient(SESClient, region);
     },
-    _clientV2() {
-      return this.getAWSClient(SESv2Client, this.region);
+    _clientV2(region) {
+      return this.getAWSClient(SESv2Client, region);
     },
     createCharsetContent(Data, Charset = constants.UTF_8) {
       return {
@@ -100,23 +102,23 @@ export default {
         ? text.replace(/\\{/g, "{").replace(/\\}/g, "}")
         : undefined;
     },
-    async sendEmail(params) {
-      return this._clientV2().send(new SendEmailCommand(params));
+    async sendEmail(region, params) {
+      return this._clientV2(region).send(new SendEmailCommand(params));
     },
-    async sendTemplatedEmail(params) {
-      return this._clientV1().send(new SendTemplatedEmailCommand(params));
+    async sendTemplatedEmail(region, params) {
+      return this._clientV1(region).send(new SendTemplatedEmailCommand(params));
     },
-    async getEmailTemplate(params) {
-      return this._clientV2().send(new GetEmailTemplateCommand(params));
+    async getEmailTemplate(region, params) {
+      return this._clientV2(region).send(new GetEmailTemplateCommand(params));
     },
-    async listEmailTemplates(params) {
-      return this._clientV2().send(new ListEmailTemplatesCommand(params));
+    async listEmailTemplates(region, params) {
+      return this._clientV2(region).send(new ListEmailTemplatesCommand(params));
     },
-    async createEmailTemplate(params) {
-      return this._clientV2().send(new CreateEmailTemplateCommand(params));
+    async createEmailTemplate(region, params) {
+      return this._clientV2(region).send(new CreateEmailTemplateCommand(params));
     },
-    async updateEmailTemplate(params) {
-      return this._clientV2().send(new UpdateEmailTemplateCommand(params));
+    async updateEmailTemplate(region, params) {
+      return this._clientV2(region).send(new UpdateEmailTemplateCommand(params));
     },
   },
 };

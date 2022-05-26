@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         base.props.amazonSes,
         "TemplateName",
+        (c) => ({
+          region: c.region,
+        }),
       ],
       reloadProps: true,
     },
@@ -23,7 +26,7 @@ export default {
      * default values
      */
     if (this.TemplateName) {
-      const { TemplateContent } = await this.amazonSes.getEmailTemplate({
+      const { TemplateContent } = await this.amazonSes.getEmailTemplate(this.region, {
         TemplateName: this.TemplateName,
       });
       return this.createTemplateProps(TemplateContent);
@@ -67,7 +70,7 @@ export default {
         Text: this.amazonSes.replaceCurlyBrackets(this.Text),
       },
     };
-    const response = await this.amazonSes.updateEmailTemplate(params);
+    const response = await this.amazonSes.updateEmailTemplate(this.region, params);
     $.export("$summary", "Successfully updated email template");
     return response;
   },

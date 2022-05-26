@@ -87,7 +87,7 @@ export default {
       params.Content.Simple.Body.Html = this.amazonSes.createCharsetContent(this.Html);
     }
 
-    const response = await this.amazonSes.sendEmail(params);
+    const response = await this.amazonSes.sendEmail(this.region, params);
     $.export("$summary", "Sent email successfully");
     return response;
   },

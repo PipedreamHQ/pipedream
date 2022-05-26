@@ -42,6 +42,9 @@ export default {
       propDefinition: [
         base.props.amazonSes,
         "TemplateName",
+        (c) => ({
+          region: c.region,
+        }),
       ],
     },
     TemplateData: {
@@ -63,7 +66,7 @@ export default {
       TemplateData: JSON.stringify(this.TemplateData),
     };
 
-    const response = await this.amazonSes.sendTemplatedEmail(params);
+    const response = await this.amazonSes.sendTemplatedEmail(this.region, params);
     $.export("$summary", "Sent email successfully");
     return response;
   },
