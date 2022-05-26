@@ -43,8 +43,8 @@ export default {
     }
     const channelPost = body.edited_channel_post ?? body.channel_post;
 
-    if (!channelPost || !channelPost.chat || !channelPost.text) {
-      throw new Error(`Expected body to contain a chat and title, but recieived: ${JSON.stringify(body)}`);
+    if (!channelPost?.chat) {
+      throw new Error(`Expected body to contain a chat, but received: ${JSON.stringify(body)}`);
     }
 
     this.$emit(body,
