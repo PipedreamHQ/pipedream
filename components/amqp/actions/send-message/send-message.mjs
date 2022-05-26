@@ -3,7 +3,7 @@ import amqp from "../../amqp.app.mjs";
 export default {
   key: "amqp-send-message",
   name: "Send a Message",
-  description: "Send a new message to an AMQP 1.0 queue",
+  description: "Send a new message to an [AMQP 1.0](https://www.amqp.org/sites/amqp.org/files/amqp.pdf) queue. [See the library example here](https://github.com/amqp/rhea-promise#sending-a-message-via-awaitablesender).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -72,6 +72,7 @@ export default {
 
     } catch (error) {
       console.log("Error sending message", JSON.stringify(error.innerError));
+      throw "Error sending message to queue";
 
     } finally {
       await this.amqp.close(sender);

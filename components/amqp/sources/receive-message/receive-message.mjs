@@ -3,7 +3,7 @@ import amqp from "../../amqp.app.mjs";
 export default {
   key: "amqp-receive-message",
   name: "New Message",
-  description: "Emit new event for each new message in an AMQP 1.0 queue",
+  description: "Emit new event for each new message in an [AMQP 1.0](https://www.amqp.org/sites/amqp.org/files/amqp.pdf) queue. [See the library example here](https://github.com/amqp/rhea-promise#receiving-a-message).",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -73,7 +73,8 @@ export default {
       });
 
     } catch (error) {
-      console.log("Error receiving message", JSON.stringify(error));
+      console.log("Error receiving message", JSON.stringify(error.innerError));
+      throw "Error receiving message from queue";
 
     } finally {
       await this.amqp.close(receiver);
