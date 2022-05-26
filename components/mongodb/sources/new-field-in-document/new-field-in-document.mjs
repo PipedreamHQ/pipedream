@@ -19,7 +19,7 @@ export default {
     collection: {
       propDefinition: [
         common.props.mongodb,
-        "sourceCollection",
+        "collection",
         (c) => ({
           database: c.database,
         }),
@@ -28,7 +28,7 @@ export default {
     document: {
       propDefinition: [
         common.props.mongodb,
-        "sourceDocument",
+        "document",
         (c) => ({
           database: c.database,
           collection: c.collection,
