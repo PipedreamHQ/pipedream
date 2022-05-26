@@ -96,7 +96,9 @@ export default {
       };
     },
     replaceCurlyBrackets(text) {
-      return text.replace(/\\{/g, "{").replace(/\\}/g, "}");
+      return text
+        ? text.replace(/\\{/g, "{").replace(/\\}/g, "}")
+        : undefined;
     },
     async sendEmail(params) {
       return this._clientV2().send(new SendEmailCommand(params));
