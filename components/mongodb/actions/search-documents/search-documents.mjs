@@ -25,7 +25,7 @@ export default {
     },
     filter: {
       label: "Filter",
-      description: "Object to use as a filter. The filter value(s) may be string, number, boolean, date, or valid JSON object.",
+      description: "Object to use as a filter. Values will be interpreted as strings. To pass a number, boolean, array, or object, wrap the value in an expression. eg. `{{1}}`",
       type: "object",
       optional: true,
     },
@@ -37,11 +37,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const parsedFilter = this.mongodbApp.parseFilter(this.filter);
     const documents = await this.mongodbApp.searchDocuments(
       this.database,
       this.collection,
-      parsedFilter,
+      this.filter,
       this.options,
     );
 

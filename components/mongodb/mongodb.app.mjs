@@ -96,45 +96,20 @@ export default {
     async listDocuments(collection) {
       return await collection.find().toArray();
     },
-    async createDocument(
-      data,
-      databaseName,
-      collectionName,
-      parseNumbers,
-      parseBooleans,
-      parseDates,
-    ) {
+    async createDocument(data, databaseName, collectionName) {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
-      const doc = await collection.insertOne(this.parseStrings(
-        data,
-        parseNumbers,
-        parseBooleans,
-        parseDates,
-      ));
+      const doc = await collection.insertOne(data);
       await client.close();
       return doc;
     },
-    async updateDocument(
-      databaseName,
-      collectionName,
-      _id,
-      data,
-      parseNumbers,
-      parseBooleans,
-      parseDates,
-    ) {
+    async updateDocument(databaseName, collectionName, _id, data ) {
       const client = await this.getClient();
       const collection = this.getCollection(client, databaseName, collectionName);
       const doc = await collection.updateOne({
         _id: ObjectID(_id),
       }, {
-        "$set": this.parseStrings(
-          data,
-          parseNumbers,
-          parseBooleans,
-          parseDates,
-        ),
+        "$set": data,
       });
       await client.close();
       return doc;
@@ -163,85 +138,6 @@ export default {
       const doc = await collection.find(filter, options).toArray();
       await client.close();
       return doc;
-    },
-    parseFilter(filter) {
-      const data = this.parseStrings(filter, true, true, true);
-      const keys = Object.keys(data);
-      for (let i = 0; i < keys.length; i++) {
-        if (typeof data[keys[i]] !== "string") {
-          continue;
-        }
-        if (data[keys[i]] === "null") {
-          data[keys[i]] = null;
-        }
-        if (this.isObject(data[keys[i]])) {
-          data[keys[i]] = JSON.parse(data[keys[i]]);
-        }
-      }
-      return data;
-    },
-    parseStrings(dataParam, parseNumbers, parseBooleans, parseDates) {
-      const data = {
-        ...dataParam,
-      };
-
-      const keys = Object.keys(data);
-      for (let i = 0; i < keys.length; i++) {
-        if (parseBooleans && this.isBooleanString(data[keys[i]])) {
-          data[keys[i]] = this.parseBoolean(data[keys[i]]);
-          continue;
-        }
-
-        if (parseDates && this.isDate(data[keys[i]])) {
-          data[keys[i]] = new Date(data[keys[i]]);
-          continue;
-        }
-
-        if (parseNumbers && !isNaN(data[keys[i]])) {
-          data[keys[i]] = parseFloat(data[keys[i]]);
-          continue;
-        }
-      }
-
-      return data;
-    },
-    parseBoolean(string) {
-      switch (string.toLowerCase().trim()) {
-      case "true":
-      case "1":
-      case 1:
-        return true;
-
-      case "false":
-      case "0":
-      case 0:
-        return false;
-      }
-    },
-    isBooleanString(string) {
-      switch (string.toLowerCase().trim()) {
-      case "true":
-      case "1":
-      case 1:
-      case "false":
-      case "0":
-      case 0:
-        return true;
-
-      default:
-        return false;
-      }
-    },
-    isDate(str) {
-      return !isNaN(new Date(str).getDate());
-    },
-    isObject(str) {
-      try {
-        JSON.parse(str);
-      } catch (e) {
-        return false;
-      }
-      return true;
     },
   },
 };
