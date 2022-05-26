@@ -8,6 +8,6 @@ export default {
   key: "gorgias_oauth-ticket-updated",
   name: "New Updated Ticket",
   description: "Emit new event when a ticket is updated. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
 };
