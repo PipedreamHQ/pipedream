@@ -1,5 +1,5 @@
 import bigcommerce from "../../bigcommerce.app.mjs";
-import common from "../common/common.mjs";
+import productProps from "../utils/product-props.mjs";
 
 export default {
   key: "bigcommerce-update-product",
@@ -16,7 +16,7 @@ export default {
         "productId",
       ],
     },
-    ...common.PROPS,
+    ...productProps,
   },
   async run({ $ }) {
     const {

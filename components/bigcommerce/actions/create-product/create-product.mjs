@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import productProps from "../utils/product-props.mjs";
 
 export default {
   key: "bigcommerce-create-product",
@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.PROPS,
+    ...productProps,
   },
   async run({ $ }) {
     const {

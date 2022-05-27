@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+
 export default {
   type: "app",
   app: "bigcommerce",
@@ -9,15 +10,11 @@ export default {
       label: "Using channel",
       description: "Channel of the webhook",
     },
-    maxRequests: {
+    limit: {
       type: "integer",
-      min: 1,
-      max: 180,
-      label: "Max API Requests per Execution (advanced)",
-      description:
-        "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results).",
+      label: "Limit",
+      description: "Maximum number to return",
       optional: true,
-      default: 1,
     },
     productId: {
       type: "integer",
@@ -45,18 +42,53 @@ export default {
         "X-Auth-Token": `${this.$auth.access_token}`,
       };
     },
-    async _makeRequest({
-      $, url, path, version = "v3", ...otherConfig
+    _defaultConfig({
+      path, version = "v3", ...otherConfig
     }) {
-      const baseUrl = `${constants.BASE_URL}/${this.$auth.store_hash}`;
-
       const config = {
-        url: url || `${baseUrl}/${version}${path}`,
+        url: `${constants.BASE_URL}/${this.$auth.store_hash}/${version}${path}`,
         headers: this._getHeaders(),
         ...otherConfig,
       };
+      return config;
+    },
+    async _makeRequest({
+      $, ...otherConfig
+    }) {
+      const config = this._defaultConfig({
+        ...otherConfig,
+      });
 
       return axios($ || this, config);
+    },
+    async *paginate({
+      $, fn, params = {}, cursor,
+    }) {
+      const { limit } = params;
+      let count = 0;
+
+      do {
+        const {
+          data,
+          meta,
+        } = await fn({
+          $,
+          params: {
+            ...params,
+            cursor,
+          },
+        });
+
+        for (const d of data) {
+          yield d;
+
+          if (limit && ++count === limit) {
+            return count;
+          }
+        }
+
+        cursor = meta.pagination.next;
+      } while (cursor);
     },
     async deleteHook(hookId) {
       return this._makeRequest({
@@ -88,21 +120,26 @@ export default {
       return data.id;
     },
     async getAllProducts({
-      $, page,
+      $, params,
     }) {
       return await this._makeRequest({
         $,
         method: "GET",
-        path: `/catalog/products?limit=50&page=${page}`,
+        path: "/catalog/products",
+        params,
       });
     },
     async getAllProductsSortOrder({
-      $, categoryId, page,
+      $, params,
     }) {
+      const {
+        categoryId, ...qparams
+      } = params;
       return await this._makeRequest({
         $,
         method: "GET",
-        path: `/catalog/categories/${categoryId}/products/sort-order?limit=50&page=${page}`,
+        path: `/catalog/categories/${categoryId}/products/sort-order`,
+        params: qparams,
       });
     },
     async getProduct({

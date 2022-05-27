@@ -15,35 +15,34 @@ export default {
         "categoryId",
       ],
     },
-    maxRequests: {
+    limit: {
       propDefinition: [
         bigcommerce,
-        "maxRequests",
+        "limit",
       ],
     },
   },
   async run({ $ }) {
-    let items = [];
-    let total = 0;
-    let count = 0;
-    do {
-      count++;
-      const response = await this.bigcommerce.getAllProductsSortOrder({
-        $,
-        categoryId: this.categoryId,
-        page: count,
-      });
-      const {
-        data,
-        meta: { pagination },
-      } = response;
-      total = pagination.total;
-      data.forEach((item) => {
-        items.push(item);
-      });
-    } while (items.length < total && count < this.maxRequests);
+    const params = {
+      limit: this.limit,
+      categoryId: this.categoryId,
+    };
 
-    $.export("$summary", "Successfully fetched all products");
-    return items;
+    const products = [];
+    const paginator = this.bigcommerce.paginate({
+      $,
+      fn: this.bigcommerce.getAllProductsSortOrder,
+      params,
+    });
+    for await (const product of paginator) {
+      products.push(product);
+    }
+
+    const suffix = products.length === 1
+      ? ""
+      : "s";
+
+    $.export("$summary", `Returned ${products.length} product${suffix}`);
+    return products;
   },
 };
