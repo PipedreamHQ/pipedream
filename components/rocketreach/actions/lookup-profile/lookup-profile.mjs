@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import rocketreachApp from "../../rocketreach.app.mjs";
 
 export default {
   key: "rocketreach-lookup-profile",
@@ -7,23 +7,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    rocketreach: {
-      type: "app",
-      app: "rocketreach",
-    },
-    name: {
-      type: "string",
-      description: "Name of the person you are looking for",
-      optional: true,
-    },
+    rocketreachApp,
     currentEmployer: {
       type: "string",
       description: "Current employer name",
-      optional: true,
-    },
-    linkedinUrl: {
-      type: "string",
-      description: "LinkedIn URL",
       optional: true,
     },
     id: {
@@ -36,6 +23,18 @@ export default {
       description: "Email address of the person you're looking for",
       optional: true,
     },
+    name: {
+      propDefinition: [
+        rocketreachApp,
+        "name",
+      ],
+    },
+    linkedinUrl: {
+      propDefinition: [
+        rocketreachApp,
+        "linkedinUrl",
+      ],
+    },
   },
   async run({ $ }) {
     if (this.name && !this.currentEmployer && !this.email && !this.id && !this.linkedinUrl) {
@@ -44,18 +43,14 @@ export default {
     else if (!this.name && this.currentEmployer && !this.email && !this.id && !this.linkedinUrl) {
       throw new Error("This action requires more information. Please enter one or more of the following above: name, email, id, LinkedIn URL.");
     }
-    const response = await axios($, {
-      url: "https://api.rocketreach.co/v2/api/lookupProfile",
-      method: "GET",
-      params: {
-        api_key: `${this.rocketreach.$auth.api_key}`,
-        name: this.name,
-        current_employer: this.currentEmployer,
-        li_url: this.linkedinUrl,
-        id: this.id,
-        email: this.email,
-      },
-    });
+    const params = {
+      name: this.name,
+      current_employer: this.currentEmployer,
+      li_url: this.linkedinUrl,
+      id: this.id,
+      email: this.email,
+    };
+    const response = await this.rocketreachApp.lookupProfile(params, $);
 
     $.export("$summary", `Successfully found "${response.name}"`);
     return response;

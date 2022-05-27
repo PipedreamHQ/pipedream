@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import rocketreachApp from "../../rocketreach.app.mjs";
 
 export default {
   key: "rocketreach-lookup-company",
@@ -7,24 +7,24 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    rocketreach: {
-      type: "app",
-      app: "rocketreach",
-    },
-    name: {
-      type: "string",
-      description: "Company's name",
-      optional: true,
-    },
+    rocketreachApp,
     domain: {
       type: "string",
       description: "Company's Domain",
       optional: true,
     },
+    name: {
+      propDefinition: [
+        rocketreachApp,
+        "name",
+      ],
+      description: "Company's name",
+    },
     linkedinUrl: {
-      type: "string",
-      description: "Company's LinkedIn URL",
-      optional: true,
+      propDefinition: [
+        rocketreachApp,
+        "linkedinUrl",
+      ],
     },
   },
   async run({ $ }) {
@@ -32,17 +32,12 @@ export default {
     if (!this.name && !this.domain && !this.linkedinUrl) {
       throw new Error("This action requires one or more of the following: name, domain, linkedIn URL. Please enter at least one of them above.");
     }
-
-    const response = await axios($, {
-      url: "https://api.rocketreach.co/v2/api/lookupCompany",
-      method: "GET",
-      params: {
-        api_key: `${this.rocketreach.$auth.api_key}`,
-        name: this.name,
-        domain: this.domain,
-        linkedin_url: this.linkedinUrl,
-      },
-    });
+    const params = {
+      name: this.name,
+      domain: this.domain,
+      linkedin_url: this.linkedinUrl,
+    };
+    const response = await this.rocketreachApp.lookupCompany(params, $);
 
     $.export("$summary", `Successfully found "${response.name}"`);
     return response;
