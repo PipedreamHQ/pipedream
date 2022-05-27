@@ -7,7 +7,7 @@ export default {
   name: "New Commit (Instant)",
   key: "bitbucket-new-commit",
   description: "Emit new event when a new commit is pushed to a branch. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     repositoryId: {
@@ -28,6 +28,7 @@ export default {
           repositoryId: c.repositoryId,
         }),
       ],
+      optional: true,
     },
   },
   methods: {
@@ -41,7 +42,10 @@ export default {
       ];
     },
     isEventForThisBranch(change, branchName) {
-      return change.new.name === branchName;
+      if (branchName) {
+        return change.new.name === branchName;
+      }
+      return true;
     },
     doesEventContainNewCommits(change) {
       return change.commits && change.commits.length > 0;
