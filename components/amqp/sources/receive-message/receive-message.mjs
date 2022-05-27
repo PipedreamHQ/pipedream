@@ -74,7 +74,7 @@ export default {
 
     } catch (error) {
       console.log("Error receiving message", JSON.stringify(error.innerError));
-      throw "Error receiving message from queue";
+      throw error;
 
     } finally {
       await this.amqp.close(receiver);

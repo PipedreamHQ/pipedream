@@ -72,7 +72,7 @@ export default {
 
     } catch (error) {
       console.log("Error sending message", JSON.stringify(error.innerError));
-      throw "Error sending message to queue";
+      throw error;
 
     } finally {
       await this.amqp.close(sender);
