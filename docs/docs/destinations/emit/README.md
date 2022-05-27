@@ -9,7 +9,7 @@ Like [event sources](/sources/), workflows can emit events. These events can tri
 You can emit arbitrary events from any [Node.js code steps](/code/nodejs/) using `$.send.emit()`.
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
       raw_event: {
@@ -35,7 +35,7 @@ If you're authoring a [component action](/components#actions), you can emit data
 `$.send.emit` functions the same as [`$.send.emit` in workflow code steps](#using-send-emit-in-workflows):
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
       raw_event: {
@@ -51,7 +51,7 @@ defineComponent({
 You can call `$.send.emit()` multiple times within a workflow, for example: to iterate over an array of values and emit an event for each.
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     for (const name of names) {
@@ -89,7 +89,7 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 5. Run your emitter workflow, emitting an event using `$.send.emit()`:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
       raw_event: {
