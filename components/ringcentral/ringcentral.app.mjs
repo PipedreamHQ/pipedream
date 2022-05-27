@@ -58,6 +58,7 @@ export default {
               perPage: 10,
             },
           });
+
         return devices.map((extension) => {
           const {
             id: value,

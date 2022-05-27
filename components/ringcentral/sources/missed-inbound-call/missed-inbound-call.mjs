@@ -21,6 +21,7 @@ export default {
     getSupportedNotificationTypes() {
       return new Set([
         "ringcentral-extension-telephony-sessions-event-missed-inbound-call",
+        "ringcentral-account-telephony-sessions-event-missed-inbound-call",
       ]);
     },
     getPropValues() {

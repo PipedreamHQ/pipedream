@@ -17,7 +17,8 @@ export default {
   },
   hooks: {
     activate() {
-      const lastTimestamp = Math.floor(Date.now() / 1000);
+      const threeHours = 60 * 60 * 3;
+      const lastTimestamp = Math.floor(Date.now() / 1000) - threeHours;
       this.db.set("lastTimestamp", lastTimestamp);
     },
     deactivate() {
@@ -36,7 +37,8 @@ export default {
   },
   async run(event) {
     const lastTimestamp = this.db.get("lastTimestamp");
-    const dateFrom = this._timestampToIsoString(lastTimestamp);
+    const threeMinutes = 60 * 3;
+    const dateFrom = this._timestampToIsoString(lastTimestamp - threeMinutes);
 
     const { timestamp } = event;
     const dateTo = this._timestampToIsoString(timestamp);
