@@ -19,7 +19,7 @@ export default {
     const response = await this.googleDialogflow.listEntityTypes({
       languageCode: this.languageCode,
     });
-    if (response[0].lengt) {
+    if (response[0].length) {
       $.export("$summary", `${response[0].length} entity types has been retrieved.`);
     } else {
       $.export("$summary", "No entity types has been found.");
