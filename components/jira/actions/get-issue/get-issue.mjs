@@ -1,67 +1,62 @@
-// legacy_hash_id: a_bKiraz
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+
+const { jira } = base.props;
 
 export default {
+  ...base,
   key: "jira-get-issue",
   name: "Get Issue",
-  description: "Gets the details for an issue.",
-  version: "0.1.1",
+  description: "Gets the details for an issue. [See docs here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
+  version: "0.2.0",
   type: "action",
   props: {
-    jira: {
-      type: "app",
-      app: "jira",
-    },
-    issueIdOrKey: {
-      type: "string",
-      description: "The ID or key of the issue to get details. If the identifier doesn't match an issue, a case-insensitive search and check for moved issues is performed.",
+    ...base.props,
+    issueId: {
+      propDefinition: [
+        jira,
+        "issueId",
+        (c) => ({
+          cloudId: c.cloudId,
+        }),
+      ],
     },
     fields: {
-      type: "string",
+      label: "Fields",
       description: "A list of fields to return for the issue. This parameter accepts a comma-separated list. Use it to retrieve a subset of fields.  All fields are returned by default. Allowed values:\n\n`*all` Returns all fields.\n`*navigable` Returns navigable fields.\nAny issue field, prefixed with a minus to exclude, as in `-description `.",
+      type: "string",
       optional: true,
     },
     fieldsByKeys: {
-      type: "boolean",
+      label: "Fields By Keys",
       description: "Whether `fields` in fields are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field's key may differ from its ID.",
+      type: "boolean",
       optional: true,
     },
     expand: {
-      type: "string",
-      optional: true,
+      propDefinition: [
+        jira,
+        "expand",
+      ],
     },
     properties: {
+      label: "Properties",
+      description: "A list of issue properties to return for the issue.",
       type: "string",
       optional: true,
     },
     updateHistory: {
+      label: "Update History",
+      description: "Whether the project in which the issue is created is added to the user's *Recently viewed* project list, as shown under *Projects* in Jira.",
       type: "string",
       optional: true,
     },
   },
   async run({ $ }) {
-  // First we must make a request to get our the cloud instance ID tied
-  // to our connected account, which allows us to construct the correct REST API URL. See Section 3.2 of
-  // https://developer.atlassian.com/cloud/jira/platform/oauth-2-authorization-code-grants-3lo-for-apps/
-    const resp = await axios($, {
-      url: "https://api.atlassian.com/oauth/token/accessible-resources",
-      headers: {
-        Authorization: `Bearer ${this.jira.$auth.oauth_access_token}`,
-      },
-    });
-
-    // Assumes the access token has access to a single instance
-    const cloudId = resp[0].id;
-
-    // See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get
-    // for all options
-    return await axios($, {
-      url: `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${this.issueIdOrKey}`,
-      headers: {
-        "Authorization": `Bearer ${this.jira.$auth.oauth_access_token}`,
-        "Accept": "application/json",
-      },
-      data: {
+    const response = await this.jira.getIssue({
+      $,
+      cloudId: this.cloudId,
+      issueId: this.issueId,
+      params: {
         fields: this.fields,
         fieldsByKeys: this.fieldsByKeys,
         expand: this.expand,
@@ -69,5 +64,9 @@ export default {
         updateHistory: this.updateHistory,
       },
     });
+
+    $.export("$summary", "Successfully retrieved issue");
+
+    return response;
   },
 };

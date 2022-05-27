@@ -18,7 +18,7 @@ export default {
         jira,
         "issueId",
         (c) => ({
-          projectId: c.projectId,
+          cloudId: c.cloudId,
         }),
       ],
     },
@@ -35,7 +35,7 @@ export default {
 
     const response = await this.jira.createIssueAttachment({
       $,
-      projectId: this.projectId,
+      cloudId: this.cloudId,
       issueId: this.issueId,
       data,
     });

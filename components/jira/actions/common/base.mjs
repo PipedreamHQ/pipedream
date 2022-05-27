@@ -1,13 +1,12 @@
-import { axios } from "@pipedream/platform";
 import jira from "../../jira.app.mjs";
 
 export default {
   props: {
     jira,
-    projectId: {
+    cloudId: {
       propDefinition: [
         jira,
-        "projectId",
+        "cloudId",
       ],
     },
   },

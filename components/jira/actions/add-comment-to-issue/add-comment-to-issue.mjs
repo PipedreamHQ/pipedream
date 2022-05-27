@@ -1,5 +1,4 @@
 import base from "../common/base.mjs";
-import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
 
 const { jira } = base.props;
@@ -9,7 +8,7 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue. [See docs here]()",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     ...base.props,
@@ -18,7 +17,7 @@ export default {
         jira,
         "issueId",
         (c) => ({
-          projectId: c.projectId,
+          cloudId: c.cloudId,
         }),
       ],
     },
@@ -28,41 +27,40 @@ export default {
       type: "string",
     },
     expand: {
-      label: "Expand",
-      description: "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. Use [expand](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML.",
-      type: "object",
-      optional: true,
+      propDefinition: [
+        jira,
+        "expand",
+      ],
     },
     visibilityType: {
-      label: "Visibility Type",
-      type: "string",
-      description: "Whether visibility of this item is restricted to a group or role.",
-      optional: true,
-      options: constants.VISIBILITY_TYPES,
+      propDefinition: [
+        jira,
+        "visibilityType",
+      ],
     },
     visibilityValue: {
-      label: "Visibility Value",
-      description: "The name of the group or role to which visibility of this item is restricted.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        jira,
+        "visibilityType",
+      ],
     },
     visibilityAdditionalProperties: {
-      label: "Visibility Additional Properties",
-      description: "Extra properties of any type may be provided to the visibility object.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        jira,
+        "visibilityType",
+      ],
     },
     properties: {
-      label: "Properties",
-      description: "A list of comment properties.",
-      type: "string[]",
-      optional: true,
+      propDefinition: [
+        jira,
+        "visibilityType",
+      ],
     },
     additionalProperties: {
-      label: "Additional Properties",
-      description: "Extra properties of any type may be provided to this object.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        jira,
+        "visibilityType",
+      ],
     },
   },
   async run({ $ }) {
@@ -74,7 +72,7 @@ export default {
 
     const response = await this.jira.createIssueComment({
       $,
-      projectId: this.projectId,
+      cloudId: this.cloudId,
       issueId: this.issueId,
       params: {
         expand: this.expand,

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import base from "../common/base.mjs";
 import utils from "../common/utils.mjs";
 
@@ -5,8 +6,8 @@ export default {
   ...base,
   key: "jira-create-issue",
   name: "Create Issue",
-  description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See docs here]() ",
-  version: "0.1.2",
+  description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. [See docs here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post) ",
+  version: "0.2.0",
   type: "action",
   props: {
     ...base.props,
@@ -42,11 +43,13 @@ export default {
       label: "Description",
       description: "Description object of the issue.",
       type: "string",
+      optional: true,
     },
     reporterId: {
       label: "Reporter ID",
       description: "The ID of the reporter",
       type: "string",
+      optional: true,
     },
     fixVersions: {
       label: "Fix Versions",
@@ -152,6 +155,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.description && !this.reporterId) {
+      throw new ConfigurationError("This action requires either Description or Reporter ID.");
+    }
+
     const componentsParsed = utils.parseStringToJSON(this.components);
     const descriptionParsed = utils.parseStringToJSON(this.description);
     const fixVersionsParsed = utils.parseStringToJSON(this.fixVersions);

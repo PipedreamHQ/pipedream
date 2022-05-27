@@ -9,4 +9,9 @@ export default {
       value: "role",
     },
   ],
+  ORDER_BY_OPTIONS: [
+    "created",
+    "+created",
+    "-created",
+  ],
 };
