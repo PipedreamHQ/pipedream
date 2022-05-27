@@ -14,7 +14,6 @@ export default {
         googleDialogflow,
         "sessionId",
       ],
-      default: "",
     },
     queryParams: {
       label: "Query Params",

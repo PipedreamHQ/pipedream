@@ -13,7 +13,6 @@ export default {
         googleDialogflow,
         "sessionId",
       ],
-      default: "",
     },
   },
   async run({ $ }) {

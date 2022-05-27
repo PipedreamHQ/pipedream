@@ -1,5 +1,6 @@
 import googleDialogflow from "../../google_dialogflow.app.mjs";
 import utils from "../../common/utils.mjs";
+import { v4 } from "uuid";
 
 export default {
   type: "action",
@@ -21,6 +22,7 @@ export default {
         googleDialogflow,
         "sessionId",
       ],
+      default: v4(),
     },
     lifespanCount: {
       propDefinition: [

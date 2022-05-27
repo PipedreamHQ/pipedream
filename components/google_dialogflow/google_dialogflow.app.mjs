@@ -5,7 +5,6 @@ import {
   ContextsClient,
   EntityTypesClient,
 } from "@google-cloud/dialogflow";
-import { v4 } from "uuid";
 import fs from "fs";
 import constants from "./common/constants.mjs";
 
@@ -61,7 +60,6 @@ export default {
       label: "Session ID",
       description: "Session ID",
       type: "string",
-      default: v4(),
     },
     name: {
       label: "Name",
