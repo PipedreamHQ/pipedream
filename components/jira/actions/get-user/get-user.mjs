@@ -7,7 +7,7 @@ export default {
   key: "jira-get-user",
   name: "Get User",
   description: "Gets details of user. [See docs here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get)",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     ...base.props,
