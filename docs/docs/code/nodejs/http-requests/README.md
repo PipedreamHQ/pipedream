@@ -446,12 +446,16 @@ import { promisify } from "util";
 import fs from "fs";
 import got from "got";
 
-// DOWNLOAD
-const pipeline = promisify(stream.pipeline);
-await pipeline(
-  got.stream("https://example.com"),
-  fs.createWriteStream('/tmp/file.html')
-);
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Download the webpage HTML file to /tmp
+    const pipeline = promisify(stream.pipeline);
+    return await pipeline(
+      got.stream("https://example.com"),
+      fs.createWriteStream('/tmp/file.html')
+    );
+  }
+})
 ```
 
 [Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
