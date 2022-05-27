@@ -10,10 +10,10 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
-    repositoryId: {
+    repositoryIds: {
       propDefinition: [
         bitbucket,
-        "repository",
+        "multiRepositories",
         (c) => ({
           workspaceId: c.workspaceId,
         }),
@@ -32,7 +32,9 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return `repositories/${this.workspaceId}/${this.repositoryId}/hooks`;
+      return this.repositoryIds?.length > 1
+        ? this.repositoryIds.map((repositoryId) => `repositories/${this.workspaceId}/${repositoryId}/hooks`)
+        : `repositories/${this.workspaceId}/${this.repositoryIds[0]}/hooks`;
     },
     getWebhookEventTypes() {
       return this.eventTypes;
