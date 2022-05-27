@@ -5,7 +5,7 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     jira: {
@@ -123,6 +123,7 @@ export default {
         "Authorization": `Bearer ${this.jira.$auth.oauth_access_token}`,
         "Accept": "application/json",
       },
+      method: 'post',
       data: {
         "transition": this.transition,
         "fields": this.fields,
