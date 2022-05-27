@@ -68,9 +68,10 @@ export default {
     async emitEvent(event) {
       console.log(`Emitting event ${event.id}:`);
       console.log(event);
+      const ts = Date.parse(event[this.getTimestampKey()]);
       this.$emit(event, {
-        id: event.id,
-        ts: Date.parse(event[this.getTimestampKey()]),
+        id: `${event.id}_${ts}`,
+        ts,
         summary: `New ${this.getEventType()}: ${event.id}`,
       });
     },
