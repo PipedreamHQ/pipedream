@@ -140,9 +140,13 @@ export default {
         null,
     });
     const response = await this.kanbanizeApp.editTask(taskParam);
+
+    // From kanbanize`s docs: [Output  of Edit Task] - The status of the operation (1 or error).
+    // Response is being compared to 1 (magic number) by lack of possibilities from kanbanize`s docs
     if (response === 1) {
       $.export("$summary", `Successfully edited task #${this.taskId}`);
     }
+
     return response;
   },
 };
