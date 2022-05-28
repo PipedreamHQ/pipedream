@@ -7,7 +7,7 @@ export default {
   key: "gitlab-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new event when a new commit is pushed to a branch",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   props: {
@@ -20,6 +20,7 @@ export default {
           projectId: c.projectId,
         }),
       ],
+      optional: true,
     },
   },
   hooks: {
@@ -30,6 +31,12 @@ export default {
   },
   methods: {
     ...base.methods,
+    isEventForThisBranch(branch) {
+      if (this.refName) {
+        return branch === this.refName;
+      }
+      return true;
+    },
     generateMeta(commit) {
       const {
         id,
@@ -44,6 +51,11 @@ export default {
       };
     },
     async emitEvent(event) {
+      const refName = event.ref.split("refs/heads/").pop();
+      if (!this.isEventForThisBranch(refName)) {
+        return;
+      }
+
       // Gitlab "push events" are only provisioned with at most
       // 20 commit objects (which also lack information when compared
       // to the Commits API). The amount of new commits is specified
@@ -55,7 +67,7 @@ export default {
       if (totalCommitsCount <= 0) return;
 
       const commits = await this.gitlab.listCommits(this.projectId, {
-        refName: this.refName,
+        refName,
         max: Math.min(50, totalCommitsCount),
       });
 
