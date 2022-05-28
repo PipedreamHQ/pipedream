@@ -1,13 +1,14 @@
-import rssApp from "../../rss.app.mjs";
+import rss from "../../rss.app.mjs";
+import { defineSource } from "@pipedream/types";
 
-export default {
+export default defineSource({
   key: "rss-new-item-from-multiple-feeds",
   name: "New item from multiple RSS feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds.",
-  version: "0.0.1",
+  version: "1.0.0",
   props: {
-    rssApp,
+    rss,
     urls: {
       type: "string[]",
       label: "Feed URLs",
@@ -23,16 +24,14 @@ export default {
   dedupe: "unique",
   async run() {
     for (const url of this.urls) {
-      const feed = await this.rssApp.fetchFeed(this, url);
-      const items = await this.rssApp.parseFeed(feed);
-      for (const item of items) {
-        const itemKey = this.rssApp.itemKey(item);
+      const items = await this.rss.fetchAndParseFeed(url);
+      items.forEach((item: any) => {
         this.$emit(item, {
-          id: itemKey,
+          id: this.rss.itemKey(item),
           summary: item.title,
           ts: item.pubdate && +new Date(item.pubdate),
         });
-      }
+      });
     }
   },
-};
+});

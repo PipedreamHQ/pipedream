@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/types",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "description": "Pipedream TypeScript types",
     "main": "dist/index.js",
     "keywords": [

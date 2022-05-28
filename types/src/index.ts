@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type JSONValue =
   | string
   | number
@@ -105,15 +106,17 @@ export interface Pipedream {
 export interface OptionsMethodArgs {
   page?: number;
   prevContext?; // XXX could be typed using context from OptionalOptsFn ReturnValue?
-  [key: string]; // XXX properties in the return value of OptionalOptsFn can be included. Strictly type this instead?
+  [key: string]: any; // XXX properties in the return value of OptionalOptsFn can be included. Strictly type this instead?
 }
 
 // https://pipedream.com/docs/components/api/#referencing-values-from-previous-props
 export interface OptionalOptsFn {
-  (configuredProps: { [key: string]; }): object; // XXX strictly type configuredProps
+  (configuredProps: { [key: string]: any; }): object; // XXX strictly type configuredProps
 }
 
-export type PropDefinition = [App<M, P>, string] | [App<M, P>, string, OptionalOptsFn];
+export type PropDefinition =
+  [App<Methods, AppPropDefinitions>, string] |
+  [App<Methods, AppPropDefinitions>, string, OptionalOptsFn];
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 export interface PropDefinitionReference {
@@ -125,22 +128,20 @@ export interface PropDefinitionReference {
 // for more information on this technique
 export interface App<
   Methods,
-  PropDefinitions extends AppPropDefinitions = {}
+  AppPropDefinitions
 > {
   type: "app";
   app: string;
-  propDefinitions?: PropDefinitions;
-  methods?: Methods & ThisType<Methods & PropDefinitions>;
+  propDefinitions?: AppPropDefinitions;
+  methods?: Methods & ThisType<Methods & AppPropDefinitions>;
 }
 
 export function defineApp<
-  M,
-  P,
+  Methods,
+  AppPropDefinitions,
 >
-(app: App<M, P>): App<M, P> {
-  return {
-    ...app,
-  };
+(app: App<Methods, AppPropDefinitions>): App<Methods, AppPropDefinitions> {
+  return app;
 }
 
 // Props
@@ -185,7 +186,7 @@ export interface BasePropInterface {
 export type PropOptions = any[] | Array<{ [key: string]: string; }>;
 
 // https://pipedream.com/docs/components/api/#user-input-props
-export interface BaseUserProp extends BasePropInterface {
+export interface UserProp extends BasePropInterface {
   type: "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
   options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
   optional?: boolean;
@@ -194,41 +195,6 @@ export interface BaseUserProp extends BasePropInterface {
   min?: number;
   max?: number;
 }
-
-export interface UserBooleanProp extends BaseUserProp {
-  type: "boolean";
-}
-export interface UserBooleanArrayProp extends BaseUserProp {
-  type: "boolean[]";
-}
-export interface UserIntegerProp extends BaseUserProp {
-  type: "integer";
-}
-export interface UserIntegerArrayProp extends BaseUserProp {
-  type: "integer[]";
-}
-export interface UserStringProp extends BaseUserProp {
-  type: "string";
-}
-export interface UserStringArrayProp extends BaseUserProp {
-  type: "string[]";
-}
-export interface UserObjectProp extends BaseUserProp {
-  type: "object";
-}
-export interface UserAnyProp extends BaseUserProp {
-  type: "any";
-}
-
-export type UserProp =
-  UserBooleanProp |
-  UserBooleanArrayProp |
-  UserIntegerProp |
-  UserIntegerArrayProp |
-  UserStringProp |
-  UserStringArrayProp |
-  UserObjectProp |
-  UserAnyProp;
 
 // https://pipedream.com/docs/components/api/#interface-props
 export interface InterfaceProp extends BasePropInterface {
@@ -252,21 +218,21 @@ export interface HttpRequestProp extends BasePropInterface {
 }
 
 export interface SourcePropDefinitions {
-  [name: string]: PropDefinitionReference | App<M, P> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
 }
 
 export interface ActionPropDefinitions {
-  [name: string]: PropDefinitionReference | App<M, P> | UserProp | DataStoreProp | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | DataStoreProp | HttpRequestProp;
 }
 
 export interface AppPropDefinitions {
-  [name: string]: PropDefinitionReference | App<M, P> | UserProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp;
 }
 
 export interface Hooks {
-  deploy?: (this: any) => Promise<void>;
-  activate?: (this: any) => Promise<void>;
-  deactivate?: (this: any) => Promise<void>;
+  deploy?: () => Promise<void>;
+  activate?: () => Promise<void>;
+  deactivate?: () => Promise<void>;
 }
 
 export interface SourceRunOptions {
@@ -275,6 +241,7 @@ export interface SourceRunOptions {
 
 export interface ActionRunOptions {
   $: Pipedream;
+  steps: JSONValue;
 }
 
 // https://pipedream.com/docs/components/api/#run
@@ -284,70 +251,63 @@ export interface EmitMetadata {
   summary?: string;
   ts: number;
 }
-export interface EmitConfig {
-  event: JSONValue;
-  metadata?: EmitMetadata;
-}
+
 type EmitFunction = {
-  $emit: (config: EmitConfig) => Promise<void>;
+  $emit: (event: JSONValue, metadata: EmitMetadata) => Promise<void>;
 };
 
-// TO DO: Support interface, data store, and other props
-type PropThis<Type> = {
-  [Prop in keyof Type]:
-    Type[Prop] extends App<M, P> ? App<M, P> :
-    Type[Prop] extends UserBooleanProp ? boolean :
-    Type[Prop] extends UserBooleanArrayProp ? Array<boolean> :
-    Type[Prop] extends UserIntegerProp ? number :
-    Type[Prop] extends UserIntegerArrayProp ? Array<number> :
-    Type[Prop] extends UserStringProp ? string :
-    Type[Prop] extends UserStringArrayProp ? Array<string> :
-    Type[Prop] extends UserObjectProp ? object :
-    Type[Prop] extends UserAnyProp ? any :
-    string
+type PropThis<Props> = {
+  [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
 export interface Source<
   Methods,
-  Props extends SourcePropDefinitions = {}
+  SourcePropDefinitions
 > {
   key: string;
   name?: string;
   description?: string;
   version: string;
   type: "source";
-  methods?: Methods & ThisType<PropThis<Props> & Methods & EmitFunction>;
-  hooks?: Hooks & ThisType<PropThis<Props> & Methods & EmitFunction>;
-  props?: Props;
+  methods?: Methods & ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
+  hooks?: Hooks & ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
+  props?: SourcePropDefinitions;
   dedupe?: "last" | "greatest" | "unique";
   additionalProps?: (
-    previousPropDefs: Props
-  ) => Promise<Props>;
-  run: (this: any, options?: SourceRunOptions) => void | Promise<void>;
+    previousPropDefs: SourcePropDefinitions
+  ) => Promise<SourcePropDefinitions>;
+  run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
 
 export function defineSource<
-  M,
-  P,
+  Methods,
+  SourcePropDefinitions,
 >
-(component: Source<M, P>): Source<M, P> {
-  return {
-    ...component,
-  };
+(component: Source<Methods, SourcePropDefinitions>): Source<Methods, SourcePropDefinitions> {
+  return component;
 }
 
-export interface Action {
+export interface Action<
+  Methods,
+  ActionPropDefinitions
+> {
   key: string;
   name?: string;
   description?: string;
   version: string;
   type: "action";
-  methods?: Methods & ThisType<any>;
-  props?: ActionPropDefinitions & ThisType<any>;
+  methods?: Methods & ThisType<PropThis<ActionPropDefinitions> & Methods>;
+  props?: ActionPropDefinitions;
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>;
-  // XXX `this` should be strictly typed. For some reason the approach I took above
-  // did not work here.
-  run: (this: any, options?: ActionRunOptions) => any;
+  run: (this: PropThis<ActionPropDefinitions> & Methods, options?: ActionRunOptions) => any;
+}
+
+export function defineAction<
+  Methods,
+  ActionPropDefinitions,
+>
+(component: Action<Methods, ActionPropDefinitions>): Action<Methods, ActionPropDefinitions> {
+  return component;
 }

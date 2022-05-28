@@ -136,7 +136,7 @@ const theDollar: Pipedream.Pipedream = {
   flow: flowFunctions,
 };
 
-const googleSheets: Pipedream.App = {
+const googleSheets: Pipedream.App<Pipedream.Methods, Pipedream.AppPropDefinitions> = {
   type: "app",
   app: "google_sheets",
   propDefinitions: {
@@ -158,7 +158,7 @@ const googleSheets: Pipedream.App = {
   },
 };
 
-const github: Pipedream.App = {
+const github: Pipedream.App<Pipedream.Methods, Pipedream.AppPropDefinitions> = {
   type: "app",
   app: "github",
   propDefinitions: {
@@ -236,7 +236,7 @@ const hooks: Pipedream.Hooks = {
   deactivate: async () => { return; },
 };
 
-const source: Pipedream.Source = {
+const source: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "source",
   name: "Test Source",
   description: "hello, world",
@@ -255,11 +255,13 @@ const source: Pipedream.Source = {
     },
   },
   dedupe: "unique",
-  async run(event) {
-    this.$emit(event, {
+  async run() {
+    this.$emit({
+      foo: "bar ",
+    }, {
       id: "foo",
       name: "channel",
-      summmary: "Summary",
+      summary: "Summary",
       ts: 123,
     });
   },
@@ -268,44 +270,44 @@ const source: Pipedream.Source = {
 // Bad sources
 
 // @ts-expect-error $ExpectError - Missing key
-const sourceMissingKey: Pipedream.Source = {
+const sourceMissingKey: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   version: "0.0.1",
   type: "source",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
 // @ts-expect-error $ExpectError - Missing version
-const sourceMissingVersion: Pipedream.Source = {
+const sourceMissingVersion: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "foo",
   type: "source",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
 // @ts-expect-error $ExpectError - Missing type
-const sourceMissingType: Pipedream.Source = {
+const sourceMissingType: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "foo",
   version: "0.0.1",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
-const sourceWrongType: Pipedream.Source = {
+const sourceWrongType: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "foo",
   version: "0.0.1",
   // @ts-expect-error $ExpectError - bad type
   type: "action",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
-const sourceWrongDedupeType: Pipedream.Source = {
+const sourceWrongDedupeType: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "foo",
   version: "0.0.1",
   type: "source",
   // @ts-expect-error $ExpectError - bad dedupe type
   dedupe: "badValue",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
-const sourceReturningDataShouldWarn: Pipedream.Source = {
+const sourceReturningDataShouldWarn: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
   key: "foo",
   version: "0.0.1",
   type: "source",
@@ -313,7 +315,7 @@ const sourceReturningDataShouldWarn: Pipedream.Source = {
   run(event) { return "data"; },
 };
 
-const action: Pipedream.Action = {
+const action: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   key: "action",
   name: "Test Action",
   description: "hello, world",
@@ -338,30 +340,30 @@ const action: Pipedream.Action = {
 // Bad actions
 
 // @ts-expect-error $ExpectError - Missing key
-const actionMissingKey: Pipedream.Action = {
+const actionMissingKey: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   version: "0.0.1",
   type: "action",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
 // @ts-expect-error $ExpectError - Missing version
-const actionMissingVersion: Pipedream.Action = {
+const actionMissingVersion: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   key: "foo",
   type: "action",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
 // @ts-expect-error $ExpectError - Missing type
-const actionMissingType: Pipedream.Action = {
+const actionMissingType: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   key: "foo",
   version: "0.0.1",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };
 
-const actionWrongType: Pipedream.Action = {
+const actionWrongType: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   key: "foo",
   version: "0.0.1",
   // @ts-expect-error $ExpectError - bad type
   type: "source",
-  run(event) { console.log("foo"); },
+  run() { console.log("foo"); },
 };

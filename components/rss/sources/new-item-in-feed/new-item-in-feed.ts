@@ -1,12 +1,11 @@
-import rss from "../../rss.app.js";
-import { Item } from "feedparser";
+import rss from "../../rss.app.mjs";
 import { defineSource } from "@pipedream/types";
 
 export default defineSource({
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
-  version: "1.0.5",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,10 +14,6 @@ export default defineSource({
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
     },
-    num: {
-      type: "integer",
-      label: "foo",
-    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -26,10 +21,6 @@ export default defineSource({
       },
     },
     rss,
-  },
-  methods: {
-    foo() {
-    },
   },
   hooks: {
     async activate() {
@@ -40,7 +31,7 @@ export default defineSource({
   },
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
-    items.forEach((item: Item) => {
+    items.forEach((item: any) => {
       this.$emit(item, {
         id: this.rss.itemKey(item),
         summary: item.title,

@@ -2,9 +2,7 @@ import axios from "axios";
 import FeedParser from "feedparser";
 import { Item } from "feedparser";
 import hash from "object-hash";
-import {
-  NoProtocolError, generateHTTPErrorClasses,
-} from "@pipedream/helpers";
+import { generateHTTPErrorClasses } from "@pipedream/helpers";
 import { defineApp } from "@pipedream/types";
 
 export default defineApp({
@@ -74,15 +72,18 @@ export default defineApp({
       });
       return items;
     },
-    async fetchAndParseFeed(url: string) {
-      this.validateFeedURL(url);
+    async fetchAndParseFeed(u: string) {
+      this.validateFeedURL(u);
+      let url = u;
+      // If the URL doesn't begin with a protocol, the request will fail.
+      if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) {
+        url = `https://${u}`;
+      }
       const data = await this.fetchFeed(url);
       return this.parseFeed(data);
     },
     validateFeedURL(url: string) {
       if (!url) throw new Error("No feed URL provided");
-      // TODO: Add https:// to the URL if it doesn't have a protocol
-      if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) throw new NoProtocolError("The feed URL must start with a protocol like http:// or https://");
     },
   },
 });
