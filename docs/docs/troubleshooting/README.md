@@ -28,11 +28,21 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
+## Why am I seeing more than one invocation charged each time my workflow runs?
+
+Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event. 
+
+If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
+
+Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
+
+To see your invocations broken out by resource, visit [https://pipedream.com/settings/billing?invocationsByResource=1](https://pipedream.com/settings/billing?invocationsByResource=1). This will show you the invocations charged for your workflow, event source, or other resources.
+
 ## Why is my trigger not emitting events?
 
 Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
 
-#### Webhook-based instant sources
+### Webhook-based instant sources
 
 - These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation.
 - To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
@@ -40,7 +50,7 @@ Most Pipedream sources fall into one of two categories: webhook-based or timer-b
 ![Select an event](https://res.cloudinary.com/pipedreamin/image/upload/v1653434586/docs/webhook-triggers-select-event_qj7nlp.png)
 - Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
 
-#### Timer-based polling sources
+### Timer-based polling sources
 
 - These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
 ![Configure polling timer](https://res.cloudinary.com/pipedreamin/image/upload/v1653434591/docs/polling-triggers-timer_ooz26c.png)
