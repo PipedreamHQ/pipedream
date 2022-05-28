@@ -25,11 +25,11 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "tsc",
+    "build": "npx tsc --listEmittedFiles | node scripts/processEmittedFiles.js | npx renamer --find js --replace mjs --force",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.0.2",
+    "@pipedream/types": "^0.0.5",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
@@ -43,7 +43,9 @@
     "lint-staged": "^12.3.4",
     "pnpm": "^7.0.1",
     "putout": ">=20",
+    "renamer": "^4.0.0",
     "ts-jest": "^27.1.4",
+    "tsc-esm-fix": "^2.15.0",
     "tsc-watch": "^5.0.3",
     "typescript": "^4.6.4"
   },

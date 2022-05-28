@@ -2,7 +2,10 @@
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
     "module": "ES2020",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "listEmittedFiles": true,
+    "skipLibCheck": true,
+    "declaration": true,
   },
   "exclude": [
     "types",

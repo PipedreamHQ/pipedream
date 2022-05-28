@@ -1,8 +1,9 @@
 {
     "name": "@pipedream/rss",
     "version": "0.3.3",
-    "description": "Pipedream Rss Components",
-    "main": "rss.app.js",
+    "description": "Pipedream RSS Components",
+    "main": "rss.app.mjs",
+    "types": "rss.app.d.ts",
     "keywords": [
         "pipedream",
         "rss"
@@ -20,7 +21,7 @@
         "@types/object-hash": "^2.2.1"
     },
     "dependencies": {
-        "@pipedream/helpers": "^1.3.7",
+        "@pipedream/helpers": "^1.3.9",
         "@pipedream/platform": "^0.10.0",
         "axios": "^0.27.2",
         "feedparser": "^2.2.10",

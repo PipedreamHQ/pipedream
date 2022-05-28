@@ -105,7 +105,7 @@ export interface Pipedream {
 // https://pipedream.com/docs/components/api/#async-options-example
 export interface OptionsMethodArgs {
   page?: number;
-  prevContext?; // XXX could be typed using context from OptionalOptsFn ReturnValue?
+  prevContext?: any; // XXX could be typed using context from OptionalOptsFn ReturnValue?
   [key: string]: any; // XXX properties in the return value of OptionalOptsFn can be included. Strictly type this instead?
 }
 
