@@ -1,4 +1,4 @@
-import rss from "../../rss.app.mjs";
+import rss from "@pipedream/rss";
 import Parser from "rss-parser";
 import { defineAction } from "@pipedream/types";
 
@@ -12,7 +12,7 @@ export default defineAction({
     feeds: {
       type: "string[]",
       label: "Feeds",
-      description: "The list of RSS feeds you want to merge foo",
+      description: "The list of RSS feeds you want to merge",
     },
     rss,
   },

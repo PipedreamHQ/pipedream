@@ -1,0 +1,28 @@
+{
+    "extends": "@tsconfig/node14/tsconfig.json",
+    "compilerOptions": {
+      "module": "ES2020",
+      "moduleResolution": "node",
+      "listEmittedFiles": true,
+      "skipDefaultLibCheck": true,
+      "skipLibCheck": true,
+      "composite": true,
+      "baseUrl": ".",
+      "outDir": "dist",
+      "rootDir": ".",
+      "paths": {
+        "@pipedream/rss": [ "." ]
+      }
+    },
+    "esModuleInterop": true,
+    "allowJs": true,
+    "include": [
+      "app",
+      "actions",
+      "sources"
+    ],
+    "exclude": [
+        "dist",
+    ]
+  }
+  
