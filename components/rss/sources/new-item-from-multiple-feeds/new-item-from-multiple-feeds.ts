@@ -1,4 +1,4 @@
-import rss from "@pipedream/rss";
+import rss from "../../app/rss.app";
 import { defineSource } from "@pipedream/types";
 
 export default defineSource({

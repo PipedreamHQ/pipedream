@@ -1,4 +1,4 @@
-import rss from "@pipedream/rss";
+import rss from "../../app/rss.app";
 import Parser from "rss-parser";
 import { defineAction } from "@pipedream/types";
 

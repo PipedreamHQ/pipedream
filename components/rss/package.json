@@ -4,7 +4,7 @@
     "description": "Pipedream RSS Components",
     "main": "dist/app/rss.app.mjs",
     "types": "dist/rss.app.d.ts",
-    "files": ["dist"]
+    "files": ["dist"],
     "keywords": [
         "pipedream",
         "rss"
