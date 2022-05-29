@@ -369,7 +369,7 @@ module.exports = {
             page,
           },
         })
-      ).data;
+      ).dta;
     },
     async getGists(opts = {}) {
       const {
