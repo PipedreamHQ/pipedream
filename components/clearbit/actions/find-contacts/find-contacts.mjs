@@ -5,14 +5,14 @@ export default {
   key: "clearbit-find-contacts",
   name: "Find Contacts",
   description: "Find people who work at a specific company. [See the docs here](https://dashboard.clearbit.com/docs#prospector-api)",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     app,
     domain: {
       propDefinition: [
         app,
-        "webhookUrl",
+        "domain",
       ],
       description: "Domain of the company you want to search against.",
     },
@@ -100,7 +100,7 @@ export default {
       query: this.query,
       suppression: this.suppression,
     };
-    const res = await this.app._paginate(
+    const res = await this.app.paginate(
       $,
       this.maxResults || 100,
       this.app.findContacts,

@@ -14,7 +14,7 @@ export default {
     "twitter_followers_asc",
   ],
   SUPPRESSION: [
-    "eu ",
-    "eu_strict ",
+    "eu",
+    "eu_strict",
   ],
 };

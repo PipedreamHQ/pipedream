@@ -63,7 +63,7 @@ export default {
     errorIfNoRecords: {
       type: "boolean",
       label: "Handle lack of records found as an error?",
-      description: "Defaults to `false`. If no records are found, the step will still be considered a success. If `false`, the step will return an error and workflow execution will stop.",
+      description: "Defaults to `false`. If `false` and no records are found, the step will still be considered a success. If `true` and no records are found, the step will return an error and workflow execution will stop.",
       optional: true,
       default: false,
     },
@@ -93,7 +93,7 @@ export default {
       };
       return res;
     },
-    async _paginate(ctx, maxResults, apiRequestFunction, params) {
+    async paginate(ctx, maxResults, apiRequestFunction, params) {
       let page = 1;
       let items = [];
       while (true) {

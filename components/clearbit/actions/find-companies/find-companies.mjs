@@ -5,7 +5,7 @@ export default {
   key: "clearbit-find-companies",
   name: "Find Companies",
   description: "Find companies via specific criteria. [See the docs here](https://dashboard.clearbit.com/docs#discovery-api-attributes)",
-  version: "0.2.2",
+  version: "0.3.0",
   type: "action",
   props: {
     app,
@@ -34,13 +34,17 @@ export default {
       query: this.query,
       maxResults: this.maxResults,
     };
-    const res = await this.app._paginate(
+    const res = await this.app.paginate(
       $,
       this.maxResults || 100,
       this.app.findCompanies,
       params,
     );
-    $.export("$summary", `Found ${res.length} company(ies)`);
-    return res;
+    if (res.length == 0) {
+      $.export("$summary", "No results found");
+    } else {
+      $.export("$summary", `Found ${res.length} company(ies)`);
+      return res;
+    }
   },
 };
