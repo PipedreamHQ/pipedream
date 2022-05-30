@@ -51,8 +51,9 @@ import { fix } from 'tsc-esm-fix'
     })
   }
 
-  // Output the file to the next stage of the pipe
+  // At this point, tsc-esm-fix has already modified the file to `.mjs`,
+  // so we need to emit the `.mjs` filename for the next stage of the pipe
   for (const file of files) {
-    console.log(file);
+    console.log(file.replace(/\.js$/, '.mjs'));
   }
 })();
