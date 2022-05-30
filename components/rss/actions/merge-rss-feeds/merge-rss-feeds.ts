@@ -6,7 +6,7 @@ export default defineAction({
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date",
   key: "rss-merge-rss-feeds",
-  version: "0.1.{{ts}}",
+  version: "0.2.{{ts}}",
   type: "action",
   props: {
     feeds: {
