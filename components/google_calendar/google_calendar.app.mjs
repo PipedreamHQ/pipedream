@@ -244,6 +244,32 @@ export default {
     },
   },
   methods: {
+    _tokens() {
+      return {
+        access_token: this?.$auth?.oauth_access_token,
+        refresh_token: this?.$auth?.oauth_refresh_token,
+      };
+    },
+    async calendarList() {
+      const calendar = this.client();
+      return calendar.calendarList.list();
+    },
+    async list(config) {
+      const calendar = this.client();
+      return calendar.events.list(config);
+    },
+    // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
+    async getEvents(config) {
+      return this.list(config);
+    },
+    async watch(config) {
+      const calendar = this.client();
+      return calendar.events.watch(config);
+    },
+    async stop(config) {
+      const calendar = this.client();
+      return calendar.channels.stop(config);
+    },
     client() {
       const auth = new calendar.auth.OAuth2();
       auth.setCredentials({

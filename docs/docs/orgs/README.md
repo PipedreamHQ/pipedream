@@ -47,9 +47,11 @@ Org admins have permission to:
 - Remove users from orgs
 - Manage the org's billing details
 
-## Adding new org admins
+Org admins can assign other users as admins:
 
-By default, the user who created the org is the org admin. To change ownership or assign new admins, [reach out to the Pipedream team](https://pipedream.com/support).
+1. Visit [https://pipedream.com/settings/users](https://pipedream.com/settings/users)
+2. Find the user you want to add as an admin
+3. Select the **...** to the right of the user, and select the option to **Add Admin**.
 
 ## Finding your organization's ID
 
