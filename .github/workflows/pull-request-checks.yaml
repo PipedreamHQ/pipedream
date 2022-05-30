@@ -223,12 +223,13 @@ jobs:
         run: pnpm install -r
       - name: Compile TypeScript
         id: compile
-        run: echo "::set-output files=$(npm run build)"
+        run: npm run build > files.txt
       - name: Publish TypeScript components (dry run)
         run: |
           IFS=$'\n'
+          cat files.txt
           echo "The following files will be published on merge:"
-          for f in ${{ steps.compile.outputs.files }}
+          for f in $(cat files.txt)
           do
             echo "$f"
           done
