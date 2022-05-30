@@ -175,7 +175,7 @@ jobs:
       - name: Check component keys
         run: node scripts/findBadKeys.js
 
-  publish-dry-run:
+  pnpm-publish-dry-run:
     name: pnpm publish dry run
     runs-on: ubuntu-latest
 
@@ -184,6 +184,17 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 7.0.0
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - uses: actions/setup-node@v2.5.1
         with:
           node-version: 14
@@ -198,5 +209,51 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: pnpm publish
         run: pnpm publish -r --no-git-checks --dry-run
+
+  publish-typescript-components-dry-run:
+    name: TypeScript component publish dry run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.4.0
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install -r
+      - name: Setup Node Env
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Compile TypeScript
+        id: compile
+        run: echo "::set-output files=$(npm run build)"
+      - name: Publish TypeScript components
+        run: |
+          IFS=$'\n'
+          echo "The following files will be published on merge:"
+          for f in ${{ steps.compile.outputs.files }}
+          do
+            echo "$f"
+          done
+          unset IFS
+
+
 
 
