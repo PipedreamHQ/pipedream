@@ -56,7 +56,7 @@ export default {
         && (!property.options || property.options.length <= 500); // too many prop options cause the action to fail
     },
     makeLabelValueOptions(property) {
-      return property.options
+      const options = property.options
         .filter((o) => !o.hidden)
         .map(({
           label, value,
@@ -65,6 +65,10 @@ export default {
           value,
         }))
         .filter(({ label }) => label);
+
+      return options.length
+        ? options
+        : undefined;
     },
     makePropDefinition(property, requiredProperties) {
       let type = "string";
