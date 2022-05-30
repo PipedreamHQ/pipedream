@@ -58,7 +58,7 @@ export default {
     productName: {
       type: "string",
       label: "Name",
-      description: "Name of the new product",
+      description: "Name of the product",
     },
     productType: {
       type: "string",
@@ -83,13 +83,13 @@ export default {
     productDescription: {
       type: "string",
       label: "Description",
-      description: "Description of the new product",
+      description: "Description of the product",
       optional: true,
     },
     productImage: {
       type: "string",
       label: "Image URL",
-      description: "URL of image to add to new product",
+      description: "URL of image to add to product",
       optional: true,
     },
     customer: {
@@ -191,6 +191,9 @@ export default {
     },
     async createProduct(data) {
       return this.postResource("products", data);
+    },
+    async updateProduct(productId, data) {
+      return this.put(`products/${productId}`, data);
     },
   },
 };
