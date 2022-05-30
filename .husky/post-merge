@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm ci
-npx pnpm install
+npx pnpm install -r
