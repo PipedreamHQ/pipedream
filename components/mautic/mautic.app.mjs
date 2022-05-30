@@ -1,11 +1,34 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "mautic",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return `${this.$auth.mautic_url}/api`;
+    },
+    _baseHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this,
+      method = "GET",
+      path,
+      params,
+      data,
+    }) {
+      const url = `${this._baseUrl()}${path}`;
+      const headers = this._baseHeaders();
+      return axios($, {
+        url,
+        method,
+        headers,
+        params,
+        data,
+      });
     },
   },
 };
