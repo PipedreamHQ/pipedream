@@ -44,7 +44,8 @@ export default {
       $.export("$summary", "Found data for the key, `" + this.key + "`.");
     } else {
       if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
-        await this.dataStore.set(this.key, this.value);
+        const parsedValue = this.app.parseValue(this.value);
+        await this.dataStore.set(this.key, parsedValue);
         $.export("$summary", "Successfully added a new record with the key, `" + this.key + "`.");
         return this.dataStore.get(this.key);
       } else {

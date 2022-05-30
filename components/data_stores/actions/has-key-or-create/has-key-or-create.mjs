@@ -44,7 +44,8 @@ export default {
     }
 
     if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
-      await this.dataStore.set(this.key, this.value);
+      const parsedValue = this.app.parseValue(this.value);
+      await this.dataStore.set(this.key, parsedValue);
       $.export("$summary", `Key "${this.key}" was not found. Successfully added a new record.`);
       return this.dataStore.get(this.key);
     }

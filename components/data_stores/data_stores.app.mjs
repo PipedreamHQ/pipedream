@@ -40,6 +40,17 @@ export default {
         },
       };
     },
+    parseValue(value) {
+      if (typeof value !== "string") {
+        return value;
+      }
+
+      try {
+        return JSON.parse(this.sanitizeJson(value));
+      } catch (err) {
+        return value;
+      }
+    },
     //Because user might enter a JSON as JS object;
     //This method converts a JS object string to a JSON string before parsing it
     //e.g. {a:"b", 'c':1} => {"a":"b", "c":1}
