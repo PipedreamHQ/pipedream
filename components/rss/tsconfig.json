@@ -3,18 +3,12 @@
     "compilerOptions": {
       "module": "ES2020",
       "moduleResolution": "node",
-      "listEmittedFiles": true,
-      "skipDefaultLibCheck": true,
-      "skipLibCheck": true,
+      "listEmittedFiles": true, // Used as a part of the build task, since we need to pass emitted files to our post-build script
       "composite": true,
       "baseUrl": ".",
       "outDir": "dist",
       "rootDir": ".",
-      "paths": {
-        "@pipedream/rss": [ "." ]
-      }
     },
-    "esModuleInterop": true,
     "allowJs": true,
     "include": [
       "app",

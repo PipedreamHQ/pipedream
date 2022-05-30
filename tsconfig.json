@@ -1,16 +1,11 @@
 {
+  // This root tsconfig defines basic options used for the build, 
+  // but these options are overridden by the tsconfig.json file
+  // in each component app directory. Each component app directory
+  // that includes TypeScript components is included as a reference below
   "compilerOptions": {
-    "lib": ["es2020"],
     "module": "es2020",
-    "target": "es2020",
-    "outDir": "./dist",
-    "strict": true,
-    "moduleResolution": "node",
-    "listEmittedFiles": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true, // To provide backwards compatibility, Node.js allows you to import most CommonJS packages with a default import. This flag tells TypeScript that it's okay to use import on CommonJS modules.
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    "outDir": "dist", // not used, only present to keep tsc-esm-fix happy
     "composite": true, // required for references below
     "baseUrl": ".",
     "rootDir": ".",
