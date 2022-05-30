@@ -1,12 +1,11 @@
 import rss from "../../app/rss.app";
-import Parser from "rss-parser";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date",
   key: "rss-merge-rss-feeds",
-  version: "0.2.{{ts}}",
+  version: "1.0.{{ts}}",
   type: "action",
   props: {
     feeds: {
@@ -17,25 +16,11 @@ export default defineAction({
     rss,
   },
   async run() {
-    const parser = new Parser();
-    const requests = this.feeds.map((feed: string) => parser.parseURL(feed));
-
-    const results: any[] = await Promise.allSettled(requests);
-
-    const items = results.map((res) => {
-      const {
-        status, value,
-      } = res;
-      if (status === "fulfilled") {
-        const feed: Parser.Output<string> = value;
-        return feed.items.map((item: object) => ({
-          feed,
-          item,
-        }));
-      }});
-
-    return [
-      ...items,
-    ];
+    const items = [];
+    for (const url of this.feeds) {
+      const feedItems = await this.rss.fetchAndParseFeed(url);
+      items.push(...feedItems);
+    }
+    return items;
   },
 });
