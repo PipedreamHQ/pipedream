@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     boardId: {
       label: "Board Id",
-      description: "The ID of the board to move the task into.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
+      description: "You can see the board ID on the dashboard screen, in the upper right corner of each board.",
       type: "string",
       reloadProps: true,
       async options() {

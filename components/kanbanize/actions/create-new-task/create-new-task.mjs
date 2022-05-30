@@ -9,6 +9,7 @@ export default {
   props: {
     kanbanizeApp,
     boardId: {
+      description: "The ID of the board whose structure you want to get.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
       propDefinition: [
         kanbanizeApp,
         "boardId",

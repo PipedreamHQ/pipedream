@@ -10,6 +10,7 @@ export default {
   props: {
     kanbanizeApp,
     boardId: {
+      description: "The ID of the board where the tasks are located.\n\nYou can see the board ID on the dashboard screen, in the upper right corner of each board.",
       propDefinition: [
         kanbanizeApp,
         "boardId",
