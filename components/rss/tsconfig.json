@@ -5,9 +5,7 @@
       "moduleResolution": "node",
       "listEmittedFiles": true, // Used as a part of the build task, since we need to pass emitted files to our post-build script
       "composite": true,
-      "baseUrl": ".",
       "outDir": "dist",
-      "rootDir": ".",
     },
     "allowJs": true,
     "include": [
