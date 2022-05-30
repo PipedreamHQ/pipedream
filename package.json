@@ -25,7 +25,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npx tsc --build | node scripts/tsPostBuild.mjs",
+    "build": "npx tsc --build --force | node scripts/tsPostBuild.mjs",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
