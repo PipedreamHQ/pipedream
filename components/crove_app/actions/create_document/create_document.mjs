@@ -2,10 +2,10 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_create_document",
+    key: "crove_app-create-document",
     name: "Create Document",
     description: "Create a new document.",
-    version: "0.0.2",
+    version: "0.0.1",
     type: "action",
     props: {
       crove_app,

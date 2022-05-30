@@ -2,7 +2,7 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_generate_pdf_from_document",
+    key: "crove_app-generate-pdf-from-document",
     name: "Generate PDF from Document",
     description: "Generate PDF of a document and return PDF URL.",
     version: "0.0.1",

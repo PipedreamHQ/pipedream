@@ -2,7 +2,7 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_send_document",
+    key: "crove_app-send-document",
     name: "Send Document",
     description: "Send email invitation link to fill & sign the document.  ",
     version: "0.0.1",

@@ -2,10 +2,10 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_complete_document",
+    key: "crove_app-complete-document",
     name: "Complete Document",
     description: "Mark the document as completed",
-    version: "0.0.5",
+    version: "0.0.1",
     type: "action",
     props: {
       crove_app,

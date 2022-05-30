@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 
 export default {
-    key: "crove_app_document_submitted",
+    key: "crove_app-document-submitted",
     name: "Document Submitted",
     description: "Triggers when a document is submitted.",
     version: "0.0.1",

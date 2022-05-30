@@ -2,10 +2,10 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_get_document_details",
+    key: "crove_app-get-document-details",
     name: "Get Document Details",
     description: "Get details of a document. Example: Name, Current Status, etc.",
-    version: "0.0.4",
+    version: "0.0.1",
     type: "action",
     props: {
       crove_app,

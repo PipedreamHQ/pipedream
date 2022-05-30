@@ -2,10 +2,10 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app_create_invitation_link",
+    key: "crove_app-create-invitation-link",
     name: "Create Invitation Link",
     description: "Create invitation link to fill or sign the document. ",
-    version: "0.0.4",
+    version: "0.0.1",
     type: "action",
     props: {
       crove_app,

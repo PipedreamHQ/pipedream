@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 
 export default {
-    key: "crove_app_document_created",
+    key: "crove_app-document-created",
     name: "Document Created",
     description: "Triggers when a new document is created.",
     version: "0.0.1",

@@ -2,10 +2,10 @@ import crove_app from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "crove_app_update_document",
+  key: "crove_app-update-document",
   name: "Update Document",
   description: "Update values of variables of a document.",
-  version: "0.0.12",
+  version: "0.0.1",
   type: "action",
   props: {
     crove_app,
