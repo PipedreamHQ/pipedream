@@ -64,13 +64,14 @@ jobs:
                   commit_contained_components_that_did_not_modify_version=1
                 fi
               fi
-            done
-
-            if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
-            then
-              echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
-              exit 1
             fi
+          done
+
+          if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
+          then
+            echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
+            exit 1
+          fi
         
 
   spellcheck:
@@ -182,7 +183,7 @@ jobs:
       - name: npm install
         run: npm ci
       - name: pnpm install
-        run: pnpm install
+        run: pnpm install -r
       # See https://pnpm.io/using-changesets
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
@@ -210,8 +211,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r
       - name: Setup Node Env
         uses: actions/setup-node@v2.5.1
         with:
@@ -220,6 +219,8 @@ jobs:
           cache: 'pnpm'
       - name: Install Dependencies
         run: npm ci
+      - name: pnpm install
+        run: pnpm install -r
       - name: Compile TypeScript
         id: compile
         run: echo "::set-output files=$(npm run build)"
