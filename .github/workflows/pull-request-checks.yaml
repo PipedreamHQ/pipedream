@@ -229,7 +229,7 @@ jobs:
           IFS=$'\n'
           echo "The following files will be published on merge:"
           # Remove initial tsc output
-          for f in $(cat files.txt | sed 1,2d)
+          for f in $(cat files.txt | sed 1,3d)
           do
             echo "$f"
           done
