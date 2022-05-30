@@ -238,7 +238,7 @@ export default {
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
-              ${err.response}
+              ${err.response.statusText}
             `);
           }
           console.warn(`Temporary error: ${err.message}`);
@@ -439,7 +439,10 @@ export default {
     async getSubredditByName(name) {
       return this._withRetries(() =>
         this._makeRequest({
-          path: `/by_id/${name}`,
+          path: "/api/info",
+          params: {
+            id: name,
+          },
         }));
     },
     async getComment({

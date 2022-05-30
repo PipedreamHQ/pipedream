@@ -4,22 +4,30 @@ export default {
   key: "raindrop-get-bookmark",
   name: "Get Bookmark",
   description: "Retrieve bookmark detailed information by given ID. [See the docs here](https://developer.raindrop.io/v1/raindrops/single#get-raindrop)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    bookmarkID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "raindropID",
+        "collectionId",
       ],
-      label: "Bookmark ID",
-      description: "Existing bookmark ID",
+    },
+    bookmarkId: {
+      propDefinition: [
+        raindrop,
+        "raindropId",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    const bookmarkID = this.bookmarkID;
-
-    return this.raindrop.getRaindrop($, bookmarkID);
+    const bookmarkId = this.bookmarkId;
+    const response = await this.raindrop.getRaindrop($, bookmarkId);
+    $.export("$summary", `Successfully retrieved bookmark with ID ${bookmarkId}`);
+    return response;
   },
 };

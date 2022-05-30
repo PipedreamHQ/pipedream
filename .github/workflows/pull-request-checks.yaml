@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3.0.2
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -28,32 +28,6 @@ jobs:
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7.0.0
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r
-      - name: Setup Node Env
-        uses: actions/setup-node@v2.5.1
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
-          cache: 'pnpm'
-      - name: Install Dependencies
-        run: npm ci
-      - name: Compile TypeScript
-        run: npm run build
       - uses: jitterbit/get-changed-files@v1
         id: changed_files
         name: Get changed files
@@ -71,8 +45,8 @@ jobs:
           do
             ext="${f##*.}"
             # Only run this check on modified sources or actions, excluding common files
-            if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && \
-              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && \
+            if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]] && [[ "$ext" == "ts" ]]) && \
+              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && "${f}" != *common*.*ts && \
               [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]] && \
               [[ "$(<${f})" == *"version:"* ]]
             then
@@ -81,17 +55,22 @@ jobs:
               DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
               if [[ ${DIFF} != *"version:"* ]]
               then
-                echo "You didn't modify the version of ${f}"
-                commit_contained_components_that_did_not_modify_version=1
+                BASE_COMMIT=${{env.base_commit}}
+                HEAD_COMMIT=${{env.head_commit}}
+                DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
+                if [[ ${DIFF} != *"version:"* ]]
+                then
+                  echo "You didn't modify the version of ${f}"
+                  commit_contained_components_that_did_not_modify_version=1
+                fi
               fi
-            fi
-          done
+            done
 
-          if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
-          then
-            echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
-            exit 1
-          fi
+            if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
+            then
+              echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
+              exit 1
+            fi
         
 
   spellcheck:
@@ -99,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v3.0.2
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -118,7 +97,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.21.1
+    - uses: rojopolis/spellcheck-github-actions@0.24.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -131,7 +110,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.2
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
@@ -153,7 +132,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3.2.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -244,7 +223,7 @@ jobs:
       - name: Compile TypeScript
         id: compile
         run: echo "::set-output files=$(npm run build)"
-      - name: Publish TypeScript components
+      - name: Publish TypeScript components (dry run)
         run: |
           IFS=$'\n'
           echo "The following files will be published on merge:"

@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-update-object",
   name: "Update Object",
   description: "Updates existing entities in the module.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -56,7 +56,7 @@ export default {
 
     return await axios($, {
       method: "put",
-      url: `https://www.zohoapis.com/crm/v2/${this.module}`,
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/${this.module}`,
       data: {
         data: [
           {

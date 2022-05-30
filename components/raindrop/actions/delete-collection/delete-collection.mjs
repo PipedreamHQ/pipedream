@@ -4,24 +4,22 @@ export default {
   key: "raindrop-delete-collection",
   name: "Delete Collection",
   description: "Delete a collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#remove-collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
-      label: "Collection ID",
-      description: "The collection ID",
     },
   },
   async run({ $ }) {
-    const collectionID = this.collectionID;
-    const response = await this.raindrop.deleteCollection($, collectionID);
+    const collectionId = this.collectionId;
+    const response = await this.raindrop.deleteCollection($, collectionId);
 
-    $.export("$summary", `Successfully deleted collection with ID ${collectionID}`);
+    $.export("$summary", `Successfully deleted collection with ID ${collectionId}`);
 
     return response;
   },
