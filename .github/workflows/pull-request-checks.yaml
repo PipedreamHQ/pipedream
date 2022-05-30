@@ -227,9 +227,9 @@ jobs:
       - name: Publish TypeScript components (dry run)
         run: |
           IFS=$'\n'
-          cat files.txt
           echo "The following files will be published on merge:"
-          for f in $(cat files.txt)
+          # Remove initial tsc output
+          for f in $(cat files.txt | sed 1,2d)
           do
             echo "$f"
           done
