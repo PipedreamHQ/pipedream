@@ -16,6 +16,7 @@ export default defineSource({
     },
     timer: {
       type: "$.interface.timer",
+      description: "How often you want to poll the feed for new items",
       default: {
         intervalSeconds: 60 * 15,
       },

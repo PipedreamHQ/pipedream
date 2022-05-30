@@ -34,7 +34,7 @@ export default defineApp({
 
       // Handle status codes as error codes
       if (res.status === 404) throw new ConfigurationError(`The URL ${url} does not exist. Please double-check the URL and try again.`);
-      if (res.status === 429) throw new ConfigurationError(`${url} rate-limited the request. Please reach out to the site hosting the RSS feed to confirm or increase their rate limit.`);
+      if (res.status === 429) throw new ConfigurationError(`${url} isn't returning a valid feed because requests have been rate-limited. Please reach out to the site hosting the RSS feed to confirm or increase their rate limit.`);
       if (res.status >= 500) throw new ConfigurationError(`${url} is returning a server error. Please try again later or reach out to the site hosting the RSS feed if you continue to see this error.`);
       if (res.status >= 400) {
         throw new ConfigurationError(`Error fetching URL ${url}. Please load the URL directly in your browser and try again.`);
@@ -79,7 +79,7 @@ export default defineApp({
         url = `https://${u}`;
       }
       const data = await this.fetchFeed(url);
-      return this.parseFeed(data);
+      return await this.parseFeed(data);
     },
     validateFeedURL(url: string) {
       if (!url) throw new ConfigurationError("No URL provided. Please enter an RSS URL to fetch");
