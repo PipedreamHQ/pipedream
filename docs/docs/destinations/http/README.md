@@ -9,7 +9,7 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 You can send HTTP requests in [Node.js code steps](/code/nodejs/) using `$.send.http()`.
 
 ```javascript
-defineComponent({
+export default defineComponent({
  async run({ steps, $ }) {
   $.send.http({
     method: "POST",
@@ -25,7 +25,7 @@ defineComponent({
 `$.send.http()` accepts an object with all of the following properties:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.http({
       method, // Required, HTTP method, a string, e.g. POST, GET
@@ -46,7 +46,7 @@ If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
 
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     names.forEach((name) => {
@@ -71,7 +71,7 @@ If you're authoring a [component action](/components#actions), you can deliver d
 `$.send.http` functions the same as [`$.send.http` in workflow code steps](#using-send-http-in-workflows):
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
       $.send.http({
         method: "GET",

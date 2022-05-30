@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-get-object",
   name: "Get Object",
   description: "Gets record data given its id.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -51,7 +51,7 @@ export default {
     }
 
     return await axios($, {
-      url: `https://www.zohoapis.com/crm/v2/${this.module}/${this.record_id}`,
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/${this.module}/${this.record_id}`,
       headers: {
         "Authorization": `Zoho-oauthtoken ${this.zoho_crm.$auth.oauth_access_token}`,
       },

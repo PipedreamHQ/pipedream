@@ -5,7 +5,7 @@
  * See https://docs.datadoghq.com/integrations/webhooks/#usage for further
  * details.
  */
-module.exports = {
+const payloadFormat = {
   aggregKey: "$AGGREG_KEY",
   alertCycleKey: "$ALERT_CYCLE_KEY",
   alertId: "$ALERT_ID",
@@ -36,4 +36,8 @@ module.exports = {
   textOnlyMsg: "$TEXT_ONLY_MSG",
   user: "$USER",
   username: "$USERNAME",
+};
+
+export {
+  payloadFormat,
 };
