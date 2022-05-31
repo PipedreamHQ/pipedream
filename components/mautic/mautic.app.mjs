@@ -167,6 +167,34 @@ export default {
         data,
       });
     },
+    async createWebhook({
+      webhookUrl,
+      secret,
+      eventType,
+    }) {
+      const path = "/hooks/new";
+      const { hook } = await this._makeRequest({
+        path,
+        method: "POST",
+        data: {
+          name: `pipedream-${webhookUrl}`,
+          webhookUrl,
+          secret,
+          triggers: [
+            eventType,
+          ],
+        },
+      });
+      return hook.id;
+    },
+    async deleteWebhook({ webhookId }) {
+      const path = `/hooks/${webhookId}/delete`;
+      const { hook } = await this._makeRequest({
+        path,
+        method: "DELETE",
+      });
+      return hook;
+    },
     async *paginate({
       $,
       fn,
