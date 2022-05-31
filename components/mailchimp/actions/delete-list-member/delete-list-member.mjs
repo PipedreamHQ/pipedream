@@ -1,10 +1,10 @@
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-unsubscribe-email",
-  name: "Unsubscribe Email",
-  description: "Unsubscribe an email address from an audience. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/archive-list-member/)",
-  version: "0.2.2",
+  key: "mailchimp-delete-list-member",
+  name: "Delete List Member",
+  description: "Permanently deletes a member. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/delete-list-member/)",
+  version: "0.0.1",
   type: "action",
   props: {
     mailchimp,
@@ -27,14 +27,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      listId,
-      subscriberHash,
-    } = this;
-    return await this.mailchimp.archiveListMember($, {
-      listId,
-      subscriberHash,
-    });
-
+    const payload = {
+      listId: this.listId,
+      subscriberHash: this.subscriberHash,
+    };
+    await this.mailchimp.deleteListMember($, payload);
+    $.export("$summary", "List member deleted");
   },
 };

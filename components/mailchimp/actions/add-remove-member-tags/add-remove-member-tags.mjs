@@ -5,10 +5,10 @@ import {
 import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
-  key: "mailchimp-add-subscriber-to-tag",
-  name: "Add Subscriber To Tag",
-  description: "Adds an email address to a tag within an audience. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/add-or-remove-member-tags/)",
-  version: "0.2.2",
+  key: "mailchimp-add-remove-member-tags",
+  name: "Add Or Remove Members Tags",
+  description: "Add or remove member tags. [See docs here](https://mailchimp.com/developer/marketing/api/list-member-tags/add-or-remove-member-tags/)",
+  version: "0.0.1",
   type: "action",
   props: {
     mailchimp,
@@ -32,27 +32,22 @@ export default {
     tags: {
       type: "string[]",
       label: "Tags",
-      description: `Stringified object list of fields to return. name, or status (Possible status values: "inactive" or "active") properties allowed.
+      description: `Stringified object list of tags assigned to the list member.. name, or status (Possible status values: "inactive" or "active") properties allowed.
         Example:
         \`{
-            "name":"college",
+            "name":"",
             "status":"active",
         }\``,
     },
   },
   async run({ $ }) {
-
     const payload = removeNullEntries({
       listId: this.listId,
       subscriberHash: this.subscriberHash,
-      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags", {
-        status: [
-          "active",
-          "inactive",
-        ],
-      }),
+      tags: formatArrayStrings(this.tags, constants.ALLOWED_TAG_KEYS, "Tags"),
     });
-    await this.mailchimp.addRemoveListMemberTags($, payload);
-    $.export("$summary", "Action successful");
+    const response = await this.mailchimp.addRemoveListMemberTags($, payload);
+    response && $.export("$summary", "Successful");
+    return response;
   },
 };
