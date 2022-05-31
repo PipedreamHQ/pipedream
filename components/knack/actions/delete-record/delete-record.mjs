@@ -3,31 +3,29 @@ import knack from "../../knack.app.mjs";
 
 export default {
   ...common,
-  key: "knack-create-record",
-  name: "Create Record",
+  key: "knack-delete-record",
+  name: "Delete Record",
   description:
-    "Create a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-post)",
-  version: "0.0.2",
+    "Delete a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-delete)",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
-    recordData: {
+    recordId: {
       propDefinition: [
         knack,
-        "recordData",
+        "recordId",
       ],
     },
   },
   async run({ $ }) {
-    const data = this.recordData;
-
     const response = await this.knack.httpRequest($, {
-      method: "POST",
+      method: "DELETE",
       objectKey: this.objectKey,
-      data,
+      recordId: this.recordId,
     });
 
-    $.export("$summary", "Created record successfully");
+    $.export("$summary", "Deleted record successfully");
 
     return response;
   },

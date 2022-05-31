@@ -3,14 +3,20 @@ import knack from "../../knack.app.mjs";
 
 export default {
   ...common,
-  key: "knack-create-record",
-  name: "Create Record",
+  key: "knack-update-record",
+  name: "Update Record",
   description:
-    "Create a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-post)",
-  version: "0.0.2",
+    "Update a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-put)",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
+    recordId: {
+      propDefinition: [
+        knack,
+        "recordId",
+      ],
+    },
     recordData: {
       propDefinition: [
         knack,
@@ -22,12 +28,13 @@ export default {
     const data = this.recordData;
 
     const response = await this.knack.httpRequest($, {
-      method: "POST",
+      method: "PUT",
       objectKey: this.objectKey,
+      recordId: this.recordId,
       data,
     });
 
-    $.export("$summary", "Created record successfully");
+    $.export("$summary", "Updated record successfully");
 
     return response;
   },
