@@ -1,12 +1,12 @@
 import notion from "../../notion.app.mjs";
-import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
+const buildPropertyProps = utils.buildPropertyProps;
 
 export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set via the properties parameter will remain unchanged. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     notion,
@@ -55,32 +55,17 @@ export default {
     }
 
     if (this.pageId) {
-      const { properties } = await this.notion.retrievePage(this.pageId);
-
-      for (const propertyName in properties) {
-        const property = properties[propertyName];
-
-        if (!constants.NOTION_PROPERTIES[property.type]) continue;
-
-        const {
-          type,
-          example,
-        } = constants.NOTION_PROPERTIES[property.type];
-
-        const prop = {
-          label: propertyName,
-          description: `The type of this property is \`${property.type}\`. [See ${property.type} type docs here](https://developers.notion.com/reference/property-object#${property.type}-configuration) ` + (example
-            ? (" E.g. " + `\`${example}\``)
-            : ""),
-          type: type,
-          optional: true,
-        };
-
-        additionalProps[propertyName] = prop;
-      }
+      const propertyProps = await this.buildPropertyProps(this.pageId);
+      additionalProps = {
+        ...additionalProps,
+        ...propertyProps,
+      };
     }
 
     return additionalProps;
+  },
+  methods: {
+    buildPropertyProps,
   },
   async run({ $ }) {
     const { properties } = await this.notion.retrievePage(this.pageId);
