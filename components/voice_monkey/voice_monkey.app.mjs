@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import common from "./common/common.mjs";
+import common from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,6 +14,11 @@ export default {
       type: "string",
       label: "Announcement",
       description: "If you want your Alexa device to speak something out loud when you trigger your monkey then add the text to this parameter. You must open the Voice Monkey Skill as the last step of your routine.",
+    },
+    imageUrl: {
+      type: "string",
+      label: "Image URL (https://)",
+      description: "Send an image hosted on a publicly accessible https URL to a screen enabled Alexa device such as an Echo Show. As with announcements, the Alexa routine must open the Voice Monkey Skill as its final action.",
     },
   },
   methods: {
