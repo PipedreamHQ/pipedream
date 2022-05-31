@@ -1,5 +1,5 @@
 {
-  // This root tsconfig defines basic options used for the build, 
+  // This root tsconfig defines basic options used for the build,
   // but these options are overridden by the tsconfig.json file
   // in each component app directory. Each component app directory
   // that includes TypeScript components is included as a reference below
@@ -22,6 +22,6 @@
   "references": [
     {
         "path": "components/rss"
-    } 
+    }
   ]
 }
