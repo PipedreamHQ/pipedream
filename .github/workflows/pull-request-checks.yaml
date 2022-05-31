@@ -249,10 +249,11 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
+          # included in the components dir, ends with .*js (e.g. .js and .mjs) and not app.js,
           # doesn't end with /common*.*js, and doesn't follow */common/
           for f in $(cat files.txt | sed 1,3d); do
-            if [[ $f == components/* ]] && [[ $f == *.*js ]] && [[ $f != *.app.*js ]] \
+            echo "Checking if $f is publishable"
+            if [[ $f == */components/* ]] && [[ $f == *.*js ]] && [[ $f != *.app.*js ]] \
               && [[ $f != */common*.*js ]] && [[ $f != */common/* ]]
             then
               echo "attempting to publish ${f}"
