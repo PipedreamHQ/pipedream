@@ -5,9 +5,9 @@ import {
 } from "lodash-es";
 
 export default {
-  key: "mautic-search-contacts",
-  name: "Search Contacts",
-  description: "Gets a list of contacts by a search term. [See docs](https://developer.mautic.org/#list-contacts)",
+  key: "mautic-search-campaigns",
+  name: "Search Campaigns",
+  description: "Gets a list of campaigns by a search term. [See docs](https://developer.mautic.org/#list-campaigns)",
   version: "0.2.0",
   type: "action",
   props: {
@@ -30,7 +30,7 @@ export default {
         "orderByDir",
       ],
     },
-    publishedOnly: {
+    published: {
       propDefinition: [
         mautic,
         "publishedOnly",
@@ -40,18 +40,6 @@ export default {
       propDefinition: [
         mautic,
         "minimal",
-      ],
-    },
-    where: {
-      propDefinition: [
-        mautic,
-        "where",
-      ],
-    },
-    order: {
-      propDefinition: [
-        mautic,
-        "order",
       ],
     },
     maxResults: {
@@ -66,15 +54,13 @@ export default {
       "search",
       "orderBy",
       "orderByDir",
-      "publishedOnly",
+      "published",
       "minimal",
-      "where",
-      "order",
     ]));
 
     const paginator = this.mautic.paginate({
       $,
-      fn: this.mautic.listContacts,
+      fn: this.mautic.listCampaigns,
       maxResults: this.maxResults,
       params,
     });
@@ -83,7 +69,7 @@ export default {
     const suffix = results.length === 1
       ? ""
       : "s";
-    $.export("$summary", `Retrieved ${results.length} contact${suffix}`);
+    $.export("$summary", `Retrieved ${results.length} campaign${suffix}`);
     return results;
   },
 };
