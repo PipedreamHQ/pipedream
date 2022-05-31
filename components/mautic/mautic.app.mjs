@@ -30,5 +30,31 @@ export default {
         data,
       });
     },
+    async *paginate({
+      $,
+      fn,
+      maxResults,
+      params = {},
+    }) {
+      let start = 0;
+
+      while (true) {
+        const response = await fn({
+          $,
+          params: {
+            ...params,
+            start,
+          },
+        });
+
+        const data = Object.values(response);
+        if (data.length === 0) return;
+
+        for (const d of data) {
+          yield d;
+          if (++start >= maxResults) return;
+        }
+      }
+    },
   },
 };
