@@ -20,6 +20,11 @@ export default {
       label: "Image URL (https://)",
       description: "Send an image hosted on a publicly accessible https URL to a screen enabled Alexa device such as an Echo Show. As with announcements, the Alexa routine must open the Voice Monkey Skill as its final action.",
     },
+    videoUrl: {
+      type: "string",
+      label: "Video URL (https://)",
+      description: "You can send a video to alexa devices with a screen including the Echo Show. The ‘announcement’ parameter must not be blank. You must open the Voice Monkey Skill as the last step of your routine.",
+    },
   },
   methods: {
     _getParams(params) {
