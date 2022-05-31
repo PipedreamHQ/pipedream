@@ -17,9 +17,12 @@ export default {
       options: constants.CAMPAIGN_TYPE,
     },
     listId: {
-      label: "List ID",
-      type: "string",
-      description: "The unique list ID.",
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
     savedSegmentId: {
       label: "Saved segment ID",
