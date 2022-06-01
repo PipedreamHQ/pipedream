@@ -3,24 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "knack",
-  propDefinitions: {
-    recordId: {
-      type: "string",
-      label: "Record ID",
-      description:
-        `The ID of the record.
-        \\
-        For more info, see [the Knack API docs.](https://docs.knack.com/docs/finding-record-ids)`,
-    },
-    recordData: {
-      type: "object",
-      label: "Record Data",
-      description:
-        `The record fields to be updated and their new values.
-        \\
-        For more info, see [the Knack API docs.](https://docs.knack.com/docs/working-with-fields)`,
-    },
-  },
   methods: {
     getAuthKeys() {
       return {

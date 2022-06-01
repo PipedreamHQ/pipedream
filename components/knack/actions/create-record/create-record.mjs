@@ -1,8 +1,8 @@
-import common from "../common.mjs";
-import knack from "../../knack.app.mjs";
+import base from "../_common/base.mjs";
+import { recordData } from "../_common/props.mjs";
 
 export default {
-  ...common,
+  ...base,
   key: "knack-create-record",
   name: "Create Record",
   description:
@@ -10,13 +10,8 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
-    recordData: {
-      propDefinition: [
-        knack,
-        "recordData",
-      ],
-    },
+    ...base.props,
+    recordData,
   },
   async run({ $ }) {
     const data = this.recordData;
