@@ -217,10 +217,11 @@ export default {
       campaignId,
     }) {
       const path = `/campaigns/${campaignId}`;
-      return this._makeRequest({
+      const { campaign } = await this._makeRequest({
         $,
         path,
       });
+      return campaign;
     },
     async listCampaigns({
       $,
@@ -239,10 +240,11 @@ export default {
       contactId,
     }) {
       const path = `/contacts/${contactId}`;
-      return this._makeRequest({
+      const { contact } = await this._makeRequest({
         $,
         path,
       });
+      return contact;
     },
     async updateContact({
       $,
@@ -250,12 +252,13 @@ export default {
       data,
     }) {
       const path = `/contacts/${contactId}/edit`;
-      return this._makeRequest({
+      const { contact } = await this._makeRequest({
         $,
         path,
         method: "PATCH",
         data,
       });
+      return contact;
     },
     async listContacts({
       $,
@@ -293,23 +296,25 @@ export default {
       campaignId,
     }) {
       const path = `/campaigns/clone/${campaignId}`;
-      return this._makeRequest({
+      const { campaign } = await this._makeRequest({
         $,
         path,
         method: "POST",
       });
+      return campaign;
     },
     async createContact({
       $,
       data,
     }) {
       const path = "/contacts/new";
-      return this._makeRequest({
+      const { contact } = await this._makeRequest({
         $,
         path,
         method: "POST",
         data,
       });
+      return contact;
     },
     async listCompanies({
       $,
@@ -328,11 +333,12 @@ export default {
       companyId,
     }) {
       const path = `/companies/${companyId}/delete`;
-      return this._makeRequest({
+      const { company } = await this._makeRequest({
         $,
         path,
         method: "DELETE",
       });
+      return company;
     },
   },
 };

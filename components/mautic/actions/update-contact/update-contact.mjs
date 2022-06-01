@@ -20,7 +20,7 @@ export default {
   },
   async additionalProps() {
     if (!this.contactId) return {};
-    const { contact } = await this.mautic.getContact({
+    const contact = await this.mautic.getContact({
       contactId: this.contactId,
     });
     const fields = contact.fields.all;
