@@ -6,18 +6,11 @@ export default {
   props: {
     ...common.props,
     tableName: {
-      type: "string",
-      label: "Table Name",
+      propDefinition: [
+        common.props.snowflake,
+        "tableName",
+      ],
       description: "The name of the table to watch for new rows",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const options = await this.snowflake.listTables();
-        return options.map((i) => i.name);
-      },
     },
     uniqueKey: {
       type: "string",

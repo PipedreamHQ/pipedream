@@ -4,6 +4,18 @@ import { promisify } from "util";
 export default {
   app: "snowflake",
   type: "app",
+  propDefinitions: {
+    tableName: {
+      type: "string",
+      label: "Table Name",
+      async options(context) {
+        const { page } = context;
+        if (page !== 0) return [];
+        const options = await this.listTables();
+        return options.map((i) => i.name);
+      },
+    },
+  },
   methods: {
     async _getConnection() {
       if (this.connection) {
