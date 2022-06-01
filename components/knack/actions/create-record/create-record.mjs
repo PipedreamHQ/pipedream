@@ -14,13 +14,12 @@ export default {
     recordData,
   },
   async run({ $ }) {
-    const data = this.recordData;
-
-    const response = await this.knack.httpRequest($, {
-      method: "POST",
+    const params = {
       objectKey: this.objectKey,
-      data,
-    });
+      data: this.recordData,
+    };
+
+    const response = await this.knack.createRecord($, params);
 
     $.export("$summary", "Created record successfully");
 

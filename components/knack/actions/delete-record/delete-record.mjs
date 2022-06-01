@@ -14,11 +14,12 @@ export default {
     recordId,
   },
   async run({ $ }) {
-    const response = await this.knack.httpRequest($, {
-      method: "DELETE",
+    const params = {
       objectKey: this.objectKey,
       recordId: this.recordId,
-    });
+    };
+
+    const response = await this.knack.deleteRecord($, params);
 
     $.export("$summary", "Deleted record successfully");
 

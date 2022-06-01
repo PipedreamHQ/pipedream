@@ -14,11 +14,12 @@ export default {
     recordId,
   },
   async run({ $ }) {
-    const response = await this.knack.httpRequest($, {
-      method: "GET",
+    const params = {
       objectKey: this.objectKey,
       recordId: this.recordId,
-    });
+    };
+
+    const response = await this.knack.getRecord($, params);
 
     $.export(
       "$summary",

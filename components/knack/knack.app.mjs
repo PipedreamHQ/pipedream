@@ -37,5 +37,29 @@ export default {
         data,
       });
     },
+    async createRecord($, params) {
+      return this.knack.httpRequest($, {
+        method: "POST",
+        ...params,
+      });
+    },
+    async getRecord($, params) {
+      return this.knack.httpRequest($, {
+        method: "GET",
+        ...params,
+      });
+    },
+    async updateRecord($, params) {
+      return this.knack.httpRequest($, {
+        method: "PATCH",
+        ...params,
+      });
+    },
+    async deleteRecord($, params) {
+      return this.knack.httpRequest($, {
+        method: "DELETE",
+        ...params,
+      });
+    },
   },
 };

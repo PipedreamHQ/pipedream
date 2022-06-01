@@ -17,14 +17,13 @@ export default {
     recordData,
   },
   async run({ $ }) {
-    const data = this.recordData;
-
-    const response = await this.knack.httpRequest($, {
-      method: "PUT",
+    const params = {
       objectKey: this.objectKey,
       recordId: this.recordId,
-      data,
-    });
+      data: this.recordData,
+    };
+
+    const response = await this.knack.updateRecord($, params);
 
     $.export("$summary", "Updated record successfully");
 
