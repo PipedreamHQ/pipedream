@@ -58,7 +58,7 @@ First, install the `@pipedream/types` package:
 npm i --save-dev @pipedream/types
 ```
 
-You'll need a minimal configuration to compile TypeScript components in your application. In [the Pipedream registry](#developing-components-in-the-pipedreamhqpipedream-registry), we use this setup:
+You'll need a minimal configuration to compile TypeScript components in your application. In [the Pipedream registry](#developing-typescript-components-in-the-pipedreamhqpipedream-registry), we use this setup:
 
 - The `tsconfig.json` in the root of the repo contains [references](https://www.typescriptlang.org/docs/handbook/project-references.html) to component app directories. For example, the root config provides a reference to the `components/rss` directory, which contains its own `tsconfig.json` file. 
 - `npm run build` compiles the TypeScript in all directories in `references`.
