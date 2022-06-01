@@ -1,5 +1,4 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 
 export default {
@@ -27,10 +26,7 @@ export default {
       const validationToken = uuid();
 
       let config = {
-        url: "https://v2.api.crove.app/api/integrations/external/webhooks/templates/create/",
-        headers: {
-          "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-        },
+        url: `${this.croveApp._getBaseUrl()}/webhooks/templates/create/`,
         method: "POST",
         data: {
           template: this.template_id,
@@ -50,10 +46,7 @@ export default {
     async deactivate() {
       const webhookId = this.db.get("webhookId");
       let config = {
-        url: `https://v2.api.crove.app/api/integrations/external/webhooks/templates/${webhookId}/`,
-        headers: {
-          "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-        },
+        url: `${this.croveApp._getBaseUrl()}/webhooks/templates/${webhookId}/`,
         method: "DELETE",
       };
       await this.croveApp._makeRequest(config);

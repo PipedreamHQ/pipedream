@@ -8,14 +8,12 @@ export default {
       type: "string",
       label: "Document ID",
       description: "Document ID of document.",
-      async options({ $ }) {
-        var resp = await axios($, {
-          url: "https://v2.api.crove.app/api/integrations/external/documents/?limit=50",
-          headers: {
-            "X-API-KEY": `${this.$auth.api_key}`,
-          },
+      async options() {
+        var config = {
+          url: `${this._getBaseUrl()}/documents/?limit=50`,
           method: "GET",
-        });
+        };
+        var resp = await this._makeRequest(config);
         resp = resp.results;
         return resp.map((item) => ({
           label: item.name,
@@ -27,14 +25,12 @@ export default {
       type: "string",
       label: "Template",
       description: "Template ID of template.",
-      async options({ $ }) {
-        var resp = await axios($, {
-          url: "https://v2.api.crove.app/api/integrations/external/templates/?limit=50",
-          headers: {
-            "X-API-KEY": `${this.$auth.api_key}`,
-          },
+      async options() {
+        var config = {
+          url: `${this._getBaseUrl()}/templates/?limit=50`,
           method: "GET",
-        });
+        };
+        var resp = await this._makeRequest(config);
         resp = resp.results;
         return resp.map((item) => ({
           label: item.name,
@@ -48,9 +44,15 @@ export default {
     authKeys() {
       console.log(Object.keys(this.$auth));
     },
+    _getBaseUrl() {
+      return "https://v2.api.crove.app/api/integrations/external";
+    },
     async _makeRequest(options = {}, $ = this) {
       const config = {
         ...options,
+        headers: {
+          "X-API-KEY": `${this.$auth.api_key}`,
+        },
       };
 
       return axios($, config);

@@ -1,11 +1,10 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crove_app-complete-document",
   name: "Complete Document",
   description: "Mark the document as completed",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     croveApp,
@@ -16,14 +15,12 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/complete/`;
-    return await axios($, {
+  async run() {
+    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/${this.document_id}/complete/`;
+    const config = {
       url: apiUrl,
-      headers: {
-        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-      },
       method: "POST",
-    });
+    };
+    return await this.croveApp._makeRequest(config);
   },
 };

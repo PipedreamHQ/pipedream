@@ -1,5 +1,4 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crove_app-send-document",
@@ -27,18 +26,16 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/email-invites/create/`;
-    return await axios($, {
+  async run() {
+    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/${this.document_id}/email-invites/create/`;
+    const config = {
       url: apiUrl,
-      headers: {
-        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-      },
       method: "POST",
       data: {
         email: this.email,
         message: this.message,
       },
-    });
+    };
+    return await this.croveApp._makeRequest(config);
   },
 };

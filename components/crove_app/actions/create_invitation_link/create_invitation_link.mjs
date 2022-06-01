@@ -1,5 +1,4 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crove_app-create-invitation-link",
@@ -28,19 +27,17 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/document-respondents/create/`;
-    var resp = await axios($, {
+  async run() {
+    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/${this.document_id}/document-respondents/create/`;
+    var config = {
       url: apiUrl,
-      headers: {
-        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-      },
       method: "POST",
       data: {
         can_download_document: this.can_download_document,
         submission_required: this.submission_required,
       },
-    });
+    };
+    var resp = await this.croveApp._makeRequest(config);
 
     var drAuthToken = resp.auth_token;
     var invitationLink = `https://v2.crove.app/documents/${ this.document_id }/fill/overview?dr_auth_token=${ drAuthToken }`;

@@ -1,5 +1,4 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crove_app-generate-pdf-from-document",
@@ -22,17 +21,15 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/generate-pdf/`;
-    return await axios($, {
+  async run() {
+    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/${this.document_id}/generate-pdf/`;
+    var config = {
       url: apiUrl,
-      headers: {
-        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-      },
       method: "POST",
       data: {
         background_mode: this.background_mode,
       },
-    });
+    };
+    return await this.croveApp._makeRequest(config);
   },
 };

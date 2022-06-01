@@ -1,5 +1,4 @@
 import croveApp from "../../crove_app.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crove_app-create-document",
@@ -21,18 +20,16 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const apiUrl = "https://v2.api.crove.app/api/integrations/external/documents/create/";
-    return await axios($, {
+  async run() {
+    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/create/`;
+    const config = {
       url: apiUrl,
-      headers: {
-        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
-      },
       method: "POST",
       data: {
         name: this.name,
         template_id: this.template_id,
       },
-    });
+    };
+    return await this.croveApp._makeRequest(config);
   },
 };
