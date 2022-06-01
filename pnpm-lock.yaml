@@ -140,6 +140,12 @@ importers:
     dependencies:
       '@bandwidth/messaging': 4.0.3
 
+  components/bannerbear:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
