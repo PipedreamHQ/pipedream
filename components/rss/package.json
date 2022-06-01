@@ -1,9 +1,9 @@
 {
     "name": "@pipedream/rss",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "description": "Pipedream RSS Components",
     "main": "dist/app/rss.app.mjs",
-    "types": "dist/rss.app.d.ts",
+    "types": "dist/app/rss.app.d.ts",
     "files": ["dist"],
     "keywords": [
         "pipedream",
@@ -30,8 +30,5 @@
         "object-hash": "^3.0.0",
         "rss-parser": "^3.12.0",
         "string-to-stream": "^3.0.1"
-    },
-    "scripts": {
-        "types": "npx tsc --declaration --emitDeclarationOnly --declarationDir dist --allowSyntheticDefaultImports app/rss.app.ts"
     }
 }
