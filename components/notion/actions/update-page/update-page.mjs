@@ -22,12 +22,14 @@ export default {
         notion,
         "iconType",
       ],
+      reloadProps: true,
     },
     coverType: {
       propDefinition: [
         notion,
         "coverType",
       ],
+      reloadProps: true,
     },
     archive: {
       type: "boolean",

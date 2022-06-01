@@ -25,12 +25,14 @@ export default {
         notion,
         "iconType",
       ],
+      reloadProps: true,
     },
     coverType: {
       propDefinition: [
         notion,
         "coverType",
       ],
+      reloadProps: true,
     },
     paragraph: constants.BLOCK_TYPES.paragraph.prop,
     todo: constants.BLOCK_TYPES.to_do.prop,
