@@ -89,6 +89,28 @@ export default {
         };
       },
     },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      async options({ prevContext }) {
+        const { start = 0 } = prevContext;
+        const response = await this.listForms({
+          params: {
+            start,
+          },
+        });
+        const data = Object.values(response);
+        return {
+          options: data.map((d) => ({
+            label: d.name,
+            value: d.id,
+          })),
+          context: {
+            start: start + data.length,
+          },
+        };
+      },
+    },
     search: {
       type: "string",
       label: "Search Query",
@@ -199,13 +221,15 @@ export default {
       $,
       fn,
       maxResults,
-      params = {},
+      pathVariables,
+      params,
     }) {
       let start = 0;
 
       while (true) {
         const response = await fn({
           $,
+          ...pathVariables,
           params: {
             ...params,
             start,
@@ -367,6 +391,31 @@ export default {
         method: "DELETE",
       });
       return company;
+    },
+    async listForms({
+      $,
+      params,
+    }) {
+      const path = "/forms";
+      const { forms } = await this._makeRequest({
+        $,
+        path,
+        params,
+      });
+      return forms;
+    },
+    async listFormSubmissions({
+      $,
+      formId,
+      params,
+    }) {
+      const path = `/forms/${formId}/submissions`;
+      const { submissions } = await this._makeRequest({
+        $,
+        path,
+        params,
+      });
+      return submissions;
     },
   },
 };

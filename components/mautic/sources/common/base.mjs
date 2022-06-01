@@ -10,7 +10,24 @@ export default {
     http: "$.interface.http",
   },
   hooks: {
-    async deploy() {},
+    async deploy() {
+      console.log("Retrieving historical events...");
+      const {
+        fn,
+        pathVariables,
+        params,
+      } = this.getEventListFn();
+      const events = this.mautic.paginate({
+        fn,
+        params,
+        pathVariables,
+      });
+      for await (const event of events) {
+        if (this.isRelevant(event)) {
+          this.emitEvent(event);
+        }
+      }
+    },
     async activate() {
       console.log("Creating webhook...");
       const secret = randomUUID();

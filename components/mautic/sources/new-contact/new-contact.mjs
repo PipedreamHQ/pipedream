@@ -13,6 +13,14 @@ export default {
     getEventType() {
       return eventTypes.CONTACT_CREATED;
     },
+    getEventListFn() {
+      return {
+        fn: this.mautic.listContacts,
+      };
+    },
+    isRelevant() {
+      return true;
+    },
     generateMeta(contact) {
       const name = `${contact.fields.core.firstname.value} ${contact.fields.core.lastname.value}`;
       const summary = `New contact: ${name}`;
@@ -27,7 +35,9 @@ export default {
       };
     },
     emitEvent(event) {
-      const { contact } = event;
+      const contact = event.contact
+        ? event.contact
+        : event;
       const meta = this.generateMeta(contact);
       console.log(`Emitting event - ${meta.summary}`);
       this.$emit(contact, meta);
