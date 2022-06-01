@@ -1,7 +1,7 @@
-const isString = require("lodash/isString");
-const common = require("./common");
+import common from "./common.mjs";
+import { isString } from "lodash-es";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -16,7 +16,7 @@ module.exports = {
         }
 
         const options = await this.snowflake.listTables();
-        return options.map(i => i.name);
+        return options.map((i) => i.name);
       },
     },
     uniqueKey: {
@@ -31,7 +31,7 @@ module.exports = {
         }
 
         const options = await this.snowflake.listFieldsForTable(this.tableName);
-        return options.map(i => i.name);
+        return options.map((i) => i.name);
       },
     },
   },
@@ -66,16 +66,14 @@ module.exports = {
       }
 
       const columns = await this.snowflake.listFieldsForTable(this.tableName);
-      const columnNames = columns.map(i => i.name);
+      const columnNames = columns.map((i) => i.name);
       if (!columnNames.includes(columnNameToValidate)) {
         throw new Error(`Inexistent column: ${columnNameToValidate}`);
       }
     },
     generateMeta(data) {
       const {
-        row: {
-          [this.uniqueKey]: id,
-        },
+        row: { [this.uniqueKey]: id },
         timestamp: ts,
       } = data;
       const summary = `New row: ${id}`;
@@ -91,7 +89,9 @@ module.exports = {
         rowCount,
         timestamp: ts,
       } = data;
-      const entity = rowCount === 1 ? "row" : "rows";
+      const entity = rowCount === 1
+        ? "row"
+        : "rows";
       const summary = `${rowCount} new ${entity}`;
       return {
         id,
@@ -126,9 +126,7 @@ module.exports = {
     const statement = await this.getStatement(prevLastResultId);
 
     const { timestamp } = event;
-    const {
-      lastResultId = prevLastResultId,
-    } = (this.eventSize === 1) ?
+    const { lastResultId = prevLastResultId } = (this.eventSize === 1) ?
       await this.processSingle(statement, timestamp) :
       await this.processCollection(statement, timestamp);
     this.db.set("lastResultId", lastResultId);

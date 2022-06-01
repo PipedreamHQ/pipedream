@@ -1,7 +1,7 @@
-const { promisify } = require("util");
-const snowflake = require("snowflake-sdk");
+import snowflake from "snowflake-sdk";
+import { promisify } from "util";
 
-module.exports = {
+export default {
   app: "snowflake",
   type: "app",
   methods: {
@@ -41,7 +41,9 @@ module.exports = {
     },
     async listTables() {
       const sqlText = "SHOW TABLES";
-      return this.collectRows({ sqlText });
+      return this.collectRows({
+        sqlText,
+      });
     },
     async listFieldsForTable(tableName) {
       const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
