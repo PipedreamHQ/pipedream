@@ -1,6 +1,8 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import caseComment from "../../common/sobjects/caseComment.mjs";
-import lodash from "lodash";
+import {
+  pickBy, pick,
+} from "lodash-es";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -34,7 +36,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, caseComment);
   },
   async run({ $ }) {
-    const data = lodash.pickBy(lodash.pick(this, [
+    const data = pickBy(pick(this, [
       "ParentId",
       ...this.selector,
     ]));
