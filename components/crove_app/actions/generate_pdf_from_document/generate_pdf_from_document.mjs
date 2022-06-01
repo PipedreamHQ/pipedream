@@ -1,49 +1,51 @@
-import crove_app from "../../crove_app.app.mjs";
+import croveApp from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-    key: "crove_app-generate-pdf-from-document",
-    name: "Generate PDF from Document",
-    description: "Generate PDF of a document and return PDF URL.",
-    version: "0.0.1",
-    type: "action",
-    props: {
-      crove_app,
-      document_id: {
-        type: "string",
-        label: "Document ID",
-        async options({ $ }){
-            var resp = await axios($, {
-                url: "https://v2.api.crove.app/api/integrations/external/documents/?limit=50",
-                headers: {
-                    'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-                },
-                method: "GET"
-            });
-            resp = resp.results;
-            return resp.map((item) => ({
-                label: item.name,
-                value: item.id,
-            }));
-        }
-      },
-      background_mode: {
-          type: "boolean",
-          label: "Background Mode",
-          optional: true
-      }
-    },
-    async run({ $ }) {
-        const api_url = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/generate-pdf/`;
-        return await axios($, {
-            url: api_url,
-            headers: {
-              'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-            },
-            method: "POST",
-            data: {
-                background_mode: this.background_mode,
-            }
+  key: "crove_app-generate-pdf-from-document",
+  name: "Generate PDF from Document",
+  description: "Generate PDF of a document and return PDF URL.",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    croveApp,
+    document_id: {
+      type: "string",
+      label: "Document ID",
+      description: "Document ID of document for which pdf is to be generated.",
+      async options({ $ }) {
+        var resp = await axios($, {
+          url: "https://v2.api.crove.app/api/integrations/external/documents/?limit=50",
+          headers: {
+            "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+          },
+          method: "GET",
         });
+        resp = resp.results;
+        return resp.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
     },
-  };
+    background_mode: {
+      type: "boolean",
+      label: "Background Mode",
+      description: "Weather to generate pdf in background mode or not.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${this.document_id}/generate-pdf/`;
+    return await axios($, {
+      url: apiUrl,
+      headers: {
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+      },
+      method: "POST",
+      data: {
+        background_mode: this.background_mode,
+      },
+    });
+  },
+};

@@ -1,4 +1,4 @@
-import crove_app from "../../crove_app.app.mjs";
+import croveApp from "../../crove_app.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -8,43 +8,44 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    crove_app,
+    croveApp,
     template_id: {
       type: "string",
       label: "Template ID",
-      async options({ $ }){
-          var resp = await axios($, {
-              url: "https://v2.api.crove.app/api/integrations/external/templates/?limit=50",
-              headers: {
-                  'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-              },
-              method: "GET"
-          });
-          resp = resp.results;
-          return resp.map((item) => ({
-              label: item.name,
-              value: item.id,
-          }));
+      description: "Template ID of template for which pdf is to be generated.",
+      async options({ $ }) {
+        var resp = await axios($, {
+          url: "https://v2.api.crove.app/api/integrations/external/templates/?limit=50",
+          headers: {
+            "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+          },
+          method: "GET",
+        });
+        resp = resp.results;
+        return resp.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
       },
       reloadProps: true,
     },
   },
   async additionalProps() {
-    let template_id = this.template_id;
+    let templateId = this.template_id;
     let config = {
-      url: `https://v2.api.crove.app/api/integrations/external/templates/${template_id}/`,
+      url: `https://v2.api.crove.app/api/integrations/external/templates/${templateId}/`,
       headers: {
-        'X-API-KEY': `${this.crove_app.$auth.api_key}`,
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
       },
       method: "GET",
-    }
-    let resp = await this.crove_app._makeRequest(config);
-    let symbol_table = resp.symbol_table;
+    };
+    let resp = await this.croveApp._makeRequest(config);
+    let symbolTable = resp.symbol_table;
     let props = {};
-    for(var k in symbol_table) {
+    for (var k in symbolTable) {
       props[k] = {
         type: "string",
-        label: symbol_table[k].name,
+        label: symbolTable[k].name,
         optional: true,
       };
     }
@@ -53,61 +54,61 @@ export default {
   async run({ $ }) {
 
     let resp = await axios($, {
-      url: `https://v2.api.crove.app/api/integrations/external/documents/create/`,
+      url: "https://v2.api.crove.app/api/integrations/external/documents/create/",
       headers: {
-        'X-API-KEY': `${this.crove_app.$auth.api_key}`,
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
       },
       method: "POST",
       data: {
-          template_id: this.template_id,
-      }
+        template_id: this.template_id,
+      },
     });
 
-    let document_id = resp.id;
+    let documentId = resp.id;
 
     resp = await axios($, {
       url: `https://v2.api.crove.app/api/integrations/external/templates/${this.template_id}/`,
       headers: {
-        'X-API-KEY': `${this.crove_app.$auth.api_key}`,
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
       },
       method: "GET",
     });
 
-    let symbol_table = resp.symbol_table;
+    let symbolTable = resp.symbol_table;
     let response = {};
-    for(var k in symbol_table) {
+    for (var k in symbolTable) {
       response[k] = this[k];
     }
 
-    const api_url = `https://v2.api.crove.app/api/integrations/external/documents/${document_id}/update-response/`;
+    const apiUrl = `https://v2.api.crove.app/api/integrations/external/documents/${documentId}/update-response/`;
     resp =  await axios($, {
-        url: api_url,
-        headers: {
-          'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-        },
-        method: "POST",
-        data: {
-          response: response
-        }
+      url: apiUrl,
+      headers: {
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+      },
+      method: "POST",
+      data: {
+        response: response,
+      },
     });
 
     resp =  await axios($, {
-        url: `https://v2.api.crove.app/api/integrations/external/documents/${ document_id }/submit-response/`,
-        headers: {
-          'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-        },
-        method: "POST",
+      url: `https://v2.api.crove.app/api/integrations/external/documents/${ documentId }/submit-response/`,
+      headers: {
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+      },
+      method: "POST",
     });
 
     resp =  await axios($, {
-        url: `https://v2.api.crove.app/api/integrations/external/documents/${ document_id }/generate-pdf/`,
-        headers: {
-          'X-API-KEY': `${this.crove_app.$auth.api_key}`,
-        },
-        method: "POST",
-        data: {
-            background_mode: false
-        }
+      url: `https://v2.api.crove.app/api/integrations/external/documents/${ documentId }/generate-pdf/`,
+      headers: {
+        "X-API-KEY": `${this.croveApp.$auth.api_key}`,
+      },
+      method: "POST",
+      data: {
+        background_mode: false,
+      },
     });
 
     return resp;
