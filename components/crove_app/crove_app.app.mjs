@@ -22,7 +22,26 @@ export default {
           value: item.id,
         }));
       },
-    }
+    },
+    template_id: {
+      type: "string",
+      label: "Template",
+      description: "Template ID of template.",
+      async options({ $ }) {
+        var resp = await axios($, {
+          url: "https://v2.api.crove.app/api/integrations/external/templates/?limit=50",
+          headers: {
+            "X-API-KEY": `${this.$auth.api_key}`,
+          },
+          method: "GET",
+        });
+        resp = resp.results;
+        return resp.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
+    },
   },
   methods: {
     // this.$auth contains connected account data
