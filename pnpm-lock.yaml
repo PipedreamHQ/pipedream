@@ -546,6 +546,12 @@ importers:
       axios: 0.21.4
       querystring: 0.2.1
 
+  components/kanbanize:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
@@ -9771,7 +9777,7 @@ packages:
     dev: true
 
   /jsonfile/4.0.0:
-    resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
+    resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
       graceful-fs: 4.2.10
     dev: true
@@ -11023,7 +11029,7 @@ packages:
     optional: true
 
   /number-is-nan/1.0.1:
-    resolution: {integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=}
+    resolution: {integrity: sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==}
     engines: {node: '>=0.10.0'}
     dev: true
     optional: true
