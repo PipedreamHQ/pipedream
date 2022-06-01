@@ -1,5 +1,5 @@
-import base from "../_common/base.mjs";
-import { optionalRecordId as recordId } from "../_common/props.mjs";
+import base from "../common/base.mjs";
+import { optionalRecordId as recordId } from "../common/props.mjs";
 
 export default {
   ...base,
@@ -23,7 +23,11 @@ export default {
 
     $.export(
       "$summary",
-      `Obtained record successfully (array: ${response instanceof Array})`,
+      `Obtained ${
+        response instanceof Array
+          ? `${response.length} records`
+          : "record"
+      } successfully`,
     );
 
     return response;

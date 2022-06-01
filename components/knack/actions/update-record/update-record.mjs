@@ -1,7 +1,7 @@
-import base from "../_common/base.mjs";
+import base from "../common/base.mjs";
 import {
   recordId, recordData,
-} from "../_common/props.mjs";
+} from "../common/props.mjs";
 
 export default {
   ...base,

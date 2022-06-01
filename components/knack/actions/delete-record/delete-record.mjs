@@ -1,5 +1,5 @@
-import base from "../_common/base.mjs";
-import { recordId } from "../_common/props.mjs";
+import base from "../common/base.mjs";
+import { recordId } from "../common/props.mjs";
 
 export default {
   ...base,

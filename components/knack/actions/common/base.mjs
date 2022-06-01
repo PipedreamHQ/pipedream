@@ -6,9 +6,9 @@ export default {
     objectKey: {
       type: "string",
       label: "Object Key",
-      description: `The key of the object whose record(s) to operate on.
-        \\
-        For more info, see [the Knack API docs.](https://docs.knack.com/docs/object-based-requests)`,
+      description: `The key of the object which this record belongs to.
+      \\
+      See [the Knack API docs](https://docs.knack.com/docs/object-based-requests) for more information.`,
     },
   },
 };

@@ -4,24 +4,26 @@ const recordId = {
   label: "Record ID",
   description: `The ID of the record.
     \\
-    For more info, see [the Knack API docs.](https://docs.knack.com/docs/finding-record-ids)`,
+    See [the Knack API docs](https://docs.knack.com/docs/finding-record-ids) for more information.`,
 };
-export default {
-  recordId,
-  optionalRecordId: {
-    ...recordId,
-    optional: true,
-    description: `The ID of the record to retrieve.
+const optionalRecordId = {
+  type: "string",
+  label: "Record ID",
+  optional: true,
+  description: `The ID of the record to retrieve.
     \\
     If not specified, all records for the specified object will be retrieved.
     \\
-    For more info, see [the Knack API docs.](https://docs.knack.com/docs/finding-record-ids)`,
-  },
-  recordData: {
-    type: "object",
-    label: "Record Data",
-    description: `The record fields to be updated and their new values.
-      \\
-      For more info, see [the Knack API docs.](https://docs.knack.com/docs/working-with-fields)`,
-  },
+    See [the Knack API docs](https://docs.knack.com/docs/finding-record-ids) for more information.`,
+};
+const recordData = {
+  type: "object",
+  label: "Record Data",
+  description: `The record fields to be updated and their new values.
+    \\
+    See [the Knack API docs](https://docs.knack.com/docs/working-with-fields) for more information.`,
+};
+
+export {
+  recordId, optionalRecordId, recordData,
 };
