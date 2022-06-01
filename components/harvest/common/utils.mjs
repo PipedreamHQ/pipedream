@@ -1,15 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
-
-const validateObject = (obj, ALLOWED_KEYS, fieldName) => {
-  if (!obj || !Object.keys(obj)?.length) return;
-  for (const key of Object.keys(obj)) {
-    if (!ALLOWED_KEYS.includes(key)) {
-      throw new ConfigurationError(`${fieldName} error: Key ${key} not allowed`);
-    }
-  }
-  return obj;
-};
-
 const removeNullEntries = (obj) =>
   obj && Object.entries(obj).reduce((acc, [
     key,
@@ -34,53 +22,29 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
-const emptyStrToUndefined = (value) => {
-  const trimmed = typeof (value) === "string" && value.trim();
-  return trimmed === ""
-    ? false
-    : true;
+const isValidDate = (dateString) => {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  const date = new Date(dateString);
+  if (!dateString) {
+    return false;
+  }
+  if (dateString.match(regex) === null) {
+    return false;
+  }
+  const timestamp = date.getTime();
+  if (typeof timestamp !== "number" || Number.isNaN(timestamp)) {
+    return false;
+  }
+  return date.toISOString().startsWith(dateString);
 };
 
-const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues = null) => {
-  const updatedArray = [];
-  const errors = [];
-  if (objectArray?.length) {
-    for (let i = 0; i < objectArray.length; i++) {
-      try {
-        if (emptyStrToUndefined(objectArray[i])) {
-          const obj = JSON.parse(objectArray[i]);
-          Object.keys(obj).forEach((key) => {
-            const value = obj[key];
-            if (!ALLOWED_KEYS.includes(key)) {
-              errors.push(
-                `${fieldName}[${i}] error: ${key} is not present or allowed in object. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
-              );
-            }
-            if (allowedValues[key] && !allowedValues[key].includes(value)) {
-              errors.push(
-                `${fieldName}[${i}] error: value ${value} is not present or allowed in key ${key}.`,
-              );
-            }
-          });
-          updatedArray.push(obj);
-        } else {
-          throw new Error();
-        }
-      } catch (error) {
-        throw new ConfigurationError(`Object is empty or malformed on [${i}]`);
-      }
-    }
-  }
-  if (errors.length) {
-    throw new ConfigurationError(
-      errors.join(","),
-    );
-  }
-  return updatedArray;
+const isValidTime = (timeString) => {
+  const regex = /([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])\s*([AaPp][Mm])$/;
+  return timeString
+    ? timeString.match(regex)
+    : false;
 };
-
-const commaSeparateArray = (arr) => arr?.length && arr.join(",");
 
 export {
-  removeNullEntries, formatArrayStrings, validateObject, commaSeparateArray,
+  removeNullEntries, isValidDate, isValidTime,
 };
