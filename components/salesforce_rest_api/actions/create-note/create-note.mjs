@@ -1,8 +1,6 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import note from "../../common/sobjects/note.mjs";
-import {
-  pickBy, pick,
-} from "lodash";
+import lodash from "lodash";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
@@ -41,7 +39,7 @@ export default {
     return this.salesforce.additionalProps(this.selector, note);
   },
   async run({ $ }) {
-    const data = pickBy(pick(this, [
+    const data = lodash.pickBy(lodash.pick(this, [
       "ParentId",
       "Title",
       ...this.selector,
