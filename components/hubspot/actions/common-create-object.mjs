@@ -36,6 +36,15 @@ export default {
     } = this;
     const objectType = this.getObjectType();
 
+    // checkbox (string[]) props must be semicolon separated strings
+    Object.keys(properties)
+      .forEach((key) => {
+        let value = properties[key];
+        if (Array.isArray(value)) {
+          properties[key] = value.join(";");
+        }
+      });
+
     const response = await hubspot.createObject(objectType, properties, $);
 
     const objectName = hubspot.getObjectTypeName(objectType);
