@@ -15,6 +15,20 @@ export default {
         return options.map((i) => i.name);
       },
     },
+    columns: {
+      type: "string[]",
+      label: "Columns",
+      description: "Select the columns to insert data",
+      async options({ tableName }) {
+        const fields = await this.listFieldsForTable(tableName);
+        return fields.map((field) => field.name);
+      },
+    },
+    values: {
+      type: "string[]",
+      label: "Values",
+      description: "Insert values for the selected columns respectively",
+    },
   },
   methods: {
     async _getConnection() {
@@ -59,6 +73,17 @@ export default {
     },
     async listFieldsForTable(tableName) {
       const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
+      const binds = [
+        tableName,
+      ];
+      const statement = {
+        sqlText,
+        binds,
+      };
+      return this.collectRows(statement);
+    },
+    async insertRow(tableName, columns, values) {
+      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${values.join(",")});`;
       const binds = [
         tableName,
       ];
