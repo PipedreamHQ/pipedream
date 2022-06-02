@@ -1,17 +1,11 @@
 {
-  // This root tsconfig defines basic options used for the build,
-  // but these options are overridden by the tsconfig.json file
-  // in each component app directory. Each component app directory
-  // that includes TypeScript components is included as a reference below
   "compilerOptions": {
     "module": "es2020",
-    "outDir": "dist", // not used, only present to keep tsc-esm-fix happy
-    "composite": true, // required for references below
+    "outDir": "dist",
+    "composite": true,
     "baseUrl": ".",
     "rootDir": ".",
   },
-  // Each component directory has its own tsconfig.json. If we included files
-  // here, tsc would build files twice. So we include and exclude the same dir as a no-op
   "exclude": [
     "components",
   ],
