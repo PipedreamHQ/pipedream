@@ -8,4 +8,5 @@ export default {
     429,
     500,
   ],
+  DB_LAST_DATE_CHECK: "DB_LAST_DATE_CHECK",
 };

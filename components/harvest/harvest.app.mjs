@@ -97,6 +97,12 @@ export default {
     },
   },
   methods: {
+    setLastDateChecked(db, value) {
+      db && db.set(constants.DB_LAST_DATE_CHECK, value);
+    },
+    getLastDateChecked(db) {
+      return db && db.get(constants.DB_LAST_DATE_CHECK);
+    },
     _getHeaders() {
       return {
         "Content-Type": "application/json",
@@ -154,21 +160,23 @@ export default {
         }
       }, retryOpts);
     },
-    async *listProjectsPaginated({
-      perPage, page,
+    async *listTimeEntriesPaginated({
+      page, updatedSince,
     }) {
       do {
         const response = await this._withRetries(
-          () => this.listAllProject({
-            perPage,
+          () => this.listTimeEntries({
+            per_page: constants.PAGE_SIZE,
             page,
+            updated_since: updatedSince,
           }),
         );
-        if (response.projects.length === 0) {
+
+        if (response.time_entries.length === 0) {
           return;
         }
-        for (const project of response.projects) {
-          yield project;
+        for (const entry of response.time_entries) {
+          yield entry;
         }
         if (!response.next_page) {
           return;
