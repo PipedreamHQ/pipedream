@@ -1,10 +1,9 @@
 import harvest from "../../harvest.app.mjs";
 
 export default {
-  key: "harvest_new-timesheet-entry",
+  key: "harvest-new-timesheet-entry",
   name: "New Timesheet Entry",
-  description:
-    "Emit new notifications when a new timesheet is created",
+  description: "Emit new notifications when a new timesheet is created",
   version: "0.0.1",
   type: "source",
   props: {

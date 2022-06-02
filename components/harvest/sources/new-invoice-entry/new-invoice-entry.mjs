@@ -1,10 +1,9 @@
 import harvest from "../../harvest.app.mjs";
 
 export default {
-  key: "harvest_new-invoice-entry",
+  key: "harvest-new-invoice-entry",
   name: "New Invoice Entry",
-  description:
-    "Emit new notifications when a new invoice is created",
+  description: "Emit new notifications when a new invoice is created",
   version: "0.0.1",
   type: "source",
   props: {
