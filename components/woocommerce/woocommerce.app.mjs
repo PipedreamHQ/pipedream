@@ -148,7 +148,7 @@ export default {
   methods: {
     async getClient() {
       return new WooCommerceAPI({
-        url: `https://${this.$auth.url}`,
+        url: this.$auth.url,
         consumerKey: this.$auth.key,
         consumerSecret: this.$auth.secret,
         wpAPI: true,
@@ -162,6 +162,10 @@ export default {
     async postResource(endpoint, data) {
       const client = await this.getClient();
       return JSON.parse((await client.postAsync(endpoint, data)).body);
+    },
+    async putResource(endpoint, data) {
+      const client = await this.getClient();
+      return JSON.parse((await client.putAsync(endpoint, data)).body);
     },
     async deleteResource(endpoint) {
       const client = await this.getClient();
@@ -193,7 +197,7 @@ export default {
       return this.postResource("products", data);
     },
     async updateProduct(productId, data) {
-      return this.put(`products/${productId}`, data);
+      return this.putResource(`products/${productId}`, data);
     },
   },
 };
