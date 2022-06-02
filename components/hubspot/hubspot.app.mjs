@@ -238,6 +238,15 @@ export default {
       };
       return axios($ ?? this, config);
     },
+    getObjectTypeName(objectType) {
+      if (!objectType.endsWith("s")) {
+        return objectType.toLowerCase();
+      }
+      if (objectType === "companies") {
+        return "company";
+      }
+      return objectType.toLowerCase().slice(0, -1);
+    },
     /**
      * Returns a label for a CRM object, intended to be used as the label for
      * prop options

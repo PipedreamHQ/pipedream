@@ -7,6 +7,9 @@
       "pipedream",
       "bandwidth"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Bandwidth",
   "license": "MIT",
   "dependencies": {
