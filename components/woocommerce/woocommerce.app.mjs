@@ -157,19 +157,19 @@ export default {
     },
     async listResources(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.getAsync(endpoint)).body);
+      return JSON.parse((await client.get(endpoint)).body);
     },
     async postResource(endpoint, data) {
       const client = await this.getClient();
-      return JSON.parse((await client.postAsync(endpoint, data)).body);
+      return JSON.parse((await client.post(endpoint, data)).body);
     },
     async putResource(endpoint, data) {
       const client = await this.getClient();
-      return JSON.parse((await client.putAsync(endpoint, data)).body);
+      return JSON.parse((await client.put(endpoint, data)).body);
     },
     async deleteResource(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.deleteAsync(endpoint)).body);
+      return JSON.parse((await client.delete(endpoint)).body);
     },
     async createWebhook(data) {
       return this.postResource("webhooks", data);
