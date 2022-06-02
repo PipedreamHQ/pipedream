@@ -7,19 +7,22 @@ export default {
   name: "Delete Record",
   description:
     "Delete a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-delete)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ...base.props,
     recordId,
   },
+  methods: {
+    getBaseParams() {
+      return {
+        objectKey: this.objectKey,
+        recordId: this.recordId,
+      };
+    },
+  },
   async run({ $ }) {
-    const params = {
-      objectKey: this.objectKey,
-      recordId: this.recordId,
-    };
-
-    const response = await this.knack.deleteRecord($, params);
+    const response = await this.knack.deleteRecord($, this.getBaseParams());
 
     $.export("$summary", "Deleted record successfully");
 

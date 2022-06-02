@@ -23,55 +23,68 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async httpRequest($, params) {
+    async httpRequest($, baseParams, queryParams = {}) {
       const {
         method,
         data,
         objectKey,
         recordId,
-        page,
-      } = params;
+      } = baseParams;
 
       let url = this.getBaseUrl() + `/${objectKey}/records`;
-
       if (recordId) url += `/${recordId}`;
-      else if (page) url += `?page=${page}`;
+
+      Object.entries(queryParams).forEach(([
+        param,
+        value,
+      ], index) => {
+        let char = index
+          ? "&"
+          : "?";
+        url += `${char}${param}=${value}`;
+      });
 
       return axios($, {
-        url,
+        url: encodeURI(url),
         method,
         headers: this.getHeaders(),
         data,
       });
     },
-    async createRecord($, params) {
+    async createRecord($, baseParams) {
       return this.httpRequest($, {
         method: "POST",
-        ...params,
+        ...baseParams,
       });
     },
-    async getRecord($, params) {
-      if (params.recordId) {
+    async getRecord($, baseParams, queryParams) {
+      if (baseParams.recordId) {
         return this.httpRequest($, {
           method: "GET",
-          ...params,
+          ...baseParams,
         });
       }
 
-      return this.getAllRecords($, params);
+      return this.getAllRecords($, baseParams, queryParams);
     },
-    async getAllRecords($, params) {
+    async getAllRecords($, baseParams, queryParams) {
       const records = [];
 
       let page = 1;
       let response;
 
       do {
-        response = await this.httpRequest($, {
-          method: "GET",
-          ...params,
-          page,
-        });
+        response = await this.httpRequest(
+          $,
+          {
+            method: "GET",
+            ...baseParams,
+          },
+          {
+            ...queryParams,
+            page,
+          },
+        );
 
         if (response.records) records.push(...response.records);
         else throw new Error(response);
@@ -79,16 +92,16 @@ export default {
 
       return records;
     },
-    async updateRecord($, params) {
+    async updateRecord($, baseParams) {
       return this.httpRequest($, {
         method: "PATCH",
-        ...params,
+        ...baseParams,
       });
     },
-    async deleteRecord($, params) {
+    async deleteRecord($, baseParams) {
       return this.httpRequest($, {
         method: "DELETE",
-        ...params,
+        ...baseParams,
       });
     },
   },

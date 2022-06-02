@@ -9,21 +9,24 @@ export default {
   name: "Update Record",
   description:
     "Update a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-put)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ...base.props,
     recordId,
     recordData,
   },
+  methods: {
+    getBaseParams() {
+      return {
+        objectKey: this.objectKey,
+        recordId: this.recordId,
+        data: this.recordData,
+      };
+    },
+  },
   async run({ $ }) {
-    const params = {
-      objectKey: this.objectKey,
-      recordId: this.recordId,
-      data: this.recordData,
-    };
-
-    const response = await this.knack.updateRecord($, params);
+    const response = await this.knack.updateRecord($, this.getBaseParams());
 
     $.export("$summary", "Updated record successfully");
 
