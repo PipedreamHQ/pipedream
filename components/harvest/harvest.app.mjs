@@ -57,6 +57,44 @@ export default {
         }));
       },
     },
+    clientId: {
+      type: "string",
+      label: "Client ID",
+      description: "The ID of the client to associate with time entries",
+      useQuery: true,
+      optional: true,
+      async options({ page }) {
+        const response = await this.listClients({
+          perPage: constants.PAGE_SIZE,
+          page: page + 1,
+        });
+        return response.clients.map((client) => ({
+          label: client.name,
+          value: client.id,
+        }));
+      },
+    },
+    timeEntryId: {
+      type: "string",
+      label: "Time entry ID",
+      description: "The ID of the time entry.",
+      useQuery: true,
+      async options({
+        page, isRunning,
+      }) {
+        const response = await this.listTimeEntries({
+          perPage: constants.PAGE_SIZE,
+          page: page + 1,
+          is_running: isRunning,
+        });
+        return response.time_entries.map((entry) => ({
+          label: `Project: ${entry.project.name}, Task: ${entry.task.name}, Spend date: ${entry.spent_date} ${entry.started_time || ""} ${entry.ended_time
+            ? " to " + entry.ended_time
+            : ""}`,
+          value: entry.id,
+        }));
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -174,6 +212,18 @@ export default {
         },
       });
     },
+    async listClients({
+      $, perPage, page,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/clients",
+        params: {
+          per_page: perPage,
+          page,
+        },
+      });
+    },
     async createTimeEntry({
       $, params,
     }) {
@@ -182,6 +232,34 @@ export default {
         path: "/time_entries",
         params,
         method: "post",
+      });
+    },
+    async listTimeEntries({
+      $, ...params
+    }) {
+
+      return this._makeRequest({
+        $,
+        path: "/time_entries",
+        params,
+      });
+    },
+    async restartTimeEntry({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/time_entries/${id}/restart`,
+        method: "patch",
+      });
+    },
+    async stopTimeEntry({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/time_entries/${id}/stop`,
+        method: "patch",
       });
     },
   },

@@ -51,8 +51,8 @@ export default {
       };
       props.endedTime = {
         type: "string",
-        label: "Start time(H:MM am/pm)",
-        description: "The time the entry started. Defaults to the current time. Example: 8:00am.",
+        label: "End time(H:MM am/pm)",
+        description: "The time the entry ended. Defaults to the current time. Example: 8:00am.",
       };
     }
     return props;
