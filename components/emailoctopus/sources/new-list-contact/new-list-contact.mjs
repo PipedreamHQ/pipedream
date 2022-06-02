@@ -23,23 +23,30 @@ export default {
     },
   },
   async run() {
-    const { data } = await this.emailoctopus.getContacts({
+    const params = {
       listId: this.listId,
+    };
+
+    const contacts = [];
+    const paginator = this.emailoctopus.paginate({
+      fn: this.emailoctopus.getContacts,
+      params,
     });
+    for await (const contact of paginator) {
+      contacts.push(contact);
+    }
 
-    if (data.length) {
-      for (let contact of data) {
-        contact = await this.emailoctopus.getContact({
-          listId: this.listId,
-          contactId: contact.id,
-        });
+    for (let contact of contacts) {
+      contact = await this.emailoctopus.getContact({
+        listId: this.listId,
+        contactId: contact.id,
+      });
 
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New contact added - ${contact.fields.FirstName} ${contact.fields.LastName} (${contact.email_address})`,
-          ts: Date.now(),
-        });
-      }
+      this.$emit(contact, {
+        id: contact.id,
+        summary: `New contact added - ${contact.fields.FirstName} ${contact.fields.LastName} (${contact.email_address})`,
+        ts: contact.created_at,
+      });
     }
   },
 };

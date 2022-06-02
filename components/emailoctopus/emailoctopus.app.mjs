@@ -43,6 +43,35 @@ export default {
       };
       return axios($ || this, config);
     },
+    async *paginate({
+      $, fn, params = {}, page = 1,
+    }) {
+      const { limit } = params;
+      let count = 0;
+
+      do {
+        const {
+          data,
+          paging,
+        } = await fn({
+          $,
+          params: {
+            ...params,
+            page,
+          },
+        });
+
+        for (const d of data) {
+          yield d;
+
+          if (limit && ++count === limit) {
+            return count;
+          }
+        }
+
+        page = paging.next && page + 1;
+      } while (page);
+    },
     async getLists({ page }) {
       return this._makeRequest({
         method: "GET",
@@ -52,10 +81,13 @@ export default {
         },
       });
     },
-    async getContacts({ listId }) {
+    async getContacts({ params }) {
       return this._makeRequest({
         method: "GET",
-        path: `/lists/${listId}/contacts`,
+        path: `/lists/${params.listId}/contacts`,
+        params: {
+          ...params,
+        },
       });
     },
     async getContact({
