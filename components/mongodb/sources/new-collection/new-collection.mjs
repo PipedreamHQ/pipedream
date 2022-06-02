@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "mongodb-new-collection",
   name: "New Collection",
-  description: "Emits an event when a new collection is added to a database",
-  version: "0.0.1",
+  description: "Emit new an event when a new collection is added to a database",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,12 +29,13 @@ export default {
       return !collectionIds.includes(uuid);
     },
     async processEvent(client, ts) {
-      let collectionIds = this._getCollectionIds() || [];
-      const db = this.mongodb.getDatabase(client, this.database);
-      const collections = await this.mongodb.listCollections(db);
+      const collectionIds = this._getCollectionIds() || [];
+      const collections = await this.mongodb.listCollections(client, this.database);
       for (const collection of collections) {
         const uuid = JSON.stringify(collection.info.uuid);
-        if (!this.isRelevant(uuid, collectionIds)) continue;
+        if (!this.isRelevant(uuid, collectionIds)) {
+          continue;
+        }
         collectionIds.push(uuid);
         this.emitEvent(collection, ts);
       }
