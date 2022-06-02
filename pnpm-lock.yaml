@@ -629,9 +629,9 @@ importers:
 
   components/mongodb:
     specifiers:
-      mongoose: ^6.1.6
+      mongodb: ^4.6.0
     dependencies:
-      mongoose: 6.3.4
+      mongodb: 4.6.0
 
   components/netlify:
     specifiers:
@@ -5548,7 +5548,7 @@ packages:
   /@types/whatwg-url/8.2.1:
     resolution: {integrity: sha512-2YubE1sjj5ifxievI5Ge1sckb9k/Er66HyR2c+3+I6VDUUg1TLPdYYTEbQ+DjRkS4nTxMJhgWfSfMRD2sl2EYQ==}
     dependencies:
-      '@types/node': 17.0.31
+      '@types/node': 17.0.36
       '@types/webidl-conversions': 6.1.1
     dev: false
 
@@ -9888,10 +9888,6 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: false
 
-  /kareem/2.3.5:
-    resolution: {integrity: sha512-qxCyQtp3ioawkiRNQr/v8xw9KIviMSSNmy+63Wubj7KmMn3g7noRXIZB4vPCAP+ETi2SR8eH6CvmlKZuGpoHOg==}
-    dev: false
-
   /keyv/4.3.0:
     resolution: {integrity: sha512-C30Un9+63J0CsR7Wka5quXKqYZsT6dcRQ2aOwGcSc3RiQ4HGWpTAHlCA+puNfw2jA/s11EsxA1nCXgZRuRKMQQ==}
     dependencies:
@@ -10748,8 +10744,8 @@ packages:
       whatwg-url: 11.0.0
     dev: false
 
-  /mongodb/4.5.0:
-    resolution: {integrity: sha512-A2l8MjEpKojnhbCM0MK3+UOGUSGvTNNSv7AkP1fsT7tkambrkkqN/5F2y+PhzsV0Nbv58u04TETpkaSEdI2zKA==}
+  /mongodb/4.6.0:
+    resolution: {integrity: sha512-1gsxVXmjFTPJ+CkMG9olE4bcVsyY8lBJN9m5B5vj+LZ7wkBqq3PO8RVmNX9GwCBOBz1KV0zM00vPviUearSv7A==}
     engines: {node: '>=12.9.0'}
     dependencies:
       bson: 4.6.4
@@ -10760,38 +10756,9 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose/6.3.4:
-    resolution: {integrity: sha512-UP0azyGMdY+2YNbJUHeHhnVw5vPzCqs4GQDUwHkilif/rwmSZktUQhQWMp1pUgRNeF2JC30vWGLrInZxD7K/Qw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      bson: 4.6.4
-      kareem: 2.3.5
-      mongodb: 4.5.0
-      mpath: 0.9.0
-      mquery: 4.0.3
-      ms: 2.1.3
-      sift: 16.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /montag/1.2.1:
     resolution: {integrity: sha512-YFuR6t5KhDlmAnUmVSxGzNcpWqSDqxbd95tvnEnn7X9yFv7g3kDFoRjwyGayVdF/NNoWk7YW7IxUjilnGnoC5Q==}
     dev: true
-
-  /mpath/0.9.0:
-    resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
-    engines: {node: '>=4.0.0'}
-    dev: false
-
-  /mquery/4.0.3:
-    resolution: {integrity: sha512-J5heI+P08I6VJ2Ky3+33IpCdAvlYGTSUjwTPxkAr8i8EoduPMBX2OY/wa3IKZIQl7MU4SbFk8ndgSKyB/cl1zA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /mri/1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -12537,10 +12504,6 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.1.1
       object-inspect: 1.12.0
-    dev: false
-
-  /sift/16.0.0:
-    resolution: {integrity: sha512-ILTjdP2Mv9V1kIxWMXeMTIRbOBrqKc4JAXmFMnFq3fKeyQ2Qwa3Dw1ubcye3vR+Y6ofA0b9gNDr/y2t6eUeIzQ==}
     dev: false
 
   /signal-exit/3.0.7:
