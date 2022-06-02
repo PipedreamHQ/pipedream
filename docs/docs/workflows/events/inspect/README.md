@@ -1,6 +1,6 @@
 # Inspect Events
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vaOKKhBLqlE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<VideoPlayer url="https://www.youtube.com/embed/vaOKKhBLqlE" title="Diving into the workflow inspector" />
 
 [The inspector](#the-inspector) lists the events you send to a [workflow](/workflows/). Once you choose a [trigger](/workflows/steps/triggers/) and send events to it, you'll see those events in the inspector, to the left of your workflow. 
 

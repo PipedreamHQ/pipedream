@@ -7,17 +7,17 @@ const crudOpsData = [
   {
     op: "create",
     flagName: "creatable",
-    description: "Creation",
+    description: "Created",
   },
   {
     op: "delete",
     flagName: "deletable",
-    description: "Deletion",
+    description: "Deleted",
   },
   {
     op: "edit",
     flagName: "editable",
-    description: "Edition",
+    description: "Updated",
   },
 ];
 

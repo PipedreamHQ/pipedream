@@ -1,6 +1,6 @@
 # Triggers
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Jjq-ZoYZQoQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<VideoPlayer url="https://www.youtube.com/embed/Jjq-ZoYZQoQ" title="Using Triggers" />
 
 **Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
 

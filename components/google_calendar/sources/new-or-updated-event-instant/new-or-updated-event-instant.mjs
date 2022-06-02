@@ -1,33 +1,24 @@
 import { v4 as uuid } from "uuid";
-import googleCalendar from "../../google_calendar.app.js";
+import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New or Updated Event (Instant)",
-  description:
-    "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.0",
+  description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     googleCalendar,
     db: "$.service.db",
     calendarIds: {
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
       type: "string[]",
       label: "Calendars",
       description: "Select one or more calendars to watch",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = calListResp?.data?.items ?? [];
-        if (calendars && calendars.length) {
-          const calendarIds = calendars.map((item) => ({
-            value: item.id,
-            label: item.summary,
-          }));
-          return calendarIds;
-        }
-        return [];
-      },
     },
     newOnly: {
       label: "New events only?",
@@ -39,8 +30,7 @@ export default {
     http: "$.interface.http",
     timer: {
       label: "Push notification renewal schedule",
-      description:
-        "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+      description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
         intervalSeconds: 60 * 60 * 23,
@@ -56,6 +46,30 @@ export default {
     },
   },
   methods: {
+    setNextSyncToken(calendarId, nextSyncToken) {
+      this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
+    },
+    getNextSyncToken(calendarId) {
+      return this.db.get(`${calendarId}.nextSyncToken`);
+    },
+    setChannelId(calendarId, channelId) {
+      this.db.set(`${calendarId}.channelId`, channelId);
+    },
+    getChannelId(calendarId) {
+      return this.db.get(`${calendarId}.channelId`);
+    },
+    setResourceId(calendarId, resourceId) {
+      this.db.set(`${calendarId}.resourceId`, resourceId);
+    },
+    getResourceId(calendarId) {
+      return this.db.get(`${calendarId}.resourceId`);
+    },
+    setExpiration(calendarId, expiration) {
+      this.db.set(`${calendarId}.expiration`, expiration);
+    },
+    getExpiration(calendarId) {
+      return this.db.get(`${calendarId}.expiration`);
+    },
     /**
      * A utility method to compute whether the provided event is newly created
      * or not. Since the Google Calendar API does not provide a specific way to
@@ -107,49 +121,67 @@ export default {
     async makeWatchRequest() {
       // Make watch request for this HTTP endpoint
       for (const calendarId of this.calendarIds) {
-        const config = {
-          calendarId,
-          requestBody: {
-            id: uuid(),
-            type: "web_hook",
-            address: this.http.endpoint,
-          },
-        };
-        const watchResp = await this.googleCalendar.watch(config);
-        const data = watchResp.data;
+        const watchResp =
+          await this.googleCalendar.watchEvents({
+            calendarId,
+            requestBody: {
+              id: uuid(),
+              type: "web_hook",
+              address: this.http.endpoint,
+            },
+          });
 
         // Initial full sync. Get next sync token
         const nextSyncToken = await this.googleCalendar.fullSync(calendarId);
 
-        this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
-        this.db.set(`${calendarId}.channelId`, data.id);
-        this.db.set(`${calendarId}.resourceId`, data.resourceId);
-        this.db.set(`${calendarId}.expiration`, data.expiration);
+        this.setNextSyncToken(calendarId, nextSyncToken);
+        this.setChannelId(calendarId, watchResp.id);
+        this.setResourceId(calendarId, watchResp.resourceId);
+        this.setExpiration(calendarId, watchResp.expiration);
       }
     },
     async stopWatchRequest() {
       for (const calendarId of this.calendarIds) {
-        const id = this.db.get(`${calendarId}.channelId`);
-        const resourceId = this.db.get(`${calendarId}.resourceId`);
+        const id = this.getChannelId(calendarId);
+        const resourceId = this.getResourceId(calendarId);
         if (id && resourceId) {
-          const config = {
-            requestBody: {
-              id,
-              resourceId,
-            },
-          };
-          const stopResp = await this.googleCalendar.stop(config);
-          if (stopResp.status === 204) {
+          const { status } =
+            await this.googleCalendar.stopChannel({
+              returnOnlyData: false,
+              requestBody: {
+                id,
+                resourceId,
+              },
+            });
+          if (status === 204) {
             console.log("webhook deactivated");
-            this.db.set(`${calendarId}.nextSyncToken`, null);
-            this.db.set(`${calendarId}.channelId`, null);
-            this.db.set(`${calendarId}.resourceId`, null);
-            this.db.set(`${calendarId}.expiration`, null);
+            this.setNextSyncToken(calendarId, null);
+            this.setChannelId(calendarId, null);
+            this.setResourceId(calendarId, null);
+            this.setExpiration(calendarId, null);
           } else {
             console.log("There was a problem deactivating the webhook");
           }
         }
       }
+    },
+    getSoonestExpirationDate() {
+      let min;
+      for (const calendarId of this.calendarIds) {
+        const expiration = parseInt(this.db.get(`${calendarId}.expiration`));
+        if (!min || expiration < min) {
+          min = expiration;
+        }
+      }
+      return new Date(min);
+    },
+    getChannelIds() {
+      const channelIds = [];
+      for (const calendarId of this.calendarIds) {
+        const channelId = this.db.get(`${calendarId}.channelId`);
+        channelIds.push(channelId);
+      }
+      return channelIds;
     },
   },
   async run(event) {
@@ -159,8 +191,7 @@ export default {
       const now = new Date();
       const intervalMs = event.interval_seconds * 1000;
       // get expiration
-      const expiration = this.db.get("expiration");
-      const expireDate = new Date(parseInt(expiration));
+      const expireDate = this.getSoonestExpirationDate();
 
       // if now + interval > expiration, refresh watch
       if (now.getTime() + intervalMs > expireDate.getTime()) {
@@ -169,11 +200,7 @@ export default {
       }
     } else {
       // Verify channel ID
-      const channelIds = [];
-      for (const calendarId of this.calendarIds) {
-        const channelId = this.db.get(`${calendarId}.channelId`);
-        channelIds.push(channelId);
-      }
+      const channelIds = this.getChannelIds();
       const incomingChannelId = event?.headers?.["x-goog-channel-id"];
       if (!channelIds.includes(incomingChannelId)) {
         console.log(
@@ -198,46 +225,46 @@ export default {
         console.log(`Unknown state: ${state}`);
         return;
       }
+    }
 
-      // Fetch and emit events
-      for (const calendarId of this.calendarIds) {
-        const syncToken = this.db.get(`${calendarId}.nextSyncToken`);
-        let nextSyncToken = null;
-        let nextPageToken = null;
-        while (!nextSyncToken) {
-          const listConfig = {
-            calendarId,
-            syncToken,
-            pageToken: nextPageToken,
-          };
-          const {
-            data: syncData = {},
-            status: syncStatus,
-          } = await this.googleCalendar.list(listConfig);
-          if (syncStatus === 410) {
-            console.log("Sync token invalid, resyncing");
-            nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
-            break;
-          }
-          nextPageToken = syncData.nextPageToken;
-          nextSyncToken = syncData.nextSyncToken;
-
-          const { items: events = [] } = syncData;
-          events
-            .filter(this.isEventRelevant, this)
-            .forEach((event) => {
-              const { status } = event;
-              if (status === "cancelled") {
-                console.log("Event cancelled. Exiting.");
-                return;
-              }
-              const meta = this.generateMeta(event);
-              this.$emit(event, meta);
-            });
+    // Fetch and emit events
+    for (const calendarId of this.calendarIds) {
+      const syncToken = this.getNextSyncToken(calendarId);
+      let nextSyncToken = null;
+      let nextPageToken = null;
+      while (!nextSyncToken) {
+        const {
+          data: syncData = {},
+          status: syncStatus,
+        } = await this.googleCalendar.listEvents({
+          returnOnlyData: false,
+          calendarId,
+          syncToken,
+          pageToken: nextPageToken,
+        });
+        if (syncStatus === 410) {
+          console.log("Sync token invalid, resyncing");
+          nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
+          break;
         }
+        nextPageToken = syncData.nextPageToken;
+        nextSyncToken = syncData.nextSyncToken;
 
-        this.db.set("nextSyncToken", nextSyncToken);
+        const { items: events = [] } = syncData;
+        events
+          .filter(this.isEventRelevant, this)
+          .forEach((event) => {
+            const { status } = event;
+            if (status === "cancelled") {
+              console.log("Event cancelled. Exiting.");
+              return;
+            }
+            const meta = this.generateMeta(event);
+            this.$emit(event, meta);
+          });
       }
+
+      this.setNextSyncToken(calendarId, nextSyncToken);
     }
   },
 };

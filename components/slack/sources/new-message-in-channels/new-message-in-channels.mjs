@@ -3,74 +3,23 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.3",
-  description: "Emit an event when a new message is posted to one or more channels",
+  version: "0.0.5",
+  description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
   props: {
     slack,
     conversations: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
       type: "string[]",
       label: "Channels",
       description: "Select one or more channels to monitor for new messages.",
       optional: true,
-      async options({ prevContext }) {
-        let {
-          types,
-          cursor,
-          userNames,
-        } = prevContext;
-        if (types == null) {
-          const scopes = await this.slack.scopes();
-          types = [
-            "public_channel",
-          ];
-          if (scopes.includes("groups:read")) {
-            types.push("private_channel");
-          }
-          if (scopes.includes("mpim:read")) {
-            types.push("mpim");
-          }
-          if (scopes.includes("im:read")) {
-            types.push("im");
-            // TODO use paging
-            userNames = {};
-            for (const user of (await this.slack.users()).users) {
-              userNames[user.id] = user.name;
-            }
-          }
-        }
-        const resp = await this.slack.availableConversations(types.join(), cursor);
-        return {
-          options: resp.conversations.map((c) => {
-            if (c.is_im) {
-              return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
-                value: c.id,
-              };
-            } else if (c.is_mpim) {
-              return {
-                label: c.purpose.value,
-                value: c.id,
-              };
-            } else {
-              return {
-                label: `${c.is_private ?
-                  "Private" :
-                  "Public"
-                } channel: ${c.name}`,
-                value: c.id,
-              };
-            }
-          }),
-          context: {
-            types,
-            cursor: resp.cursor,
-            userNames,
-          },
-        };
-      },
     },
+    // eslint-disable-next-line pipedream/props-description,pipedream/props-label
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
@@ -168,8 +117,10 @@ export default {
     if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
       return;
     }
-    if (this.ignoreBot && event.subtype == "bot_message") {
-      return;
+    if (this.ignoreBot) {
+      if (event.subtype == "bot_message" || event.bot_id) {
+        return;
+      }
     }
     if (this.resolveNames) {
       if (event.user) {
