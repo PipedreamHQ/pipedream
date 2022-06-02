@@ -63,19 +63,31 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      fromEmail,
+      fromName,
+      sender,
+      to,
+      cc,
+      bcc,
+      subject,
+      textPart,
+      htmlPart,
+    } = this;
+
     try {
       const { body: { Sent: response } } =
         await this.mailjetApp.sendMessage({
           data: {
-            FromEmail: this.fromEmail,
-            FromName: this.fromName,
-            Sender: this.sender,
-            To: this.to,
-            Cc: this.cc,
-            Bcc: this.bcc,
-            Subject: this.subject,
-            TextPart: this.textPart,
-            HtmlPart: this.htmlPart,
+            "FromEmail": fromEmail,
+            "FromName": fromName,
+            "Sender": sender,
+            "To": to,
+            "Cc": cc,
+            "Bcc": bcc,
+            "Subject": subject,
+            "Text-part": textPart,
+            "Html-part": htmlPart,
           },
         });
 
