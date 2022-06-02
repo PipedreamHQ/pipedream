@@ -53,39 +53,52 @@ export default {
       return !property.modificationMetadata?.readOnlyValue
         && (!property.hidden || property.name === "hs_email_direction") // hack - Hubspot's "hs_email_direction" property is hidden AND required
         && !property.label.includes("(legacy)")
-        && (!property.options || property.options.length <= 500) // too many prop options cause the action to fail
-        && !(property.fieldType === "checkbox"); // checkbox (string[]) props must be semicolon separated strings
+        && (!property.options || property.options.length <= 500); // too many prop options cause the action to fail
     },
-    makePropDefinition(property) {
-      let type = "string";
-      let options = property.options?.length
-        ? property.options?.filter((o) => !o.hidden)
-          .map(({
-            label, value,
-          }) => ({
-            label,
-            value,
-          }))
+    makeLabelValueOptions(property) {
+      const options = property.options
+        .filter((o) => !o.hidden)
+        .map(({
+          label, value,
+        }) => ({
+          label,
+          value,
+        }))
+        .filter(({ label }) => label);
+
+      return options.length
+        ? options
         : undefined;
+    },
+    makePropDefinition(property, requiredProperties) {
+      let type = "string";
+      let options = this.makeLabelValueOptions(property);
+
       if (property.referencedObjectType) {
         const objectTypeName = this.hubspot.getObjectTypeName(property.referencedObjectType);
         options = getOptionsMethod(objectTypeName);
       }
+
+      if (property.fieldType === "checkbox") {
+        type = "string[]";
+      }
+
       return {
-        name: property.name,
         type,
+        name: property.name,
         label: property.label,
         description: property.description,
-        optional: true,
+        optional: !requiredProperties.includes(property),
         options,
       };
     },
   },
   async additionalProps() {
+    const schema = await this.hubspot.getSchema(this.getObjectType());
     const { results: properties } = await this.hubspot.getProperties(this.getObjectType());
     return properties
       .filter(this.isRelevantProperty)
-      .map(this.makePropDefinition)
+      .map((property) => this.makePropDefinition(property, schema.requiredProperties))
       .reduce((props, {
         name, ...definition
       }) => {
