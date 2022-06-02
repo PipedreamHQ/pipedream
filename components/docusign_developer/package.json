@@ -1,5 +1,5 @@
 {
-    "name": "@pipedream/docusign",
+    "name": "@pipedream/docusign_developer",
     "version": "0.0.1",
     "description": "Pipedream Docusign_developer Components",
     "main": "docusign_developer.app.js",

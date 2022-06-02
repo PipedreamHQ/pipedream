@@ -1,43 +1,43 @@
-// legacy_hash_id: a_vgi8lg
-import { axios } from "@pipedream/platform";
+import mailchimp from "../../mailchimp.app.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
-  description: "Creates a new campaign draft.",
-  version: "0.2.1",
+  description: "Creates a new campaign draft. [See docs here](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
+  version: "0.2.2",
   type: "action",
   props: {
-    mailchimp: {
-      type: "app",
-      app: "mailchimp",
-    },
+    mailchimp,
     type: {
+      label: "Type",
       type: "string",
       description: "There are four types of campaigns you can create in Mailchimp. A/B Split campaigns have been deprecated and variate campaigns should be used instead.",
-      options: [
-        "regular",
-        "plaintext",
-        "absplit",
-        "rss",
-        "variate",
+      options: constants.CAMPAIGN_TYPE,
+    },
+    listId: {
+      propDefinition: [
+        mailchimp,
+        "listId",
       ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
-    list_id: {
-      type: "string",
-      description: "The unique list id.",
-    },
-    saved_segment_id: {
+    savedSegmentId: {
+      label: "Saved segment ID",
       type: "integer",
-      description: "The id for an existing saved segment.",
+      description: "The ID for an existing saved segment.",
       optional: true,
     },
-    prebuilt_segment_id: {
+    prebuiltSegmentId: {
+      label: "Prebuilt segment ID",
       type: "string",
-      description: "The prebuilt segment id, if a prebuilt segment has been designated for this campaign.",
+      description: "The prebuilt segment ID, if a prebuilt segment has been designated for this campaign.",
       optional: true,
     },
-    segment_match: {
+    segmentMatch: {
+      label: "Segment match",
       type: "string",
       description: "Segment match type.",
       optional: true,
@@ -46,147 +46,176 @@ export default {
         "all",
       ],
     },
-    segment_conditions: {
+    segmentConditions: {
+      label: "Segment conditions",
       type: "any",
       description: "Segment match conditions.",
       optional: true,
     },
-    subject_line: {
+    subjectLine: {
+      label: "Subject line",
       type: "string",
       description: "The subject line for the campaign.",
       optional: true,
     },
-    preview_text: {
+    previewText: {
+      label: "Preview text",
       type: "string",
       description: "The preview text for the campaign.",
       optional: true,
     },
     title: {
+      label: "Title",
       type: "string",
       description: "The title of the campaign.",
       optional: true,
     },
-    from_name: {
+    fromName: {
+      label: "From name",
       type: "string",
       description: "The 'from' name on the campaign (not an email address).",
       optional: true,
     },
-    reply_to: {
+    replyTo: {
+      label: "Reply to",
       type: "string",
       description: "The reply-to email address for the campaign. Note: while this field is not required for campaign creation, it is required for sending.",
       optional: true,
     },
-    use_conversation: {
+    useConversation: {
+      label: "Use conversation",
       type: "boolean",
       description: "Use Mailchimp Conversation feature to manage out-of-office replies.",
       optional: true,
     },
-    to_name: {
+    toName: {
+      label: "To name",
       type: "string",
-      description: "The campaign's custom 'To' name.",
+      description: "The campaign's custom to name.",
       optional: true,
     },
-    folder_id: {
+    folderId: {
+      label: "Folder ID",
       type: "string",
-      description: "If the campaign is listed in a folder, the id for that folder.",
+      description: "If the campaign is listed in a folder, the ID for that folder.",
       optional: true,
     },
     authenticate: {
+      label: "Authenticate",
       type: "boolean",
       description: "Whether Mailchimp authenticated the campaign. Defaults to true.",
       optional: true,
     },
-    auto_footer: {
+    autoFooter: {
+      label: "Auto footer",
       type: "boolean",
       description: "Automatically append Mailchimp's default footer to the campaign.",
       optional: true,
     },
-    inline_css: {
+    inlineCss: {
+      label: "Inline css",
       type: "boolean",
       description: "Automatically inline the CSS included with the campaign content.",
       optional: true,
     },
-    auto_tweet: {
+    autoTweet: {
+      label: "Auto tweet",
       type: "boolean",
       description: "Automatically tweet a link to the campaign archive page when the campaign is sent.",
       optional: true,
     },
-    auto_fb_post: {
+    autoFbPost: {
+      label: "Auto fb post",
       type: "any",
-      description: "An array of Facebook page ids to auto-post to.",
+      description: "An array of Facebook page ID to auto-post to.",
       optional: true,
     },
-    fb_comments: {
+    fbComments: {
+      label: "FB comments",
       type: "boolean",
       description: "Allows Facebook comments on the campaign (also force-enables the Campaign Archive toolbar). Defaults to true.",
       optional: true,
     },
-    template_id: {
+    templateId: {
+      label: "Template ID",
       type: "integer",
-      description: "The id of the template to use.",
+      description: "The ID of the template to use.",
       optional: true,
     },
     opens: {
+      label: "Opens",
       type: "boolean",
       description: "Whether to track opens. Defaults to true. Cannot be set to false for variate campaigns.",
       optional: true,
     },
-    html_clicks: {
+    htmlClicks: {
+      label: "HTML clicks",
       type: "boolean",
       description: "Whether to track clicks in the HTML version of the campaign. Defaults to true. Cannot be set to false for variate campaigns.",
       optional: true,
     },
-    text_clicks: {
+    textClicks: {
+      label: "Text clicks",
       type: "boolean",
       description: "Whether to track clicks in the plain-text version of the campaign. Defaults to true. Cannot be set to false for variate campaigns.",
       optional: true,
     },
-    goal_tracking: {
+    goalTracking: {
+      label: "Goal tracking",
       type: "boolean",
       description: "Whether to enable Goal tracking.",
       optional: true,
     },
     ecomm360: {
+      label: "E-commerce tracking",
       type: "boolean",
       description: "Whether to enable eCommerce360 tracking.",
       optional: true,
     },
-    google_analytics: {
+    googleAnalytics: {
+      label: "Google analytics",
       type: "string",
       description: "The custom slug for Google Analytics tracking (max of 50 bytes).",
       optional: true,
     },
     clicktale: {
+      label: "Clicktale",
       type: "string",
       description: "The custom slug for ClickTale tracking (max of 50 bytes).",
       optional: true,
     },
-    salesforce_campaign: {
+    salesforceCampaign: {
+      label: "Salesforce campaign",
       type: "boolean",
       description: "Create a campaign in a connected Salesforce account.",
       optional: true,
     },
-    salesforce_notes: {
+    salesforceNotes: {
+      label: "Salesforce notes",
       type: "boolean",
       description: "Update contact notes for a campaign based on subscriber email addresses.",
       optional: true,
     },
-    capsule_notes: {
+    capsuleNotes: {
+      label: "Capsule notes",
       type: "boolean",
       description: "Update contact notes for a campaign based on subscriber email addresses. Must be using Mailchimp's built-in Capsule integration.",
       optional: true,
     },
-    social_image_url: {
+    socialImageUrl: {
+      label: "Social image url",
       type: "string",
       description: "The url for the header image for the preview card.",
       optional: true,
     },
-    social_descritpion: {
+    socialDescritpion: {
+      label: "Social description",
       type: "string",
       description: "A short summary of the campaign to display.",
       optional: true,
     },
-    social_title: {
+    socialTitle: {
+      label: "Social title",
       type: "string",
       description: "The title for the preview card. Typically the subject line of the campaign.",
       optional: true,
@@ -197,62 +226,61 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://${this.mailchimp.$auth.dc}.api.mailchimp.com/3.0/campaigns`,
-      headers: {
-        Authorization: `Bearer ${this.mailchimp.$auth.oauth_access_token}`,
+
+    const payload = removeNullEntries({
+      "type": this.type,
+      "recipients": {
+        "list_id": this.listId,
+        "segment_ops": {
+          "saved_segment_id": this.savedSegmentId,
+          "prebuilt_segment_id": this.prebuiltSegmentId,
+          "match": this.segmentMatch,
+          "conditions": this.segmentConditions,
+        },
       },
-      method: "POST",
-      data: {
-        "type": this.type,
-        "recipients": {
-          "list_id": this.list_id,
-          "segment_ops": {
-            "saved_segment_id": this.saved_segment_id,
-            "prebuilt_segment_id": this.prebuilt_segment_id,
-            "match": this.segment_match,
-            "conditions": this.segment_conditions,
-          },
+      "settings": {
+        "subject_line": this.subjectLine,
+        "preview_text": this.previewText,
+        "title": this.title,
+        "from_name": this.fromName,
+        "reply_to": this.replyTo,
+        "use_conversation": this.useConversation,
+        "to_name": this.toName,
+        "folder_id": this.folderId,
+        "authenticate": this.authenticate,
+        "auto_footer": this.autoFooter,
+        "inline_css": this.inlineCss,
+        "auto_tweet": this.autoTweet,
+        "auto_fb_post": this.autoFbPost,
+        "fb_comments": this.fbComments,
+        "template_id": this.templateId,
+      },
+      "tracking:": {
+        "opens": this.opens,
+        "html_clicks": this.htmlClicks,
+        "text_clicks": this.textClicks,
+        "goal_tracking": this.goalTracking,
+        "ecomm360": this.ecomm360,
+        "google_analytics": this.googleAnalytics,
+        "clicktale": this.clicktale,
+        "salesforce": {
+          "campaign": this.salesforceCampaign,
+          "notes": this.salesforceNotes,
         },
-        "settings": {
-          "subject_line": this.subject_line,
-          "preview_text": this.preview_text,
-          "title": this.title,
-          "from_name": this.from_name,
-          "reply_to": this.reply_to,
-          "use_conversation": this.use_conversation,
-          "to_name": this.to_name,
-          "folder_id": this.folder_id,
-          "authenticate": this.authenticate,
-          "auto_footer": this.auto_footer,
-          "inline_css": this.inline_css,
-          "auto_tweet": this.auto_tweet,
-          "auto_fb_post": this.auto_fb_post,
-          "fb_comments": this.fb_comments,
-          "template_id": this.template_id,
+        "capsule": {
+          "notes": this.capsuleNotes,
         },
-        "tracking:": {
-          "opens": this.opens,
-          "html_clicks": this.html_clicks,
-          "text_clicks": this.text_clicks,
-          "goal_tracking": this.goal_tracking,
-          "ecomm360": this.ecomm360,
-          "google_analytics": this.google_analytics,
-          "clicktale": this.clicktale,
-          "salesforce": {
-            "campaign": this.salesforce_campaign,
-            "notes": this.salesforce_notes,
-          },
-          "capsule": {
-            "notes": this.capsule_notes,
-          },
-        },
-        "social_card": {
-          "image_url": this.social_image_url,
-          "description": this.social_descritpion,
-          "title": this.social_title,
-        },
+      },
+      "social_card": {
+        "image_url": this.socialImageUrl,
+        "description": this.socialDescritpion,
+        "title": this.socialTitle,
       },
     });
+
+    const response = await this.mailchimp.createCampaign($, payload);
+    response && $.export("$summary", "Campaign created successfully");
+    return response;
+
   },
 };
