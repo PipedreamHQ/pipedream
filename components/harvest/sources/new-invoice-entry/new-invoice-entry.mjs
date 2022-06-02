@@ -1,10 +1,10 @@
 import harvest from "../../harvest.app.mjs";
 
 export default {
-  key: "harvest_new-timesheet-entry",
-  name: "New Timesheet Entry",
+  key: "harvest_new-invoice-entry",
+  name: "New Invoice Entry",
   description:
-    "Emit new notifications when a new timesheet is created",
+    "Emit new notifications when a new invoice is created",
   version: "0.0.1",
   type: "source",
   props: {
@@ -27,21 +27,19 @@ export default {
       lastDateChecked = new Date().toISOString();
       this.harvest.setLastDateChecked(this.db, lastDateChecked);
     }
-    const entries = await this.harvest.listTimeEntriesPaginated({
+    const invoices = await this.harvest.listInvoicesPaginated({
       page: 1,
       updatedSince: lastDateChecked,
     });
-    for await (const entry of entries) {
-      data.push(entry);
+    for await (const invoice of invoices) {
+      data.push(invoice);
     }
-    data && data.reverse().forEach((entry) => {
-      this.harvest.setLastDateChecked(this.db, entry.updated_at);
-      this.$emit(entry,
+    data && data.reverse().forEach((invoice) => {
+      this.harvest.setLastDateChecked(this.db, invoice.updated_at);
+      this.$emit(invoice,
         {
-          id: entry.id,
-          summary: `Task: ${entry.task.name} - ${entry.spent_date} ${entry.started_time || ""} ${entry.ended_time
-            ? " to " + entry.ended_time
-            : ""}`,
+          id: invoice.id,
+          summary: `Invoice number: ${invoice.number}`,
         });
     });
   },

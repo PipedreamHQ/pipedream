@@ -184,6 +184,30 @@ export default {
         page += 1;
       } while (true);
     },
+    async *listInvoicesPaginated({
+      page, updatedSince,
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listInvoices({
+            per_page: constants.PAGE_SIZE,
+            page,
+            updated_since: updatedSince,
+          }),
+        );
+
+        if (response.invoices.length === 0) {
+          return;
+        }
+        for (const invoice of response.invoices) {
+          yield invoice;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
     async listProjects({
       $, perPage, page,
     }) {
@@ -268,6 +292,15 @@ export default {
         $,
         path: `/time_entries/${id}/stop`,
         method: "patch",
+      });
+    },
+    async listInvoices({
+      $, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/invoices",
+        params,
       });
     },
   },
