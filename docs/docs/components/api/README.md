@@ -342,6 +342,67 @@ lists: {
 
 `configuredProps` contains the props the user previously configured (the board). This allows the `lists` prop to use it in the `options` method.
 
+##### Dynamic props
+
+Some prop definitions must be computed dynamically, after the user configures another prop. We call these **dynamic props**, since they are rendered on-the-fly. This technique is used in [the Google Sheets **Add Single Row** action](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-single-row/add-single-row.mjs), which we'll use as an example below.
+
+First, determine the prop whose selection should render dynamic props. In the Google Sheets example, we ask the user whether their sheet contains a header row. If it does, we display header fields as individual props:
+
+<div>
+<img alt="Google Sheets Additional props example - header columns loading as props" src="https://res.cloudinary.com/pipedreamin/image/upload/v1654129371/docs/additional-props_lx5jtv.gif">
+</div>
+
+To load dynamic props, the header prop must have the `reloadProps` field set to `true`:
+
+```javascript
+hasHeaders: {
+  type: "string",
+  label: "Does the first row of the sheet have headers?",
+  description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
+  options: [
+    "Yes",
+    "No",
+  ],
+  reloadProps: true,
+},
+```
+
+When a user chooses a value for this prop, Pipedream runs the `additionalProps` component method to render props:
+
+```javascript
+async additionalProps() {
+  const sheetId = this.sheetId?.value || this.sheetId;
+  const props = {};
+  if (this.hasHeaders === "Yes") {
+    const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
+    if (!values[0]?.length) {
+      throw new ConfigurationError("Cound not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
+    }
+    for (let i = 0; i < values[0]?.length; i++) {
+      props[`col_${i.toString().padStart(4, "0")}`] = {
+        type: "string",
+        label: values[0][i],
+        optional: true,
+      };
+    }
+  } else if (this.hasHeaders === "No") {
+    props.myColumnData = {
+      type: "string[]",
+      label: "Values",
+      description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+    };
+  }
+  return props;
+},
+```
+The signature of this function is:
+
+```javascript
+async additionalProps(previousPropDefs)
+```
+
+where `previousPropDefs` are the full set of props (props merged with the previous `additionalProps`). When the function is executed, `this` is bound similar to when the `run` function is called, where you can access the values of the props as currently configured, and call any `methods`. The return value of `additionalProps` will replace any previous call, and that return value will be merged with props to define the final set of props.
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.

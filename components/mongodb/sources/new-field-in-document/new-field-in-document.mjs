@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "mongodb-new-field-in-document",
   name: "New Field in Document",
-  description: "Emits an event when a new field is added to a document",
-  version: "0.0.1",
+  description: "Emit new an event when a new field is added to a document",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,7 +19,7 @@ export default {
     collection: {
       propDefinition: [
         common.props.mongodb,
-        "sourceCollection",
+        "collection",
         (c) => ({
           database: c.database,
         }),
@@ -28,7 +28,7 @@ export default {
     document: {
       propDefinition: [
         common.props.mongodb,
-        "sourceDocument",
+        "document",
         (c) => ({
           database: c.database,
           collection: c.collection,
@@ -48,16 +48,17 @@ export default {
       return !fields.includes(key);
     },
     async processEvent(client, ts) {
-      let fields = this._getFields() || [];
-      const db = this.mongodb.getDatabase(client, this.database);
-      const collection = this.mongodb.getCollection(db, this.collection);
+      const fields = this._getFields() || [];
+      const collection = this.mongodb.getCollection(client, this.database, this.collection);
       const documents = await this.mongodb.listDocuments(collection);
       const doc = documents.find((obj) => {
         return obj._id == this.document;
       });
       const keys = Object.keys(doc);
       for (const key of keys) {
-        if (!this.isRelevant(key, fields)) continue;
+        if (!this.isRelevant(key, fields)) {
+          continue;
+        }
         fields.push(key);
         this.emitEvent(key, ts);
       }
