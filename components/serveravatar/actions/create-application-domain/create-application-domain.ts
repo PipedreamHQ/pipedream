@@ -8,22 +8,28 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    serverAvatarApp,
     serverId: {
       type: "integer",
-      label: "Server Id",
+      label: "Server Identifier",
       description: "The unique identifier of the server where the application is being hosted.",
+      async options() {
+        return this.serverAvatarApp.listAllServersOptions();
+      },
     },
     applicationId: {
       type: "integer",
-      label: "Application Id",
+      label: "Application Identifier",
       description: "The unique identifier of the application.",
+      async options({ prevContext }) {
+        return this.serverAvatarApp.listApplicationsOptions(this.serverId, prevContext);
+      },
     },
     domain: {
       type: "string",
       label: "Domain",
       description: "The additional domain/subdomain for your application.\n\nEx `app.domain.com`",
     },
-    serverAvatarApp,
   },
   async run({ $ }) {
     const newAppDomainData = {
@@ -31,6 +37,8 @@ export default defineAction({
       application_id: this.applicationId,
       domain: this.domain,
     }
-    return this.serverAvatarApp.createApplicationDomain($, newAppDomainData);
+    const result = await this.serverAvatarApp.createApplicationDomain($, newAppDomainData);
+    $.export("$summary", `Domain "${result.applicationDomain.domain}" has been successfully added.`);
+    return result;
   },
 });
