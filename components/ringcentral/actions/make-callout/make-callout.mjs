@@ -24,7 +24,7 @@ export default {
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "Phone number of the called party. This number corresponds to the 2nd leg of a CallOut call. Phone number in E.164 format. e.g. (`+16502223366`). If you set a **Phone Number** then don't set an **Extension Number**.",
+      description: "Phone number of the called party. This number corresponds to the 2nd leg of a CallOut call. Phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164#Numbering_formats). e.g. `+16502223366`. If you set a **Phone Number** then don't set an **Extension Number**.",
       optional: true,
     },
     extensionNumber: {
@@ -57,7 +57,7 @@ export default {
         },
       });
 
-    $.export("$summary", `CallOut created with ID ${response.id}`);
+    $.export("$summary", `CallOut successfully created with ID ${response.id}`);
 
     return response;
   },

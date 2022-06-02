@@ -73,6 +73,29 @@ export default {
         });
       },
     },
+    countryId: {
+      type: "string",
+      label: "Country ID",
+      description: "Internal ID of a country.",
+      optional: true,
+      async options({ page }) {
+        const { records: countries } =
+          await this.getCountryList({
+            params: {
+              page: page + 1,
+              perPage: 100,
+            },
+          });
+
+        return countries.map(({
+          id: value,
+          name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _authToken() {
@@ -117,6 +140,12 @@ export default {
     }) {
       return this.makeRequest({
         path: `/account/~/extension/${extensionId}/device`,
+        ...args,
+      });
+    },
+    async getCountryList(args = {}) {
+      return this.makeRequest({
+        path: "/dictionary/country",
         ...args,
       });
     },
