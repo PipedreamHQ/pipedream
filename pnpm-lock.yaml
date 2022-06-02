@@ -1012,9 +1012,6 @@ importers:
       axios: 0.21.4
       querystring: 0.2.1
 
-  components/typescript:
-    specifiers: {}
-
   components/ultramsg:
     specifiers:
       '@pipedream/platform': ^0.10.0
