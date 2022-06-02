@@ -1,4 +1,4 @@
-import mongodb from "../mongodb.app.mjs";
+import mongodb from "../../mongodb.app.mjs";
 
 export default {
   props: {
