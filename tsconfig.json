@@ -4,10 +4,10 @@
     "outDir": "dist",
     "composite": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "."
   },
   "exclude": [
-    "components",
+    "components"
   ],
   "include": [
     "components"
