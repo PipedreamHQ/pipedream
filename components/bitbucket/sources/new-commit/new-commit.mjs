@@ -42,10 +42,7 @@ export default {
       ];
     },
     isEventForThisBranch(change, branchName) {
-      if (branchName) {
-        return change.new.name === branchName;
-      }
-      return true;
+      return !branchName || change.new.name === branchName;
     },
     doesEventContainNewCommits(change) {
       return change.commits && change.commits.length > 0;

@@ -29,10 +29,7 @@ module.exports = {
       ];
     },
     isEventForThisBranch(branch) {
-      if (this.branch) {
-        return branch === this.branch;
-      }
-      return true;
+      return !this.branch || branch === this.branch;
     },
     generateMeta(data) {
       return {

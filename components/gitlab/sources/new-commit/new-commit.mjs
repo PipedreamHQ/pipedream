@@ -32,10 +32,7 @@ export default {
   methods: {
     ...base.methods,
     isEventForThisBranch(branch) {
-      if (this.refName) {
-        return branch === this.refName;
-      }
-      return true;
+      return !this.refName || branch === this.refName;
     },
     generateMeta(commit) {
       const {
