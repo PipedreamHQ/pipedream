@@ -1,3 +1,4 @@
+import bigcommerce from "../../bigcommerce.app.mjs";
 import productProps from "../utils/product-props.mjs";
 
 export default {
@@ -8,6 +9,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
+    bigcommerce,
     ...productProps,
   },
   async run({ $ }) {

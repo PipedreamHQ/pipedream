@@ -100,7 +100,7 @@ const PROPS = {
       });
       return taxes.map((item) => ({
         label: item.name,
-        value: item.id,
+        value: parseInt(item.id),
       }));
     },
   },
