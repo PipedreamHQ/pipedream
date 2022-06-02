@@ -475,6 +475,16 @@ importers:
   components/hacker_news:
     specifiers: {}
 
+  components/harvest:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      async-retry: ^1.3.3
+      moment: ^2.29.3
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      async-retry: 1.3.3
+      moment: 2.29.3
+
   components/helper_functions:
     specifiers:
       '@pipedream/platform': ^0.10.0
