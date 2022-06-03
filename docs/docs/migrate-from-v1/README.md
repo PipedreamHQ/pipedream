@@ -14,13 +14,6 @@ We have re-imagined the UX from the ground up, made the product much easier to u
 * **Multiple triggers** are now supported per workflow
 * **Improved** forms for easier configuration and streamlined building
 
-That all said, we are not (yet) making v2 the default for existing users until we address a few key known limitations including:
-
-* State management (improved `$checkpoint`)
-* Workflow sharing outside of teams 
-* Ability to view deployment history (and revert)
-* Ability to replay events from the event inspector
-
 _Get Started_
 * Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faqs) :point_left:
 * Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
