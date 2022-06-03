@@ -515,7 +515,7 @@ export default defineComponent({
 });
 ```
 
-**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a customer on the Teams or Enterprise plan, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 
