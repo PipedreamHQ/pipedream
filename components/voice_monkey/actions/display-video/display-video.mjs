@@ -15,6 +15,7 @@ export default {
         voiceMonkey,
         "videoUrl",
       ],
+      optional: false,
     },
   },
   methods: {

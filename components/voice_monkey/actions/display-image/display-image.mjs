@@ -15,6 +15,7 @@ export default {
         voiceMonkey,
         "imageUrl",
       ],
+      optional: false,
     },
   },
   methods: {
