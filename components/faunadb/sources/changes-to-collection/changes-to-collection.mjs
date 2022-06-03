@@ -64,8 +64,8 @@ export default {
     } else {
       for (const event of events) {
         this.$emit(event, {
-          summary: `${event.action.toUpperCase()} - ${event.instance.id}`,
-          id: `${event.action}-${event.instance.id}`, // dedupes events based on this ID
+          summary: `${event.action.toUpperCase()} - ${event.document.id}`,
+          id: `${event.action}-${event.document.id}`, // dedupes events based on this ID
         });
       }
     }
