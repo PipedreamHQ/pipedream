@@ -23,6 +23,42 @@ export default {
         "Content-Type": "application/json",
       };
     },
+    processFilters(filters) {
+      return filters?.map((str) => JSON.parse(str)) ?? [];
+    },
+    processQueryParams(objParams) {
+      const {
+        sortField,
+        sortOrder,
+        filterType,
+        filters,
+      } = objParams;
+
+      let queryParams = {
+        sort_field: sortField,
+        sort_order: sortOrder,
+        filters:
+          (filterType || filters) &&
+          JSON.stringify({
+            match: filterType ?? "and",
+            rules: this.processFilters(filters),
+          }),
+      };
+
+      let result = Object.entries(queryParams)
+        .filter(([
+          , value,
+        ]) => value !== undefined)
+        .map(([
+          key,
+          value,
+        ]) => `${key}=${value}`)
+        .join("&");
+
+      return result
+        ? `?${result}`
+        : "";
+    },
     async httpRequest($, baseParams, queryParams = {}) {
       const {
         method,
@@ -34,17 +70,9 @@ export default {
       let url = this.getBaseUrl() + `/${objectKey}/records`;
       if (recordId) url += `/${recordId}`;
 
-      Object.entries(queryParams).forEach(([
-        param,
-        value,
-      ], index) => {
-        let char = index
-          ? "&"
-          : "?";
-        url += `${char}${param}=${value}`;
-      });
+      url += this.processQueryParams(queryParams);
 
-      return axios($, {
+      return await axios($, {
         url: encodeURI(url),
         method,
         headers: this.getHeaders(),

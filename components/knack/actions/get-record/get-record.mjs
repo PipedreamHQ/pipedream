@@ -6,8 +6,8 @@ export default {
   key: "knack-get-record",
   name: "Get Record(s)",
   description:
-    "Get one or all Records for a Knack object [(See docs here)](https://docs.knack.com/docs/retrieving-records)",
-  version: "0.0.9",
+    "Get one or more Records for a Knack object [(See docs here)](https://docs.knack.com/docs/retrieving-records)",
+  version: "0.0.21",
   type: "action",
   props: {
     ...base.props,
@@ -36,9 +36,33 @@ export default {
           value: "desc",
         },
       ],
-      description: `The order to sort the results by, based on \`Sort Field\`.
+      description: "The order to sort the records by, based on `Sort Field`.",
+    },
+    filters: {
+      type: "string[]",
+      label: "Filters",
+      description: `One or more filters the returned records should match. Each filter should be a string representing a JSON object.
         \\
-        See [the Knack API docs](https://docs.knack.com/docs/sorting) for more information.`,
+        Example filter: \`{ "field": "field_1", "operator": "contains", "value": "my name" }\`
+        \\
+        See [the Knack API docs](https://docs.knack.com/docs/constructing-filters) for more information.`,
+      optional: true,
+    },
+    filterType: {
+      type: "string",
+      label: "Filter Type",
+      optional: true,
+      options: [
+        {
+          label: "Match any filter",
+          value: "or",
+        },
+        {
+          label: "Match all filters",
+          value: "and",
+        },
+      ],
+      description: "If using multiple `Filters`, whether the returned records should match any or all specified filters.",
     },
   },
   methods: {
@@ -53,6 +77,8 @@ export default {
       return {
         sortField: this.sortField,
         sortOrder: this.sortOrder,
+        filters: this.filters,
+        filterType: this.filterType,
       };
     },
   },
