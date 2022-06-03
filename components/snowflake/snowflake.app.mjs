@@ -25,7 +25,7 @@ export default {
     values: {
       type: "string[]",
       label: "Values",
-      description: "Insert values for the selected columns respectively",
+      description: "Insert values for the selected columns respectively. For string values, wrap them in **single quotes**. Example: `'This is a string'`",
     },
   },
   methods: {

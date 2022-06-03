@@ -29,9 +29,6 @@ export default {
       propDefinition: [
         snowflake,
         "values",
-        (c) => ({
-          tableName: c.tableName,
-        }),
       ],
     },
   },
