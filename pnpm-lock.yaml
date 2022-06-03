@@ -96,8 +96,10 @@ importers:
   components/amqp:
     specifiers:
       rhea-promise: ^2.1.0
+      uuid: ^8.3.2
     dependencies:
       rhea-promise: 2.1.0
+      uuid: 8.3.2
 
   components/asana:
     specifiers:
