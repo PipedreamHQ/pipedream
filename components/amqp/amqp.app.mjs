@@ -41,18 +41,26 @@ export default {
       return connection.createReceiver(args);
     },
     async onMessageReceiver(receiver) {
+      const messages = [];
       return new Promise((resolve, reject) => {
-        receiver.on(ReceiverEvents.message, (context) => {
-          resolve(context.message);
+        receiver.on(ReceiverEvents.message, ({ message }) => {
+          console.log("Receiver message", message);
+          messages.push(message);
         });
 
         receiver.on(ReceiverEvents.receiverError, (context) => {
-          reject(context.receiver?.error ?? "Unknown Message Error");
+          return reject(context.receiver?.error ?? "Unknown Message Error");
+        });
+
+        receiver.on(ReceiverEvents.receiverClose, () => {
+          console.log("Receiver closed");
+          return resolve(messages);
         });
 
         setTimeout(() => {
-          reject("Timeout Exception");
-        }, 6000);
+          console.log("Receiver timeout");
+          return resolve(messages);
+        }, 12000);
       });
     },
     // Where entity can be a connection, receiver, or sender object.

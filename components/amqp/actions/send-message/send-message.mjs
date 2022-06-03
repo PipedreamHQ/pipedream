@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import amqp from "../../amqp.app.mjs";
 
 export default {
@@ -19,11 +20,6 @@ export default {
         "queueName",
       ],
     },
-    messageId: {
-      type: "string",
-      label: "Message ID",
-      description: "The ID of the message to send.",
-    },
     body: {
       type: "string",
       label: "Message",
@@ -41,7 +37,6 @@ export default {
     const {
       senderName,
       queueName,
-      messageId,
       body,
     } = this;
 
@@ -65,7 +60,7 @@ export default {
       const delivery = await this.amqp.sendMessage({
         sender,
         body,
-        message_id: messageId,
+        message_id: uuid(),
       });
 
       $.export("$summary", `Sucessfully sent message with Delivery ID ${delivery.id}`);

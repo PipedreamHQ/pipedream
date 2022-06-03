@@ -11,6 +11,8 @@ export default {
     amqp,
     timer: {
       type: "$.interface.timer",
+      label: "Timer",
+      description: "The timer to use to schedule the next poll.",
       default: {
         intervalSeconds: 60 * 15,
       },
@@ -41,7 +43,6 @@ export default {
       queueName,
     } = this;
 
-    console.log("Open connection");
     const connection = await this.amqp.openConnection({
       host,
       port,
@@ -62,18 +63,21 @@ export default {
     });
 
     try {
-      const message = await this.amqp.onMessageReceiver(receiver);
+      const messages = await this.amqp.onMessageReceiver(receiver);
 
-      const id = Date.parse(timestamp);
-
-      this.$emit(message, {
-        id,
-        ts: id,
-        summary: `New Message with ID ${message.message_id}`,
+      messages.forEach((message, idx) => {
+        const id = timestamp + idx;
+        this.$emit(message, {
+          id,
+          ts: id,
+          summary: `New Message ${message.message_id}`,
+        });
       });
 
     } catch (error) {
-      console.log("Error receiving message", JSON.stringify(error.innerError));
+      if (error.innerError) {
+        console.log("Inner error", JSON.stringify(error.innerError));
+      }
       throw error;
 
     } finally {
