@@ -71,6 +71,14 @@ export default {
         ...additionalProps,
         ...propertyProps,
       };
+      if (!additionalProps.title) {
+        additionalProps.title = {
+          type: "string",
+          label: "Title",
+          description: "The type of this property is `title`. [See title type docs here](https://developers.notion.com/reference/property-object#title-configuration) E.g. `New Beauty Title`",
+        };
+      }
+      additionalProps.title.optional = false;
     }
     return additionalProps;
   },
