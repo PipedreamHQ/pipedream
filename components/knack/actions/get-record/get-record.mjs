@@ -7,7 +7,7 @@ export default {
   name: "Get Record(s)",
   description:
     "Get one or more Records for a Knack object [(See docs here)](https://docs.knack.com/docs/retrieving-records)",
-  version: "0.0.21",
+  version: "0.0.1",
   type: "action",
   props: {
     ...base.props,
@@ -43,7 +43,7 @@ export default {
       label: "Filters",
       description: `One or more filters the returned records should match. Each filter should be a string representing a JSON object.
         \\
-        Example filter: \`{ "field": "field_1", "operator": "contains", "value": "my name" }\`
+        Example value: \`{ "field": "field_1", "operator": "contains", "value": "my name" }\`
         \\
         See [the Knack API docs](https://docs.knack.com/docs/constructing-filters) for more information.`,
       optional: true,
@@ -62,7 +62,7 @@ export default {
           value: "and",
         },
       ],
-      description: "If using multiple `Filters`, whether the returned records should match any or all specified filters.",
+      description: "If using multiple `Filters`, sets whether the returned records should match **any** or **all** filters specified.",
     },
   },
   methods: {

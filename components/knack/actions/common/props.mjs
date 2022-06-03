@@ -1,4 +1,4 @@
-// Props used by some (but not all) Knack actions
+// Props used by some Knack actions
 const recordId = {
   type: "string",
   label: "Record ID",

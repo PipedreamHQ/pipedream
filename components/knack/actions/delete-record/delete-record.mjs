@@ -7,7 +7,7 @@ export default {
   name: "Delete Record",
   description:
     "Delete a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-delete)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     ...base.props,
