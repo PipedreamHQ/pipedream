@@ -8,9 +8,7 @@ export default {
     tableName: {
       type: "string",
       label: "Table Name",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) return [];
+      async options() {
         const options = await this.listTables();
         return options.map((i) => i.name);
       },
