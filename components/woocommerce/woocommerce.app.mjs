@@ -1,4 +1,4 @@
-import WooCommerceAPI from "@woocommerce/woocommerce-rest-api";
+import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import querystring from "querystring";
 import constants from "./constants.mjs";
 
@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     async getClient() {
-      return new WooCommerceAPI({
+      return new WooCommerceRestApi.default({
         url: this.$auth.url,
         consumerKey: this.$auth.key,
         consumerSecret: this.$auth.secret,
@@ -157,19 +157,19 @@ export default {
     },
     async listResources(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.get(endpoint)).body);
+      return (await client.get(endpoint)).data;
     },
     async postResource(endpoint, data) {
       const client = await this.getClient();
-      return JSON.parse((await client.post(endpoint, data)).body);
+      return (await client.post(endpoint, data)).data;
     },
     async putResource(endpoint, data) {
       const client = await this.getClient();
-      return JSON.parse((await client.put(endpoint, data)).body);
+      return (await client.put(endpoint, data)).data;
     },
     async deleteResource(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.delete(endpoint)).body);
+      return (await client.delete(endpoint)).data;
     },
     async createWebhook(data) {
       return this.postResource("webhooks", data);
