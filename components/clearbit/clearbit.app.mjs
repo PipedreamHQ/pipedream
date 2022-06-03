@@ -100,7 +100,7 @@ export default {
         const res = await apiRequestFunction(ctx, {
           ...params,
           page,
-          page_size: 100,
+          page_size: 20,
         });
 
         if (res.results?.length == 0) {
