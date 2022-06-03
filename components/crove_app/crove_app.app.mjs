@@ -54,8 +54,11 @@ export default {
           "X-API-KEY": `${this.$auth.api_key}`,
         },
       };
-
-      return axios($, config);
+      return axios($, config).then( resp => {
+        return resp;
+      }).catch( error => {
+        throw new Error(`Error! ${error.response.data.errors[0].message}`);
+      });
     },
   },
 };
