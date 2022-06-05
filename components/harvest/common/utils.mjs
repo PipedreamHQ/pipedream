@@ -38,6 +38,17 @@ const isValidDate = (dateString) => {
   return date.toISOString().startsWith(dateString);
 };
 
+/* This function checks for time strings with the format HH:MM AM/PM
+    examples
+    11:45PM
+    11:45 PM
+    11:45 pm
+    11:45pm
+    11:45AM
+    11:45 AM
+    11:45 am
+    11:45am
+*/
 const isValidTime = (timeString) => {
   const regex = /([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])\s*([AaPp][Mm])$/;
   return timeString
