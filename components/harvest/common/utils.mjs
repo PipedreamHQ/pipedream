@@ -5,7 +5,7 @@ const removeNullEntries = (obj) =>
   ]) => {
     const isNumber = typeof value === "number";
     const isBoolean = typeof value === "boolean";
-    const isNotEmpyString = typeof value === "string";
+    const isNotEmpyString = typeof value === "string" && value.trim() !== "";
     const isNotEmptyArray = Array.isArray(value) && value.length;
     const isNotEmptyObject =
       typeof value === "object" &&
