@@ -7,7 +7,21 @@ import retry from "async-retry";
 export default {
   type: "app",
   app: "freshdesk",
-  propDefinitions: {},
+  propDefinitions: {
+    companyId: {
+      type: "integer",
+      label: "Company ID",
+      description: "ID of the primary company to which this contact belongs",
+      useQuery: true,
+      async options() {
+        const response = await this.getCompanies();
+        return response.map((project) => ({
+          label: project.name,
+          value: project.id,
+        }));
+      },
+    },
+  },
   methods: {
     setLastDateChecked(db, value) {
       db && db.set(constants.DB_LAST_DATE_CHECK, value);
@@ -80,6 +94,22 @@ export default {
       return this._makeRequest({
         $,
         path: "/companies",
+        data,
+        method: "post",
+      });
+    },
+    async getCompanies($ = undefined) {
+      return this._makeRequest({
+        $,
+        path: "/companies",
+      });
+    },
+    async createContact({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/contacts",
         data,
         method: "post",
       });
