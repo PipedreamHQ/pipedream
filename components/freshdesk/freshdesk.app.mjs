@@ -12,12 +12,50 @@ export default {
       type: "integer",
       label: "Company ID",
       description: "ID of the primary company to which this contact belongs",
-      useQuery: true,
       async options() {
         const response = await this.getCompanies();
         return response.map((project) => ({
           label: project.name,
           value: project.id,
+        }));
+      },
+    },
+    ticketStatus: {
+      type: "integer",
+      label: "Status",
+      description: "Status of the ticket.",
+      options() {
+        return constants.TICKET_STATUS.map(({
+          label, value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    ticketPriority: {
+      type: "integer",
+      label: "Priority",
+      description: "Priority of the ticket.",
+      options() {
+        return constants.TICKET_PRIORITY.map(({
+          label, value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    contactEmail: {
+      type: "string",
+      label: "Email",
+      description: "Contact Email.",
+      async options({ companyId }) {
+        const response = await this.getCompanies();
+        const contacts = response.filter((contact) => contact.company_id === Number(companyId));
+        return contacts.map((contact) => ({
+          label: `${contact.name} | ${contact.email}`,
+          value: contact.email,
         }));
       },
     },
@@ -61,6 +99,7 @@ export default {
         params,
         data,
       };
+
       return axios($ ?? this, config);
     },
     _isRetriableStatusCode(statusCode) {
@@ -73,9 +112,7 @@ export default {
       };
       return retry(async (bail) => {
         try {
-          const data = await apiCall();
-
-          return data;
+          return await apiCall();
         } catch (err) {
           const { status = 500 } = err;
           if (!this._isRetriableStatusCode(status)) {
@@ -101,6 +138,12 @@ export default {
     async getCompanies($ = undefined) {
       return this._makeRequest({
         $,
+        path: "/contacts",
+      });
+    },
+    async getContacts($ = undefined) {
+      return this._makeRequest({
+        $,
         path: "/companies",
       });
     },
@@ -114,5 +157,16 @@ export default {
         method: "post",
       });
     },
+    async createTicket({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/tickets",
+        data,
+        method: "post",
+      });
+    },
+
   },
 };
