@@ -94,7 +94,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/amqp:
-    specifiers: {}
+    specifiers:
+      rhea-promise: ^2.1.0
+      uuid: ^8.3.2
+    dependencies:
+      rhea-promise: 2.1.0
+      uuid: 8.3.2
 
   components/asana:
     specifiers:
@@ -12737,6 +12742,24 @@ packages:
   /rfdc/1.3.0:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
     dev: true
+
+  /rhea-promise/2.1.0:
+    resolution: {integrity: sha512-CRMwdJ/o4oO/xKcvAwAsd0AHy5fVvSlqso7AadRmaaLGzAzc9LCoW7FOFnucI8THasVmOeCnv5c/fH/n7FcNaA==}
+    dependencies:
+      debug: 3.2.7
+      rhea: 2.0.8
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /rhea/2.0.8:
+    resolution: {integrity: sha512-IgwlP4D2lzinBSll5f35tAWa30dGCZhG9Ujd1DiaB7MUGegIjAaLzqATCw3ha+h9oq9mXcitqayBbNIXYdvtFg==}
+    dependencies:
+      debug: 3.2.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
