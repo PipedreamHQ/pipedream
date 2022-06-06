@@ -8,5 +8,21 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763741/docs/
 
 Some Python PyPI package names do not match their import names. However, you can still import them into your Python steps.
 
+## Using Magic Comments
+
+Python packages can be imported using formatted comments in your Python code steps. This includes installing packages non-matching module names.
+
+For example the `google.cloud` package exports `bigquery`, but you can still use it in your Python code steps in workflows:
+
+```python
+# pipedream add-package google-cloud-bigquery
+
+from google.cloud import bigquery
+```
+
+The special comment `pipedream add-package <package name>` will install the package into your workflow environment.
+
+This is the new preferred way to import packages in Python code steps with mismatching names.
+
 
 <PythonMappings />
