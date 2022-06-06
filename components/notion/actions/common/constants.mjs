@@ -19,6 +19,7 @@ const BLOCK_TYPES = {
       type: "boolean",
       label: "Paragraph",
       description: "A paragraph that contains rich text",
+      reloadProps: true,
     },
     additionalProps: {
       paragraphText: {
@@ -34,6 +35,7 @@ const BLOCK_TYPES = {
       type: "boolean",
       label: "To Do",
       description: "A row in a To Do list",
+      reloadProps: true,
     },
     additionalProps: {
       todoText: {
