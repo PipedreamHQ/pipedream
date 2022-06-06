@@ -6,7 +6,7 @@ export default {
   name: "Create Product",
   description:
     "Create a product. [See the docs here](https://developer.bigcommerce.com/api-reference/366928572e59e-create-a-product)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     bigcommerce,
