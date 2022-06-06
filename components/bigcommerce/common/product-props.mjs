@@ -3,7 +3,7 @@ const PROPS = {
     type: "string",
     label: "Name",
     description:
-        "The product name. >= 1 characters <= 250 characters Example: Smith Journal 13",
+        "The product name. >= 1 characters <= 250 characters",
   },
   type: {
     type: "string",

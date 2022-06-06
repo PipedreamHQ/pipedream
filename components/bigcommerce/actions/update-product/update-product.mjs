@@ -1,5 +1,5 @@
 import bigcommerce from "../../bigcommerce.app.mjs";
-import productProps from "../utils/product-props.mjs";
+import productProps from "../../common/product-props.mjs";
 
 export default {
   key: "bigcommerce-update-product",
