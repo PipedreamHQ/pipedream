@@ -10,7 +10,7 @@ Some Python PyPI package names do not match their import names. However, you can
 
 ## Using Magic Comments
 
-Python packages can be imported using formatted comments in your Python code steps. This includes installing packages non-matching module names.
+When a package’s name doesn’t match the import name, you can specify the package name in a magic comment.
 
 For example the `google.cloud` package exports `bigquery`, but you can still use it in your Python code steps in workflows:
 
@@ -22,7 +22,7 @@ from google.cloud import bigquery
 
 The special comment `pipedream add-package <package name>` will install the package into your workflow environment.
 
-This is the new preferred way to import packages in Python code steps with mismatching names.
+This is the new preferred way to import packages in Python code steps with mismatching module names.
 
 
 <PythonMappings />
