@@ -322,9 +322,11 @@ importers:
 
   components/faunadb:
     specifiers:
-      faunadb: ^4.0.0
+      '@pipedream/platform': ^0.10.0
+      faunadb: ^4.5.4
       lodash: ^4.17.21
     dependencies:
+      '@pipedream/platform': 0.10.0
       faunadb: 4.5.4
       lodash: 4.17.21
 
@@ -474,6 +476,16 @@ importers:
 
   components/hacker_news:
     specifiers: {}
+
+  components/harvest:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      async-retry: ^1.3.3
+      moment: ^2.29.3
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      async-retry: 1.3.3
+      moment: 2.29.3
 
   components/helper_functions:
     specifiers:
@@ -8014,7 +8026,7 @@ packages:
     dev: false
 
   /fn-annotate/1.2.0:
-    resolution: {integrity: sha1-KNoAARfephhC/mHzU/Qc9Mk6en4=}
+    resolution: {integrity: sha512-j2gv2wkRhQgkJNf1ygdca8ynP3tK+a87bowc+RG81iWTye3yKIOeAkrKYv0Kqyh8yCeSyljOk3ZFelfXUFpirA==}
     engines: {node: '>=0.10.0'}
     dev: false
 
