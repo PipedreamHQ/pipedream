@@ -3,7 +3,20 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "people_data_labs",
-  propDefinitions: {},
+  propDefinitions: {
+    pretty: {
+      label: "Pretty",
+      type: "boolean",
+      description: "Whether the output should have human-readable indentation.",
+      optional: true,
+    },
+    minLikelihood: {
+      label: "Min Likelihood",
+      type: "integer",
+      description: "The minimum likelihood score a response must have to return a 200.",
+      optional: true,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://api.peopledatalabs.com/v5";
@@ -44,6 +57,13 @@ export default {
       return this._makeRequest({
         method: "get",
         path: "/person/enrich",
+        params
+      })
+    },
+    async enrichCompany(params) {
+      return this._makeRequest({
+        method: "get",
+        path: "/company/enrich",
         params
       })
     }

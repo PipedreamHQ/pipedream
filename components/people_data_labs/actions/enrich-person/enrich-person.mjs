@@ -4,7 +4,7 @@ export default {
   key: "people_data_labs-enrich-person",
   name: "Enrich a person",
   description: "The Person Enrichment API provides a one-to-one match, retrieving up-to-date information on a unique individual. [See the docs here](https://docs.peopledatalabs.com/docs/reference-person-enrichment-api)",
-  version: "0.0.13",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -116,12 +116,6 @@ export default {
       description: "The person's birth date. Either the year, or a full birth date.",
       optional: true,
     },
-    minLikelihood: {
-      label: "Minimum likelihood",
-      type: "string",
-      description: "The minimum likelihood score a response must have to return a 200.",
-      optional: true,
-    },
     required: {
       label: "Required",
       type: "string",
@@ -129,10 +123,16 @@ export default {
       optional: true,
     },
     pretty: {
-      label: "Pretty",
-      type: "boolean",
-      description: "Whether the output should have human-readable indentation.",
-      optional: true,
+      propDefinition: [
+        app,
+        "pretty",
+      ],
+    },
+    minLikelihood: {
+      propDefinition: [
+        app,
+        "minLikelihood",
+      ],
     },
   },
   async run({ $ }) {
