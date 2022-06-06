@@ -112,8 +112,11 @@ export default {
       };
       return retry(async (bail) => {
         try {
-          return await apiCall();
+          const data = await apiCall();
+          console.log("retry", data);
+          return data;
         } catch (err) {
+          console.log("Error dey", err);
           const { status = 500 } = err;
           if (!this._isRetriableStatusCode(status)) {
             bail(`
@@ -124,6 +127,24 @@ export default {
           throw new ConfigurationError("Could not get data");
         }
       }, retryOpts);
+    },
+    async *filterTickets(params) {
+      let loadedData = 0;
+      do {
+        const response = await this.searchTickets(params);
+        console.log("response", response);
+        if (!response || response.results.length === 0) {
+          return;
+        }
+        loadedData += response.results.length;
+        for (const ticket of response.results) {
+          yield ticket;
+        }
+        if (loadedData >= response.total) {
+          return;
+        }
+        params.page += 1;
+      } while (true);
     },
     async createCompany({
       $, payload: data,
@@ -173,6 +194,14 @@ export default {
       return this._makeRequest({
         $,
         path: `/tickets/${id}`,
+      });
+    },
+    async searchTickets(params, $ = undefined) {
+      console.log("params", params.query);
+      return this._makeRequest({
+        $,
+        path: "/search/tickets",
+        params,
       });
     },
   },
