@@ -1,9 +1,10 @@
 import demio from "../../demio.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "demio-new-participant",
   name: "New Participant",
-  description: "Emit new event for each participant in an event",
+  description: "Emit new event for each participant in an event. [See docs here](https://publicdemioapi.docs.apiary.io/#reference/reports/event-date-participants/event-date-participants)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
@@ -30,12 +31,23 @@ export default {
         }),
       ],
     },
+    status: {
+      label: "Status",
+      description: "Status of the participant to filter",
+      type: "string",
+      options: constants.PARTICIPANT_STATUSES,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const participants = await this.demio.getEventDateParticipants({
+    let participants = await this.demio.getEventDateParticipants({
       $,
       dateId: this.dateId,
     });
+
+    if (this.status) {
+      participants = participants.filter((participant) => participant.status === this.status);
+    }
 
     for (const participant of participants) {
       this.$emit(participant, {

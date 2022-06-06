@@ -14,16 +14,6 @@ export default {
         "eventId",
       ],
     },
-    dateId: {
-      propDefinition: [
-        demio,
-        "dateId",
-        (c) => ({
-          eventId: c.eventId,
-        }),
-      ],
-      optional: true,
-    },
     name: {
       label: "Name",
       description: "The registrant's first name",
