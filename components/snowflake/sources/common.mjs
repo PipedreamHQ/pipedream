@@ -1,6 +1,6 @@
-const snowflake = require("../snowflake.app");
+import snowflake from "../snowflake.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     snowflake,
@@ -30,19 +30,21 @@ module.exports = {
           break;
         }
 
-        lastResultId = rows[rowCount-1][this.uniqueKey];
+        lastResultId = rows[rowCount - 1][this.uniqueKey];
         totalRowCount += rowCount;
         const meta = this.generateMetaForCollection({
           lastResultId,
           rowCount,
           timestamp,
         });
-        this.$emit({ rows }, meta);
+        this.$emit({
+          rows,
+        }, meta);
       }
       return {
         lastResultId,
         rowCount: totalRowCount,
-      }
+      };
     },
     async processSingle(statement, timestamp) {
       let lastResultId;
@@ -65,23 +67,23 @@ module.exports = {
       };
     },
     getStatement() {
-      throw new Error('getStatement is not implemented');
+      throw new Error("getStatement is not implemented");
     },
     generateMeta() {
-      throw new Error('generateMeta is not implemented');
+      throw new Error("generateMeta is not implemented");
     },
     generateMetaForCollection() {
-      throw new Error('generateMetaForCollection is not implemented');
+      throw new Error("generateMetaForCollection is not implemented");
     },
     processEvent() {
-      throw new Error('processEvent is not implemented');
+      throw new Error("processEvent is not implemented");
     },
   },
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
-    return (this.eventSize === 1) ?
-      this.processSingle(statement, timestamp) :
-      this.processCollection(statement, timestamp);
+    return this.eventSize === 1
+      ? this.processSingle(statement, timestamp)
+      : this.processCollection(statement, timestamp);
   },
 };

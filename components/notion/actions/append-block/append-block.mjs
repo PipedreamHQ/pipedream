@@ -6,7 +6,7 @@ export default {
   key: "notion-append-block",
   name: "Append Block to Parent",
   description: "Creates and appends new children blocks to the parent *block_id* specified. [See the docs](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,
@@ -23,6 +23,7 @@ export default {
         notion,
         "blockTypes",
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {

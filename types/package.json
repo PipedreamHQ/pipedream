@@ -1,14 +1,15 @@
 {
     "name": "@pipedream/types",
-    "version": "0.0.5",
+    "version": "0.1.0",
     "description": "Pipedream TypeScript types",
-    "main": "dist/index.js",
     "keywords": [
         "pipedream",
         "typescript",
         "types"
     ],
-    "types": "src",
+    "types": "dist/index.d.ts",
+    "main": "dist/index.js",
+    "files": ["package.json", "dist/**/*"],
     "prepublish": "test && tsc",
     "homepage": "https://github.com/PipedreamHQ/pipedream",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -20,7 +21,8 @@
         "dtslint": "^4.2.1"
     },
     "scripts": {
-        "test": "dtslint src",
+        "prebuild": "rm -rf dist",
+        "test": "npm run build && dtslint src",
         "build": "tsc"
     },
     "dependencies": {

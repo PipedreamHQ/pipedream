@@ -1,3 +1,4 @@
+import constants from "../common/constants.mjs";
 /**
  * Builds Notion text property for Notion blocks
  * @param {string} content - The text content
@@ -133,10 +134,39 @@ function formatPropertyToProp(value, type) {
   return property;
 }
 
+async function buildPropertyProps(pageId) {
+  const props = {};
+  const { properties } = await this.notion.retrievePage(pageId);
+
+  for (const propertyName in properties) {
+    const property = properties[propertyName];
+
+    if (!constants.NOTION_PROPERTIES[property.type]) continue;
+
+    const {
+      type,
+      example,
+    } = constants.NOTION_PROPERTIES[property.type];
+
+    const prop = {
+      label: propertyName,
+      description: `The type of this property is \`${property.type}\`. [See ${property.type} type docs here](https://developers.notion.com/reference/property-object#${property.type}-configuration) ` + (example
+        ? (" E.g. " + `\`${example}\``)
+        : ""),
+      type,
+      optional: true,
+    };
+
+    props[propertyName] = prop;
+  }
+  return props;
+}
+
 export default {
   buildTextProperty,
   buildBlock,
   emptyStrToUndefined,
   parseStringToJSON,
   formatPropertyToProp,
+  buildPropertyProps,
 };
