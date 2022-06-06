@@ -891,6 +891,9 @@ importers:
     dependencies:
       '@slack/web-api': 5.15.0
 
+  components/snapchat_marketing:
+    specifiers: {}
+
   components/snowflake:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -909,8 +912,10 @@ importers:
   components/squarespace:
     specifiers:
       '@pipedream/platform': ^0.10.0
+      dayjs: ^1.11.3
     dependencies:
       '@pipedream/platform': 0.10.0
+      dayjs: 1.11.3
 
   components/ssh:
     specifiers:
@@ -7190,6 +7195,10 @@ packages:
 
   /dayjs/1.11.2:
     resolution: {integrity: sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==}
+    dev: false
+
+  /dayjs/1.11.3:
+    resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
     dev: false
 
   /debug/3.1.0:
