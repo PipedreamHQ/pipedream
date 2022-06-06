@@ -4,7 +4,7 @@ export default {
   key: "harvest-new-timesheet-entry",
   name: "New Timesheet Entry",
   description: "Emit new notifications when a new timesheet is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     harvest,
