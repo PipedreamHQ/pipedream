@@ -1,11 +1,12 @@
-const common = require("../common-table-scan");
+import common from "../common-table-scan.mjs";
 
-module.exports = {
+export default {
   ...common,
+  type: "source",
   key: "snowflake-new-row",
   name: "New Row",
-  description: "Emit an event when a new row is added to a table",
-  version: "0.0.1",
+  description: "Emit new event when a row is added to a table",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     async getStatement(lastResultId) {
