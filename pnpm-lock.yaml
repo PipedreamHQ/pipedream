@@ -268,7 +268,12 @@ importers:
       delighted: 2.1.0
 
   components/demio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      dayjs: ^1.11.2
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      dayjs: 1.11.2
 
   components/dev_to:
     specifiers: {}
