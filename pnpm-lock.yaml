@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@pipedream/types': ^0.0.5
+      '@pipedream/types': ^0.1.0
       '@tsconfig/node14': ^1.0.1
       '@types/jest': ^27.4.1
       '@types/node': ^17.0.36
@@ -29,7 +29,7 @@ importers:
       '@types/node': 17.0.36
       vue: 2.6.14
     devDependencies:
-      '@pipedream/types': 0.0.5
+      '@pipedream/types': 0.1.0
       '@tsconfig/node14': 1.0.1
       '@types/jest': 27.5.0
       '@typescript-eslint/eslint-plugin': 5.23.0_y3w3ponleabb7gvsfqc375rw6q
@@ -972,6 +972,9 @@ importers:
       querystring: 0.2.1
       tmp-promise: 3.0.3
       uuid: 8.3.2
+
+  components/tookan:
+    specifiers: {}
 
   components/trello:
     specifiers:
@@ -3809,6 +3812,13 @@ packages:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
       typescript: 4.7.2
+    dev: false
+
+  /@pipedream/types/0.1.0:
+    resolution: {integrity: sha512-V8mcEv1xCNmTNG9SO1ToNWM/YNnLGGevDEhIAlrs5VZ7rYwKUsKvjISo48v+WqM7+sxVzGNTbhBlvEmTCAkKXA==}
+    dependencies:
+      typescript: 4.7.2
+    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
