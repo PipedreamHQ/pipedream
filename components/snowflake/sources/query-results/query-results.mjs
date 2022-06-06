@@ -1,12 +1,13 @@
-const { v4: uuidv4 } = require("uuid");
-const common = require("../common");
+import common from "../common.mjs";
+import { v4 as uuidv4 } from "uuid";
 
-module.exports = {
+export default {
   ...common,
+  type: "source",
   key: "snowflake-query-results",
-  name: "Query Results",
-  description: "Emit an event with the results of an arbitrary query",
-  version: "0.0.1",
+  name: "New Query Results",
+  description: "Emit new event with the results of an arbitrary query",
+  version: "0.0.2",
   props: {
     ...common.props,
     sqlQuery: {
@@ -25,9 +26,7 @@ module.exports = {
     ...common.methods,
     generateMeta(data) {
       const {
-        row: {
-          [this.dedupeKey]: id = uuidv4(),
-        },
+        row: { [this.dedupeKey]: id = uuidv4() },
         timestamp: ts,
       } = data;
       const summary = `New event (ID: ${id})`;
@@ -38,9 +37,7 @@ module.exports = {
       };
     },
     generateMetaForCollection(data) {
-      const {
-        timestamp: ts,
-      } = data;
+      const { timestamp: ts } = data;
       const id = uuidv4();
       const summary = `New event (ID: ${id})`;
       return {
