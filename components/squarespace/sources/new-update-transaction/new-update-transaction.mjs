@@ -1,4 +1,5 @@
 import squarespace from "../../squarespace.app.mjs";
+import dayjs from "dayjs";
 
 export default {
   name: "New Update Transaction",
@@ -16,8 +17,14 @@ export default {
       },
     },
   },
-  async run() {
-    const transactions = await this.squarespace.getTransactions();
+  async run({ $ }) {
+    const transactions = await this.squarespace.getTransactions({
+      params: {
+        modifiedAfter: dayjs().subtract(2, "day")
+          .toISOString(),
+      },
+      $,
+    });
 
     for (const transaction of transactions) {
       this.$emit(transaction, {

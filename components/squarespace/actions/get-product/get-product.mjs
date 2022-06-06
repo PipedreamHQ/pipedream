@@ -3,7 +3,7 @@ import squarespace from "../../squarespace.app.mjs";
 export default {
   key: "squarespace-get-product",
   name: "Get Product",
-  description: "Get a specific product. [See docs here](https://developers.squarespace.com/commerce-apis/create-product)",
+  description: "Get a specific product. [See docs here](https://developers.squarespace.com/commerce-apis/retrieve-specific-products)",
   version: "0.0.1",
   type: "action",
   props: {

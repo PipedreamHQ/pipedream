@@ -72,18 +72,18 @@ export default {
       });
     },
     async getAllResources({
-      path, resourceName, $,
+      path, resourceName, params, $,
     }) {
       let resources = [];
 
       let nextPageCursor;
 
       do {
-        const params = {};
+        const _params = params ?? {};
 
-        if (nextPageCursor) params.cursor = nextPageCursor;
+        if (nextPageCursor) _params.cursor = nextPageCursor;
         const response = await this._makeRequest(path, {
-          params,
+          _params,
         }, $);
 
         resources = resources.concat(response[resourceName]);
@@ -93,10 +93,13 @@ export default {
 
       return resources;
     },
-    async getTransactions({ $ } = {}) {
+    async getTransactions({
+      $, params,
+    } = {}) {
       return this.getAllResources({
         path: "commerce/transactions",
         resourceName: "documents",
+        params,
         $,
       });
     },
@@ -119,10 +122,13 @@ export default {
     }) {
       return this._makeRequest(`commerce/orders/${orderId}`, $);
     },
-    async getProducts({ $ } = {}) {
+    async getProducts({
+      $, params,
+    } = {}) {
       return this.getAllResources({
         path: "commerce/products",
         resourceName: "products",
+        params,
         $,
       });
     },

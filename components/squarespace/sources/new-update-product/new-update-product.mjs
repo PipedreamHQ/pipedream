@@ -1,4 +1,5 @@
 import squarespace from "../../squarespace.app.mjs";
+import dayjs from "dayjs";
 
 export default {
   name: "New Update Product",
@@ -16,8 +17,14 @@ export default {
       },
     },
   },
-  async run() {
-    const products = await this.squarespace.getProducts();
+  async run({ $ }) {
+    const products = await this.squarespace.getProducts({
+      params: {
+        modifiedAfter: dayjs().subtract(2, "day")
+          .toISOString(),
+      },
+      $,
+    });
 
     for (const product of products) {
       this.$emit(product, {
