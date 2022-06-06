@@ -9,7 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.2
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install -r
+      - name: Setup Node Env
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Compile TypeScript
+        run: npm run build
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -70,6 +96,106 @@ jobs:
           fi
           # curl with form
           curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+      - name: Remove pd cli config
+        run: |
+          rm $HOME/.config/pipedream/config
+    
+  publish-typescript-components:
+    name: Publish TypeScript components
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.4.0
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7.0.0
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Setup Node Env
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: npm ci
+      - name: pnpm install
+        run: pnpm install -r
+      - name: Install pd cli
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+        run: |
+          curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
+          unzip pd.zip
+          mkdir -p $HOME/.config/pipedream
+          echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
+      - name: Compile TypeScript
+        id: compile
+        run: npm run build > files.txt
+      - name: Publish TypeScript components (dry run)
+        env:
+            PD_API_KEY: ${{ secrets.PD_API_KEY }}
+            ENDPOINT: ${{ secrets.ENDPOINT }}
+        shell: bash {0} # don't fast fail
+        run: |
+          IFS=$'\n'
+          echo "The following files will be published on merge:"
+          # Remove initial tsc output
+          for f in $(cat files.txt | sed 1,3d)
+          do
+            echo "$f"
+          done
+          UNPUBLISHED=""
+          PUBLISHED=""
+          ERRORS=""
+          SKIPPED=""
+          # included in the components dir, ends with .*js (e.g. .js and .mjs) and not app.js,
+          # doesn't end with /common*.*js, and doesn't follow */common/
+          for f in $(cat files.txt | sed 1,3d); do
+            echo "Checking if $f is publishable"
+            if [[ $f == */components/* ]] && [[ $f == *.*js ]] && [[ $f != *.app.*js ]] \
+              && [[ $f != */common*.*js ]] && [[ $f != */common/* ]]
+            then
+              echo "attempting to publish ${f}"
+              PD_OUTPUT=`./pd publish ${f} --json`
+              if [ $? -eq 0 ]
+              then
+                KEY=`echo $PD_OUTPUT | jq -r ".key"`
+                echo "published ${KEY}"
+                echo "${KEY} will be added to the registry"
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${f}'"}}'
+                PUBLISHED+="*${f}"
+              else
+                ERROR=`echo $PD_OUTPUT | jq -r ".error"`
+                ERROR_MESSAGE="${ERROR} with ${f}"
+                echo $ERROR_MESSAGE
+                ERRORS+="*${ERROR_MESSAGE}"
+                UNPUBLISHED+="*${f}"
+                # add to array to spit out later
+              fi
+            else
+              echo "${f} will not be added to the registry"
+              SKIPPED+="*${f}"
+            fi
+          done
+          # print out everything that didn't publish
+          if [ ${#UNPUBLISHED[@]} -ne 0 ]; then
+            echo "the following files were not published"
+            printf '%s\n' "${UNPUBLISHED[@]}"
+          fi
+          # curl with form
+          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          unset IFS
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config

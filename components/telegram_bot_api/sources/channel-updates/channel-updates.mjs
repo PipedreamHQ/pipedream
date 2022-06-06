@@ -6,7 +6,7 @@ export default {
   key: "telegram_bot_api-channel-updates",
   name: "Channel Updates (Instant)",
   description: "Emit new event each time a channel message is created or updated.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -29,6 +29,8 @@ export default {
     },
   },
   async run(event) {
+    // if the event doesn't contain the same API token secret,
+    //   then it's an unauthorized replay attack.
     if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
       return;
     }
@@ -40,6 +42,11 @@ export default {
       return;
     }
     const channelPost = body.edited_channel_post ?? body.channel_post;
+
+    if (!channelPost?.chat) {
+      throw new Error(`Expected body to contain a chat, but received: ${JSON.stringify(body)}`);
+    }
+
     this.$emit(body,
       {
         id: body.update_id,

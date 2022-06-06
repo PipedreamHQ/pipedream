@@ -20,7 +20,7 @@ You can send data to an Email Destination in [Node.js code steps](/code/nodejs/)
 `$.send.email()` takes the same parameters as the corresponding action:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.email({
       subject: "Your subject",
@@ -42,7 +42,7 @@ If you're authoring a [component action](/components#actions), you can deliver d
 `$.send.email` functions the same as [`$.send.email` in workflow code steps](#using-send-email-in-workflows):
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     $.send.email({
       subject: "Your subject",
