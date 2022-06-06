@@ -147,8 +147,14 @@ export default {
   },
   methods: {
     async getClient() {
+      let url = this.$auth.url;
+
+      if (!/^(http(s?):\/\/)/.test(url)) {
+        url = `https://${url}`;
+      }
+
       return new WooCommerceRestApi.default({
-        url: this.$auth.url,
+        url,
         consumerKey: this.$auth.key,
         consumerSecret: this.$auth.secret,
         wpAPI: true,
