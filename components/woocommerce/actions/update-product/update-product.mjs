@@ -88,7 +88,7 @@ export default {
       images,
     };
 
-    const res = await this.woocommerce.updateProduct(this.productId, data);
+    const res = await this.woocommerce.updateProduct(this.productId.value, data);
 
     $.export("$summary", `Successfully updated product ID: ${res.id}`);
 
