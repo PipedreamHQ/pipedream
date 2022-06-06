@@ -4,7 +4,7 @@ import freshdesk from "../../freshdesk.app.mjs";
 export default {
   key: "freshdesk-create-company",
   name: "Create a Company",
-  description: "create a company. [See docs here](https://developers.freshdesk.com/api/#companies)",
+  description: "Create a company. [See docs here](https://developers.freshdesk.com/api/#companies)",
   version: "0.0.1",
   type: "action",
   props: {

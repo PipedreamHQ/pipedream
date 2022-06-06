@@ -167,6 +167,13 @@ export default {
         method: "post",
       });
     },
-
+    async getTicket({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/tickets/${id}`,
+      });
+    },
   },
 };
