@@ -5,7 +5,7 @@ export default {
   key: "woocommerce-new-customer-event",
   name: "New Customer Event",
   description: "Emit new event each time the specified customer event(s) occur",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -19,7 +19,7 @@ export default {
       const ts = Date.parse(dateModified);
       return {
         id: `${id}${ts}`,
-        summary: `Customer "${ username || id }" ${eventType}`,
+        summary: `Customer "${username || id}" ${eventType}`,
         ts,
       };
     },
