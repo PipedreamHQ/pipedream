@@ -15,6 +15,7 @@ export default {
         "displayName",
       ],
       description: "Agent display name",
+      optional: false,
     },
     defaultLanguageCode: {
       propDefinition: [

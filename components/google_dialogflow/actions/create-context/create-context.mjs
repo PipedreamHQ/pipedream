@@ -22,6 +22,7 @@ export default {
         googleDialogflow,
         "sessionId",
       ],
+      description: "A unique session ID",
       default: v4(),
     },
     lifespanCount: {

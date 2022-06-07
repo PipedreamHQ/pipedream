@@ -58,7 +58,7 @@ export default {
     },
     sessionId: {
       label: "Session ID",
-      description: "Session ID",
+      description: "A unique session ID, ID of the session created when a context created can be used, e.g. `acb92b1d-0a8c-4369-a5fa-ddd7954b2b46`",
       type: "string",
     },
     name: {
@@ -294,10 +294,7 @@ export default {
       ...args
     } = {}) {
       return this.getEntityTypesClient().batchDeleteEntities({
-        parent: this.getEntityTypesClient().projectAgentEntityTypePath(
-          this._getProjectId(),
-          entityTypeId,
-        ),
+        parent: entityTypeId,
         ...args,
       });
     },

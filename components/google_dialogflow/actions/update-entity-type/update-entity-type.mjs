@@ -1,4 +1,5 @@
 import googleDialogflow from "../../google_dialogflow.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   type: "action",
@@ -51,13 +52,13 @@ export default {
       entityType: {
         name: this.entityTypeId,
         displayName: this.displayName,
-        kind: this.kind,
+        kind: this.entityTypeKind,
         autoExpansionMode: this.autoExpansionMode,
-        entities: this.entities,
+        entities: utils.parseArray(this.entities),
         enableFuzzyExtraction: this.enableFuzzyExtraction,
       },
     });
     $.export("$summary", "EntityType has been created.");
-    return response;
+    return response[0];
   },
 };

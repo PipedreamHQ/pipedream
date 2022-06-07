@@ -27,7 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.googleDialogflow.createEntities({
+    const response = await this.googleDialogflow.deleteEntities({
       entityTypeId: this.entityTypeId,
       languageCode: this.languageCode,
       entityValues: this.entityValues,

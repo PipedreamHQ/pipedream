@@ -22,6 +22,7 @@ export default {
         "displayName",
       ],
       description: "Display name of the intent",
+      optional: false,
     },
     priority: {
       label: "Priority",
