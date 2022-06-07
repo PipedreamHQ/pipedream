@@ -1,4 +1,4 @@
-import WooCommerceAPI from "@woocommerce/woocommerce-rest-api";
+import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import querystring from "querystring";
 import constants from "./constants.mjs";
 
@@ -58,7 +58,7 @@ export default {
     productName: {
       type: "string",
       label: "Name",
-      description: "Name of the new product",
+      description: "Name of the product",
     },
     productType: {
       type: "string",
@@ -83,13 +83,13 @@ export default {
     productDescription: {
       type: "string",
       label: "Description",
-      description: "Description of the new product",
+      description: "Description of the product",
       optional: true,
     },
     productImage: {
       type: "string",
       label: "Image URL",
-      description: "URL of image to add to new product",
+      description: "URL of image to add to product",
       optional: true,
     },
     customer: {
@@ -147,8 +147,14 @@ export default {
   },
   methods: {
     async getClient() {
-      return new WooCommerceAPI({
-        url: `https://${this.$auth.url}`,
+      let url = this.$auth.url;
+
+      if (!/^(http(s?):\/\/)/.test(url)) {
+        url = `https://${url}`;
+      }
+
+      return new WooCommerceRestApi.default({
+        url,
         consumerKey: this.$auth.key,
         consumerSecret: this.$auth.secret,
         wpAPI: true,
@@ -157,15 +163,19 @@ export default {
     },
     async listResources(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.getAsync(endpoint)).body);
+      return (await client.get(endpoint)).data;
     },
     async postResource(endpoint, data) {
       const client = await this.getClient();
-      return JSON.parse((await client.postAsync(endpoint, data)).body);
+      return (await client.post(endpoint, data)).data;
+    },
+    async putResource(endpoint, data) {
+      const client = await this.getClient();
+      return (await client.put(endpoint, data)).data;
     },
     async deleteResource(endpoint) {
       const client = await this.getClient();
-      return JSON.parse((await client.deleteAsync(endpoint)).body);
+      return (await client.delete(endpoint)).data;
     },
     async createWebhook(data) {
       return this.postResource("webhooks", data);
@@ -191,6 +201,9 @@ export default {
     },
     async createProduct(data) {
       return this.postResource("products", data);
+    },
+    async updateProduct(productId, data) {
+      return this.putResource(`products/${productId}`, data);
     },
   },
 };
