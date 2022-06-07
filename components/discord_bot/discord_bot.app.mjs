@@ -223,7 +223,7 @@ export default {
             params: {
               after,
               limit: 100,
-            }
+            },
           }),
         ]);
 
@@ -541,6 +541,16 @@ export default {
           query,
           limit,
         },
+      });
+    },
+    async createMessage({
+      $, channelId, data,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/channels/${channelId}/messages`,
+        method: "post",
+        data,
       });
     },
   },

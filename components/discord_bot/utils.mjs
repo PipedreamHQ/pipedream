@@ -118,4 +118,13 @@ export default {
       ? undefined
       : value;
   },
+  parseObject(obj) {
+    let parsed;
+    try {
+      parsed = JSON.parse(obj);
+    } catch (e) {
+      parsed = obj;
+    }
+    return parsed;
+  },
 };
