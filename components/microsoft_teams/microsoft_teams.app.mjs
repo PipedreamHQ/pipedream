@@ -104,11 +104,9 @@ export default {
       return this.clientApiGetRequest(`/teams/${teamId}/channels?orderby=createdDateTime%20desc`);
     },
     async listChannelMessages({
-      teamId, channelId, searchQuery,
+      teamId, channelId,
     }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/channels/${channelId}/messages/delta?orderby=createdDateTime%20desc&${ searchQuery
-        ? "$search=" + searchQuery
-        : "" }`);
+      return this.clientApiGetRequest(`/teams/${teamId}/channels/${channelId}/messages/delta?orderby=createdDateTime%20desc`);
     },
     async listTeamMembers({ teamId }) {
       return this.clientApiGetRequest(`/teams/${teamId}/members`);
