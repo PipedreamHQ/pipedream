@@ -105,7 +105,7 @@ export default {
       optional: true,
     },
     lid: {
-      label: "Linkedin Id",
+      label: "Linkedin ID",
       type: "integer",
       description: "A LinkedIn numerical ID.",
       optional: true,
@@ -119,7 +119,7 @@ export default {
     required: {
       label: "Required",
       type: "string",
-      description: "Parameter specifying the fields and data points a response must have to return a 200.  See [docs](https://docs.peopledatalabs.com/docs/required-parameter).",
+      description: "Parameter specifying the fields and data points a response must have to return a 200. [See docs](https://docs.peopledatalabs.com/docs/required-parameter).",
       optional: true,
     },
     pretty: {

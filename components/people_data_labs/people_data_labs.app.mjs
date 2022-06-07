@@ -18,13 +18,16 @@ export default {
     },
   },
   methods: {
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
     _getBaseUrl() {
       return "https://api.peopledatalabs.com/v5";
     },
     _getHeaders() {
       return {
         "Content-Type": "application/json",
-        "X-API-Key": this.$auth.api_key,
+        "X-API-Key": this._getApiKey(),
       };
     },
     _getAxiosParams(opts = {}) {
@@ -34,7 +37,6 @@ export default {
         headers: this._getHeaders(),
       };
       delete res.path;
-      console.log(res);
       return res;
     },
     async _makeRequest(opts = {}) {
@@ -42,7 +44,6 @@ export default {
         const axiosParams = this._getAxiosParams(opts);
         return await axios(this, axiosParams);
       } catch (err) {
-        if (err)
         if (err?.response?.data?.error) {
           if (err.response.data.error.status == 404) {
             return null;
@@ -55,14 +56,12 @@ export default {
     },
     async enrichPerson(params) {
       return this._makeRequest({
-        method: "get",
         path: "/person/enrich",
         params
       })
     },
     async enrichCompany(params) {
       return this._makeRequest({
-        method: "get",
         path: "/company/enrich",
         params
       })
