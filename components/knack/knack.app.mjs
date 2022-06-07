@@ -122,7 +122,7 @@ export default {
     },
     async updateRecord($, baseParams) {
       return this.httpRequest($, {
-        method: "PATCH",
+        method: "PUT",
         ...baseParams,
       });
     },
