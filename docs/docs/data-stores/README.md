@@ -122,3 +122,22 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 ### Using with Data Stores in Code Steps
 
 [Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
+
+## Data store limitations
+
+Pipedream Data Stores are currently in Preview and are subject to change.
+
+Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
+
+### Supported data types
+
+Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
+
+* Strings
+* Objects
+* Arrays
+* Dates
+* Integers
+* Floats
+
+But you cannot serialize Functions, Classes, or other more complex objects.
