@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 const common = require("../common-webhook.js");
 
 module.exports = {

@@ -34,6 +34,8 @@ const WEBHOOK_TYPE = {
   STOCK_AVAILABLE_STOCK_LEVEL_CHANGE: "Stock/AvailableStockLevelChanged",
 };
 
+const PAGE_LIMIT = 100;
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -44,4 +46,5 @@ export default {
   VERIFICATION_TOKEN_HEADER,
   WEBHOOK_TYPE,
   WEBHOOK_ID,
+  PAGE_LIMIT,
 };
