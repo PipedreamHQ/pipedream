@@ -6,7 +6,7 @@ export default {
   key: "faunadb-changes-to-collection",
   name: "New or Removed Documents in a Collection",
   description: "Emit new event each time you add or remove a document from a specific collection, with the details of the document.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
     timer: {
@@ -64,8 +64,8 @@ export default {
     } else {
       for (const event of events) {
         this.$emit(event, {
-          summary: `${event.action.toUpperCase()} - ${event.instance.id}`,
-          id: `${event.action}-${event.instance.id}`, // dedupes events based on this ID
+          summary: `${event.action.toUpperCase()} - ${event.document.id}`,
+          id: `${event.action}-${event.document.id}`, // dedupes events based on this ID
         });
       }
     }

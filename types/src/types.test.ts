@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
-import * as Pipedream from "@pipedream/types";
+import * as Pipedream from "./index";
 
 const stringData: Pipedream.JSONValue = "foo";
 const num: Pipedream.JSONValue = 3;

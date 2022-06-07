@@ -5,7 +5,7 @@ export default {
   key: "twitter-user-tweets",
   name: "User Tweets",
   description: "Emit new Tweets posted by a user",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   props: {
     ...base.props,
@@ -41,8 +41,8 @@ export default {
         screenName: this.screenName,
         count: this.count,
         sinceId: this.getSinceId(),
-        exclude_replies: this.shouldExcludeReplies(),
-        include_rts: this.shouldIncludeRetweets(),
+        excludeReplies: this.shouldExcludeReplies(),
+        includeRts: this.shouldIncludeRetweets(),
       });
     },
   },
