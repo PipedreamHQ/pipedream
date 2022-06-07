@@ -2,7 +2,7 @@
   "name": "@pipedream/mautic",
   "version": "0.3.4",
   "description": "Pipedream Mautic Components",
-  "main": "mautic.app.js",
+  "main": "mautic.app.mjs",
   "keywords": [
     "pipedream",
     "mautic"

@@ -13,7 +13,7 @@ export default {
     const response = await this.mautic.listContactsFields({
       $,
     });
-    $.export("$summary", "Succesfully retrieved contacts fields");
+    $.export("$summary", "Successfully retrieved contacts fields");
     return response;
   },
 };
