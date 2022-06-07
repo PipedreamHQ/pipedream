@@ -43,14 +43,20 @@ export default {
 
     const rowsParsed = rows.map(utils.parse);
 
-    const response = await this.googleCloud
-      .getBigQueryClient()
-      .dataset(datasetId)
-      .table(tableId)
-      .insert(rowsParsed);
+    try {
+      const response = await this.googleCloud
+        .getBigQueryClient()
+        .dataset(datasetId)
+        .table(tableId)
+        .insert(rowsParsed);
 
-    $.export("$summary", `Successfully inserted ${rows.length} rows into ${datasetId}.${tableId}`);
+      $.export("$summary", `Successfully inserted ${rows.length} rows into ${datasetId}.${tableId}`);
 
-    return response;
+      return response;
+
+    } catch (error) {
+      console.log(JSON.stringify(error.errors, null, 2));
+      throw error;
+    }
   },
 };
