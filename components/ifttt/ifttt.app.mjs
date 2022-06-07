@@ -22,7 +22,7 @@ export default {
     value: {
       type: "any",
       label: "Value X",
-      description: "The value to pass ot the webhook trigger",
+      description: "The value to pass to the webhook trigger",
       optional: true,
     },
   },
