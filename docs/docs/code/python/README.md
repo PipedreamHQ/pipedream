@@ -143,7 +143,7 @@ In our Python step, we can access this data in the `exports` variable from the `
 from pipedream.script_helpers import (steps, export)
 
 # retrieve the data points from the HTTP request in the initial workflow trigger 
-name = steps["trigger"]["event"]["name"]
+pokemon_name = steps["trigger"]["event"]["name"]
 pokemon_type = steps["trigger"]["event"]["type"]
 
 print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
