@@ -1,5 +1,5 @@
 import base from "../common/base.mjs";
-import eventTypes from "../common/event-types.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -21,7 +21,7 @@ export default {
   methods: {
     ...base.methods,
     getEventType() {
-      return eventTypes.FORM_SUBMITTED;
+      return constants.EVENT_TYPES.FORM_SUBMITTED;
     },
     getEventListFn() {
       return {

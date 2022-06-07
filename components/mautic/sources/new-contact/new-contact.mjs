@@ -1,5 +1,5 @@
 import base from "../common/base.mjs";
-import eventTypes from "../common/event-types.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,7 +11,7 @@ export default {
   methods: {
     ...base.methods,
     getEventType() {
-      return eventTypes.CONTACT_CREATED;
+      return constants.EVENT_TYPES.CONTACT_CREATED;
     },
     getEventListFn() {
       return {

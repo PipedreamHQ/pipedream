@@ -1,5 +1,5 @@
 import mautic from "../../mautic.app.mjs";
-import crypto, { randomUUID } from "crypto";
+import crypto from "crypto";
 
 export default {
   dedupe: "unique",
@@ -30,7 +30,7 @@ export default {
     },
     async activate() {
       console.log("Creating webhook...");
-      const secret = randomUUID();
+      const secret = crypto.randomUUID();
       const webhookId = await this.mautic.createWebhook({
         webhookUrl: this.http.endpoint,
         eventType: this.getEventType(),
