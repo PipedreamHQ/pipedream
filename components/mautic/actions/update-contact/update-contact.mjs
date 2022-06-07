@@ -25,11 +25,11 @@ export default {
     });
     const fields = contact.fields.all;
     const props = Object.keys(fields)
-      .filter((k) => fields[k])
-      .reduce((props, k) => {
-        props[k] = {
+      .filter((key) => fields[key])
+      .reduce((props, key) => {
+        props[key] = {
           type: "string",
-          label: k,
+          label: key,
           optional: true,
         };
         return props;
