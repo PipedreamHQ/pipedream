@@ -4,7 +4,7 @@ export default {
   key: "raindrop-create-collection",
   name: "Create New Collection",
   description: "Creates an additional collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#create-collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
@@ -26,15 +26,14 @@ export default {
         "public",
       ],
     },
-    parentID: {
+    parentId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       optional: true,
       label: "Parent ID",
       description: "The ID of parent collection. Empty for root collections",
-      withLabel: true,
     },
     view: {
       propDefinition: [
@@ -57,7 +56,7 @@ export default {
       cover,
     } = this;
     const publicInput = this.public;
-    const parentId = this.parentID;
+    const parentId = this.parentId;
 
     const body = {
       title,

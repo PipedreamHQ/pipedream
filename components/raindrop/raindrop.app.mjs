@@ -4,15 +4,41 @@ export default {
   type: "app",
   app: "raindrop",
   propDefinitions: {
-    raindropID: {
-      type: "string",
-      label: "Raindrop ID",
-      description: "Existing raindrop ID",
-    },
-    collectionID: {
+    collectionId: {
       type: "string",
       label: "Collection ID",
       description: "The collection ID",
+      async options() {
+        const { items } = await this.getCollections();
+        return items.map((e) => ({
+          value: e._id,
+          label: e.title,
+        }));
+      },
+    },
+    raindropId: {
+      type: "string",
+      label: "Bookmark ID",
+      description: "Existing Bookmark ID",
+      async options({
+        prevContext, collectionId,
+      }) {
+        const page = prevContext.page
+          ? prevContext.page
+          : 0;
+        const { items } = await this.getRaindrops(this, collectionId, {
+          page,
+        });
+        return {
+          options: items.map((e) => ({
+            value: e._id,
+            label: e.title,
+          })),
+          context: {
+            page: page + 1,
+          },
+        };
+      },
     },
     expanded: {
       type: "boolean",
@@ -68,81 +94,80 @@ export default {
         ...otherOpts
       } = opts;
       return axios($, {
+        ...otherOpts,
         method,
         url: `https://api.raindrop.io/rest/v1${path}`,
         headers: {
           ...opts.headers,
           "user-agent": "@PipedreamHQ/pipedream v0.1",
-          ...this._getHeaders(),
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
         data,
         params,
-        ...otherOpts,
       });
     },
-    _getHeaders() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
-    },
-    getCollections($) {
+    async getCollections($) {
       return this._makeRequest($, {
         path: "/collections",
       });
     },
-    async getRootCollections() {
-      const rootCollections = await this.getCollections();
-      return rootCollections.items.map((e) => {
-        return {
-          value: e._id,
-          label: e.title,
-        };
-      });
-    },
-    postCollection($, collectionData) {
+    async postCollection($, collectionData) {
       return this._makeRequest($, {
         method: "POST",
         path: "/collection",
         data: collectionData,
       });
     },
-    putCollection($, collectionId, collectionData) {
+    async putCollection($, collectionId, collectionData) {
       return this._makeRequest($, {
         method: "PUT",
         path: `/collection/${collectionId}`,
         data: collectionData,
       });
     },
-    deleteCollection($, collectionId) {
+    async deleteCollection($, collectionId) {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/collection/${collectionId}`,
       });
     },
-    getCollection($, collectionId) {
+    async getCollection($, collectionId) {
       return this._makeRequest($, {
         path: `/collection/${collectionId}`,
       });
     },
-    getRaindrop($, raindropId) {
+    async getRaindrop($, raindropId) {
       return this._makeRequest($, {
         path: `/raindrop/${raindropId}`,
       });
     },
-    putBookmark($, bookmarkId, bookmarkData) {
+    async getRaindrops($, collectionId, params) {
+      return this._makeRequest($, {
+        path: `/raindrops/${collectionId}`,
+        params,
+      });
+    },
+    async postBookmark($, bookmarkData) {
+      return this._makeRequest($, {
+        method: "POST",
+        path: "/raindrop",
+        data: bookmarkData,
+      });
+    },
+    async putBookmark($, bookmarkId, bookmarkData) {
       return this._makeRequest($, {
         method: "PUT",
         path: `/raindrop/${bookmarkId}`,
         data: bookmarkData,
       });
     },
-    deleteBookmark($, bookmarkId) {
+    async deleteBookmark($, bookmarkId) {
       return this._makeRequest($, {
         method: "DELETE",
         path: `/raindrop/${bookmarkId}`,
       });
     },
-    importFile($, formData) {
+    async importFile($, formData) {
       return this._makeRequest($, {
         method: "POST",
         path: "/import/file",

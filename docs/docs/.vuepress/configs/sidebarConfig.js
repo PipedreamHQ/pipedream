@@ -88,6 +88,7 @@ const referenceNav = [
       "/components/api/",
       "/components/guidelines/",
       "/pipedream-axios/",
+      "/components/typescript/"
     ],
   },
   {
