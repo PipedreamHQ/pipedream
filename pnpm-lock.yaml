@@ -57,6 +57,12 @@ importers:
       '@pipedream/platform': 0.9.0
       inflection: 1.13.2
 
+  components/adalo:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/airtable:
     specifiers:
       airtable: ^0.11.1
@@ -898,6 +904,9 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/snapchat_marketing:
+    specifiers: {}
 
   components/snowflake:
     specifiers:
