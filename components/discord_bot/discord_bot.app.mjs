@@ -48,8 +48,10 @@ export default {
         const members =
           await this.getGuildMembers({
             guildId,
-            after,
-            limit: 10,
+            params: {
+              after,
+              limit: 20,
+            },
           });
 
         const options = members.reduce((reduction, member) => {
@@ -218,8 +220,10 @@ export default {
           }),
           this.getGuildMembers({
             guildId,
-            after,
-            limit: 100,
+            params: {
+              after,
+              limit: 100,
+            }
           }),
         ]);
 
