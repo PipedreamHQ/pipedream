@@ -24,7 +24,7 @@ export default {
     const response = await this.algolia.deleteObjects({
       indexName: this.indexName,
       objectIds: typeof this.objectIds === "string"
-        ? JSON.parse(this.objects)
+        ? JSON.parse(this.objectIds)
         : this.objectIds,
     });
 
