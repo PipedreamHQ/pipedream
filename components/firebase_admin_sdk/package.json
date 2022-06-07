@@ -11,6 +11,8 @@
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
+        "@firebase/app-compat": "^0.1.25",
+        "@firebase/app-types": "^0.7.0",
         "@pipedream/platform": "^0.9.0",
         "firebase-admin": "^10.0.1",
         "google-auth-library": "^7.11.0"
