@@ -617,6 +617,14 @@ importers:
     dependencies:
       node-mailjet: 3.4.1
 
+  components/mautic:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      lodash-es: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      lodash-es: 4.17.21
+
   components/microsoft_onedrive:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
@@ -898,6 +906,9 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/snapchat_marketing:
+    specifiers: {}
 
   components/snowflake:
     specifiers:
@@ -12929,7 +12940,7 @@ packages:
     optional: true
 
   /retry/0.12.0:
-    resolution: {integrity: sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=}
+    resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
 
   /retry/0.13.1:
