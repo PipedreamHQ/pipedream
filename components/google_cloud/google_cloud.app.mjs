@@ -2,7 +2,6 @@
 import { Logging } from "@google-cloud/logging";
 import { Storage } from "@google-cloud/storage";
 import { BigQuery } from "@google-cloud/bigquery";
-import { GoogleAuth } from "google-auth-library";
 
 export default {
   type: "app",
@@ -50,16 +49,14 @@ export default {
       label: "Dataset",
       description: "The BigQuery dataset against which queries will be executed",
       async options({ page }) {
-        if (page !== 0) {
+        if (page) {
           return [];
         }
 
         const client = this.getBigQueryClient();
-        console.log("client", client);
         const [
           datasets,
         ] = await client.getDatasets();
-        console.log("datasets", datasets);
         return datasets.map(({ id }) => id);
       },
     },
@@ -70,7 +67,7 @@ export default {
       async options({
         page, datasetId,
       }) {
-        if (page !== 0) {
+        if (page) {
           return [];
         }
 
@@ -109,26 +106,13 @@ export default {
     storageClient() {
       return new Storage(this.sdkParams());
     },
-    _getBigQueryClientOpts() {
-      const credentials = this.authKeyJson();
-      const scopes = [
-        "https://www.googleapis.com/auth/bigquery",
-        // Needed for datasets that were built from a Google Sheet
-        "https://www.googleapis.com/auth/drive.readonly",
-      ];
-      const authOpts = {
-        credentials,
-        scopes,
-        projectId: credentials.project_id,
-      };
-      const authClient = new GoogleAuth(authOpts);
-      return {
-        authClient,
-      };
-    },
     getBigQueryClient() {
-      const clientOpts = this._getBigQueryClientOpts();
-      return new BigQuery(clientOpts);
+      const credentials = this.authKeyJson();
+      const { project_id: projectId } = credentials;
+      return new BigQuery({
+        credentials,
+        projectId,
+      });
     },
   },
 };

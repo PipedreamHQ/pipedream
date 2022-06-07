@@ -27,7 +27,7 @@ export default {
     rows: {
       type: "string[]",
       label: "Rows",
-      description: "The rows to insert into the table. Each row is a JSON object with column names as keys and rows as values. E.g. `[{ name: \"John\", age: 20 }, { name: \"Jane\", age: 21 }]`",
+      description: "The rows to insert into the table. Each row is a JSON object with column names as keys and rows as values. E.g. `{\"name\": \"John\", \"age\": 20}`",
     },
   },
   async run({ $ }) {
