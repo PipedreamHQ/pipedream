@@ -6,7 +6,7 @@ export default {
   type: "action",
   version: "0.0.1",
   name: "Purge Files by URL",
-  description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs.",
+  description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs. [See docs here](https://developers.cloudflare.com/cache/how-to/purge-cache/#purge-by-single-file-by-url)",
   props: {
     cloudflare_api_key,
     zone_id: {
