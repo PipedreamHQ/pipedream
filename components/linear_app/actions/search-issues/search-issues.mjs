@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import linearApp from "../../linear_app.app.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.2",
   props: {
     linearApp,
     query: {
@@ -101,6 +102,7 @@ export default {
           orderBy,
           after,
           includeArchived,
+          first: constants.DEFAULT_LIMIT,
         },
       });
 
