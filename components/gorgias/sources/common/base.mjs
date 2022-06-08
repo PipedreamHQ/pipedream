@@ -43,7 +43,9 @@ export default {
     const {
       data: events,
       meta,
-    } = await this.gorgias.getEvents(params);
+    } = await this.gorgias.getEvents({
+      params,
+    });
 
     this.emitEvents(events);
     this.setNextCursor(meta.next_cursor);

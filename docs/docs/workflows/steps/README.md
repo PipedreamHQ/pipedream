@@ -62,7 +62,7 @@ Step exports allow you to pass data between steps. Any data exported from a step
 
 For examples of supported data types in your steps language, see the examples below.
 
-* [Node.js (Javascript)](/code/nodejs/#how-pipedream-node-js-components-work)
+* [Node.js (Javascript)](/code/nodejs/#sharing-data-between-steps)
 * [Python](/code/python/#sharing-data-between-steps)
 * [Bash](/code/bash/#sharing-data-between-steps)
 * [Go](/code/go/#sharing-data-between-steps)

@@ -258,10 +258,11 @@ export default {
       ];
       const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
       return sheets
-        .map(({ properties }) => properties)
         .map(({
-          sheetId,
-          gridProperties: { rowCount },
+          properties: {
+            sheetId,
+            gridProperties: { rowCount = 0 } = {},
+          } = {},
         }) => ({
           spreadsheetId,
           worksheetId: sheetId,
@@ -392,7 +393,7 @@ export default {
     }) {
       const resp = await axios({
         method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURI(range)}:append`,
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },

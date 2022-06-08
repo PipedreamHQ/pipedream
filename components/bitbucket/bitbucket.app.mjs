@@ -158,6 +158,26 @@ export default {
         }));
       },
     },
+    multiRepositories: {
+      type: "string[]",
+      label: "Repository",
+      description: "Select repositories",
+      async options({
+        workspaceId, page,
+      }) {
+        const repositories = await this.getRepositories({
+          workspaceId,
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return repositories.map((repository) => ({
+          label: repository.name,
+          value: repository.uuid,
+        }));
+      },
+    },
     rawContent: {
       label: "Raw Content",
       description: "The raw content",

@@ -1,45 +1,32 @@
-// legacy_hash_id: a_8KiVPz
-import doWrapperModule from "do-wrapper";
+import digitalOceanApp from "../../digital_ocean.app.mjs";
 
 export default {
   key: "digital_ocean-add-ssh-key",
   name: "Add SSH Key",
-  description: "Adds a new SSH to your account.",
-  version: "0.1.1",
+  description: "Adds a new SSH to your account. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_ssh_key)",
+  version: "0.1.2",
   type: "action",
   props: {
-    digital_ocean: {
-      type: "app",
-      app: "digital_ocean",
-    },
-    page_size: {
-      type: "integer",
-      description: "Desired pagination size when pulling results",
-      optional: true,
-    },
+    digitalOceanApp,
     name: {
+      label: "Name",
       type: "string",
-      description: "The name to give the new SSH key in your account.",
+      description: "A human-readable display name for this key, used to easily identify the SSH keys when they are displayed.",
     },
-    public_key: {
+    publicKey: {
+      label: "Public key",
       type: "string",
-      description: "A string containing the entire public key.",
+      description: "The entire public key string. Embedded into the root user's authorized_keys file if you include this key during Droplet creation.",
     },
   },
   async run({ $ }) {
-    var DigitalOcean = doWrapperModule.default,
-      api = new DigitalOcean(this.digital_ocean.$auth.oauth_access_token, this.page_size);
-
-    try {
-      var configuration = {
-        "name": this.name,
-        "public_key": this.public_key,
-      };
-
-      $.export("resp", await api.accountAddKey(  configuration ));
-    } catch (err) {
-      $.export("err", err);
-
-    }
+    const api = this.digitalOceanApp.digitalOceanWrapper();
+    const newKeyData = {
+      name: this.name,
+      public_key: this.publicKey,
+    };
+    const response = await api.keys.add(newKeyData);
+    $.export("$summary", `Successfully added ssh key ${response.ssh_key.fingerprint}.`);
+    return response;
   },
 };

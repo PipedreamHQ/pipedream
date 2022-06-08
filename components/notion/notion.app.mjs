@@ -40,7 +40,6 @@ export default {
       label: "Icon Type",
       description: "Emoji",
       optional: true,
-      reloadProps: true,
       options: constants.ICON_TYPES,
     },
     coverType: {
@@ -48,7 +47,6 @@ export default {
       label: "Cover Type",
       description: "External URL",
       optional: true,
-      reloadProps: true,
       options: constants.COVER_TYPES,
     },
     blockTypes: {
@@ -56,7 +54,19 @@ export default {
       label: "Block Types",
       description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block.",
       options: Object.keys(constants.BLOCK_TYPES),
-      reloadProps: true,
+    },
+    userIds: {
+      type: "string[]",
+      label: "Users",
+      description: "A list of users",
+      async options() {
+        const users = await this.getUsers();
+
+        return users.map((user) => ({
+          label: user.name,
+          value: user.id,
+        }));
+      },
     },
   },
   methods: {
@@ -66,7 +76,7 @@ export default {
       });
     },
     extractDatabaseTitleOptions(databases) {
-      const options = databases.map((database) => {
+      return databases.map((database) => {
         const title = database.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
@@ -76,10 +86,9 @@ export default {
           value: database.id,
         };
       });
-      return options;
     },
     extractPageTitleOptions(pages) {
-      const options = pages.map((page) => {
+      return pages.map((page) => {
         const propertyFound = Object.values(page.properties)
           .find((property) => property.type === "title" && property.title.length > 0);
         const title = propertyFound?.title
@@ -91,7 +100,6 @@ export default {
           value: page.id,
         };
       });
-      return options;
     },
     extractDatabaseTitle(database) {
       return this.extractDatabaseTitleOptions([
@@ -217,6 +225,11 @@ export default {
         ...params,
         block_id: blockId,
       });
+    },
+    async getUsers() {
+      const response = await this._getNotionClient().users.list();
+
+      return response.results;
     },
   },
 };

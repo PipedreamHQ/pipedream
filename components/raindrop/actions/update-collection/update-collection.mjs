@@ -4,17 +4,15 @@ export default {
   key: "raindrop-update-collection",
   name: "Update Collection",
   description: "Update an existing collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#update-collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     raindrop,
-    collectionID: {
+    collectionId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
-      label: "Collection ID",
-      description: "The collection ID",
     },
     expanded: {
       propDefinition: [
@@ -40,15 +38,14 @@ export default {
         "public",
       ],
     },
-    parentID: {
+    parentId: {
       propDefinition: [
         raindrop,
-        "collectionID",
+        "collectionId",
       ],
       optional: true,
       label: "Parent ID",
       description: "The ID of parent collection. Empty for root collections",
-      withLabel: true,
     },
     view: {
       propDefinition: [
@@ -65,14 +62,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      collectionID,
+      collectionId,
       expanded,
       title,
       sort,
       view,
       cover,
     } = this;
-    const parentId = this.parentID;
+    const parentId = this.parentId;
     const publicInput = this.public;
 
     const body = {
@@ -86,9 +83,9 @@ export default {
       view,
       cover,
     };
-    const response = await this.raindrop.putCollection($, collectionID, body);
+    const response = await this.raindrop.putCollection($, collectionId, body);
 
-    $.export("$summary", `Successfully updated collection with ID ${collectionID}`);
+    $.export("$summary", `Successfully updated collection with ID ${collectionId}`);
 
     return response;
   },
