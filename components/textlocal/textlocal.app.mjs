@@ -1,8 +1,22 @@
-const axios = require("axios");
+import { axios } from "@pipedream/platform";
 
-module.exports = {
+export default {
   type: "app",
   app: "textlocal",
+  propDefinitions: {
+    inboxId: {
+      type: "integer",
+      label: "Inbox Id",
+      description: "The id of the inbox",
+      async options() {
+        const { inboxes } = await this.getInboxes();
+        return inboxes.map((item) => ({
+          label: item.number,
+          value: item.id,
+        }));
+      },
+    },
+  },
   methods: {
     _apiUrl() {
       return "https://api.txtlocal.com";
@@ -30,6 +44,16 @@ module.exports = {
         apikey: this._apiKey(),
       };
     },
+    async _makeRequest({
+      $, params, ...otherConfig
+    }) {
+      const config = {
+        params,
+        ...otherConfig,
+      };
+      return axios($ || this, config);
+    },
+
     async _getApiMessageHistory({
       limit = 100,
       sortOrder = "desc",
@@ -42,7 +66,10 @@ module.exports = {
         sort_order: sortOrder,
         start,
       };
-      const { data } = await axios.get(url, { params });
+      const data = await axios(this, {
+        url,
+        params,
+      });
       return data;
     },
     /**
@@ -87,7 +114,9 @@ module.exports = {
         } = await this._getApiMessageHistory({
           start,
         });
-        prevTotal = prevTotal ? prevTotal : total;
+        prevTotal = prevTotal
+          ? prevTotal
+          : total;
 
         for (const message of messages) {
           if (message.id === lowerBoundMessageId) {
@@ -111,7 +140,9 @@ module.exports = {
     async getContactGroups() {
       const url = this._contactGroupsUrl();
       const params = this._baseRequestParams();
-      const { data } = await axios.get(url, { params });
+      const { data } = await axios.get(url, {
+        params,
+      });
       return data;
     },
     async _getContactsInGroup({
@@ -126,7 +157,9 @@ module.exports = {
         limit,
         start,
       };
-      const { data } = await axios.get(url, { params });
+      const { data } = await axios.get(url, {
+        params,
+      });
       return data;
     },
     /**
@@ -151,7 +184,9 @@ module.exports = {
         } = await this._getContactsInGroup({
           groupId,
         });
-        prevNumContacts = prevNumContacts ? prevNumContacts : numContacts;
+        prevNumContacts = prevNumContacts
+          ? prevNumContacts
+          : numContacts;
 
         for (const contact of contacts) {
           yield contact;
@@ -160,6 +195,60 @@ module.exports = {
         start += contacts.length + (numContacts - prevNumContacts);
         prevNumContacts = numContacts;
       } while (start < prevNumContacts);
+    },
+    async *paginate({
+      fn, params,
+    }) {
+      const limit = 1000;
+      let start = 0;
+      let length;
+      do {
+        const {
+          messages,
+          num_messages,
+        } = await fn({
+          params: {
+            start,
+            limit,
+            ...params,
+          },
+        });
+
+        if (messages) {
+          length = num_messages;
+
+          for (const message of messages) {
+            yield message;
+          }
+
+          start += limit;
+        }
+
+      } while (length === limit);
+    },
+    async getInboxes() {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        method: "GET",
+        url: `${baseUrl}/get_inboxes`,
+        params: {
+          apikey: this._apiKey(),
+        },
+      });
+    },
+    async getInboxMessages({
+      $, ...params
+    }) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        $,
+        method: "GET",
+        url: `${baseUrl}/get_messages`,
+        params: {
+          apikey: this._apiKey(),
+          ...params,
+        },
+      });
     },
   },
 };
