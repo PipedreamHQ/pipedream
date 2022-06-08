@@ -12,6 +12,7 @@
     "license": "MIT",
     "dependencies": {
         "@pipedream/platform": "^0.9.0",
+        "handlebars": "^4.7.7",
         "salesforce-webhooks": "^1.1.4"
     },
     "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

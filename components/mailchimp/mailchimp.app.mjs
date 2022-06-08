@@ -1,6 +1,8 @@
 import mailchimp from "@mailchimp/mailchimp_marketing";
+import { axios } from "@pipedream/platform";
 import retry from "async-retry";
 import constants from "./sources/constants.mjs";
+import rootConstants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,7 +16,7 @@ export default {
       async options({ page }) {
         const count = constants.PAGE_SIZE;
         const offset = count * page;
-        const audienceLists =  await this.getAudienceLists({
+        const audienceLists = await this.getAudienceLists({
           count,
           offset,
         });
@@ -26,13 +28,13 @@ export default {
     },
     campaignId: {
       type: "string",
-      label: "Campaign Id",
+      label: "Campaign ID",
       description: "The unique ID of the campaign",
       useQuery: true,
       async options({ page }) {
         const count = constants.PAGE_SIZE;
         const offset = count * page;
-        const campaigns =  await this.getCampaignsByCreationDate({
+        const campaigns = await this.getCampaignsByCreationDate({
           count,
           offset,
         });
@@ -41,7 +43,7 @@ export default {
           const campaignName = lsdIdx > 0
             ? campaign.long_archive_url.substring(lsdIdx + 1)
             : "";
-          const label = `Campaign Id/Name from URL (if any): ${campaign.id}/${campaignName}, List Id/Name: ${campaign.recipients.list_id}/${campaign.recipients.list_name}, Subject: ${campaign.settings.subject_line}`;
+          const label = `Campaign ID/Name from URL (if any): ${campaign.id}/${campaignName}`;
           return {
             label,
             value: campaign.id,
@@ -67,7 +69,7 @@ export default {
           count,
           offset: count * page,
         };
-        const storeResults =  await this.getAllStores(config);
+        const storeResults = await this.getAllStores(config);
         return storeResults.stores.map((store) => ({
           label: store.name,
           value: store.id,
@@ -101,13 +103,56 @@ export default {
           count,
           offset,
         };
-        const segmentsResults =  await this.getAllAudienceSegments(
+        const segmentsResults = await this.getAllAudienceSegments(
           opts.listId,
           config,
         );
         return segmentsResults.segments.map((segment) => ({
           label: `${segment.name}`,
           value: segment.id,
+        }));
+      },
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "A string list of fields to return. Reference parameters of sub-objects with dot notation.",
+      optional: true,
+    },
+    excludeFields: {
+      type: "string[]",
+      label: "Exclude Fields",
+      description: "A string list of fields to exclude_fields. Reference parameters of sub-objects with dot notation.",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      max: constants.PAGE_SIZE,
+      min: 1,
+      default: 10,
+      description: "The number of records to return.",
+    },
+    subscriberHash: {
+      type: "string",
+      label: "Subscriber",
+      description: "The MD5 hash of the lowercase version of the list member's email address.",
+      useQuery: true,
+      async options(opts) {
+        const count = constants.PAGE_SIZE;
+        const offset = count * opts.page;
+        const config = {
+          count,
+          offset,
+        };
+        const result = await this.getAllMembers(
+          opts.listId,
+          config,
+        );
+
+        return result.members.map((member) => ({
+          label: `${member.full_name}`,
+          value: member.id,
         }));
       },
     },
@@ -128,6 +173,49 @@ export default {
     },
     _server() {
       return this.$auth.dc;
+    },
+    _getHeaders() {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _getUrl(path) {
+      const {
+        BASE_URL,
+        HTTP_PROTOCOL,
+        VERSION_PATH,
+      } = rootConstants;
+      return `${HTTP_PROTOCOL}${this._server()}.${BASE_URL}${VERSION_PATH}${path}`;
+    },
+    _campaignPath(campaignId = null) {
+      return `/campaigns/${campaignId || ""}`;
+    },
+    _listPath(listId = null) {
+      return `/lists/${listId || ""}`;
+    },
+    _segmentMemberPath(listId, segmentId, subscriberHash = null) {
+      return `${this._listPath(listId)}/segments/${segmentId}/members/${subscriberHash || ""}`;
+    },
+    _listMemberPath(listId, subscriberHash) {
+      return `${this._listPath(listId)}/members/${subscriberHash}`;
+    },
+    async _makeRequest(args = {}) {
+      const {
+        $,
+        method = "get",
+        path,
+        params,
+        data,
+      } = args;
+      const config = {
+        method,
+        url: this._getUrl(path),
+        headers: this._getHeaders(),
+        params,
+        data,
+      };
+      return axios($ ?? this, config);
     },
     api() {
       mailchimp.setConfig({
@@ -152,7 +240,7 @@ export default {
               ${JSON.stringify(err.response)}
             `);
           }
-          console.warn(`Temporary error: ${err.message}`);
+
           throw err;
         }
       }, retryOpts);
@@ -174,7 +262,7 @@ export default {
      */
     async createWebhook(listId, config) {
       const mailchimp = this.api();
-      const { id } =  await this._withRetries(() =>
+      const { id } = await this._withRetries(() =>
         mailchimp.lists.createListWebhook(listId, config));
       return id;
     },
@@ -213,7 +301,7 @@ export default {
      */
     async getAudienceLists(config) {
       const mailchimp = this.api();
-      const { lists = [] } =  await this._withRetries(() =>
+      const { lists = [] } = await this._withRetries(() =>
         mailchimp.lists.getAllLists({
           ...config,
           sortField: "date_created",
@@ -331,6 +419,11 @@ export default {
       const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.listSegments(listId, config));
+    },
+    async getAllMembers(listId, config) {
+      const mailchimp = this.api();
+      return await this._withRetries(() =>
+        mailchimp.lists.getListMembersInfo(listId, config));
     },
     /**
      * Gets a list with information about Facebook ads (outreach).
@@ -582,6 +675,225 @@ export default {
     },
     async listCampaignOpenDetails(campaignId) {
       return await this._withRetries(() => this.api().reports.getCampaignOpenDetails(campaignId));
+    },
+    async searchCampaign($, params) {
+      return this._makeRequest({
+        $,
+        params,
+        path: "/search-campaigns",
+      });
+    },
+    async getCampaign($, {
+      campaignId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        params,
+        path: this._campaignPath(campaignId),
+      });
+    },
+    async getCampaignReport($, {
+      campaignId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        params,
+        path: `/reports/${campaignId}`,
+      });
+    },
+    async updateCampaign($, {
+      campaignId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        data,
+        path: this._campaignPath(campaignId),
+        method: "patch",
+      });
+    },
+    async createCampaign($, data) {
+      return this._makeRequest({
+        $,
+        data,
+        path: this._campaignPath(),
+        method: "post",
+      });
+    },
+    async editCampaignTemplate($, {
+      campaignId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        data,
+        path: `${this._campaignPath(campaignId)}/content`,
+        method: "put",
+      });
+    },
+    async deleteCampaign($, campaignId) {
+      return this._makeRequest({
+        $,
+        path: this._campaignPath(campaignId),
+        method: "delete",
+      });
+    },
+    async sendCampaign($, campaignId) {
+      return this._makeRequest({
+        $,
+        path: `${this._campaignPath(campaignId)}/actions/send`,
+        method: "post",
+      });
+    },
+    async searchLists($, params) {
+      return this._makeRequest({
+        $,
+        path: "/lists",
+        params,
+      });
+    },
+    async searchMembers($, params) {
+      return this._makeRequest({
+        $,
+        path: "/search-members",
+        params,
+      });
+    },
+    async getList($, {
+      listId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._listPath(listId),
+        params,
+      });
+    },
+    async createList($, data) {
+      return this._makeRequest({
+        $,
+        path: "/lists",
+        data,
+        method: "post",
+      });
+    },
+    async updateList($, {
+      listId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._listPath(listId),
+        data,
+        method: "patch",
+      });
+    },
+    async deleteList($, listId) {
+      return this._makeRequest({
+        $,
+        path: this._listPath(listId),
+        method: "delete",
+      });
+    },
+    async listSegmentMembers($, {
+      listId, segmentId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._segmentMemberPath(listId, segmentId),
+        params,
+      });
+    },
+    async addSegmentMember($, {
+      listId, segmentId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._segmentMemberPath(listId, segmentId),
+        data,
+        method: "post",
+      });
+    },
+    async removeSegmentMember($, {
+      listId, segmentId, subscriberHash,
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._segmentMemberPath(listId, segmentId, subscriberHash),
+        method: "delete",
+      });
+    },
+    async getListActivities($, {
+      listId, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listPath(listId)}/activity`,
+        params,
+      });
+    },
+    async getListMemberActivities($, {
+      listId, subscriberHash, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listMemberPath(listId, subscriberHash)}/activity`,
+        params,
+      });
+    },
+    async archiveListMember($, {
+      listId, subscriberHash,
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._listMemberPath(listId, subscriberHash),
+        method: "delete",
+      });
+    },
+    async getListMemberTags($, {
+      listId, subscriberHash, ...params
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listMemberPath(listId, subscriberHash)}/tags`,
+        params,
+      });
+    },
+    async addRemoveListMemberTags($, {
+      listId, subscriberHash, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listMemberPath(listId, subscriberHash)}/tags`,
+        data,
+        method: "post",
+      });
+    },
+    async deleteListMember($, {
+      listId, subscriberHash,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listMemberPath(listId, subscriberHash)}/actions/delete-permanent`,
+        method: "post",
+      });
+    },
+    async addNoteToListMember($, {
+      listId, subscriberHash, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        path: `${this._listMemberPath(listId, subscriberHash)}/notes`,
+        method: "post",
+        data,
+      });
+    },
+    async addOrUpdateListMember($, {
+      listId, subscriberHash, data, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: this._listMemberPath(listId, subscriberHash),
+        method: "put",
+        data,
+        params,
+      });
     },
   },
 };
