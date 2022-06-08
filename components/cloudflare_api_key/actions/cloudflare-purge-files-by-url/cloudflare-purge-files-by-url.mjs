@@ -9,7 +9,7 @@ export default {
   description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs. [See docs here](https://developers.cloudflare.com/cache/how-to/purge-cache/#purge-by-single-file-by-url)",
   props: {
     cloudflare_api_key,
-    zone_id: {
+    zoneId: {
       type: "string",
       label: "Zone ID",
       description: "The Zone ID where the URL(s) being purged belongs to.",
