@@ -1,10 +1,12 @@
-const common = require("../common/timer-based");
+import common from "../common/timer-based";
 
-module.exports = {
+export default {
   ...common,
   key: "textlocal-new-contact",
   name: "New Contact",
-  version: "0.0.1",
+  description: "Emit new contact",
+  type: "source",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -18,7 +20,7 @@ module.exports = {
           return [];
         }
 
-        const { groups } = await this.textlocal.getContactGroups();
+        const { groups } = await this.textlocal.getGropus();
         const options = groups.map((group) => ({
           label: group.name,
           value: group.id,

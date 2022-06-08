@@ -16,6 +16,48 @@ export default {
         }));
       },
     },
+    number: {
+      type: "string",
+      label: "Number",
+      description: "The mobile number in international format (i.e. 447123456789).",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name to be assigned to this contact.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name to be assigned to this contact.",
+    },
+    custom1: {
+      type: "string",
+      label: "Custom 1",
+      description: "A custom1 to be assigned to this contact.",
+    },
+    custom2: {
+      type: "string",
+      label: "Custom 2",
+      description: "A custom2 to be assigned to this contact.",
+    },
+    custom3: {
+      type: "string",
+      label: "Custom 3",
+      description: "A custom3 to be assigned to this contact.",
+    },
+    groupId: {
+      type: "integer",
+      label: "Group Id",
+      description: "The id of the group",
+      async options() {
+        const { groups } = await this.getGroups();
+        return groups.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -24,31 +66,15 @@ export default {
     _apiKey() {
       return this.$auth.api_key;
     },
-    _apiMessageHistoryUrl() {
-      // API docs: https://api.txtlocal.com/docs/messagereporting/getapimessagehistory
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/get_history_api`;
-    },
-    _contactGroupsUrl() {
-      // API docs: https://api.txtlocal.com/docs/contactmanagement/getgroups
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/get_groups`;
-    },
-    _contactsUrl() {
-      // API docs: https://api.txtlocal.com/docs/contactmanagement/getcontacts
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/get_contacts`;
-    },
-    _baseRequestParams() {
-      return {
-        apikey: this._apiKey(),
-      };
-    },
     async _makeRequest({
-      $, params, ...otherConfig
+      $, url, path, params, ...otherConfig
     }) {
       const config = {
-        params,
+        url: url || (this._apiUrl() + path),
+        params: {
+          apikey: this._apiKey(),
+          ...params,
+        },
         ...otherConfig,
       };
       return axios($ || this, config);
@@ -59,15 +85,13 @@ export default {
       sortOrder = "desc",
       start = 0,
     }) {
-      const url = this._apiMessageHistoryUrl();
       const params = {
-        ...this._baseRequestParams(),
         limit,
         sort_order: sortOrder,
         start,
       };
       const data = await axios(this, {
-        url,
+        path: "/get_history_api",
         params,
       });
       return data;
@@ -137,29 +161,29 @@ export default {
      *
      * @return {object} The response of the call to the Get Groups API
      */
-    async getContactGroups() {
-      const url = this._contactGroupsUrl();
-      const params = this._baseRequestParams();
-      const { data } = await axios.get(url, {
-        params,
+    async getGroups() {
+      return this._makeRequest({
+        method: "GET",
+        path: "/get_groups",
       });
-      return data;
     },
     async _getContactsInGroup({
       groupId,
       limit = 100,
       start = 0,
     }) {
-      const url = this._contactsUrl();
       const params = {
-        ...this._baseRequestParams(),
         group_id: groupId,
         limit,
         start,
       };
-      const { data } = await axios.get(url, {
+
+      const { data } = this._makeRequest({
         params,
+        method: "GET",
+        path: "/get_contacts",
       });
+
       return data;
     },
     /**
@@ -227,27 +251,26 @@ export default {
       } while (length === limit);
     },
     async getInboxes() {
-      const baseUrl = this._apiUrl();
       return this._makeRequest({
         method: "GET",
-        url: `${baseUrl}/get_inboxes`,
-        params: {
-          apikey: this._apiKey(),
-        },
+        path: "/get_inboxes",
       });
     },
     async getInboxMessages({
       $, ...params
     }) {
-      const baseUrl = this._apiUrl();
       return this._makeRequest({
         $,
         method: "GET",
-        url: `${baseUrl}/get_messages`,
-        params: {
-          apikey: this._apiKey(),
-          ...params,
-        },
+        path: "/get_messages",
+        params,
+      });
+    },
+    async createContact({ params }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/create_contacts_bulk",
+        params,
       });
     },
   },
