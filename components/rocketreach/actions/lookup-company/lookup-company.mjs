@@ -3,12 +3,13 @@ import rocketreachApp from "../../rocketreach.app.mjs";
 export default {
   key: "rocketreach-lookup-company",
   name: "lookup company",
-  description: "Lookup the profile of a company",
+  description: "Lookup the profile of a company. [See docs here](https://rocketreach.co/api?section=api_section_ws_lookupCompany)",
   version: "0.0.1",
   type: "action",
   props: {
     rocketreachApp,
     domain: {
+      label: "Domain",
       type: "string",
       description: "Company's Domain",
       optional: true,

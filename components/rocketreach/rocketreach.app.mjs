@@ -22,7 +22,7 @@ export default {
     _getHeaders() {
       return {
         "Content-Type": "application/json",
-        "Api-Key": `${this.$auth.api_key}`,
+        "Api-Key": `${this._apiKey()}`,
       };
     },
     _getAxiosParams(opts = {}) {

@@ -15,7 +15,7 @@ export default {
     },
     id: {
       type: "string",
-      description: "RocketReach specific Id of the person you are looking for",
+      description: "RocketReach specific ID of the person you are looking for",
       optional: true,
     },
     email: {
