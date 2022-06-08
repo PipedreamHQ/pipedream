@@ -1,5 +1,5 @@
 import googleCloud from "../../google_cloud.app.mjs";
-import utils from "../../utils/base.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   name: "Bigquery Insert Rows",
@@ -53,7 +53,6 @@ export default {
       $.export("$summary", `Successfully inserted ${rows.length} rows into ${datasetId}.${tableId}`);
 
       return response;
-
     } catch (error) {
       console.log(JSON.stringify(error.errors, null, 2));
       throw error;

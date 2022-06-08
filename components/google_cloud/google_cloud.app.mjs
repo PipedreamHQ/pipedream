@@ -46,7 +46,7 @@ export default {
     },
     datasetId: {
       type: "string",
-      label: "Dataset",
+      label: "Dataset ID",
       description: "The BigQuery dataset against which queries will be executed",
       async options({ page }) {
         if (page) {
