@@ -30,6 +30,7 @@ export default {
       description: `${salesforce.propDefinitions.fieldSelector.description} Campaign`,
       options: () => Object.keys(campaign),
       reloadProps: true,
+      optional: true,
     },
   },
   async additionalProps() {
