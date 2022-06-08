@@ -8,6 +8,10 @@ Components are [Node.js modules](api/#component-structure) that run on Pipedream
 
 Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components) or you can author and share your own.
 
+::: tip
+Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/components/typescript/).
+:::
+
 ## Component Types
 
 Pipedream supports two types of components — [sources](#sources) and [actions](#actions).
