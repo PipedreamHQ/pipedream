@@ -56,7 +56,7 @@ export default {
       } while (nextLink);
     },
     getResources() {
-      throw new Error("processEvent is not implemented");
+      throw new Error("getResources is not implemented");
     },
   },
   async run() {

@@ -78,10 +78,13 @@ export default {
     },
   },
   methods: {
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
     client() {
       return new Client.initWithMiddleware({
         authProvider: {
-          getAccessToken: () => Promise.resolve(this.$auth.oauth_access_token),
+          getAccessToken: () => Promise.resolve(this._accessToken()),
         },
       });
     },
