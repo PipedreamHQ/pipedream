@@ -119,12 +119,10 @@ export default {
       : value;
   },
   parseObject(obj) {
-    let parsed;
     try {
-      parsed = JSON.parse(obj);
+      return JSON.parse(obj);
     } catch (e) {
-      parsed = obj;
+      return obj;
     }
-    return parsed;
   },
 };

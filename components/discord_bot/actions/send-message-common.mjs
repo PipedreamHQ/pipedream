@@ -49,7 +49,7 @@ export default {
       "discord",
     ]) {
       return Object.keys(this)
-        .filter((k) => typeof this[k] !== "function" && !omit.includes(k))
+        .filter((key) => typeof this[key] !== "function" && !omit.includes(key))
         .reduce((props, key) => {
           props[key] = this[key];
           return props;

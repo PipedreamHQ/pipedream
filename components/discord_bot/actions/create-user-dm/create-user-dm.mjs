@@ -1,7 +1,8 @@
-import discord from "../../discord_bot.app.mjs";
 import common from "../../common.mjs";
 import messageCommon from "../send-message-common.mjs";
 import utils from "../../utils.mjs";
+
+const { discord } = common.props;
 
 export default {
   key: "discord_bot-create-dm",
