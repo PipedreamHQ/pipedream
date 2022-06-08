@@ -16,6 +16,21 @@ export default {
         }));
       },
     },
+    sender: {
+      type: "string",
+      label: "Sender",
+      description: "Use this field to specify the sender name for your message. This must be at least 3 characters in length but no longer than 11 alphanumeric characters or 13 numeric characters. If this is excluded it will use the default sender name configured on your account",
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "The message content. This parameter should be no longer than 765 characters. See Helpful Information for message length details. The message also must be URL Encoded to support symbols like &.",
+    },
+    numbers: {
+      type: "string",
+      label: "Numbers",
+      description: "Comma-delimited list of mobile numbers in international format (i.e. 447123456789). Maximum of 10,000 numbers and error code 33 will be returned if exceeded.",
+    },
     number: {
       type: "string",
       label: "Number",
@@ -49,7 +64,7 @@ export default {
     groupId: {
       type: "integer",
       label: "Group Id",
-      description: "The id of the group",
+      description: "This parameter can be used in place of the numbers parameter in order to send to an entire contact group. This parameter should contain the ID of the relevant group, which can found either within Messenger (in the \"Reports\" - \"Advanced Reports\" - \"List of Group ID's\" section) or by running the get_groups command. Additionally group 5 contains \"contacts\" and group 6 contains \"opt-outs\".",
       async options() {
         const { groups } = await this.getGroups();
         return groups.map((item) => ({
@@ -57,6 +72,51 @@ export default {
           value: item.id,
         }));
       },
+    },
+    simpleReply: {
+      type: "string",
+      label: "Simple Reply",
+      description: "Set to true to enable the Simple Reply Service for the message. This will override any sender value, as a Simple Reply Service number will be used instead.",
+    },
+    scheduleTime: {
+      type: "string",
+      label: "Schedule Time",
+      description: "This parameter can be used to specify a schedule date/time for your message, which should be provided in Unix timestamp format. Times should be provided in GMT.",
+    },
+    receiptUrl: {
+      type: "string",
+      label: "Receipt URL",
+      description: "Use this field to specify an alternative URL to which the delivery receipt(s) will be sent. See handling receipts documentation.",
+    },
+    custom: {
+      type: "string",
+      label: "Custom",
+      description: "This value will be set against the message batch and will passed back in the delivery receipts. This allows you to match delivery receipts to their corresponding messages.",
+    },
+    optouts: {
+      type: "string",
+      label: "Optouts",
+      description: "Can be set to true in order to check against your own opt-outs list and Textlocal's global opt-outs database. Your message will not be sent to numbers within these lists. If not provided defaults to false.",
+    },
+    validity: {
+      type: "string",
+      label: "Validity",
+      description: "Can be set, up to 72 hours in advance, to say after which time, you don't want the message delivered. This should be in a Unix timestamp format.",
+    },
+    unicode: {
+      type: "string",
+      label: "Unicode",
+      description: "Set this value to true to specify that your message body will contain unicode characters. See Encoding/Decoding Unicode Documentation",
+    },
+    trackingLinks: {
+      type: "string",
+      label: "Tracking Links",
+      description: "Set this value to true to specify that the message contains links and they should be converted to short links (trackable in messenger), Please note that links must be url encoded before being placed into the message",
+    },
+    test: {
+      type: "boolean",
+      label: "Test",
+      description: "Set this field to true to enable test mode, no messages will be sent and your credit balance will be unaffected. If not provided defaults to false",
     },
   },
   methods: {
@@ -270,6 +330,13 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/create_contacts_bulk",
+        params,
+      });
+    },
+    async sendSMS({ params }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/send",
         params,
       });
     },
