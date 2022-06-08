@@ -48,23 +48,23 @@ export default {
           if (err.response.data.error.status == 404) {
             return null;
           }
-          throw new Error(err.response.data.error.message)
+          throw new Error(err.response.data.error.message);
         }
         throw err;
       }
-      
+
     },
     async enrichPerson(params) {
       return this._makeRequest({
         path: "/person/enrich",
-        params
-      })
+        params,
+      });
     },
     async enrichCompany(params) {
       return this._makeRequest({
         path: "/company/enrich",
-        params
-      })
-    }
+        params,
+      });
+    },
   },
 };

@@ -158,13 +158,13 @@ export default {
       min_likelihood: this.minLikelihood || 0,
       required: this.required,
       pretty: this.pretty || true,
-    }
-    
-    const res = await this.app.enrichPerson(params)
+    };
+
+    const res = await this.app.enrichPerson(params);
     if (!res) {
-      $.export("summary", "No results found")
+      $.export("summary", "No results found");
     } else {
-      $.export("summary", "Successfully enriched a person")
+      $.export("summary", "Successfully enriched a person");
     }
     return res;
   },
