@@ -14,7 +14,7 @@ export default {
       label: "Zone ID",
       description: "The Zone ID where the URL(s) being purged belongs to.",
     },
-    purge_urls: {
+    purgeUrls: {
       type: "string[]",
       label: "URL(s)",
       description: "URL(s) to purge.",
