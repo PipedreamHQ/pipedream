@@ -30,7 +30,7 @@ export default {
         "Content-Type": "application/json",
       },
       data: {
-        files: this.purge_urls,
+        files: this.purgeUrls,
       },
     });
   },
