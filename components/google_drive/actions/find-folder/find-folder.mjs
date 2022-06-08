@@ -31,11 +31,13 @@ export default {
       default: true,
       optional: true,
       description: "If set to true, returns all matches including items currently in the trash. Defaults to `true`.",
-    }
+    },
   },
   async run({ $ }) {
     const q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}' and trashed=${this.includeTrashed.toString()}`.trim();
-    const opts = getListFilesOpts(this.drive, { q });
+    const opts = getListFilesOpts(this.drive, {
+      q,
+    });
     const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully found ${folders.length} folder${folders.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
