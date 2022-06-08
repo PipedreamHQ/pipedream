@@ -80,8 +80,8 @@ export default {
       task_id: this.taskId,
       user_id: this.userId,
       spent_date: this.spentDate,
-      started_time: this.startedTime.replace(/\s/g, ""),
-      ended_time: this.endedTime.replace(/\s/g, ""),
+      started_time: this.startedTime && this.startedTime.replace(/\s/g, ""),
+      ended_time: this.endedTime && this.endedTime.replace(/\s/g, ""),
     });
     const response = await this.harvest.createTimeEntry({
       $,
