@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     return await axios($, {
       method: "post",
-      url: `https://api.cloudflare.com/client/v4/zones/${this.zone_id}/purge_cache`,
+      url: `https://api.cloudflare.com/client/v4/zones/${this.zoneId}/purge_cache`,
       headers: {
         "X-Auth-Email": `${this.cloudflare_api_key.$auth.Email}`,
         "X-Auth-Key": `${this.cloudflare_api_key.$auth.API_Key}`,
