@@ -44,7 +44,7 @@ export default {
   },
   OwnerId: {
     type: "string",
-    label: "Owner id",
+    label: "Owner ID",
     description: "ID of the User or Group who owns the record. This field accepts Groups of type Queue only. In the user interface, Group IDs correspond with the queue's list view names. To create or update tasks assigned to Group, use v48.0 or later.",
   },
   RecurrenceDayOfMonth: {

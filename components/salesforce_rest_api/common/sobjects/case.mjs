@@ -1,22 +1,22 @@
 export default {
   AccountId: {
     type: "string",
-    label: "AccountId",
+    label: "Account ID",
     description: "ID of the account associated with this case.",
   },
   BusinessHoursId: {
     type: "string",
-    label: "BusinessHoursId",
+    label: "Business Hours ID",
     description: "ID of the business hours associated with this case.",
   },
   ContactId: {
     type: "string",
-    label: "ContactId",
+    label: "Contact ID",
     description: "ID of the associated Contact.",
   },
   CommunityId: {
     type: "string",
-    label: "CommunityId",
+    label: "Community ID",
     description: "ID of the Community (Zone) associated with this case.",
   },
   Description: {
@@ -26,12 +26,12 @@ export default {
   },
   FeedItemId: {
     type: "string",
-    label: "FeedItemId",
+    label: "FeedItem ID",
     description: "ID of the question in Chatter associated with the case. This field is available in API version 33.0 and later, and is only accessible in organizations where Question-to-Case is enabled.",
   },
   IsEscalated: {
     type: "boolean",
-    label: "IsEscalated",
+    label: "Is Escalated?",
     description: "Indicates whether the case has been escalated (true) or not. A case's escalated state does not affect how you can use a case, or whether you can query, delete, or update it. You can set this flag via the API. Label is Escalated.",
   },
   Language: {
@@ -46,12 +46,12 @@ export default {
   },
   OwnerId: {
     type: "string",
-    label: "OwnerId",
+    label: "Owner ID",
     description: "ID of the contact who owns the case.",
   },
   ParentId: {
     type: "string",
-    label: "ParentId",
+    label: "Parent ID",
     description: "The ID of the parent case in the hierarchy. The label is Parent Case.",
   },
   Priority: {
@@ -61,7 +61,7 @@ export default {
   },
   QuestionId: {
     type: "string",
-    label: "QuestionId",
+    label: "Question ID",
     description: "The question in the answers community that is associated with the case. This field does not appear if you don't have an answers community enabled.",
   },
   Reason: {
@@ -71,23 +71,23 @@ export default {
   },
   RecordTypeId: {
     type: "string",
-    label: "RecordTypeId",
+    label: "RecordType ID",
     description: "ID of the record type assigned to this object.",
   },
   SlaStartDate: {
     type: "string",
-    label: "SlaStartDate",
-    description: "Shows the time that the case entered an entitlement process. If you have the Edit permission on cases, you can update or reset the time if you have the Edit permission on cases.",
+    label: "SLA Start Date",
+    description: "Shows the time that the case entered an entitlement process. If you have the Edit permission on cases, you can update or reset the time if you have the Edit permission on cases.",
   },
   SourceId: {
     type: "string",
-    label: "SourceId",
+    label: "Source ID",
     description: "The ID of the social post source.",
   },
   Status: {
     type: "string",
     label: "Status",
-    description: "The status of the case, such as New, Closed, or Escalated. This field directly controls the IsClosed flag. Each predefined Status value implies an IsClosed flag value. For more information, see CaseStatus.",
+    description: "The status of the case, such as New, Closed, or Escalated. This field directly controls the IsClosed flag. Each predefined Status value implies an IsClosed flag value. For more information, see CaseStatus.",
   },
   Subject: {
     type: "string",
@@ -96,17 +96,17 @@ export default {
   },
   SuppliedCompany: {
     type: "string",
-    label: "SuppliedCompany",
+    label: "Supplied Company",
     description: "The company name that was entered when the case was created. Label is Company.",
   },
   SuppliedName: {
     type: "string",
-    label: "SuppliedName",
+    label: "Supplied Name",
     description: "The name that was entered when the case was created. Label is Name.",
   },
   SuppliedPhone: {
     type: "string",
-    label: "SuppliedPhone",
+    label: "Supplied Phone",
     description: "The phone number that was entered when the case was created. Label is Phone.",
   },
   Type: {

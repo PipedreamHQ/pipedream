@@ -1,12 +1,12 @@
 export default {
   ActualCost: {
     type: "string",
-    label: "ActualCost",
+    label: "Actual Cost",
     description: "Amount of money spent to run the campaign.",
   },
   BudgetedCost: {
     type: "string",
-    label: "BudgetedCost",
+    label: "Budgeted Cost",
     description: "Amount of money budgeted for the campaign.",
   },
   CampaignImageId: {
@@ -21,7 +21,7 @@ export default {
   },
   CurrencyIsoCode: {
     type: "string",
-    label: "CurrencyIsoCode",
+    label: "Currency ISO Code",
     description: "Available only for organizations with the multicurrency feature enabled. Contains the ISO code for any currency allowed by the organization.",
   },
   Description: {
@@ -36,22 +36,22 @@ export default {
   },
   ExpectedResponse: {
     type: "string",
-    label: "ExpectedResponse",
+    label: "Expected Response",
     description: "Percentage of responses you expect to receive for the campaign.",
   },
   ExpectedRevenue: {
     type: "string",
-    label: "ExpectedRevenue",
+    label: "Expected Revenue",
     description: "Amount of money you expect to generate from the campaign.",
   },
   IsActive: {
     type: "boolean",
-    label: "IsActive",
+    label: "Is Active?",
     description: "Indicates whether this campaign is active (true) or not (false). Default value is false. Label is Active.",
   },
   NumberSent: {
     type: "integer",
-    label: "NumberSent",
+    label: "Number Sent",
     description: "Number of individuals targeted by the campaign. For example, the number of emails sent. Label is Num Sent.",
   },
   OwnerId: {
@@ -61,7 +61,7 @@ export default {
   },
   ParentCampaign: {
     type: "string",
-    label: "ParentCampaign",
+    label: "Parent Campaign",
     description: "The campaign above the selected campaign in the campaign hierarchy.",
   },
   ParentId: {
@@ -76,7 +76,7 @@ export default {
   },
   StartDate: {
     type: "string",
-    label: "StartDate",
+    label: "Start Date",
     description: "Starting date for the campaign.",
   },
   Status: {

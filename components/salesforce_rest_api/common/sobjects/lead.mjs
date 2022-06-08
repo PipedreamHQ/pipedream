@@ -1,7 +1,7 @@
 export default {
   AnnualRevenue: {
     type: "string",
-    label: "AnnualRevenue",
+    label: "Annual Revenue",
     description: "Annual revenue for the lead's company.",
   },
   City: {
@@ -11,12 +11,12 @@ export default {
   },
   CleanStatus: {
     type: "string",
-    label: "CleanStatus",
+    label: "Clean Status",
     description: "Indicates the record's clean status compared with Data.com. Values include: Matched, Different, Acknowledged, NotFound, Inactive, Pending, SelectMatch, or Skipped.Several values for CleanStatus appear with different labels on the lead record. Matched appears as In Sync Acknowledged appears as Reviewed Pending appears as Not Compared",
   },
   CompanyDunsNumber: {
     type: "string",
-    label: "CompanyDunsNumber",
+    label: "Company Duns Number",
     description: "The Data Universal Numbering System (D-U-N-S) number, which is a unique, nine-digit number assigned to every business location in the Dun &amp; Bradstreet database that has a unique, separate, and distinct operation. Industries and companies use D-U-N-S numbers as a global standard for business identification and tracking. Maximum size is 9 characters. Note This field is only available to organizations that use Data.com Prospector or Data.com Clean.",
   },
   Country: {
@@ -26,12 +26,12 @@ export default {
   },
   CountryCode: {
     type: "string",
-    label: "CountryCode",
+    label: "Country Code",
     description: "The ISO country code for the lead's address.",
   },
   CurrencyIsoCode: {
     type: "string",
-    label: "CurrencyIsoCode",
+    label: "Currency ISO Code",
     description: "Available only for organizations with the multicurrency feature enabled. Contains the ISO code for any currency allowed by the organization.",
   },
   Description: {
@@ -51,22 +51,22 @@ export default {
   },
   FirstName: {
     type: "string",
-    label: "FirstName",
+    label: "First Name",
     description: "The lead's first name up to 40 characters.",
   },
   HasOptedOutOfEmail: {
     type: "boolean",
-    label: "HasOptedOutOfEmail",
+    label: "Has Opted Out Of Email",
     description: "Indicates whether the lead doesn't want to receive email from Salesforce (true) or does (false). Label is Email Opt Out.",
   },
   GeocodeAccuracy: {
     type: "string",
-    label: "GeocodeAccuracy",
+    label: "Geocode Accuracy",
     description: "Accuracy level of the geocode for the address. For details on geolocation compound fields, see [Compound Field Considerations and Limitations](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/compound_fields_limitations.htm#compound_fields_limitations).",
   },
   IndividualId: {
     type: "string",
-    label: "IndividualId",
+    label: "Individual ID",
     description: "ID of the data privacy record associated with this lead. This field is available if you enabled Data Protection and Privacy in Setup.",
   },
   Industry: {
@@ -76,12 +76,12 @@ export default {
   },
   IsConverted: {
     type: "boolean",
-    label: "IsConverted",
+    label: "Is Converted",
     description: "Indicates whether the lead has been converted (true) or not (false). Label is Converted.",
   },
   IsUnreadByOwner: {
     type: "boolean",
-    label: "IsUnreadByOwner",
+    label: "Is Unread By Owner",
     description: "If true, lead has been assigned, but not yet viewed. See Unread Leads for more information. Label is Unread By Owner.",
   },
   Jigsaw: {
@@ -101,27 +101,27 @@ export default {
   },
   LeadSource: {
     type: "string",
-    label: "LeadSource",
+    label: "Lead Source",
     description: "The lead's source.",
   },
   MiddleName: {
     type: "string",
-    label: "MiddleName",
+    label: "Middle Name",
     description: "The lead's middle name up to 40 characters. To enable this field, ask Salesforce Customer Support for help.",
   },
   MobilePhone: {
     type: "string",
-    label: "MobilePhone",
+    label: "Mobile Phone",
     description: "The lead's mobile phone number.",
   },
   NumberOfEmployees: {
     type: "integer",
-    label: "NumberOfEmployees",
+    label: "Number Of Employees",
     description: "Number of employees at the lead's company. Label is Employees.",
   },
   OwnerId: {
     type: "string",
-    label: "OwnerId",
+    label: "Owner ID",
     description: "ID of the lead's owner.",
   },
   Phone: {
@@ -131,7 +131,7 @@ export default {
   },
   PostalCode: {
     type: "string",
-    label: "PostalCode",
+    label: "Postal Code",
     description: "Postal code for the address of the lead.",
   },
   Rating: {
@@ -141,7 +141,7 @@ export default {
   },
   RecordTypeId: {
     type: "string",
-    label: "RecordTypeId",
+    label: "Record Type ID",
     description: "ID of the record type assigned to this object.",
   },
   Salutation: {
@@ -156,7 +156,7 @@ export default {
   },
   StateCode: {
     type: "string",
-    label: "StateCode",
+    label: "State Code",
     description: "The ISO state code for the lead's address.",
   },
   Status: {
