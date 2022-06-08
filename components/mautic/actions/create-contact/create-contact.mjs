@@ -60,10 +60,11 @@ export default {
       "firstname",
       "lastname",
       "email",
-      "company",
       "position",
       "owner",
     ]));
+
+    if (this.company) data.company = this.company.label;
 
     if (Object.keys(data).length === 0) {
       throw new ConfigurationError("Must supply at least one value");

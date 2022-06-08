@@ -18,7 +18,7 @@ export default {
   async run({ $ }) {
     const response = await this.mautic.deleteCompany({
       $,
-      companyId: this.companyId,
+      companyId: this.companyId.value,
     });
     $.export("$summary", "Successfully deleted company");
     return response;

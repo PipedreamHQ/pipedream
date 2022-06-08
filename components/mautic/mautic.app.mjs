@@ -73,6 +73,7 @@ export default {
     companyId: {
       type: "string",
       label: "Company ID",
+      withLabel: true,
       async options({ prevContext }) {
         const { start = 0 } = prevContext;
         const response = await this.listCompanies({
@@ -82,7 +83,10 @@ export default {
         });
         const data = Object.values(response);
         return {
-          options: data.map((d) => d.fields.all.companyname),
+          options: data.map((d) => ({
+            label: d.fields.all.companyname,
+            value: d.fields.all.id,
+          })),
           context: {
             start: start + data.length,
           },
