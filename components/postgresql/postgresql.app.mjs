@@ -53,9 +53,16 @@ export default {
       label: "Row Values",
       description: "Enter the column names and respective values as key/value pairs, or with structured mode off as `{{{columnName:\"columnValue\"}}}`",
     },
+    rejectUnauthorized: {
+      type: "boolean",
+      label: "Reject Unauthorized",
+      description: "If not false, the server certificate is verified against the list of supplied CAs. An 'error' event is emitted if verification fails",
+      default: true,
+      optional: true,
+    },
   },
   methods: {
-    async getClient() {
+    async getClient(rejectUnauthorized) {
       const { Client } = pg;
       const {
         user,
@@ -65,8 +72,17 @@ export default {
         database,
       } = this.$auth;
       const connectionString = `postgresql://${user}:${password}@${host}:${port}/${database}`;
+      console.log({
+        connectionString,
+        ssl: {
+          rejectUnauthorized,
+        },
+      });
       const client = new Client({
         connectionString,
+        ssl: {
+          rejectUnauthorized,
+        },
       });
       await client
         .connect()
@@ -78,11 +94,12 @@ export default {
     },
     /**
      * Executes SQL query and returns the resulting rows
-     * @param {string} text - SQL query to execute
+     * @param {string} query - SQL query to execute
+     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns Array of rows returned from the given SQL query
      */
-    async executeQuery(query) {
-      const client = await this.getClient();
+    async executeQuery(query, rejectUnauthorized = true) {
+      const client = await this.getClient(rejectUnauthorized);
       try {
         const { rows } = await client.query(query);
         return rows;
@@ -160,15 +177,16 @@ export default {
      * @param {string} table - Name of database table to query
      * @param {string} column - Column to filter by value
      * @param {string} value - A column value to search for
+     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns A single database row
      */
-    async findRowByValue(table, column, value) {
+    async findRowByValue(table, column, value, rejectUnauthorized) {
       const rows = await this.executeQuery({
         text: format("SELECT * FROM %I WHERE %I = $1", table, column),
         values: [
           value,
         ],
-      });
+      }, rejectUnauthorized);
       return rows[0];
     },
     /**
@@ -176,23 +194,25 @@ export default {
      * @param {string} table - Name of database table to delete from
      * @param {string} column - Column used to find the row(s) to delete
      * @param {string} value - A column value. Used to find the row(s) to delete
+     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      */
-    async deleteRows(table, column, value) {
+    async deleteRows(table, column, value, rejectUnauthorized) {
       return this.executeQuery({
         text: format("DELETE FROM %I WHERE %I = $1 RETURNING *", table, column),
         values: [
           value,
         ],
-      });
+      }, rejectUnauthorized);
     },
     /**
      * Inserts a row in a table
      * @param {string} table - Name of database table to insert row into
      * @param {array} columns - Array of column names
      * @param {array} values - Array of values corresponding to the column names provided
+     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly created row
      */
-    async insertRow(table, columns, values) {
+    async insertRow(table, columns, values, rejectUnauthorized) {
       const placeholders = this.getPlaceholders({
         values,
       });
@@ -203,7 +223,7 @@ export default {
             RETURNING *
         `, table),
         values,
-      });
+      }, rejectUnauthorized);
     },
     getPlaceholders({
       values = [], fromIndex = 1,
@@ -217,9 +237,10 @@ export default {
      * @param {string} lookupValue - A column value. Used to find row to update
      * @param {object} rowValues - An object with keys representing column names
      *  and values representing new column values
+     * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly updated row
      */
-    async updateRow(table, lookupColumn, lookupValue, rowValues) {
+    async updateRow(table, lookupColumn, lookupValue, rowValues, rejectUnauthorized) {
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
@@ -237,7 +258,7 @@ export default {
           lookupValue,
           ...Object.values(rowValues),
         ],
-      });
+      }, rejectUnauthorized);
       return response[0];
     },
     getColumnsPlaceholders({
