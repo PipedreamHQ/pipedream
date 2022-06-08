@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
-import dear from "../dear.app.mjs";
-import constants from "../common/constants.mjs";
+import dear from "../../dear.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: {
