@@ -25,7 +25,9 @@ export default {
   async run(event) {
     console.log(event);
     this.$emit(event, {
+      id: event.payload?.object?.id,
       summary: event.event,
+      ts: Date.now(),
     });
   },
 };
