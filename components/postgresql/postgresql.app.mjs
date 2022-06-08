@@ -72,12 +72,6 @@ export default {
         database,
       } = this.$auth;
       const connectionString = `postgresql://${user}:${password}@${host}:${port}/${database}`;
-      console.log({
-        connectionString,
-        ssl: {
-          rejectUnauthorized,
-        },
-      });
       const client = new Client({
         connectionString,
         ssl: {
