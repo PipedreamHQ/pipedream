@@ -22,6 +22,7 @@ export default {
           dataStore,
         }),
       ],
+      description: "Enter a key for the record you'd like to create or select an existing key to update.",
     },
     value: {
       label: "Value",

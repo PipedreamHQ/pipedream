@@ -22,7 +22,7 @@ export default {
           dataStore,
         }),
       ],
-      description: "Key for the data you'd like to delete. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
+      description: "Select the key for the record you'd like to delete, or enter one manually.",
     },
   },
   async run({ $ }) {
