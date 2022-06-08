@@ -15,6 +15,8 @@ export default {
       optional: true,
     },
     name: {
+      label: "Name",
+      type: "string",
       propDefinition: [
         rocketreachApp,
         "name",
@@ -22,6 +24,8 @@ export default {
       description: "Company's name",
     },
     linkedinUrl: {
+      label: "LinkedIn URL",
+      type: "string",
       propDefinition: [
         rocketreachApp,
         "linkedinUrl",
@@ -31,7 +35,7 @@ export default {
   async run({ $ }) {
 
     if (!this.name && !this.domain && !this.linkedinUrl) {
-      throw new Error("This action requires one or more of the following: name, domain, linkedIn URL. Please enter at least one of them above.");
+      throw new Error("This action requires one or more of the following: Name, Domain, LinkedIn URL. Please enter at least one of them above.");
     }
     const params = {
       name: this.name,

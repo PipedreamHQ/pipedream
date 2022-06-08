@@ -5,17 +5,22 @@ export default {
   app: "rocketreach",
   propDefinitions: {
     name: {
+      label: "Name",
       type: "string",
       description: "Name of the person you are looking for",
       optional: true,
     },
     linkedinUrl: {
+      label: "LinkedIn URL",
       type: "string",
       description: "LinkedIn URL",
       optional: true,
     },
   },
   methods: {
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _getBaseUrl() {
       return "https://api.rocketreach.co/v2/api";
     },
@@ -35,14 +40,12 @@ export default {
     },
     async lookupProfile(params, ctx = this) {
       return axios(ctx, this._getAxiosParams({
-        method: "GET",
         path: "/lookupProfile",
         params,
       }));
     },
     async lookupCompany(params, ctx = this) {
       return axios(ctx, this._getAxiosParams({
-        method: "GET",
         path: "/lookupCompany",
         params,
       }));
