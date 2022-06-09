@@ -1,0 +1,18 @@
+const DEFAULT_METHOD = "get";
+const TEAM_PROVISIONING_OPTION = "Team";
+const DEFAULT_MAX_ITEMS = 10;
+const DEFAULT_PAGE_LIMIT = 2;
+
+const BASE_URL = "https://graph.microsoft.com";
+const VERSION_PATH = "/v1.0";
+const BETA_VERSION_PATH = "/beta";
+
+export default {
+  DEFAULT_MAX_ITEMS,
+  DEFAULT_PAGE_LIMIT,
+  DEFAULT_METHOD,
+  TEAM_PROVISIONING_OPTION,
+  BASE_URL,
+  VERSION_PATH,
+  BETA_VERSION_PATH,
+};
