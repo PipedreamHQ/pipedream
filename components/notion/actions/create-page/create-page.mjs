@@ -1,12 +1,13 @@
 import notion from "../../notion.app.mjs";
 import utils from "../common/utils.mjs";
+const buildPropertyProps = utils.buildPropertyProps;
 import constants from "../common/constants.mjs";
 
 export default {
   key: "notion-create-page",
   name: "Create a Page",
   description: "Creates a page. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,
@@ -17,66 +18,72 @@ export default {
       ],
       label: "Parent ID",
       description: "The identifier for a Notion parent page",
-    },
-    title: {
-      propDefinition: [
-        notion,
-        "title",
-      ],
-      default: "Untitled",
+      reloadProps: true,
     },
     iconType: {
       propDefinition: [
         notion,
         "iconType",
       ],
+      reloadProps: true,
     },
     coverType: {
       propDefinition: [
         notion,
         "coverType",
       ],
+      reloadProps: true,
     },
     paragraph: constants.BLOCK_TYPES.paragraph.prop,
     todo: constants.BLOCK_TYPES.to_do.prop,
   },
   async additionalProps() {
-    let props = {};
+    let additionalProps = {};
     if (this.iconType) {
-      props = {
-        ...props,
-        iconValue: {
-          type: "string",
-          label: "Icon Value",
-          description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
-        },
+      additionalProps.iconValue = {
+        type: "string",
+        label: "Icon Value",
+        description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
       };
     }
     if (this.coverType) {
-      props = {
-        ...props,
-        coverValue: {
-          type: "string",
-          label: "Cover Value",
-          description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
-        },
+      additionalProps.coverValue = {
+        type: "string",
+        label: "Cover Value",
+        description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
       };
     }
     if (this.paragraph) {
-      props = {
-        ...props,
+      additionalProps = {
+        ...additionalProps,
         ...constants.BLOCK_TYPES.paragraph.additionalProps,
       };
     }
     if (this.todo) {
-      props = {
-        ...props,
+      additionalProps = {
+        ...additionalProps,
         ...constants.BLOCK_TYPES.to_do.additionalProps,
       };
     }
-    return props;
+    if (this.parentId) {
+      const propertyProps = await this.buildPropertyProps(this.parentId);
+      additionalProps = {
+        ...additionalProps,
+        ...propertyProps,
+      };
+      if (!additionalProps.title) {
+        additionalProps.title = {
+          type: "string",
+          label: "Title",
+          description: "The type of this property is `title`. [See title type docs here](https://developers.notion.com/reference/property-object#title-configuration) E.g. `New Beauty Title`",
+        };
+      }
+      additionalProps.title.optional = false;
+    }
+    return additionalProps;
   },
   methods: {
+    buildPropertyProps,
     buildBlockArgs(blockType) {
       switch (blockType) {
       case constants.BLOCK_TYPES.paragraph.name:

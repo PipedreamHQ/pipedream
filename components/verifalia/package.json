@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/verifalia",
+  "version": "0.0.1",
+  "description": "Pipedream Verifalia Components",
+  "main": "dist/app/verifalia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "verifalia"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/verifalia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
