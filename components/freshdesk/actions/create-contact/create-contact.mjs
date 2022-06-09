@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
   description: "create a contact. [See docs here](https://developers.freshdesk.com/api/#companies)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     freshdesk,

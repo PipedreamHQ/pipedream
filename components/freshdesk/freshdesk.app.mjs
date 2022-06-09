@@ -113,10 +113,10 @@ export default {
       return retry(async (bail) => {
         try {
           const data = await apiCall();
-          console.log("retry", data);
+
           return data;
         } catch (err) {
-          console.log("Error dey", err);
+
           const { status = 500 } = err;
           if (!this._isRetriableStatusCode(status)) {
             bail(`
@@ -131,8 +131,8 @@ export default {
     async *filterTickets(params) {
       let loadedData = 0;
       do {
-        const response = await this.searchTickets(params);
-        console.log("response", response);
+        const response = await this._withRetries(() => this.searchTickets(params));
+
         if (!response || response.results.length === 0) {
           return;
         }
@@ -197,7 +197,6 @@ export default {
       });
     },
     async searchTickets(params, $ = undefined) {
-      console.log("params", params.query);
       return this._makeRequest({
         $,
         path: "/search/tickets",
