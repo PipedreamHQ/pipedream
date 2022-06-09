@@ -45,7 +45,6 @@ export default {
         params,
       });
 
-      console.log("inboxMessages: ", inboxMessages);
       const messages = [];
       for await (const inboxMessage of inboxMessages) {
         messages.push(inboxMessage);
