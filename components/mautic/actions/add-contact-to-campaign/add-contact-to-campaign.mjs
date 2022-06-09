@@ -1,39 +1,40 @@
-// legacy_hash_id: a_Q3iRxL
-import { axios } from "@pipedream/platform";
+import mautic from "../../mautic.app.mjs";
 
 export default {
   key: "mautic-add-contact-to-campaign",
   name: "Add Contact to a Campaign",
-  description: "Adds a contact to a specific campaign.",
-  version: "0.1.1",
+  description: "Adds a contact to a specific campaign. [See docs](https://developer.mautic.org/#add-contact-to-a-campaign)",
+  version: "0.2.0",
   type: "action",
   props: {
-    mautic: {
-      type: "app",
-      app: "mautic",
+    mautic,
+    campaignId: {
+      propDefinition: [
+        mautic,
+        "campaignId",
+      ],
+      description: "ID of the campaign to add a contact to",
     },
-    campaign_id: {
-      type: "string",
-      description: "ID of the campaign to add a contact to.",
-    },
-    contact_id: {
-      type: "string",
-      description: "ID of the contact being added to the campaign.",
+    contactId: {
+      propDefinition: [
+        mautic,
+        "contactId",
+      ],
+      description: "ID of the contact being added to the campaign",
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.mautic.org/#add-contact-to-a-campaign
+    const {
+      campaignId,
+      contactId,
+    } = this;
 
-    if (!this.campaign_id || !this.contact_id) {
-      throw new Error("Must provide campaign_id, and contact_id parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `${this.mautic.$auth.mautic_url}/api/campaigns/${this.campaign_id}/contact/${this.contact_id}/add`,
-      headers: {
-        Authorization: `Bearer ${this.mautic.$auth.oauth_access_token}`,
-      },
+    const response = await this.mautic.addContactToCampaign({
+      $,
+      campaignId,
+      contactId,
     });
+    $.export("$summary", "Successfully added contact to campaign");
+    return response;
   },
 };
