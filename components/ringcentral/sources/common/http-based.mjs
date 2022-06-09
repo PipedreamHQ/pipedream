@@ -1,15 +1,16 @@
-const template = require("lodash/template");
-const { v4: uuid } = require("uuid");
+import template from "lodash.template";
+import { v4 as uuid } from "uuid";
+import base  from "./base.mjs";
+import notificationTypes from "./notification-types.mjs";
 
-const base = require("./base");
-const notificationTypes = require("./notification-types");
-
-module.exports = {
+export default {
   ...base,
   dedupe: "unique",
   props: {
     ...base.props,
     http: {
+      label: "HTTP",
+      description: "HTTP based source",
       type: "$.interface.http",
       customResponse: true,
     },
@@ -20,14 +21,17 @@ module.exports = {
       const verificationToken = this._getVerificationToken();
       this.db.set("verificationToken", verificationToken);
 
-      const opts = {
-        address: this.http.endpoint,
-        eventFilters: this._getEventFilters(),
-        verificationToken,
-      };
-      const {
-        id: webhookId,
-      } = await this.ringcentral.createHook(opts);
+      const { id: webhookId } = await this.ringcentral.createHook({
+        data: {
+          eventFilters: this._getEventFilters(),
+          deliveryMode: {
+            transportType: "WebHook",
+            address: this.http.endpoint,
+            verificationToken,
+            expiresIn: 630720000, // 20 years (max. allowed by the API)
+          },
+        },
+      });
       this.db.set("webhookId", webhookId);
     },
     async deactivate() {
@@ -39,24 +43,36 @@ module.exports = {
   },
   methods: {
     ...base.methods,
-    _getPropValues() {
-      return Object.entries(this)
-        .filter(([_, value]) => value != null)
-        .reduce((accum, [prop, value]) => ({
-          ...accum,
-          [prop]: value,
-        }), {});
-    },
     _getEventFilters() {
       const eventKeys = this.getSupportedNotificationTypes();
-      const propValues = this._getPropValues();
+      const propValues = this.getPropValues();
+      const {
+        extensionId,
+        ...otherPropValues
+      } = propValues;
       return notificationTypes
         .filter(({ key }) => eventKeys.has(key))
-        .map(({ filter }) => template(filter))
-        .map((templateFn) => templateFn(propValues));
+        .reduce((reduction, { filter }) => {
+          if (!Array.isArray(extensionId)) {
+            const eventFilter = template(filter)(propValues);
+            return reduction.concat(eventFilter);
+          }
+          const eventFilters =
+            extensionId?.map((extensionId) => {
+              const eventFilter = template(filter)({
+                ...otherPropValues,
+                extensionId,
+              });
+              return eventFilter;
+            });
+          return reduction.concat(eventFilters);
+        }, []);
     },
     _getVerificationToken() {
       return uuid().replace(/-/g, "");
+    },
+    getPropValues() {
+      throw new Error("getPropValues is not implemented");
     },
     /**
      * Provides the set of notification types to which an HTTP-based event
@@ -92,7 +108,9 @@ module.exports = {
 
       const expectedVerificationToken = this.db.get("verificationToken") || verificationToken;
       if (verificationToken !== expectedVerificationToken) {
-        this.http.respond({ status: 404 });
+        this.http.respond({
+          status: 404,
+        });
         return false;
       }
 
@@ -113,7 +131,7 @@ module.exports = {
      * @return {boolean}  Whether the incoming event is relevant to this event
      * source or not
      */
-    isEventRelevant(event) {
+    isEventRelevant() {
       return true;
     },
     processEvent(event) {
@@ -124,7 +142,7 @@ module.exports = {
       }
 
       if (!this.isEventRelevant(event)) {
-        console.log("Event is irrelevant. Skipping...")
+        console.log("Event is irrelevant. Skipping...");
         return;
       }
 

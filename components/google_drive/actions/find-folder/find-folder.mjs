@@ -7,7 +7,7 @@ export default {
   key: "google_drive-find-folder",
   name: "Find Folder",
   description: "Search for a specific folder by name. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDrive,
@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`.trim();
     if (!this.includeTrashed) {
-      q += ` and trashed=false`;
+      q += " and trashed=false";
     }
     const opts = getListFilesOpts(this.drive, {
       q,
