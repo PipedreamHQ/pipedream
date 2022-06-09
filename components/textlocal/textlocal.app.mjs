@@ -137,7 +137,7 @@ export default {
         },
         ...otherConfig,
       };
-      return axios($ || this, config);
+      return axios($ ?? this, config);
     },
 
     async _getApiMessageHistory({
