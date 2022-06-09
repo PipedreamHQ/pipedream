@@ -1,36 +1,33 @@
-// legacy_hash_id: a_Xzi1MW
-import { axios } from "@pipedream/platform";
+import ringcentral from "../../ringcentral.app.mjs";
 
 export default {
   key: "ringcentral-create-meeting",
   name: "Create Meeting",
-  description: "Creates a new meeting.",
-  version: "0.1.1",
+  description: "Creates a new meeting. See the API docs [here](https://developers.ringcentral.com/api-reference/Meeting-Management/createMeeting).",
+  version: "0.2.0",
   type: "action",
   props: {
-    ringcentral: {
-      type: "app",
-      app: "ringcentral",
+    ringcentral,
+    accountId: {
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
-    serverURL: {
-      type: "string",
-      description: "The base endpoint host used for the RingCentral API.",
-      optional: true,
-    },
-    account_id: {
-      type: "string",
-      description: "Internal identifier of a RingCentral account.",
-    },
-    extension_id: {
-      type: "string",
+    extensionId: {
+      propDefinition: [
+        ringcentral,
+        "extensionId",
+      ],
       description: "Internal identifier of an extension.",
     },
     topic: {
       type: "string",
+      label: "Topic",
       description: "Topic of the meeting.",
       optional: true,
     },
-    meeting_type: {
+    meetingType: {
       type: "string",
       description: "Meeting type.",
       optional: true,
@@ -45,7 +42,7 @@ export default {
       type: "object",
       optional: true,
     },
-    meeting_password: {
+    password: {
       type: "string",
       optional: true,
     },
@@ -53,23 +50,23 @@ export default {
       type: "object",
       optional: true,
     },
-    allow_join_before_host: {
+    allowJoinBeforeHost: {
       type: "boolean",
       optional: true,
     },
-    start_host_video: {
+    startHostVideo: {
       type: "boolean",
       optional: true,
     },
-    start_participants_video: {
+    startParticipantsVideo: {
       type: "boolean",
       optional: true,
     },
-    user_personal_meeting_id: {
+    usePersonalMeetingId: {
       type: "boolean",
       optional: true,
     },
-    audio_options: {
+    audioOptions: {
       type: "any",
       optional: true,
     },
@@ -78,7 +75,7 @@ export default {
       description: "Recurrence settings.",
       optional: true,
     },
-    auto_record_type: {
+    autoRecordType: {
       type: "string",
       description: "Automatic record type.",
       optional: true,
@@ -90,29 +87,45 @@ export default {
     },
   },
   async run({ $ }) {
-  // See the API docs here: https://developers.ringcentral.com/api-reference/Meeting-Management/createMeeting
+    const {
+      accountId,
+      extensionId,
+      topic,
+      meetingType,
+      schedule,
+      password,
+      host,
+      allowJoinBeforeHost,
+      startHostVideo,
+      startParticipantsVideo,
+      usePersonalMeetingId,
+      audioOptions,
+      recurrence,
+      autoRecordType,
+    } = this;
 
-    const config = {
-      method: "post",
-      url: `${this.serverURL}/restapi/v1.0/account/${this.account_id}/extension/${this.extension_id}/meeting`,
-      headers: {
-        Authorization: `Bearer ${this.ringcentral.$auth.oauth_access_token}`,
-      },
-      data: {
-        topic: this.topic,
-        meetingType: this.meeting_type,
-        schedule: this.schedule,
-        password: this.meeting_password,
-        host: this.host,
-        allowJoinBeforeHost: this.allow_join_before_host,
-        startHostVideo: this.start_host_video,
-        startParticipantsVideo: this.start_participants_video,
-        usePersonalMeetingId: this.user_personal_meeting_id,
-        audioOptions: this.audio_options,
-        recurrence: this.recurrence,
-        autoRecordType: this.auto_record_type,
-      },
-    };
-    return await axios($, config);
+    const response =
+      await this.ringcentral.createMeeting({
+        accountId,
+        extensionId,
+        data: {
+          topic,
+          meetingType,
+          schedule,
+          password,
+          host,
+          allowJoinBeforeHost,
+          startHostVideo,
+          startParticipantsVideo,
+          usePersonalMeetingId,
+          audioOptions,
+          recurrence,
+          autoRecordType,
+        },
+      });
+
+    $.export("$summary", `Successfully created meeting with ID ${response.id}`);
+
+    return response;
   },
 };

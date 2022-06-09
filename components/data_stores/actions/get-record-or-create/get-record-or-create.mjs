@@ -2,9 +2,9 @@ import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-get-record-or-create",
-  name: "Get record or create",
+  name: "Get record (or create one if not found)",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/) or create one if it doesn't exist.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     app,
@@ -22,7 +22,7 @@ export default {
           dataStore,
         }),
       ],
-      description: "Key for the data you'd like to fetch. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
+      description: "Select the key for the data you'd like to retrieve, or enter one manually.",
     },
     addRecordIfNotFound: {
       propDefinition: [
