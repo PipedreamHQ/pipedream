@@ -1,12 +1,12 @@
-import common from "../common/base.mjs";
+import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
   key: "textlocal-new-sent-api-message",
   name: "New Sent API Message",
   description: "Emit new message sent via Textlocal's API",
+  version: "0.0.2",
   type: "source",
-  version: "0.0.1",
   dedupe: "unique",
   hooks: {
     ...common.hooks,

@@ -150,7 +150,7 @@ export default {
         sort_order: sortOrder,
         start,
       };
-      const data = await axios(this, {
+      const data = await this._makeRequest({
         path: "/get_history_api",
         params,
       });
@@ -238,13 +238,11 @@ export default {
         start,
       };
 
-      const { data } = this._makeRequest({
+      return this._makeRequest({
         params,
         method: "GET",
         path: "/get_contacts",
       });
-
-      return data;
     },
     /**
      * This generator function scans a specific contact group and yields each

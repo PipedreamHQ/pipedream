@@ -1,4 +1,4 @@
-import common from "../common/timer-based";
+import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
@@ -20,7 +20,7 @@ export default {
           return [];
         }
 
-        const { groups } = await this.textlocal.getGropus();
+        const { groups } = await this.textlocal.getGroups();
         const options = groups.map((group) => ({
           label: group.name,
           value: group.id,
