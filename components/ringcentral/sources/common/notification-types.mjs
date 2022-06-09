@@ -2,7 +2,7 @@
 // RingCentral API docs:
 // https://developers.ringcentral.com/api-reference/events-notifications
 
-module.exports = [
+export default [
   {
     key: "ringcentral-account-presence-event",
     label: "Account Presence Event",

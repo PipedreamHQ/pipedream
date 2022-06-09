@@ -1,12 +1,14 @@
-const base = require("./base");
+import base from "./base.mjs";
 
-module.exports = {
+export default {
   ...base,
   dedupe: "unique",
   props: {
     ...base.props,
     db: "$.service.db",
     timer: {
+      label: "Timer",
+      description: "The timer that will trigger the event source",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
@@ -15,7 +17,8 @@ module.exports = {
   },
   hooks: {
     activate() {
-      const lastTimestamp = Math.floor(Date.now() / 1000);
+      const threeHours = 60 * 60 * 3;
+      const lastTimestamp = Math.floor(Date.now() / 1000) - threeHours;
       this.db.set("lastTimestamp", lastTimestamp);
     },
     deactivate() {
@@ -34,7 +37,8 @@ module.exports = {
   },
   async run(event) {
     const lastTimestamp = this.db.get("lastTimestamp");
-    const dateFrom = this._timestampToIsoString(lastTimestamp);
+    const threeMinutes = 60 * 3;
+    const dateFrom = this._timestampToIsoString(lastTimestamp - threeMinutes);
 
     const { timestamp } = event;
     const dateTo = this._timestampToIsoString(timestamp);

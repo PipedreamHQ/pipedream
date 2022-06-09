@@ -1,6 +1,6 @@
-const ringcentral = require("../../ringcentral.app");
+import ringcentral from "../../ringcentral.app.mjs";
 
-module.exports = {
+export default {
   props: {
     ringcentral,
     db: "$.service.db",

@@ -1,12 +1,14 @@
-const notificationTypes = require("../common/notification-types");
-const common = require("../common/http-based");
+import notificationTypes from "../common/notification-types.mjs";
+import common from "../common/http-based.mjs";
+import messageTypes from "../common/message-types.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "ringcentral-new-event",
   name: "New Event (Instant)",
-  description: "Emits an event for each notification from RingCentral of a specified type",
-  version: "0.0.1",
+  description: "Emit new event for each notification from RingCentral of a specified type",
+  version: "0.1.0",
+  type: "source",
   props: {
     ...common.props,
     extensionId: {
@@ -21,7 +23,9 @@ module.exports = {
       propDefinition: [
         common.props.ringcentral,
         "deviceId",
-        c => ({ extensionId: c.extensionId }),
+        ({ extensionId }) => ({
+          extensionId,
+        }),
       ],
     },
     notificationTypes: {
@@ -33,7 +37,9 @@ module.exports = {
           return [];
         }
 
-        return notificationTypes.map(({ label, key }) => ({
+        return notificationTypes.map(({
+          label, key,
+        }) => ({
           label,
           value: key,
         }));
@@ -50,6 +56,13 @@ module.exports = {
     },
     getSupportedNotificationTypes() {
       return new Set(this.notificationTypes);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+        deviceId: this.deviceId,
+        messageType: messageTypes[0],
+      };
     },
     generateMeta(data) {
       const {

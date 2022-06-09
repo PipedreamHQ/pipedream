@@ -1,21 +1,32 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "ringcentral-new-inbound-fax",
   name: "New Inbound Fax (Instant)",
-  description: "Emits an event on each incoming fax",
-  version: "0.0.1",
+  description: "Emit new event on each incoming fax",
+  version: "0.1.0",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "inbound-fax-event",
+        "ringcentral-inbound-fax-event",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {
@@ -23,11 +34,7 @@ module.exports = {
         timestamp,
         uuid: id,
       } = data;
-      const {
-        from: {
-          phoneNumber: callerPhoneNumber,
-        },
-      } = eventDetails;
+      const { from: { phoneNumber: callerPhoneNumber } } = eventDetails;
 
       const maskedCallerNumber = this.getMaskedNumber(callerPhoneNumber);
       const summary = `New inbound fax from ${maskedCallerNumber}`;
