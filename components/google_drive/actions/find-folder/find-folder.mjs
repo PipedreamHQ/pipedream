@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`.trim();
     if (!this.includeTrashed) {
-      q += ` and trashed=false`;
+      q += " and trashed=false";
     }
     const opts = getListFilesOpts(this.drive, {
       q,

@@ -1,21 +1,32 @@
-const common = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "ringcentral-new-inbound-sms",
   name: "New Inbound SMS (Instant)",
-  description: "Emits an event on each incoming SMS",
-  version: "0.0.1",
+  description: "Emit new event on each incoming SMS",
+  version: "0.1.0",
+  type: "source",
   props: {
     ...common.props,
-    extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
+    extensionId: {
+      propDefinition: [
+        common.props.ringcentral,
+        "extensionId",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "instant-message-event",
+        "ringcentral-instant-message-event",
       ]);
+    },
+    getPropValues() {
+      return {
+        extensionId: this.extensionId,
+      };
     },
     generateMeta(data) {
       const {
@@ -25,11 +36,7 @@ module.exports = {
       } = data;
       const ts = Date.parse(timestamp);
 
-      const {
-        from: {
-          phoneNumber: senderPhoneNumber,
-        },
-      } = eventDetails;
+      const { from: { phoneNumber: senderPhoneNumber } } = eventDetails;
       const maskedCallerNumber = this.getMaskedNumber(senderPhoneNumber);
       const summary = `New inbound SMS from ${maskedCallerNumber}`;
 
