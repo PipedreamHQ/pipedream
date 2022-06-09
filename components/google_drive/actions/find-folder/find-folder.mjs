@@ -28,13 +28,16 @@ export default {
     includeTrashed: {
       type: "boolean",
       label: "Include Trashed",
-      default: true,
+      description: "If set to true, returns all matches including items currently in the trash. Defaults to `false`.",
+      default: false,
       optional: true,
-      description: "If set to true, returns all matches including items currently in the trash. Defaults to `true`.",
     },
   },
   async run({ $ }) {
-    const q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}' and trashed=${this.includeTrashed.toString()}`.trim();
+    let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`.trim();
+    if (!this.includeTrashed) {
+      q += ` and trashed=false`;
+    }
     const opts = getListFilesOpts(this.drive, {
       q,
     });
