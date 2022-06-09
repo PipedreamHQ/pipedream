@@ -7,7 +7,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.0.25",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDrive,
@@ -84,7 +84,7 @@ export default {
       fileUrl,
       filePath,
     });
-    if (!uploadType || uploadType == "") {
+    if (!uploadType || uploadType === "") {
       try {
         const fileBuffer = await streamToBuffer(file);
         const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
