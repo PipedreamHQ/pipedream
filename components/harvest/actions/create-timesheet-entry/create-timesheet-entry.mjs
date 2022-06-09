@@ -58,6 +58,13 @@ export default {
         description: "The time the entry ended. Defaults to the current time. Example: 8:00am.",
         optional: true,
       };
+    } else {
+      props.hours = {
+        type: "integer",
+        label: "Hours",
+        description: "The current amount of time tracked.",
+        optional: true,
+      };
     }
     return props;
   },
@@ -80,6 +87,7 @@ export default {
       task_id: this.taskId,
       user_id: this.userId,
       spent_date: this.spentDate,
+      hours: this.hours,
       started_time: this.startedTime && this.startedTime.replace(/\s/g, ""),
       ended_time: this.endedTime && this.endedTime.replace(/\s/g, ""),
     });
