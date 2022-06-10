@@ -137,6 +137,11 @@ export default {
         ...params,
       });
     },
+    async retrieveDatabase(databaseId) {
+      return this._getNotionClient().databases.retrieve({
+        database_id: databaseId,
+      });
+    },
     async createPage(page) {
       return this._getNotionClient().pages.create(page);
     },
