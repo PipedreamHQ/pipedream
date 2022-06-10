@@ -19,7 +19,7 @@ export default {
       $,
       id: this.id,
     });
-    response && $.export("$summary", "Ticket found");
+    response && $.export("$summary", "Successfully found ticket");
     return response;
   },
 };
