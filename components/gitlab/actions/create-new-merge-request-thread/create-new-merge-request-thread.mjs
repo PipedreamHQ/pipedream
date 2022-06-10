@@ -25,7 +25,6 @@ export default {
     }
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const { data } = await this.gitlab.createNewMergeRequestThread(this.projectId, this.mergeRequestIid, { body: this.body });
     return data;
