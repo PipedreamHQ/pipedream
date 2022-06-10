@@ -129,7 +129,7 @@ export default {
       const query = `
         SELECT *
         FROM \`${this.tableId}\`
-        WHERE \`${this.uniqueKey}\` > @lastResultId
+        WHERE \`${this.uniqueKey}\` >= @lastResultId
         ORDER BY \`${this.uniqueKey}\` ASC
       `;
       const params = {
