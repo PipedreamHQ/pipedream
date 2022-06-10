@@ -3,7 +3,7 @@ import gitlab from "../../gitlab.app.mjs";
 export default {
   name: "Create New Merge Request Thread",
   version: "0.0.1",
-  key: "create-new-merge-request-thread",
+  key: "gitlab_create-new-merge-request-thread",
   description: "Create a new thread on a Merge Request",
   props: {
     gitlab,
