@@ -16,7 +16,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const channels = [];
     const paginator = this.microsoftTeams.paginate(this.microsoftTeams.listChannels, {
       teamId: this.teamId,
