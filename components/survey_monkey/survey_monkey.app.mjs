@@ -73,26 +73,56 @@ export default {
 
       return axios($ || this, config);
     },
-    async getSurveys($ = this) {
-      return await this._makeRequest({
+    async getSurveys({ $ }) {
+      return this._makeRequest({
         method: "GET",
         path: "/surveys",
         $,
       });
     },
-    async getSurvey({
-      $, surveyId,
+    async getSurveyDetails({
+      surveyId, $,
     }) {
-      return await this._makeRequest({
-        $,
+      return this._makeRequest({
         method: "GET",
         path: `/surveys/${surveyId}/details`,
+        $,
       });
     },
-    async getCollectors({ surveyId }) {
-      return await this._makeRequest({
+    async getResponses({
+      surveyId, $,
+    }) {
+      return this._makeRequest({
         method: "GET",
-        path: `/surveys/${surveyId || this.surveyId}/collectors`,
+        path: `/surveys/${surveyId}/responses`,
+        $,
+      });
+    },
+    async getResponseDetails({
+      surveyId, responseId, $,
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/surveys/${surveyId}/responses/${responseId}`,
+        $,
+      });
+    },
+    async getCollectors({
+      surveyId, $,
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/surveys/${surveyId ?? this.surveyId}/collectors`,
+        $,
+      });
+    },
+    async getCollectorDetails({
+      collectorId, $,
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/collectors/${collectorId}`,
+        $,
       });
     },
     async deleteHook(hookId) {
