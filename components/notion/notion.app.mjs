@@ -38,6 +38,21 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    propertyTypes: {
+      type: "string[]",
+      label: "Property Types",
+      description: "Select the page properties",
+      optional: true,
+      reloadProps: true,
+      async options({
+        parentId, parentType,
+      }) {
+        const { properties } = parentType === "database"
+          ? await this.retrieveDatabase(parentId)
+          : await this.retrievePage(parentId);
+        return Object.keys(properties);
+      },
+    },
     blockTypes: {
       type: "string[]",
       label: "Block Types",

@@ -1,5 +1,6 @@
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import { pick } from "lodash-es";
 
 export default {
   ...base,
@@ -29,11 +30,22 @@ export default {
         "metaTypes",
       ],
     },
+    propertyTypes: {
+      propDefinition: [
+        notion,
+        "propertyTypes",
+        (c) => ({
+          parentId: c.pageId,
+          parentType: "page",
+        }),
+      ],
+    },
   },
   async additionalProps() {
     const { properties } = await this.notion.retrievePage(this.pageId);
+    const selectedProperties = pick(properties, this.propertyTypes);
     return this.buildAdditionalProps({
-      properties,
+      properties: selectedProperties,
       meta: this.metaTypes,
     });
   },
