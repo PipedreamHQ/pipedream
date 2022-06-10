@@ -25,12 +25,7 @@ export default {
       label: "Status",
       description: "Status of the ticket.",
       options() {
-        return constants.TICKET_STATUS.map(({
-          label, value,
-        }) => ({
-          label,
-          value,
-        }));
+        return constants.TICKET_STATUS;
       },
     },
     ticketPriority: {
