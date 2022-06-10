@@ -73,10 +73,11 @@ export default {
 
       return axios($ || this, config);
     },
-    async getSurveys() {
+    async getSurveys($ = this) {
       return await this._makeRequest({
         method: "GET",
         path: "/surveys",
+        $,
       });
     },
     async getSurvey({
