@@ -1,5 +1,5 @@
 import common from "../common.mjs";
-import utils from "../../utils.mjs";
+import utils from "../../common/utils.mjs";
 
 const { discord } = common.props;
 const { emptyStrToUndefined } = utils;
@@ -10,7 +10,7 @@ export default {
   name: "List Channel Messages",
   description: "Return the messages for a channel. [See the docs here](https://discord.com/developers/docs/resources/channel#get-channel-messages)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     max: {
