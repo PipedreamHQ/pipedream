@@ -1,11 +1,12 @@
 import notion from "../../notion.app.mjs";
 import utils from "../common/utils.mjs";
+const buildPropertyProps = utils.buildPropertyProps;
 
 export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Updates page property values for the specified page. Properties that are not set via the properties parameter will remain unchanged. [See the docs](https://developers.notion.com/reference/patch-page)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     notion,
@@ -14,24 +15,21 @@ export default {
         notion,
         "pageId",
       ],
-    },
-    title: {
-      propDefinition: [
-        notion,
-        "title",
-      ],
+      reloadProps: true,
     },
     iconType: {
       propDefinition: [
         notion,
         "iconType",
       ],
+      reloadProps: true,
     },
     coverType: {
       propDefinition: [
         notion,
         "coverType",
       ],
+      reloadProps: true,
     },
     archive: {
       type: "boolean",
@@ -41,39 +39,52 @@ export default {
     },
   },
   async additionalProps() {
-    let props = {};
+    let additionalProps = {};
+
     if (this.iconType) {
-      props = {
-        ...props,
-        iconValue: {
-          type: "string",
-          label: "Icon Value",
-          description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
-        },
+      additionalProps.iconValue = {
+        type: "string",
+        label: "Icon Value",
+        description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
       };
     }
     if (this.coverType) {
-      props = {
-        ...props,
-        coverValue: {
-          type: "string",
-          label: "Cover Value",
-          description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
-        },
+      additionalProps.coverValue = {
+        type: "string",
+        label: "Cover Value",
+        description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
       };
     }
-    return props;
+
+    if (this.pageId) {
+      const propertyProps = await this.buildPropertyProps(this.pageId);
+      additionalProps = {
+        ...additionalProps,
+        ...propertyProps,
+      };
+    }
+
+    return additionalProps;
+  },
+  methods: {
+    buildPropertyProps,
   },
   async run({ $ }) {
+    const { properties } = await this.notion.retrievePage(this.pageId);
+
     const params = {
       properties: {},
       archived: this.archive || undefined,
     };
 
-    if (this.title) {
-      params.properties.title = {
-        title: utils.buildTextProperty(this.title),
-      };
+    for (const propertyName in properties) {
+      const property = properties[propertyName];
+
+      const value = utils.emptyStrToUndefined(this[propertyName]);
+
+      if (value !== undefined) {
+        params.properties[propertyName] = utils.formatPropertyToProp(value, property.type);
+      }
     }
 
     if (this.iconType) {
@@ -93,7 +104,9 @@ export default {
     }
 
     const response = await this.notion.updatePage(this.pageId, params);
+
     $.export("$summary", "Updated page successfully");
+
     return response;
   },
 };

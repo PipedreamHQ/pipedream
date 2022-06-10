@@ -238,7 +238,7 @@ export default {
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
-              ${err.response}
+              ${err.response.statusText}
             `);
           }
           console.warn(`Temporary error: ${err.message}`);
@@ -435,6 +435,26 @@ export default {
         });
       } while (after);
       return results;
+    },
+    async getSubredditByName(name) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: "/api/info",
+          params: {
+            id: name,
+          },
+        }));
+    },
+    async getComment({
+      id: comment, article, subreddit,
+    }) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: `/r/${subreddit}/comments/${article}`,
+          params: {
+            comment,
+          },
+        }));
     },
   },
 };

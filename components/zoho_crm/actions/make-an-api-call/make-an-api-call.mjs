@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-make-an-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Zoho CRM API.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -46,7 +46,7 @@ export default {
 
     return await axios($, {
       method: this.request_method,
-      url: `https://www.zohoapis.com/${this.relative_url}`,
+      url: `${this.zoho_crm.$auth.api_domain}/${this.relative_url}`,
       headers: this.headers,
       data: this.request_body,
     });

@@ -65,7 +65,21 @@ export default {
     memberNoAutoAssignIps: {
       type: "boolean",
       label: "Do Not Auto-Assign IPs",
-      description: "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
+      description:
+        "Pass `TRUE` to exempt this member from the IP auto assignment pool on a Network",
+      optional: true,
+    },
+    networkName: {
+      type: "string",
+      label: "Network Name",
+      description: "User defined name of the network",
+      optional: false,
+    },
+    privateNetwork: {
+      type: "boolean",
+      label: "Private Network",
+      description: "If `FALSE`, members will _NOT_ need to be authorized to join.",
+      default: true,
       optional: true,
     },
   },
@@ -114,9 +128,28 @@ export default {
     async updateNetworkMember({
       networkId, nodeId, data, $,
     } = {}) {
-      return this._makeRequest(`network/${networkId}/member/${nodeId}`, {
+      return this._makeRequest(
+        `network/${networkId}/member/${nodeId}`,
+        {
+          method: "POST",
+          data,
+        },
+        $,
+      );
+    },
+    async createNetwork({
+      data, $,
+    } = {}) {
+      return this._makeRequest("network", {
         method: "POST",
         data,
+      }, $);
+    },
+    async deleteNetworkMember({
+      networkId, nodeId, $,
+    } = {}) {
+      return this._makeRequest(`network/${networkId}/member/${nodeId}`, {
+        method: "DELETE",
       }, $);
     },
   },

@@ -1,4 +1,3 @@
-import slack from "../../slack.app.mjs";
 import common from "../common/send-message.mjs";
 
 export default {
@@ -6,7 +5,7 @@ export default {
   key: "slack-send-message-public-channel",
   name: "Send Message to a Public Channel",
   description: "Send a message to a public channel and customize the name and avatar of the bot that posts the message. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.3",
+  version: "0.2.5",
   type: "action",
   props: {
     ...common.props,
@@ -24,7 +23,7 @@ export default {
     },
     mrkdwn: {
       propDefinition: [
-        slack,
+        common.props.slack,
         "mrkdwn",
       ],
     },
