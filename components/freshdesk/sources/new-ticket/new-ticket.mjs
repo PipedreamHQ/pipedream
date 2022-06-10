@@ -42,6 +42,7 @@ export default {
           {
             id: ticket.id,
             summary: `Ticket number: ${ticket.id}`,
+            ts: Date.parse(ticket.created_at)
           });
       }
     });
