@@ -9,7 +9,9 @@ export default {
     survey: {
       type: "string",
       label: "Survey",
-      description: "Survey where the action will be performed.",
+      description: `Select a **Survey** from the list.
+      \\
+      Alternatively, you can provide a custom *Survey ID*.`,
       async options() {
         const { data } = await this.getSurveys();
 
@@ -22,15 +24,34 @@ export default {
     responseId: {
       type: "string",
       label: "Response",
-      description: "One of the above survey's Responses to get the details for.",
+      description: `Select one of the above survey's *Responses* to get the details for.
+      \\
+      Alternatively, you can provide a custom *Response ID*.`,
       async options({ surveyId }) {
         const { data } = await this.getResponses({
           surveyId,
         });
 
         return data.map((response) => ({
-          label: JSON.stringify(response),
+          label: `(ID ${response.id})`,
           value: response.id,
+        }));
+      },
+    },
+    collectorId: {
+      type: "string",
+      label: "Collector",
+      description: `Select one of the above survey's *Collectors* to get the details for.
+      \\
+      Alternatively, you can provide a custom *Collector ID*.`,
+      async options({ surveyId }) {
+        const { data } = await this.getCollectors({
+          surveyId,
+        });
+
+        return data.map((collector) => ({
+          label: collector.name || `(ID ${collector.id})`,
+          value: collector.id,
         }));
       },
     },

@@ -2,7 +2,7 @@ import surveyMonkey from "../../survey_monkey.app.mjs";
 
 export default {
   key: "survey_monkey-list-collectors",
-  name: "List Survey Responses",
+  name: "List Survey Collectors",
   description:
     "Retrieve a survey's Collectors. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-surveys-id-collectors)",
   version: "0.0.1",
