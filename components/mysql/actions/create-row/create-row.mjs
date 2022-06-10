@@ -5,7 +5,7 @@ export default {
   name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {
@@ -14,35 +14,32 @@ export default {
         mysql,
         "table",
       ],
-    },
-    columns: {
-      type: "string[]",
-      description: "Select the columns you want to use to insert the values",
-      propDefinition: [
-        mysql,
-        "column",
-        ({ table }) => ({
-          table,
-        }),
-      ],
-    },
-    values: {
-      description: "Set the values you want to insert on each column selected",
-      propDefinition: [
-        mysql,
-        "whereValues",
-      ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    const columns = await this.mysql.listColumnNames(this.table);
+    for (const column of columns) {
+      props[column] = {
+        type: "string",
+        label: column,
+        optional: true,
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
-    const {
-      table,
-      columns,
-      values,
-    } = this;
+    const { table } = this;
 
-    if (columns.length !== values.length) {
-      throw new Error("The number of columns doesn't match the number of values");
+    const columns = [];
+    const values = [];
+    const columnNames = await this.mysql.listColumnNames(table);
+    for (const column of columnNames) {
+      if (this[column]) {
+        columns.push(column);
+        values.push(this[column]);
+      }
     }
 
     const result = await this.mysql.insertRow({
