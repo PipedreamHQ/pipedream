@@ -42,6 +42,7 @@ export default {
           {
             id: contact.id,
             summary: `Contact name: ${contact.name}`,
+            ts: Date.parse(contact.created_at),
           });
       }
     });
