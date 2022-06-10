@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     processEvents() {
-      throw new Error("processEvent is not implemented");
+      throw new Error("processEvents is not implemented");
     },
   },
 };
