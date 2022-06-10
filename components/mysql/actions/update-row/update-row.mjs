@@ -1,4 +1,5 @@
 import mysql from "../../mysql.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "mysql-update-row",
@@ -30,16 +31,7 @@ export default {
     },
   },
   async additionalProps() {
-    const props = {};
-    const columns = await this.mysql.listColumnNames(this.table);
-    for (const column of columns) {
-      props[column] = {
-        type: "string",
-        label: column,
-        optional: true,
-      };
-    }
-    return props;
+    return await utils.getColumnProps(this.table);
   },
   async run({ $ }) {
     const {
@@ -61,15 +53,10 @@ export default {
       throw new Error("The number of values provided does not match the number of question marks ? in the condition");
     }
 
-    const columnsToUpdate = [];
-    const valuesToUpdate = [];
-    const columns = await this.mysql.listColumnNames(table);
-    for (const column of columns) {
-      if (this[column]) {
-        columnsToUpdate.push(column);
-        valuesToUpdate.push(this[column]);
-      }
-    }
+    const {
+      columns: columnsToUpdate, values: valuesToUpdate,
+    } = await utils.getColumnAndValueArrays(table);
+
     const result = await this.mysql.updateRow({
       table,
       condition,

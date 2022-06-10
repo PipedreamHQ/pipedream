@@ -1,4 +1,5 @@
 import mysql from "../../mysql.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "mysql-create-row",
@@ -18,29 +19,14 @@ export default {
     },
   },
   async additionalProps() {
-    const props = {};
-    const columns = await this.mysql.listColumnNames(this.table);
-    for (const column of columns) {
-      props[column] = {
-        type: "string",
-        label: column,
-        optional: true,
-      };
-    }
-    return props;
+    return await utils.getColumnProps(this.table);
   },
   async run({ $ }) {
     const { table } = this;
 
-    const columns = [];
-    const values = [];
-    const columnNames = await this.mysql.listColumnNames(table);
-    for (const column of columnNames) {
-      if (this[column]) {
-        columns.push(column);
-        values.push(this[column]);
-      }
-    }
+    const {
+      columns, values,
+    } = await utils.getColumnAndValueArrays(table);
 
     const result = await this.mysql.insertRow({
       table,
