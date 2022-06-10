@@ -33,12 +33,7 @@ export default {
       label: "Priority",
       description: "Priority of the ticket.",
       options() {
-        return constants.TICKET_PRIORITY.map(({
-          label, value,
-        }) => ({
-          label,
-          value,
-        }));
+        return constants.TICKET_PRIORITY;
       },
     },
     contactEmail: {
