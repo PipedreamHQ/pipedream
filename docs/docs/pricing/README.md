@@ -68,15 +68,16 @@ Teams have access to support from the Pipedream team via email or a shared Slack
 
 ## Enterprise Plan
 
-The Enterprise Plan includes all of the features of the Team plan, as well as:
+Enterprise plans are great for larger organizations or teams that have specific requirements, like SSO support or an SLA. 
 
-- A base of {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
+Enterprise plans are custom to each customer, but typically include:
+
+- Custom invocations, users, and orgs
 - SSO support (GSuite and [Okta](/orgs/sso/okta/))
 - [A 99.95% uptime SLA](https://pipedream.com/sla)
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
 - Premium support: onboarding, ongoing training, and anything your team needs to be successful
 - Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
-- Custom invoices
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 

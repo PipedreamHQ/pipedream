@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-list-fields",
   name: "List Fields",
   description: "Gets the field metadata for the specified module",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoho_crm: {
@@ -47,7 +47,7 @@ export default {
     }
 
     return await axios($, {
-      url: "https://www.zohoapis.com/crm/v2/settings/fields",
+      url: `${this.zoho_crm.$auth.api_domain}/crm/v2/settings/fields`,
       params: {
         module: this.module,
       },

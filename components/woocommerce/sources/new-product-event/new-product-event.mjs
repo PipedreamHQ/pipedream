@@ -5,7 +5,7 @@ export default {
   key: "woocommerce-new-product-event",
   name: "New Product Event",
   description: "Emit new event each time the specified product event(s) occur",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -19,7 +19,7 @@ export default {
       const ts = Date.parse(dateModified);
       return {
         id: `${id}${ts}`,
-        summary: `Product "${ name || id }" ${eventType}`,
+        summary: `Product "${name || id}" ${eventType}`,
         ts,
       };
     },

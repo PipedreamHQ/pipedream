@@ -62,7 +62,7 @@
         block
       "
       :class="guide.language"
-      :href="guide.path"
+      :href="guide.modifiedPath"
     >
       <div class="flex items-center">
         <img :src="guide.frontmatter.thumbnail" width="75" />
@@ -117,9 +117,9 @@ export default {
 
         guide.language_thumbnail =
           this.$site.themeConfig.icons[guide.language].only_icon;
+        guide.modifiedPath = `/docs${guide.regularPath}`;
         return guide;
       });
-    console.log(guides.map((guide) => guide.regularPath));
 
     this.guides = orderBy(guides, ["language"], "desc");
   },
