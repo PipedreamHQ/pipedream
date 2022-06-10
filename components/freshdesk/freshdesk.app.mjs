@@ -131,7 +131,25 @@ export default {
     async *filterTickets(params) {
       let loadedData = 0;
       do {
-        const response = await this._withRetries(() => this.searchTickets(params));
+        const response = await this.searchTickets(params);
+
+        if (!response || response.results.length === 0) {
+          return;
+        }
+        loadedData += response.results.length;
+        for (const ticket of response.results) {
+          yield ticket;
+        }
+        if (loadedData >= response.total) {
+          return;
+        }
+        params.page += 1;
+      } while (true);
+    },
+    async *filterContacts(params) {
+      let loadedData = 0;
+      do {
+        const response = await this.searchContacts(params);
 
         if (!response || response.results.length === 0) {
           return;
@@ -200,6 +218,13 @@ export default {
       return this._makeRequest({
         $,
         path: "/search/tickets",
+        params,
+      });
+    },
+    async searchContacts(params, $ = undefined) {
+      return this._makeRequest({
+        $,
+        path: "/search/contacts",
         params,
       });
     },
