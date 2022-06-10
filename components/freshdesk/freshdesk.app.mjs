@@ -11,7 +11,7 @@ export default {
     companyId: {
       type: "integer",
       label: "Company ID",
-      description: "ID of the primary company to which this contact belongs",
+      description: "The ID of the company",
       async options() {
         const response = await this.getCompanies();
         return response.map((project) => ({
