@@ -44,7 +44,7 @@ export default {
         const response = await this.getCompanies();
         const contacts = response.filter((contact) => contact.company_id === Number(companyId));
         return contacts.map((contact) => ({
-          label: `${contact.name} | ${contact.email}`,
+          label: contact?.email ?? contact?.name,
           value: contact.email,
         }));
       },
