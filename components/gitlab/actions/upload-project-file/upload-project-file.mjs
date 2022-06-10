@@ -2,7 +2,7 @@ import gitlab from "../../gitlab.app.mjs";
 
 export default {
   name: "Upload Project File",
-  version: "0.0.2",
+  version: "0.0.1",
   key: "upload-project-file",
   description: "Upload a file to a project",
   props: {
