@@ -1,10 +1,10 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
 
 export default {
-  key: "survey_monkey-list-responses",
+  key: "survey_monkey-list-collectors",
   name: "List Survey Responses",
   description:
-    "Retrieve a survey's responses. [See the docs here](https://developer.surveymonkey.com/api/v3/#api-endpoints-get-surveys-id-responses)",
+    "Retrieve a survey's Collectors. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-surveys-id-collectors)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,12 +17,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.surveyMonkey.getResponses({
+    const response = await this.surveyMonkey.getCollectors({
       $,
       surveyId: this.survey,
     });
 
-    $.export("$summary", `Successfully fetched "${response.length}" responses`);
+    $.export("$summary", `Successfully fetched "${response.length}" collectors`);
     return response;
   },
 };

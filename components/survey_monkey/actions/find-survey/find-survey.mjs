@@ -22,7 +22,7 @@ export default {
     });
     $.export(
       "$summary",
-      `Successfully fetched "${response.title}" survey details`,
+      `Successfully fetched survey "${response.title}"`,
     );
     return response;
   },

@@ -19,6 +19,21 @@ export default {
         }));
       },
     },
+    responseId: {
+      type: "string",
+      label: "Response",
+      description: "One of the above survey's Responses to get the details for.",
+      async options({ surveyId }) {
+        const { data } = await this.getResponses({
+          surveyId,
+        });
+
+        return data.map((response) => ({
+          label: JSON.stringify(response),
+          value: response.id,
+        }));
+      },
+    },
     objectType: {
       type: "string",
       label: "Object type",
@@ -112,7 +127,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/surveys/${surveyId ?? this.surveyId}/collectors`,
+        path: `/surveys/${surveyId ?? this.survey}/collectors`,
         $,
       });
     },
