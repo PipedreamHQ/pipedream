@@ -7,7 +7,7 @@ export default {
   key: "imgbb-upload-picturesfojsfojsofjo",
   name: "Upload picture",
   description: "Upload a picture to imgbb. [See the docs here](https://api.imgbb.com/)",
-  version: "0.2.3",
+  version: "0.2.2",
   type: "action",
   props: {
     app,

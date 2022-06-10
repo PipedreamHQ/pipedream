@@ -5,6 +5,9 @@ export default {
   app: "imgbb",
   propDefinitions: {},
   methods: {
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
     _getBaseUrl() {
       return "https://api.imgbb.com/1";
     },
@@ -20,7 +23,7 @@ export default {
         headers: this._getHeaders(),
         params: {
           ...opts.params,
-          key: this.$auth.api_key,
+          key: this._getApiKey(),
         },
       };
       return res;
