@@ -1,18 +1,27 @@
 import app from "../../imgbb.app.mjs";
+import fs from "fs";
 import { stringify } from "qs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "imgbb-upload-picture",
+  key: "imgbb-upload-picturesfojsfojsofjo",
   name: "Upload picture",
   description: "Upload a picture to imgbb. [See the docs here](https://api.imgbb.com/)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,
-    image: {
-      label: "Image",
+    filePath: {
       type: "string",
-      description: "A binary file, base64 data, or a URL for an image. (up to 16MB)",
+      label: "File Path",
+      description: `The path to the file saved to the [\`/tmp\`directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)(e.g. \`/tmp/image.png\`). Must specify either **File URL** or **File Path**.`,
+      optional: true,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: `The URL of the file you want to upload to ImgBB. Must specify either **File URL** or **File Path**.`,
+      optional: true,
     },
     name: {
       label: "Name",
@@ -22,8 +31,14 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.filePath && !this.fileUrl) {
+      throw new ConfigurationError("Must specify either File Path or File Url");
+    }
+    if (this.filePath && !this.fileUrl) {
+      this.fileData = (await fs.promises.readFile(this.filePath, { encoding: "base64" }))
+    }
     const data = {
-      image: this.image,
+      image: this.fileUrl ?? this.fileData,
       name: this.name,
     };
     const res = await this.app.uploadPicture($, stringify(data));
