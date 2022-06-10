@@ -60,10 +60,13 @@ export default {
       resourceFn,
       resultType = null,
       after = null,
+      limitRequest = null,
     ) {
       let hasMore = true;
       let results, items;
-      while (hasMore) {
+      let count = 0;
+      while (hasMore && (!limitRequest || count < limitRequest)) {
+        count++;
         results = await resourceFn(params);
         hasMore = results.hasMore;
         if (hasMore) {
