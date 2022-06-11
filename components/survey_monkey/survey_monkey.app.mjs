@@ -109,6 +109,13 @@ export default {
 
       return axios($ || this, config);
     },
+    async getUserInfo({ $ }) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/users/me",
+        $,
+      });
+    },
     async getSurveys({ $ }) {
       return this._makeRequest({
         method: "GET",
