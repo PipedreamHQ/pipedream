@@ -1,21 +1,13 @@
-import surveyMonkey from "../../survey_monkey.app.mjs";
+import common from "../common/common-survey-action.mjs";
 
 export default {
+  ...common,
   key: "survey_monkey-list-collectors",
   name: "List Survey Collectors",
   description:
     "Retrieve a survey's Collectors. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-surveys-id-collectors)",
   version: "0.0.1",
   type: "action",
-  props: {
-    surveyMonkey,
-    survey: {
-      propDefinition: [
-        surveyMonkey,
-        "survey",
-      ],
-    },
-  },
   async run({ $ }) {
     const response = await this.surveyMonkey.getCollectors({
       $,

@@ -1,6 +1,8 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
+import common from "../common/common-survey-action.mjs";
 
 export default {
+  ...common,
   key: "survey_monkey-get-collector",
   name: "Get Collector Details",
   description:
@@ -8,13 +10,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    surveyMonkey,
-    survey: {
-      propDefinition: [
-        surveyMonkey,
-        "survey",
-      ],
-    },
+    ...common.props,
     collectorId: {
       propDefinition: [
         surveyMonkey,
