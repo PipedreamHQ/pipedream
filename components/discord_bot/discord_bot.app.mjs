@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import utils from "./utils.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -48,8 +48,10 @@ export default {
         const members =
           await this.getGuildMembers({
             guildId,
-            after,
-            limit: 10,
+            params: {
+              after,
+              limit: 20,
+            },
           });
 
         const options = members.reduce((reduction, member) => {
@@ -218,8 +220,10 @@ export default {
           }),
           this.getGuildMembers({
             guildId,
-            after,
-            limit: 100,
+            params: {
+              after,
+              limit: 100,
+            },
           }),
         ]);
 
@@ -306,6 +310,35 @@ export default {
       type: "string",
       label: "Message ID",
       description: "Copy the specific Message ID from your channel (eg. `907292892995932230`)",
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Enter a simple message up to 2000 characters. This is the most commonly used field. However, it's optional if you pass embed content.",
+    },
+    embeds: {
+      label: "Embeds",
+      description: "Embedded rich content (up to 6000 characters), this should be given as an array, e.g. `[{\"title\": \"Hello, Embed!\",\"description\": \"This is an embedded message.\"}]`. To pass data from another step, enter a reference using double curly brackets (e.g., `{{steps.mydata.$return_value}}`). Tip: Construct the `embeds` array in a Node.js code step, return it, and then pass the return value to this step.",
+      type: "any",
+      optional: true,
+    },
+    username: {
+      type: "string",
+      label: "Username",
+      description: "Overrides the current username",
+      optional: true,
+    },
+    avatarURL: {
+      type: "string",
+      label: "Avatar URL",
+      description: "If used, it overrides the default avatar",
+      optional: true,
+    },
+    threadID: {
+      type: "string",
+      label: "Thread ID",
+      description: "If provided, the message will be posted to this thread",
+      optional: true,
     },
   },
   methods: {
@@ -430,6 +463,18 @@ export default {
         params,
       });
     },
+    async createDm({
+      $, recipientId,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "post",
+        path: "/users/@me/channels",
+        data: {
+          recipient_id: recipientId,
+        },
+      });
+    },
     async getChannels({
       $, guildId,
     }) {
@@ -525,6 +570,16 @@ export default {
           query,
           limit,
         },
+      });
+    },
+    async createMessage({
+      $, channelId, data,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/channels/${channelId}/messages`,
+        method: "post",
+        data,
       });
     },
   },

@@ -6,7 +6,7 @@ export default {
   key: "data_stores-list-records",
   name: "List Records",
   description: "List all records in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -24,12 +24,12 @@ export default {
           dataStore,
         }),
       ],
-      description: "Keys to search for.",
+      description: "Select one or multiple keys to retrieve their records.",
       type: "string[]",
     },
     returnType: {
       label: "Return Type",
-      description: "The type of data to return.",
+      description: "Specify the preferred data structure to return.",
       type: "string",
       options: options.LIST_ALL_RECORDS,
       default: "object",

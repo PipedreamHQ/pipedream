@@ -18,7 +18,10 @@ export default defineApp({
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
     itemKey(item = {} as Item): string {
-      return item.guid ?? hash(item);
+      if (item.pubdate && item.guid) {
+        return `${item.pubdate}-${item.guid}`;
+      }
+      return hash(item);
     },
     async fetchFeed(url: string): Promise<any> {
       const res = await axios({
@@ -49,7 +52,7 @@ export default defineApp({
       await new Promise((resolve, reject) => {
         feedparser.on("error", reject);
         feedparser.on("end", resolve);
-        feedparser.on("readable", function(this: FeedParser) {
+        feedparser.on("readable", function (this: FeedParser) {
           let item: any = this.read();
           while (item) {
             for (const k in item) {
