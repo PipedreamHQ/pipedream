@@ -19,14 +19,17 @@ export default {
     },
   },
   async additionalProps() {
-    return await utils.getColumnProps(this.table);
+    return await this.getColumnProps(this.table);
+  },
+  methods: {
+    ...utils,
   },
   async run({ $ }) {
     const { table } = this;
 
     const {
       columns, values,
-    } = await utils.getColumnAndValueArrays(table);
+    } = await this.getColumnAndValueArrays(table);
 
     const result = await this.mysql.insertRow({
       table,

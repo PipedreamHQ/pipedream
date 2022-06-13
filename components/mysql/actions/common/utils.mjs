@@ -1,5 +1,3 @@
-import mysql from "../../mysql.app.mjs";
-
 async function getColumnProps(table) {
   const props = {};
   const columns = await this.mysql.listColumnNames(table);
@@ -16,7 +14,7 @@ async function getColumnProps(table) {
 async function getColumnAndValueArrays(table) {
   const columns = [];
   const values = [];
-  const columnNames = await mysql.methods.listColumnNames(table);
+  const columnNames = await this.mysql.listColumnNames(table);
   for (const column of columnNames) {
     if (this[column]) {
       columns.push(column);

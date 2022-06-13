@@ -31,7 +31,10 @@ export default {
     },
   },
   async additionalProps() {
-    return await utils.getColumnProps(this.table);
+    return await this.getColumnProps(this.table);
+  },
+  methods: {
+    ...utils,
   },
   async run({ $ }) {
     const {
@@ -55,7 +58,7 @@ export default {
 
     const {
       columns: columnsToUpdate, values: valuesToUpdate,
-    } = await utils.getColumnAndValueArrays(table);
+    } = await this.getColumnAndValueArrays(table);
 
     const result = await this.mysql.updateRow({
       table,
