@@ -96,6 +96,8 @@ export default {
     async getOrganizations() {
       const response = await this._client().request("GET /user/orgs", {});
 
+      console.log(response);
+
       return response.data;
     },
     async getRepos() {

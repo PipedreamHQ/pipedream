@@ -10,7 +10,7 @@ export default {
   hooks: {
     async activate() {
       const user = await this.github.getAuthenticatedUser();
-      this.db.set("login", user.login);
+      this._setUserLogin(user.login);
     },
   },
   dedupe: "unique",
@@ -26,7 +26,7 @@ export default {
   async run() {
     const login = this._getUserLogin();
 
-    const mentions = await this.github.getFilteredNotifications({
+    const notifications = await this.github.getFilteredNotifications({
       reason: "mention",
       data: {
         participating: true,
@@ -34,18 +34,25 @@ export default {
       },
     });
 
-    for (const mention of mentions) {
-      if (mention.subject.latest_comment_url == null) continue;
-      const comment = await this.github.getFromUrl({
-        url: mention.subject.latest_comment_url,
+    for (const notification of notifications) {
+      const subject = await this.github.getFromUrl({
+        url: notification?.subject?.url,
       });
 
-      if (comment?.body?.includes(`@${login}`)) {
-        this.$emit(comment, {
-          id: comment.id,
-          summary: `New notification ${comment.id}`,
-          ts: Date.parse(comment.created_at),
-        });
+      if (!subject.comments_url) continue;
+
+      const comments = await this.github.getFromUrl({
+        url: subject.comments_url,
+      });
+
+      for (const comment of comments) {
+        if (comment?.body?.includes(`@${login}`)) {
+          this.$emit(comment, {
+            id: comment.id,
+            summary: `New notification ${comment.id}`,
+            ts: Date.parse(comment.created_at),
+          });
+        }
       }
     }
   },
