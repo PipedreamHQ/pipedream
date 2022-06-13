@@ -2,7 +2,7 @@
   "name": "@pipedream/lusha",
   "version": "0.0.1",
   "description": "Pipedream Lusha Components",
-  "main": "lusha.app.js",
+  "main": "lusha.app.mjs",
   "keywords": [
     "pipedream",
     "lusha"

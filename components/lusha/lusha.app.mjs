@@ -11,32 +11,30 @@ export default {
     _apiUrl() {
       return "https://api.lusha.com";
     },
-    async _makeRequest(path, options = {}, $ = this) {
+    async _makeRequest({
+      $ = this, path, ...args
+    } = {}) {
       return axios($, {
-        url: `${this._apiUrl()}/${path}`,
+        url: `${this._apiUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
         },
-        ...options,
+        ...args,
       });
     },
-    async findContact({
-      $, params,
-    }) {
-      const response = await this._makeRequest("person", {
-        params,
-      }, $);
-
-      return response.data;
+    async findContact(args = {}) {
+      const { data } = await this._makeRequest({
+        path: "/person",
+        ...args,
+      });
+      return data;
     },
-    async findCompany({
-      $, params,
-    }) {
-      const response = await this._makeRequest("company", {
-        params,
-      }, $);
-
-      return response.data;
+    async findCompany(args = {}) {
+      const { data } = await this._makeRequest({
+        path: "/company",
+        ...args,
+      });
+      return data;
     },
   },
 };
