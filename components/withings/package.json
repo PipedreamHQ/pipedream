@@ -2,7 +2,7 @@
   "name": "@pipedream/withings",
   "version": "0.0.1",
   "description": "Pipedream Withings Components",
-  "main": "withings.app.js",
+  "main": "withings.app.mjs",
   "keywords": [
     "pipedream",
     "withings"

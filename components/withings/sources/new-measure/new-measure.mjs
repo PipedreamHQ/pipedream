@@ -17,9 +17,11 @@ export default {
     },
   },
   async run() {
+    const oneDayInSeconds = 24 * 60 * 60; // hours * minutes * seconds
+    const oneDayAgo = Math.round((new Date().getTime() / 1000) - oneDayInSeconds);
     const measures = await this.withings.getMeasures({
       params: {
-        lastupdate: Math.round((new Date().getTime() / 1000) - 86400), // 1 day
+        lastupdate: oneDayAgo,
       },
     });
 
