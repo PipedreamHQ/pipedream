@@ -1,64 +1,81 @@
-// legacy_hash_id: a_8Ki7KQ
-import { axios } from "@pipedream/platform";
+import ringcentral from "../../ringcentral.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "ringcentral-send-sms",
   name: "Send SMS",
-  description: "Creates and sends a new text message.",
-  version: "0.4.1",
+  description: "Creates and sends a new text message. See the API docs [here](https://developers.ringcentral.com/api-reference/SMS/createSMSMessage)",
+  version: "0.5.0",
   type: "action",
   props: {
-    ringcentral: {
-      type: "app",
-      app: "ringcentral",
+    ringcentral,
+    accountId: {
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
-    serverURL: {
-      type: "string",
-      description: "The base endpoint host used for the RingCentral API.",
-    },
-    account_id: {
-      type: "string",
-      description: "Internal identifier of a RingCentral account.",
-    },
-    extension_id: {
-      type: "string",
+    extensionId: {
+      propDefinition: [
+        ringcentral,
+        "extensionId",
+      ],
       description: "Internal identifier of an extension.",
     },
-    phone_number: {
+    fromPhoneNumber: {
       type: "string",
-      description: "The phoneNumber for the sender of an SMS message. Property must be filled to correspond to one of the account phone numbers which is allowed to send SMS.",
+      label: "Phone Number",
+      description: "The phoneNumber for the sender of an SMS message. Property must be filled to correspond to one of the account phone numbers which is allowed to send SMS. Phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164#Numbering_formats) e.g. `+16502223366`.",
     },
-    to: {
-      type: "any",
-      description: "Receiver of an SMS message. The phoneNumber property must be filled.",
+    toPhoneNumbers: {
+      type: "string[]",
+      label: "To Phone Numbers",
+      description: "Phone number of receiver(s) of an SMS message. Phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164#Numbering_formats) e.g. `+16502223366`.",
     },
     text: {
       type: "string",
-      description: "Text of a message. Max length is 1000 symbols (2-byte UTF-16 encoded). If a character is encoded in 4 bytes in UTF-16 it is treated as 2 characters, thus restricting the maximum message length to 500 symbols.",
+      description: "Text of a message. Max length is 1000 symbols (2-byte [UTF-16](https://en.wikipedia.org/wiki/UTF-16) encoded). If a character is encoded in 4 bytes in UTF-16 it is treated as 2 characters, thus restricting the maximum message length to 500 symbols.",
     },
-    country: {
-      type: "object",
-      optional: true,
+    countryId: {
+      propDefinition: [
+        ringcentral,
+        "countryId",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://developers.ringcentral.com/api-reference/SMS/createSMSMessage
+    const {
+      accountId,
+      extensionId,
+      fromPhoneNumber,
+      text,
+      countryId,
+    } = this;
 
-    const config = {
-      method: "post",
-      url: `${this.serverURL}/restapi/v1.0/account/${this.account_id}/extension/${this.extension_id}/sms`,
-      headers: {
-        Authorization: `Bearer ${this.ringcentral.$auth.oauth_access_token}`,
-      },
-      data: {
-        from: {
-          phoneNumber: this.phone_number,
+    const toPhoneNumbers = utils.parse(this.toPhoneNumbers);
+    const to = toPhoneNumbers.map((phoneNumber) => ({
+      phoneNumber,
+    }));
+
+    const response =
+      await this.ringcentral.sendSMS({
+        $,
+        accountId,
+        extensionId,
+        data: {
+          from: {
+            phoneNumber: fromPhoneNumber,
+          },
+          to,
+          text,
+          country: utils.emptyObjectToUndefined({
+            id: countryId,
+          }),
         },
-        to: this.to,
-        text: this.text,
-        country: this.country,
-      },
-    };
-    return await axios($, config);
+      });
+
+    $.export("$summary", `Successfully sent SMS with ID ${response.id}`);
+
+    return response;
   },
 };
