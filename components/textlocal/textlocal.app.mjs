@@ -12,7 +12,7 @@ export default {
         const { inboxes } = await this.getInboxes();
         return inboxes.map((item) => ({
           label: item.number,
-          value: item.id,
+          value: parseInt(item.id),
         }));
       },
     },
@@ -69,13 +69,14 @@ export default {
         const { groups } = await this.getGroups();
         return groups.map((item) => ({
           label: item.name,
-          value: item.id,
+          value: parseInt(item.id),
         }));
       },
     },
     simpleReply: {
-      type: "string",
+      type: "boolean",
       label: "Simple Reply",
+      default: true,
       description: "Set to true to enable the Simple Reply Service for the message. This will override any sender value, as a Simple Reply Service number will be used instead.",
     },
     scheduleTime: {
@@ -94,8 +95,9 @@ export default {
       description: "This value will be set against the message batch and will passed back in the delivery receipts. This allows you to match delivery receipts to their corresponding messages.",
     },
     optouts: {
-      type: "string",
+      type: "boolean",
       label: "Optouts",
+      default: true,
       description: "Can be set to true in order to check against your own opt-outs list and Textlocal's global opt-outs database. Your message will not be sent to numbers within these lists. If not provided defaults to false.",
     },
     validity: {
@@ -104,18 +106,21 @@ export default {
       description: "Can be set, up to 72 hours in advance, to say after which time, you don't want the message delivered. This should be in a Unix timestamp format.",
     },
     unicode: {
-      type: "string",
+      type: "boolean",
       label: "Unicode",
+      default: true,
       description: "Set this value to true to specify that your message body will contain unicode characters. See Encoding/Decoding Unicode Documentation",
     },
     trackingLinks: {
-      type: "string",
+      type: "boolean",
       label: "Tracking Links",
+      default: true,
       description: "Set this value to true to specify that the message contains links and they should be converted to short links (trackable in messenger), Please note that links must be url encoded before being placed into the message",
     },
     test: {
       type: "boolean",
       label: "Test",
+      default: true,
       description: "Set this field to true to enable test mode, no messages will be sent and your credit balance will be unaffected. If not provided defaults to false",
     },
   },

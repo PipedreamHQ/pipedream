@@ -27,6 +27,7 @@ export default {
         textlocal,
         "numbers",
       ],
+      description: "Note: While both numbers and group_id are optional parameters, one or the other must be included in the request for the message to be sent.",
       optional: true,
     },
     groupId: {
@@ -34,6 +35,7 @@ export default {
         textlocal,
         "groupId",
       ],
+      description: "Note: While both numbers and group_id are optional parameters, one or the other must be included in the request for the message to be sent.",
       optional: true,
     },
     simpleReply: {

@@ -55,7 +55,6 @@ export default {
         textlocal,
         "groupId",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
