@@ -14,9 +14,9 @@ export default {
       description: "The ID of the company",
       async options() {
         const response = await this.getCompanies();
-        return response.map((project) => ({
-          label: project.name,
-          value: project.id,
+        return response.map((company) => ({
+          label: company.name,
+          value: company.id,
         }));
       },
     },
@@ -41,7 +41,7 @@ export default {
       label: "Email",
       description: "Contact Email.",
       async options({ companyId }) {
-        const response = await this.getCompanies();
+        const response = await this.getContacts();
         const contacts = response.filter((contact) => contact.company_id === Number(companyId));
         return contacts.map((contact) => ({
           label: contact?.email ?? contact?.name,
@@ -168,13 +168,13 @@ export default {
     async getCompanies($ = undefined) {
       return this._makeRequest({
         $,
-        path: "/contacts",
+        path: "/companies",
       });
     },
     async getContacts($ = undefined) {
       return this._makeRequest({
         $,
-        path: "/companies",
+        path: "/contacts",
       });
     },
     async createContact({
@@ -216,6 +216,13 @@ export default {
       return this._makeRequest({
         $,
         path: "/search/contacts",
+        params,
+      });
+    },
+    async getTickets($, params = null) {
+      return this._makeRequest({
+        $,
+        path: "/tickets",
         params,
       });
     },

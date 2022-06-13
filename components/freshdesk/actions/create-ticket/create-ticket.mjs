@@ -1,5 +1,6 @@
 import freshdesk from "../../freshdesk.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-create-ticket",
@@ -38,13 +39,6 @@ export default {
       type: "string",
       label: "Description",
       description: "HTML content of the ticket.",
-      optional: true,
-    },
-    descriptionText: {
-      type: "string",
-      label: "Description text",
-      description: "Content of the ticket in plain text.",
-      optional: true,
     },
     phone: {
       type: "string",
@@ -56,7 +50,6 @@ export default {
       type: "string",
       label: "Subject",
       description: "Subject of the ticket.",
-      optional: true,
     },
     status: {
       propDefinition: [
@@ -68,10 +61,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.email && !this.phone) {
+      throw new ConfigurationError("Please fill at least 1 of email and phone fields");
+    }
     const data = removeNullEntries({
       company_id: this.companyId && Number(this.companyId),
       description: this.description,
-      description_text: this.descriptionText,
       email: this.email,
       phone: this.phone,
       subject: this.subject,
