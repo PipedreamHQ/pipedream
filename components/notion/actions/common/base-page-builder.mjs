@@ -10,7 +10,8 @@ export default {
   methods: {
     /**
      * Creates additional props for page properties and the selected block children
-     * @param properties - Properties from the selected page obtained from Notion
+     * @param properties - The selected (database) properties from the page obtained from Notion
+     * @param meta - The selected meta properties
      * @param blocks - The selected block children from the workflow UI
      * @returns additional props
      */
@@ -38,7 +39,7 @@ export default {
       };
     },
     /**
-     * Builds the additional prop's description
+     * Builds the additional prop description
      * @param type - Notion property type
      * @param example - A text example for the description
      * @returns prop description
@@ -51,9 +52,9 @@ export default {
       return `${description} ${descriptionExample}`;
     },
     /**
-     * Builds props for each Notion page property
+     * Builds props for each Notion Page Property
      * @param properties - Properties from the selected page obtained from Notion
-     * @returns props
+     * @returns page property props
      */
     _buildPropertyProps(properties = {}) {
       const props = {};
@@ -74,8 +75,8 @@ export default {
       return props;
     },
     /**
-     * Select props that were inputted by the user through the workflow UI and are in the Notion
-     * page properties
+     * Select props that were inputted by the user through the workflow UI and are Notion Page
+     * Properties
      * @param properties - Properties from the selected page obtained from Notion
      * @returns the selected props inputted by the user with the following attributes:
      *            - type: the Notion property type used in notion-page-properties.mjs
@@ -94,7 +95,7 @@ export default {
     /**
      * Converts properties inputted by the user to Notion format
      * @param properties - properties inputted by the user
-     * @param NOTION_CONVERTER - Notion defined objects that contain convertToNotion() method
+     * @param NOTION_CONVERTER - Notion defined objects that contain convertToNotion() function
      * @returns the Notion properties in Notion format
      */
     _convertPropertiesToNotion(properties = [], NOTION_CONVERTER = {}) {
@@ -135,8 +136,8 @@ export default {
     },
     /**
      * Select block props that were inputted by the user through the workflow UI
-     * (paragraph - paragraph_rich_text), (todo - todo_rich_text, todo_checked)
-     * @returns the selected blocks inputted by the user with their corresponding value
+     * (paragraph: paragraph_rich_text), (todo: todo_rich_text, todo_checked)
+     * @returns the selected blocks inputted by the user with their corresponding values
      */
     _filterBlocks() {
       const filtered = {};

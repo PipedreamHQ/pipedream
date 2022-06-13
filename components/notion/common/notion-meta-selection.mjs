@@ -1,5 +1,9 @@
 import NOTION_ICONS from "./notion-icons.mjs";
 
+/**
+ * Notion Meta additional props
+ * Separate file because we do not render all options in notion-meta-properties.mjs
+ */
 const NOTION_META = {
   icon: {
     additionalProps: {

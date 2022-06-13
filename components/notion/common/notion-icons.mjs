@@ -1,3 +1,6 @@
+/**
+ * Notion Emoji Page Icons - https://developers.notion.com/reference/emoji-object
+ */
 const NOTION_ICONS = [
   "😀",
   "😃",

@@ -1,5 +1,13 @@
 import utils from "./utils.mjs";
 
+/**
+ * Notion Page Properties - https://developers.notion.com/reference/property-value-object
+ *
+ * type: Pipedream corresponding type
+ * example: helpful text to show in prop description
+ * options: the options available for selection in the Notion Property
+ * convertToNotion: converts the prop values to send to the Notion API
+ */
 const NOTION_PAGE_PROPERTIES = {
   title: {
     type: "string",
