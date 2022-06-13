@@ -4,8 +4,8 @@ import freshdesk from "../../freshdesk.app.mjs";
 export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
-  description: "create a contact. [See docs here](https://developers.freshdesk.com/api/#companies)",
-  version: "0.0.2",
+  description: "Create a contact. [See docs here](https://developers.freshdesk.com/api/#create_contact)",
+  version: "0.0.1",
   type: "action",
   props: {
     freshdesk,

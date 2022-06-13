@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-ticket",
   name: "Get Ticket Details",
   description: "Get a Ticket. [See docs here](https://developers.freshdesk.com/api/#tickets)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     freshdesk,
@@ -19,7 +19,7 @@ export default {
       $,
       id: this.id,
     });
-    response && $.export("$summary", "Ticket found");
+    response && $.export("$summary", "Successfully found ticket");
     return response;
   },
 };

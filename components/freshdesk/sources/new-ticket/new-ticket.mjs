@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-new-ticket",
   name: "New Ticket",
   description: "Emit new notifications when a new ticket is created",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   props: {
     freshdesk,
@@ -42,6 +42,7 @@ export default {
           {
             id: ticket.id,
             summary: `Ticket number: ${ticket.id}`,
+            ts: Date.parse(ticket.created_at),
           });
       }
     });

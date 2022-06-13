@@ -11,7 +11,7 @@ export default {
     companyId: {
       type: "integer",
       label: "Company ID",
-      description: "ID of the primary company to which this contact belongs",
+      description: "The ID of the company",
       async options() {
         const response = await this.getCompanies();
         return response.map((project) => ({
@@ -25,12 +25,7 @@ export default {
       label: "Status",
       description: "Status of the ticket.",
       options() {
-        return constants.TICKET_STATUS.map(({
-          label, value,
-        }) => ({
-          label,
-          value,
-        }));
+        return constants.TICKET_STATUS;
       },
     },
     ticketPriority: {
@@ -38,12 +33,7 @@ export default {
       label: "Priority",
       description: "Priority of the ticket.",
       options() {
-        return constants.TICKET_PRIORITY.map(({
-          label, value,
-        }) => ({
-          label,
-          value,
-        }));
+        return constants.TICKET_PRIORITY;
       },
     },
     contactEmail: {
@@ -54,7 +44,7 @@ export default {
         const response = await this.getCompanies();
         const contacts = response.filter((contact) => contact.company_id === Number(companyId));
         return contacts.map((contact) => ({
-          label: `${contact.name} | ${contact.email}`,
+          label: contact?.email ?? contact?.name,
           value: contact.email,
         }));
       },

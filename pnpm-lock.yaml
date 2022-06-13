@@ -745,6 +745,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/outgrow:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pagerduty:
     specifiers:
       '@pipedream/platform': ^0.9.0

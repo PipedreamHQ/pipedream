@@ -14,6 +14,7 @@ import {
   GOOGLE_DRIVE_GRANTEE_TYPES,
   GOOGLE_DRIVE_GRANTEE_ANYONE,
   GOOGLE_DRIVE_ROLE_READER,
+  GOOGLE_DRIVE_UPLOAD_TYPES,
 } from "./constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -188,11 +189,7 @@ export default {
         multipart - Multipart upload. Upload both the media and its metadata, in a single request.
         resumable - Resumable upload. Upload the file in a resumable fashion, using a series of 
         at least two requests where the first request includes the metadata.`,
-      options: [
-        "media",
-        "multipart",
-        "resumable",
-      ],
+      options: GOOGLE_DRIVE_UPLOAD_TYPES,
     },
     useDomainAdminAccess: {
       type: "boolean",
@@ -1003,6 +1000,7 @@ export default {
         fields,
         supportsAllDrives = true,
         requestBody,
+        uploadType,
         ...extraParams
       } = opts;
       const drive = this.drive();
@@ -1015,6 +1013,7 @@ export default {
             ? {
               mimeType,
               body: file,
+              uploadType,
             }
             : undefined,
           requestBody: {
