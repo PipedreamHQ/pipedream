@@ -133,7 +133,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v3.2.0
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -175,7 +175,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3.3.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -212,7 +212,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
