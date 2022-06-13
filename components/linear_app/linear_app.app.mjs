@@ -153,6 +153,9 @@ export default {
     }) {
       return this.client().issueSearch(query, variables);
     },
+    async getIssue(id) {
+      return this.client().issue(id);
+    },
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
