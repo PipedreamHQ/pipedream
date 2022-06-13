@@ -51,7 +51,7 @@ export default {
       $,
       payload,
     });
-    response && $.export("$summary", "Company sucessfully created");
+    response && $.export("$summary", "Company successfully created");
     return response;
   },
 };
