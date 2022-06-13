@@ -1,4 +1,6 @@
 import { Gitlab } from "@gitbeaker/node";
+import axios from 'axios';
+import FormData from 'form-data';
 import constants from "./common/constants.mjs";
 import { v4 } from "uuid";
 
@@ -314,5 +316,26 @@ export default {
       }
       return api.all(params);
     },
+    async uploadFile(projectId, file, fileName) {
+      // Read file as a Buffer
+      const image = Buffer.from(file, "base64");
+      // Create a form and append image with additional fields
+      const form = new FormData();
+      form.append('file', image, fileName);
+
+      return axios.post(`https://gitlab.com/api/v4/projects/${projectId}/uploads`, form, {
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "multipart/form-data"
+        }
+      })
+    },
+    async createNewMergeRequestThread(projectId, mergeRequestIid, opts = {}) {
+      return axios.post(`https://gitlab.com/api/v4/projects/${projectId}/merge_requests/${mergeRequestIid}/discussions`, opts, {
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`
+        }
+      })
+    }
   },
 };
