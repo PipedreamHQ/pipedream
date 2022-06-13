@@ -38,17 +38,6 @@ The [`changes-to-collection.mjs`](changes-to-collection.mjs) source tracks [`add
         }
       }
     }
-  },
-  "instance": {
-    "@ref": {
-      "id": "264744257335591434",
-      "collection": {
-        "@ref": {
-          "id": "test",
-          "collection": { "@ref": { "id": "collections" } }
-        }
-      }
-    }
   }
 }
 ```
@@ -75,34 +64,12 @@ If you set the **Emit changes as a single event** property to `true`, Pipedream 
           }
         }
       }
-    },
-    "instance": {
-      "@ref": {
-        "id": "264744257335591434",
-        "collection": {
-          "@ref": {
-            "id": "test",
-            "collection": { "@ref": { "id": "collections" } }
-          }
-        }
-      }
     }
   },
   {
     "ts": 1588739721810000,
     "action": "remove",
     "document": {
-      "@ref": {
-        "id": "264744257335591434",
-        "collection": {
-          "@ref": {
-            "id": "test",
-            "collection": { "@ref": { "id": "collections" } }
-          }
-        }
-      }
-    },
-    "instance": {
       "@ref": {
         "id": "264744257335591434",
         "collection": {

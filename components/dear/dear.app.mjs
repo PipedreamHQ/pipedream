@@ -54,5 +54,15 @@ export default {
         params,
       });
     },
+    async listProducts({
+      $, params,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "get",
+        path: "/Product",
+        params,
+      });
+    },
   },
 };
