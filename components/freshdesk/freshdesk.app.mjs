@@ -68,11 +68,12 @@ export default {
     },
     _getUrl(path) {
       const {
+        DOMAIN,
         HTTP_PROTOCOL,
         BASE_PATH,
         VERSION_PATH,
       } = constants;
-      return `${HTTP_PROTOCOL}${this.$auth.domain}${BASE_PATH}${VERSION_PATH}${path}`;
+      return `${HTTP_PROTOCOL}${this.$auth.domain}.${DOMAIN}${BASE_PATH}${VERSION_PATH}${path}`;
     },
     async _makeRequest(args = {}) {
       const {
