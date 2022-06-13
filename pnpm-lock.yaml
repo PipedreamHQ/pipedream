@@ -372,6 +372,16 @@ importers:
     dependencies:
       fraudlabspro-nodejs: 2.1.0
 
+  components/freshdesk:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      async-retry: ^1.3.3
+      moment: 2.29.2
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      async-retry: 1.3.3
+      moment: 2.29.2
+
   components/ghost_org_admin_api:
     specifiers:
       axios: ^0.21.1
@@ -734,6 +744,12 @@ importers:
       '@pipedream/platform': ^0.9.0
     dependencies:
       '@pipedream/platform': 0.9.0
+
+  components/outgrow:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/pagerduty:
     specifiers:
@@ -3246,22 +3262,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.113:
-    resolution: {integrity: sha512-MfFNpPCBgNUVyZzIf3dmCXa7yET3mNRKscn9fWX2IoAjlJAKQ2DmUu/kAFk/7Bxxf+UPxINSGtd1cbGMFLODTQ==}
+  /@definitelytyped/header-parser/0.0.115:
+    resolution: {integrity: sha512-74YaIWLSST0IjqkP75VRJMMX0A6yysXrLIcO6JcuOYadxzv0mFXdL7n0jXvI00GMEpvFAKcyzAggznQIjup7pw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.113
+      '@definitelytyped/typescript-versions': 0.0.115
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.113:
-    resolution: {integrity: sha512-Iox2P9MDeY4kdPU1QUf74xbSeDU9JrJlkx9a0bR17gXenLcm5q/e9qdX7QnfiMvLTCbvX8R043sEoLSNHewzEw==}
+  /@definitelytyped/typescript-versions/0.0.115:
+    resolution: {integrity: sha512-BgktLglKQEphkf+Zhgrpn9upTuTkWILA2md2B/OQMRFleHgJfkKq+efa+/NK0ZwjWrkpzfFd3OhAvA9rtDyfFw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.113:
-    resolution: {integrity: sha512-7aoNUeSM7dTGloTSJsfoylQgz262NVKUgv7ZUwrvQzmSxcb8Qrn0pM+ERb9kFQVllt07E1OovBNO38Iy534BeQ==}
+  /@definitelytyped/utils/0.0.115:
+    resolution: {integrity: sha512-4rH4HGU4c2Q+7LAxpzQ3jA8+hzjSahuwoVSa/D45CBayBdndrSDpUk95yPhShJkoFRrGZ4QXzMKc0n1LIx96dg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.113
+      '@definitelytyped/typescript-versions': 0.0.115
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -7674,7 +7690,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.113
+      '@definitelytyped/header-parser': 0.0.115
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -7690,9 +7706,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.113
-      '@definitelytyped/typescript-versions': 0.0.113
-      '@definitelytyped/utils': 0.0.113
+      '@definitelytyped/header-parser': 0.0.115
+      '@definitelytyped/typescript-versions': 0.0.115
+      '@definitelytyped/utils': 0.0.115
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -11310,6 +11326,10 @@ packages:
     resolution: {integrity: sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==}
     dependencies:
       moment: 2.29.3
+    dev: false
+
+  /moment/2.29.2:
+    resolution: {integrity: sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==}
     dev: false
 
   /moment/2.29.3:

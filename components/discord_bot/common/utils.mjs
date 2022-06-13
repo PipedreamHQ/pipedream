@@ -1,4 +1,4 @@
-import constants from "./constants.mjs";
+import constants from "../constants.mjs";
 
 export default {
   computePermissions(overwrites = []) {
@@ -117,5 +117,12 @@ export default {
     return String(value).trim() === ""
       ? undefined
       : value;
+  },
+  parseObject(obj) {
+    try {
+      return JSON.parse(obj);
+    } catch (e) {
+      return obj;
+    }
   },
 };

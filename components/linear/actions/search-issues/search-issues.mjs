@@ -15,7 +15,7 @@ export default {
   ...searchIssues,
   key: "linear-search-issues",
   description: "Search issues (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     linearApp,
     ...utils.buildPropDefinitions({
