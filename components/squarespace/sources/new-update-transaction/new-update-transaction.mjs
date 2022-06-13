@@ -28,7 +28,7 @@ export default {
 
     for (const transaction of transactions) {
       this.$emit(transaction, {
-        id: `transaction.id - ${Date.parse(transaction.modifiedOn)}`,
+        id: `${transaction.id} - ${Date.parse(transaction.modifiedOn)}`,
         summary: `New transaction ${transaction.id} updated`,
         ts: Date.parse(transaction.modifiedOn),
       });
