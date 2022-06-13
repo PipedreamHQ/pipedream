@@ -34,7 +34,7 @@ export default {
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const projects = [];
     const resourcesStream = await this.jira.getResourcesStream({

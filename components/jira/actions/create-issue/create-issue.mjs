@@ -1,4 +1,5 @@
 import jira from "../../jira.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "jira-create-issue",
@@ -27,11 +28,13 @@ export default {
       type: "string",
       label: "Issue summary",
       description: "The title of the issue",
+      optional: true,
     },
     description: {
       type: "object",
       label: "Description",
       description: "Description object of the issue, Jira accepts `doc` type of descriptions, [See Atlassian Document Structure](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/)",
+      optional: true,
     },
     parentKey: {
       type: "string",
@@ -46,9 +49,12 @@ export default {
       optional: true,
     },
     reporterId: {
-      type: "string",
       label: "Reporter ID",
       description: "Reporter ID of the issue.",
+      propDefinition: [
+        jira,
+        "accountId",
+      ],
     },
     labels: {
       propDefinition: [
@@ -63,10 +69,10 @@ export default {
       optional: true,
     },
     assigneeId: {
-      type: "string",
-      label: "Assignee ID",
-      description: "ID of the user assigned to the issue.",
-      optional: true,
+      propDefinition: [
+        jira,
+        "accountId",
+      ],
     },
     priorityName: {
       type: "string",
@@ -111,10 +117,10 @@ export default {
       optional: true,
     },
     transition: {
-      type: "object",
-      label: "Transition",
-      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-      optional: true,
+      propDefinition: [
+        jira,
+        "transition",
+      ],
     },
     historyMetadata: {
       type: "object",
@@ -153,7 +159,7 @@ export default {
       duedate: this.duedate,
       ...this.customFields,
     };
-    const description = this.jira.parseObject(this.description);
+    const description = utils.parseObject(this.description);
     fields.description = description;
     if (this.parentKey) {
       fields.parent = {
@@ -186,15 +192,15 @@ export default {
         id: this.securityId,
       };
     }
-    const update = this.jira.parseObject(this.update);
-    const transition = this.jira.parseObject(this.transition);
-    const historyMetadata = this.jira.parseObject(this.historyMetadata);
-    const additionalProperties = this.jira.parseObject(this.additionalProperties);
+    const update = utils.parseObject(this.update);
+    const transition = utils.parseObject(this.transition);
+    const historyMetadata = utils.parseObject(this.historyMetadata);
+    const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const response = await this.jira.createIssue({
       $,

@@ -1,4 +1,5 @@
 import jira from "../../jira.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "jira-add-comment-to-issue",
@@ -47,13 +48,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const visibility = this.jira.parseObject(this.visibility);
-    const body = this.jira.parseObject(this.body);
+    const visibility = utils.parseObject(this.visibility);
+    const body = utils.parseObject(this.body);
+    const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const response = await this.jira.addCommentToIssue({
       $,
@@ -65,7 +67,7 @@ export default {
         body,
         visibility,
         properties,
-        ...this.additionalProperties,
+        ...additionalProperties,
       },
     });
     $.export("$summary", `Comment has been added to the issue with ID(or key): ${this.issueIdOrKey}`);

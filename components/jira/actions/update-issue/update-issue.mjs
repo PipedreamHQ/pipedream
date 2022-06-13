@@ -1,4 +1,5 @@
 import jira from "../../jira.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "jira-update-issue",
@@ -33,16 +34,16 @@ export default {
       optional: true,
     },
     transition: {
-      type: "object",
-      label: "Transition",
-      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-      optional: true,
+      propDefinition: [
+        jira,
+        "transition",
+      ],
     },
     fields: {
-      type: "object",
-      label: "Fields",
-      description: "List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`.",
-      optional: true,
+      propDefinition: [
+        jira,
+        "fields",
+      ],
     },
     update: {
       type: "object",
@@ -71,16 +72,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const update = this.jira.parseObject(this.update);
-    const fields = this.jira.parseObject(this.fields);
-    const transition = this.jira.parseObject(this.transition);
-    const historyMetadata = this.jira.parseObject(this.historyMetadata);
-    const additionalProperties = this.jira.parseObject(this.additionalProperties);
+    const update = utils.parseObject(this.update);
+    const fields = utils.parseObject(this.fields);
+    const transition = utils.parseObject(this.transition);
+    const historyMetadata = utils.parseObject(this.historyMetadata);
+    const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const response = await this.jira.updateIssue({
       $,

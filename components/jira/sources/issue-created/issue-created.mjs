@@ -8,9 +8,6 @@ export default {
   type: "source",
   dedupe: "unique",
   ...common,
-  props: {
-    ...common.props,
-  },
   methods: {
     ...common.methods,
     getEvents() {

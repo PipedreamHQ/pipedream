@@ -1,4 +1,5 @@
 import jira from "../../jira.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "jira-update-comment",
@@ -58,14 +59,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const body = this.jira.parseObject(this.body);
-    const visibility = this.jira.parseObject(this.visibility);
-    const additionalProperties = this.jira.parseObject(this.additionalProperties);
+    const body = utils.parseObject(this.body);
+    const visibility = utils.parseObject(this.visibility);
+    const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const response = await this.jira.updateComment({
       $,

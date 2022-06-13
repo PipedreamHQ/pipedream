@@ -52,7 +52,7 @@ export default {
     try {
       properties = JSON.parse(this.properties);
     } catch ( err ) {
-      properties = undefined;
+      //pass
     }
     const response = await this.jira.getIssue({
       $,

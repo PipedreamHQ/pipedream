@@ -19,7 +19,7 @@ export default {
       $,
       taskId: this.taskId,
     });
-    $.export("$summary", "Task has been retrieved.");
+    $.export("$summary", `Task: '${response.title}' has been retrieved.`);
     return response;
   },
 };

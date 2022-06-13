@@ -1,4 +1,5 @@
 import jira from "../../jira.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "jira-transition-issue",
@@ -15,15 +16,17 @@ export default {
       ],
     },
     transition: {
-      type: "object",
-      label: "Transition",
+      propDefinition: [
+        jira,
+        "transition",
+      ],
       description: "Details of a transition, e.g. `{\"id\": \"5\"}`",
     },
     fields: {
-      type: "object",
-      label: "Fields",
-      description: "List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`.",
-      optional: true,
+      propDefinition: [
+        jira,
+        "fields",
+      ],
     },
     update: {
       type: "object",
@@ -51,14 +54,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const transition = this.jira.parseObject(this.transition);
-    const fields = this.jira.parseObject(this.fields);
-    const update = this.jira.parseObject(this.update);
-    const historyMetadata = this.jira.parseObject(this.historyMetadata);
-    const additionalProperties = this.jira.parseObject(this.additionalProperties);
-    const properties = this.properties ?
-      JSON.parse(this.properties) :
-      undefined;
+    const transition = utils.parseObject(this.transition);
+    const fields = utils.parseObject(this.fields);
+    const update = utils.parseObject(this.update);
+    const historyMetadata = utils.parseObject(this.historyMetadata);
+    const additionalProperties = utils.parseObject(this.additionalProperties);
+    let properties;
+    try {
+      properties = JSON.parse(this.properties);
+    } catch ( err ) {
+      //pass
+    }
     await this.jira.transitionIssue({
       $,
       issueIdOrKey: this.issueIdOrKey,
