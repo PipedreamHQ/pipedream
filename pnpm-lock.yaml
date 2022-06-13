@@ -757,6 +757,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/payhere:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pipedream:
     specifiers:
       axios: ^0.21.1
@@ -14699,7 +14705,7 @@ packages:
     dev: true
 
   /validate-npm-package-name/3.0.0:
-    resolution: {integrity: sha1-X6kS2B630MdK/BQN5zF/DKffQ34=}
+    resolution: {integrity: sha512-M6w37eVCMMouJ9V/sdPGnC5H4uDr73/+xdq0FBLO3TFFX1+7wiUY6Es328NN+y43tmY+doUdN9g9J21vqB7iLw==}
     dependencies:
       builtins: 1.0.3
     dev: true
