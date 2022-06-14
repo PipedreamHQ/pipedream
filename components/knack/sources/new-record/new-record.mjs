@@ -25,7 +25,7 @@ export default {
     const records = await this.knack.getAllRecords($, {
       objectKey: this.objectKey,
     }, {
-      rows_per_page: 2,
+      rows_per_page: 100,
     }, true);
 
     for (const record of records) {
