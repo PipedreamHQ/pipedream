@@ -90,17 +90,25 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     config.headers.Authorization = oauthSignature;
   }
   try {
-    return (await axios(config)).data;
+    if (config.debug) {
+      stepExport(step, config, "debug_config");
+    }
+    const { data } = await axios(config);
+    if (config.debug) {
+      stepExport(step, data, "debug_response");
+    }
+    return data;
   } catch (err) {
     if (err.response) {
-      stepExport(step, err.response);
+      stepExport(step, err.response, "debug_error");
     }
     throw err;
   }
 }
 
-function stepExport(step: any, message: any, key = "debug") {
+function stepExport(step: any, message: any, key: string) {
   message = cloneSafe(message);
+
   if (step) {
     if (step.export) {
       step.export(key, message);

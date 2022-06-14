@@ -191,5 +191,6 @@ export class ConfigurationError extends Error {
 }
 
 export interface AxiosRequestConfig extends AxiosConfig {
+  debug?: boolean;
   body?: any;
 }
