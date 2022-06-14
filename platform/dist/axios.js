@@ -4,6 +4,7 @@ const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
 const utils_1 = require("./utils");
+const index_1 = require("./index");
 function cleanObject(o) {
     for (const k in o || {}) {
         if (typeof o[k] === "undefined") {
@@ -51,6 +52,9 @@ async function default_1(step, config, signConfig) {
     if (typeof config.data === "object") {
         cleanObject(config.data);
     }
+    if (config.body != null) {
+        throw new index_1.ConfigurationError("unexpected body, use only data instead");
+    }
     removeSearchFromUrl(config);
     // OAuth1 request
     if (signConfig) {
@@ -90,13 +94,14 @@ async function default_1(step, config, signConfig) {
     }
     catch (err) {
         if (err.response) {
-            stepExport(step, utils_1.cloneSafe(err.response));
+            stepExport(step, err.response);
         }
         throw err;
     }
 }
 exports.default = default_1;
 function stepExport(step, message, key = "debug") {
+    message = utils_1.cloneSafe(message);
     if (step) {
         if (step.export) {
             step.export(key, message);
@@ -106,6 +111,6 @@ function stepExport(step, message, key = "debug") {
         }
     }
     else {
-        console.log(`${key}: ${message}`);
+        console.log(message);
     }
 }

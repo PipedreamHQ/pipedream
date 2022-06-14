@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 
 import axios from "./axios";
+import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
   axios,
@@ -187,4 +188,8 @@ export class ConfigurationError extends Error {
     this.name = "ConfigurationError";
     this.exposeStack = exposeStack;
   }
+}
+
+export interface AxiosRequestConfig extends AxiosConfig {
+  body?: any;
 }

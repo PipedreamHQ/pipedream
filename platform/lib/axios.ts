@@ -1,8 +1,9 @@
 import axios from "axios";
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from "./index";
 import * as buildURL from "axios/lib/helpers/buildURL";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
+import { ConfigurationError } from "./index";
 
 function cleanObject(o: { string: any; }) {
   for (const k in o || {}) {
@@ -51,6 +52,9 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
   if (typeof config.data === "object") {
     cleanObject(config.data);
   }
+  if (config.body != null) {
+    throw new ConfigurationError("unexpected body, use only data instead");
+  }
   removeSearchFromUrl(config);
   // OAuth1 request
   if (signConfig) {
@@ -89,20 +93,21 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     return (await axios(config)).data;
   } catch (err) {
     if (err.response) {
-      stepExport(step, cloneSafe(err.response));
+      stepExport(step, err.response);
     }
     throw err;
   }
 }
 
 function stepExport(step: any, message: any, key = "debug") {
+  message = cloneSafe(message);
   if (step) {
-      if (step.export) {
+    if (step.export) {
       step.export(key, message);
-      } else {
+    } else {
       step[key] = message;
-      }
+    }
   } else {
-    console.log(`${key}: ${message}`);
+    console.log(message);
   }
 }
