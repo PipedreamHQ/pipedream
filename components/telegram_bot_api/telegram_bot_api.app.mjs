@@ -409,6 +409,22 @@ export default {
       });
     },
     /**
+     * Use this method to set default chat permissions for all members.
+     * The bot must be an administrator in the group or a supergroup for this
+     * to work and must have the can_restrict_members administrator rights.
+     * Returns True on success.
+     *
+     * @param {Number|String} chatId - Unique identifier for the message
+     * recipient
+     * @param {TelegramBot.ChatPermissions} [chatPermissions] -
+     * A JSON-serialized object for new default chat permissions
+     * [the API docs](https://core.telegram.org/bots/api#setchatpermissions)
+     * @return `True` on success
+     */
+    async setChatPermissions(chatId, chatPermissions) {
+      return this.sdk().setChatPermissions(chatId, chatPermissions);
+    },
+    /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
      * Sticker)
      *
