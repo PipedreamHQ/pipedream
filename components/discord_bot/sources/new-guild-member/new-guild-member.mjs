@@ -6,7 +6,7 @@ export default {
   name: "New Guild Member",
   description: "Emit new event for every member added to a guild",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     db: "$.service.db",
