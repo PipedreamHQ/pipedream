@@ -675,6 +675,14 @@ importers:
       js-base64: 3.7.2
       mime-types: 2.1.35
 
+  components/microsoft_teams:
+    specifiers:
+      '@microsoft/microsoft-graph-client': ^3.0.2
+      isomorphic-fetch: ^3.0.0
+    dependencies:
+      '@microsoft/microsoft-graph-client': 3.0.2
+      isomorphic-fetch: 3.0.0
+
   components/mixmax:
     specifiers: {}
 
