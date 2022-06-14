@@ -18,26 +18,31 @@ export default {
 
       return "https://api.payhere.co/api/v1";
     },
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return axios($ ?? this, {
-        url: `${this._apiUrl()}/${path}`,
+    async _makeRequest({
+      $ = this, path, ...args
+    } = {}) {
+      return axios($, {
+        url: `${this._apiUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this._apiKey()}`,
         },
-        ...options,
+        ...args,
       });
     },
-    async createWebhook(data) {
-      const response = await this._makeRequest("hooks", {
+    async createWebhook(args = {}) {
+      return this._makeRequest({
+        path: "/hooks",
         method: "post",
-        data,
+        ...args,
       });
-
-      return response.data;
     },
-    async removeWebhook(webhookId) {
-      return this._makeRequest(`hooks/${webhookId}`, {
+    async removeWebhook({
+      webhookId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/hooks/${webhookId}`,
         method: "delete",
+        ...args,
       });
     },
   },

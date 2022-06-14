@@ -2,7 +2,7 @@
   "name": "@pipedream/payhere",
   "version": "0.0.1",
   "description": "Pipedream Payhere Components",
-  "main": "payhere.app.js",
+  "main": "payhere.app.mjs",
   "keywords": [
     "pipedream",
     "payhere"
