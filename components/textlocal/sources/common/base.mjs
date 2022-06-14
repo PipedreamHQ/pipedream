@@ -1,15 +1,13 @@
-const { v4: uuidv4 } = require("uuid");
+import textlocal from "../../textlocal.app.mjs";
 
-const textlocal = require("../../textlocal.app");
-
-module.exports = {
+export default {
   props: {
-    db: "$.service.db",
     textlocal,
+    db: "$.service.db",
   },
   methods: {
     generateMeta() {
-      throw new Error('generateMeta is not implemented')
+      throw new Error("generateMeta is not implemented");
     },
     /**
      * Given a person's name, return a masked version of it. The purpose of a
