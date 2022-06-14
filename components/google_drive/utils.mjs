@@ -88,9 +88,10 @@ function streamToBuffer(stream) {
       chunks.push(chunk);
     }).on("end", () => {
       resolve(Buffer.concat(chunks));
-    }).on("error", (err) => {
-      reject(err);
-    });
+    })
+      .on("error", (err) => {
+        reject(err);
+      });
   });
 }
 

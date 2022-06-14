@@ -3,6 +3,7 @@ export default {
   BASE_PATH: "/api",
   VERSION_PATH: "/v2",
   PAGE_SIZE: 100,
+  DOMAIN: "freshdesk.com",
   retriableStatusCodes: [
     408,
     429,

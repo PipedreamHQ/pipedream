@@ -161,7 +161,7 @@ const GOOGLE_DRIVE_UPLOAD_TYPES = [
   "media",
   "multipart",
   "resumable",
-]
+];
 
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,

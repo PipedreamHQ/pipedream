@@ -1,6 +1,8 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
-import { getFileStream, streamToBuffer, byteToMB } from "../../utils.mjs";
+import {
+  getFileStream, streamToBuffer, byteToMB,
+} from "../../utils.mjs";
 import { omitEmptyStringValues } from "../../utils.mjs";
 
 export default {
@@ -88,7 +90,9 @@ export default {
       try {
         const fileBuffer = await streamToBuffer(file);
         const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
-        uploadType = bufferSize > 5 ? "resumable" : "media";
+        uploadType = bufferSize > 5
+          ? "resumable"
+          : "media";
         console.log(`Upload type: ${uploadType}`);
       } catch (err) {
         console.log(err);
