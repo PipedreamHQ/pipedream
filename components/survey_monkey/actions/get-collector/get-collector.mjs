@@ -1,16 +1,16 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
-import common from "../common/common-survey-action.mjs";
+import base from "../common/base-survey-action.mjs";
 
 export default {
-  ...common,
+  ...base,
   key: "survey_monkey-get-collector",
   name: "Get Collector Details",
   description:
-    "Get details for a collector. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-id-)",
-  version: "0.0.1",
+    "Get details for a Collector. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-id-)",
+  version: "0.0.4",
   type: "action",
   props: {
-    ...common.props,
+    ...base.props,
     collectorId: {
       propDefinition: [
         surveyMonkey,

@@ -13,9 +13,9 @@ export default {
       \\
       Alternatively, you can provide a custom *Survey ID*.`,
       async options() {
-        const { data } = await this.getSurveys();
+        const surveys = await this.getSurveys();
 
-        return data.map((survey) => ({
+        return surveys.map((survey) => ({
           label: survey.title,
           value: survey.id,
         }));
@@ -24,16 +24,16 @@ export default {
     responseId: {
       type: "string",
       label: "Response",
-      description: `Select one of the above survey's *Responses* to get the details for.
+      description: `Select one of the above survey's **Responses** to get details of.
       \\
       Alternatively, you can provide a custom *Response ID*.`,
       async options({ surveyId }) {
-        const { data } = await this.getResponses({
+        const responses = await this.getResponses({
           surveyId,
         });
 
-        return data.map((response) => ({
-          label: `(ID ${response.id})`,
+        return responses.map((response) => ({
+          label: `Response #${response.id})`,
           value: response.id,
         }));
       },
@@ -41,15 +41,15 @@ export default {
     collectorId: {
       type: "string",
       label: "Collector",
-      description: `Select one of the above survey's *Collectors* to get the details for.
+      description: `Select one of the above survey's **Collectors** to get details of.
       \\
       Alternatively, you can provide a custom *Collector ID*.`,
       async options({ surveyId }) {
-        const { data } = await this.getCollectors({
+        const collectors = await this.getCollectors({
           surveyId,
         });
 
-        return data.map((collector) => ({
+        return collectors.map((collector) => ({
           label: collector.name || `(ID ${collector.id})`,
           value: collector.id,
         }));
@@ -86,13 +86,7 @@ export default {
     },
     async _makeRequest(customConfig) {
       const {
-        $,
-        url,
-        path,
-        method,
-        params,
-        data,
-        ...otherConfig
+        $, url, path, method, params, data, ...otherConfig
       } =
         customConfig;
 
@@ -109,6 +103,29 @@ export default {
 
       return axios($ || this, config);
     },
+    async _paginatedRequest(params) {
+      // https://api.surveymonkey.net/v3/docs?javascript#pagination
+      // using default SurveyMonkey pagination - 50 per page
+      const amountPerPage = 50;
+      const values = [];
+
+      const { path } = params;
+
+      let page = 1;
+      let response;
+
+      do {
+        response = await this._makeRequest({
+          ...params,
+          path: `${path}?page=${page}&per_page=${amountPerPage}`,
+        });
+
+        if (response.data) values.push(...response.data);
+        else throw new Error(response);
+      } while (page++ < Math.ceil(response.total / amountPerPage));
+
+      return values;
+    },
     async getUserInfo({ $ }) {
       return this._makeRequest({
         method: "GET",
@@ -116,8 +133,8 @@ export default {
         $,
       });
     },
-    async getSurveys({ $ }) {
-      return this._makeRequest({
+    async getSurveys({ $ } = {}) {
+      return this._paginatedRequest({
         method: "GET",
         path: "/surveys",
         $,
@@ -135,7 +152,7 @@ export default {
     async getResponses({
       surveyId, $,
     }) {
-      return this._makeRequest({
+      return this._paginatedRequest({
         method: "GET",
         path: `/surveys/${surveyId}/responses`,
         $,
@@ -153,9 +170,9 @@ export default {
     async getCollectors({
       surveyId, $,
     }) {
-      return this._makeRequest({
+      return this._paginatedRequest({
         method: "GET",
-        path: `/surveys/${surveyId ?? this.survey}/collectors`,
+        path: `/surveys/${surveyId}/collectors`,
         $,
       });
     },
