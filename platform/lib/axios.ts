@@ -89,12 +89,20 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     return (await axios(config)).data;
   } catch (err) {
     if (err.response) {
-      if (step.export) {
-        step.export("debug", cloneSafe(err.response));
-      } else {
-        step.debug = cloneSafe(err.response);
-      }
-      throw err;
+      stepExport(step, cloneSafe(err.response));
     }
+    throw err;
+  }
+}
+
+function stepExport(step: any, message: any, key = "debug") {
+  if (step) {
+      if (step.export) {
+      step.export(key, message);
+      } else {
+      step[key] = message;
+      }
+  } else {
+    console.log(`${key}: ${message}`);
   }
 }

@@ -90,14 +90,22 @@ async function default_1(step, config, signConfig) {
     }
     catch (err) {
         if (err.response) {
-            if (step.export) {
-                step.export("debug", utils_1.cloneSafe(err.response));
-            }
-            else {
-                step.debug = utils_1.cloneSafe(err.response);
-            }
-            throw err;
+            stepExport(step, utils_1.cloneSafe(err.response));
         }
+        throw err;
     }
 }
 exports.default = default_1;
+function stepExport(step, message, key = "debug") {
+    if (step) {
+        if (step.export) {
+            step.export(key, message);
+        }
+        else {
+            step[key] = message;
+        }
+    }
+    else {
+        console.log(`${key}: ${message}`);
+    }
+}
