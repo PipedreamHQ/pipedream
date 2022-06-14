@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Logging } from "@google-cloud/logging";
 import { Storage } from "@google-cloud/storage";
+import { BigQuery } from "@google-cloud/bigquery";
 
 export default {
   type: "app",
@@ -43,6 +44,42 @@ export default {
           [];
       },
     },
+    datasetId: {
+      type: "string",
+      label: "Dataset ID",
+      description: "The BigQuery dataset against which queries will be executed",
+      async options({ page }) {
+        if (page) {
+          return [];
+        }
+
+        const client = this.getBigQueryClient();
+        const [
+          datasets,
+        ] = await client.getDatasets();
+        return datasets.map(({ id }) => id);
+      },
+    },
+    tableId: {
+      type: "string",
+      label: "Table Name",
+      description: "The name of the table to watch for new rows",
+      async options({
+        page, datasetId,
+      }) {
+        if (page) {
+          return [];
+        }
+
+        const client = this
+          .getBigQueryClient()
+          .dataset(datasetId);
+        const [
+          tables,
+        ] = await client.getTables();
+        return tables.map(({ id }) => id);
+      },
+    },
   },
   methods: {
     authKeyJson() {
@@ -68,6 +105,14 @@ export default {
     },
     storageClient() {
       return new Storage(this.sdkParams());
+    },
+    getBigQueryClient() {
+      const credentials = this.authKeyJson();
+      const { project_id: projectId } = credentials;
+      return new BigQuery({
+        credentials,
+        projectId,
+      });
     },
   },
 };

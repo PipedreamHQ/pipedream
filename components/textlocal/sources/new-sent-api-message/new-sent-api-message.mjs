@@ -1,10 +1,12 @@
-const common = require("../common/timer-based");
+import common from "../common/timer-based.mjs";
 
-module.exports = {
-...common,
+export default {
+  ...common,
   key: "textlocal-new-sent-api-message",
   name: "New Sent API Message",
-  version: "0.0.1",
+  description: "Emit new message sent via Textlocal's API",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
@@ -58,7 +60,7 @@ module.exports = {
       });
 
       const newLatestMessageId = Math.max(
-        ...messages.map(({ id }) => id)
+        ...messages.map(({ id }) => id),
       ).toString();
       this.db.set("latestMessageId", newLatestMessageId);
     },
