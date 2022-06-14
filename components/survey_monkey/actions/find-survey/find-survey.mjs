@@ -14,7 +14,7 @@ export default {
     });
     $.export(
       "$summary",
-      `Successfully fetched Survey "${response.title}"`,
+      `Successfully fetched Survey "${response.title}" details`,
     );
     return response;
   },

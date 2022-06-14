@@ -27,7 +27,7 @@ export default {
       collectorId: this.collectorId,
     });
 
-    $.export("$summary", `Successfully fetched Collector ${response.name}`);
+    $.export("$summary", `Successfully fetched Collector "${response.name}" details`);
     return response;
   },
 };
