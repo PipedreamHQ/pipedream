@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.5",
+  version: "0.0.6",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -106,6 +106,10 @@ export default {
     },
   },
   async run(event) {
+    if (event.type !== "message") {
+      console.log(`Ignoring event with unexpected type "${event.type}"`);
+      return;
+    }
     if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
