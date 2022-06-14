@@ -4,7 +4,7 @@ export default {
   ...base,
   key: "microsoft_teams-new-team-member",
   name: "New Team Member",
-  description: "Emit new event when a new channel is created within a team",
+  description: "Emit new event when a new member is added to a team",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
