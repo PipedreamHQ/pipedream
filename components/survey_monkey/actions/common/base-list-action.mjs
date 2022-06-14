@@ -1,10 +1,10 @@
 export default {
   methods: {
-    getItemType() {
-      throw new Error("Item type not defined for this action");
+    getItemName() {
+      throw new Error("Item name not defined for this action");
     },
     async runRequest() {
-      throw new Error("Request type not defined for this action");
+      throw new Error("Request method not defined for this action");
     },
   },
   async run({ $ }) {
@@ -13,7 +13,7 @@ export default {
     const amount = response.length;
     $.export(
       "$summary",
-      `Successfully fetched ${amount} ${this.getItemType()}${
+      `Successfully fetched ${amount} ${this.getItemName()}${
         amount === 1
           ? ""
           : "s"

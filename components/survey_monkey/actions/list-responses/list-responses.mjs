@@ -8,11 +8,11 @@ export default {
   name: "List Survey Responses",
   description:
     "Retrieve a survey's Responses. [See the docs here](https://developer.surveymonkey.com/api/v3/#api-endpoints-get-surveys-id-responses)",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   methods: {
     ...baseListAction.methods,
-    getItemType() {
+    getItemName() {
       return "Response";
     },
     async runRequest($) {

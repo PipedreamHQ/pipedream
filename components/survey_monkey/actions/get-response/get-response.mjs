@@ -7,7 +7,7 @@ export default {
   name: "Get Response Details",
   description:
     "Get details for a Response. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-collector_id-responses-response_id-)",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     ...base.props,
@@ -28,7 +28,7 @@ export default {
       responseId: this.responseId,
     });
 
-    $.export("$summary", "Successfully fetched response details");
+    $.export("$summary", "Successfully fetched Response details");
     return response;
   },
 };

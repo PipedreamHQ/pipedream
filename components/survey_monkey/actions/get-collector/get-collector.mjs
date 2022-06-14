@@ -7,7 +7,7 @@ export default {
   name: "Get Collector Details",
   description:
     "Get details for a Collector. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-collectors-id-)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     ...base.props,
@@ -27,7 +27,7 @@ export default {
       collectorId: this.collectorId,
     });
 
-    $.export("$summary", `Successfully fetched collector ${response.name}`);
+    $.export("$summary", `Successfully fetched Collector ${response.name}`);
     return response;
   },
 };

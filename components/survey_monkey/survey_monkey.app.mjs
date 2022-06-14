@@ -33,7 +33,7 @@ export default {
         });
 
         return responses.map((response) => ({
-          label: `Response #${response.id})`,
+          label: `Response #${response.id}`,
           value: response.id,
         }));
       },

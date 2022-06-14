@@ -7,14 +7,14 @@ export default {
   name: "List Surveys",
   description:
     "List all your Surveys. [See the docs here](https://developer.surveymonkey.com/api/v3/#api-endpoints-get-surveys)",
-  version: "0.0.7",
+  version: "0.0.1",
   type: "action",
   props: {
     surveyMonkey,
   },
   methods: {
     ...baseListAction.methods,
-    getItemType() {
+    getItemName() {
       return "Survey";
     },
     async runRequest($) {

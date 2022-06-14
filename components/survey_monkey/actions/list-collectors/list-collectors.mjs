@@ -8,11 +8,11 @@ export default {
   name: "List Survey Collectors",
   description:
     "Retrieve a survey's Collectors. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-surveys-id-collectors)",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   methods: {
     ...baseListAction.methods,
-    getItemType() {
+    getItemName() {
       return "Collector";
     },
     async runRequest($) {
