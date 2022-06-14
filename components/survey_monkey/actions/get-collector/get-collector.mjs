@@ -1,5 +1,5 @@
 import surveyMonkey from "../../survey_monkey.app.mjs";
-import base from "../common/base-survey-action.mjs";
+import base from "../common/base-survey.mjs";
 
 export default {
   ...base,
