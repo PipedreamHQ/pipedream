@@ -22,7 +22,7 @@ export default {
       data: JSON.parse(this.data),
     });
 
-    $.export("$summary", "Successfully created record");
+    $.export("$summary", `Successfully created record with id ${response.id}`);
 
     return response;
   },

@@ -14,38 +14,71 @@ export default {
     _apiUrl() {
       return `https://api.adalo.com/v0/apps/${this._appId()}`;
     },
-    async _makeRequest(path, options = {}, $ = this) {
+    async _makeRequest({
+      $ = this, path, ...args
+    } = {}) {
       return axios($, {
-        url: `${this._apiUrl()}/${path}`,
+        url: `${this._apiUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this._apiKey()}`,
           "Content-Type": "application/json",
         },
-        ...options,
+        ...args,
       });
     },
-    async getRecords({
-      $, collectionId,
+    async paginateResources({
+      requestFn, requestArgs, resourceName, mapper,
     }) {
-      const { records } = await this._makeRequest(`collections/${collectionId}`, {}, $);
+      const limit = requestArgs.params?.limit ?? 100;
+      const offset = (requestArgs.params?.offset ?? 0) + limit;
+
+      const {
+        [resourceName]: resources,
+        meta,
+      } =
+        await requestFn({
+          ...requestArgs,
+          params: {
+            limit,
+            ...requestArgs.params,
+          },
+        });
+
+      return {
+        options: resources.map(mapper),
+        context: {
+          offset,
+          total: meta.total,
+        },
+      };
+    },
+    async getRecords({
+      collectionId, ...args
+    } = {}) {
+      const { records } = await this._makeRequest({
+        path: `/collections/${collectionId}`,
+        ...args,
+      });
 
       return records;
     },
     async createRecord({
-      $, collectionId, data,
-    }) {
-      return this._makeRequest(`collections/${collectionId}`, {
+      collectionId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/collections/${collectionId}`,
         method: "post",
-        data,
-      }, $);
+        ...args,
+      });
     },
     async updateRecord({
-      $, collectionId, recordId, data,
-    }) {
-      return this._makeRequest(`collections/${collectionId}/${recordId}`, {
+      collectionId, recordId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/collections/${collectionId}/${recordId}`,
         method: "put",
-        data,
-      }, $);
+        ...args,
+      });
     },
   },
 };

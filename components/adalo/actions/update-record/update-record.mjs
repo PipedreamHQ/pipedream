@@ -28,7 +28,7 @@ export default {
       data: JSON.parse(this.data),
     });
 
-    $.export("$summary", "Successfully updated record");
+    $.export("$summary", `Successfully updated record with ID ${response.id}`);
 
     return response;
   },
