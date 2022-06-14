@@ -71,13 +71,15 @@ export default {
         port,
         database,
       } = this.$auth;
-      const connectionString = `postgresql://${user}:${password}@${host}:${port}/${database}`;
-      const client = new Client({
-        connectionString,
-        ssl: {
+      const config = {
+        connectionString: `postgresql://${user}:${password}@${host}:${port}/${database}`,
+      };
+      if (rejectUnauthorized === false) {
+        config.ssl = {
           rejectUnauthorized,
-        },
-      });
+        };
+      }
+      const client = new Client(config);
       await client
         .connect()
         .catch((err) => console.error("Connection error", err.stack));
