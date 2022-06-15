@@ -232,7 +232,7 @@ export default {
       return (await axios(opts)).data;
     },
     _isRetriableStatusCode(statusCode) {
-      [
+      return [
         408,
         429,
         500,
