@@ -133,11 +133,11 @@ import axios from 'axios'
 
 export default defineComponent({
   async run({ steps, $ }) {
+    const TIMEOUT = 86400 * 1000
     const { run } = $.context
     // $.context.run.runs starts at 1 and increments when the step is rerun
     if (run.runs === 1) {
-      // $.flow.rerun(timeout in ms if not resumed, context, max retries)
-      const { cancel_url, resume_url } = $.flow.rerun(86400 * 1000, { hello: "world"}, 1)
+      const { cancel_url, resume_url } = $.flow.rerun(TIMEOUT, null, 1)
 
       // Send resume_url to external service
       await axios({
@@ -148,6 +148,9 @@ export default defineComponent({
           cancel_url,
         }
       })
+    }
+    else if (run.runs === 2) {
+      throw new Error("External service never completed job")
     }
     // When the external service calls back into the resume_url, you have access to 
     // the callback data within $.context.run.callback_request
@@ -161,7 +164,7 @@ export default defineComponent({
 
 ### Passing `context` to `$.flow.rerun`
 
-Within a Node.js code step, `$.context.run.context` contains the `context` passed from the prior call to `rerun`. For example, if you call:
+Within a Node.js code step, `$.context.run.context` contains the `context` passed from the prior call to `rerun`. This lets you pass data from one run to another. For example, if you call:
 
 ```javascript
 $.flow.rerun(1000, { hello: "world" })
