@@ -173,6 +173,11 @@ export default {
         };
       },
     },
+    epicIid: {
+      type: "string",
+      label: "Epic IID",
+      description: "The internal ID of the epic",
+    },
     issueState: {
       type: "string",
       label: "Issue State",
@@ -229,6 +234,12 @@ export default {
       type: "string",
       label: "Created at",
       description: "When the epic was created. Date time string, ISO 8601 formatted, for example 2016-03-11T03:45:40Z . Requires administrator or project/group owner privileges (available in GitLab 13.5 and later)",
+      optional: true,
+    },
+    updated_at: {
+      type: "string",
+      label: "Updated at",
+      description: "When the epic was updated. Date time string, ISO 8601 formatted, for example 2016-03-11T03:45:40Z . Requires administrator or project/group owner privileges (available in GitLab 13.5 and later)",
       optional: true,
     },
     start_date_is_fixed: {
@@ -330,6 +341,9 @@ export default {
     },
     async createEpic(groupId, title, opts) {
       return this._gitlabClient().Epics.create(groupId, title, opts);
+    },
+    async updateEpic(groupId, epicIid, opts) {
+      return this._gitlabClient().Epics.edit(groupId, epicIid, opts);
     },
     async editIssue(projectId, issueIid, opts) {
       return this._gitlabClient().Issues.edit(projectId, issueIid, opts);

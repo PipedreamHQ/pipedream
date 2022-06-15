@@ -2,9 +2,9 @@ import lodash from "lodash";
 import gitlab from "../../gitlab.app.mjs";
 
 export default {
-  key: "gitlab-create-epic",
-  name: "Create Epic",
-  description: "Creates a new epic. [See docs](https://docs.gitlab.com/ee/api/epics.html#new-epic)",
+  key: "gitlab-update-epic",
+  name: "Update Epic",
+  description: "Updates an epic. [See docs](https://docs.gitlab.com/ee/api/epics.html#update-epic)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,29 +15,26 @@ export default {
         "groupPath",
       ],
     },
-    parent_id: {
+    epicIid: {
       propDefinition: [
         gitlab,
-        "epicId",
-        (c) => ({
-          groupPath: c.groupPath,
-        }),
+        "epicIid",
       ],
     },
-    title: {
-      propDefinition: [
-        gitlab,
-        "title",
-      ],
-      description: "The title of the epic",
-    },
-    labels: {
+    add_labels: {
       propDefinition: [
         gitlab,
         "groupLabels",
         (c) => ({
           groupPath: c.groupPath,
         }),
+      ],
+      label: "Add labels",
+    },
+    confidential: {
+      propDefinition: [
+        gitlab,
+        "confidential",
       ],
     },
     description: {
@@ -47,22 +44,67 @@ export default {
       ],
       description: "The description of the issue",
     },
+    labels: {
+      propDefinition: [
+        gitlab,
+        "groupLabels",
+        (c) => ({
+          groupPath: c.groupPath,
+        }),
+      ],
+      description: "Comma-separated label names for an issue. Set to an empty string to unassign all labels.",
+    },
+    parent_id: {
+      propDefinition: [
+        gitlab,
+        "epicId",
+        (c) => ({
+          groupPath: c.groupPath,
+        }),
+      ],
+      label: "Parent Id",
+      description: "The ID of a parent epic. Available in GitLab 14.6 and later",
+    },
+    remove_labels: {
+      propDefinition: [
+        gitlab,
+        "groupLabels",
+        (c) => ({
+          groupPath: c.groupPath,
+        }),
+      ],
+      label: "Remove labels",
+      description: "Comma-separated label names to remove from an issue.",
+    },
+    stateEvent: {
+      propDefinition: [
+        gitlab,
+        "stateEvent",
+      ],
+      options: [
+        "close",
+        "reopen",
+      ],
+      optional: true,
+    },
+    title: {
+      propDefinition: [
+        gitlab,
+        "title",
+      ],
+      description: "The title of an epic",
+      optional: true,
+    },
+    updated_at: {
+      propDefinition: [
+        gitlab,
+        "updated_at",
+      ],
+    },
     color: {
       propDefinition: [
         gitlab,
         "color",
-      ],
-    },
-    confidential: {
-      propDefinition: [
-        gitlab,
-        "confidential",
-      ],
-    },
-    created_at: {
-      propDefinition: [
-        gitlab,
-        "created_at",
       ],
     },
     start_date_is_fixed: {
@@ -100,22 +142,25 @@ export default {
   },
   async run({ $ }) {
     const opts = lodash.pickBy(lodash.pick(this, [
-      "parent_id",
-      "title",
-      "labels",
-      "description",
-      "color",
+      "add_labels",
       "confidential",
-      "created_at",
-      "start_date_is_fixed",
+      "description",
       "due_date_is_fixed",
-      "start_date_fixed",
       "due_date_fixed",
+      "labels",
+      "parent_id",
+      "remove_labels",
+      "start_date_is_fixed",
+      "start_date_fixed",
+      "stateEvent",
+      "title",
+      "updated_at",
+      "color",
     ]));
     opts.labels = opts.labels?.join();
 
-    const response = await this.gitlab.createEpic(this.groupPath, this.title, opts);
-    $.export("$summary", `Created epic ${this.title}`);
+    const response = await this.gitlab.updateEpic(this.groupPath, this.epicIid, opts);
+    $.export("$summary", `Updated epic ${this.epicIid}`);
     return response;
   },
 };
