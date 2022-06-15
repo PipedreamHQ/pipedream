@@ -67,6 +67,25 @@ export default {
       description: "Select fields for the Standard Object",
       options: () => [], // override options for each object, e.g., () => Object.keys(account)
     },
+    AcceptedEventInviteeIds: {
+      type: "string[]",
+      label: "Accepted Event Invitee IDs",
+      async options() {
+        const { recentItems: contacts } = await this.listSObjectTypeIds("Contact");
+        const { recentItems: leads } = await this.listSObjectTypeIds("Lead");
+        const allContacts = [
+          ...contacts,
+          ...leads,
+        ];
+        return allContacts.map(({
+          Name, Id,
+        }) => ({
+          label: Name,
+          value: Id,
+        }));
+      },
+      description: "A string array of contact or lead IDs who accepted this event. This JunctionIdList is linked to the AcceptedEventRelation child relationship. Warning Adding a JunctionIdList field name to the fieldsToNull property deletes all related junction records. This action can't be undone.",
+    },
   },
   methods: {
     _authToken() {

@@ -1,9 +1,7 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import event from "../../common/sobjects/event.mjs";
 import {
-  pickBy, pick,
-} from "lodash-es";
-import { toSingleLineString } from "../../common/utils.mjs";
+  removeNullEntries, toSingleLineString,
+} from "../../common/utils.mjs";
 
 export default {
   key: "salesforce_rest_api-create-event",
@@ -17,29 +15,61 @@ export default {
   type: "action",
   props: {
     salesforce,
-    durationInMinutes: {
-      type: "integer",
-      label: "Duration in minutes",
-      description: "Contains the event length, in minutes.",
+    IsAllDayEvent: {
+      type: "boolean",
+      label: "All-Day Event",
+      description: "Indicates whether the ActivityDate field (true) or the ActivityDateTime field (false) is used to define the date or time of the event.",
+      reloadProps: true,
     },
-    selector: {
+    AcceptedEventInviteeIds: {
       propDefinition: [
         salesforce,
-        "fieldSelector",
+        "AcceptedEventInviteeIds",
       ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Event`,
-      options: () => Object.keys(event),
-      reloadProps: true,
+    },
+    Description: {
+      type: "string",
+      label: "Description",
+      description: "Contains a text description of the event. Limit: 32,000 characters.",
+    },
+    Subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject line of the event, such as Call, Email, or Meeting. Limit: 255 characters.",
     },
   },
   async additionalProps() {
-    return this.salesforce.additionalProps(this.selector, event);
+    const props = {};
+    if (this.IsAllDayEvent) {
+      props.ActivityDate = {
+        type: "string",
+        label: "Due Date Only (YYYY/MM/DD)",
+        description: "Contains the event's due date if the IsAllDayEvent flag is set to true.",
+      };
+    } else {
+      props.ActivityDateTime = {
+        type: "string",
+        label: "Due Date Time",
+        description: "Contains the event's due date if the IsAllDayEvent flag is set to false. The time portion of this field is always transferred in the Coordinated Universal Time (UTC) time zone. Translate the time portion to or from a local time zone for the user or the application, as appropriate.",
+      };
+      props.DurationInMinutes = {
+        type: "integer",
+        label: "Duration in minutes",
+        description: "Contains the event length, in minutes.",
+      };
+    }
+    return props;
   },
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "durationInMinutes",
-      ...this.selector,
-    ]));
+    const data = removeNullEntries({
+      IsAllDayEvent: this.IsAllDayEvent,
+      AcceptedEventInviteeIds: this.AcceptedEventInviteeIds,
+      Description: this.Description,
+      Subject: this.Subject,
+      ActivityDate: this.ActivityDate && new Date(this.ActivityDate).toUTCString(),
+      ActivityDateTime: this.ActivityDateTime,
+      DurationInMinutes: this.DurationInMinutes,
+    });
     const response = await this.salesforce.createEvent({
       $,
       data,
