@@ -9,6 +9,7 @@ export default {
   description: "Emit new event when a page is updated",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     ...base.props,
     databaseId: {
@@ -19,22 +20,16 @@ export default {
     },
   },
   async run() {
-    const pages = [];
     const params = this.lastUpdatedSortParam();
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
 
-    // Get pages in updated order descending until the first page edited after
-    // lastEditedTime, then reverse list of pages and emit
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {
       if (!this.isResultNew(page.last_edited_time, lastCheckedTimestamp)) {
         break;
       }
-      pages.push(page);
-    }
 
-    pages.reverse().forEach((page) => {
       const meta = this.generateMeta(
         page,
         constants.types.PAGE,
@@ -42,12 +37,10 @@ export default {
         constants.summaries.PAGE_UPDATED,
         true,
       );
-      this.$emit(page, meta);
-    });
 
-    const lastPageEditedTime = pages[pages.length - 1]?.last_edited_time;
-    if (lastPageEditedTime) {
-      this.setLastUpdatedTimestamp(Date.parse(lastPageEditedTime));
+      this.$emit(page, meta);
+
+      this.setLastUpdatedTimestamp(Date.parse(page?.last_edited_time));
     }
   },
 };
