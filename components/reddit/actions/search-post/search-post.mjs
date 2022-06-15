@@ -6,7 +6,7 @@ export default {
   key: "reddit-search-post",
   version: "0.0.1",
   name: "Search Post",
-  description: "Search posts by title in a subreddit. [See the docs here](https://www.reddit.com/dev/api/#GET_search)",
+  description: "Search posts by title. [See the docs here](https://www.reddit.com/dev/api/#GET_search)",
   props: {
     reddit,
     query: {
