@@ -90,6 +90,7 @@ export default {
       type: "string",
       label: "Message",
       description: "Message to be sent",
+    },
     max: {
       type: "integer",
       label: "Max",
@@ -204,26 +205,22 @@ export default {
         .api(endpoint)
         .get();
     },
-    async listTeams() {
-      const id = await this.authenticatedUserId();
-      return this.clientApiGetRequest(`/users/${id}/joinedTeams?orderby=createdDateTime%20desc`);
-    },
-    async listChannels({ teamId }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/channels?orderby=createdDateTime%20desc`);
-    },
     async listChannelMessages({
       teamId, channelId,
     }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/channels/${channelId}/messages/delta?orderby=createdDateTime%20desc`);
+      return this.makeRequest({
+        path: `/teams/${teamId}/channels/${channelId}/messages/delta?${constants.ORDER_BY_CREATED_DESC}`,
+      });
     },
     async listTeamMembers({ teamId }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/members`);
-    },
-    async listChats() {
-      return this.clientApiGetRequest("/chats?orderby=createdDateTime%20desc");
+      return this.makeRequest({
+        path: `/teams/${teamId}/members`,
+      });
     },
     async listChatMessages({ chatId }) {
-      return this.clientApiGetRequest(`/chats/${chatId}/messages?orderby=createdDateTime%20desc`);
+      return this.makeRequest({
+        path: `/chats/${chatId}/messages?${constants.ORDER_BY_CREATED_DESC}`,
+      });
     },
   },
 };
