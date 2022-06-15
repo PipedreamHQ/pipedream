@@ -732,6 +732,7 @@ importers:
       combined-stream: ^1.0.8
       delayed-stream: ^1.0.0
       form-data: ^3.0.1
+      lodash-es: ^4.17.21
       mime-db: ^1.52.0
       mime-types: ^2.1.35
       node-fetch: ^2.6.7
@@ -744,6 +745,7 @@ importers:
       combined-stream: 1.0.8
       delayed-stream: 1.0.0
       form-data: 3.0.1
+      lodash-es: 4.17.21
       mime-db: 1.52.0
       mime-types: 2.1.35
       node-fetch: 2.6.7
@@ -15099,7 +15101,7 @@ packages:
     dev: true
 
   /validate-npm-package-name/3.0.0:
-    resolution: {integrity: sha1-X6kS2B630MdK/BQN5zF/DKffQ34=}
+    resolution: {integrity: sha512-M6w37eVCMMouJ9V/sdPGnC5H4uDr73/+xdq0FBLO3TFFX1+7wiUY6Es328NN+y43tmY+doUdN9g9J21vqB7iLw==}
     dependencies:
       builtins: 1.0.3
     dev: true
