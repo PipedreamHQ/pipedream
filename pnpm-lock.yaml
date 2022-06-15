@@ -1159,6 +1159,12 @@ importers:
   components/weworkbook:
     specifiers: {}
 
+  components/withings:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/woocommerce:
     specifiers:
       '@pipedream/platform': ^0.10.0
