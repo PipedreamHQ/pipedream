@@ -1,5 +1,4 @@
 import reddit from "../../reddit.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
@@ -9,6 +8,13 @@ export default {
   description: "Search posts by title. [See the docs here](https://www.reddit.com/dev/api/#GET_search)",
   props: {
     reddit,
+    subreddit: {
+      propDefinition: [
+        reddit,
+        "subreddit",
+      ],
+      description: "Search for a subreddit, or enter a subreddit display name as a custom expression (for example, `happycowgifs`).",
+    },
     query: {
       label: "Query",
       description: "Query to search for posts",
@@ -62,11 +68,11 @@ export default {
       count: this.count,
     };
 
-    const res = await axios($, this.reddit._getAxiosParams({
-      method: "GET",
-      path: "/r/subreddit/search",
+    const res = await this.reddit.searchSubredditLinks(
+      this.subreddit.value ?? this.subreddit,
       params,
-    }));
+    );
+
     $.export("$summary", "Posts successfully fetched");
 
     return res;
