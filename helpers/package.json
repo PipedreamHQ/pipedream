@@ -17,6 +17,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "test": "npm run build"
+  },
   "dependencies": {
     "@pipedream/types": "^0.0.5",
     "lodash-es": "^4.17.21"

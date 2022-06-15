@@ -1,5 +1,5 @@
 packages:
-  - 'types/*'
+  - 'types/**'
   - 'components/**'
-  - 'helpers/*'
+  - 'helpers/**'
   - 'platform/**'

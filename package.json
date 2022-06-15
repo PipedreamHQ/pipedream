@@ -26,9 +26,12 @@
   "scripts": {
     "prepare": "husky install",
     "build": "npx tsc --build --force | node scripts/tsPostBuild.mjs",
-    "test": "npm run platform-build && jest --passWithNoTests",
-    "platform-build": "cd platform && npm run build",
-    "platform-dist": "cd platform && git add dist"
+    "test": "npm run build && jest --passWithNoTests components",
+    "test-all": "npm test && npm run platform-test && npm run types-test && npm run helpers-test",
+    "platform-dist": "cd platform && git add dist",
+    "platform-test": "cd platform && npm test",
+    "types-test": "cd types && npm test",
+    "helpers-test": "cd helpers && npm test"
   },
   "devDependencies": {
     "@pipedream/types": "^0.1.0",

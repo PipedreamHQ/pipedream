@@ -6,7 +6,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist/** && tsc"
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "test": "npm run build && jest"
   },
   "author": "Pipedream Team",
   "license": "MIT",

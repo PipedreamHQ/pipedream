@@ -2,5 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
-npm test
+npm run test-all
 npm run platform-dist
+npx pnpm install -r
+git add pnpm-lock.yaml
