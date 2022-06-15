@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/platform",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Pipedream platform globals (typing and runtime type checking)",
   "homepage": "https://pipedream.com",
   "main": "dist/index.js",

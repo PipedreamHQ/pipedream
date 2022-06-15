@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helpers",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "Pipedream Component Helpers",
   "type": "module",
   "exports": "./dist/index.js",
