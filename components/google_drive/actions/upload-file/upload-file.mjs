@@ -6,6 +6,10 @@ import {
   byteToMB,
 } from "../../utils.mjs";
 import { omitEmptyStringValues } from "../../utils.mjs";
+import {
+  GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
+  GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
+} from "../../constants.mjs";
 
 export default {
   key: "google_drive-upload-file",
@@ -93,8 +97,8 @@ export default {
         const fileBuffer = await streamToBuffer(file);
         const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
         uploadType = bufferSize > 5
-          ? "resumable"
-          : "media";
+          ? GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE
+          : GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA;
         console.log(`Upload type: ${uploadType}`);
       } catch (err) {
         console.log(err);
