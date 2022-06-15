@@ -1,16 +1,16 @@
 import notion from "../../notion.app.mjs";
-import utils from "../common/utils.mjs";
-import constants from "../common/constants.mjs";
+import base from "../common/base-page-builder.mjs";
 
 export default {
+  ...base,
   key: "notion-append-block",
   name: "Append Block to Parent",
-  description: "Creates and appends new children blocks to the parent *block_id* specified. [See the docs](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.0.2",
+  description: "Creates and appends new blocks to the specified parent. [See the docs](https://developers.notion.com/reference/patch-block-children)",
+  version: "0.1.0",
   type: "action",
   props: {
     notion,
-    parentId: {
+    pageId: {
       propDefinition: [
         notion,
         "pageId",
@@ -23,45 +23,16 @@ export default {
         notion,
         "blockTypes",
       ],
-      reloadProps: true,
     },
   },
   async additionalProps() {
-    return this.blockTypes.reduce((props, blockType) => ({
-      ...props,
-      ...constants.BLOCK_TYPES[blockType].additionalProps,
-    }), {});
-  },
-  methods: {
-    buildBlockArgs(blockType) {
-      switch (blockType) {
-      case constants.BLOCK_TYPES.paragraph.name:
-        return [
-          {
-            label: "rich_text",
-            value: this.paragraphText,
-          },
-        ];
-      case constants.BLOCK_TYPES.to_do.name:
-        return [
-          {
-            label: "rich_text",
-            value: this.todoText,
-          },
-          {
-            label: "checked",
-            value: this.todoChecked,
-          },
-        ];
-      default:
-        throw new Error("This block type is not yet supported");
-      }
-    },
+    return this.buildAdditionalProps({
+      blocks: this.blockTypes,
+    });
   },
   async run({ $ }) {
-    const blocks = this.blockTypes
-      .map((block) => utils.buildBlock(block, this.buildBlockArgs(block)));
-    const response = await this.notion.appendBlock(this.parentId, blocks);
+    const blocks = this.createBlocks();
+    const response = await this.notion.appendBlock(this.pageId, blocks);
     $.export("$summary", "Appended block(s) successfully");
     return response;
   },
