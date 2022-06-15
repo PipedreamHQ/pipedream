@@ -10,10 +10,10 @@ export default {
   props: {
     salesForceRestApi,
     sobjectType: {
-      type: "string",
-      label: "Object type",
-      description:
-       "Salesforce standard object type of the record to get field values from. [Object types](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)",
+      propDefinition: [
+        salesForceRestApi,
+        "objectType",
+      ],
     },
     ids: {
       type: "string[]",
@@ -34,14 +34,14 @@ export default {
       fields,
       ids,
     } = this;
-    const response =  await this.salesForceRestApi.getRecords(
+    const response = await this.salesForceRestApi.getRecords(
       sobjectType, {
         fields: fields.join(","),
         ids: ids.join(","),
       },
     );
     if (response) {
-      $.export("$summary", "Record found successfully" );
+      $.export("$summary", "Record found successfully");
     }
     return response;
   },
