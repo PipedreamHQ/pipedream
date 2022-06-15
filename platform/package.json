@@ -23,6 +23,7 @@
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "release-it": "^12.3.3",
+    "@octokit/core": "^3.6.0",
     "typescript": "^3.5.3"
   }
 }
