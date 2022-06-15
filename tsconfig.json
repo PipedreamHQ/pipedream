@@ -4,33 +4,45 @@
     "outDir": "dist",
     "composite": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "."
   },
   "exclude": [
-    "components",
+    "components"
   ],
   "include": [
-    "components",
+    "components"
   ],
   "allowJs": true,
   "references": [
     {
-      "path": "components/rss",
+      "path": "components/rss"
     },
     {
-      "path": "components/tookan",
+      "path": "components/tookan"
     },
     {
-      "path": "components/snapchat_marketing",
+      "path": "components/snapchat_marketing"
     },
     {
-      "path": "components/nectar_crm",
+      "path": "components/nectar_crm"
     },
     {
-      "path": "components/coinbase_commerce",
+      "path": "components/coinbase_commerce"
     },
     {
-      "path": "components/serveravatar",
+      "path": "components/serveravatar"
     },
-  ],
+    {
+      "path": "components/verifalia"
+    },
+    {
+      "path": "components/dialpad"
+    },
+    {
+      "path": "components/render"
+    },
+    {
+      "path": "components/propelauth"
+    }
+  ]
 }
