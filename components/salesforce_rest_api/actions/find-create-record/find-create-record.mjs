@@ -17,8 +17,13 @@ export default {
       ],
     },
     sobjectId: {
-      type: "string",
-      label: "Object ID",
+      propDefinition: [
+        salesForceRestApi,
+        "sobjectId",
+        (c) => ({
+          objectType: c.sobjectType,
+        }),
+      ],
       description:
         "ID of the Salesforce standard object to get field values from.",
     },

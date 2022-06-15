@@ -16,10 +16,14 @@ export default {
       ],
     },
     ids: {
+      propDefinition: [
+        salesForceRestApi,
+        "sobjectId",
+        (c) => ({
+          objectType: c.sobjectType,
+        }),
+      ],
       type: "string[]",
-      label: "Record IDs to be returned",
-      description:
-        "Record IDs to be returned",
     },
     fields: {
       type: "string[]",
