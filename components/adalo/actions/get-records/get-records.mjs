@@ -2,17 +2,12 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  key: "adalo-get-records",
+  key: "adalo-get-recordss",
   name: "Get Records",
   description: "Get all records from a collection. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
   version: "0.0.1",
   type: "action",
   async run({ $ }) {
-    // const response = await this.adalo.getRecords({
-    //   $,
-    //   collectionId: this.collectionId,
-    // });
-
     let resources = [];
     let offset = 0;
     let total = 1;
@@ -23,6 +18,7 @@ export default {
           requestFn: this.adalo.getRecords,
           requestArgs: {
             $,
+            collectionId: this.collectionId,
             params: {
               offset,
             },

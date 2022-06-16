@@ -32,10 +32,7 @@ export default {
       const limit = requestArgs.params?.limit ?? 100;
       const offset = (requestArgs.params?.offset ?? 0) + limit;
 
-      const {
-        [resourceName]: resources,
-        meta,
-      } =
+      const { [resourceName]: resources } =
         await requestFn({
           ...requestArgs,
           params: {
@@ -48,19 +45,17 @@ export default {
         options: resources.map(mapper),
         context: {
           offset,
-          total: meta.total,
+          total: resources.length,
         },
       };
     },
     async getRecords({
       collectionId, ...args
     } = {}) {
-      const { records } = await this._makeRequest({
+      return await this._makeRequest({
         path: `/collections/${collectionId}`,
         ...args,
       });
-
-      return records;
     },
     async createRecord({
       collectionId, ...args
