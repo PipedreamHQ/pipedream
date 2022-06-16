@@ -5,7 +5,7 @@ export default {
     adalo,
     collectionId: {
       label: "Collection ID",
-      description: "The ID the collection",
+      description: "The ID of the collection",
       type: "string",
     },
   },
