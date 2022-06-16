@@ -95,7 +95,7 @@ export default {
       size: this.size,
       fields: this.fields,
       sort: this.sort,
-      sort_type: this.sort_type,
+      sort_type: this.sortType,
       aggs: this.aggs,
       author: this.author,
       subreddit: this.subreddit,

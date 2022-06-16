@@ -152,6 +152,18 @@ export default {
       description: "Include metadata search information",
       optional: true,
     },
+    after: {
+      type: "string",
+      label: "After",
+      description: "Return results after this date. Provide an epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)",
+      optional: true,
+    },
+    before: {
+      type: "integer",
+      label: "Before",
+      description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
