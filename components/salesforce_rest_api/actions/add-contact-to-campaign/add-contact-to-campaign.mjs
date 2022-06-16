@@ -2,6 +2,7 @@ import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
 import {
   removeNullEntries, toSingleLineString,
 } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "salesforce_rest_api-add-contact-to-campaign",
@@ -20,7 +21,7 @@ export default {
         salesForceRestApi,
         "sobjectId",
         () => ({
-          objectType: "Campaign",
+          objectType: constants.OBJECT_TYPE.CAMPAIGN,
         }),
       ],
       label: "Campaign ID",
@@ -31,7 +32,7 @@ export default {
         salesForceRestApi,
         "sobjectId",
         () => ({
-          objectType: "Contact",
+          objectType: constants.OBJECT_TYPE.CONTACT,
         }),
       ],
       label: "Contact ID",

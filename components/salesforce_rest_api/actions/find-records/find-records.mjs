@@ -40,8 +40,8 @@ export default {
     } = this;
     const response = await this.salesForceRestApi.getRecords(
       sobjectType, {
-        fields: fields.join(","),
-        ids: ids.join(","),
+        fields: Array.isArray(fields) && fields.join(","),
+        ids: Array.isArray(ids) && ids.join(","),
       },
     );
     if (response) {

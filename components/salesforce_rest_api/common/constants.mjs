@@ -27,4 +27,8 @@ export default {
     "Cadence",
     "Call",
   ],
+  OBJECT_TYPE: {
+    CAMPAIGN: "Campaign",
+    CONTACT: "Contact",
+  },
 };
