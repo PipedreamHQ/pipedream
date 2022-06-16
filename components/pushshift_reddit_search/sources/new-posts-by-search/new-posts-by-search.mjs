@@ -1,5 +1,6 @@
 import pushshift from "../../pushshift_reddit_search.app.mjs";
 import utils from "../../common/utils.mjs";
+import base from "../common/base.mjs";
 
 export default {
   key: "pushshift_reddit_search-new-posts-by-search",
@@ -9,16 +10,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    pushshift,
-    db: "$.service.db",
-    timer: {
-      label: "Polling schedule",
-      description: "Pipedream will poll the Pushshift.io API on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
-      },
-    },
+    ...base.props,
     ids: {
       propDefinition: [
         pushshift,
@@ -165,12 +157,7 @@ export default {
     },
   },
   methods: {
-    _getAfter() {
-      return this.db.get("after");
-    },
-    _setAfter(after) {
-      this.db.set("after", after);
-    },
+    ...base.methods,
     generateMeta(post) {
       return {
         id: post.id,
