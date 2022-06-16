@@ -5,7 +5,7 @@ export default {
   key: "twitter-my-tweets",
   name: "My Tweets",
   description: "Emit new Tweets you post to Twitter",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   props: {
     ...base.props,
@@ -40,8 +40,8 @@ export default {
         screenName,
         count: this.count,
         sinceId: this.getSinceId(),
-        exclude_replies: this.shouldExcludeReplies(),
-        include_rts: this.shouldIncludeRetweets(),
+        excludeReplies: this.shouldExcludeReplies(),
+        includeRts: this.shouldIncludeRetweets(),
       });
     },
   },

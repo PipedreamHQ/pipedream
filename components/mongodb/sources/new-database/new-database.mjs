@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "mongodb-new-database",
   name: "New Database",
-  description: "Emits an event when a new database is added",
-  version: "0.0.1",
+  description: "Emit new an event when a new database is added",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -20,10 +20,12 @@ export default {
       return !dbNames.includes(name);
     },
     async processEvent(client, ts) {
-      let dbNames = this._getDbNames() || [];
+      const dbNames = this._getDbNames() || [];
       const databases = await this.mongodb.listDatabases(client);
       for (const db of databases) {
-        if (!this.isRelevant(db, dbNames)) continue;
+        if (!this.isRelevant(db, dbNames)) {
+          continue;
+        }
         dbNames.push(db.name);
         this.emitEvent(db, ts);
       }

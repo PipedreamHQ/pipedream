@@ -4,7 +4,7 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postgresql,
@@ -41,6 +41,12 @@ export default {
         "rowValues",
       ],
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -48,8 +54,15 @@ export default {
       column,
       value,
       rowValues,
+      rejectUnauthorized,
     } = this;
-    const res = await this.postgresql.updateRow(table, column, value, rowValues);
+    const res = await this.postgresql.updateRow(
+      table,
+      column,
+      value,
+      rowValues,
+      rejectUnauthorized,
+    );
     const summary = res
       ? "Row updated"
       : "Row not found";
