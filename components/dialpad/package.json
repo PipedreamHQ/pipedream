@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/dialpad",
+  "version": "0.0.1",
+  "description": "Pipedream Dialpad Components",
+  "main": "dist/app/dialpad.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dialpad"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/dialpad",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

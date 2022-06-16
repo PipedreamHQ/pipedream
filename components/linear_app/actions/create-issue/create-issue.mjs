@@ -5,7 +5,7 @@ export default {
   key: "linear_app-create-issue",
   name: "Create Issue",
   description: "Create an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.3.3",
+  version: "0.3.4",
   props: {
     linearApp,
     teamId: {
@@ -49,11 +49,10 @@ export default {
         assigneeId,
       });
 
-    if (response.success) {
-      $.export("summary", `Created issue ${response._issue.id}`);
-    } else {
-      $.export("summary", "Failed to create issue");
-    }
+    const summary = response.success
+      ? `Created issue ${response._issue.id}`
+      : "Failed to create issue";
+    $.export("summary", summary);
 
     return response;
   },
