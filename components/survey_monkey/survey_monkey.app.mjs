@@ -11,7 +11,7 @@ export default {
       label: "Survey",
       description: `Select a **Survey** from the list.
       \\
-      Alternatively, you can provide a custom *Survey ID*.`,
+Alternatively, you can provide a custom *Survey ID*.`,
       async options() {
         const surveys = await this.getSurveys();
 
@@ -86,7 +86,7 @@ export default {
     },
     async _makeRequest(customConfig) {
       const {
-        $, url, path, method, params, data, ...otherConfig
+        $ = this, url, path, method, params, data, ...otherConfig
       } =
         customConfig;
 
@@ -101,27 +101,32 @@ export default {
         ...otherConfig,
       };
 
-      return axios($ || this, config);
+      return axios($, config);
     },
-    async _paginatedRequest(params) {
+    async _paginatedRequest(args = {}) {
       // https://api.surveymonkey.net/v3/docs?javascript#pagination
       // using default SurveyMonkey pagination - 50 per page
-      const amountPerPage = 50;
+      const amountPerPage = 1;
       const values = [];
-
-      const { path } = params;
 
       let page = 1;
       let response;
 
       do {
         response = await this._makeRequest({
-          ...params,
-          path: `${path}?page=${page}&per_page=${amountPerPage}`,
+          ...args,
+          params: {
+            ...args.params,
+            page,
+            per_page: amountPerPage,
+          },
         });
 
-        if (response.data) values.push(...response.data);
-        else throw new Error(response);
+        if (response.data) {
+          values.push(...response.data);
+        } else {
+          throw new Error(response);
+        }
       } while (page++ < Math.ceil(response.total / amountPerPage));
 
       return values;

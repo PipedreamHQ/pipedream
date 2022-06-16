@@ -7,7 +7,7 @@ export default {
   version: "0.0.2",
   type: "source",
   key: "survey_monkey-custom-webhook-events",
-  description: "Emmit new custom webhook event",
+  description: "Emit new custom webhook event",
   props: {
     ...common.props,
     objectType: {
