@@ -106,7 +106,7 @@ Alternatively, you can provide a custom *Survey ID*.`,
     async _paginatedRequest(args = {}) {
       // https://api.surveymonkey.net/v3/docs?javascript#pagination
       // using default SurveyMonkey pagination - 50 per page
-      const amountPerPage = 1;
+      const amountPerPage = 50;
       const values = [];
 
       let page = 1;
@@ -131,63 +131,63 @@ Alternatively, you can provide a custom *Survey ID*.`,
 
       return values;
     },
-    async getUserInfo({ $ }) {
+    async getUserInfo({ ...args } = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/users/me",
-        $,
+        ...args,
       });
     },
-    async getSurveys({ $ } = {}) {
+    async getSurveys({ ...args } = {}) {
       return this._paginatedRequest({
         method: "GET",
         path: "/surveys",
-        $,
+        ...args,
       });
     },
     async getSurveyDetails({
-      surveyId, $,
+      surveyId, ...args
     }) {
       return this._makeRequest({
         method: "GET",
         path: `/surveys/${surveyId}/details`,
-        $,
+        ...args,
       });
     },
     async getResponses({
-      surveyId, $,
+      surveyId, ...args
     }) {
       return this._paginatedRequest({
         method: "GET",
         path: `/surveys/${surveyId}/responses`,
-        $,
+        ...args,
       });
     },
     async getResponseDetails({
-      surveyId, responseId, $,
+      surveyId, responseId, ...args
     }) {
       return this._makeRequest({
         method: "GET",
         path: `/surveys/${surveyId}/responses/${responseId}`,
-        $,
+        ...args,
       });
     },
     async getCollectors({
-      surveyId, $,
+      surveyId, ...args
     }) {
       return this._paginatedRequest({
         method: "GET",
         path: `/surveys/${surveyId}/collectors`,
-        $,
+        ...args,
       });
     },
     async getCollectorDetails({
-      collectorId, $,
+      collectorId, ...args
     }) {
       return this._makeRequest({
         method: "GET",
         path: `/collectors/${collectorId}`,
-        $,
+        ...args,
       });
     },
     async deleteHook(hookId) {
