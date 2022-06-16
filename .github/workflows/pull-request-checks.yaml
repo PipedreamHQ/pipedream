@@ -116,7 +116,7 @@ jobs:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -161,7 +161,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -197,7 +197,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
