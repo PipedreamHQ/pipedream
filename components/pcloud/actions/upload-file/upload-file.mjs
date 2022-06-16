@@ -4,7 +4,7 @@ module.exports = {
   key: "pcloud-upload-file",
   name: "Upload File",
   description:
-    "Uploads a file to the specified folder.",
+    "Upload a file to the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,27 +23,27 @@ module.exports = {
         "name",
       ],
       description:
-        "Name of the file to upload. Within the associated Pipedream workflow, the file to upload exist under the `/tmp` directory.",
+        "Name of the file to upload. Within the associated Pipedream workflow, the file to upload exists under the `/tmp` directory.",
     },
     renameIfExists: {
       type: "boolean",
       label: "Rename if Exists",
       description:
-        "If set, the uploaded file will be renamed, if file with the requested name exists in the folder.",
+        "If true, the uploaded file will be renamed, if another file with the requested name already exists in the specified folder.",
       default: true,
     },
     mtime: {
       type: "integer",
       label: "Modified Time",
-      description:
-        "Must be a UNIX timestamp",
+      description: "Must be Unix time (seconds).",
       optional: true,
     },
     ctime: {
       type: "integer",
-      label: "Modified Time",
-      description:
-        "Must be a UNIX timestamp.",
+      label: "Created Time",
+      description: `Must be Unix time (seconds).
+      \\
+      Requires \`Modified Time\` to be set.`,
       optional: true,
     },
   },

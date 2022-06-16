@@ -3,7 +3,7 @@ import pcloud from "../../pcloud.app.mjs";
 module.exports = {
   key: "pcloud-create-folder",
   name: "Create Folder",
-  description: "Creates a folder in the specified folder.",
+  description: "Create a folder in the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {

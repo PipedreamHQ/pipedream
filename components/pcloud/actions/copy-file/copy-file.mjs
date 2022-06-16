@@ -4,7 +4,7 @@ module.exports = {
   key: "pcloud-copy-file",
   name: "Copy File",
   description:
-    "Takes one file and copies it as another file in the user's filesystem.",
+    "Copy a file to the specified destination.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -40,13 +40,15 @@ module.exports = {
     modifiedTime: {
       type: "integer",
       label: "Modified Time",
-      description: "Must be a UNIX timestamp.",
+      description: "Must be Unix time (seconds).",
       optional: true,
     },
     createdTime: {
       type: "integer",
       label: "Created Time",
-      description: "Must be a UNIX timestamp.",
+      description: `Must be Unix time (seconds).
+      \\
+      Requires \`Modified Time\` to be set.`,
       optional: true,
     },
   },

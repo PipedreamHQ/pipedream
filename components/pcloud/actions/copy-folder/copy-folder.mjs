@@ -3,7 +3,7 @@ import pcloud from "../../pcloud.app.mjs";
 module.exports = {
   key: "pcloud-copy-folder",
   name: "Copy Folder",
-  description: "Copies a folder to the specified folder.",
+  description: "Copy a folder to the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {

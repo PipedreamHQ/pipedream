@@ -2,8 +2,8 @@ import pcloud from "../../pcloud.app.mjs";
 
 module.exports = {
   key: "pcloud-list-contents",
-  name: "List Contents.",
-  description: "Lists the metadata of the specified folder's contents.",
+  name: "List Contents",
+  description: "Get the contents of the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,8 +18,7 @@ module.exports = {
     recursive: {
       type: "boolean",
       label: "Recursive?",
-      description:
-        "Return contents of the folder and all subfolders, recursively.",
+      description: "If true, returns contents of the folder **and all subfolders,** recursively.",
       default: false,
     },
     showdeleted: {
@@ -27,15 +26,14 @@ module.exports = {
         pcloud,
         "showdeleted",
       ],
-      description:
-            "If is set, deleted files and folders that can be undeleted will be displayed.",
+      description: "If true, deleted files and folders that can be undeleted will be displayed.",
       default: false,
     },
     nofiles: {
       type: "boolean",
       label: "No Files?",
       description:
-            "If is set, only the folder (sub)structure will be returned.",
+            "If true, only the **folder** (sub)structure will be returned.",
       default: false,
     },
     noshares: {
