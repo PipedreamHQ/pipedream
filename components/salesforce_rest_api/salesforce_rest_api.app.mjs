@@ -555,16 +555,13 @@ export default {
       };
       return axios($ ?? this, requestConfig);
     },
-    async postFeed({
-      $, params,
-    }) {
+    async postFeed(args = {}) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/chatter/feed-elements`;
       return this._makeRequest({
-        $,
         url,
-        params,
         method: "POST",
+        ...args,
       });
     },
   },
