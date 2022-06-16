@@ -57,7 +57,7 @@ export default {
     chat: {
       type: "string",
       label: "Chat",
-      description: "Team Chat",
+      description: "Team Chat within the organization (No external Contacts)",
       async options({ prevContext }) {
         const response = prevContext.nextLink
           ? await this.makeRequest({
