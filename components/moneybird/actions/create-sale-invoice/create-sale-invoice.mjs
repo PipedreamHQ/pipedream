@@ -47,20 +47,20 @@ export default {
     },
     language: {
       label: "Language",
-      description: "The quote language",
+      description: "The invoice language",
       type: "string",
       options: constants.QUOTE_LANGUAGES,
       optional: true,
     },
     currency: {
       label: "Currency",
-      description: "The quote currency. E.g. EUR or USD",
+      description: "The invoice currency. E.g. EUR or USD",
       type: "string",
       optional: true,
     },
     reference: {
       label: "reference",
-      description: "The quote reference",
+      description: "The invoice reference",
       type: "string",
       optional: true,
     },
@@ -84,10 +84,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.moneybird.createQuote({
+    const response = await this.moneybird.createSaleInvoice({
       $,
       data: {
-        estimate: {
+        sales_invoice: {
           contact_id: this.contactId,
           reference: this.reference,
           language: this.language,
@@ -95,18 +95,20 @@ export default {
           prices_are_incl_tax: this.pricesAreIncludedTax,
           show_tax: this.showTax,
           discount: this.discount,
-        },
-        details_attributes: {
-          description: this.description,
-          price: this.price,
-          amount: this.amount,
-          product_id: this.productId,
-          project_id: this.projectId,
+          details_attributes: [
+            {
+              description: this.description,
+              price: this.price,
+              amount: this.amount,
+              product_id: this.productId,
+              project_id: this.projectId,
+            },
+          ],
         },
       },
     });
 
-    $.export("$summary", "Successfully created contact.");
+    $.export("$summary", "Successfully created sale invoice.");
 
     return response;
   },

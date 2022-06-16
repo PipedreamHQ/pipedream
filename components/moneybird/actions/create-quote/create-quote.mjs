@@ -95,18 +95,20 @@ export default {
           prices_are_incl_tax: this.pricesAreIncludedTax,
           show_tax: this.showTax,
           discount: this.discount,
-        },
-        details_attributes: {
-          description: this.description,
-          price: this.price,
-          amount: this.amount,
-          product_id: this.productId,
-          project_id: this.projectId,
+          details_attributes: [
+            {
+              description: this.description,
+              price: this.price,
+              amount: this.amount,
+              product_id: this.productId,
+              project_id: this.projectId,
+            },
+          ],
         },
       },
     });
 
-    $.export("$summary", "Successfully created contact.");
+    $.export("$summary", "Successfully created quote.");
 
     return response;
   },

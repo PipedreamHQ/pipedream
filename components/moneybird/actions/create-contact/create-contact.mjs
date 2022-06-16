@@ -17,13 +17,11 @@ export default {
       label: "Last Name",
       description: "Last name of contact",
       type: "string",
-      optional: true,
     },
     companyName: {
       label: "Company Name",
       description: "Company name of contact",
       type: "string",
-      optional: true,
     },
     country: {
       label: "Country",
@@ -49,12 +47,10 @@ export default {
       $,
       data: {
         contact: {
-          first_name: this.firstName,
-          last_name: this.lastName,
+          firstname: this.firstName,
+          lastname: this.lastName,
           company_name: this.companyName,
           send_invoices_to_email: this.sendInvoicesToEmail,
-        },
-        address: {
           country: this.country,
           city: this.city,
         },

@@ -46,7 +46,7 @@ export default {
 
     this.$emit(body.entity, {
       id: body.entity.id,
-      summary: `New event ${constants.WEBHOOK_EVENTS.find((e) => e.value === body.action).label} for entity ${body.entity.id}`,
+      summary: `New event ${body.action} for entity ${body.entity.id}`,
       ts: new Date(),
     });
   },

@@ -131,5 +131,13 @@ export default {
         data,
       }, $);
     },
+    async createSaleInvoice({
+      $, data,
+    }) {
+      return this._makeRequest("sales_invoices", {
+        method: "post",
+        data,
+      }, $);
+    },
   },
 };
