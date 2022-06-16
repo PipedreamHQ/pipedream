@@ -29,6 +29,7 @@ module.exports = {
     {
       text: "Support",
       link: "https://pipedream.com/support",
+      internal: true,
     },
     {
       text: "Pricing",
