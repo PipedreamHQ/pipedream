@@ -2,6 +2,7 @@ import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
 import {
   removeNullEntries, toSingleLineString,
 } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "salesforce_rest_api-add-lead-to-campaign",
@@ -15,23 +16,23 @@ export default {
   type: "action",
   props: {
     salesForceRestApi,
-    CampaignId: {
+    campaignId: {
       propDefinition: [
         salesForceRestApi,
         "sobjectId",
         () => ({
-          objectType: "Campaign",
+          objectType: constants.OBJECT_TYPE.CAMPAIGN,
         }),
       ],
       label: "Campaign ID",
       description: "ID of the Campaign to which this Lead is associated.",
     },
-    LeadId: {
+    leadId: {
       propDefinition: [
         salesForceRestApi,
         "sobjectId",
         () => ({
-          objectType: "Lead",
+          objectType: constants.OBJECT_TYPE.LEAD,
         }),
       ],
       label: "Lead ID",
@@ -40,8 +41,8 @@ export default {
   },
   async run({ $ }) {
     const data = removeNullEntries({
-      CampaignId: this.CampaignId,
-      LeadId: this.LeadId,
+      CampaignId: this.campaignId,
+      LeadId: this.leadId,
     });
     const response = await this.salesForceRestApi.createObject("CampaignMember", data);
     response && $.export("$summary", "Successfully added lead to campaign");

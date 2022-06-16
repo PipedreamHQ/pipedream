@@ -30,5 +30,7 @@ export default {
   OBJECT_TYPE: {
     CAMPAIGN: "Campaign",
     CONTACT: "Contact",
+    CAMPAIGN_MEMBER: "CampaignMember",
+    LEAD: "Lead",
   },
 };

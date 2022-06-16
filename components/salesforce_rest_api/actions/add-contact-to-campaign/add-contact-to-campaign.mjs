@@ -16,7 +16,7 @@ export default {
   type: "action",
   props: {
     salesForceRestApi,
-    CampaignId: {
+    campaignId: {
       propDefinition: [
         salesForceRestApi,
         "sobjectId",
@@ -27,7 +27,7 @@ export default {
       label: "Campaign ID",
       description: "ID of the Campaign to which this Lead is associated.",
     },
-    ContactId: {
+    contactId: {
       propDefinition: [
         salesForceRestApi,
         "sobjectId",
@@ -41,10 +41,11 @@ export default {
   },
   async run({ $ }) {
     const data = removeNullEntries({
-      CampaignId: this.CampaignId,
-      ContactId: this.ContactId,
+      CampaignId: this.campaignId,
+      ContactId: this.contactId,
     });
-    const response = await this.salesForceRestApi.createObject("CampaignMember", data);
+    const response = await this.salesForceRestApi
+      .createObject(constants.OBJECT_TYPE.CAMPAIGN_MEMBER, data);
     response && $.export("$summary", "Successfully added contact to campaign");
     return response;
   },
