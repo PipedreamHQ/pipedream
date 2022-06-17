@@ -16,7 +16,6 @@ module.exports = {
   FREE_MONTHLY_INVOCATIONS: "10,000",
   PRO_MONTHLY_INVOCATIONS: "20,000",
   TEAM_MONTHLY_INVOCATIONS: "20,000",
-  ENTERPRISE_MONTHLY_INVOCATIONS: "100,000",
   TEAM_MEMBER_LIMIT: "5",
   PRO_MONTHLY_PRICE: "$19",
   TEAM_MONTHLY_PRICE: "$19",
@@ -26,6 +25,6 @@ module.exports = {
   PYTHON_VERSION: "3.8",
   CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   SERVICE_DB_SIZE_LIMIT: "60KB",
-  TMP_SIZE_LIMIT: "512MB",
+  TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME: "You can pause your workflow for as little as one millisecond, or as long as one year",
 }

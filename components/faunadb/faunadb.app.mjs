@@ -24,7 +24,6 @@ export default {
       description: "The ID of a collection",
       async options() {
         const collections = await this.getCollections();
-
         return collections.map((collection) => collection.id);
       },
     },
@@ -60,11 +59,10 @@ export default {
       const collectionsPaginator = client.paginate(Collections());
 
       await collectionsPaginator.each((page) => {
-        for (const collection of page) {
-          collections.push(collection);
-        }
+        collections.push(...page);
       });
 
+      await client.close();
       return collections;
     },
     async getDocumentsInCollection({
@@ -75,6 +73,8 @@ export default {
       const { data } = await client.query(
         Map(Paginate(Documents(Collection(collectionName))), Lambda("i", Get(Var("i")))),
       );
+
+      await client.close();
 
       if (documentField) {
         return data.map((x) => x.data[documentField]);
@@ -95,11 +95,10 @@ export default {
 
       const events = [];
       await paginationHelper.each((page) => {
-        for (const event of page) {
-          events.push(event);
-        }
+        events.push(...page);
       });
 
+      await client.close();
       return events;
     },
     async importGraphqlSchema({

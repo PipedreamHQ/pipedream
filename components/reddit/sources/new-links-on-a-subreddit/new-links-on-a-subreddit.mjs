@@ -6,9 +6,9 @@ export default {
   ...common,
   type: "source",
   key: "reddit-new-links-on-a-subreddit",
-  name: "New Links on a subreddit",
+  name: "New Links on a Subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -22,7 +22,7 @@ export default {
   hooks: {
     async deploy() {
       // Emits 10 sample events on the first run during deploy.
-      var redditLinks = await this.reddit.getNewSubredditLinks(
+      const redditLinks = await this.reddit.getNewSubredditLinks(
         get(this.subreddit, "value", this.subreddit),
         {
           limit: 10,
@@ -33,9 +33,17 @@ export default {
         console.log("No data available, skipping iteration");
         return;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
-      this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
+      const { name: before = this._getBefore() } = links[0].data;
+      this._setBefore(before);
+      const previousEmittedEvents = {};
+      const keys = [];
+      links.reverse().forEach((event) => {
+        this.emitRedditEvent(event);
+        previousEmittedEvents[event.data.name] = true;
+        keys.push(event.data.name);
+      });
+      this._setCache(previousEmittedEvents);
+      this._setKeys(keys);
     },
   },
   methods: {
@@ -47,14 +55,26 @@ export default {
         ts: redditEvent.data.created,
       };
     },
+    async isBeforeValid(before) {
+      // verify this link still exists on the subreddit
+      const { data } = await this.reddit.getSubredditByName(before);
+      const isOnSubreddit = data?.children[0]?.data?.subreddit === this.subreddit;
+      return isOnSubreddit;
+    },
   },
   async run() {
     let redditLinks;
+    const {
+      cache: previousEmittedEvents,
+      keys,
+    } = await this.validateBefore(this._getCache(),
+      this._getBefore(),
+      this._getKeys());
     do {
       redditLinks = await this.reddit.getNewSubredditLinks(
         get(this.subreddit, "value", this.subreddit),
         {
-          before: this.db.get("before"),
+          before: this._getBefore(),
         },
       );
       const { children: links = [] } = redditLinks.data;
@@ -62,9 +82,18 @@ export default {
         console.log("No data available, skipping iteration");
         break;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
-      this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
+      const { name: before = this._getBefore() } = links[0].data;
+      this._setBefore(before);
+
+      links.reverse().forEach((event) => {
+        if (!previousEmittedEvents[event.data.name]) {
+          this.emitRedditEvent(event);
+          previousEmittedEvents[event.data.name] = true;
+          keys.push(event.data.name);
+        }
+      });
     } while (redditLinks);
+    this._setCache(previousEmittedEvents);
+    this._setKeys(keys);
   },
 };

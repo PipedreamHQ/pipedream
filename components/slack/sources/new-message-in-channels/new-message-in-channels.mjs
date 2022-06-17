@@ -3,75 +3,23 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.4",
+  version: "0.0.6",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
   props: {
     slack,
     conversations: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
       type: "string[]",
       label: "Channels",
       description: "Select one or more channels to monitor for new messages.",
       optional: true,
-      async options({ prevContext }) {
-        let {
-          types,
-          cursor,
-          userNames,
-        } = prevContext;
-        if (types == null) {
-          const scopes = await this.slack.scopes();
-          types = [
-            "public_channel",
-          ];
-          if (scopes.includes("groups:read")) {
-            types.push("private_channel");
-          }
-          if (scopes.includes("mpim:read")) {
-            types.push("mpim");
-          }
-          if (scopes.includes("im:read")) {
-            types.push("im");
-            // TODO use paging
-            userNames = {};
-            for (const user of (await this.slack.users()).users) {
-              userNames[user.id] = user.name;
-            }
-          }
-        }
-        const resp = await this.slack.availableConversations(types.join(), cursor);
-        return {
-          options: resp.conversations.map((c) => {
-            if (c.is_im) {
-              return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
-                value: c.id,
-              };
-            } else if (c.is_mpim) {
-              return {
-                label: c.purpose.value,
-                value: c.id,
-              };
-            } else {
-              const privacyProp = c.is_private ?
-                "Private" :
-                "Public";
-              return {
-                label: `${privacyProp} channel: ${c.name}`,
-                value: c.id,
-              };
-            }
-          }),
-          context: {
-            types,
-            cursor: resp.cursor,
-            userNames,
-          },
-        };
-      },
     },
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
+    // eslint-disable-next-line pipedream/props-description,pipedream/props-label
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
@@ -158,6 +106,10 @@ export default {
     },
   },
   async run(event) {
+    if (event.type !== "message") {
+      console.log(`Ignoring event with unexpected type "${event.type}"`);
+      return;
+    }
     if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted

@@ -1,51 +1,64 @@
-// legacy_hash_id: a_oViVNz
-import { axios } from "@pipedream/platform";
+import ringcentral from "../../ringcentral.app.mjs";
 
 export default {
   key: "ringcentral-make-callout",
   name: "Make  CallOut",
-  description: "Creates a new outbound call out session.",
-  version: "0.3.1",
+  description: "Creates a new outbound call out session. See the API docs [here](https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)",
+  version: "0.4.0",
   type: "action",
   props: {
-    ringcentral: {
-      type: "app",
-      app: "ringcentral",
+    ringcentral,
+    accountId: {
+      propDefinition: [
+        ringcentral,
+        "accountId",
+      ],
     },
-    serverURL: {
-      type: "string",
-      description: "The base endpoint host used for the RingCentral API.",
-      optional: true,
-    },
-    account_id: {
-      type: "string",
-      description: "Internal identifier of a RingCentral account.",
-    },
-    device_id: {
-      type: "string",
+    deviceId: {
+      propDefinition: [
+        ringcentral,
+        "deviceId",
+      ],
       description: "Instance id of the caller. It corresponds to the 1st leg of the CallOut call.",
     },
-    to: {
-      type: "object",
-      description: "Phone number of the called party. This number corresponds to the 2nd leg of a CallOut call.",
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "Phone number of the called party. This number corresponds to the 2nd leg of a CallOut call. Phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164#Numbering_formats). e.g. `+16502223366`. If you set a **Phone Number** then don't set an **Extension Number**.",
+      optional: true,
+    },
+    extensionNumber: {
+      type: "string",
+      label: "Extension Number",
+      description: "Extension number of the called party. e.g. (`103`). If you set an **Extension Number** then don't set a **Phone Number**.",
+      optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession
+    const {
+      accountId,
+      deviceId,
+      phoneNumber,
+      extensionNumber,
+    } = this;
 
-    const config = {
-      method: "post",
-      url: `${this.serverURL}/restapi/v1.0/account/${this.account_id}/telephony/call-out`,
-      headers: {
-        Authorization: `Bearer ${this.ringcentral.$auth.oauth_access_token}`,
-      },
-      data: {
-        from: {
-          deviceId: this.device_id,
+    const response =
+      await this.ringcentral.makeCallOut({
+        $,
+        accountId,
+        data: {
+          from: {
+            deviceId,
+          },
+          to: {
+            phoneNumber,
+            extensionNumber,
+          },
         },
-        to: this.to,
-      },
-    };
-    return await axios($, config);
+      });
+
+    $.export("$summary", `CallOut successfully created with ID ${response.id}`);
+
+    return response;
   },
 };

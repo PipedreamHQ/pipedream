@@ -1,4 +1,4 @@
-import sortBy from "loadsh/sortBy.js";
+import sortBy from "lodash.sortby";
 import base from "./predefined-module.mjs";
 
 export default {

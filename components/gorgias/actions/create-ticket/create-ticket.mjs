@@ -4,7 +4,7 @@ export default {
   key: "gorgias-create-ticket",
   name: "Create Ticket",
   description: "Create a new ticket. [See the docs](https://developers.gorgias.com/reference/post_api-tickets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gorgias,
@@ -46,7 +46,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
+    const data = {
       messages: [
         {
           from_agent: false,
@@ -68,7 +68,10 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.createTicket(params);
+    const response = await this.gorgias.createTicket({
+      $,
+      data,
+    });
     $.export("$summary", `Succesfully created ticket ${response.id}`);
     return response;
   },

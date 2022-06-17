@@ -95,9 +95,10 @@ export default {
       return;
     }
 
-    if (this.isRelevant(body)) {
-      const meta = this.getMetadata(resource);
-      this.$emit(body, meta);
+    if (!this.isRelevant(body)) {
+      return;
     }
+    const meta = this.getMetadata(resource);
+    this.$emit(body, meta);
   },
 };

@@ -12,12 +12,10 @@ export default {
         intervalSeconds: 60 * 15, // 15 minutes
       },
     },
-    // Not inheriting `objectType` propDefinition from salesforce so `this` in async options has
-    // component instance's methods
     objectType: {
-      ...salesforce.propDefinitions.objectType,
-      label: salesforce.propDefinitions.objectType.label,
-      description: salesforce.propDefinitions.objectType.description,
+      type: "string",
+      label: "Object Type",
+      description: "The type of object for which to monitor events",
       async options(context) {
         const { page } = context;
         if (page !== 0) {
