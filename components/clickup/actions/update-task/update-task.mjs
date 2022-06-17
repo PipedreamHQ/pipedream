@@ -6,7 +6,7 @@ export default {
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks  / Update Task** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -114,7 +114,10 @@ export default {
     const data = {
       name,
       description,
-      assignees,
+      assignees: {
+        add: assignees,
+        rem: [],
+      },
       status,
       parent,
     };

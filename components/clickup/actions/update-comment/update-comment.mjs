@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-comment",
   name: "Update Comment",
   description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments  / Update Comment** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -80,7 +80,7 @@ export default {
       type: "string",
       optional: true,
     },
-    assignees: {
+    assignee: {
       propDefinition: [
         clickup,
         "assignees",
@@ -88,6 +88,8 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
+      type: "string",
+      description: "Select the assignee",
       optional: true,
     },
     resolved: {
@@ -101,7 +103,7 @@ export default {
     const {
       commentId,
       commentText,
-      assignees,
+      assignee,
       resolved,
     } = this;
 
@@ -110,7 +112,7 @@ export default {
       commentId,
       data: {
         comment_text: commentText,
-        assignees,
+        assignee,
         resolved,
       },
     });
