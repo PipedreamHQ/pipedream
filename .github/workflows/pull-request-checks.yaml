@@ -224,15 +224,39 @@ jobs:
       - name: Compile TypeScript
         id: compile
         run: npm run build > files.txt
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Publish TypeScript components (dry run)
         shell: bash {0} # don't fast fail
         run: |
           IFS=$'\n'
-          echo "The following files will be published on merge:"
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
           # Remove initial tsc output
-          for f in $(cat files.txt | sed 1,3d)
+          output_files=$(cat files.txt | sed 1,3d)
+          echo "The following files will be published on merge:"
+          for added_modified_file in "${added_modified_renamed_files[@]}";
           do
-            echo "$f"
+            # starts with components, ends with .ts and not app.ts, doesn't end with /common*.ts,
+            # and doesn't follow */common/
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
+                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]]
+            then
+              # XXX This is a hacky way to publish only TS components with changes. If a changed
+              # file "path-a/path-b/c.ts" has a corresponding compiled output file
+              # "path-a/dist/path-b/c.mjs", attempt to publish the output `.mjs` file.
+              for f in $output_files;
+              do
+                # Replaces /dist/path/filename.mjs with /path/filename.ts
+                maybe_source_file=$(echo "$f" | sed 's/\/dist\//\//;s/.mjs/\.ts/')
+                if [[ ${maybe_source_file} == **/${added_modified_file} ]]
+                then
+                  echo "$f"
+                fi
+              done
+            fi
           done
           unset IFS
 
