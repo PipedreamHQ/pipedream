@@ -2,17 +2,17 @@ import zoom from "../../zoom.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
-  key: "zoom-custom-event",
-  name: "Custom Events",
-  description: "Listen for any events tied to your Zoom user or resources you own",
-  version: "0.0.5",
+  key: "zoom-phone-event",
+  name: "Zoom Phone Events",
+  description: "Listen for any Zoom Phone events tied to your Zoom user or resources you own",
+  version: "0.0.1",
   type: "source",
   props: {
     zoom,
     eventNameOptions: {
       label: "Zoom Events",
       type: "string[]",
-      options: constants.CUSTOM_EVENT_TYPES,
+      options: constants.PHONE_EVENT_TYPES,
     },
     zoomApphook: {
       type: "$.interface.apphook",

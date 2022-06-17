@@ -555,5 +555,14 @@ export default {
       };
       return axios($ ?? this, requestConfig);
     },
+    async postFeed(args = {}) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/chatter/feed-elements`;
+      return this._makeRequest({
+        url,
+        method: "POST",
+        ...args,
+      });
+    },
   },
 };
