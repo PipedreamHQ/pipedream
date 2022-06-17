@@ -1,12 +1,11 @@
 import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
-// Test change
 
 export default {
   key: "salesforce_rest_api-delete-record",
   name: "Delete a Record in an Object",
   description:
     "Deletes an existing record in an object. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_query.htm)",
-  version: "0.1.1",
+  version: "0.1.0",
   type: "action",
   props: {
     salesForceRestApi,
