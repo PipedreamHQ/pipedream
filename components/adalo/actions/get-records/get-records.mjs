@@ -2,7 +2,7 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  key: "adalo-get-recordss",
+  key: "adalo-get-records",
   name: "Get Records",
   description: "Get all records from a collection. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
   version: "0.0.1",
