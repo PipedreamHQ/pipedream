@@ -1,16 +1,15 @@
-/* eslint-disable camelcase */
 import { PubSub } from "@google-cloud/pubsub";
-import google_cloud from "../../google_cloud.app.mjs";
+import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   key: "google_cloud-new-pubsub-messages",
   name: "New Pub/Sub Messages",
-  description: "Creates a Pub/Sub topic in your GCP account. Messages published to this topic are emitted from the Pipedream source.",
-  version: "0.1.3",
+  description: "Emit new Pub/Sub topic in your GCP account. Messages published to this topic are emitted from the Pipedream source.",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {
-    google_cloud,
+    googleCloud,
     http: "$.interface.http",
     db: "$.service.db",
     topicType: {
@@ -55,7 +54,7 @@ export default {
       this.db.set("subscriptionName", subscriptionName);
     },
     async getTopics() {
-      const sdkParams = this.google_cloud.sdkParams();
+      const sdkParams = this.googleCloud.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
       const topics = (await pubSubClient.getTopics())[0];
       if (topics.length > 0) {
@@ -76,7 +75,7 @@ export default {
   },
   hooks: {
     async activate() {
-      const sdkParams = this.google_cloud.sdkParams();
+      const sdkParams = this.googleCloud.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
 
       const currentTopic = {
@@ -111,7 +110,7 @@ export default {
       this._setSubscriptionName(subscriptionResult.name);
     },
     async deactivate() {
-      const sdkParams = this.google_cloud.sdkParams();
+      const sdkParams = this.googleCloud.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
 
       const subscriptionName = this._getSubscriptionName();

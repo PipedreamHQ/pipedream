@@ -4,7 +4,7 @@ export default {
   name: "Find Row",
   key: "postgresql-find-row",
   description: "Finds a row in a table via a lookup column. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postgresql,
@@ -35,14 +35,21 @@ export default {
         }),
       ],
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       table,
       column,
       value,
+      rejectUnauthorized,
     } = this;
-    const res = await this.postgresql.findRowByValue(table, column, value);
+    const res = await this.postgresql.findRowByValue(table, column, value, rejectUnauthorized);
     const summary = res
       ? "Row found"
       : "Row not found";
