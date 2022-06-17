@@ -104,7 +104,9 @@ export default {
       after: this._getAfter(),
     });
 
-    const comments = await this.pushshift.searchComments(params);
+    const comments = await this.pushshift.searchComments({
+      params,
+    });
     for (const comment of comments) {
       const meta = this.generateMeta(comment);
       this.$emit(comment, meta);

@@ -170,28 +170,25 @@ export default {
       return "https://api.pushshift.io/reddit/";
     },
     _makeRequest({
-      method = "GET", endpoint, params, $,
-    }) {
+      $ = this, endpoint, ...args
+    } = {}) {
       const config = {
-        method,
         url: `${this._baseUrl()}${endpoint}`,
-        params,
+        ...args,
       };
-      return axios($ ?? this, config);
+      return axios($, config);
     },
-    async searchPosts(params, $) {
+    async searchPosts(args = {}) {
       const { data } = await this._makeRequest({
         endpoint: "search/submission",
-        params,
-        $,
+        ...args,
       });
       return data;
     },
-    async searchComments(params, $) {
+    async searchComments(args = {}) {
       const { data } = await this._makeRequest({
         endpoint: "search/comment",
-        params,
-        $,
+        ...args,
       });
       return data;
     },

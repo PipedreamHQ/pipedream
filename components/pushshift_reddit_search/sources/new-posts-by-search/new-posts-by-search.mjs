@@ -195,7 +195,9 @@ export default {
       "after": this._getAfter(),
     });
 
-    const posts = await this.pushshift.searchPosts(params);
+    const posts = await this.pushshift.searchPosts({
+      params,
+    });
     for (const post of posts) {
       const meta = this.generateMeta(post);
       this.$emit(post, meta);

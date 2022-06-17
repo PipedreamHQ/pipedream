@@ -105,7 +105,10 @@ export default {
       metadata: this.metadata,
     });
 
-    const comments = await this.pushshift.searchComments(params, $);
+    const comments = await this.pushshift.searchComments({
+      params,
+      $,
+    });
 
     $.export("$summary", `Found ${comments.length} comment(s)`);
 

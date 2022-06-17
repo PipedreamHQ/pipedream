@@ -196,7 +196,10 @@ export default {
       "selftext:not": this.selftextNot,
     });
 
-    const posts = await this.pushshift.searchPosts(params, $);
+    const posts = await this.pushshift.searchPosts({
+      params,
+      $,
+    });
 
     $.export("$summary", `Found ${posts.length} posts(s)`);
 
