@@ -4,7 +4,7 @@ export default {
   name: "Execute Custom Query",
   key: "postgresql-execute-custom-query",
   description: "Executes a custom query you provide. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postgresql,
@@ -20,11 +20,18 @@ export default {
         "values",
       ],
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       query,
       values = [],
+      rejectUnauthorized,
     } = this;
 
     if (!Array.isArray(values)) {
@@ -39,7 +46,7 @@ export default {
     const res = await this.postgresql.executeQuery({
       text: query,
       values,
-    });
+    }, rejectUnauthorized);
     $.export("$summary", "Successfully executed query");
     return res;
   },
