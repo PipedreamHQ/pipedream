@@ -1,9 +1,9 @@
 #!/bin/bash
 
-UNPUBLISHED=""
-PUBLISHED=""
-ERRORS=""
-SKIPPED=""
+UNPUBLISHED=()
+PUBLISHED=()
+ERRORS=()
+SKIPPED=()
 mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
 for added_modified_file in "${added_modified_renamed_files[@]}"; do
 # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
@@ -19,18 +19,18 @@ then
     echo "published ${KEY}"
     echo "${KEY} will be added to the registry"
     curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
-    PUBLISHED+="*${added_modified_file}"
+    PUBLISHED+=("*${added_modified_file}")
     else
     ERROR=`echo $PD_OUTPUT | jq -r ".error"`
     ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
     echo $ERROR_MESSAGE
-    ERRORS+="*${ERROR_MESSAGE}"
-    UNPUBLISHED+="*${added_modified_file}"
+    ERRORS+=("*${ERROR_MESSAGE}")
+    UNPUBLISHED+=("*${added_modified_file}")
     # add to array to spit out later
     fi
 else
     echo "${added_modified_file} will not be added to the registry"
-    SKIPPED+="*${added_modified_file}"
+    SKIPPED+=("*${added_modified_file}")
 fi
 done
 # print out everything that didn't publish
