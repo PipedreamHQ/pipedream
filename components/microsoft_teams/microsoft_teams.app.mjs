@@ -64,10 +64,14 @@ export default {
             path: prevContext.nextLink,
           })
           : await this.listChats();
-        const options = response.value.map((chat) => ({
-          label: chat.topic ?? chat.id,
-          value: chat.id,
-        }));
+        const options = [];
+        for (const chat of response.value) {
+          const members = chat.members.map((member) => member.displayName);
+          options.push({
+            label: members.join(", "),
+            value: chat.id,
+          });
+        }
         return {
           options,
           context: {
@@ -154,7 +158,7 @@ export default {
     },
     async listChats() {
       return this.makeRequest({
-        path: `/chats?${constants.ORDER_BY_CREATED_DESC}`,
+        path: `/chats?$expand=members&${constants.ORDER_BY_CREATED_DESC}`,
       });
     },
     async createChannel({
