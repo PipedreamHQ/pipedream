@@ -54,7 +54,7 @@ export default {
     } = this;
 
     const stream = await this.aweberApp.getResourcesStream({
-      resourceFn: this.aweberApp.getSubscribers,
+      resourceFn: this.aweberApp.getSubscribersForList,
       resourceFnArgs: {
         $,
         accountId,

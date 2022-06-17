@@ -12,7 +12,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.aweberApp.getAccounts;
+      return this.aweberApp.getSubscribersForAccount;
     },
     getResourceFnArgs(args) {
       return {
@@ -24,7 +24,7 @@ export default {
       };
     },
     getSummary(resource) {
-      return `Subscriber added ${resource.uuid}`;
+      return `Subscriber added ${resource.email}`;
     },
   },
 };

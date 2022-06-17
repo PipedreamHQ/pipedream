@@ -149,11 +149,19 @@ export default {
         ...args,
       });
     },
-    async getSubscribers({
+    async getSubscribersForList({
       accountId, listId, ...args
     } = {}) {
       return this.makeRequest({
         path: `/accounts/${accountId}/lists/${listId}/subscribers`,
+        ...args,
+      });
+    },
+    async getSubscribersForAccount({
+      accountId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/accounts/${accountId}`,
         ...args,
       });
     },
