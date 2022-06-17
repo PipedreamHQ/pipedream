@@ -1,4 +1,4 @@
-import TogglClient from "toggl-api";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -8,17 +8,21 @@ export default {
     _apiToken() {
       return this.$auth.api_token;
     },
-    _client() {
-      return new TogglClient({
-        apiToken: this._apiToken(),
+    _apiUrl() {
+      return "https://api.track.toggl.com/api/v8";
+    },
+    async _makeRequest(path, options = {}, $ = this) {
+      return axios($, {
+        url: `${this._apiUrl()}/${path}`,
+        auth: {
+          username: this._apiToken(),
+          password: "api_token",
+        },
+        ...options,
       });
     },
-    async getCurrentTimeEntry() {
-      const a = await this._client().getCurrentTimeEntry();
-
-      console.log(a);
-      return this._client().getCurrentTimeEntry()
-        .promise();
+    async getCurrentTimeEntry({ $ } = {}) {
+      return this._makeRequest("time_entries/current", {}, $);
     },
   },
 };

@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^0.10.0",
     "toggl-api": "^1.0.2"
   }
 }
