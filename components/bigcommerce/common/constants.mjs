@@ -1,4 +1,3 @@
-const VERSION_PATH = "/v3";
 const BASE_URL = "https://api.bigcommerce.com/stores";
 
 const WEBHOOK_SCOPES = {
@@ -193,6 +192,5 @@ const WEBHOOK_SCOPES = {
 
 export default {
   BASE_URL,
-  VERSION_PATH,
   WEBHOOK_SCOPES,
 };
