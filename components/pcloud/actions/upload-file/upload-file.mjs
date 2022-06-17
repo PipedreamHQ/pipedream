@@ -23,7 +23,9 @@ export default {
         "name",
       ],
       description:
-        "Name of the file to upload. Within the associated Pipedream workflow, the file to upload exists under the `/tmp` directory.",
+        `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
+        \\
+        [See the docs on how to work with files in your workflow.](https://pipedream.com/docs/code/nodejs/working-with-files/)`,
     },
     renameIfExists: {
       type: "boolean",
