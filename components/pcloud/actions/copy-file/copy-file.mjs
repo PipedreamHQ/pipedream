@@ -1,6 +1,6 @@
 import pcloud from "../../pcloud.app.mjs";
 
-module.exports = {
+export default {
   key: "pcloud-copy-file",
   name: "Copy File",
   description:

@@ -1,6 +1,6 @@
 import pcloud from "../../pcloud.app.mjs";
 
-module.exports = {
+export default {
   key: "pcloud-list-contents",
   name: "List Contents",
   description: "Get the contents of the specified folder.",

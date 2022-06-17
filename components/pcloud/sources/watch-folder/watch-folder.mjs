@@ -1,7 +1,7 @@
 import pcloud from "../../pcloud.app.mjs";
-import get from "lodash/get";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   key: "pcloud-watch-folder",
   name: "Watch Folder",
   description:

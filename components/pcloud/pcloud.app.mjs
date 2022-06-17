@@ -1,8 +1,8 @@
-import get from "lodash/get";
+import get from "lodash/get.js";
 import retry from "async-retry";
 import pcloudSdk from "pcloud-sdk-js";
 
-module.exports = {
+export default {
   type: "app",
   app: "pcloud",
   propDefinitions: {
