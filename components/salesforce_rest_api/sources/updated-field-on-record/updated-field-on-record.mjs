@@ -12,10 +12,10 @@ const { salesforce } = common.props;
 export default {
   ...common,
   type: "source",
-  name: "Updated Field on Record (of Selectable Type)",
+  name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     ...common.props,
     objectType: {
