@@ -45,5 +45,12 @@ export default {
         ...args,
       });
     },
+    async updateTask(args, taskId) {
+      return this._makeRequest({
+        path: `/task/${taskId}`,
+        method: "post",
+        ...args,
+      });
+    },
   },
 };
