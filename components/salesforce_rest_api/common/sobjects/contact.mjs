@@ -29,11 +29,6 @@ export default {
     label: "First Name",
     description: "The contact's first name up to 40 characters.",
   },
-  MiddleName: {
-    type: "string",
-    label: "Middle Name",
-    description: "The contact's middle name up to 40 characters. To enable this field, ask Salesforce Customer Support for help.",
-  },
   Phone: {
     type: "string",
     label: "Phone",
