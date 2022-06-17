@@ -104,11 +104,15 @@ export default {
         const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
         uploadType = bufferSize > 5
           ? GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE
-          : GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA;
+          : undefined;
       } catch (err) {
         console.log(err);
-        uploadType = "media";
+        uploadType = undefined;
       }
+    }
+
+    if (uploadType === GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA) {
+      uploadType = undefined;
     }
     console.log(`Upload type: ${uploadType}`);
     // Update file media separately from metadata to prevent multipart upload,
