@@ -52,5 +52,14 @@ export default {
         ...args,
       });
     },
+    async completeTask({
+      taskId, projectId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/project/${projectId}/task/${taskId}/complete`,
+        method: "post",
+        ...args,
+      });
+    },
   },
 };

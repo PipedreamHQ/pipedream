@@ -61,8 +61,7 @@ export default {
       $,
       data,
     }, this.taskId);
-    console.log(response);
-    // $.export("$summary", "Successfully created task");
+    response && $.export("$summary", "Successfully created task");
     return response;
   },
 };
