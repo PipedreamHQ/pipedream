@@ -1,4 +1,4 @@
-const common = require("../sources/common.js");
+import common from "../sources/common.mjs";
 
 module.exports = {
   ...common,

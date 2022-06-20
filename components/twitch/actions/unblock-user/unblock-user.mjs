@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Unblock User",
   key: "twitch-unblock-user",
   description: "Unblocks a user; that is, deletes a specified target user to your blocks list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

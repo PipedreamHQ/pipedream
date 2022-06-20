@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Get Clips",
   key: "twitch-get-clips",
   description: "Gets clip information by clip ID, user ID, or game ID",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

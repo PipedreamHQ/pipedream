@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Get Channel Editors",
   key: "twitch-get-channel-editors",
   description: "Gets a list of users who are editors for your channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   async run() {
     // get the userID of the authenticated user

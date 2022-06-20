@@ -1,8 +1,8 @@
-const axios = require("axios");
-const crypto = require("crypto");
-const qs = require("qs");
+import axios from "axios";
+import crypto from "crypto";
+import qs from "qs";
 
-module.exports = {
+export default {
   type: "app",
   app: "twitch",
   propDefinitions: {

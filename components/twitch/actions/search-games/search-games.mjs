@@ -1,13 +1,13 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Search Games",
   key: "twitch-search-games",
   description: `Searches for games based on a specified query parameter. A game is
     returned if the query parameter is matched entirely or partially in the channel
     description or game name`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

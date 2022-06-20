@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Get Top Games",
   key: "twitch-get-top-games",
   description: "Gets games sorted by number of current viewers on Twitch, most popular first",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

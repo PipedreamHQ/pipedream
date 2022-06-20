@@ -1,20 +1,29 @@
-const common = require("../common-polling.js");
-const twitch = require("../../twitch.app.js");
+import common from "../common-polling.mjs";
+import twitch from "../../twitch.app.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Videos",
   key: "twitch-new-videos",
-  description:
-    "Emits an event when there is a new video from channels you follow.",
-  version: "0.0.1",
+  description: "Emit new event when there is a new video from channels you follow.",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
-    max: { propDefinition: [twitch, "max"] },
+    max: {
+      propDefinition: [
+        twitch,
+        "max",
+      ],
+    },
   },
   methods: {
     ...common.methods,
-    getMeta({ id, title: summary, created_at: createdAt }) {
+    getMeta({
+      id,
+      title: summary,
+      created_at: createdAt,
+    }) {
       const ts = new Date(createdAt).getTime();
       return {
         id,
@@ -32,7 +41,7 @@ module.exports = {
     // get the channels followed by the authenticated user
     const followedUsers = await this.paginate(
       this.twitch.getUserFollows.bind(this),
-      params
+      params,
     );
 
     // get and emit new videos from each followed user
@@ -44,7 +53,7 @@ module.exports = {
           user_id: followed.to_id,
           period: "day", // Period during which the video was created. Valid values: "all", "day", "week", "month".
         },
-        this.max
+        this.max,
       );
       for await (const video of videos) {
         this.$emit(video, this.getMeta(video));

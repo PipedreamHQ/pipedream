@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Check Channel Subscription",
   key: "twitch-check-channel-subscription",
   description: "Checks if you are subscribed to the specified user's channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

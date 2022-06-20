@@ -1,21 +1,35 @@
-const common = require("../common-polling.js");
-const twitch = require("../../twitch.app.js");
+import common from "../common-polling.mjs";
+import twitch from "../../twitch.app.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Clips",
   key: "twitch-new-clips",
-  description:
-    "Emits an event when there is a new clip for the specified game.",
-  version: "0.0.1",
+  description: "Emit new event when there is a new clip for the specified game.",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
-    game: { propDefinition: [twitch, "game"] },
-    max: { propDefinition: [twitch, "max"] },
+    game: {
+      propDefinition: [
+        twitch,
+        "game",
+      ],
+    },
+    max: {
+      propDefinition: [
+        twitch,
+        "max",
+      ],
+    },
   },
   methods: {
     ...common.methods,
-    getMeta({ id, title: summary, created_at: createdAt }) {
+    getMeta({
+      id,
+      title: summary,
+      created_at: createdAt,
+    }) {
       const ts = new Date(createdAt).getTime();
       return {
         id,
@@ -25,7 +39,9 @@ module.exports = {
     },
   },
   async run() {
-    const { data: gameData } = await this.twitch.getGames([this.game]);
+    const { data: gameData } = await this.twitch.getGames([
+      this.game,
+    ]);
     if (gameData.length == 0) {
       console.log(`No game found with the name ${this.game}`);
       return;
@@ -39,7 +55,7 @@ module.exports = {
     const clips = await this.paginate(
       this.twitch.getClips.bind(this),
       params,
-      this.max
+      this.max,
     );
     for await (const clip of clips) {
       this.$emit(clip, this.getMeta(clip));

@@ -1,6 +1,6 @@
-const common = require("./common.js");
+import common from "./common.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -14,7 +14,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getLastEvent(lastEvent) {
-      return lastEvent ? new Date(lastEvent) : new Date();
+      return lastEvent
+        ? new Date(lastEvent)
+        : new Date();
     },
   },
 };
