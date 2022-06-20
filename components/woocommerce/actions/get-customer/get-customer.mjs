@@ -13,6 +13,7 @@ export default {
         woocommerce,
         "customer",
       ],
+      description: "ID of the Customer",
     },
   },
   async run({ $ }) {
