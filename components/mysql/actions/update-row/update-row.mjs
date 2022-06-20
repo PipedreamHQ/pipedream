@@ -1,11 +1,12 @@
 import mysql from "../../mysql.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "mysql-update-row",
   name: "Update Row",
   description: "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {
@@ -14,6 +15,7 @@ export default {
         mysql,
         "table",
       ],
+      reloadProps: true,
     },
     condition: {
       propDefinition: [
@@ -27,31 +29,17 @@ export default {
         "whereValues",
       ],
     },
-    columnsToUpdate: {
-      type: "string[]",
-      description: "Select the columns you want to use to update the values",
-      propDefinition: [
-        mysql,
-        "column",
-        ({ table }) => ({
-          table,
-        }),
-      ],
-    },
-    valuesToUpdate: {
-      description: "Set the values you want to update on each column selected",
-      propDefinition: [
-        mysql,
-        "whereValues",
-      ],
-    },
+  },
+  async additionalProps() {
+    return await this.getColumnProps(this.table);
+  },
+  methods: {
+    ...utils,
   },
   async run({ $ }) {
     const {
       table,
       condition,
-      columnsToUpdate,
-      valuesToUpdate,
       conditionValues,
     } = this;
     const numberOfQuestionMarks = condition.match(/\?/g)?.length;
@@ -60,27 +48,17 @@ export default {
       throw new Error("No valid condition provided. At least one question mark character ? must be provided.");
     }
 
-    const isAllArrays = [
-      conditionValues,
-      columnsToUpdate,
-      valuesToUpdate,
-    ].every(Array.isArray);
-
-    if (!isAllArrays) {
-      throw new Error("Either condition values, columns to update or values to update is not an array.");
+    if (!Array.isArray(conditionValues)) {
+      throw new Error("Condition values is not an array.");
     }
 
     if (conditionValues.length !== numberOfQuestionMarks) {
       throw new Error("The number of values provided does not match the number of question marks ? in the condition");
     }
 
-    if (!columnsToUpdate.length) {
-      throw new Error("No columns to update provided");
-    }
-
-    if (columnsToUpdate.length !== valuesToUpdate.length) {
-      throw new Error("The number of columns doesn't match with the number of values to update");
-    }
+    const {
+      columns: columnsToUpdate, values: valuesToUpdate,
+    } = await this.getColumnAndValueArrays(table);
 
     const result = await this.mysql.updateRow({
       table,
