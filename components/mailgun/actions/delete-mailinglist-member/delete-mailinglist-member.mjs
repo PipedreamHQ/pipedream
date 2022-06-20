@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-delete-mailinglist-member",
   name: "Delete Mailing List Member",
   description: "Delete a mailing list member by address",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -24,10 +22,7 @@ module.exports = {
         "email",
       ],
     },
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     const deleteMailingListMember = async function (mailgun, opts) {

@@ -1,6 +1,6 @@
-const mailgun = require("../mailgun.app");
+import mailgun from "../mailgun.app.mjs";
 
-module.exports = {
+export default {
   props: {
     mailgun,
     haltOnError: {

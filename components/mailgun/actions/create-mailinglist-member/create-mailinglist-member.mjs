@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-create-mailinglist-member",
   name: "Create Mailing List Member",
   description: "Add to an existing mailing list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -54,10 +52,7 @@ module.exports = {
         "upsert",
       ],
     },
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     return await this.withErrorHandler(this.mailgun.createMailinglistMember, {

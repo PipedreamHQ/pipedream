@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-verify-email",
   name: "Verify Email",
   description: "Verify email address deliverability with Mailgun.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,
@@ -24,10 +22,7 @@ module.exports = {
         "acceptableRiskLevels",
       ],
     },
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run({ $ }) {
     const verifyEmail = async function (mailgun, opts) {

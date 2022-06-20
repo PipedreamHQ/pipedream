@@ -1,15 +1,13 @@
-const pick = require("lodash.pick");
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import { pick } from "lodash";
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-list-domains",
   name: "List Domains",
   description: "List domains in Mailgun",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -33,10 +31,7 @@ module.exports = {
       default: "active",
     },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     const listDomains = async function (mailgun, opts) {

@@ -1,14 +1,11 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   key: "mailgun-create-route",
   name: "Create Route",
   description: "Create a new route",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -61,7 +58,7 @@ module.exports = {
         "For the `store` action, (optionally) specify a webhook URL to notify. " +
         "For the `stop` action, leave this blank.",
     },
-    ...props,
+    ...common.props,
   },
   methods: {
     _expression (filter, expression) {
@@ -100,7 +97,7 @@ module.exports = {
         throw new Error(`Unsupported action: ${action}`);
       }
     },
-    ...methods,
+    ...common.methods,
   },
   async run() {
     const opts = {

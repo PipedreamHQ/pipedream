@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-suppress-email",
   name: "Suppress Email",
   description: "Add email to the Mailgun suppression list.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,
@@ -56,10 +54,7 @@ module.exports = {
       default: "*",
       optional: true,
     },
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     const urlSearchParams = new URLSearchParams();

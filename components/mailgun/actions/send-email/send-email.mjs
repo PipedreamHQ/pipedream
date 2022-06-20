@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-send-email",
   name: "Send Email",
   description: "Send email with Mailgun.",
-  version: "0.0.28",
+  version: "0.0.29",
   type: "action",
   props: {
     mailgun,
@@ -100,10 +98,7 @@ module.exports = {
         "documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
       optional: true,
     },
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     const msg = {

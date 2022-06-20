@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-list-mailinglist-members",
   name: "Get Mailing List Members",
   description: "List all mailing list members",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -29,10 +27,7 @@ module.exports = {
       optional: true,
     },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
-    ...props,
-  },
-  methods: {
-    ...methods,
+    ...common.props,
   },
   async run() {
     const listMailinglistMembers = async function (mailgun, opts) {
