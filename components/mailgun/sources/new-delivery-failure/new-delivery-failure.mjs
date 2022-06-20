@@ -1,18 +1,15 @@
-const {
-  methods,
-  ...common
-} = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-delivery-failure",
   name: "New Delivery Failure",
   type: "source",
   description: "Emit new event when an email can't be delivered to the recipient email server.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...methods,
+    ...common.methods,
     getEventName() {
       return [
         "permanent_fail",

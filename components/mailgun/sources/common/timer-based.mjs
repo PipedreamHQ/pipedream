@@ -1,6 +1,6 @@
-const base = require("./base");
+import base from "./base";
 
-module.exports = {
+export default {
   ...base,
   props: {
     ...base.props,

@@ -1,9 +1,6 @@
-const {
-  methods,
-  ...common
-} = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-open",
   name: "New Open",
@@ -12,10 +9,10 @@ module.exports = {
     "viewing. Open tracking must be enabled in the Mailgun control panel, and the CNAME record " +
     "must be pointing to mailgun.org. See more at the Mailgun User's Manual [Tracking Messages]" +
     "(https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) section",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...methods,
+    ...common.methods,
     getEventName() {
       return [
         "opened",

@@ -1,9 +1,6 @@
-const {
-  methods,
-  ...common
-} = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-temporary-failure",
   name: "New Temporary Failure",
@@ -11,10 +8,10 @@ module.exports = {
   description: "Emit new event when an email can't be delivered to the recipient email server due " +
     "to a temporary mailbox error such as an ESP block. ESP is the Email Service Provider " +
     "managing the recipient email server.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...methods,
+    ...common.methods,
     getEventName() {
       return [
         "temporary_fail",

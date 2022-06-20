@@ -1,23 +1,16 @@
-const {
-  props,
-  methods,
-  ...common
-} = require("../common/timer-based");
+import common from "../common/timer-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-log-data",
   name: "New Log Data",
   type: "source",
   description: "Emit new event when new data is logged in Mailgun's Control Panel. Occurs for " +
     "most actions within the associated Mailgun account.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    ...props,
-  },
   methods: {
-    ...methods,
+    ...common.methods,
     _getLastSeenTime() {
       return this.db.get("lastSeenTime");
     },

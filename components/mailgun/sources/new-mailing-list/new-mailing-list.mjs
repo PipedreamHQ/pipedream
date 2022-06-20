@@ -1,19 +1,15 @@
-const {
-  props,
-  methods,
-  ...common
-} = require("../common/timer-based");
+import common from "../common/timer-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-mailing-list",
   name: "New Mailing List",
   type: "source",
   description: "Emit new event when a new mailing list is added to the associated Mailgun account.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "greatest",
   props: {
-    ...props,
+    ...common.props,
     db: "$.service.db",
   },
   hooks: {
@@ -28,7 +24,7 @@ module.exports = {
     },
   },
   methods: {
-    ...methods,
+    ...common.methods,
     _getLastCreatedTimestamp() {
       return this.db.get("lastCreatedTimestamp") || 0;
     },

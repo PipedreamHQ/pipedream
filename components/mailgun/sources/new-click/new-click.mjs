@@ -1,9 +1,6 @@
-const {
-  methods,
-  ...common
-} = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-click",
   name: "New Click",
@@ -12,11 +9,11 @@ module.exports = {
     "must be pointing to mailgun.org. See more at the Mailgun User's Manual [Tracking Messages]" +
     "(https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) " +
     "section",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
-    ...methods,
+    ...common.methods,
     getEventName() {
       return [
         "clicked",
