@@ -30,7 +30,7 @@ export default {
 
     const response = await this.woocommerce.updateOrder(this.orderId, data);
 
-    $.export("$summary", `Successfully updated status for order ID: ${response.id}`);
+    $.export("$summary", `Successfully updated status to ${this.orderStatus} for order ID: ${response.id}`);
 
     return response;
   },

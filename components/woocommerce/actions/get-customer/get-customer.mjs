@@ -14,12 +14,13 @@ export default {
         "customer",
       ],
       description: "ID of the Customer",
+      withLabel: true,
     },
   },
   async run({ $ }) {
-    const response = await this.woocommerce.getCustomer(this.customer);
+    const response = await this.woocommerce.getCustomer(this.customer.value);
 
-    $.export("$summary", `Successfully retrieved customer ID: ${response.id}`);
+    $.export("$summary", `Successfully retrieved customer ${this.customer.label} (ID: ${response.id})`);
 
     return response;
   },
