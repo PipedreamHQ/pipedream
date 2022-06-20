@@ -11,14 +11,19 @@ export default {
   props: {
     salesForceRestApi,
     sobjectType: {
-      type: "string",
-      label: "Object type",
-      description:
-        "Salesforce standard object type of the record to get field values from. [Object types](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_list.htm)",
+      propDefinition: [
+        salesForceRestApi,
+        "objectType",
+      ],
     },
     sobjectId: {
-      type: "string",
-      label: "Object ID",
+      propDefinition: [
+        salesForceRestApi,
+        "sobjectId",
+        (c) => ({
+          objectType: c.sobjectType,
+        }),
+      ],
       description:
         "ID of the Salesforce standard object to get field values from.",
     },

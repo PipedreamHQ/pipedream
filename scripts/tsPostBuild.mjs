@@ -1,6 +1,6 @@
 import path from 'path'
 import readline from 'readline';
-import { fix } from 'tsc-esm-fix'
+import { fix } from 'tsc-esm-fix';
 
 (async () => {
   // Input comes from stdin, where each line is a file emitted by tsc
@@ -27,9 +27,12 @@ import { fix } from 'tsc-esm-fix'
       // https://github.com/microsoft/TypeScript/issues/16577#issuecomment-309169829
       // for more information on the problem.
 
-      // tsc-esm-fix takes directories as input, but it needs to be the root outDir
-      // of the component. This is defined in the tsconfig for a given package, but
-      // tsc-esm-fix doesn't appear to respect references in the root tsconfig
+      // tsc-esm-fix takes directories as input, but it needs to be the root
+      // outDir of the component. This is defined in the tsconfig for a given
+      // package, but tsc-esm-fix doesn't appear to respect references in the
+      // root tsconfig. Alternatively, a custom glob pattern for the compiled
+      // output files can be specified. For example:
+      // `components/rss/dist/**/*.{js,mjs,d.ts}`
       const dir = path.dirname(filename);
       // XXX we should really read the tsconfig for the given package and get the outDir from there
       const outDir = dir.match(/(.*dist\/).*/)[1];
@@ -44,10 +47,14 @@ import { fix } from 'tsc-esm-fix'
     })
   })
 
-  for (const target of outDirs) {
+  for (const outDir of outDirs) {
     await fix({
       ext: '.mjs',
-      target,
+      // tsc-esm-fix includes only `.js` and `.d.ts` files in outDir when making
+      // fixes, by default: `${outDir}/**/*.{js,d.ts}`. Include `.mjs` files in
+      // `target` to allow tsc-esm-fix to modify imports of those files to
+      // `.mjs`.
+      target: `${outDir}/**/*.{js,mjs,d.ts}`,
     })
   }
 
