@@ -622,6 +622,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/knack:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
