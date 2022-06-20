@@ -3,6 +3,7 @@ import { defineSource } from "@pipedream/types";
 import rssCommon from "../common/common";
 
 export default defineSource({
+  ...rssCommon,
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
@@ -10,7 +11,7 @@ export default defineSource({
   type: "source",
   dedupe: "unique",
   props: {
-    rss,
+    ...rssCommon.props,
     url: {
       propDefinition: [
         rss,
@@ -18,10 +19,6 @@ export default defineSource({
       ],
     },
     timer: {
-      propDefinition: [
-        rss,
-        "timer",
-      ],
     },
   },
   hooks: {
@@ -34,7 +31,7 @@ export default defineSource({
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
     this.rss.sortItems(items).forEach((item: any) => {
-      const meta = rssCommon.generateMeta(this, item);
+      const meta = this.generateMeta(this, item);
       this.$emit(item, meta);
     });
   },
