@@ -3,13 +3,14 @@ import { defineSource } from "@pipedream/types";
 import rssCommon from "../common/common";
 
 export default defineSource({
+  ...rssCommon,
   key: "rss-new-item-from-multiple-feeds",
   name: "New item from multiple RSS feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
   version: "1.0.3",
   props: {
-    rss,
+  ...rssCommon.props,
     urls: {
       propDefinition: [
         rss,
@@ -17,10 +18,6 @@ export default defineSource({
       ],
     },
     timer: {
-      propDefinition: [
-        rss,
-        "timer",
-      ],
     },
   },
   dedupe: "unique",
@@ -40,7 +37,7 @@ export default defineSource({
       items.push(...feedItems);
     }
     this.rss.sortItems(items).forEach((item: any) => {
-      const meta = rssCommon.generateMeta(this, item);
+      const meta = this.generateMeta(item);
       this.$emit(item, meta);
     });
   },
