@@ -18,7 +18,7 @@ export default {
     frames: {
       propDefinition: [
         bannerbear,
-        "modifications",
+        "frames",
       ],
     },
     inputMediaUrl: {

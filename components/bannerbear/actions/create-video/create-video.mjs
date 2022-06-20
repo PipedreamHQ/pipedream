@@ -79,6 +79,7 @@ export default {
         bannerbear,
         "webhookUrl",
       ],
+      description: "A url to POST the full Video object to upon rendering completed",
     },
     metadata: {
       propDefinition: [

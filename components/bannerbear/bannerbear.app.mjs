@@ -64,7 +64,12 @@ export default {
     modifications: {
       type: "string",
       label: "Modifications",
-      description: "A list of modifications in JSON string format, for example: `[{\"name\": \"message\", \"text\": \"test message\"}]`. [See the docs here](https://developers.bannerbear.com/#post-v2-images).",
+      description: "A list of modifications you want to make. See [Create an image](https://developers.bannerbear.com/#post-v2-images) for more details on the child parameters. Unlike an Image the modifications list is not always required for a Video, for example: `[{\"name\": \"message\", \"text\": \"test message\"}]`.",
+    },
+    frames: {
+      type: "string",
+      label: "Frames",
+      description: "A list of modifications lists to apply in sequence. See [Create an image](https://developers.bannerbear.com/#post-v2-images) for more details on the child parameters. Animated Gifs can have a maximum of 30 frames, for example: `[[{\"name\":\"layer1\",\"text\":\"This is my text\"},{\"name\":\"photo\",\"image_url\":\"https://www.pathtomyphoto.com/1.jpg\"}],[{\"name\":\"layer1\",\"text\":\"This is my follow up text\"},{\"name\":\"photo\",\"image_url\":\"https://www.pathtomyphoto.com/2.jpg\"}]]`",
     },
     webhookUrl: {
       type: "string",
@@ -82,7 +87,6 @@ export default {
       type: "string",
       label: "Input Media URL",
       description: "Full url to a video or audio file you want to import as the background of the video. You can also use a static image, and the zoom parameter will be set automatically. This is required depending on the build pack of the template you are using: **Build Pack:** (*Overlay: Input Media URL is required*, *Transcribe: Input Media URL is required*, *Multi Overlay: Input Media URL is optional*)",
-      optional: true,
     },
   },
   methods: {
