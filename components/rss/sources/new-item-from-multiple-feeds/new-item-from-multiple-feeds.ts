@@ -10,14 +10,12 @@ export default defineSource({
   description: "Emit new items from multiple RSS feeds",
   version: "1.0.3",
   props: {
-  ...rssCommon.props,
+    ...rssCommon.props,
     urls: {
       propDefinition: [
         rss,
         "urls",
       ],
-    },
-    timer: {
     },
   },
   dedupe: "unique",

@@ -11,13 +11,13 @@ export default {
     },
   },
   methods: {
-    generateMeta: (item) => {
+    generateMeta: function (item) {
       return {
         id: this.rss.itemKey(item),
         summary: item.title,
         ts: this.rss.itemTs(item),
       };
-    }
+    },
   },
 };
 

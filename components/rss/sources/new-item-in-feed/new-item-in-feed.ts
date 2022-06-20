@@ -18,8 +18,6 @@ export default defineSource({
         "url",
       ],
     },
-    timer: {
-    },
   },
   hooks: {
     async activate() {
@@ -31,7 +29,7 @@ export default defineSource({
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
     this.rss.sortItems(items).forEach((item: any) => {
-      const meta = this.generateMeta(this, item);
+      const meta = this.generateMeta(item);
       this.$emit(item, meta);
     });
   },
