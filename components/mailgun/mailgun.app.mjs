@@ -1,9 +1,9 @@
 /* eslint-disable pipedream/props-description */
-const formData = require("form-data");
-const Mailgun = require("mailgun.js");
-const pick = require("lodash.pick");
+import formData from "form-data";
+import Mailgun from "mailgun.js";
+import { pick } from "lodash";
 
-module.exports = {
+export default {
   type: "app",
   app: "mailgun",
   propDefinitions: {
@@ -16,6 +16,9 @@ module.exports = {
           skip: 50 * page,
         };
         const domains = await this.api("domains").list(query);
+        if (domains.length === 0) {
+          throw new Error("Failed to fetch domains");
+        }
         return domains.map((domain) => domain.name);
       },
     },
@@ -28,6 +31,9 @@ module.exports = {
           skip: 50 * page,
         };
         const lists = await this.api("lists").list(query);
+        if (lists.length === 0) {
+          throw new Error("Failed to fetch lists");
+        }
         return lists.map((list) => list.address);
       },
     },
@@ -115,10 +121,14 @@ module.exports = {
   methods: {
     api (api) {
       const mailgun = new Mailgun(formData);
-      const mg = mailgun.client({
+      const config = {
         username: "api",
         key: this.$auth.api_key,
-      });
+      };
+      if (this.$auth.region === "EU") {
+        config.url = "https://api.eu.mailgun.net";
+      }
+      const mg = mailgun.client(config);
       return mg[api];
     },
     async createMailinglistMember(mailgun, opts) {
