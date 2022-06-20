@@ -6,6 +6,12 @@ export default {
   type: "app",
   app: "woocommerce",
   propDefinitions: {
+    orderId: {
+      type: "integer",
+      label: "Order ID",
+      description: "ID of the Order",
+      optional: false,
+    },
     orderStatus: {
       type: "string",
       label: "Status",
@@ -195,6 +201,9 @@ export default {
     },
     async listCategories(page) {
       return this.listResources(`products/categories?page=${page}`);
+    },
+    async getOrder(id) {
+      return this.getResource(`orders/${id}`);
     },
     async createOrder(data) {
       return this.postResource("orders", data);
