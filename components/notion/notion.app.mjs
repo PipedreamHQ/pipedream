@@ -1,5 +1,6 @@
 import notion from "@notionhq/client";
-import constants from "./actions/common/constants.mjs";
+import NOTION_META from "./common/notion-meta-selection.mjs";
+import NOTION_BLOCKS from "./common/notion-blocks-selection.mjs";
 
 export default {
   type: "app",
@@ -13,8 +14,8 @@ export default {
         const response = await this.listDatabases({
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
-        const options = this.extractDatabaseTitleOptions(response.results);
-        return this.buildPaginatedOptions(options, response.next_cursor);
+        const options = this._extractDatabaseTitleOptions(response.results);
+        return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
     pageId: {
@@ -25,38 +26,52 @@ export default {
         const response = await this.searchPage(undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
-        const options = this.extractPageTitleOptions(response.results);
-        return this.buildPaginatedOptions(options, response.next_cursor);
+        const options = this._extractPageTitleOptions(response.results);
+        return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
-    title: {
-      type: "string",
-      label: "Page Title",
-      description: "The words contained in the page title to search for. Leave blank to list all pages",
-      optional: true,
-    },
-    iconType: {
-      type: "string",
-      label: "Icon Type",
-      description: "Emoji",
+    metaTypes: {
+      type: "string[]",
+      label: "Meta Types",
+      description: "Select the page attributes such as icon and cover",
+      options: Object.keys(NOTION_META),
       optional: true,
       reloadProps: true,
-      options: constants.ICON_TYPES,
     },
-    coverType: {
-      type: "string",
-      label: "Cover Type",
-      description: "External URL",
+    propertyTypes: {
+      type: "string[]",
+      label: "Property Types",
+      description: "Select the page properties",
       optional: true,
       reloadProps: true,
-      options: constants.COVER_TYPES,
+      async options({
+        parentId, parentType,
+      }) {
+        const { properties } = parentType === "database"
+          ? await this.retrieveDatabase(parentId)
+          : await this.retrievePage(parentId);
+        return Object.keys(properties);
+      },
     },
     blockTypes: {
       type: "string[]",
       label: "Block Types",
-      description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block.",
-      options: Object.keys(constants.BLOCK_TYPES),
+      description: "Select the block types that will be appended as the page content",
+      options: Object.keys(NOTION_BLOCKS),
+      optional: true,
       reloadProps: true,
+    },
+    archived: {
+      type: "boolean",
+      label: "Archive page",
+      description: "Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Page Title",
+      description: "The page title. Defaults to `Untitled`.",
+      optional: true,
     },
     userIds: {
       type: "string[]",
@@ -78,8 +93,8 @@ export default {
         auth: this.$auth.oauth_access_token,
       });
     },
-    extractDatabaseTitleOptions(databases) {
-      const options = databases.map((database) => {
+    _extractDatabaseTitleOptions(databases) {
+      return databases.map((database) => {
         const title = database.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
@@ -89,10 +104,9 @@ export default {
           value: database.id,
         };
       });
-      return options;
     },
-    extractPageTitleOptions(pages) {
-      const options = pages.map((page) => {
+    _extractPageTitleOptions(pages) {
+      return pages.map((page) => {
         const propertyFound = Object.values(page.properties)
           .find((property) => property.type === "title" && property.title.length > 0);
         const title = propertyFound?.title
@@ -104,25 +118,24 @@ export default {
           value: page.id,
         };
       });
-      return options;
     },
-    extractDatabaseTitle(database) {
-      return this.extractDatabaseTitleOptions([
-        database,
-      ])[0].label;
-    },
-    extractPageTitle(page) {
-      return this.extractPageTitleOptions([
-        page,
-      ])[0].label;
-    },
-    buildPaginatedOptions(options, nextPageParameters) {
+    _buildPaginatedOptions(options, nextPageParameters) {
       return {
         options,
         context: {
           nextPageParameters,
         },
       };
+    },
+    extractDatabaseTitle(database) {
+      return this._extractDatabaseTitleOptions([
+        database,
+      ])[0].label;
+    },
+    extractPageTitle(page) {
+      return this._extractPageTitleOptions([
+        page,
+      ])[0].label;
     },
     async listDatabases(params = {}) {
       return this._getNotionClient().search({
@@ -137,6 +150,11 @@ export default {
       return this._getNotionClient().databases.query({
         database_id: databaseId,
         ...params,
+      });
+    },
+    async retrieveDatabase(databaseId) {
+      return this._getNotionClient().databases.retrieve({
+        database_id: databaseId,
       });
     },
     async createPage(page) {

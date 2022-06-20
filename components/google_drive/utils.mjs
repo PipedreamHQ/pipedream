@@ -81,6 +81,24 @@ async function getFileStream({
     : fs.createReadStream(filePath);
 }
 
+function streamToBuffer(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => {
+      chunks.push(chunk);
+    }).on("end", () => {
+      resolve(Buffer.concat(chunks));
+    // eslint-disable-next-line newline-per-chained-call
+    }).on("error", (err) => {
+      reject(err);
+    });
+  });
+}
+
+function byteToMB(byte) {
+  return byte / 1024 / 1024;
+}
+
 /**
  * Truncate an array of path segments from its base
  *
@@ -244,4 +262,6 @@ export {
   toSingleLineString,
   buildFilePaths,
   getFilePaths,
+  streamToBuffer,
+  byteToMB,
 };

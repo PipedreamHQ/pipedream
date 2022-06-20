@@ -1,13 +1,21 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
-import { getFileStream } from "../../utils.mjs";
+import {
+  getFileStream,
+  streamToBuffer,
+  byteToMB,
+} from "../../utils.mjs";
 import { omitEmptyStringValues } from "../../utils.mjs";
+import {
+  GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
+  GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
+} from "../../constants.mjs";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     googleDrive,
@@ -58,6 +66,13 @@ export default {
       description:
         "The file's MIME type (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
     },
+    uploadType: {
+      propDefinition: [
+        googleDrive,
+        "uploadType",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -67,6 +82,7 @@ export default {
       name,
       mimeType,
     } = this;
+    let { uploadType } = this;
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
@@ -76,12 +92,27 @@ export default {
       fileUrl,
       filePath,
     });
+    if (!uploadType || uploadType === "") {
+      try {
+        const fileBuffer = await streamToBuffer(file);
+        const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
+        uploadType = bufferSize > 5
+          ? GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE
+          : GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA;
+        console.log(`Upload type: ${uploadType}`);
+      } catch (err) {
+        console.log(err);
+        uploadType = "media";
+      }
+    }
+    console.log(`Upload type: ${uploadType}`);
     const resp = await this.googleDrive.createFile(omitEmptyStringValues({
       file,
       mimeType,
       name: name || path.basename(fileUrl || filePath),
       parentId,
       driveId,
+      uploadType,
     }));
     $.export("$summary", `Successfully uploaded a new file, "${resp.name}"`);
     return resp;
