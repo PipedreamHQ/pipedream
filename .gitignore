@@ -12,3 +12,4 @@ node_modules
 docs/.vuepress/dist
 *.swp
 *.d.ts
+random
