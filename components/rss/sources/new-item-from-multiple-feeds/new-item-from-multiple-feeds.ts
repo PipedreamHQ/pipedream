@@ -6,7 +6,7 @@ export default defineSource({
   name: "New item from multiple RSS feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
-  version: "1.0.2",
+  version: "1.0.3",
   props: {
     rss,
     urls: {
@@ -33,15 +33,17 @@ export default defineSource({
     },
   },
   async run() {
+    const items = [];
     for (const url of this.urls) {
-      const items = await this.rss.fetchAndParseFeed(url);
-      items.forEach((item: any) => {
-        this.$emit(item, {
-          id: this.rss.itemKey(item),
-          summary: item.title,
-          ts: item.pubdate && +new Date(item.pubdate),
-        });
-      });
+      const feedItems = await this.rss.fetchAndParseFeed(url);
+      items.push(...feedItems);
     }
+    this.rss.sortItems(items).forEach((item: any) => {
+      this.$emit(item, {
+        id: this.rss.itemKey(item),
+        summary: item.title,
+        ts: this.rss.itemTs(item),
+      });
+    });
   },
 });

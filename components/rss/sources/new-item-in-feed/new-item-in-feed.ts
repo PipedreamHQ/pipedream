@@ -5,7 +5,7 @@ export default defineSource({
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -32,11 +32,11 @@ export default defineSource({
   },
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
-    items.forEach((item: any) => {
+    this.rss.sortItems(items).forEach((item: any) => {
       this.$emit(item, {
         id: this.rss.itemKey(item),
         summary: item.title,
-        ts: item.pubdate && +new Date(item.pubdate),
+        ts: this.rss.itemTs(item),
       });
     });
   },
