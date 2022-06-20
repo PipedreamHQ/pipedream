@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   name: "New Webhook Event (Instant)",
   version: "0.0.1",
-  key: "toggl-new-response",
+  key: "toggl-new-webhook-event",
   description: "Emit new event on receive a webhook event. [See docs here](https://github.com/toggl/toggl_api_docs/blob/master/webhooks.md)",
   type: "source",
   dedupe: "unique",
