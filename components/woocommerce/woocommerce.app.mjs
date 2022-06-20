@@ -193,6 +193,9 @@ export default {
       const q = querystring.stringify(params);
       return this.listResources(`customers?${q}`);
     },
+    async getCustomer(id) {
+      return this.listResources(`customers/${id}`);
+    },
     async listPaymentGateways() {
       return this.listResources("payment_gateways");
     },
@@ -203,7 +206,7 @@ export default {
       return this.listResources(`products/categories?page=${page}`);
     },
     async getOrder(id) {
-      return this.getResource(`orders/${id}`);
+      return this.listResources(`orders/${id}`);
     },
     async createOrder(data) {
       return this.postResource("orders", data);
