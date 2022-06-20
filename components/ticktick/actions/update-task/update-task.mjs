@@ -35,18 +35,20 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    props.startDate = {
-      type: "string",
-      label: "Start date",
-      description: "Start date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
-      optional: true,
-    };
-    props.dueDate = {
-      type: "string",
-      label: "Due date",
-      description: "Due date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
-      optional: true,
-    };
+    if (!this.allDay) {
+      props.startDate = {
+        type: "string",
+        label: "Start date",
+        description: "Start date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
+        optional: true,
+      };
+      props.dueDate = {
+        type: "string",
+        label: "Due date",
+        description: "Due date and time in \"yyyy-MM-dd'T'HH:mm:ssZ\" format. Example : \"2019-11-13T03:00:00+0000\"",
+        optional: true,
+      };
+    }
     return props;
   },
   async run({ $ }) {
