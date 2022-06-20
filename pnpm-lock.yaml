@@ -1114,6 +1114,12 @@ importers:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
 
+  components/ticktick:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/todoist:
     specifiers:
       json-2-csv: ^3.15.1
@@ -3427,22 +3433,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.114:
-    resolution: {integrity: sha512-n5ja8wEyHHy3rp+Uzyak9MTuxOOeyS6YiQjIuh5NmcQo6vYdleP+dorD5skMJBZqzFrM8s4kMTh1N15PE6wLCg==}
+  /@definitelytyped/header-parser/0.0.115:
+    resolution: {integrity: sha512-74YaIWLSST0IjqkP75VRJMMX0A6yysXrLIcO6JcuOYadxzv0mFXdL7n0jXvI00GMEpvFAKcyzAggznQIjup7pw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.114
+      '@definitelytyped/typescript-versions': 0.0.115
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.114:
-    resolution: {integrity: sha512-mQnnxO2V4u5Vd5rbMalsOVndyAOOeOT7mxP3+nOa6nz8pR2poIEE4VolWsokAm2oxOWvxOFy7lT1VlMXlHApIw==}
+  /@definitelytyped/typescript-versions/0.0.115:
+    resolution: {integrity: sha512-BgktLglKQEphkf+Zhgrpn9upTuTkWILA2md2B/OQMRFleHgJfkKq+efa+/NK0ZwjWrkpzfFd3OhAvA9rtDyfFw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.114:
-    resolution: {integrity: sha512-z4WRy+p46eZAPQiyO0zMWfHXTl7hjhHFzV1SmdzFSCI9fbBO8s3g5zJJj1IqT2hMLgqt9xYTwX/6cW/pbd6EKA==}
+  /@definitelytyped/utils/0.0.115:
+    resolution: {integrity: sha512-4rH4HGU4c2Q+7LAxpzQ3jA8+hzjSahuwoVSa/D45CBayBdndrSDpUk95yPhShJkoFRrGZ4QXzMKc0n1LIx96dg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.114
+      '@definitelytyped/typescript-versions': 0.0.115
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -8010,7 +8016,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.114
+      '@definitelytyped/header-parser': 0.0.115
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -8026,9 +8032,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.114
-      '@definitelytyped/typescript-versions': 0.0.114
-      '@definitelytyped/utils': 0.0.114
+      '@definitelytyped/header-parser': 0.0.115
+      '@definitelytyped/typescript-versions': 0.0.115
+      '@definitelytyped/utils': 0.0.115
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -14898,7 +14904,7 @@ packages:
       is-typedarray: 1.0.0
 
   /typedarray/0.0.6:
-    resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
+    resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
@@ -15483,7 +15489,7 @@ packages:
       strip-ansi: 6.0.1
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
   /wraptile/3.0.0:
     resolution: {integrity: sha512-23LJhkIw940uTcDFyJZmNyO0z8lEINOTGCr4vR5YCG3urkdXwduRIhivBm9wKaVynLHYvxoHHYbKsDiafCLp6w==}
