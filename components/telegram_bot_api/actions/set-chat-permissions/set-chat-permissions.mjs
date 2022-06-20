@@ -58,7 +58,7 @@ export default {
     },
     canPinMessages: {
       type: "boolean",
-      label: "Send text messages",
+      label: "Pin messages",
       description: "If the user is allowed to pin messages. Ignored in public SuperGroups",
       optional: true,
     },
