@@ -15,6 +15,18 @@ export default defineApp({
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
     },
+    urls: {
+      type: "string[]",
+      label: "Feed URLs",
+      description: "Enter either one or multiple URLs from any public RSS feed",
+    },
+    timer: {
+      type: "$.interface.timer",
+      description: "How often you want to poll the feed for new items",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work

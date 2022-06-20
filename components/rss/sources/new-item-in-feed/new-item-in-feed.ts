@@ -1,5 +1,6 @@
 import rss from "../../app/rss.app";
 import { defineSource } from "@pipedream/types";
+import rssCommon from "../common/common";
 
 export default defineSource({
   key: "rss-new-item-in-feed",
@@ -9,19 +10,19 @@ export default defineSource({
   type: "source",
   dedupe: "unique",
   props: {
+    rss,
     url: {
-      type: "string",
-      label: "Feed URL",
-      description: "Enter the URL for any public RSS feed",
+      propDefinition: [
+        rss,
+        "url",
+      ],
     },
     timer: {
-      type: "$.interface.timer",
-      description: "How often you want to poll the feed for new items",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+      propDefinition: [
+        rss,
+        "timer",
+      ],
     },
-    rss,
   },
   hooks: {
     async activate() {
@@ -33,11 +34,8 @@ export default defineSource({
   async run() {
     const items = await this.rss.fetchAndParseFeed(this.url);
     this.rss.sortItems(items).forEach((item: any) => {
-      this.$emit(item, {
-        id: this.rss.itemKey(item),
-        summary: item.title,
-        ts: this.rss.itemTs(item),
-      });
+      const meta = rssCommon.generateMeta(this, item);
+      this.$emit(item, meta);
     });
   },
 });
