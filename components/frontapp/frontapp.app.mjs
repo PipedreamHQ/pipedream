@@ -162,20 +162,27 @@ export default {
       };
     },
     async makeRequest({
-      $ = this, path, url, ...args
+      $ = this, path, url, headers, ...args
     } = {}) {
       const config = {
-        headers: this.getHeaders(args.headers),
+        headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
         ...args,
       };
-      console.log("config", config);
 
-      return axios($, config);
+      try {
+        return await axios($, config);
+      } catch (error) {
+        console.log("error", error.response?.data);
+        throw error;
+      }
     },
-    async importMessage(args = {}) {
+    async importMessage({
+      inboxId, ...args
+    } = {}) {
       return this.makeRequest({
-        method: constants.METHOD.IMPORT_INBOX_MESSAGE,
+        method: constants.METHOD.POST,
+        path: `/inboxes/${inboxId}/imported_messages`,
         ...args,
       });
     },
@@ -208,41 +215,36 @@ export default {
     },
     async listChannels(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.GET,
         path: "/channels",
         ...args,
       });
     },
     async listContacts(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.GET,
         path: "/contacts",
         ...args,
       });
     },
     async listConversations(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.LIST_CONVERSATIONS,
+        path: "/conversations",
         ...args,
       });
     },
     async listInboxes(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.GET,
         path: "/inboxes",
         ...args,
       });
     },
     async listAccounts(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.GET,
         path: "/accounts",
         ...args,
       });
     },
     async listTags(args = {}) {
       return this.makeRequest({
-        method: constants.METHOD.GET,
         path: "/tags",
         ...args,
       });

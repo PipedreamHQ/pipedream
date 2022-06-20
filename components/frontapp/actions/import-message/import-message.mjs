@@ -76,12 +76,13 @@ export default {
     createdAt: {
       type: "integer",
       label: "Created At",
-      description: "Date at which the message as been sent or received. A timestamp is expected as in `1453770984.123`",
+      description: "Date at which the message has been sent or received. A timestamp is expected as in `1655507769`",
+      default: Math.floor(Date.now() / 1000),
     },
     type: {
       type: "string",
       label: "Type",
-      description: "Type of the message to import. Can be one of: 'email', 'sms', 'intercom', 'custom'. (Default: 'email')",
+      description: "Type of the message to import. Can be one of: `email`, `sms`, `intercom`, `custom`. (Default: `email`)",
       optional: true,
       options: [
         "email",
@@ -178,14 +179,9 @@ export default {
       },
     };
 
-    const effectiveRequestBody = JSON.stringify(data);
-    $.export("effective_request_body", effectiveRequestBody);
-
     const response =
       await this.frontApp.importMessage({
-        params: {
-          inbox_id: inboxId,
-        },
+        inboxId,
         data,
       });
 

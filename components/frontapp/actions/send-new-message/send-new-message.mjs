@@ -100,10 +100,14 @@ export default {
     const tagIds = utils.parse(this.optionsTagIds);
     const attachments = utils.parse(this.attachments);
 
-    const response = await this.frontApp.sendMessage({
-      channelId,
-      data: {
+    const hasAttachments = attachments?.length > 0;
+
+    const rawData = utils.reduceProperties({
+      initialProps: {
         to,
+        body,
+      },
+      additionalProps: {
         cc,
         bcc,
         sender_name: senderName,
@@ -113,11 +117,33 @@ export default {
         text,
         options: {
           tag_ids: tagIds,
-          archive: optionsIsArchive,
+          archive: optionsIsArchive ?? true,
         },
-        attachments,
+        attachments: [
+          attachments,
+          hasAttachments,
+        ],
       },
     });
+
+    const data = hasAttachments && utils.getFormData(rawData) || rawData;
+
+    const args = utils.reduceProperties({
+      initialProps: {
+        channelId,
+        data,
+      },
+      additionalProps: {
+        headers: [
+          {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+          },
+          hasAttachments,
+        ],
+      },
+    });
+
+    const response = await this.frontApp.sendMessage(args);
 
     $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
 

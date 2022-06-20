@@ -1,7 +1,6 @@
 const BASE_URL = "https://api2.frontapp.com";
 
 const METHOD = {
-  GET: "get",
   POST: "post",
   PUT: "put",
   DELETE: "delete",

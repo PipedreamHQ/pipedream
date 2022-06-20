@@ -71,9 +71,6 @@ export default {
       tag_ids: tagIds,
     };
 
-    const effectiveRequestBody = JSON.stringify(data);
-    $.export("effective_request_body", effectiveRequestBody);
-
     const response = await this.frontApp.updateConversation({
       conversationId,
       data,

@@ -5,7 +5,7 @@ export default {
   key: "frontapp-receive-custom-messages",
   name: "Receive Custom Messages",
   description: "Receive a custom message in Front. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-incoming-messages).",
-  version: "0.0.37",
+  version: "0.0.1",
   type: "action",
   props: {
     frontApp,
@@ -90,6 +90,8 @@ export default {
 
     const attachments = utils.parse(this.attachments);
 
+    const hasAttachments = attachments?.length > 0;
+
     const sender = utils.emptyObjectToUndefined({
       contact_id: contactId,
       name: senderName,
@@ -101,7 +103,7 @@ export default {
       headers,
     });
 
-    const data = utils.reduceProperties({
+    const rawData = utils.reduceProperties({
       initialProps: {
         body,
         sender,
@@ -109,15 +111,32 @@ export default {
       additionalProps: {
         body_format: bodyFormat,
         metadata,
-        attachments,
+        attachments: [
+          attachments,
+          hasAttachments,
+        ],
         subject,
       },
     });
 
-    const response = await this.frontApp.receiveCustomMessages({
-      channelId,
-      data,
+    const data = hasAttachments && utils.getFormData(rawData) || rawData;
+
+    const args = utils.reduceProperties({
+      initialProps: {
+        channelId,
+        data,
+      },
+      additionalProps: {
+        headers: [
+          {
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+          },
+          hasAttachments,
+        ],
+      },
     });
+
+    const response = await this.frontApp.receiveCustomMessages(args);
 
     $.export("$summary", `Successfully received message with ID ${response.message_uid}`);
 

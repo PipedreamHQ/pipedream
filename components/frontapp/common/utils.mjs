@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
 
 function emptyStrToUndefined(value) {
   const trimmed = typeof(value) === "string" && value.trim();
@@ -80,9 +81,27 @@ function reduceProperties({
     }, initialProps);
 }
 
+function buildFormData(formData, data, parentKey) {
+  if (data && typeof data === "object") {
+    Object.keys(data)
+      .forEach((key) => {
+        buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
+      });
+  } else {
+    formData.append(parentKey, data);
+  }
+}
+
+function getFormData(data) {
+  const formData = new FormData();
+  buildFormData(formData, data);
+  return formData;
+}
+
 export default {
   emptyStrToUndefined,
   emptyObjectToUndefined,
   parse,
   reduceProperties,
+  getFormData,
 };
