@@ -119,6 +119,12 @@ importers:
     dependencies:
       axios: 0.21.4
 
+  components/aweber:
+    specifiers:
+      '@pipedreamhq/platform': ^0.8.1
+    dependencies:
+      '@pipedreamhq/platform': 0.8.1
+
   components/aws:
     specifiers:
       '@aws-sdk/client-cloudwatch-logs': ^3.58.0
@@ -288,6 +294,9 @@ importers:
     specifiers: {}
 
   components/dev_to:
+    specifiers: {}
+
+  components/dialpad:
     specifiers: {}
 
   components/digital_ocean:
@@ -739,6 +748,9 @@ importers:
       netlify: 6.1.29
       parse-link-header: 1.0.1
 
+  components/nextdns:
+    specifiers: {}
+
   components/notion:
     specifiers:
       '@notionhq/client': ^1.0.4
@@ -831,6 +843,9 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.6.4
 
+  components/propelauth:
+    specifiers: {}
+
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -841,6 +856,9 @@ importers:
     specifiers: {}
 
   components/refersion:
+    specifiers: {}
+
+  components/render:
     specifiers: {}
 
   components/repuso:
