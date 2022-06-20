@@ -1,28 +1,20 @@
-import surveyMonkey from "../../survey_monkey.app.mjs";
+import base from "../common/base-survey.mjs";
 
 export default {
+  ...base,
   key: "survey_monkey-find-survey",
-  name: "Find Survey",
-  description: "Find one of your surveys. [See the docs here](https://developer.surveymonkey.com/api/v3/#api-endpoints-get-surveys-id-details)",
-  version: "0.0.1",
+  name: "Get Survey Details",
+  description: "Get details for a Survey. [See the docs here](https://developer.surveymonkey.com/api/v3/#api-endpoints-get-surveys-id-details)",
+  version: "0.0.2",
   type: "action",
-  props: {
-    surveyMonkey,
-    survey: {
-      propDefinition: [
-        surveyMonkey,
-        "survey",
-      ],
-    },
-  },
   async run({ $ }) {
-    const response = await this.surveyMonkey.getSurvey({
+    const response = await this.surveyMonkey.getSurveyDetails({
       $,
       surveyId: this.survey,
     });
     $.export(
       "$summary",
-      `Successfully fetched ${response.title} survey details`,
+      `Successfully fetched Survey "${response.title}" details`,
     );
     return response;
   },
