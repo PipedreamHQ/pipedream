@@ -211,6 +211,9 @@ export default {
     async createOrder(data) {
       return this.postResource("orders", data);
     },
+    async updateOrder(orderId, data) {
+      return this.putResource(`orders/${orderId}`, data);
+    },
     async createProduct(data) {
       return this.postResource("products", data);
     },
