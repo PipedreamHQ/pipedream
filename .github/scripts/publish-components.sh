@@ -17,4 +17,4 @@ done
 unpublished_components
 
 # curl with form
-call_pd_workflow "javascript"
+call_pd_workflow "javascript" "$PR_STUFF"
