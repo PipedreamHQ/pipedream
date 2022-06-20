@@ -143,6 +143,7 @@ export default {
       $, data,
     }) {
       return this._makeRequest("commerce/products", {
+        method: "post",
         data,
       }, $);
     },
