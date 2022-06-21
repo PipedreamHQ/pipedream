@@ -1,6 +1,7 @@
 import fs from "fs";
 import FormData from "form-data";
 import jira from "../../jira.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "jira-add-attachment-to-issue",
@@ -19,13 +20,19 @@ export default {
     filename: {
       type: "string",
       label: "File name",
-      description: "Name of the file to add as an attachment. Must exist in the related workflow's `/tmp` folder.",
+      description: "Path of the file to add as an attachment. Must exist in the related workflow's `/tmp` folder.",
     },
   },
   async run({ $ }) {
     const data = new FormData();
-    const file = fs.createReadStream(`${this.filename}`);
-    data.append("file", file);
+    if (!fs.existsSync(this.filename)) {
+      throw new ConfigurationError("File does not exist!");
+    }
+    const file = fs.createReadStream(this.filename);
+    const stats = fs.statSync(this.filename);
+    data.append("file", file, {
+      knownLength: stats.size,
+    });
     const headers = {
       "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
       "X-Atlassian-Token": "no-check",

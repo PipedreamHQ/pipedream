@@ -129,6 +129,15 @@ export default {
       label: "Transition",
       description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
       optional: true,
+      async options({ issueIdOrKey }) {
+        const resp = await this.getTransitions({
+          issueIdOrKey,
+        });
+        return resp?.transitions.map((transition) => ({
+          value: transition.id,
+          label: transition.name,
+        }));
+      },
     },
     fields: {
       type: "object",
@@ -257,7 +266,7 @@ export default {
       issueIdOrKey,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: `/issue/${issueIdOrKey}/attachments`,
         ...args,
@@ -413,6 +422,13 @@ export default {
         params: {
           projectIds: projectID,
         },
+        ...args,
+      });
+    },
+    async getWebhook({ ...args } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/webhook",
         ...args,
       });
     },

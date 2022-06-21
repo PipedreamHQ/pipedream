@@ -34,7 +34,7 @@ export default {
       description: "A list of issue properties to return for the issue. This parameter accepts a comma-separated list. Allowed values:\n`*all` Returns all issue properties.\nAny issue property key, prefixed with a minus to exclude.",
     },
     updateHistory: {
-      type: "string",
+      type: "boolean",
       label: "Update history",
       description: "Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira.",
       optional: true,

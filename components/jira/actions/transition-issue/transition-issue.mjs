@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         jira,
         "transition",
+        (configuredProps) => ({
+          issueIdOrKey: configuredProps.issueIdOrKey,
+        }),
       ],
       description: "Details of a transition, e.g. `{\"id\": \"5\"}`",
     },

@@ -45,7 +45,7 @@ export default {
     },
     releaseDate: {
       type: "string",
-      label: "Start date",
+      label: "Release date",
       description: "The release date of the version. Expressed in ISO 8601 format (yyyy-mm-dd).",
       optional: true,
     },
