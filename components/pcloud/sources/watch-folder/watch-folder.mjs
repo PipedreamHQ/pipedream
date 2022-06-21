@@ -38,10 +38,10 @@ export default {
         "Specify when to emit an event related to a given folder. Note that pCloud preserves files' `created` and `modified` timestamps on upload. If manually uploading via pCloud's `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
       default: "Created",
     },
-    showdeleted: {
+    showDeleted: {
       propDefinition: [
         pcloud,
-        "showdeleted",
+        "showDeleted",
       ],
     },
   },
@@ -52,7 +52,7 @@ export default {
         () => this.pcloud.listContents(
           this.folderId,
           false,
-          this.showdeleted,
+          this.showDeleted,
           false,
           false,
         ),
@@ -107,7 +107,7 @@ export default {
       () => this.pcloud.listContents(
         this.folderId,
         false,
-        this.showdeleted,
+        this.showDeleted,
         false,
         false,
       ),

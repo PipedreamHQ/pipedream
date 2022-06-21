@@ -1,5 +1,7 @@
-import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
+import {
+  fileId, toFolderId, name, overwrite,
+} from "../common/props.mjs";
 
 export default {
   ...common,
@@ -10,34 +12,14 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    fileId: {
-      type: "integer",
-      label: "File ID",
-      description: "ID of the file to copy.",
-      async options() {
-        return await this.pcloud.getFileOptions();
-      },
-    },
-    toFolderId: {
-      propDefinition: [
-        pcloud,
-        "toFolderId",
-      ],
-    },
+    fileId,
+    toFolderId,
     name: {
-      propDefinition: [
-        pcloud,
-        "name",
-      ],
+      ...name,
       label: "To Name",
       description: "Name of the destination file.",
     },
-    overwrite: {
-      propDefinition: [
-        pcloud,
-        "overwrite",
-      ],
-    },
+    overwrite,
     modifiedTime: {
       type: "integer",
       label: "Modified Time",

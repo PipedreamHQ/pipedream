@@ -6,6 +6,14 @@ export default {
   type: "app",
   app: "pcloud",
   propDefinitions: {
+    fileId: {
+      type: "integer",
+      label: "File ID",
+      description: "ID of the file to copy.",
+      async options() {
+        return await this.pcloud.getFileOptions();
+      },
+    },
     folderId: {
       type: "integer",
       label: "Folder ID",
@@ -28,21 +36,21 @@ export default {
       type: "string",
       label: "Name",
       description: "Name of the folder to be created.",
-      optional: true,
     },
     overwrite: {
       type: "boolean",
       label: "Overwrite?",
       description:
-        "If `true` and file(s) with the same name already exist, no overwriting will be performed and error `2004` will be returned.",
+        `If \`true\` and an entry with the same name already exists, it will be overwritten.
+        \\
+        Otherwise, an error \`2004\` will be returned instead.`,
       default: false,
       optional: true,
     },
-    showdeleted: {
+    showDeleted: {
       type: "boolean",
       label: "Show Deleted?",
-      description:
-        "If is set, deleted files that can be undeleted will be displayed.",
+      description: "If true, deleted files and folders that can be undeleted will be displayed.",
       default: false,
       optional: true,
     },
@@ -278,25 +286,25 @@ export default {
      * folder will be used.
      * @params {boolean} recursive - If is set full directory tree will be returned, which means
      * that all directories will have contents filed.
-     * @params {boolean} showdeleted - If is set, deleted files and folders that can be undeleted
+     * @params {boolean} showDeleted - If is set, deleted files and folders that can be undeleted
      * will be displayed.
-     * @params {boolean} nofiles - If is set, only the folder (sub)structure will be returned.
-     * @params {boolean} noshares - If is set, only user's own folders and files will be displayed.
+     * @params {boolean} noFiles - If is set, only the folder (sub)structure will be returned.
+     * @params {boolean} noShares - If is set, only user's own folders and files will be displayed.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the retrieved files and folders, if `recursive` is set, an additional `contents` element will be presented for the contents of inner folders. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
-    async listContents(folderId, recursive, showdeleted, nofiles, noshares) {
+    async listContents(folderId, recursive, showDeleted, noFiles, noShares) {
       const optionalParams = {};
       if (recursive) {
-        optionalParams.recursive = 1; //Need to use an integer for `recursive`, `showdeleted`, `nofiles`,
-        //and `noshares` if `true`
+        optionalParams.recursive = 1; //Need to use an integer for `recursive`, `showDeleted`, `noFiles`,
+        //and `noShares` if `true`
       }
-      if (showdeleted) {
+      if (showDeleted) {
         optionalParams.showdeleted = 1;
       }
-      if (nofiles) {
+      if (noFiles) {
         optionalParams.nofiles = 1;
       }
-      if (noshares) {
+      if (noShares) {
         optionalParams.noshares = 1;
       }
       return await (await this.api()).listfolder(folderId, optionalParams);

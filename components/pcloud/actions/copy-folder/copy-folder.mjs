@@ -1,5 +1,7 @@
-import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
+import {
+  folderId, toFolderId, overwrite,
+} from "../common/props.mjs";
 
 export default {
   ...common,
@@ -11,31 +13,18 @@ export default {
   props: {
     ...common.props,
     folderId: {
-      propDefinition: [
-        pcloud,
-        "folderId",
-      ],
+      ...folderId,
       description: "ID of the source folder.",
     },
-    toFolderId: {
-      propDefinition: [
-        pcloud,
-        "toFolderId",
-      ],
-    },
-    overwrite: {
-      type: "boolean",
-      label: "Overwrite?",
-      description:
-        "Overwrite existing file if one exists. Otherwise, will return a `2004` error code.",
-      default: false,
-    },
+    toFolderId,
+    overwrite,
     copyContentOnly: {
       type: "boolean",
       label: "Copy Content Only?",
       description:
         "If it is set only the content of source folder will be copied otherwise the folder itself is copied.",
       default: false,
+      optional: true,
     },
   },
   async run({ $ }) {

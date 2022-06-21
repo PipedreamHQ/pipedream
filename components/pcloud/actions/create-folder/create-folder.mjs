@@ -1,5 +1,7 @@
-import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
+import {
+  folderId, name,
+} from "../common/props.mjs";
 
 export default {
   ...common,
@@ -10,22 +12,13 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    // this should not be optional
-    name: {
-      propDefinition: [
-        pcloud,
-        "name",
-      ],
-    },
     folderId: {
-      propDefinition: [
-        pcloud,
-        "folderId",
-      ],
+      ...folderId,
       label: "Parent Folder ID",
       description:
         "ID of the parent folder where the new folder will be created.",
     },
+    name,
   },
   async run({ $ }) {
     const response = await this.pcloud._withRetries(() =>

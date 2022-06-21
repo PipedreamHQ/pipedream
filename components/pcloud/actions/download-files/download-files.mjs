@@ -1,5 +1,5 @@
-import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
+import { folderId } from "../common/props.mjs";
 
 export default {
   ...common,
@@ -16,10 +16,7 @@ export default {
       description: "URL(s) of the files to download.",
     },
     folderId: {
-      propDefinition: [
-        pcloud,
-        "folderId",
-      ],
+      ...folderId,
       description: "ID of the folder, in which to download the files.",
     },
   },
