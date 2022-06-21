@@ -1,5 +1,6 @@
 import "isomorphic-fetch";
 import { Client } from "@microsoft/microsoft-graph-client";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -11,7 +12,9 @@ export default {
       description: "Microsoft Team",
       async options({ prevContext }) {
         const response = prevContext.nextLink
-          ? await this.clientApiGetRequest(prevContext.nextLink)
+          ? await this.makeRequest({
+            path: prevContext.nextLink,
+          })
           : await this.listTeams();
         const options = response.value.map((team) => ({
           label: team.displayName,
@@ -33,7 +36,9 @@ export default {
         teamId, prevContext,
       }) {
         const response = prevContext.nextLink
-          ? await this.clientApiGetRequest(prevContext.nextLink)
+          ? await this.makeRequest({
+            path: prevContext.nextLink,
+          })
           : await this.listChannels({
             teamId,
           });
@@ -52,15 +57,21 @@ export default {
     chat: {
       type: "string",
       label: "Chat",
-      description: "Team Chat",
+      description: "Team Chat within the organization (No external Contacts)",
       async options({ prevContext }) {
         const response = prevContext.nextLink
-          ? await this.clientApiGetRequest(prevContext.nextLink)
+          ? await this.makeRequest({
+            path: prevContext.nextLink,
+          })
           : await this.listChats();
-        const options = response.value.map((chat) => ({
-          label: chat.topic ?? chat.id,
-          value: chat.id,
-        }));
+        const options = [];
+        for (const chat of response.value) {
+          const members = chat.members.map((member) => member.displayName);
+          options.push({
+            label: members.join(", "),
+            value: chat.id,
+          });
+        }
         return {
           options,
           context: {
@@ -68,6 +79,21 @@ export default {
           },
         };
       },
+    },
+    channelDisplayName: {
+      type: "string",
+      label: "Display Name",
+      description: "Display name of the channel",
+    },
+    channelDescription: {
+      type: "string",
+      label: "Description",
+      description: "Description of the channel",
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Message to be sent",
     },
     max: {
       type: "integer",
@@ -88,37 +114,117 @@ export default {
         },
       });
     },
+    async makeRequest({
+      method, path, params = {}, content,
+    }) {
+      const api = this.client().api(path);
+
+      const builtParams = {
+        ...params,
+        [method || constants.DEFAULT_METHOD]: content,
+      };
+      return Object.entries(builtParams)
+        .reduce((reduction, param) => {
+          const [
+            methodName,
+            args,
+          ] = param;
+          const methodArgs = Array.isArray(args)
+            ? args
+            : [
+              args,
+            ];
+          return methodName
+            ? reduction[methodName](...methodArgs)
+            : reduction;
+        }, api);
+    },
     async authenticatedUserId() {
       const { id } = await this.client()
         .api("/me")
         .get();
       return id;
     },
+    async listTeams() {
+      const id = await this.authenticatedUserId();
+      return this.makeRequest({
+        path: `/users/${id}/joinedTeams?${constants.ORDER_BY_CREATED_DESC}`,
+      });
+    },
+    async listChannels({ teamId }) {
+      return this.makeRequest({
+        path: `/teams/${teamId}/channels?${constants.ORDER_BY_CREATED_DESC}`,
+      });
+    },
+    async listChats() {
+      return this.makeRequest({
+        path: `/chats?$expand=members&${constants.ORDER_BY_CREATED_DESC}`,
+      });
+    },
+    async createChannel({
+      teamId, content,
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/teams/${teamId}/channels`,
+        content,
+      });
+    },
+    async sendChannelMessage({
+      teamId, channelId, content,
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/teams/${teamId}/channels/${channelId}/messages`,
+        content,
+      });
+    },
+    async sendChatMessage({
+      chatId, content,
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/chats/${chatId}/messages`,
+        content,
+      });
+    },
+    async *paginate(fn, params) {
+      let nextLink;
+      do {
+        const response = nextLink
+          ? await this.makeRequest({
+            path: nextLink,
+          })
+          : await fn(params);
+
+        for (const value of response.value) {
+          yield value;
+        }
+
+        nextLink = response["@odata.nextLink"];
+      } while (nextLink);
+    },
     async clientApiGetRequest(endpoint) {
       return this.client()
         .api(endpoint)
         .get();
     },
-    async listTeams() {
-      const id = await this.authenticatedUserId();
-      return this.clientApiGetRequest(`/users/${id}/joinedTeams?orderby=createdDateTime%20desc`);
-    },
-    async listChannels({ teamId }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/channels?orderby=createdDateTime%20desc`);
-    },
     async listChannelMessages({
       teamId, channelId,
     }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/channels/${channelId}/messages/delta?orderby=createdDateTime%20desc`);
+      return this.makeRequest({
+        path: `/teams/${teamId}/channels/${channelId}/messages/delta?${constants.ORDER_BY_CREATED_DESC}`,
+      });
     },
     async listTeamMembers({ teamId }) {
-      return this.clientApiGetRequest(`/teams/${teamId}/members`);
-    },
-    async listChats() {
-      return this.clientApiGetRequest("/chats?orderby=createdDateTime%20desc");
+      return this.makeRequest({
+        path: `/teams/${teamId}/members`,
+      });
     },
     async listChatMessages({ chatId }) {
-      return this.clientApiGetRequest(`/chats/${chatId}/messages?orderby=createdDateTime%20desc`);
+      return this.makeRequest({
+        path: `/chats/${chatId}/messages?${constants.ORDER_BY_CREATED_DESC}`,
+      });
     },
   },
 };

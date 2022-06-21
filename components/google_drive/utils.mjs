@@ -88,6 +88,7 @@ function streamToBuffer(stream) {
       chunks.push(chunk);
     }).on("end", () => {
       resolve(Buffer.concat(chunks));
+    // eslint-disable-next-line newline-per-chained-call
     }).on("error", (err) => {
       reject(err);
     });

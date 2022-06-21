@@ -37,6 +37,15 @@
     },
     {
       "path": "components/dialpad"
+    },
+    {
+      "path": "components/render"
+    },
+    {
+      "path": "components/propelauth"
+    },
+    {
+      "path": "components/nextdns"
     }
   ]
 }
