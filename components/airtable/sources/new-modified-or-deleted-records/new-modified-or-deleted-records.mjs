@@ -13,7 +13,7 @@ export default {
   ...common,
   name: "New, Modified or Deleted Records",
   key: "airtable-new-modified-or-deleted-records",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",

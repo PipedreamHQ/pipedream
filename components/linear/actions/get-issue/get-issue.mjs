@@ -15,7 +15,7 @@ export default {
   ...getIssue,
   key: "linear-get-issue",
   description: "Get an issue by ID (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     linearApp,
     ...utils.buildPropDefinitions({

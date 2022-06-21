@@ -8,7 +8,7 @@ export default {
   name: "New Records in View",
   description: "Emit an event for each new record in a view",
   key: "airtable-new-records-in-view",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
