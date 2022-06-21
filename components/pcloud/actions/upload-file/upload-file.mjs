@@ -1,5 +1,7 @@
-import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
+import {
+  folderId, name,
+} from "../common/props.mjs";
 
 export default {
   ...common,
@@ -11,18 +13,12 @@ export default {
   props: {
     ...common.props,
     folderId: {
-      propDefinition: [
-        pcloud,
-        "folderId",
-      ],
+      ...folderId,
       description:
         "ID of the folder where the file will be uploaded. If not specified, the root folder will be used.",
     },
     name: {
-      propDefinition: [
-        pcloud,
-        "name",
-      ],
+      ...name,
       description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
         \\
         [See the docs on how to work with files in your workflow.](https://pipedream.com/docs/code/nodejs/working-with-files/)`,

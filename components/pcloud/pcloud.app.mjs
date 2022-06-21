@@ -41,7 +41,7 @@ export default {
       type: "boolean",
       label: "Overwrite?",
       description:
-        `If \`true\` and an entry with the same name already exists, it will be overwritten.
+        `If true, and an entry with the same name already exists, it will be overwritten.
         \\
         Otherwise, an error \`2004\` will be returned instead.`,
       default: false,
@@ -335,10 +335,10 @@ export default {
         params.renameifexists = 1;
       }
       if (mtime) {
-        params.mtime = 1;
+        params.mtime = mtime;
       }
       if (ctime) {
-        params.ctime = 1;
+        params.ctime = ctime;
       }
       return await (
         await this.api()

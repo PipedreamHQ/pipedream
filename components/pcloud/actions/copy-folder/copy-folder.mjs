@@ -22,7 +22,7 @@ export default {
       type: "boolean",
       label: "Copy Content Only?",
       description:
-        "If it is set only the content of source folder will be copied otherwise the folder itself is copied.",
+        "If true, only the contents of source folder will be copied, otherwise the folder itself is copied.",
       default: false,
       optional: true,
     },

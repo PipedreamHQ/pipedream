@@ -33,7 +33,7 @@ export default {
     noShares: {
       type: "boolean",
       label: "Exclude Shares?",
-      description: "Exclude shared files and folders.",
+      description: "If true, excludes shared files and folders.",
       default: true,
     },
   },
