@@ -640,6 +640,12 @@ importers:
     dependencies:
       '@linear/sdk': 1.22.0
 
+  components/lusha:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/mailchimp:
     specifiers:
       '@mailchimp/mailchimp_marketing': ^3.0.74
