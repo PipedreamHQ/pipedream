@@ -1,13 +1,15 @@
 import pcloud from "../../pcloud.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pcloud-list-contents",
   name: "List Contents",
   description: "Get the contents of the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
-    pcloud,
+    ...common.props,
     folderId: {
       propDefinition: [
         pcloud,
@@ -43,8 +45,8 @@ export default {
       default: true,
     },
   },
-  async run() {
-    return await this.pcloud._withRetries(
+  async run({ $ }) {
+    const response = await this.pcloud._withRetries(
       () => this.pcloud.listContents(
         this.folderId,
         this.recursive,
@@ -53,5 +55,9 @@ export default {
         this.noshares,
       ),
     );
+
+    $.export("$summary", "Listed folder contents successfully");
+
+    return response;
   },
 };

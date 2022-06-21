@@ -1,14 +1,15 @@
 import pcloud from "../../pcloud.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pcloud-copy-file",
   name: "Copy File",
-  description:
-    "Copy a file to the specified destination.",
+  description: "Copy a file to the specified destination.",
   version: "0.0.1",
   type: "action",
   props: {
-    pcloud,
+    ...common.props,
     fileId: {
       type: "integer",
       label: "File ID",
@@ -52,14 +53,19 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return await this.pcloud._withRetries(
-      () => this.pcloud.copyFile(this.fileId,
+  async run({ $ }) {
+    const response = await this.pcloud._withRetries(() =>
+      this.pcloud.copyFile(
+        this.fileId,
         this.toFolderId,
         this.name,
         !this.overwrite,
         this.modifiedTime,
-        this.createdTime),
-    );
+        this.createdTime,
+      ));
+
+    $.export("$summary", `Copied file "${this.name}" successfully`);
+
+    return response;
   },
 };

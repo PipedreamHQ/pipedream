@@ -1,13 +1,15 @@
 import pcloud from "../../pcloud.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pcloud-copy-folder",
   name: "Copy Folder",
   description: "Copy a folder to the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
-    pcloud,
+    ...common.props,
     folderId: {
       propDefinition: [
         pcloud,
@@ -36,8 +38,8 @@ export default {
       default: false,
     },
   },
-  async run() {
-    return await this.pcloud._withRetries(
+  async run({ $ }) {
+    const response = await this.pcloud._withRetries(
       () => this.pcloud.copyFolder(
         this.folderId,
         this.toFolderId,
@@ -45,5 +47,9 @@ export default {
         this.copyContentOnly,
       ),
     );
+
+    $.export("$summary", "Copied folder successfully");
+
+    return response;
   },
 };

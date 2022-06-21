@@ -1,14 +1,15 @@
 import pcloud from "../../pcloud.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pcloud-upload-file",
   name: "Upload File",
-  description:
-    "Upload a file to the specified folder.",
+  description: "Upload a file to the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
-    pcloud,
+    ...common.props,
     folderId: {
       propDefinition: [
         pcloud,
@@ -22,8 +23,7 @@ export default {
         pcloud,
         "name",
       ],
-      description:
-        `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
+      description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
         \\
         [See the docs on how to work with files in your workflow.](https://pipedream.com/docs/code/nodejs/working-with-files/)`,
     },
@@ -49,8 +49,8 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return await this.pcloud._withRetries(
+  async run({ $ }) {
+    const response = await this.pcloud._withRetries(
       () => this.pcloud.uploadFile(
         this.folderId,
         this.name,
@@ -61,5 +61,9 @@ export default {
         this.ctime,
       ),
     );
+
+    $.export("$summary", `Uploaded file "${this.name}" successfully`);
+
+    return response;
   },
 };
