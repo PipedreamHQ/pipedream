@@ -725,6 +725,12 @@ importers:
       lodash.uniqby: 4.7.0
       monday-sdk-js: 0.1.3
 
+  components/moneybird:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/mongodb:
     specifiers:
       mongodb: ^4.6.0
