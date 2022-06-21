@@ -33,6 +33,7 @@ export default {
       label: "Attendees",
       type: "string[]",
       description: "Enter the EmailId of the attendees",
+      optional: true,
     },
     eventStartDate: {
       label: "Event Date",
@@ -52,10 +53,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!Array.isArray(this.attendees)) {
-      throw new Error("Attendees should be an array");
-    }
-
     /**
      * Based on the IINA Time Zone DB
      * http://www.iana.org/time-zones
@@ -72,9 +69,14 @@ export default {
      *   { "email": "sbrin@example.com",},
      * ]
      */
-    const attendees = this.attendees.map((email) => ({
-      email,
-    }));
+
+    let attendees = [];
+
+    if (this.attendees && Array.isArray(this.attendees)) {
+      attendees = this.attendees.map((email) => ({
+        email,
+      }));
+    }
 
     const response = await this.googleCalendar.createEvent({
       calendarId: this.calendarId,
