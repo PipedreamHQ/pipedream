@@ -27,6 +27,7 @@ export default {
         "inputMediaUrl",
       ],
       description: "An optional movie file that can be used as part of the gif. Depending on the number of frames you pass in, Bannerbear will generate thumbnails of this movie and place them sequentially into an image container in your template named `video_frame`.",
+      optional: true,
     },
     fps: {
       type: "integer",
