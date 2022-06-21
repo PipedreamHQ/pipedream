@@ -83,11 +83,21 @@ export default {
         location: this.location,
         description: this.description,
         start: {
-          date: this.eventStartDate,
+          date: this.eventStartDate.length <= 10
+            ? this.eventStartDate
+            : undefined,
+          dateTime: this.eventStartDate.length > 10
+            ? this.eventStartDate
+            : undefined,
           timeZone,
         },
         end: {
-          date: this.eventEndDate,
+          date: this.eventEndDate.length <= 10
+            ? this.eventEndDate
+            : undefined,
+          dateTime: this.eventEndDate.length > 10
+            ? this.eventEndDate
+            : undefined,
           timeZone,
         },
         attendees,
