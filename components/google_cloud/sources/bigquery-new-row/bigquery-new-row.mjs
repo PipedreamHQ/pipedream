@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { isString } from "lodash-es";
+import googleCloud from "../../google_cloud.app.mjs";
 import common from "../common/bigquery.mjs";
 
 export default {
@@ -8,29 +9,19 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
   description: "Emit new events when a new row is added to a table",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   type: "source",
   props: {
     ...common.props,
     tableId: {
-      type: "string",
-      label: "Table Name",
-      description: "The name of the table to watch for new rows",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const client = this
-          .getBigQueryClient()
-          .dataset(this.datasetId);
-        const [
-          tables,
-        ] = await client.getTables();
-        return tables.map(({ id }) => id);
-      },
+      propDefinition: [
+        googleCloud,
+        "tableId",
+        ({ datasetId }) => ({
+          datasetId,
+        }),
+      ],
     },
     uniqueKey: {
       type: "string",
@@ -98,7 +89,7 @@ export default {
       }
     },
     async _getColumnNames() {
-      const table = this
+      const table = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId)
         .table(this.tableId);
@@ -138,7 +129,7 @@ export default {
       const query = `
         SELECT *
         FROM \`${this.tableId}\`
-        WHERE \`${this.uniqueKey}\` > @lastResultId
+        WHERE \`${this.uniqueKey}\` >= @lastResultId
         ORDER BY \`${this.uniqueKey}\` ASC
       `;
       const params = {
