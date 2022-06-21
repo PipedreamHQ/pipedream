@@ -14,3 +14,5 @@ tasks:
       touch ~/.config/pipedream/config &&
       echo "api_key = ${PD_API_KEY}" >> ~/.config/pipedream/config
     command: pd
+  - name: Install pnpm deps
+    init: pnpm install
