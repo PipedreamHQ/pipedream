@@ -6,7 +6,7 @@ import common from "../../common/common";
 export default defineSource({
   ...common,
   type: "source",
-  name: "New SMS Event",
+  name: "New SMS Event (Instant)",
   key: "dialpad-new-sms-event",
   description: `Emit new SMS event subscription. 
   See [Event doc](https://developers.dialpad.com/reference/webhook_sms_event_subscriptioncreate)
