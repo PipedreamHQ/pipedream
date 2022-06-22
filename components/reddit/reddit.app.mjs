@@ -28,19 +28,34 @@ export default {
       label: "Post",
       description: "Select a subreddit post or enter a custom expression to reference a specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) (for example, `15bfi0`).",
       optional: false,
+      useQuery: true,
       withLabel: true,
       async options({
         subreddit,
+        query,
         prevContext,
       }) {
         const params = {
           limit: 50,
           after: prevContext?.after,
         };
-        const links = await this.getNewSubredditLinks(
-          get(subreddit, "value", subreddit),
-          params,
-        );
+        let links = [];
+
+        if (query) {
+          links = await this.searchSubredditLinks(
+            get(subreddit, "value", subreddit),
+            {
+              ...params,
+              q: query,
+            },
+          );
+        } else {
+          links = await this.getNewSubredditLinks(
+            get(subreddit, "value", subreddit),
+            params,
+          );
+        }
+
         const posts = get(links, "data.children", []);
         const options = posts.map((item) => ({
           label: item.data.title,
@@ -216,11 +231,12 @@ export default {
         "/"}${path}`;
       return (await axios(opts)).data;
     },
-    _isRetriableStatusCode(statusCode) {[
-      408,
-      429,
-      500,
-    ].includes(statusCode);
+    _isRetriableStatusCode(statusCode) {
+      return [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -280,6 +296,21 @@ export default {
         this._makeRequest({
           path: `/r/${subreddit}/hot`,
           params,
+        }));
+    },
+    async searchSubredditLinks(subreddit, opts) {
+      const params = {
+        limit: 100,
+        ...opts,
+      };
+
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: `/r/${subreddit}/search`,
+          params: {
+            ...params,
+            restrict_sr: true,
+          },
         }));
     },
     async getNewSubredditLinks(subreddit, opts) {
