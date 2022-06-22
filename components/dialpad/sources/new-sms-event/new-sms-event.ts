@@ -13,7 +13,7 @@ export default defineSource({
   and [webhook doc](https://developers.dialpad.com/reference/webhookscreate)`,
   version: "0.0.1",
   props: {
-    dialpad,
+    ...common.props,
     direction: {
       type: "string",
       label: "Direction",
