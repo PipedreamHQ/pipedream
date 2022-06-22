@@ -20,8 +20,8 @@ export default defineSource({
     processEvent(event) {
       const { body } = event;
       this.$emit(body, {
-        id: body.id,
-        summary: `New call event - ${body.id}`,
+        id: body.call_id,
+        summary: `New call event - ${body.call_id}`,
         ts: Date.now(),
       });
     },
