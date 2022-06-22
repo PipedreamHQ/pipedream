@@ -11,6 +11,7 @@ export default defineSource({
   See [Event doc](https://developers.dialpad.com/reference/webhook_call_event_subscriptioncreate)
   and [webhook doc](https://developers.dialpad.com/reference/webhookscreate)`,
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getPath() {
