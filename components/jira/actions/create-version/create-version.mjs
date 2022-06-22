@@ -1,40 +1,43 @@
-// legacy_hash_id: a_MdizXv
-import { axios } from "@pipedream/platform";
+import base from "../common/base.mjs";
+
+const { jira } = base.props;
 
 export default {
+  ...base,
   key: "jira-create-version",
-  name: "Create Jira Version in project",
-  version: "0.1.1",
+  name: "Create Version",
+  description: "Create Jira Version in project. [See docs here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-versions/#api-rest-api-3-version-post)",
+  version: "0.2.0",
   type: "action",
   props: {
-    jira: {
-      type: "app",
-      app: "jira",
+    ...base.props,
+    projectId: {
+      propDefinition: [
+        jira,
+        "projectId",
+        (c) => ({
+          cloudId: c.cloudId,
+        }),
+      ],
     },
-    cloudId: {
-      type: "string",
-      description: "Could add previous step as `jira.obtain_jira_instance_id` and use its return value like `{{steps.obtain_jira_instance_id.$return_value}}`",
-    },
-    project: {
-      type: "string",
-    },
-    version: {
+    name: {
+      label: "Version Name",
+      description: "The unique name of the version. The maximum length is 255 characters.",
       type: "string",
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      method: "POST",
-      url: `https://api.atlassian.com/ex/jira/${this.cloudId}/rest/api/3/version`,
-      headers: {
-        "Authorization": `Bearer ${this.jira.$auth.oauth_access_token}`,
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
+    const response = await this.jira.createVersion({
+      $,
+      cloudId: this.cloudId,
       data: {
-        project: this.project,
         name: this.version,
+        projectId: this.projectId,
       },
     });
+
+    $.export("$summary", "Successfully created version");
+
+    return response;
   },
 };

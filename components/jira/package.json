@@ -1,0 +1,20 @@
+{
+    "name": "@pipedream/jira",
+    "version": "0.1.0",
+    "description": "Pipedream Jira Components",
+    "main": "jira.app.mjs",
+    "keywords": [
+        "pipedream",
+        "jira"
+    ],
+    "homepage": "https://pipedream.com/apps/jira",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@pipedream/platform": "^0.10.0"
+    }
+}
