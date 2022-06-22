@@ -12,6 +12,8 @@ github:
 tasks:
   - name: Monorepo setup
     init: npm install --frozen-lockfile
+    command: gp preview https://pipedream.com/docs/components
+    openMode: split-right
   # Installs the PD CLI and configures it to use the PD_API_KEY in the user's Gitpod settings
   # Add your ENV key here: https://gitpod.io/variables
   - name: Install PD CLI
