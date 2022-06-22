@@ -1,11 +1,12 @@
 import mysql from "../../mysql.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "mysql-create-row",
   name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {
@@ -14,36 +15,21 @@ export default {
         mysql,
         "table",
       ],
-    },
-    columns: {
-      type: "string[]",
-      description: "Select the columns you want to use to insert the values",
-      propDefinition: [
-        mysql,
-        "column",
-        ({ table }) => ({
-          table,
-        }),
-      ],
-    },
-    values: {
-      description: "Set the values you want to insert on each column selected",
-      propDefinition: [
-        mysql,
-        "whereValues",
-      ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    return await this.getColumnProps(this.table);
+  },
+  methods: {
+    ...utils,
+  },
   async run({ $ }) {
-    const {
-      table,
-      columns,
-      values,
-    } = this;
+    const { table } = this;
 
-    if (columns.length !== values.length) {
-      throw new Error("The number of columns doesn't match the number of values");
-    }
+    const {
+      columns, values,
+    } = await this.getColumnAndValueArrays(table);
 
     const result = await this.mysql.insertRow({
       table,

@@ -43,6 +43,9 @@
     },
     {
       "path": "components/propelauth"
+    },
+    {
+      "path": "components/nextdns"
     }
   ]
 }
