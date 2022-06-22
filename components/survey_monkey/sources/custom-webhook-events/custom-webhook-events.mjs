@@ -4,10 +4,10 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Custom webhook events",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   key: "survey_monkey-custom-webhook-events",
-  description: "Emmit new custom webhook event",
+  description: "Emit new custom webhook event",
   props: {
     ...common.props,
     objectType: {
@@ -40,7 +40,7 @@ export default {
           label: "Survey",
           description: "Survey where the action will be performed.",
           options: async () => {
-            const { data } = await this.surveyMonkey.getSurveys();
+            const data = await this.surveyMonkey.getSurveys();
 
             return data.map((survey) => ({
               label: survey.title,
@@ -53,7 +53,7 @@ export default {
           label: "Collector",
           description: "Collector where the action will be performed.",
           options: async () => {
-            const { data } = await this.surveyMonkey.getCollectors({
+            const data = await this.surveyMonkey.getCollectors({
               surveyId: this.survey,
             });
             return data.map((collector) => ({
@@ -71,7 +71,7 @@ export default {
             label: "Survey",
             description: "Survey where the action will be performed.",
             options: async () => {
-              const { data } = await this.surveyMonkey.getSurveys();
+              const data = await this.surveyMonkey.getSurveys();
 
               return data.map((survey) => ({
                 label: survey.title,
