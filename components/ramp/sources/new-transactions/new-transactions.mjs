@@ -14,9 +14,7 @@ export default {
       type: "string",
       label: "State",
       description: "Filter transactions by its current state",
-      options() {
-        return common.stateOptions;
-      },
+      options: common.stateOptions,
     },
     timer: {
       type: "$.interface.timer",
