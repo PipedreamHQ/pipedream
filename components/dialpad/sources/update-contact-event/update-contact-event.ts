@@ -40,8 +40,8 @@ export default defineSource({
     processEvent(event) {
       const { body } = event;
       this.$emit(body, {
-        id: body.id,
-        summary: `Update Contact event - ${body.id}`,
+        id: body.contact.id,
+        summary: `Update Contact event - ${body.contact.id}`,
         ts: Date.now(),
       });
     },
