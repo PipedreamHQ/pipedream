@@ -558,6 +558,29 @@ export default {
         config,
       }));
     },
+    async getPaginateListTweets(opts = {}) {
+      let allTweets = [];
+      let sinceId = "1";
+
+      // do {
+      const tweets = await this.getListTweets({
+        ...opts,
+        sinceId,
+      });
+
+      if (!tweets || tweets.length <= 0) {
+        sinceId = null;
+        return;
+      }
+
+      allTweets = allTweets.concat(tweets);
+
+      sinceId = tweets.pop().id;
+      console.log(sinceId);
+      // } while (sinceId);
+
+      return allTweets;
+    },
     async getListTweets(opts = {}) {
       const {
         $,
@@ -849,7 +872,7 @@ export default {
 
       for (const tweet of response.statuses) {
         if ((!sinceId || (sinceId && tweet.id_str !== sinceId)) &&
-            (!maxId || (maxId && tweet.id_str !== maxId))) {
+          (!maxId || (maxId && tweet.id_str !== maxId))) {
           if (enrichTweets) {
             tweets.push(this.enrichTweet(tweet));
           } else {
