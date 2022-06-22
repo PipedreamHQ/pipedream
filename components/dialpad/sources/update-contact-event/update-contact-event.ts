@@ -6,7 +6,7 @@ import common from "../../common/common";
 export default defineSource({
   ...common,
   type: "source",
-  name: "Update Contact Event",
+  name: "Update Contact Event (Instant)",
   key: "dialpad-update-contact-event",
   description: `Emit update contact event subscription. 
   See [Event doc](https://developers.dialpad.com/reference/webhook_contact_event_subscriptionupdate)
