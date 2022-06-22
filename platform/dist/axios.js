@@ -101,7 +101,7 @@ async function default_1(step, config, signConfig) {
     }
     catch (err) {
         if (err.response) {
-            stepExport(step, err.response, "debug_error");
+            stepExport(step, err.response, "debug");
         }
         throw err;
     }
@@ -118,6 +118,6 @@ function stepExport(step, message, key) {
         }
     }
     else {
-        console.log(message);
+        console.log(`key: ${key}`, message);
     }
 }
