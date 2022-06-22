@@ -10,8 +10,14 @@ github:
 
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: Install pnpm deps
-    init: pnpm install --frozen-lockfile
+  - name: Monorepo setup
+    init: npm install --frozen-lockfile
+  # Install and setup Pipedream docs
+  - name: Docs
+    init: |
+      cd docs && \
+      yarn 
+    command: yarn docs:dev
   # Installs the PD CLI and configures it to use the PD_API_KEY in the user's Gitpod settings
   # Add your ENV key here: https://gitpod.io/variables
   - name: Install PD CLI
@@ -26,3 +32,8 @@ tasks:
       touch ~/.config/pipedream/config &&
       echo "api_key = ${PD_API_KEY}" >> ~/.config/pipedream/config
     command: pd
+ports:
+  - name: Docs
+    description: The Pipedream Docs server
+    port: 3000
+    onOpen: open-preview
