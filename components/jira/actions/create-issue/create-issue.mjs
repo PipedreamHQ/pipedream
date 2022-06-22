@@ -28,13 +28,11 @@ export default {
       type: "string",
       label: "Issue summary",
       description: "The title of the issue",
-      optional: true,
     },
     description: {
       type: "object",
       label: "Description",
       description: "Description object of the issue, Jira accepts `doc` type of descriptions, [See Atlassian Document Structure](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/)",
-      optional: true,
     },
     parentKey: {
       type: "string",
