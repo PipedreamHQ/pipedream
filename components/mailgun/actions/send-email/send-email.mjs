@@ -62,7 +62,7 @@ export default {
     text: {
       propDefinition: [
         mailgun,
-        "body_text",
+        "bodyText",
       ],
       optional: true,
     },
@@ -70,7 +70,7 @@ export default {
     html: {
       propDefinition: [
         mailgun,
-        "body_html",
+        "bodyHtml",
       ],
       optional: true,
     },

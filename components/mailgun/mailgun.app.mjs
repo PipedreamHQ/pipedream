@@ -2,6 +2,7 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 import { pick } from "lodash";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -12,8 +13,8 @@ export default {
       label: "Domain Name",
       async options({ page }) {
         const query = {
-          limit: 50,
-          skip: 50 * page,
+          limit: constants.DEFAULT_PAGE_SIZE,
+          skip: constants.DEFAULT_PAGE_SIZE * page,
         };
         const domains = await this.api("domains").list(query);
         if (domains.length === 0) {
@@ -27,8 +28,8 @@ export default {
       label: "Mailing List",
       async options ({ page }) {
         const query = {
-          limit: 50,
-          skip: 50 * page,
+          limit: constants.DEFAULT_PAGE_SIZE,
+          skip: constants.DEFAULT_PAGE_SIZE * page,
         };
         const lists = await this.api("lists").list(query);
         if (lists.length === 0) {
@@ -53,11 +54,11 @@ export default {
       type: "string",
       label: "Subject",
     },
-    body_text: {
+    bodyText: {
       type: "string",
       label: "Message Body (text)",
     },
-    body_html: {
+    bodyHtml: {
       type: "string",
       label: "Message Body (HTML)",
     },
@@ -78,38 +79,21 @@ export default {
     subscribed: {
       type: "string",
       label: "Subscribed?",
-      options: [
-        "true",
-        "false",
-      ],
+      options: constants.OPTIONS.SUBSCRIBED,
     },
     upsert: {
       type: "string",
       label: "Update if exists?",
-      description: "If `yes`, will update if a matching entry already exists; if `no`, will " +
-        "throw an error if a matching entry already exists",
-      options: [
-        "yes",
-        "no",
-      ],
+      description: "If `yes`, will update if a matching entry already exists; if `no`, will throw an error if a matching entry already exists",
+      options: constants.OPTIONS.UPSERT,
       default: "no",
     },
     acceptableRiskLevels: {
       type: "string[]",
       label: "Acceptable Risk Levels",
-      description: "If set, workflow execution will stop at this step if the email risk is not " +
-        "in this list",
-      options: [
-        "high",
-        "medium",
-        "low",
-        "unknown",
-      ],
-      default: [
-        "medium",
-        "low",
-        "unknown",
-      ],
+      description: "If set, workflow execution will stop at this step if the email risk is not in this list",
+      options: constants.OPTIONS.ACCEPTABLE_RISK_LEVELS,
+      default: constants.OPTIONS.ACCEPTABLE_RISK_LEVELS_DEFAULT,
       optional: true,
     },
     haltOnError: {
@@ -149,9 +133,9 @@ export default {
       const listsService = this.api("lists");
       let result = [];
       let address;
-      let lists = [];
+      const lists = [];
       do {
-        let query = {
+        const query = {
           limit,
         };
         if (address) {
