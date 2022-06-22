@@ -21,10 +21,10 @@ export default defineSource({
       description: "The event subscription's ID, which is generated after creating an event subscription successfully.",
     },
     contactType: {
-      type: "string",
-      label: "Contact type",
-      description: "The contact type this event subscription subscribes to.",
-      options: constants.CONTACT_EVENT_TYPE,
+      propDefinition: [
+         dialpad,
+         "contactType",
+      ],
     },
   },
   methods: {
