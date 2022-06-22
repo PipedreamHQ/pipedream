@@ -12,12 +12,6 @@ github:
 tasks:
   - name: Monorepo setup
     init: npm install --frozen-lockfile
-  # Install and setup Pipedream docs
-  - name: Docs
-    init: |
-      cd docs && \
-      yarn 
-    command: yarn docs:dev
   # Installs the PD CLI and configures it to use the PD_API_KEY in the user's Gitpod settings
   # Add your ENV key here: https://gitpod.io/variables
   - name: Install PD CLI
@@ -32,8 +26,3 @@ tasks:
       touch ~/.config/pipedream/config &&
       echo "api_key = ${PD_API_KEY}" >> ~/.config/pipedream/config
     command: pd
-ports:
-  - name: Docs
-    description: The Pipedream Docs server
-    port: 3000
-    onOpen: open-preview
