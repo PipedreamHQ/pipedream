@@ -12,6 +12,7 @@ export default defineSource({
   See [Event doc](https://developers.dialpad.com/reference/webhook_sms_event_subscriptioncreate)
   and [webhook doc](https://developers.dialpad.com/reference/webhookscreate)`,
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     ...common.props,
     direction: {
