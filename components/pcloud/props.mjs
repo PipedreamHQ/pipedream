@@ -1,24 +1,3 @@
-import pcloud from "./pcloud.app.mjs";
-
-const fileId = {
-  propDefinition: [
-    pcloud,
-    "fileId",
-  ],
-};
-const folderId = {
-  propDefinition: [
-    pcloud,
-    "folderId",
-  ],
-};
-const toFolderId = {
-  propDefinition: [
-    pcloud,
-    "toFolderId",
-  ],
-};
-
 const name = {
   type: "string",
   label: "Name",
@@ -58,10 +37,7 @@ const createdTime = {
   optional: true,
 };
 
-export default {
-  fileId,
-  folderId,
-  toFolderId,
+export {
   name,
   overwrite,
   showDeleted,

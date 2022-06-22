@@ -9,9 +9,6 @@ export default {
     fileId: {
       type: "integer",
       label: "File ID",
-      description: `Select a **File** from the list.
-      \\
-Alternatively, you can provide a custom *File ID*.`,
       async options() {
         return await this.pcloud.getFileOptions();
       },
@@ -19,25 +16,19 @@ Alternatively, you can provide a custom *File ID*.`,
     folderId: {
       type: "integer",
       label: "Folder ID",
-      description: `Select a **Folder** from the list.
-      \\
-Alternatively, you can provide a custom *Folder ID*.`,
       async options() {
         return await this.getFolderOptions();
       },
       default: 0,
     },
-    toFolderId: {
-      type: "integer",
-      label: "Destination Folder ID",
-      description: `Select a **Destination Folder** from the list.
-      \\
-Alternatively, you can provide a custom *Folder ID*.`,
-      async options() {
-        return await this.getFolderOptions();
-      },
-      default: 0,
-    },
+    // toFolderId: {
+    //   type: "integer",
+    //   label: "Destination Folder ID",
+    //   async options() {
+    //     return await this.getFolderOptions();
+    //   },
+    //   default: 0,
+    // },
   },
   methods: {
     async api() {

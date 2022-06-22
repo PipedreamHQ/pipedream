@@ -1,7 +1,8 @@
 import common from "../common/base.mjs";
+import { overwrite } from "../../props.mjs";
 import {
-  folderId, toFolderId, overwrite,
-} from "../common/props.mjs";
+  propFolderId, propToFolderId,
+} from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -12,11 +13,8 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: {
-      ...folderId,
-      description: "ID of the source folder.",
-    },
-    toFolderId,
+    folderId: propFolderId(" to copy"),
+    toFolderId: propToFolderId(" where the folder will be copied to"),
     overwrite,
     copyContentOnly: {
       type: "boolean",
@@ -28,14 +26,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pcloud._withRetries(
-      () => this.pcloud.copyFolder(
+    const response = await this.pcloud._withRetries(() =>
+      this.pcloud.copyFolder(
         this.folderId,
         this.toFolderId,
         !this.overwrite,
         this.copyContentOnly,
-      ),
-    );
+      ));
 
     $.export("$summary", "Copied folder successfully");
 

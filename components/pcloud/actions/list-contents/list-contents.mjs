@@ -1,7 +1,6 @@
 import common from "../common/base.mjs";
-import {
-  folderId, showDeleted,
-} from "../../props.mjs";
+import { showDeleted } from "../../props.mjs";
+import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -12,11 +11,12 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId,
+    folderId: propFolderId(" to get the contents of"),
     recursive: {
       type: "boolean",
       label: "Recursive?",
-      description: "If true, returns contents of the folder **and all subfolders,** recursively.",
+      description:
+        "If true, returns contents of the folder **and all subfolders,** recursively.",
       default: false,
     },
     showDeleted,
@@ -24,7 +24,7 @@ export default {
       type: "boolean",
       label: "No Files?",
       description:
-            "If true, only the **folder** (sub)structure will be returned.",
+        "If true, only the **folder** (sub)structure will be returned.",
       default: false,
     },
     noShares: {
@@ -35,15 +35,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pcloud._withRetries(
-      () => this.pcloud.listContents(
+    const response = await this.pcloud._withRetries(() =>
+      this.pcloud.listContents(
         this.folderId,
         this.recursive,
         this.showDeleted,
         this.noFiles,
         this.noShares,
-      ),
-    );
+      ));
 
     $.export("$summary", "Listed folder contents successfully");
 

@@ -1,7 +1,8 @@
 import common from "../common/base.mjs";
 import {
-  folderId, name, modifiedTime, createdTime,
+  name, modifiedTime, createdTime,
 } from "../../props.mjs";
+import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -12,7 +13,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId,
+    folderId: propFolderId(" to receive the uploaded files"),
     name: {
       ...name,
       description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.

@@ -1,7 +1,6 @@
 import common from "../common/base.mjs";
-import {
-  folderId, name,
-} from "../../props.mjs";
+import { name } from "../../props.mjs";
+import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -13,10 +12,8 @@ export default {
   props: {
     ...common.props,
     folderId: {
-      ...folderId,
+      ...propFolderId(" to create the new folder within"),
       label: "Parent Folder ID",
-      description:
-        "ID of the parent folder where the new folder will be created.",
     },
     name,
   },

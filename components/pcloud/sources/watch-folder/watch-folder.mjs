@@ -1,8 +1,7 @@
 import pcloud from "../../pcloud.app.mjs";
 import get from "lodash/get.js";
-import {
-  folderId, showDeleted,
-} from "../../props.mjs";
+import { showDeleted } from "../../props.mjs";
+import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   key: "pcloud-watch-folder",
@@ -23,7 +22,7 @@ export default {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
       },
     },
-    folderId,
+    folderId: propFolderId(" to watch for changes"),
     event: {
       type: "string",
       label: "Folder Event",
