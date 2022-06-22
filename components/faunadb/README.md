@@ -6,9 +6,10 @@ FaunaDB Event Sources collect data from FaunaDB (for example, changes to a colle
 
 <!--ts-->
 
-- [Sources](#sources)
-  - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
-- [Workflows](#workflows)
+- [FaunaDB Event Sources](#faunadb-event-sources)
+  - [Sources](#sources)
+    - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
+  - [Workflows](#workflows)
 
 <!--te-->
 
@@ -18,7 +19,7 @@ FaunaDB Event Sources collect data from FaunaDB (for example, changes to a colle
 
 [**Click here to create this source**](https://pipedream.com/sources?action=create&key=faunadb-changes-to-collection&app=faunadb)
 
-The [`changes-to-collection.js`](changes-to-collection.js) source tracks [`add` and `remove` events](https://docs.fauna.com/fauna/current/api/fql/functions/events) to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event of the following shape:
+The [`changes-to-collection.mjs`](changes-to-collection.mjs) source tracks [`add` and `remove` events](https://docs.fauna.com/fauna/current/api/fql/functions/events) to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event of the following shape:
 
 <details>
   <summary>Click to expand</summary>
@@ -28,17 +29,6 @@ The [`changes-to-collection.js`](changes-to-collection.js) source tracks [`add` 
   "ts": 1588738648630000,
   "action": "add",
   "document": {
-    "@ref": {
-      "id": "264744257335591434",
-      "collection": {
-        "@ref": {
-          "id": "test",
-          "collection": { "@ref": { "id": "collections" } }
-        }
-      }
-    }
-  },
-  "instance": {
     "@ref": {
       "id": "264744257335591434",
       "collection": {
@@ -74,34 +64,12 @@ If you set the **Emit changes as a single event** property to `true`, Pipedream 
           }
         }
       }
-    },
-    "instance": {
-      "@ref": {
-        "id": "264744257335591434",
-        "collection": {
-          "@ref": {
-            "id": "test",
-            "collection": { "@ref": { "id": "collections" } }
-          }
-        }
-      }
     }
   },
   {
     "ts": 1588739721810000,
     "action": "remove",
     "document": {
-      "@ref": {
-        "id": "264744257335591434",
-        "collection": {
-          "@ref": {
-            "id": "test",
-            "collection": { "@ref": { "id": "collections" } }
-          }
-        }
-      }
-    },
-    "instance": {
       "@ref": {
         "id": "264744257335591434",
         "collection": {

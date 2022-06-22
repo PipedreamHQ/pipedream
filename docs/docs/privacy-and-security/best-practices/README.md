@@ -1,20 +1,8 @@
 # Security Best Practices
 
-Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows), [event sources](/event-sources), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
+Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/sources/), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
 
 [[toc]]
-
-## Keep your workflow private
-
-By default, all workflow code is private. But [you can make that code public](/public-workflows/) when developing tutorials or examples to share with others. Public workflows can be useful in this context. In all other cases, we recommend you keep your workflow private. 
-
-If you only need to share your workflow with specific people, [you can share your workflow with specific collaborators](#share-your-workflow-only-with-trusted-collaborators).
-
-## Share your workflow only with trusted collaborators
-
-[You can share your workflow with specific individuals](/workflows/managing/#sharing-workflows). **These collaborators have full read / write access to your workflow**. Collaboration is useful when you're working with a contractor or a team, but you should share your workflow only with people you trust.
-
-Audit the list of collaborators on a regular basis. If someone leaves your team, or if you end a contract with a consultant, we recommend you remove them from the list of collaborators.
 
 ## Store secrets as Pipedream connected accounts or environment variables
 
@@ -23,7 +11,7 @@ Even if your workflow code is private, you should never store secrets like API k
 - [If Pipedream integrates with the app](https://pipedream.com/apps), use [connected accounts](/connected-accounts/) to link your apps / APIs.
 - If you need to store credentials for an app Pipedream doesn't support, or you need to store arbitrary configuration data, use [environment variables](/environment-variables/).
 
-Read more about how Pipedream secures connected accounts / environment variables [here](/privacy-and-security/#third-party-oauth-grants-and-api-keys).
+Read more about how Pipedream secures connected accounts / environment variables [here](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
 
 ## Deliver data to Pipedream securely
 
@@ -47,7 +35,7 @@ Many apps pass a **signature** with event data delivered via webhooks (or other 
 
 Signatures are specific to the app sending the data, and the app should provide instructions for signature validation. **Not all apps compute signatures, but when they do, you should always verify them**.
 
-When you use a Pipedream [event source](/event-sources/) as your workflow trigger, Pipedream should verify the signature for you. You can always [audit the code behind the event source](#audit-any-code-or-packages-you-use-within-a-workflow) to confirm this, and suggest further security improvements that you find.
+When you use a Pipedream [event source](/sources/) as your workflow trigger, Pipedream should verify the signature for you. You can always [audit the code behind the event source](#audit-code-or-packages-you-use-within-a-workflow) to confirm this, and suggest further security improvements that you find.
 
 See [Stripe's signature docs](https://stripe.com/docs/webhooks/signatures) for a real-world example. Pipedream's Stripe event source [verifies this signature for you](https://github.com/PipedreamHQ/pipedream/blob/bb1ebedf8cbcc6f1f755a8878c759522b8cc145b/components/stripe/sources/custom-webhook-events/custom-webhook-events.js#L49).
 
