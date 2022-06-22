@@ -50,6 +50,8 @@ See a gap or mistake in our [docs](https://github.com/PipedreamHQ/pipedream/tree
 
 Develop components without leaving your browser with the Pipedream Gitpod workspace _without installing any dependencies_.
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/PipedreamHQ/pipedream)
+
 1. Fork the official [Pipedream Github Repository](https://github.com/PipedreamHQ/pipedream)
 2. Add your PD API key to your [Gitpod Variables](https://gitpod.io/variables) as `PD_API_KEY`
 3. Open a new Gitpod Workspace with your fork: `https://gitpod.io/#https://github.com/<your-github-username>/pipedream`
