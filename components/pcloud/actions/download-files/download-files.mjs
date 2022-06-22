@@ -17,12 +17,12 @@ export default {
     },
     folderId: propFolderId(" to receive the downloaded files"),
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(() =>
-      this.pcloud.downloadFiles(this.urls, this.folderId));
-
-    $.export("$summary", `Downloaded ${this.urls.length} files successfully`);
-
-    return response;
+  methods: {
+    getSummary() {
+      return `Downloaded ${this.urls.length} files successfully`;
+    },
+    async requestMethod() {
+      return this.pcloud.downloadFiles(this.urls, this.folderId);
+    },
   },
 };

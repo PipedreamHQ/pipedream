@@ -17,12 +17,12 @@ export default {
     },
     name,
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(() =>
-      this.pcloud.createFolder(this.name, this.folderId));
-
-    $.export("$summary", `Created folder "${this.name}" successfully`);
-
-    return response;
+  methods: {
+    getSummary() {
+      return `Created folder "${this.name}" successfully`;
+    },
+    async requestMethod() {
+      return this.pcloud.createFolder(this.name, this.folderId);
+    },
   },
 };

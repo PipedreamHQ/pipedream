@@ -3,7 +3,8 @@ import {
   name, overwrite, modifiedTime, createdTime,
 } from "../../props.mjs";
 import {
-  propFileId, propToFolderId,
+  propFileId,
+  propToFolderId,
 } from "../../props-custom-descriptions.mjs";
 
 export default {
@@ -11,7 +12,7 @@ export default {
   key: "pcloud-copy-file",
   name: "Copy File",
   description: "Copy a file to the specified destination.",
-  version: "0.0.4",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -26,19 +27,19 @@ export default {
     modifiedTime,
     createdTime,
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(() =>
-      this.pcloud.copyFile(
+  methods: {
+    getSummary() {
+      return `Copied file "${this.name}" successfully`;
+    },
+    async requestMethod() {
+      return this.pcloud.copyFile(
         this.fileId,
         this.toFolderId,
         this.name,
         !this.overwrite,
         this.modifiedTime,
         this.createdTime,
-      ));
-
-    $.export("$summary", `Copied file "${this.name}" successfully`);
-
-    return response;
+      );
+    },
   },
 };

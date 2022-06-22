@@ -10,7 +10,7 @@ export default {
       type: "integer",
       label: "File ID",
       async options() {
-        return await this.pcloud.getFileOptions();
+        return await this.getFileOptions();
       },
     },
     folderId: {
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async api() {
-      global.locationid = 1;
+      global.locationid = Number(this.$auth.locationid);
       // eslint-disable-next-line no-unused-vars
       /*
       const locations = {

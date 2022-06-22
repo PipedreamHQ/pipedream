@@ -30,9 +30,12 @@ export default {
     modifiedTime,
     createdTime,
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(
-      () => this.pcloud.uploadFile(
+  methods: {
+    getSummary() {
+      return `Uploaded file "${this.name}" successfully`;
+    },
+    async requestMethod() {
+      return this.pcloud.uploadFile(
         this.folderId,
         this.name,
         this.noPartial,
@@ -40,11 +43,7 @@ export default {
         this.renameIfExists,
         this.modifiedTime,
         this.createdTime,
-      ),
-    );
-
-    $.export("$summary", `Uploaded file "${this.name}" successfully`);
-
-    return response;
+      );
+    },
   },
 };

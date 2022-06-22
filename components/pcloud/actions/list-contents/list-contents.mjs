@@ -34,18 +34,18 @@ export default {
       default: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(() =>
-      this.pcloud.listContents(
+  methods: {
+    getSummary() {
+      return "Listed folder contents successfully";
+    },
+    async requestMethod() {
+      return this.pcloud.listContents(
         this.folderId,
         this.recursive,
         this.showDeleted,
         this.noFiles,
         this.noShares,
-      ));
-
-    $.export("$summary", "Listed folder contents successfully");
-
-    return response;
+      );
+    },
   },
 };

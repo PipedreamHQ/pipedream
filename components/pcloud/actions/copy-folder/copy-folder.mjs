@@ -1,7 +1,8 @@
 import common from "../common/base.mjs";
 import { overwrite } from "../../props.mjs";
 import {
-  propFolderId, propToFolderId,
+  propFolderId,
+  propToFolderId,
 } from "../../props-custom-descriptions.mjs";
 
 export default {
@@ -25,17 +26,17 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.pcloud._withRetries(() =>
-      this.pcloud.copyFolder(
+  methods: {
+    getSummary() {
+      return "Copied folder successfully";
+    },
+    async requestMethod() {
+      return this.pcloud.copyFolder(
         this.folderId,
         this.toFolderId,
         !this.overwrite,
         this.copyContentOnly,
-      ));
-
-    $.export("$summary", "Copied folder successfully");
-
-    return response;
+      );
+    },
   },
 };
