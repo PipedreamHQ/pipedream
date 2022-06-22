@@ -51,7 +51,7 @@ export default defineApp({
       });
 
       // Create webhook event with the webhook ID generated above
-      return this._makeRequest({
+      const event = await this._makeRequest({
         path,
         method: "post",
         data: {
@@ -60,12 +60,21 @@ export default defineApp({
           ...data,
         },
       });
+
+      return {
+        webhookId: webhook.id,
+        eventId: event.id,
+      };
     },
     async removeWebhook({
-      path, webhookId,
+      path, ids,
     }) {
-      return await this._makeRequest({
-        path: `${path}/${webhookId}`,
+      await this._makeRequest({
+        path: `${path}/${ids.eventId}`,
+        method: "delete",
+      });
+      await this._makeRequest({
+        path: `/webhooks/${ids.webhookId}`,
         method: "delete",
       });
     },

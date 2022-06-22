@@ -24,10 +24,10 @@ export default {
       });
     },
     async deactivateMain(path) {
-      const webhookId = this._getWebhookId();
+      const ids = this._getWebhookId();
       return this.dialpad.removeWebhook({
         path,
-        webhookId,
+        ids,
       });
     },
   },
@@ -36,7 +36,7 @@ export default {
       const path = this.getPath();
       const data = this.getPayload();
       const response = await this.createWebHook(path, data);
-      this._setWebhookId(response.id);
+      this._setWebhookId(response);
     },
     async deactivate() {
       const path = this.getPath();
