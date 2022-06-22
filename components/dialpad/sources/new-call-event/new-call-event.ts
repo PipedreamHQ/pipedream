@@ -5,7 +5,7 @@ import common from "../../common/common";
 export default defineSource({
   ...common,
   type: "source",
-  name: "New Call Event",
+  name: "New Call Event (Instant)",
   key: "dialpad-new-call-event",
   description: `Emit new call event subscription. 
   See [Event doc](https://developers.dialpad.com/reference/webhook_call_event_subscriptioncreate)
