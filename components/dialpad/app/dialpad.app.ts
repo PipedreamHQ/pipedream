@@ -70,11 +70,14 @@ export default defineApp({
       path, ids,
     }) {
       await this._makeRequest({
-        path: `${path}/${ids.eventId}`,
+        path: `/webhooks/${ids.webhookId}`,
         method: "delete",
       });
-      await this._makeRequest({
-        path: `/webhooks/${ids.webhookId}`,
+      await this.removeEventWebHook(path, ids.eventId);
+    },
+    removeEventWebHook(path, eventId) {
+      return  this._makeRequest({
+        path: `${path}/${eventId}`,
         method: "delete",
       });
     },
