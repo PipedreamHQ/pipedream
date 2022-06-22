@@ -1,7 +1,7 @@
 import common from "../common/base.mjs";
 import {
   folderId, name,
-} from "../common/props.mjs";
+} from "../../props.mjs";
 
 export default {
   ...common,

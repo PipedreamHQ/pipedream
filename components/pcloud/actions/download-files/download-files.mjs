@@ -1,11 +1,11 @@
 import common from "../common/base.mjs";
-import { folderId } from "../common/props.mjs";
+import { folderId } from "../../props.mjs";
 
 export default {
   ...common,
   key: "pcloud-download-files",
   name: "Download File(s)",
-  description: "Download one or more files.",
+  description: "Download one or more files to a folder.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,10 +15,7 @@ export default {
       label: "URLs",
       description: "URL(s) of the files to download.",
     },
-    folderId: {
-      ...folderId,
-      description: "ID of the folder, in which to download the files.",
-    },
+    folderId,
   },
   async run({ $ }) {
     const response = await this.pcloud._withRetries(() =>

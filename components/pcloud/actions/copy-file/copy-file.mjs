@@ -1,7 +1,7 @@
 import common from "../common/base.mjs";
 import {
-  fileId, toFolderId, name, overwrite,
-} from "../common/props.mjs";
+  fileId, toFolderId, name, overwrite, modifiedTime, createdTime,
+} from "../../props.mjs";
 
 export default {
   ...common,
@@ -16,24 +16,12 @@ export default {
     toFolderId,
     name: {
       ...name,
-      label: "To Name",
+      label: "New Filename",
       description: "Name of the destination file.",
     },
     overwrite,
-    modifiedTime: {
-      type: "integer",
-      label: "Modified Time",
-      description: "Must be Unix time (seconds).",
-      optional: true,
-    },
-    createdTime: {
-      type: "integer",
-      label: "Created Time",
-      description: `Must be Unix time (seconds).
-      \\
-      Requires \`Modified Time\` to be set.`,
-      optional: true,
-    },
+    modifiedTime,
+    createdTime,
   },
   async run({ $ }) {
     const response = await this.pcloud._withRetries(() =>

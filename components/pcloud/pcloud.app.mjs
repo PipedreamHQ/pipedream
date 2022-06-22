@@ -9,7 +9,9 @@ export default {
     fileId: {
       type: "integer",
       label: "File ID",
-      description: "ID of the file to copy.",
+      description: `Select a **File** from the list.
+      \\
+Alternatively, you can provide a custom *File ID*.`,
       async options() {
         return await this.pcloud.getFileOptions();
       },
@@ -17,7 +19,9 @@ export default {
     folderId: {
       type: "integer",
       label: "Folder ID",
-      description: "ID of the folder.",
+      description: `Select a **Folder** from the list.
+      \\
+Alternatively, you can provide a custom *Folder ID*.`,
       async options() {
         return await this.getFolderOptions();
       },
@@ -25,34 +29,14 @@ export default {
     },
     toFolderId: {
       type: "integer",
-      label: "To Folder ID",
-      description: "ID of destination folder.",
+      label: "Destination Folder ID",
+      description: `Select a **Destination Folder** from the list.
+      \\
+Alternatively, you can provide a custom *Folder ID*.`,
       async options() {
         return await this.getFolderOptions();
       },
       default: 0,
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the folder to be created.",
-    },
-    overwrite: {
-      type: "boolean",
-      label: "Overwrite?",
-      description:
-        `If true, and an entry with the same name already exists, it will be overwritten.
-        \\
-        Otherwise, an error \`2004\` will be returned instead.`,
-      default: false,
-      optional: true,
-    },
-    showDeleted: {
-      type: "boolean",
-      label: "Show Deleted?",
-      description: "If true, deleted files and folders that can be undeleted will be displayed.",
-      default: false,
-      optional: true,
     },
   },
   methods: {
@@ -316,12 +300,12 @@ export default {
      * @params {boolean} renameIfExists - When `true`, the uploaded file will
      * be renamed, if file with
      * the requested name exists in the folder.
-     * @params {integer} mtime - If set, file modified time is set. Must be a unix timestamp.
-     * @params {integer} ctime - If set, file created time is set. Must be a unix timestamp. It's
-     * required to provide `mtime` to set `ctime`.
+     * @params {integer} modifiedTime - If set, file modified time is set. Must be a unix timestamp.
+     * @params {integer} createdTime - If set, file created time is set. Must be a unix timestamp.
+     * It's required to provide `modifiedTime` to set `createdTime`.
      * @returns {checksums: array, fileids: array, metadata: array, result: integer} A `checksums` array, each element with the file checksums calculated with `md5` and `sha1` algorithms, the `id` of the created file under the one element `fileids` array, and an array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly uploaded file.  A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
-    async uploadFile(folderid, name, renameIfExists, mtime, ctime) {
+    async uploadFile(folderid, name, renameIfExists, modifiedTime, createdTime) {
       const params = {
         folderid,
       };
@@ -334,11 +318,11 @@ export default {
       if (renameIfExists) {
         params.renameifexists = 1;
       }
-      if (mtime) {
-        params.mtime = mtime;
+      if (modifiedTime) {
+        params.mtime = modifiedTime;
       }
-      if (ctime) {
-        params.ctime = ctime;
+      if (createdTime) {
+        params.ctime = createdTime;
       }
       return await (
         await this.api()

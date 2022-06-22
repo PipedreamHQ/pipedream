@@ -1,7 +1,7 @@
 import common from "../common/base.mjs";
 import {
-  folderId, name,
-} from "../common/props.mjs";
+  folderId, name, modifiedTime, createdTime,
+} from "../../props.mjs";
 
 export default {
   ...common,
@@ -12,11 +12,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: {
-      ...folderId,
-      description:
-        "ID of the folder where the file will be uploaded. If not specified, the root folder will be used.",
-    },
+    folderId,
     name: {
       ...name,
       description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
@@ -30,20 +26,8 @@ export default {
         "If true, the uploaded file will be renamed, if another file with the requested name already exists in the specified folder.",
       default: true,
     },
-    mtime: {
-      type: "integer",
-      label: "Modified Time",
-      description: "Must be Unix time (seconds).",
-      optional: true,
-    },
-    ctime: {
-      type: "integer",
-      label: "Created Time",
-      description: `Must be Unix time (seconds).
-      \\
-      Requires \`Modified Time\` to be set.`,
-      optional: true,
-    },
+    modifiedTime,
+    createdTime,
   },
   async run({ $ }) {
     const response = await this.pcloud._withRetries(
@@ -53,8 +37,8 @@ export default {
         this.noPartial,
         this.progressHash,
         this.renameIfExists,
-        this.mtime,
-        this.ctime,
+        this.modifiedTime,
+        this.createdTime,
       ),
     );
 

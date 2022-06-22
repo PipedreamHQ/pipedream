@@ -1,7 +1,7 @@
 import common from "../common/base.mjs";
 import {
   folderId, showDeleted,
-} from "../common/props.mjs";
+} from "../../props.mjs";
 
 export default {
   ...common,
@@ -12,10 +12,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: {
-      ...folderId,
-      description: "ID of the folder to list contents.",
-    },
+    folderId,
     recursive: {
       type: "boolean",
       label: "Recursive?",
