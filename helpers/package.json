@@ -19,8 +19,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc",
-    "test": "npm run build"
+    "build": "tsc"
   },
   "dependencies": {
     "@pipedream/types": "^0.0.5",

@@ -3,4 +3,3 @@ node_modules
 package-lock.json
 pnpm-lock.yaml
 platform/dist
-platform/__tests__

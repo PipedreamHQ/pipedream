@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/platform",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Pipedream platform globals (typing and runtime type checking)",
   "homepage": "https://pipedream.com",
   "main": "dist/index.js",
@@ -24,7 +24,6 @@
   "devDependencies": {
     "husky": "^3.0.0",
     "jest": "^24.8.0",
-    "release-it": "^12.3.3",
     "@octokit/core": "^3.6.0",
     "typescript": "^3.5.3"
   }

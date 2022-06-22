@@ -100,7 +100,7 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     return data;
   } catch (err) {
     if (err.response) {
-      stepExport(step, err.response, "debug_error");
+      stepExport(step, err.response, "debug");
     }
     throw err;
   }
@@ -116,6 +116,6 @@ function stepExport(step: any, message: any, key: string) {
       step[key] = message;
     }
   } else {
-    console.log(message);
+    console.log(`key: ${key}`, message);
   }
 }
