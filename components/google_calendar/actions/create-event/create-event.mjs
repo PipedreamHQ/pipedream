@@ -18,16 +18,19 @@ export default {
       label: "Event Title",
       type: "string",
       description: "Enter static text (e.g., `hello world`) for the event name",
+      optional: true,
     },
     location: {
       label: "Event Venue",
       type: "string",
       description: "Enter static text (e.g., `hello world`) for the event venue",
+      optional: true,
     },
     description: {
       label: "Event Description",
       type: "string",
       description: "Enter detailed event description",
+      optional: true,
     },
     attendees: {
       label: "Attendees",
