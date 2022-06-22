@@ -25,18 +25,20 @@ export default {
     async wrapVerifaliaApiInvocation(fn) {
       try {
         return await fn();
-      }
-      catch (error) {
+      } catch (error) {
         if (error instanceof RequestThrottledError) {
-          throw new Error("The request has been throttled, please try again later or adjust the throttling rules for this Verifalia user in your Verifalia dashboard (https://verifalia.com/client-area#/users).");
+          throw new Error("The request has been throttled, please try again later or adjust the throttling rules " +
+                        "for this Verifalia user in your Verifalia dashboard (https://verifalia.com/client-area#/users).");
         }
 
         if (error instanceof InsufficientCreditError) {
-          throw new Error("The Verifalia account balance is too low to complete the operation: to add credits to your Verifalia account please visit https://verifalia.com/client-area#/credits/add");
+          throw new Error("The Verifalia account balance is too low to complete the operation: to add credits to " +
+                        "your Verifalia account please visit https://verifalia.com/client-area#/credits/add");
         }
 
         if (error instanceof AuthorizationError) {
-          throw new Error("Your Verifalia credentials are invalid or you don't have enough permissions to complete the operation.");
+          throw new Error("Your Verifalia credentials are invalid or you don't have enough permissions to complete " +
+                        "the operation.");
         }
 
         throw error;

@@ -1,4 +1,6 @@
 import axios from "axios";
+import verifalia from "../../verifalia.app.mjs";
+
 import {
   CancellationToken,
   OperationCanceledError,
@@ -6,15 +8,13 @@ import {
 
 export default {
   name: "Verify Email Address",
-  description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, flagging spam traps, disposable emails and much more.",
+  description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
+        "flagging spam traps, disposable emails and much more.",
   key: "verifalia-verify-email",
   version: "1.0.0",
   type: "action",
   props: {
-    verifalia: {
-      type: "app",
-      app: "verifalia",
-    },
+    verifalia,
 
     emailAddress: {
       type: "string",
@@ -25,7 +25,8 @@ export default {
     quality: {
       type: "string",
       label: "Quality Level",
-      description: "The higher the quality level the longer it could take to complete the verification; by default, we use the configured default quality level for your Verifalia user.",
+      description: "The higher the quality level the longer it could take to complete the verification; by default, " +
+                "we use the configured default quality level for your Verifalia user.",
       optional: true,
       options: [
         {
@@ -45,7 +46,11 @@ export default {
     retention: {
       type: "string",
       label: "Data Retention Period",
-      description: "The data retention period to observe for the validation job, expressed in the format `dd.hh:mm:ss` (where dd: days, hh: hours, mm: minutes, ss: seconds); the initial `dd.` part is added only for periods of more than 24 hours. The value has a minimum of 5 minutes (`0:5:0`) and a maximum of 30 days (`30.0:0:0`): Verifalia will delete the job and its data once its data retention period is over, starting to count when it gets completed.",
+      description: "The data retention period to observe for the validation job, expressed in the format `dd.hh:mm:ss` " +
+                "(where dd: days, hh: hours, mm: minutes, ss: seconds); the initial `dd.` part is added only for periods of " +
+                "more than 24 hours. The value has a minimum of 5 minutes (`0:5:0`) and a maximum of 30 days (`30.0:0:0`): " +
+                "Verifalia will delete the job and its data once its data retention period is over, starting to count when " +
+                "it gets completed.",
       optional: true,
     },
   },
@@ -62,7 +67,7 @@ export default {
 
       if (this.retention && !this.verifalia.isValidTimeSpan(this.retention)) {
         throw new Error(`The specified data retention period '${this.retention}' is incorrect: must be in the ` +
-          "format dd.hh:mm:ss (where dd: days, hh: hours, mm: minutes, ss: seconds).");
+                    "format dd.hh:mm:ss (where dd: days, hh: hours, mm: minutes, ss: seconds).");
       }
 
       // HACK: Pausing a workflow is not supported in test mode, as the editor would just
@@ -110,7 +115,9 @@ export default {
               callback: {
                 url: resumeUrl,
               },
-            }, waitForResults, cancellationToken);
+            },
+            waitForResults,
+            cancellationToken);
         });
       } catch (error) {
         // If the error is an OperationCanceledError it means that we are in test mode and
@@ -120,7 +127,7 @@ export default {
           // Had to replace the word req*ire with a synonym because of https://github.com/PipedreamHQ/pipedream/issues/3187 :)
 
           throw new Error("This operation would need some more time to complete and that would not work properly in " +
-            "Pipedream's test mode. Please deploy your workflow to get a meaningful email verification result.");
+                        "Pipedream's test mode. Please deploy your workflow to get a meaningful email verification result.");
         }
 
         throw error;
@@ -158,8 +165,7 @@ export default {
 
       // If we are here, the validation is not yet completed and the flow is going to
       // be suspended by Pipedream.
-    }
-    else {
+    } else {
       const callbackRequest = run.callback_request;
 
       // We are only interested in a specific callback type

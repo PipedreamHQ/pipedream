@@ -7,8 +7,11 @@
     "pipedream",
     "verifalia"
   ],
-  "homepage": "https://pipedream.com/apps/verifalia",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "homepage": "https://verifalia.com/",
+  "author": "Verifalia <support@verifalia.com> (https://verifalia.com/)",
+  "contributors": [
+    "Efran Cobisi (https://verifalia.com/)"
+  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
