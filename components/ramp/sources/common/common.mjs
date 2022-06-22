@@ -4,5 +4,5 @@ export default {
     "PENDING",
     "DECLINED",
   ],
-  defaultPageSize: 100,
+  defaultPageSize: 1000,
 };

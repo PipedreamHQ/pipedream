@@ -22,7 +22,7 @@ export default {
       };
       return res;
     },
-    async listTransactionsPaginated(ctx = this, state, defaultPageSize, latestTransactionId) {
+    async listTransactions(ctx = this, state, defaultPageSize, latestTransactionId) {
       const params = {
         order_by_date_asc: true,
         page_size: defaultPageSize,
