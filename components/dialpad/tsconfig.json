@@ -12,7 +12,8 @@
     "allowJs": true,
     "include": [
       "app",
-      "sources"
+      "sources",
+      "common"
     ],
     "exclude": [
         "dist",
