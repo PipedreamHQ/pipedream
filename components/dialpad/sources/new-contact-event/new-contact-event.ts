@@ -37,6 +37,7 @@ export default defineSource({
       this.$emit(body, {
         id: body.id,
         summary: `New Contact event - ${body.id}`,
+        ts: Date.now(),
       });
     },
   },
