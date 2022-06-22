@@ -36,7 +36,7 @@ describe("$send.email", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -61,7 +61,7 @@ describe("$send.emit", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -98,7 +98,7 @@ describe("$send.http", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -128,7 +128,7 @@ describe("$send.http", () => {
     expect(() => checker(config)).toThrow();
   });
 
-  xit("should fail with .auth.__extra", () => {
+  it.skip("should fail with .auth.__extra", () => {
     config.auth.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -176,7 +176,7 @@ describe("$send.s3", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -215,7 +215,7 @@ describe("$send.sql", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -256,7 +256,7 @@ describe("$send.snowflake", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
@@ -325,7 +325,7 @@ describe("$send.sse", () => {
     expect(() => checker(config)).not.toThrow();
   });
 
-  xit("should fail with .__extra", () => {
+  it.skip("should fail with .__extra", () => {
     config.__extra = randString();
     expect(() => checker(config)).toThrow();
   });
