@@ -115,10 +115,10 @@ export default {
       optional: true,
     },
     transition: {
-      type: "object",
-      label: "Transition",
-      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-      optional: true,
+      propDefinition: [
+        jira,
+        "transition",
+      ],
     },
     historyMetadata: {
       type: "object",
