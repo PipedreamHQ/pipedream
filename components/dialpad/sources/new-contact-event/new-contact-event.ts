@@ -15,10 +15,10 @@ export default defineSource({
   props: {
     ...common.props,
     contactType: {
-      type: "string",
-      label: "Contact type",
-      description: "The contact type this event subscription subscribes to.",
-      options: constants.CONTACT_EVENT_TYPE,
+      propDefinition: [
+         dialpad,
+         "contactType",
+      ],
     },
   },
   methods: {
