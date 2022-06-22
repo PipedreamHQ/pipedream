@@ -5,7 +5,14 @@ import { axios } from "@pipedream/platform";
 export default defineApp({
   type: "app",
   app: "dialpad",
-  propDefinitions: {},
+  propDefinitions: {
+     contactType: {
+       type: "string",
+        label: "Contact type",
+        description: "The contact type this event subscription subscribes to.",
+        options: constants.CONTACT_EVENT_TYPE,
+      }
+  },
   methods: {
     _getHeaders() {
       return {
