@@ -5,7 +5,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.3",
+  version: "0.1.39", //0.1.3
   type: "action",
   props: {
     jira,
@@ -117,10 +117,10 @@ export default {
       optional: true,
     },
     transition: {
-      propDefinition: [
-        jira,
-        "transition",
-      ],
+      type: "object",
+      label: "Transition",
+      description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
+      optional: true,
     },
     historyMetadata: {
       type: "object",
