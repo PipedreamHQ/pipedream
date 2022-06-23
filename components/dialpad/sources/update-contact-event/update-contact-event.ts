@@ -22,8 +22,8 @@ export default defineSource({
     },
     contactType: {
       propDefinition: [
-         dialpad,
-         "contactType",
+        dialpad,
+        "contactType",
       ],
     },
   },
@@ -40,7 +40,7 @@ export default defineSource({
     processEvent(event) {
       const { body } = event;
       this.$emit(body, {
-        id: body.contact.id,
+        id: `${body.contact.id}_${new Date().getTime()}`,
         summary: `Update Contact event - ${body.contact.id}`,
         ts: Date.now(),
       });
