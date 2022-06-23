@@ -3,13 +3,14 @@ import {
   name, modifiedTime, createdTime,
 } from "../../props.mjs";
 import { propFolderId } from "../../props-custom-descriptions.mjs";
+import { promises as fsPromises } from "fs";
 
 export default {
   ...common,
   key: "pcloud-upload-file",
   name: "Upload File",
   description: "Upload a file to the specified folder.",
-  version: "0.0.1",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
@@ -31,6 +32,17 @@ export default {
     createdTime,
   },
   methods: {
+    ...common.methods,
+    async validateInputs() {
+      const files = await fsPromises.readdir("/tmp");
+      const fileName = this.name;
+
+      if (!files.includes(fileName)) {
+        return `File "${this.name}" not found in the /tmp directory`;
+      }
+
+      return true;
+    },
     getSummary() {
       return `Uploaded file "${this.name}" successfully`;
     },

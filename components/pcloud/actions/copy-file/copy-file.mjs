@@ -28,6 +28,7 @@ export default {
     createdTime,
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return `Copied file "${this.name}" successfully`;
     },

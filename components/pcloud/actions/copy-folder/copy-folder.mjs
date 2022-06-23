@@ -27,6 +27,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "Copied folder successfully";
     },

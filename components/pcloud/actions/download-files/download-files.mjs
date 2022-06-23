@@ -18,6 +18,7 @@ export default {
     folderId: propFolderId(" to receive the downloaded files"),
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return `Downloaded ${this.urls.length} files successfully`;
     },

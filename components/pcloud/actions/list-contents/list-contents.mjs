@@ -35,6 +35,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "Listed folder contents successfully";
     },

@@ -18,6 +18,7 @@ export default {
     name,
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return `Created folder "${this.name}" successfully`;
     },
