@@ -73,20 +73,11 @@ export default {
       this.$emit(pCloudEvent, metadata);
     },
     getEventData(pcloudEvent) {
-      const newOrModified = [
-        "Created",
-      ].includes(this.event)
-        ? "New created"
-        : "Modified";
-      const eventDate = [
-        "Created",
-      ].includes(this.event)
-        ? pcloudEvent.created
-        : pcloudEvent.modified;
+      const eventDate = pcloudEvent[this.event.toLowerCase()];
       const ts = +new Date(eventDate);
       return {
         id: ts,
-        summary: `${newOrModified} file "${pcloudEvent.name}"`,
+        summary: `${this.event} file "${pcloudEvent.name}"`,
         ts,
       };
     },

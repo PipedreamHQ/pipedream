@@ -12,7 +12,7 @@ export default {
   key: "pcloud-copy-file",
   name: "Copy File",
   description: "Copy a file to the specified destination.",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
