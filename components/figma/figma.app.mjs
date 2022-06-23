@@ -99,5 +99,11 @@ export default {
         data,
       }));
     },
+    async deleteComment(fileId, commentId, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "DELETE",
+        path: `/v1/files/${fileId}/comments/${commentId}`,
+      }));
+    },
   },
 };
