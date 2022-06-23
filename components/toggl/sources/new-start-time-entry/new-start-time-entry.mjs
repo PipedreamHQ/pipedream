@@ -5,7 +5,7 @@ export default {
   name: "New Start Time Entry (Instant)",
   version: "0.0.1",
   key: "toggl-new-start-time-entry",
-  description: "Emit new event on a time entry is started. [See docs here](https://github.com/toggl/toggl_api_docs/blob/master/webhooks.md)",
+  description: "Emit new event when a time entry is started. [See docs here](https://github.com/toggl/toggl_api_docs/blob/master/webhooks.md)",
   type: "source",
   dedupe: "unique",
   methods: {

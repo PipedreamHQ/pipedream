@@ -2,16 +2,16 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  name: "New Time Entry (Instant)",
+  name: "New Update Time Entry (Instant)",
   version: "0.0.1",
-  key: "toggl-new-time-entry",
-  description: "Emit new event on a time entry is created. [See docs here](https://github.com/toggl/toggl_api_docs/blob/master/webhooks.md)",
+  key: "toggl-new-update-time-entry",
+  description: "Emit new event when a time entry is updated. [See docs here](https://github.com/toggl/toggl_api_docs/blob/master/webhooks.md)",
   type: "source",
   dedupe: "unique",
   methods: {
     ...base.methods,
     _getAction() {
-      return "created";
+      return "updated";
     },
     _getEntity() {
       return "time_entry";
