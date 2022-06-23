@@ -6,12 +6,18 @@ export default defineApp({
   type: "app",
   app: "dialpad",
   propDefinitions: {
-     contactType: {
-       type: "string",
-        label: "Contact type",
-        description: "The contact type this event subscription subscribes to.",
-        options: constants.CONTACT_EVENT_TYPE,
-      }
+    contactType: {
+      type: "string",
+      label: "Contact type",
+      description: "The contact type this event subscription subscribes to.",
+      options: constants.CONTACT_EVENT_TYPE,
+    },
+    callStates: {
+      type: "string",
+      label: "Call States",
+      description: "The call event subscription's list of call states.",
+      options: constants.CALL_STATES,
+    },
   },
   methods: {
     _getHeaders() {
@@ -83,7 +89,7 @@ export default defineApp({
       await this.removeEventWebHook(path, ids.eventId);
     },
     removeEventWebHook(path, eventId) {
-      return  this._makeRequest({
+      return this._makeRequest({
         path: `${path}/${eventId}`,
         method: "delete",
       });

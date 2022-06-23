@@ -1,4 +1,5 @@
 import { defineSource } from "@pipedream/types";
+import dialpad from "../../app/dialpad.app";
 import constants from "../../common/constants";
 import common from "../../common/common";
 
@@ -12,10 +13,24 @@ export default defineSource({
   and [webhook doc](https://developers.dialpad.com/reference/webhookscreate)`,
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    contactType: {
+      propDefinition: [
+        dialpad,
+        "callStates",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getPath() {
       return constants.EVENT_TYPE.NEW_CALL.path;
+    },
+    getPayload() {
+      return {
+        call_states: this.callStates,
+      };
     },
     processEvent(event) {
       const { body } = event;

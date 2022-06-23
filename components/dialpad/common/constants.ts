@@ -24,6 +24,10 @@ export default {
   CONTACT_EVENT_TYPE: [
     "shared",
   ],
+  CALL_STATES: [
+    "calling",
+    "hangup",
+  ],
   PAGE_SIZE: 100,
   retriableStatusCodes: [
     408,
