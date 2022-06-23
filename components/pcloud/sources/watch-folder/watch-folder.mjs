@@ -39,15 +39,7 @@ export default {
   hooks: {
     async deploy() {
       const files = [];
-      const pCloudContentsData = await this.pcloud._withRetries(
-        () => this.pcloud.listContents(
-          this.folderId,
-          false,
-          this.showDeleted,
-          false,
-          false,
-        ),
-      );
+      const pCloudContentsData = await this.getContents();
       const hasContents = get(pCloudContentsData, [
         "contents",
       ]);
@@ -68,6 +60,17 @@ export default {
     },
   },
   methods: {
+    async getContents() {
+      return this.pcloud._withRetries(
+        () => this.pcloud.listContents(
+          this.folderId,
+          false,
+          this.showDeleted,
+          false,
+          false,
+        ),
+      );
+    },
     emitpCloudEvent(pCloudEvent) {
       const metadata = this.getEventData(pCloudEvent);
       this.$emit(pCloudEvent, metadata);
@@ -85,29 +88,14 @@ export default {
   async run() {
     const lastPolledTime = this.db.get("lastPolledTime");
     const files = [];
-    const pCloudContentsData = await this.pcloud._withRetries(
-      () => this.pcloud.listContents(
-        this.folderId,
-        false,
-        this.showDeleted,
-        false,
-        false,
-      ),
-    );
+    const pCloudContentsData = await this.getContents();
     const hasContents = get(pCloudContentsData, [
       "contents",
     ]);
     if (hasContents) {
       for (const folderItem of pCloudContentsData.contents) {
         if (!folderItem.isfolder) {
-          let fileTime;
-          if ([
-            "Created",
-          ].includes(this.event)) {
-            fileTime = +new Date(folderItem.created);
-          } else {
-            fileTime = +new Date(folderItem.modified);
-          }
+          let fileTime = +new Date(folderItem[this.event.toLowerCase()]);
           if (fileTime > lastPolledTime) {
             files.push(folderItem);
           }
