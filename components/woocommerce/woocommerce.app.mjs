@@ -10,7 +10,6 @@ export default {
       type: "integer",
       label: "Order ID",
       description: "ID of the Order",
-      optional: false,
     },
     orderStatus: {
       type: "string",
