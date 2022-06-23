@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     googleCalendar,
@@ -18,21 +18,25 @@ export default {
       label: "Event Title",
       type: "string",
       description: "Enter static text (e.g., `hello world`) for the event name",
+      optional: true,
     },
     location: {
       label: "Event Venue",
       type: "string",
       description: "Enter static text (e.g., `hello world`) for the event venue",
+      optional: true,
     },
     description: {
       label: "Event Description",
       type: "string",
       description: "Enter detailed event description",
+      optional: true,
     },
     attendees: {
       label: "Attendees",
       type: "string[]",
       description: "Enter the EmailId of the attendees",
+      optional: true,
     },
     eventStartDate: {
       label: "Event Date",
@@ -52,10 +56,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!Array.isArray(this.attendees)) {
-      throw new Error("Attendees should be an array");
-    }
-
     /**
      * Based on the IINA Time Zone DB
      * http://www.iana.org/time-zones
@@ -72,9 +72,14 @@ export default {
      *   { "email": "sbrin@example.com",},
      * ]
      */
-    const attendees = this.attendees.map((email) => ({
-      email,
-    }));
+
+    let attendees = [];
+
+    if (this.attendees && Array.isArray(this.attendees)) {
+      attendees = this.attendees.map((email) => ({
+        email,
+      }));
+    }
 
     const response = await this.googleCalendar.createEvent({
       calendarId: this.calendarId,
@@ -83,11 +88,21 @@ export default {
         location: this.location,
         description: this.description,
         start: {
-          date: this.eventStartDate,
+          date: this.eventStartDate.length <= 10
+            ? this.eventStartDate
+            : undefined,
+          dateTime: this.eventStartDate.length > 10
+            ? this.eventStartDate
+            : undefined,
           timeZone,
         },
         end: {
-          date: this.eventEndDate,
+          date: this.eventEndDate.length <= 10
+            ? this.eventEndDate
+            : undefined,
+          dateTime: this.eventEndDate.length > 10
+            ? this.eventEndDate
+            : undefined,
           timeZone,
         },
         attendees,
