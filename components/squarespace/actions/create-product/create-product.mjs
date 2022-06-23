@@ -61,7 +61,7 @@ export default {
         name: this.name,
         description: this.description,
         urlSlug: this.urlSlug,
-        variants: utils.parseStringToJSON(this.variants),
+        variants: utils.parseStringToJSON(this.variants, this.variants),
         variantAttributes: utils.parseStringToJSON(this.variantAttributes, this.variantAttributes),
         tags: utils.parseStringToJSON(this.tags, this.tags),
       },
