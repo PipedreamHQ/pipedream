@@ -853,6 +853,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/payhere:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pipedream:
     specifiers:
       axios: ^0.21.1
@@ -1077,7 +1083,12 @@ importers:
     specifiers: {}
 
   components/squarespace:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      dayjs: ^1.11.3
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      dayjs: 1.11.3
 
   components/ssh:
     specifiers:
@@ -7683,6 +7694,10 @@ packages:
 
   /dayjs/1.11.2:
     resolution: {integrity: sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==}
+    dev: false
+
+  /dayjs/1.11.3:
+    resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
     dev: false
 
   /debug/3.1.0:
