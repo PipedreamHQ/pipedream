@@ -18,7 +18,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: npm install
-        run: npm ci
+        run: pnpm install
       - name: pnpm install
         run: pnpm install -r
       - name: Compile TypeScript
