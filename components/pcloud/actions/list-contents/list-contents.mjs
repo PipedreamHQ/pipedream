@@ -22,7 +22,7 @@ export default {
     showDeleted,
     noFiles: {
       type: "boolean",
-      label: "No Files?",
+      label: "Folders Only?",
       description:
         "If true, only the **folder** (sub)structure will be returned.",
       default: false,
