@@ -208,7 +208,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
+      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
     },
     name: {
       type: "string",
