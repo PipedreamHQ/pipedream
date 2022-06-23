@@ -8,6 +8,15 @@ export default {
   version: "0.0.1",
   props: {
     feedbin,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling schedule",
+      description: "How often to poll the Feedbin API",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
     feedId: {
       propDefinition: [
         feedbin,
@@ -15,13 +24,13 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
+  async run() {
     const { feedId } = this;
     const feedEntries = await this.feedbin.getFeedEntries({
       feedId,
     });
 
-    $.export("$summary", "Succesfully got feed entries");
+    console.log("feedEntries", feedEntries);
 
     const promises = feedEntries.map((entry) => {
       return this.$emit(entry, {

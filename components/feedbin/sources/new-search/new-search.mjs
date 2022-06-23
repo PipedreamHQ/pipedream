@@ -9,11 +9,18 @@ export default {
   dedupe: "unique",
   props: {
     feedbin,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling schedule",
+      description: "How often to poll the Feedbin API",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
-  async run({ $ }) {
+  async run() {
     const savedSearches = await this.feedbin.getSavedSearches();
-
-    $.export("$summary", "Succesfully got saved searches");
 
     const promises = savedSearches.map((search) => {
       const timestamp = Date.now();

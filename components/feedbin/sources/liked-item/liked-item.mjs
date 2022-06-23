@@ -9,8 +9,17 @@ export default {
   dedupe: "unique",
   props: {
     feedbin,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling schedule",
+      description: "How often to poll the Feedbin API",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
-  async run({ $ }) {
+  async run() {
     const starredEntryIds = await this.feedbin.getStarredEntries();
 
     const starredEntries = await this.feedbin.getEntries({
@@ -18,8 +27,6 @@ export default {
         ids: starredEntryIds,
       },
     });
-
-    $.export("$summary", "Succesfully got starred entries");
 
     const promises = starredEntries.map((entry) => {
       const timestamp = Date.now();

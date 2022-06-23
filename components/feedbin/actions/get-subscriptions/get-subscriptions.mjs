@@ -5,15 +5,15 @@ export default {
   name: "Get Subscriptions",
   description: "Return all subscriptions. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/subscriptions.md#get-subscriptions).",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   props: {
     feedbin,
   },
   async run({ $ }) {
-    const response = await this.feedbin.getSubscriptions();
+    const subscriptions = await this.feedbin.getSubscriptions();
 
-    $.export("$summary", "Succesfully get subscriptions");
+    $.export("$summary", `Succesfully found ${subscriptions.length} subscription(s)`);
 
-    return response;
+    return subscriptions;
   },
 };

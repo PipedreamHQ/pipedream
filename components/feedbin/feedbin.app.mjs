@@ -10,9 +10,13 @@ export default {
       label: "Feed ID",
       description: "Feed ID",
       async options() {
-        const response = await this.getSubscriptions();
-        console.log("getSubscriptions res", response);
-        return [];
+        const subscriptions = await this.getSubscriptions();
+        return subscriptions.map(({
+          feed_id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     entryId: {
@@ -20,10 +24,10 @@ export default {
       label: "Entry ID",
       description: "Entry ID",
       async options({ feedId }) {
-        const response = await this.getFeedEntries({
+        const entries = await this.getFeedEntries({
           feedId,
         });
-        console.log("getFeedEntries res", response);
+        console.log("getFeedEntries res", entries);
         return [];
       },
     },
@@ -42,9 +46,13 @@ export default {
       };
     },
     getAuth() {
+      const {
+        email: username,
+        password,
+      } = this.$auth;
       return {
-        username: `${this.$auth.email}`,
-        password: `${this.$auth.password}`,
+        username,
+        password,
       };
     },
     async makeRequest({
