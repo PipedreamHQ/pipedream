@@ -3,9 +3,9 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "slack-new-star-added",
-  name: "New Saved Message",
+  name: "New Star Added (Instant)",
   version: "0.0.1",
-  description: "Emit new event when you save a message",
+  description: "Emit new event when a star is added to an item",
   type: "source",
   dedupe: "unique",
   props: {

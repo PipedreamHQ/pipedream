@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "slack-new-message-in-channels",
-  name: "New Message In Channels",
+  name: "New Message In Channels (Instant)",
   version: "0.0.7",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
@@ -66,10 +66,8 @@ export default {
       if (this.ignoreMyself && event.user == this.mySlackId()) {
         return;
       }
-      if (this.ignoreBot) {
-        if (event.subtype == "bot_message" || event.bot_id) {
-          return;
-        }
+      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+        return;
       }
       if (this.resolveNames) {
         if (event.user) {

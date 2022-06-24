@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "slack-new-mention",
-  name: "New Mention",
+  name: "New Mention (Instant)",
   version: "0.0.1",
   description: "Emit new event when a username or specific word is mentioned in a channel",
   type: "source",
@@ -73,10 +73,8 @@ export default {
       if (this.ignoreMyself && event.user == this.mySlackId()) {
         return;
       }
-      if (this.ignoreBot) {
-        if (event.subtype == "bot_message" || event.bot_id) {
-          return;
-        }
+      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+        return;
       }
       let emitEvent = false;
       const elements = event.blocks[0]?.elements[0]?.elements;
