@@ -28,7 +28,7 @@
     "build": "npx tsc --build --force | node scripts/tsPostBuild.mjs",
     "test": "jest --passWithNoTests components",
     "test-all": "npm test && npm run platform-test && npm run types-test",
-    "platform-dist": "cd platform && git add dist",
+    "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
     "platform-test": "cd platform && npm test",
     "types-test": "cd types && npm test",
     "helpers-test": "cd helpers && npm test"
