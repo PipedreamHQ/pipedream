@@ -77,8 +77,12 @@ export default {
       ],
       password: this.password,
     };
-    const resp = await this.wordpress.createUser(params);
-    $.export("$summary", "Successfully created new user.");
-    return resp;
+    try {
+      const resp = await this.wordpress.createUser(params);
+      $.export("$summary", "Successfully created new user.");
+      return resp;
+    } catch (e) {
+      throw new Error(JSON.stringify(e));
+    }
   },
 };
