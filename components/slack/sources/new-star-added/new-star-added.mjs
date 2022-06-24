@@ -10,6 +10,9 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
+    getSummary() {
+      return "New star added";
+    },
     // eslint-disable-next-line pipedream/props-description,pipedream/props-label
     slackApphook: {
       type: "$.interface.apphook",

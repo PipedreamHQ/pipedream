@@ -50,6 +50,9 @@ export default {
     },
   },
   methods: {
+    getSummary() {
+      return "New message in channel";
+    },
     async processEvent(event) {
       if (event.type !== "message") {
         console.log(`Ignoring event with unexpected type "${event.type}"`);

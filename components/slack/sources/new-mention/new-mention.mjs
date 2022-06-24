@@ -57,6 +57,9 @@ export default {
   },
   methods: {
     ...common.methods,
+    getSummary() {
+      return "New mention received";
+    },
     async processEvent(event) {
       if (event.type !== "message") {
         console.log(`Ignoring event with unexpected type "${event.type}"`);

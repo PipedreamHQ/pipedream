@@ -52,6 +52,9 @@ export default {
     },
   },
   methods: {
+    getSummary() {
+      return "New reaction added";
+    },
     async processEvent(event) {
       if (this.ignoreMyself && event.user == this.mySlackId()) {
         return;

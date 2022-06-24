@@ -77,6 +77,7 @@ export default {
 
       this.$emit(event, {
         id: event.client_msg_id || event.pipedream_msg_id,
+        summary: this.getSummary(),
         ts: event.event_ts || Date.now(),
       });
     }
