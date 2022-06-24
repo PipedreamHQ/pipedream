@@ -11,7 +11,7 @@ export default {
   ...common,
   key: "pcloud-copy-file",
   name: "Copy File",
-  description: "Copy a file to the specified destination.",
+  description: "Copy a file to the specified destination. [See the docs here](https://docs.pcloud.com/methods/file/copyfile.html)",
   version: "0.0.1",
   type: "action",
   props: {

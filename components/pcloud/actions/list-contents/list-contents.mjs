@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "pcloud-list-contents",
   name: "List Contents",
-  description: "Get the contents of the specified folder.",
+  description: "Get the contents of the specified folder. [See the docs here](https://docs.pcloud.com/methods/folder/listfolder.html)",
   version: "0.0.1",
   type: "action",
   props: {
