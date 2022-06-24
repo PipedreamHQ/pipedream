@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "mailgun-suppress-email",
   name: "Suppress Email",
-  description: "Add email to the Mailgun suppression list.",
+  description: "Add email to the Mailgun suppression list. [See the docs here](https://documentation.mailgun.com/en/latest/api-suppressions.html#suppressions)",
   version: "0.0.3",
   type: "action",
   props: {

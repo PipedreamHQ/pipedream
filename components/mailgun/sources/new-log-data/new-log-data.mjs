@@ -5,8 +5,7 @@ export default {
   key: "mailgun-new-log-data",
   name: "New Log Data",
   type: "source",
-  description: "Emit new event when new data is logged in Mailgun's Control Panel. Occurs for " +
-    "most actions within the associated Mailgun account.",
+  description: "Emit new event when new data is logged in Mailgun's Control Panel. Occurs for most actions within the associated Mailgun account.",
   version: "0.0.2",
   dedupe: "unique",
   methods: {
@@ -73,7 +72,7 @@ export default {
       if (result.items.length === 0) {
         return;
       }
-      let lastSeenTime = this._getLastSeenTime();
+      const lastSeenTime = this._getLastSeenTime();
       for (let item of result.items) {
         if (item.timestamp <= lastSeenTime) {
           continue;

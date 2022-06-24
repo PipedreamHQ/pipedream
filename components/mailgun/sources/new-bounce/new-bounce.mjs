@@ -3,7 +3,7 @@ import common from "../common/http-based.mjs";
 export default {
   ...common,
   key: "mailgun-new-bounce",
-  name: "New Bounce",
+  name: "New Bounce (Instant)",
   type: "source",
   description: "Emit new event when the email recipient could not be reached.",
   version: "0.0.2",

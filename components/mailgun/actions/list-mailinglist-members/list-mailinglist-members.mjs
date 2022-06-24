@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "mailgun-list-mailinglist-members",
   name: "Get Mailing List Members",
-  description: "List all mailing list members",
+  description: "List all mailing list members. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -22,26 +22,18 @@ export default {
         mailgun,
         "subscribed",
       ],
-      description: "`true` for subscribed only, `false` for unsubscribed only, or blank for " +
-        "all members",
+      description: "`true` for subscribed only, `false` for unsubscribed only, or blank for all members",
       optional: true,
     },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     ...common.props,
   },
-  async run() {
-    const listMailinglistMembers = async function (mailgun, opts) {
-      let data;
-      if (opts.subscribed) {
-        data = {
-          subscribed: opts.subscribed,
-        };
-      }
-      return await mailgun.api("lists").members.listMembers(opts.list, data);
-    };
-    return await this.withErrorHandler(listMailinglistMembers, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.listMailinglistMembers, {
       list: this.list,
       subscribed: this.subscribed,
     });
+    $.export("$summary", `Found ${resp.length} mailing list member(s)`);
+    return resp;
   },
 };

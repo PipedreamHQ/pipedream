@@ -1,7 +1,7 @@
 /* eslint-disable pipedream/props-description */
 import formData from "form-data";
 import Mailgun from "mailgun.js";
-import { pick } from "lodash";
+import pick from "lodash/pick.js";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -41,6 +41,10 @@ export default {
     email: {
       type: "string",
       label: "Email Address",
+      //async options({ page }) {
+      //
+      //
+      //},
     },
     emails: {
       type: "string[]",
@@ -126,7 +130,7 @@ export default {
       if (vars) {
         data.vars = vars;
       }
-      return await this.api("lists").members.createMember(opts.list, data);
+      return this.api("lists").members.createMember(opts.list, data);
     },
     async getMailingLists(opts = {}) {
       const { limit = 100 } = opts;
@@ -148,6 +152,15 @@ export default {
         }
       } while (result.length);
       return lists;
+    },
+    async listMailingListMembers(opts = {}) {
+      let data;
+      if (opts.subscribed) {
+        data = {
+          subscribed: opts.subscribed,
+        };
+      }
+      return this.api("lists").members.listMembers(opts.list, data);
     },
     async paginate (next, perPage = 100) {
       const results = [];

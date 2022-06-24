@@ -3,7 +3,7 @@ import common from "../common/http-based.mjs";
 export default {
   ...common,
   key: "mailgun-new-permanent-failure",
-  name: "New Permanent Failure",
+  name: "New Permanent Failure (Instant)",
   type: "source",
   description: "Emit new event when an email can't be delivered to the recipient email server due " +
     "to a permanent mailbox error such as non-existent mailbox.",

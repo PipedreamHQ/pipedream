@@ -3,7 +3,7 @@ import common from "../common/http-based.mjs";
 export default {
   ...common,
   key: "mailgun-new-delivery-failure",
-  name: "New Delivery Failure",
+  name: "New Delivery Failure (Instant)",
   type: "source",
   description: "Emit new event when an email can't be delivered to the recipient email server.",
   version: "0.0.2",

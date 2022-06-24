@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { get } from "lodash";
+import get from "lodash/get.js";
 import base from "./base.mjs";
 
 export default {

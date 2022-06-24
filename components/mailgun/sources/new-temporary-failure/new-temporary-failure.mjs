@@ -2,7 +2,7 @@ import common from "../common/http-based.mjs";
 
 export default {
   ...common,
-  key: "mailgun-new-temporary-failure",
+  key: "mailgun-new-temporary-failure (Instant)",
   name: "New Temporary Failure",
   type: "source",
   description: "Emit new event when an email can't be delivered to the recipient email server due " +

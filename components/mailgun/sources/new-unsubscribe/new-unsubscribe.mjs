@@ -3,7 +3,7 @@ import common from "../common/http-based.mjs";
 export default {
   ...common,
   key: "mailgun-new-unsubscribe",
-  name: "New Unsubscribe",
+  name: "New Unsubscribe (Instant)",
   type: "source",
   description: "Emit new event when the email recipient clicked on the unsubscribe link. " +
     "Unsubscribe tracking must be enabled in the Mailgun control panel. See more at the " +

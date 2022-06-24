@@ -3,7 +3,7 @@ import common from "../common/http-based.mjs";
 export default {
   ...common,
   key: "mailgun-new-open",
-  name: "New Open",
+  name: "New Open (Instant)",
   type: "source",
   description: "Emit new event when the email recipient opened the email and enabled image " +
     "viewing. Open tracking must be enabled in the Mailgun control panel, and the CNAME record " +

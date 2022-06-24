@@ -2,7 +2,7 @@ import common from "../common/http-based.mjs";
 
 export default {
   ...common,
-  key: "mailgun-new-click",
+  key: "mailgun-new-click (Instant)",
   name: "New Click",
   description: "Emit new event when the email recipient clicked on a link in the email. " +
     "Open tracking must be enabled in the Mailgun control panel, and the CNAME record " +

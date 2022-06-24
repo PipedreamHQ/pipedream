@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "mailgun-create-mailinglist-member",
   name: "Create Mailing List Member",
-  description: "Add to an existing mailing list",
+  description: "Add to an existing mailing list. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -54,8 +54,8 @@ export default {
     },
     ...common.props,
   },
-  async run() {
-    return await this.withErrorHandler(this.mailgun.createMailinglistMember, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.createMailinglistMember, {
       address: this.address,
       name: this.name,
       subscribed: this.subscribed,
@@ -63,5 +63,7 @@ export default {
       vars: this.vars,
       list: this.list,
     });
+    $.export("$summary", `Successfully added ${this.address} to list`);
+    return resp;
   },
 };

@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   key: "mailgun-create-route",
   name: "Create Route",
-  description: "Create a new route",
+  description: "Create a new route. [See the docs here](https://documentation.mailgun.com/en/latest/api-routes.html#actions)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -99,7 +99,7 @@ export default {
     },
     ...common.methods,
   },
-  async run() {
+  async run({ $ }) {
     const opts = {
       priority: this.priority,
       description: this.description,
@@ -111,6 +111,8 @@ export default {
     const createRoute = async function (mailgun, opts) {
       return await mailgun.api("routes").create(opts);
     };
-    return await this.withErrorHandler(createRoute, opts);
+    const resp = await this.withErrorHandler(createRoute, opts);
+    $.export("$summary", "Successfully created route");
+    return resp;
   },
 };
