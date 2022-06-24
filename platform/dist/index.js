@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConfigurationError = exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.$end = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.axios = void 0;
+exports.$sendConfigRuntimeTypeChecker = exports.$send = exports.$end = exports.END_NEEDLE = exports.$event = exports.sendTypeMap = exports.SendConfigSSE = exports.SendConfigSnowflake = exports.SendConfigSQL = exports.SendConfigS3 = exports.SendConfigHTTP = exports.HTTP_METHODS = exports.SendConfigEmit = exports.SendConfigEmit_optional = exports.SendConfigEmit_required = exports.SendConfigEmail = exports.axios = void 0;
 const t = require("io-ts");
 const axios_1 = require("./axios");
 exports.axios = axios_1.default;
 var utils_1 = require("./utils");
 Object.defineProperty(exports, "cloneSafe", { enumerable: true, get: function () { return utils_1.cloneSafe; } });
 Object.defineProperty(exports, "jsonStringifySafe", { enumerable: true, get: function () { return utils_1.jsonStringifySafe; } });
+var errors_1 = require("./errors");
+Object.defineProperty(exports, "ConfigurationError", { enumerable: true, get: function () { return errors_1.ConfigurationError; } });
 const SendPayload = t.union([
     t.string,
     t.object,
@@ -141,11 +143,3 @@ exports.$sendConfigRuntimeTypeChecker = (function () {
     }
     return ret;
 })();
-class ConfigurationError extends Error {
-    constructor(message, exposeStack = false) {
-        super(message);
-        this.name = "ConfigurationError";
-        this.exposeStack = exposeStack;
-    }
-}
-exports.ConfigurationError = ConfigurationError;

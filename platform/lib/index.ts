@@ -10,6 +10,10 @@ export {
   cloneSafe, jsonStringifySafe,
 } from "./utils";
 
+export {
+  ConfigurationError,
+} from "./errors";
+
 const SendPayload = t.union([
   t.string,
   t.object,
@@ -180,15 +184,6 @@ export const $sendConfigRuntimeTypeChecker = (function() {
   }
   return ret;
 })();
-
-export class ConfigurationError extends Error {
-  exposeStack: boolean;
-  constructor(message: string, exposeStack = false) {
-    super(message);
-    this.name = "ConfigurationError";
-    this.exposeStack = exposeStack;
-  }
-}
 
 export interface AxiosRequestConfig extends AxiosConfig {
   debug?: boolean;

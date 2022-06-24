@@ -4,7 +4,7 @@ const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
 const utils_1 = require("./utils");
-const index_1 = require("./index");
+const errors_1 = require("./errors");
 function cleanObject(o) {
     for (const k in o || {}) {
         if (typeof o[k] === "undefined") {
@@ -53,7 +53,7 @@ async function default_1(step, config, signConfig) {
         cleanObject(config.data);
     }
     if (config.body != null) {
-        throw new index_1.ConfigurationError("unexpected body, use only data instead");
+        throw new errors_1.ConfigurationError("unexpected body, use only data instead");
     }
     removeSearchFromUrl(config);
     // OAuth1 request

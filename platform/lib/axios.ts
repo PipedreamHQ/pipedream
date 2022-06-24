@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from "./index";
 import * as buildURL from "axios/lib/helpers/buildURL";
 import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
-import { ConfigurationError } from "./index";
+import { ConfigurationError } from "./errors";
 
 function cleanObject(o: { string: any; }) {
   for (const k in o || {}) {
