@@ -45,9 +45,8 @@ export default {
         if (!info.ok) throw new Error(info.error);
         if (info.channel.is_im) {
           return `DM with ${await this.getUserName(info.channel.user)}`;
-        } else {
-          return info.channel.name;
         }
+        return info.channel.name;
       });
     },
     async getTeamName(id) {
