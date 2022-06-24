@@ -1,6 +1,6 @@
 export default {
   ROLES: [
-    "selected",
+    "subscriber",
     "contributor",
     "author",
     "editor",
