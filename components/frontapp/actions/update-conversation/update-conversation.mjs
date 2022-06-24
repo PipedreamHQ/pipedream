@@ -18,7 +18,7 @@ export default {
     assigneeId: {
       propDefinition: [
         frontApp,
-        "contactId",
+        "teammateId",
         () => ({
           appendNull: true,
         }),

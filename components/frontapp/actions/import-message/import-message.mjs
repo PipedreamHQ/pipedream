@@ -29,10 +29,11 @@ export default {
     authorId: {
       propDefinition: [
         frontApp,
-        "contactId",
+        "teammateId",
       ],
       label: "Author ID",
       description: "ID of the teammate who is the author of the message. Ignored if the message is inbound.",
+      optional: true,
     },
     to: {
       type: "string[]",
@@ -94,7 +95,7 @@ export default {
     assigneeId: {
       propDefinition: [
         frontApp,
-        "contactId",
+        "teammateId",
       ],
       label: "Assignee ID",
       description: "ID of the teammate who will be assigned to the conversation.",

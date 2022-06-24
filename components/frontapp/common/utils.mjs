@@ -82,20 +82,50 @@ function reduceProperties({
 }
 
 function buildFormData(formData, data, parentKey) {
-  if (data && typeof data === "object") {
+  if (data && typeof(data) === "object") {
     Object.keys(data)
       .forEach((key) => {
         buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
       });
-  } else {
+  } else if (data) {
     formData.append(parentKey, data);
   }
 }
 
 function getFormData(data) {
-  const formData = new FormData();
-  buildFormData(formData, data);
-  return formData;
+  try {
+    const formData = new FormData();
+    buildFormData(formData, data);
+    return formData;
+  } catch (error) {
+    console.log("FormData Error", error);
+    throw error;
+  }
+}
+
+async function makeFormRequest(formData, config) {
+  return new Promise((resolve, reject) => {
+    formData.submit(config, (err, res) => {
+      if (err) {
+        return reject(new Error(err.message));
+      }
+
+      if (res.statusCode < 200 || res.statusCode > 299) {
+        return reject(new Error(`HTTP status code ${res.statusCode}`));
+      }
+
+      const body = [];
+      res.on("data", (chunk) => {
+        console.log("chunk", chunk);
+        body.push(chunk);
+      });
+      res.on("end", () => {
+        console.log("body", body);
+        const resString = Buffer.from(body);
+        resolve(resString);
+      });
+    });
+  });
 }
 
 export default {
@@ -104,4 +134,5 @@ export default {
   parse,
   reduceProperties,
   getFormData,
+  makeFormRequest,
 };

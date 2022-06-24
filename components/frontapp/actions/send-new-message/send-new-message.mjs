@@ -18,7 +18,7 @@ export default {
     authorId: {
       propDefinition: [
         frontApp,
-        "contactId",
+        "teammateId",
       ],
       label: "Author ID",
       description: "ID of the teammate on behalf of whom the answer is sent",
@@ -83,7 +83,7 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
     const {
       channelId,
       authorId,
@@ -102,7 +102,7 @@ export default {
 
     const hasAttachments = attachments?.length > 0;
 
-    const rawData = utils.reduceProperties({
+    const data = utils.reduceProperties({
       initialProps: {
         to,
         body,
@@ -126,8 +126,6 @@ export default {
       },
     });
 
-    const data = hasAttachments && utils.getFormData(rawData) || rawData;
-
     const args = utils.reduceProperties({
       initialProps: {
         channelId,
@@ -136,7 +134,7 @@ export default {
       additionalProps: {
         headers: [
           {
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+            "Content-Type": "multipart/form-data",
           },
           hasAttachments,
         ],
@@ -144,8 +142,10 @@ export default {
     });
 
     const response = await this.frontApp.sendMessage(args);
+    // const response = await this.frontApp.sendMessageFormRequest(args);
+    console.log("RESP", response);
 
-    $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
+    // $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
 
     return response;
   },

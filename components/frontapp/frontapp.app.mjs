@@ -1,5 +1,6 @@
-import constants from "./common/constants.mjs";
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -148,10 +149,30 @@ export default {
         });
       },
     },
+    teammateId: {
+      type: "string",
+      label: "Teammate ID",
+      description: "ID of the contact in Front corresponding to the sender",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listTeammates,
+          mapper: ({
+            id, email,
+          }) => ({
+            label: email,
+            value: id,
+          }),
+        });
+      },
+    },
   },
   methods: {
     getUrl(path, url) {
       return url || `${constants.BASE_URL}${path}`;
+    },
+    hasMultipartHeader(headers) {
+      return headers["Content-Type"].includes("multipart/form-data");
     },
     getHeaders(headers) {
       return {
@@ -161,15 +182,29 @@ export default {
         ...headers,
       };
     },
-    async makeRequest({
-      $ = this, path, url, headers, ...args
+    getConfig({
+      headers, path, url, data: rawData, ...args
     } = {}) {
-      const config = {
-        headers: this.getHeaders(headers),
+      const hasMultipartHeader = this.hasMultipartHeader(headers);
+      const data = hasMultipartHeader && utils.getFormData(rawData) || rawData;
+      const currentHeaders = this.getHeaders(headers);
+      const builtHeaders = hasMultipartHeader
+        ? {
+          ...currentHeaders,
+          "Content-Type": data.getHeaders()["content-type"],
+        }
+        : currentHeaders;
+      return {
+        headers: builtHeaders,
         url: this.getUrl(path, url),
+        data,
         ...args,
       };
-
+    },
+    async makeRequest({
+      $ = this, ...args
+    } = {}) {
+      const config = this.getConfig(args);
       try {
         return await axios($, config);
       } catch (error) {
@@ -193,6 +228,25 @@ export default {
         method: constants.METHOD.POST,
         path: `/channels/${channelId}/messages`,
         ...args,
+      });
+    },
+    async sendMessageFormRequest({
+      channelId, data,
+    } = {}) {
+      const [
+        protocol,
+        host,
+      ] =  constants.BASE_URL.split("//");
+      const { Authorization: auth } = this.getHeaders();
+      const formData = utils.getFormData(data);
+      return utils.makeFormRequest(formData, {
+        host,
+        path: `/channels/${channelId}/messages`,
+        method: constants.METHOD.POST,
+        protocol,
+        headers: {
+          Authorization: auth,
+        },
       });
     },
     async updateConversation({
@@ -246,6 +300,12 @@ export default {
     async listTags(args = {}) {
       return this.makeRequest({
         path: "/tags",
+        ...args,
+      });
+    },
+    async listTeammates(args = {}) {
+      return this.makeRequest({
+        path: "/teammates",
         ...args,
       });
     },
