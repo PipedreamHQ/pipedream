@@ -1,13 +1,10 @@
 on:
-  pull_request:
+  push:
     branches:
       - master
-    types:
-      - closed
 
 jobs:
   publish-components:
-    if: github.event.pull_request.merged == true
     name: Publish Components to Pipedream Registry
     runs-on: ubuntu-latest
     steps:
@@ -104,7 +101,6 @@ jobs:
           rm $HOME/.config/pipedream/config
 
   publish-typescript-components:
-    if: github.event.pull_request.merged == true
     name: Publish TypeScript components
     runs-on: ubuntu-latest
 
