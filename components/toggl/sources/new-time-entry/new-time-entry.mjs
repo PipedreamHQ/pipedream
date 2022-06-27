@@ -11,10 +11,24 @@ export default {
   methods: {
     ...base.methods,
     _getAction() {
-      return "created";
+      return "updated";
     },
     _getEntity() {
       return "time_entry";
     },
+  },
+  async run(event) {
+    const { body } = event;
+
+    await this._respond(event);
+    if (body.payload === "ping") return;
+
+    if (body.payload.stop) {
+      this.$emit(body, {
+        id: body.event_id,
+        summary: `New time_entry created with id ${body.payload.id}`,
+        ts: Date.parse(body.created_at),
+      });
+    }
   },
 };

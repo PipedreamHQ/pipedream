@@ -11,7 +11,7 @@ export default {
   methods: {
     ...base.methods,
     _getAction() {
-      return "updated";
+      return "created";
     },
     _getEntity() {
       return "time_entry";
@@ -26,10 +26,9 @@ export default {
     if (!body.payload.stop) {
       this.$emit(body, {
         id: body.event_id,
-        summary: `New time_entry created with id ${body.payload.id}`,
+        summary: `New time_entry started with id ${body.payload.id}`,
         ts: Date.parse(body.created_at),
       });
     }
-
   },
 };
