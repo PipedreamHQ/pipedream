@@ -45,8 +45,8 @@ jobs:
           do
             ext="${f##*.}"
             # Only run this check on modified sources or actions, excluding common files
-            if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]] && [[ "$ext" == "ts" ]]) && \
-              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && "${f}" != *common*.*ts && \
+            if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]] || [[ "$ext" == "ts" ]]) && \
+              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && [[ "${f}" != *common*.*ts ]] && \
               [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]] && \
               [[ "$(<${f})" == *"version:"* ]]
             then
@@ -138,8 +138,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Install Dependencies
-        run: npm ci
       - name: Compile TypeScript
         run: npm run build
       - name: Lint Code Base
@@ -161,7 +159,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -180,8 +178,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: npm install
-        run: npm ci
       - name: pnpm install
         run: pnpm install -r
       # See https://pnpm.io/using-changesets
@@ -218,24 +214,46 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: npm ci
-      - name: pnpm install
         run: pnpm install -r
       - name: Compile TypeScript
         id: compile
         run: npm run build > files.txt
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Publish TypeScript components (dry run)
         shell: bash {0} # don't fast fail
         run: |
           IFS=$'\n'
-          echo "The following files will be published on merge:"
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
           # Remove initial tsc output
-          for f in $(cat files.txt | sed 1,3d)
+          output_files=$(cat files.txt | sed 1,3d)
+          echo "The following files will be published on merge:"
+          for added_modified_file in "${added_modified_renamed_files[@]}";
           do
-            echo "$f"
+            # starts with components, ends with .ts and not app.ts, doesn't end with /common*.ts,
+            # and doesn't follow */common/
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
+                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]]
+            then
+              # XXX This is a hacky way to publish only TS components with changes. If a changed
+              # file "path-a/path-b/c.ts" has a corresponding compiled output file
+              # "path-a/dist/path-b/c.mjs", attempt to publish the output `.mjs` file.
+              for f in $output_files;
+              do
+                # Replaces /dist/path/filename.mjs with /path/filename.ts
+                maybe_source_file=$(echo "$f" | sed 's/\/dist\//\//;s/.mjs/\.ts/')
+                if [[ ${maybe_source_file} == **/${added_modified_file} ]]
+                then
+                  echo "$f"
+                fi
+              done
+            fi
           done
           unset IFS
 
-
+ 
 
 
