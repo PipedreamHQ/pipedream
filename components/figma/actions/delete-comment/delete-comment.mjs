@@ -3,7 +3,7 @@ import figmaApp from "../../figma.app.mjs";
 export default {
   name: "Delete a Comment",
   description: "Delete a comment to a file. [See the docs here](https://www.figma.com/developers/api#delete-comments-endpoint)",
-  key: "figma-delete-a-comment",
+  key: "figma-delete-comment",
   version: "0.0.1",
   type: "action",
   props: {
