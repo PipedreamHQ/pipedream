@@ -32,8 +32,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Install Dependencies
-        run: pnpm install
       - name: Compile TypeScript
         run: npm run build
       - name: Install pd cli
