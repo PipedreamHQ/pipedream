@@ -3,18 +3,17 @@ import twitch from "../../twitch.app.mjs";
 
 export default {
   ...common,
-  name: "New Clips",
-  key: "twitch-new-clips",
-  description: "Emit new event when there is a new clip for the specified game.",
-  version: "0.0.3",
+  name: "New Clip By Streamer",
+  key: "twitch-new-clip-by-streamer",
+  description: "Emit new event when there is a new clip for the specified streamer.",
+  version: "0.0.1",
   type: "source",
   props: {
     ...common.props,
-    game: {
-      propDefinition: [
-        twitch,
-        "game",
-      ],
+    streamer: {
+      type: "string",
+      label: "Streamer",
+      description: "The name of the streamer to watch for new clips.",
     },
     max: {
       propDefinition: [
@@ -27,34 +26,36 @@ export default {
     ...common.methods,
     getMeta({
       id,
-      title: summary,
+      title,
       created_at: createdAt,
+      creator_name: creatorName,
     }) {
       const ts = new Date(createdAt).getTime();
       return {
         id,
-        summary,
+        summary: `${creatorName} - ${title}`,
         ts,
       };
     },
   },
   async run() {
-    const { data: gameData } = await this.twitch.getGames([
-      this.game,
-    ]);
-    if (gameData.length == 0) {
-      console.log(`No game found with the name ${this.game}`);
+    // Get streamer id
+    const res = await this.twitch.getMultipleUsers({
+      login: this.streamer,
+    });
+    if (!res.data.data || res.data.data.length == 0) {
+      console.log(`No streamer found with the name "${this.streamer}"`);
       return;
     }
 
-    // get and emit new clips of the specified game
     const lastEvent = this.getLastEvent();
     const params = {
-      game_id: gameData[0].id,
+      broadcaster_id: res.data.data[0].id,
       started_at: lastEvent
         ? new Date(lastEvent)
         : new Date(),
     };
+
     const clips = await this.paginate(
       this.twitch.getClips.bind(this),
       params,

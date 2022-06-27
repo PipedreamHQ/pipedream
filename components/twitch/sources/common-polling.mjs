@@ -13,10 +13,11 @@ export default {
   },
   methods: {
     ...common.methods,
-    getLastEvent(lastEvent) {
-      return lastEvent
-        ? new Date(lastEvent)
-        : new Date();
+    getLastEvent() {
+      return this.db.get("lastEvent");
+    },
+    setLastEvent(date) {
+      this.db.set("lastEvent", date);
     },
   },
 };
