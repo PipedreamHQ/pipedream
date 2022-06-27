@@ -22,6 +22,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "New star added";
     },
