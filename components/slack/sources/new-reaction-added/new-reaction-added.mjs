@@ -56,7 +56,7 @@ export default {
       return "New reaction added";
     },
     async processEvent(event) {
-      if (this.ignoreMyself && event.user == this.mySlackId()) {
+      if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
         return;
       }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {

@@ -50,6 +50,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "New message in channel";
     },
@@ -66,7 +67,7 @@ export default {
         console.log("Ignoring message with subtype.");
         return;
       }
-      if (this.ignoreMyself && event.user == this.mySlackId()) {
+      if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
         return;
       }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {

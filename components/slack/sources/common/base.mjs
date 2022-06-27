@@ -6,7 +6,6 @@ export default {
     nameCache: "$.service.db",
   },
   methods: {
-    ...slack.methods,
     async maybeCached(key, refreshVal, timeoutMs = 3600000) {
       let record = this.nameCache.get(key);
       const time = Date.now();
