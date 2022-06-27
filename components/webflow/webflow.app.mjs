@@ -224,7 +224,6 @@ export default {
 
       if (!siteId) return [];
 
-      console.log("Teste...");
 
       return await webflow.collections({
         siteId: siteId,
