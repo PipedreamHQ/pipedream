@@ -128,8 +128,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: pnpm install
-      - name: pnpm install
         run: pnpm install -r
       - name: Install pd cli
         env:
