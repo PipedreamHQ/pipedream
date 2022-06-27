@@ -105,5 +105,29 @@ export default {
         path: `/v1/files/${fileId}/comments/${commentId}`,
       }));
     },
+    async createHook(
+      event_type,
+      team_id,
+      endpoint,
+      passcode,
+    ) {
+      const hook = await axios(this, this._getAxiosParams({
+        method: "POST",
+        path: "/v2/webhooks",
+        data: {
+          event_type,
+          team_id,
+          endpoint,
+          passcode,
+        },
+      }));
+      return hook.id;
+    },
+    async deleteHook(hookId) {
+      return axios(this, this._getAxiosParams({
+        method: "DELETE",
+        path: `/v2/webhooks/${hookId}`,
+      }));
+    },
   },
 };
