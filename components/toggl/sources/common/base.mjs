@@ -67,16 +67,12 @@ export default {
   async run(event) {
     const { body } = event;
 
-    const action = this._getAction();
-    const entity = this._getEntity();
-
-    if (body.payload === "ping") {
-      return await this._respond(event);
-    }
+    await this._respond(event);
+    if (body.payload === "ping") return;
 
     this.$emit(body, {
       id: body.event_id,
-      summary: `New ${entity} ${action} with id ${body.payload.id}`,
+      summary: `New ${body.metadata.model} ${body.metadata.action} with id ${body.payload.id}`,
       ts: Date.parse(body.created_at),
     });
   },

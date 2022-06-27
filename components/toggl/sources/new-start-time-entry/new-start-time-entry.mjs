@@ -20,9 +20,8 @@ export default {
   async run(event) {
     const { body } = event;
 
-    if (body.payload === "ping") {
-      return await this._respond(event);
-    }
+    await this._respond(event);
+    if (body.payload === "ping") return;
 
     if (!body.payload.stop) {
       this.$emit(body, {

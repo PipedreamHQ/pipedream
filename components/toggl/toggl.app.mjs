@@ -95,7 +95,7 @@ export default {
     async getTimeEntry({
       timeEntryId, $,
     } = {}) {
-      const { data } = await this._makeRequest("v8", `time_entries / ${timeEntryId}`, {}, $);
+      const { data } = await this._makeRequest("v8", `time_entries/${timeEntryId}`, {}, $);
 
       return data;
     },
