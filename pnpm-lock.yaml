@@ -867,6 +867,18 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/pinterest:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      js-base64: ^3.7.2
+      mime-types: ^2.1.35
+      url-exist: ^3.0.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      js-base64: 3.7.2
+      mime-types: 2.1.35
+      url-exist: 3.0.0
+
   components/pipedream:
     specifiers:
       axios: ^0.21.1
@@ -967,6 +979,9 @@ importers:
       lodash: 4.17.21
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.9_handlebars@4.7.7
+
+  components/scopemaster:
+    specifiers: {}
 
   components/segment:
     specifiers:
@@ -3483,22 +3498,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.116:
-    resolution: {integrity: sha512-92q+fYoTtpUZg8Fl+PzKrvuYTjpdz3CyKB1+D1ibfGsi+2CRcxNZI3XJtxz2jaqofCVPlGlNExiFi4vfXVXj2g==}
+  /@definitelytyped/header-parser/0.0.118:
+    resolution: {integrity: sha512-dlOlN+SFetncKK+ecvpJxdk6j6SsZiTv3yrubpme4XR65UHqyt+iYtGUHpufMoTI6QNw85EpxlmT4OPIZ4Y3Jw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.116
+      '@definitelytyped/typescript-versions': 0.0.118
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.116:
-    resolution: {integrity: sha512-QKe3KNYsAW7uvoVpwz5U52gt9u3eXb3LZylrz6vdNjQ/onvYUxn/vZh4OFA3hg8guNRoCSRQ24aT+hJfa5vIAQ==}
+  /@definitelytyped/typescript-versions/0.0.118:
+    resolution: {integrity: sha512-XcQNmK1KLLdtEv6BZpjhBzLOo+qMZI1R18r1JmJcaL9RvdlJaOsCIjPAUrf6sEaqHZRdXwJuWm2kFGG9uPrBBA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.116:
-    resolution: {integrity: sha512-w5UMjBKYo3aIJhi90QXr9ms8xfUImMyotQ/m6AFg9E71RZpcaLsyAfvTCIQ6tVqGexaVBzBqMWxvzz7ITXo1zw==}
+  /@definitelytyped/utils/0.0.118:
+    resolution: {integrity: sha512-yk1xILGHje/1+FJ+LcWFJ5DP/NENcKkHBNSeRLLGLB9ZIrP3zN31OeaPXxif0QDRuLs6xkRAGY3yOfKrJNmilw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.116
+      '@definitelytyped/typescript-versions': 0.0.118
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -8178,7 +8193,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.116
+      '@definitelytyped/header-parser': 0.0.118
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -8194,9 +8209,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.116
-      '@definitelytyped/typescript-versions': 0.0.116
-      '@definitelytyped/utils': 0.0.116
+      '@definitelytyped/header-parser': 0.0.118
+      '@definitelytyped/typescript-versions': 0.0.118
+      '@definitelytyped/utils': 0.0.118
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -10153,6 +10168,11 @@ packages:
       unc-path-regex: 0.1.2
     dev: true
 
+  /is-url-superb/5.0.0:
+    resolution: {integrity: sha512-jGkG59ra7/JlcV8ap3dsc0M79IgpuFU/obfsSf6X5D0z1NVvFTFuzt4ob7nfBTZEPbTwjGXVKNQDfWfPghapKQ==}
+    engines: {node: '>=10'}
+    dev: false
+
   /is-url/1.2.4:
     resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==}
     dev: false
@@ -11064,9 +11084,31 @@ packages:
       - domexception
     dev: false
 
+  /ky-universal/0.9.1_ky@0.26.0:
+    resolution: {integrity: sha512-o0u8z6Lp8bZAevZWJkZXuQH4JGFIUM1FeHRdtdmcgSsEoP8Ane4TNJWtiv0UOYKRmYGlYsF15zX6kR1S31Q8sg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      ky: '>=0.26.0'
+      web-streams-polyfill: '>=3.0.1'
+    peerDependenciesMeta:
+      web-streams-polyfill:
+        optional: true
+    dependencies:
+      abort-controller: 3.0.0
+      ky: 0.26.0
+      node-fetch: 3.0.0-beta.9
+    transitivePeerDependencies:
+      - domexception
+    dev: false
+
   /ky/0.25.1:
     resolution: {integrity: sha512-PjpCEWlIU7VpiMVrTwssahkYXX1by6NCT0fhTUX34F3DTinARlgMpriuroolugFPcMgpPWrOW4mTb984Qm1RXA==}
     engines: {node: '>=10'}
+    dev: false
+
+  /ky/0.26.0:
+    resolution: {integrity: sha512-j2YwAGYuD/XXoyzzUYn1N9NEGoAukkONMea2uLanMPWTqumkwme9eWgf2SjhRKNRb/60FDYStJYL582dbbt9Mw==}
+    engines: {node: '>=12'}
     dev: false
 
   /lazystream/1.0.1:
@@ -15273,6 +15315,18 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
+
+  /url-exist/3.0.0:
+    resolution: {integrity: sha512-hRO5udC8UhWKLh/weeTSMujDHmVBDS9KpLY7FGVilrLBKlHBwx6Gpe0fIkkYRkMaGuYHVqpdkNa0sO4wJfYEnA==}
+    engines: {node: '>=14.8'}
+    dependencies:
+      is-url-superb: 5.0.0
+      ky: 0.26.0
+      ky-universal: 0.9.1_ky@0.26.0
+    transitivePeerDependencies:
+      - domexception
+      - web-streams-polyfill
+    dev: false
 
   /url-join/0.0.1:
     resolution: {integrity: sha1-HbSK1CLTQCRpqH99l73r/k+x48g=}
