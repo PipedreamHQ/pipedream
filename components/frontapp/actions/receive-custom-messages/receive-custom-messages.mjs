@@ -103,7 +103,7 @@ export default {
       headers,
     });
 
-    const rawData = utils.reduceProperties({
+    const data = utils.reduceProperties({
       initialProps: {
         body,
         sender,
@@ -119,8 +119,6 @@ export default {
       },
     });
 
-    const data = hasAttachments && utils.getFormData(rawData) || rawData;
-
     const args = utils.reduceProperties({
       initialProps: {
         channelId,
@@ -129,7 +127,7 @@ export default {
       additionalProps: {
         headers: [
           {
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+            "Content-Type": "multipart/form-data",
           },
           hasAttachments,
         ],

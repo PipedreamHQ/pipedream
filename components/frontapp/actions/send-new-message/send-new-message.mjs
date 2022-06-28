@@ -1,5 +1,5 @@
-import utils from "../../common/utils.mjs";
 import frontApp from "../../frontapp.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "frontapp-send-new-message",
@@ -83,7 +83,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       channelId,
       authorId,
@@ -142,10 +142,8 @@ export default {
     });
 
     const response = await this.frontApp.sendMessage(args);
-    // const response = await this.frontApp.sendMessageFormRequest(args);
-    console.log("RESP", response);
 
-    // $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
+    $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
 
     return response;
   },

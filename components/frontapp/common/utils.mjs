@@ -1,5 +1,6 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { createReadStream } from "fs";
 import FormData from "form-data";
+import { ConfigurationError } from "@pipedream/platform";
 
 function emptyStrToUndefined(value) {
   const trimmed = typeof(value) === "string" && value.trim();
@@ -84,11 +85,15 @@ function reduceProperties({
 function buildFormData(formData, data, parentKey) {
   if (data && typeof(data) === "object") {
     Object.keys(data)
-      .forEach((key) => {
+      .forEach(async (key) => {
         buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
       });
+
+  } else if (data && parentKey.includes("attachment")) {
+    formData.append(parentKey, createReadStream(data));
+
   } else if (data) {
-    formData.append(parentKey, data);
+    formData.append(parentKey, (data).toString());
   }
 }
 
@@ -103,36 +108,10 @@ function getFormData(data) {
   }
 }
 
-async function makeFormRequest(formData, config) {
-  return new Promise((resolve, reject) => {
-    formData.submit(config, (err, res) => {
-      if (err) {
-        return reject(new Error(err.message));
-      }
-
-      if (res.statusCode < 200 || res.statusCode > 299) {
-        return reject(new Error(`HTTP status code ${res.statusCode}`));
-      }
-
-      const body = [];
-      res.on("data", (chunk) => {
-        console.log("chunk", chunk);
-        body.push(chunk);
-      });
-      res.on("end", () => {
-        console.log("body", body);
-        const resString = Buffer.from(body);
-        resolve(resString);
-      });
-    });
-  });
-}
-
 export default {
   emptyStrToUndefined,
   emptyObjectToUndefined,
   parse,
   reduceProperties,
   getFormData,
-  makeFormRequest,
 };

@@ -53,7 +53,7 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "Binary data of the attached files. Base64 encoded strings are supported. e.g. `data:image/jpeg;name=logo.jpg;base64,/9j/4QAYRXh...`",
+      description: "File paths of files previously downloaded in Pipedream E.g. (`/tmp/my-image.jpg`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
       optional: true,
     },
     channelId: {
@@ -172,7 +172,7 @@ export default {
       return url || `${constants.BASE_URL}${path}`;
     },
     hasMultipartHeader(headers) {
-      return headers["Content-Type"].includes("multipart/form-data");
+      return headers && headers["Content-Type"].includes("multipart/form-data");
     },
     getHeaders(headers) {
       return {
@@ -183,10 +183,10 @@ export default {
       };
     },
     getConfig({
-      headers, path, url, data: rawData, ...args
+      headers, path, url, data: oriignalData, ...args
     } = {}) {
       const hasMultipartHeader = this.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(rawData) || rawData;
+      const data = hasMultipartHeader && utils.getFormData(oriignalData) || oriignalData;
       const currentHeaders = this.getHeaders(headers);
       const builtHeaders = hasMultipartHeader
         ? {
@@ -228,25 +228,6 @@ export default {
         method: constants.METHOD.POST,
         path: `/channels/${channelId}/messages`,
         ...args,
-      });
-    },
-    async sendMessageFormRequest({
-      channelId, data,
-    } = {}) {
-      const [
-        protocol,
-        host,
-      ] =  constants.BASE_URL.split("//");
-      const { Authorization: auth } = this.getHeaders();
-      const formData = utils.getFormData(data);
-      return utils.makeFormRequest(formData, {
-        host,
-        path: `/channels/${channelId}/messages`,
-        method: constants.METHOD.POST,
-        protocol,
-        headers: {
-          Authorization: auth,
-        },
       });
     },
     async updateConversation({
