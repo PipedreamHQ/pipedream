@@ -1,9 +1,7 @@
+import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
 import { overwrite } from "../../props.mjs";
-import {
-  propFolderId,
-  propToFolderId,
-} from "../../props-custom-descriptions.mjs";
+import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -15,7 +13,16 @@ export default {
   props: {
     ...common.props,
     folderId: propFolderId(" to copy"),
-    toFolderId: propToFolderId(" where the folder will be copied to"),
+    toFolderId: {
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
+      label: "Destination Folder ID",
+      description: `Select a **Destination Folder** where the folder will be copied to.
+        \\
+        Alternatively, you can provide a custom *Folder ID*.`,
+    },
     overwrite,
     copyContentOnly: {
       type: "boolean",

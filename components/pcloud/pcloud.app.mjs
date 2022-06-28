@@ -10,25 +10,17 @@ export default {
       type: "integer",
       label: "File ID",
       async options() {
-        return await this.getFileOptions();
+        return this.getFileOptions();
       },
     },
     folderId: {
       type: "integer",
       label: "Folder ID",
       async options() {
-        return await this.getFolderOptions();
+        return this.getFolderOptions();
       },
       default: 0,
     },
-    // toFolderId: {
-    //   type: "integer",
-    //   label: "Destination Folder ID",
-    //   async options() {
-    //     return await this.getFolderOptions();
-    //   },
-    //   default: 0,
-    // },
   },
   methods: {
     async api() {
@@ -46,7 +38,7 @@ export default {
       );
     },
     _isRetriableStatusCode(statusCode) {
-      [
+      return [
         408,
         429,
         500,
