@@ -43,12 +43,15 @@ export default {
   async run({ $ }) {
     const data = {
       title: this.title,
-      notes: this.notes,
       status: this.completed
         ? "completed"
         : "needsAction",
       due: this.due,
     };
+    if (this.notes) {
+      data.notes = this.notes;
+    }
+
     const res = await this.app.insertTask(
       $,
       this.taskListId,

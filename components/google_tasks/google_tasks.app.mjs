@@ -13,6 +13,7 @@ export default {
       type: "string",
       label: "Notes",
       description: "The description of the task.",
+      optional: true,
     },
     maxResults: {
       type: "integer",

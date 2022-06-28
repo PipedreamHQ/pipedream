@@ -54,12 +54,15 @@ export default {
     const data = {
       id: this.taskId,
       title: this.title,
-      notes: this.notes,
       status: this.completed
         ? "completed"
         : "needsAction",
       due: this.due,
     };
+    if (this.notes) {
+      data.notes = this.notes;
+    }
+
     const res = await this.app.updateTask(
       $,
       this.taskListId,
