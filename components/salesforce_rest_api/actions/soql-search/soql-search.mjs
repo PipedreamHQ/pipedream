@@ -1,5 +1,5 @@
-import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-soql-search",
@@ -23,7 +23,7 @@ export default {
       $,
       query: this.query,
     });
-    $.export("$summary", "Successfully returned ${response.length} results for SOQL query");
+    $.export("$summary", `Successfully returned ${response.totalSize} results for SOQL query`);
     return response;
   },
 };
