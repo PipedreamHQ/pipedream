@@ -2,10 +2,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "slack-new-message-in-channels",
-  name: "New Message In Channels (Instant)",
-  version: "0.0.7",
-  description: "Emit new event when a new message is posted to one or more channels",
+  key: "slack-new-mention",
+  name: "New Mention (Instant)",
+  version: "0.0.1",
+  description: "Emit new event when a username or specific word is mentioned in a channel",
   type: "source",
   dedupe: "unique",
   props: {
@@ -36,10 +36,16 @@ export default {
         "ignoreMyself",
       ],
     },
-    resolveNames: {
+    word: {
       propDefinition: [
         common.props.slack,
-        "resolveNames",
+        "word",
+      ],
+    },
+    isUsername: {
+      propDefinition: [
+        common.props.slack,
+        "isUsername",
       ],
     },
     ignoreBot: {
@@ -52,7 +58,7 @@ export default {
   methods: {
     ...common.methods,
     getSummary() {
-      return "New message in channel";
+      return "New mention received";
     },
     async processEvent(event) {
       if (event.type !== "message") {
@@ -60,10 +66,10 @@ export default {
         return;
       }
       if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
-        // This source is designed to just emit an event for each new message received.
-        // Due to inconsistencies with the shape of message_changed and message_deleted
-        // events, we are ignoring them for now. If you want to handle these types of
-        // events, feel free to change this code!!
+      // This source is designed to just emit an event for each new message received.
+      // Due to inconsistencies with the shape of message_changed and message_deleted
+      // events, we are ignoring them for now. If you want to handle these types of
+      // events, feel free to change this code!!
         console.log("Ignoring message with subtype.");
         return;
       }
@@ -73,21 +79,26 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
-      if (this.resolveNames) {
-        if (event.user) {
-          event.user_id = event.user;
-          event.user = await this.getUserName(event.user);
-        } else if (event.bot_id) {
-          event.bot = await this.getBotName(event.bot_id);
+      let emitEvent = false;
+      const elements = event.blocks[0]?.elements[0]?.elements;
+
+      if (this.isUsername && elements) {
+        for (const item of elements) {
+          if (item.user_id) {
+            const username = await this.getUserName(item.user_id);
+            if (username === this.word) {
+              emitEvent = true;
+              break;
+            }
+          }
         }
-        event.channel_id = event.channel;
-        event.channel = await this.getConversationName(event.channel);
-        if (event.team) {
-          event.team_id = event.team;
-          event.team = await this.getTeamName(event.team);
-        }
+
+      } else if (event.text.indexOf(this.word) !== -1) {
+        emitEvent = true;
       }
-      return event;
+      if (emitEvent) {
+        return event;
+      }
     },
   },
 };
