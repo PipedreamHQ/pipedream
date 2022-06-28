@@ -4,6 +4,7 @@ import { Item } from "feedparser";
 import hash from "object-hash";
 import { defineApp } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
+import { ReadStream } from "fs";
 
 export default defineApp({
   type: "app",
@@ -14,12 +15,34 @@ export default defineApp({
       label: "Feed URL",
       description: "Enter the URL for any public RSS feed",
     },
+    urls: {
+      type: "string[]",
+      label: "Feed URLs",
+      description: "Enter either one or multiple URLs from any public RSS feed",
+    },
+    timer: {
+      type: "$.interface.timer",
+      description: "How often you want to poll the feed for new items",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
-    itemKey(item = {} as Item): string {
+    itemTs(item = {} as (Item | any)): number {
+      if (item.pubdate) {
+        return +new Date(item.pubdate);
+      } else if (item.date_published) {
+        return +new Date(item.date_published);
+      }
+      return +new Date();
+    },
+    itemKey(item = {} as (Item | any)): string {
       if (item.pubdate && item.guid) {
         return `${item.pubdate}-${item.guid}`;
+      } else if (item.date_published && item.id) {
+        return `${item.date_published}-${item.id}`;
       }
       return hash(item);
     },
@@ -29,7 +52,7 @@ export default defineApp({
         method: "GET",
         headers: {
           "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "accept": "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8",
+          "accept": "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8, application/json, application/feed+json",
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
@@ -42,9 +65,12 @@ export default defineApp({
       if (res.status >= 400) {
         throw new ConfigurationError(`Error fetching URL ${url}. Please load the URL directly in your browser and try again.`);
       }
-      return res.data;
+      return {
+        data: res.data,
+        contentType: res.headers["content-type"],
+      };
     },
-    async parseFeed(data: any): Promise<Item[]> {
+    async parseFeed(stream: ReadStream): Promise<Item[]> {
       const feedparser = new FeedParser({
         addmeta: true,
       });
@@ -70,22 +96,56 @@ export default defineApp({
             item = this.read();
           }
         });
-        data.pipe(feedparser);
+        stream.pipe(feedparser);
       });
       return items;
     },
+    isJSONFeed(response: any): boolean {
+      const acceptedJsonFeedMimes = [
+        "application/feed+json",
+        "application/json",
+      ];
+      return acceptedJsonFeedMimes.includes(response?.contentType?.toLowerCase());
+    },
+    async parseJSONFeed(stream: ReadStream): Promise<Item[]> {
+      const buffer = await new Promise<Buffer>((resolve, reject) => {
+        const _buf = [];
+        stream.on("data", (chunk) => _buf.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(_buf)));
+        stream.on("error", (err) => reject(err));
+      });
+      const contentString = buffer.toString();
+      const feed = JSON.parse(contentString);
+      return feed?.items || [];
+    },
     async fetchAndParseFeed(u: string) {
-      this.validateFeedURL(u);
+      const url = this.validateAndFixFeedURL(u);
+      const response = await this.fetchFeed(url);
+      if (this.isJSONFeed(response)) {
+        return await this.parseJSONFeed(response.data);
+      } else {
+        return await this.parseFeed(response.data);
+      }
+    },
+    validateAndFixFeedURL(u: string) {
+      if (!u) throw new ConfigurationError("No URL provided. Please enter an RSS URL to fetch");
       let url = u;
       // If the URL doesn't begin with a protocol, the request will fail.
       if (!/^(?:(ht|f)tp(s?):\/\/)/.test(url)) {
         url = `https://${u}`;
       }
-      const data = await this.fetchFeed(url);
-      return await this.parseFeed(data);
+      return url;
     },
-    validateFeedURL(url: string) {
-      if (!url) throw new ConfigurationError("No URL provided. Please enter an RSS URL to fetch");
+    sortItems(items) {
+      return items.sort((itemA: any, itemB: any) => {
+        if (this.itemTs(itemA) > this.itemTs(itemB)) {
+          return 1;
+        }
+        return -1;
+      });
+    },
+    sortItemsForActions(items) {
+      return this.sortItems(items).reverse();
     },
   },
 });
