@@ -9,6 +9,11 @@ export default {
       label: "Title",
       description: "The title of the task list.",
     },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "The description of the task.",
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",

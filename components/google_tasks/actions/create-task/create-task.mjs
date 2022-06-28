@@ -21,6 +21,12 @@ export default {
       ],
       description: "The title of the task.",
     },
+    notes: {
+      propDefinition: [
+        app,
+        "notes",
+      ],
+    },
     completed: {
       propDefinition: [
         app,
@@ -37,6 +43,7 @@ export default {
   async run({ $ }) {
     const data = {
       title: this.title,
+      notes: this.notes,
       status: this.completed
         ? "completed"
         : "needsAction",
