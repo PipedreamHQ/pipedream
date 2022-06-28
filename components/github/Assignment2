@@ -1,0 +1,66 @@
+<!Doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Week2</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="./style.css">
+<body>
+  <div class="container">
+    <div class="nav">
+      <a class="attributes">Home</a>
+      <a class="attributes">Login</a>
+      <a class="attributes">Register</a>
+    </div>
+<div class="content">
+      <br><h1>Register Yourself</h1>
+      Your data us safe with us. We are collecting this data to know more about you. Knowing you will help us.    
+      <form action="">
+        <h2>Fill this form</h2>
+        <div class="form">
+          <div class="section1">
+            Full Name: <input class="sec" type="text" size="20" placeholder="Your Full Name"><br>
+            Last Name: <input type="text" size="20" placeholder="Your Last Name"><br>
+          </div><hr>
+          <div class="section2">
+            Email Id: <input class="sec" type="text" size="20"><br>
+            Contact Number: <input class="sec" type="text" size="20"><br>
+            Password: <input type="text" size="20"><br>
+          </div><hr>
+          <div class="section3">
+            Your Branch: 
+            <select class="sec">
+              <option>Computer Science Engineering</option>
+              <option>Information Technology</option>
+              <option>Electronics and Communication Engineering</option>
+              <option>Chemical Engineering</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Electrical and Electronics Engineering</option>
+              <option>Mining Engineering</option>
+              <option>Materials and Metallurgical Engineering</option>
+              <option>Artificial Intelligence</option>
+            </select><br>
+            Current Year: 
+            <input type="radio"> 1st Year
+            <input type="radio"> 2nd Year
+            <input type="radio"> 3rd Year
+            <input type="radio"> 4th Year
+            <br><br>
+            Interests: <br>
+            <input type="checkbox"> Sports <br>
+            <input type="checkbox"> Music <br>
+            <input type="checkbox"> Coding <br>
+          </div>
+          <hr>
+          <div class="section4">
+            Address: <textarea name="" id="" cols="20" rows="10"></textarea><div class="section"><br>
+            <input type="submit">
+          </div>
+        </div>
+      </form>
+      </div>
+  </div>
+</body>
+</html>
