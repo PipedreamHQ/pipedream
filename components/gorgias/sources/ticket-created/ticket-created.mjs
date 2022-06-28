@@ -18,11 +18,9 @@ export default {
         id: "{{ ticket.id }}",
       };
     },
-  },
-  async run(event) {
-    console.log("Raw received event:");
-    console.log(event);
-    const ticket = await this.retrieveTicket(event.query.id);
-    this.emitEvent(ticket);
+    async processEvent(event) {
+      const ticket = await this.retrieveTicket(event.id);
+      this.emitEvent(ticket);
+    },
   },
 };

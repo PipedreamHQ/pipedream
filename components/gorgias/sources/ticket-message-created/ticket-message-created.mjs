@@ -23,7 +23,7 @@ export default {
     console.log("Raw received event:");
     console.log(event);
     // Have to convert python dict to JS
-    const messages = event.query.messages
+    const messages = event.body.messages
       .replace(/'/g, "\"")
       .replace(/True/g, "true")
       .replace(/False/g, "false");

@@ -165,8 +165,8 @@ export default {
           name: `pipedream-${url}`,
           type: "http",
           http: {
-            method: "GET",
-            request_content_type: "application/x-www-form-urlencoded",
+            method: "POST",
+            request_content_type: "application/json",
             response_content_type: "application/json",
             url,
             form,

@@ -52,6 +52,9 @@ export default {
     getData() {
       throw new Error("getData is not implemented");
     },
+    processEvent() {
+      throw new Error("processEvent is not implemented");
+    },
     getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -75,5 +78,10 @@ export default {
         summary: `New ${this.getEventType()}: ${event.id}`,
       });
     },
+  },
+  async run(event) {
+    console.log("Raw received event:");
+    console.log(event);
+    return this.processEvent(JSON.parse(event.bodyRaw));
   },
 };
