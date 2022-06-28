@@ -377,6 +377,35 @@ export default {
       description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
       optional: true,
     },
+    ignoreMyself: {
+      type: "boolean",
+      label: "Ignore myself",
+      description: "Ignore messages from me",
+      default: true,
+    },
+    word: {
+      type: "string",
+      label: "Word",
+      description: "Word to monitoring",
+    },
+    isUsername: {
+      type: "boolean",
+      label: "Is Username",
+      description: "Validates if the mentioned word is a username",
+      default: false,
+    },
+    ignoreBot: {
+      type: "boolean",
+      label: "Ignore bots",
+      description: "Ignore messages from bots",
+      default: false,
+    },
+    resolveNames: {
+      type: "boolean",
+      label: "Resolve names",
+      description: "Resolve user and channel names (incurs extra API calls)",
+      default: false,
+    },
   },
   methods: {
     mySlackId() {

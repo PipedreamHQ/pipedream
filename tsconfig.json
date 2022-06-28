@@ -46,6 +46,9 @@
     },
     {
       "path": "components/nextdns"
+    },
+    {
+      "path": "components/scopemaster"
     }
   ]
 }

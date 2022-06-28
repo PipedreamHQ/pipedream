@@ -3,24 +3,26 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Merge RSS Feeds",
-  description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date",
+  description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date [See docs](https://www.rssboard.org/rss-specification)",
   key: "rss-merge-rss-feeds",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
-    feeds: {
-      type: "string[]",
-      label: "Feeds",
-      description: "The list of RSS feeds you want to merge",
-    },
     rss,
+    urls: {
+      propDefinition: [
+        rss,
+        "urls",
+      ],
+    },
   },
-  async run() {
+  async run({ $ }) {
     const items = [];
-    for (const url of this.feeds) {
+    for (const url of this.urls) {
       const feedItems = await this.rss.fetchAndParseFeed(url);
       items.push(...feedItems);
     }
-    return items;
+    $.export("$summary", "Successfully merged feeds");
+    return this.rss.sortItemsForActions(items);
   },
 });
