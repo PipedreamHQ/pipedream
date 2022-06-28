@@ -1,14 +1,16 @@
 import pushshift from "../../pushshift_reddit_search.app.mjs";
 import utils from "../../common/utils.mjs";
+import base from "../common/base.mjs";
 
 export default {
-  key: "pushshift_reddit_search-search-reddit-posts",
-  name: "Search Reddit Posts",
-  description: "Search Reddit posts using the Pushshift.io API. [See the docs here](https://github.com/pushshift/api)",
-  version: "0.1.2",
-  type: "action",
+  key: "pushshift_reddit_search-new-posts-by-search",
+  name: "New Posts By Search",
+  description: "Emit new event when a search of Reddit posts using the Pushshift.io API returns new results.",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
   props: {
-    pushshift,
+    ...base.props,
     ids: {
       propDefinition: [
         pushshift,
@@ -93,18 +95,6 @@ export default {
         "subreddit",
       ],
     },
-    after: {
-      propDefinition: [
-        pushshift,
-        "after",
-      ],
-    },
-    before: {
-      propDefinition: [
-        pushshift,
-        "before",
-      ],
-    },
     score: {
       propDefinition: [
         pushshift,
@@ -166,7 +156,17 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
+  methods: {
+    ...base.methods,
+    generateMeta(post) {
+      return {
+        id: post.id,
+        summary: post.title,
+        ts: post.created_utc,
+      };
+    },
+  },
+  async run(event) {
     const params = utils.omitEmptyStringValues({
       "ids": this.ids,
       "q": this.q,
@@ -179,8 +179,6 @@ export default {
       "aggs": this.aggs,
       "author": this.author,
       "subreddit": this.subreddit,
-      "after": this.after,
-      "before": this.before,
       "score": this.score,
       "num_comments": this.numComments,
       "over_18": this.over18,
@@ -194,15 +192,17 @@ export default {
       "q:not": this.qNot,
       "title:not": this.titleNot,
       "selftext:not": this.selftextNot,
+      "after": this._getAfter(),
     });
 
     const posts = await this.pushshift.searchPosts({
       params,
-      $,
     });
+    for (const post of posts) {
+      const meta = this.generateMeta(post);
+      this.$emit(post, meta);
+    }
 
-    $.export("$summary", `Found ${posts.length} posts(s)`);
-
-    return posts;
+    this._setAfter(event.timestamp);
   },
 };

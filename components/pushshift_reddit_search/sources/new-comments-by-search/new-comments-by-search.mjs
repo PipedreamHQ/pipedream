@@ -1,24 +1,26 @@
 import pushshift from "../../pushshift_reddit_search.app.mjs";
 import utils from "../../common/utils.mjs";
+import base from "../common/base.mjs";
 
 export default {
-  key: "pushshift_reddit_search-search-reddit-comments",
-  name: "Search Reddit Comments",
-  description: "Search Reddit comments using the Pushshift.io API. [See the docs here](https://github.com/pushshift/api)",
-  version: "0.1.2",
-  type: "action",
+  key: "pushshift_reddit_search-new-comments-by-search",
+  name: "New Comments By Search",
+  description: "Emit new event when a search of Reddit comments using the Pushshift.io API returns new results.",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
   props: {
-    pushshift,
-    q: {
-      propDefinition: [
-        pushshift,
-        "q",
-      ],
-    },
+    ...base.props,
     ids: {
       propDefinition: [
         pushshift,
         "ids",
+      ],
+    },
+    q: {
+      propDefinition: [
+        pushshift,
+        "q",
       ],
     },
     size: {
@@ -63,18 +65,6 @@ export default {
         "subreddit",
       ],
     },
-    after: {
-      propDefinition: [
-        pushshift,
-        "after",
-      ],
-    },
-    before: {
-      propDefinition: [
-        pushshift,
-        "before",
-      ],
-    },
     frequency: {
       propDefinition: [
         pushshift,
@@ -88,7 +78,17 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
+  methods: {
+    ...base.methods,
+    generateMeta(comment) {
+      return {
+        id: comment.id,
+        summary: `New Comment ID: ${comment.id}`,
+        ts: comment.created_utc,
+      };
+    },
+  },
+  async run(event) {
     const params = utils.omitEmptyStringValues({
       q: this.q,
       ids: this.ids,
@@ -99,19 +99,19 @@ export default {
       aggs: this.aggs,
       author: this.author,
       subreddit: this.subreddit,
-      after: this.after,
-      before: this.before,
       frequency: this.frequency,
       metadata: this.metadata,
+      after: this._getAfter(),
     });
 
     const comments = await this.pushshift.searchComments({
       params,
-      $,
     });
+    for (const comment of comments) {
+      const meta = this.generateMeta(comment);
+      this.$emit(comment, meta);
+    }
 
-    $.export("$summary", `Found ${comments.length} comment(s)`);
-
-    return comments;
+    this._setAfter(event.timestamp);
   },
 };

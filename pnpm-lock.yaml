@@ -894,8 +894,11 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.6.4
 
-  components/propelauth:
-    specifiers: {}
+  components/pushshift_reddit_search:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/raindrop:
     specifiers:
