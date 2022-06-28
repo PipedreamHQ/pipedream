@@ -106,8 +106,8 @@ export default {
       }));
     },
     async createHook(
-      event_type,
-      team_id,
+      eventType,
+      teamId,
       endpoint,
       passcode,
     ) {
@@ -115,8 +115,8 @@ export default {
         method: "POST",
         path: "/v2/webhooks",
         data: {
-          event_type,
-          team_id,
+          event_type: eventType,
+          team_id: teamId,
           endpoint,
           passcode,
         },

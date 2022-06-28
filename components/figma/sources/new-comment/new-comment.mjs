@@ -21,11 +21,14 @@ export default {
   },
   hooks: {
     async activate() {
+      const passcode = uuid();
+      this.setPasscode(passcode);
+
       const hookId = await this.figma.createHook(
         "FILE_COMMENT",
         this.teamId,
         this.http.endpoint,
-        uuid(),
+        passcode,
       );
 
       this.setHookId(hookId);
@@ -41,16 +44,24 @@ export default {
     setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    getPasscode() {
+      return this.db.get("passcode");
+    },
+    setPasscode(passcode) {
+      this.db.set("passcode", passcode);
+    },
   },
   async run(event) {
     this.http.respond({
       status: 200,
     });
 
-    this.$emit(event,  {
-      summary: "New comment on a file",
-      id: event.body.comment_id,
-      ts: event.body.timestamp,
-    });
+    if (event.body.passcode === this.getPasscode()) {
+      this.$emit(event.body,  {
+        summary: "New comment on a file",
+        id: event.body.comment_id,
+        ts: event.body.timestamp,
+      });
+    }
   },
 };
