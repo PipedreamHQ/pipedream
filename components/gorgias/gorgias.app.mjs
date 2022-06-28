@@ -156,7 +156,6 @@ export default {
     async createWebhook({
       url,
       eventType,
-      form,
     }) {
       return this._makeRequest({
         path: "integrations",
@@ -165,11 +164,11 @@ export default {
           name: `pipedream-${url}`,
           type: "http",
           http: {
+            url,
             method: "POST",
             request_content_type: "application/json",
             response_content_type: "application/json",
-            url,
-            form,
+            form: "{{context}}",
             triggers: {
               [eventType]: true,
             },

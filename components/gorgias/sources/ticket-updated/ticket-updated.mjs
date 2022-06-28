@@ -13,14 +13,8 @@ export default {
     getEventType() {
       return eventTypes.TICKET_UPDATED;
     },
-    getData() {
-      return {
-        id: "{{ ticket.id }}",
-      };
-    },
     async processEvent(event) {
-      const ticket = await this.retrieveTicket(event.id);
-      this.emitEvent(ticket);
+      this.emitEvent(event.ticket);
     },
   },
 };

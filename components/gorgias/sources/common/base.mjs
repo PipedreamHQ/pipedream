@@ -25,7 +25,6 @@ export default {
       const { id } = await this.gorgias.createWebhook({
         url: this.http.endpoint,
         eventType: this.getEventType(),
-        form: this.getData(),
       });
       this.setWebhookId(id);
       console.log(`Webhook ${id} created successfully`);
@@ -48,9 +47,6 @@ export default {
     },
     getEventType() {
       throw new Error("getEventType is not implemented");
-    },
-    getData() {
-      throw new Error("getData is not implemented");
     },
     processEvent() {
       throw new Error("processEvent is not implemented");
@@ -82,6 +78,6 @@ export default {
   async run(event) {
     console.log("Raw received event:");
     console.log(event);
-    return this.processEvent(JSON.parse(event.bodyRaw));
+    return this.processEvent(event.body);
   },
 };

@@ -13,22 +13,8 @@ export default {
     getEventType() {
       return eventTypes.TICKET_MESSAGE_CREATED;
     },
-    getData() {
-      return {
-        messages: "{{ ticket.messages }}",
-      };
+    async processEvent(event) {
+      this.emitEvent(event.message);
     },
-  },
-  async run(event) {
-    console.log("Raw received event:");
-    console.log(event);
-    // Have to convert python dict to JS
-    const messages = event.body.messages
-      .replace(/'/g, "\"")
-      .replace(/True/g, "true")
-      .replace(/False/g, "false");
-    console.log("Extracting latest message:");
-    const message = JSON.parse(messages).pop();
-    this.emitEvent(message);
   },
 };
