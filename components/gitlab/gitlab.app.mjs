@@ -1,6 +1,6 @@
 import { Gitlab } from "@gitbeaker/node";
-import constants from "./common/constants.mjs";
 import { v4 } from "uuid";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -88,6 +88,31 @@ export default {
         };
       },
     },
+    epicId: {
+      type: "string",
+      label: "Epic Internal ID",
+      description: "The internal ID of a project's epic",
+      async options({
+        prevContext, groupPath,
+      }) {
+        const response = await this.listEpics(
+          groupPath,
+          {
+            page: prevContext.nextPage,
+          },
+        );
+        return {
+          options: response.data.map((epic) => ({
+            label: epic.title,
+            value: epic.id,
+          })),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+      optional: true,
+    },
     labels: {
       type: "string[]",
       label: "Labels",
@@ -97,6 +122,25 @@ export default {
         prevContext, projectId,
       }) {
         const response = await this.listLabels(projectId, {
+          page: prevContext.nextPage,
+        });
+        return {
+          options: response.data.map((label) => label.name),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+    },
+    groupLabels: {
+      type: "string[]",
+      label: "Labels",
+      description: "The comma-separated list of labels",
+      optional: true,
+      async options({
+        prevContext, groupPath,
+      }) {
+        const response = await this.listGroupLabels(groupPath, {
           page: prevContext.nextPage,
         });
         return {
@@ -128,6 +172,11 @@ export default {
           },
         };
       },
+    },
+    epicIid: {
+      type: "string",
+      label: "Epic IID",
+      description: "The internal ID of the epic",
     },
     issueState: {
       type: "string",
@@ -167,6 +216,42 @@ export default {
       description: "Max number of results to return. Default value is `100`",
       optional: true,
       default: 100,
+    },
+    color: {
+      type: "string",
+      label: "Color",
+      description: "The color of the epic. Introduced in GitLab 14.8, behind a feature flag named `epic_highlight_color` (disabled by default)",
+      optional: true,
+    },
+    confidential: {
+      type: "boolean",
+      label: "Confidential",
+      description: "Whether the epic should be confidential",
+      optional: true,
+    },
+    created_at: {
+      type: "string",
+      label: "Created at",
+      description: "When the epic was created. Date time string, ISO 8601 formatted, for example `2016-03-11T03:45:40Z` . Requires administrator or project/group owner privileges (available in GitLab 13.5 and later)",
+      optional: true,
+    },
+    updated_at: {
+      type: "string",
+      label: "Updated at",
+      description: "When the epic was updated. Date time string, ISO 8601 formatted, for example `2016-03-11T03:45:40Z` . Requires administrator or project/group owner privileges (available in GitLab 13.5 and later)",
+      optional: true,
+    },
+    start_date_is_fixed: {
+      type: "boolean",
+      label: "Start Date Is Fixed",
+      description: "Whether start date should be sourced from start_date_fixed or from milestones (in GitLab 11.3 and later)",
+      optional: true,
+    },
+    due_date_is_fixed: {
+      type: "boolean",
+      label: "Due Date Is Fixed",
+      description: "Whether due date should be sourced from due_date_fixed or from milestones (in GitLab 11.3 and later)",
+      optional: true,
     },
   },
   methods: {
@@ -242,11 +327,20 @@ export default {
     async listLabels(projectId, opts = {}) {
       return this.listAll(this._gitlabClient().Labels, projectId, opts);
     },
+    async listGroupLabels(groupId, opts = {}) {
+      return this.listAll(this._gitlabClient().GroupLabels, groupId, opts);
+    },
     async getIssue(projectId, issueIid) {
       return this._gitlabClient().Issues.show(projectId, issueIid);
     },
     async createIssue(projectId, opts) {
       return this._gitlabClient().Issues.create(projectId, opts);
+    },
+    async createEpic(groupId, title, opts) {
+      return this._gitlabClient().Epics.create(groupId, title, opts);
+    },
+    async updateEpic(groupId, epicIid, opts) {
+      return this._gitlabClient().Epics.edit(groupId, epicIid, opts);
     },
     async editIssue(projectId, issueIid, opts) {
       return this._gitlabClient().Issues.edit(projectId, issueIid, opts);
@@ -259,6 +353,9 @@ export default {
        * client.Issues.all({ projectId, ...opts });
        */
       return this.search(this._gitlabClient().Issues, null, opts);
+    },
+    async listEpics(groupPath, opts = {}) {
+      return this.listAll(this._gitlabClient().Epics, groupPath, opts);
     },
     async listCommits(projectId, opts = {}) {
       /**
