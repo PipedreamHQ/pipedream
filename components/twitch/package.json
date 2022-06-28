@@ -5,7 +5,7 @@
     "main": "twitch.app.mjs",
     "keywords": [
         "pipedream",
-        "airtable"
+        "twitch"
     ],
     "homepage": "https://pipedream.com/apps/twitch",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
