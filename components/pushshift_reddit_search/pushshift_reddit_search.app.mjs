@@ -159,7 +159,7 @@ export default {
       optional: true,
     },
     before: {
-      type: "integer",
+      type: "string",
       label: "Before",
       description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)",
       optional: true,
