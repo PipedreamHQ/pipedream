@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   key: "linear_app-comment-created-instant",
-  name: "New Created comment (Instant)",
+  name: "New Created Comment (Instant)",
   description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
   version: "0.0.2",
