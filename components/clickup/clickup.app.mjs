@@ -55,6 +55,9 @@ export default {
       async options({
         folderId, spaceId,
       }) {
+        if (!folderId && !spaceId) {
+          throw new Error("Please enter the Space and/or Folder to retrieve Lists from");
+        }
         const lists = folderId
           ? await this.getLists({
             folderId,
@@ -159,6 +162,9 @@ export default {
       async options({
         taskId, listId, viewId,
       }) {
+        if (!taskId && !listId && !viewId) {
+          throw new Error("Please enter the List, View, or Task to retrieve Comments from");
+        }
         let comments = [];
 
         if (taskId) comments = comments.concat(await this.getTaskComments({

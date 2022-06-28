@@ -10,6 +10,12 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    workspaceId: {
+      propDefinition: [
+        clickup,
+        "workspaces",
+      ],
+    },
     spaceId: {
       propDefinition: [
         clickup,
@@ -18,7 +24,6 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
-      optional: true,
     },
     folderId: {
       propDefinition: [
