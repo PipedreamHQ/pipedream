@@ -968,6 +968,9 @@ importers:
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.9_handlebars@4.7.7
 
+  components/scopemaster:
+    specifiers: {}
+
   components/segment:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -3483,22 +3486,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.116:
-    resolution: {integrity: sha512-92q+fYoTtpUZg8Fl+PzKrvuYTjpdz3CyKB1+D1ibfGsi+2CRcxNZI3XJtxz2jaqofCVPlGlNExiFi4vfXVXj2g==}
+  /@definitelytyped/header-parser/0.0.118:
+    resolution: {integrity: sha512-dlOlN+SFetncKK+ecvpJxdk6j6SsZiTv3yrubpme4XR65UHqyt+iYtGUHpufMoTI6QNw85EpxlmT4OPIZ4Y3Jw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.116
+      '@definitelytyped/typescript-versions': 0.0.118
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.116:
-    resolution: {integrity: sha512-QKe3KNYsAW7uvoVpwz5U52gt9u3eXb3LZylrz6vdNjQ/onvYUxn/vZh4OFA3hg8guNRoCSRQ24aT+hJfa5vIAQ==}
+  /@definitelytyped/typescript-versions/0.0.118:
+    resolution: {integrity: sha512-XcQNmK1KLLdtEv6BZpjhBzLOo+qMZI1R18r1JmJcaL9RvdlJaOsCIjPAUrf6sEaqHZRdXwJuWm2kFGG9uPrBBA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.116:
-    resolution: {integrity: sha512-w5UMjBKYo3aIJhi90QXr9ms8xfUImMyotQ/m6AFg9E71RZpcaLsyAfvTCIQ6tVqGexaVBzBqMWxvzz7ITXo1zw==}
+  /@definitelytyped/utils/0.0.118:
+    resolution: {integrity: sha512-yk1xILGHje/1+FJ+LcWFJ5DP/NENcKkHBNSeRLLGLB9ZIrP3zN31OeaPXxif0QDRuLs6xkRAGY3yOfKrJNmilw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.116
+      '@definitelytyped/typescript-versions': 0.0.118
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -8178,7 +8181,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.116
+      '@definitelytyped/header-parser': 0.0.118
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -8194,9 +8197,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.116
-      '@definitelytyped/typescript-versions': 0.0.116
-      '@definitelytyped/utils': 0.0.116
+      '@definitelytyped/header-parser': 0.0.118
+      '@definitelytyped/typescript-versions': 0.0.118
+      '@definitelytyped/utils': 0.0.118
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
