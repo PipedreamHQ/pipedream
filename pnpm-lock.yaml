@@ -163,6 +163,12 @@ importers:
     dependencies:
       '@bandwidth/messaging': 4.0.3
 
+  components/bannerbear:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -216,6 +222,12 @@ importers:
       axios: 0.26.1
       crypto: 1.0.1
       uuid: 8.3.2
+
+  components/clearbit:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/clickup:
     specifiers:
@@ -291,7 +303,12 @@ importers:
       delighted: 2.1.0
 
   components/demio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      dayjs: ^1.11.2
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      dayjs: 1.11.2
 
   components/dev_to:
     specifiers: {}
@@ -427,11 +444,13 @@ importers:
 
   components/github:
     specifiers:
+      '@octokit/core': ^3.6.0
+      '@octokit/plugin-paginate-rest': ^2.17.0
       '@octokit/webhooks-definitions': ^3.29.0
-      axios: ^0.21.1
     dependencies:
+      '@octokit/core': 3.6.0
+      '@octokit/plugin-paginate-rest': 2.18.0_@octokit+core@3.6.0
       '@octokit/webhooks-definitions': 3.67.3
-      axios: 0.21.4
 
   components/gitlab:
     specifiers:
@@ -602,6 +621,14 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/jira:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      form-data: 4.0.0
+
   components/joomla:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -622,6 +649,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/knack:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
@@ -633,6 +666,12 @@ importers:
       '@linear/sdk': ^1.22.0
     dependencies:
       '@linear/sdk': 1.22.0
+
+  components/lusha:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/mailchimp:
     specifiers:
@@ -718,6 +757,12 @@ importers:
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
       monday-sdk-js: 0.1.3
+
+  components/moneybird:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/mongodb:
     specifiers:
@@ -815,6 +860,12 @@ importers:
       '@pipedream/platform': ^0.9.0
     dependencies:
       '@pipedream/platform': 0.9.0
+
+  components/payhere:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/pipedream:
     specifiers:
@@ -916,6 +967,9 @@ importers:
       lodash: 4.17.21
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.9_handlebars@4.7.7
+
+  components/scopemaster:
+    specifiers: {}
 
   components/segment:
     specifiers:
@@ -1040,7 +1094,12 @@ importers:
     specifiers: {}
 
   components/squarespace:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      dayjs: ^1.11.3
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      dayjs: 1.11.3
 
   components/ssh:
     specifiers:
@@ -1107,6 +1166,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
+
+  components/ticktick:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/todoist:
     specifiers:
@@ -3421,22 +3486,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.115:
-    resolution: {integrity: sha512-74YaIWLSST0IjqkP75VRJMMX0A6yysXrLIcO6JcuOYadxzv0mFXdL7n0jXvI00GMEpvFAKcyzAggznQIjup7pw==}
+  /@definitelytyped/header-parser/0.0.118:
+    resolution: {integrity: sha512-dlOlN+SFetncKK+ecvpJxdk6j6SsZiTv3yrubpme4XR65UHqyt+iYtGUHpufMoTI6QNw85EpxlmT4OPIZ4Y3Jw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.115
+      '@definitelytyped/typescript-versions': 0.0.118
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.115:
-    resolution: {integrity: sha512-BgktLglKQEphkf+Zhgrpn9upTuTkWILA2md2B/OQMRFleHgJfkKq+efa+/NK0ZwjWrkpzfFd3OhAvA9rtDyfFw==}
+  /@definitelytyped/typescript-versions/0.0.118:
+    resolution: {integrity: sha512-XcQNmK1KLLdtEv6BZpjhBzLOo+qMZI1R18r1JmJcaL9RvdlJaOsCIjPAUrf6sEaqHZRdXwJuWm2kFGG9uPrBBA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.115:
-    resolution: {integrity: sha512-4rH4HGU4c2Q+7LAxpzQ3jA8+hzjSahuwoVSa/D45CBayBdndrSDpUk95yPhShJkoFRrGZ4QXzMKc0n1LIx96dg==}
+  /@definitelytyped/utils/0.0.118:
+    resolution: {integrity: sha512-yk1xILGHje/1+FJ+LcWFJ5DP/NENcKkHBNSeRLLGLB9ZIrP3zN31OeaPXxif0QDRuLs6xkRAGY3yOfKrJNmilw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.115
+      '@definitelytyped/typescript-versions': 0.0.118
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -4242,6 +4307,84 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@octokit/auth-token/2.5.0:
+    resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
+    dependencies:
+      '@octokit/types': 6.35.0
+    dev: false
+
+  /@octokit/core/3.6.0:
+    resolution: {integrity: sha512-7RKRKuA4xTjMhY+eG3jthb3hlZCsOwg3rztWh75Xc+ShDWOfDDATWbeZpAHBNRpm4Tv9WgBMOy1zEJYXG6NJ7Q==}
+    dependencies:
+      '@octokit/auth-token': 2.5.0
+      '@octokit/graphql': 4.8.0
+      '@octokit/request': 5.6.3
+      '@octokit/request-error': 2.1.0
+      '@octokit/types': 6.35.0
+      before-after-hook: 2.2.2
+      universal-user-agent: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@octokit/endpoint/6.0.12:
+    resolution: {integrity: sha512-lF3puPwkQWGfkMClXb4k/eUT/nZKQfxinRWJrdZaJO85Dqwo/G0yOC434Jr2ojwafWJMYqFGFa5ms4jJUgujdA==}
+    dependencies:
+      '@octokit/types': 6.35.0
+      is-plain-object: 5.0.0
+      universal-user-agent: 6.0.0
+    dev: false
+
+  /@octokit/graphql/4.8.0:
+    resolution: {integrity: sha512-0gv+qLSBLKF0z8TKaSKTsS39scVKF9dbMxJpj3U0vC7wjNWFuIpL/z76Qe2fiuCbDRcJSavkXsVtMS6/dtQQsg==}
+    dependencies:
+      '@octokit/request': 5.6.3
+      '@octokit/types': 6.35.0
+      universal-user-agent: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@octokit/openapi-types/12.1.0:
+    resolution: {integrity: sha512-kQzJh3ZUv3lDpi6M+uekMRHULvf9DlWoI1XgKN6nPeGDzkSgtkhVq1MMz3bFKQ6H6GbdC3ZqG/a6VzKhIx0VeA==}
+    dev: false
+
+  /@octokit/plugin-paginate-rest/2.18.0_@octokit+core@3.6.0:
+    resolution: {integrity: sha512-n5/AzIoy5Wzp85gqzSbR+dWQDHlyHZrGijnDfLh452547Ynu0hCvszH7EfRE0eqM5ZjfkplO0k+q+P8AAIIJEA==}
+    peerDependencies:
+      '@octokit/core': '>=2'
+    dependencies:
+      '@octokit/core': 3.6.0
+      '@octokit/types': 6.35.0
+    dev: false
+
+  /@octokit/request-error/2.1.0:
+    resolution: {integrity: sha512-1VIvgXxs9WHSjicsRwq8PlR2LR2x6DwsJAaFgzdi0JfJoGSO8mYI/cHJQ+9FbN21aa+DrgNLnwObmyeSC8Rmpg==}
+    dependencies:
+      '@octokit/types': 6.35.0
+      deprecation: 2.3.1
+      once: 1.4.0
+    dev: false
+
+  /@octokit/request/5.6.3:
+    resolution: {integrity: sha512-bFJl0I1KVc9jYTe9tdGGpAMPy32dLBXXo1dS/YwSCTL/2nd9XeHsY616RE3HPXDVk+a+dBuzyz5YdlXwcDTr2A==}
+    dependencies:
+      '@octokit/endpoint': 6.0.12
+      '@octokit/request-error': 2.1.0
+      '@octokit/types': 6.35.0
+      is-plain-object: 5.0.0
+      node-fetch: 2.6.7
+      universal-user-agent: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@octokit/types/6.35.0:
+    resolution: {integrity: sha512-DhLfdUuv3H37u6jBDfkwamypx3HflHg29b26nbA6iVFYkAlZ5cMEtu/9pQoihGnQE5M7jJFnNo25Rr1UwQNF8Q==}
+    dependencies:
+      '@octokit/openapi-types': 12.1.0
     dev: false
 
   /@octokit/webhooks-definitions/3.67.3:
@@ -6856,6 +6999,10 @@ packages:
     dependencies:
       tweetnacl: 0.14.5
 
+  /before-after-hook/2.2.2:
+    resolution: {integrity: sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==}
+    dev: false
+
   /big-integer/1.6.51:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
@@ -7416,7 +7563,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream/2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
@@ -7642,6 +7789,10 @@ packages:
     resolution: {integrity: sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==}
     dev: false
 
+  /dayjs/1.11.3:
+    resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
+    dev: false
+
   /debug/3.1.0:
     resolution: {integrity: sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==}
     peerDependencies:
@@ -7815,6 +7966,10 @@ packages:
   /depd/2.0.0:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /deprecation/2.3.1:
+    resolution: {integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==}
     dev: false
 
   /dequal/2.0.2:
@@ -8026,7 +8181,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.115
+      '@definitelytyped/header-parser': 0.0.118
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -8042,9 +8197,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.115
-      '@definitelytyped/typescript-versions': 0.0.115
-      '@definitelytyped/utils': 0.0.115
+      '@definitelytyped/header-parser': 0.0.118
+      '@definitelytyped/typescript-versions': 0.0.118
+      '@definitelytyped/utils': 0.0.118
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -9933,7 +10088,6 @@ packages:
   /is-plain-object/5.0.0:
     resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /is-potential-custom-element-name/1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
@@ -14924,7 +15078,7 @@ packages:
       is-typedarray: 1.0.0
 
   /typedarray/0.0.6:
-    resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
+    resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
@@ -15091,6 +15245,10 @@ packages:
     dependencies:
       hasurl: 1.0.0
       whatwg-url: 7.1.0
+    dev: false
+
+  /universal-user-agent/6.0.0:
+    resolution: {integrity: sha512-isyNax3wXoKaulPDZWHQqbmIx1k2tb9fb3GGDBRxCscfYV2Ch7WxPArBsFEG8s/safwXTT7H4QGhaIkTp9447w==}
     dev: false
 
   /universalify/0.1.2:
@@ -15509,7 +15667,7 @@ packages:
       strip-ansi: 6.0.1
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
   /wraptile/3.0.0:
     resolution: {integrity: sha512-23LJhkIw940uTcDFyJZmNyO0z8lEINOTGCr4vR5YCG3urkdXwduRIhivBm9wKaVynLHYvxoHHYbKsDiafCLp6w==}
