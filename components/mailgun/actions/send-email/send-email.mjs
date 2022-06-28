@@ -27,7 +27,7 @@ export default {
     from: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
       label: "From Email",
       description: "Sender email address",
@@ -36,7 +36,7 @@ export default {
     replyTo: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
       label: "Reply-To",
       description: "Sender reply email address",
@@ -100,7 +100,7 @@ export default {
     },
     ...common.props,
   },
-  async run() {
+  async run({ $ }) {
     const msg = {
       "from": `${this.fromName} <${this.from}>`,
       "to": this.to,
@@ -122,12 +122,11 @@ export default {
     if (this.tracking) {
       msg["o:tracking"] = "yes";
     }
-    const sendMail = async function (mailgun, opts) {
-      return await mailgun.api("messages").create(opts.domain, opts.msg);
-    };
-    return await this.withErrorHandler(sendMail, {
+    const resp = await this.withErrorHandler(this.mailgun.sendMail, {
       domain: this.domain,
       msg,
     });
+    $.export("$summary", "Successfully sent email.");
+    return resp;
   },
 };

@@ -41,10 +41,16 @@ export default {
     email: {
       type: "string",
       label: "Email Address",
-      //async options({ page }) {
-      //
-      //
-      //},
+      async options({ list }) {
+        const members = await this.listMailingListMembers({
+          list,
+        });
+        return members.map((member) => member.address);
+      },
+    },
+    emailString: {
+      type: "string",
+      label: "Email Address",
     },
     emails: {
       type: "string[]",
@@ -119,7 +125,10 @@ export default {
       const mg = mailgun.client(config);
       return mg[api];
     },
-    async createMailinglistMember(mailgun, opts) {
+    async mailgunPostRequest(url) {
+      return await this.api("request").post(url);
+    },
+    async createMailinglistMember(opts = {}) {
       const data = pick(opts, [
         "address",
         "name",
@@ -131,6 +140,9 @@ export default {
         data.vars = vars;
       }
       return this.api("lists").members.createMember(opts.list, data);
+    },
+    async createRoute(opts = {}) {
+      return this.api("routes").create(opts);
     },
     async getMailingLists(opts = {}) {
       const { limit = 100 } = opts;
@@ -161,6 +173,38 @@ export default {
         };
       }
       return this.api("lists").members.listMembers(opts.list, data);
+    },
+    async getMailingListMember(opts = {}) {
+      return this.api("lists").members.getMember(opts.list, opts.address);
+    },
+    async deleteMailingListMember(opts = {}) {
+      return this.api("lists").members.destroyMember(opts.list, opts.address);
+    },
+    async listDomains(opts = {}) {
+      return this.paginate(
+        (params) => this.api("domains").list({
+          ...pick(opts, [
+            "authority",
+            "state",
+          ]),
+          ...params,
+        }),
+      );
+    },
+    async sendMail(opts = {}) {
+      return  this.api("messages").create(opts.domain, opts.msg);
+    },
+    async verifyEmail(opts = {}) {
+      const result = await this.api("request").get("/v4/address/validate", {
+        address: opts.address,
+      });
+      if (
+        opts.acceptableRiskLevels.length > 0
+        && !opts.acceptableRiskLevels.includes(result.body.risk)
+      ) {
+        throw new Error(`${result.body.risk} risk`);
+      }
+      return result.body;
     },
     async paginate (next, perPage = 100) {
       const results = [];

@@ -29,7 +29,7 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    const resp = await this.withErrorHandler(this.mailgun.listMailinglistMembers, {
+    const resp = await this.withErrorHandler(this.mailgun.listMailingListMembers, {
       list: this.list,
       subscribed: this.subscribed,
     });

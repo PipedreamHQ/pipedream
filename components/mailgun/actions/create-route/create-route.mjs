@@ -108,10 +108,7 @@ export default {
         this._action(this.action, this.action_expression),
       ],
     };
-    const createRoute = async function (mailgun, opts) {
-      return await mailgun.api("routes").create(opts);
-    };
-    const resp = await this.withErrorHandler(createRoute, opts);
+    const resp = await this.withErrorHandler(this.mailgun.createRoute, opts);
     $.export("$summary", "Successfully created route");
     return resp;
   },

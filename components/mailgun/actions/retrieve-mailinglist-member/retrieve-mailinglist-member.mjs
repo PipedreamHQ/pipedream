@@ -20,17 +20,19 @@ export default {
       propDefinition: [
         mailgun,
         "email",
+        (c) => ({
+          list: c.list,
+        }),
       ],
     },
     ...common.props,
   },
-  async run() {
-    const retrieveMailingListMember = async function (mailgun, opts) {
-      return await mailgun.api("lists").members.getMember(opts.list, opts.address);
-    };
-    return await this.withErrorHandler(retrieveMailingListMember, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.getMailingListMember, {
       list: this.list,
       address: this.address,
     });
+    $.export("$summary", "Successfully retrieved mailing list member");
+    return resp;
   },
 };

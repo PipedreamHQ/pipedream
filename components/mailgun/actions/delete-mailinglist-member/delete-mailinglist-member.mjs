@@ -20,17 +20,19 @@ export default {
       propDefinition: [
         mailgun,
         "email",
+        (c) => ({
+          list: c.list,
+        }),
       ],
     },
     ...common.props,
   },
-  async run() {
-    const deleteMailingListMember = async function (mailgun, opts) {
-      return await mailgun.api("lists").members.destroyMember(opts.list, opts.address);
-    };
-    return await this.withErrorHandler(deleteMailingListMember, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.deleteMailingListMember, {
       list: this.list,
       address: this.address,
     });
+    $.export("$summary", "Successfully deleted mailinglist member.");
+    return resp;
   },
 };

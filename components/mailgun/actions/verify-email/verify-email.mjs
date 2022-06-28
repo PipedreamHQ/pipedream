@@ -13,7 +13,7 @@ export default {
     email: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
     },
     acceptableRiskLevels: {
@@ -25,21 +25,11 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    const verifyEmail = async function (mailgun, opts) {
-      const result = await mailgun.api("request").get("/v4/address/validate", {
-        address: opts.address,
-      });
-      if (
-        opts.acceptableRiskLevels.length > 0
-        && !opts.acceptableRiskLevels.includes(result.body.risk)
-      ) {
-        return $.flow.exit(`${result.body.risk} risk`);
-      }
-      return result.body;
-    };
-    return await this.withErrorHandler(verifyEmail, {
+    const resp = await this.withErrorHandler(this.mailgun.verifyEmail, {
       acceptableRiskLevels: this.acceptableRiskLevels,
       address: this.email,
     });
+    $.export("$summary", `Email ${this.email} verified.`);
+    return resp;
   },
 };

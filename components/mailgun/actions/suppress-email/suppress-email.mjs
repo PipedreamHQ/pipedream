@@ -19,7 +19,7 @@ export default {
     email: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
     },
     category: {
@@ -56,7 +56,7 @@ export default {
     },
     ...common.props,
   },
-  async run() {
+  async run({ $ }) {
     const urlSearchParams = new URLSearchParams();
     urlSearchParams.append("address", this.email);
     switch (this.category) {
@@ -70,9 +70,8 @@ export default {
     }
     const params = urlSearchParams.toString();
     const url = `v3/${this.domain}/${this.category}?${params}`;
-    const supressEmail = async function (mailgun, url) {
-      return await mailgun.api("request").post(url);
-    };
-    return await this.withErrorHandler(supressEmail, url);
+    const resp = await this.withErrorHandler(this.mailgun.mailgunPostRequest, url);
+    $.export("$summary", "Successfully suppressed email");
+    return resp;
   },
 };

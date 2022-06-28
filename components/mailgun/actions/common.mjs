@@ -13,7 +13,7 @@ export default {
   methods: {
     async withErrorHandler(action, opts) {
       try {
-        return await action(this.mailgun, opts);
+        return await action(opts);
       } catch (error) {
         if (this.haltOnError) {
           console.log(error);

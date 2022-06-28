@@ -1,4 +1,3 @@
-import { pick } from "lodash";
 import mailgun from "../../mailgun.app.mjs";
 import common from "../common.mjs";
 
@@ -33,21 +32,12 @@ export default {
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     ...common.props,
   },
-  async run() {
-    const listDomains = async function (mailgun, opts) {
-      return await mailgun.paginate(
-        (params) => mailgun.api("domains").list({
-          ...pick(opts, [
-            "authority",
-            "state",
-          ]),
-          ...params,
-        }),
-      );
-    };
-    return await this.withErrorHandler(listDomains, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.listDomains, {
       authority: this.authority,
       state: this.state,
     });
+    $.export("$summary", `Found ${resp.length} domain(s)`);
+    return resp;
   },
 };
