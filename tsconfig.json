@@ -55,6 +55,105 @@
     },
     {
       "path": "components/phone_com"
+    },
+    {
+      "path": "components/f15five"
+    },
+    {
+      "path": "components/agendor"
+    },
+    {
+      "path": "components/autoklose"
+    },
+    {
+      "path": "components/digicert"
+    },
+    {
+      "path": "components/paypro"
+    },
+    {
+      "path": "components/ticket_tailor"
+    },
+    {
+      "path": "components/detrack"
+    },
+    {
+      "path": "components/stormglass_io"
+    },
+    {
+      "path": "components/craftmypdf"
+    },
+    {
+      "path": "components/onesaas"
+    },
+    {
+      "path": "components/threescribe"
+    },
+    {
+      "path": "components/calendarhero"
+    },
+    {
+      "path": "components/captaindata"
+    },
+    {
+      "path": "components/sellix"
+    },
+    {
+      "path": "components/acumbamail"
+    },
+    {
+      "path": "components/apex_27"
+    },
+    {
+      "path": "components/xperiencify"
+    },
+    {
+      "path": "components/persistiq"
+    },
+    {
+      "path": "components/tolstoy"
+    },
+    {
+      "path": "components/enormail"
+    },
+    {
+      "path": "components/api2pdf"
+    },
+    {
+      "path": "components/sympla"
+    },
+    {
+      "path": "components/botbaba"
+    },
+    {
+      "path": "components/cloudfill"
+    },
+    {
+      "path": "components/pikaso"
+    },
+    {
+      "path": "components/beehiiv"
+    },
+    {
+      "path": "components/brosix"
+    },
+    {
+      "path": "components/picky_assist"
+    },
+    {
+      "path": "components/apitemplate_io"
+    },
+    {
+      "path": "components/xendit"
+    },
+    {
+      "path": "components/clickmeeting"
+    },
+    {
+      "path": "components/gobio_link"
+    },
+    {
+      "path": "components/linqs_cc"
     }
   ]
 }
