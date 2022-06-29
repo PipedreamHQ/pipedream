@@ -108,10 +108,15 @@ function getFormData(data) {
   }
 }
 
+function hasArrayItems(value = []) {
+  return Array.isArray(value) && value?.length > 0;
+}
+
 export default {
   emptyStrToUndefined,
   emptyObjectToUndefined,
   parse,
   reduceProperties,
   getFormData,
+  hasArrayItems,
 };

@@ -66,21 +66,22 @@ export default {
       optional: true,
     },
     to: {
-      type: "string[]",
-      label: "To",
-      description: "List of the recipient handles who will receive this message",
+      propDefinition: [
+        frontApp,
+        "to",
+      ],
     },
     cc: {
-      type: "string[]",
-      label: "CC",
-      description: "List of the recipient handles who will receive a copy of this message",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "cc",
+      ],
     },
     bcc: {
-      type: "string[]",
-      label: "BCC",
-      description: "List of the recipient handles who will receive a blind copy of this message",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "bcc",
+      ],
     },
   },
   async run({ $ }) {
@@ -100,7 +101,9 @@ export default {
     const tagIds = utils.parse(this.optionsTagIds);
     const attachments = utils.parse(this.attachments);
 
-    const hasAttachments = attachments?.length > 0;
+    const hasAttachments = utils.hasArrayItems(attachments);
+    const hasCc = utils.hasArrayItems(cc);
+    const hasBcc = utils.hasArrayItems(bcc);
 
     const data = utils.reduceProperties({
       initialProps: {
@@ -108,8 +111,14 @@ export default {
         body,
       },
       additionalProps: {
-        cc,
-        bcc,
+        cc: [
+          cc,
+          hasCc,
+        ],
+        bcc: [
+          bcc,
+          hasBcc,
+        ],
         sender_name: senderName,
         subject,
         author_id: authorId,

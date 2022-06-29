@@ -166,6 +166,23 @@ export default {
         });
       },
     },
+    to: {
+      type: "string[]",
+      label: "To",
+      description: "List of recipient handles who received the message.",
+    },
+    cc: {
+      type: "string[]",
+      label: "CC",
+      description: "List of recipient handles who received a copy of the message.",
+      optional: true,
+    },
+    bcc: {
+      type: "string[]",
+      label: "BCC",
+      description: "List of the recipeient handles who received a blind copy of the message.",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, url) {
@@ -205,6 +222,7 @@ export default {
       $ = this, ...args
     } = {}) {
       const config = this.getConfig(args);
+      console.log("config", config);
       try {
         return await axios($, config);
       } catch (error) {

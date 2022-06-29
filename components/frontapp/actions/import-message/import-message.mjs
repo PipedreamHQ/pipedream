@@ -36,21 +36,22 @@ export default {
       optional: true,
     },
     to: {
-      type: "string[]",
-      label: "To",
-      description: "List of recipient handles who received the message.",
+      propDefinition: [
+        frontApp,
+        "to",
+      ],
     },
     cc: {
-      type: "string[]",
-      label: "CC",
-      description: "List of recipient handles who received a copy of the message.",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "cc",
+      ],
     },
     bcc: {
-      type: "string[]",
-      label: "BCC",
-      description: "List of the recipeient handles who received a blind copy of the message.",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "bcc",
+      ],
     },
     subject: {
       type: "string",
