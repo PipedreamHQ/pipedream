@@ -71,13 +71,13 @@ export default {
       tag_ids: tagIds,
     };
 
-    const response = await this.frontApp.updateConversation({
+    await this.frontApp.updateConversation({
       conversationId,
       data,
     });
 
-    $.export("$summary", `Successfully updated conversation with ID ${response.id}`);
+    $.export("$summary", `Successfully updated conversation with ID ${conversationId}`);
 
-    return response;
+    return conversationId;
   },
 };
