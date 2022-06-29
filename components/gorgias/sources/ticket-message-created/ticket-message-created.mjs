@@ -6,7 +6,7 @@ export default {
   key: "gorgias-ticket-messaged-created",
   name: "New Ticket Message",
   description: "Emit new event when a ticket message is created. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   methods: {
     ...base.methods,
