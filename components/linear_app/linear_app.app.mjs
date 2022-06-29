@@ -171,6 +171,19 @@ export default {
     async listIssueLabels(variables = {}) {
       return this.client().issueLabels(variables);
     },
+    async listComments(variables = {}) {
+      return this.client().comments(variables);
+    },
+    fnObjects() {
+      return {
+        [constants.RESOURCE_TYPE.COMMENT]: this.listComments,
+        [constants.RESOURCE_TYPE.ISSUE]: this.listIssues,
+        [constants.RESOURCE_TYPE.ISSUE_LABEL]: this.listIssueLabels,
+        [constants.RESOURCE_TYPE.USER]: this.listUsers,
+        [constants.RESOURCE_TYPE.PROJECT]: this.listProjects,
+        [constants.RESOURCE_TYPE.TEAM]: this.listTeams,
+      };
+    },
     async listResourcesOptions({
       prevContext, resourcesFn, resouceMapper,
     }) {
@@ -199,6 +212,26 @@ export default {
           hasNextPage: pageInfo.hasNextPage,
         },
       };
+    },
+    async *paginateResources({ resourcesFn }) {
+      const params = {
+        after: null,
+        first: constants.DEFAULT_LIMIT,
+      };
+      let cursor = true;
+      do {
+        const {
+          nodes,
+          pageInfo,
+        } = await resourcesFn(params);
+        for (const d of nodes) {
+          yield d;
+        }
+        if (pageInfo.hasNextPage) {
+          params.after = pageInfo.endCursor;
+        }
+        cursor = pageInfo.hasNextPage;
+      } while (cursor);
     },
   },
 };
