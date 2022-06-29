@@ -1,6 +1,5 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
-import { showDeleted } from "../../props.mjs";
 
 export default {
   ...common,
@@ -27,7 +26,13 @@ export default {
         "If true, returns contents of the folder **and all subfolders,** recursively.",
       default: false,
     },
-    showDeleted,
+
+    showDeleted: {
+      propDefinition: [
+        pcloud,
+        "showDeleted",
+      ],
+    },
     noFiles: {
       type: "boolean",
       label: "Folders Only?",

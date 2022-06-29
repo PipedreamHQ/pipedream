@@ -1,6 +1,5 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
-import { overwrite } from "../../props.mjs";
 
 export default {
   ...common,
@@ -30,7 +29,13 @@ export default {
         \\
         Alternatively, you can provide a custom *Folder ID*.`,
     },
-    overwrite,
+
+    overwrite: {
+      propDefinition: [
+        pcloud,
+        "overwrite",
+      ],
+    },
     copyContentOnly: {
       type: "boolean",
       label: "Copy Content Only?",

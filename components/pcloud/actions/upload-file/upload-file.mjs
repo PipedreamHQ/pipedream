@@ -1,15 +1,13 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
-import {
-  name, modifiedTime, createdTime,
-} from "../../props.mjs";
 import { promises as fsPromises } from "fs";
 
 export default {
   ...common,
   key: "pcloud-upload-file",
   name: "Upload File",
-  description: "Upload a file to the specified folder. [See the docs here](https://docs.pcloud.com/methods/file/uploadfile.html)",
+  description:
+    "Upload a file to the specified folder. [See the docs here](https://docs.pcloud.com/methods/file/uploadfile.html)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,7 +22,10 @@ export default {
         Alternatively, you can provide a custom *Folder ID*.`,
     },
     name: {
-      ...name,
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
       description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
         \\
         [See the docs on how to work with files in your workflow.](https://pipedream.com/docs/code/nodejs/working-with-files/)`,
@@ -36,8 +37,18 @@ export default {
         "If true, the uploaded file will be renamed, if another file with the requested name already exists in the specified folder.",
       default: true,
     },
-    modifiedTime,
-    createdTime,
+    modifiedTime: {
+      propDefinition: [
+        pcloud,
+        "modifiedTime",
+      ],
+    },
+    createdTime: {
+      propDefinition: [
+        pcloud,
+        "createdTime",
+      ],
+    },
   },
   methods: {
     ...common.methods,

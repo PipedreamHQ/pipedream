@@ -1,6 +1,5 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
-import { name } from "../../props.mjs";
 
 export default {
   ...common,
@@ -22,7 +21,12 @@ export default {
           Alternatively, you can provide a custom *Folder ID*.`,
       label: "Parent Folder ID",
     },
-    name,
+    name: {
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
+    },
   },
   methods: {
     ...common.methods,

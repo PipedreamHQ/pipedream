@@ -1,14 +1,12 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
-import {
-  name, overwrite, modifiedTime, createdTime,
-} from "../../props.mjs";
 
 export default {
   ...common,
   key: "pcloud-copy-file",
   name: "Copy File",
-  description: "Copy a file to the specified destination. [See the docs here](https://docs.pcloud.com/methods/file/copyfile.html)",
+  description:
+    "Copy a file to the specified destination. [See the docs here](https://docs.pcloud.com/methods/file/copyfile.html)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,13 +31,31 @@ export default {
         Alternatively, you can provide a custom *Folder ID*.`,
     },
     name: {
-      ...name,
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
       label: "New File Name",
       description: "Name of the destination file.",
     },
-    overwrite,
-    modifiedTime,
-    createdTime,
+    overwrite: {
+      propDefinition: [
+        pcloud,
+        "overwrite",
+      ],
+    },
+    modifiedTime: {
+      propDefinition: [
+        pcloud,
+        "modifiedTime",
+      ],
+    },
+    createdTime: {
+      propDefinition: [
+        pcloud,
+        "createdTime",
+      ],
+    },
   },
   methods: {
     ...common.methods,

@@ -21,6 +21,42 @@ export default {
       },
       default: 0,
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the folder to be created.",
+    },
+    overwrite: {
+      type: "boolean",
+      label: "Overwrite?",
+      description: `If true, and an entry with the same name already exists, it will be overwritten.
+            \\
+            Otherwise, an error \`2004\` will be returned instead.`,
+      default: false,
+      optional: true,
+    },
+    showDeleted: {
+      type: "boolean",
+      label: "Show Deleted?",
+      description:
+        "If true, deleted files and folders that can be undeleted will be displayed.",
+      default: false,
+      optional: true,
+    },
+    modifiedTime: {
+      type: "integer",
+      label: "Modified Time",
+      description: "Must be Unix time (seconds).",
+      optional: true,
+    },
+    createdTime: {
+      type: "integer",
+      label: "Created Time",
+      description: `Must be Unix time (seconds).
+      \\
+      Requires \`Modified Time\` to be set.`,
+      optional: true,
+    },
   },
   methods: {
     async api() {
@@ -288,7 +324,13 @@ export default {
      * It's required to provide `modifiedTime` to set `createdTime`.
      * @returns {checksums: array, fileids: array, metadata: array, result: integer} A `checksums` array, each element with the file checksums calculated with `md5` and `sha1` algorithms, the `id` of the created file under the one element `fileids` array, and an array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly uploaded file.  A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
-    async uploadFile(folderid, name, renameIfExists, modifiedTime, createdTime) {
+    async uploadFile(
+      folderid,
+      name,
+      renameIfExists,
+      modifiedTime,
+      createdTime,
+    ) {
       const params = {
         folderid,
       };

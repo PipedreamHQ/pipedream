@@ -1,6 +1,5 @@
 import pcloud from "../../pcloud.app.mjs";
 import get from "lodash/get.js";
-import { showDeleted } from "../../props.mjs";
 
 export default {
   key: "pcloud-watch-folder",
@@ -41,7 +40,12 @@ export default {
         "Specify when to emit an event related to a given folder. Note that pCloud preserves files' `created` and `modified` timestamps on upload. If manually uploading via pCloud's `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
       default: "Created",
     },
-    showDeleted,
+    showDeleted: {
+      propDefinition: [
+        pcloud,
+        "showDeleted",
+      ],
+    },
   },
   hooks: {
     async deploy() {
@@ -68,15 +72,14 @@ export default {
   },
   methods: {
     async getContents() {
-      return this.pcloud._withRetries(
-        () => this.pcloud.listContents(
+      return this.pcloud._withRetries(() =>
+        this.pcloud.listContents(
           this.folderId,
           false,
           this.showDeleted,
           false,
           false,
-        ),
-      );
+        ));
     },
     emitpCloudEvent(pCloudEvent) {
       const metadata = this.getEventData(pCloudEvent);
