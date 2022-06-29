@@ -26,20 +26,32 @@ export default {
   },
   async run() {
     const { feedId } = this;
+
+    const lastCreatedAt = this.db.get("lastCreatedAt");
+
     const feedEntries = await this.feedbin.getFeedEntries({
       feedId,
+      params: {
+        page: 1,
+        per_page: 100,
+        since: lastCreatedAt,
+      },
     });
 
-    console.log("feedEntries", feedEntries);
+    const [
+      lastEntry,
+    ] = feedEntries;
 
-    const promises = feedEntries.map((entry) => {
-      return this.$emit(entry, {
+    if (lastEntry) {
+      this.db.set("lastCreatedAt", lastEntry.created_at);
+    }
+
+    feedEntries.forEach((entry) => {
+      this.$emit(entry, {
         id: entry.id,
         ts: Date.parse(entry.created_at),
-        summary: `Saved Item with ID ${entry.id}`,
+        summary: `Item with ID ${entry.id}`,
       });
     });
-
-    await Promise.all(promises);
   },
 };
