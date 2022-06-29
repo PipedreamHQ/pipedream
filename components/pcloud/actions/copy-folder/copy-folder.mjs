@@ -1,7 +1,6 @@
 import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
 import { overwrite } from "../../props.mjs";
-import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -12,7 +11,15 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: propFolderId(" to copy"),
+    folderId: {
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
+      description: `Select a **Folder** to copy.
+        \\
+        Alternatively, you can provide a custom *Folder ID*.`,
+    },
     toFolderId: {
       propDefinition: [
         pcloud,

@@ -1,6 +1,6 @@
+import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
 import { showDeleted } from "../../props.mjs";
-import { propFolderId } from "../../props-custom-descriptions.mjs";
 
 export default {
   ...common,
@@ -11,7 +11,15 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: propFolderId(" to get the contents of"),
+    folderId: {
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
+      description: `Select a **Folder** to get the contents of.
+        \\
+        Alternatively, you can provide a custom *Folder ID*.`,
+    },
     recursive: {
       type: "boolean",
       label: "Recursive?",

@@ -1,8 +1,8 @@
+import pcloud from "./pcloud.app.mjs";
 import common from "../common/base.mjs";
 import {
   name, modifiedTime, createdTime,
 } from "../../props.mjs";
-import { propFolderId } from "../../props-custom-descriptions.mjs";
 import { promises as fsPromises } from "fs";
 
 export default {
@@ -14,7 +14,15 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    folderId: propFolderId(" to receive the uploaded files"),
+    folderId: {
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
+      description: `Select a **Folder** to receive the uploaded file.
+        \\
+        Alternatively, you can provide a custom *Folder ID*.`,
+    },
     name: {
       ...name,
       description: `Name of the file to upload. This must be a file in the workflow's \`/tmp\` directory.
