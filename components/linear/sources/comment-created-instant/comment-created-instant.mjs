@@ -3,6 +3,7 @@ import commentCreatedInstant from "../../../linear_app/sources/comment-created-i
 
 /* eslint-disable pipedream/required-properties-type */
 /* eslint-disable pipedream/required-properties-name */
+/* eslint-disable pipedream/required-properties-version */
 
 export default {
   ...commentCreatedInstant,
