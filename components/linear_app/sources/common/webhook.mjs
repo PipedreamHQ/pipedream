@@ -66,10 +66,16 @@ export default {
         resourcesFn: this.getResourcesFn(),
       });
       for await (const event of events) {
+        const [
+          action,
+        ] = this.getActions();
+        const [
+          resourceType,
+        ] = this.getResourceTypes();
         this.$emit(event, {
           id: event.id,
           ts: Date.parse(event.updatedAt),
-          summary: `New ${this.getActions()[0]} ${this.getResourceTypes()[0]} event: ${event.id}`,
+          summary: `New ${action} ${resourceType} event: ${event.id}`,
         });
       }
     },
