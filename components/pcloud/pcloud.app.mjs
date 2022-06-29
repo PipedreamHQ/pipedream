@@ -87,7 +87,7 @@ export default {
       };
       return retry(async (bail) => {
         try {
-          return apiCall();
+          return await apiCall();
         } catch (err) {
           const statusCode = [
             get(err, [
