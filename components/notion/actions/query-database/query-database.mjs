@@ -1,11 +1,11 @@
 import notion from "../../notion.app.mjs";
-import utils from "../common/utils.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "notion-query-database",
-  name: "Query Databse",
+  name: "Query Database",
   description: "Query a database. [See the docs](https://developers.notion.com/reference/post-database-query)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     notion,
@@ -17,7 +17,7 @@ export default {
     },
     filter: {
       label: "Filter",
-      description: "The filter to query. [See how to filters works here](https://developers.notion.com/reference/post-database-query-filter). E.g. { \"property\": \"Email\", \"rich_text\": { \"contains\": \"gmail.com\" } }",
+      description: "The filter to query. [See how filters work here](https://developers.notion.com/reference/post-database-query-filter). E.g. { \"property\": \"Email\", \"rich_text\": { \"contains\": \"gmail.com\" } }",
       type: "string",
     },
   },

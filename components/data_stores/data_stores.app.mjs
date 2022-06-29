@@ -15,8 +15,42 @@ export default {
         return dataStore.keys();
       },
     },
+    addRecordIfNotFound: {
+      label: "Create a new record if the key is not found?",
+      description: "Create a new record if no records are found for the specified key.",
+      type: "string",
+      options: [
+        "Yes",
+        "No",
+      ],
+      optional: true,
+      reloadProps: true,
+    },
   },
   methods: {
+    shouldAddRecord(option) {
+      return option === "Yes";
+    },
+    valueProp() {
+      return {
+        value: {
+          label: "Value",
+          type: "any",
+          description: "Enter a string, object, or array.",
+        },
+      };
+    },
+    parseValue(value) {
+      if (typeof value !== "string") {
+        return value;
+      }
+
+      try {
+        return JSON.parse(this.sanitizeJson(value));
+      } catch (err) {
+        return value;
+      }
+    },
     //Because user might enter a JSON as JS object;
     //This method converts a JS object string to a JSON string before parsing it
     //e.g. {a:"b", 'c':1} => {"a":"b", "c":1}

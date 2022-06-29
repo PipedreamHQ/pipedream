@@ -5,10 +5,10 @@ import common from "../common-instant.mjs";
 export default {
   ...common,
   type: "source",
-  name: "Object Updated (Instant, of Selectable Type)",
+  name: "New Updated Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-object-updated-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is updated",
-  version: "0.0.5",
+  version: "0.1.0",
   methods: {
     ...common.methods,
     generateMeta(data) {

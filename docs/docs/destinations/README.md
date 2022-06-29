@@ -32,7 +32,7 @@ Let's use `$.send.http()` to send an HTTP POST request like we did in the Action
 Create a new HTTP endpoint URL (try creating a new Pipedream workflow and adding an HTTP trigger), and add the code below to your code step, with the URL you created:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $}) {
     $.send.http({
       method: "POST",
@@ -50,7 +50,7 @@ See the docs for the [HTTP destination](/destinations/http/) to learn more about
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $}) {
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     for (const name of names) {

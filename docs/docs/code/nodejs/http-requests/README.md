@@ -446,12 +446,16 @@ import { promisify } from "util";
 import fs from "fs";
 import got from "got";
 
-// DOWNLOAD
-const pipeline = promisify(stream.pipeline);
-await pipeline(
-  got.stream("https://example.com"),
-  fs.createWriteStream('/tmp/file.html')
-);
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Download the webpage HTML file to /tmp
+    const pipeline = promisify(stream.pipeline);
+    return await pipeline(
+      got.stream("https://example.com"),
+      fs.createWriteStream('/tmp/file.html')
+    );
+  }
+})
 ```
 
 [Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
@@ -511,7 +515,7 @@ export default defineComponent({
 });
 ```
 
-**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a customer on the Teams or Enterprise plan, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 

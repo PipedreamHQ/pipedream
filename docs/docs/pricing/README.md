@@ -32,7 +32,6 @@ The Professional Tier includes all the features of the Developer Tier. It also c
 - You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
 - You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
 - When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
-- You have access to a [Pipedream-provided HTTP proxy](/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
 
 ### Upgrading to the Professional Tier
 
@@ -52,7 +51,7 @@ You can create as many [organizations](/orgs/) as you'd like for free. But the q
 
 Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
 
-The Team Plan also includes all of the features of the Professional Plan.
+The Team Plan includes all of the features of the Professional Plan. Additionally, you have access to a [Pipedream-provided HTTP proxy](/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
 
 ### Upgrading to the Team Plan
 
@@ -68,15 +67,16 @@ Teams have access to support from the Pipedream team via email or a shared Slack
 
 ## Enterprise Plan
 
-The Enterprise Plan includes all of the features of the Team plan, as well as:
+Enterprise plans are great for larger organizations or teams that have specific requirements, like SSO support or an SLA. 
 
-- A base of {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
+Enterprise plans are custom to each customer, but typically include:
+
+- Custom invocations, users, and orgs
 - SSO support (GSuite and [Okta](/orgs/sso/okta/))
 - [A 99.95% uptime SLA](https://pipedream.com/sla)
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
 - Premium support: onboarding, ongoing training, and anything your team needs to be successful
 - Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
-- Custom invoices
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 

@@ -36,7 +36,94 @@ export default defineComponent({
 
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
+
+## Sharing data between steps
+
+A Node.js step can use data from other steps using [step exports](/workflows/steps/#step-exports), it can also export data for other steps to use.
+
+### Using data from another step
+
+In Node.js steps, data from the initial workflow trigger and other steps are available in the `steps` argument passed to the `run({ steps, $ })` function.
+
+In this example, we'll pretend this data is coming into our HTTP trigger via POST request.
+
+```json
+{
+  "id": 1,
+  "name": "Bulbasaur",
+  "type": "plant"
+}
+```
+
+In our Node.js step, we can access this data in the `steps` variable Specifically, this data from the POST request into our workflow is available in the `trigger` property. 
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    const pokemonName = steps.trigger.event.name;
+    const pokemonType = steps.trigger.event.type;
+
+    console.log(`${pokemonName} is a ${pokemonType} type Pokemon`);
+  }
+})
+```
+
+### Sending data downstream to other steps
+
+To share data created, retrieved, transformed or manipulated by a step to others downstream you can simply `return` it.
+
+```javascript
+// This step is named "code" in the workflow
+import axios from 'axios';
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const response = await axios.get("https://pokeapi.co/api/v2/pokemon/charizard");
+    // Store the response's JSON contents into a variable called "pokemon"
+    const pokemon = response.data;
+
+    // Expose the pokemon data downstream to other steps in the $return_value from this step
+    return pokemon;
+  }
+})
+```
+
+### Using $.export
+
+<VideoPlayer src="https://youtu.be/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
+
+Alternatively, use the built in `$.export` helper instead of returning data. The `$.export` creates a _named_ export with the given value.
+
+```javascript
+// This step is named "code" in the workflow
+import axios from 'axios';
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const response = await axios.get("https://pokeapi.co/api/v2/pokemon/charizard");
+    // Store the response's JSON contents into a variable called "pokemon"
+    const pokemon = response.data;
+
+    // Expose the pokemon data downstream to other steps in the pokemon export from this step
+    $.export('pokemon', pokemon);
+  }
+})
+```
+
+Now this `pokemon` data is accessible to downstream steps within `steps.code.pokemon`
+
+::: warning
+Regardless of using `return` or `$.export`, can only export JSON-serializable data from steps. Things like:
+
+* strings
+* numbers
+* objects
+:::
+
+
 ## Passing props to code steps
+
+<VideoPlayer src="https://www.youtube.com/embed/CxOdfgjThjg" title="Passing props to code steps" />
 
 You can make code steps reusable by allowing them to accept props. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters _entered in the workflow builder_.
 
@@ -68,6 +155,8 @@ Accepting a single string is just one example, you can build a step to accept ar
 [Read the props reference for the full list of options](/components/api/#props).
 
 ## How Pipedream Node.js components work
+
+<VideoPlayer src="https://www.youtube.com/embed/8nnL9sIRGvk" title="Structure of a Node.js Code Step"/>
 
 When you add a new Node.js code step or use the examples in this doc, you'll notice a common structure to the code:
 
@@ -134,6 +223,8 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 :::
 
 ## Using `npm` packages
+
+<VideoPlayer src="https://www.youtube.com/embed/lvTWnSAwEa8" title="Use NPM packages in code steps" />
 
 [npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
 

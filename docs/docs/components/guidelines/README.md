@@ -101,13 +101,13 @@ team to let us know that you're blocked on source or action development.
 
 When submitting pull requests, the new code will run through a series of
 automated checks like linting the code. If you want to run those checks locally
-for quicker feedback you must have [NPM](https://www.npmjs.com/) installed and
+for quicker feedback you must have [pnpm](https://pnpm.io/) installed and
 run the following commands at the root of the project:
 
 1. To install all the project's dependencies (only needed once):
 
    ```shell
-   npm ci
+   pnpm install
    ```
 
 2. To run the linter checks against your code (assuming that your changes are
@@ -155,13 +155,13 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                                                                         | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
+| Name                                                                                                                                                          | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
 | [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.mjs)                                              | Trello       | Webhook                                      |
 | [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs)                        | Twitter      | Polling                                      |
 | [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.mjs) | Google Drive | Webhook + Polling                            |
 | [New Submission](https://github.com/pipedreamhq/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
+| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                              | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
@@ -169,9 +169,9 @@ actions for Pipedream's registry.
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable      |
 | [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs)    | Google Sheets |
-| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.mjs)                  | Discord       |
-| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                         | Google Docs   |
-| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.mjs)                              | HTTP          |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.mjs)                 | Discord       |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                        | Google Docs   |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.mjs)                             | HTTP          |
 
 ## Guidelines & Patterns
 
@@ -299,9 +299,18 @@ If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
-#### Include dependencies in `package.json`
+#### `package.json`
 
-Each app should have a `package.json` in its root folder to track changes in its dependencies. To create a `package.json` file, run `npm init` in the app's root folder and customize it using [this `package.json`](https://github.com/PipedreamHQ/pipedream/blob/55236b3aa993cbcb545e245803d8654c6358b0a2/components/stripe/package.json) as a template.
+Each app should have a `package.json` in its root folder. If one doesn't exist, run `npm init` in the app's root folder and customize the file using [this `package.json`](https://github.com/PipedreamHQ/pipedream/blob/55236b3aa993cbcb545e245803d8654c6358b0a2/components/stripe/package.json) as a template.
+
+Each time you change the code for an app file, or change the dependencies for any app component, modify the package `version`.
+
+Save any dependencies in the component app directory:
+
+```bash
+npm i --save package
+npm i --save-dev package
+```
 
 #### Error-handling and input validation
 
@@ -522,6 +531,10 @@ Async options should also support [pagination](../api/#async-options-example)
 for an example of offset-based pagination. See
 [Twitter](https://github.com/PipedreamHQ/pipedream/blob/d240752028e2a17f7cca1a512b40725566ea97bd/components/twitter/twitter.app.mjs#L200)
 for an example of cursor-based pagination.
+
+#### Dynamic props
+
+[Dynamic props](/components/api/#dynamic-props) can improve the user experience for components. They let you render props in the Pipedream dynamically, based on the value of other props, and can be used to collect more specific information that can make it easier to use the component. See the Google Sheets example in the linked component API docs.
 
 #### Interface & Service Props
 

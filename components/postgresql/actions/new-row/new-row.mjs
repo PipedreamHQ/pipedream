@@ -4,7 +4,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     postgresql,
@@ -20,16 +20,23 @@ export default {
         "rowValues",
       ],
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       table,
       rowValues,
+      rejectUnauthorized,
     } = this;
     const columns = Object.keys(rowValues);
     const values = Object.values(rowValues);
     try {
-      const res = await this.postgresql.insertRow(table, columns, values);
+      const res = await this.postgresql.insertRow(table, columns, values, rejectUnauthorized);
       $.export("$summary", "New row inserted");
       return res;
     } catch (error) {

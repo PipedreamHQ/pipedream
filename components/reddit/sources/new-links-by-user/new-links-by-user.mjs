@@ -7,7 +7,7 @@ export default {
   key: "reddit-new-links-by-user",
   name: "New Links by User",
   description: "Emit new event each time a user posts a new link.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
