@@ -49,6 +49,12 @@
     },
     {
       "path": "components/scopemaster"
+    },
+    {
+      "path": "components/pretix"
+    },
+    {
+      "path": "components/phone_com"
     }
   ]
 }
