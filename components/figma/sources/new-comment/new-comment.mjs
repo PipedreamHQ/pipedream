@@ -58,7 +58,7 @@ export default {
 
     if (event.body.passcode === this.getPasscode()) {
       this.$emit(event.body,  {
-        summary: "New comment on a file",
+        summary: `New comment on a file (${event.body.comment_id})`,
         id: event.body.comment_id,
         ts: event.body.timestamp,
       });
