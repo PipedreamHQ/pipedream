@@ -10,7 +10,7 @@ export default {
   description: `Creates a new time entry object. 
   [Create a time entry via duration documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-duration),
   [Create a time entry via start and end time documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time)`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     harvest,
@@ -58,6 +58,13 @@ export default {
         description: "The time the entry ended. Defaults to the current time. Example: 8:00am.",
         optional: true,
       };
+    } else {
+      props.hours = {
+        type: "integer",
+        label: "Hours",
+        description: "The current amount of time tracked.",
+        optional: true,
+      };
     }
     return props;
   },
@@ -80,8 +87,9 @@ export default {
       task_id: this.taskId,
       user_id: this.userId,
       spent_date: this.spentDate,
-      started_time: this.startedTime.replace(/\s/g, ""),
-      ended_time: this.endedTime.replace(/\s/g, ""),
+      hours: this.hours,
+      started_time: this.startedTime && this.startedTime.replace(/\s/g, ""),
+      ended_time: this.endedTime && this.endedTime.replace(/\s/g, ""),
     });
     const response = await this.harvest.createTimeEntry({
       $,
