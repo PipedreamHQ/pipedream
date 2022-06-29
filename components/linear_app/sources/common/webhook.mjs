@@ -51,8 +51,25 @@ export default {
     getMetadata() {
       throw new Error("getMetadata is not implemented");
     },
+    getResourcesFn() {
+      return this.linearApp.fnObjects()[this.getResourceTypes()[0]];
+    },
   },
   hooks: {
+    async deploy() {
+      // Retrieve historical events
+      console.log("Retrieving historical events...");
+      const events = this.linearApp.paginateResources({
+        resourcesFn: this.getResourcesFn(),
+      });
+      for await (const event of events) {
+        this.$emit(event, {
+          id: event.id,
+          ts: Date.parse(event.updatedAt),
+          summary: `New ${this.getActions()[0]} ${this.getResourceTypes()[0]} event: ${event.id}`,
+        });
+      }
+    },
     async activate() {
       const params = {
         resourceTypes: this.getResourceTypes(),
