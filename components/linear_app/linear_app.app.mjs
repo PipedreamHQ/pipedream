@@ -218,7 +218,7 @@ export default {
         after: null,
         first: constants.DEFAULT_LIMIT,
       };
-      let cursor = true;
+      let hasNextPage = true;
       do {
         const {
           nodes,
