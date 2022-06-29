@@ -367,6 +367,12 @@
     },
     {
       "path": "components/signwell"
+    },
+    {
+      "path": "components/social_intents"
+    },
+    {
+      "path": "components/smaily"
     }
   ]
 }
