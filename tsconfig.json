@@ -49,6 +49,9 @@
     },
     {
       "path": "components/scopemaster"
+    },
+    {
+      "path": "components/pretix"
     }
   ]
 }
