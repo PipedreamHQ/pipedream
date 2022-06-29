@@ -1,4 +1,4 @@
-import pcloud from "./pcloud.app.mjs";
+import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
 import { promises as fsPromises } from "fs";
 

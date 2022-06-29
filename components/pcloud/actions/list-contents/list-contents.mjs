@@ -1,4 +1,4 @@
-import pcloud from "./pcloud.app.mjs";
+import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
 
 export default {
@@ -26,7 +26,6 @@ export default {
         "If true, returns contents of the folder **and all subfolders,** recursively.",
       default: false,
     },
-
     showDeleted: {
       propDefinition: [
         pcloud,

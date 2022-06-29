@@ -1,4 +1,4 @@
-import pcloud from "./pcloud.app.mjs";
+import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
 
 export default {
@@ -17,8 +17,8 @@ export default {
         "folderId",
       ],
       description: `Select a **Folder** to create the new folder within.
-          \\
-          Alternatively, you can provide a custom *Folder ID*.`,
+        \\
+        Alternatively, you can provide a custom *Folder ID*.`,
       label: "Parent Folder ID",
     },
     name: {

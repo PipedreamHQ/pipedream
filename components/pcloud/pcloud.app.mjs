@@ -30,8 +30,8 @@ export default {
       type: "boolean",
       label: "Overwrite?",
       description: `If true, and an entry with the same name already exists, it will be overwritten.
-            \\
-            Otherwise, an error \`2004\` will be returned instead.`,
+        \\
+        Otherwise, an error \`2004\` will be returned instead.`,
       default: false,
       optional: true,
     },
@@ -53,8 +53,8 @@ export default {
       type: "integer",
       label: "Created Time",
       description: `Must be Unix time (seconds).
-      \\
-      Requires \`Modified Time\` to be set.`,
+        \\
+        Requires \`Modified Time\` to be set.`,
       optional: true,
     },
   },
@@ -68,7 +68,7 @@ export default {
         2: "eapi.pcloud.com",
       };
       */
-      return await pcloudSdk.createClient(
+      return pcloudSdk.createClient(
         this.$auth.oauth_access_token,
         "oauth",
       );
@@ -87,7 +87,7 @@ export default {
       };
       return retry(async (bail) => {
         try {
-          return await apiCall();
+          return apiCall();
         } catch (err) {
           const statusCode = [
             get(err, [
@@ -153,7 +153,7 @@ export default {
       if (createdTime) {
         params.ctime = createdTime;
       }
-      return await (
+      return (
         await this.api()
       ).api("copyfile", {
         params,
@@ -179,7 +179,7 @@ export default {
       if (copyContentOnly) {
         params.copycontentonly = 1;
       }
-      return await (
+      return (
         await this.api()
       ).api("copyfolder", {
         params,
@@ -192,7 +192,7 @@ export default {
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly created folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async createFolder(name, folderId) {
-      return await (await this.api()).createfolder(name, folderId);
+      return (await this.api()).createfolder(name, folderId);
     },
     /**
      * Downloads one or more files from links supplied in the url parameter.
@@ -205,7 +205,7 @@ export default {
      * included.
      */
     async downloadFiles(urls, folderId) {
-      return await (await this.api()).remoteupload(urls.join(" "), folderId);
+      return (await this.api()).remoteupload(urls.join(" "), folderId);
     },
     /**
      * Gets the dynamically populated options for file related props.
@@ -310,7 +310,7 @@ export default {
       if (noShares) {
         optionalParams.noshares = 1;
       }
-      return await (await this.api()).listfolder(folderId, optionalParams);
+      return (await this.api()).listfolder(folderId, optionalParams);
     },
     /**
      * Uploads a file to the user's filesystem.
@@ -349,7 +349,7 @@ export default {
       if (createdTime) {
         params.ctime = createdTime;
       }
-      return await (
+      return (
         await this.api()
       ).api("uploadfile", {
         method: "post",

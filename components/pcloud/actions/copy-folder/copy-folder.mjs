@@ -1,4 +1,4 @@
-import pcloud from "./pcloud.app.mjs";
+import pcloud from "../../pcloud.app.mjs";
 import common from "../common/base.mjs";
 
 export default {
@@ -29,7 +29,6 @@ export default {
         \\
         Alternatively, you can provide a custom *Folder ID*.`,
     },
-
     overwrite: {
       propDefinition: [
         pcloud,
