@@ -24,6 +24,9 @@ export default {
         constants.ACTION.CREATE,
       ];
     },
+    getResourcesFn() {
+      return this.linearApp.listIssues;
+    },
     getMetadata(resource) {
       const {
         delivery,

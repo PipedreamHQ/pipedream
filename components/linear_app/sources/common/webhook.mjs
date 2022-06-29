@@ -52,10 +52,7 @@ export default {
       throw new Error("getMetadata is not implemented");
     },
     getResourcesFn() {
-      const [
-        resourceType,
-      ] = this.getResourceTypes();
-      return this.linearApp.fnObjects()[resourceType];
+      throw new Error("Get resource function not implemented");
     },
   },
   hooks: {
