@@ -1,6 +1,6 @@
 const WEBHOOK_ID = "webhookId";
 const LINEAR_DELIVERY_HEADER = "linear-delivery";
-const DEFAULT_LIMIT = 2;
+const DEFAULT_LIMIT = 50;
 
 const ACTION = {
   CREATE: "create",
@@ -14,8 +14,6 @@ const RESOURCE_TYPE = {
   PROJECT: "Project",
   CYCLE: "Cycle",
   REACTION: "Reaction",
-  USER: "User",
-  TEAM: "Team",
 };
 
 const RESOURCE_TYPES = Object.values(RESOURCE_TYPE);
