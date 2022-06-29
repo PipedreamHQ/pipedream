@@ -13,6 +13,10 @@ export default {
     getEventType() {
       return eventTypes.TICKET_MESSAGE_CREATED;
     },
+    async processHistoricalEvent(event) {
+      const ticketMessage = await this.retrieveTicketMessage(event.object_id);
+      this.emitEvent(ticketMessage);
+    },
     async processEvent(event) {
       this.emitEvent(event.message);
     },

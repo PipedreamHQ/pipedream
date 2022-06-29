@@ -13,6 +13,10 @@ export default {
     getEventType() {
       return eventTypes.TICKET_UPDATED;
     },
+    async processHistoricalEvent(event) {
+      const ticket = await this.retrieveTicket(event.object_id);
+      this.emitEvent(ticket);
+    },
     async processEvent(event) {
       this.emitEvent(event.ticket);
     },

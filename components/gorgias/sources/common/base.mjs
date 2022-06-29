@@ -17,7 +17,7 @@ export default {
         },
       });
       for await (const event of events) {
-        this.emitEvent(event);
+        await this.processHistoricalEvent(event);
       }
     },
     async activate() {
@@ -51,6 +51,9 @@ export default {
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
+    processHistoricalEvent() {
+      throw new Error("processHistoricalEvent is not implemented");
+    },
     getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -64,7 +67,7 @@ export default {
         id,
       });
     },
-    async emitEvent(event) {
+    emitEvent(event) {
       console.log(`Emitting event ${event.id}:`);
       console.log(event);
       const ts = Date.parse(event[this.getTimestampKey()]);
