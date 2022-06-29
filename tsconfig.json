@@ -256,6 +256,90 @@
     },
     {
       "path": "components/linqs_cc"
+    },
+    {
+      "path": "components/intuiface"
+    },
+    {
+      "path": "components/jobnimbus"
+    },
+    {
+      "path": "components/niftyimages"
+    },
+    {
+      "path": "components/ninox"
+    },
+    {
+      "path": "components/onfleet"
+    },
+    {
+      "path": "components/mediatoolkit"
+    },
+    {
+      "path": "components/qwilr"
+    },
+    {
+      "path": "components/heartbeat"
+    },
+    {
+      "path": "components/realphonevalidation"
+    },
+    {
+      "path": "components/oncehub"
+    },
+    {
+      "path": "components/murlist"
+    },
+    {
+      "path": "components/laposta"
+    },
+    {
+      "path": "components/transistor_fm"
+    },
+    {
+      "path": "components/mailify"
+    },
+    {
+      "path": "components/mailrefine"
+    },
+    {
+      "path": "components/jellyreach"
+    },
+    {
+      "path": "components/workast"
+    },
+    {
+      "path": "components/uchat"
+    },
+    {
+      "path": "components/marketing_master_io"
+    },
+    {
+      "path": "components/grist"
+    },
+    {
+      "path": "components/ocassion"
+    },
+    {
+      "path": "components/vbout"
+    },
+    {
+      "path": "components/quickemailverification"
+    },
+    {
+      "path": "components/typless"
+    },
+    {
+      "path": "components/typebot"
+    },
+    {
+      "path": "components/profitwell"
+    },
+    {
+      "path": "components/helcim"
+    },
+    {
+      "path": "components/virustotal"
     }
   ]
 }
