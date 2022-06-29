@@ -3,6 +3,7 @@ import formData from "form-data";
 import Mailgun from "mailgun.js";
 import pick from "lodash/pick.js";
 import constants from "./common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -18,7 +19,7 @@ export default {
         };
         const domains = await this.api("domains").list(query);
         if (domains.length === 0) {
-          throw new Error("Failed to fetch domains");
+          throw new ConfigurationError("Failed to fetch domains");
         }
         return domains.map((domain) => domain.name);
       },
@@ -26,14 +27,14 @@ export default {
     list: {
       type: "string",
       label: "Mailing List",
-      async options ({ page }) {
+      async options({ page }) {
         const query = {
           limit: constants.DEFAULT_PAGE_SIZE,
           skip: constants.DEFAULT_PAGE_SIZE * page,
         };
         const lists = await this.api("lists").list(query);
         if (lists.length === 0) {
-          throw new Error("Failed to fetch lists");
+          throw new ConfigurationError("Failed to fetch lists");
         }
         return lists.map((list) => list.address);
       },
@@ -113,7 +114,7 @@ export default {
     },
   },
   methods: {
-    api (api) {
+    api(api) {
       const mailgun = new Mailgun(formData);
       const config = {
         username: "api",
@@ -126,7 +127,7 @@ export default {
       return mg[api];
     },
     async mailgunPostRequest(url) {
-      return await this.api("request").post(url);
+      return this.api("request").post(url);
     },
     async createMailinglistMember(opts = {}) {
       const data = pick(opts, [
@@ -192,7 +193,7 @@ export default {
       );
     },
     async sendMail(opts = {}) {
-      return  this.api("messages").create(opts.domain, opts.msg);
+      return this.api("messages").create(opts.domain, opts.msg);
     },
     async verifyEmail(opts = {}) {
       const result = await this.api("request").get("/v4/address/validate", {
@@ -200,15 +201,15 @@ export default {
       });
       if (
         opts.acceptableRiskLevels.length > 0
-        && !opts.acceptableRiskLevels.includes(result.body.risk)
+          && !opts.acceptableRiskLevels.includes(result.body.risk)
       ) {
         throw new Error(`${result.body.risk} risk`);
       }
       return result.body;
     },
-    async paginate (next, perPage = 100) {
+    async paginate(next, perPage = 100) {
       const results = [];
-      for (let page = 0;; page++) {
+      for (let page = 0; ; page++) {
         const query = {
           limit: perPage,
           skip: page * perPage,
