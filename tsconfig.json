@@ -340,6 +340,33 @@
     },
     {
       "path": "components/virustotal"
+    },
+    {
+      "path": "components/curated"
+    },
+    {
+      "path": "components/getprospect"
+    },
+    {
+      "path": "components/gist"
+    },
+    {
+      "path": "components/sales_simplify"
+    },
+    {
+      "path": "components/junip"
+    },
+    {
+      "path": "components/e_conomic"
+    },
+    {
+      "path": "components/godial"
+    },
+    {
+      "path": "components/salesblink"
+    },
+    {
+      "path": "components/signwell"
     }
   ]
 }
