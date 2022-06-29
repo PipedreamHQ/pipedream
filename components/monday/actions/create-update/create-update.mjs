@@ -67,6 +67,6 @@ export default {
 
     $.export("$summary", `Successfully created a new update with ID: ${updateId}`);
 
-    return updateId;
+    return data.create_update;
   },
 };

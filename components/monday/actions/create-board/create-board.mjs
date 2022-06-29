@@ -6,7 +6,7 @@ export default {
   name: "Create Board",
   description: "Creates a new board. [See the docs here](https://api.developer.monday.com/docs/boards#create-a-board)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     monday,
     boardName: {
@@ -75,6 +75,6 @@ export default {
 
     $.export("$summary", `Successfully created a new board with ID: ${boardId}`);
 
-    return boardId;
+    return data.create_board;
   },
 };

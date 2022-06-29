@@ -44,6 +44,6 @@ export default {
 
     $.export("$summary", `Successfully created a new group with ID: ${groupId}`);
 
-    return groupId;
+    return data.create_group;
   },
 };

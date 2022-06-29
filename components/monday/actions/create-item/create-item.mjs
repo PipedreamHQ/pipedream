@@ -69,6 +69,6 @@ export default {
 
     $.export("$summary", `Successfully created a new item with ID: ${itemId}`);
 
-    return itemId;
+    return data.create_item;
   },
 };
