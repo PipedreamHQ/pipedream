@@ -52,6 +52,9 @@
     },
     {
       "path": "components/pretix"
+    },
+    {
+      "path": "components/phone_com"
     }
   ]
 }
