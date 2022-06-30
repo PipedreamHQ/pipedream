@@ -5,7 +5,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "pinterest-create-pin",
-  version: "0.0.2",
+  version: "0.0.1",
   name: "Create a Pin",
   description: "Create a Pin on a board or board section, [See the docs](https://developers.pinterest.com/docs/api/v5/#operation/pins/create)",
   props: {
@@ -57,12 +57,12 @@ export default {
     },
   },
   async run ({ $ }) {
-    let media_source;
+    let mediaSource;
     const media = this.media;
     if (utils.isValidFile(media)) {
-      media_source = utils.getFileMeta(media);
+      mediaSource = utils.getFileMeta(media);
     } else if (await utils.isValidUrl(media)) {
-      media_source = utils.getUrlMeta(media);
+      mediaSource = utils.getUrlMeta(media);
     } else {
       throw new ConfigurationError("`media` must be a valid file path or a valid URL!");
     }
@@ -75,7 +75,7 @@ export default {
         description: this.description,
         link: this.link,
         alt_text: this.altText,
-        media_source,
+        media_source: mediaSource,
       },
     });
     $.export("$summary", `Pin with ID:${resp.id} has been created.`);

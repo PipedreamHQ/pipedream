@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,12 +10,11 @@ export default {
       label: "Board ID",
       description: "An ID identifying the board",
       async options({ prevContext }) {
-        const pageSize = 25;
-        const { bookmark } = prevContext || {};
+        const bookmark = prevContext?.bookmark;
         const resp = await this.getBoards({
           params: {
             bookmark,
-            page_size: pageSize,
+            page_size: constants.pageSize,
           },
         });
         return {
@@ -37,13 +37,12 @@ export default {
         boardId,
         prevContext,
       }) {
-        const pageSize = 25;
-        const { bookmark } = prevContext || {};
+        const bookmark = prevContext?.bookmark;
         const resp = await this.getBoardSections({
           boardId,
           params: {
             bookmark,
-            page_size: pageSize,
+            page_size: constants.pageSize,
           },
         });
         return {
@@ -87,7 +86,7 @@ export default {
     },
   },
   methods: {
-    async _getUrl(path) {
+    _getUrl(path) {
       return `https://api.pinterest.com/v5${path}`;
     },
     _getHeaders(headers = {}) {
@@ -95,7 +94,7 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "user-agent": "@PipedreamHQ/pipedream v0.1",
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
         ...headers,
       };
     },
@@ -106,14 +105,14 @@ export default {
       ...otherConfig
     } = {}) {
       const config = {
-        url: await this._getUrl(path),
+        url: this._getUrl(path),
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
       return axios($ ?? this, config);
     },
     async getBoards({ ...args } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/boards",
         ...args,
@@ -123,14 +122,14 @@ export default {
       boardId,
       ...args
     } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: `/boards/${boardId}/sections`,
         ...args,
       });
     },
     async createPin({ ...args } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "POST",
         path: "/pins",
         ...args,
@@ -144,7 +143,7 @@ export default {
       const path = boardSectionId ?
         `/boards/${boardId}/sections/${boardSectionId}/pins` :
         `/boards/${boardId}/pins`;
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path,
         ...args,

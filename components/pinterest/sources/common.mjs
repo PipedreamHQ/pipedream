@@ -38,24 +38,19 @@ export default {
       throw new Error("getCompareFn() is not implemented!");
     },
   },
-  async run({ $ }) {
-    const firstRun = this.getLastId() == 0;
+  async run() {
     let newLastId = this.getLastId();
-    this.setLastFetchTime(Date.now() - intervalSeconds * 1000);
-    const resourcesStream = await utils.getResourcesStream({
+    const resourcesStream = utils.getResourcesStream({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: {
-        $,
         ...this.getResourceFnArgs(),
       },
     });
     for await (const item of resourcesStream) {
       const createdTime = new Date(item.created_at).getTime();
-      if (!firstRun && this.compareFn(item)) {
+      if (this.compareFn(item)) {
         this.$emit(
-          {
-            item,
-          },
+          item,
           {
             id: item.id,
             summary: this.getSummary(),
@@ -67,6 +62,7 @@ export default {
         newLastId = item.id;
       }
     }
+    this.setLastFetchTime(Date.now());
     this.setLastId(newLastId);
   },
 };

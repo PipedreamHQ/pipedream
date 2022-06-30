@@ -2,6 +2,7 @@ import urlExist from "url-exist";
 import fs from "fs";
 import { encode } from "js-base64";
 import mime from "mime-types";
+import constants from "./constants.mjs";
 
 export default {
   isValidFile(filePath) {
@@ -31,19 +32,17 @@ export default {
     resourceFn,
     resourceFnArgs,
   }) {
-    const pageSize = 25;
     let bookmark;
     while (true) {
-      console.log("resourceFnArgs", resourceFnArgs);
       const nextResources = await resourceFn({
         ...resourceFnArgs,
         params: {
           ...resourceFnArgs.params,
           bookmark,
-          page_size: pageSize,
+          page_size: constants.pageSize,
         },
       });
-      bookmark = nextResources.bookmark;
+      bookmark = nextResources?.bookmark;
       if (!nextResources) {
         throw new Error("No response from Pinterest API.");
       }
