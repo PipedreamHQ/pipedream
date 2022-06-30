@@ -155,7 +155,7 @@ export default {
     fields: {
       type: "object",
       label: "Fields",
-      description: "List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`.",
+      description: "List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. (.i.e for Fields \"fields\": {\"summary\":\"Completed orders still displaying in pending\",\"customfield_10010\":1,}) [see doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
       optional: true,
     },
   },
@@ -420,7 +420,6 @@ export default {
       transition,
       ...args
     } = {}) {
-
       if (transition) {
         await this._makeRequest({
           method: "POST",
@@ -430,7 +429,6 @@ export default {
           },
         });
       }
-
       return await this._makeRequest({
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,

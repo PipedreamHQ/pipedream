@@ -51,7 +51,7 @@ export default {
     update: {
       type: "object",
       label: "Update",
-      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included in here cannot be included in `fields`.",
+      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included in here cannot be included in `fields`. (.i.e for Update {\"summary\":[{\"set\":\"Updated issue from Pipedream\"}],\"labels\":[{\"add\":\"triaged\"}]}') [see doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
       optional: true,
     },
     historyMetadata: {
