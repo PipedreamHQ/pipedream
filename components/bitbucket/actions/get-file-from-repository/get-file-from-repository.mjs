@@ -5,7 +5,7 @@ export default {
   key: "bitbucket-get-file-from-repository",
   name: "Get File From Repository",
   description: "Gets the actual file contents of a download artifact and not the artifact's metadata. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-downloads/#api-repositories-workspace-repo-slug-downloads-filename-get)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...base.props,
@@ -37,7 +37,7 @@ export default {
       filename,
     });
 
-    $.export("summary", "Successfully retrieved repository file");
+    $.export("$summary", "Successfully retrieved repository file");
 
     return response;
   },

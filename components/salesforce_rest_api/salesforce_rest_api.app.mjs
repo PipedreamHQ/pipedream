@@ -524,7 +524,7 @@ export default {
       $, query,
     }) {
       const baseUrl = this._baseApiVersionUrl();
-      const url = `${baseUrl}/query/?q=${encodeURI(query)}`;
+      const url = `${baseUrl}/query/?q=${encodeURIComponent(query)}`;
       return this._makeRequest({
         $,
         url,
@@ -534,7 +534,7 @@ export default {
       $, search,
     }) {
       const baseUrl = this._baseApiVersionUrl();
-      const url = `${baseUrl}/search/?q=${encodeURI(search)}`;
+      const url = `${baseUrl}/search/?q=${encodeURIComponent(search)}`;
       return this._makeRequest({
         $,
         url,

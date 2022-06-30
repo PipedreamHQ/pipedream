@@ -11,7 +11,7 @@ export default {
   app: "monday",
   propDefinitions: {
     boardId: {
-      type: "integer",
+      type: "string",
       label: "Board ID",
       description: "The board's unique identifier",
       async options({ page }) {

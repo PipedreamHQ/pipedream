@@ -6,7 +6,7 @@ export default {
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   props: {
     linearApp,
     query: {
@@ -111,7 +111,7 @@ export default {
       hasNextPage = pageInfo.hasNextPage;
     } while (hasNextPage);
 
-    $.export("summary", `Found ${issues.length} issues`);
+    $.export("$summary", `Found ${issues.length} issues`);
 
     return issues;
   },
