@@ -25,7 +25,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npx tsc --build --force | node scripts/tsPostBuild.mjs",
+    "build": "npx tsc --build | node scripts/tsPostBuild.mjs",
     "test": "jest --passWithNoTests components",
     "test-all": "npm test && npm run platform-test && npm run types-test",
     "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
