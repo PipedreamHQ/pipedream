@@ -373,6 +373,18 @@
     },
     {
       "path": "components/smaily"
+    },
+    {
+      "path": "components/reply_io"
+    },
+    {
+      "path": "components/regfox"
+    },
+    {
+      "path": "components/rise"
+    },
+    {
+      "path": "components/referralrock"
     }
   ]
 }
