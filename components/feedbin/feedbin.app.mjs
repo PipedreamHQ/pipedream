@@ -19,18 +19,6 @@ export default {
         }));
       },
     },
-    entryId: {
-      type: "string",
-      label: "Entry ID",
-      description: "Entry ID",
-      async options({ feedId }) {
-        const entries = await this.getFeedEntries({
-          feedId,
-        });
-        console.log("getFeedEntries res", entries);
-        return [];
-      },
-    },
   },
   methods: {
     getBaseUrl() {

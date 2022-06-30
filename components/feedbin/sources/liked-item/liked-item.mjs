@@ -24,19 +24,18 @@ export default {
 
     const starredEntries = await this.feedbin.getEntries({
       params: {
-        ids: starredEntryIds,
+        ids: `${starredEntryIds}`,
+        page: 1,
+        per_page: 100,
       },
     });
 
-    const promises = starredEntries.map((entry) => {
-      const timestamp = Date.now();
-      return this.$emit(entry, {
-        id: entry.id + timestamp,
-        ts: timestamp,
-        summary: `Starred Entry with ID ${entry.id}`,
+    starredEntries.forEach((entry) => {
+      this.$emit(entry, {
+        id: entry.id,
+        ts: Date.parse(entry.created_at),
+        summary: `Entry ID ${entry.id}`,
       });
     });
-
-    await Promise.all(promises);
   },
 };

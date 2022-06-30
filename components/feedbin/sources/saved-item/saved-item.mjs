@@ -50,7 +50,7 @@ export default {
       this.$emit(entry, {
         id: entry.id,
         ts: Date.parse(entry.created_at),
-        summary: `Item with ID ${entry.id}`,
+        summary: `Entry ID ${entry.id}`,
       });
     });
   },

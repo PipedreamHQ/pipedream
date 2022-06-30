@@ -22,15 +22,12 @@ export default {
   async run() {
     const savedSearches = await this.feedbin.getSavedSearches();
 
-    const promises = savedSearches.map((search) => {
-      const timestamp = Date.now();
-      return this.$emit(search, {
-        id: search.id + timestamp,
-        ts: timestamp,
-        summary: `Search with ID ${search.id}`,
+    savedSearches.map((search) => {
+      this.$emit(search, {
+        id: search.id,
+        ts: Date.now(),
+        summary: `Search ID ${search.id}`,
       });
     });
-
-    await Promise.all(promises);
   },
 };
