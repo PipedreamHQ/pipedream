@@ -1,102 +1,159 @@
-// legacy_hash_id: a_poikPY
-import { axios } from "@pipedream/platform";
+import frontApp from "../../frontapp.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "frontapp-send-new-message",
-  name: "Send new message",
-  description: "Sends a new message from a channel. It will create a new conversation.",
-  version: "0.2.1",
+  name: "Send New Message",
+  description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
+  version: "0.2.2",
   type: "action",
   props: {
-    frontapp: {
-      type: "app",
-      app: "frontapp",
+    frontApp,
+    channelId: {
+      propDefinition: [
+        frontApp,
+        "channelId",
+      ],
     },
-    channel_id: {
-      type: "string",
-      description: "Id or address of the channel from which to send the message",
-    },
-    author_id: {
-      type: "string",
+    authorId: {
+      propDefinition: [
+        frontApp,
+        "teammateId",
+      ],
+      label: "Author ID",
       description: "ID of the teammate on behalf of whom the answer is sent",
-      optional: true,
     },
-    sender_name: {
+    senderName: {
       type: "string",
+      label: "Sender Name",
       description: "Name used for the sender info of the message",
       optional: true,
     },
     subject: {
       type: "string",
+      label: "Subject",
       description: "Subject of the message for email message",
       optional: true,
     },
     body: {
       type: "string",
+      label: "Body",
       description: "Body of the message",
     },
     text: {
       type: "string",
+      label: "Text",
       description: "Text version of the body for messages with non-text body",
       optional: true,
     },
     attachments: {
-      type: "any",
-      description: "Binary data of the attached files. Available only for [multipart request](https://dev.frontapp.com/#send-multipart-request).",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "attachments",
+      ],
     },
-    options: {
-      type: "object",
-      description: "Sending options",
-      optional: true,
-    },
-    options_tags: {
-      type: "any",
+    optionsTagIds: {
+      propDefinition: [
+        frontApp,
+        "tagIds",
+      ],
       description: "List of tag names to add to the conversation (unknown tags will automatically be created)",
-      optional: true,
     },
-    options_archive: {
+    optionsIsArchive: {
       type: "boolean",
+      label: "Is Archive",
       description: "Archive the conversation right when sending the message (Default: true)",
       optional: true,
     },
     to: {
-      type: "any",
-      description: "List of the recipient handles who will receive this message",
+      propDefinition: [
+        frontApp,
+        "to",
+      ],
     },
     cc: {
-      type: "any",
-      description: "List of the recipient handles who will receive a copy of this message",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "cc",
+      ],
     },
     bcc: {
-      type: "any",
-      description: "List of the recipient handles who will receive a blind copy of this message",
-      optional: true,
+      propDefinition: [
+        frontApp,
+        "bcc",
+      ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://api2.frontapp.com/channels/${this.channel_id}/messages`,
-      headers: {
-        "Authorization": `Bearer ${this.frontapp.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+    const {
+      channelId,
+      authorId,
+      senderName,
+      subject,
+      body,
+      text,
+      optionsIsArchive,
+    } = this;
+
+    const to = utils.parse(this.to);
+    const cc = utils.parse(this.cc);
+    const bcc = utils.parse(this.bcc);
+    const tagIds = utils.parse(this.optionsTagIds);
+    const attachments = utils.parse(this.attachments);
+
+    const hasAttachments = utils.hasArrayItems(attachments);
+    const hasCc = utils.hasArrayItems(cc);
+    const hasBcc = utils.hasArrayItems(bcc);
+
+    const data = utils.reduceProperties({
+      initialProps: {
+        to,
+        body,
       },
-      params: {
-        author_id: this.author_id,
-        sender_name: this.sender_name,
-        subject: this.subject,
-        body: this.body,
-        text: this.text,
-        attachments: this.attachments,
-        options: this.options,
-        options_tags: this.options_tags,
-        options_archive: this.options_archive,
-        to: this.to,
-        cc: this.cc,
-        bcc: this.bcc,
+      additionalProps: {
+        cc: [
+          cc,
+          hasCc,
+        ],
+        bcc: [
+          bcc,
+          hasBcc,
+        ],
+        sender_name: senderName,
+        subject,
+        author_id: authorId,
+        body,
+        text,
+        options: {
+          tag_ids: tagIds,
+          archive: optionsIsArchive ?? true,
+        },
+        attachments: [
+          attachments,
+          hasAttachments,
+        ],
       },
     });
+
+    const args = utils.reduceProperties({
+      initialProps: {
+        channelId,
+        data,
+      },
+      additionalProps: {
+        headers: [
+          {
+            "Content-Type": "multipart/form-data",
+          },
+          hasAttachments,
+        ],
+      },
+    });
+
+    const response = await this.frontApp.sendMessage(args);
+
+    $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
+
+    return response;
   },
 };
