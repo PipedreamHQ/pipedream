@@ -57,6 +57,6 @@ export default {
 
     $.export("$summary", `Successfully updated item ${updateItemId} to name ${this.itemName}`);
 
-    return data.change_multiple_column_values;
+    return updateItemId;
   },
 };
