@@ -388,6 +388,9 @@
     },
     {
       "path": "components/shippotoken"
+    },
+    {
+      "path": "components/amplenote"
     }
   ]
 }
