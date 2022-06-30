@@ -35,7 +35,7 @@ export default {
       } = resource;
       return {
         id: delivery,
-        summary: `Comment created: ${data.title}`,
+        summary: `Comment created: ${data.body}`,
         ts: Date.parse(createdAt),
       };
     },

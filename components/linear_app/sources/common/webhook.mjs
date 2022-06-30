@@ -31,7 +31,8 @@ export default {
       if (!this.getActions().includes(body?.action)) {
         return false;
       }
-      if (this.projectId) {
+      // projectId does not exist in the returned body data for Comment
+      if (this.projectId && !this.getResourceTypes().includes(constants.RESOURCE_TYPE.COMMENT)) {
         return body.data.projectId === this.projectId;
       }
       return true;
