@@ -2,5 +2,3 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
-npx pnpm install -r
-git add pnpm-lock.yaml
