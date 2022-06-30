@@ -208,7 +208,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
+      description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
     },
     name: {
       type: "string",
@@ -376,6 +376,35 @@ export default {
       label: "Metadata Event Payload",
       description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
       optional: true,
+    },
+    ignoreMyself: {
+      type: "boolean",
+      label: "Ignore myself",
+      description: "Ignore messages from me",
+      default: true,
+    },
+    word: {
+      type: "string",
+      label: "Word",
+      description: "Word to monitoring",
+    },
+    isUsername: {
+      type: "boolean",
+      label: "Is Username",
+      description: "Validates if the mentioned word is a username",
+      default: false,
+    },
+    ignoreBot: {
+      type: "boolean",
+      label: "Ignore bots",
+      description: "Ignore messages from bots",
+      default: false,
+    },
+    resolveNames: {
+      type: "boolean",
+      label: "Resolve names",
+      description: "Resolve user and channel names (incurs extra API calls)",
+      default: false,
     },
   },
   methods: {

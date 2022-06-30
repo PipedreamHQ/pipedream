@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-item-inventory",
   name: "Get Item Inventory",
   description: "Get the inventory of a specific item. [See the docs here](https://developers.webflow.com/#item-inventory)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     webflow,
@@ -13,7 +13,6 @@ export default {
         webflow,
         "sites",
       ],
-      optional: true,
     },
     collectionId: {
       propDefinition: [
