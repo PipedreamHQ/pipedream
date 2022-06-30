@@ -251,7 +251,9 @@ export default {
     //specified, with `email` being required.
     let replyTo = undefined;
     if (this.replyToEmail) {
-      replyTo = { email: this.replyToEmail };
+      replyTo = {
+        email: this.replyToEmail,
+      };
       if (this.replyToName) {
         replyTo.name = this.replyToName;
       }
