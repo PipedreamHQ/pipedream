@@ -12,7 +12,7 @@ export default {
   async run({ $ }) {
     const { nodes: teams } = await this.linearApp.listTeams();
 
-    $.export("summary", `Found ${teams.length} teams(s)`);
+    $.export("$summary", `Found ${teams.length} teams(s)`);
 
     return teams;
   },

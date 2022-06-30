@@ -22,7 +22,7 @@ export default {
       text: this.text,
     };
     await this.googleDocs.insertText(documentId, text);
-    $.export("summary", "Successfully created doc");
+    $.export("$summary", "Successfully created doc");
     return {
       documentId,
     };

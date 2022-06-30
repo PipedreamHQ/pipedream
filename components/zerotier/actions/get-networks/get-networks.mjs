@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved networks");
+    $.export("$summary", "Sucessfully retrieved networks");
 
     return response;
   },

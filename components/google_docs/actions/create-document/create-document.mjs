@@ -12,7 +12,7 @@ export default {
   },
   async run({ $ }) {
     const createdDoc = await this.googleDocs.createEmptyDoc(this.title);
-    $.export("summary", "Successfully created doc");
+    $.export("$summary", "Successfully created doc");
     return createdDoc;
   },
 };

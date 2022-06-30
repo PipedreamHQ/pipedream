@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    response && $.export("summary", "Successfully retrieved time entries");
+    response && $.export("$summary", "Successfully retrieved time entries");
 
     return response;
   },

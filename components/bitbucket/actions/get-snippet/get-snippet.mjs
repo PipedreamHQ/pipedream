@@ -30,7 +30,7 @@ export default {
       snippetId,
     }, $);
 
-    $.export("summary", "Successfully retrieved snippet");
+    $.export("$summary", "Successfully retrieved snippet");
 
     return response;
   },

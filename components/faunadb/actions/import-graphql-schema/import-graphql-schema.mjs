@@ -22,7 +22,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully imported graphql schema");
+    $.export("$summary", "Successfully imported graphql schema");
 
     return response;
   },

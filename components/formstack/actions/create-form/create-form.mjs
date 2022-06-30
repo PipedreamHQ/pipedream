@@ -67,7 +67,7 @@ export default {
       $,
     });
 
-    $.export("summary", `Successfully created form with ID ${response.id}`);
+    $.export("$summary", `Successfully created form with ID ${response.id}`);
 
     return response;
   },

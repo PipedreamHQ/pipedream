@@ -118,7 +118,7 @@ export default {
       },
     }, $);
 
-    $.export("summary", "Successfully created issue");
+    $.export("$summary", "Successfully created issue");
 
     return response;
   },

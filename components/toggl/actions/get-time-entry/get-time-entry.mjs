@@ -21,7 +21,7 @@ export default {
       timeEntryId: this.timeEntryId,
     });
 
-    response && $.export("summary", "Successfully retrieved time entry");
+    response && $.export("$summary", "Successfully retrieved time entry");
 
     return response;
   },

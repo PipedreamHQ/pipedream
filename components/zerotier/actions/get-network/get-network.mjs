@@ -21,7 +21,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved network");
+    $.export("$summary", "Sucessfully retrieved network");
 
     return response;
   },

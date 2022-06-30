@@ -20,7 +20,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved user");
+    $.export("$summary", "Sucessfully retrieved user");
 
     return response;
   },

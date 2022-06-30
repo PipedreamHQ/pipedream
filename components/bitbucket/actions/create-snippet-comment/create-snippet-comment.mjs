@@ -58,7 +58,7 @@ export default {
       },
     }, $);
 
-    $.export("summary", "Successfully created snippet comment");
+    $.export("$summary", "Successfully created snippet comment");
 
     return response;
   },

@@ -33,7 +33,7 @@ export default {
       $,
     });
 
-    $.export("summary", `Sucessfully created new network: ${this.networkName}`);
+    $.export("$summary", `Sucessfully created new network: ${this.networkName}`);
 
     return response;
   },

@@ -32,7 +32,7 @@ export default {
       text: this.text,
     };
     await this.googleDocs.insertText(this.docId, text, this.appendAtBeginning);
-    $.export("summary", "Successfully appended text to doc");
+    $.export("$summary", "Successfully appended text to doc");
     return {
       documentId: this.docId,
     };

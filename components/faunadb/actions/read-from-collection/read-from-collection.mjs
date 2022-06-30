@@ -32,7 +32,7 @@ export default {
       documentField,
     });
 
-    $.export("summary", "Successfully retrieved the collection's documents");
+    $.export("$summary", "Successfully retrieved the collection's documents");
 
     return response;
   },

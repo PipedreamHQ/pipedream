@@ -31,7 +31,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved node");
+    $.export("$summary", "Sucessfully retrieved node");
 
     return response;
   },

@@ -23,7 +23,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully retrieved form");
+    $.export("$summary", "Successfully retrieved form");
 
     return response;
   },

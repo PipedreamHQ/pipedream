@@ -87,7 +87,7 @@ export default {
       },
     }, $);
 
-    $.export("summary", "Successfully created issue comment");
+    $.export("$summary", "Successfully created issue comment");
 
     return response;
   },

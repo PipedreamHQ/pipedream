@@ -111,7 +111,7 @@ export default {
       hasNextPage = pageInfo.hasNextPage;
     } while (hasNextPage);
 
-    $.export("summary", `Found ${issues.length} issues`);
+    $.export("$summary", `Found ${issues.length} issues`);
 
     return issues;
   },

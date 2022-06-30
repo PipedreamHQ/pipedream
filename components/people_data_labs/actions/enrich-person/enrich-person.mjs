@@ -162,9 +162,9 @@ export default {
 
     const res = await this.app.enrichPerson(params);
     if (!res) {
-      $.export("summary", "No results found");
+      $.export("$summary", "No results found");
     } else {
-      $.export("summary", "Successfully enriched a person");
+      $.export("$summary", "Successfully enriched a person");
     }
     return res;
   },

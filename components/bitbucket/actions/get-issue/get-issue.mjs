@@ -42,7 +42,7 @@ export default {
       issueId,
     }, $);
 
-    $.export("summary", "Successfully retrieved issue");
+    $.export("$summary", "Successfully retrieved issue");
 
     return response;
   },

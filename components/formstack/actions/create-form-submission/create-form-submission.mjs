@@ -47,7 +47,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully created submission");
+    $.export("$summary", "Successfully created submission");
 
     return response;
   },

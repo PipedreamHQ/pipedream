@@ -106,9 +106,9 @@ export default {
 
     const res = await this.app.enrichCompany(params);
     if (!res) {
-      $.export("summary", "No results found");
+      $.export("$summary", "No results found");
     } else {
-      $.export("summary", "Successfully enriched a company");
+      $.export("$summary", "Successfully enriched a company");
     }
     return res;
   },

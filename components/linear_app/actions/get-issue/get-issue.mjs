@@ -18,7 +18,7 @@ export default {
   },
   async run({ $ }) {
     const issue = await this.linearApp.getIssue(this.issueId);
-    $.export("summary", `Found issue with ID ${this.issueId}`);
+    $.export("$summary", `Found issue with ID ${this.issueId}`);
     return issue;
   },
 };

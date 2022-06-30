@@ -21,7 +21,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved nodes");
+    $.export("$summary", "Sucessfully retrieved nodes");
 
     return response;
   },

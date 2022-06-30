@@ -37,7 +37,7 @@ export default {
       filename,
     });
 
-    $.export("summary", "Successfully retrieved repository file");
+    $.export("$summary", "Successfully retrieved repository file");
 
     return response;
   },

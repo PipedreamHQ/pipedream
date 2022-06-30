@@ -17,7 +17,7 @@ export default {
   async run({ $ }) {
     const response = await this.faunadb.executeGraphqlQuery(this.query, $);
 
-    $.export("summary", "Successfully executed graphql query");
+    $.export("$summary", "Successfully executed graphql query");
 
     return response;
   },

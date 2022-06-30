@@ -19,7 +19,7 @@ export default {
       command: this.command,
     });
 
-    $.export("summary", "Successfully executed command");
+    $.export("$summary", "Successfully executed command");
 
     return response;
   },

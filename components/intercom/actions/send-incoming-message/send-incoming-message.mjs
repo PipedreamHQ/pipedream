@@ -39,7 +39,7 @@ export default {
       body,
     };
     const res = await this.intercom.createConversation(data, $);
-    $.export("summary", `Message sent successfully with ID ${res.id}`);
+    $.export("$summary", `Message sent successfully with ID ${res.id}`);
     return res;
   },
 };

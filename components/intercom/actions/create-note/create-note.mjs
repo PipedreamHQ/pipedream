@@ -31,7 +31,7 @@ export default {
     } = this;
     const { id: adminId } = await this.intercom.getAdmin($);
     const res = await this.intercom.createNote(userId, adminId, body, $);
-    $.export("summary", `Successfully created note with ID ${res.id}`);
+    $.export("$summary", `Successfully created note with ID ${res.id}`);
     return res;
   },
 };

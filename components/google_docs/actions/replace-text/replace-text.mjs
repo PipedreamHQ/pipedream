@@ -45,7 +45,7 @@ export default {
       },
     };
     await this.googleDocs.replaceText(this.docId, text);
-    $.export("summary", "Successfully replaced text in doc");
+    $.export("$summary", "Successfully replaced text in doc");
     return {
       documentId: this.docId,
     };

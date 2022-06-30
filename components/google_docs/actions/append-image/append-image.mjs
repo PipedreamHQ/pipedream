@@ -32,7 +32,7 @@ export default {
       uri: this.imageUri,
     };
     const { data } = await this.googleDocs.appendImage(this.docId, image, this.appendAtBeginning);
-    $.export("summary", "Successfully appended image to doc");
+    $.export("$summary", "Successfully appended image to doc");
     return {
       documentId: data.documentId,
     };

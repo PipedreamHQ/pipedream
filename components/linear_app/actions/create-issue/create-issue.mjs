@@ -52,7 +52,7 @@ export default {
     const summary = response.success
       ? `Created issue ${response._issue.id}`
       : "Failed to create issue";
-    $.export("summary", summary);
+    $.export("$summary", summary);
 
     return response;
   },
