@@ -40,6 +40,7 @@ export default {
   },
   async run() {
     let newLastId = this.getLastId();
+    let newLastFetchTime = this.getLastFetchTime();
     const resourcesStream = utils.getResourcesStream({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: {
@@ -61,8 +62,11 @@ export default {
       if (newLastId < item.id) {
         newLastId = item.id;
       }
+      if (newLastFetchTime < createdTime) {
+        newLastFetchTime = createdTime;
+      }
     }
-    this.setLastFetchTime(Date.now());
+    this.setLastFetchTime(newLastFetchTime);
     this.setLastId(newLastId);
   },
 };
