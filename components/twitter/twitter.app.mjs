@@ -1076,6 +1076,20 @@ export default {
         config,
       }));
     },
+    async followUser({
+      params,
+      $,
+    }) {
+      const config = {
+        url: "https://api.twitter.com/1.1/friendships/create.json",
+        method: "post",
+        params,
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
     async unfollowUser({
       params,
       $,
