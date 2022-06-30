@@ -3,21 +3,21 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "linear_app-issue-created-instant",
-  name: "New Created Issue (Instant)",
-  description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  key: "linear_app-comment-created-instant",
+  name: "New Created Comment (Instant)",
+  description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.2.0",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getResourceTypes() {
       return [
-        constants.RESOURCE_TYPE.ISSUE,
+        constants.RESOURCE_TYPE.COMMENT,
       ];
     },
     getWebhookLabel() {
-      return "Issue created";
+      return "Comment created";
     },
     getActions() {
       return [
@@ -25,7 +25,7 @@ export default {
       ];
     },
     getResourcesFn() {
-      return this.linearApp.listIssues;
+      return this.linearApp.listComments;
     },
     getMetadata(resource) {
       const {
@@ -35,7 +35,7 @@ export default {
       } = resource;
       return {
         id: delivery,
-        summary: `Issue created: ${data.title}`,
+        summary: `Comment created: ${data.title}`,
         ts: Date.parse(createdAt),
       };
     },
