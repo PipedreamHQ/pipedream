@@ -3,7 +3,7 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-get-network",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Get Network",
   description: "Get a specific network. Returns a single network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkByID)",
   props: {
@@ -21,7 +21,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved network");
+    $.export("$summary", "Sucessfully retrieved network");
 
     return response;
   },

@@ -3,7 +3,7 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-get-network-node",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Get Network Node",
   description: "Get a specific node of a specific network. Returns an individual member (node) on a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMember)",
   props: {
@@ -31,7 +31,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved node");
+    $.export("$summary", "Sucessfully retrieved node");
 
     return response;
   },
