@@ -21,7 +21,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
-- Connect to [400+ apps](https://pipedream.com/apps) using Pipedream managed auth
+- Connect to [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
@@ -1080,7 +1080,7 @@ When you navigate to your source [in the UI](https://pipedream.com/sources), you
 
 #### Workflows
 
-[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with 300+ apps including Google Sheets, Discord, Slack, AWS, and more!
+[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with {{$site.themeConfig.PUBLIC_APPS}}+ apps including Google Sheets, Discord, Slack, AWS, and more!
 
 #### API
 

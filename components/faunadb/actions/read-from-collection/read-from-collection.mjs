@@ -4,7 +4,7 @@ export default {
   key: "faunadb-read-from-collection",
   name: "Read From FaunaDB Collection",
   description: "Reads all documents from a given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
-  version: "0.4.2",
+  version: "0.4.3",
   type: "action",
   props: {
     faunadb,
@@ -32,7 +32,7 @@ export default {
       documentField,
     });
 
-    $.export("summary", "Successfully retrieved the collection's documents");
+    $.export("$summary", "Successfully retrieved the collection's documents");
 
     return response;
   },

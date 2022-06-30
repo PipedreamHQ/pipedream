@@ -4,7 +4,7 @@ export default {
   key: "faunadb-import-graphql-schema",
   name: "Import GraphQL schema",
   description: "Import graphQL schema to a database. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#import)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     faunadb,
@@ -22,7 +22,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully imported graphql schema");
+    $.export("$summary", "Successfully imported graphql schema");
 
     return response;
   },

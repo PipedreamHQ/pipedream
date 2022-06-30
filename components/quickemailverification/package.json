@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/quickemailverification",
+  "version": "0.0.1",
+  "description": "Pipedream QuickEmailVerification Components",
+  "main": "dist/app/quickemailverification.app.mjs",
+  "keywords": [
+    "pipedream",
+    "quickemailverification"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/quickemailverification",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

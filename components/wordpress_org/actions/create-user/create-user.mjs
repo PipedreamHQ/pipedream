@@ -4,7 +4,7 @@ export default {
   key: "wordpress_org-create-user",
   name: "Create User",
   description: "Creates a user. [See the docs here](https://developer.wordpress.org/rest-api/reference/users/#create-a-user)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
@@ -72,14 +72,17 @@ export default {
       email: this.email,
       url: this.url,
       description: this.description,
-      roles: this.roles,
+      roles: this.roles && [
+        this.roles,
+      ],
       password: this.password,
     };
-
-    const resp = await this.wordpress.createUser(params);
-
-    $.export("$summary", "Successfully created new user.");
-
-    return resp;
+    try {
+      const resp = await this.wordpress.createUser(params);
+      $.export("$summary", "Successfully created new user.");
+      return resp;
+    } catch (e) {
+      throw new Error(JSON.stringify(e));
+    }
   },
 };
