@@ -19,7 +19,7 @@ export default {
     address: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
     },
     /* eslint-disable pipedream/default-value-required-for-optional-props */
