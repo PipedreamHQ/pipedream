@@ -5,7 +5,7 @@ export default {
   key: "bannerbear-create-image",
   name: "Create an Image",
   description: "Create an image using template and modifications. [See the docs](https://developers.bannerbear.com/#post-v2-images)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     bannerbear,
@@ -37,7 +37,7 @@ export default {
 
     console.log(response);
 
-    $.export("$summary",`Successfully created image with UID ${response.uid}`);
+    $.export("$summary", `Successfully created image with UID ${response.uid}`);
 
     return response;
   },

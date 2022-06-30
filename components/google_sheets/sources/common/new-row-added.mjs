@@ -135,7 +135,13 @@ export default {
         const newRowCount = oldRowCount + newRowValues.values.length;
         if (newRowCount <= oldRowCount) continue;
 
-        this._setRowCount(`${sheetId}${worksheetId}`, newRowCount);
+        this._setRowCount(
+          `${sheetId}${worksheetId}`,
+          // https://github.com/PipedreamHQ/pipedream/issues/2818
+          newRowCount >= upperBound
+            ? upperBound - 1
+            : newRowCount,
+        );
 
         for (const [
           index,

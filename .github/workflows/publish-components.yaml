@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -47,7 +47,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-      - name: Publish and add to registry components/*.*js (that aren't .app.js files) 
+      - name: Publish and add to registry components/*.*js (that aren't .app.js files)
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -93,11 +93,11 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=javascript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
-    
+
   publish-typescript-components:
     name: Publish TypeScript components
     runs-on: ubuntu-latest
@@ -220,7 +220,7 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=typescript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
           unset IFS
       - name: Remove pd cli config
         run: |

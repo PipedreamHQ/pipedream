@@ -36,7 +36,7 @@ components are automatically registered and immediately become available to the
 
 Components are [Node.js modules](../api/#component-structure) that run on
 Pipedream's serverless infrastructure. They may use Pipedream managed auth for
-[300+ apps](https://pipedream.com/explore) and [use most npm
+[{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) and [use most npm
 packages](../api/#using-npm-packages) with no `npm install` or `package.json`
 required. Pipedream currently supports two types of components — sources and
 actions.
