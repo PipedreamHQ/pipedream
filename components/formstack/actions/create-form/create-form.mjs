@@ -6,7 +6,7 @@ export default {
   key: "formstack-create-form",
   name: "Create Form",
   description: "Create a new form in your account. [See docs here](https://formstack.readme.io/docs/form-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     formstack,
     name: {
