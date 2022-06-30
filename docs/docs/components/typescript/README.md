@@ -26,7 +26,7 @@ If you've never developed Pipedream components before, [start here](/components/
 
 1. [Fork and clone the repo](https://github.com/PipedreamHQ/pipedream/).
 
-2. Run `npm ci` to install dependencies.
+2. Run `pnpm install` to install dependencies.
 
 3. See [the RSS sources and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) for example `tsconfig.json` configuration and TypeScript components. If the app you're working with doesn't yet have a `tsconfig.json` file, copy the file from the RSS component directory and modify accordingly.
 

@@ -1,4 +1,5 @@
 import WPAPI from "wpapi";
+import constants from "./common/constants.mjs";
 const PER_PAGE = 100;
 
 export default {
@@ -74,10 +75,11 @@ export default {
       optional: true,
     },
     roles: {
-      type: "string[]",
+      type: "string",
       label: "Roles",
       description: "Roles assigned to the user",
       optional: true,
+      options: constants.ROLES,
     },
     password: {
       type: "string",

@@ -1,41 +1,43 @@
 import bannerbear from "../../bannerbear.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "bannerbear-create-image",
   name: "Create an Image",
   description: "Create an image using template and modifications. [See the docs](https://developers.bannerbear.com/#post-v2-images)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     bannerbear,
     template: {
       propDefinition: [
         bannerbear,
-        "template",
+        "templateUid",
       ],
     },
     modifications: {
-      type: "string",
-      label: "Modifications",
-      description: "A list of modifications in JSON string format, for example: \"[{\"name\": \"message\", \"text\": \"test message\"}]\". [See the docs](https://developers.bannerbear.com/#post-v2-images)",
+      propDefinition: [
+        bannerbear,
+        "modifications",
+      ],
     },
   },
   async run({ $ }) {
-    const rawModification = this.modifications;
-    let modifications;
-    try {
-      modifications = JSON.parse(rawModification);
-    } catch (err) {
-      throw new Error("Failed to parse `modifications` as JSON. Please fix your input and try again.");
-    }
+    const { template } = this;
 
-    const response = await this.bannerbear.createImage(
+    const modifications = utils.parse(this.modifications);
+
+    const response = await this.bannerbear.createImageSync({
       $,
-      this.template,
-      modifications,
-    );
+      data: {
+        template,
+        modifications,
+      },
+    });
 
-    $.export("$summary", "Create image successfully.");
+    console.log(response);
+
+    $.export("$summary", `Successfully created image with UID ${response.uid}`);
 
     return response;
   },

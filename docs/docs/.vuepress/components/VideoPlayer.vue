@@ -2,12 +2,16 @@
 iframe {
   margin: auto;
 }
+
+.video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
 </style>
 
 <template>
   <iframe
-    width="660"
-    height="371"
+    class="video"
     :src="embedUrl"
     :title="title"
     frameborder="0"

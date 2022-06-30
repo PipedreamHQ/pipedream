@@ -47,10 +47,15 @@ export default {
       async options({
         parentId, parentType,
       }) {
-        const { properties } = parentType === "database"
-          ? await this.retrieveDatabase(parentId)
-          : await this.retrievePage(parentId);
-        return Object.keys(properties);
+        try {
+          const { properties } = parentType === "database"
+            ? await this.retrieveDatabase(parentId)
+            : await this.retrievePage(parentId);
+          return Object.keys(properties);
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
       },
     },
     blockTypes: {
