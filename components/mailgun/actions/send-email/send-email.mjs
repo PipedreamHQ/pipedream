@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-send-email",
   name: "Send Email",
-  description: "Send email with Mailgun.",
-  version: "0.0.28",
+  description: "Send email with Mailgun. [See the docs here](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
+  version: "0.0.29",
   type: "action",
   props: {
     mailgun,
@@ -29,7 +27,7 @@ module.exports = {
     from: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
       label: "From Email",
       description: "Sender email address",
@@ -38,7 +36,7 @@ module.exports = {
     replyTo: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
       label: "Reply-To",
       description: "Sender reply email address",
@@ -64,7 +62,7 @@ module.exports = {
     text: {
       propDefinition: [
         mailgun,
-        "body_text",
+        "bodyText",
       ],
       optional: true,
     },
@@ -72,7 +70,7 @@ module.exports = {
     html: {
       propDefinition: [
         mailgun,
-        "body_html",
+        "bodyHtml",
       ],
       optional: true,
     },
@@ -100,12 +98,9 @@ module.exports = {
         "documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
       optional: true,
     },
-    ...props,
+    ...common.props,
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const msg = {
       "from": `${this.fromName} <${this.from}>`,
       "to": this.to,
@@ -127,12 +122,11 @@ module.exports = {
     if (this.tracking) {
       msg["o:tracking"] = "yes";
     }
-    const sendMail = async function (mailgun, opts) {
-      return await mailgun.api("messages").create(opts.domain, opts.msg);
-    };
-    return await this.withErrorHandler(sendMail, {
+    const resp = await this.withErrorHandler(this.mailgun.sendMail, {
       domain: this.domain,
       msg,
     });
+    $.export("$summary", "Successfully sent email.");
+    return resp;
   },
 };

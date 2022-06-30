@@ -1,14 +1,12 @@
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-suppress-email",
   name: "Suppress Email",
-  description: "Add email to the Mailgun suppression list.",
-  version: "0.0.2",
+  description: "Add email to the Mailgun suppression list. [See the docs here](https://documentation.mailgun.com/en/latest/api-suppressions.html#suppressions)",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,
@@ -21,7 +19,7 @@ module.exports = {
     email: {
       propDefinition: [
         mailgun,
-        "email",
+        "emailString",
       ],
     },
     category: {
@@ -56,12 +54,9 @@ module.exports = {
       default: "*",
       optional: true,
     },
-    ...props,
+    ...common.props,
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const urlSearchParams = new URLSearchParams();
     urlSearchParams.append("address", this.email);
     switch (this.category) {
@@ -75,9 +70,8 @@ module.exports = {
     }
     const params = urlSearchParams.toString();
     const url = `v3/${this.domain}/${this.category}?${params}`;
-    const supressEmail = async function (mailgun, url) {
-      return await mailgun.api("request").post(url);
-    };
-    return await this.withErrorHandler(supressEmail, url);
+    const resp = await this.withErrorHandler(this.mailgun.mailgunPostRequest, url);
+    $.export("$summary", "Successfully suppressed email");
+    return resp;
   },
 };

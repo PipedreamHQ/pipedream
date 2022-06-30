@@ -1,7 +1,7 @@
-const mailgun = require("../../mailgun.app");
-const { v4: uuidv4 } = require("uuid");
+import mailgun from "../../mailgun.app.mjs";
+import { v4 as uuidv4 } from "uuid";
 
-module.exports = {
+export default {
   props: {
     mailgun,
     domain: {

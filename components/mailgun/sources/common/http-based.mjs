@@ -1,8 +1,8 @@
-const crypto = require("crypto");
-const get = require("lodash.get");
-const base = require("./base");
+import crypto from "crypto";
+import get from "lodash/get.js";
+import base from "./base.mjs";
 
-module.exports = {
+export default {
   ...base,
   props: {
     ...base.props,

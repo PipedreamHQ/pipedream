@@ -1,6 +1,6 @@
-const mailgun = require("../mailgun.app");
+import mailgun from "../mailgun.app.mjs";
 
-module.exports = {
+export default {
   props: {
     mailgun,
     haltOnError: {
@@ -13,7 +13,7 @@ module.exports = {
   methods: {
     async withErrorHandler(action, opts) {
       try {
-        return await action(this.mailgun, opts);
+        return await action(opts);
       } catch (error) {
         if (this.haltOnError) {
           console.log(error);

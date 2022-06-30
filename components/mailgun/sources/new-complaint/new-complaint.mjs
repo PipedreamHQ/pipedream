@@ -1,19 +1,15 @@
-const {
-  methods,
-  ...common
-} = require("../common/http-based");
+import common from "../common/http-based.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mailgun-new-complaint",
-  name: "New Complaint",
+  name: "New Complaint (Instant)",
   type: "source",
-  description: "Emit new event when the email recipient clicked on the spam complaint button " +
-    "within their email client. Feedback loops enable the notification to be received by Mailgun.",
-  version: "0.0.1",
+  description: "Emit new event when the email recipient clicked on the spam complaint button within their email client. Feedback loops enable the notification to be received by Mailgun.",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...methods,
+    ...common.methods,
     getEventName() {
       return [
         "complained",

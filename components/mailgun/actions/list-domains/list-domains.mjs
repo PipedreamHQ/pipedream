@@ -1,15 +1,12 @@
-const pick = require("lodash.pick");
-const mailgun = require("../../mailgun.app.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import mailgun from "../../mailgun.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "mailgun-list-domains",
   name: "List Domains",
-  description: "List domains in Mailgun",
-  version: "0.0.1",
+  description: "List domains in Mailgun. [See the docs here](https://documentation.mailgun.com/en/latest/api-domains.html#domains)",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
@@ -33,26 +30,14 @@ module.exports = {
       default: "active",
     },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
-    ...props,
+    ...common.props,
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
-    const listDomains = async function (mailgun, opts) {
-      return await mailgun.paginate(
-        (params) => mailgun.api("domains").list({
-          ...pick(opts, [
-            "authority",
-            "state",
-          ]),
-          ...params,
-        }),
-      );
-    };
-    return await this.withErrorHandler(listDomains, {
+  async run({ $ }) {
+    const resp = await this.withErrorHandler(this.mailgun.listDomains, {
       authority: this.authority,
       state: this.state,
     });
+    $.export("$summary", `Found ${resp.length} domain(s)`);
+    return resp;
   },
 };
