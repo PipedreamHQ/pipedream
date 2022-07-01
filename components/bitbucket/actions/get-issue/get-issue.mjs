@@ -5,7 +5,7 @@ export default {
   key: "bitbucket-get-issue",
   name: "Get issue",
   description: "Get a issue. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...base.props,
@@ -42,7 +42,7 @@ export default {
       issueId,
     }, $);
 
-    $.export("summary", "Successfully retrieved issue");
+    $.export("$summary", "Successfully retrieved issue");
 
     return response;
   },
