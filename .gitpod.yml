@@ -1,3 +1,21 @@
+image:
+  file: .gitpod.Dockerfile
+
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - name: Monorepo setup
+    init: npm install --frozen-lockfile
+#     openMode: split-left
+
+  - name: PD CLI
+    command: printf "\033[3J\033c\033[3J" && pd
+#     openMode: split-right
+
+  - command: gp ports await 23000 1>/dev/null && gp preview https://pipedream.com/docs/components/ && exit
+
+  - name: Init pipedream api key
+    command: printf "\033[3J\033c\033[3J" && source scripts/gitpod_api_wizard.sh; exit
+
 github:
   prebuilds:
     master: true
@@ -7,22 +25,3 @@ github:
     addCheck: false
     addComment: false
     addBadge: true
-
-# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
-tasks:
-  - name: Monorepo setup
-    init: npm install --frozen-lockfile
-  # Installs the PD CLI and configures it to use the PD_API_KEY in the user's Gitpod settings
-  # Add your ENV key here: https://gitpod.io/variables
-  - name: Install PD CLI
-    before: |
-      curl https://cli.pipedream.com/linux/amd64/latest/pd.zip --output pd.zip && \
-      unzip pd.zip -d pd && \
-      sudo mv pd/pd /usr/local/bin/ && \
-      rm -r pd && rm pd.zip
-    init: |
-      eval $(command gp env -e) &&
-      mkdir ~/.config/pipedream &&
-      touch ~/.config/pipedream/config &&
-      echo "api_key = ${PD_API_KEY}" >> ~/.config/pipedream/config
-    command: pd
