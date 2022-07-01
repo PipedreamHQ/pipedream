@@ -27,16 +27,6 @@ export default {
     getWebhookId() {
       return this.db.get(constants.WEBHOOK_ID);
     },
-    isRelevant(body) {
-      if (!this.getActions().includes(body?.action)) {
-        return false;
-      }
-      // projectId does not exist in the returned body data for Comment
-      if (this.projectId && !this.getResourceTypes().includes(constants.RESOURCE_TYPE.COMMENT)) {
-        return body.data.projectId === this.projectId;
-      }
-      return true;
-    },
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
     },

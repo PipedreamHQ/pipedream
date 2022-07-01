@@ -223,5 +223,17 @@ export default {
         }
       } while (hasNextPage);
     },
+    isActionSet(body, actions) {
+      if (!actions.includes(body?.action)) {
+        return false;
+      }
+      return true;
+    },
+    isProjectIdSet(body, projectId) {
+      if (projectId) {
+        return body.data.projectId === projectId;
+      }
+      return true;
+    },
   },
 };

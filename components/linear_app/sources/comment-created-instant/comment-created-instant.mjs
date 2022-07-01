@@ -27,6 +27,12 @@ export default {
     getResourcesFn() {
       return this.linearApp.listComments;
     },
+    isRelevant(body) {
+      if (!this.linearApp.isActionSet(body, this.getActions())) {
+        return false;
+      }
+      return true;
+    },
     getMetadata(resource) {
       const {
         delivery,
