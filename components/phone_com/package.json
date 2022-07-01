@@ -7,7 +7,9 @@
     "pipedream",
     "phone_com"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/phone_com",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
@@ -16,5 +18,8 @@
   },
   "devDependencies": {
     "@pipedream/types": "^0.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
   }
 }

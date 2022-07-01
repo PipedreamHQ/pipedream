@@ -11,11 +11,8 @@ export default defineAction({
     phone_com,
   },
   async run({ $ }) {
-    const auth = this.phone_com._getAuth();
+    const result = await this.phone_com._httpRequest();
     $.export("$summary", "Sent message successfully");
-    return {
-      auth,
-      success: true
-    };
+    return result;
   },
 });

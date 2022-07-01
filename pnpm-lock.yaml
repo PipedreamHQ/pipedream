@@ -1018,6 +1018,9 @@ importers:
   components/phone_com:
     specifiers:
       '@pipedream/types': ^0.1.0
+      axios: ^0.27.2
+    dependencies:
+      axios: 0.27.2
     devDependencies:
       '@pipedream/types': 0.1.0
 
