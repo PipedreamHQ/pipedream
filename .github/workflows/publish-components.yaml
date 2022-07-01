@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -47,7 +47,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-      - name: Publish and add to registry components/*.*js (that aren't .app.js files) 
+      - name: Publish and add to registry components/*.*js (that aren't .app.js files)
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -72,7 +72,7 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
                 PUBLISHED+="*${added_modified_file}"
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
@@ -93,11 +93,11 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=javascript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
-    
+
   publish-typescript-components:
     name: Publish TypeScript components
     runs-on: ubuntu-latest
@@ -198,7 +198,7 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'"}}'
+                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'"}}'
                   PUBLISHED+="*${changed_output_file}"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`
@@ -220,7 +220,7 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=typescript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
           unset IFS
       - name: Remove pd cli config
         run: |
