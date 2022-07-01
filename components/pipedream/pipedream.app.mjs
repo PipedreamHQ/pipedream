@@ -11,7 +11,6 @@ export default {
       description: "The ID of the workflow or component emitting events",
       async options() {
         const { data } = await this.getCurrentUserInfo();
-        console.log(data);
         return data.orgs.map((org) => ({
           label: `User: ${data.username} - Org: ${org.orgname} `,
           value: org.id,

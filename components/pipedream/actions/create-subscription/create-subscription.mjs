@@ -2,7 +2,7 @@ import pipedream from "../../pipedream.app.mjs";
 
 export default {
   key: "pipedream-create-subscription",
-  name: "Creates a Subscription",
+  name: "Create a Subscription",
   description: "Create a Subscription. [See Doc](https://pipedream.com/docs/api/rest/#subscriptions)",
   version: "0.0.1",
   type: "action",
