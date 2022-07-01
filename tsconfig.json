@@ -385,6 +385,15 @@
     },
     {
       "path": "components/referralrock"
+    },
+    {
+      "path": "components/shippotoken"
+    },
+    {
+      "path": "components/amplenote"
+    },
+    {
+      "path": "components/wildberries"
     }
   ]
 }
