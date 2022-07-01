@@ -31,6 +31,9 @@ export default {
       if (!this.linearApp.isActionSet(body, this.getActions())) {
         return false;
       }
+      if (!this.linearApp.isProjectIdSet(body, this.projectId)) {
+        return false;
+      }
       return true;
     },
     getMetadata(resource) {
