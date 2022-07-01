@@ -15,14 +15,16 @@ export default {
       ],
     },
     eventName: {
-      type: "string",
-      label: "Event name",
-      description: "Event name",
+      propDefinition: [
+        pipedream,
+        "eventName",
+      ],
     },
     listenerId: {
-      type: "string",
-      label: "Listener ID",
-      description: "Listener ID",
+      propDefinition: [
+        pipedream,
+        "listenerId",
+      ],
     },
   },
   async run({ $ }) {

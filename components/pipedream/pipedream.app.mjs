@@ -8,7 +8,7 @@ export default {
     emitterId: {
       type: "string",
       label: "Emitter ID",
-      description: "Emitting component ID",
+      description: "The ID of the workflow or component emitting events",
       async options() {
         const { data } = await this.getCurrentUserInfo();
         console.log(data);
@@ -17,6 +17,16 @@ export default {
           value: org.id,
         }));
       },
+    },
+    listenerId: {
+      type: "string",
+      label: "Listener ID",
+      description: "The ID of the component or workflow you'd like to receive events",
+    },
+    eventName: {
+      type: "string",
+      label: "Event name",
+      description: "The name of the event stream tied to your subscription",
     },
   },
   methods: {
