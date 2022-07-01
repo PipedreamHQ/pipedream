@@ -4,6 +4,21 @@ import axios from "axios";
 export default {
   type: "app",
   app: "pipedream",
+  propDefinitions: {
+    emitterId: {
+      type: "string",
+      label: "Emitter ID",
+      description: "Emitting component ID",
+      async options() {
+        const { data } = await this.getCurrentUserInfo();
+        console.log(data);
+        return data.orgs.map((org) => ({
+          label: `User: ${data.username} - Org: ${org.orgname} `,
+          value: org.id,
+        }));
+      },
+    },
+  },
   methods: {
     async _makeAPIRequest(opts) {
       if (!opts.headers) opts.headers = {};
@@ -12,21 +27,18 @@ export default {
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
-      opts.url = `https://api.pipedream.com/v1${
-        path[0] === "/"
-          ? ""
-          : "/"
+      opts.url = `https://api.pipedream.com/v1${path[0] === "/"
+        ? ""
+        : "/"
       }${path}`;
       return (await axios(opts)).data;
     },
-    async subscribe(emitter_id, listener_id, channel) {
+    async subscribe(emitter_id, listener_id, event_name) {
       let params = {
         emitter_id,
         listener_id,
+        event_name,
       };
-      if (channel) {
-        params.event_name = channel;
-      }
       return await this._makeAPIRequest({
         method: "POST",
         path: "/subscriptions",
@@ -41,6 +53,12 @@ export default {
         },
       });
     },
+    async getCurrentUserInfo(args = {}) {
+      return await this._makeAPIRequest({
+        path: "/users/me",
+        ...args,
+      });
+    },
     async deleteEvent(dcID, eventID, event_name) {
       return await this._makeAPIRequest({
         method: "DELETE",
@@ -50,6 +68,18 @@ export default {
           end_id: eventID,
           event_name,
         },
+      });
+    },
+    async deleteSubscription(emitter_id, listener_id, event_name) {
+      let params = {
+        emitter_id,
+        listener_id,
+        event_name,
+      };
+      return await this._makeAPIRequest({
+        method: "DELETE",
+        path: "/subscriptions",
+        params,
       });
     },
   },
