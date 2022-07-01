@@ -11,7 +11,6 @@ export default {
       description: "Emitting component ID",
       async options() {
         const { data } = await this.getCurrentUserInfo();
-        console.log(data);
         return data.orgs.map((org) => ({
           label: `User: ${data.username} - Org: ${org.orgname} `,
           value: org.id,
