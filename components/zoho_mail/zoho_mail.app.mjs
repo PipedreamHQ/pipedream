@@ -23,15 +23,16 @@ export default {
         method = "GET",
         path,
         $ = this,
+        ...otherArgs
       } = args;
       const config = {
         method,
-        url: `http://mail.zoho.com/api/${path}`,
+        url: `https://mail.zoho.com/api/${path}`,
         headers: {
           "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
           "User-Agent": "@PipedreamHQ/pipedream v0.1",
         },
-        ...args,
+        ...otherArgs,
       };
       return axios($, config);
     },
@@ -42,10 +43,21 @@ export default {
       })).data;
     },
     async listEmails({
-      $, accountId,
+      $, accountId, params,
     } = {}) {
       return (await this.makeRequest({
         path: `accounts/${accountId}/messages/view`,
+        params,
+        $,
+      })).data;
+    },
+    async createTask({
+      $, data,
+    }) {
+      return (await this.makeRequest({
+        path: "tasks/me",
+        method: "POST",
+        data,
         $,
       })).data;
     },

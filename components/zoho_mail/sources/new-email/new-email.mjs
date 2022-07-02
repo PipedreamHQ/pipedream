@@ -48,7 +48,9 @@ export default {
     let newLastReceivedTime = lastReceivedTime;
     const results = await this.zohoMail.listEmails({
       accountId: this.account,
-      sortorder: false, // descending
+      params: {
+        sortorder: false, // descending
+      },
     });
     for (const email of results) {
       if (this.isLater(email.receivedTime, lastReceivedTime)) {
