@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>
+            Your Title Here
+        </title>
+    </head>
+    <body align="middle">
+        <font size="10" face="Comic Sans MS" color="blue"><u><h1 align="middle">QUIZ</h1></u></font>
+        <b><i><center><font size="5" face="Verdana" color="red">(Click on the questions to see answers{If Required})<br></font></i></b></center>
+        <font face="Comic Sans MS" size="10" color="purple">
+            <i><b><a href="1 solution.html">
+                1.What is the study of coins called?</a><br>
+                <i><b><a href="2 solution.html">
+            2.Which is the only pet spider?</a><br>
+            <i><b><a href="3 solution.html">
+            3.What is the innermost part of the Earth called?</a><br>
+            <i><b><a href="4 solution.html">
+                4.The Temperate Softwood Forests which are found in southern slopes of the Himalyas are known as?</a><br>
+    </body>
+</html>
