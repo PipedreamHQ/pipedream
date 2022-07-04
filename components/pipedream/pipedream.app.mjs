@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "Event name",
       description: "The name of the event stream tied to your subscription",
+      optional: true,
     },
   },
   methods: {
@@ -42,12 +43,14 @@ export default {
       }${path}`;
       return (await axios(opts)).data;
     },
-    async subscribe(emitter_id, listener_id, event_name) {
+    async subscribe(emitter_id, listener_id, event_name = null) {
       let params = {
         emitter_id,
         listener_id,
-        event_name,
       };
+      if (event_name) {
+        params.event_name = event_name;
+      }
       return await this._makeAPIRequest({
         method: "POST",
         path: "/subscriptions",
