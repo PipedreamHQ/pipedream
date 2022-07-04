@@ -9,9 +9,41 @@ export default defineAction({
   type: "action",
   props: {
     phone_com,
+    account: {
+      propDefinition: [
+        phone_com,
+        "account"
+      ]
+    },
+    fromNumber: {
+      type: "string",
+      label: "Sender Number",
+      description: "Sender's phone number must be Phone.com's."
+    },
+    toNumber: {
+      type: "string[]",
+      label: "Recipient Number(s)",
+      description: "List of phone numbers to send the message to."
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The message text."
+    },
+    tag: {
+      type: "string",
+      label: "Tag",
+      description: "Client-side tracking identifier."
+    }
   },
   async run({ $ }) {
-    const result = await this.phone_com._httpRequest();
+    const result = await this.phone_com.sendMessage({
+      from: this.fromNumber,
+      to: this.toNumber,
+      text: this.text,
+      tag: this.tag,
+    });
+    
     $.export("$summary", "Sent message successfully");
     return result;
   },

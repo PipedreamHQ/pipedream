@@ -1,11 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import axios from "axios";
-
-interface HttpRequestParams {
-  method: string;
-  endpoint: string;
-  data?: object;
-}
+import { httpRequestParams, apiResponse, sendMessageParams } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -14,21 +9,28 @@ export default defineApp({
     _baseUrl(): string {
       return 'https://api.phone.com/v4';
     },
-    async _httpRequest({ method, endpoint, data }: HttpRequestParams): Promise<any> {
+    async _httpRequest({ method, endpoint, data }: httpRequestParams): apiResponse {
       return axios({
         method,
-        url: this.baseUrl() + endpoint,
+        url: this._baseUrl() + endpoint,
         headers: {
           Authorization: `Bearer ${this.$auth.access_token}`,
         },
         data
       })
     },
-    async listAccounts(): Promise<any> {
+    async listAccounts(): apiResponse {
       return this._httpRequest({
         method: "GET",
         endpoint: "/accounts"
       });
+    },
+    async sendMessage(data: sendMessageParams): apiResponse {
+      return this._httpRequest({
+        method: 'POST',
+        endpoint: `accounts/${this.account}/messages`,
+        data
+      })
     }
   },
   propDefinitions: {
