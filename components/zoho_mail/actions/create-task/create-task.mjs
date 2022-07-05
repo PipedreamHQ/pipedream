@@ -4,7 +4,8 @@ export default {
   key: "zoho_mail-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the docs here](https://www.zoho.com/mail/help/api/post-add-new-task.html)",
-  version: "0.0.1",
+  //version: "0.0.1",
+  version: "0.0.18",
   type: "action",
   props: {
     zohoMail,
@@ -12,14 +13,6 @@ export default {
       type: "string",
       label: "Title",
       description: "The title for the task that is being added",
-    },
-    assignee: {
-      propDefinition: [
-        zohoMail,
-        "account",
-      ],
-      label: "Assignee",
-      description: "The zuid of the member to whom the task is assigned",
     },
     description: {
       type: "string",
@@ -38,15 +31,21 @@ export default {
       ],
       optional: true,
     },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The due date that you want to set for the task in `dd/mm/yyyy` format",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = {
       title: this.title,
       description: this.description,
       priority: this.priority,
-      assignee: parseInt(this.assignee),
+      dueDate: this.dueDate,
     };
-    const resp = this.zohoMail.createTask({
+    const resp = await this.zohoMail.createTask({
       $,
       data,
     });
