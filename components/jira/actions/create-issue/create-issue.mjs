@@ -1,11 +1,11 @@
-import jira from "../../jira.app.mjs";
 import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     jira,
@@ -119,6 +119,7 @@ export default {
         jira,
         "transition",
       ],
+      type: "string",
     },
     historyMetadata: {
       type: "object",
@@ -141,6 +142,7 @@ export default {
     },
   },
   async run({ $ }) {
+    const customFields = utils.parseObject(this.customFields);
     const fields = {
       summary: this.summary,
       issuetype: {
@@ -155,7 +157,7 @@ export default {
       },
       labels: this.labels,
       duedate: this.duedate,
-      ...this.customFields,
+      ...customFields,
     };
     const description = utils.parseObject(this.description);
     fields.description = description;
@@ -191,7 +193,7 @@ export default {
       };
     }
     const update = utils.parseObject(this.update);
-    const transition = utils.parseObject(this.transition);
+    const transition = this.transition;
     const historyMetadata = utils.parseObject(this.historyMetadata);
     const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
@@ -208,9 +210,9 @@ export default {
       data: {
         fields,
         update,
-        transition,
         historyMetadata,
         properties,
+        transition,
         ...additionalProperties,
       },
     });
