@@ -27,11 +27,12 @@ export default {
     getResourcesFn() {
       return this.linearApp.listIssues;
     },
-    isRelevant(body) {
+    async isRelevant(body) {
+      const projectIdSet = await this.linearApp.isProjectIdSet(body, this.projectId);
       if (!this.linearApp.isActionSet(body, this.getActions())) {
         return false;
       }
-      if (!this.linearApp.isProjectIdSet(body, this.projectId)) {
+      if (!projectIdSet) {
         return false;
       }
       return true;

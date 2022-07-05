@@ -109,7 +109,7 @@ export default {
       return;
     }
 
-    if (!this.isRelevant(body)) {
+    if (!await this.isRelevant(body)) {
       return;
     }
     const meta = this.getMetadata(resource);

@@ -229,9 +229,14 @@ export default {
       }
       return true;
     },
-    isProjectIdSet(body, projectId) {
+    async isProjectIdSet(body, projectId) {
       if (projectId) {
-        return body.data.projectId === projectId;
+        if (!body.data?.projectId) {
+          const issue = body.data?.issue?.id && await this.getIssue(body.data?.issue?.id);
+          return issue?._project?.id === projectId;
+        } else {
+          return body.data.projectId === projectId;
+        }
       }
       return true;
     },
