@@ -24,52 +24,46 @@ export default {
       ],
     },
     toAddress: {
-      type: "string",
-      label: "To Address",
-      description: "Recipient email address for the To field",
+      propDefinition: [
+        zohoMail,
+        "toAddress",
+      ],
     },
     ccAddress: {
-      type: "string",
-      label: "Cc Address",
-      description: "Recipient email address for the Cc field",
-      optional: true,
+      propDefinition: [
+        zohoMail,
+        "ccAddress",
+      ],
     },
     bccAddress: {
-      type: "string",
-      label: "Bcc Address",
-      description: "Recipient email address for the Bcc field",
-      optional: true,
+      propDefinition: [
+        zohoMail,
+        "bccAddress",
+      ],
     },
     subject: {
-      type: "string",
-      label: "Subject",
-      description: "Subject of the email that should be sent",
-      optional: true,
+      propDefinition: [
+        zohoMail,
+        "subject",
+      ],
     },
     content: {
-      type: "string",
-      label: "Content",
-      description: "Content of the email that should be sent",
-      optional: true,
+      propDefinition: [
+        zohoMail,
+        "content",
+      ],
     },
     mailFormat: {
-      type: "string",
-      label: "Mail Format",
-      description: "Whether the email should be sent in HTML format or in plain text. The default value is html.",
-      options: [
-        "html",
-        "plaintext",
+      propDefinition: [
+        zohoMail,
+        "mailFormat",
       ],
-      optional: true,
     },
     askReceipt: {
-      type: "string",
-      label: "Ask Receipt",
-      description: "Whether you need to request Read receipt from the recipient. If required, enter the value as `yes`.",
-      options: [
-        "yes",
+      propDefinition: [
+        zohoMail,
+        "askReceipt",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {

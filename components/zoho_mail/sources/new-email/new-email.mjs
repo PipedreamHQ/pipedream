@@ -24,6 +24,27 @@ export default {
         "account",
       ],
     },
+    max: {
+      propDefinition: [
+        zohoMail,
+        "max",
+      ],
+    },
+  },
+  hooks: {
+    async deploy() {
+      // emit sample events
+      let newLastReceivedTime;
+      const results = await this.listEmails(10);
+      const emails = results.reverse();
+      for (const email of emails) {
+        this.emitEvent(email);
+        if (this.isLater(email.receivedTime, newLastReceivedTime)) {
+          newLastReceivedTime = email.receivedTime;
+        }
+      }
+      this._setLastReceivedTime(newLastReceivedTime);
+    },
   },
   methods: {
     _getLastReceivedTime() {
@@ -42,23 +63,31 @@ export default {
         ts: Date.parse(email.receivedTime),
       };
     },
+    async listEmails(limit) {
+      return this.zohoMail.listEmails({
+        accountId: this.account,
+        params: {
+          sortorder: false, // descending
+          limit,
+        },
+      });
+    },
+    emitEvent(email) {
+      const meta = this.generateMeta(email);
+      this.$emit(email, meta);
+    },
   },
   async run() {
     const lastReceivedTime = this._getLastReceivedTime();
     let newLastReceivedTime = lastReceivedTime;
-    const results = await this.zohoMail.listEmails({
-      accountId: this.account,
-      params: {
-        sortorder: false, // descending
-      },
-    });
-    for (const email of results) {
+    const results = await this.listEmails(this.max);
+    const emails = results.reverse();
+    for (const email of emails) {
       if (this.isLater(email.receivedTime, lastReceivedTime)) {
         if (this.isLater(email.receivedTime, newLastReceivedTime)) {
           newLastReceivedTime = email.receivedTime;
         }
-        const meta = this.generateMeta(email);
-        this.$emit(email, meta);
+        this.emitEvent(email);
       }
     }
 
