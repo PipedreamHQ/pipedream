@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     pipedream,
-    emitterId: {
+    subscriptionCategory: {
       propDefinition: [
         pipedream,
-        "emitterId",
+        "subscriptionCategory",
+      ],
+    },
+    subscriptionSource: {
+      propDefinition: [
+        pipedream,
+        "subscriptionSource",
+        (c) => ({
+          subscriptionCategory: c.subscriptionCategory,
+        }),
       ],
     },
     eventName: {
@@ -29,7 +38,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.pipedream
-      .deleteSubscription(this.emitterId, this.listenerId, this.eventName);
+      .deleteSubscription(this.subscriptionSource, this.listenerId, this.eventName);
     response?.data?.length > 0 && $.export("$summary", "Successfully deleted Subscription");
     return response;
   },

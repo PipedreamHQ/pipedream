@@ -1,22 +1,36 @@
 /* eslint-disable camelcase */
 import axios from "axios";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "pipedream",
   propDefinitions: {
-    emitterId: {
+    subscriptionSource: {
       type: "string",
-      label: "Emitter ID",
-      description: `The ID of the workflow or component emitting events.
+      label: "Subscription source",
+      description: `Subscription source. Organisation ID or user ID is set as the emitter_id,
       [See details here](https://pipedream.com/docs/api/rest/#listen-for-events-from-another-source-or-workflow)`,
-      async options() {
+      async options({ subscriptionCategory }) {
         const { data } = await this.getCurrentUserInfo();
-        return data.orgs.map((org) => ({
-          label: `User: ${data.username} - Org: ${org.orgname} `,
-          value: org.id,
-        }));
+        return subscriptionCategory === constants.SUBSCRIPTION_SOURCE[0]
+          ? data.orgs.map((org) => ({
+            label: `Org - ${org.orgname}`,
+            value: org.id,
+          }))
+          : [
+            {
+              label: `User - ${data.username}`,
+              value: data.id,
+            },
+          ];
       },
+    },
+    subscriptionCategory: {
+      type: "string",
+      label: "Subscription category",
+      description: "Set user or organisation as subscription source",
+      options: constants.SUBSCRIPTION_SOURCE,
     },
     listenerId: {
       type: "string",
