@@ -56,7 +56,7 @@ export default {
       try {
         return await axios($, config);
       } catch (error) {
-        console.log("Error", error);
+        console.log("Axio error", error);
         throw error;
       }
     },
@@ -107,6 +107,45 @@ export default {
         path: `/saved_searches/${searchId}`,
         ...args,
       });
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      max = constants.MAX_RESOURCES,
+    }) {
+      let page = 1;
+      let resourcesCount = 0;
+      let nextResources;
+
+      while (true) {
+        try {
+          nextResources = await resourceFn({
+            ...resourceFnArgs,
+            params: {
+              ...resourceFnArgs.params,
+              page,
+            },
+          });
+        } catch (error) {
+          console.log("Stream error", error);
+          return;
+        }
+
+        if (nextResources?.length < 1) {
+          return;
+        }
+
+        page += 1;
+
+        for (const resource of nextResources) {
+          resourcesCount += 1;
+          yield resource;
+        }
+
+        if (max && resourcesCount >= max) {
+          return;
+        }
+      }
     },
   },
 };
