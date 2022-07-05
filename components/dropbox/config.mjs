@@ -5,4 +5,7 @@ export default {
   LIST_FILES_IN_FOLDER: {
     DEFAULT_MAX_RESULTS: 100,
   },
+  GET_PATH_OPTIONS: {
+    DEFAULT_MAX_RESULTS: 1000,
+  },
 };
