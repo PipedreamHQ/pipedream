@@ -5,7 +5,7 @@ export default {
   name: "New Column",
   key: "postgresql-new-column",
   description: "Emit new event when a new column is added to a table",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,
