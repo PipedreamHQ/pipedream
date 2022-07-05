@@ -397,6 +397,9 @@
     },
     {
       "path": "components/yr"
+    },
+    {
+      "path": "components/deepgram"
     }
   ]
 }
