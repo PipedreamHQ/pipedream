@@ -2,10 +2,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "slack-new-star-added",
-  name: "New Star Added (Instant)",
-  version: "0.0.2",
-  description: "Emit new event when a star is added to an item",
+  key: "slack-new-star-added-message",
+  name: "New Star Added To Message (Instant)",
+  version: "0.0.1",
+  description: "Emit new event when a star is added to a message",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,12 +23,14 @@ export default {
   },
   methods: {
     ...common.methods,
-    getSummary(event) {
-      let type = (event.item.type === "im")
-        ? "user"
-        : event.item.type;
-      type = type.charAt(0).toUpperCase() + type.slice(1);
-      return `New star added - ${type}`;
+    getSummary() {
+      return "New star added - Message";
+    },
+    async processEvent(event) {
+      if (event.item.type !== "message") {
+        return;
+      }
+      return event;
     },
   },
 };
