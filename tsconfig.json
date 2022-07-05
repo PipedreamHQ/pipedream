@@ -391,6 +391,12 @@
     },
     {
       "path": "components/amplenote"
+    },
+    {
+      "path": "components/wildberries"
+    },
+    {
+      "path": "components/yr"
     }
   ]
 }
