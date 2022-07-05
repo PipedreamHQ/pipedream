@@ -17,7 +17,7 @@ export default {
     background_mode: {
       type: "boolean",
       label: "Background Mode",
-      description: "Weather to generate pdf in background mode or not.",
+      description: "Whether to generate pdf in background mode or not.",
       optional: true,
     },
   },
