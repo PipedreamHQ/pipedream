@@ -394,6 +394,9 @@
     },
     {
       "path": "components/wildberries"
+    },
+    {
+      "path": "components/yr"
     }
   ]
 }
