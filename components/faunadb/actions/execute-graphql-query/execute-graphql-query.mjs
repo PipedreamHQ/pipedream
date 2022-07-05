@@ -4,7 +4,7 @@ export default {
   key: "faunadb-execute-graphql-query",
   name: "Execute GraphQL Query",
   description: "Performs an arbitrary authorized GraphQL query. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#graphql)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     faunadb,
@@ -17,7 +17,7 @@ export default {
   async run({ $ }) {
     const response = await this.faunadb.executeGraphqlQuery(this.query, $);
 
-    $.export("summary", "Successfully executed graphql query");
+    $.export("$summary", "Successfully executed graphql query");
 
     return response;
   },

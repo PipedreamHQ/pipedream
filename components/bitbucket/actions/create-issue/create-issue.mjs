@@ -6,7 +6,7 @@ export default {
   key: "bitbucket-create-issue",
   name: "Creates a new issue",
   description: "Creates a new issue. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-post)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...base.props,
@@ -118,7 +118,7 @@ export default {
       },
     }, $);
 
-    $.export("summary", "Successfully created issue");
+    $.export("$summary", "Successfully created issue");
 
     return response;
   },
