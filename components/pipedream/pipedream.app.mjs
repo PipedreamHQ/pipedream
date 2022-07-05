@@ -8,7 +8,8 @@ export default {
     emitterId: {
       type: "string",
       label: "Emitter ID",
-      description: "The ID of the workflow or component emitting events",
+      description: `The ID of the workflow or component emitting events.
+      [See details here](https://pipedream.com/docs/api/rest/#listen-for-events-from-another-source-or-workflow)`,
       async options() {
         const { data } = await this.getCurrentUserInfo();
         return data.orgs.map((org) => ({
@@ -25,7 +26,7 @@ export default {
     eventName: {
       type: "string",
       label: "Event name",
-      description: "The name of the event stream tied to your subscription",
+      description: "The name of the event stream tied to your subscription. Only pass event_name when you're listening for events on a custom channel, with the name of the custom channel",
       optional: true,
     },
   },
