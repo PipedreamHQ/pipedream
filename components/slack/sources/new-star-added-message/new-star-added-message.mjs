@@ -27,10 +27,9 @@ export default {
       return "New star added - Message";
     },
     async processEvent(event) {
-      if (event.item.type !== "message") {
-        return;
+      if (event.item.type === "message") {
+        return event;
       }
-      return event;
     },
   },
 };

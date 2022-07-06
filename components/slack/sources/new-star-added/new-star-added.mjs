@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import { events } from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -23,12 +24,8 @@ export default {
   },
   methods: {
     ...common.methods,
-    getSummary(event) {
-      let type = (event.item.type === "im")
-        ? "user"
-        : event.item.type;
-      type = type.charAt(0).toUpperCase() + type.slice(1);
-      return `New star added - ${type}`;
+    getSummary({ item: { type } }) {
+      return `New star added - ${events[type] ?? type}`;
     },
   },
 };
