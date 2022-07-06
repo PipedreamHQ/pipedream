@@ -27,6 +27,10 @@ export default {
     getResourcesFn() {
       return this.linearApp.listComments;
     },
+    async getLoadedProjectId(event) {
+      return event?._project?.id
+        || (await this.linearApp.getIssue(event?._issue?.id))?._project?.id ;
+    },
     async isRelevant(body) {
       const projectIdSet = await this.linearApp.isProjectIdSet(body, this.projectId);
       if (!this.linearApp.isActionSet(body, this.getActions())) {
@@ -45,7 +49,7 @@ export default {
       } = resource;
       return {
         id: delivery,
-        summary: `Comment created: ${data.body}`,
+        summary: `New comment event created: ${data.body}`,
         ts: Date.parse(createdAt),
       };
     },

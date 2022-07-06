@@ -45,6 +45,9 @@ export default {
     getResourcesFn() {
       throw new Error("Get resource function not implemented");
     },
+    getLoadedProjectId() {
+      throw new Error("Get loaded project ID not implemented");
+    },
   },
   hooks: {
     async deploy() {
@@ -54,6 +57,11 @@ export default {
         resourcesFn: this.getResourcesFn(),
       });
       for await (const event of events) {
+        const loadedProjectId = await this.getLoadedProjectId(event);
+        if (this.projectId && loadedProjectId !== this.projectId) {
+          continue;
+        }
+        event.projectId = loadedProjectId;
         const [
           action,
         ] = this.getActions();
