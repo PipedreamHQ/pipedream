@@ -162,7 +162,7 @@ export default {
         event,
         data: {
           url,
-          signatureSecret: token,
+          signature_secret: token,
         },
       };
       const requestParams = {
@@ -203,6 +203,7 @@ export default {
       // See https://docs.netlify.com/site-deploys/notifications/#payload-signature
       const signature = headers["x-webhook-signature"];
       const token = db.get("token");
+      console.log(headers);
       const { sha256 } = jwt.decode(signature, token);
       const encoded = createHash("sha256")
         .update(bodyRaw)
