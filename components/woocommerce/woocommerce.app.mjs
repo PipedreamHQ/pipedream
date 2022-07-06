@@ -6,6 +6,11 @@ export default {
   type: "app",
   app: "woocommerce",
   propDefinitions: {
+    orderId: {
+      type: "integer",
+      label: "Order ID",
+      description: "ID of the Order",
+    },
     orderStatus: {
       type: "string",
       label: "Status",
@@ -187,6 +192,9 @@ export default {
       const q = querystring.stringify(params);
       return this.listResources(`customers?${q}`);
     },
+    async getCustomer(id) {
+      return this.listResources(`customers/${id}`);
+    },
     async listPaymentGateways() {
       return this.listResources("payment_gateways");
     },
@@ -196,8 +204,14 @@ export default {
     async listCategories(page) {
       return this.listResources(`products/categories?page=${page}`);
     },
+    async getOrder(id) {
+      return this.listResources(`orders/${id}`);
+    },
     async createOrder(data) {
       return this.postResource("orders", data);
+    },
+    async updateOrder(orderId, data) {
+      return this.putResource(`orders/${orderId}`, data);
     },
     async createProduct(data) {
       return this.postResource("products", data);

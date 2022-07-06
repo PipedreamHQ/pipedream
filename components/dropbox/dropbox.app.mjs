@@ -18,13 +18,21 @@ export default {
       useQuery: true,
       withLabel: true,
       async options({
+        prevContext,
         query,
         returnSimpleString,
       }) {
-        return this.getPathOptions(query, {
-          omitFiles: true,
-          returnSimpleString,
-        });
+        if (prevContext?.reachedLastPage) {
+          return [];
+        }
+        return this.getPathOptions(
+          query,
+          prevContext?.cursor,
+          {
+            omitFiles: true,
+            returnSimpleString,
+          },
+        );
       },
     },
     pathFile: {
@@ -34,13 +42,21 @@ export default {
       useQuery: true,
       withLabel: true,
       async options({
+        prevContext,
         query,
         returnSimpleString,
       }) {
-        return this.getPathOptions(query, {
-          omitFolders: true,
-          returnSimpleString,
-        });
+        if (prevContext?.reachedLastPage) {
+          return [];
+        }
+        return this.getPathOptions(
+          query,
+          prevContext?.cursor,
+          {
+            omitFolders: true,
+            returnSimpleString,
+          },
+        );
       },
     },
     pathFileFolder: {
@@ -50,12 +66,20 @@ export default {
       useQuery: true,
       withLabel: true,
       async options({
+        prevContext,
         query,
         returnSimpleString,
       }) {
-        return this.getPathOptions(query, {
-          returnSimpleString,
-        });
+        if (prevContext?.reachedLastPage) {
+          return [];
+        }
+        return this.getPathOptions(
+          query,
+          prevContext?.cursor,
+          {
+            returnSimpleString,
+          },
+        );
       },
     },
     fileRevision: {
@@ -142,81 +166,73 @@ export default {
         this.normalizeError(err);
       }
     },
-    async getPathOptions(path, opts = {}) {
+    async getPathOptions(path, prevCursor, opts = {}) {
       try {
         const {
           omitFolders,
           omitFiles,
         } = opts;
 
-        const LIMIT = 100;
+        const LIMIT = config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS;
 
         let data = [];
-        let cursor = null;
+        let res = null;
+        let nextCursor = null;
+        let lastPage = false;
         path = path === "/" || path === null
           ? ""
           : path;
         const dpx = await this.sdk();
 
-        let res = await dpx.filesListFolder({
-          path,
-          limit: LIMIT,
-          recursive: true,
-        });
-
-        if (!res.result.has_more) {
-          data = res.result.entries.map((folder) => ({
-            label: folder.path_display,
-            value: {
-              path: folder.path_lower,
-              type: folder[".tag"],
-            },
-          }));
+        if (prevCursor) {
+          res = await dpx.filesListFolderContinue({
+            cursor: prevCursor,
+          });
         } else {
-          data = res.result.entries.map((folder) => ({
-            label: folder.path_display,
-            value: {
-              path: folder.path_lower,
-              type: folder[".tag"],
-            },
-          }));
-          cursor = res.result.cursor;
-          do {
-            const res = await dpx.filesListFolderContinue({
-              cursor,
-            });
-            data = data.concat(res.result?.entries.map((folder) => ({
-              label: folder.path_display,
-              value: {
-                path: folder.path_lower,
-                type: folder[".tag"],
-              },
-            })));
-            cursor = res.result.cursor;
-            if (!res.result.has_more) {
-              break;
-            }
-          } while (true);
+          res = await dpx.filesListFolder({
+            path,
+            limit: LIMIT,
+            recursive: true,
+          });
+        }
+
+        data = res.result.entries.map((item) => ({
+          path: item.path_display,
+          type: item[".tag"],
+        }));
+
+        if (res.result.has_more) {
+          nextCursor = res.result.cursor;
+        } else {
+          lastPage = true;
         }
 
         if (omitFiles) {
-          data = data.filter((item) => item.value.type !== "file");
+          data = data.filter((item) => item.type !== "file");
         }
 
         if (omitFolders) {
-          data = data.filter((item) => item.value.type !== "folder");
+          data = data.filter((item) => item.type !== "folder");
         }
 
-        data = data.map((item) => ({
-          label: item.label,
-          value: item.value.path,
-        }));
+        data = data.map((item) => (item.path));
 
-        return data.sort((a, b) => a.label > b.label
-          ? 1 :
-          -1);
+        data.sort((a, b) => {
+          return a > b ?
+            1 :
+            -1;
+        });
+
+        return {
+          options: data,
+          context: {
+            cursor: nextCursor,
+            reachedLastPage: lastPage,
+          },
+        };
       } catch (err) {
-        this.normalizeError(err);
+        console.log(err);
+        return [];
       }
     },
     async initState(context) {
@@ -226,9 +242,13 @@ export default {
         db,
       } = context;
       try {
-        const fixedPath = path == "/"
-          ? ""
-          : path;
+        let fixedPath = path == "/" ?
+          "" :
+          path;
+        fixedPath = typeof (fixedPath) === "object" ?
+          fixedPath.value :
+          fixedPath;
+
         const dpx = await this.sdk();
         let response = await dpx.filesListFolderGetLatestCursor({
           path: fixedPath,
@@ -247,10 +267,9 @@ export default {
         return state;
       } catch (err) {
         console.log(err);
-        throw `Error connecting to Dropbox API to get latest cursor for folder: ${path}${
-          recursive
-            ? " (recursive)"
-            : ""
+        throw `Error connecting to Dropbox API to get latest cursor for folder: ${path}${recursive
+          ? " (recursive)"
+          : ""
         }`;
       }
     },
@@ -276,11 +295,12 @@ export default {
             cursor,
             hasMore,
             entries,
-          ] = [
-            state.cursor,
-            true,
-            null,
-          ];
+          ] =
+            [
+              state.cursor,
+              true,
+              null,
+            ];
           while (hasMore) {
             const dpx = await this.sdk();
             let response = await dpx.filesListFolderContinue({
