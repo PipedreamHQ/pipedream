@@ -394,6 +394,12 @@
     },
     {
       "path": "components/wildberries"
+    },
+    {
+      "path": "components/yr"
+    },
+    {
+      "path": "components/deepgram"
     }
   ]
 }
