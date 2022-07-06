@@ -13,17 +13,29 @@ export default {
       [See details here](https://pipedream.com/docs/api/rest/#listen-for-events-from-another-source-or-workflow)`,
       async options({ subscriptionCategory }) {
         const { data } = await this.getCurrentUserInfo();
-        return subscriptionCategory === constants.SUBSCRIPTION_SOURCE[0]
-          ? data.orgs.map((org) => ({
+        if (subscriptionCategory === "Organisation") {
+          return  data.orgs.map((org) => ({
             label: `Org - ${org.orgname}`,
             value: org.id,
-          }))
-          : [
+          }));
+        } else if (subscriptionCategory === "User") {
+          return [
             {
               label: `User - ${data.username}`,
               value: data.id,
             },
           ];
+        }
+        return [
+          {
+            label: "Listen to events from all workflows",
+            value: "p_*",
+          },
+          {
+            label: "Listen to events from all event sources",
+            value: "dc_*",
+          },
+        ];
       },
     },
     subscriptionCategory: {
