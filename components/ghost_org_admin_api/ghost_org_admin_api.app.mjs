@@ -1,9 +1,16 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import jwt from "jsonwebtoken";
 
 export default {
   type: "app",
   app: "ghost_org_admin_api",
+  propDefinitions: {
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the new member.",
+    },
+  },
   methods: {
     _getBaseURL() {
       return `${this.$auth.admin_api_url}/ghost/api/v3/admin`;
@@ -57,7 +64,15 @@ export default {
         headers: await this._getHeader(),
         data,
       };
-      return await axios(config);
+      console.log(config);
+      return await axios(this, config);
+    },
+    async createMember(data) {
+      return await this.makeHttpRequest("post", "/members", {
+        members: [
+          data,
+        ],
+      });
     },
   },
 };
