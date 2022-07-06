@@ -6,6 +6,7 @@ gh-md-toc
 .idea
 node_modules
 .eslintcache
+eslint/_logs
 
 .vercel
 
