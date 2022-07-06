@@ -346,6 +346,9 @@ importers:
       lodash-es: 4.17.21
       uuid: 8.3.2
 
+  components/deepgram:
+    specifiers: {}
+
   components/delighted:
     specifiers:
       delighted: ^2.1.0
@@ -1305,6 +1308,12 @@ importers:
 
   components/smaily:
     specifiers: {}
+
+  components/smiirl:
+    specifiers:
+      '@smiirl/smiirl-library-js': ^1.0.5
+    dependencies:
+      '@smiirl/smiirl-library-js': 1.0.5
 
   components/snapchat_marketing:
     specifiers: {}
@@ -4750,22 +4759,22 @@ packages:
       - encoding
     dev: false
 
-  /@definitelytyped/header-parser/0.0.119:
-    resolution: {integrity: sha512-KpXNrV0Im2BdyEPSpw2NrMPSWZIeILVe5+RcH2zSBSJwLfFNZ7xDT9DtzlD43FKMqcMcpKeAk8SYL47frXPceA==}
+  /@definitelytyped/header-parser/0.0.121:
+    resolution: {integrity: sha512-78HY1J+QiwZPXFZQWb9gPQPxAMNg6/1e4gl7gL/8dmd17vVWLi3AGrLJoG8Pn1p8d7MF2rlPw/2AE6+r1IHNHA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.119
+      '@definitelytyped/typescript-versions': 0.0.121
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.119:
-    resolution: {integrity: sha512-l9rmef0FdT0q66sEsIuzQjCOV08MhJFIZoz0rgnTB5FecP6dvToQFyMmheRtf8w5SoTGLu2utBYYjt9J+WeP+g==}
+  /@definitelytyped/typescript-versions/0.0.121:
+    resolution: {integrity: sha512-mTfkR7MrGo08lzOPZx3ZgIER9PoalRZok3hmrsLDxTUhS5lrgdgXBOpAyDMtnJUAO6AxrIx126XGlkN+1rvKcA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.119:
-    resolution: {integrity: sha512-6TUOXNozyMEJUa65uvZsofdNJKL866SUbQDDG7iYPc5+Vty+YJB7z1GdT6kw8if5TyeufEY6gE/vP1j8SZvuDw==}
+  /@definitelytyped/utils/0.0.121:
+    resolution: {integrity: sha512-H2g09ZJcmCk0BAy86M/UcMP4pq0UGaKBGpjPjPe5btKgZDB6A1Tn1/TKd46cQ6grhFdsxJFE5cb8XWGTKkpA8w==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.119
+      '@definitelytyped/typescript-versions': 0.0.121
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.18
       charm: 1.0.2
@@ -7277,6 +7286,14 @@ packages:
       p-retry: 4.6.2
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /@smiirl/smiirl-library-js/1.0.5:
+    resolution: {integrity: sha512-xaOV2aLYlx9jFtJzIPl0uv3/bSTcbBIlv778sWf2b3GxbL+RM70nIn4i8c2hzXzAR5dlAg++zBnbl6n8j3bchA==}
+    dependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@szmarczak/http-timer/4.0.6:
@@ -10058,7 +10075,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.119
+      '@definitelytyped/header-parser': 0.0.121
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10073,7 +10090,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.119
+      '@definitelytyped/header-parser': 0.0.121
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10089,9 +10106,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.119
-      '@definitelytyped/typescript-versions': 0.0.119
-      '@definitelytyped/utils': 0.0.119
+      '@definitelytyped/header-parser': 0.0.121
+      '@definitelytyped/typescript-versions': 0.0.121
+      '@definitelytyped/utils': 0.0.121
       dts-critic: 3.3.11_typescript@4.6.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -10109,9 +10126,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.119
-      '@definitelytyped/typescript-versions': 0.0.119
-      '@definitelytyped/utils': 0.0.119
+      '@definitelytyped/header-parser': 0.0.121
+      '@definitelytyped/typescript-versions': 0.0.121
+      '@definitelytyped/utils': 0.0.121
       dts-critic: 3.3.11_typescript@4.7.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -18958,7 +18975,7 @@ packages:
     dev: false
 
   /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
   /webidl-conversions/4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
@@ -19023,7 +19040,7 @@ packages:
     dev: false
 
   /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
