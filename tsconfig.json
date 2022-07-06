@@ -400,6 +400,9 @@
     },
     {
       "path": "components/deepgram"
+    },
+    {
+      "path": "components/smiirl"
     }
   ]
 }
