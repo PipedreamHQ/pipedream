@@ -1,21 +1,42 @@
-# REST API example: Workflow errors
+# Handling errors
 
-Any time your workflow throws an error, that error is sent to the raised in a workflow and Pipedream sends you an email. This is helpful for most error-handling cases, but you'll often encounter cases the default system errors can't cover.
+By default, [Pipedream sends an email](#default-system-emails) when a workflow throws an unhandled error. But what if you want to:
 
-For example, you may want to handle errors from one workflow differently from errors in another. Or, you might want to operate on errors using the API, instead of with a workflow. This doc shows you how to handle both of these example scenarios.
+- Send error notifications to Slack
+- Handle errors from one workflow in a specific way
+- Fetch errors asynchronously using the REST API, instead of handling the event in real-time
 
-Before you jump into the examples below, remember that all Pipedream workflows are just Node.js code. You might be able to handle your error within a specific step, using JavaScript's [`try / catch` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch).
+These docs describe the default error behavior, and how to handle custom use cases like these.
 
----
+Before you jump into the examples below, remember that all Pipedream workflows are just code. You can always use the built-in error handling logic native to your programming language, for example: using JavaScript's [`try / catch` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch). In the future, Pipedream plans to support this kind of error-handling for built-in actions, as well.
 
 [[toc]]
 
-## Forward errors for one workflow to another workflow
+## Default system emails
 
-Forwarding errors for a workflow to another workflow can be helpful in two situations:
+Any time your workflow throws an unhandled error, you'll receive an email like this:
 
-- You want to run code to handle errors _for a specific workflow_.
-- You need access to more than the last 100 errors for a workflow. By sending errors to a workflow, you can store the original event in a queue (e.g. SQS) to replay them later.
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656630943/docs/Screen_Shot_2022-06-29_at_6.20.42_PM_kmsjbr.png" alt="Example error email">
+
+This email includes a link to the error so you can see the data and logs associated with the run. When you inspect the data in the Pipedream UI, you'll see details on the error below the step that threw the error, e.g. the full stack trace.
+
+### Duplicate errors do not trigger duplicate emails
+
+High-volume errors can lead to lots of notifications, so Pipedream only sends at most one email, per error, per workflow, per 24 hour period.
+
+For example, if your workflow throws a `TypeError`, we'll send you an email, but if it continues to throw that same `TypeError`, we won't email you about the duplicate errors until the next day. If a different workflow throws a `TypeError`, you **will** receive an email about that.
+
+## Test mode vs. live mode
+
+When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails nor forward them to [error listeners](#process-errors-with-custom-logic-instead-of-email-using-the-errors-stream). Error notifications are only sent when a deployed workflow encounters an error on a live event.
+
+## Process errors with custom logic, instead of email
+
+### Duplicate errors _do_ trigger duplicate error events
+
+## Handle errors for one workflow using custom logic
+
+Every time a workflow throws an error, it emits an event to the `$errors` stream for that workflow. You can create [a subscription](/api/rest/#listen-for-events-from-another-source-or-workflow) that delivers these errors to a Pipedream workflow, webhook, and more.
 
 Let's walk through an end-to-end example:
 
@@ -44,9 +65,7 @@ You'll see an event arrive in workflow #2 with the `error`, the `original_event`
 
 **You can handle errors in any way you'd like within this workflow**. For example, you can save the error payload to a Google Sheet, or another data store, to store all errors for your workflow beyond the 100 returned by the Pipedream REST API.
 
-<Footer />
-
-## List the last 100 errors from the REST API
+## Poll the REST API for workflow errors
 
 Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/api/rest/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
 

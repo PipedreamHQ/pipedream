@@ -13,6 +13,7 @@ const docsNav = [
       "/workflows/events/",
       "/workflows/events/inspect/",
       "/workflows/built-in-functions/",
+      "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
