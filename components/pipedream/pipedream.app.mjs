@@ -54,6 +54,7 @@ export default {
       label: "Event name",
       description: "The name of the event stream tied to your subscription. Only pass event_name when you're listening for events on a custom channel, with the name of the custom channel",
       optional: true,
+      options: constants.SUBSCRIPTION_EVENTS,
     },
   },
   methods: {

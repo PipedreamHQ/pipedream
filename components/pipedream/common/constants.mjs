@@ -4,4 +4,8 @@ export default {
     "User",
     "Glob patterns",
   ],
+  SUBSCRIPTION_EVENTS: [
+    "$errors",
+    "$logs",
+  ],
 };
