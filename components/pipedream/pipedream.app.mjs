@@ -6,6 +6,11 @@ export default {
   type: "app",
   app: "pipedream",
   propDefinitions: {
+    componentKey: {
+      type: "string",
+      label: "Component Key",
+      description: "The component key (identified by the key property within the component's source code) you'd like to fetch metadata for (example: github-new-commit-instant)",
+    },
     subscriptionSource: {
       type: "string",
       label: "Subscription source",
@@ -70,6 +75,16 @@ export default {
         : "/"
       }${path}`;
       return (await axios(opts)).data;
+    },
+    async getComponent(key, globalRegistry) {
+      let path = "/components/";
+      if (globalRegistry) path += "registry/";
+      path += key;
+
+      return this._makeAPIRequest({
+        method: "GET",
+        path,
+      });
     },
     async subscribe(emitter_id, listener_id, event_name = null) {
       let params = {
