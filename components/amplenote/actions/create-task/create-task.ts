@@ -1,6 +1,5 @@
 import amplenote from "../../app/amplenote.app";
 import { defineAction } from "@pipedream/types";
-import constants from "../common/constants";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default defineAction({
@@ -19,13 +18,13 @@ export default defineAction({
     },
     nodes: {
       label: "Nodes",
-      description: "Nodes to create the task; [You can read more about this here] (https://www.amplenote.com/api_documentation#post-/notes/-uuid-/actions). E.g `{ \"type\": \"check_list_item\", \"content\": [ { \"type\": \"paragraph\", \"content\": [ { \"type\": \"text\", \"text\": \"Item 1\" } ] } ] }`",
+      description: "Nodes to create the task. [Read more about nodes here] (https://www.amplenote.com/api_documentation#post-/notes/-uuid-/actions). E.g `{ \"type\": \"check_list_item\", \"content\": [ { \"type\": \"paragraph\", \"content\": [ { \"type\": \"text\", \"text\": \"Item 1\" } ] } ] }`",
       type: "string[]",
     },
   },
   async run({ $ }) {
     if (!Array.isArray(this.nodes)) {
-      throw new ConfigurationError("Nodes is required be and array of objects");
+      throw new ConfigurationError("Nodes is required be an array of objects");
     }
 
     this.nodes = this.nodes.map((node) => {

@@ -42,6 +42,14 @@ export default defineApp({
 
       return response.notes;
     },
+    async createNote({
+      $, data,
+    }) {
+      return this._makeRequest("notes", {
+        method: "POST",
+        data,
+      }, $);
+    },
     async createTask({
       $, noteId, data,
     }) {
