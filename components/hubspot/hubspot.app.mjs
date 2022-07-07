@@ -87,16 +87,11 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      options: OBJECT_TYPES,
-    },
-    customObjectType: {
-      type: "string",
-      label: "Custom Object Type",
-      description: "Watch for new events concerning the custom object type specified.",
-      // check possibility of using this in the existing source instead
       async options() {
+        const defaultTypes = OBJECT_TYPES;
+
         const response = await this.getCustomSchemas();
-        return response.results.map(({
+        const customTypes = response.results.map(({
           labels, name, fullyQualifiedName,
         }) => {
           const label = labels.plural ?? labels.singular ?? name;
@@ -105,6 +100,11 @@ export default {
             value: fullyQualifiedName,
           };
         });
+
+        return {
+          ...customTypes,
+          ...defaultTypes,
+        };
       },
     },
     objectIds: {
