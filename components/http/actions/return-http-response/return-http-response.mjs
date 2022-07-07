@@ -15,6 +15,8 @@ export default {
       description:
         "The [status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to return in the HTTP response.",
       default: 200,
+      min: 100,
+      max: 599,
     },
     resHeaders: {
       type: "object",
