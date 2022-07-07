@@ -88,8 +88,6 @@ export default {
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
       async options() {
-        const defaultTypes = OBJECT_TYPES;
-
         const response = await this.getCustomSchemas();
         const customTypes = response.results.map(({
           labels, name, fullyQualifiedName,
@@ -101,10 +99,7 @@ export default {
           };
         });
 
-        return {
-          ...customTypes,
-          ...defaultTypes,
-        };
+        return customTypes.concat(OBJECT_TYPES);
       },
     },
     objectIds: {
