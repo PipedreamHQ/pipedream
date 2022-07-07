@@ -187,6 +187,13 @@ export default {
 
       return response.data;
     },
+    async getIssue({
+      repoFullname, issueNumber,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues/${issueNumber}`, {});
+
+      return response.data;
+    },
     async updateIssue({
       repoFullname, issueNumber, data,
     }) {
@@ -205,7 +212,7 @@ export default {
       repoFullname, cardId,
     }) {
       const { data: card } = await this._client().request(`GET /projects/columns/cards/${cardId}`, {});
-      if (!card.content_url) {
+      if (!card?.content_url) {
         console.log("No issue associated with this card");
         return;
       }
