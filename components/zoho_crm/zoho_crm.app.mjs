@@ -215,7 +215,6 @@ export default {
         url,
         ...requestConfig,
       };
-      console.log("config", config);
       const { data } = await standardAxios(config);
       return data;
     },
