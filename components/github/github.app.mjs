@@ -83,6 +83,21 @@ export default {
         }));
       },
     },
+    pullNumber: {
+      type: "integer",
+      label: "PR Number",
+      description: "A pull request number",
+      async options({ repoFullname }) {
+        const prs = await this.getRepositoryPullRequests({
+          repoFullname,
+        });
+
+        return prs.map((pr) => ({
+          label: pr.title,
+          value: +pr.number,
+        }));
+      },
+    },
     column: {
       label: "Column",
       description: "The column in a project board",
@@ -240,6 +255,23 @@ export default {
       }
 
       return issues;
+    },
+    async getRepositoryPullRequests({ repoFullname }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
+    },
+    async getPullRequestForCommit({
+      repoFullname, sha,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${sha}/pulls`, {});
+
+      return response.data[0];
+    },
+    async getReviewsForPullRequest({
+      repoFullname, pullNumber,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
+
+      return response.data;
     },
   },
 };
