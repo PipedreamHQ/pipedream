@@ -57,7 +57,7 @@ export default {
         return true;
       } catch (err) {
         console.log(err);
-        throw `Error looking up revisions for file: ${update.name}`;
+        this.dropbox.normalizeError(err);
       }
     },
     async getMediaInfo(update) {
@@ -73,7 +73,7 @@ export default {
         return update;
       } catch (err) {
         console.log(err);
-        throw `Error getting media info for file: ${update.name}`;
+        this.dropbox.normalizeError(err);
       }
     },
     async getTemporaryLink(update) {
@@ -88,11 +88,13 @@ export default {
         const { link } = response;
         return link;
       } catch (err) {
+        // returning null because not all files supports download links,
+        // but the source should still emit update events to those files
         if (err?.error?.error_summary?.startsWith("unsupported_file")) {
           return null;
         }
         console.log(err);
-        throw `Error getting link for file: ${update.name}`;
+        this.dropbox.normalizeError(err);
       }
     },
   },
