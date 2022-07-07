@@ -1,5 +1,6 @@
 import axios from "axios";
 import verifalia from "../../verifalia.app.mjs";
+import qualityLevelOptions from "../../common.mjs";
 
 import {
   CancellationToken,
@@ -9,9 +10,10 @@ import {
 export default {
   name: "Verify Email Address",
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
-        "flagging spam traps, disposable emails and much more.",
+        "flagging spam traps, disposable emails and much more. " +
+        "[See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     verifalia,
@@ -28,20 +30,7 @@ export default {
       description: "The higher the quality level the longer it could take to complete the verification; by default, " +
                 "we use the configured default quality level for your Verifalia user.",
       optional: true,
-      options: [
-        {
-          label: "Standard quality",
-          value: "standard",
-        },
-        {
-          label: "High quality",
-          value: "high",
-        },
-        {
-          label: "Extreme quality",
-          value: "extreme",
-        },
-      ],
+      options: qualityLevelOptions,
     },
     retention: {
       type: "string",
@@ -143,7 +132,7 @@ export default {
         }
 
         // TODO: If the validation completed, abort the suspension and return the results
-        // Blocked by https://github.com/PipedreamHQ/pipedream/issues/3094
+        // Blocked by https://github.com/PipedreamHQ/pipedream/issues/3151
 
         // We are *not* in test mode and the job is complete: simulate an instantaneous
         // webhook completion callback, as the external one may take a few seconds to
