@@ -439,5 +439,14 @@ export default {
 
       return response.values;
     },
+    async getPullRequestActivities({
+      workspaceId, repositoryId, params,
+    }, $) {
+      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/pullrequests/activity`, {
+        params,
+      }, $);
+      return response.values;
+    },
+
   },
 };

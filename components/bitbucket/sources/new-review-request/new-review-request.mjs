@@ -23,13 +23,37 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return `workspaces/${this.workspaceId}/${this.repositoryId}/hooks`;
+      return `workspaces/${this.workspaceId}/hooks`;
     },
     getWebhookEventTypes() {
       return [
         "pullrequest:created",
         "pullrequest:updated",
       ];
+    },
+    async loadHistoricalData() {
+      const activities = await this.bitbucket.getPullRequestActivities({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      const event = [];
+      activities.forEach((activity) => {
+        for (const reviewer of activity.update.reviewers) {
+          event.push({
+            main: activity,
+            sub: {
+              id: `${activity.pull_request.id}-${reviewer.display_name}`,
+              summary: `New reviewer ${reviewer.display_name} added in ${activity.pull_request.title}`,
+              ts: activity.update.date,
+            },
+          });
+        }
+      });
+      return event;
     },
     proccessEvent(event) {
       const {
