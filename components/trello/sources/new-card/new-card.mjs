@@ -5,7 +5,7 @@ export default {
   key: "trello-new-card",
   name: "New Card (Instant)",
   description: "Emit new event for each new Trello card on a board.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -28,6 +28,13 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = await this.trello.getCardsInList(this.lists[0]);
+      return {
+        sampleEvents: cards,
+        sortField: "dateLastActivity",
+      };
+    },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
       return eventType === "createCard";

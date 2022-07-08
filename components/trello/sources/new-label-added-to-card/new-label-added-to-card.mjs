@@ -5,7 +5,7 @@ export default {
   key: "trello-new-label-added-to-card",
   name: "New Label Added To Card (Instant)",
   description: "Emit new event for each label added to a card.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,
@@ -36,6 +36,13 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const labels = await this.trello.findLabel(this.board);
+      return {
+        sampleEvents: labels,
+        sortField: "id",
+      };
+    },
     _getLabelName() {
       return this.db.get("labelName");
     },

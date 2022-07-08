@@ -5,7 +5,7 @@ export default {
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,
@@ -27,6 +27,13 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = await this.trello.getCardsInList(this.lists[0]);
+      return {
+        sampleEvents: cards,
+        sortFilter: "dateLastActivity",
+      };
+    },
     _getListAfter() {
       return this.db.get("listAfter");
     },
@@ -62,9 +69,12 @@ export default {
       id, name,
     }) {
       const listAfter = this._getListAfter();
+      const summary = listAfter
+        ? `${name} - moved to ${listAfter}`
+        : name;
       return {
         id,
-        summary: `${name} - moved to ${listAfter}`,
+        summary,
         ts: Date.now(),
       };
     },

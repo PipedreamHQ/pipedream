@@ -27,7 +27,7 @@ module.exports = {
       label: "Board",
       description: "The Trello board you wish to select",
       async options() {
-        const boards = await this.getBoards(this.$auth.oauth_uid);
+        const boards = await this.getBoards();
         const activeBoards = boards.filter((board) => board.closed === false);
         return activeBoards.map((board) => ({
           label: board.name,
@@ -489,10 +489,20 @@ module.exports = {
       const headerHash = request.headers["x-trello-webhook"];
       return doubleHash === headerHash;
     },
+    async getBoardActivity(boardId, filter = null) {
+      return this.getResource(`boards/${boardId}/actions${ filter
+        ? "?filter=" + filter
+        : "" }`);
+    },
+    async getCardActivity(cardId, filter = null) {
+      return this.getResource(`cards/${cardId}/actions${ filter
+        ? "?filter=" + filter
+        : "" }`);
+    },
     async getBoard(id) {
       return this.getResource(`boards/${id}`);
     },
-    async getBoards(id) {
+    async getBoards(id = this.$auth.oauth_uid) {
       return this.getResource(`members/${id}/boards`);
     },
     /**
@@ -507,6 +517,15 @@ module.exports = {
     },
     async getCards(id) {
       return this.getResource(`boards/${id}/cards`);
+    },
+    async getFilteredCards(boardId, filter) {
+      return this.getResource(`boards/${boardId}/cards/${filter}`);
+    },
+    async getCardsInList(listId) {
+      return this.getResource(`lists/${listId}/cards`);
+    },
+    async getMemberCards(userId) {
+      return this.getResource(`members/${userId}/cards`);
     },
     async getChecklist(id) {
       return this.getResource(`checklists/${id}`);
