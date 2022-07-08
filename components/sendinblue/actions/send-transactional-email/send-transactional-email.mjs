@@ -4,7 +4,7 @@ export default {
   key: "sendinblue-send-transactional-email",
   name: "Send transactional email",
   description: "Send transactional email",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sendinBlueApp,
@@ -98,6 +98,12 @@ export default {
         optional: true,
         description: "Tag your emails to find them more easily.",
       },
+      params: {
+        type: "string",
+        label: "Params",
+        description: "All key-value properties that will be replaced in the template e.g. `{\"ORDER\": 12345, \"DATE\": \"12/06/2019\"}`",
+        optional: true,
+      },
     };
 
     return props;
@@ -108,6 +114,9 @@ export default {
       null;
     const replyTo = this.replyTo ?
       JSON.parse(this.replyTo) :
+      null;
+    const params = this.params ?
+      JSON.parse(this.params) :
       null;
 
     const tags = this.tags ?
@@ -140,6 +149,7 @@ export default {
       tags,
       cc,
       bcc,
+      params,
     );
     $.export("$summary", "Transactional email successfully sent");
     return emailSent;
