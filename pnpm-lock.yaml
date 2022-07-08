@@ -456,6 +456,12 @@ importers:
       faunadb: 4.5.4
       lodash: 4.17.21
 
+  components/feedbin:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/figma:
     specifiers:
       '@pipedream/platform': ^0.10.0
