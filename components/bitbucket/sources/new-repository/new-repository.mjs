@@ -17,6 +17,23 @@ export default {
         "repo:created",
       ];
     },
+    async loadHistoricalData() {
+      const repositories = await this.bitbucket.getRepositories({
+        workspaceId: this.workspaceId,
+        params: {
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      return repositories.map((repository) => ({
+        main: repository,
+        sub: {
+          id: repository.id,
+          summary: `New repository ${repository.name} created`,
+          ts: Date.parse(repository.created_on),
+        },
+      }));
+    },
     proccessEvent(event) {
       const { repository } = event.body;
 
