@@ -30,6 +30,24 @@ export default {
         "pullrequest:created",
       ];
     },
+    async loadHistoricalData() {
+      const pullRequests = await this.bitbucket.getPullRequests({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      return pullRequests.map((pullRequest) => ({
+        main: pullRequest,
+        sub: {
+          id: pullRequest.id,
+          summary: `New pull request ${pullRequest.title} created`,
+          ts: Date.parse(pullRequest.date),
+        },
+      }));
+    },
     proccessEvent(event) {
       const { pullrequest } = event.body;
 

@@ -430,5 +430,14 @@ export default {
         },
       }));
     },
+    async getPullRequests({
+      workspaceId, repositoryId, params,
+    }, $) {
+      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/pullrequests`, {
+        params,
+      }, $);
+
+      return response.values;
+    },
   },
 };

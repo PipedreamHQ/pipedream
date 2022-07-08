@@ -64,6 +64,9 @@ export default {
       const response = await this.createWebHook(path, events);
       this._setWebhookId(response.uuid);
     },
+    async loadHistoricalData() {
+      console.log("No historical data for this event");
+    },
   },
   hooks: {
     async deploy() {
