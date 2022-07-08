@@ -1,17 +1,14 @@
-// legacy_hash_id: a_A6i5r4
+import quickbooks from "../../quickbooks.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-get-my-company",
   name: "Get My Company",
   description: "Gets info about a company.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    quickbooks: {
-      type: "app",
-      app: "quickbooks",
-    },
+    quickbooks,
   },
   async run({ $ }) {
     return await axios($, {

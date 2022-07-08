@@ -1,32 +1,29 @@
-// legacy_hash_id: a_2wipEQ
+import quickbooks from "../../quickbooks.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-search-query",
   name: "Search Query",
-  description: "Performs a search query against a Quickbooks entity.",
-  version: "0.1.1",
+  description: "Performs a search query against a Quickbooks entity. [See docs here](https://developer.intuit.com/app/develophttps://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
+  version: "0.1.2",
   type: "action",
   props: {
-    quickbooks: {
-      type: "app",
-      app: "quickbooks",
-    },
-    search_query: {
+    quickbooks,
+    searchQuery: {
+      label: "Search Query",
       type: "string",
       description: "A search query against a Quickbooks entity. See query language syntax, limitations, and other specifications on [Data queries](https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
     },
     minorversion: {
+      label: "Minor Version",
       type: "string",
       description: "Use the `minorversion` query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
       optional: true,
     },
   },
   async run({ $ }) {
-  //See Quickbooks API docs at: https://developer.intuit.com/app/develophttps://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries
-
-    if (!this.search_query) {
-      throw new Error("Must provide search_query parameter.");
+    if (!this.searchQuery) {
+      throw new Error("Must provide searchQuery parameter.");
     }
 
     //Sends the request against Quickbooks API
@@ -39,7 +36,7 @@ export default {
       },
       params: {
         minorversion: this.minorversion,
-        query: this.search_query,
+        query: this.searchQuery,
       },
     });
   },
