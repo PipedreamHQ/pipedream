@@ -47,6 +47,25 @@ export default {
     doesEventContainNewCommits(change) {
       return change.commits && change.commits.length > 0;
     },
+    async loadHistoricalData() {
+      const commits = await this.bitbucket.getCommits({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          include: this.branchName,
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      return commits.map((commit) => ({
+        main: commit,
+        sub: {
+          id: commit.hash,
+          summary: `New commit created on branch ${commit.message}`,
+          ts: Date.parse(commit.date),
+        },
+      }));
+    },
     async proccessEvent(event) {
       const { push } = event.body;
 

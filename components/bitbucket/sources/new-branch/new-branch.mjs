@@ -33,6 +33,25 @@ export default {
     isNewBranch(change) {
       return !change.new || change.old || change.new?.type !== "branch";
     },
+    async loadHistoricalData() {
+      const branches = await this.bitbucket.getBranches({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      const ts = new Date().getTime();
+      return branches.map((branch) => ({
+        main: branch,
+        sub: {
+          id: `${branch.name}-${ts}`,
+          summary: `New branch ${branch.name} created`,
+          ts,
+        },
+      }));
+    },
     async proccessEvent(event) {
       const { push } = event.body;
 

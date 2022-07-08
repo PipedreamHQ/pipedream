@@ -49,7 +49,7 @@ export default {
       async options({
         workspaceId, repositoryId, page,
       }) {
-        const branchs = await this.getBranchs({
+        const branches = await this.getBranches({
           workspaceId,
           repositoryId,
           params: {
@@ -57,7 +57,7 @@ export default {
           },
         });
 
-        return branchs.map((branch) => branch.name);
+        return branches.map((branch) => branch.name);
       },
     },
     issue: {
@@ -357,7 +357,12 @@ export default {
         },
       });
     },
-    async getBranchs({
+    async getEventTypes({ subjectType }, $) {
+      const response = await this._makeRequest(`hook_events/${subjectType}`, {}, $);
+
+      return response.values;
+    },
+    async getBranches({
       workspaceId, repositoryId, params,
     }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/refs/branches`, {
@@ -366,8 +371,35 @@ export default {
 
       return response.values;
     },
-    async getEventTypes({ subjectType }, $) {
-      const response = await this._makeRequest(`hook_events/${subjectType}`, {}, $);
+    async getBranchesPaginated(workspaceId, repositoryId) {
+      let branches = [];
+      let page = 0;
+      do {
+        page += 1;
+        const result = await this.getBranches({
+          workspaceId,
+          repositoryId,
+          params: {
+            page,
+            pagelen: 50,
+          },
+        });
+        branches = [
+          ...branches,
+          ...result,
+        ];
+        if (result.length < 50) {
+          break;
+        }
+      } while (true);
+      return branches;
+    },
+    async getCommits({
+      workspaceId, repositoryId, params,
+    }, $) {
+      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/commits`, {
+        params,
+      }, $);
 
       return response.values;
     },
