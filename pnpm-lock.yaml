@@ -517,17 +517,17 @@ importers:
 
   components/ghost_org_admin_api:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.0.0
       jsonwebtoken: ^8.5.1
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': link:../../platform
       jsonwebtoken: 8.5.1
 
   components/ghost_org_content_api:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.0.0
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': link:../../platform
 
   components/giphy:
     specifiers:
