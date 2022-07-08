@@ -31,14 +31,6 @@ export default {
       ];
     },
     async loadHistoricalData() {
-      console.log({
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        params: {
-          page: 1,
-          pagelen: 25,
-        },
-      });
       const issues = await this.bitbucket.getIssues({
         workspaceId: this.workspaceId,
         repositoryId: this.repositoryId,
