@@ -8,6 +8,58 @@ export default {
   version: "0.0.1",
   props: {
     ghostAdminApi,
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the post",
+    },
+    html: {
+      type: "string",
+      label: "HTML",
+      description: "HTML content of the post",
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Status of the post",
+      options: [
+        "draft",
+        "published",
+      ],
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags of the post",
+      optional: true,
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      title,
+      html,
+      status,
+      tags,
+    } = this;
+
+    const response = await this.ghostAdminApi.createPost({
+      $,
+      data: {
+        posts: [
+          {
+            title,
+            html,
+            status,
+            tags,
+          },
+        ],
+      },
+    });
+
+    $.export("$summary", `Succesfully created post with ID ${response.posts[0].id}`);
+
+    return response;
+  },
 };
