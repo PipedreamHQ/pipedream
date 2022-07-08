@@ -1,4 +1,4 @@
-import "./env.mjs";
+import "./common/env.mjs";
 import TelegramBot from "node-telegram-bot-api";
 import { axios } from "@pipedream/platform";
 import {
@@ -10,9 +10,9 @@ import {
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
   TELEGRAM_BOT_API_UI_MEDIA_VOICE,
   TELEGRAM_BOT_API_FORMATTING_MODES,
-} from "./constants.mjs";
-import updateTypes from "./update-types.mjs";
-import { toSingleLineString } from "./utils.mjs";
+} from "./common/constants.mjs";
+import updateTypes from "./common/update-types.mjs";
+import { toSingleLineString } from "./common/utils.mjs";
 
 export default {
   type: "app",
