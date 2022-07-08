@@ -1,6 +1,6 @@
 {
   "name": "pipedream",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Pipedream Monorepo",
   "keywords": [
     "pipedream",
@@ -26,7 +26,12 @@
   "scripts": {
     "prepare": "husky install",
     "build": "npx tsc --build | node scripts/tsPostBuild.mjs",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests components",
+    "test-all": "npm test && npm run platform-test && npm run types-test",
+    "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
+    "platform-test": "cd platform && npm test",
+    "types-test": "cd types && npm test",
+    "helpers-test": "cd helpers && npm test"
   },
   "devDependencies": {
     "@pipedream/types": "^0.1.0",
@@ -35,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.21.0",
     "eslint": "8.15.0",
+    "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-jsonc": "^1.6.0",
     "eslint-plugin-pipedream": "0.2.4",
     "eslint-plugin-putout": "^15.1.1",

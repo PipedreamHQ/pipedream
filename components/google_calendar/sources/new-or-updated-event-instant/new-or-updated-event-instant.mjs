@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New or Updated Event (Instant)",
   description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -195,8 +195,8 @@ export default {
 
       // if now + interval > expiration, refresh watch
       if (now.getTime() + intervalMs > expireDate.getTime()) {
-        await this.makeWatchRequest();
         await this.stopWatchRequest();
+        await this.makeWatchRequest();
       }
     } else {
       // Verify channel ID
