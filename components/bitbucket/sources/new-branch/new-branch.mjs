@@ -33,6 +33,9 @@ export default {
     isNewBranch(change) {
       return !change.new || change.old || change.new?.type !== "branch";
     },
+    async loadHistoricalData() {
+      return await this.bitbucket.loadBranchHistoricalData( this.workspaceId, this.repositoryId);
+    },
     async proccessEvent(event) {
       const { push } = event.body;
 

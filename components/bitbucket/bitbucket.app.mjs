@@ -49,7 +49,7 @@ export default {
       async options({
         workspaceId, repositoryId, page,
       }) {
-        const branchs = await this.getBranchs({
+        const branches = await this.getBranches({
           workspaceId,
           repositoryId,
           params: {
@@ -57,7 +57,7 @@ export default {
           },
         });
 
-        return branchs.map((branch) => branch.name);
+        return branches.map((branch) => branch.name);
       },
     },
     issue: {
@@ -357,7 +357,7 @@ export default {
         },
       });
     },
-    async getBranchs({
+    async getBranches({
       workspaceId, repositoryId, params,
     }, $) {
       const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/refs/branches`, {
@@ -370,6 +370,25 @@ export default {
       const response = await this._makeRequest(`hook_events/${subjectType}`, {}, $);
 
       return response.values;
+    },
+    async loadBranchHistoricalData(workspaceId, repositoryId) {
+      const branches = await this.getBranches({
+        workspaceId,
+        repositoryId,
+        params: {
+          page: 1,
+          pagelen: 25,
+        },
+      });
+      const ts = new Date().getTime();
+      return branches.map((branch) => ({
+        main: branch.name,
+        sub: {
+          id: `${branch.name}-${ts}`,
+          summary: `New branch ${branch.name} created`,
+          ts,
+        },
+      }));
     },
   },
 };
