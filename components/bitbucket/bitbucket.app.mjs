@@ -35,7 +35,6 @@ export default {
             page: page + 1,
           },
         });
-
         return repositories.map((repository) => ({
           label: repository.name,
           value: repository.uuid,
