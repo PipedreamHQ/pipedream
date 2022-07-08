@@ -40,7 +40,11 @@ export default {
       $.export("$summary", "New row inserted");
       return res;
     } catch (error) {
-      $.export("$summary", `New row not inserted due to an error. ${error}`);
+      $.export("error", `
+        This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
+        
+        New row not inserted due to an error. ${error}
+      `);
     }
   },
 };
