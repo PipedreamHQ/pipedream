@@ -7,7 +7,7 @@ export default {
   name: "New Review Request (Instant)",
   key: "bitbucket-new-review-request",
   description: "Emit new event when a reviewer is added to a pull request.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     repositoryId: {

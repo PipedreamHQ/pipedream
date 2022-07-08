@@ -7,7 +7,7 @@ export default {
   name: "New Tag (Instant)",
   key: "bitbucket-new-tag",
   description: "Emit new event when a commit is tagged. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     repositoryId: {
