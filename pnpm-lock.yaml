@@ -458,6 +458,12 @@ importers:
       faunadb: 4.5.4
       lodash: 4.17.21
 
+  components/feedbin:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/figma:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1533,7 +1539,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/verifalia:
-    specifiers: {}
+    specifiers:
+      verifalia: 3.2.2
+    dependencies:
+      verifalia: 3.2.2
 
   components/virustotal:
     specifiers: {}
@@ -18903,6 +18912,18 @@ packages:
     resolution: {integrity: sha512-PnFM3xiZ+kYmLyTiMgTYmU7ZHkjBZz2/+F0DaALc/uUtVzdCt1wAosvYJ5hFQi/hz8O4zb52FQhHZRC+uVkJ+g==}
     dev: false
 
+  /verifalia/3.2.2:
+    resolution: {integrity: sha512-HqQcMK36oW2P0bHtMapRNz88z5EzrKhiSAmWw89g5zhkKnornANJPsxzQ+B98GsbXH2US2tjUxT+CW4rvX/dRg==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      abort-controller: 3.0.0
+      form-data: 3.0.1
+      node-fetch: 2.6.7
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /verror/1.10.0:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
@@ -18986,7 +19007,7 @@ packages:
     dev: false
 
   /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
   /webidl-conversions/4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
@@ -19051,7 +19072,7 @@ packages:
     dev: false
 
   /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
