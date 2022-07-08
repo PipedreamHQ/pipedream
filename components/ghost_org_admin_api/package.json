@@ -1,11 +1,11 @@
 {
-    "name": "@pipedream/ghost_admin",
+    "name": "@pipedream/ghost_org_admin_api",
     "version": "0.1.0",
     "description": "Pipedream Ghost_org_admin_api Components",
     "main": "ghost_org_admin_api.app.mjs",
     "keywords": [
         "pipedream",
-        "ghost_admin"
+        "ghost_org_admin_api"
     ],
     "homepage": "https://pipedream.com/apps/ghost_org_admin_api",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
