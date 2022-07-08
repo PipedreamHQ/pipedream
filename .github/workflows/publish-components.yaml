@@ -54,7 +54,7 @@ jobs:
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
-          PD_URL: https://api.pipedream.com/v1/components/registry
+          PD_URL=https://api.pipedream.com/v1/components/registry
           UNPUBLISHED=""
           PUBLISHED=""
           ERRORS=""
@@ -162,7 +162,7 @@ jobs:
           do
             echo "$f"
           done
-          PD_URL: https://api.pipedream.com/v1/components/registry
+          PD_URL=https://api.pipedream.com/v1/components/registry
           UNPUBLISHED=""
           PUBLISHED=""
           ERRORS=""
