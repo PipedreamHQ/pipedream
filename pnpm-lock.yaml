@@ -1460,9 +1460,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^0.9.0
       node-telegram-bot-api: ^0.54.0
+      uuid: ^8.3.2
     dependencies:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
+      uuid: 8.3.2
 
   components/threescribe:
     specifiers: {}

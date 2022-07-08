@@ -1,4 +1,5 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import { v4 as uuid } from "uuid";
 
 export default {
   props: {
@@ -13,13 +14,21 @@ export default {
   },
   hooks: {
     async activate() {
-      await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes());
+      const secret = uuid();
+      this.setSecret(secret);
+      await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes(), secret);
     },
     async deactivate() {
       await this.telegramBotApi.deleteHook();
     },
   },
   methods: {
+    getSecret() {
+      return this.db.get("secret");
+    },
+    setSecret(secret) {
+      this.db.set("secret", secret);
+    },
     getEventTypes() {
       throw new Error("getEventTypes is not implemented");
     },
@@ -28,8 +37,8 @@ export default {
     },
   },
   async run(event) {
-    // check if event has the same API token secret
-    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
+    // check if event has the same secret
+    if (event.headers["x-telegram-bot-api-secret-token"] !== this.getSecret()) {
       console.log("Could not identify sender identity, exiting...");
       return;
     }

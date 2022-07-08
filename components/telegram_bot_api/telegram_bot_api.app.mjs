@@ -273,14 +273,15 @@ export default {
         polling: false,
       });
     },
-    async createHook(url, allowedUpdates) {
+    async createHook(url, allowedUpdates, secret) {
       const config = {
         method: "POST",
         url: `${this._getBaseUrl()}/setWebhook`,
         headers: this._getHeaders(),
         data: {
-          url: `${url}/${this.$auth.token}`,
+          url,
           allowed_updates: allowedUpdates,
+          secret_token: secret,
         },
       };
       return axios(this, config);
