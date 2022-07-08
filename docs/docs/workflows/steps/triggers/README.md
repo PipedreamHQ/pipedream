@@ -271,8 +271,8 @@ When you're processing HTTP requests, you often don't need to issue any special 
 #### Customizing the HTTP response
 
 If you need to issue a custom HTTP response from a workflow, you can either:
-- **use the `Return HTTP response` Action**, available on the `HTTP / Webhook` app, or
-- **use the `$.respond()` function in a Code or Action step**.
+- Use the **Return HTTP response** action, available on the **HTTP / Webhook** app, or
+- **Use the `$.respond()` function in a Code or Action step**.
 
 #### Using the HTTP Response Action
 
