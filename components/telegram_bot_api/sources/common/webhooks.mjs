@@ -1,0 +1,50 @@
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
+
+export default {
+  props: {
+    telegramBotApi,
+    db: "$.service.db",
+    http: {
+      label: "HTTP Responder",
+      description: "Exposes a `respond()` method that lets the source issue HTTP responses",
+      type: "$.interface.http",
+      customResponse: true,
+    },
+  },
+  hooks: {
+    async activate() {
+      await this.telegramBotApi.createHook(this.http.endpoint, this.getEventTypes());
+    },
+    async deactivate() {
+      await this.telegramBotApi.deleteHook();
+    },
+  },
+  methods: {
+    getEventTypes() {
+      throw new Error("getEventTypes is not implemented");
+    },
+    processEvent() {
+      throw new Error("processEvent is not implemented");
+    },
+  },
+  async run(event) {
+    // check if event has the same API token secret
+    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
+      console.log("Could not identify sender identity, exiting...");
+      return;
+    }
+
+    this.http.respond({
+      status: 200,
+    });
+
+    const { body } = event;
+
+    if (!body) {
+      console.log("No body received, exiting...");
+      return;
+    }
+
+    this.processEvent(body);
+  },
+};
