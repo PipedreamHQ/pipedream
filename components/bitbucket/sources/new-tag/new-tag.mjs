@@ -33,6 +33,24 @@ export default {
     isNewTag(change) {
       return change.created && change.new.type === "tag";
     },
+    async loadHistoricalData() {
+      const tags = await this.bitbucket.getTags({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          pagelen: 25,
+        },
+      });
+      const ts = new Date().getTime();
+      return tags.map((tag) => ({
+        main: tag,
+        sub: {
+          id: `${tag.name} - ${ts}`,
+          summary: `New tag ${tag.name} created`,
+          ts,
+        },
+      }));
+    },
     proccessEvent(event) {
       const {
         headers,

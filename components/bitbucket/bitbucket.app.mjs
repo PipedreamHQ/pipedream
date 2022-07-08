@@ -447,6 +447,15 @@ export default {
       }, $);
       return response.values;
     },
+    async getTags({
+      workspaceId, repositoryId, params,
+    }, $) {
+      const response = await this._makeRequest(`repositories/${workspaceId}/${repositoryId}/refs/tags`, {
+        params,
+      }, $);
+
+      return response.values;
+    },
 
   },
 };
