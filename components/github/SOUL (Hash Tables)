@@ -1,0 +1,238 @@
+#include <iostream>
+using namespace std;
+
+//In this class, we store the contact details.
+class node {
+	string name;
+	long int tel;
+	int id;
+
+public:
+	node()
+	{
+		tel = 0;
+		id = 0;
+	}
+	friend class hashing;
+};
+
+class hashing {
+
+	node data[100];//Maximum size of the directory is 100
+	string n;
+	long int t;
+	int i, index;
+
+public:
+	hashing()
+	{
+		i = 0;
+		t = 0;
+	}
+
+	//Function to get the details from the user like id, telephone number and to create new record in hashtable.
+	void create_record(int size)
+	{
+	
+		cout<<"Enter ID:";
+		cin>>i;//User input of ID
+
+		cout<<"Enter Name:";
+		cin>>n;//User input of name
+
+		cout<<"Enter telephone number:";
+		cin>>t;//User input of telephone number
+		cout << "\nid:";
+		cout << " \t\t\t"
+			<< i;
+		cout << "\nname:";
+		cout << " \t\t\t " << n;
+		cout << "\ntelephone";
+		cout << " number:\t"
+			<< t;
+		index = i % size;
+
+		//In case of collision, insertion of record using linear probing.
+		for (int j = 0; j < size; j++) {
+			if (data[index].id == 0) {
+				data[index].id = i;
+				data[index].name = n;
+				data[index].tel = t;
+				break;
+			}
+			else
+				index
+					= (index + 1) % size;
+		}
+	}
+
+	// This function is to take the input of the record to be searched.
+	// Then traverse through the hash table and if the id of the record matches with any of the key, then it displays the details of the record.
+	void search_record(int size)
+	{
+		int index1, key, flag = 0;
+		cout << "\nEnter record";
+		cout << " id to search :";
+		cin>>key;
+		index1 = key % size;
+
+		// This traverse the directory in a linear order inorder to search the details of the record.
+		for (int a = 0; a < size; a++) {
+			if (data[index1].id == key) {
+				flag = 1;
+				cout << "\nRecord found:";
+				cout << "\n\tID ";
+				cout << "\tNAME ";
+				cout << "\t\tTELEPHONE ";
+				cout << "\n\t"
+					<< data[index1].id
+					<< " \t"
+					<< data[index1].name
+					<< " \t"
+					<< data[index1].tel;
+				break;
+			}
+			else
+				index1
+					= (index1 + 1) % size;
+		}
+		if (flag == 0){
+		    cout << "\nRecord";
+		cout << " not found";
+		}
+			
+	}
+
+	// This function takes the input of the record to be deleted 
+	// And then it searches the hashtable for the record and if the record is found, that record will be deleted.
+	void delete_record(int size)
+	{
+		int index1, key, flag = 0;
+		cout << "\nEnter record";
+		cout << " id to delete: ";
+		cin>>key;
+		index1 = key % size;
+		// This traverse the directory in a linear order inorder to search the details of the record.
+		for (int a = 0; a < size; a++) {
+			if (data[index1].id
+				== key) {
+				flag = 1;
+				data[index1].id = 0;
+				data[index1].name = " ";
+				data[index1].tel = 0;
+				cout << "\nRecord";
+				cout << " deleted";
+				cout << " successfully";
+			}
+			else
+				index1
+					= (index1 + 1) % size;
+		}
+		if (flag == 0){
+		    cout << "\nRecord";
+		    cout << " not found";
+		}
+			
+	}
+
+	// This function takes the input of the key to be searched.
+	// And then it searches the hashtable for the record and if the record is found, it displays the details of the record.
+	void update_record(int size)
+	{
+		int index1, key, flag = 0;
+		cout << "\nEnter record";
+		cout << " id to update:";
+		cin>>key;
+		index1 = key % size;
+		// This traverse the directory in a linear order inorder to search the details of the record.
+		for (int a = 0; a < size; a++) {
+			if (data[index1].id
+				== key) {
+				flag = 1;
+				break;
+			}
+			else
+				index1
+					= (index1 + 1) % size;
+		}
+		// If the record is found in the hashtable, then the details are updated.
+		if (flag == 1) {
+			cout<<"Enter Name\n";
+			cin>>n;
+			cout<<"Enter Number\n";
+			cin>>t;
+			data[index1].name = n;
+			data[index1].tel = t;
+			cout << "\nDetails updated: ";
+			cout << "\n\tID \tNAME";
+			cout << " \t\tTELEPHONE ";
+			cout << "\n\t"
+				<< data[index1].id
+				<< " \t"
+				<< data[index1].name
+				<< " \t"
+				<< data[index1].tel;
+		}
+	}
+
+	//This function displays the details of all the records.
+	void display_record(int size)
+	{
+		cout << "\n\tID \tNAME";
+		cout << " \t\tTELEPHONE ";
+		// This displays the details of all the records.
+		for (int a = 0; a < size; a++) {
+			if (data[a].id != 0) {
+				cout << "\n\t"
+					<< data[a].id
+					<< " \t"
+					<< data[a].name
+					<< " \t"
+					<< data[a].tel;
+			}
+		}
+	}
+};
+
+
+int main()
+{
+	
+	int size,temp=0,ch;//Here, Size is the size of the directory.
+
+	// Creating object for the class hashing.
+	hashing s;
+	size = 20;
+	do{
+	    cout << "\n1.CREATE RECORD\n";
+	    cout << "2.DISPLAY\n";
+	    cout << "3.SEARCH\n";
+	    cout << "4.UPDATE\n";
+	    cout << "5.DELETE\n";
+	    cout<<"6.EXIT\n";
+	    cout<<"Enter require Choice:";
+	    cin>>ch;
+	    switch(ch){
+	        case 1:
+	        s.create_record(size);
+	        break;
+	        case 2:
+	        s.display_record(size);
+	        break;
+	        case 3:
+	        s.search_record(size);
+	        break;
+	        case 4:
+	        s.update_record(size);
+	        break;
+	        case 5:
+	        s.delete_record(size);
+	        break;
+	        case 6:
+	        temp=-1;
+	    }
+	    
+	    
+	}while(temp==0);
+	return 0;
+}
