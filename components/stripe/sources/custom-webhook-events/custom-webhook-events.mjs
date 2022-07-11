@@ -1,20 +1,19 @@
-const stripe = require("../../stripe.app.js");
+import stripe from "../../stripe.app.mjs";
+import constants from "../common/constants.mjs";
 
-module.exports = {
+export default {
   key: "stripe-custom-webhook-events",
-  name: "Custom Webhook Events",
+  name: "New Custom Webhook Events",
   type: "source",
-  version: "0.0.3",
-  description: "Subscribe to one or more event types and emit an event on each webhook request",
+  version: "0.0.4",
+  description: "Emit new event on each webhook event",
   props: {
     stripe,
     enabledEvents: {
       type: "string[]",
       label: "Events",
-      description: "Events to listen for (select '*' for all)",
-      options() {
-        return this.stripe.enabledEvents();
-      },
+      description: "Events to listen for. Select `*` for all events",
+      options: constants.WEBHOOK_EVENTS,
       default: [
         "*",
       ],
@@ -28,6 +27,13 @@ module.exports = {
     /* eslint-enable pipedream/props-description */
     /* eslint-enable pipedream/props-label */
     db: "$.service.db",
+  },
+  async deploy() {
+    const events = await this.stripe.getEvent({
+      eventTypes: this.enabledEvents,
+    });
+
+    console.log(events);
   },
   hooks: {
     async activate() {
