@@ -4,7 +4,7 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     postgresql,
@@ -56,17 +56,25 @@ export default {
       rowValues,
       rejectUnauthorized,
     } = this;
-    const res = await this.postgresql.updateRow(
-      table,
-      column,
-      value,
-      rowValues,
-      rejectUnauthorized,
-    );
-    const summary = res
-      ? "Row updated"
-      : "Row not found";
-    $.export("$summary", summary);
-    return res;
+    try {
+      const res = await this.postgresql.updateRow(
+        table,
+        column,
+        value,
+        rowValues,
+        rejectUnauthorized,
+      );
+      const summary = res
+        ? "Row updated"
+        : "Row not found";
+      $.export("$summary", summary);
+      return res;
+    } catch (error) {
+      throw new Error(`
+      This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
+        
+      New row not inserted due to an error. ${error}
+    `);
+    }
   },
 };
