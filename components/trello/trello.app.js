@@ -494,16 +494,18 @@ module.exports = {
     },
     async getBoardActivity(boardId, filter = null) {
       return this._makeRequest({
-        path: `boards/${boardId}/actions${ filter
-          ? "?filter=" + filter
-          : "" }`,
+        path: `boards/${boardId}/actions`,
+        params: {
+          filter,
+        },
       });
     },
     async getCardActivity(cardId, filter = null) {
       return this._makeRequest({
-        path: `cards/${cardId}/actions${ filter
-          ? "?filter=" + filter
-          : "" }`,
+        path: `cards/${cardId}/actions`,
+        params: {
+          filter,
+        },
       });
     },
     async getBoard(id) {
@@ -535,7 +537,10 @@ module.exports = {
     },
     async getFilteredCards(boardId, filter) {
       return this._makeRequest({
-        path: `boards/${boardId}/cards/${filter}`,
+        path: `boards/${boardId}/cards`,
+        params: {
+          filter,
+        },
       });
     },
     async getCardsInList(listId) {
