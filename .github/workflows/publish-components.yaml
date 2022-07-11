@@ -98,7 +98,7 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "type=javascript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=javascript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
@@ -230,7 +230,7 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "type=typescript" -d "event=$(cat "$GITHUB_EVENT_PATH")" -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=typescript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
           unset IFS
       - name: Remove pd cli config
         run: |
