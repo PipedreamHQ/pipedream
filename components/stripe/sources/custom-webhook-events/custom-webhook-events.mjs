@@ -29,11 +29,15 @@ export default {
     db: "$.service.db",
   },
   async deploy() {
-    const events = await this.stripe.getEvent({
-      eventTypes: this.enabledEvents,
-    });
+    for (const eventType of this.enabledEvents) {
+      const events = await this.stripe.getEvents({
+        eventType,
+      });
 
-    console.log(events);
+      for (const event of events) {
+        this.emit(event);
+      }
+    }
   },
   hooks: {
     async activate() {
@@ -79,9 +83,17 @@ export default {
     this.http.respond({
       status: 200,
     });
-    this.$emit(event);
+
+    this.emit(event);
   },
   methods: {
+    emit(event) {
+      this.$emit(event, {
+        id: event.id,
+        summary: `New event ${event.type} with id ${event.data.id}`,
+        ts: Date.parse(event.created),
+      });
+    },
     getEndpoint() {
       let endpoint;
       const endpointJson = this.db.get("endpoint");
