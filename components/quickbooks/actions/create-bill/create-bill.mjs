@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-create-bill",
@@ -46,17 +46,11 @@ export default {
   },
   async run({ $ }) {
     if (!this.vendorRefValue || !this.lineItems) {
-      throw new Error("Must provide vendorRefValue, and lineItems parameters.");
+      throw new ConfigurationError("Must provide vendorRefValue, and lineItems parameters.");
     }
 
-    return await axios($, {
-      method: "post",
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/bill`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.createBill({
+      $,
       data: {
         VendorRef: {
           value: this.vendorRefValue,
@@ -72,5 +66,11 @@ export default {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully created bill");
+    }
+
+    return response;
   },
 };

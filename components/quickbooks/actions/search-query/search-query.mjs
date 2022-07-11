@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-search-query",
@@ -23,21 +23,19 @@ export default {
   },
   async run({ $ }) {
     if (!this.searchQuery) {
-      throw new Error("Must provide searchQuery parameter.");
+      throw new ConfigurationError("Must provide searchQuery parameter.");
     }
 
-    //Sends the request against Quickbooks API
-    return await axios($, {
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/query`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/octet-stream",
-      },
+    const response = await this.quickbooks.query({
+      $,
       params: {
         minorversion: this.minorversion,
         query: this.searchQuery,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully retrieved query results");
+    }
   },
 };

@@ -1,5 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-get-time-activity",
@@ -23,18 +23,21 @@ export default {
   },
   async run({ $ }) {
     if (!this.timeActivityId) {
-      throw new Error("Must provide timeActivityId parameter.");
+      throw new ConfigurationError("Must provide timeActivityId parameter.");
     }
 
-    return await axios($, {
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/timeactivity/${this.timeActivityId}`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.getBill({
+      $,
+      timeActivityId: this.timeActivityId,
       params: {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully retrieved time activity");
+    }
+
+    return response;
   },
 };

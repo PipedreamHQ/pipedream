@@ -1,5 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-search-customers",
@@ -46,7 +46,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.includeClause || !this.whereClause) {
-      throw new Error("Must provide includeClause, whereClause parameters.");
+      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
     }
 
     var orderClause = "";
@@ -67,18 +67,18 @@ export default {
     //Prepares the request's query parameter
     const query = `select ${this.includeClause} from Customer where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
-    //Sends the request against Quickbooks API
-    return await axios($, {
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/query`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/octet-stream",
-      },
+    const response = await this.quickbooks.query({
+      $,
       params: {
         minorversion: this.minorversion,
         query,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully retrieved customers");
+    }
+
+    return response;
   },
 };

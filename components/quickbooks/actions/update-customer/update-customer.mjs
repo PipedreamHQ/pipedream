@@ -1,5 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-update-customer",
@@ -478,17 +478,11 @@ export default {
       (!this.title && !this.givenName && !this.middleName && !this.familyName && !this.suffix) ||
       !this.customerId || !this.syncToken || this.sparseUpdate === undefined
     ) {
-      throw new Error("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix, and customerId, syncToken parameters.");
+      throw new ConfigurationError("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix, and customerId, syncToken parameters.");
     }
 
-    return await axios($, {
-      method: "post",
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/customer`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.updateCustomer({
+      $,
       data: {
         sparse: this.sparseUpdate,
         Id: this.customerId,
@@ -592,5 +586,11 @@ export default {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully updated customer");
+    }
+
+    return response;
   },
 };

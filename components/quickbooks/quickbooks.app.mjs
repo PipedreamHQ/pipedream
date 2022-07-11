@@ -31,5 +31,100 @@ export default {
         data,
       }, $);
     },
+    async createBill({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/bill`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
+    async createCustomer({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/customer`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
+    async createInvoice({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/invoice`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
+    async getBill({
+      $, billId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/bill/${billId}`, {
+        params,
+      }, $);
+    },
+    async getCustomer({
+      $, customerId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/customer/${customerId}`, {
+        params,
+      }, $);
+    },
+    async getInvoice({
+      $, invoiceId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/invoice/${invoiceId}`, {
+        params,
+      }, $);
+    },
+    async getMyCompany({ $ } = {}) {
+      return this._makeRequest(`company/${this._companyId()}/companyinfo/${this._companyId()}`, {}, $);
+    },
+    async getPurchase({
+      $, purchaseId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/purchase/${purchaseId}`, {
+        params,
+      }, $);
+    },
+    async getPurchaseOrder({
+      $, purchaseOrderId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/purchaseorder/${purchaseOrderId}`, {
+        params,
+      }, $);
+    },
+    async getSalesReceipt({
+      $, salesReceiptId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/salesreceipt/${salesReceiptId}`, {
+        params,
+      }, $);
+    },
+    async getTimeActivity({
+      $, timeActivityId, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/timeactivity/${timeActivityId}`, {
+        params,
+      }, $);
+    },
+    async query({
+      $, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/query`, {
+        params,
+      }, $);
+    },
+    async updateCustomer({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/customer`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
   },
 };

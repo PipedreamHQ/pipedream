@@ -1,5 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-get-invoice",
@@ -24,19 +24,21 @@ export default {
   },
   async run({ $ }) {
     if (!this.invoiceId) {
-      throw new Error("Must provide invoiceId parameter.");
+      throw new ConfigurationError("Must provide invoiceId parameter.");
     }
 
-    return await axios($, {
-      url: `https://sandbox.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/invoice/${this.invoiceId}`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.getBill({
+      $,
+      invoiceId: this.invoiceId,
       params: {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully retrieved invoice");
+    }
+
+    return response;
   },
 };

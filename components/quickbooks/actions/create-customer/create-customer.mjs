@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-create-customer",
@@ -57,17 +57,11 @@ export default {
       !this.displayName &&
       (!this.title && !this.givenName && !this.middleName && !this.familyName && !this.suffix)
     ) {
-      throw new Error("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix parameters.");
+      throw new ConfigurationError("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix parameters.");
     }
 
-    return await axios($, {
-      method: "post",
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/customer`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "accept": "application/json",
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.createCustomer({
+      $,
       data: {
         DisplayName: this.displayName,
         Suffix: this.suffix,
@@ -80,5 +74,11 @@ export default {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully created customer");
+    }
+
+    return response;
   },
 };

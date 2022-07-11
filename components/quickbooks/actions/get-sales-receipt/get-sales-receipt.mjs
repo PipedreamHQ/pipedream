@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-get-sales-receipt",
@@ -23,18 +23,21 @@ export default {
   },
   async run({ $ }) {
     if (!this.salesReceiptId) {
-      throw new Error("Must provide salesReceiptId parameter.");
+      throw new ConfigurationError("Must provide salesReceiptId parameter.");
     }
 
-    return await axios($, {
-      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/salesreceipt/${this.salesReceiptId}`,
-      headers: {
-        "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-        "content-type": "application/json",
-      },
+    const response = await this.quickbooks.getBill({
+      $,
+      salesReceiptId: this.salesReceiptId,
       params: {
         minorversion: this.minorversion,
       },
     });
+
+    if (response) {
+      $.export("summary", "Successfully retrieved sales receipt");
+    }
+
+    return response;
   },
 };
