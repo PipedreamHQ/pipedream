@@ -403,6 +403,9 @@
     },
     {
       "path": "components/smiirl"
+    },
+    {
+      "path": "components/fedex"
     }
   ]
 }
