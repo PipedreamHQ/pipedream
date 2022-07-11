@@ -18331,7 +18331,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+<<<<<<< HEAD
   /ts-jest/27.1.4_0e97acf721fe29c8f86b7efb362afcd0:
+=======
+  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
+>>>>>>> master
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
