@@ -406,6 +406,12 @@
     },
     {
       "path": "components/fedex"
+    },
+    {
+      "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
     }
   ]
 }

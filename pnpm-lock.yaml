@@ -114,7 +114,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/amplenote:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/amqp:
     specifiers:
