@@ -456,6 +456,15 @@ importers:
       faunadb: 4.5.4
       lodash: 4.17.21
 
+  components/fedex:
+    specifiers: {}
+
+  components/feedbin:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/figma:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1695,14 +1704,14 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^0.19.0
+      axios: ^0.21.2
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
       jest: ^24.8.0
       typescript: ^3.5.3
     dependencies:
-      axios: 0.19.2
+      axios: 0.21.4
       fp-ts: 2.12.1
       io-ts: 2.2.16_fp-ts@2.12.1
     devDependencies:
