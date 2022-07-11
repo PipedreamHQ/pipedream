@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 const { bitbucket } = common.props;
 
 export default {
@@ -36,7 +37,7 @@ export default {
         repositoryId: this.repositoryId,
         params: {
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       return issues.map((issue) => ({

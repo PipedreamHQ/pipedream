@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 const { bitbucket } = common.props;
 
 export default {
@@ -54,7 +55,7 @@ export default {
         params: {
           include: this.branchName,
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       return commits.map((commit) => ({

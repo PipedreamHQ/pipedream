@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 const { bitbucket } = common.props;
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -36,7 +37,7 @@ export default {
         repositoryId: this.repositoryId,
         params: {
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       return pullRequests.map((pullRequest) => ({

@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 const { bitbucket } = common.props;
 
 export default {
@@ -37,7 +38,7 @@ export default {
         params: {
           include: this.branchName,
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
 
@@ -51,7 +52,7 @@ export default {
             commitId: commits[counter].hash,
             params: {
               page: 1,
-              pagelen: 25,
+              pagelen: constants.HISTORICAL_DATA_LENGTH,
             },
           });
           comments = [
@@ -59,7 +60,7 @@ export default {
             ...response,
           ];
           counter++;
-          if (comments.length > 25) {
+          if (comments.length > constants.HISTORICAL_DATA_LENGTH) {
             break;
           }
           if (counter >= commits.length - 1) {

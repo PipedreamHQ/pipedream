@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -22,7 +23,7 @@ export default {
         workspaceId: this.workspaceId,
         params: {
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       return repositories.map((repository) => ({

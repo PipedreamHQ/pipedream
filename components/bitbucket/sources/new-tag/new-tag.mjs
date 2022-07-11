@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 const { bitbucket } = common.props;
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -38,7 +39,7 @@ export default {
         workspaceId: this.workspaceId,
         repositoryId: this.repositoryId,
         params: {
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       const ts = new Date().getTime();

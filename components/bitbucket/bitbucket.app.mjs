@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import defaultAxios from "axios";
+import constants from "./sources/common/constants.mjs";
 
 export default {
   type: "app",
@@ -394,7 +395,7 @@ export default {
         repositoryId,
         params: {
           page: 1,
-          pagelen: 25,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
         },
       });
       const ts = new Date().getTime();
