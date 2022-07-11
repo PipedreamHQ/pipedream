@@ -370,29 +370,6 @@ export default {
 
       return response.values;
     },
-    async getBranchesPaginated(workspaceId, repositoryId) {
-      let branches = [];
-      let page = 0;
-      do {
-        page += 1;
-        const result = await this.getBranches({
-          workspaceId,
-          repositoryId,
-          params: {
-            page,
-            pagelen: 50,
-          },
-        });
-        branches = [
-          ...branches,
-          ...result,
-        ];
-        if (result.length < 50) {
-          break;
-        }
-      } while (true);
-      return branches;
-    },
     async getCommits({
       workspaceId, repositoryId, params,
     }, $) {
