@@ -53,7 +53,9 @@ export default {
       },
     });
 
-    response && $.export("summary", "Successfully created payment");
+    if (response) {
+      $.export("summary", "Successfully created payment");
+    }
 
     return response;
   },
