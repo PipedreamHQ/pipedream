@@ -27,6 +27,13 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      // Retrieve historical events
+      await this.loadHistoricalData();
+      // for (const event of events) {
+      //   this.$emit(event.main, event.sub);
+      // }
+    },
     async activate() {
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,

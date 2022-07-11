@@ -1,7 +1,8 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const common = require("../common-webhook.js");
+import common from "../common/common-webhook.mjs";
+import getOwnerAndRepo from "../../actions/common/utils.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "github-new-commit-instant",
   name: "New Commit (Instant)",
@@ -38,6 +39,19 @@ module.exports = {
         summary: data.message,
         ts: Date.parse(data.timestamp),
       };
+    },
+    async loadHistoricalData() {
+      const commits = await this.github.getCommits(getOwnerAndRepo(this.repoFullName));
+      console.log("commits", commits);
+      // const ts = new Date().getTime();
+      // return branches.map((branch) => ({
+      //   main: branch,
+      //   sub: {
+      //     id: `${branch.name}-${ts}`,
+      //     summary: `New branch ${branch.name} created`,
+      //     ts,
+      //   },
+      // }));
     },
     emitEvent(body) {
       const branch = body.ref.split("refs/heads/").pop();

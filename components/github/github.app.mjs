@@ -186,5 +186,12 @@ export default {
 
       return issues;
     },
+    async getCommits({
+      repoFullname, owner,
+    }) {
+      const response = await this._client().request(`POST /repos/${owner}/${repoFullname}/commits`, {});
+
+      return response.data;
+    },
   },
 };
