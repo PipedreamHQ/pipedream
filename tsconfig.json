@@ -409,6 +409,9 @@
     },
     {
       "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
     }
   ]
 }
