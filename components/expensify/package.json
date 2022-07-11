@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/expensify",
+  "version": "0.0.1",
+  "description": "Pipedream Expensify Components",
+  "main": "dist/app/expensify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "expensify"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/expensify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
