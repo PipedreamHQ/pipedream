@@ -25,7 +25,6 @@ export default {
         const repositories = await this.getRepos({
           org,
         });
-
         return repositories.map((repository) => repository.full_name);
       },
     },
@@ -66,6 +65,17 @@ export default {
           label: issue.title,
           value: +issue.number,
         }));
+      },
+    },
+    branch: {
+      label: "Branch",
+      description: "Branch",
+      type: "string",
+      async options({ repoFullname }) {
+        const branches = await this.getBranches({
+          repoFullname,
+        });
+        return branches.map((branch) => branch.name);
       },
     },
   },
@@ -187,11 +197,16 @@ export default {
       return issues;
     },
     async getCommits({
-      repoFullname, owner,
+      repoFullname,
+      data,
     }) {
-      const response = await this._client().request(`POST /repos/${owner}/${repoFullname}/commits`, {});
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits`, data);
 
       return response.data;
+    },
+    async getBranches({ repoFullname }) {
+      const branches = await this._client().request(`GET /repos/${repoFullname}/branches`, {});
+      return branches.data;
     },
   },
 };

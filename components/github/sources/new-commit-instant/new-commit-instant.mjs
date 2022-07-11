@@ -1,6 +1,5 @@
-/* eslint @typescript-eslint/no-var-requires: "off" */
 import common from "../common/common-webhook.mjs";
-import getOwnerAndRepo from "../../actions/common/utils.mjs";
+const { github } = common.props;
 
 export default {
   ...common,
@@ -14,10 +13,10 @@ export default {
     ...common.props,
     branch: {
       propDefinition: [
-        common.props.github,
+        github,
         "branch",
         (c) => ({
-          repoFullName: c.repoFullName,
+          repoFullname: c.repoFullname,
         }),
       ],
       description: "Branch to monitor for new commits",
@@ -25,6 +24,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getEventNames() {
       return [
         "push",
@@ -41,17 +41,14 @@ export default {
       };
     },
     async loadHistoricalData() {
-      const commits = await this.github.getCommits(getOwnerAndRepo(this.repoFullName));
+      const commits = await this.github.getCommits({
+        repoFullname: this.repoFullname,
+        data: {
+          per_page: 25,
+          page: 1,
+        },
+      });
       console.log("commits", commits);
-      // const ts = new Date().getTime();
-      // return branches.map((branch) => ({
-      //   main: branch,
-      //   sub: {
-      //     id: `${branch.name}-${ts}`,
-      //     summary: `New branch ${branch.name} created`,
-      //     ts,
-      //   },
-      // }));
     },
     emitEvent(body) {
       const branch = body.ref.split("refs/heads/").pop();
