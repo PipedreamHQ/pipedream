@@ -46,7 +46,7 @@ importers:
       pnpm: 7.0.1
       putout: 26.0.1
       renamer: 4.0.0
-      ts-jest: 27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a
+      ts-jest: 27.1.4_xejkg674zdqdsmikentsgzg3jy
       tsc-esm-fix: 2.18.0
       tsc-watch: 5.0.3_typescript@4.7.2
       typescript: 4.7.2
@@ -455,6 +455,9 @@ importers:
       '@pipedream/platform': 0.10.0
       faunadb: 4.5.4
       lodash: 4.17.21
+
+  components/fedex:
+    specifiers: {}
 
   components/feedbin:
     specifiers:
@@ -1055,6 +1058,20 @@ importers:
 
   components/pikaso:
     specifiers: {}
+
+  components/pinterest:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      axios: ^0.27.2
+      js-base64: ^3.7.2
+      mime-types: ^2.1.35
+      url-exist: ^3.0.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      axios: 0.27.2
+      js-base64: 3.7.2
+      mime-types: 2.1.35
+      url-exist: 3.0.0
 
   components/pipedream:
     specifiers:
@@ -1687,14 +1704,14 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^0.19.0
+      axios: ^0.21.2
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
       jest: ^24.8.0
       typescript: ^3.5.3
     dependencies:
-      axios: 0.19.2
+      axios: 0.21.4
       fp-ts: 2.12.1
       io-ts: 2.2.16_fp-ts@2.12.1
     devDependencies:
@@ -12426,6 +12443,11 @@ packages:
       unc-path-regex: 0.1.2
     dev: true
 
+  /is-url-superb/5.0.0:
+    resolution: {integrity: sha512-jGkG59ra7/JlcV8ap3dsc0M79IgpuFU/obfsSf6X5D0z1NVvFTFuzt4ob7nfBTZEPbTwjGXVKNQDfWfPghapKQ==}
+    engines: {node: '>=10'}
+    dev: false
+
   /is-url/1.2.4:
     resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==}
     dev: false
@@ -13866,9 +13888,31 @@ packages:
       - domexception
     dev: false
 
+  /ky-universal/0.9.1_ky@0.26.0:
+    resolution: {integrity: sha512-o0u8z6Lp8bZAevZWJkZXuQH4JGFIUM1FeHRdtdmcgSsEoP8Ane4TNJWtiv0UOYKRmYGlYsF15zX6kR1S31Q8sg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      ky: '>=0.26.0'
+      web-streams-polyfill: '>=3.0.1'
+    peerDependenciesMeta:
+      web-streams-polyfill:
+        optional: true
+    dependencies:
+      abort-controller: 3.0.0
+      ky: 0.26.0
+      node-fetch: 3.0.0-beta.9
+    transitivePeerDependencies:
+      - domexception
+    dev: false
+
   /ky/0.25.1:
     resolution: {integrity: sha512-PjpCEWlIU7VpiMVrTwssahkYXX1by6NCT0fhTUX34F3DTinARlgMpriuroolugFPcMgpPWrOW4mTb984Qm1RXA==}
     engines: {node: '>=10'}
+    dev: false
+
+  /ky/0.26.0:
+    resolution: {integrity: sha512-j2YwAGYuD/XXoyzzUYn1N9NEGoAukkONMea2uLanMPWTqumkwme9eWgf2SjhRKNRb/60FDYStJYL582dbbt9Mw==}
+    engines: {node: '>=12'}
     dev: false
 
   /lazystream/1.0.1:
@@ -18287,7 +18331,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
+  /ts-jest/27.1.4_xejkg674zdqdsmikentsgzg3jy:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -18308,6 +18352,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
+      '@babel/core': 7.17.10
       '@types/jest': 27.5.0
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -18544,7 +18589,6 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /typescript/4.7.2:
     resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
@@ -18785,6 +18829,18 @@ packages:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
+
+  /url-exist/3.0.0:
+    resolution: {integrity: sha512-hRO5udC8UhWKLh/weeTSMujDHmVBDS9KpLY7FGVilrLBKlHBwx6Gpe0fIkkYRkMaGuYHVqpdkNa0sO4wJfYEnA==}
+    engines: {node: '>=14.8'}
+    dependencies:
+      is-url-superb: 5.0.0
+      ky: 0.26.0
+      ky-universal: 0.9.1_ky@0.26.0
+    transitivePeerDependencies:
+      - domexception
+      - web-streams-polyfill
+    dev: false
 
   /url-join/0.0.1:
     resolution: {integrity: sha1-HbSK1CLTQCRpqH99l73r/k+x48g=}
