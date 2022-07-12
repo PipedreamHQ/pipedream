@@ -58,9 +58,8 @@ export default {
       return res;
     } catch (error) {
       throw new Error(`
-      This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
-        
-      Row not retrieved due to an error. ${error}
+      Row not retrieved due to an error. ${error}.
+      This might due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop and try again.
     `);
     }
   },

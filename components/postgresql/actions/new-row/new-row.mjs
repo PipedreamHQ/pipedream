@@ -4,7 +4,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.1.2",
+  version: "0.1.6",
   type: "action",
   props: {
     postgresql,
@@ -41,9 +41,8 @@ export default {
       return res;
     } catch (error) {
       throw new Error(`
-        This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
-          
-        New row not inserted due to an error. ${error}
+        New row not inserted due to an error. ${error}.
+        This might due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop and try again.
       `);
     }
   },
