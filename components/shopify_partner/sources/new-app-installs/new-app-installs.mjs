@@ -1,13 +1,13 @@
-import common from "../common.mjs";
-import shopify from "../shopify_partner.app.mjs";
-import getAppRelationshipEvents from "../queries/getAppRelationshipEvents.mjs";
+import common from "../../common/common.mjs";
+import shopify from "../../shopify_partner.app.mjs";
+import getAppInstalls from "../../queries/getAppInstalls.mjs";
 
 export default {
-  key: "shopify_partner-new-app-relationship-events",
-  name: "New App Relationship Events",
+  key: "shopify_partner-new-app-installs",
+  name: "New App Installs",
   type: "source",
-  version: "0.0.4",
-  description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
+  version: "0.0.9",
+  description: "Emit new events when new shops install your app.",
   ...common,
   props: {
     ...common.props,
@@ -51,12 +51,10 @@ export default {
       ...(occurredAtMax || {}),
     };
 
-    console.log("Querying events");
-
     await this.shopify.query({
       db,
-      key: "shopify_partner-relationship-events",
-      query: getAppRelationshipEvents,
+      key: "shopify_partner-installs",
+      query: getAppInstalls,
       variables,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
