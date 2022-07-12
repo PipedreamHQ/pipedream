@@ -403,6 +403,21 @@
     },
     {
       "path": "components/smiirl"
+    },
+    {
+      "path": "components/fedex"
+    },
+    {
+      "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
     }
   ]
 }
