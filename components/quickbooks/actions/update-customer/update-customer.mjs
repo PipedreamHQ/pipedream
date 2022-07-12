@@ -464,10 +464,10 @@ export default {
       type: "string",
     },
     minorVersion: {
-      label: "Minor Version",
-      type: "string",
-      description: "Use the minorversion query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "minorVersions",
+      ],
     },
   },
   async run({ $ }) {
