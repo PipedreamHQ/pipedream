@@ -1,7 +1,7 @@
 type httpRequestParams = {
-  method: string,
   endpoint: string;
   data?: object;
+  method?: string,
 }
 
 type apiResponse = Promise<object>;
