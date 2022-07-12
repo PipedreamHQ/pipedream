@@ -774,10 +774,10 @@ importers:
   components/jotform:
     specifiers:
       axios: ^0.21.1
-      querystring: ^0.2.0
+      query-string: ^7.1.1
     dependencies:
       axios: 0.21.4
-      querystring: 0.2.1
+      query-string: 7.1.1
 
   components/junip:
     specifiers: {}
@@ -10973,7 +10973,7 @@ packages:
       to-regex-range: 5.0.1
 
   /filter-obj/1.1.0:
-    resolution: {integrity: sha1-mzERErxsYSehbgFsbF1/GeCAXFs=}
+    resolution: {integrity: sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -17658,7 +17658,7 @@ packages:
     dev: false
 
   /strict-uri-encode/2.0.0:
-    resolution: {integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=}
+    resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
     engines: {node: '>=4'}
     dev: false
 
