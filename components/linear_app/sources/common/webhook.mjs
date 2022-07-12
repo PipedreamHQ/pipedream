@@ -30,15 +30,6 @@ export default {
     getWebhookId(teamId) {
       return this.db.get(`webhook-${teamId}`);
     },
-    isRelevant(body) {
-      if (!this.getActions().includes(body?.action)) {
-        return false;
-      }
-      if (this.projectId) {
-        return body.data.projectId === this.projectId;
-      }
-      return true;
-    },
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
     },
@@ -57,6 +48,9 @@ export default {
     getResourcesFn() {
       throw new Error("Get resource function not implemented");
     },
+    getLoadedProjectId() {
+      throw new Error("Get loaded project ID not implemented");
+    },
   },
   hooks: {
     async deploy() {
@@ -66,6 +60,11 @@ export default {
         resourcesFn: this.getResourcesFn(),
       });
       for await (const event of events) {
+        const loadedProjectId = await this.getLoadedProjectId(event);
+        if (this.projectId && loadedProjectId !== this.projectId) {
+          continue;
+        }
+        event.projectId = loadedProjectId;
         const [
           action,
         ] = this.getActions();
@@ -120,7 +119,7 @@ export default {
       return;
     }
 
-    if (!this.isRelevant(body)) {
+    if (!await this.isRelevant(body)) {
       return;
     }
     const meta = this.getMetadata(resource);

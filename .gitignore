@@ -13,3 +13,6 @@ eslint/_logs
 docs/.vuepress/dist
 *.swp
 *.d.ts
+
+./package-lock.json
+components/**/package-lock.json
