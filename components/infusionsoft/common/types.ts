@@ -5,6 +5,10 @@ type getCompanyParams = {
   companyId: number;
 }
 
+type getContactParams = {
+  contactId: number;
+}
+
 type httpRequestParams = {
   endpoint: string;
   data?: object;
@@ -14,5 +18,6 @@ type httpRequestParams = {
 export {
   apiResponse,
   getCompanyParams,
+  getContactParams,
   httpRequestParams,
 }

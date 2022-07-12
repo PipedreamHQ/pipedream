@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   apiResponse,
   getCompanyParams,
+  getContactParams,
   httpRequestParams,
 } from "../common/types";
 
@@ -39,6 +40,18 @@ export default defineApp({
         endpoint: `/companies/${companyId}`,
       });
     },
+    async listContacts(): Promise<object[]> {
+      const response = await this._httpRequest({
+        endpoint: "/contacts",
+      });
+
+      return response.contacts;
+    },
+    async getContact({ contactId }: getContactParams): apiResponse {
+      return this._httpRequest({
+        endpoint: `/contacts/${contactId}`,
+      });
+    },
   },
   propDefinitions: {
     companyId: {
@@ -52,6 +65,21 @@ export default defineApp({
 
         return companies.map(({ company_name, id }) => ({
           label: company_name,
+          value: id,
+        }));
+      },
+    },
+    contactId: {
+      type: "integer",
+      label: "Contact",
+      description: `Select a **Contact** from the list.
+        \\
+        Alternatively, you can provide a custom *Contact ID*.`,
+      async options(): Promise<object[]> {
+        const contacts = await this.listContacts();
+
+        return contacts.map(({ given_name, id }) => ({
+          label: given_name ?? id,
           value: id,
         }));
       },
