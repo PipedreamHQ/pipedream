@@ -50,6 +50,14 @@ export default {
       throw new ConfigurationError("Must provide vendorRefValue, and lineItems parameters.");
     }
 
+    try {
+      this.lineItems = Array.isArray(this.lineItems)
+        ? this.lineItems
+        : this.lineItems.map((lineItem) => JSON.parse(lineItem));
+    } catch (error) {
+      throw new ConfigurationError(`We get an error trying to parse the LineItems. Error: ${error}`);
+    }
+
     const response = await this.quickbooks.createBill({
       $,
       data: {
