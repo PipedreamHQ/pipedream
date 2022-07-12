@@ -31,7 +31,7 @@ export default {
     }
 
     return await axios($, {
-      url: `https://sandbox.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/invoice/${this.invoice_id}`,
+      url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/invoice/${this.invoice_id}`,
       headers: {
         "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
         "accept": "application/json",
