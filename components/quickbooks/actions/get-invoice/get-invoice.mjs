@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-invoice",
   name: "Get Invoice",
   description: "Returns info about an invoice.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     quickbooks: {
