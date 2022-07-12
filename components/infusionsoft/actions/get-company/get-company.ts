@@ -9,9 +9,20 @@ export default defineAction({
   type: "action",
   props: {
     infusionsoft,
+    companyId: {
+      propDefinition: [
+        infusionsoft,
+        "companyId"
+      ]
+    }
   },
-  async run({ $ }) {
-    $.export("$summary", "Retrieved company successfully");
-    return true;
+  async run({ $ }): Promise<object> {
+    const company = await this.infusionsoft.getCompany({
+      companyId: this.companyId
+    });
+
+    $.export("$summary", `Retrieved company ${company.company_name} successfully`);
+
+    return company;
   },
 });

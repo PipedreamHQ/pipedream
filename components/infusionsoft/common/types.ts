@@ -1,12 +1,18 @@
+type apiResponse = Promise<object>;
+
+
+type getCompanyParams = {
+  companyId: number;
+}
+
 type httpRequestParams = {
   endpoint: string;
   data?: object;
   method?: string,
 }
 
-type apiResponse = Promise<object>;
-
 export {
+  apiResponse,
+  getCompanyParams,
   httpRequestParams,
-  apiResponse
 }
