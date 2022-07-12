@@ -29,6 +29,21 @@ export default {
         return repositories.map((repository) => repository.full_name);
       },
     },
+    project: {
+      label: "Project",
+      description: "The project in a repository",
+      type: "integer",
+      async options({ repoFullname }) {
+        const projects = await this.getRepositoryProjects({
+          repoFullname,
+        });
+
+        return projects.map((project) => ({
+          label: project.name,
+          value: project.id,
+        }));
+      },
+    },
     labels: {
       label: "Labels",
       description: "The labels",
@@ -65,6 +80,36 @@ export default {
         return issues.map((issue) => ({
           label: issue.title,
           value: +issue.number,
+        }));
+      },
+    },
+    pullNumber: {
+      type: "integer",
+      label: "PR Number",
+      description: "A pull request number",
+      async options({ repoFullname }) {
+        const prs = await this.getRepositoryPullRequests({
+          repoFullname,
+        });
+
+        return prs.map((pr) => ({
+          label: pr.title,
+          value: +pr.number,
+        }));
+      },
+    },
+    column: {
+      label: "Column",
+      description: "The column in a project board",
+      type: "integer",
+      async options({ project }) {
+        const columns = await this.getProjectColumns({
+          project,
+        });
+
+        return columns.map((column) => ({
+          label: column.name,
+          value: column.id,
         }));
       },
     },
@@ -117,6 +162,12 @@ export default {
         state: "all",
       });
     },
+    async getRepositoryProjects({ repoFullname }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
+    },
+    async getProjectColumns({ project }) {
+      return this._client().paginate(`GET /projects/${project}/columns`, {});
+    },
     async getGists() {
       return this._client().paginate("GET /gists", {});
     },
@@ -151,6 +202,13 @@ export default {
 
       return response.data;
     },
+    async getIssue({
+      repoFullname, issueNumber,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues/${issueNumber}`, {});
+
+      return response.data;
+    },
     async updateIssue({
       repoFullname, issueNumber, data,
     }) {
@@ -164,6 +222,18 @@ export default {
       const response = await this._client().request(`POST /repos/${repoFullname}/issues/${issueNumber}/comments`, data);
 
       return response.data;
+    },
+    async getIssueFromProjectCard({
+      repoFullname, cardId,
+    }) {
+      const { data: card } = await this._client().request(`GET /projects/columns/cards/${cardId}`, {});
+      if (!card?.content_url) {
+        console.log("No issue associated with this card");
+        return;
+      }
+      const issueId = card.content_url.split("/").pop();
+      const { data: issue } = await this._client().request(`GET /repos/${repoFullname}/issues/${issueId}`, {});
+      return issue;
     },
     async searchIssueAndPullRequests({
       query, maxResults,
@@ -185,6 +255,23 @@ export default {
       }
 
       return issues;
+    },
+    async getRepositoryPullRequests({ repoFullname }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
+    },
+    async getPullRequestForCommit({
+      repoFullname, sha,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${sha}/pulls`, {});
+
+      return response.data[0];
+    },
+    async getReviewsForPullRequest({
+      repoFullname, pullNumber,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
+
+      return response.data;
     },
   },
 };
