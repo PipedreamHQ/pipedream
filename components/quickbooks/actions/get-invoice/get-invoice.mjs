@@ -15,11 +15,11 @@ export default {
       description: "Id of the invoice to get details of.",
       optional: true,
     },
-    minorversion: {
-      label: "Minor Version",
-      type: "string",
-      description: "Use the `minorversion` query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
-      optional: true,
+    minorVersion: {
+      propDefinition: [
+        quickbooks,
+        "minorVersion",
+      ],
     },
   },
   async run({ $ }) {
@@ -27,16 +27,16 @@ export default {
       throw new ConfigurationError("Must provide invoiceId parameter.");
     }
 
-    const response = await this.quickbooks.getBill({
+    const response = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
       params: {
-        minorversion: this.minorversion,
+        minorversion: this.minorVersion,
       },
     });
 
     if (response) {
-      $.export("summary", "Successfully retrieved invoice");
+      $.export("summary", `Successfully retrieved invoice with id ${response.Invoice.Id}`);
     }
 
     return response;

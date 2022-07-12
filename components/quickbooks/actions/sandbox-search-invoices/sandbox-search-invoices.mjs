@@ -10,21 +10,22 @@ export default {
   props: {
     quickbooks,
     includeClause: {
-      description: "Fields to use in the select clause of the Invoice data query. See query language syntax, limitations, and other specifications on [Data queries](https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
-      label: "Include Clause",
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "currencyRefName",
+      ],
     },
     maxResults: {
-      description: "The number of Invoice entity elements in the response.",
-      label: "Max Results",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "maxResults",
+      ],
     },
     orderClause: {
-      description: "The `orderClause` is for sorting the result. Include the Invoice property to sort by. The default sort order is ascending; to indicate descending sort order, include DESC, for example: `Name DESC`",
-      label: "Order Clause",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "orderClause",
+      ],
     },
     startPosition: {
       description: "The starting count of the response for pagination.",
@@ -33,15 +34,16 @@ export default {
       type: "string",
     },
     whereClause: {
-      description: "Filters to use in the where clause of the Invoice data query. Note: Multiple clauses (filters) are AND'd. The OR operation is not supported.",
-      label: "Where Clause",
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "whereClause",
+      ],
     },
-    minorversion: {
-      label: "Minor Version",
-      type: "string",
-      description: "Use the `minorversion` query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
-      optional: true,
+    minorVersion: {
+      propDefinition: [
+        quickbooks,
+        "minorVersion",
+      ],
     },
   },
   async run({ $ }) {
@@ -72,7 +74,7 @@ export default {
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorversion,
+        minorversion: this.minorVersion,
         query,
       },
     });

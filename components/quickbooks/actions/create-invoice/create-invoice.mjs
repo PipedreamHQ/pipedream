@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     lineItems: {
-      label: "Line Items",
-      type: "any",
-      description: "The minimum line item required for the request is one of the following: \n* `SalesItemLine` type\n* `GroupLine` type\nand Inline subtotal using `DescriptionOnlyLine`",
+      propDefinition: [
+        quickbooks,
+        "lineItems",
+      ],
     },
     customerRefValue: {
       label: "Customer Reference Value",
@@ -20,24 +21,24 @@ export default {
       description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Id` from that object for `CustomerRef.value`.",
     },
     customerRefName: {
-      label: "Customer Reference Name",
-      type: "string",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.DisplayName ` from that object for `CustomerRef.name`.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "customerRefName",
+      ],
     },
     currencyRefValue: {
-      label: "Currency Reference Value",
-      type: "string",
-      description: "A three letter string representing the ISO 4217 code for the currency. For example, `USD`, `AUD`, `EUR`, and so on. This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "currencyRefValue",
+      ],
     },
     currencyRefName: {
-      label: "Currency Reference Name",
-      type: "object",
-      description: "The full name of the currency.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "currencyRefName",
+      ],
     },
-    minorversion: {
+    minorVersion: {
       label: "Minor Version",
       type: "string",
       description: "Use the minorversion query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
@@ -63,12 +64,12 @@ export default {
         },
       },
       params: {
-        minorversion: this.minorversion,
+        minorversion: this.minorVersion,
       },
     });
 
     if (response) {
-      $.export("summary", "Successfully created invoice");
+      $.export("summary", `Successfully created invoice with id ${response.Invoice.Id}`);
     }
 
     return response;

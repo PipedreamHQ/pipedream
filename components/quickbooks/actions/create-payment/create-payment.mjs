@@ -19,22 +19,22 @@ export default {
       type: "string",
     },
     customerRefName: {
-      label: "Customer Reference Name",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.DisplayName ` from that object for `CustomerRef.name`.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "customerRefName",
+      ],
     },
     currencyRefValue: {
-      label: "Currency Reference Value",
-      description: "A three letter string representing the ISO 4217 code for the currency. For example, `USD`, `AUD`, `EUR`, and so on. This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "currencyRefValue",
+      ],
     },
     currencyRefName: {
-      label: "Currency Reference Name",
-      description: "The full name of the currency.",
-      type: "object",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "currencyRefName",
+      ],
     },
   },
   async run({ $ }) {
@@ -54,7 +54,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", "Successfully created payment");
+      $.export("summary", `Successfully created payment with id ${response.Payment.Id}`);
     }
 
     return response;
