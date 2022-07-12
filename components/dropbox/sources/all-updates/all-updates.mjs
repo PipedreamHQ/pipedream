@@ -38,7 +38,9 @@ export default {
       if (this.includeLink) {
         file.link = await this.getTemporaryLink(update);
       }
-      this.$emit(file, this.getMeta(file.id, file.path_display || file.id));
+      // new unique identification from merging the file id and the last file revision
+      const id = `${file.id}-${file.rev}`;
+      this.$emit(file, this.getMeta(id, file.path_display || file.id));
     }
   },
 };
