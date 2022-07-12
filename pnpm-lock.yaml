@@ -30,7 +30,7 @@ importers:
       '@types/node': 17.0.36
       vue: 2.6.14
     devDependencies:
-      '@pipedream/types': 0.1.2
+      '@pipedream/types': link:types
       '@tsconfig/node14': 1.0.1
       '@types/jest': 27.5.0
       '@typescript-eslint/eslint-plugin': 5.27.1_y3w3ponleabb7gvsfqc375rw6q
@@ -382,10 +382,10 @@ importers:
       '@pipedream/types': ^0.1.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
     devDependencies:
-      '@pipedream/types': 0.1.2
+      '@pipedream/types': link:../../types
       '@types/node': 17.0.36
 
   components/digicert:
@@ -1194,7 +1194,7 @@ importers:
       rss-parser: ^3.12.0
       string-to-stream: ^3.0.1
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
       feedparser: 2.2.10
@@ -1273,7 +1273,7 @@ importers:
       '@pipedream/platform': ^0.10.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.36
@@ -5890,13 +5890,6 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
-  /@pipedream/helpers/1.3.11:
-    resolution: {integrity: sha512-6pFPdcjr4edIRHlJyiZQjCJSKcveYzbqAmZs4GJ12EYxc3WB8nAcdqBWKEf/Ecxl/+GrwdAVH8LtImpNpo01kw==}
-    dependencies:
-      '@pipedream/types': 0.0.5
-      lodash-es: 4.17.21
-    dev: false
-
   /@pipedream/platform/0.10.0:
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
     dependencies:
@@ -5922,12 +5915,6 @@ packages:
     dependencies:
       typescript: 4.7.2
     dev: false
-
-  /@pipedream/types/0.1.2:
-    resolution: {integrity: sha512-3Cle6TeMJI/F+UQ7sl6I96/xloKS41+lABGt5rkZFAOJhGCMnrg+PUdtIhbwF+S+DdlDexminy3Wki7AlWjDGQ==}
-    dependencies:
-      typescript: 4.7.2
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
