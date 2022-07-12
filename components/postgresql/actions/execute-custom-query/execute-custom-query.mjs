@@ -54,7 +54,7 @@ export default {
       throw new Error(`
         This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
           
-        New row not inserted due to an error. ${error}
+        Query not executed due to an error. ${error}
       `);
     }
   },

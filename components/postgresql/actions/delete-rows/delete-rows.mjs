@@ -58,7 +58,7 @@ export default {
       throw new Error(`
       This maybe due to the server is not accepting SSL connection, consider changing the Reject Unauthorized prop.
         
-      New row not inserted due to an error. ${error}
+      Row not deleted due to an error. ${error}
     `);
     }
   },
