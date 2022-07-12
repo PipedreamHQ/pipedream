@@ -415,6 +415,9 @@
     },
     {
       "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
     }
   ]
 }
