@@ -3,7 +3,7 @@ import pipedream from "../../pipedream.app.mjs";
 export default {
   key: "pipedream-get-component",
   name: "Get Component",
-  description: "Get a published component. [See docs](https://pipedream.com/docs/api/rest/#get-a-component)",
+  description: "Get info for a published component. [See docs](https://pipedream.com/docs/api/rest/#get-a-component)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,8 +16,8 @@ export default {
     },
     globalRegistry: {
       type: "boolean",
-      label: "Global Registry",
-      description: "Defaults to `true`. Gets component from the global registry.",
+      label: "Pipedream Registry",
+      description: "Defaults to `true`. If set to `true`, this will fetch component data from the public Pipedream registry. Set to `false` to search your private published components.",
       optional: true,
       default: true,
     },

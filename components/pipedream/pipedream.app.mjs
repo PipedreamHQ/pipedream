@@ -9,7 +9,7 @@ export default {
     componentKey: {
       type: "string",
       label: "Component Key",
-      description: "The component key (identified by the key property within the component's source code) you'd like to fetch metadata for (example: github-new-commit-instant)",
+      description: "The component key (identified by the key property within the component's source code) you'd like to fetch metadata for (example: `github-new-commit-instant`)",
     },
     subscriptionSource: {
       type: "string",
