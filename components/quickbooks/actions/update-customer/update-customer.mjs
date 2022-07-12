@@ -466,7 +466,7 @@ export default {
     minorVersion: {
       propDefinition: [
         quickbooks,
-        "minorVersions",
+        "minorVersion",
       ],
     },
   },
