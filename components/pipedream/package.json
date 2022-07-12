@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/pipedream",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "Pipedream Pipedream Components",
     "main": "pipedream.app.js",
     "keywords": [

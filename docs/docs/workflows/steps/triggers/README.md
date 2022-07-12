@@ -270,7 +270,17 @@ When you're processing HTTP requests, you often don't need to issue any special 
 
 #### Customizing the HTTP response
 
-If you need to issue a custom HTTP response from a workflow, **you can use the `$.respond()` function in a Code or Action step**.
+If you need to issue a custom HTTP response from a workflow, you can either:
+- Use the **Return HTTP response** action, available on the **HTTP / Webhook** app, or
+- **Use the `$.respond()` function in a Code or Action step**.
+
+#### Using the HTTP Response Action
+
+With this action, you do not need to write any custom code. You can customize the response status code, and optionally specify response headers and body.
+
+This action uses `$.respond()` and will always [respond immediately](#returning-a-response-immediately) when called in your workflow. A [response error](#errors-with-http-responses) will still occur if your workflow throws an Error before this action runs.
+
+#### Using custom code with `$.respond()`
 
 `$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 

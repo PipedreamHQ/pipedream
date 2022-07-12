@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import standardAxios from "axios";
 
 export default {
   type: "app",
@@ -214,7 +215,7 @@ export default {
         url,
         ...requestConfig,
       };
-      const { data } = await axios(this, config);
+      const { data } = await standardAxios(config);
       return data;
     },
     async createHook(opts) {

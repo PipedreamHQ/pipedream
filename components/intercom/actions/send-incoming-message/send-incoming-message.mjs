@@ -4,7 +4,7 @@ export default {
   key: "intercom-send-incoming-message",
   name: "Send Incoming Message",
   description: "Send a message from a user into your Intercom app. [See the docs here](https://developers.intercom.com/intercom-api-reference/reference/create-a-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     intercom,
@@ -39,7 +39,7 @@ export default {
       body,
     };
     const res = await this.intercom.createConversation(data, $);
-    $.export("summary", `Message sent successfully with ID ${res.id}`);
+    $.export("$summary", `Message sent successfully with ID ${res.id}`);
     return res;
   },
 };
