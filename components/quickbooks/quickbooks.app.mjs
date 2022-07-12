@@ -29,7 +29,7 @@ export default {
     },
     currencyRefName: {
       label: "Currency Reference Name",
-      type: "object",
+      type: "string",
       description: "The full name of the currency.",
       optional: true,
     },
