@@ -1687,11 +1687,11 @@ importers:
 
   components/zoho_crm:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.0
       crypto: ^1.0.1
       lodash.sortby: ^4.7.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': link:../../platform
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
