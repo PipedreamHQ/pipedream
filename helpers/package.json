@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helpers",
-  "version": "1.3.11",
+  "version": "1.3.12",
   "description": "Pipedream Component Helpers",
   "type": "module",
   "exports": "./dist/index.js",
@@ -19,6 +19,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
+    "prepublish": "rm -rf dist && tsc",
     "build": "tsc"
   },
   "dependencies": {
