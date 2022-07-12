@@ -56,7 +56,7 @@ export default {
       hasNextPagePath = "transactions.pageInfo.hasNextPage",
       getCursor,
     }) {
-      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2021-07/graphql.json`;
+      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2022-07/graphql.json`;
       const client = new GraphQLClient(endpoint, {
         headers: {
           "Content-Type": "application/json",
