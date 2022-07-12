@@ -28,10 +28,14 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = [];
-      for (const cardId of this.cards) {
-        const card = await this.trello.getCard(cardId);
-        cards.push(card);
+      let cards = [];
+      if (this.cards.length > 0) {
+        for (const cardId of this.cards) {
+          const card = await this.trello.getCard(cardId);
+          cards.push(card);
+        }
+      } else {
+        cards = await this.trello.getCards(this.board);
       }
       return {
         sampleEvents: cards,

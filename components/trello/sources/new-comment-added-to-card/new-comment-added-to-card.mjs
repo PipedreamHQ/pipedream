@@ -27,6 +27,7 @@ export default {
     },
   },
   hooks: {
+    ...common.hooks,
     async deploy() {
       const {
         sampleEvents, sortField,
@@ -43,8 +44,11 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
+      const cards = this.cards.length > 0
+        ? this.cards
+        : (await this.trello.getCards(this.board)).map((card) => card.id);
       const actions = [];
-      for (const card of this.cards) {
+      for (const card of cards) {
         const activities = await this.trello.getCardActivity(card, "commentCard");
         actions.push(...activities);
       }

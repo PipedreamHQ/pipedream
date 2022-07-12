@@ -25,5 +25,14 @@ export default {
       const cardId = event.body?.action?.data?.card?.id;
       return this.trello.getCard(cardId);
     },
+    generateMeta({
+      id, name: summary, dateLastActivity,
+    }) {
+      return {
+        id: `${id}${dateLastActivity}`,
+        summary,
+        ts: Date.now(),
+      };
+    },
   },
 };

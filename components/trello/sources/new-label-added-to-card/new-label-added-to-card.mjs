@@ -34,14 +34,51 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      if (this.cards.length > 0) {
+        await this.emitLabelsFromCardIds(this.cards);
+        return;
+      }
+      if (this.lists.length > 0) {
+        for (const listId of this.lists) {
+          const cards = await this.trello.getCardsInList(listId);
+          await this.emitLabelsFromCards(cards);
+        }
+        return;
+      }
+      const cards = await this.trello.getCards(this.board);
+      await this.emitLabelsFromCards(cards);
+    },
+  },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const labels = await this.trello.findLabel(this.board);
-      return {
-        sampleEvents: labels,
-        sortField: "id",
-      };
+    async emitLabelsFromCards(cards) {
+      for (const card of cards) {
+        const labelIds = card.idLabels;
+        for (const labelId of labelIds) {
+          const label = await this.trello.getLabel(labelId);
+          let summary = label.color;
+          summary += label.name
+            ? ` - ${label.name}`
+            : "";
+          summary += `; added to ${card.name}`;
+          this.$emit(card, {
+            id: `${labelId}${card.id}`,
+            summary,
+            ts: Date.now(),
+          });
+        }
+      }
+    },
+    async emitLabelsFromCardIds(cardIds) {
+      const cards = [];
+      for (const id of cardIds) {
+        const card = await this.trello.getCard(id);
+        cards.push(card);
+      }
+      await this.emitLabelsFromCards(cards);
     },
     _getLabelName() {
       return this.db.get("labelName");

@@ -59,7 +59,10 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const actions = await this.trello.getBoardActivity(this.board, this.eventTypes.join(","));
+      const eventTypes = this.eventTypes.length > 0
+        ? this.eventTypes.join(",")
+        : null;
+      const actions = await this.trello.getBoardActivity(this.board, eventTypes);
       return {
         sampleEvents: actions,
         sortField: "date",
