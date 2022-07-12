@@ -412,6 +412,9 @@
     },
     {
       "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
     }
   ]
 }
