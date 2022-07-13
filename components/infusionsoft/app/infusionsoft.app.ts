@@ -1,7 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import axios from "axios";
 import {
-  apiResponse,
   asyncOptionsObject,
   createOrderItemParams,
   createPaymentParams,
@@ -25,7 +24,7 @@ export default defineApp({
       method = "GET",
       endpoint,
       data,
-    }: httpRequestParams): apiResponse {
+    }: httpRequestParams): Promise<object> {
       return axios({
         method,
         url: this._baseUrl() + endpoint,
@@ -42,7 +41,7 @@ export default defineApp({
 
       return response.companies;
     },
-    async getCompany({ companyId }: getCompanyParams): apiResponse {
+    async getCompany({ companyId }: getCompanyParams): Promise<company> {
       return this._httpRequest({
         endpoint: `/companies/${companyId}`,
       });
@@ -54,19 +53,19 @@ export default defineApp({
 
       return response.contacts;
     },
-    async getContact({ contactId }: getContactParams): apiResponse {
+    async getContact({ contactId }: getContactParams): Promise<contact> {
       return this._httpRequest({
         endpoint: `/contacts/${contactId}`,
       });
     },
-    async listOrders(): Promise<object[]> {
+    async listOrders(): Promise<order[]> {
       const response = await this._httpRequest({
         endpoint: "/orders",
       });
 
       return response.orders;
     },
-    async listProducts(): Promise<object[]> {
+    async listProducts(): Promise<product[]> {
       const response = await this._httpRequest({
         endpoint: "/products",
       });
@@ -76,14 +75,14 @@ export default defineApp({
     async createOrderItem({
       orderId,
       data,
-    }: createOrderItemParams): apiResponse {
+    }: createOrderItemParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/items`,
         method: "POST",
         data,
       });
     },
-    async createPayment({ orderId, data }: createPaymentParams): apiResponse {
+    async createPayment({ orderId, data }: createPaymentParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",

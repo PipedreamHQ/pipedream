@@ -22,7 +22,7 @@ export default defineAction({
       contactId: this.contactId
     });
 
-    $.export("$summary", `Retrieved Contact "${data.given_name ?? data.id}" successfully`);
+    $.export("$summary", `Retrieved Contact "${data.given_name ?? data.id.toString()}" successfully`);
 
     return data;
   },

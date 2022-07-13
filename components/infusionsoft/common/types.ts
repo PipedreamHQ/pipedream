@@ -1,5 +1,3 @@
-type apiResponse = Promise<object>;
-
 type asyncOptionsObject = {
   label: string;
   value: any;
@@ -61,7 +59,6 @@ type product = {
 };
 
 export {
-  apiResponse,
   asyncOptionsObject,
   createOrderItemParams,
   createPaymentParams,
