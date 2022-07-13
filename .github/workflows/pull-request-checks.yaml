@@ -42,12 +42,17 @@ jobs:
       #     head_commit: ${{ github.event.pull_request.head.sha }}
       #     base_commit: ${{ github.event.pull_request.base.sha }}
       #   run: ./scripts/git_diff_on_components.sh
+      # - name: Check git diff for version changes
+      #   uses: ./.github/actions/git-diff-on-components
+      #   with:
+      #     all_files: ${{ steps.changed_files.outputs.all }}
+      #     base_commit: ${{ github.event.pull_request.base.sha }}
+      #     head_commit: ${{ github.event.pull_request.head.sha }}
       - name: Check git diff for version changes
-        uses: ./.github/actions/git-diff-on-components
-        with:
-          all_files: ${{ steps.changed_files.outputs.all }}
-          base_commit: ${{ github.event.pull_request.base.sha }}
+        env:
           head_commit: ${{ github.event.pull_request.head.sha }}
+          base_commit: ${{ github.event.pull_request.base.sha }}
+        run: ./scripts/gitDiffOnComponents.js
         
 
   spellcheck:
