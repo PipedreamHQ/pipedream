@@ -2,9 +2,13 @@ import { defineApp } from "@pipedream/types";
 import axios from "axios";
 import {
   apiResponse,
+  createPaymentParams,
   getCompanyParams,
   getContactParams,
   httpRequestParams,
+  companyObject,
+  contactObject,
+  orderObject,
 } from "../common/types";
 
 export default defineApp({
@@ -52,6 +56,20 @@ export default defineApp({
         endpoint: `/contacts/${contactId}`,
       });
     },
+    async listOrders(): Promise<object[]> {
+      const response = await this._httpRequest({
+        endpoint: "/orders",
+      });
+
+      return response.orders;
+    },
+    async createPayment({ orderId, data }: createPaymentParams): apiResponse {
+      return this._httpRequest({
+        endpoint: `/orders/${orderId}/payments`,
+        method: 'POST',
+        data
+      });
+    },
   },
   propDefinitions: {
     companyId: {
@@ -63,7 +81,7 @@ export default defineApp({
       async options(): Promise<object[]> {
         const companies = await this.listCompanies();
 
-        return companies.map(({ company_name, id }) => ({
+        return companies.map(({ company_name, id }: companyObject) => ({
           label: company_name,
           value: id,
         }));
@@ -78,10 +96,27 @@ export default defineApp({
       async options(): Promise<object[]> {
         const contacts = await this.listContacts();
 
-        return contacts.map(({ given_name, id }) => ({
+        return contacts.map(({ given_name, id }: contactObject) => ({
           label: given_name ?? id,
           value: id,
         }));
+      },
+    },
+    orderId: {
+      type: "integer",
+      label: "Order",
+      description: `Select an **Order** from the list.
+        \\
+        Alternatively, you can provide a custom *Order ID*.`,
+      async options(): Promise<object[]> {
+        const orders = await this.listOrders();
+
+        return orders.map(
+          ({ contact, id, order_items, total }: orderObject) => ({
+            label: `${order_items.length} items (total ${total}) by ${contact.first_name} ${contact.last_name}`,
+            value: id,
+          })
+        );
       },
     },
   },
