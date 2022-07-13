@@ -1,4 +1,5 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import constants from "./constants.mjs";
 import { v4 as uuid } from "uuid";
 
 export default {
@@ -13,6 +14,25 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      /**
+       * From the docs: https://core.telegram.org/bots/api#getting-updates
+       *
+       * Incoming updates are stored on the server until the bot receives them either way,
+       * but they will not be kept longer than 24 hours.
+       *
+       * So there's a big change that no historical event is emitted.
+       */
+      console.log("Fetching most recent events...");
+      const events = await this.telegramBotApi.getUpdates({
+        offset: constants.DEPLOY_OFFSET,
+        allowed_updates: this.getEventTypes(),
+      });
+      console.log(`Received ${events.length} event(s)`);
+      for (const event of events) {
+        this.processEvent(event);
+      }
+    },
     async activate() {
       const secret = uuid();
       this.setSecret(secret);
