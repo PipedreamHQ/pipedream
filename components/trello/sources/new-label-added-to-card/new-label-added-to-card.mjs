@@ -37,11 +37,11 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      if (this.cards.length > 0) {
+      if (this.cards && this.cards.length > 0) {
         await this.emitLabelsFromCardIds(this.cards);
         return;
       }
-      if (this.lists.length > 0) {
+      if (this.lists && this.lists.length > 0) {
         for (const listId of this.lists) {
           const cards = await this.trello.getCardsInList(listId);
           await this.emitLabelsFromCards(cards);

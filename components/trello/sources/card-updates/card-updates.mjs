@@ -29,7 +29,7 @@ export default {
     ...common.methods,
     async getSampleEvents() {
       let cards = [];
-      if (this.cards.length > 0) {
+      if (this.cards && this.cards.length > 0) {
         for (const cardId of this.cards) {
           const card = await this.trello.getCard(cardId);
           cards.push(card);

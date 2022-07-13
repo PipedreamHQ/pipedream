@@ -28,7 +28,7 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = this.lists.length > 0
+      const cards = this.lists && this.lists.length > 0
         ? await this.trello.getCardsInList(this.lists[0])
         : await this.trello.getCards(this.board);
       return {

@@ -44,7 +44,7 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = this.cards.length > 0
+      const cards = this.cards && this.cards.length > 0
         ? this.cards
         : (await this.trello.getCards(this.board)).map((card) => card.id);
       const actions = [];
@@ -80,12 +80,14 @@ export default {
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
       );
     },
-    generateMeta({ id }) {
+    generateMeta({
+      id, dateLastActivity,
+    }) {
       const comment = this._getComment();
       return {
-        id,
+        id: `${id}${dateLastActivity}`,
         summary: comment,
-        ts: Date.now(),
+        ts: Date.parse(dateLastActivity),
       };
     },
   },
