@@ -7,17 +7,11 @@
     "pipedream",
     "expensify"
   ],
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/expensify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@pipedream/platform": "^1.1.0",
-    "qs": "^6.11.0"
   }
 }
