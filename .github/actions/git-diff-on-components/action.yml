@@ -1,0 +1,18 @@
+name: "Git diff on components"
+description: "Check for version changes on components. Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master). If the changes don't contain modifications to the version, we want to log that fact but not exit early. Once we've checked all files, exit the script if any files failed to modify version"
+inputs:
+  base_commit:
+    description: "Base commit SHA"
+    required: true
+  head_commit:
+    description: "Head commit SHA"
+    required: true
+  all_files:
+    description: ""
+    required: true
+outputs:
+  msg:
+    description: "Message"
+runs:
+  using: "node16"
+  main: "index.js"
