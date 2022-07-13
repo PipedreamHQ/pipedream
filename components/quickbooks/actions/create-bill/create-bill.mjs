@@ -15,6 +15,7 @@ export default {
       description: "Reference to the vendor for this transaction. Query the Vendor name list resource to determine the appropriate Vendor object for this reference. Use `Vendor.Id` from that object for `VendorRef.value`.",
     },
     lineItems: {
+      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 200.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"value\": \"1\" } } } ]`",
       propDefinition: [
         quickbooks,
         "lineItems",
@@ -51,11 +52,11 @@ export default {
     }
 
     try {
-      this.lineItems = Array.isArray(this.lineItems)
-        ? this.lineItems
-        : this.lineItems.map((lineItem) => JSON.parse(lineItem));
+      this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
+        ? JSON.parse(lineItem)
+        : lineItem);
     } catch (error) {
-      throw new ConfigurationError(`We get an error trying to parse the LineItems. Error: ${error}`);
+      throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
     }
 
     const response = await this.quickbooks.createBill({

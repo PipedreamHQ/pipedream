@@ -14,6 +14,7 @@ export default {
         quickbooks,
         "currencyRefName",
       ],
+      optional: false,
     },
     maxResults: {
       propDefinition: [
@@ -38,6 +39,7 @@ export default {
         quickbooks,
         "whereClause",
       ],
+      optional: false,
     },
     minorVersion: {
       propDefinition: [
