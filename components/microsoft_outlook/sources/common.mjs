@@ -24,6 +24,19 @@ export default {
       },
     },
   },
+  hooks: {
+    async deploy() {
+      const { value: events } = await this.getSampleEvents({
+        pageSize: 25,
+      });
+      if (!events || events.length == 0) {
+        return;
+      }
+      for (const item of events) {
+        this.emitEvent(item);
+      }
+    },
+  },
   methods: {
     getIntervalEnd() {
       return new Date(Date.now() + getRenewalInterval(true));
