@@ -12,7 +12,7 @@ export default {
     includeClause: {
       propDefinition: [
         quickbooks,
-        "currencyRefName",
+        "includeClause",
       ],
       optional: false,
     },
