@@ -28,17 +28,6 @@ export default {
     /* eslint-enable pipedream/props-label */
     db: "$.service.db",
   },
-  async deploy() {
-    for (const eventType of this.enabledEvents) {
-      const events = await this.stripe.getEvents({
-        eventType,
-      });
-
-      for (const event of events) {
-        this.emit(event);
-      }
-    }
-  },
   hooks: {
     async activate() {
       let enabledEvents = this.enabledEvents;
@@ -50,6 +39,16 @@ export default {
         enabled_events: enabledEvents,
       });
       this.db.set("endpoint", JSON.stringify(endpoint));
+
+      for (const eventType of this.enabledEvents) {
+        const events = await this.stripe.getEvents({
+          eventType,
+        });
+
+        for (const event of events) {
+          this.emit(event);
+        }
+      }
     },
     async deactivate() {
       const endpoint = this.getEndpoint();
