@@ -4,40 +4,42 @@ export default {
   name: "Add Tags",
   version: "0.0.11",
   key: "shopify-add-tags",
-  description: "Add tags. [See the docs](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
+  description:
+    "Add tags. [See the docs](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
   props: {
     shopify,
     resource: {
       label: "Resource Type",
       type: "string",
-      description: "The Shopify Admin API resource type",
+      description: "The Shopify Admin API resource type.",
       options: [
         "Product",
         "Customer",
         "Order",
         "DraftOrder",
-        "OnlineStoreArticle"
+        "OnlineStoreArticle",
       ],
     },
     id: {
       label: "Resource ID",
       type: "string",
-      description: "The Shopify Admin Resource ID. For example, the ID of a Product, Customer, Order, DraftOrder, or OnlineStoreArticle. Can be found at the end of the URL in Shopify Admin",
+      description:
+        "The Shopify Admin Resource ID. For example, the ID of a Product, Customer, Order, DraftOrder, or OnlineStoreArticle. Can be found at the end of the URL in Shopify Admin.",
     },
     tags: {
       label: "Tags",
       type: "string",
-      description: "Separate tags with a comma to add multiple tags",
-    }
+      description: "Separate tags with a comma to add multiple tags.",
+    },
   },
   type: "action",
   async run({ $ }) {
     const { resource, id } = this;
     const gid = `gid://shopify/${resource}/${id}`;
-    let tags = [this.tags]
+    let tags = [this.tags];
 
-    if (tags.includes(',')) {
-      tags = tags.split(',').map((item) => item.trim());
+    if (tags.includes(",")) {
+      tags = tags.split(",").map((item) => item.trim());
     }
 
     const mutation = `
@@ -52,12 +54,12 @@ export default {
           }
         }
       }
-    `
+    `;
 
     const variables = {
-      "id": gid,
-      "tags": tags
-    }
+      id: gid,
+      tags: tags,
+    };
 
     const res = await this.shopify
       .getShopifyInstance()
@@ -67,7 +69,10 @@ export default {
       throw new Error(res.tagsAdd.userErrors[0].message);
     }
 
-    $.export("$summary", `Added tag(s) \`${tags.join(', ')}\` with id \`${res.tagsAdd.node.id}\``);
+    $.export(
+      "$summary",
+      `Added tag(s) \`${tags.join(", ")}\` with id \`${res.tagsAdd.node.id}\``
+    );
     return res;
   },
 };
