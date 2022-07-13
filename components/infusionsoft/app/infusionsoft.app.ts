@@ -1,17 +1,14 @@
 import { defineApp } from "@pipedream/types";
 import axios from "axios";
+import { asyncOptionsObject } from "../types/common";
 import {
-  asyncOptionsObject,
   createOrderItemParams,
   createPaymentParams,
   getCompanyParams,
   getContactParams,
   httpRequestParams,
-  company,
-  contact,
-  order,
-  product,
-} from "../common/types";
+} from "../types/requestParams";
+import { company, contact, order, product } from "../types/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -82,7 +79,10 @@ export default defineApp({
         data,
       });
     },
-    async createPayment({ orderId, data }: createPaymentParams): Promise<object> {
+    async createPayment({
+      orderId,
+      data,
+    }: createPaymentParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
@@ -135,12 +135,7 @@ export default defineApp({
         const orders: object[] = await this.listOrders();
 
         return orders.map(
-          ({
-            contact,
-            id,
-            order_items,
-            total,
-          }: order): asyncOptionsObject => ({
+          ({ contact, id, order_items, total }: order): asyncOptionsObject => ({
             label: `${order_items.length} items (total ${total}) by ${contact.first_name} ${contact.last_name}`,
             value: id,
           })

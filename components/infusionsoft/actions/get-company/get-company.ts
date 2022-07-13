@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { company } from "../../common/types";
+import { company } from "../../types/responseSchemas";
 
 export default defineAction({
   name: "Get Company",

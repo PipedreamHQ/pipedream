@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { contact } from "../../common/types";
+import { contact } from "../../types/responseSchemas";
 
 export default defineAction({
   name: "Get Contact",
