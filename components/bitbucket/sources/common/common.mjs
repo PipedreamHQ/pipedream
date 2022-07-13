@@ -72,9 +72,12 @@ export default {
     async deploy() {
       // Retrieve historical events
       const events = await this.loadHistoricalData();
-      for (const event of events) {
-        this.$emit(event.main, event.sub);
+      if (events) {
+        for (const event of events) {
+          this.$emit(event.main, event.sub);
+        }
       }
+
     },
     async activate() {
       const path = this.getPath();
