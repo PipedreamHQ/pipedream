@@ -2,6 +2,8 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 try {
+  console.log("Action version 0.0.1");
+  
   const baseCommit = core.getInput("base_commit");
   const headCommit = core.getInput("head_commit");
   const allFiles = core.getInput("all_files");
