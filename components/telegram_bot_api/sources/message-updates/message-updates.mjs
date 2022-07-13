@@ -14,7 +14,7 @@ export default {
       return {
         id: event.update_id,
         summary: message.text,
-        ts: Date.now(),
+        ts: new Date(message.edit_date ?? message.date),
       };
     },
     getEventTypes() {

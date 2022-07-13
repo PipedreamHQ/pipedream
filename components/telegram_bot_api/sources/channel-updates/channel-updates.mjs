@@ -20,7 +20,7 @@ export default {
       return {
         id: event.update_id,
         summary: `${channelPost.chat.title} - ${channelPost.text}`,
-        ts: Date.now(),
+        ts: new Date(channelPost.edit_date ?? channelPost.date),
       };
     },
     processEvent(event) {

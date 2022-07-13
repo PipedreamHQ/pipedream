@@ -28,7 +28,7 @@ export default {
       return {
         id,
         summary,
-        ts: Date.now(),
+        ts: new Date(event.message.edit_date ?? event.message.date),
       };
     },
     getEventTypes() {
