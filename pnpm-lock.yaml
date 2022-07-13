@@ -453,12 +453,7 @@ importers:
     specifiers: {}
 
   components/expensify:
-    specifiers:
-      '@pipedream/platform': ^1.1.0
-      qs: ^6.11.0
-    dependencies:
-      '@pipedream/platform': link:../../platform
-      qs: 6.11.0
+    specifiers: {}
 
   components/f15five:
     specifiers: {}
@@ -16250,13 +16245,6 @@ packages:
 
   /qs/6.10.3:
     resolution: {integrity: sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==}
-    engines: {node: '>=0.6'}
-    dependencies:
-      side-channel: 1.0.4
-    dev: false
-
-  /qs/6.11.0:
-    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
