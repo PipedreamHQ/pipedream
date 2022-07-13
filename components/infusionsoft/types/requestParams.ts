@@ -9,8 +9,17 @@ type createOrderItemParams = {
 };
 
 type createPaymentParams = {
-  data: object;
   orderId: number;
+  data: {
+    apply_to_commissions: boolean;
+    charge_now: boolean;
+    credit_card_id: number;
+    date: string;
+    notes: string;
+    payment_amount: string;
+    payment_gateway_id: string;
+    payment_method_type: string;
+  };
 };
 
 type getCompanyParams = {
