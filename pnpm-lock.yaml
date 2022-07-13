@@ -46,7 +46,7 @@ importers:
       pnpm: 7.0.1
       putout: 26.0.1
       renamer: 4.0.0
-      ts-jest: 27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a
+      ts-jest: 27.1.4_xejkg674zdqdsmikentsgzg3jy
       tsc-esm-fix: 2.18.0
       tsc-watch: 5.0.3_typescript@4.7.2
       typescript: 4.7.2
@@ -309,6 +309,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
+
+  components/conveyor:
+    specifiers: {}
 
   components/craftmypdf:
     specifiers: {}
@@ -1047,6 +1050,12 @@ importers:
 
   components/paypro:
     specifiers: {}
+
+  components/paytrace:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/pcloud:
     specifiers:
@@ -18352,7 +18361,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
+  /ts-jest/27.1.4_xejkg674zdqdsmikentsgzg3jy:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -18373,6 +18382,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
+      '@babel/core': 7.17.10
       '@types/jest': 27.5.0
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -18609,7 +18619,6 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /typescript/4.7.2:
     resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
