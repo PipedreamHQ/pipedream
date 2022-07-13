@@ -30,7 +30,7 @@ importers:
       '@types/node': 17.0.36
       vue: 2.6.14
     devDependencies:
-      '@pipedream/types': 0.1.2
+      '@pipedream/types': link:types
       '@tsconfig/node14': 1.0.1
       '@types/jest': 27.5.0
       '@typescript-eslint/eslint-plugin': 5.27.1_y3w3ponleabb7gvsfqc375rw6q
@@ -46,7 +46,7 @@ importers:
       pnpm: 7.0.1
       putout: 26.0.1
       renamer: 4.0.0
-      ts-jest: 27.1.4_xejkg674zdqdsmikentsgzg3jy
+      ts-jest: 27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a
       tsc-esm-fix: 2.18.0
       tsc-watch: 5.0.3_typescript@4.7.2
       typescript: 4.7.2
@@ -352,6 +352,9 @@ importers:
   components/deepgram:
     specifiers: {}
 
+  components/degreed:
+    specifiers: {}
+
   components/delighted:
     specifiers:
       delighted: ^2.1.0
@@ -379,10 +382,10 @@ importers:
       '@pipedream/types': ^0.1.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
     devDependencies:
-      '@pipedream/types': 0.1.2
+      '@pipedream/types': link:../../types
       '@types/node': 17.0.36
 
   components/digicert:
@@ -444,6 +447,9 @@ importers:
     specifiers: {}
 
   components/enormail:
+    specifiers: {}
+
+  components/expensify:
     specifiers: {}
 
   components/f15five:
@@ -551,10 +557,12 @@ importers:
       '@octokit/core': ^3.6.0
       '@octokit/plugin-paginate-rest': ^2.17.0
       '@octokit/webhooks-definitions': ^3.29.0
+      '@pipedream/platform': ^1.0.0
     dependencies:
       '@octokit/core': 3.6.0
       '@octokit/plugin-paginate-rest': 2.18.0_@octokit+core@3.6.0
       '@octokit/webhooks-definitions': 3.67.3
+      '@pipedream/platform': link:../../platform
 
   components/gitlab:
     specifiers:
@@ -1118,6 +1126,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/quickbooks:
+    specifiers:
+      '@pipedream/platform': ^1.0.0
+    dependencies:
+      '@pipedream/platform': link:../../platform
+
   components/quickemailverification:
     specifiers: {}
 
@@ -1131,6 +1145,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/rd_station_crm:
+    specifiers: {}
+
+  components/readwise:
     specifiers: {}
 
   components/realphonevalidation:
@@ -1183,7 +1200,7 @@ importers:
       rss-parser: ^3.12.0
       string-to-stream: ^3.0.1
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
       feedparser: 2.2.10
@@ -1262,7 +1279,7 @@ importers:
       '@pipedream/platform': ^0.10.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': 1.3.11
+      '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.36
@@ -1336,6 +1353,12 @@ importers:
     specifiers: {}
 
   components/smiirl:
+    specifiers:
+      '@smiirl/smiirl-library-js': ^1.0.5
+    dependencies:
+      '@smiirl/smiirl-library-js': 1.0.5
+
+  components/smtp2go:
     specifiers: {}
 
   components/snapchat_marketing:
@@ -5873,13 +5896,6 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
-  /@pipedream/helpers/1.3.11:
-    resolution: {integrity: sha512-6pFPdcjr4edIRHlJyiZQjCJSKcveYzbqAmZs4GJ12EYxc3WB8nAcdqBWKEf/Ecxl/+GrwdAVH8LtImpNpo01kw==}
-    dependencies:
-      '@pipedream/types': 0.0.5
-      lodash-es: 4.17.21
-    dev: false
-
   /@pipedream/platform/0.10.0:
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
     dependencies:
@@ -5905,12 +5921,6 @@ packages:
     dependencies:
       typescript: 4.7.2
     dev: false
-
-  /@pipedream/types/0.1.2:
-    resolution: {integrity: sha512-3Cle6TeMJI/F+UQ7sl6I96/xloKS41+lABGt5rkZFAOJhGCMnrg+PUdtIhbwF+S+DdlDexminy3Wki7AlWjDGQ==}
-    dependencies:
-      typescript: 4.7.2
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -7325,6 +7335,14 @@ packages:
       p-retry: 4.6.2
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /@smiirl/smiirl-library-js/1.0.5:
+    resolution: {integrity: sha512-xaOV2aLYlx9jFtJzIPl0uv3/bSTcbBIlv778sWf2b3GxbL+RM70nIn4i8c2hzXzAR5dlAg++zBnbl6n8j3bchA==}
+    dependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@szmarczak/http-timer/4.0.6:
@@ -18334,7 +18352,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.4_xejkg674zdqdsmikentsgzg3jy:
+  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -18355,7 +18373,6 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@babel/core': 7.17.10
       '@types/jest': 27.5.0
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
@@ -18592,6 +18609,7 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: false
 
   /typescript/4.7.2:
     resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
