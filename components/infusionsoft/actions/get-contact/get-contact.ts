@@ -1,5 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
+import { contact } from "../../common/types";
 
 export default defineAction({
   name: "Get Contact",
@@ -16,13 +17,13 @@ export default defineAction({
       ]
     }
   },
-  async run({ $ }): Promise<object> {
-    const contact = await this.infusionsoft.getContact({
+  async run({ $ }): Promise<contact> {
+    const data: contact = await this.infusionsoft.getContact({
       contactId: this.contactId
     });
 
-    $.export("$summary", `Retrieved Contact "${contact.given_name ?? contact.id}" successfully`);
+    $.export("$summary", `Retrieved Contact "${data.given_name ?? data.id}" successfully`);
 
-    return contact;
+    return data;
   },
 });

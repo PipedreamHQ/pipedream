@@ -1,5 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
+import { company } from "../../common/types";
 
 export default defineAction({
   name: "Get Company",
@@ -16,13 +17,13 @@ export default defineAction({
       ]
     }
   },
-  async run({ $ }): Promise<object> {
-    const company = await this.infusionsoft.getCompany({
+  async run({ $ }): Promise<company> {
+    const data: company = await this.infusionsoft.getCompany({
       companyId: this.companyId
     });
 
-    $.export("$summary", `Retrieved Company "${company.company_name}" successfully`);
+    $.export("$summary", `Retrieved Company "${data.company_name}" successfully`);
 
-    return company;
+    return data;
   },
 });

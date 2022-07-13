@@ -17,7 +17,7 @@ export default defineAction({
     }
   },
   async run({ $ }): Promise<object> {
-    const data = await this.infusionsoft.createPayment({
+    const data: object = await this.infusionsoft.createPayment({
       orderId: this.orderId
     });
 

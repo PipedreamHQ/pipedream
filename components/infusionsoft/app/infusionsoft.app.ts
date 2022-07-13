@@ -2,13 +2,16 @@ import { defineApp } from "@pipedream/types";
 import axios from "axios";
 import {
   apiResponse,
+  asyncOptionsObject,
+  createOrderItemParams,
   createPaymentParams,
   getCompanyParams,
   getContactParams,
   httpRequestParams,
-  companyObject,
-  contactObject,
-  orderObject,
+  company,
+  contact,
+  order,
+  product,
 } from "../common/types";
 
 export default defineApp({
@@ -32,7 +35,7 @@ export default defineApp({
         data,
       });
     },
-    async listCompanies(): Promise<object[]> {
+    async listCompanies(): Promise<company[]> {
       const response = await this._httpRequest({
         endpoint: "/companies",
       });
@@ -44,7 +47,7 @@ export default defineApp({
         endpoint: `/companies/${companyId}`,
       });
     },
-    async listContacts(): Promise<object[]> {
+    async listContacts(): Promise<contact[]> {
       const response = await this._httpRequest({
         endpoint: "/contacts",
       });
@@ -63,11 +66,28 @@ export default defineApp({
 
       return response.orders;
     },
+    async listProducts(): Promise<object[]> {
+      const response = await this._httpRequest({
+        endpoint: "/products",
+      });
+
+      return response.products;
+    },
+    async createOrderItem({
+      orderId,
+      data,
+    }: createOrderItemParams): apiResponse {
+      return this._httpRequest({
+        endpoint: `/orders/${orderId}/items`,
+        method: "POST",
+        data,
+      });
+    },
     async createPayment({ orderId, data }: createPaymentParams): apiResponse {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/payments`,
-        method: 'POST',
-        data
+        method: "POST",
+        data,
       });
     },
   },
@@ -78,13 +98,15 @@ export default defineApp({
       description: `Select a **Company** from the list.
         \\
         Alternatively, you can provide a custom *Company ID*.`,
-      async options(): Promise<object[]> {
-        const companies = await this.listCompanies();
+      async options(): Promise<asyncOptionsObject[]> {
+        const companies: object[] = await this.listCompanies();
 
-        return companies.map(({ company_name, id }: companyObject) => ({
-          label: company_name,
-          value: id,
-        }));
+        return companies.map(
+          ({ company_name, id }: company): asyncOptionsObject => ({
+            label: company_name,
+            value: id,
+          })
+        );
       },
     },
     contactId: {
@@ -93,13 +115,15 @@ export default defineApp({
       description: `Select a **Contact** from the list.
         \\
         Alternatively, you can provide a custom *Contact ID*.`,
-      async options(): Promise<object[]> {
-        const contacts = await this.listContacts();
+      async options(): Promise<asyncOptionsObject[]> {
+        const contacts: object[] = await this.listContacts();
 
-        return contacts.map(({ given_name, id }: contactObject) => ({
-          label: given_name ?? id,
-          value: id,
-        }));
+        return contacts.map(
+          ({ given_name, id }: contact): asyncOptionsObject => ({
+            label: given_name ?? id.toString(),
+            value: id,
+          })
+        );
       },
     },
     orderId: {
@@ -108,12 +132,38 @@ export default defineApp({
       description: `Select an **Order** from the list.
         \\
         Alternatively, you can provide a custom *Order ID*.`,
-      async options(): Promise<object[]> {
-        const orders = await this.listOrders();
+      async options(): Promise<asyncOptionsObject[]> {
+        const orders: object[] = await this.listOrders();
 
         return orders.map(
-          ({ contact, id, order_items, total }: orderObject) => ({
+          ({
+            contact,
+            id,
+            order_items,
+            total,
+          }: order): asyncOptionsObject => ({
             label: `${order_items.length} items (total ${total}) by ${contact.first_name} ${contact.last_name}`,
+            value: id,
+          })
+        );
+      },
+    },
+    productId: {
+      type: "integer",
+      label: "Product",
+      description: `Select a **Product** from the list.
+        \\
+        Alternatively, you can provide a custom *Product ID*.`,
+      async options(): Promise<asyncOptionsObject[]> {
+        const products: object[] = await this.listProducts();
+
+        return products.map(
+          ({
+            product_name,
+            product_price,
+            id,
+          }: product): asyncOptionsObject => ({
+            label: `${product_name} (${product_price})`,
             value: id,
           })
         );

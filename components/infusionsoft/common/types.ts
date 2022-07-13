@@ -1,5 +1,20 @@
 type apiResponse = Promise<object>;
 
+type asyncOptionsObject = {
+  label: string;
+  value: any;
+};
+
+type createOrderItemParams = {
+  orderId: number;
+  data: {
+    description: string;
+    price: string;
+    productId: number;
+    quantity: number;
+  };
+};
+
 type createPaymentParams = {
   data: object;
   orderId: number;
@@ -19,17 +34,17 @@ type httpRequestParams = {
   method?: string;
 };
 
-type companyObject = {
+type company = {
   company_name: string;
   id: number;
 };
 
-type contactObject = {
+type contact = {
   given_name: string;
   id: number;
 };
 
-type orderObject = {
+type order = {
   contact: {
     first_name: string;
     last_name: string;
@@ -39,13 +54,22 @@ type orderObject = {
   total: number;
 };
 
+type product = {
+  id: number;
+  product_name: string;
+  product_price: number;
+};
+
 export {
   apiResponse,
+  asyncOptionsObject,
+  createOrderItemParams,
   createPaymentParams,
   getCompanyParams,
   getContactParams,
   httpRequestParams,
-  companyObject,
-  contactObject,
-  orderObject,
+  company,
+  contact,
+  order,
+  product,
 };
