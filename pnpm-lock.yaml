@@ -1126,6 +1126,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/quickbooks:
+    specifiers:
+      '@pipedream/platform': ^1.0.0
+    dependencies:
+      '@pipedream/platform': link:../../platform
+
   components/quickemailverification:
     specifiers: {}
 
