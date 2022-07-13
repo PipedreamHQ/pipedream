@@ -421,6 +421,9 @@
     },
     {
       "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
     }
   ]
 }
