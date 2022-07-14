@@ -1,6 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import axios from "axios";
-import { asyncOptionsObject } from "../types/common"
+import { asyncOptionsObject } from "../types/common";
 import {
   createOrderItemParams,
   createPaymentParams,
@@ -98,7 +98,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Company ID*.`,
       async options(): Promise<asyncOptionsObject[]> {
-        const companies: object[] = await this.listCompanies();
+        const companies: company[] = await this.listCompanies();
 
         return companies.map(
           ({ company_name, id }: company): asyncOptionsObject => ({
@@ -115,7 +115,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Contact ID*.`,
       async options(): Promise<asyncOptionsObject[]> {
-        const contacts: object[] = await this.listContacts();
+        const contacts: contact[] = await this.listContacts();
 
         return contacts.map(
           ({ given_name, id }: contact): asyncOptionsObject => ({
@@ -132,7 +132,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Order ID*.`,
       async options(): Promise<asyncOptionsObject[]> {
-        const orders: object[] = await this.listOrders();
+        const orders: order[] = await this.listOrders();
 
         return orders.map(
           ({ contact, id, order_items, total }: order): asyncOptionsObject => ({
@@ -149,7 +149,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Product ID*.`,
       async options(): Promise<asyncOptionsObject[]> {
-        const products: object[] = await this.listProducts();
+        const products: product[] = await this.listProducts();
 
         return products.map(
           ({
