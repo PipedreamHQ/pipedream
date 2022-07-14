@@ -529,9 +529,11 @@ importers:
 
   components/ghost_org_admin_api:
     specifiers:
+      '@pipedream/platform': ^0.10.0
       axios: ^0.21.1
       jsonwebtoken: ^8.5.1
     dependencies:
+      '@pipedream/platform': 0.10.0
       axios: 0.21.4
       jsonwebtoken: 8.5.1
 
@@ -1357,6 +1359,9 @@ importers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
+
+  components/smtp2go:
+    specifiers: {}
 
   components/smtp2go:
     specifiers: {}
