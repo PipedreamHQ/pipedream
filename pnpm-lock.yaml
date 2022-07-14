@@ -310,6 +310,9 @@ importers:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
 
+  components/conveyor:
+    specifiers: {}
+
   components/craftmypdf:
     specifiers: {}
 
@@ -940,6 +943,9 @@ importers:
       mysql2-promise: 0.1.4
       uuid: 8.3.2
 
+  components/namely:
+    specifiers: {}
+
   components/nectar_crm:
     specifiers: {}
 
@@ -1359,9 +1365,6 @@ importers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
-
-  components/smtp2go:
-    specifiers: {}
 
   components/smtp2go:
     specifiers: {}
