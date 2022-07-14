@@ -33,6 +33,11 @@ export default {
     isEventForThisBranch(branch) {
       return !this.branch || branch === this.branch;
     },
+    getWebhookEvents() {
+      return [
+        "push",
+      ];
+    },
     generateMeta(data) {
       return {
         id: data.id,
@@ -48,7 +53,18 @@ export default {
           page: 1,
         },
       });
-      console.log("commits", commits);
+
+      const ts = new Date().getTime();
+      if (commits) {
+        return commits.map((commit) => ({
+          main: commit,
+          sub: {
+            id: commit.sha,
+            summary: commit.commit.message,
+            ts,
+          },
+        }));
+      }
     },
     emitEvent(body) {
       const branch = body.ref.split("refs/heads/").pop();

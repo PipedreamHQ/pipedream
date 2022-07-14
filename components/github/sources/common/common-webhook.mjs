@@ -29,10 +29,12 @@ export default {
   hooks: {
     async deploy() {
       // Retrieve historical events
-      await this.loadHistoricalData();
-      // for (const event of events) {
-      //   this.$emit(event.main, event.sub);
-      // }
+      const events = await this.loadHistoricalData();
+      if (events) {
+        for (const event of events) {
+          this.$emit(event.main, event.sub);
+        }
+      }
     },
     async activate() {
       const response = await this.github.createWebhook({
@@ -46,7 +48,6 @@ export default {
           events: this.getWebhookEvents(),
         },
       });
-
       this._setWebhookId(response.id);
     },
     async deactivate() {
