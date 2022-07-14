@@ -1624,14 +1624,14 @@ importers:
       crypto: ^1.0.1
       lodash.pick: ^4.4.0
       lodash.pickby: ^4.6.0
-      querystring: ^0.2.1
+      query-string: ^7.1.1
     dependencies:
       '@pipedream/platform': 0.10.0
       '@woocommerce/woocommerce-rest-api': 1.0.1
       crypto: 1.0.1
       lodash.pick: 4.4.0
       lodash.pickby: 4.6.0
-      querystring: 0.2.1
+      query-string: 7.1.1
 
   components/wordpress_org:
     specifiers:
@@ -10974,7 +10974,7 @@ packages:
       to-regex-range: 5.0.1
 
   /filter-obj/1.1.0:
-    resolution: {integrity: sha1-mzERErxsYSehbgFsbF1/GeCAXFs=}
+    resolution: {integrity: sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -17659,7 +17659,7 @@ packages:
     dev: false
 
   /strict-uri-encode/2.0.0:
-    resolution: {integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=}
+    resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
     engines: {node: '>=4'}
     dev: false
 
