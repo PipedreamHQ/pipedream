@@ -22,6 +22,7 @@ export default {
   methods: {
     ...common.methods,
     isEventRelevant(event) {
+      if (!this.collectionIds?.length) return true;
       const { body: { _cid: collectionId } } = event;
       return this.collectionIds.includes(collectionId);
     },
