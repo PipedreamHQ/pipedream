@@ -4,7 +4,7 @@ export default {
   key: "crove_app-generate-pdf-from-document",
   name: "Generate PDF from Document",
   description: "Generate PDF of a document and return PDF URL.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     croveApp,
@@ -17,7 +17,7 @@ export default {
     background_mode: {
       type: "boolean",
       label: "Background Mode",
-      description: "Weather to generate pdf in background mode or not.",
+      description: "Whether to generate pdf in background mode or not.",
       optional: true,
     },
   },

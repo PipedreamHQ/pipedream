@@ -394,6 +394,36 @@
     },
     {
       "path": "components/wildberries"
+    },
+    {
+      "path": "components/yr"
+    },
+    {
+      "path": "components/deepgram"
+    },
+    {
+      "path": "components/smiirl"
+    },
+    {
+      "path": "components/fedex"
+    },
+    {
+      "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
+    },
+    {
+      "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
     }
   ]
 }
