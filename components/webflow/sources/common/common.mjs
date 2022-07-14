@@ -1,4 +1,4 @@
-import webflow from "../webflow.app.mjs";
+import webflow from "../../webflow.app.mjs";
 import { v4 as uuid } from "uuid";
 
 export default {

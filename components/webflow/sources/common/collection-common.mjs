@@ -1,5 +1,5 @@
 import common from "./common.mjs";
-import webflow from "../webflow.app.mjs";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   ...common,
@@ -27,4 +27,3 @@ export default {
     },
   },
 };
-
