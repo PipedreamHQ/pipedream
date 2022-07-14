@@ -2,7 +2,7 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   name: "Add Tags",
-  version: "0.0.1",
+  version: "0.0.19",
   key: "shopify-add-tags",
   description:
     "Add tags. [See the docs](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
@@ -37,38 +37,10 @@ export default {
     const {
       resource,
       id,
+      tags
     } = this;
-    const gid = `gid://shopify/${resource}/${id}`;
-    let tags = [
-      this.tags,
-    ];
 
-    if (tags.includes(",")) {
-      tags = tags.split(",").map((item) => item.trim());
-    }
-
-    const mutation = `
-      mutation tagsAdd($id: ID!, $tags: [String!]!) {
-        tagsAdd(id: $id, tags: $tags) {
-          node {
-            id
-          }
-          userErrors {
-            field
-            message
-          }
-        }
-      }
-    `;
-
-    const variables = {
-      id: gid,
-      tags: tags,
-    };
-
-    const res = await this.shopify
-      .getShopifyInstance()
-      .graphql(mutation, variables);
+    const res = await this.shopify.addTags(resource, id, tags);
 
     if (res.tagsAdd.userErrors.length > 0) {
       throw new Error(res.tagsAdd.userErrors[0].message);
@@ -76,7 +48,7 @@ export default {
 
     $.export(
       "$summary",
-      `Added tag(s) \`${tags.join(", ")}\` with id \`${res.tagsAdd.node.id}\``,
+      `Added tag(s) \`${tags}\` with id \`${res.tagsAdd.node.id}\``,
     );
     return res;
   },
