@@ -98,7 +98,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.24.0
+    - uses: rojopolis/spellcheck-github-actions@0.25.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -138,8 +138,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Install Dependencies
-        run: npm ci
       - name: Compile TypeScript
         run: npm run build
       - name: Lint Code Base
@@ -161,7 +159,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -180,8 +178,6 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: npm install
-        run: npm ci
       - name: pnpm install
         run: pnpm install -r
       # See https://pnpm.io/using-changesets
@@ -218,8 +214,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: npm ci
-      - name: pnpm install
         run: pnpm install -r
       - name: Compile TypeScript
         id: compile
@@ -260,6 +254,6 @@ jobs:
           done
           unset IFS
 
-
+ 
 
 

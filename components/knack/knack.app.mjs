@@ -59,7 +59,7 @@ export default {
         ? `?${result}`
         : "";
     },
-    async httpRequest($, baseParams, queryParams = {}) {
+    async httpRequest($ = this, baseParams, queryParams = {}) {
       const {
         method,
         data,
@@ -95,7 +95,7 @@ export default {
 
       return this.getAllRecords($, baseParams, queryParams);
     },
-    async getAllRecords($, baseParams, queryParams) {
+    async getAllRecords($, baseParams, queryParams, onePage = false) {
       const records = [];
 
       let page = 1;
@@ -116,7 +116,7 @@ export default {
 
         if (response.records) records.push(...response.records);
         else throw new Error(response);
-      } while (page++ < response.total_pages);
+      } while (page++ < response.total_pages && !onePage);
 
       return records;
     },

@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.0.2
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -25,15 +25,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install -r
+        run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
         uses: actions/setup-node@v3.3.0
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Install Dependencies
-        run: npm ci
       - name: Compile TypeScript
         run: npm run build
       - name: Install pd cli
@@ -49,13 +47,14 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-      - name: Publish and add to registry components/*.*js (that aren't .app.js files) 
+      - name: Publish and add to registry components/*.*js (that aren't .app.js files)
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
+          PD_URL=https://api.pipedream.com/v1/components/registry
           UNPUBLISHED=""
           PUBLISHED=""
           ERRORS=""
@@ -67,6 +66,10 @@ jobs:
           if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
               && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]]
             then
+              echo "retrieving previous version for ${added_modified_file}"
+              KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`
+              GLOBAL_REGISTRY_COMP=`curl --silent "$PD_URL/$KEY" -H "Authorization: Bearer $PD_API_KEY" -H "Accept: application/json"`
+              PREV_VERSION=`echo $GLOBAL_REGISTRY_COMP | jq -r ".data.version"`
               echo "attempting to publish ${added_modified_file}"
               PD_OUTPUT=`./pd publish ${added_modified_file} --json`
               if [ $? -eq 0 ]
@@ -74,8 +77,8 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
-                PUBLISHED+="*${added_modified_file}"
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
+                [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${added_modified_file}" || PUBLISHED+="*${added_modified_file}~$PREV_VERSION"
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
@@ -95,11 +98,11 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=javascript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
-    
+
   publish-typescript-components:
     name: Publish TypeScript components
     runs-on: ubuntu-latest
@@ -128,9 +131,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
-        run: npm ci
-      - name: pnpm install
-        run: pnpm install -r
+        run: pnpm install -r --no-frozen-lockfile
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -161,6 +162,7 @@ jobs:
           do
             echo "$f"
           done
+          PD_URL=https://api.pipedream.com/v1/components/registry
           UNPUBLISHED=""
           PUBLISHED=""
           ERRORS=""
@@ -195,6 +197,10 @@ jobs:
                 ERRORS+="*${ERROR_MESSAGE}"
                 UNPUBLISHED+="*${added_modified_file}"
               else
+                echo "retrieving previous version for ${added_modified_file}"
+                KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`
+                GLOBAL_REGISTRY_COMP=`curl --silent "$PD_URL/$KEY" -H "Authorization: Bearer $PD_API_KEY" -H "Accept: application/json"`
+                PREV_VERSION=`echo $GLOBAL_REGISTRY_COMP | jq -r ".data.version"`
                 echo "attempting to publish ${changed_output_file}"
                 PD_OUTPUT=`./pd publish ${changed_output_file} --json`
                 if [ $? -eq 0 ]
@@ -202,8 +208,8 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'"}}'
-                  PUBLISHED+="*${changed_output_file}"
+                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${changed_output_file}'"}}'
+                  [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${changed_output_file}" || PUBLISHED+="*${changed_output_file}~$PREV_VERSION"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                   ERROR_MESSAGE="${ERROR} with ${changed_output_file}"
@@ -224,7 +230,7 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # curl with form
-          curl -X POST -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          curl -X POST -d "type=typescript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
           unset IFS
       - name: Remove pd cli config
         run: |

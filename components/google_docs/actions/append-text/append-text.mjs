@@ -4,7 +4,7 @@ export default {
   key: "google_docs-append-text",
   name: "Append Text",
   description: "Append text to an existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     googleDocs,
@@ -32,7 +32,7 @@ export default {
       text: this.text,
     };
     await this.googleDocs.insertText(this.docId, text, this.appendAtBeginning);
-    $.export("summary", "Successfully appended text to doc");
+    $.export("$summary", "Successfully appended text to doc");
     return {
       documentId: this.docId,
     };

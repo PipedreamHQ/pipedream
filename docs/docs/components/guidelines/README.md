@@ -36,7 +36,7 @@ components are automatically registered and immediately become available to the
 
 Components are [Node.js modules](../api/#component-structure) that run on
 Pipedream's serverless infrastructure. They may use Pipedream managed auth for
-[300+ apps](https://pipedream.com/explore) and [use most npm
+[{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) and [use most npm
 packages](../api/#using-npm-packages) with no `npm install` or `package.json`
 required. Pipedream currently supports two types of components — sources and
 actions.
@@ -101,23 +101,29 @@ team to let us know that you're blocked on source or action development.
 
 When submitting pull requests, the new code will run through a series of
 automated checks like linting the code. If you want to run those checks locally
-for quicker feedback you must have [NPM](https://www.npmjs.com/) installed and
+for quicker feedback you must have [pnpm](https://pnpm.io/) installed and
 run the following commands at the root of the project:
 
 1. To install all the project's dependencies (only needed once):
 
    ```shell
-   npm ci
+   pnpm install
    ```
 
-2. To run the linter checks against your code (assuming that your changes are
+2. To install all required dependencies:
+
+   ```shell
+   npx pnpm install -r
+   ```
+
+3. To run the linter checks against your code (assuming that your changes are
    located at `components/foo` for example):
 
    ```shell
    npx eslint components/foo
    ```
 
-3. Optionally, you can automatically fix any linter issues by running the
+4. Optionally, you can automatically fix any linter issues by running the
    following command:
 
    ```shell
@@ -155,13 +161,13 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                                                                         | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
+| Name                                                                                                                                                          | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
 | [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.mjs)                                              | Trello       | Webhook                                      |
 | [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs)                        | Twitter      | Polling                                      |
 | [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.mjs) | Google Drive | Webhook + Polling                            |
 | [New Submission](https://github.com/pipedreamhq/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.mjs)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
+| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                              | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
@@ -169,9 +175,9 @@ actions for Pipedream's registry.
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable      |
 | [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs)    | Google Sheets |
-| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.mjs)                  | Discord       |
-| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                         | Google Docs   |
-| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.mjs)                              | HTTP          |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.mjs)                 | Discord       |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.mjs)                        | Google Docs   |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.mjs)                             | HTTP          |
 
 ## Guidelines & Patterns
 

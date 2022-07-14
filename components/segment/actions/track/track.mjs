@@ -2,9 +2,9 @@ import segmentApp from "../../segment.app.mjs";
 
 export default {
   key: "segment-track",
-  label: "Track actions your users perform",
+  name: "Track actions your users perform",
   description: "Track lets you record the actions your users perform (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#track)",
-  version: "0.3.2",
+  version: "0.3.3",
   type: "action",
   props: {
     segmentApp,

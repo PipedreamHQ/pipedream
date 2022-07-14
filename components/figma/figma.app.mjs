@@ -99,5 +99,35 @@ export default {
         data,
       }));
     },
+    async deleteComment(fileId, commentId, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "DELETE",
+        path: `/v1/files/${fileId}/comments/${commentId}`,
+      }));
+    },
+    async createHook(
+      eventType,
+      teamId,
+      endpoint,
+      passcode,
+    ) {
+      const hook = await axios(this, this._getAxiosParams({
+        method: "POST",
+        path: "/v2/webhooks",
+        data: {
+          event_type: eventType,
+          team_id: teamId,
+          endpoint,
+          passcode,
+        },
+      }));
+      return hook.id;
+    },
+    async deleteHook(hookId) {
+      return axios(this, this._getAxiosParams({
+        method: "DELETE",
+        path: `/v2/webhooks/${hookId}`,
+      }));
+    },
   },
 };
