@@ -409,6 +409,21 @@
     },
     {
       "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
+    },
+    {
+      "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
     }
   ]
 }

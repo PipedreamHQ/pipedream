@@ -1,20 +1,19 @@
-const stripe = require("../../stripe.app.js");
+import stripe from "../../stripe.app.mjs";
+import constants from "../common/constants.mjs";
 
-module.exports = {
+export default {
   key: "stripe-custom-webhook-events",
-  name: "Custom Webhook Events",
+  name: "New Custom Webhook Events",
   type: "source",
-  version: "0.0.3",
-  description: "Subscribe to one or more event types and emit an event on each webhook request",
+  version: "0.0.4",
+  description: "Emit new event on each webhook event",
   props: {
     stripe,
     enabledEvents: {
       type: "string[]",
       label: "Events",
-      description: "Events to listen for (select '*' for all)",
-      options() {
-        return this.stripe.enabledEvents();
-      },
+      description: "Events to listen for. Select `*` for all events",
+      options: constants.WEBHOOK_EVENTS,
       default: [
         "*",
       ],
@@ -40,6 +39,16 @@ module.exports = {
         enabled_events: enabledEvents,
       });
       this.db.set("endpoint", JSON.stringify(endpoint));
+
+      for (const eventType of this.enabledEvents) {
+        const events = await this.stripe.getEvents({
+          eventType,
+        });
+
+        for (const event of events) {
+          this.emit(event);
+        }
+      }
     },
     async deactivate() {
       const endpoint = this.getEndpoint();
@@ -73,9 +82,17 @@ module.exports = {
     this.http.respond({
       status: 200,
     });
-    this.$emit(event);
+
+    this.emit(event);
   },
   methods: {
+    emit(event) {
+      this.$emit(event, {
+        id: event.id,
+        summary: `New event ${event.type} with id ${event.data.id}`,
+        ts: Date.parse(event.created),
+      });
+    },
     getEndpoint() {
       let endpoint;
       const endpointJson = this.db.get("endpoint");
