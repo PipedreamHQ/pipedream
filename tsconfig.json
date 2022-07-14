@@ -418,6 +418,12 @@
     },
     {
       "path": "components/degreed"
+    },
+    {
+      "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
     }
   ]
 }
