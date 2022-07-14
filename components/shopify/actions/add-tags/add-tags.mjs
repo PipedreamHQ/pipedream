@@ -2,7 +2,7 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   name: "Add Tags",
-  version: "0.0.11",
+  version: "0.0.1",
   key: "shopify-add-tags",
   description:
     "Add tags. [See the docs](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
@@ -34,9 +34,14 @@ export default {
   },
   type: "action",
   async run({ $ }) {
-    const { resource, id } = this;
+    const {
+      resource,
+      id,
+    } = this;
     const gid = `gid://shopify/${resource}/${id}`;
-    let tags = [this.tags];
+    let tags = [
+      this.tags,
+    ];
 
     if (tags.includes(",")) {
       tags = tags.split(",").map((item) => item.trim());
@@ -71,7 +76,7 @@ export default {
 
     $.export(
       "$summary",
-      `Added tag(s) \`${tags.join(", ")}\` with id \`${res.tagsAdd.node.id}\``
+      `Added tag(s) \`${tags.join(", ")}\` with id \`${res.tagsAdd.node.id}\``,
     );
     return res;
   },
