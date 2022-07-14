@@ -58,8 +58,8 @@ export default {
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
     },
-    emitHistoricalEvents(events) {
-      for (const event of events.slice(0, constants.DEPLOY_OFFSET)) {
+    emitHistoricalEvents(events, limit = constants.DEPLOY_OFFSET) {
+      for (const event of events.slice(0, limit)) {
         const meta = this.generateMeta(event);
         this.$emit(event, meta);
       }
