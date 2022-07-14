@@ -31,16 +31,6 @@ export default {
       return event?._project?.id
         || (await this.linearApp.getIssue(event?._issue?.id))?._project?.id ;
     },
-    async isRelevant(body) {
-      const projectIdSet = await this.linearApp.isProjectIdSet(body, this.projectId);
-      if (!this.linearApp.isActionSet(body, this.getActions())) {
-        return false;
-      }
-      if (!projectIdSet) {
-        return false;
-      }
-      return true;
-    },
     getMetadata(resource) {
       const {
         delivery,

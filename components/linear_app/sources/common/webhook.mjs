@@ -13,13 +13,6 @@ export default {
       ],
       optional: true,
     },
-    projectId: {
-      type: "string[]",
-      propDefinition: [
-        linearApp,
-        "projectId",
-      ],
-    },
     http: "$.interface.http",
     db: "$.service.db",
   },
@@ -119,9 +112,6 @@ export default {
       return;
     }
 
-    if (!await this.isRelevant(body)) {
-      return;
-    }
     const meta = this.getMetadata(resource);
     this.$emit(body, meta);
   },
