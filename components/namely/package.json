@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/namely",
+  "version": "0.0.1",
+  "description": "Pipedream Namely Components",
+  "main": "dist/app/namely.app.mjs",
+  "keywords": [
+    "pipedream",
+    "namely"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/namely",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

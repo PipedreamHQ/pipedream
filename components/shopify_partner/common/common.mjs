@@ -1,4 +1,4 @@
-import shopify from "./shopify_partner.app.mjs";
+import shopify from "../shopify_partner.app.mjs";
 
 export default {
   props: {
