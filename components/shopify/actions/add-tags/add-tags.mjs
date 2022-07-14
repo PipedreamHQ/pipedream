@@ -37,7 +37,7 @@ export default {
     const {
       resource,
       id,
-      tags
+      tags,
     } = this;
 
     const res = await this.shopify.addTags(resource, id, tags);

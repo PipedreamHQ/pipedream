@@ -776,7 +776,9 @@ export default {
     async addTags(resource, id, tagString) {
       const gid = `gid://shopify/${resource}/${id}`;
 
-      let tags = [tagString];
+      let tags = [
+        tagString,
+      ];
       if (tags.includes(",")) {
         tags = tagString.split(",").map((item) => item.trim());
       }
@@ -797,7 +799,7 @@ export default {
 
       const variables = {
         gid,
-        tags
+        tags,
       };
 
       return await this._makeGraphQlRequest(query, variables);
