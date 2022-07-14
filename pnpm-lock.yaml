@@ -1601,8 +1601,10 @@ importers:
 
   components/webflow:
     specifiers:
+      '@pipedream/platform': ^1.1.0
       webflow-api: ^0.5.0
     dependencies:
+      '@pipedream/platform': link:../../platform
       webflow-api: 0.5.4
 
   components/weworkbook:
