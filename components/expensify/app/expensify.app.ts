@@ -28,6 +28,7 @@ export default defineApp({
             },
             ...options?.data,
           }),
+          ...options?.extraFormUrlencodedData,
         }),
       });
     },
@@ -45,17 +46,57 @@ export default defineApp({
         },
       }, $);
     },
-    async exportReportToPDF({
+    async updateCustomer({
       $, data,
     }) {
       return this._makeRequest({
-        method: "post",
+        method: "update",
         data: {
           type: "create",
           inputSettings: {
             type: "expenses",
             ...data,
           },
+        },
+      }, $);
+    },
+    async exportReportToPDF({
+      $, reportId,
+    }) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "file",
+          onReceive: {
+            immediateResponse: [
+              "returnRandomFileName",
+            ],
+          },
+          inputSettings: {
+            type: "combinedReportData",
+            filters: {
+              reportIDList: reportId,
+            },
+          },
+          outputSettings: {
+            fileExtension: "pdf",
+          },
+        },
+        extraFormUrlencodedData: {
+          template: "default",
+        },
+      }, $);
+    },
+
+    async downloadFile({
+      $, fileName,
+    }) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "download",
+          fileName,
+          fileSystem: "integrationServer",
         },
       }, $);
     },

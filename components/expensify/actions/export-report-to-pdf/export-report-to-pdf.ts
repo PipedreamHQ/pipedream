@@ -1,5 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import expensify from "../../app/expensify.app";
+import fs from "fs";
 
 export default defineAction({
   key: "expensify-export-report-to-pdf",
@@ -9,59 +10,31 @@ export default defineAction({
   type: "action",
   props: {
     expensify,
-    employeeEmail: {
-      label: "Employee Email",
-      description: "The expenses will be created in this account.",
+    reportId: {
+      label: "Report ID",
+      description: "The ID of the report to be exported.",
       type: "string",
-    },
-    currency: {
-      label: "Currency",
-      description: "The three-letter currency code of the expense. E.g. `USD`",
-      type: "string",
-    },
-    amount: {
-      label: "Amount",
-      description: "The amount of the expense, in cents. E.g. `2215` will be `$22.15`",
-      type: "integer",
-    },
-    merchant: {
-      label: "Merchant",
-      description: "The name of the expense's merchant",
-      type: "string",
-    },
-    created: {
-      label: "Created Date",
-      description: "The date of the expense (format yyyy-mm-dd). E.g. 2022-07-12",
-      type: "string",
-    },
-    comment: {
-      label: "Comment",
-      description: "An expense comment",
-      type: "string",
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = this.expensify.createExpense({
+    const fileName = await this.expensify.exportReportToPDF({
       $,
-      data: {
-        employeeEmail: this.employeeEmail,
-        transactionList: [
-          {
-            created: this.created,
-            comment: this.comment,
-            currency: this.currency,
-            amount: this.amount,
-            merchant: this.merchant,
-          },
-        ],
-      },
+      reportId: this.reportId,
     });
 
-    if (response.responseCode >= 200 && response.responseCode < 300) {
-      $.export("$summary", `Successfully created expense with id ${response.id}`);
+    const fileBuffer = await this.expensify.downloadFile({
+      $,
+      fileName,
+    });
+
+    const path = `/tmp/${fileName}`;
+
+    await fs.writeFileSync(path, Buffer.from(fileBuffer));
+
+    if (fileBuffer) {
+      $.export("$summary", `Successfully exported report in ${path}`);
     }
 
-    return response;
+    return path;
   },
 });
