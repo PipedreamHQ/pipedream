@@ -14,7 +14,12 @@ export default {
       label: "Webhook Events",
       description: "The event will be emited",
       type: "string[]",
-      options: constants.REPOSITORY_WEBHOOK_EVENTS,
+      options: constants.REPOSITORY_WEBHOOK_EVENTS.map(({
+        value, label,
+      }) => ({
+        value,
+        label,
+      })),
     },
   },
   dedupe: "unique",
@@ -22,6 +27,33 @@ export default {
     ...common.methods,
     getWebhookEvents() {
       return this.events;
+    },
+    async loadHistoricalData() {
+      const func = constants
+        .REPOSITORY_WEBHOOK_EVENTS
+        .find((item) => this.events[0] === item.value);
+      if (func?.fnName) {
+        const data = await this["github"][func.fnName]({
+          repoFullname: this.repoFullname,
+          data: {
+            per_page: 25,
+            page: 1,
+          },
+        });
+        console.log("data", data);
+        const ts = new Date().getTime();
+        if (data) {
+          return data.map((event) => ({
+            main: event,
+            sub: {
+              id: event.id,
+              summary: `New event of type ${this.events[0]}`,
+              ts,
+            },
+          }));
+        }
+      }
+
     },
   },
   async run(event) {

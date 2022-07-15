@@ -208,5 +208,13 @@ export default {
       const branches = await this._client().request(`GET /repos/${repoFullname}/branches`, {});
       return branches.data;
     },
+    async getCommitComments({
+      repoFullname,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/comments`, data);
+
+      return response.data;
+    },
   },
 };

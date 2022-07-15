@@ -19,10 +19,12 @@ export default {
     {
       label: "A commit comment is created",
       value: "commit_comment",
+      fnName: "getCommitComments",
     },
     {
       label: "A Git branch or tag is created",
       value: "create",
+      fnName: "getBranches",
     },
     {
       label: "A Git branch or tag is deleted",
@@ -161,4 +163,5 @@ export default {
       value: "workflow_run",
     },
   ],
+  REPOSITORY_WEBHOOK_EXCLUDED_EVENTS: [],
 };
