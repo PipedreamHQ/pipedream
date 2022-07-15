@@ -219,11 +219,11 @@ export default {
 
       return response.data;
     },
-    async getIssueEvents({
+    async getIssueComments({
       repoFullname,
       data,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/issues/events`, data);
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues/comments`, data);
 
       return response.data;
     },

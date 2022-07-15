@@ -57,7 +57,7 @@ export default {
     {
       label: "Activity related to an issue or pull request comment",
       value: "issue_comment",
-      fnName: "getIssueEvents",
+      fnName: "getIssueComments",
     },
     {
       label: "Activity related to an issue",
