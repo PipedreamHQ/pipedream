@@ -260,5 +260,13 @@ export default {
 
       return response.data;
     },
+    async getProjects({
+      repoFullname,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/projects`, data);
+
+      return response.data;
+    },
   },
 };

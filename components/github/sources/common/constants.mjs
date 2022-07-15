@@ -95,6 +95,7 @@ export default {
     {
       label: "Activity related to project boards",
       value: "project",
+      fnName: "getProjects",
     },
     {
       label: "Activity related to project cards",
