@@ -13,7 +13,7 @@ export default {
         "flagging spam traps, disposable emails and much more. " +
         "[See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     verifalia,
