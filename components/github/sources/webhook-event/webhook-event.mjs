@@ -46,8 +46,8 @@ export default {
           return data.map((event) => ({
             main: event,
             sub: {
-              id: event.id,
-              summary: `New event of type ${this.events[0]}`,
+              id: event?.id || event?.name || ts,
+              summary: `New event of type ${constants.REPOSITORY_WEBHOOK_EVENTS.find((item) => this.events[0] === item.value).label}`,
               ts,
             },
           }));
