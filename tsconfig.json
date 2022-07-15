@@ -427,6 +427,9 @@
     },
     {
       "path": "components/propeller"
+    },
+    {
+      "path": "components/twitch_developer_app"
     }
   ]
 }
