@@ -252,5 +252,13 @@ export default {
 
       return response.data;
     },
+    async getMilestones({
+      repoFullname,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/milestones`, data);
+
+      return response.data;
+    },
   },
 };

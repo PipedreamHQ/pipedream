@@ -81,6 +81,7 @@ export default {
     {
       label: "Activity related to milestones",
       value: "milestone",
+      fnName: "getMilestones",
     },
     {
       label: "Activity related to GitHub Packages",
