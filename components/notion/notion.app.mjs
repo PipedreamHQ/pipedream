@@ -1,6 +1,5 @@
 import notion from "@notionhq/client";
 import NOTION_META from "./common/notion-meta-selection.mjs";
-import NOTION_BLOCKS from "./common/notion-blocks-selection.mjs";
 
 export default {
   type: "app",
@@ -58,14 +57,6 @@ export default {
         }
       },
     },
-    blockTypes: {
-      type: "string[]",
-      label: "Block Types",
-      description: "Select the block types that will be appended as the page content",
-      options: Object.keys(NOTION_BLOCKS),
-      optional: true,
-      reloadProps: true,
-    },
     archived: {
       type: "boolean",
       label: "Archive page",
@@ -96,6 +87,7 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
+        notionVersion: "2022-02-22",
       });
     },
     _extractDatabaseTitleOptions(databases) {
