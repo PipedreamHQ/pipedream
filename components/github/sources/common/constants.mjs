@@ -72,6 +72,7 @@ export default {
     {
       label: "Activity related to repository collaborators",
       value: "member",
+      fnName: "getRepositoryCollaborators",
     },
     {
       label: "The webhook this event is configured on was deleted",

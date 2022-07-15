@@ -123,8 +123,12 @@ export default {
         ...data,
       });
     },
-    async getRepositoryCollaborators({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
+    async getRepositoryCollaborators({
+      repoFullname, data,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {
+        ...data,
+      });
     },
     async getRepositoryIssues({
       repoFullname, data,
