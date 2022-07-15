@@ -116,8 +116,12 @@ export default {
 
       return response.data;
     },
-    async getRepositoryLabels({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
+    async getRepositoryLabels({
+      repoFullname, data,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/labels`, {
+        ...data,
+      });
     },
     async getRepositoryCollaborators({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
@@ -125,7 +129,7 @@ export default {
     async getRepositoryIssues({
       repoFullname, data,
     }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/issues`,  {
+      return this._client().paginate(`GET /repos/${repoFullname}/issues`, {
         state: "all",
         ...data,
       });

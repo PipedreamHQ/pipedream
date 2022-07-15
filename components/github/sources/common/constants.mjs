@@ -67,6 +67,7 @@ export default {
     {
       label: "Activity related to a label",
       value: "label",
+      fnName: "getRepositoryLabels",
     },
     {
       label: "Activity related to repository collaborators",
