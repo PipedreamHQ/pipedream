@@ -1,10 +1,10 @@
-import NOTION_PAGE_PROPERTIES from "../../common/notion-page-properties.mjs";
-import NOTION_META from "../../common/notion-meta-selection.mjs";
-import NOTION_BLOCKS from "../../common/notion-blocks-selection.mjs";
+import { markdownToBlocks } from "@tryfabric/martian";
 import {
   NOTION_DATABASE_META,
   NOTION_PAGE_META,
 } from "../../common/notion-meta-properties.mjs";
+import NOTION_META from "../../common/notion-meta-selection.mjs";
+import NOTION_PAGE_PROPERTIES from "../../common/notion-page-properties.mjs";
 
 export default {
   methods: {
@@ -18,7 +18,6 @@ export default {
     buildAdditionalProps({
       properties = {},
       meta = [],
-      blocks = [],
     }) {
       const propertyProps = this._buildPropertyProps(properties);
 
@@ -27,14 +26,8 @@ export default {
         ...NOTION_META[metaType].additionalProps,
       }), {});
 
-      const blockProps = blocks.reduce((props, blockType) => ({
-        ...props,
-        ...NOTION_BLOCKS[blockType].additionalProps,
-      }), {});
-
       return {
         ...metaProps,
-        ...blockProps,
         ...propertyProps,
       };
     },
@@ -135,43 +128,6 @@ export default {
       return this._convertPropertiesToNotion(properties, NOTION_PAGE_PROPERTIES);
     },
     /**
-     * Select block props that were inputted by the user through the workflow UI
-     * (paragraph: paragraph_rich_text), (todo: todo_rich_text, todo_checked)
-     * @returns the selected blocks inputted by the user with their corresponding values
-     */
-    _filterBlocks() {
-      const filtered = {};
-      for (const propertyName in this) {
-        let cut = propertyName.indexOf("_");
-        const propNameBase = propertyName.substring(0, cut++);
-        const propNameValue = propertyName.substring(cut);
-
-        if (propNameBase && NOTION_BLOCKS[propNameBase]) {
-          filtered[propNameBase] = {
-            ...filtered[propNameBase],
-            [propNameValue]: this[propertyName],
-          };
-        }
-      }
-      return Object.keys(filtered).map((block) => ({
-        [block]: filtered[block],
-      }));
-    },
-    /**
-     * Builds the block children in Notion format
-     * @param blocks - the block children inputted by the user
-     * @returns the block children in Notion format
-     */
-    _buildNotionPageChildren(blocks = []) {
-      const children = [];
-      for (const block of blocks) {
-        const type = Object.keys(block)[0];
-        const blockProperty = NOTION_BLOCKS[type];
-        children.push(blockProperty?.convertToNotion(block[type]));
-      }
-      return children;
-    },
-    /**
      * Builds the page meta inputted by the user in Notion format from a parent database
      * @param parentDatabase - the parent database that contains the meta properties
      * @returns the meta properties in Notion format
@@ -202,9 +158,8 @@ export default {
      * Creates the block children inputted by the user in Notion format
      * @returns the block children in Notion format
      */
-    createBlocks() {
-      const filteredBlocks = this._filterBlocks();
-      return this._buildNotionPageChildren(filteredBlocks);
+    createBlocks(pageContent) {
+      return markdownToBlocks(pageContent);
     },
   },
 };

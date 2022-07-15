@@ -424,6 +424,9 @@
     },
     {
       "path": "components/namely"
+    },
+    {
+      "path": "components/propeller"
     }
   ]
 }
