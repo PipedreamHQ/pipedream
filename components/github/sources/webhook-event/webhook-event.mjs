@@ -32,12 +32,15 @@ export default {
       const func = constants
         .REPOSITORY_WEBHOOK_EVENTS
         .find((item) => this.events[0] === item.value);
+      console.log("this.orgName", this.orgName);
       if (func?.fnName) {
         const data = await this["github"][func.fnName]({
           repoFullname: this.repoFullname,
+          orgName: this.orgName,
           data: {
             per_page: 25,
             page: 1,
+            package_type: this.packageType,
           },
         });
         console.log("data", data);

@@ -85,6 +85,7 @@ export default {
     {
       label: "Activity related to GitHub Packages",
       value: "package",
+      fnName: "getOrganizationPackages",
     },
     {
       label: "Activity on attempted build of a GitHub Pages site, whether successful or not",
@@ -168,4 +169,12 @@ export default {
     },
   ],
   REPOSITORY_WEBHOOK_EXCLUDED_EVENTS: [],
+  PACKAGE_TYPE: [
+    "npm",
+    "maven",
+    "rubygems",
+    "docker",
+    "nuget",
+    "container",
+  ],
 };

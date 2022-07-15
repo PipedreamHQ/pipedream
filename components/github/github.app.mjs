@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
+import constants from "./sources/common/constants.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -9,7 +10,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The repository",
+      description: "Organization name",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -78,6 +79,14 @@ export default {
         return branches.map((branch) => branch.name);
       },
     },
+    packageType: {
+      label: "Package type",
+      description: "The type of supported package",
+      type: "string",
+      async options() {
+        return constants.PACKAGE_TYPE.map((type) => type);
+      },
+    },
   },
   methods: {
     _baseApiUrl() {
@@ -104,7 +113,7 @@ export default {
       return this._client().request(`DELETE /webhooks/${repoFullname}/hooks/${webhookId}`, {});
     },
     async getOrganizations() {
-      const response = await this._client().request("GET /user/orgs", {});
+      const response = await this._client().request("GET /organizations", {});
 
       return response.data;
     },
@@ -232,6 +241,14 @@ export default {
       data,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/issues/comments`, data);
+
+      return response.data;
+    },
+    async getOrganizationPackages({
+      orgName,
+      data,
+    }) {
+      const response = await this._client().request(`GET /orgs/${orgName}/packages`, data);
 
       return response.data;
     },

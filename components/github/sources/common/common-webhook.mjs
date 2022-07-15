@@ -12,6 +12,20 @@ export default {
         "repoFullname",
       ],
     },
+    orgName: {
+      propDefinition: [
+        github,
+        "orgName",
+      ],
+      optional: true,
+    },
+    packageType: {
+      propDefinition: [
+        github,
+        "packageType",
+      ],
+      optional: true,
+    },
     db: "$.service.db",
     http: "$.interface.http",
   },
