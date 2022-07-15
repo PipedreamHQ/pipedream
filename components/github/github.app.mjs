@@ -122,9 +122,12 @@ export default {
     async getRepositoryCollaborators({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
     },
-    async getRepositoryIssues({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/issues`, {
+    async getRepositoryIssues({
+      repoFullname, data,
+    }) {
+      return this._client().paginate(`GET /repos/${repoFullname}/issues`,  {
         state: "all",
+        ...data,
       });
     },
     async getGists() {
@@ -213,6 +216,14 @@ export default {
       data,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/comments`, data);
+
+      return response.data;
+    },
+    async getIssueEvents({
+      repoFullname,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/issues/events`, data);
 
       return response.data;
     },
