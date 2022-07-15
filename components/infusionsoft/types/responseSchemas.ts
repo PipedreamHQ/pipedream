@@ -8,6 +8,10 @@ type contact = {
   id: number;
 };
 
+type hook = {
+  key: string;
+};
+
 type order = {
   contact: {
     first_name: string;
@@ -24,4 +28,4 @@ type product = {
   product_price: number;
 };
 
-export { company, contact, order, product };
+export { company, contact, hook, order, product };

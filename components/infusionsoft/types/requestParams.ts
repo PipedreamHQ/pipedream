@@ -1,3 +1,12 @@
+type createHookParams = {
+  eventKey: string;
+  hookUrl: string;
+};
+
+type deleteHookParams = {
+  key: string;
+};
+
 type createOrderItemParams = {
   orderId: number;
   data: {
@@ -37,6 +46,8 @@ type httpRequestParams = {
 };
 
 export {
+  createHookParams,
+  deleteHookParams,
   createOrderItemParams,
   createPaymentParams,
   getCompanyParams,

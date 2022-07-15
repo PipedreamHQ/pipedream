@@ -2,13 +2,21 @@ import { defineApp } from "@pipedream/types";
 import axios from "axios";
 import { asyncOptionsObject } from "../types/common";
 import {
+  createHookParams,
+  deleteHookParams,
   createOrderItemParams,
   createPaymentParams,
   getCompanyParams,
   getContactParams,
   httpRequestParams,
 } from "../types/requestParams";
-import { company, contact, order, product } from "../types/responseSchemas";
+import {
+  company,
+  contact,
+  hook,
+  order,
+  product,
+} from "../types/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -31,7 +39,20 @@ export default defineApp({
         data,
       });
 
-      return response.data;
+      return response.data ?? response.status;
+    },
+    async createHook(data: createHookParams): Promise<hook> {
+      return this._httpRequest({
+        endpoint: "/hooks",
+        method: "POST",
+        data,
+      });
+    },
+    async deleteHook({ key }: deleteHookParams): Promise<number> {
+      return this._httpRequest({
+        endpoint: `/hooks/${key}`,
+        method: "DELETE",
+      });
     },
     async listCompanies(): Promise<company[]> {
       const response = await this._httpRequest({
