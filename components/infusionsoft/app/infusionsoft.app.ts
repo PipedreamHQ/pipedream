@@ -22,7 +22,7 @@ export default defineApp({
       endpoint,
       data,
     }: httpRequestParams): Promise<object> {
-      return axios({
+      const response = await axios({
         method,
         url: this._baseUrl() + endpoint,
         headers: {
@@ -30,6 +30,8 @@ export default defineApp({
         },
         data,
       });
+
+      return response.data;
     },
     async listCompanies(): Promise<company[]> {
       const response = await this._httpRequest({
