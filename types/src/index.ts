@@ -235,8 +235,14 @@ export interface Hooks {
   deactivate?: () => Promise<void>;
 }
 
+// https://pipedream.com/docs/components/api/#http-event-shape
 export interface SourceRunOptions {
-  event: JSONValue;
+  method: string;
+  path: string;
+  query: object;
+  headers: object;
+  bodyRaw?: string;
+  body?: object;
 }
 
 export interface ActionRunOptions {
