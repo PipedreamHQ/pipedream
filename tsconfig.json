@@ -430,6 +430,9 @@
     },
     {
       "path": "components/twitch_developer_app"
+    },
+    {
+      "path": "components/vectera"
     }
   ]
 }
