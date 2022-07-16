@@ -1539,6 +1539,9 @@ importers:
     dependencies:
       twilio: 3.77.1
 
+  components/twitch_developer_app:
+    specifiers: {}
+
   components/twitter:
     specifiers:
       axios: ^0.21.1
@@ -1576,6 +1579,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vbout:
+    specifiers: {}
+
+  components/vectera:
     specifiers: {}
 
   components/vend:
