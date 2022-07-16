@@ -433,6 +433,12 @@
     },
     {
       "path": "components/vectera"
+    },
+    {
+      "path": "components/triggercmd"
+    },
+    {
+      "path": "components/isn"
     }
   ]
 }
