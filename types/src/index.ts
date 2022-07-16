@@ -236,7 +236,7 @@ export interface Hooks {
 }
 
 // https://pipedream.com/docs/components/api/#http-event-shape
-export interface SourceRunOptions {
+export interface SourceHttpRunOptions {
   method: string;
   path: string;
   query: object;
@@ -244,6 +244,14 @@ export interface SourceRunOptions {
   bodyRaw?: string;
   body?: object;
 }
+
+// https://pipedream.com/docs/components/api/#timer
+export interface SourceTimerRunOptions {
+  timestamp: number;
+  interval_seconds: number;
+}
+
+export type SourceRunOptions = SourceHttpRunOptions | SourceTimerRunOptions;
 
 export interface ActionRunOptions {
   $: Pipedream;
