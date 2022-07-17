@@ -2,16 +2,12 @@ import triggercmd from "../../triggercmd.app.mjs";
 
 export default {
   name: "Trigger a command",
-  version: "0.0.26",
+  version: "0.0.38",
   key: "trigger-command",
   description: "Runs a command on a computer.  Refer to the [TRIGGERcmd Forum](https://triggercmd.com/forum) to learn more.",
   type: "action",
   props: {
-    token: {
-      type: "string",
-      label: "Token from the Instructions page in your account at TRIGGERcmd.com",
-      secret: true
-    },
+    triggercmd,
     computer: {
       type: "string",
       label: "Computer Name",
@@ -27,7 +23,7 @@ export default {
     }
   },
   async run({ $ }) {
-    const message = await triggercmd.methods.trigger(this.token, this.computer, this.trigger, this.params, $);
+    const message = await this.triggercmd.trigger(this.computer, this.trigger, this.params, $);
     return message;
   },
 

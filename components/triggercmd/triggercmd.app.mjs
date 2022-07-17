@@ -10,7 +10,8 @@ export default {
     },
     _getHeaders() {
       return {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": `application/json`,
       };
     },
     _getAxiosParams(opts = {}) {
@@ -21,12 +22,11 @@ export default {
       };
       return res;
     },
-    async trigger(token, computer, trigger, params, ctx = this) {
+    async trigger(computer, trigger, params, ctx = this) {
       const res = await axios(ctx, this._getAxiosParams({
         method: "POST",
-        path: `/api/run/triggerSave`,
+        path: `/oauth/pipedream`,
         data: {
-          token: token,
           computer: computer,
           trigger: trigger,
           params: params
