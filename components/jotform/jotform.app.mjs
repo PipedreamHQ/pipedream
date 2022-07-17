@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import querystring from "querystring";
+import querystring from "query-string";
 
 export default {
   type: "app",
@@ -140,41 +140,42 @@ export default {
         method: "DELETE",
       });
     },
+    async getForm(formId) {
+      return this._makeRequest({
+        endpoint: `form/${formId}`,
+      });
+    },
     async getForms(params) {
       return this._makeRequest({
         endpoint: "user/forms",
-        method: "GET",
         params,
       });
     },
     async getFormSubmissions({
-      $, formId,
+      $, formId, params = null,
     }) {
       return this._makeRequest({
         $,
         endpoint: `form/${formId}/submissions`,
-        method: "GET",
+        params,
       });
     },
     async getUserSubmissions({ $ }) {
       return this._makeRequest({
         $,
         endpoint: "user/submissions",
-        method: "GET",
       });
     },
     async getUserUsage({ $ }) {
       return this._makeRequest({
         $,
         endpoint: "user/usage",
-        method: "GET",
       });
     },
     async getWebhooks(opts = {}) {
       const { formId } = opts;
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
-        method: "GET",
       });
     },
   },
