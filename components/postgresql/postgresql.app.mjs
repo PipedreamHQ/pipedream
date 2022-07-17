@@ -62,7 +62,7 @@ export default {
     },
   },
   methods: {
-    async getClient(rejectUnauthorized) {
+    async getClient(rejectUnauthorized = true) {
       const { Client } = pg;
       const {
         user,
@@ -96,6 +96,7 @@ export default {
      */
     async executeQuery(query, rejectUnauthorized = true) {
       const client = await this.getClient(rejectUnauthorized);
+
       try {
         const { rows } = await client.query(query);
         return rows;
@@ -109,7 +110,7 @@ export default {
      */
     async getTables() {
       const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
-      const rows = await this.executeQuery(query);
+      const rows = await this.executeQuery(query, false);
       return rows.map((row) => row.table_name);
     },
     /**
@@ -126,7 +127,7 @@ export default {
         values: [
           table,
         ],
-      });
+      }, false);
       return rows.map((row) => row.column_name);
     },
     /**
