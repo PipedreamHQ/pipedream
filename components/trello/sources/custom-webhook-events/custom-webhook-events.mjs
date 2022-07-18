@@ -5,7 +5,7 @@ export default {
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
   description: "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,
@@ -40,8 +40,34 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      const {
+        sampleEvents, sortField,
+      } = await this.getSampleEvents();
+      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
+        ? 1
+        : -1);
+      for (const action of sampleEvents.slice(-25)) {
+        this.emitEvent({
+          action,
+        });
+      }
+    },
+  },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const eventTypes = this.eventTypes && this.eventTypes.length > 0
+        ? this.eventTypes.join(",")
+        : null;
+      const actions = await this.trello.getBoardActivity(this.board, eventTypes);
+      return {
+        sampleEvents: actions,
+        sortField: "date",
+      };
+    },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
       return (

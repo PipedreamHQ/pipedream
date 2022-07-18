@@ -37,8 +37,6 @@ export default defineComponent({
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
 
-
-
 ## Sharing data between steps
 
 A Node.js step can use data from other steps using [step exports](/workflows/steps/#step-exports), it can also export data for other steps to use.
@@ -92,6 +90,8 @@ export default defineComponent({
 
 ### Using $.export
 
+<VideoPlayer src="https://youtu.be/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
+
 Alternatively, use the built in `$.export` helper instead of returning data. The `$.export` creates a _named_ export with the given value.
 
 ```javascript
@@ -123,6 +123,8 @@ Regardless of using `return` or `$.export`, can only export JSON-serializable da
 
 ## Passing props to code steps
 
+<VideoPlayer src="https://www.youtube.com/embed/CxOdfgjThjg" title="Passing props to code steps" />
+
 You can make code steps reusable by allowing them to accept props. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters _entered in the workflow builder_.
 
 For example, let's define a `firstName` prop. This will allow us to freely enter text from the workflow builder.
@@ -153,6 +155,8 @@ Accepting a single string is just one example, you can build a step to accept ar
 [Read the props reference for the full list of options](/components/api/#props).
 
 ## How Pipedream Node.js components work
+
+<VideoPlayer src="https://www.youtube.com/embed/8nnL9sIRGvk" title="Structure of a Node.js Code Step"/>
 
 When you add a new Node.js code step or use the examples in this doc, you'll notice a common structure to the code:
 
@@ -219,6 +223,8 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 :::
 
 ## Using `npm` packages
+
+<VideoPlayer src="https://www.youtube.com/embed/lvTWnSAwEa8" title="Use NPM packages in code steps" />
 
 [npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
 

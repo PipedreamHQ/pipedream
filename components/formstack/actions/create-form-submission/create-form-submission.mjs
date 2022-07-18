@@ -6,7 +6,7 @@ export default {
   key: "formstack-create-form-submission",
   name: "Create Form Submission",
   description: "Create a new submission for the specified form. [See docs here](https://formstack.readme.io/docs/form-id-submission-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     formstack,
     formId: {
@@ -47,7 +47,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Successfully created submission");
+    $.export("$summary", "Successfully created submission");
 
     return response;
   },
