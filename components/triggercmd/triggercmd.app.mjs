@@ -5,12 +5,15 @@ export default {
   app: "triggercmd",
   propDefinitions: {},
   methods: {
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
     _getBaseUrl() {
       return "https://www.triggercmd.com";
     },
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this._accessToken()}`,
         "Content-Type": `application/json`,
       };
     },
