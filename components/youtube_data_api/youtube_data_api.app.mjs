@@ -120,6 +120,28 @@ export default {
       return await youtube.videos.list(params);
     },
     /**
+     * Returns a collection of channels that match the parameters specified in the API
+     * request.
+     *
+     * @param {Object} params - Parameters to be fed to the YouTube API call
+     * @returns A list of channels
+     */
+    async listChannels(params) {
+      const youtube = await this.youtube();
+      return await youtube.channels.list(params);
+    },
+    /**
+     * Returns a collection of activities that match the parameters specified in the API
+     * request.
+     *
+     * @param {Object} params - Parameters to be fed to the YouTube API call
+     * @returns A list of activities
+     */
+    async listActivities(params) {
+      const youtube = await this.youtube();
+      return await youtube.activities.list(params);
+    },
+    /**
    * Returns a collection of playlists results that match the parameters specified in the API
    * request.
    *

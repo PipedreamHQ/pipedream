@@ -54,4 +54,38 @@ export default {
     "snippet",
     "status",
   ],
+  LIST_CHANNEL_STATISTICS_USE_CASES: [
+    {
+      label: "By channel id",
+      value: "id",
+    },
+    {
+      label: "My channels",
+      value: "mine",
+    },
+    {
+      label: "Managed by me",
+      value: "managedByMe",
+    },
+  ],
+  LIST_CHANNEL_STATISTICS_PART: [
+    "id",
+    "snippet",
+    "statistics",
+  ],
+  LIST_ACTIVITIES_USE_CASES: [
+    {
+      label: "By channel id",
+      value: "channelId",
+    },
+    {
+      label: "My activities",
+      value: "mine",
+    },
+  ],
+  LIST_ACTIVITIES_PART: [
+    "id",
+    "snippet",
+    "contentDetails",
+  ],
 };
