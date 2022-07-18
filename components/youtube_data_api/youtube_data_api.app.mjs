@@ -108,6 +108,63 @@ export default {
       return await youtube.search.list(params);
     },
     /**
+     * Returns a collection of video results that match the parameters specified in the API
+     * request.
+     *
+     * @param {Object} params - Parameters to be fed to the YouTube API call, as defined in [the API
+     * docs](https://bit.ly/3uGXYss)
+     * @returns A list of videos
+     */
+    async listVideos(params) {
+      const youtube = await this.youtube();
+      return await youtube.videos.list(params);
+    },
+    /**
+   * Returns a collection of playlists results that match the parameters specified in the API
+   * request.
+   *
+   * @param {Object} params - Parameters to be fed to the YouTube API call
+   * @returns A list of playlists
+   */
+    async listPlaylists(params) {
+      const youtube = await this.youtube();
+      return await youtube.playlists.list(params);
+    },
+    /**
+     * Returns a collection of video categories mapped to pipedream's options
+     * @returns A list of videos categories
+     */
+    async listVideoCategoriesOpts(regionCode) {
+      if (!regionCode || regionCode.length !== 2) {
+        return [];
+      }
+      const youtube = await this.youtube();
+      const categories = (await youtube.videoCategories.list({
+        part: "snippet",
+        regionCode: regionCode,
+      })).data.items;
+      const opts = categories.map((category) => ({
+        label: category.snippet.title,
+        value: category.id,
+      }));
+      return opts;
+    },
+    /**
+     * Returns a collection of languages mapped to pipedream's options
+     * @returns A list of languages
+     */
+    async listI18nLanguagesOpts() {
+      const youtube = await this.youtube();
+      const languages = (await youtube.i18nLanguages.list({
+        part: "snippet",
+      })).data.items;
+      const opts = languages.map((language) => ({
+        label: language.snippet.name,
+        value: language.id,
+      }));
+      return opts;
+    },
+    /**
      * Returns channel resources that match the API request criteria
      *
      * @param {Object} params - Parameters to be fed to the YouTube API call, as defined in [the API
