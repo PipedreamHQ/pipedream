@@ -4,28 +4,24 @@ import constants from "../../common/constants.mjs";
 export default {
   props: {
     linearApp,
-    teamId: {
+    teamIds: {
+      label: "Team IDs",
+      type: "string[]",
       propDefinition: [
         linearApp,
         "teamId",
       ],
       optional: true,
     },
-    projectId: {
-      propDefinition: [
-        linearApp,
-        "projectId",
-      ],
-    },
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
-    setWebhookId(id) {
-      this.db.set(constants.WEBHOOK_ID, id);
+    setWebhookId(teamId, id) {
+      this.db.set(`webhook-${teamId}`, id);
     },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
+    getWebhookId(teamId) {
+      return this.db.get(`webhook-${teamId}`);
     },
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
@@ -82,19 +78,18 @@ export default {
         label: this.getWebhookLabel(),
       };
 
-      if (this.teamId) {
-        params.teamId = this.teamId;
-      } else {
-        params.allPublicTeams = true;
+      for (const teamId of this.teamIds) {
+        params.teamId = teamId;
+        const { _webhook: webhook } = await this.linearApp.createWebhook(params);
+        this.setWebhookId(teamId, webhook.id);
       }
-
-      const { _webhook: webhook } = await this.linearApp.createWebhook(params);
-      this.setWebhookId(webhook.id);
     },
     async deactivate() {
-      const webhookId = this.getWebhookId();
-      if (webhookId) {
-        await this.linearApp.deleteWebhook(webhookId);
+      for (const teamId of this.teamIds) {
+        const webhookId = this.getWebhookId(teamId);
+        if (webhookId) {
+          await this.linearApp.deleteWebhook(webhookId);
+        }
       }
     },
   },
@@ -117,9 +112,6 @@ export default {
       return;
     }
 
-    if (!await this.isRelevant(body)) {
-      return;
-    }
     const meta = this.getMetadata(resource);
     this.$emit(body, meta);
   },

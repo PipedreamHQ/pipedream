@@ -424,6 +424,21 @@
     },
     {
       "path": "components/namely"
+    },
+    {
+      "path": "components/propeller"
+    },
+    {
+      "path": "components/twitch_developer_app"
+    },
+    {
+      "path": "components/vectera"
+    },
+    {
+      "path": "components/triggercmd"
+    },
+    {
+      "path": "components/isn"
     }
   ]
 }
