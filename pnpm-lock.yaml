@@ -50,7 +50,7 @@ importers:
       pnpm: 7.0.1
       putout: 26.0.1
       renamer: 4.0.0
-      ts-jest: 27.1.4_xejkg674zdqdsmikentsgzg3jy
+      ts-jest: 27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a
       tsc-esm-fix: 2.18.0
       tsc-watch: 5.0.3_typescript@4.7.2
       typescript: 4.7.2
@@ -759,6 +759,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/isn:
+    specifiers: {}
 
   components/jellyreach:
     specifiers: {}
@@ -1537,11 +1540,17 @@ importers:
       lodash.pickby: 4.6.0
       mime: 3.0.0
 
+  components/triggercmd:
+    specifiers: {}
+
   components/twilio:
     specifiers:
       twilio: ^3.54.2
     dependencies:
       twilio: 3.77.1
+
+  components/twitch_developer_app:
+    specifiers: {}
 
   components/twitter:
     specifiers:
@@ -1580,6 +1589,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vbout:
+    specifiers: {}
+
+  components/vectera:
     specifiers: {}
 
   components/vend:
@@ -18225,7 +18237,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.4_xejkg674zdqdsmikentsgzg3jy:
+  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     peerDependencies:
@@ -18245,7 +18257,6 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@babel/core': 7.17.10
       '@types/jest': 27.5.0
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0

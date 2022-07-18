@@ -115,8 +115,7 @@ export default {
     },
     _checkReplayAttack(t) {
       console.log("Checking for Replay Attack...");
-      const threeMinutes = 180000;
-      const tolerance = threeMinutes;
+      const tolerance = 180000; // threeMinutes
       const timestampMilliseconds = Number(t) * 1000;
 
       if (timestampMilliseconds < Date.now() - tolerance) {
@@ -132,6 +131,12 @@ export default {
       }
 
       await this._registerWebhook();
+    },
+    async deactivate() {
+      const previousWebhook = this._getWebhook();
+      if (previousWebhook) {
+        await this._deactivateWebhook(previousWebhook);
+      }
     },
   },
   async run(event) {
