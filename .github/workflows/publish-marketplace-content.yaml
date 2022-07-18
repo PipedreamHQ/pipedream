@@ -1,0 +1,32 @@
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-components:
+    name: Publish Marketplace Content to Pipedream
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.0.2
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
+      - name: Publish changes to marketplace content
+        id: publish
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+          ENDPOINT: ${{ secrets.ENDPOINT }}
+        shell: bash {0} # don't fast fail
+        run: |
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          for added_modified_file in "${added_modified_renamed_files[@]}"; do
+          # We only care about marketplace files
+          if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == */README.md ]]; then
+            echo Changed Readme file: $added_modified_file
+            FILE_PATH=$added_modified_file scripts/updateMarketplaceReadme.sh
+          fi
+          done
