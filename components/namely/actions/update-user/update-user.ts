@@ -3,42 +3,53 @@ import dayjs from "dayjs";
 import namely from "../../app/namely.app";
 
 export default defineAction({
-  key: "namely-create-user",
+  key: "namely-update-user",
   version: "0.0.1",
-  name: "Create User",
-  description: "Creates a new user. [See docs here](https://developers.namely.com/docs/namely-api/28db3994d16fe-create-a-user)",
+  name: "Update User",
+  description: "Updates a user. [See docs here](https://developers.namely.com/docs/namely-api/2bfe77e091d74-update-a-profile)",
   type: "action",
   props: {
     namely,
+    userId: {
+      propDefinition: [
+        namely,
+        "userId",
+      ],
+    },
     firstName: {
       propDefinition: [
         namely,
         "firstName",
       ],
+      optional: true,
     },
     lastName: {
       propDefinition: [
         namely,
         "lastName",
       ],
+      optional: true,
     },
     personalEmail: {
       propDefinition: [
         namely,
         "personalEmail",
       ],
+      optional: true,
     },
     workEmail: {
       propDefinition: [
         namely,
         "workEmail",
       ],
+      optional: true,
     },
     userStatus: {
       propDefinition: [
         namely,
         "userStatus",
       ],
+      optional: true,
     },
     salaryAmount: {
       propDefinition: [
@@ -74,12 +85,13 @@ export default defineAction({
       };
     }
 
-    const response = await this.namely.createUser({
+    const response = await this.namely.updateUser({
       $,
+      userId: this.userId,
       data: body,
     });
 
-    $.export("$summary", `Successfully created user with id ${response.profiles[0].id}`);
+    $.export("$summary", `Successfully updated user with id ${response.profiles[0].id}`);
 
     return response;
   },
