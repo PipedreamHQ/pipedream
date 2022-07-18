@@ -202,9 +202,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^0.10.0
       axios: ^0.27.2
+      package-lock-only: ^0.0.4
     dependencies:
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
+      package-lock-only: 0.0.4
 
   components/blogger:
     specifiers:
@@ -15424,6 +15426,13 @@ packages:
       degenerator: 3.0.2
       ip: 1.1.8
       netmask: 2.0.2
+    dev: false
+
+  /package-lock-only/0.0.4:
+    resolution: {integrity: sha512-fV1YHeTMWH5LKmdVqfWskm2/SG0iF2IrxJn3ziaPVx9CnpecGJzt8xXtLV+CYINENZwPFMtbxO5qupz0asNz1A==}
+    requiresBuild: true
+    dependencies:
+      chalk: 2.4.2
     dev: false
 
   /packet-reader/1.0.0:
