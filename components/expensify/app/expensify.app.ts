@@ -98,6 +98,7 @@ export default defineApp({
           fileName,
           fileSystem: "integrationServer",
         },
+        responseType: "arraybuffer",
       }, $);
     },
   },

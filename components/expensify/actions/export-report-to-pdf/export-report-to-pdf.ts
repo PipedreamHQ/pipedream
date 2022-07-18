@@ -29,7 +29,7 @@ export default defineAction({
 
     const path = `/tmp/${fileName}`;
 
-    await fs.writeFileSync(path, Buffer.from(fileBuffer));
+    await fs.writeFileSync(path, fileBuffer);
 
     if (fileBuffer) {
       $.export("$summary", `Successfully exported report in ${path}`);
