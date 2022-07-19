@@ -16,17 +16,20 @@ export default {
     },
     endDate: {
       type: "string",
-      label: "Start Date",
-      description: "Start date formatted MM/DD/YYYY",
+      label: "End Date",
+      description: "End date formatted MM/DD/YYYY",
     },
   },
   methods: {
     _getUrl(path) {
       return `https://api.paytrace.com/v1${path}`;
     },
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
     _getHeaders(headers = {}) {
       return {
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this._accessToken()}`,
         "Content-Type": "application/json",
         "Accept": "application/json",
         "User-Agent": "@PipedreamHQ/pipedream v0.1",

@@ -1,8 +1,9 @@
 import paytrace from "../../paytrace.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   name: "List Transactions",
-  description: "This method can be used to export a set of credit card transaction details with a provided date range.  You can optimize your search by providing optional parameters.",
+  description: "This method can be used to export a set of credit card transaction details with a provided date range. You can optimize your search by providing optional parameters. [See docs here](https://developers.paytrace.com/support/home#14000045877)",
   key: "paytrace-list-transactions",
   version: "0.0.1",
   type: "action",
@@ -31,16 +32,7 @@ export default {
       label: "Transaction Type",
       description: "The transaction type to find transactions.",
       optional: true,
-      options: [
-        "SALE",
-        "AUTHORIZATION",
-        "STR/FWD",
-        "REFUND",
-        "VOID",
-        "SETTLED",
-        "PENDING",
-        "DECLINED",
-      ],
+      options: common.transactionTypes,
     },
     customerId: {
       type: "string",
@@ -65,13 +57,13 @@ export default {
     const response = await this.paytrace.listTransactions({
       $,
       data: {
-        startDate: this.startDate,
-        endDate: this.endDate,
-        transactionId: this.transactionId,
-        transactionType: this.transactionType,
-        customerId: this.customerId,
-        includeBin: this.includeBin,
-        includingText: this.includingText,
+        start_date: this.startDate,
+        end_date: this.endDate,
+        transaction_id: this.transactionId,
+        transaction_type: this.transactionType,
+        customer_id: this.customerId,
+        include_bin: this.includeBin,
+        including_text: this.includingText,
       },
     });
     $.export("$summary", `${response.transactions} transactions has been retrieved`);
