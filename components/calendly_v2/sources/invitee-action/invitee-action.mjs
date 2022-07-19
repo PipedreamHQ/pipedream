@@ -1,6 +1,7 @@
 import app from "../../calendly_v2.app.mjs";
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "calendly_v2-invitee-action",
@@ -17,10 +18,7 @@ export default {
       type: "string[]",
       label: "Events",
       description: "Events to listen to",
-      options: [
-        "invitee.created",
-        "invitee.canceled",
-      ],
+      options: constants.webhookEvents,
     },
   },
   methods: {
