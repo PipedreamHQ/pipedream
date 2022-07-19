@@ -10,8 +10,10 @@ export default defineApp({
       label: "User ID",
       description: "The ID of the user",
       type: "string",
-      async options() {
-        const users = await this.getUsers();
+      async options({ page }) {
+        const users = await this.getUsers({
+          page: page + 1,
+        });
 
         return users.map((user) => ({
           label: user.first_name + (user.last_name
@@ -81,8 +83,15 @@ export default defineApp({
         ...options,
       });
     },
-    async getUsers({ $ = this } = {}) {
-      const response = await this._makeRequest("profiles", {}, $);
+    async getUsers({
+      $, page, perPage,
+    }) {
+      const response = await this._makeRequest("profiles", {
+        params: {
+          page: page ?? 1,
+          per_page: perPage ?? 50,
+        },
+      }, $);
 
       return response.profiles;
     },
