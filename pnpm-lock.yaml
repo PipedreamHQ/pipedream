@@ -30,7 +30,7 @@ importers:
       '@types/node': 17.0.36
       vue: 2.6.14
     devDependencies:
-      '@pipedream/types': link:types
+      '@pipedream/types': 0.1.3
       '@tsconfig/node14': 1.0.1
       '@types/jest': 27.5.0
       '@typescript-eslint/eslint-plugin': 5.27.1_y3w3ponleabb7gvsfqc375rw6q
@@ -202,9 +202,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^0.10.0
       axios: ^0.27.2
+      package-lock-only: ^0.0.4
     dependencies:
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
+      package-lock-only: 0.0.4
 
   components/blogger:
     specifiers:
@@ -246,6 +248,9 @@ importers:
       axios: 0.21.4
 
   components/captaindata:
+    specifiers: {}
+
+  components/chaport:
     specifiers: {}
 
   components/chatbot:
@@ -385,10 +390,10 @@ importers:
       '@pipedream/types': ^0.1.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': link:../../helpers
+      '@pipedream/helpers': 1.3.12
       '@pipedream/platform': 0.10.0
     devDependencies:
-      '@pipedream/types': link:../../types
+      '@pipedream/types': 0.1.3
       '@types/node': 17.0.36
 
   components/digicert:
@@ -453,7 +458,14 @@ importers:
     specifiers: {}
 
   components/expensify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.3
+      qs: ^6.11.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      '@pipedream/types': 0.1.3
+      qs: 6.11.0
 
   components/f15five:
     specifiers: {}
@@ -567,7 +579,7 @@ importers:
       '@octokit/core': 3.6.0
       '@octokit/plugin-paginate-rest': 2.18.0_@octokit+core@3.6.0
       '@octokit/webhooks-definitions': 3.67.3
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
 
   components/gitlab:
     specifiers:
@@ -1144,7 +1156,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.0.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
 
   components/quickemailverification:
     specifiers: {}
@@ -1214,7 +1226,7 @@ importers:
       rss-parser: ^3.12.0
       string-to-stream: ^3.0.1
     dependencies:
-      '@pipedream/helpers': link:../../helpers
+      '@pipedream/helpers': 1.3.12
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
       feedparser: 2.2.10
@@ -1293,7 +1305,7 @@ importers:
       '@pipedream/platform': ^0.10.0
       '@types/node': ^17.0.36
     dependencies:
-      '@pipedream/helpers': link:../../helpers
+      '@pipedream/helpers': 1.3.12
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.36
@@ -1720,7 +1732,7 @@ importers:
       crypto: ^1.0.1
       lodash.sortby: ^4.7.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
@@ -5903,6 +5915,13 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
+  /@pipedream/helpers/1.3.12:
+    resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
+    dependencies:
+      '@pipedream/types': 0.0.5
+      lodash-es: 4.17.21
+    dev: false
+
   /@pipedream/platform/0.10.0:
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
     dependencies:
@@ -5923,11 +5942,26 @@ packages:
       - supports-color
     dev: false
 
+  /@pipedream/platform/1.1.0:
+    resolution: {integrity: sha512-aARW1ZQZgZ68Qq1134G9ZktwI5tFxh0reE1uOunn4YFv0lGGfbo55zqEf5zbtE3zkbQ9seJ/GMyEDeSrw70PcQ==}
+    dependencies:
+      axios: 0.19.2
+      fp-ts: 2.12.1
+      io-ts: 2.2.16_fp-ts@2.12.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
       typescript: 4.7.2
     dev: false
+
+  /@pipedream/types/0.1.3:
+    resolution: {integrity: sha512-pq10xiTDEDh/5q2S0lPRxnOKIcd//Ehqx/cGIKyXXS5lhIJSdE+kQZ65Wqs/Y2wlaPXWuu2StuS/Sak620obOA==}
+    dependencies:
+      typescript: 4.7.2
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -15432,6 +15466,13 @@ packages:
       netmask: 2.0.2
     dev: false
 
+  /package-lock-only/0.0.4:
+    resolution: {integrity: sha512-fV1YHeTMWH5LKmdVqfWskm2/SG0iF2IrxJn3ziaPVx9CnpecGJzt8xXtLV+CYINENZwPFMtbxO5qupz0asNz1A==}
+    requiresBuild: true
+    dependencies:
+      chalk: 2.4.2
+    dev: false
+
   /packet-reader/1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
     dev: false
@@ -16150,6 +16191,13 @@ packages:
 
   /qs/6.10.3:
     resolution: {integrity: sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
+  /qs/6.11.0:
+    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
