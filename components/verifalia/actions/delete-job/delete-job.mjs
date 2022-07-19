@@ -9,7 +9,6 @@ export default {
   type: "action",
   props: {
     verifalia,
-
     id: {
       type: "string",
       label: "Job ID",
