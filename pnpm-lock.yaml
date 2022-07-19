@@ -250,6 +250,9 @@ importers:
   components/captaindata:
     specifiers: {}
 
+  components/chaport:
+    specifiers: {}
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -764,6 +767,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/isn:
+    specifiers: {}
 
   components/jellyreach:
     specifiers: {}
@@ -1542,11 +1548,29 @@ importers:
       lodash.pickby: 4.6.0
       mime: 3.0.0
 
+  components/triggercmd:
+    specifiers: {}
+
   components/twilio:
     specifiers:
       twilio: ^3.54.2
     dependencies:
       twilio: 3.77.1
+
+  components/twitch:
+    specifiers:
+      axios: ^0.27.2
+      crypto: ^1.0.1
+      qs: ^6.10.5
+      uuid: ^8.3.2
+    dependencies:
+      axios: 0.27.2
+      crypto: 1.0.1
+      qs: 6.11.0
+      uuid: 8.3.2
+
+  components/twitch_developer_app:
+    specifiers: {}
 
   components/twitter:
     specifiers:
@@ -1585,6 +1609,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vbout:
+    specifiers: {}
+
+  components/vectera:
     specifiers: {}
 
   components/vend:
