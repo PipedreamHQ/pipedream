@@ -149,9 +149,9 @@ export default {
     this._checkHmac(t, signature, event.bodyRaw);
     this._checkReplayAttack(t);
 
-    this.$emit(event.body.payload, {
-      id: event.body.payload.uri,
-      summary: event.body.payload.name,
+    this.$emit(event.body, {
+      id: `${event.body.event}-${event.body.payload.uri}`,
+      summary: `${event.body.payload.name} - ${event.body.event}`,
       ts: Date.now(),
     });
     console.log("Event processed");
