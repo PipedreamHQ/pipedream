@@ -61,6 +61,8 @@
   "private": true,
   "dependencies": {
     "@types/node": "^17.0.36",
+    "crypto": "^1.0.1",
+    "uuid": "^8.3.2",
     "vue": "^2.6.14"
   }
 }
