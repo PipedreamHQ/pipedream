@@ -1557,6 +1557,18 @@ importers:
     dependencies:
       twilio: 3.77.1
 
+  components/twitch:
+    specifiers:
+      axios: ^0.27.2
+      crypto: ^1.0.1
+      qs: ^6.10.5
+      uuid: ^8.3.2
+    dependencies:
+      axios: 0.27.2
+      crypto: 1.0.1
+      qs: 6.11.0
+      uuid: 8.3.2
+
   components/twitch_developer_app:
     specifiers: {}
 
@@ -14768,7 +14780,6 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
-    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -16936,7 +16947,6 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
     dependencies:
       glob: 7.2.0
     dev: true
