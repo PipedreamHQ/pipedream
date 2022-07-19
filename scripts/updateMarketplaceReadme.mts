@@ -11,27 +11,23 @@ const pdClient = new GraphQLClient(
   }
 );
 
+  // This script expects the first argument to be a comma separated list of file paths.
+  // Example: `ts-node scripts/updateMarketplaceReadme.mts components/slack/README.md,components/slack/actions/add-star/README.md`
 const run = async () => {
-  // This script expects the first argument to be a comma seperated list of file paths.
-  // Example: `components/slack/README.md,components/slack/actions/add-star/README.md`
-  const fileCsv = process.argv[2];
+  const fileCsv = process.argv[2] || "";
 
-  const filePaths = fileCsv.split(",");
-
-  //   filePaths.forEach((p) => console.log(p));
+  const filePaths = fileCsv.split(",").filter(Boolean);
 
   const readmePaths = filePaths.filter(
     (p) => p.startsWith("components/") && p.endsWith("/README.md")
   );
 
   for (const readmePath of readmePaths) {
-    console.log("cwd", process.cwd());
-    console.log("readmePath", readmePath);
+    const fullPath = path.join(process.cwd(), readmePath);
 
-    const p = path.join(process.cwd(), readmePath);
+    console.log("processing file", fullPath);
 
-    console.log("processing file", p);
-    const b64 = fs.readFileSync(p).toString("base64");
+    const b64 = fs.readFileSync(fullPath).toString("base64");
 
     const pathSegments = readmePath.split("/");
 
@@ -44,7 +40,7 @@ const run = async () => {
     } else {
       // TODO handle invalid file path
       console.warn(
-        `"${readmePath}" is an invalid path. Cannot determine if this is an app or a component.`
+        `"${readmePath}" is an invalid path. Cannot determine if this is an app or a component. Skipping...`
       );
       continue;
     }
@@ -74,9 +70,9 @@ const run = async () => {
       path: readmePath
     }
 
-    const data = await pdClient.request(query, variables)
+    const response = await pdClient.request(query, variables)
 
-    console.log(JSON.stringify(data, null, 2))
+    console.log(JSON.stringify(response, null, 2))
   }
 };
 
