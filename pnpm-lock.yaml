@@ -46,7 +46,7 @@ importers:
       pnpm: 7.5.2
       putout: 26.24.0
       renamer: 4.0.0
-      ts-jest: 27.1.5_jm6546ohpm4h5jsgaz4ra4shga
+      ts-jest: 27.1.5_mqaoisgizytgigbr3gbjwvnjie
       tsc-esm-fix: 2.19.0
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
@@ -5705,7 +5705,7 @@ packages:
       '@octokit/graphql': 4.8.0
       '@octokit/request': 5.6.3
       '@octokit/request-error': 2.1.0
-      '@octokit/types': 6.40.0
+      '@octokit/types': 6.35.0
       before-after-hook: 2.2.2
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
@@ -5730,7 +5730,7 @@ packages:
   /@octokit/endpoint/6.0.12:
     resolution: {integrity: sha512-lF3puPwkQWGfkMClXb4k/eUT/nZKQfxinRWJrdZaJO85Dqwo/G0yOC434Jr2ojwafWJMYqFGFa5ms4jJUgujdA==}
     dependencies:
-      '@octokit/types': 6.40.0
+      '@octokit/types': 6.35.0
       is-plain-object: 5.0.0
       universal-user-agent: 6.0.0
     dev: true
@@ -5748,7 +5748,7 @@ packages:
     resolution: {integrity: sha512-0gv+qLSBLKF0z8TKaSKTsS39scVKF9dbMxJpj3U0vC7wjNWFuIpL/z76Qe2fiuCbDRcJSavkXsVtMS6/dtQQsg==}
     dependencies:
       '@octokit/request': 5.6.3
-      '@octokit/types': 6.40.0
+      '@octokit/types': 6.35.0
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
       - encoding
@@ -5771,7 +5771,7 @@ packages:
   /@octokit/plugin-paginate-rest/2.18.0_@octokit+core@4.0.4:
     resolution: {integrity: sha512-n5/AzIoy5Wzp85gqzSbR+dWQDHlyHZrGijnDfLh452547Ynu0hCvszH7EfRE0eqM5ZjfkplO0k+q+P8AAIIJEA==}
     peerDependencies:
-      '@octokit/core': '>=4'
+      '@octokit/core': '>=2'
     dependencies:
       '@octokit/core': 4.0.4
       '@octokit/types': 6.35.0
@@ -5780,7 +5780,7 @@ packages:
   /@octokit/request-error/2.1.0:
     resolution: {integrity: sha512-1VIvgXxs9WHSjicsRwq8PlR2LR2x6DwsJAaFgzdi0JfJoGSO8mYI/cHJQ+9FbN21aa+DrgNLnwObmyeSC8Rmpg==}
     dependencies:
-      '@octokit/types': 6.40.0
+      '@octokit/types': 6.35.0
       deprecation: 2.3.1
       once: 1.4.0
     dev: true
@@ -5799,7 +5799,7 @@ packages:
     dependencies:
       '@octokit/endpoint': 6.0.12
       '@octokit/request-error': 2.1.0
-      '@octokit/types': 6.40.0
+      '@octokit/types': 6.35.0
       is-plain-object: 5.0.0
       node-fetch: 2.6.7
       universal-user-agent: 6.0.0
@@ -5824,7 +5824,7 @@ packages:
   /@octokit/types/6.35.0:
     resolution: {integrity: sha512-DhLfdUuv3H37u6jBDfkwamypx3HflHg29b26nbA6iVFYkAlZ5cMEtu/9pQoihGnQE5M7jJFnNo25Rr1UwQNF8Q==}
     dependencies:
-      '@octokit/openapi-types': 12.10.1
+      '@octokit/openapi-types': 12.1.0
 
   /@octokit/webhooks-definitions/3.67.3:
     resolution: {integrity: sha512-do4Z1r2OVhuI0ihJhQ8Hg+yPWnBYEBNuFNCrvtPKoYT1w81jD7pBXgGe86lYuuNirkDHb0Nxt+zt4O5GiFJfgA==}
@@ -14732,7 +14732,6 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
-    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -16891,7 +16890,6 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
     dev: true
@@ -17044,7 +17042,6 @@ packages:
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
-    hasBin: true
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
@@ -18232,7 +18229,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.5_jm6546ohpm4h5jsgaz4ra4shga:
+  /ts-jest/27.1.5_mqaoisgizytgigbr3gbjwvnjie:
     resolution: {integrity: sha512-Xv6jBQPoBEvBq/5i2TeSG9tt/nqkbpcurrEG1b+2yfBrcJelOZF9Ml6dmyMh7bcW9JyFbRYpR5rxROSlBLTZHA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     peerDependencies:
@@ -18252,7 +18249,6 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@babel/core': 7.18.9
       '@types/jest': 27.5.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
