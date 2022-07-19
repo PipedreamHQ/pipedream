@@ -19,13 +19,6 @@ export default {
       ],
       optional: true,
     },
-    packageType: {
-      propDefinition: [
-        github,
-        "packageType",
-      ],
-      optional: true,
-    },
     db: "$.service.db",
     http: "$.interface.http",
   },

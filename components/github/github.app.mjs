@@ -128,7 +128,7 @@ export default {
       label: "Package type",
       description: "The type of supported package",
       type: "string",
-      async options() {
+      options() {
         return constants.PACKAGE_TYPE.map((type) => type);
       },
     },
