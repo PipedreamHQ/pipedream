@@ -7,6 +7,17 @@ export default {
     http: "$.interface.http",
   },
   hooks: {
+    async deploy() {
+      const {
+        sampleEvents, sortField,
+      } = await this.getSampleEvents();
+      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
+        ? 1
+        : -1);
+      for (const event of sampleEvents.slice(-25)) {
+        this.emitEvent(event);
+      }
+    },
     async activate() {
       const modelId = await this.getModelId();
       const { id } = await this.trello.createHook({
@@ -56,6 +67,9 @@ export default {
      */
     isRelevant() {
       return true;
+    },
+    getSampleEvents() {
+      throw new Error("getSampleEvents not implemented");
     },
   },
   async run(event) {

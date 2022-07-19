@@ -1,6 +1,5 @@
 import notion from "@notionhq/client";
 import NOTION_META from "./common/notion-meta-selection.mjs";
-import NOTION_BLOCKS from "./common/notion-blocks-selection.mjs";
 
 export default {
   type: "app",
@@ -47,19 +46,16 @@ export default {
       async options({
         parentId, parentType,
       }) {
-        const { properties } = parentType === "database"
-          ? await this.retrieveDatabase(parentId)
-          : await this.retrievePage(parentId);
-        return Object.keys(properties);
+        try {
+          const { properties } = parentType === "database"
+            ? await this.retrieveDatabase(parentId)
+            : await this.retrievePage(parentId);
+          return Object.keys(properties);
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
       },
-    },
-    blockTypes: {
-      type: "string[]",
-      label: "Block Types",
-      description: "Select the block types that will be appended as the page content",
-      options: Object.keys(NOTION_BLOCKS),
-      optional: true,
-      reloadProps: true,
     },
     archived: {
       type: "boolean",
@@ -91,6 +87,7 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
+        notionVersion: "2022-02-22",
       });
     },
     _extractDatabaseTitleOptions(databases) {

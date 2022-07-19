@@ -4,7 +4,7 @@ export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
   description: "Replace all instances of matched text in a existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDocs,
@@ -45,7 +45,7 @@ export default {
       },
     };
     await this.googleDocs.replaceText(this.docId, text);
-    $.export("summary", "Successfully replaced text in doc");
+    $.export("$summary", "Successfully replaced text in doc");
     return {
       documentId: this.docId,
     };

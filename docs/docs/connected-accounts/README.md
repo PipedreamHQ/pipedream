@@ -30,7 +30,7 @@ defineComponent({
 
 ## Supported Apps
 
-Pipedream supports [500+ apps](https://pipedream.com/apps), with more added every day.
+Pipedream supports [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps), with more added every day.
 
 If we don't support a service you need, please [request an app here](#requesting-a-new-app-or-service).
 

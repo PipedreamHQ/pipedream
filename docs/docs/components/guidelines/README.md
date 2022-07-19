@@ -36,7 +36,7 @@ components are automatically registered and immediately become available to the
 
 Components are [Node.js modules](../api/#component-structure) that run on
 Pipedream's serverless infrastructure. They may use Pipedream managed auth for
-[300+ apps](https://pipedream.com/explore) and [use most npm
+[{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) and [use most npm
 packages](../api/#using-npm-packages) with no `npm install` or `package.json`
 required. Pipedream currently supports two types of components — sources and
 actions.
@@ -110,14 +110,20 @@ run the following commands at the root of the project:
    pnpm install
    ```
 
-2. To run the linter checks against your code (assuming that your changes are
+2. To install all required dependencies:
+
+   ```shell
+   npx pnpm install -r
+   ```
+
+3. To run the linter checks against your code (assuming that your changes are
    located at `components/foo` for example):
 
    ```shell
    npx eslint components/foo
    ```
 
-3. Optionally, you can automatically fix any linter issues by running the
+4. Optionally, you can automatically fix any linter issues by running the
    following command:
 
    ```shell

@@ -3,7 +3,7 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-get-user",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Get User",
   description: "Get a specific user. Returns a single user. [See docs here](https://docs.zerotier.com/central/v1/#operation/getUserByID)",
   props: {
@@ -20,7 +20,7 @@ export default {
       $,
     });
 
-    $.export("summary", "Sucessfully retrieved user");
+    $.export("$summary", "Sucessfully retrieved user");
 
     return response;
   },

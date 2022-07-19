@@ -5,7 +5,7 @@ export default {
   key: "bitbucket-update-issue-comment",
   name: "Update Issue Comment",
   description: "Updates a existent issue comment. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-issue-tracker/#api-repositories-workspace-repo-slug-issues-issue-id-comments-comment-id-put)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...base.props,
@@ -86,7 +86,7 @@ export default {
       },
     }, $);
 
-    $.export("summary", "Successfully updated issue comment");
+    $.export("$summary", "Successfully updated issue comment");
 
     return response;
   },

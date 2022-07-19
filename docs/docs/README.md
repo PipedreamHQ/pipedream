@@ -23,7 +23,7 @@ To get started, [sign up for a free account](https://pipedream.com/auth/signup) 
 
 ![build, test,deploy](./images/getting-started5.png)
 
-One you understand the basics of workflow development, learn how to get more out of Pipedream:
+Once you understand the basics of workflow development, learn how to get more out of Pipedream:
 
 - [Use code in workflows](/code/) 
 - [Develop custom actions](/components/quickstart/nodejs/actions/) 

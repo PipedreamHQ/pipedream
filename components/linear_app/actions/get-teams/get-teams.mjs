@@ -4,7 +4,7 @@ export default {
   key: "linear_app-get-teams",
   name: "Get Teams",
   description: "Get all the teams (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     linearApp,
@@ -12,7 +12,7 @@ export default {
   async run({ $ }) {
     const { nodes: teams } = await this.linearApp.listTeams();
 
-    $.export("summary", `Found ${teams.length} teams(s)`);
+    $.export("$summary", `Found ${teams.length} teams(s)`);
 
     return teams;
   },
