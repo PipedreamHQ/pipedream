@@ -206,9 +206,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^0.10.0
       axios: ^0.27.2
+      package-lock-only: ^0.0.4
     dependencies:
       '@pipedream/platform': 0.10.0
       axios: 0.27.2
+      package-lock-only: 0.0.4
 
   components/blogger:
     specifiers:
@@ -457,7 +459,14 @@ importers:
     specifiers: {}
 
   components/expensify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.3
+      qs: ^6.11.0
+    dependencies:
+      '@pipedream/platform': link:../../platform
+      '@pipedream/types': link:../../types
+      qs: 6.11.0
 
   components/f15five:
     specifiers: {}
@@ -15435,6 +15444,13 @@ packages:
       netmask: 2.0.2
     dev: false
 
+  /package-lock-only/0.0.4:
+    resolution: {integrity: sha512-fV1YHeTMWH5LKmdVqfWskm2/SG0iF2IrxJn3ziaPVx9CnpecGJzt8xXtLV+CYINENZwPFMtbxO5qupz0asNz1A==}
+    requiresBuild: true
+    dependencies:
+      chalk: 2.4.2
+    dev: false
+
   /packet-reader/1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
     dev: false
@@ -16153,6 +16169,13 @@ packages:
 
   /qs/6.10.3:
     resolution: {integrity: sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
+  /qs/6.11.0:
+    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
