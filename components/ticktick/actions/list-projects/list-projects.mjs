@@ -4,8 +4,7 @@ export default {
   key: "ticktick-list-projects",
   name: "List Projects",
   description: "List all projects in a TickTick account",
-  //version: "0.0.1",
-  version: "0.0.29",
+  version: "0.0.1",
   type: "action",
   props: {
     ticktick,
@@ -18,6 +17,7 @@ export default {
       type: "string",
       label: "Password",
       description: "TickTick Password",
+      secret: true,
     },
   },
   async run({ $ }) {
