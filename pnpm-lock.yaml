@@ -756,6 +756,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/isn:
+    specifiers: {}
+
   components/jellyreach:
     specifiers: {}
 
@@ -1533,11 +1536,17 @@ importers:
       lodash.pickby: 4.6.0
       mime: 3.0.0
 
+  components/triggercmd:
+    specifiers: {}
+
   components/twilio:
     specifiers:
       twilio: ^3.54.2
     dependencies:
       twilio: 3.77.1
+
+  components/twitch_developer_app:
+    specifiers: {}
 
   components/twitter:
     specifiers:
@@ -1576,6 +1585,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/vbout:
+    specifiers: {}
+
+  components/vectera:
     specifiers: {}
 
   components/vend:
@@ -16875,6 +16887,7 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    hasBin: true
     dependencies:
       glob: 7.2.0
     dev: true
@@ -17027,6 +17040,7 @@ packages:
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+    hasBin: true
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
