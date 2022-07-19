@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - ts-marketplace-readme-support
 
 jobs:
   publish-components:
@@ -10,6 +11,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.0.2
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install -r --no-frozen-lockfile --fix-lockfile
+      - name: Setup Node Env
+        uses: actions/setup-node@v3.4.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
       - name: Get Changed Files
         id: files
         uses: jitterbit/get-changed-files@v1
@@ -22,11 +42,14 @@ jobs:
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
+          echo *** Added or modified
+          echo ${{ steps.files.outputs.added_modified }}
+          echo *** Renamed files
+          echo ${{ steps.files.outputs.renamed }}
+          echo ** merged lists
+          printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
+          echo *** End
           mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
-          for added_modified_file in "${added_modified_renamed_files[@]}"; do
-          # We only care about marketplace files
-          if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == */README.md ]]; then
-            echo Changed Readme file: $added_modified_file
-            FILE_PATH=$added_modified_file scripts/updateMarketplaceReadme.sh
-          fi
-          done
+
+          npx ts-node --esm scripts/updateMarketplaceReadme.mts
+
