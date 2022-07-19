@@ -45,11 +45,14 @@ export default {
       options: constants.PACKAGE_TYPE,
     };
     props.orgName = {
-      propDefinition: [
-        github,
-        "orgName",
-      ],
-      optional: true,
+      label: "Organization",
+      description: "Organization name",
+      type: "string",
+      async options() {
+        const organizations = await this.github.getOrganizations();
+
+        return organizations.map((organization) => organization.login);
+      },
     };
     // }
     return props;
