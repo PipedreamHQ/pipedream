@@ -3,7 +3,7 @@ import triggercmd from "../../triggercmd.app.mjs";
 export default {
   name: "Trigger a command",
   version: "0.0.1,
-  key: "trigger-command",
+  key: "triggercmd-trigger-command",
   description: "Runs a command on a computer. Refer to the [TRIGGERcmd Forum](https://triggercmd.com/forum) to learn more.",
   type: "action",
   props: {
