@@ -3,7 +3,7 @@ import * as fs from "fs";
 import { GraphQLClient, gql } from "graphql-request";
 
 const pdClient = new GraphQLClient(
-  "http://api.moshe.gke.pipedream.net/graphql",
+  "https://api.pipedream.com/graphql",
   {
     headers: {
       Authorization: `Bearer ${process.env.PD_API_KEY}`,

@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - master
-      - ts-marketplace-readme-support
 
 jobs:
   publish-components:
