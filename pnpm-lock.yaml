@@ -950,8 +950,9 @@ importers:
       dayjs: ^1.11.3
     dependencies:
       '@pipedream/platform': link:../../platform
-      '@pipedream/types': link:../../types
       dayjs: 1.11.3
+    devDependencies:
+      '@pipedream/types': link:../../types
 
   components/nectar_crm:
     specifiers: {}
