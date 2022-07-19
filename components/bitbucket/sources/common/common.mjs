@@ -72,6 +72,7 @@ export default {
     async deploy() {
       // Retrieve historical events
       const events = await this.loadHistoricalData();
+      console.log("events", events);
       if (events) {
         for (const event of events) {
           this.$emit(event.main, event.sub);
