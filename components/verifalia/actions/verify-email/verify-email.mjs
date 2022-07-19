@@ -1,6 +1,6 @@
 import axios from "axios";
 import verifalia from "../../verifalia.app.mjs";
-import opts from "../../common.mjs";
+import common from "../../common.mjs";
 
 import {
   CancellationToken,
@@ -30,7 +30,7 @@ export default {
       description: "The higher the quality level the longer it could take to complete the verification; by default, " +
                 "we use the configured default quality level for your Verifalia user.",
       optional: true,
-      options: opts.qualityLevelOptions,
+      options: common.qualityLevelOptions,
     },
     retention: {
       type: "string",
