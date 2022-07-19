@@ -439,6 +439,9 @@
     },
     {
       "path": "components/isn"
+    },
+    {
+      "path": "components/chaport"
     }
   ]
 }
