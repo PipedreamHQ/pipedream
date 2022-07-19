@@ -38,7 +38,7 @@ When you [create an org](#creating-an-org), you'll see that org listed in the co
 
 ## Migrating workflows from your user to your org
 
-Migrate your account's workflows, sources and connected accounts from your account to your organization by opening your [account settings](https://pipedream.com/settings/account).
+Migrate your account's resources, including workflows, sources and connected accounts to your organization by opening your [account settings](https://pipedream.com/settings/account).
 
 Under the **User Account Settings** area, open the **Transfer Ownership** dropdown and click the **Transfer your Account** button.
 
