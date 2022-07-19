@@ -46,6 +46,11 @@ export default {
       description: "(Deprecated) Please use the DELETE endpoint.",
       optional: true,
     },
+    city: {
+      type: "string",
+      description: "City of the contact.",
+      optional: true,
+    },
   },
   async run({ $ }) {
   // See the API docs: https://developers.activecampaign.com/reference#create-or-update-contact-new
