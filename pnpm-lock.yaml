@@ -254,6 +254,9 @@ importers:
   components/captaindata:
     specifiers: {}
 
+  components/chaport:
+    specifiers: {}
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
