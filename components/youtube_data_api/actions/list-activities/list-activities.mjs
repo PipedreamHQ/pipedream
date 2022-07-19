@@ -18,7 +18,7 @@ export default {
     },
   },
   async additionalProps() {
-    let dynamicProps = {};
+    const dynamicProps = {};
     if (this.useCase === "channelId") {
       dynamicProps.channelId = {
         label: "Channel Id",
@@ -26,7 +26,7 @@ export default {
         type: "string",
       };
     }
-    dynamicProps = {
+    return {
       ...dynamicProps,
       publishedAfter: {
         label: "Published After",
@@ -55,7 +55,6 @@ export default {
         optional: true,
       },
     };
-    return dynamicProps;
   },
   async run({ $ }) {
     const {

@@ -88,4 +88,14 @@ export default {
     "snippet",
     "contentDetails",
   ],
+  UPDATE_PLAYLIST_PART: [
+    "id",
+    "snippet",
+    "status",
+  ],
+  UPDATE_PLAYLIST_PRIVACY_STATUS_OPTS: [
+    "private",
+    "public",
+    "unlisted",
+  ],
 };

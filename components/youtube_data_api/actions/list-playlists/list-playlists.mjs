@@ -18,7 +18,7 @@ export default {
     },
   },
   async additionalProps() {
-    let dynamicProps = {};
+    const dynamicProps = {};
     if (this.useCase === "id") {
       dynamicProps.id = {
         label: "Id",
@@ -33,7 +33,7 @@ export default {
         type: "string",
       };
     }
-    dynamicProps = {
+    return {
       ...dynamicProps,
       part: {
         label: "Part",
@@ -71,7 +71,6 @@ export default {
         optional: true,
       },
     };
-    return dynamicProps;
   },
   async run({ $ }) {
     const {

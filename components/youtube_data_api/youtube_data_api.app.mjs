@@ -142,15 +142,26 @@ export default {
       return await youtube.activities.list(params);
     },
     /**
-   * Returns a collection of playlists results that match the parameters specified in the API
-   * request.
-   *
-   * @param {Object} params - Parameters to be fed to the YouTube API call
-   * @returns A list of playlists
-   */
+    * Returns a collection of playlists results that match the parameters specified in the API
+    * request.
+    *
+    * @param {Object} params - Parameters to be fed to the YouTube API call
+    * @returns A list of playlists
+    */
     async listPlaylists(params) {
       const youtube = await this.youtube();
       return await youtube.playlists.list(params);
+    },
+    /**
+     * Modifies a playlist. For example, you could change a playlist's title, description,
+     * or privacy status.
+     *
+     * @param {Object} params - Parameters to be fed to the YouTube API call
+     * @returns A playlist
+     */
+    async updatePlaylist(params) {
+      const youtube = await this.youtube();
+      return await youtube.playlists.update(params);
     },
     /**
      * Returns a collection of video categories mapped to pipedream's options
