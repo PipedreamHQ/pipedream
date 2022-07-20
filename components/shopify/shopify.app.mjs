@@ -766,5 +766,43 @@ export default {
         }
       }
     },
+    /**
+     * Adds tags to a resource type.
+     * @param {string} resource Type of resource to query
+     * @param {string} id Resource ID
+     * @param {string} tagString List of tags to add
+     * @returns {object} Response from Shopify GraphQL API
+     */
+    async addTags(resource, id, tagString) {
+      const gid = `gid://shopify/${resource}/${id}`;
+
+      let tags = [
+        tagString,
+      ];
+      if (tags.includes(",")) {
+        tags = tagString.split(",").map((item) => item.trim());
+      }
+
+      const query = `
+        mutation tagsAdd($gid: ID!, $tags: [String!]!) {
+          tagsAdd(id: $gid, tags: $tags) {
+            node {
+              id
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+      `;
+
+      const variables = {
+        gid,
+        tags,
+      };
+
+      return await this._makeGraphQlRequest(query, variables);
+    },
   },
 };
