@@ -405,5 +405,14 @@ export default {
 
       return response.data;
     },
+    async getDiscussionComments({
+      orgName, teamSlug, discussionNumber, data,
+    }) {
+      const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamSlug}/discussions/${discussionNumber}/comments`, {
+        ...data,
+      });
+
+      return response.data;
+    },
   },
 };

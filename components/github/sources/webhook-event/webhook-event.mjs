@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types",
   type: "source",
-  version: "0.0.18",
+  version: "0.0.19",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -75,6 +75,23 @@ export default {
         },
       };
     }
+    if (constants.DISCUSSION_PROPS.includes(this.events[0])) {
+      props.discussionNumber = {
+        label: "Discussion Number",
+        description: "Discussion number",
+        type: "string",
+        options: async () => {
+          const discussions = await this.github.getDiscussions({
+            orgName: this.orgName,
+            teamSlug: this.teamSlug,
+          });
+          return discussions.map((discussion) => ({
+            label: discussion.title,
+            value: discussion.number,
+          }));
+        },
+      };
+    }
 
     return props;
   },
@@ -93,6 +110,7 @@ export default {
           orgName: this.orgName,
           teamSlug: this.teamSlug,
           commitId: this.commit,
+          discussionNumber: this.discussionNumber,
           data: {
             per_page: 25,
             page: 1,

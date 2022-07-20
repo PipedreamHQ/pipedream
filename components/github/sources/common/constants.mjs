@@ -46,6 +46,7 @@ export default {
     {
       label: "Activity related to a comment in a discussion",
       value: "discussion_comment",
+      fnName: "getDiscussionComments",
     },
     {
       label: "A user forks a repository",
@@ -191,12 +192,17 @@ export default {
     "package",
     "team_add",
     "discussion",
+    "discussion_comment",
   ],
   TEAM_PROPS: [
     "team_add",
     "discussion",
+    "discussion_comment",
   ],
   COMMIT_PROPS: [
     "status",
+  ],
+  DISCUSSION_PROPS: [
+    "discussion_comment",
   ],
 };
