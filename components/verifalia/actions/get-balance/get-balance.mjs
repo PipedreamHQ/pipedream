@@ -5,7 +5,7 @@ export default {
   description: "Get the number of credit packs and free daily credits available to the account. " +
         "[See the docs](https://verifalia.com/developers#credits-get-balance) for more information",
   key: "verifalia-get-balance",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     verifalia,
