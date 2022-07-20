@@ -445,5 +445,14 @@ export default {
 
       return response.data;
     },
+    async getDeploymentKeys({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/keys`, {
+        ...data,
+      });
+
+      return response.data;
+    },
   },
 };

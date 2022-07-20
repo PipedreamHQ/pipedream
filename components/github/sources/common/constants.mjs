@@ -33,6 +33,7 @@ export default {
     {
       label: "A deploy key is added or removed from a repository",
       value: "deploy_key",
+      fnName: "getDeploymentKeys",
     },
     {
       label: "A deployment is created",
