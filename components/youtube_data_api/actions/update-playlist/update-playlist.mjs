@@ -4,22 +4,24 @@ import consts from "../../consts.mjs";
 export default {
   key: "youtube_data_api-update-playlist",
   name: "Update Playlist",
-  description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. If you are submitting an update request, and your request does not specify a value for a property that already has a value, the property's existing value will be deleted. [See the docs](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
-  version: "0.0.13",
+  description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. **If you are submitting an update request, and your request does not specify a value for a property that already has a value, the property's existing value will be deleted.** [See the docs](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
+  version: "0.0.1",
   type: "action",
   props: {
     youtubeDataApi,
     id: {
-      label: "Id",
-      description: "The id parameter specifies the YouTube playlist ID for the resource that will be update.",
-      type: "string",
+      propDefinition: [
+        youtubeDataApi,
+        "playlistId",
+      ],
+      optional: false,
       reloadProps: true,
     },
     onBehalfOfContentOwner: {
-      label: "On Behalf Of Content Owner",
-      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
-      type: "string",
-      optional: true,
+      propDefinition: [
+        youtubeDataApi,
+        "onBehalfOfContentOwner",
+      ],
       reloadProps: true,
     },
   },
@@ -30,23 +32,18 @@ export default {
       return dynamicProps;
     }
     dynamicProps.title = {
-      label: "Title",
-      description: "The playlist title.",
-      type: "string",
-      default: playlist.snippet.title,
+      ...youtubeDataApi.propDefinitions.title,
+      description: `The playlist's title.\n\n**Current title**: \`${playlist.snippet.title}\``,
     };
     dynamicProps.description = {
-      label: "Description",
-      description: "The playlist description.",
-      type: "string",
-      default: playlist.snippet.description,
+      ...youtubeDataApi.propDefinitions.description,
+      description: `The playlist's description.\n\n**Current title**: \`${playlist.snippet.description}\``,
     };
     dynamicProps.privacyStatus = {
       label: "Privacy Status",
-      description: "the playlist privacy status.",
+      description: `The playlist's privacy status.\n\n**Current privacy status**: \`${playlist.status.privacyStatus}\``,
       type: "string",
       options: consts.UPDATE_PLAYLIST_PRIVACY_STATUS_OPTS,
-      default: playlist.status.privacyStatus,
     };
     return dynamicProps;
   },

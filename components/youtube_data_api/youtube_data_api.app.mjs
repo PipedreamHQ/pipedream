@@ -7,6 +7,54 @@ export default {
   type: "app",
   app: "youtube_data_api",
   propDefinitions: {
+    useCase: {
+      label: "Use Case",
+      description: "Select your use case to render the next properties.",
+      type: "string",
+      reloadProps: true,
+    },
+    playlistId: {
+      label: "Playlist Id",
+      description: "The playlistId parameter specifies a unique YouTube playlist ID.",
+      type: "string",
+    },
+    channelId: {
+      label: "Channel Id",
+      description: "The channelId parameter specifies a unique YouTube channel ID.",
+      type: "string",
+    },
+    part: {
+      label: "Part",
+      description: "The part parameter specifies a comma-separated list of one or more resource properties that the API response will include.",
+      type: "string[]",
+    },
+    regionCode: {
+      label: "Region Code",
+      description: "The regionCode parameter instructs the API to return results for the specified country. The parameter value is an ISO 3166-1 alpha-2 country code. For example: US, GB, BR",
+      type: "string",
+      optional: true,
+    },
+    hl: {
+      label: "Language",
+      description: "The language parameter instructs the API to retrieve localized resource metadata for a specific application language that the YouTube website supports.",
+      type: "string",
+      optional: true,
+      async options() {
+        return await this.listI18nLanguagesOpts();
+      },
+    },
+    onBehalfOfContentOwner: {
+      label: "On Behalf Of Content Owner",
+      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
+      type: "string",
+      optional: true,
+    },
+    onBehalfOfContentOwnerChannel: {
+      label: "On Behalf Of Content Owner Channel",
+      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
+      type: "string",
+      optional: true,
+    },
     maxResults: {
       type: "integer",
       label: "Maximum Results",

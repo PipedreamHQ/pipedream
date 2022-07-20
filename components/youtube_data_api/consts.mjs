@@ -69,9 +69,15 @@ export default {
     },
   ],
   LIST_CHANNEL_STATISTICS_PART: [
+    "brandingSettings",
+    "contentDetails",
+    "contentOwnerDetails",
     "id",
+    "localizations",
     "snippet",
     "statistics",
+    "status",
+    "topicDetails",
   ],
   LIST_ACTIVITIES_USE_CASES: [
     {

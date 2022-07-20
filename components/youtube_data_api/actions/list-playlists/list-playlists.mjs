@@ -10,65 +10,45 @@ export default {
   props: {
     youtubeDataApi,
     useCase: {
-      label: "Use Case",
-      description: "Select your use case to render the next properties.",
-      type: "string",
+      propDefinition: [
+        youtubeDataApi,
+        "useCase",
+      ],
       options: consts.LIST_PLAYLISTS_USE_CASE,
-      reloadProps: true,
     },
   },
   async additionalProps() {
     const dynamicProps = {};
     if (this.useCase === "id") {
       dynamicProps.id = {
-        label: "Id",
-        description: "The id parameter specifies a comma-separated list of the YouTube playlist ID(s) for the resource(s) that are being retrieved. In a playlist resource, the id property specifies the playlist's YouTube playlist ID.",
-        type: "string[]",
+        ...youtubeDataApi.propDefinitions.playlistId,
       };
     }
     else if (this.useCase === "channelId") {
       dynamicProps.channelId = {
-        label: "Channel Id",
-        description: "This value indicates that the API should only return the specified channel's playlists.",
-        type: "string",
+        ...youtubeDataApi.propDefinitions.channelId,
       };
     }
     return {
       ...dynamicProps,
       part: {
-        label: "Part",
-        description: "The part parameter specifies a comma-separated list of one or more video resource properties that the API response will include.",
-        type: "string[]",
+        ...youtubeDataApi.propDefinitions.part,
         options: consts.LIST_PLAYLISTS_PART_OPTS,
       },
       hl: {
-        label: "HL",
-        description: "The hl parameter instructs the API to retrieve localized resource metadata for a specific application language that the YouTube website supports. The parameter value must be a language code included in the list returned by the i18nLanguages.list method.",
-        type: "string",
-        optional: true,
+        ...youtubeDataApi.propDefinitions.hl,
         options: async () => {
           return await this.youtubeDataApi.listI18nLanguagesOpts();
         },
       },
       maxResults: {
-        label: "Max Results",
-        description: "The maxResults parameter specifies the maximum number of items that should be returned in the result set.",
-        type: "integer",
-        min: 1,
-        max: 50,
-        optional: true,
+        ...youtubeDataApi.propDefinitions.maxResults,
       },
       onBehalfOfContentOwner: {
-        label: "On Behalf Of Content Owner",
-        description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
-        type: "string",
-        optional: true,
+        ...youtubeDataApi.propDefinitions.onBehalfOfContentOwner,
       },
       onBehalfOfContentOwnerChannel: {
-        label: "On Behalf Of Content Owner Channel",
-        description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
-        type: "string",
-        optional: true,
+        ...youtubeDataApi.propDefinitions.onBehalfOfContentOwnerChannel,
       },
     };
   },
