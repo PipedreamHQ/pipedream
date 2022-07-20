@@ -363,5 +363,13 @@ export default {
 
       return response.data;
     },
+    async getStargazers({
+      repoFullname,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, data);
+
+      return response.data;
+    },
   },
 };

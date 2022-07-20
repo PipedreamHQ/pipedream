@@ -161,6 +161,7 @@ export default {
     {
       label: "When someone stars a repository",
       value: "watch",
+      fnName: "getStargazers",
     },
     {
       label: "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",

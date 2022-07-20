@@ -70,9 +70,6 @@ export default {
       const func = constants
         .REPOSITORY_WEBHOOK_EVENTS
         .find((item) => this.events[0] === item.value);
-      const teams = await this.github.getTeams();
-      console.log("teams", teams);
-      console.log("this.orgName", this.orgName);
       if (func?.fnName) {
         const data = await this["github"][func.fnName]({
           repoFullname: this.repoFullname,
