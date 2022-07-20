@@ -102,10 +102,12 @@ export default {
     {
       label: "Activity related to project cards",
       value: "project_card",
+      fnName: "getProjectCards",
     },
     {
       label: "Activity related to columns in a project board",
       value: "project_column",
+      fnName: "getProjectColumns",
     },
     {
       label: "When a private repository is made public",
@@ -204,5 +206,12 @@ export default {
   ],
   DISCUSSION_PROPS: [
     "discussion_comment",
+  ],
+  PROJECT_PROPS: [
+    "project_card",
+    "project_column",
+  ],
+  PROJECT_COLUMN_PROPS: [
+    "project_card",
   ],
 };

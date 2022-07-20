@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types",
   type: "source",
-  version: "0.0.19",
+  version: "0.0.25",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -77,7 +77,7 @@ export default {
     }
     if (constants.DISCUSSION_PROPS.includes(this.events[0])) {
       props.discussionNumber = {
-        label: "Discussion Number",
+        label: "Discussion number",
         description: "Discussion number",
         type: "string",
         options: async () => {
@@ -92,7 +92,39 @@ export default {
         },
       };
     }
+    if (constants.PROJECT_PROPS.includes(this.events[0])) {
+      props.project = {
+        label: "Project",
+        description: "The project in a repository",
+        type: "integer",
+        options: async () => {
+          const projects = await this.github.getRepositoryProjects({
+            repoFullname: this.repoFullname,
+          });
 
+          return projects.map((project) => ({
+            label: project.name,
+            value: project.id,
+          }));
+        },
+      };
+    }
+    if (constants.PROJECT_COLUMN_PROPS.includes(this.events[0])) {
+      props.column = {
+        label: "Column",
+        description: "The column in a project board",
+        type: "integer",
+        options: async () => {
+          const columns = await this.github.getProjectColumns({
+            project: this.project,
+          });
+          return columns.map((column) => ({
+            label: column.name,
+            value: column.id,
+          }));
+        },
+      };
+    }
     return props;
   },
   methods: {
@@ -104,6 +136,7 @@ export default {
       const func = constants
         .REPOSITORY_WEBHOOK_EVENTS
         .find((item) => this.events[0] === item.value);
+
       if (func?.fnName) {
         const data = await this["github"][func.fnName]({
           repoFullname: this.repoFullname,
@@ -111,6 +144,8 @@ export default {
           teamSlug: this.teamSlug,
           commitId: this.commit,
           discussionNumber: this.discussionNumber,
+          column: this.column,
+          project: this.project,
           data: {
             per_page: 25,
             page: 1,

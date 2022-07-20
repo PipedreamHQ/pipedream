@@ -193,8 +193,12 @@ export default {
     async getRepositoryProjects({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
     },
-    async getProjectColumns({ project }) {
-      return this._client().paginate(`GET /projects/${project}/columns`, {});
+    async getProjectColumns({
+      project, data,
+    }) {
+      return this._client().paginate(`GET /projects/${project}/columns`, {
+        ...data,
+      });
     },
     async getGists() {
       return this._client().paginate("GET /gists", {});
@@ -409,6 +413,15 @@ export default {
       orgName, teamSlug, discussionNumber, data,
     }) {
       const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamSlug}/discussions/${discussionNumber}/comments`, {
+        ...data,
+      });
+
+      return response.data;
+    },
+    async getProjectCards({
+      column, data,
+    }) {
+      const response = await this._client().request(`GET /projects/columns/${column}/cards`, {
         ...data,
       });
 
