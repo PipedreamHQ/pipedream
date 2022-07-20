@@ -32,9 +32,8 @@ export default defineApp({
       return axios($, {
         ...options,
         url: `${this._apiUrl()}/${path}`,
-        params: {
-          ...options?.params,
-          api_token: this._apiToken(),
+        headers: {
+          "Access-Token": this._apiToken(),
         },
       });
     },
