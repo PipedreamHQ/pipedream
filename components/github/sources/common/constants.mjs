@@ -153,6 +153,7 @@ export default {
     {
       label: "When the status of a Git commit changes",
       value: "status",
+      fnName: "getCommitStatuses",
     },
     {
       label: "When a repository is added to a team",
@@ -191,5 +192,8 @@ export default {
   ],
   TEAM_PROPS: [
     "team_add",
+  ],
+  COMMIT_PROPS: [
+    "status",
   ],
 };

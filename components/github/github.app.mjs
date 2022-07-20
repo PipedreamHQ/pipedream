@@ -288,7 +288,9 @@ export default {
       repoFullname,
       data,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/commits`, data);
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits`, {
+        ...data,
+      });
 
       return response.data;
     },
@@ -375,7 +377,20 @@ export default {
       repoFullname,
       data,
     }) {
-      const response = await this._client().request(`GET /repos/${repoFullname}/subscribers`, data);
+      const response = await this._client().request(`GET /repos/${repoFullname}/subscribers`, {
+        ...data,
+      });
+
+      return response.data;
+    },
+    async getCommitStatuses({
+      repoFullname,
+      commitId,
+      data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${commitId}/statuses`, {
+        ...data,
+      });
 
       return response.data;
     },

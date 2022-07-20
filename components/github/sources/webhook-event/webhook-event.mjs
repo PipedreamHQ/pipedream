@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types",
   type: "source",
-  version: "0.0.13",
+  version: "0.0.16",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -46,7 +46,7 @@ export default {
       };
     }
     if (constants.TEAM_PROPS.includes(this.events[0])) {
-      props.teams = {
+      props.team = {
         label: "Teams",
         description: "Lists all teams in an organization that are visible to the authenticated user",
         type: "string",
@@ -59,6 +59,23 @@ export default {
         },
       };
     }
+    if (constants.COMMIT_PROPS.includes(this.events[0])) {
+      props.commit = {
+        label: "Commit ID",
+        description: "Commit ID",
+        type: "string",
+        options: async () => {
+          const commits = await this.github.getCommits({
+            repoFullname: this.repoFullname,
+          });
+          return commits.map((commit) => ({
+            label: commit.commit.message,
+            value: commit.sha,
+          }));
+        },
+      };
+    }
+
     return props;
   },
   methods: {
@@ -75,6 +92,7 @@ export default {
           repoFullname: this.repoFullname,
           orgName: this.orgName,
           teamId: this.team,
+          commitId: this.commit,
           data: {
             per_page: 25,
             page: 1,
