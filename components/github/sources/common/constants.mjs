@@ -37,6 +37,7 @@ export default {
     {
       label: "A deployment is created",
       value: "deployment_status",
+      fnName: "getDeployments",
     },
     {
       label: "Activity related to a discussion",
