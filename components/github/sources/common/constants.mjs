@@ -51,6 +51,7 @@ export default {
     {
       label: "A user forks a repository",
       value: "fork",
+      fnName: "getForks",
     },
     {
       label: "A wiki page is created or updated",

@@ -427,5 +427,14 @@ export default {
 
       return response.data;
     },
+    async getForks({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/forks`, {
+        ...data,
+      });
+
+      return response.data;
+    },
   },
 };
