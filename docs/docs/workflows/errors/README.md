@@ -36,7 +36,7 @@ Pipedream exposes a global stream of all errors, raised from all workflows. You 
 
 Watch this video to learn more, or check out the step-by-step docs below.
 
-<VideoPlayer src="https://www.youtube.com/watch?v=7qVLEys_swg" title="Sending Pipedream workflow errors to Cloudwatch"/>
+<VideoPlayer src="https://www.youtube.com/embed/7qVLEys_swg" title="Sending Pipedream workflow errors to Cloudwatch"/>
 
 <br />
 
