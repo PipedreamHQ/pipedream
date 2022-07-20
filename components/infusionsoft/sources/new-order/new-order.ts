@@ -1,7 +1,8 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineSource, SourceHttpRunOptions } from "@pipedream/types";
 import { createHookParams, getContactParams } from "../../types/requestParams";
-import { hook, contact } from "../../types/responseSchemas";
+import { hook } from "../../types/responseSchemas";
+import { hookNewObject } from "../../types/common";
 
 export default defineSource({
   name: "New Order",
@@ -26,14 +27,16 @@ export default defineSource({
   },
   methods: {
     getHookType(): string {
-      return "contact.add";
+      return "order.add";
     },
     getHookSecretName(): string {
       return "x-hook-secret";
     },
-    async getObjectInfo(contactId: number): Promise<contact> {
+    async getObjectInfo(contactId: number): Promise<hookNewObject> {
       const params: getContactParams = { contactId };
-      return this.infusionsoft.getContact(params);
+      const info = await this.infusionsoft.getContact(params);
+      const summary = info.given_name;
+      return { info, summary };
     },
   },
   hooks: {
@@ -85,11 +88,11 @@ export default defineSource({
       const promises: Promise<void>[] = objectKeys.map(
         async ({ id, timestamp }: webhookObject) =>
           new Promise(async (resolve) => {
-            const info: contact = await this.getObjectInfo(id);
+            const { info, summary } = await this.getObjectInfo(id);
 
             this.$emit(info, {
               id,
-              summary: `New Contact: ${info.given_name}`,
+              summary,
               ts: new Date(timestamp).valueOf(),
             });
 
