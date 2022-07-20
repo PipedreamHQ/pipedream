@@ -156,6 +156,7 @@ export default {
     {
       label: "When a repository is added to a team",
       value: "team_add",
+      fnName: "getTeamRepositories",
     },
     {
       label: "When someone stars a repository",
@@ -178,5 +179,15 @@ export default {
     "docker",
     "nuget",
     "container",
+  ],
+  PACKAGE_TYPE_PROPS: [
+    "package",
+  ],
+  ORG_NAME_PROPS: [
+    "package",
+    "team_add",
+  ],
+  TEAM_PROPS: [
+    "team_add",
   ],
 };

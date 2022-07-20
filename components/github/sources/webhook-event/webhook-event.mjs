@@ -1,6 +1,5 @@
 import common from "../common/common-webhook.mjs";
 import constants from "../common/constants.mjs";
-import github from "../../github.app.mjs";
 
 export default {
   ...common,
@@ -8,19 +7,10 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.13",
   dedupe: "unique",
   props: {
     ...common.props,
-    repoFullname: {
-      label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
-      type: "string",
-      propDefinition: [
-        github,
-        "repoFullname",
-      ],
-    },
     events: {
       label: "Webhook Events",
       description: "The event will be emitted",
@@ -35,26 +25,40 @@ export default {
     },
   },
   async additionalProps() {
-    console.log("additionalProps loaded", this.events[0]);
     const props = {};
-    // if (this.events[0] === "package") {
-    props.packageType = {
-      label: "Package type",
-      description: "The type of supported package",
-      type: "string",
-      options: constants.PACKAGE_TYPE,
-    };
-    props.orgName = {
-      label: "Organization",
-      description: "Organization name",
-      type: "string",
-      async options() {
-        const organizations = await this.github.getOrganizations();
-
-        return organizations.map((organization) => organization.login);
-      },
-    };
-    // }
+    if (constants.PACKAGE_TYPE_PROPS.includes(this.events[0])) {
+      props.packageType = {
+        label: "Package type",
+        description: "The type of supported package",
+        type: "string",
+        options: constants.PACKAGE_TYPE,
+      };
+    }
+    if (constants.ORG_NAME_PROPS.includes(this.events[0])) {
+      props.orgName = {
+        label: "Organization",
+        description: "Organization name",
+        type: "string",
+        options: async () => {
+          const organizations = await this.github.getOrganizations();
+          return organizations.map((organization) => organization.login);
+        },
+      };
+    }
+    if (constants.TEAM_PROPS.includes(this.events[0])) {
+      props.teams = {
+        label: "Teams",
+        description: "Lists all teams in an organization that are visible to the authenticated user",
+        type: "string",
+        options: async () => {
+          const teams = await this.github.getTeams();
+          return teams.map((team) => ({
+            label: team.name,
+            value: team.id,
+          }));
+        },
+      };
+    }
     return props;
   },
   methods: {
@@ -66,11 +70,14 @@ export default {
       const func = constants
         .REPOSITORY_WEBHOOK_EVENTS
         .find((item) => this.events[0] === item.value);
+      const teams = await this.github.getTeams();
+      console.log("teams", teams);
       console.log("this.orgName", this.orgName);
       if (func?.fnName) {
         const data = await this["github"][func.fnName]({
           repoFullname: this.repoFullname,
           orgName: this.orgName,
+          teamId: this.team,
           data: {
             per_page: 25,
             page: 1,

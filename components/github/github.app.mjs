@@ -128,9 +128,7 @@ export default {
       label: "Package type",
       description: "The type of supported package",
       type: "string",
-      options() {
-        return constants.PACKAGE_TYPE.map((type) => type);
-      },
+      options: constants.PACKAGE_TYPE,
     },
   },
   methods: {
@@ -158,7 +156,7 @@ export default {
       return this._client().request(`DELETE /webhooks/${repoFullname}/hooks/${webhookId}`, {});
     },
     async getOrganizations() {
-      const response = await this._client().request("GET /organizations", {});
+      const response = await this._client().request("GET /user/orgs", {});
 
       return response.data;
     },
@@ -294,8 +292,12 @@ export default {
 
       return response.data;
     },
-    async getBranches({ repoFullname }) {
-      const branches = await this._client().request(`GET /repos/${repoFullname}/branches`, {});
+    async getBranches({
+      repoFullname, data,
+    }) {
+      const branches = await this._client().request(`GET /repos/${repoFullname}/branches`, {
+        ...data,
+      });
       return branches.data;
     },
     async getCommitComments({
@@ -351,6 +353,13 @@ export default {
       repoFullname, pullNumber,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
+
+      return response.data;
+    },
+    async getTeamRepositories({
+      orgName, teamId,
+    }) {
+      const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamId}/repos`, {});
 
       return response.data;
     },
