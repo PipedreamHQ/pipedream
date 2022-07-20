@@ -6,7 +6,7 @@ export default {
   key: "airtable-get-record-or-create",
   name: "Get Record or Create",
   description: "Get a record from a table by record ID or create a new register.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

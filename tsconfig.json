@@ -439,6 +439,12 @@
     },
     {
       "path": "components/isn"
+    },
+    {
+      "path": "components/chaport"
+    },
+    {
+      "path": "components/dots_"
     }
   ]
 }
