@@ -5,7 +5,7 @@ export default {
   description: "Delete a previously submitted email verification job. " +
         "[See the docs](https://verifalia.com/developers#email-validations-deleting) for more information",
   key: "verifalia-delete-job",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     verifalia,
