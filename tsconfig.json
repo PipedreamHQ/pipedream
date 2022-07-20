@@ -445,6 +445,9 @@
     },
     {
       "path": "components/dots_"
+    },
+    {
+      "path": "components/exact"
     }
   ]
 }
