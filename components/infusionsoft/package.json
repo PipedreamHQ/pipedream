@@ -17,7 +17,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.1.0"
+    "@pipedream/types": "^0.1.4"
   },
   "dependencies": {
     "axios": "^0.27.2"
