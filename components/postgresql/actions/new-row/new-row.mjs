@@ -4,7 +4,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     postgresql,
@@ -40,7 +40,10 @@ export default {
       $.export("$summary", "New row inserted");
       return res;
     } catch (error) {
-      $.export("$summary", `New row not inserted due to an error. ${error}`);
+      throw new Error(`
+        New row not inserted due to an error. ${error}.
+        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
+      `);
     }
   },
 };
