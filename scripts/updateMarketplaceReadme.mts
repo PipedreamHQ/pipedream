@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { GraphQLClient, gql } from "graphql-request";
 
 const pdClient = new GraphQLClient(
