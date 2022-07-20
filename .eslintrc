@@ -7,7 +7,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:jsonc/recommended-with-jsonc",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:jest/recommended"
   ],
   "ignorePatterns": ["scripts"],
   "overrides": [
@@ -80,6 +80,9 @@
         "*.ts",
         "*.mts"
       ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ],
       "parser": "@typescript-eslint/parser",
       "rules": {
         "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -103,7 +106,7 @@
                 "delimiter": "semi",
                 "requireLast": true
               }
-            } 
+            }
           }
         }]
       }
@@ -117,7 +120,8 @@
     "jsonc",
     "putout",
     "pipedream",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "jest"
   ],
   "root": true,
   "rules": {

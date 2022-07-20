@@ -223,5 +223,22 @@ export default {
         }
       } while (hasNextPage);
     },
+    isActionSet(body, actions) {
+      if (!actions.includes(body?.action)) {
+        return false;
+      }
+      return true;
+    },
+    async isProjectIdSet(body, projectId) {
+      if (projectId) {
+        if (!body.data?.projectId) {
+          const issue = body.data?.issue?.id && await this.getIssue(body.data?.issue?.id);
+          return issue?._project?.id === projectId;
+        } else {
+          return body.data.projectId === projectId;
+        }
+      }
+      return true;
+    },
   },
 };

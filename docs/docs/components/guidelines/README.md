@@ -110,14 +110,20 @@ run the following commands at the root of the project:
    pnpm install
    ```
 
-2. To run the linter checks against your code (assuming that your changes are
+2. To install all required dependencies:
+
+   ```shell
+   npx pnpm install -r
+   ```
+
+3. To run the linter checks against your code (assuming that your changes are
    located at `components/foo` for example):
 
    ```shell
    npx eslint components/foo
    ```
 
-3. Optionally, you can automatically fix any linter issues by running the
+4. Optionally, you can automatically fix any linter issues by running the
    following command:
 
    ```shell
