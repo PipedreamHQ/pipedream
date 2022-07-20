@@ -433,6 +433,18 @@
     },
     {
       "path": "components/vectera"
+    },
+    {
+      "path": "components/triggercmd"
+    },
+    {
+      "path": "components/isn"
+    },
+    {
+      "path": "components/chaport"
+    },
+    {
+      "path": "components/dots_"
     }
   ]
 }
