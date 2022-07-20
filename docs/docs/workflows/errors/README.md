@@ -28,7 +28,7 @@ For example, if your workflow throws a `TypeError`, we'll send you an email, but
 
 ## Test mode vs. live mode
 
-When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails nor forward them to [error listeners](#process-errors-with-custom-logic-instead-of-email-using-the-errors-stream). Error notifications are only sent when a deployed workflow encounters an error on a live event.
+When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails, nor are they forwarded to [error listeners](#process-errors-with-custom-logic-instead-of-email). Error notifications are only sent when a deployed workflow encounters an error on a live event.
 
 ## Process errors with custom logic, instead of email
 
