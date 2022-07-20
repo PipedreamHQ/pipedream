@@ -148,6 +148,7 @@ export default {
     {
       label: "Activity related to a repository being starred",
       value: "star",
+      fnName: "getStargazers",
     },
     {
       label: "When the status of a Git commit changes",
@@ -161,7 +162,7 @@ export default {
     {
       label: "When someone stars a repository",
       value: "watch",
-      fnName: "getStargazers",
+      fnName: "getWatchers",
     },
     {
       label: "A GitHub Actions workflow job has been queued, is in progress, or has been completed on a repository",
