@@ -1,4 +1,5 @@
 import zoom from "../../zoom.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "zoom-recording-completed",
@@ -8,7 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    zoom,
+    ...common.props,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
@@ -60,6 +61,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     isMeetingRelevant(meeting) {
       const {
         id, recording_files,
