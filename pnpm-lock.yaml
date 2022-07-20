@@ -30,7 +30,7 @@ importers:
       '@types/node': 17.0.36
       vue: 2.6.14
     devDependencies:
-      '@pipedream/types': link:types
+      '@pipedream/types': 0.1.4
       '@tsconfig/node14': 1.0.1
       '@types/jest': 27.5.0
       '@typescript-eslint/eslint-plugin': 5.27.1_y3w3ponleabb7gvsfqc375rw6q
@@ -390,7 +390,7 @@ importers:
       '@pipedream/helpers': link:../../helpers
       '@pipedream/platform': 0.10.0
     devDependencies:
-      '@pipedream/types': link:../../types
+      '@pipedream/types': 0.1.4
       '@types/node': 17.0.36
 
   components/digicert:
@@ -461,7 +461,7 @@ importers:
       qs: ^6.11.0
     dependencies:
       '@pipedream/platform': link:../../platform
-      '@pipedream/types': link:../../types
+      '@pipedream/types': 0.1.4
       qs: 6.11.0
 
   components/f15five:
@@ -5937,6 +5937,11 @@ packages:
     dependencies:
       typescript: 4.7.2
     dev: false
+
+  /@pipedream/types/0.1.4:
+    resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
+    dependencies:
+      typescript: 4.7.2
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
