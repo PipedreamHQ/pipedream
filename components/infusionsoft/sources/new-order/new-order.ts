@@ -1,14 +1,14 @@
 import infusionsoft from "../../app/infusionsoft.app";
-import { defineSource } from "@pipedream/types";
-import { createHookParams } from "../../types/requestParams";
-import { hook } from "../../types/responseSchemas";
+import { defineSource, SourceHttpRunOptions } from "@pipedream/types";
+import { createHookParams, getContactParams } from "../../types/requestParams";
+import { hook, contact } from "../../types/responseSchemas";
 
 export default defineSource({
   name: "New Order",
   description:
     "Emit new event for every new order [See docs here](https://developer.infusionsoft.com/docs/rest/#tag/REST-Hooks)",
   key: "infusionsoft-new-order",
-  version: "0.0.7",
+  version: "0.0.1",
   type: "source",
   props: {
     infusionsoft,
@@ -26,7 +26,14 @@ export default defineSource({
   },
   methods: {
     getHookType(): string {
-      return "order.add";
+      return "contact.add";
+    },
+    getHookSecretName(): string {
+      return "x-hook-secret";
+    },
+    async getObjectInfo(contactId: number): Promise<contact> {
+      const params: getContactParams = { contactId };
+      return this.infusionsoft.getContact(params);
     },
   },
   hooks: {
@@ -46,23 +53,51 @@ export default defineSource({
       await this.infusionsoft.deleteHook({ key });
     },
   },
-  async run(data) {
-    this.http.respond({
-      status: 200,
-      body: data
-    });
+  async run(data: SourceHttpRunOptions) {
+    const hookSecretName = this.getHookSecretName();
+    const hookSecret = data.headers[hookSecretName];
 
-    console.log("--- start data ---");
-    console.log(data);
-    console.log("--- end data ---");
+    // If this is a hook verification request:
+    // Respond with the received secret, but do not trigger an event
+    if (hookSecret && data.method === "POST") {
+      this.http.respond({
+        status: 200,
+        headers: {
+          [hookSecretName]: hookSecret,
+        },
+      });
+    }
 
-    this.$emit(
-      data.event || { message: 'NO DATA' },
-      {
-        id: 1,
-        summary: "test-summary",
-        ts: Date.now(),
-      }
-    );
+    // Otherwise, this is an actual event
+    else {
+      this.http.respond({
+        status: 200,
+      });
+
+      type webhookObject = {
+        id: number;
+        timestamp: string;
+      };
+
+      const objectKeys = data.body.object_keys;
+      if (!(objectKeys instanceof Array)) return;
+
+      const promises: Promise<void>[] = objectKeys.map(
+        async ({ id, timestamp }: webhookObject) =>
+          new Promise(async (resolve) => {
+            const info: contact = await this.getObjectInfo(id);
+
+            this.$emit(info, {
+              id,
+              summary: `New Contact: ${info.given_name}`,
+              ts: new Date(timestamp).valueOf(),
+            });
+
+            resolve();
+          })
+      );
+
+      await Promise.allSettled(promises);
+    }
   },
 });
