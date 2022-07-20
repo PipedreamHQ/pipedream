@@ -6,14 +6,19 @@ export default {
   key: "gorgias-ticket-updated",
   name: "New Updated Ticket",
   description: "Emit new event when a ticket is updated. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "source",
   methods: {
     ...base.methods,
-    getEventTypes() {
-      return {
-        types: eventTypes.TICKET_UPDATED,
-      };
+    getEventType() {
+      return eventTypes.TICKET_UPDATED;
+    },
+    async processHistoricalEvent(event) {
+      const ticket = await this.retrieveTicket(event.object_id);
+      this.emitEvent(ticket);
+    },
+    async processEvent(event) {
+      this.emitEvent(event.ticket);
     },
   },
 };

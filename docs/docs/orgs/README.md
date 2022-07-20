@@ -38,7 +38,21 @@ When you [create an org](#creating-an-org), you'll see that org listed in the co
 
 ## Migrating workflows from your user to your org
 
-If you are running resources in your user account, but want to move those to your organization, [reach out to the Pipedream team](https://pipedream.com/support).
+Migrate your account's resources, including workflows, sources and connected accounts to your organization by opening your [Account settings](https://pipedream.com/settings/account).
+
+Under the **User Account Settings** area, open the **Transfer Ownership** dropdown and click the **Transfer your Account** button.
+
+![Finding the resource migration tool](https://res.cloudinary.com/pipedreamin/image/upload/v1658170705/docs/components/CleanShot_2022-07-18_at_14.57.15_2x_nrxj6w.png)
+
+You'll be prompted to choose the organization you'd like to transfer your account's resources to.
+
+_All_ of your accounts resources, including workflows, sources and connected accounts will be transfered to the organization. It's not possible to migrate a specific workflow, source or connected account.
+
+If you don't see the organization you expect in the transfer menu, confirm that your Pipedream account is a member of the organization with your organization admin.
+
+::: tip
+Only members of an organization can transfer their account's workflows to the organization.
+:::
 
 ## Org admins
 
