@@ -7,7 +7,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types",
   type: "source",
-  version: "0.0.16",
+  version: "0.0.18",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -46,7 +46,7 @@ export default {
       };
     }
     if (constants.TEAM_PROPS.includes(this.events[0])) {
-      props.team = {
+      props.teamSlug = {
         label: "Teams",
         description: "Lists all teams in an organization that are visible to the authenticated user",
         type: "string",
@@ -54,7 +54,7 @@ export default {
           const teams = await this.github.getTeams();
           return teams.map((team) => ({
             label: team.name,
-            value: team.id,
+            value: team.slug,
           }));
         },
       };
@@ -91,7 +91,7 @@ export default {
         const data = await this["github"][func.fnName]({
           repoFullname: this.repoFullname,
           orgName: this.orgName,
-          teamId: this.team,
+          teamSlug: this.teamSlug,
           commitId: this.commit,
           data: {
             per_page: 25,

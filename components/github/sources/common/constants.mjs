@@ -41,6 +41,7 @@ export default {
     {
       label: "Activity related to a discussion",
       value: "discussion",
+      fnName: "getDiscussions",
     },
     {
       label: "Activity related to a comment in a discussion",
@@ -189,9 +190,11 @@ export default {
   ORG_NAME_PROPS: [
     "package",
     "team_add",
+    "discussion",
   ],
   TEAM_PROPS: [
     "team_add",
+    "discussion",
   ],
   COMMIT_PROPS: [
     "status",

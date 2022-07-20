@@ -359,9 +359,11 @@ export default {
       return response.data;
     },
     async getTeamRepositories({
-      orgName, teamId,
+      orgName, teamSlug, data,
     }) {
-      const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamId}/repos`, {});
+      const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamSlug}/repos`, {
+        ...data,
+      });
 
       return response.data;
     },
@@ -389,6 +391,15 @@ export default {
       data,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/commits/${commitId}/statuses`, {
+        ...data,
+      });
+
+      return response.data;
+    },
+    async getDiscussions({
+      orgName, teamSlug, data,
+    }) {
+      const response = await this._client().request(`GET /orgs/${orgName}/teams/${teamSlug}/discussions`, {
         ...data,
       });
 
