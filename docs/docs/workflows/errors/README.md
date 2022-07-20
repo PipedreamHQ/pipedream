@@ -32,7 +32,34 @@ When you're editing and testing your workflow, any unhandled errors will **not**
 
 ## Process errors with custom logic, instead of email
 
-### Duplicate errors _do_ trigger duplicate error events
+Pipedream exposes a global stream of all errors, raised from all workflows. You can subscribe to this stream, triggering a workflow on every event. This lets you handle errors in a custom way. Instead of sending all errors to email, you can send them to Slack, Discord, AWS, or any other service, and handle them in any custom way.
+
+Watch this video to learn more, or check out the step-by-step docs below.
+
+<VideoPlayer src="https://www.youtube.com/watch?v=7qVLEys_swg" title="Sending Pipedream workflow errors to Cloudwatch"/>
+
+<br />
+
+1. [Create a new workflow](https://pipedream.com/@/new/build?v=2). You do not need to add a trigger, since the workflow will be triggered on errors, which we'll configure next.
+2. Create a subscription with the following configuration:
+
+- `emitter_id`: your org ID, found in your [Account Settings](https://pipedream.com/settings/account).
+- `listener_id`: The [workflow ID](/troubleshooting/#where-do-i-find-my-workflow-s-id) from step #1
+- `event_name`: `$errors`
+
+For example, you can make this request with your Pipedream API key using `cURL`:
+
+```bash
+curl -X POST \
+  'https://api.pipedream.com/v1/subscriptions?emitter_id=o_abc123&event_name=$errors&listener_id=p_abc123' \
+  -H "Authorization: Bearer <api_key>"
+```
+
+3. Generate an error in a live version of any workflow (errors raised while you're testing your workflow [do not send errors to the `$errors` stream](#test-mode-vs-live-mode)). You should see this error trigger the workflow in step #1. From there, you can build any logic you want to handle errors across workflows.
+
+### Duplicate errors _do_ trigger duplicate error events on custom workflows
+
+Unlike [the default system emails](#duplicate-errors-do-not-trigger-duplicate-emails), duplicate errors are sent to any workflow listening to the `$errors` stream.
 
 ## Handle errors for one workflow using custom logic
 
@@ -40,9 +67,9 @@ Every time a workflow throws an error, it emits an event to the `$errors` stream
 
 Let's walk through an end-to-end example:
 
-1. Pick the workflow whose errors you'd like to manage and note its workflow ID. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_abc123` in `https://pipedream.com/@dylan/example-workflow-p_abc123/edit`.
-2. [Create a new workflow](https://pipedream.com/new) with an [HTTP trigger](/workflows/steps/triggers/#http). This workflow will receive errors from the workflow in step #1. Note the ID for this workflow, as well.
-3. A workflow can have multiple triggers. Here, you're going to add the errors from the workflow in step #1 as an additional trigger for the workflow you created in step #2. In other words, errors from workflow #1 will trigger workflow #2.
+1. Pick the workflow whose errors you'd like to handle and note its [workflow ID](/troubleshooting/#where-do-i-find-my-workflow-s-id).
+1. [Create a new workflow](https://pipedream.com/@/new/build?v=2). You do not need to add a trigger, since the workflow will be triggered on errors, which we'll configure next. Note the ID for this workflow, as well.
+3. Here, you're going to add the errors from the workflow in step #1 as a trigger for the workflow you created in step #2. In other words, errors from workflow #1 will trigger workflow #2.
 
 Make the following request to the Pipedream API, replacing the `emitter_id` with the ID of workflow #1, and the `listener_id` with the ID of workflow #2.
 
@@ -53,17 +80,7 @@ curl 'https://api.pipedream.com/v1/subscriptions?emitter_id=p_workflow1&listener
   -H "Content-Type: application/json"
 ```
 
-**You will not see this second, error trigger appear in the Pipedream UI for workflow #2**. The Pipedream UI only lists the original, HTTP trigger, but you can [list your subscriptions](/api/rest/#get-current-user-s-subscriptions) using the REST API.
-
-4. Trigger an error from workflow #1. You can do this manually by adding a new Node.js code step and running: 
-
-```javascript
-throw new Error("test");
-```
-
-You'll see an event arrive in workflow #2 with the `error`, the `original_event`, and `original_context`.
-
-**You can handle errors in any way you'd like within this workflow**. For example, you can save the error payload to a Google Sheet, or another data store, to store all errors for your workflow beyond the 100 returned by the Pipedream REST API.
+4. Generate an error in a live version of any workflow (errors raised while you're testing your workflow [do not send errors to the `$errors` stream](#test-mode-vs-live-mode)). You should see this error trigger the workflow in step #1. From there, you can build any logic you want to handle errors across workflows.
 
 ## Poll the REST API for workflow errors
 

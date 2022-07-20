@@ -111,7 +111,6 @@ const referenceNav = [
       "/api/rest/",
       "/api/rest/webhooks/",
       "/api/rest/rss/",
-      "/api/rest/workflow-errors/",
       "/api/sse/",
     ],
   },
