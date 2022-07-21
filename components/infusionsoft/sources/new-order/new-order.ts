@@ -17,7 +17,7 @@ export default defineSource({
     },
     async getObjectInfo(id: number): Promise<webhookNewObjectData> {
       const info = await this.infusionsoft.getOrder({ id });
-      const summary = info.given_name;
+      const summary = this.infusionsoft.getOrderSummary(info);
       return { info, summary };
     },
   },

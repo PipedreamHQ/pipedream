@@ -16,7 +16,7 @@ export default {
   methods: {
     // Available hooks: GET https://api.infusionsoft.com/crm/rest/v1/hooks/event_keys
     getHookType(): void {
-      throw new Error('Hook type not defined for this source');
+      throw new Error("Hook type not defined for this source");
     },
     getHookSecretName(): string {
       return "x-hook-secret";
@@ -63,22 +63,30 @@ export default {
       const objectKeys = data.body.object_keys;
       if (!(objectKeys instanceof Array)) return;
 
-      const promises: Promise<void>[] = objectKeys.map(
-        async ({ id, timestamp }: webhookObject) =>
-          new Promise(async (resolve) => {
-            const { info, summary }: webhookNewObjectData = await this.getObjectInfo(id);
+      objectKeys.forEach((objectKey) => {
+        this.$emit(objectKey, {
+          id: Date.now(),
+          summary: "temp event summary",
+          ts: Date.now(),
+        });
+      });
 
-            this.$emit(info, {
-              id,
-              summary,
-              ts: new Date(timestamp).valueOf(),
-            });
+      // const promises: Promise<void>[] = objectKeys.map(
+      //   async ({ id, timestamp }: webhookObject) =>
+      //     new Promise(async (resolve) => {
+      //       const { info, summary }: webhookNewObjectData = await this.getObjectInfo(id);
 
-            resolve();
-          })
-      );
+      //       this.$emit(info, {
+      //         id,
+      //         summary,
+      //         ts: new Date(timestamp).valueOf(),
+      //       });
 
-      await Promise.allSettled(promises);
+      //       resolve();
+      //     })
+      // );
+
+      // await Promise.allSettled(promises);
     }
   },
 };

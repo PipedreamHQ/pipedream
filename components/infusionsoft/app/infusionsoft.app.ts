@@ -95,6 +95,9 @@ export default defineApp({
         endpoint: `/orders/${id}`,
       });
     },
+    getOrderSummary({ contact, order_items, total }: order): string {
+      return `${order_items.length} items (total ${total}) by ${contact.first_name}`;
+    },
     async listProducts(): Promise<product[]> {
       const response = await this._httpRequest({
         endpoint: "/products",
@@ -168,9 +171,9 @@ export default defineApp({
         const orders: order[] = await this.listOrders();
 
         return orders.map(
-          ({ contact, id, order_items, total }: order): asyncOptionsObject => ({
-            label: `${order_items.length} items (total ${total}) by ${contact.first_name} ${contact.last_name}`,
-            value: id,
+          (order: order): asyncOptionsObject => ({
+            label: this.getOrderSummary(order),
+            value: order.id,
           })
         );
       },
