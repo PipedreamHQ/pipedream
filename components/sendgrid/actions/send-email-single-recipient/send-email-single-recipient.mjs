@@ -37,7 +37,7 @@ export default {
       type: "string",
       label: "CC",
       description:
-      "An array of recipients who will receive a copy of your email. Each object in this array must contain the recipient's email address. Each object in the array may optionally contain the recipient's name. Alternatively, provide a string that will `JSON.parse` to an array of recipient objects. Example: `[{\"email\":\"email@example.com\",\"name\":\"Example Recipient\"}]`",
+        "An array of recipients who will receive a copy of your email. Each object in this array must contain the recipient's email address. Each object in the array may optionally contain the recipient's name. Alternatively, provide a string that will `JSON.parse` to an array of recipient objects. Example: `[{\"email\":\"email@example.com\",\"name\":\"Example Recipient\"}]`",
       optional: true,
     },
     bcc: {
@@ -62,6 +62,13 @@ export default {
       type: "string",
       label: "Dynamic Template Data",
       description: "Dynamic template data is available using Handlebars syntax in Dynamic Transactional Templates. This field should be used in combination with a Dynamic Transactional Template, which can be identified by a template_id starting with d-. This field is a collection of key/value pairs following the pattern `\"variable_name\":\"value to insert\"`",
+      optional: true,
+    },
+    templateId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "templateId",
+      ],
       optional: true,
     },
     replyToEmail: {
@@ -279,6 +286,7 @@ export default {
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
+      templateId: this.templateId,
     });
     const resp = await this.sendgrid.sendEmail(config);
     $.export("$summary", "Email successfully sent");
