@@ -10,9 +10,10 @@ import {
   httpRequestParams,
 } from "../types/requestParams";
 import {
+  appointment,
   company,
   contact,
-  hook,
+  webhook,
   order,
   product,
 } from "../types/responseSchemas";
@@ -40,7 +41,7 @@ export default defineApp({
 
       return response.data ?? response.status;
     },
-    async createHook(data: createHookParams): Promise<hook> {
+    async createHook(data: createHookParams): Promise<webhook> {
       return this._httpRequest({
         endpoint: "/hooks",
         method: "POST",
@@ -63,6 +64,11 @@ export default defineApp({
     async getCompany({ id }: getObjectParams): Promise<company> {
       return this._httpRequest({
         endpoint: `/companies/${id}`,
+      });
+    },
+    async getAppointment({ id }: getObjectParams): Promise<appointment> {
+      return this._httpRequest({
+        endpoint: `/appointments/${id}`,
       });
     },
     async listContacts(): Promise<contact[]> {

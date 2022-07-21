@@ -6,7 +6,7 @@ export default defineSource({
   ...common,
   name: "New Order",
   description:
-    "Emit new event for each new order [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
+    "Emit new event for each new **order** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
   key: "infusionsoft-new-order",
   version: "0.0.1",
   type: "source",

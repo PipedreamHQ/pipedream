@@ -1,3 +1,7 @@
+type appointment = {
+  title: string;
+};
+
 type company = {
   company_name: string;
   id: number;
@@ -33,4 +37,12 @@ type webhookObject = {
   timestamp: string;
 };
 
-export { company, contact, order, product, webhook, webhookObject };
+export {
+  appointment,
+  company,
+  contact,
+  order,
+  product,
+  webhook,
+  webhookObject,
+};

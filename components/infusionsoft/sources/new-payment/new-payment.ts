@@ -4,9 +4,9 @@ import common from "../common";
 
 export default defineSource({
   ...common,
-  name: "New Invoice",
+  name: "New Payment",
   description:
-    "Emit new event for each new payment [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
+    "Emit new event for each new **payment** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
   key: "infusionsoft-new-payment",
   version: "0.0.1",
   type: "source",
