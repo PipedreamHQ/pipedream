@@ -6,8 +6,7 @@ import * as Sentry from "@sentry/node";
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 1.0,
-  // If we are going to use this for more scripts, this should have better heuristics to determine out where it's running.
-  environment: process.env.GITHUB_ACTIONS ? "GITHUB_ACTIONS" : "LOCAL",
+  environment: process.env.CI ? "production" : "development",
 });
 
 const pdClient = new GraphQLClient(
@@ -90,7 +89,7 @@ const run = async () => {
     try {
       const response = await pdClient.request(query, variables);
 
-      if (response?.marketplaceContentSet?.errors) {
+      if (response?.marketplaceContentSet?.errors?.length > 0) {
         Sentry.captureMessage("Set marketplace content error", {
           level: "error",
           extra: {
