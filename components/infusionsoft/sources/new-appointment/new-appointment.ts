@@ -4,20 +4,20 @@ import common from "../common";
 
 export default defineSource({
   ...common,
-  name: "New Order",
+  name: "New Appointment",
   description:
-    "Emit new event for each new order [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
-  key: "infusionsoft-new-order",
+    "Emit new event for each new appointment [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getAppointmentUsingGET)",
+  key: "infusionsoft-new-appointment",
   version: "0.0.1",
   type: "source",
   methods: {
     ...common.methods,
     getHookType(): string {
-      return "order.add";
+      return "appointment.add";
     },
     async getObjectInfo(id: number): Promise<webhookNewObjectData> {
-      const info = await this.infusionsoft.getOrder({ id });
-      const summary = info.given_name;
+      const info = await this.infusionsoft.getAppointment({ id });
+      const summary = info.title;
       return { info, summary };
     },
   },

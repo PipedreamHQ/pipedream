@@ -14,6 +14,7 @@ export default {
     },
   },
   methods: {
+    // Available hooks: GET https://api.infusionsoft.com/crm/rest/v1/hooks/event_keys
     getHookType(): void {
       throw new Error('Hook type not defined for this source');
     },
