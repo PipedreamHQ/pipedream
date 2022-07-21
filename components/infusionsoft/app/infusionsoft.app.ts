@@ -6,8 +6,7 @@ import {
   deleteHookParams,
   createOrderItemParams,
   createPaymentParams,
-  getCompanyParams,
-  getContactParams,
+  getObjectParams,
   httpRequestParams,
 } from "../types/requestParams";
 import {
@@ -61,9 +60,9 @@ export default defineApp({
 
       return response.companies;
     },
-    async getCompany({ companyId }: getCompanyParams): Promise<company> {
+    async getCompany({ id }: getObjectParams): Promise<company> {
       return this._httpRequest({
-        endpoint: `/companies/${companyId}`,
+        endpoint: `/companies/${id}`,
       });
     },
     async listContacts(): Promise<contact[]> {
@@ -73,9 +72,9 @@ export default defineApp({
 
       return response.contacts;
     },
-    async getContact({ contactId }: getContactParams): Promise<contact> {
+    async getContact({ id }: getObjectParams): Promise<contact> {
       return this._httpRequest({
-        endpoint: `/contacts/${contactId}`,
+        endpoint: `/contacts/${id}`,
       });
     },
     async listOrders(): Promise<order[]> {
@@ -84,6 +83,11 @@ export default defineApp({
       });
 
       return response.orders;
+    },
+    async getOrder({ id }: getObjectParams): Promise<order> {
+      return this._httpRequest({
+        endpoint: `/orders/${id}`,
+      });
     },
     async listProducts(): Promise<product[]> {
       const response = await this._httpRequest({

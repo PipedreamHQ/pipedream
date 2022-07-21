@@ -5,11 +5,11 @@ type asyncOptionsObject = {
   value: any;
 };
 
-type hookNewObject = {
+type webhookNewObjectData = {
   info: {
     [key: string]: JSONValue;
   };
   summary: string;
 };
 
-export { asyncOptionsObject, hookNewObject };
+export { asyncOptionsObject, webhookNewObjectData };

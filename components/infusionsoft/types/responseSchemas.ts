@@ -8,8 +8,13 @@ type contact = {
   id: number;
 };
 
-type hook = {
+type webhook = {
   key: string;
+};
+
+type webhookObject = {
+  id: number;
+  timestamp: string;
 };
 
 type order = {
@@ -28,4 +33,4 @@ type product = {
   product_price: number;
 };
 
-export { company, contact, hook, order, product };
+export { company, contact, order, product, webhook, webhookObject };

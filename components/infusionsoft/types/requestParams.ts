@@ -31,12 +31,8 @@ type createPaymentParams = {
   };
 };
 
-type getCompanyParams = {
-  companyId: number;
-};
-
-type getContactParams = {
-  contactId: number;
+type getObjectParams = {
+  id: number;
 };
 
 type httpRequestParams = {
@@ -50,7 +46,6 @@ export {
   deleteHookParams,
   createOrderItemParams,
   createPaymentParams,
-  getCompanyParams,
-  getContactParams,
+  getObjectParams,
   httpRequestParams,
 };
