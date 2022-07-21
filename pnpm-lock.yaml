@@ -1078,6 +1078,12 @@ importers:
   components/paypro:
     specifiers: {}
 
+  components/paytrace:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pcloud:
     specifiers:
       async-retry: ^1.3.1
