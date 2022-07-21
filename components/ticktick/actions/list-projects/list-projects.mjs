@@ -8,24 +8,9 @@ export default {
   type: "action",
   props: {
     ticktick,
-    username: {
-      type: "string",
-      label: "Username",
-      description: "TickTick Username",
-    },
-    password: {
-      type: "string",
-      label: "Password",
-      description: "TickTick Password",
-      secret: true,
-    },
   },
   async run({ $ }) {
-    // login user
-    const { token } = await this.ticktick.login($, this.username, this.password);
-    await this.ticktick.settings($, token);
-
-    const response = await this.ticktick.listProjects($, token);
+    const response = await this.ticktick.listProjects($);
     response && $.export("$summary", `Found ${response.length} project(s).`);
     return response;
   },

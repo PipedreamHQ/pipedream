@@ -4,7 +4,35 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "ticktick",
-  propDefinitions: {},
+  propDefinitions: {
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "Project ID",
+      default: "inbox",
+      async options() {
+        const projects = await this.listProjects();
+        return projects.map((project) => ({
+          label: project.name,
+          value: project.id,
+        }));
+      },
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "ID of task to complete",
+      async options({ projectId }) {
+        const tasks = await this.listTasks({
+          projectId,
+        });
+        return tasks.map((task) => ({
+          label: task.title,
+          value: task.id,
+        }));
+      },
+    },
+  },
   methods: {
     _getHeaders() {
       return {
@@ -77,14 +105,36 @@ export default {
         ...args,
       });
     },
-    async listProjects($, token) {
+    async listTasks({
+      $ = this, projectId,
+    }) {
+      // login user
+      const { token } = await this.login($);
+      await this.settings($, token);
+
+      const tasks = (await this._makeRequest({
+        $,
+        url: this._getV2Url("/batch/check/0"),
+        headers: this._getV2Headers(token),
+      })).syncTaskBean?.update;
+
+      if (projectId && projectId !== "inbox") {
+        return tasks.filter((task) => task.projectId == projectId);
+      }
+      return tasks.filter((task) => task.projectId.includes("inbox"));
+    },
+    async listProjects($ = this) {
+      // login user
+      const { token } = await this.login($);
+      await this.settings($, token);
+
       return this._makeRequest({
         $,
         url: this._getV2Url("/projects"),
         headers: this._getV2Headers(token),
       });
     },
-    async login($, username, password) {
+    async login($) {
       return this._makeRequest({
         $,
         method: "post",
@@ -95,8 +145,8 @@ export default {
           remember: true,
         },
         data: {
-          username,
-          password,
+          username: this.$auth.username,
+          password: this.$auth.password,
         },
       });
     },
