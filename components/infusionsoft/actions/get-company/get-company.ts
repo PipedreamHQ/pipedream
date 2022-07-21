@@ -1,7 +1,7 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
 import { company } from "../../types/responseSchemas";
-import { getCompanyParams } from "../../types/requestParams";
+import { getObjectParams } from "../../types/requestParams";
 
 export default defineAction({
   name: "Get Company",
@@ -17,8 +17,8 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<company> {
-    const params: getCompanyParams = {
-      companyId: this.companyId,
+    const params: getObjectParams = {
+      id: this.companyId,
     };
     const data: company = await this.infusionsoft.getCompany(params);
 

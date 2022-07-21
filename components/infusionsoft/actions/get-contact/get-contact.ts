@@ -1,7 +1,7 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
 import { contact } from "../../types/responseSchemas";
-import { getContactParams } from "../../types/requestParams";
+import { getObjectParams } from "../../types/requestParams";
 
 export default defineAction({
   name: "Get Contact",
@@ -19,8 +19,8 @@ export default defineAction({
     }
   },
   async run({ $ }): Promise<contact> {
-    const params: getContactParams = {
-      contactId: this.contactId
+    const params: getObjectParams = {
+      id: this.contactId
     }
     const data: contact = await this.infusionsoft.getContact(params);
 
