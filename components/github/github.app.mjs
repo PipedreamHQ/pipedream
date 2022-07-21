@@ -454,5 +454,14 @@ export default {
 
       return response.data;
     },
+    async getReleases({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/releases`, {
+        ...data,
+      });
+
+      return response.data;
+    },
   },
 };

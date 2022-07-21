@@ -139,6 +139,7 @@ export default {
     {
       label: "Activity related to a release",
       value: "release",
+      fnName: "getReleases",
     },
     {
       label: "Activity related to a repository",
@@ -198,6 +199,7 @@ export default {
     "team_add",
     "discussion",
     "discussion_comment",
+    "repository",
   ],
   TEAM_PROPS: [
     "team_add",
