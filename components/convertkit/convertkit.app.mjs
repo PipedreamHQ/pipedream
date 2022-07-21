@@ -40,6 +40,23 @@ export default {
     _apiSecretToken() {
       return this.$auth.api_secret;
     },
+    async createWebhook({
+      target_url, event,
+    }) {
+      const options = {
+        method: "post",
+        data: {
+          target_url,
+          event,
+        },
+      };
+      return this._makeRequest("automations/hooks", options);
+    },
+    async removeWebhook({ webhookId }) {
+      return this._makeRequest(`automations/hooks/${webhookId}`, {
+        method: "delete",
+      });
+    },
     async _makeRequest(path, options = {}, $ = this) {
       if (options.method.toLowerCase() === "get") {
         options.params = {
@@ -57,7 +74,6 @@ export default {
         ...options,
       });
     },
-
     async *paginate({
       $, fn, payload,
     }, dataField = null) {
