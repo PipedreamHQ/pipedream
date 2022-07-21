@@ -1,0 +1,23 @@
+import convertkit from "../../convertkit.app.mjs";
+
+export default {
+  key: "convertkit-view-single-subscribers",
+  name: "View a Single Subscribers",
+  description: "Returns data for a single subscriber. [See docs here](https://developers.convertkit.com/#view-a-single-subscriber)",
+  version: "0.0.2",
+  type: "action",
+  props: {
+    convertkit,
+    subscriber: {
+      propDefinition: [
+        convertkit,
+        "subscriber",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.convertkit.getSubscriber(this.subscriber, $);
+    response && $.export("$summary", "Successfully found subscriber");
+    return response;
+  },
+};
