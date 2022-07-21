@@ -28,7 +28,6 @@ export default {
       description: "Select a form",
       async options() {
         const response = await this.listForms();
-        console.log(response);
         return response.forms.map((form) => ({
           label: form.name,
           value: form.id,

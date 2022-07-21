@@ -9,15 +9,6 @@ export default {
   version: "0.0.2",
   props: {
     ...common.props,
-  //   repositoryId: {
-  //     propDefinition: [
-  //       bitbucket,
-  //       "repository",
-  //       (c) => ({
-  //         workspaceId: c.workspaceId,
-  //       }),
-  //     ],
-  //   },
   },
   methods: {
     ...common.methods,
@@ -27,7 +18,7 @@ export default {
       };
     },
     async proccessEvent(event) {
-      const { subscriber }  = event.body;
+      const { subscriber } = event.body;
 
       if (!subscriber) return;
       const ts = Date.parse(subscriber.created_at);
