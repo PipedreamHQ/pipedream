@@ -7,16 +7,31 @@ export default {
   propDefinitions: {
     subscriber: {
       type: "string",
-      label: "Workspace",
+      label: "Subscriber",
       description: "Select a subscriber",
-      async options({ page }) {
+      async options({
+        page, returnField,
+      }) {
         const response = await this.listSubscribers({
           page: page + 1,
         });
 
         return response.subscribers.map((subscriber) => ({
           label: subscriber.first_name,
-          value: subscriber.id,
+          value: subscriber[returnField],
+        }));
+      },
+    },
+    form: {
+      type: "integer",
+      label: "Form",
+      description: "Select a form",
+      async options() {
+        const response = await this.listForms();
+        console.log(response);
+        return response.forms.map((form) => ({
+          label: form.name,
+          value: form.id,
         }));
       },
     },
@@ -78,6 +93,21 @@ export default {
         method: "get",
       };
       return await this._makeRequest(`subscribers/${subscriberId}`, options, $);
+    },
+    async listForms() {
+      const options = {
+        method: "get",
+      };
+      return await this._makeRequest("forms", options);
+    },
+    async addSubscriberToForm(email, formId, $) {
+      const options = {
+        method: "post",
+        data: {
+          email,
+        },
+      };
+      return await this._makeRequest(`forms/${formId}/subscribe`, options, $);
     },
   },
 };

@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         convertkit,
         "subscriber",
+        () => ({
+          returnField: "id",
+        }),
       ],
     },
   },
