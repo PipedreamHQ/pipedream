@@ -97,32 +97,38 @@ export default {
     async listSubscribers({
       $, ...params
     }) {
-      const options = {
+      return await this._makeRequest("subscribers", {
         method: "get",
         params,
-      };
-      return await this._makeRequest("subscribers", options, $);
+      }, $);
     },
     async getSubscriber(subscriberId, $) {
-      const options = {
+      return await this._makeRequest(`subscribers/${subscriberId}`, {
         method: "get",
-      };
-      return await this._makeRequest(`subscribers/${subscriberId}`, options, $);
+      }, $);
     },
     async listForms() {
-      const options = {
+      return await this._makeRequest("forms", {
         method: "get",
-      };
-      return await this._makeRequest("forms", options);
+      });
     },
     async addSubscriberToForm(email, formId, $) {
-      const options = {
+      return await this._makeRequest(`forms/${formId}/subscribe`, {
         method: "post",
         data: {
           email,
         },
-      };
-      return await this._makeRequest(`forms/${formId}/subscribe`, options, $);
+      }, $);
+    },
+    async listCourses() {
+      return this._makeRequest("sequences", {
+        method: "get",
+      });
+    },
+    async listTags() {
+      return this._makeRequest("tags", {
+        method: "get",
+      });
     },
   },
 };

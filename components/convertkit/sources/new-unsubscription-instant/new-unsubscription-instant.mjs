@@ -17,15 +17,15 @@ export default {
         "name": "subscriber.subscriber_unsubscribe",
       };
     },
-    async proccessEvent(event) {
-      const { subscriber } = event.body;
+    async processEvent(event) {
+      const { body } = event;
 
-      if (!subscriber) return;
-      const ts = Date.parse(subscriber.created_at);
+      if (!body?.subscriber) return;
+      const ts = Date.parse(body.subscriber.created_at);
 
-      this.$emit(subscriber, {
-        id: subscriber.id,
-        summary: `New unsubscription activation from ${subscriber.email_address} created`,
+      this.$emit(body, {
+        id: body.subscriber.id,
+        summary: `New unsubscription activation from ${body.subscriber.email_address} created`,
         ts,
       });
     },

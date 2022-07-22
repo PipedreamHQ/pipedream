@@ -16,8 +16,8 @@ export default {
     getWebhookEventTypes() {
       throw new Error("getWebhookEventTypes is not implemented");
     },
-    proccessEvent(event) {
-      throw new Error("proccessEvent is not implemented", event);
+    processEvent(event) {
+      throw new Error("processEvent is not implemented", event);
     },
   },
   hooks: {
@@ -37,6 +37,6 @@ export default {
     },
   },
   async run(event) {
-    this.proccessEvent(event);
+    this.processEvent(event);
   },
 };
