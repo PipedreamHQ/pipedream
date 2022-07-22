@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "github-webhook-events",
+  key: "convertkit-webhook-events",
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event types. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
   type: "source",
