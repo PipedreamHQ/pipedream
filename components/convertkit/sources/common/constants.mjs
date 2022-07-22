@@ -42,5 +42,9 @@ export default {
         "tag",
       ],
     },
+    {
+      label: "On purchase created",
+      value: "purchase.purchase_create",
+    },
   ],
 };
