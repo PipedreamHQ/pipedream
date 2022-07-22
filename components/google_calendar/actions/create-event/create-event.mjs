@@ -48,6 +48,11 @@ export default {
       type: "string",
       description: "Enter the Event day in the format 'yyyy-mm-dd', if this is an all-day event.",
     },
+    sendUpdates: {
+      label: "Send Updates",
+      type: "string",
+      description: "Whether to send notifications about the creation of the new event.",
+    },
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -106,6 +111,7 @@ export default {
           timeZone,
         },
         attendees,
+        sendUpdates: this.sendUpdates || false
       },
     });
 
