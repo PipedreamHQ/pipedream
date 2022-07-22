@@ -1,12 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Update Channel",
   key: "twitch-update-channel",
   description: `Update information for the channel owned by the authenticated user.
   At least one parameter must be provided.`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

@@ -1,8 +1,8 @@
-const common = require("./common.js");
-const { v4: uuidv4 } = require("uuid");
+import common from "./common.mjs";
+import { v4 as uuidv4 } from "uuid";
 const subscriptionExpiration = 864000; // seconds until webhook subscription expires, maximum 10 days (864000 seconds)
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -41,7 +41,7 @@ module.exports = {
             this.http.endpoint,
             topic,
             subscriptionExpiration,
-            secretToken
+            secretToken,
           );
         } catch (err) {
           console.log(err);

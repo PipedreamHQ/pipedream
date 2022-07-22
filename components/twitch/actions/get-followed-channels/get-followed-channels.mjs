@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Get Followed Channels",
   key: "twitch-get-followed-channels",
   description: "Retrieves a list of channels that the authenticated user follows",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   async run() {
     // get the userID of the authenticated user

@@ -1,13 +1,13 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Search Channels",
   key: "twitch-search-channels",
   description: `Returns a list of channels (users who have streamed within the past 6 months)
     that match the query via channel name or description either entirely or partially. Results 
     include both live and offline channels.`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

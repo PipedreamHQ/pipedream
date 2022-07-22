@@ -1,8 +1,8 @@
-const twitch = require("../twitch.app.js");
-const { promisify } = require("util");
+import twitch from "../twitch.app.mjs";
+import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     twitch,

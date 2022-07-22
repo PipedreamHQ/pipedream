@@ -1,22 +1,29 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "Streams By Streamer",
+  name: "New Streams By Streamer",
   key: "twitch-streams-by-streamer",
-  description:
-    "Emits an event when a live stream starts from the streamers you specify.",
-  version: "0.0.3",
+  description: "Emit new event when a live stream starts from the streamers you specify.",
+  version: "0.0.4",
+  type: "source",
   props: {
     ...common.props,
     streamerLoginNames: {
-      propDefinition: [common.props.twitch, "streamerLoginNames"],
+      propDefinition: [
+        common.props.twitch,
+        "streamerLoginNames",
+      ],
     },
   },
   methods: {
     ...common.methods,
     getMeta(item) {
-      const { id, started_at: startedAt, title: summary } = item;
+      const {
+        id,
+        started_at: startedAt,
+        title: summary,
+      } = item;
       const ts = Date.parse(startedAt);
       return {
         id,

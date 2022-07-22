@@ -1,12 +1,12 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Follower (Instant)",
   key: "twitch-new-follower",
   description: "Emit new event when a new user follows your channel.",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...common.methods,
     async getTopics() {

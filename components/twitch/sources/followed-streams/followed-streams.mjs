@@ -1,15 +1,19 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "Followed Streams",
+  name: "New Followed Streams",
   key: "twitch-followed-streams",
-  description: "Emits an event when a followed stream is live.",
-  version: "0.0.3",
+  description: "Emit new event when a followed stream is live.",
+  version: "0.0.4",
+  type: "source",
   methods: {
     ...common.methods,
     getMeta(item) {
-      const { id, started_at: startedAt, title: summary } = item;
+      const {
+        id, started_at: startedAt,
+        title: summary,
+      } = item;
       const ts = new Date(startedAt).getTime();
       return {
         id,
@@ -32,7 +36,7 @@ module.exports = {
     // get the user_ids of the streamers followed by the authenticated user
     const follows = await this.paginate(
       this.twitch.getUserFollows.bind(this),
-      params
+      params,
     );
     const followedIds = [];
     for await (const follow of follows) {
