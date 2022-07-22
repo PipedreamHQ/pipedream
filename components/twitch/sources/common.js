@@ -10,11 +10,12 @@ module.exports = {
   },
   methods: {
     async *paginate(resourceFn, params, max = null) {
-      const items = [];
       let done = false;
       let count = 0;
       do {
-        const { data, pagination } = await this.retryFn(resourceFn, params);
+        const {
+          data, pagination,
+        } = await this.retryFn(resourceFn, params);
         for (const item of data) {
           yield item;
           count++;
@@ -37,7 +38,9 @@ module.exports = {
         if (retries <= 1) {
           throw new Error(err);
         }
-        delay = response ? response.headers["ratelimit-limit"] : 500;
+        const delay = response
+          ? response.headers["ratelimit-limit"]
+          : 500;
         await pause(delay);
         return await this.retryFn(resourceFn, params, retries - 1);
       }
