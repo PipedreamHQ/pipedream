@@ -36,9 +36,10 @@ type getObjectParams = {
 };
 
 type httpRequestParams = {
-  endpoint: string;
+  endpoint?: string;
   data?: object;
   method?: string;
+  url?: string;
 };
 
 export {

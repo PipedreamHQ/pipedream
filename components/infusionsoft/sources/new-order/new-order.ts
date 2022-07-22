@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { webhookNewObjectData } from "../../types/common";
+import { order } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -15,10 +15,8 @@ export default defineSource({
     getHookType(): string {
       return "order.add";
     },
-    async getObjectInfo(id: number): Promise<webhookNewObjectData> {
-      const info = await this.infusionsoft.getOrder({ id });
-      const summary = this.infusionsoft.getOrderSummary(info);
-      return { info, summary };
+    getSummary(order: order): string {
+      return `New order - ${this.infusionsoft.getOrderSummary(order)}`;
     },
   },
 });

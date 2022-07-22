@@ -26,13 +26,14 @@ export default defineApp({
       return "https://api.infusionsoft.com/crm/rest/v1";
     },
     async _httpRequest({
-      method = "GET",
       endpoint,
       data,
+      method = "GET",
+      url,
     }: httpRequestParams): Promise<object> {
       const response = await axios({
         method,
-        url: this._baseUrl() + endpoint,
+        url: url ?? this._baseUrl() + endpoint,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
@@ -40,6 +41,17 @@ export default defineApp({
       });
 
       return response.data ?? response.status;
+    },
+    async hookResponseRequest(apiUrl: string): Promise<object> {
+      if (!(apiUrl && apiUrl.startsWith(this._baseUrl()))) {
+        return {
+          noUrl: true
+        };
+      }
+
+      return this._httpRequest({
+        url: apiUrl
+      });
     },
     async createHook(data: createHookParams): Promise<webhook> {
       return this._httpRequest({

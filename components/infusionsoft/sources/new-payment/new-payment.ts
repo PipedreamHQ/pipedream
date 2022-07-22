@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { webhookNewObjectData } from "../../types/common";
+import { transaction } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -15,10 +15,8 @@ export default defineSource({
     getHookType(): string {
       return "invoice.payment.add";
     },
-    async getObjectInfo(id: number): Promise<webhookNewObjectData> {
-      const info = await this.infusionsoft.getOrder({ id });
-      const summary = info.given_name;
-      return { info, summary };
+    getSummary({ amount, order_ids }: transaction): string {
+      return `New payment (${amount} for orders ${order_ids})`;
     },
   },
 });

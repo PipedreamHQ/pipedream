@@ -1,5 +1,4 @@
 import { defineSource } from "@pipedream/types";
-import { webhookNewObjectData } from "../../types/common";
 import { appointment } from "../../types/responseSchemas";
 import common from "../common";
 
@@ -16,10 +15,8 @@ export default defineSource({
     getHookType(): string {
       return "appointment.add";
     },
-    async getObjectInfo(id: number): Promise<webhookNewObjectData> {
-      const info: appointment = await this.infusionsoft.getAppointment({ id });
-      const summary = info.title;
-      return { info, summary };
+    getSummary({ title }: appointment): string {
+      return `New appointment "${title}"`;
     },
   },
 });

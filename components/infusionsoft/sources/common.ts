@@ -2,7 +2,6 @@ import infusionsoft from "../app/infusionsoft.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
 import { createHookParams } from "../types/requestParams";
 import { webhook, webhookObject } from "../types/responseSchemas";
-import { webhookNewObjectData } from "../types/common";
 
 export default {
   props: {
@@ -14,9 +13,12 @@ export default {
     },
   },
   methods: {
-    // Available hooks: GET https://api.infusionsoft.com/crm/rest/v1/hooks/event_keys
     getHookType(): void {
+      // Available hooks: GET https://api.infusionsoft.com/crm/rest/v1/hooks/event_keys
       throw new Error("Hook type not defined for this source");
+    },
+    getSummary(): void {
+      throw new Error("Summary defined for this source");
     },
     getHookSecretName(): string {
       return "x-hook-secret";
@@ -63,30 +65,26 @@ export default {
       const objectKeys = data.body.object_keys;
       if (!(objectKeys instanceof Array)) return;
 
-      objectKeys.forEach((objectKey) => {
-        this.$emit(objectKey, {
-          id: Date.now(),
-          summary: "temp event summary",
-          ts: Date.now(),
-        });
-      });
+      const promises: Promise<void>[] = objectKeys.map(
+        async (obj: webhookObject) =>
+          new Promise(async (resolve) => {
+            const { apiUrl, id, timestamp } = obj;
 
-      // const promises: Promise<void>[] = objectKeys.map(
-      //   async ({ id, timestamp }: webhookObject) =>
-      //     new Promise(async (resolve) => {
-      //       const { info, summary }: webhookNewObjectData = await this.getObjectInfo(id);
+            const response = await this.infusionsoft.hookResponseRequest(apiUrl);
+            const data = response.noUrl ? obj : response;
+            const summary = this.getSummary(data);
 
-      //       this.$emit(info, {
-      //         id,
-      //         summary,
-      //         ts: new Date(timestamp).valueOf(),
-      //       });
+            this.$emit(data, {
+              id,
+              summary,
+              ts: new Date(timestamp).valueOf(),
+            });
 
-      //       resolve();
-      //     })
-      // );
+            resolve();
+          })
+      );
 
-      // await Promise.allSettled(promises);
+      await Promise.allSettled(promises);
     }
   },
 };

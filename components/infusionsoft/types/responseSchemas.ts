@@ -28,11 +28,17 @@ type product = {
   product_price: number;
 };
 
+type transaction = {
+  amount: number;
+  order_ids: string;
+};
+
 type webhook = {
   key: string;
 };
 
 type webhookObject = {
+  apiUrl: string;
   id: number;
   timestamp: string;
 };
@@ -43,6 +49,7 @@ export {
   contact,
   order,
   product,
+  transaction,
   webhook,
   webhookObject,
 };
