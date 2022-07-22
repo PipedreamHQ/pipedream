@@ -4,7 +4,8 @@
     "outDir": "dist",
     "composite": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "rootDir": ".",
+    "moduleResolution": "node"
   },
   "exclude": [
     "components"
@@ -445,6 +446,9 @@
     },
     {
       "path": "components/dots_"
+    },
+    {
+      "path": "components/exact"
     }
   ]
 }
