@@ -14,8 +14,7 @@ export default {
       let count = 0;
       do {
         const {
-          data,
-          pagination,
+          data, pagination,
         } = await this.retryFn(resourceFn, params);
         for (const item of data) {
           yield item;
