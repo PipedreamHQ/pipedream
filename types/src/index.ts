@@ -235,9 +235,29 @@ export interface Hooks {
   deactivate?: () => Promise<void>;
 }
 
-export interface SourceRunOptions {
-  event: JSONValue;
+// https://pipedream.com/docs/components/api/#http-event-shape
+export type SourceHttpRunOptions = {
+  method: string;
+  path: string;
+  query: {
+    [key: string]: string;
+  };
+  headers: {
+    [key: string]: string;
+  };
+  bodyRaw?: string;
+  body?: {
+    [key: string]: JSONValue;
+  };
 }
+
+// https://pipedream.com/docs/components/api/#timer
+export type SourceTimerRunOptions = {
+  timestamp: number;
+  interval_seconds: number;
+}
+
+export type SourceRunOptions = SourceHttpRunOptions | SourceTimerRunOptions;
 
 export interface ActionRunOptions {
   $: Pipedream;

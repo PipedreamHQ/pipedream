@@ -44,11 +44,13 @@
     "eslint-plugin-jsonc": "^1.6.0",
     "eslint-plugin-pipedream": "0.2.4",
     "eslint-plugin-putout": "^15.1.1",
+    "graphql-request": "^3.7.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^12.3.4",
     "pnpm": "^7.0.1",
     "putout": ">=20",
+    "graphql": "^16.2.0",
     "renamer": "^4.0.0",
     "ts-jest": "^27.1.4",
     "tsc-esm-fix": "^2.18.0",
@@ -61,6 +63,8 @@
   "private": true,
   "dependencies": {
     "@types/node": "^17.0.36",
+    "crypto": "^1.0.1",
+    "uuid": "^8.3.2",
     "vue": "^2.6.14"
   }
 }
