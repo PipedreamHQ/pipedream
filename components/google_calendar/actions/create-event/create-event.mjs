@@ -111,7 +111,7 @@ export default {
           timeZone,
         },
         attendees,
-        sendUpdates: this.sendUpdates || false
+        sendUpdates: this.sendUpdates ?? false
       },
     });
 
