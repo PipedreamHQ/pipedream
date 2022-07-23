@@ -16,7 +16,7 @@ export default defineSource({
       return "order.add";
     },
     getSummary(order: order): string {
-      return `New order - ${this.infusionsoft.getOrderSummary(order)}`;
+      return this.infusionsoft.getOrderSummary(order);
     },
   },
 });

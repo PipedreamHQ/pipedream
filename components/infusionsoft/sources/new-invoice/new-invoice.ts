@@ -6,7 +6,7 @@ export default defineSource({
   ...common,
   name: "New Invoice",
   description:
-    "Emit new event for each new **invoice** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
+    "Emit new event for each new **invoice** [See docs here](https://developer.infusionsoft.com/docs/rest/#tag/REST-Hooks)",
   key: "infusionsoft-new-invoice",
   version: "0.0.1",
   type: "source",
@@ -16,7 +16,7 @@ export default defineSource({
       return "invoice.add";
     },
     getSummary({ id }: webhookObject): string {
-      return `New invoice (ID ${id})`;
+      return `Invoice ID ${id}`;
     },
   },
 });

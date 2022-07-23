@@ -63,7 +63,9 @@ export default {
       });
 
       const objectKeys = data.body.object_keys;
-      if (!(objectKeys instanceof Array)) return;
+      if (!(objectKeys instanceof Array)) {
+        throw new Error('Unknown data received from Infusionsoft webhook');
+      };
 
       const promises: Promise<void>[] = objectKeys.map(
         async (obj: webhookObject) =>

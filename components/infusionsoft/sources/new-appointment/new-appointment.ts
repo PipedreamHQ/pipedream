@@ -16,7 +16,7 @@ export default defineSource({
       return "appointment.add";
     },
     getSummary({ title }: appointment): string {
-      return `New appointment "${title}"`;
+      return title;
     },
   },
 });

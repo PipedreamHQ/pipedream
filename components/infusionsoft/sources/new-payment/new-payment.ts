@@ -6,7 +6,7 @@ export default defineSource({
   ...common,
   name: "New Payment",
   description:
-    "Emit new event for each new **payment** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
+    "Emit new event for each new **payment** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getTransactionUsingGET)",
   key: "infusionsoft-new-payment",
   version: "0.0.1",
   type: "source",
@@ -16,7 +16,7 @@ export default defineSource({
       return "invoice.payment.add";
     },
     getSummary({ amount, order_ids }: transaction): string {
-      return `New payment (${amount} for orders ${order_ids})`;
+      return `${amount} for orders ${order_ids}`;
     },
   },
 });
