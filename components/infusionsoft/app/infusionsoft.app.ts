@@ -1,6 +1,5 @@
 import { defineApp } from "@pipedream/types";
 import axios from "axios";
-import { asyncOptionsObject } from "../types/common";
 import {
   createHookParams,
   deleteHookParams,
@@ -145,11 +144,11 @@ export default defineApp({
       description: `Select a **Company** from the list.
         \\
         Alternatively, you can provide a custom *Company ID*.`,
-      async options(): Promise<asyncOptionsObject[]> {
+      async options(): Promise<object[]> {
         const companies: company[] = await this.listCompanies();
 
         return companies.map(
-          ({ company_name, id }: company): asyncOptionsObject => ({
+          ({ company_name, id }: company): object => ({
             label: company_name,
             value: id,
           })
@@ -162,11 +161,11 @@ export default defineApp({
       description: `Select a **Contact** from the list.
         \\
         Alternatively, you can provide a custom *Contact ID*.`,
-      async options(): Promise<asyncOptionsObject[]> {
+      async options(): Promise<object[]> {
         const contacts: contact[] = await this.listContacts();
 
         return contacts.map(
-          ({ given_name, id }: contact): asyncOptionsObject => ({
+          ({ given_name, id }: contact): object => ({
             label: given_name ?? id.toString(),
             value: id,
           })
@@ -179,11 +178,11 @@ export default defineApp({
       description: `Select an **Order** from the list.
         \\
         Alternatively, you can provide a custom *Order ID*.`,
-      async options(): Promise<asyncOptionsObject[]> {
+      async options(): Promise<object[]> {
         const orders: order[] = await this.listOrders();
 
         return orders.map(
-          (order: order): asyncOptionsObject => ({
+          (order: order): object => ({
             label: this.getOrderSummary(order),
             value: order.id,
           })
@@ -196,7 +195,7 @@ export default defineApp({
       description: `Select a **Product** from the list.
         \\
         Alternatively, you can provide a custom *Product ID*.`,
-      async options(): Promise<asyncOptionsObject[]> {
+      async options(): Promise<object[]> {
         const products: product[] = await this.listProducts();
 
         return products.map(
@@ -204,7 +203,7 @@ export default defineApp({
             product_name,
             product_price,
             id,
-          }: product): asyncOptionsObject => ({
+          }: product): object => ({
             label: `${product_name} (${product_price})`,
             value: id,
           })
