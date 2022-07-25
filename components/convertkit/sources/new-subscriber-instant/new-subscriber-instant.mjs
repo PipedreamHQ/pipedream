@@ -20,7 +20,9 @@ export default {
     async processEvent(event) {
       const { body } = event;
 
-      if (!body?.subscriber) return;
+      if (!body?.subscriber) {
+        return;
+      }
       const ts = Date.parse(body.subscriber.created_at);
 
       this.$emit(body, {
