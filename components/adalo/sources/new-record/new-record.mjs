@@ -4,7 +4,7 @@ export default {
   key: "adalo-new-record",
   name: "New Record",
   description: "Emit new event when is created a record.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
