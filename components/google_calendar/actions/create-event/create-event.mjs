@@ -52,6 +52,12 @@ export default {
       label: "Send Updates",
       type: "string",
       description: "Whether to send notifications about the creation of the new event.",
+      optional: true,
+      options: [
+        "all",
+        "externalOnly",
+        "none",
+      ],
     },
     timeZone: {
       propDefinition: [
@@ -88,6 +94,7 @@ export default {
 
     const response = await this.googleCalendar.createEvent({
       calendarId: this.calendarId,
+      sendUpdates: this.sendUpdates ?? false,
       resource: {
         summary: this.summary,
         location: this.location,
@@ -111,7 +118,6 @@ export default {
           timeZone,
         },
         attendees,
-        sendUpdates: this.sendUpdates ?? false
       },
     });
 
