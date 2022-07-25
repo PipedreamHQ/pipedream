@@ -60,7 +60,9 @@ export default {
     for await (const item of paginator) {
       data.push(item);
     }
-    data.length && $.export("$summary", "Successfully listed subscribers");
+    if (data.length) {
+      $.export("$summary", "Successfully listed subscribers");
+    }
     return data;
   },
 };

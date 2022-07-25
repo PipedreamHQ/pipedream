@@ -26,7 +26,9 @@ export default {
   },
   async run({ $ }) {
     const response = await this.convertkit.addSubscriberToForm(this.subscriber, this.form, $);
-    response && $.export("$summary", "Successfully added subscriber to form");
+    if (response) {
+      $.export("$summary", "Successfully added subscriber to form");
+    }
     return response;
   },
 };

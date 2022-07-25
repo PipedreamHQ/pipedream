@@ -20,7 +20,9 @@ export default {
   },
   async run({ $ }) {
     const response = await this.convertkit.getSubscriber(this.subscriber, $);
-    response && $.export("$summary", "Successfully found subscriber");
+    if (response) {
+      $.export("$summary", "Successfully found subscriber");
+    }
     return response;
   },
 };
