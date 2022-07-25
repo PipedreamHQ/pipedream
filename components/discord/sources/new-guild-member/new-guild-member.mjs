@@ -1,0 +1,30 @@
+import discord from "../../discord.app.mjs";
+
+export default {
+  key: "discord-guild-member",
+  name: "New Guild Member (Instant)",
+  description: "Emit new event for each new member added to a guild",
+  version: "0.0.1",
+  dedupe: "unique",
+  type: "source",
+  props: {
+    discord,
+    discordApphook: {
+      type: "$.interface.apphook",
+      appProp: "discord",
+      eventNames: ["GUILD_MEMBER_ADD"],
+    },
+  },
+  hooks: {
+    async deploy() {
+      console.log(this.discord.$auth);
+    },
+  },
+  async run(event) {
+    this.$emit(event, {
+      id: `${event.userId}${event.guildId}`,
+      summary: `Member ${event.displayName} added`,
+      ts: Date.now(),
+    });
+  },
+};
