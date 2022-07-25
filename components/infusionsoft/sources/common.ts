@@ -13,11 +13,11 @@ export default {
     },
   },
   methods: {
-    getHookType(): void {
+    getHookType() {
       // Available hooks: GET https://api.infusionsoft.com/crm/rest/v1/hooks/event_keys
       throw new Error("Hook type not defined for this source");
     },
-    getSummary(): void {
+    getSummary() {
       throw new Error("Summary defined for this source");
     },
     getHookSecretName(): string {
@@ -42,26 +42,27 @@ export default {
     },
   },
   async run(data: SourceHttpRunOptions) {
-    const hookSecretName = this.getHookSecretName();
+    const hookSecretName: string = this.getHookSecretName();
     const hookSecret = data.headers[hookSecretName];
 
+    const httpResponse = {
+      headers: {},
+      status: 200
+    };
+
+    let shouldTriggerEvent = true;
+
     // If this is a hook verification request:
-    // Respond with the received secret, but do not trigger an event
+    // Do not trigger an event (respond with the secret received)
     if (hookSecret && data.method === "POST") {
-      this.http.respond({
-        status: 200,
-        headers: {
-          [hookSecretName]: hookSecret,
-        },
-      });
-    }
+      shouldTriggerEvent = false;
+      httpResponse.headers[hookSecretName] = hookSecret;
+    };
 
-    // Otherwise, this is an actual event
-    else {
-      this.http.respond({
-        status: 200,
-      });
+    this.http.respond(httpResponse);
 
+    // Actual event trigger
+    if (shouldTriggerEvent) {
       const objectKeys = data.body.object_keys;
       if (!(objectKeys instanceof Array)) {
         throw new Error('Unknown data received from Infusionsoft webhook');
