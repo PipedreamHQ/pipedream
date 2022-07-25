@@ -3,7 +3,7 @@ import smiirl from "../../smiirl.app.mjs";
 export default {
   key: "smiirl-increment-count",
   name: "Increment count",
-  description: "Increment count or add a number to the current value. [See the docs here](https://www.npmjs.com/package/@smiirl/smiirl-library-js). modification 2",
+  description: "Increment count or add a number to the current value. [See the docs here](https://www.npmjs.com/package/@smiirl/smiirl-library-js).",
   type: "action",
   version: "0.0.1",
   props: {
