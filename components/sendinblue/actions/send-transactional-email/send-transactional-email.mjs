@@ -2,9 +2,9 @@ import sendinBlueApp from "../../sendinblue.app.mjs";
 
 export default {
   key: "sendinblue-send-transactional-email",
-  name: "Send transactional email",
-  description: "Send transactional email",
-  version: "0.0.2",
+  name: "Send Transactional Email",
+  description: "Send transactional email. [See the docs here](https://developers.sendinblue.com/reference/sendtransacemail)",
+  version: "0.0.3",
   type: "action",
   props: {
     sendinBlueApp,
@@ -108,6 +108,14 @@ export default {
 
     return props;
   },
+  methods: {
+    formatEmailProp(prop) {
+      if (typeof prop[0] === "string") {
+        return Object.keys(prop).map((key) => JSON.parse(prop[key]));
+      }
+      return prop;
+    },
+  },
   async run({ $ }) {
     const sender = this.sender ?
       JSON.parse(this.sender) :
@@ -123,13 +131,13 @@ export default {
       Object.keys(this.tags).map((key) => this.tags[key])
       : null;
     const to = this.to
-      ? Object.keys(this.to).map((key) => JSON.parse(this.to[key]))
+      ? this.formatEmailProp(this.to)
       : null;
     const cc = this.cc
-      ? Object.keys(this.cc).map((key) => JSON.parse(this.cc[key]))
+      ? this.formatEmailProp(this.cc)
       : null;
     const bcc = this.bcc
-      ? Object.keys(this.bcc).map((key) => JSON.parse(this.bcc[key]))
+      ? this.formatEmailProp(this.bcc)
       : null;
 
     if (!Array.isArray(to) || to.length === 0) {
