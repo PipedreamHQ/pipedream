@@ -6,7 +6,7 @@ export default {
   name: "New Subscriber Activation (Instant)",
   key: "convertkit-new-subscriber-instant",
   description: "Emit new event when a new subscriber is activated. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     ...common.props,
   },
@@ -20,7 +20,9 @@ export default {
     async processEvent(event) {
       const { body } = event;
 
-      if (!body?.subscriber) return;
+      if (!body?.subscriber) {
+        return;
+      }
       const ts = Date.parse(body.subscriber.created_at);
 
       this.$emit(body, {
