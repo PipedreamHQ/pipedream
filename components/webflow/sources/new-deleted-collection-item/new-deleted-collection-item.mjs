@@ -16,7 +16,7 @@ export default {
       return {
         id: data.itemId,
         summary: `Collection item ${data.itemId} deleted.`,
-        ts: Date.now(),
+        ts: Date.parse(data["created-on"]),
       };
     },
   },

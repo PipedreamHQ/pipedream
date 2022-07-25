@@ -13,10 +13,12 @@ export default {
       return "ecomm_inventory_changed";
     },
     generateMeta(data) {
+      const now = Date.now();
+
       return {
-        id: data._id,
+        id: `${data._id}-${now}`,
         summary: `E-commerce ${data._id} inventory changed`,
-        ts: Date.now(),
+        ts: now,
       };
     },
   },

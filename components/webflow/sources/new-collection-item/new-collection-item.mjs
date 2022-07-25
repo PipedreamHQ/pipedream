@@ -50,7 +50,7 @@ export default {
       return {
         id: data._id,
         summary: `New collection item ${data.slug} created`,
-        ts: Date.parse(data.createdOn),
+        ts: Date.parse(data["created-on"]),
       };
     },
   },

@@ -13,7 +13,7 @@ export default {
       return "collection_item_changed";
     },
     generateMeta(data) {
-      const ts = Date.parse(data.updatedOn);
+      const ts = Date.parse(data["updated-on"]);
 
       return {
         id: `${data._id}-${ts}`,
