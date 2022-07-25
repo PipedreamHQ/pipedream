@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-star-added",
   name: "New Star Added (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a star is added to an item",
   type: "source",
   dedupe: "unique",
@@ -21,11 +21,23 @@ export default {
         ];
       },
     },
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "The types of event to emit. If not specified, all events will be emitted.",
+      options: Object.values(events).map((event) => event.toLowerCase()),
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
     getSummary({ item: { type } }) {
       return `New star added - ${events[type] ?? type}`;
+    },
+    async processEvent(event) {
+      if (this.eventTypes?.length === 0 || this.eventTypes.includes(event.item.type)) {
+        return event;
+      }
     },
   },
 };
