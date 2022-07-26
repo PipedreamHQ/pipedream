@@ -4,6 +4,28 @@ export default {
   type: "app",
   app: "quickbooks",
   propDefinitions: {
+    invoiceId: {
+      label: "Invoice ID",
+      type: "string",
+      description: "Id of the invoice to get details of.",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Invoice } } = await this.query({
+          params: {
+            query: `select * from invoice maxresults 10${page
+              ? `startposition ${position}`
+              : "" } `,
+          },
+        });
+
+        return Invoice
+          ? Invoice.map((invoice) => ({
+            label: `(${invoice.DocNumber}) ${invoice.CustomerRef.name}`,
+            value: invoice.Id,
+          }))
+          : [];
+      },
+    },
     minorVersion: {
       label: "Minor Version",
       type: "string",
@@ -113,6 +135,7 @@ export default {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
+          accept: "application/json",
         },
         ...options,
       });
@@ -152,6 +175,15 @@ export default {
         params,
       }, $);
     },
+    async sparseUpdateInvoice({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/invoice`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
     async getBill({
       $, billId, params,
     }) {
@@ -170,6 +202,13 @@ export default {
       $, invoiceId, params,
     }) {
       return this._makeRequest(`company/${this._companyId()}/invoice/${invoiceId}`, {
+        params,
+      }, $);
+    },
+    async getInvoices({
+      $, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/query`, {
         params,
       }, $);
     },
