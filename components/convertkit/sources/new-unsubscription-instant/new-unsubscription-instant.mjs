@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Subscriber Activation (Instant)",
+  name: "New Unsubscriber Activation (Instant)",
   key: "convertkit-new-unsubscription-instant",
   description: "Emit new event when a user  unsubscribers. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
   version: "0.0.1",
@@ -20,7 +20,7 @@ export default {
     async processEvent(event) {
       const { body } = event;
 
-      if (!body?.subscriber) { 
+      if (!body?.subscriber) {
         return;
       }
       const ts = Date.parse(body.subscriber.created_at);
