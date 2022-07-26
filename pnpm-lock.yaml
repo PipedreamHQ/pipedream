@@ -1594,6 +1594,9 @@ importers:
   components/twitch_developer_app:
     specifiers: {}
 
+  components/twitch_developer_app:
+    specifiers: {}
+
   components/twitter:
     specifiers:
       axios: ^0.21.1
@@ -1777,7 +1780,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/zoom:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': link:../../platform
 
   components/zoom_admin:
     specifiers:
