@@ -56,6 +56,24 @@ export default {
       description: "The type of the metric",
       options: constants.metricTypes,
     },
+    monitors: {
+      type: "string[]",
+      label: "Monitors",
+      description: "The monitors to observe for notifications",
+      optional: true,
+      async options({ page }) {
+        const pageSize = 10;
+        const monitors = await this.listMonitors(page, pageSize);
+        const options = monitors.map((monitor) => ({
+          label: monitor.name,
+          value: monitor.id,
+        }));
+
+        return {
+          options,
+        };
+      },
+    },
   },
   methods: {
     _v1Config() {
@@ -125,8 +143,8 @@ export default {
     },
     async listMonitors(page, pageSize) {
       return this._monitorsApi().listMonitors({
-        page,
-        pageSize,
+        page: page ?? 0,
+        pageSize: pageSize ?? 1000,
       });
     },
     async createWebhook(

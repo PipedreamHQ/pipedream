@@ -16,23 +16,10 @@ export default {
       customResponse: true,
     },
     monitors: {
-      type: "string[]",
-      label: "Monitors",
-      description: "The monitors to observe for notifications",
-      optional: true,
-      async options(context) {
-        const { page } = context;
-        const pageSize = 10;
-        const monitors = await this.datadog.listMonitors(page, pageSize);
-        const options = monitors.map((monitor) => ({
-          label: monitor.name,
-          value: monitor.id,
-        }));
-
-        return {
-          options,
-        };
-      },
+      propDefinition: [
+        datadog,
+        "monitors",
+      ],
     },
   },
   hooks: {
