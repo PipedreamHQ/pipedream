@@ -656,6 +656,9 @@ importers:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
 
+  components/google_directory:
+    specifiers: {}
+
   components/google_docs:
     specifiers:
       '@googleapis/docs': ^0.2.0
@@ -1512,6 +1515,14 @@ importers:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
 
+  components/thanks_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      date-fns: ^2.29.1
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      date-fns: 2.29.1
+
   components/threescribe:
     specifiers: {}
 
@@ -1590,9 +1601,6 @@ importers:
       crypto: 1.0.1
       qs: 6.11.0
       uuid: 8.3.2
-
-  components/twitch_developer_app:
-    specifiers: {}
 
   components/twitch_developer_app:
     specifiers: {}
@@ -1783,7 +1791,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
 
   components/zoom_admin:
     specifiers:
@@ -8510,6 +8518,7 @@ packages:
 
   /axios/0.19.2:
     resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
     dependencies:
       follow-redirects: 1.5.10
     transitivePeerDependencies:
@@ -9727,6 +9736,11 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
+
+  /date-fns/2.29.1:
+    resolution: {integrity: sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /dateformat/5.0.3:
     resolution: {integrity: sha512-Kvr6HmPXUMerlLcLF+Pwq3K7apHpYmGDVqrxcDasBg86UcKeTSNWbEzU8bwdXnxnR44FtMhJAxI4Bov6Y/KUfA==}
