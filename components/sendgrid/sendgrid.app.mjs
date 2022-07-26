@@ -45,6 +45,7 @@ export default {
       optional: true,
       async options() {
         const templates = await this.listTemplates();
+
         return templates.map((template) => ({
           label: template.name,
           value: template.id,
@@ -680,8 +681,9 @@ export default {
         method: "GET",
         url: "/v3/templates",
       };
-      const { result } = (await this._makeClientRequest(config))[1];
-      return result;
+
+      const { templates } = (await this._makeClientRequest(config))[1];
+      return templates;
     },
     /**
      * Sends an email to the specified recipients.
