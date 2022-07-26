@@ -74,50 +74,61 @@ export default defineApp({
     _apiUrl() {
       return `https://${this._subdomain()}.namely.com/api/v1`;
     },
-    async _makeRequest(path, options = {}, $ = undefined) {
-      return axios($ ?? this, {
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
         },
-        ...options,
+        ...args,
       });
     },
     async getUsers({
       $, page, perPage,
     }) {
-      const response = await this._makeRequest("profiles", {
+      const response = await this._makeRequest({
+        $,
+        path: "profiles",
         params: {
           page: page ?? 1,
           per_page: perPage ?? 50,
         },
-      }, $);
+      });
 
       return response.profiles;
     },
     async getUser({
       $, userId,
     }) {
-      const response = await this._makeRequest(`profiles/${userId}`, {}, $);
+      const response = await this._makeRequest({
+        $,
+        path: `profiles/${userId}`,
+      });
 
       return response;
     },
     async createUser({
       $, data,
     }) {
-      return this._makeRequest("profiles", {
+      return this._makeRequest({
+        $,
+        path: "profiles",
         method: "post",
         data: {
           profiles: [
             data,
           ],
         },
-      }, $);
+      });
     },
     async updateUser({
       $, userId, data,
     }) {
-      return this._makeRequest(`profiles/${userId}`, {
+      return this._makeRequest({
+        $,
+        path: `profiles/${userId}`,
         method: "put",
         data: {
           profiles: [
