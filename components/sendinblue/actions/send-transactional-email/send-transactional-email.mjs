@@ -109,7 +109,10 @@ export default {
     return props;
   },
   methods: {
-    formatEmailProp(prop) {
+    formatEmailProp(prop, field) {
+      if (!Array.isArray(prop)) {
+        throw new Error(`Field ${field} should be an array`, prop);
+      }
       if (typeof prop[0] === "string") {
         return Object.keys(prop).map((key) => JSON.parse(prop[key]));
       }
@@ -131,13 +134,13 @@ export default {
       Object.keys(this.tags).map((key) => this.tags[key])
       : null;
     const to = this.to
-      ? this.formatEmailProp(this.to)
+      ? this.formatEmailProp(this.to, "To")
       : null;
     const cc = this.cc
-      ? this.formatEmailProp(this.cc)
+      ? this.formatEmailProp(this.cc, "CC")
       : null;
     const bcc = this.bcc
-      ? this.formatEmailProp(this.bcc)
+      ? this.formatEmailProp(this.bcc, "BCC")
       : null;
 
     if (!Array.isArray(to) || to.length === 0) {
