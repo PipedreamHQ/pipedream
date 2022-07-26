@@ -39,7 +39,7 @@ export default defineApp({
         data,
       });
 
-      return response.data ?? response.status;
+      return response.data;
     },
     async hookResponseRequest(apiUrl: string): Promise<object> {
       if (!(apiUrl && apiUrl.startsWith(this._baseUrl()))) {
