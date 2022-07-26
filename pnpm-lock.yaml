@@ -656,6 +656,9 @@ importers:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
 
+  components/google_directory:
+    specifiers: {}
+
   components/google_docs:
     specifiers:
       '@googleapis/docs': ^0.2.0
@@ -1594,9 +1597,6 @@ importers:
   components/twitch_developer_app:
     specifiers: {}
 
-  components/twitch_developer_app:
-    specifiers: {}
-
   components/twitter:
     specifiers:
       axios: ^0.21.1
@@ -1783,7 +1783,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
 
   components/zoom_admin:
     specifiers:
