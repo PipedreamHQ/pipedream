@@ -20,15 +20,18 @@ export default {
   methods: {
     ...base.methods,
     getMeta(event) {
-      const { update_id: id } = event;
-      const summary = event.message.from
-        ? `Update from ${event.message.from.first_name} ${event.message.from.last_name}`
-        : `Update ID ${id}`;
+      const {
+        update_id: id,
+        ...eventDetails
+      } = event;
+      const eventType = Object.keys(eventDetails).pop();
+      const summary = `New ${eventType} update: ${id}`;
+      const ts = eventDetails[eventType].edit_date ?? eventDetails[eventType].date;
 
       return {
         id,
         summary,
-        ts: new Date(event.message.edit_date ?? event.message.date),
+        ts,
       };
     },
     getEventTypes() {
