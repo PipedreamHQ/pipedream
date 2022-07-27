@@ -464,6 +464,18 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/elmah_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
+  components/elmah_io/test:
+    specifiers:
+      elmah.io.javascript: ^3.7.0
+    dependencies:
+      elmah.io.javascript: 3.7.0
+
   components/emailoctopus:
     specifiers: {}
 
@@ -10246,6 +10258,10 @@ packages:
 
   /elf-cam/0.1.1:
     resolution: {integrity: sha512-tKSFTWOp5OwJSp6MKyQDX7umYDkvUuI8rxHXw8BuUQ63d9Trj9xLeo6SHyoTGSoZNNZVitFa+RuHHXuoAzN3Rw==}
+    dev: false
+
+  /elmah.io.javascript/3.7.0:
+    resolution: {integrity: sha512-s7yyLo8tlZPURYxsT4tS977FfEXXaMzkbxZNLVRc90v949NgdfeJYLYyYe6c5fhcQkiIPsy3TgOCErSpaJWGvw==}
     dev: false
 
   /emittery/0.8.1:
