@@ -1,8 +1,8 @@
 import infusionsoft from "../app/infusionsoft.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
-import { createHookParams } from "../types/requestParams";
+import { CreateHookParams } from "../types/requestParams";
 import {
-  webhook, webhookObject,
+  Webhook, WebhookObject,
 } from "../types/responseSchemas";
 
 export default {
@@ -28,12 +28,12 @@ export default {
   },
   hooks: {
     async activate() {
-      const data: createHookParams = {
+      const data: CreateHookParams = {
         eventKey: this.getHookType(),
         hookUrl: this.http.endpoint,
       };
 
-      const { key }: webhook = await this.infusionsoft.createHook(data);
+      const { key }: Webhook = await this.infusionsoft.createHook(data);
 
       this.db.set("hookKey", key);
     },
@@ -73,7 +73,7 @@ export default {
       }
 
       const promises: Promise<void>[] = objectKeys.map(
-        async (obj: webhookObject) =>
+        async (obj: WebhookObject) =>
           new Promise(async (resolve) => {
             const {
               apiUrl, id, timestamp,

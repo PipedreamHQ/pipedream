@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { webhookObject } from "../../types/responseSchemas";
+import { WebhookObject } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -15,7 +15,7 @@ export default defineSource({
     getHookType(): string {
       return "invoice.add";
     },
-    getSummary({ id }: webhookObject): string {
+    getSummary({ id }: WebhookObject): string {
       return `Invoice ID ${id}`;
     },
   },

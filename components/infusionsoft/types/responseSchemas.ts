@@ -1,18 +1,18 @@
-type appointment = {
+type Appointment = {
   title: string;
 };
 
-type company = {
+type Company = {
   company_name: string;
   id: number;
 };
 
-type contact = {
+type Contact = {
   given_name: string;
   id: number;
 };
 
-type order = {
+type Order = {
   contact: {
     first_name: string;
     last_name: string;
@@ -22,34 +22,34 @@ type order = {
   total: number;
 };
 
-type product = {
+type Product = {
   id: number;
   product_name: string;
   product_price: number;
 };
 
-type transaction = {
+type Transaction = {
   amount: number;
   order_ids: string;
 };
 
-type webhook = {
+type Webhook = {
   key: string;
 };
 
-type webhookObject = {
+type WebhookObject = {
   apiUrl: string;
   id: number;
   timestamp: string;
 };
 
 export {
-  appointment,
-  company,
-  contact,
-  order,
-  product,
-  transaction,
-  webhook,
-  webhookObject,
+  Appointment,
+  Company,
+  Contact,
+  Order,
+  Product,
+  Transaction,
+  Webhook,
+  WebhookObject,
 };

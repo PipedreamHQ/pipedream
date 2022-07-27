@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { transaction } from "../../types/responseSchemas";
+import { Transaction } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -17,7 +17,7 @@ export default defineSource({
     },
     getSummary({
       amount, order_ids,
-    }: transaction): string {
+    }: Transaction): string {
       return `${amount} for orders ${order_ids}`;
     },
   },

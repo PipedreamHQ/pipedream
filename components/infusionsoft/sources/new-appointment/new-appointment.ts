@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { appointment } from "../../types/responseSchemas";
+import { Appointment } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -15,7 +15,7 @@ export default defineSource({
     getHookType(): string {
       return "appointment.add";
     },
-    getSummary({ title }: appointment): string {
+    getSummary({ title }: Appointment): string {
       return title;
     },
   },

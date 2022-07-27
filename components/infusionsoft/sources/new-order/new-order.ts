@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { order } from "../../types/responseSchemas";
+import { Order } from "../../types/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -15,7 +15,7 @@ export default defineSource({
     getHookType(): string {
       return "order.add";
     },
-    getSummary(order: order): string {
+    getSummary(order: Order): string {
       return this.infusionsoft.getOrderSummary(order);
     },
   },

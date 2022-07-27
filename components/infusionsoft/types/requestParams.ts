@@ -1,13 +1,13 @@
-type createHookParams = {
+type CreateHookParams = {
   eventKey: string;
   hookUrl: string;
 };
 
-type deleteHookParams = {
+type DeleteHookParams = {
   key: string;
 };
 
-type createOrderItemParams = {
+type CreateOrderItemParams = {
   orderId: number;
   data: {
     description: string;
@@ -17,7 +17,7 @@ type createOrderItemParams = {
   };
 };
 
-type createPaymentParams = {
+type CreatePaymentParams = {
   orderId: number;
   data: {
     apply_to_commissions: boolean;
@@ -31,11 +31,11 @@ type createPaymentParams = {
   };
 };
 
-type getObjectParams = {
+type GetObjectParams = {
   id: number;
 };
 
-type httpRequestParams = {
+type HttpRequestParams = {
   endpoint?: string;
   data?: object;
   method?: string;
@@ -43,10 +43,10 @@ type httpRequestParams = {
 };
 
 export {
-  createHookParams,
-  deleteHookParams,
-  createOrderItemParams,
-  createPaymentParams,
-  getObjectParams,
-  httpRequestParams,
+  CreateHookParams,
+  DeleteHookParams,
+  CreateOrderItemParams,
+  CreatePaymentParams,
+  GetObjectParams,
+  HttpRequestParams,
 };

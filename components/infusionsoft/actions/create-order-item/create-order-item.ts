@@ -1,5 +1,5 @@
 import infusionsoft from "../../app/infusionsoft.app";
-import { createOrderItemParams } from "../../types/requestParams";
+import { CreateOrderItemParams } from "../../types/requestParams";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({
@@ -42,7 +42,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params: createOrderItemParams = {
+    const params: CreateOrderItemParams = {
       orderId: this.orderId,
       data: {
         description: this.description,

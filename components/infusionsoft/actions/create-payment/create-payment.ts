@@ -1,6 +1,6 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { createPaymentParams } from "../../types/requestParams";
+import { CreatePaymentParams } from "../../types/requestParams";
 
 export default defineAction({
   name: "Create Payment",
@@ -66,7 +66,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params: createPaymentParams = {
+    const params: CreatePaymentParams = {
       orderId: this.orderId,
       data: {
         apply_to_commissions: this.applyToCommissions,

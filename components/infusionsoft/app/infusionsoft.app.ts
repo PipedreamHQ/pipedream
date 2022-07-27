@@ -1,20 +1,20 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  createHookParams,
-  deleteHookParams,
-  createOrderItemParams,
-  createPaymentParams,
-  getObjectParams,
-  httpRequestParams,
+  CreateHookParams,
+  DeleteHookParams,
+  CreateOrderItemParams,
+  CreatePaymentParams,
+  GetObjectParams,
+  HttpRequestParams,
 } from "../types/requestParams";
 import {
-  appointment,
-  company,
-  contact,
-  webhook,
-  order,
-  product,
+  Appointment,
+  Company,
+  Contact,
+  Webhook,
+  Order,
+  Product,
 } from "../types/responseSchemas";
 
 export default defineApp({
@@ -29,7 +29,7 @@ export default defineApp({
       data,
       method = "GET",
       url,
-    }: httpRequestParams): Promise<object> {
+    }: HttpRequestParams): Promise<object> {
       const response = await axios(this, {
         method,
         url: url ?? this._baseUrl() + endpoint,
@@ -52,66 +52,66 @@ export default defineApp({
         url: apiUrl,
       });
     },
-    async createHook(data: createHookParams): Promise<webhook> {
+    async createHook(data: CreateHookParams): Promise<Webhook> {
       return this._httpRequest({
         endpoint: "/hooks",
         method: "POST",
         data,
       });
     },
-    async deleteHook({ key }: deleteHookParams): Promise<number> {
+    async deleteHook({ key }: DeleteHookParams): Promise<number> {
       return this._httpRequest({
         endpoint: `/hooks/${key}`,
         method: "DELETE",
       });
     },
-    async listCompanies(): Promise<company[]> {
+    async listCompanies(): Promise<Company[]> {
       const response = await this._httpRequest({
         endpoint: "/companies",
       });
 
       return response.companies;
     },
-    async getCompany({ id }: getObjectParams): Promise<company> {
+    async getCompany({ id }: GetObjectParams): Promise<Company> {
       return this._httpRequest({
         endpoint: `/companies/${id}`,
       });
     },
-    async getAppointment({ id }: getObjectParams): Promise<appointment> {
+    async getAppointment({ id }: GetObjectParams): Promise<Appointment> {
       return this._httpRequest({
         endpoint: `/appointments/${id}`,
       });
     },
-    async listContacts(): Promise<contact[]> {
+    async listContacts(): Promise<Contact[]> {
       const response = await this._httpRequest({
         endpoint: "/contacts",
       });
 
       return response.contacts;
     },
-    async getContact({ id }: getObjectParams): Promise<contact> {
+    async getContact({ id }: GetObjectParams): Promise<Contact> {
       return this._httpRequest({
         endpoint: `/contacts/${id}`,
       });
     },
-    async listOrders(): Promise<order[]> {
+    async listOrders(): Promise<Order[]> {
       const response = await this._httpRequest({
         endpoint: "/orders",
       });
 
       return response.orders;
     },
-    async getOrder({ id }: getObjectParams): Promise<order> {
+    async getOrder({ id }: GetObjectParams): Promise<Order> {
       return this._httpRequest({
         endpoint: `/orders/${id}`,
       });
     },
     getOrderSummary({
       contact, order_items, total,
-    }: order): string {
+    }: Order): string {
       return `${order_items.length} items (total ${total}) by ${contact.first_name}`;
     },
-    async listProducts(): Promise<product[]> {
+    async listProducts(): Promise<Product[]> {
       const response = await this._httpRequest({
         endpoint: "/products",
       });
@@ -121,7 +121,7 @@ export default defineApp({
     async createOrderItem({
       orderId,
       data,
-    }: createOrderItemParams): Promise<object> {
+    }: CreateOrderItemParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/items`,
         method: "POST",
@@ -131,7 +131,7 @@ export default defineApp({
     async createPayment({
       orderId,
       data,
-    }: createPaymentParams): Promise<object> {
+    }: CreatePaymentParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
@@ -147,7 +147,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Company ID*.`,
       async options() {
-        const companies: company[] = await this.listCompanies();
+        const companies: Company[] = await this.listCompanies();
 
         return companies.map(({
           company_name, id,
@@ -164,7 +164,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Contact ID*.`,
       async options() {
-        const contacts: contact[] = await this.listContacts();
+        const contacts: Contact[] = await this.listContacts();
 
         return contacts.map(({
           given_name, id,
@@ -181,7 +181,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Order ID*.`,
       async options() {
-        const orders: order[] = await this.listOrders();
+        const orders: Order[] = await this.listOrders();
 
         return orders.map((order) => ({
           label: this.getOrderSummary(order),
@@ -196,7 +196,7 @@ export default defineApp({
         \\
         Alternatively, you can provide a custom *Product ID*.`,
       async options() {
-        const products: product[] = await this.listProducts();
+        const products: Product[] = await this.listProducts();
 
         return products.map(({
           product_name, product_price, id,
