@@ -21,7 +21,7 @@ export default {
       templateId: this.templateId,
     });
     const fields = template.pages[0].children.filter((child) => child.type === "text" && !child.locked);
-    return fields.reduce((props, field) => ({
+    const props = fields.reduce((props, field) => ({
       ...props,
       [field.name]: {
         type: "string",
@@ -30,6 +30,15 @@ export default {
         optional: true,
       },
     }), {});
+    return {
+      preview: {
+        type: "string",
+        label: "Template Preview Link (no input required)",
+        description: template.preview,
+        optional: true,
+      },
+      ...props,
+    };
   },
   async run({ $ }) {
     const {
