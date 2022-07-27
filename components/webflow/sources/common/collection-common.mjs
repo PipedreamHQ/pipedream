@@ -1,5 +1,5 @@
 import common from "./common.mjs";
-import webflow from "../webflow.app.mjs";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   ...common,
@@ -22,9 +22,9 @@ export default {
   methods: {
     ...common.methods,
     isEventRelevant(event) {
+      if (!this.collectionIds?.length) return true;
       const { body: { _cid: collectionId } } = event;
       return this.collectionIds.includes(collectionId);
     },
   },
 };
-
