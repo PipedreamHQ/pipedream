@@ -7,7 +7,7 @@ Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.py
 ::: warning
 Python steps are available in a limited alpha release.
 
-You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps), [send API requests using connected accounts](/code/python/#use-connected-accounts), [use Data Stores](/code/python/#using-data-stores), and [accessing environment variables](/code/python/#using-environment-variables).
+You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps), [send API requests using connected accounts](/code/python/auth/), [use Data Stores](/code/python/using-data-stores/), and [accessing environment variables](/code/python/#using-environment-variables).
 
 However, you can't delay or retry steps, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
 :::
