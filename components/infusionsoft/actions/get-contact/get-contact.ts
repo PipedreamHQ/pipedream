@@ -14,14 +14,14 @@ export default defineAction({
     contactId: {
       propDefinition: [
         infusionsoft,
-        "contactId"
-      ]
-    }
+        "contactId",
+      ],
+    },
   },
   async run({ $ }): Promise<contact> {
     const params: getObjectParams = {
-      id: this.contactId
-    }
+      id: this.contactId,
+    };
     const data: contact = await this.infusionsoft.getContact(params);
 
     $.export("$summary", `Retrieved Contact "${data.given_name ?? data.id.toString()}" successfully`);

@@ -15,7 +15,9 @@ export default defineSource({
     getHookType(): string {
       return "invoice.payment.add";
     },
-    getSummary({ amount, order_ids }: transaction): string {
+    getSummary({
+      amount, order_ids,
+    }: transaction): string {
       return `${amount} for orders ${order_ids}`;
     },
   },

@@ -13,7 +13,10 @@ export default defineAction({
   props: {
     infusionsoft,
     companyId: {
-      propDefinition: [infusionsoft, "companyId"],
+      propDefinition: [
+        infusionsoft,
+        "companyId",
+      ],
     },
   },
   async run({ $ }): Promise<company> {
@@ -24,7 +27,7 @@ export default defineAction({
 
     $.export(
       "$summary",
-      `Retrieved Company "${data.company_name}" successfully`
+      `Retrieved Company "${data.company_name}" successfully`,
     );
 
     return data;

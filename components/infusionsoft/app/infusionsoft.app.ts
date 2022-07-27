@@ -1,5 +1,5 @@
 import { defineApp } from "@pipedream/types";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import {
   createHookParams,
   deleteHookParams,
@@ -30,7 +30,7 @@ export default defineApp({
       method = "GET",
       url,
     }: httpRequestParams): Promise<object> {
-      const response = await axios({
+      const response = await axios(this, {
         method,
         url: url ?? this._baseUrl() + endpoint,
         headers: {
@@ -44,12 +44,12 @@ export default defineApp({
     async hookResponseRequest(apiUrl: string): Promise<object> {
       if (!(apiUrl && apiUrl.startsWith(this._baseUrl()))) {
         return {
-          noUrl: true
+          noUrl: true,
         };
       }
 
       return this._httpRequest({
-        url: apiUrl
+        url: apiUrl,
       });
     },
     async createHook(data: createHookParams): Promise<webhook> {
@@ -106,7 +106,9 @@ export default defineApp({
         endpoint: `/orders/${id}`,
       });
     },
-    getOrderSummary({ contact, order_items, total }: order): string {
+    getOrderSummary({
+      contact, order_items, total,
+    }: order): string {
       return `${order_items.length} items (total ${total}) by ${contact.first_name}`;
     },
     async listProducts(): Promise<product[]> {
@@ -147,12 +149,12 @@ export default defineApp({
       async options() {
         const companies: company[] = await this.listCompanies();
 
-        return companies.map(
-          ({ company_name, id }) => ({
-            label: company_name,
-            value: id,
-          })
-        );
+        return companies.map(({
+          company_name, id,
+        }) => ({
+          label: company_name,
+          value: id,
+        }));
       },
     },
     contactId: {
@@ -164,12 +166,12 @@ export default defineApp({
       async options() {
         const contacts: contact[] = await this.listContacts();
 
-        return contacts.map(
-          ({ given_name, id }) => ({
-            label: given_name ?? id.toString(),
-            value: id,
-          })
-        );
+        return contacts.map(({
+          given_name, id,
+        }) => ({
+          label: given_name ?? id.toString(),
+          value: id,
+        }));
       },
     },
     orderId: {
@@ -181,12 +183,10 @@ export default defineApp({
       async options() {
         const orders: order[] = await this.listOrders();
 
-        return orders.map(
-          (order) => ({
-            label: this.getOrderSummary(order),
-            value: order.id,
-          })
-        );
+        return orders.map((order) => ({
+          label: this.getOrderSummary(order),
+          value: order.id,
+        }));
       },
     },
     productId: {
@@ -198,16 +198,12 @@ export default defineApp({
       async options() {
         const products: product[] = await this.listProducts();
 
-        return products.map(
-          ({
-            product_name,
-            product_price,
-            id,
-          }) => ({
-            label: `${product_name} (${product_price})`,
-            value: id,
-          })
-        );
+        return products.map(({
+          product_name, product_price, id,
+        }) => ({
+          label: `${product_name} (${product_price})`,
+          value: id,
+        }));
       },
     },
   },

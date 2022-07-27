@@ -20,6 +20,6 @@
     "@pipedream/types": "^0.1.4"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "@pipedream/platform": "^1.1.0"
   }
 }

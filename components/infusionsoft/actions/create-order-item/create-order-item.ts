@@ -12,10 +12,16 @@ export default defineAction({
   props: {
     infusionsoft,
     orderId: {
-      propDefinition: [infusionsoft, "orderId"],
+      propDefinition: [
+        infusionsoft,
+        "orderId",
+      ],
     },
     productId: {
-      propDefinition: [infusionsoft, "productId"],
+      propDefinition: [
+        infusionsoft,
+        "productId",
+      ],
     },
     quantity: {
       type: "integer",

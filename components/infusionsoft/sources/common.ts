@@ -1,7 +1,9 @@
 import infusionsoft from "../app/infusionsoft.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
 import { createHookParams } from "../types/requestParams";
-import { webhook, webhookObject } from "../types/responseSchemas";
+import {
+  webhook, webhookObject,
+} from "../types/responseSchemas";
 
 export default {
   props: {
@@ -38,7 +40,9 @@ export default {
     async deactivate() {
       const key: string = this.db.get("hookKey");
 
-      await this.infusionsoft.deleteHook({ key });
+      await this.infusionsoft.deleteHook({
+        key,
+      });
     },
   },
   async run(data: SourceHttpRunOptions) {
@@ -47,7 +51,7 @@ export default {
 
     const httpResponse = {
       headers: {},
-      status: 200
+      status: 200,
     };
 
     let shouldTriggerEvent = true;
@@ -57,7 +61,7 @@ export default {
     if (hookSecret && data.method === "POST") {
       shouldTriggerEvent = false;
       httpResponse.headers[hookSecretName] = hookSecret;
-    };
+    }
 
     this.http.respond(httpResponse);
 
@@ -65,16 +69,20 @@ export default {
     if (shouldTriggerEvent) {
       const objectKeys = data.body.object_keys;
       if (!(objectKeys instanceof Array)) {
-        throw new Error('Unknown data received from Infusionsoft webhook');
-      };
+        throw new Error("Unknown data received from Infusionsoft webhook");
+      }
 
       const promises: Promise<void>[] = objectKeys.map(
         async (obj: webhookObject) =>
           new Promise(async (resolve) => {
-            const { apiUrl, id, timestamp } = obj;
+            const {
+              apiUrl, id, timestamp,
+            } = obj;
 
             const response = await this.infusionsoft.hookResponseRequest(apiUrl);
-            const data = response.noUrl ? obj : response;
+            const data = response.noUrl
+              ? obj
+              : response;
             const summary = this.getSummary(data);
 
             this.$emit(data, {
@@ -84,7 +92,7 @@ export default {
             });
 
             resolve();
-          })
+          }),
       );
 
       await Promise.allSettled(promises);

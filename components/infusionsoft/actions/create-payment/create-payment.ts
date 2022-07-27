@@ -12,7 +12,10 @@ export default defineAction({
   props: {
     infusionsoft,
     orderId: {
-      propDefinition: [infusionsoft, "orderId"],
+      propDefinition: [
+        infusionsoft,
+        "orderId",
+      ],
     },
     applyToCommissions: {
       type: "boolean",
@@ -54,7 +57,11 @@ export default defineAction({
     paymentMethodType: {
       type: "string",
       label: "Payment Method",
-      options: ["CREDIT_CARD", "CASH", "CHECK"],
+      options: [
+        "CREDIT_CARD",
+        "CASH",
+        "CHECK",
+      ],
       optional: true,
     },
   },
