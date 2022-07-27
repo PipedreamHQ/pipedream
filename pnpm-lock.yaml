@@ -656,6 +656,9 @@ importers:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
 
+  components/google_directory:
+    specifiers: {}
+
   components/google_docs:
     specifiers:
       '@googleapis/docs': ^0.2.0
@@ -1596,9 +1599,6 @@ importers:
   components/twitch_developer_app:
     specifiers: {}
 
-  components/twitch_developer_app:
-    specifiers: {}
-
   components/twitter:
     specifiers:
       axios: ^0.21.1
@@ -1670,7 +1670,7 @@ importers:
       '@pipedream/platform': ^1.1.0
       webflow-api: ^0.5.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
 
   components/weworkbook:
@@ -1787,7 +1787,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.0
     dependencies:
-      '@pipedream/platform': link:../../platform
+      '@pipedream/platform': 1.1.0
 
   components/zoom_admin:
     specifiers:
@@ -18864,6 +18864,7 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: false
 
   /uuidv4/6.2.13:
