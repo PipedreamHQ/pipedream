@@ -1,6 +1,6 @@
 # Overview
 
-Use this action to add a Hubspot contact to a list.
+Use this action to add a Hubspot contact to a list. 
 
 # Getting Started
 
