@@ -1,6 +1,6 @@
 # Overview
 
-Use this source to trigger a workflow each time a contact is updated in Hubspot.
+Use this source to trigger a workflow each time a contact is updated in Hubspot. 
 
 # Getting Started
 
