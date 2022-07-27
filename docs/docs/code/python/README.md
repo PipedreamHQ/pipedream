@@ -31,13 +31,13 @@ def handler(pd: "pipedream"):
 
 ```
 
-The `handler` method is called during the step's execution, and the `pd` object contains helper methods to:
+The `handler` method is called during the step's execution, and the `pd` object contains helper methods to [use Data Stores](/code/python/using-data-stores/) and make [authenticated API requests to apps](/code/python/auth/).
 
 * [Import data exported from other steps](/code/python/#using-data-from-another-step)
 * [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
-* Retrieve data from a data store
-* Store data into a data store
-* Access API credentials from connected accounts
+* [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
+* [Store data into a data store](/code/python/using-data-stores/#saving-data)
+* [Access API credentials from connected accounts](/code/python/auth/)
 
 ## Logging and debugging
 

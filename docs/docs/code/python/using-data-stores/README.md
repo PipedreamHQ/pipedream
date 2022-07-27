@@ -26,6 +26,8 @@ def handler(pd: "pipedream"):
 
 In the _inputs_ select the _Add Data Store_ option.
 
+![Adding a datastore to a Python step](https://res.cloudinary.com/pipedreamin/image/upload/v1658954673/docs/components/CleanShot_2022-07-27_at_16.44.16_olfejo.gif)
+
 This will add the selected Data Store to your Python code step.
 
 ## Saving data
