@@ -1,11 +1,58 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "elmah_io",
-  propDefinitions: {},
+  propDefinitions: {
+    logId: {
+      label: "Log ID",
+      description: "The ID of the log",
+      type: "string",
+      async options() {
+        const logs = await this.getLogs();
+
+        return logs.map((log) => ({
+          label: log.name,
+          value: log.id,
+        }));
+      },
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _apiUrl() {
+      return "https://api.elmah.io/v3";
+    },
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
+        ...args,
+        url: `${this._apiUrl()}/${path}`,
+        params: {
+          ...args?.params,
+          api_key: this._apiKey(),
+        },
+      });
+    },
+    async getLogs({ $ } = {}) {
+      return this._makeRequest({
+        $,
+        path: "logs",
+      });
+    },
+    async getMessages({
+      $, logId, ...args
+    } = {}) {
+      const response = await this._makeRequest({
+        $,
+        path: `messages/${logId}`,
+        ...args,
+      });
+
+      return response.messages;
     },
   },
 };
