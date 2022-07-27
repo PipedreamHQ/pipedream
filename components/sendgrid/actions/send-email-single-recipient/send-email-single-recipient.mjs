@@ -59,7 +59,7 @@ export default {
       optional: true,
     },
     dynamicTemplateData: {
-      type: "string",
+      type: "object",
       label: "Dynamic Template Data",
       description: "Dynamic template data is available using Handlebars syntax in Dynamic Transactional Templates. This field should be used in combination with a Dynamic Transactional Template, which can be identified by a template_id starting with d-. This field is a collection of key/value pairs following the pattern `\"variable_name\":\"value to insert\"`",
       optional: true,
@@ -94,6 +94,7 @@ export default {
         common.props.sendgrid,
         "content",
       ],
+      optional: true,
     },
     attachments: {
       propDefinition: [
@@ -244,7 +245,7 @@ export default {
       personalizations[0].substitutions = this.substitutions;
     }
     if (this.dynamicTemplateData) {
-      personalizations[0].dynamicTemplateData = this.dynamicTemplateData;
+      personalizations[0].dynamic_template_data = this.dynamicTemplateData;
     }
     //Set ups the `from` object, where `email`, `name` of the mail sender are specified, with
     //`email` being required.
@@ -271,7 +272,7 @@ export default {
       from,
       reply_to: replyTo,
       subject: this.subject,
-      content: [
+      content: this.content && [
         {
           type: "text/html",
           value: this.content,
@@ -286,7 +287,7 @@ export default {
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
-      templateId: this.templateId,
+      template_id: this.templateId,
     });
     const resp = await this.sendgrid.sendEmail(config);
     $.export("$summary", "Email successfully sent");

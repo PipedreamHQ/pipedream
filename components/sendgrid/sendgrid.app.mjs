@@ -679,7 +679,7 @@ export default {
     async listTemplates() {
       const config = {
         method: "GET",
-        url: "/v3/templates",
+        url: "/v3/templates?generations=dynamic",
       };
 
       const { templates } = (await this._makeClientRequest(config))[1];
