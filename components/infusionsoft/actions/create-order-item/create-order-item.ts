@@ -48,7 +48,7 @@ export default defineAction({
       data: {
         description: this.description,
         price: this.price,
-        productId: this.productId,
+        product_id: this.productId,
         quantity: this.quantity,
       },
     };

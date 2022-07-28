@@ -16,7 +16,7 @@ interface CreateOrderItemParams extends ActionRequestParams {
   data: {
     description: string;
     price: string;
-    productId: number;
+    product_id: number;
     quantity: number;
   };
 }
