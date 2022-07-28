@@ -44,7 +44,7 @@ export default {
     const {
       // eslint-disable-next-line no-unused-vars
       app,
-      templateId,
+      templateId: template,
       ...fields
     } = this;
 
@@ -61,8 +61,10 @@ export default {
 
     const response = await this.app.createImage({
       $,
-      templateId,
-      params,
+      data: {
+        template,
+        params,
+      },
     });
 
     if (response.error) {

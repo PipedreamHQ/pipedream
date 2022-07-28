@@ -19,15 +19,8 @@ export default {
   },
   methods: {
     async _makeRequest({
-      $ = this,
-      opts,
-    }) {
-      const {
-        method = "get",
-        path,
-        params,
-        data,
-      } = opts;
+      $ = this, path, method = "get", ...args
+    } = {}) {
       return axios($, {
         headers: {
           "Authorization": `Bearer ${this.$auth.api_key}`,
@@ -35,42 +28,28 @@ export default {
         },
         url: `https://api.supportivekoala.com/v1${path}`,
         method,
-        params,
-        data,
+        ...args,
       });
     },
-    async getTemplates() {
+    async getTemplates(args = {}) {
       return this._makeRequest({
-        opts: {
-          path: "/templates",
-        },
-      });    },
+        path: "/templates",
+        ...args,
+      });
+    },
     async getTemplate({
-      $ = this,
-      templateId,
+      templateId, ...args
     }) {
       return this._makeRequest({
-        $,
-        opts: {
-          path: `/templates/${templateId}`,
-        },
+        path: `/templates/${templateId}`,
+        ...args,
       });
     },
-    async createImage({
-      $,
-      templateId,
-      params,
-    }) {
+    async createImage(args = {}) {
       return this._makeRequest({
-        $,
-        opts: {
-          path: "/images",
-          method: "post",
-          data: {
-            template: templateId,
-            params,
-          },
-        },
+        path: "/images",
+        method: "post",
+        ...args,
       });
     },
   },
