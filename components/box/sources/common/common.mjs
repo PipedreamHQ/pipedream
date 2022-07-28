@@ -31,6 +31,15 @@ export default {
     getSummary() {
       throw new Error("getSummary(event) is not implemented!");
     },
+    getMetadata(eventBody) {
+      return {
+        id: eventBody.id,
+        summary: this.getSummary(eventBody),
+        ts: eventBody.created_at ?
+          new Date(eventBody.created_at).getTime() :
+          Date.now(),
+      };
+    },
   },
   hooks: {
     async activate() {
@@ -56,17 +65,8 @@ export default {
   },
   async run(event) {
     this.$emit(
-      {
-        event,
-        [event.body.source?.type]: event.body.source,
-      },
-      {
-        id: event.body.id,
-        summary: this.getSummary(event.body),
-        ts: event.body.created_at ?
-          new Date(event.body.created_at).getTime() :
-          Date.now(),
-      },
+      event.body,
+      this.getMetadata(event.body),
     );
   },
 };

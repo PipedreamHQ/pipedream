@@ -219,10 +219,7 @@ export default {
       };
     },
     async _makeRequest({
-      $,
-      path,
-      headers,
-      ...otherConfig
+      $, path, headers, ...otherConfig
     } = {}) {
       const config = {
         url: this._getApiUrl(path),
@@ -231,7 +228,7 @@ export default {
       };
       return axios($ ?? this, config);
     },
-    async createHook({ ...args }) {
+    async createHook(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
@@ -241,7 +238,7 @@ export default {
     async deleteHook({
       hookId,
       ...args
-    }) {
+    } = {}) {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${hookId}`,
@@ -258,14 +255,14 @@ export default {
         ...args,
       });
     },
-    async uploadFile({ ...args } = {}) {
+    async uploadFile(args = {}) {
       return this._makeRequest({
         method: "POST",
         url: this._getUploadUrl("/files/content"),
         ...args,
       });
     },
-    async searchContent({ ...args } = {}) {
+    async searchContent(args = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/search",

@@ -9,9 +9,8 @@ export default {
       return filePathWithTmp;
     } else if (fs.existsSync(filePath)) {
       return filePath;
-    } else {
-      return false;
     }
+    return false;
   },
   getFileStream(filePath) {
     return fs.createReadStream(filePath);
