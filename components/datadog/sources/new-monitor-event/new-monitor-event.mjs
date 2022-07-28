@@ -2,11 +2,12 @@ import datadog from "../../datadog.app.mjs";
 import { payloadFormat } from "../common/payload-format.mjs";
 
 export default {
-  key: "datadog-new-monitor-event",
-  name: "New Monitor Event (Instant)",
+  key: "datadog-new-monitor-event-aa",
+  name: "New Monitor Event (Instant) [Updated]",
   description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
-  version: "0.0.3",
+  // version: "0.0.3",
+  version: "0.0.7",
   type: "source",
   props: {
     datadog,

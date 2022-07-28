@@ -62,16 +62,13 @@ export default {
       description: "The monitors to observe for notifications",
       optional: true,
       async options({ page }) {
-        const pageSize = 10;
+        const pageSize = 100;
         const monitors = await this.listMonitors(page, pageSize);
-        const options = monitors.map((monitor) => ({
+
+        return monitors.map((monitor) => ({
           label: monitor.name,
           value: monitor.id,
         }));
-
-        return {
-          options,
-        };
       },
     },
   },
