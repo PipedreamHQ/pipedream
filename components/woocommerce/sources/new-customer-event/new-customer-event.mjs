@@ -3,13 +3,19 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "woocommerce-new-customer-event",
-  name: "New Customer Event",
+  name: "New Customer Event (Instant)",
   description: "Emit new event each time the specified customer event(s) occur",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    async getSampleEvents({ perPage }) {
+      return this.woocommerce.listCustomers({
+        per_page: perPage,
+        orderby: "registered_date",
+      });
+    },
     getTopic(topicType) {
       return `customer.${topicType}`;
     },

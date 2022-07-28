@@ -2,9 +2,9 @@ import sendinBlueApp from "../../sendinblue.app.mjs";
 
 export default {
   key: "sendinblue-send-transactional-email",
-  name: "Send transactional email",
-  description: "Send transactional email",
-  version: "0.0.1",
+  name: "Send Transactional Email",
+  description: "Send transactional email. [See the docs here](https://developers.sendinblue.com/reference/sendtransacemail)",
+  version: "0.0.3",
   type: "action",
   props: {
     sendinBlueApp,
@@ -98,9 +98,26 @@ export default {
         optional: true,
         description: "Tag your emails to find them more easily.",
       },
+      params: {
+        type: "string",
+        label: "Params",
+        description: "All key-value properties that will be replaced in the template e.g. `{\"ORDER\": 12345, \"DATE\": \"12/06/2019\"}`",
+        optional: true,
+      },
     };
 
     return props;
+  },
+  methods: {
+    formatEmailProp(prop, field) {
+      if (!Array.isArray(prop)) {
+        throw new Error(`Field ${field} should be an array`, prop);
+      }
+      if (typeof prop[0] === "string") {
+        return Object.keys(prop).map((key) => JSON.parse(prop[key]));
+      }
+      return prop;
+    },
   },
   async run({ $ }) {
     const sender = this.sender ?
@@ -109,18 +126,21 @@ export default {
     const replyTo = this.replyTo ?
       JSON.parse(this.replyTo) :
       null;
+    const params = this.params ?
+      JSON.parse(this.params) :
+      null;
 
     const tags = this.tags ?
       Object.keys(this.tags).map((key) => this.tags[key])
       : null;
     const to = this.to
-      ? Object.keys(this.to).map((key) => JSON.parse(this.to[key]))
+      ? this.formatEmailProp(this.to, "To")
       : null;
     const cc = this.cc
-      ? Object.keys(this.cc).map((key) => JSON.parse(this.cc[key]))
+      ? this.formatEmailProp(this.cc, "CC")
       : null;
     const bcc = this.bcc
-      ? Object.keys(this.bcc).map((key) => JSON.parse(this.bcc[key]))
+      ? this.formatEmailProp(this.bcc, "BCC")
       : null;
 
     if (!Array.isArray(to) || to.length === 0) {
@@ -140,6 +160,7 @@ export default {
       tags,
       cc,
       bcc,
+      params,
     );
     $.export("$summary", "Transactional email successfully sent");
     return emailSent;

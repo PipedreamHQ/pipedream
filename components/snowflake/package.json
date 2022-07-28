@@ -18,6 +18,7 @@
         "@pipedream/platform": "^0.10.0",
         "snowflake-sdk": "^1.6.10",
         "lodash-es": "^4.17.21",
-        "uuid": "^8.3.2"
+        "uuid": "^8.3.2",
+        "asn1.js": "^5.0.0"
     }
 }

@@ -75,6 +75,8 @@ export default defineComponent({
 
 ## `$.flow.rerun`
 
+<VideoPlayer src="https://www.youtube.com/embed/Fz_hjbza6Yo" title="Rerunning a Node.js code step with $.rerun"/>
+
 Use `$.flow.rerun` when you want to run a specific step of a workflow multiple times. This is useful when you need to start a job in an external API and poll for its completion, or have the service call back to the step and let you process the HTTP request within the step.
 
 ### Polling for the status of an external job

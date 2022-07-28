@@ -4,7 +4,7 @@ export default {
   key: "webflow-list-collection-items",
   name: "List Collection Items",
   description: "List Items of a collection. [See the docs here](https://developers.webflow.com/#get-all-items-for-a-collection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     webflow,
@@ -13,7 +13,6 @@ export default {
         webflow,
         "sites",
       ],
-      optional: true,
     },
     collectionId: {
       propDefinition: [

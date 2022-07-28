@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -173,7 +173,9 @@ export default {
     //specified, with `email` being required.
     let replyTo = undefined;
     if (this.replyToEmail) {
-      replyTo.email = this.replyToEmail;
+      replyTo = {
+        email: this.replyToEmail,
+      };
       if (this.replyToName) {
         replyTo.name = this.replyToName;
       }

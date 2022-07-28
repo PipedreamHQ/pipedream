@@ -6,9 +6,13 @@ gh-md-toc
 .idea
 node_modules
 .eslintcache
+eslint/_logs
 
 .vercel
 
 docs/.vuepress/dist
 *.swp
 *.d.ts
+
+./package-lock.json
+components/**/package-lock.json

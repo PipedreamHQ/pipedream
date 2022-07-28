@@ -11,6 +11,7 @@
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
+        "@pipedream/platform": "^0.10.0",
         "axios": "^0.21.1",
         "jsonwebtoken": "^8.5.1"
     },

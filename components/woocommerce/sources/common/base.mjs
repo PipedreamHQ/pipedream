@@ -14,6 +14,15 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      const events = await this.getSampleEvents({
+        perPage: 25,
+      });
+      for (const event of events) {
+        const meta = this.generateMeta("", event);
+        this.$emit(event, meta);
+      }
+    },
     async activate() {
       const hookIds = [];
       for (const topicType of this.topics) {
@@ -46,6 +55,9 @@ export default {
         .update(bodyRaw)
         .digest("base64");
       return signatureComputed === signature;
+    },
+    getSampleEvents() {
+      throw new Error("getSampleEvents is not implemented");
     },
   },
   async run(event) {
