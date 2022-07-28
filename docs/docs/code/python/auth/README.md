@@ -66,21 +66,17 @@ def handler(pd: "pipedream"):
   console.log(pd.inputs["slack"]["$auth"])
 ```
 
-`this.appName.$auth` contains named properties for each account you connect to the associated step. Here, we connected Slack, so `this.slack.$auth` contains the Slack auth info (the `oauth_access_token`).
+`pd.inputs["slack"]["$auth"]` contains named properties for each account you connect to the associated step. Here, we connected Slack, so `this.slack.$auth` contains the Slack auth info (the `oauth_access_token`).
 
 The names of the properties for each connected account will differ with the account. Pipedream typically exposes OAuth access tokens as `oauth_access_token`, and API keys under the property `api_key`. But if there's a service-specific name for the tokens (for example, if the service calls it `server_token`), we prefer that name, instead.
 
-To list the `this.[app name].$auth` properties available to you for a given app, run `Object.keys` on the app:
+To list the `pd.inputs["slack"]["$auth"]` properties available to you for a given app, just print the contents of the `$auth` property:
 
-```javascript
-console.log(Object.keys(this.slack.$auth)) // Replace this.slack with your app's name
+```python
+print(pd.inputs["slack"]["$auth"]) # Replace "slack" with your app's name
 ```
 
 and run your workflow. You'll see the property names in the logs below your step.
-
-## Writing custom steps to use `this.appName.$auth`
-
-You can write code that utilizes connected accounts in a few different ways:
 
 ### Using the code templates tied to apps
 

@@ -5,9 +5,9 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 # Using Data Stores 
 
-In Python code steps, you can also store and retrieve data within code steps without connecting a 3rd party database.
+In Python code steps, you can also store and retrieve data from [Data Stores](/data-stores/) without connecting to a 3rd party database.
 
-Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`
+Add a data store as a input to a Python step, then access it in your Python `handler` with `pd.inputs["data_store"]`.
 
 ```python
 def handler(pd: "pipedream"):

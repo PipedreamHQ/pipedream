@@ -21,13 +21,13 @@ However, you can't delay or retry steps, or take advantage of other features ava
 
 ## Python Code Step Structure
 
-A new Python Code step will have the following structure, with a `hander` method and a `pd` argument passed into it:
+A new Python Code step will have the following structure, with a `handler` method and a `pd` argument passed into it:
 
 ```python
 
 def handler(pd: "pipedream"):
-  # Prints "Hello, World!" to the step's logs
-  print("Hello, World!")
+  # Exports a variable called message with contents "Hello, World!"
+  pd.export("message", "Hello, World!")
 
 ```
 
