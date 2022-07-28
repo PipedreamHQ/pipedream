@@ -1,4 +1,5 @@
 import elmah_io from "../../elmah_io.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   name: "New Error",
@@ -47,7 +48,7 @@ export default {
         },
       });
 
-      messages.forEach((message) => this.emitEvent(message));
+      messages.forEach(this.emitEvent);
     },
   },
   async run() {
@@ -58,15 +59,15 @@ export default {
         logId: this.logId,
         params: {
           pageIndex: page,
-          pageSize: 15,
+          pageSize: constants.DEFAULT_PAGE_SIZE,
         },
       });
 
-      messages.forEach((message) => this.emitEvent(message));
+      messages.forEach(this.emitEvent);
 
       page++;
 
-      if (messages.length < 15) {
+      if (messages.length < constants.DEFAULT_PAGE_SIZE) {
         page = -1;
         return;
       }

@@ -30,25 +30,24 @@ export default {
     }) {
       return axios($, {
         ...args,
-        url: `${this._apiUrl()}/${path}`,
+        url: `${this._apiUrl()}${path}`,
         params: {
           ...args?.params,
           api_key: this._apiKey(),
         },
       });
     },
-    async getLogs({ $ } = {}) {
+    async getLogs(args = {}) {
       return this._makeRequest({
-        $,
-        path: "logs",
+        path: "/logs",
+        ...args,
       });
     },
     async getMessages({
-      $, logId, ...args
+      logId, ...args
     } = {}) {
       const response = await this._makeRequest({
-        $,
-        path: `messages/${logId}`,
+        path: `/messages/${logId}`,
         ...args,
       });
 
