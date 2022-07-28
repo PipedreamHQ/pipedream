@@ -1,3 +1,10 @@
+import xss from "xss";
+
+/**
+ * Should support the following data types:
+ * https://pipedream.com/docs/data-stores/#supported-data-types
+ */
+
 export default {
   type: "app",
   app: "data_stores",
@@ -33,6 +40,18 @@ export default {
     },
   },
   methods: {
+    // using Function approach instead of eval:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+    evaluate(value) {
+      try {
+        return Function(`"use strict"; return (${xss(value)})`)();
+      } catch (err) {
+        return value;
+      }
+    },
+    parseJSON(value) {
+      return JSON.parse(JSON.stringify(this.evaluate(value)));
+    },
     shouldAddRecord(option) {
       return option === "Yes";
     },
@@ -42,18 +61,10 @@ export default {
       }
 
       try {
-        return JSON.parse(this.sanitizeJson(value));
+        return this.parseJSON(value);
       } catch (err) {
         return value;
       }
-    },
-    //Because user might enter a JSON as JS object;
-    //This method converts a JS object string to a JSON string before parsing it
-    //e.g. {a:"b", 'c':1} => {"a":"b", "c":1}
-    //We don't use eval here because of security reasons.
-    //Using eval may cause something undesired run in the script.
-    sanitizeJson(str) {
-      return str.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, "\"$2\": ");
     },
   },
 };

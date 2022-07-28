@@ -1,5 +1,4 @@
 import app from "../../data_stores.app.mjs";
-import xss from "xss";
 
 export default {
   key: "data_stores-add-update-multiple-records",
@@ -53,13 +52,7 @@ export default {
         }
       }
 
-      // Try to evaluate string as javascript, using xss as extra security
-      // If some problem occurs, return the original string
-      try {
-        return eval(`(${xss(value)})`);
-      } catch {
-        return value;
-      }
+      return this.app.evaluate(value);
     },
     /**
      * Add all the key-value pairs in the map object to be used in the data store
@@ -86,7 +79,7 @@ export default {
   },
   async run({ $ }) {
     if (typeof this.data === "string") {
-      this.data = eval(`(${this.data})`);
+      this.data = this.app.evaluate(this.data);
     }
     const map = this.getHashMapOfData(this.data);
     const keys = Object.keys(map);
