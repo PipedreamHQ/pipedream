@@ -31,6 +31,7 @@ export default {
     if (record) {
       await this.dataStore.delete(this.key);
       $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
+      return record;
     } else {
       $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");
     }

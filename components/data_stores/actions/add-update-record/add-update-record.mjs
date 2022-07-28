@@ -42,7 +42,7 @@ export default {
     $.export("$summary", `Successfully ${record ? "updated the record for" : "added a new record with the"} key, \`${key}\`.`);
     return {
       key,
-      value,
+      value: parsedValue,
     };
   },
 };

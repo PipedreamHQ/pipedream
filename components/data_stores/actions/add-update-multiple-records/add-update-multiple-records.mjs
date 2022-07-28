@@ -98,5 +98,6 @@ export default {
     } else {
       $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
     }
+    return map;
   },
 };

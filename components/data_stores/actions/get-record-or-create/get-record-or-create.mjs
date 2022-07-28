@@ -42,12 +42,13 @@ export default {
 
     if (record) {
       $.export("$summary", "Found data for the key, `" + this.key + "`.");
+      return record;
     } else {
       if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
         const parsedValue = this.app.parseValue(this.value);
         await this.dataStore.set(this.key, parsedValue);
         $.export("$summary", "Successfully added a new record with the key, `" + this.key + "`.");
-        return this.dataStore.get(this.key);
+        return parsedValue;
       } else {
         $.export("$summary", "No data found for key, `" + this.key + "`.");
       }
