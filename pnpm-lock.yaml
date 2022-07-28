@@ -56,10 +56,10 @@ importers:
       pnpm: 7.0.1
       putout: 26.0.1
       renamer: 4.0.0
-      ts-jest: 27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a
-      tsc-esm-fix: 2.18.0
-      tsc-watch: 5.0.3_typescript@4.7.2
-      typescript: 4.7.2
+      ts-jest: 27.1.5_mqaoisgizytgigbr3gbjwvnjie
+      tsc-esm-fix: 2.19.0
+      tsc-watch: 5.0.3_typescript@4.7.4
+      typescript: 4.7.4
 
   components/activecampaign:
     specifiers:
@@ -332,6 +332,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
+
+  components/convertkit:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/conveyor:
     specifiers: {}
@@ -1519,9 +1525,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^0.9.0
       node-telegram-bot-api: ^0.54.0
+      uuid: ^8.3.2
     dependencies:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
+      uuid: 8.3.2
 
   components/threescribe:
     specifiers: {}
@@ -1673,8 +1681,10 @@ importers:
 
   components/webflow:
     specifiers:
+      '@pipedream/platform': ^1.1.0
       webflow-api: ^0.5.0
     dependencies:
+      '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
 
   components/weworkbook:
@@ -18613,8 +18623,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.4_b2l2z5zb7yu4r6dlp35tmkx42a:
-    resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
+  /ts-jest/27.1.5_mqaoisgizytgigbr3gbjwvnjie:
+    resolution: {integrity: sha512-Xv6jBQPoBEvBq/5i2TeSG9tt/nqkbpcurrEG1b+2yfBrcJelOZF9Ml6dmyMh7bcW9JyFbRYpR5rxROSlBLTZHA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
     peerDependencies:
@@ -18634,7 +18644,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@types/jest': 27.5.0
+      '@types/jest': 27.5.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       jest: 27.5.1
