@@ -36,11 +36,11 @@ export default {
       key,
       value,
     } = this;
-    const record = await this.dataStore.get(key);
+    const exists = await this.dataStore.has(key);
     const parsedValue = this.app.parseValue(value);
     await this.dataStore.set(key, parsedValue);
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully ${record ? "updated the record for" : "added a new record with the"} key, \`${key}\`.`);
+    $.export("$summary", `Successfully ${exists ? "updated the record for" : "added a new record with the"} key, \`${key}\`.`);
     return {
       key,
       value: parsedValue,

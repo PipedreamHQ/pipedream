@@ -68,8 +68,7 @@ export default {
      */
     populateHashMapOfData(data, map) {
       if (!Array.isArray(data) && typeof(data) === "object") {
-        Object.keys(data)
-          .forEach((key) => map[key] = this.convertString(data[key]));
+        Object.keys(data).forEach((key) => map[key] = this.convertString(data[key]));
         return;
       }
 
