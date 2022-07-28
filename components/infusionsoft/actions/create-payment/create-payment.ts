@@ -58,9 +58,18 @@ export default defineAction({
       type: "string",
       label: "Payment Method",
       options: [
-        { label: "Credit Card", value: "CREDIT_CARD" },
-        { label: "Cash", value: "CASH" },
-        { label: "Check", value: "CHECK"},
+        {
+          label: "Credit Card",
+          value: "CREDIT_CARD",
+        },
+        {
+          label: "Cash",
+          value: "CASH",
+        },
+        {
+          label: "Check",
+          value: "CHECK",
+        },
       ],
       optional: true,
     },
