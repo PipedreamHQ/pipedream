@@ -12,7 +12,9 @@ export default {
     discordApphook: {
       type: "$.interface.apphook",
       appProp: "discord",
-      eventNames: ["GUILD_MEMBER_ADD"],
+      eventNames: [
+        "GUILD_MEMBER_ADD",
+      ],
     },
   },
   hooks: {

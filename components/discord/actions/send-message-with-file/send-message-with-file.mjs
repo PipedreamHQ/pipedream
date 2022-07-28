@@ -37,7 +37,11 @@ export default {
         avatarURL,
         threadID,
         username,
-        files: [{ attachment: fileUrl }],
+        files: [
+          {
+            attachment: fileUrl,
+          },
+        ],
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message ?? "")
           : message,

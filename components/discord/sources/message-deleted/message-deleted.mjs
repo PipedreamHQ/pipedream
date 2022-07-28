@@ -14,12 +14,17 @@ export default {
       appProp: "discord",
       label: "Channels",
       description: "Select the channel(s) you'd like to be notified for",
+      optional: true,
     },
     discordApphook: {
       type: "$.interface.apphook",
       appProp: "discord",
       eventNames() {
-        return this.channels.map((channel) => `MESSAGE_DELETE:${channel}`);
+        return this.channels?.length > 0
+          ? this.channels.map((channel) => `MESSAGE_DELETE:${channel}`)
+          : [
+            "MESSAGE_DELETE",
+          ];
       },
     },
   },

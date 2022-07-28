@@ -13,12 +13,17 @@ export default {
       appProp: "discord",
       label: "Channels",
       description: "Select the channel(s) you'd like to be notified for",
+      optional: true,
     },
     discordApphook: {
       type: "$.interface.apphook",
       appProp: "discord",
       eventNames() {
-        return this.channels.map((channel) => `MESSAGE_REACTION_ADD:${channel}`);
+        return this.channels?.length > 0
+          ? this.channels.map((channel) => `MESSAGE_REACTION_ADD:${channel}`)
+          : [
+            "MESSAGE_REACTION_ADD",
+          ];
       },
     },
   },
