@@ -33,7 +33,7 @@ export default {
   },
   async additionalProps() {
     if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
-      return this.app.valueProp();
+      return this.app.propDefinitions.value;
     }
     return {};
   },

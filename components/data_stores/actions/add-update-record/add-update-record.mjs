@@ -25,9 +25,10 @@ export default {
       description: "Enter a key for the record you'd like to create or select an existing key to update.",
     },
     value: {
-      label: "Value",
-      type: "any",
-      description: "Enter a string, object, or array.",
+      propDefinition: [
+        app,
+        "value",
+      ],
     },
   },
   async run({ $ }) {

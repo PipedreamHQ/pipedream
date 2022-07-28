@@ -15,6 +15,11 @@ export default {
         return dataStore.keys();
       },
     },
+    value: {
+      label: "Value",
+      type: "any",
+      description: "Enter a string, object, or array.",
+    },
     addRecordIfNotFound: {
       label: "Create a new record if the key is not found?",
       description: "Create a new record if no records are found for the specified key.",
@@ -30,15 +35,6 @@ export default {
   methods: {
     shouldAddRecord(option) {
       return option === "Yes";
-    },
-    valueProp() {
-      return {
-        value: {
-          label: "Value",
-          type: "any",
-          description: "Enter a string, object, or array.",
-        },
-      };
     },
     parseValue(value) {
       if (typeof value !== "string") {
