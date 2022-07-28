@@ -95,7 +95,8 @@ export default {
     if (keys.length === 0) {
       $.export("$summary", "No data was added to the data store.");
     } else {
-      $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
+      // eslint-disable-next-line multiline-ternary
+      $.export("$summary", `Successfully added or updated ${keys.length} record${keys.length === 1 ? "" : "s"}`);
     }
     return map;
   },

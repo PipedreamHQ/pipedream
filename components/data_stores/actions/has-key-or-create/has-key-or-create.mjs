@@ -39,18 +39,18 @@ export default {
   },
   async run ({ $ }) {
     if (await this.dataStore.has(this.key)) {
-      $.export("$summary", `Key "${this.key}" exists.`);
+      $.export("$summary", `Key \`${this.key}\` exists.`);
       return true;
     }
 
-    if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
-      const parsedValue = this.app.parseValue(this.value);
-      await this.dataStore.set(this.key, parsedValue);
-      $.export("$summary", `Key "${this.key}" was not found. Successfully added a new record.`);
-      return parsedValue;
+    if (!this.app.shouldAddRecord(this.addRecordIfNotFound)) {
+      $.export("$summary", `Key \`${this.key}\` does not exist.`);
+      return false;
     }
 
-    $.export("$summary", `Key "${this.key}" does not exist.`);
-    return false;
+    const parsedValue = this.app.parseValue(this.value);
+    await this.dataStore.set(this.key, parsedValue);
+    $.export("$summary", `Key \`${this.key}\` was not found. Successfully added a new record.`);
+    return parsedValue;
   },
 };
