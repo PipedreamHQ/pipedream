@@ -1,11 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { parseOne } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
   key: "quickbooks-sparse-update-invoice",
   name: "Sparse Update Invoice",
   description: "Sparse updating provides the ability to update a subset of properties for a given object; only elements specified in the request are updated. Missing elements are left untouched. The ID of the object to update is specified in the request body.​ [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#sparse-update-an-invoice)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     quickbooks,
@@ -21,27 +22,16 @@ export default {
         "lineItems",
       ],
     },
-    customerRefValue: {
-      label: "Customer Reference Value",
-      type: "string",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Id` from that object for `CustomerRef.value`.",
-    },
-    customerRefName: {
+    customer: {
       propDefinition: [
         quickbooks,
-        "customerRefName",
+        "customer",
       ],
     },
-    currencyRefValue: {
+    currency: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
-      ],
-    },
-    currencyRefName: {
-      propDefinition: [
-        quickbooks,
-        "currencyRefName",
+        "currency",
       ],
     },
     minorVersion: {
@@ -52,8 +42,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.lineItems || !this.customerRefValue) {
-      throw new ConfigurationError("Must provide lineItems, and customerRefValue parameters.");
+    if (!this.lineItems || !this.customer) {
+      throw new ConfigurationError("Must provide lineItems, and customer parameters.");
     }
 
     try {
@@ -71,15 +61,8 @@ export default {
 
     if (this.lineItems.length) Invoice.Line?.push(...this.lineItems);
 
-    if (this.customerRefValue)
-      Invoice.CustomerRef.value = this.customerRefValue;
-    if (this.customerRefName)
-      Invoice.CustomerRef.name = this.customerRefName;
-
-    if (this.currencyRefValue)
-      Invoice.CurrencyRef.value = this.currencyRefValue;
-    if (this.currencyRefName)
-      Invoice.CurrencyRef.name = this.currencyRefName;
+    Invoice.CurrencyRef = parseOne(this.currency);
+    Invoice.CustomerRef = parseOne(this.customer);
 
     const response = await this.quickbooks.sparseUpdateInvoice({
       $,
