@@ -10,7 +10,7 @@ export default {
       description: "Id of the invoice to get details of.",
       async options({ page }) {
         const position = 1 + (page * 10);
-        const { QueryResponse: { Invoice } } = await this.query({
+        const { QueryResponse: { Invoice: records } } = await this.query({
           params: {
             query: `select * from invoice maxresults 10${page
               ? `startposition ${position}`
@@ -18,12 +18,12 @@ export default {
           },
         });
 
-        return Invoice
-          ? Invoice.map((invoice) => ({
-            label: `(${invoice.DocNumber}) ${invoice.CustomerRef.name}`,
-            value: invoice.Id,
-          }))
-          : [];
+        return records?.map(({
+          Id: value, DocNumber: docNumber, CustomerRef: customerRef,
+        }) => ({
+          label: `(${docNumber}) ${customerRef.name}`,
+          value,
+        })) || [];
       },
     },
     minorVersion: {
