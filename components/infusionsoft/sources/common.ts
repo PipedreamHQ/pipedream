@@ -54,48 +54,43 @@ export default {
       status: 200,
     };
 
-    let shouldTriggerEvent = true;
-
     // If this is a hook verification request:
     // Do not trigger an event (respond with the secret received)
     if (hookSecret && data.method === "POST") {
-      shouldTriggerEvent = false;
       httpResponse.headers[hookSecretName] = hookSecret;
+      this.http.respond(httpResponse);
+      return;
     }
 
     this.http.respond(httpResponse);
 
     // Actual event trigger
-    if (shouldTriggerEvent) {
-      const objectKeys = data.body.object_keys;
-      if (!(objectKeys instanceof Array)) {
-        throw new Error("Unknown data received from Infusionsoft webhook");
-      }
-
-      const promises: Promise<void>[] = objectKeys.map(
-        async (obj: WebhookObject) =>
-          new Promise(async (resolve) => {
-            const {
-              apiUrl, id, timestamp,
-            } = obj;
-
-            const response = await this.infusionsoft.hookResponseRequest(apiUrl);
-            const data = response.noUrl
-              ? obj
-              : response;
-            const summary = this.getSummary(data);
-
-            this.$emit(data, {
-              id,
-              summary,
-              ts: new Date(timestamp).valueOf(),
-            });
-
-            resolve();
-          }),
-      );
-
-      await Promise.allSettled(promises);
+    const { object_keys: objectKeys } = data.body;
+    if (!Array.isArray(objectKeys)) {
+      throw new Error("Unknown data received from Infusionsoft webhook");
     }
+
+    const promises: Promise<{
+      obj: WebhookObject;
+      response: any;
+    }>[] = objectKeys.map(async (obj: WebhookObject) => ({
+      obj,
+      response: await this.infusionsoft.hookResponseRequest(obj.apiUrl),
+    }));
+
+    const result = await Promise.all(promises);
+    result.forEach(({
+      obj, response,
+    }) => {
+      const data = response.noUrl
+        ? obj
+        : response;
+      const summary = this.getSummary(data);
+      this.$emit(data, {
+        id: obj.id,
+        summary,
+        ts: new Date(obj.timestamp).valueOf(),
+      });
+    });
   },
 };
