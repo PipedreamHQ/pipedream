@@ -3,9 +3,20 @@ export default {
   app: "esignatures_io",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
+    _apiUrl() {
+      return "https://api.tally.so";
+    },
+    async _makeRequest(path, options = {}, $ = undefined) {
+      return axios($ ?? this, {
+        url: `${this._apiUrl()}/${path}`,
+        headers: {
+          Authorization: `Bearer ${this._accessToken()}`,
+        },
+        ...options,
+      });
     },
   },
 };
