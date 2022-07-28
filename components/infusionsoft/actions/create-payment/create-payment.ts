@@ -67,6 +67,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const params: CreatePaymentParams = {
+      $,
       orderId: this.orderId,
       data: {
         apply_to_commissions: this.applyToCommissions,

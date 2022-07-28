@@ -43,6 +43,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const params: CreateOrderItemParams = {
+      $,
       orderId: this.orderId,
       data: {
         description: this.description,

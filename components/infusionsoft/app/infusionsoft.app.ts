@@ -25,21 +25,18 @@ export default defineApp({
       return "https://api.infusionsoft.com/crm/rest/v1";
     },
     async _httpRequest({
+      $ = this,
       endpoint,
-      data,
-      method = "GET",
       url,
+      ...args
     }: HttpRequestParams): Promise<object> {
-      const response = await axios(this, {
-        method,
+      return axios($, {
         url: url ?? this._baseUrl() + endpoint,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
-        data,
+        ...args,
       });
-
-      return response.data;
     },
     async hookResponseRequest(apiUrl: string): Promise<object> {
       if (!(apiUrl && apiUrl.startsWith(this._baseUrl()))) {
@@ -72,14 +69,20 @@ export default defineApp({
 
       return response.companies;
     },
-    async getCompany({ id }: GetObjectParams): Promise<Company> {
+    async getCompany({
+      id, ...params
+    }: GetObjectParams): Promise<Company> {
       return this._httpRequest({
         endpoint: `/companies/${id}`,
+        ...params,
       });
     },
-    async getAppointment({ id }: GetObjectParams): Promise<Appointment> {
+    async getAppointment({
+      id, ...params
+    }: GetObjectParams): Promise<Appointment> {
       return this._httpRequest({
         endpoint: `/appointments/${id}`,
+        ...params,
       });
     },
     async listContacts(): Promise<Contact[]> {
@@ -89,9 +92,12 @@ export default defineApp({
 
       return response.contacts;
     },
-    async getContact({ id }: GetObjectParams): Promise<Contact> {
+    async getContact({
+      id,  ...params
+    }: GetObjectParams): Promise<Contact> {
       return this._httpRequest({
         endpoint: `/contacts/${id}`,
+        ...params,
       });
     },
     async listOrders(): Promise<Order[]> {
@@ -101,9 +107,12 @@ export default defineApp({
 
       return response.orders;
     },
-    async getOrder({ id }: GetObjectParams): Promise<Order> {
+    async getOrder({
+      id, ...params
+    }: GetObjectParams): Promise<Order> {
       return this._httpRequest({
         endpoint: `/orders/${id}`,
+        ...params,
       });
     },
     getOrderSummary({
@@ -120,22 +129,22 @@ export default defineApp({
     },
     async createOrderItem({
       orderId,
-      data,
+      ...params
     }: CreateOrderItemParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/items`,
         method: "POST",
-        data,
+        ...params,
       });
     },
     async createPayment({
       orderId,
-      data,
+      ...params
     }: CreatePaymentParams): Promise<object> {
       return this._httpRequest({
         endpoint: `/orders/${orderId}/payments`,
         method: "POST",
-        data,
+        ...params,
       });
     },
   },

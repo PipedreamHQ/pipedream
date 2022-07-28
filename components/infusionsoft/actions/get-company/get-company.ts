@@ -21,6 +21,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<Company> {
     const params: GetObjectParams = {
+      $,
       id: this.companyId,
     };
     const data: Company = await this.infusionsoft.getCompany(params);

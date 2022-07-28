@@ -1,13 +1,17 @@
-type CreateHookParams = {
-  eventKey: string;
-  hookUrl: string;
-};
+import { Pipedream } from "@pipedream/types";
 
-type DeleteHookParams = {
-  key: string;
-};
+interface ActionRequestParams {
+  $?: Pipedream;
+}
 
-type CreateOrderItemParams = {
+interface HttpRequestParams extends ActionRequestParams {
+  endpoint?: string;
+  data?: object;
+  method?: string;
+  url?: string;
+}
+
+interface CreateOrderItemParams extends ActionRequestParams {
   orderId: number;
   data: {
     description: string;
@@ -15,9 +19,9 @@ type CreateOrderItemParams = {
     productId: number;
     quantity: number;
   };
-};
+}
 
-type CreatePaymentParams = {
+interface CreatePaymentParams extends ActionRequestParams {
   orderId: number;
   data: {
     apply_to_commissions: boolean;
@@ -29,18 +33,20 @@ type CreatePaymentParams = {
     payment_gateway_id: string;
     payment_method_type: string;
   };
-};
+}
 
-type GetObjectParams = {
+interface GetObjectParams extends ActionRequestParams {
   id: number;
-};
+}
 
-type HttpRequestParams = {
-  endpoint?: string;
-  data?: object;
-  method?: string;
-  url?: string;
-};
+interface CreateHookParams {
+  eventKey: string;
+  hookUrl: string;
+}
+
+interface DeleteHookParams {
+  key: string;
+}
 
 export {
   CreateHookParams,

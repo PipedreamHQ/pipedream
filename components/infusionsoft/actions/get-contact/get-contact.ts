@@ -20,6 +20,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<Contact> {
     const params: GetObjectParams = {
+      $,
       id: this.contactId,
     };
     const data: Contact = await this.infusionsoft.getContact(params);
