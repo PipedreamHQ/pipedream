@@ -5,6 +5,14 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/
 
 # Connecting apps in Python
 
+:::warning
+
+This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
+
+There may be changes to this feature while we prepare it for a full release.
+
+:::
+
 When you use [prebuilt actions](/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
 But sometimes you'll need to [write your own code](/code/python/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
