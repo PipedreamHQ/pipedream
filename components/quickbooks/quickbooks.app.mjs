@@ -41,7 +41,6 @@ export default {
       label: "Customer Reference",
       type: "string",
       description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference.",
-      optional: true,
       async options({ page }) {
         const position = 1 + (page * 10);
         const { QueryResponse: { Customer: records } } = await this.query({

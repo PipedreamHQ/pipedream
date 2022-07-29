@@ -42,16 +42,12 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.lineItems || !this.customer) {
-      throw new ConfigurationError("Must provide lineItems, and customer parameters.");
-    }
-
     try {
       this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
         ? JSON.parse(lineItem)
         : lineItem);
     } catch (error) {
-      throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+      throw new ConfigurationError(`We got an error trying to parse the Line Items prop. Error: ${error}`);
     }
 
     const { Invoice } = await this.quickbooks.getInvoice({
