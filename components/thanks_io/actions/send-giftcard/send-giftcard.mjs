@@ -1,62 +1,20 @@
-import thanksIo from "../../thanks_io.app.mjs";
+import common from "../common/send-recipients.mjs";
 
 export default {
+  ...common,
   key: "thanks_io-send-giftcard",
   name: "Send Giftcard",
   description: "Sends a giftcard to a recipient. [See the docs here](https://api-docs.thanks.io/#45925795-d3c8-4532-ad6e-07aa9f4d19f8)",
   version: "0.0.1",
   type: "action",
   props: {
-    thanksIo,
-    subAccount: {
-      propDefinition: [
-        thanksIo,
-        "subAccount",
-      ],
-    },
-    mailingList: {
-      propDefinition: [
-        thanksIo,
-        "mailingList",
-        (c) => ({
-          subAccount: c.subAccount,
-        }),
-      ],
-      description: "Mailing List from which to select recipients",
-    },
-    recipients: {
-      propDefinition: [
-        thanksIo,
-        "recipients",
-        (c) => ({
-          mailingListId: c.mailingList,
-        }),
-      ],
-    },
+    ...common.props,
     brand: {
       propDefinition: [
-        thanksIo,
+        common.props.thanksIo,
         "giftCardBrand",
       ],
       reloadProps: true,
-    },
-    message: {
-      propDefinition: [
-        thanksIo,
-        "message",
-      ],
-    },
-    frontImageUrl: {
-      propDefinition: [
-        thanksIo,
-        "frontImageUrl",
-      ],
-    },
-    handwritingStyle: {
-      propDefinition: [
-        thanksIo,
-        "handwritingStyle",
-      ],
     },
   },
   async additionalProps() {
@@ -78,21 +36,7 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const recipients = [];
-    for (const recipient of this.recipients) {
-      const info = await this.thanksIo.getRecipient(recipient, {
-        $,
-      });
-      recipients.push({
-        name: info.name,
-        address: info.address,
-        address2: info?.address2,
-        city: info.city,
-        province: info.province,
-        postal_code: info.postal_code,
-        country: info.country,
-      });
-    }
+    const recipients = await this.getRecipients(this.recipients, $);
     const resp = await this.thanksIo.sendGiftCard({
       $,
       data: {

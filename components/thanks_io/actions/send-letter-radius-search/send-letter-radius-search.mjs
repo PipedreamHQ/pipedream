@@ -1,10 +1,10 @@
-import common from "../common/send-recipients.mjs";
+import common from "../common/send-radius.mjs";
 
 export default {
   ...common,
-  key: "thanks_io-send-letter",
-  name: "Send Letter",
-  description: "Sends a letter to a recipient. [See the docs here](https://api-docs.thanks.io/#45925795-d3c8-4532-ad6e-07aa9f4d19f8)",
+  key: "thanks_io-send-letter-radius-search",
+  name: "Send Letter via Radius Search",
+  description: "Sends a letter to recipients within a radius. [See the docs here](https://api-docs.thanks.io/#45925795-d3c8-4532-ad6e-07aa9f4d19f8)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -47,14 +47,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const recipients = await this.getRecipients(this.recipients, $);
     const resp = await this.thanksIo.sendLetter({
       $,
       data: {
         front_image_url: this.frontImageUrl,
         handwriting_style: this.handwritingStyle,
         message: this.message,
-        recipients,
+        radius_center: {
+          address: this.radiusCenter,
+        },
+        radius_distance_miles: this.radiusDistance,
         return_name: this.returnName,
         return_address: this.returnAddress,
         return_address2: this.returnAddress2,

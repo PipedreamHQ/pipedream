@@ -55,7 +55,7 @@ export default {
     },
     recipients: {
       type: "string[]",
-      label: "Recipient",
+      label: "Recipients",
       description: "Send to selected recipients",
       async options({
         mailingListId, prevContext, page,
@@ -200,6 +200,27 @@ export default {
       description: "Postal code for return address",
       optional: true,
     },
+    postcardSize: {
+      type: "string",
+      label: "Size",
+      description: "The size of the postcard to send. Defaults to 4x6",
+      options: [
+        "4x6",
+        "6x9",
+      ],
+      optional: true,
+      default: "4x6",
+    },
+    radiusCenter: {
+      type: "string",
+      label: "Radius Center Address",
+      description: "Send to all addresses within radius of supplied address. Example: \"1 Main St, Warwick, NY 10990\"",
+    },
+    radiusDistance: {
+      type: "string",
+      label: "Radius Distance",
+      description: "Specify the radius distance in miles",
+    },
   },
   methods: {
     _baseUrl() {
@@ -245,12 +266,6 @@ export default {
     async listHandwritingStyles(args = {}) {
       return this._makeRequest({
         path: "handwriting-styles",
-        ...args,
-      });
-    },
-    async listImageTemplates(args = {}) {
-      return this._makeRequest({
-        path: "image-templates",
         ...args,
       });
     },
@@ -303,6 +318,20 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "send/letter",
+        ...args,
+      });
+    },
+    async sendNotecard(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "send/notecard",
+        ...args,
+      });
+    },
+    async sendPostcard(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "send/postcard",
         ...args,
       });
     },
