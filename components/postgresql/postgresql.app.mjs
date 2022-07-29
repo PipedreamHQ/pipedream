@@ -282,7 +282,7 @@ export default {
           limit,
           offset,
         ],
-      });
+      }, false);
       const values = rows.map((row) => row[column]?.toString());
       return values.filter((row) => row);
     },
