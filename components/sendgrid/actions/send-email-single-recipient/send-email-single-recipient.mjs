@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -37,7 +37,7 @@ export default {
       type: "string",
       label: "CC",
       description:
-      "An array of recipients who will receive a copy of your email. Each object in this array must contain the recipient's email address. Each object in the array may optionally contain the recipient's name. Alternatively, provide a string that will `JSON.parse` to an array of recipient objects. Example: `[{\"email\":\"email@example.com\",\"name\":\"Example Recipient\"}]`",
+        "An array of recipients who will receive a copy of your email. Each object in this array must contain the recipient's email address. Each object in the array may optionally contain the recipient's name. Alternatively, provide a string that will `JSON.parse` to an array of recipient objects. Example: `[{\"email\":\"email@example.com\",\"name\":\"Example Recipient\"}]`",
       optional: true,
     },
     bcc: {
@@ -59,9 +59,16 @@ export default {
       optional: true,
     },
     dynamicTemplateData: {
-      type: "string",
+      type: "object",
       label: "Dynamic Template Data",
       description: "Dynamic template data is available using Handlebars syntax in Dynamic Transactional Templates. This field should be used in combination with a Dynamic Transactional Template, which can be identified by a template_id starting with d-. This field is a collection of key/value pairs following the pattern `\"variable_name\":\"value to insert\"`",
+      optional: true,
+    },
+    templateId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "templateId",
+      ],
       optional: true,
     },
     replyToEmail: {
@@ -87,6 +94,7 @@ export default {
         common.props.sendgrid,
         "content",
       ],
+      optional: true,
     },
     attachments: {
       propDefinition: [
@@ -237,7 +245,7 @@ export default {
       personalizations[0].substitutions = this.substitutions;
     }
     if (this.dynamicTemplateData) {
-      personalizations[0].dynamicTemplateData = this.dynamicTemplateData;
+      personalizations[0].dynamic_template_data = this.dynamicTemplateData;
     }
     //Set ups the `from` object, where `email`, `name` of the mail sender are specified, with
     //`email` being required.
@@ -264,7 +272,7 @@ export default {
       from,
       reply_to: replyTo,
       subject: this.subject,
-      content: [
+      content: this.content && [
         {
           type: "text/html",
           value: this.content,
@@ -279,6 +287,7 @@ export default {
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
+      template_id: this.templateId,
     });
     const resp = await this.sendgrid.sendEmail(config);
     $.export("$summary", "Email successfully sent");
