@@ -17,11 +17,6 @@ export default {
       ],
     },
   },
-  hooks: {
-    async deploy() {
-      console.log(this.discord.$auth);
-    },
-  },
   async run(event) {
     this.$emit(event, {
       id: `${event.userId}${event.guildId}`,
