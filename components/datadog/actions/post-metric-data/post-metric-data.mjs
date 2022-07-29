@@ -29,18 +29,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const metric = this.metric;
-    const points = this.convertMetricPoints(this.points);
-
     const response = await this.datadog.postMetricData({
-      series: [
-        {
-          metric,
-          points,
-        },
-      ],
+      $,
+      data: {
+        series: [
+          {
+            metric: this.metric,
+            points: this.convertMetricPoints(this.points),
+          },
+        ],
+      },
     });
-    $.export("$summary", `Posted to ${metric} timeseries`);
+
+    $.export("$summary", `Posted to ${this.metric} timeseries`);
+
     return response;
   },
 };
