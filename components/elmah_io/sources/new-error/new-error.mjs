@@ -52,9 +52,9 @@ export default {
     },
   },
   async run() {
-    let page = 1;
+    let page = 0;
 
-    while (page > 0) {
+    while (page >= 0) {
       const messages = await this.elmah_io.getMessages({
         logId: this.logId,
         params: {
