@@ -1,5 +1,4 @@
 import sevenTodosApp from "../../seventodos.app.mjs";
-import common from "../common.mjs";
 
 export default {
   key: "seventodos-create-task",
@@ -9,7 +8,42 @@ export default {
   type: "action",
   props: {
     sevenTodosApp,
-    ...common.props,
+    title: {
+      propDefinition: [
+        sevenTodosApp,
+        "title",
+      ],
+    },
+    description: {
+      propDefinition: [
+        sevenTodosApp,
+        "description",
+      ],
+    },
+    startDate: {
+      propDefinition: [
+        sevenTodosApp,
+        "startDate",
+      ],
+    },
+    dueDate: {
+      propDefinition: [
+        sevenTodosApp,
+        "dueDate",
+      ],
+    },
+    state: {
+      propDefinition: [
+        sevenTodosApp,
+        "state",
+      ],
+    },
+    complexity: {
+      propDefinition: [
+        sevenTodosApp,
+        "complexity",
+      ],
+    },
   },
   async run({ $ }) {
     const {
