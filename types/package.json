@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/types",
-    "version": "0.1.1",
+    "version": "0.1.4",
     "description": "Pipedream TypeScript types",
     "keywords": [
         "pipedream",
@@ -25,6 +25,7 @@
     },
     "scripts": {
         "prebuild": "rm -rf dist",
+        "prepublish": "rm -rf dist && tsc",
         "build": "tsc",
         "postbuild": "cp tsconfig.json dist",
         "test": "npm run build && dtslint dist"

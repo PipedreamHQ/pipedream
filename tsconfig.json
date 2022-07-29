@@ -4,7 +4,8 @@
     "outDir": "dist",
     "composite": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "rootDir": ".",
+    "moduleResolution": "node"
   },
   "exclude": [
     "components"
@@ -403,6 +404,54 @@
     },
     {
       "path": "components/smiirl"
+    },
+    {
+      "path": "components/fedex"
+    },
+    {
+      "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
+    },
+    {
+      "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
+    },
+    {
+      "path": "components/propeller"
+    },
+    {
+      "path": "components/twitch_developer_app"
+    },
+    {
+      "path": "components/vectera"
+    },
+    {
+      "path": "components/triggercmd"
+    },
+    {
+      "path": "components/isn"
+    },
+    {
+      "path": "components/chaport"
+    },
+    {
+      "path": "components/dots_"
+    },
+    {
+      "path": "components/exact"
+    },
+    {
+      "path": "components/google_directory"
     }
   ]
 }

@@ -1,16 +1,27 @@
 # Settings
 
-You can control workflow-specific settings in the **Settings** header, just above your workflow's code.
+You can control workflow-specific settings in your workflow's **Settings**:
 
-<div>
-<img alt="Workflow settings" src="./images/workflow-settings.png">
-</div>
+1. Visit your workflow
+2. Select the *...* menu at the top-right and click **Settings**:
+
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif" alt="Click on the ... menu at the top-right and select Settings" width="300px">
+<br />
 
 [[toc]]
 
-## Errors
+## Enable Workflow
 
-By default, any errors raised in a workflow are sent to your registered email address. You'll receive an email with the details of the error, once per error, per workflow, per 24-hour period. 
+If you'd like to pause your workflow from executing completely, you can disable it or reenable it here.
+
+## Error Handling
+
+By default, you'll receive notifications when your workflow throws an unhandled error. See the [error docs](/workflows/errors/) for more detail on these notifications. 
+
+You can disable these notifications for your workflow by disabling the **Notify me on errors** toggle:
+
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle">
 
 ## Execution Controls
 

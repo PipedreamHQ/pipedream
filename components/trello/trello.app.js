@@ -27,7 +27,7 @@ module.exports = {
       label: "Board",
       description: "The Trello board you wish to select",
       async options() {
-        const boards = await this.getBoards(this.$auth.oauth_uid);
+        const boards = await this.getBoards();
         const activeBoards = boards.filter((board) => board.closed === false);
         return activeBoards.map((board) => ({
           label: board.name,
@@ -263,7 +263,17 @@ module.exports = {
         },
       });
     },
-    async _makeRequest(config, $) {
+    async _makeRequest(args, $) {
+      const {
+        method = "GET",
+        path,
+        ...otherArgs
+      } = args;
+      const config = {
+        method,
+        url: `${this._getBaseUrl()}${path}`,
+        ...otherArgs,
+      };
       const authorization = await this._getAuthorizationHeader(config, $);
       config.headers = {
         ...config.headers,
@@ -285,7 +295,7 @@ module.exports = {
      */
     async archiveCard(idCard, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}`,
+        path: `cards/${idCard}`,
         method: "PUT",
         data: {
           closed: true,
@@ -304,7 +314,7 @@ module.exports = {
      */
     async addAttachmentToCardViaUrl(idCard, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}/attachments`,
+        path: `cards/${idCard}/attachments`,
         method: "POST",
         params,
       };
@@ -321,7 +331,7 @@ module.exports = {
      */
     async addExistingLabelToCard(idCard, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}/idLabels`,
+        path: `cards/${idCard}/idLabels`,
         method: "POST",
         params,
       };
@@ -338,7 +348,7 @@ module.exports = {
      */
     async addMemberToCard(idCard, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}/idMembers`,
+        path: `cards/${idCard}/idMembers`,
         method: "POST",
         params,
       };
@@ -354,7 +364,7 @@ module.exports = {
      */
     async createChecklist(params, $) {
       const config = {
-        url: `${this._getBaseUrl()}checklists`,
+        path: "checklists",
         method: "POST",
         params,
       };
@@ -372,7 +382,7 @@ module.exports = {
      */
     async createCommentOnCard(idCard, comment, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}/actions/comments`,
+        path: `cards/${idCard}/actions/comments`,
         method: "POST",
         params: {
           text: comment,
@@ -390,7 +400,7 @@ module.exports = {
      */
     async closeBoard(boardId, $) {
       const config = {
-        url: `${this._getBaseUrl()}boards/${boardId}`,
+        path: `boards/${boardId}`,
         method: "PUT",
         data: {
           closed: true,
@@ -407,7 +417,7 @@ module.exports = {
      */
     async createCard(opts, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards`,
+        path: "cards",
         method: "post",
         data: opts,
       };
@@ -421,7 +431,7 @@ module.exports = {
      */
     async deleteChecklist(idChecklist, $) {
       const config = {
-        url: `${this._getBaseUrl()}checklists/${idChecklist}`,
+        path: `checklists/${idChecklist}`,
         method: "DELETE",
       };
       return this._makeRequest(config, $);
@@ -435,7 +445,7 @@ module.exports = {
      */
     async findLabel(boardId, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}boards/${boardId}/labels`,
+        path: `boards/${boardId}/labels`,
         params,
       };
       return this._makeRequest(config, $);
@@ -449,17 +459,10 @@ module.exports = {
      */
     async findList(boardId, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}boards/${boardId}/lists`,
+        path: `boards/${boardId}/lists`,
         params,
       };
       return this._makeRequest(config, $);
-    },
-    async getResource(endpoint, params = null) {
-      const config = {
-        url: `${this._getBaseUrl()}${endpoint}`,
-        params,
-      };
-      return this._makeRequest(config);
     },
     /**
      * Moves a card to the specified board/list pair.
@@ -472,7 +475,7 @@ module.exports = {
      */
     async moveCardToList(idCard, data, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}`,
+        path: `cards/${idCard}`,
         method: "PUT",
         data,
       };
@@ -489,11 +492,31 @@ module.exports = {
       const headerHash = request.headers["x-trello-webhook"];
       return doubleHash === headerHash;
     },
-    async getBoard(id) {
-      return this.getResource(`boards/${id}`);
+    async getBoardActivity(boardId, filter = null) {
+      return this._makeRequest({
+        path: `boards/${boardId}/actions`,
+        params: {
+          filter,
+        },
+      });
     },
-    async getBoards(id) {
-      return this.getResource(`members/${id}/boards`);
+    async getCardActivity(cardId, filter = null) {
+      return this._makeRequest({
+        path: `cards/${cardId}/actions`,
+        params: {
+          filter,
+        },
+      });
+    },
+    async getBoard(id) {
+      return this._makeRequest({
+        path: `boards/${id}`,
+      });
+    },
+    async getBoards(id = this.$auth.oauth_uid) {
+      return this._makeRequest({
+        path: `members/${id}/boards`,
+      });
     },
     /**
      * Gets details of a card.
@@ -503,43 +526,80 @@ module.exports = {
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
     async getCard(id) {
-      return this.getResource(`cards/${id}`);
+      return this._makeRequest({
+        path: `cards/${id}`,
+      });
     },
     async getCards(id) {
-      return this.getResource(`boards/${id}/cards`);
+      return this._makeRequest({
+        path: `boards/${id}/cards`,
+      });
+    },
+    async getFilteredCards(boardId, filter) {
+      return this._makeRequest({
+        path: `boards/${boardId}/cards`,
+        params: {
+          filter,
+        },
+      });
+    },
+    async getCardsInList(listId) {
+      return this._makeRequest({
+        path: `lists/${listId}/cards`,
+      });
+    },
+    async getMemberCards(userId) {
+      return this._makeRequest({
+        path: `members/${userId}/cards`,
+      });
     },
     async getChecklist(id) {
-      return this.getResource(`checklists/${id}`);
+      return this._makeRequest({
+        path: `checklists/${id}`,
+      });
     },
     async getLabel(id) {
-      return this.getResource(`labels/${id}`);
+      return this._makeRequest({
+        path: `labels/${id}`,
+      });
     },
     async getList(id) {
-      return this.getResource(`lists/${id}`);
+      return this._makeRequest({
+        path: `lists/${id}`,
+      });
     },
     async getLists(id) {
-      return this.getResource(`boards/${id}/lists`);
+      return this._makeRequest({
+        path: `boards/${id}/lists`,
+      });
     },
     async getNotifications(id, params) {
-      return this.getResource(`members/${id}/notifications`, params);
+      return this._makeRequest({
+        path: `members/${id}/notifications`,
+        params,
+      });
     },
     async getMember(id) {
-      return this.getResource(`members/${id}`);
+      return this._makeRequest({
+        path: `members/${id}`,
+      });
     },
     async getAttachment(cardId, attachmentId) {
-      return this.getResource(
-        `cards/${cardId}/attachments/${attachmentId}`,
-      );
+      return this._makeRequest({
+        path: `cards/${cardId}/attachments/${attachmentId}`,
+      });
     },
     async getCardList(cardId) {
-      return this.getResource(`cards/${cardId}/list`);
+      return this._makeRequest({
+        path: `cards/${cardId}/list`,
+      });
     },
     async createHook({
       id, endpoint,
     }) {
       const resp = await this._makeRequest({
         method: "post",
-        url: `${this._getBaseUrl()}webhooks/`,
+        path: "webhooks/",
         headers: {
           "Content-Type": "applicaton/json",
         },
@@ -554,7 +614,7 @@ module.exports = {
     async deleteHook({ hookId }) {
       return this._makeRequest({
         method: "delete",
-        url: `${this._getBaseUrl()}webhooks/${hookId}`,
+        path: `webhooks/${hookId}`,
       });
     },
     /**
@@ -567,7 +627,7 @@ module.exports = {
      */
     async removeLabelFromCard(idCard, idLabel, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}/idLabels/${idLabel}`,
+        path: `cards/${idCard}/idLabels/${idLabel}`,
         method: "DELETE",
       };
       return this._makeRequest(config, $);
@@ -584,7 +644,7 @@ module.exports = {
      */
     async renameList(listId, data, $) {
       const config = {
-        url: `${this._getBaseUrl()}lists/${listId}`,
+        path: `lists/${listId}`,
         method: "PUT",
         data,
       };
@@ -601,7 +661,7 @@ module.exports = {
      */
     async search(params, $) {
       const config = {
-        url: `${this._getBaseUrl()}search`,
+        path: "search",
         params,
       };
       return this._makeRequest(config, $);
@@ -650,35 +710,31 @@ module.exports = {
     async updateCard(idCard,
       params, $) {
       const config = {
-        url: `${this._getBaseUrl()}cards/${idCard}`,
+        path: `cards/${idCard}`,
         method: "PUT",
         params,
       };
       return this._makeRequest(config, $);
     },
     async listMembers(board) {
-      const config = {
-        url: `${this._getBaseUrl()}boards/${board}/members`,
-        method: "GET",
-      };
-      return this._makeRequest(config);
+      return this._makeRequest({
+        path: `boards/${board}/members`,
+      });
     },
     async listBoardChecklists(board) {
-      const config = {
-        url: `${this._getBaseUrl()}boards/${board}/checklists`,
-        method: "GET",
-      };
-      return this._makeRequest(config);
+      return this._makeRequest({
+        path: `boards/${board}/checklists`,
+      });
     },
     async listCardChecklists(card) {
-      const config = {
-        url: `${this._getBaseUrl()}cards/${card}/checklists`,
-        method: "GET",
-      };
-      return this._makeRequest(config);
+      return this._makeRequest({
+        path: `cards/${card}/checklists`,
+      });
     },
     async listOrganizations(id) {
-      return this.getResource(`members/${id}/organizations?fields="id,name"`);
+      return this._makeRequest({
+        path: `members/${id}/organizations?fields="id,name"`,
+      });
     },
   },
 };

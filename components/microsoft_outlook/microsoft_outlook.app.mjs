@@ -216,6 +216,13 @@ export default {
         ...args,
       });
     },
+    async listCalendarEvents({ ...args } = {}) {
+      return await this._makeRequest({
+        method: "GET",
+        path: "/me/events",
+        ...args,
+      });
+    },
     async sendEmail({ ...args } = {}) {
       return await this._makeRequest({
         method: "POST",
@@ -271,6 +278,13 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: `/me/messages/${messageId}`,
+        ...args,
+      });
+    },
+    async listMessages({ ...args } = {}) {
+      return await this._makeRequest({
+        method: "GET",
+        path: "/me/messages",
         ...args,
       });
     },

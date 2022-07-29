@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New or Updated Event (Instant)",
   description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -38,6 +38,25 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      const events = [];
+      const params = {
+        maxResults: 25,
+        orderBy: "updated",
+      };
+      for (const calendarId of this.calendarIds) {
+        params.calendarId = calendarId;
+        const { items } = await this.googleCalendar.listEvents(params);
+        events.push(...items);
+      }
+      events.sort((a, b) => (Date.parse(a.updated) > Date.parse(b.updated))
+        ? 1
+        : -1);
+      for (const event of events.slice(-25)) {
+        const meta = this.generateMeta(event);
+        this.$emit(event, meta);
+      }
+    },
     async activate() {
       await this.makeWatchRequest();
     },

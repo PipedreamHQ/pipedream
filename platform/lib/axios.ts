@@ -112,10 +112,10 @@ function stepExport(step: any, message: any, key: string) {
   if (step) {
     if (step.export) {
       step.export(key, message);
-    } else {
-      step[key] = message;
+      return;
     }
-  } else {
-    console.log(`key: ${key}`, message);
+    step[key] = message;
   }
+
+  console.log(`export: ${key} - ${message}`);
 }

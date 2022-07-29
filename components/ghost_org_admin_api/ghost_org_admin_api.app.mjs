@@ -5,6 +5,50 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "ghost_org_admin_api",
+  propDefinitions: {
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the new member.",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The member name.",
+      optional: true,
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "Some personal note about the member",
+      optional: true,
+    },
+    labels: {
+      type: "string[]",
+      label: "Labels",
+      description: "The labels to assign to the member",
+      optional: true,
+    },
+    member: {
+      type: "string",
+      label: "Member",
+      description: "The member to be edited.",
+      async options({ page }) {
+        const limit = 15;
+        const res = await this.getMembers({
+          params: {
+            limit,
+            page: page + 1,
+          },
+        });
+        const members = res.members?.map((member) => ({
+          label: member.email,
+          value: member.id,
+        }));
+        return members;
+      },
+    },
+  },
   methods: {
     getURL(path) {
       return `${this.$auth.admin_api_url}${constants.VERSION_PATH}${path}`;
@@ -58,6 +102,28 @@ export default {
       return this.makeRequest({
         method: "post",
         path: "/posts",
+        ...args,
+      });
+    },
+    async createMember(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/members",
+        ...args,
+      });
+    },
+    async updateMember({
+      memberId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "put",
+        path: `/members/${memberId}`,
+        ...args,
+      });
+    },
+    async getMembers(args = {}) {
+      return this.makeRequest({
+        path: "/members",
         ...args,
       });
     },
