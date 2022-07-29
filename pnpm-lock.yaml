@@ -56,7 +56,7 @@ importers:
       pnpm: 7.5.2
       putout: 26.24.0
       renamer: 4.0.0
-      ts-jest: 27.1.5_mqaoisgizytgigbr3gbjwvnjie
+      ts-jest: 27.1.5_jm6546ohpm4h5jsgaz4ra4shga
       tsc-esm-fix: 2.19.0
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
@@ -1342,7 +1342,10 @@ importers:
       '@types/node': 17.0.45
 
   components/seventodos:
-    specifiers: {}
+    specifiers:
+      axios: ^0.27.2
+    dependencies:
+      axios: 0.27.2
 
   components/sftp:
     specifiers:
@@ -18328,7 +18331,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/27.1.5_mqaoisgizytgigbr3gbjwvnjie:
+  /ts-jest/27.1.5_jm6546ohpm4h5jsgaz4ra4shga:
     resolution: {integrity: sha512-Xv6jBQPoBEvBq/5i2TeSG9tt/nqkbpcurrEG1b+2yfBrcJelOZF9Ml6dmyMh7bcW9JyFbRYpR5rxROSlBLTZHA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -18349,6 +18352,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
+      '@babel/core': 7.18.9
       '@types/jest': 27.5.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
