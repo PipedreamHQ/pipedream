@@ -5,7 +5,7 @@ export default {
   description: "Get the number of credit packs and free daily credits available to the account. " +
         "[See the docs](https://verifalia.com/developers#credits-get-balance) for more information",
   key: "verifalia-get-balance",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     verifalia,
@@ -14,7 +14,7 @@ export default {
   async run() {
     const verifaliaClient = this.verifalia.buildVerifaliaRestClient();
 
-    await this.verifalia.wrapVerifaliaApiInvocation(async () => {
+    return await this.verifalia.wrapVerifaliaApiInvocation(async () => {
       return await verifaliaClient
         .credits
         .getBalance();
