@@ -36,17 +36,17 @@ export default {
       case "jira:issue_created":
         itemType = "issue";
         item = event.body?.issue;
-        summary = "New issue created.";
+        summary = `New issue created. - ${event.body?.issue?.fields?.summary} (${event.body?.issue?.id})`;
         break;
       case "jira:issue_updated":
         itemType = "issue";
         item = event.body?.issue;
-        summary = "Issue updated.";
+        summary = `Issue updated. - ${event.body?.issue?.fields?.summary} (${event.body?.issue?.id})`;
         break;
       case "jira:issue_deleted":
         itemType = "issue";
         item = event.body?.issue;
-        summary = "Issue deleted.";
+        summary = `Issue deleted. - ${event.body?.issue?.fields?.summary} (${event.body?.issue?.id})`;
         break;
       /*case "comment_created":
         itemType = "comment";
@@ -117,6 +117,7 @@ export default {
       },
       {
         summary,
+        id: ts,
         ts,
       },
     );
