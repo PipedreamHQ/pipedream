@@ -26,8 +26,9 @@ export default {
   methods: {
     async getRecipients(recipientIds, $) {
       const recipients = [];
-      for (const recipient of recipientIds) {
-        const info = await this.thanksIo.getRecipient(recipient, {
+      for (const recipientId of recipientIds) {
+        const info = await this.thanksIo.getRecipient({
+          recipientId,
           $,
         });
         recipients.push({

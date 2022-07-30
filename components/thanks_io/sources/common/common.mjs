@@ -31,23 +31,22 @@ export default {
         ? (newDate > compareDate)
         : true;
     },
-    async paginate(resourceFn, params) {
-      let next;
+    async paginate(resourceFn, params, maxPages = 10) {
+      let next, count = 0;
       const items = [];
       do {
         const {
           data, links,
-        } = next
-          ? await this._makeRequest({
-            url: next,
-            params,
-          })
-          : await resourceFn({
-            params,
-          });
-        next = links?.next;
+        } = await resourceFn({
+          url: next,
+          params,
+        });
+        next = links?.next !== next
+          ? links?.next
+          : null;
         items.push(...data);
-      } while (next);
+        count++;
+      } while (next && count < maxPages);
       return items;
     },
   },

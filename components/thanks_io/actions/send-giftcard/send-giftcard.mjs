@@ -29,7 +29,7 @@ export default {
           return selectedBrand.available_amounts.map((amount) => ({
             label: amount,
             value: amount,
-          }));
+          })) || [];
         },
       },
     };

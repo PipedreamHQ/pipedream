@@ -41,7 +41,8 @@ export default {
         items_per_page: 25,
       };
 
-    const { data: recipients } = await this.thanksIo.listRecipients(this.mailingList, {
+    const { data: recipients } = await this.thanksIo.listRecipients({
+      listId: this.mailingList,
       params,
     });
     for (const recipient of recipients) {

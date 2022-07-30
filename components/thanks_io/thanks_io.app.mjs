@@ -27,21 +27,14 @@ export default {
         if (page !== 0 && !prevContext?.next) {
           return [];
         }
-        const params = subAccount
-          ? {
-            sub_account: subAccount,
-          }
-          : undefined;
         const {
           data: mailingLists, links,
-        } = prevContext?.next
-          ? await this._makeRequest({
-            url: prevContext,
-            params,
-          })
-          : await this.listMailingLists({
-            params,
-          });
+        } = await this.listMailingLists({
+          url: prevContext?.next,
+          params: subAccount && {
+            sub_account: subAccount,
+          },
+        });
         return {
           options: mailingLists.map((list) => ({
             value: list.id,
@@ -69,7 +62,9 @@ export default {
           ? await this._makeRequest({
             url: prevContext,
           })
-          : await this.listRecipients(mailingListId);
+          : await this.listRecipients({
+            listId: mailingListId,
+          });
         return {
           options: recipients.map((recipient) => ({
             value: recipient.id,
@@ -236,19 +231,22 @@ export default {
         $ = this,
         method = "GET",
         path,
+        url,
         ...otherArgs
       } = args;
       const config = {
         method,
-        url: `${this._baseUrl()}${path}`,
+        url: url || `${this._baseUrl()}${path}`,
         headers: this._getHeaders(),
         ...otherArgs,
       };
       return axios($, config);
     },
-    async getRecipient(id, args = {}) {
+    async getRecipient({
+      recipientId, ...args
+    } = {}) {
       return this._makeRequest({
-        path: `recipients/${id}`,
+        path: `recipients/${recipientId}`,
         ...args,
       });
     },
@@ -257,11 +255,9 @@ export default {
         path: "giftcard-brands",
         ...args,
       });
-      const brands = [];
-      for (const type in cardTypes) {
-        brands.push(...cardTypes[type].brands);
-      }
-      return brands;
+      return Object.values(cardTypes)
+        .reduce((reduction, { brands }) =>
+          reduction.concat(brands), []);
     },
     async listHandwritingStyles(args = {}) {
       return this._makeRequest({
@@ -281,7 +277,9 @@ export default {
         ...args,
       });
     },
-    async listRecipients(listId, args = {}) {
+    async listRecipients({
+      listId, ...args
+    }) {
       return this._makeRequest({
         path: `mailing-lists/${listId}/recipients`,
         ...args,
