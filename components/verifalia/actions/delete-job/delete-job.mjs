@@ -11,7 +11,7 @@ export default {
     id: {
       type: "string",
       label: "Job ID",
-      description: "The ID of the email verification job to delete, for example `e0dda878-3801-43f3-ac20-935e27dbe5a7`",
+      description: "The ID of the email verification job to delete. E.g. `e0dda878-3801-43f3-ac20-935e27dbe5a7`",
     },
   },
 
