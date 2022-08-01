@@ -2,8 +2,7 @@ import verifalia from "../../verifalia.app.mjs";
 
 export default {
   name: "Delete Email Verification Job",
-  description: "Delete a previously submitted email verification job. " +
-        "[See the docs](https://verifalia.com/developers#email-validations-deleting) for more information",
+  description: "Delete a previously submitted email verification job. [See the docs](https://verifalia.com/developers#email-validations-deleting) for more information",
   key: "verifalia-delete-job",
   version: "0.0.1",
   type: "action",
