@@ -8,15 +8,48 @@ export default {
   type: "action",
   props: {
     esignatures_io,
+    templateId: {
+      propDefinition: [
+        esignatures_io,
+        "templateId",
+      ],
+    },
+    title: {
+      label: "Title",
+      description: "The title of the contract",
+      type: "string",
+    },
+    signers: {
+      label: "Signers",
+      description: "A list of the signers. E.g `{ \"name\": \"Lucas Caresia\", \"email\": \"user@email.com\", \"company_name\": \"Pipedream\" }`",
+      type: "string[]",
+    },
+    customWebhookUrl: {
+      label: "Custom Webhook URL",
+      description: "The title of the contractThe Custom webhook URL to be used for the webhook notifications.",
+      type: "string",
+      optional: true,
+    },
   },
   async run({ $ }) {
+    const parsedSigners = Array.isArray(this.signers)
+      ? this.signers.map((signer) => typeof signer === "string"
+        ? JSON.parse(signer)
+        : signer)
+      : JSON.parse(this.signers);
+
     const response = await this.esignatures_io.createContract({
       $,
-      data: {},
+      data: {
+        template_id: this.templateId,
+        title: this.title,
+        custom_webhook_url: this.customWebhookUrl,
+        signers: parsedSigners,
+      },
     });
 
     if (response) {
-      this.export("$summary", `Successfully created contract with id ${response.id}`);
+      $.export("$summary", `Successfully created contract with id ${response.id}`);
     }
 
     return response;
