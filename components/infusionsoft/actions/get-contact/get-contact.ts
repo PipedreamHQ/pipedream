@@ -5,7 +5,8 @@ import { GetObjectParams } from "../../types/requestParams";
 
 export default defineAction({
   name: "Get Contact",
-  description: "Retrieve details of a Contact [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getContactUsingGET)",
+  description:
+    "Retrieve details of a Contact [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getContactUsingGET)",
   key: "infusionsoft-get-contact",
   version: "0.0.1",
   type: "action",
@@ -25,7 +26,12 @@ export default defineAction({
     };
     const data: Contact = await this.infusionsoft.getContact(params);
 
-    $.export("$summary", `Retrieved Contact "${data.given_name ?? data.id.toString()}" successfully`);
+    $.export(
+      "$summary",
+      `Retrieved Contact "${
+        data.given_name ?? data.id.toString()
+      }" successfully`,
+    );
 
     return data;
   },

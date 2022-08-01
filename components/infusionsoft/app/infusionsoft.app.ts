@@ -78,7 +78,8 @@ export default defineApp({
       });
     },
     async getAppointment({
-      id, ...params
+      id,
+      ...params
     }: GetObjectParams): Promise<Appointment> {
       return this._httpRequest({
         endpoint: `/appointments/${id}`,
@@ -93,7 +94,7 @@ export default defineApp({
       return response.contacts;
     },
     async getContact({
-      id,  ...params
+      id, ...params
     }: GetObjectParams): Promise<Contact> {
       return this._httpRequest({
         endpoint: `/contacts/${id}`,
