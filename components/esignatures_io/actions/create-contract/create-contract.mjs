@@ -26,7 +26,7 @@ export default {
     },
     customWebhookUrl: {
       label: "Custom Webhook URL",
-      description: "The title of the contractThe Custom webhook URL to be used for the webhook notifications.",
+      description: "The Custom webhook URL to be used for the webhook notifications instead of the default one specified on your API page",
       type: "string",
       optional: true,
     },
