@@ -452,6 +452,9 @@
     },
     {
       "path": "components/exact"
+    },
+    {
+      "path": "components/google_directory"
     }
   ]
 }
