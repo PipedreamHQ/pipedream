@@ -10,8 +10,7 @@ import {
 export default {
   name: "Verify Email Address",
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
-        "flagging spam traps, disposable emails and much more. " +
-        "[See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
+        "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
   version: "1.0.3",
   type: "action",
