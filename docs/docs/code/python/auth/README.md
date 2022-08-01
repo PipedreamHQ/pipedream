@@ -7,7 +7,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/
 
 :::warning
 
-This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/dashboard).
+This is an experimental feature and is available to to enable or disable in the [alpha](https://pipedream.com/alpha).
 
 There may be changes to this feature while we prepare it for a full release.
 
@@ -39,7 +39,7 @@ def handler(pd: "pipedream"):
 
   # Use the client to send messages to Slack channels
   response = client.chat_postMessage(
-    channel='#pierces-playground',
+    channel='#general',
     text='Hello from Pipedream!'
   )
   
