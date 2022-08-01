@@ -4,13 +4,16 @@
     "description": "Pipedream 7todos Components",
     "main": "seventodos.app.js",
     "keywords": [
-      "pipedream",
-      "seventodos"
+        "pipedream",
+        "seventodos"
     ],
     "homepage": "https://pipedream.com/apps/seventodos",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "publishConfig": {
-      "access": "public"
+        "access": "public"
+    },
+    "dependencies": {
+        "axios": "^0.27.2"
     }
-  }
+}
