@@ -26,8 +26,7 @@ export default {
     quality: {
       type: "string",
       label: "Quality Level",
-      description: "The higher the quality level the longer it could take to complete the verification; by default, " +
-                "we use the configured default quality level for your Verifalia user.",
+      description: "The higher the quality level the longer it could take to complete the verification; by default, we use the configured default quality level for your Verifalia user.",
       optional: true,
       options: common.qualityLevelOptions,
     },
