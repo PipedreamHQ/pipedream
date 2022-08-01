@@ -35,6 +35,12 @@ export default {
     },
   },
   methods: {
+    _getLastHighlightedAt() {
+      return this.db.get("lastHighlightedAt");
+    },
+    _setLastHighlightedAt(lastHighlightedAt) {
+      this.db.set("lastHighlightedAt", lastHighlightedAt);
+    },
     async retrieveTicket(id) {
       return this.readwise.retrieveTicket({
         id,
@@ -51,17 +57,17 @@ export default {
       }
     },
     async processEvent() {
-      const lastHighlightedAt = this.db.get("lastHighlightedAt");
+      const lastHighlightedAt = this._getLastHighlightedAt();
       await this.processHighlighs({
         book_id: this.bookId,
         highlighted_at__gt: lastHighlightedAt,
       });
     },
     emitEvent(event, lastHighlightedAt = null) {
-      lastHighlightedAt = lastHighlightedAt || this.db.get("lastHighlightedAt");
+      lastHighlightedAt = lastHighlightedAt || this._getLastHighlightedAt();
 
       if (!lastHighlightedAt || (new Date(event.highlighted_at) > new Date(lastHighlightedAt)))
-        this.db.set("lastHighlightedAt", event.highlighted_at);
+        this._setLastHighlightedAt(event.highlighted_at);
 
       const ts = Date.parse(event.highlighted_at);
       this.$emit(event, {

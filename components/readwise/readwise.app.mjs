@@ -71,7 +71,7 @@ export default {
         ...otherConfig,
       };
 
-      return await axios($ || this, clearObj(config));
+      return axios($ || this, clearObj(config));
     },
     async listBooks({
       $, params,

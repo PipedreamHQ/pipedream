@@ -3,7 +3,7 @@ import readwise from "../../readwise.app.mjs";
 export default {
   key: "readwise-get-highlight-details",
   name: "Get Highlight Details",
-  description: "Get Highlight´s Details  [See the docs here](https://readwise.io/api_deets)",
+  description: "Get Highlight´s Details [See the docs here](https://readwise.io/api_deets)",
   version: "0.0.1",
   type: "action",
   props: {
