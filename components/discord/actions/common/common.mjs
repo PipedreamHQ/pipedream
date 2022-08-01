@@ -13,24 +13,6 @@ export default {
         "message",
       ],
     },
-    threadID: {
-      propDefinition: [
-        discord,
-        "threadID",
-      ],
-    },
-    username: {
-      propDefinition: [
-        discord,
-        "username",
-      ],
-    },
-    avatarURL: {
-      propDefinition: [
-        discord,
-        "avatarURL",
-      ],
-    },
     includeSentViaPipedream: {
       propDefinition: [
         discord,

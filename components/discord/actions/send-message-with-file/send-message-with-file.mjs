@@ -25,18 +25,12 @@ export default {
   async run({ $ }) {
     const {
       message,
-      avatarURL,
-      threadID,
-      username,
       fileUrl,
       includeSentViaPipedream,
     } = this;
 
     try {
       const resp = await this.discord.createMessage(this.channel, {
-        avatarURL,
-        threadID,
-        username,
         files: [
           {
             attachment: fileUrl,

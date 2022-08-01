@@ -26,9 +26,6 @@ export default {
   async run({ $ }) {
     const {
       message,
-      avatarURL,
-      threadID,
-      username,
       includeSentViaPipedream,
       embeds,
     } = this;
@@ -39,9 +36,6 @@ export default {
 
     try {
       const resp = await this.discord.createMessage(this.channel, {
-        avatarURL,
-        threadID,
-        username,
         embeds,
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message ?? "")

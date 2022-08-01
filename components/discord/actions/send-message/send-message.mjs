@@ -10,17 +10,11 @@ export default {
   async run({ $ }) {
     const {
       message,
-      avatarURL,
-      threadID,
-      username,
       includeSentViaPipedream,
     } = this;
 
     try {
       const resp = await this.discord.createMessage(this.channel, {
-        avatarURL,
-        threadID,
-        username,
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message)
           : message,

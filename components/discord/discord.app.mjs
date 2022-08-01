@@ -7,24 +7,6 @@ export default {
       label: "Message",
       description: "Enter a simple message up to 2000 characters. This is the most commonly used field. However, it's optional if you pass embed content.",
     },
-    threadID: {
-      type: "string",
-      label: "Thread ID",
-      description: "If provided, the message will be posted to this thread",
-      optional: true,
-    },
-    username: {
-      type: "string",
-      label: "Username",
-      description: "Overrides the current username of the webhook",
-      optional: true,
-    },
-    avatarURL: {
-      type: "string",
-      label: "Avatar URL",
-      description: "If used, it overrides the default avatar of the webhook",
-      optional: true,
-    },
     includeSentViaPipedream: {
       type: "boolean",
       optional: true,
