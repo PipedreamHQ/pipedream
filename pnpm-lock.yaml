@@ -451,9 +451,9 @@ importers:
 
   components/docusign:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.0
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.0
 
   components/docusign_developer:
     specifiers:
