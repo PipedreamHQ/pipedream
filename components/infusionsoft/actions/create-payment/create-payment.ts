@@ -17,6 +17,28 @@ export default defineAction({
         "orderId",
       ],
     },
+    paymentAmount: {
+      type: "string",
+      label: "Payment Amount",
+    },
+    paymentMethodType: {
+      type: "string",
+      label: "Payment Method",
+      options: [
+        {
+          label: "Credit Card",
+          value: "CREDIT_CARD",
+        },
+        {
+          label: "Cash",
+          value: "CASH",
+        },
+        {
+          label: "Check",
+          value: "CHECK",
+        },
+      ],
+    },
     applyToCommissions: {
       type: "boolean",
       label: "Apply to Commissions",
@@ -44,33 +66,9 @@ export default defineAction({
       label: "Notes",
       optional: true,
     },
-    paymentAmount: {
-      type: "string",
-      label: "Payment Amount",
-      optional: true,
-    },
     paymentGatewayId: {
       type: "string",
       label: "Payment Gateway ID",
-      optional: true,
-    },
-    paymentMethodType: {
-      type: "string",
-      label: "Payment Method",
-      options: [
-        {
-          label: "Credit Card",
-          value: "CREDIT_CARD",
-        },
-        {
-          label: "Cash",
-          value: "CASH",
-        },
-        {
-          label: "Check",
-          value: "CHECK",
-        },
-      ],
       optional: true,
     },
   },
