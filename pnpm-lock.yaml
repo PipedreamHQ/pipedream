@@ -1356,7 +1356,10 @@ importers:
       '@types/node': 17.0.45
 
   components/seventodos:
-    specifiers: {}
+    specifiers:
+      axios: ^0.27.2
+    dependencies:
+      axios: 0.27.2
 
   components/sftp:
     specifiers:
