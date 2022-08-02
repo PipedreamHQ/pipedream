@@ -9,13 +9,32 @@ export default {
       label: "Domain",
       description: "Domain name you added to short.io",
       async options() {
-        return this.listDomainsOpts();
+        return this.listDomainsOpts(false);
       },
     },
     originalURL: {
       type: "string",
       label: "Original URL",
       description: "Link, which you want to shorten.",
+    },
+    domainId: {
+      type: "string",
+      label: "Domain Id",
+      description: "Specify the domain id of your short link.",
+      async options() {
+        return this.listDomainsOpts(true);
+      },
+    },
+    link: {
+      type: "string",
+      label: "Link",
+      description: "Specify the short link.",
+      async options({ domainId }) {
+        if (domainId) {
+          return this.listLinkOpts(domainId);
+        }
+        return [];
+      },
     },
     path: {
       type: "string",
@@ -169,16 +188,35 @@ export default {
           };
         }, {});
     },
-    async listDomainsOpts() {
+    async listDomainsOpts(withId) {
       const domains = await axios(this, this._getRequestParams({
         method: "GET",
         path: "/api/domains",
       }));
       if (Array.isArray(domains)) {
-        const opts = domains.map((domain) => domain.hostname);
+        const opts = domains.map((domain) => {
+          if (withId) {
+            return {
+              label: domain.hostname,
+              value: domain.id,
+            };
+          }
+          return domain.hostname;
+        });
         return opts;
       }
       return [];
+    },
+    async listLinkOpts(domainId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "GET",
+        path: `/api/links?domain_id=${domainId}&limit=150`,
+      }));
+      const opts = response.links.map((link) => ({
+        label: link.secureShortURL,
+        value: link.idString,
+      }));
+      return opts;
     },
     async createLink(ctx = this, param) {
       param = this.filterEmptyValues(param);
@@ -188,6 +226,13 @@ export default {
         data: param,
       }));
       return link;
+    },
+    async deleteLink(ctx = this, linkIdString) {
+      const response = await axios(ctx, this._getRequestParams({
+        method: "DELETE",
+        path: `/links/${linkIdString}`,
+      }));
+      return response;
     },
   },
 };
