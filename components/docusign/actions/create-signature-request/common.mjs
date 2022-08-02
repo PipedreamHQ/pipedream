@@ -1,4 +1,19 @@
 export default {
+  async additionalProps() {
+    const baseUri = await this.docusign.getBaseUri({
+      accountId: this.account,
+    });
+    const tabs = await this.docusign.listTemplateTabs(baseUri, this.template);
+    return tabs.map((tab) => ({
+      type: "string",
+      label: tab.tabLabel,
+      default: tab.value
+        ? tab.value
+        : undefined,
+      options: tab.listItems?.map((i) => i.value),
+      optional: true,
+    }));
+  },
   async run({ $ }) {
     const baseUri = await this.docusign.getBaseUri({
       $,
