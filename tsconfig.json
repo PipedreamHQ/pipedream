@@ -409,6 +409,9 @@
       "path": "components/fedex"
     },
     {
+      "path": "components/infusionsoft"
+    },
+    {
       "path": "components/expensify"
     },
     {

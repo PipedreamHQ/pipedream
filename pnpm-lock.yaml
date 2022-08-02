@@ -789,6 +789,15 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/infusionsoft:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
+
   components/inksprout:
     specifiers: {}
 
@@ -5967,8 +5976,8 @@ packages:
     resolution: {integrity: sha512-aARW1ZQZgZ68Qq1134G9ZktwI5tFxh0reE1uOunn4YFv0lGGfbo55zqEf5zbtE3zkbQ9seJ/GMyEDeSrw70PcQ==}
     dependencies:
       axios: 0.19.2
-      fp-ts: 2.12.1
-      io-ts: 2.2.16_fp-ts@2.12.1
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -5983,6 +5992,12 @@ packages:
     resolution: {integrity: sha512-pq10xiTDEDh/5q2S0lPRxnOKIcd//Ehqx/cGIKyXXS5lhIJSdE+kQZ65Wqs/Y2wlaPXWuu2StuS/Sak620obOA==}
     dependencies:
       typescript: 4.7.4
+
+  /@pipedream/types/0.1.4:
+    resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
+    dependencies:
+      typescript: 4.7.4
+    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -8574,6 +8589,7 @@ packages:
 
   /axios/0.19.2:
     resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
     dependencies:
       follow-redirects: 1.5.10
     transitivePeerDependencies:
@@ -11242,6 +11258,10 @@ packages:
     resolution: {integrity: sha512-oxvgqUYR6O9VkKXrxkJ0NOyU0FrE705MeqgBUMEPWyTu6Pwn768cJbHChw2XOBlgFLKfIHxjr2OOBFpv2mUGZw==}
     dev: false
 
+  /fp-ts/2.12.2:
+    resolution: {integrity: sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==}
+    dev: false
+
   /fragment-cache/0.2.1:
     resolution: {integrity: sha512-GMBAbW9antB8iZRHLoGw0b3HANt57diZYFO/HL1JGIC1MjKrdmhxvrJbupnVvpys0zsz7yBApXdQyfepKly2kA==}
     engines: {node: '>=0.10.0'}
@@ -12232,6 +12252,14 @@ packages:
       fp-ts: ^2.5.0
     dependencies:
       fp-ts: 2.12.1
+    dev: false
+
+  /io-ts/2.2.16_fp-ts@2.12.2:
+    resolution: {integrity: sha512-y5TTSa6VP6le0hhmIyN0dqEXkrZeJLeC5KApJq6VLci3UEKF80lZ+KuoUs02RhBxNWlrqSNxzfI7otLX1Euv8Q==}
+    peerDependencies:
+      fp-ts: ^2.5.0
+    dependencies:
+      fp-ts: 2.12.2
     dev: false
 
   /ip/1.1.8:
@@ -18619,6 +18647,7 @@ packages:
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
 
   /typical/4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
