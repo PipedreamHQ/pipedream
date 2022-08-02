@@ -8,26 +8,21 @@ export default {
   type: "action",
   props: {
     shortApp,
-    domainId: {
-      propDefinition: [
-        shortApp,
-        "domainId",
-      ],
-    },
-    linkIdString: {
+    shortLink: {
       propDefinition: [
         shortApp,
         "link",
-        ({ domainId }) => ({
-          domainId,
-        }),
       ],
     },
   },
   async run({ $ }) {
-    const { linkIdString } = this;
-    const response = await this.shortApp.deleteLink($, linkIdString);
-    $.export("$summary", `Successfully deleted the link: ${linkIdString}`);
+    const url = new URL(this.shortLink);
+    const domain = url.host;
+    const path = url.pathname.split("/").join("");
+    const linkInfo = await this.shortApp.getLinkInfo(domain, path);
+
+    const response = await this.shortApp.deleteLink($, linkInfo.idString);
+    $.export("$summary", `Successfully deleted the link: ${linkInfo.idString}`);
     return response;
   },
 };

@@ -17,23 +17,12 @@ export default {
       label: "Original URL",
       description: "Link, which you want to shorten.",
     },
-    domainId: {
-      type: "string",
-      label: "Domain Id",
-      description: "Specify the domain id of your current short link.",
-      async options() {
-        return this.listDomainsOpts(true);
-      },
-    },
     link: {
       type: "string",
       label: "Link",
       description: "Specify your current short link.",
-      async options({ domainId }) {
-        if (domainId) {
-          return this.listLinkOpts(domainId);
-        }
-        return [];
+      async options() {
+        return this.listLinkOpts();
       },
     },
     path: {
@@ -61,9 +50,9 @@ export default {
       optional: true,
     },
     expiresAt: {
-      type: "integer",
+      type: "string",
       label: "Expires at",
-      description: "Link expiration date, optional. Format is unix timestamp in milliseconds.\n\nIf no expiration date is given (default), link will never expire.",
+      description: "Link expiration date, use `yyyy-mm-dd` format.\n\nIf no expiration date is given (default), link will never expire.",
       optional: true,
     },
     expiredURL: {
@@ -188,6 +177,12 @@ export default {
           };
         }, {});
     },
+    parseToUnixDate(obj, prop) {
+      if (obj[prop] && typeof (obj[prop]) === "string") {
+        obj[prop] = Date.parse(obj[prop]);
+      }
+      return obj;
+    },
     async listDomainsOpts(withId) {
       const domains = await axios(this, this._getRequestParams({
         method: "GET",
@@ -207,19 +202,29 @@ export default {
       }
       return [];
     },
-    async listLinkOpts(domainId) {
-      const response = await axios(this, this._getRequestParams({
+    async listLinkOpts() {
+      const domains = await this.listDomainsOpts(true);
+      const allLinks = [];
+      for (const domain of domains) {
+        const response = await axios(this, this._getRequestParams({
+          method: "GET",
+          path: `/api/links?domain_id=${domain.value}&limit=150`,
+        }));
+        const links = response.links.map((link) => (link.secureShortURL));
+        allLinks.push(...links);
+      }
+      return allLinks;
+    },
+    async getLinkInfo(domain, path) {
+      const linkInfo = await axios(this, this._getRequestParams({
         method: "GET",
-        path: `/api/links?domain_id=${domainId}&limit=150`,
+        path: `/links/expand?domain=${domain}&path=${path}`,
       }));
-      const opts = response.links.map((link) => ({
-        label: link.secureShortURL,
-        value: link.idString,
-      }));
-      return opts;
+      return linkInfo;
     },
     async createLink(ctx = this, param) {
       param = this.filterEmptyValues(param);
+      param = this.parseToUnixDate(param, "expiresAt");
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: "/links",
@@ -229,6 +234,8 @@ export default {
     },
     async updateLink(ctx = this, linkIdString, param) {
       param = this.filterEmptyValues(param);
+      param = this.parseToUnixDate(param, "expiresAt");
+      console.log(param);
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/links/${linkIdString}`,
