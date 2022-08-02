@@ -4,7 +4,7 @@ export default {
   key: "twitter-simple-search-in-list",
   name: "Simple Search In List",
   description: "Return Tweets that matches your search criteria in a specific list. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses)",
-  version: "0.0.138", //0.0.1
+  version: "0.0.1",
   type: "action",
   props: {
     twitter,

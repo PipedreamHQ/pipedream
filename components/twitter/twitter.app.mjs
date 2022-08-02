@@ -608,7 +608,6 @@ export default {
         url,
         params,
       };
-      console.log("req config", config);
       return await this._makeRequest({
         $,
         config,
