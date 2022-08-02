@@ -12,7 +12,6 @@ export default {
         const { contacts } = await this.listContacts({
           params: {
             page: page + 1,
-            per_page: 2,
           },
         });
 
@@ -21,6 +20,28 @@ export default {
         }) => ({
           label: `${name} - ${email}`,
           value: id,
+        })) || [];
+      },
+    },
+    tagId: {
+      label: "Tag",
+      description: "The tag that will be added",
+      type: "any",
+      async options({ page }) {
+        const { tags } = await this.listTags({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return tags.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: JSON.stringify({
+            id,
+            name,
+          }),
         })) || [];
       },
     },
@@ -43,8 +64,6 @@ export default {
         ...otherConfig,
       };
 
-      console.log("config: ", config);
-
       return axios($ || this, config);
     },
     async listContacts({
@@ -62,6 +81,25 @@ export default {
       return this._makeRequest({
         $,
         path: `contacts/${contactId}`,
+      });
+    },
+    async listTags({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "tags",
+        params,
+      });
+    },
+    async addTagToContact({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "tags",
+        data,
       });
     },
   },
