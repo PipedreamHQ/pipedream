@@ -429,6 +429,12 @@ importers:
     dependencies:
       do-wrapper: 4.5.1
 
+  components/discord:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/discord_bot:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
