@@ -12,6 +12,14 @@ export default {
         return this.listDomainsOpts(false);
       },
     },
+    domainId: {
+      type: "integer",
+      label: "Domain Id",
+      description: "Your domain's unique identifier.",
+      async options() {
+        return this.listDomainsOpts(true);
+      },
+    },
     originalURL: {
       type: "string",
       label: "Original URL",
@@ -143,9 +151,59 @@ export default {
         },
       ],
     },
+    period: {
+      type: "string",
+      label: "Period",
+      description: "One of predefined time intervals. Select custom to provide custom dates.",
+      optional: true,
+      options: [
+        "total",
+        "custom",
+        "today",
+        "yesterday",
+        "week",
+        "month",
+        "lastmonth",
+        "last7",
+        "last30",
+      ],
+    },
+    clicksChartInterval: {
+      type: "string",
+      label: "Clicks Chart Interval",
+      description: "One of predefined time intervals.",
+      optional: true,
+      options: [
+        "hour",
+        "day",
+        "week",
+        "month",
+      ],
+    },
+    tzOffset: {
+      type: "integer",
+      label: "Timezone offset",
+      description: "Timezone offset, in minutes.",
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start date",
+      description: "Returns statistics for clicks after given date, format: `yyyy-mm-dd`.\n\nRequired if period is custom.",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End date",
+      description: "Returns statistics for clicks before given date, format: `yyyy-mm-dd`.\n\nRequired if period is custom.",
+      optional: true,
+    },
   },
   methods: {
-    _getBaseUrl() {
+    _getBaseUrl(pathType) {
+      if (pathType && pathType === "statistics") {
+        return "https://api-v2.short.cm";
+      }
       return "https://api.short.io";
     },
     _getHeaders() {
@@ -157,7 +215,7 @@ export default {
     _getRequestParams(opts = {}) {
       return {
         ...opts,
-        url: this._getBaseUrl() + opts.path,
+        url: this._getBaseUrl(opts.pathType) + opts.path,
         headers: this._getHeaders(),
       };
     },
@@ -222,24 +280,24 @@ export default {
       }));
       return linkInfo;
     },
-    async createLink(ctx = this, param) {
-      param = this.filterEmptyValues(param);
-      param = this.parseToUnixDate(param, "expiresAt");
+    async createLink(ctx = this, params) {
+      params = this.filterEmptyValues(params);
+      params = this.parseToUnixDate(params, "expiresAt");
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: "/links",
-        data: param,
+        data: params,
       }));
       return link;
     },
-    async updateLink(ctx = this, linkIdString, param) {
-      param = this.filterEmptyValues(param);
-      param = this.parseToUnixDate(param, "expiresAt");
-      console.log(param);
+    async updateLink(ctx = this, linkIdString, params) {
+      params = this.filterEmptyValues(params);
+      params = this.parseToUnixDate(params, "expiresAt");
+      console.log(params);
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/links/${linkIdString}`,
-        data: param,
+        data: params,
       }));
       return link;
     },
@@ -247,6 +305,16 @@ export default {
       const response = await axios(ctx, this._getRequestParams({
         method: "DELETE",
         path: `/links/${linkIdString}`,
+      }));
+      return response;
+    },
+    async getDomainStatistics(ctx = this, domainId, params) {
+      params = this.filterEmptyValues(params);
+      const response = await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: `/statistics/domain/${domainId}`,
+        pathType: "statistics",
+        params: params,
       }));
       return response;
     },
