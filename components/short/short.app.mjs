@@ -20,7 +20,7 @@ export default {
     domainId: {
       type: "string",
       label: "Domain Id",
-      description: "Specify the domain id of your short link.",
+      description: "Specify the domain id of your current short link.",
       async options() {
         return this.listDomainsOpts(true);
       },
@@ -28,7 +28,7 @@ export default {
     link: {
       type: "string",
       label: "Link",
-      description: "Specify the short link.",
+      description: "Specify your current short link.",
       async options({ domainId }) {
         if (domainId) {
           return this.listLinkOpts(domainId);
@@ -223,6 +223,15 @@ export default {
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: "/links",
+        data: param,
+      }));
+      return link;
+    },
+    async updateLink(ctx = this, linkIdString, param) {
+      param = this.filterEmptyValues(param);
+      const link = await axios(ctx, this._getRequestParams({
+        method: "POST",
+        path: `/links/${linkIdString}`,
         data: param,
       }));
       return link;
