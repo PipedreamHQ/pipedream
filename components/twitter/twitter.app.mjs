@@ -560,25 +560,27 @@ export default {
     },
     async getPaginateListTweets(opts = {}) {
       let allTweets = [];
-      let sinceId = "1";
-
-      // do {
-      const tweets = await this.getListTweets({
-        ...opts,
-        sinceId,
-      });
-
-      if (!tweets || tweets.length <= 0) {
-        sinceId = null;
-        return;
-      }
-
-      allTweets = allTweets.concat(tweets);
-
-      sinceId = tweets.pop().id;
-      console.log(sinceId);
-      // } while (sinceId);
-
+      let maxId;
+      const pageSize = 100;
+      do {
+        const response = await this.getListTweets({
+          ...opts,
+          count: pageSize,
+          maxId,
+        });
+        const tweets = response.filter((r) => r.id != maxId);
+        if (!tweets || tweets.length < pageSize - 1) {
+          maxId = null;
+        } else {
+          const tweetWithMinId = tweets.reduce((prev, current) => {
+            return (prev.id < current.id) ?
+              prev :
+              current;
+          }, {});
+          maxId = tweetWithMinId?.id;
+        }
+        allTweets = allTweets.concat(tweets);
+      } while (maxId);
       return allTweets;
     },
     async getListTweets(opts = {}) {
@@ -586,6 +588,7 @@ export default {
         $,
         listId,
         count,
+        maxId,
         sinceId = "1",
         includeEntities = false,
         includeRetweets = false,
@@ -595,6 +598,7 @@ export default {
       const params = {
         list_id: listId,
         since_id: sinceId,
+        max_id: maxId,
         count,
         include_entities: includeEntities,
         include_rts: includeRetweets,
@@ -604,6 +608,7 @@ export default {
         url,
         params,
       };
+      console.log("req config", config);
       return await this._makeRequest({
         $,
         config,
