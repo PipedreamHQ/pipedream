@@ -1,5 +1,8 @@
 import common from "../common/base.mjs";
-import { events } from "../common/constants.mjs";
+import {
+  events,
+  eventsOptions,
+} from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -25,7 +28,7 @@ export default {
       type: "string[]",
       label: "Event Types",
       description: "The types of event to emit. If not specified, all events will be emitted.",
-      options: Object.values(events).map((event) => event.toLowerCase()),
+      options: eventsOptions,
       optional: true,
     },
   },
