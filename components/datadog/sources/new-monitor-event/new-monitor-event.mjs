@@ -3,10 +3,10 @@ import { payloadFormat } from "../common/payload-format.mjs";
 
 export default {
   key: "datadog-new-monitor-event",
-  name: "New Monitor Event (Instant)",
+  name: "New Monitor Event (Instant) [Updated]",
   description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   props: {
     datadog,
@@ -16,23 +16,10 @@ export default {
       customResponse: true,
     },
     monitors: {
-      type: "string[]",
-      label: "Monitors",
-      description: "The monitors to observe for notifications",
-      optional: true,
-      async options(context) {
-        const { page } = context;
-        const pageSize = 10;
-        const monitors = await this.datadog.listMonitors(page, pageSize);
-        const options = monitors.map((monitor) => ({
-          label: monitor.name,
-          value: monitor.id,
-        }));
-
-        return {
-          options,
-        };
-      },
+      propDefinition: [
+        datadog,
+        "monitors",
+      ],
     },
   },
   hooks: {
