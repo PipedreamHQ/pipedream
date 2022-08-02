@@ -264,14 +264,18 @@ export default {
       const domains = await this.listDomainsOpts(true);
       const allLinks = [];
       for (const domain of domains) {
-        const response = await axios(this, this._getRequestParams({
-          method: "GET",
-          path: `/api/links?domain_id=${domain.value}&limit=150`,
-        }));
-        const links = response.links.map((link) => (link.secureShortURL));
+        const response = await this.listLinks(domain.value);
+        const links = response.map((link) => (link.secureShortURL));
         allLinks.push(...links);
       }
       return allLinks;
+    },
+    async listLinks(domainId) {
+      const response = await axios(this, this._getRequestParams({
+        method: "GET",
+        path: `/api/links?domain_id=${domainId}&limit=150`,
+      }));
+      return response.links;
     },
     async getLinkInfo(domain, path) {
       const linkInfo = await axios(this, this._getRequestParams({
