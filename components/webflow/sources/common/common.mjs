@@ -1,5 +1,7 @@
-import webflow from "../webflow.app.mjs";
+import webflow from "../../webflow.app.mjs";
 import { v4 as uuid } from "uuid";
+import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   dedupe: "unique",
@@ -15,6 +17,16 @@ export default {
     http: "$.interface.http",
   },
   methods: {
+    async _makeRequest(path, params = {}) {
+      return axios(this, {
+        url: "https://api.webflow.com" + path,
+        headers: {
+          "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
+          "Accept-Version": "1.0.0",
+        },
+        params,
+      });
+    },
     _getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -45,6 +57,12 @@ export default {
       const { body } = event;
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
+    },
+    emitHistoricalEvents(events, limit = constants.DEPLOY_OFFSET) {
+      for (const event of events.slice(0, limit)) {
+        const meta = this.generateMeta(event);
+        this.$emit(event, meta);
+      }
     },
   },
   hooks: {
