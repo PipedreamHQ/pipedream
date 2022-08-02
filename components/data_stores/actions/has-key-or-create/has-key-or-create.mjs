@@ -32,10 +32,11 @@ export default {
     },
   },
   async additionalProps() {
+    const props = {};
     if (this.app.shouldAddRecord(this.addRecordIfNotFound)) {
-      return this.app.propDefinitions.value;
+      props.value = app.propDefinitions.value;
     }
-    return {};
+    return props;
   },
   async run ({ $ }) {
     if (await this.dataStore.has(this.key)) {
