@@ -43,7 +43,7 @@ export default {
       }),
     };
 
-    const response = await this.gist.addTagToContact({
+    const response = await this.gist.updateTagToContact({
       $,
       data,
     });

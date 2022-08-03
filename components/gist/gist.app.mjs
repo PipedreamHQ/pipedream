@@ -8,10 +8,14 @@ export default {
       label: "Contact Id",
       description: "The Id of the contact that will be retrieved",
       type: "integer",
-      async options({ page }) {
+      async options({
+        page, tagId = null,
+      }) {
+        if (tagId) tagId = JSON.parse(tagId).id;
         const { contacts } = await this.listContacts({
           params: {
             page: page + 1,
+            tag_id: tagId,
           },
         });
 
@@ -146,7 +150,7 @@ export default {
         params,
       });
     },
-    async addTagToContact({
+    async updateTagToContact({
       $, data,
     }) {
       return this._makeRequest({
