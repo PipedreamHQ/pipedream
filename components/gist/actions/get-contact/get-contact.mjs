@@ -4,7 +4,7 @@ export default {
   ...gist,
   key: "gist-get-contact",
   name: "Get Contact",
-  description: "Find a Contact",
+  description: "Find a Contact [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",
   type: "action",
   version: "0.0.1",
   props: {
