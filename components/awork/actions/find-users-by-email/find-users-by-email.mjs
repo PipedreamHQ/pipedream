@@ -17,7 +17,7 @@ export default {
   async run({ $ }) {
     let page = 1;
 
-    const findedUsers = [];
+    const foundUsers = [];
 
     while (page >= 1) {
       const users = await this.awork.getUsers({
@@ -29,12 +29,12 @@ export default {
       });
 
       users.forEach((user) => {
-        let finded = false;
+        let found = false;
 
-        user.userContactInfos.forEach((contactInfo) => finded = contactInfo.type === "email" && contactInfo.value.includes(this.email));
+        user.userContactInfos.forEach((contactInfo) => found = contactInfo.type === "email" && contactInfo.value.includes(this.email));
 
-        if (finded) {
-          findedUsers.push(user);
+        if (found) {
+          foundUsers.push(user);
         }
       });
 
@@ -47,6 +47,6 @@ export default {
 
     $.export("$summary", "Successfully retrieved users");
 
-    return findedUsers;
+    return foundUsers;
   },
 };
