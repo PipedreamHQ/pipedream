@@ -4,7 +4,7 @@ import rssCommon from "../common/common";
 
 export default defineSource({
   ...rssCommon,
-  key: "rss-random-item-from-multiple-feeds",
+  key: "rss-random-item-in-multiple-feeds",
   name: "Random item from multiple RSS feeds",
   type: "source",
   description: "Emit a random item from multiple RSS feeds",
