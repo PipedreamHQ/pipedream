@@ -102,7 +102,7 @@ export default {
       },
     },
     updateId: {
-      type: "integer",
+      type: "string",
       label: "Update ID",
       description: "The update's unique identifier",
       optional: true,
