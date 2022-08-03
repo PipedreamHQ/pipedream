@@ -409,6 +409,9 @@
       "path": "components/fedex"
     },
     {
+      "path": "components/infusionsoft"
+    },
+    {
       "path": "components/expensify"
     },
     {
@@ -449,6 +452,9 @@
     },
     {
       "path": "components/exact"
+    },
+    {
+      "path": "components/google_directory"
     }
   ]
 }

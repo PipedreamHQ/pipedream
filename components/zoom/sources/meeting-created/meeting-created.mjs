@@ -1,14 +1,15 @@
-import zoom from "../../zoom.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "zoom-meeting-created",
-  name: "Meeting Created",
-  description:
-    "Emits an event each time a meeting is created where you're the host",
-  version: "0.0.3",
+  name: "Meeting Created (Instant)",
+  description: "Emit new event each time a meeting is created where you're the host",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
-    zoom,
+    ...common.props,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
@@ -18,19 +19,37 @@ export default {
       ],
     },
   },
-  async run(event) {
-    const { payload } = event;
-    const { object } = payload;
-    this.$emit(
-      {
+  hooks: {
+    async deploy() {
+      const { meetings } = await this.zoom.listMeetings({
+        page_size: 25,
+      });
+      if (!meetings || meetings.length === 0) {
+        return;
+      }
+      const objects = this.sortByDate(meetings, "created_at");
+      for (const object of objects) {
+        this.emitEvent({
+          object,
+        }, object);
+      }
+    },
+  },
+  methods: {
+    ...common.methods,
+    emitEvent(payload, object) {
+      const meta = this.generateMeta(object);
+      this.$emit({
         event: "meeting.created",
         payload,
-      },
-      {
-        summary: `Meeting ${object.topic} created`,
+      }, meta);
+    },
+    generateMeta(object) {
+      return {
         id: object.uuid,
+        summary: `Meeting ${object.topic} created`,
         ts: +new Date(object.start_time),
-      },
-    );
+      };
+    },
   },
 };

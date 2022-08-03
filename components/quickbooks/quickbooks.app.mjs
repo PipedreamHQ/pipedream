@@ -4,6 +4,28 @@ export default {
   type: "app",
   app: "quickbooks",
   propDefinitions: {
+    invoiceId: {
+      label: "Invoice ID",
+      type: "string",
+      description: "Id of the invoice to get details of.",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Invoice: records } } = await this.query({
+          params: {
+            query: `select * from invoice maxresults 10${page
+              ? `startposition ${position}`
+              : "" } `,
+          },
+        });
+
+        return records?.map(({
+          Id: value, DocNumber: docNumber, CustomerRef: customerRef,
+        }) => ({
+          label: `(${docNumber}) ${customerRef.name}`,
+          value,
+        })) || [];
+      },
+    },
     minorVersion: {
       label: "Minor Version",
       type: "string",
@@ -15,11 +37,62 @@ export default {
       type: "string[]",
       description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } } ]`",
     },
+    customer: {
+      label: "Customer Reference",
+      type: "string",
+      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference.",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Customer: records } } = await this.query({
+          params: {
+            query: `select * from Customer maxresults 10${page
+              ? `startposition ${position}`
+              : "" } `,
+          },
+        });
+
+        return records?.map(({
+          Id: id, DisplayName: label,
+        }) => ({
+          label,
+          value: JSON.stringify({
+            value: id,
+            name: label,
+          }),
+        })) || [];
+      },
+    },
     customerRefName: {
       label: "Customer Reference Name",
       type: "string",
       description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.DisplayName ` from that object for `CustomerRef.name`.",
       optional: true,
+    },
+    currency: {
+      label: "Currency Reference",
+      type: "string",
+      description: "This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { CompanyCurrency: records } } = await this.query({
+          params: {
+            query: `select * from companycurrency maxresults 10${page
+              ? `startposition ${position}`
+              : "" } `,
+          },
+        });
+
+        return records?.map(({
+          Code: code, Name: name,
+        }) => ({
+          label: `${code} - ${name}`,
+          value: JSON.stringify({
+            value: code,
+            name: name,
+          }),
+        })) || [];
+      },
     },
     currencyRefValue: {
       label: "Currency Reference Value",
@@ -113,6 +186,7 @@ export default {
         url: `${this._apiUrl()}/${path}`,
         headers: {
           Authorization: `Bearer ${this._accessToken()}`,
+          accept: "application/json",
         },
         ...options,
       });
@@ -152,6 +226,15 @@ export default {
         params,
       }, $);
     },
+    async sparseUpdateInvoice({
+      $, data, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/invoice`, {
+        method: "post",
+        data,
+        params,
+      }, $);
+    },
     async getBill({
       $, billId, params,
     }) {
@@ -170,6 +253,13 @@ export default {
       $, invoiceId, params,
     }) {
       return this._makeRequest(`company/${this._companyId()}/invoice/${invoiceId}`, {
+        params,
+      }, $);
+    },
+    async getInvoices({
+      $, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/query`, {
         params,
       }, $);
     },

@@ -4,7 +4,7 @@ export default {
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: "Create a new tweet. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     twitter,
@@ -124,7 +124,7 @@ export default {
       autoPopulateReplyMetadata,
       excludeReplyUserIds,
       attachmentUrl,
-      mediaIds,
+      media_ids: mediaIds,
       possiblySensitive,
       lat,
       long,
