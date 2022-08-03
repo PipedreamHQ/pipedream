@@ -161,9 +161,11 @@ def handler(pd: 'pipedream'):
   })
 ```
 
+Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
+
 :::warning
 
-Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/triggers/#http-responses) `$.respond`, the Python `pd.respond` helper does not yet support responding with Streams.
+Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/triggers/#http-responses), the Python `pd.respond` helper does not yet support responding with Streams.
 
 :::
 
@@ -290,10 +292,10 @@ All exceptions from your Python code will appear in the **logs** area of the res
 
 ## Ending a workflow early
 
-Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
+Sometimes you want to end your workflow early, or otherwise stop or cancel the execution of a workflow under certain conditions. For example:
 
 - You may want to end your workflow early if you don't receive all the fields you expect in the event data.
-- You only want to run your workflow for 5% of all events sent to your source.
+- You only want to run your workflow for 5% of all events sent from your source.
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
@@ -305,13 +307,15 @@ def handler(pd: 'pipedream'):
   print("This code will not run, since pd.flow.exit() was called above it")
 ```
 
-You can pass any string as an argument to `$.flow.exit()`:
+You can pass any string as an argument to `pd.flow.exit()`:
 
 ```python
 def handler(pd: 'pipedream'):
   return pd.flow.exit('Exiting early. Goodbye.')
   print("This code will not run, since pd.flow.exit() was called above it")
 ```
+
+Or exit the workflow early within a conditional:
 
 ```python
 def handler(pd: 'pipedream'):

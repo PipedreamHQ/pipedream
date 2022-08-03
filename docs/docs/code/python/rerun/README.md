@@ -31,8 +31,6 @@ def handler(pd: 'pipedream'):
       text=f"Click here to approve the workflow: ${urls["resume_url"]}, and cancel here: ${urls["cancel_url"]}"
     )
     # Pipedream suspends your workflow at the end of the step
-  },
-})
 ```
 
 You'll receive an email like this:
@@ -67,8 +65,6 @@ def handler(pd: 'pipedream'):
     # 7 days
     TIMEOUT = 1000 * 60 * 60 * 24 * 7
     pd.flow.suspend(TIMEOUT)
-  },
-})
 ```
 
 ## `pd.flow.rerun`
@@ -146,10 +142,10 @@ def handler(pd: 'pipedream'):
 
 ### Passing `context` to `pd.flow.rerun`
 
-Within a Node.js code step, `pd.context.run.context` contains the `context` passed from the prior call to `rerun`. This lets you pass data from one run to another. For example, if you call:
+Within a Python code step, `pd.context.run.context` contains the `context` passed from the prior call to `rerun`. This lets you pass data from one run to another. For example, if you call:
 
 ```python
-pd.flow.rerun(1000, { hello: "world" })
+pd.flow.rerun(1000, { "hello": "world" })
 ```
 
 `$.context.run.context` will contain:
