@@ -27,6 +27,15 @@ export default {
     },
   },
   hooks: {
+    async deploy() {
+      const events = await this.loadHistoricalEvents();
+      if (!events) {
+        return;
+      }
+      for (const event of events) {
+        this.$emit(event, this.generateMeta(event));
+      }
+    },
     async activate() {
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,
@@ -39,7 +48,6 @@ export default {
           events: this.getWebhookEvents(),
         },
       });
-
       this._setWebhookId(response.id);
     },
     async deactivate() {
