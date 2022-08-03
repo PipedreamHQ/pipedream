@@ -297,7 +297,6 @@ export default {
     async updateLink(ctx = this, linkIdString, params) {
       params = this.filterEmptyValues(params);
       params = this.parseToUnixDate(params, "expiresAt");
-      console.log(params);
       const link = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/links/${linkIdString}`,

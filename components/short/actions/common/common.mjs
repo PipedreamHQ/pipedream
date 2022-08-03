@@ -1,4 +1,4 @@
-import shortApp from "../short.app.mjs";
+import shortApp from "../../short.app.mjs";
 
 export default {
   props: {

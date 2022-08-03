@@ -1,5 +1,5 @@
 import shortApp from "../../short.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import lodash from "lodash";
 
 export default {
