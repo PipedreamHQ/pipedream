@@ -25,6 +25,12 @@ export default {
     getWebhookEvents() {
       throw new Error("getWebhookEvents is not implemented");
     },
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
+    loadHistoricalEvents() {
+      return false;
+    },
   },
   hooks: {
     async deploy() {
