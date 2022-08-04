@@ -4,7 +4,7 @@ export default {
   key: "raindrop-save",
   name: "Save to Raindrop Collection",
   description: "Receive a link and save it into a specified collection. [See docs](https://developer.raindrop.io/v1/raindrops/single)",
-  version: "1.1.0",
+  version: "1.2.0",
   type: "action",
   props: {
     raindrop,
@@ -27,6 +27,18 @@ export default {
       description: "A list of tags for the bookmark",
       optional: true,
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the bookmark",
+      optional: true,
+    },
+    excerpt: {
+      type: "string",
+      label: "Excerpt",
+      description: "Description of the bookmark",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const bookmarkData = {
@@ -35,6 +47,8 @@ export default {
         $id: this.collectionId,
       },
       tags: this.tags ?? [],
+      title: this.title,
+      excerpt: this.excerpt,
     };
 
     const response = await this.raindrop.postBookmark($, bookmarkData);
