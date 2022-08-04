@@ -19,6 +19,9 @@ export default {
      * @return {string} The masked phone number
      */
     getMaskedNumber(number) {
+      if (!number) {
+        return "####";
+      }
       const { length: numberLength } = number;
       return number
         .slice(numberLength - 4)
