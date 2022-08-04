@@ -1,6 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../types/requestParams";
+import { GetShipmentParams, HttpRequestParams } from "../types/requestParams";
+import { Shipment } from "../types/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -18,7 +19,7 @@ export default defineApp({
         url: this._baseUrl() + endpoint,
         auth: {
           username: this.$auth.api_key,
-          password: '',
+          password: "",
         },
         ...args,
       });
@@ -47,38 +48,40 @@ export default defineApp({
     //     method: "DELETE",
     //   });
     // },
-    // async listCompanies(): Promise<Company[]> {
-    //   const response = await this._httpRequest({
-    //     endpoint: "/companies",
-    //   });
+    async listShipments(): Promise<Shipment[]> {
+      const response = await this._httpRequest({
+        endpoint: "/shipments",
+      });
 
-    //   return response.companies;
-    // },
-    // async getCompany({
-    //   id, ...params
-    // }: GetObjectParams): Promise<Company> {
-    //   return this._httpRequest({
-    //     endpoint: `/companies/${id}`,
-    //     ...params,
-    //   });
-    // },
+      return response.companies;
+    },
+    async getShipment({ id, ...params }: GetShipmentParams): Promise<Shipment> {
+      return this._httpRequest({
+        endpoint: `/shipments/${id}`,
+        ...params,
+      });
+    },
+    getShipmentLabel({ packages, price, to }: Shipment) {
+      return `${packages.length} packages ($${price}) to ${to.zip_code} (${to.country})`;
+    },
   },
   propDefinitions: {
-    // companyId: {
-    //   type: "integer",
-    //   label: "Company",
-    //   description: `Select a **Company** from the list.
-    //     \\
-    //     Alternatively, you can provide a custom *Company ID*.`,
-    //   async options() {
-    //     const companies: Company[] = await this.listCompanies();
-    //     return companies.map(({
-    //       company_name, id,
-    //     }) => ({
-    //       label: company_name,
-    //       value: id,
-    //     }));
-    //   },
-    // },
+    companyId: {
+      type: "integer",
+      label: "Shipment",
+      description: `Select a **Shipment** from the list.
+        \\
+        Alternatively, you can provide a custom *Shipment ID*.`,
+      async options() {
+        const shipments: Shipment[] = await this.listShipments();
+
+        return shipments.map((shipment) => {
+          return {
+            label: this.getShipmentLabel(shipment),
+            value: shipment.id,
+          };
+        });
+      },
+    },
   },
 });

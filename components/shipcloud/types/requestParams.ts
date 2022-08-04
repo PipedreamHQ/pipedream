@@ -10,6 +10,11 @@ interface HttpRequestParams extends ActionRequestParams {
   method?: string;
 }
 
+interface GetShipmentParams extends ActionRequestParams {
+  id: number;
+}
+
 export {
+  GetShipmentParams,
   HttpRequestParams,
 };
