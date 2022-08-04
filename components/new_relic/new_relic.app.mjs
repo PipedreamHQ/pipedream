@@ -55,5 +55,15 @@ export default {
       }));
       return res.deployment;
     },
+    async listDeployments(appId, page) {
+      const res = await axios(this, this._getAxiosParams({
+        method: "GET",
+        path: `/applications/${appId}/deployments.json`,
+        params: {
+          page,
+        },
+      }));
+      return res.deployments;
+    },
   },
 };

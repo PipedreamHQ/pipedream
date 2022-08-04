@@ -686,7 +686,6 @@ importers:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
 
-
   components/google_dialogflow:
     specifiers:
       '@google-cloud/dialogflow': ^5.1.0
@@ -897,6 +896,9 @@ importers:
   components/linqs_cc:
     specifiers: {}
 
+  components/looker:
+    specifiers: {}
+
   components/lusha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1048,6 +1050,12 @@ importers:
       jwt-simple: 0.5.6
       netlify: 6.1.29
       parse-link-header: 1.0.1
+
+  components/new_relic:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/nextdns:
     specifiers: {}
@@ -18592,9 +18600,6 @@ packages:
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
-
-  /typescript/4.7.2:
-    resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
 
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
