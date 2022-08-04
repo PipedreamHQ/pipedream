@@ -29,18 +29,12 @@ export default {
       throw new Error("generateMeta is not implemented");
     },
     loadHistoricalEvents() {
-      return false;
+      return true;
     },
   },
   hooks: {
     async deploy() {
-      const events = await this.loadHistoricalEvents();
-      if (!events) {
-        return;
-      }
-      for (const event of events) {
-        this.$emit(event, this.generateMeta(event));
-      }
+      await this.loadHistoricalEvents();
     },
     async activate() {
       const response = await this.github.createWebhook({

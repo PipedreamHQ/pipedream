@@ -71,7 +71,7 @@ export default {
     async processCard(card) {
       const meta = this.generateMeta(card);
       const issue = await this.github.getIssueFromProjectCard({
-        repoFullName: this.repoFullname,
+        repoFullname: this.repoFullname,
         cardId: card.id,
       });
       this.$emit({
@@ -91,6 +91,6 @@ export default {
       return;
     }
 
-    await this.processCard(card);
+    this.processCard(card);
   },
 };

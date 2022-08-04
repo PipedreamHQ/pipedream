@@ -91,7 +91,10 @@ export default {
         const branches = await this.getBranches({
           repoFullname,
         });
-        return branches.map((branch) => branch.name);
+        return branches.map((branch) => ({
+          label: branch.name,
+          value: branch.commit.sha,
+        }));
       },
     },
     pullNumber: {
@@ -285,7 +288,7 @@ export default {
       return response.data;
     },
     async getCommits({
-      repoFullname, data,
+      repoFullname, ...data
     }) {
       const { data: commits } = await this._client().request(`GET /repos/${repoFullname}/commits`, {
         ...data,
@@ -293,7 +296,7 @@ export default {
       return commits;
     },
     async getBranches({
-      repoFullname, data,
+      repoFullname, ...data
     }) {
       const { data: branches } = await this._client().request(`GET /repos/${repoFullname}/branches`, {
         ...data,
