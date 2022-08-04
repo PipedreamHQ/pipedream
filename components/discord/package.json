@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/discord",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Pipedream Discord Components",
   "main": "discord.app.mjs",
   "keywords": [
@@ -10,9 +10,7 @@
   "homepage": "https://pipedream.com/apps/discord",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
-  "dependencies": {
-    "@pipedream/platform": "^0.10.0"
-  },
+  "dependencies": {},
   "publishConfig": {
     "access": "public"
   }
