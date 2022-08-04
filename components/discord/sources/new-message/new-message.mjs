@@ -5,7 +5,7 @@ export default {
   key: "discord-new-message",
   name: "New Message",
   description: "Emit new event for each message posted to one or more channels in a Discord server",
-  version: "0.0.3",
+  version: "1.0.0",
   dedupe: "unique",
   props: {
     discord,
