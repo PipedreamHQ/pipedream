@@ -1,8 +1,8 @@
-const discord = require("../../discord-v2.app.js");
+import discord from "../../discord.app.mjs";
 
-module.exports = {
+export default {
   type: "source",
-  key: "discord_bot-new-message",
+  key: "discord-new-message",
   name: "New Message",
   description: "Emit new event for each message posted to one or more channels in a Discord server",
   version: "0.0.3",
