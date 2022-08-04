@@ -144,6 +144,35 @@ def handler(pd: "pipedream"):
   r = requests.post(url='https://api.imgur.com/3/image', files=files)
 ```
 
+
+
+
+## Returning HTTP responses
+
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the `pd.respond()` method:
+
+```python
+def handler(pd: 'pipedream'):
+  pd.respond({
+    'status': 200,
+    'body': {
+      'message': 'Everything is ok'
+    }
+  })
+```
+
+Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
+
+:::warning
+
+Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/triggers/#http-responses), the Python `pd.respond` helper does not yet support responding with Streams.
+
+:::
+
+:::tip
+*Don't forget* to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
+:::
+
 ## Sharing data between steps
 
 A step can accept data from other steps in the same workflow, or pass data downstream to others.
@@ -260,6 +289,42 @@ raise NameError('Something happened that should not. Exiting early.')
 ```
 
 All exceptions from your Python code will appear in the **logs** area of the results.
+
+## Ending a workflow early
+
+Sometimes you want to end your workflow early, or otherwise stop or cancel the execution of a workflow under certain conditions. For example:
+
+- You may want to end your workflow early if you don't receive all the fields you expect in the event data.
+- You only want to run your workflow for 5% of all events sent from your source.
+- You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
+- You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
+
+**In any code step, calling `pd.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
+
+```python
+def handler(pd: 'pipedream'):
+  return pd.flow.exit()
+  print("This code will not run, since pd.flow.exit() was called above it")
+```
+
+You can pass any string as an argument to `pd.flow.exit()`:
+
+```python
+def handler(pd: 'pipedream'):
+  return pd.flow.exit('Exiting early. Goodbye.')
+  print("This code will not run, since pd.flow.exit() was called above it")
+```
+
+Or exit the workflow early within a conditional:
+
+```python
+def handler(pd: 'pipedream'):
+  # Flip a coin, running $.flow.exit() for 50% of events
+  if random.randint(0, 100) <= 50:
+    return pd.flow.exit()
+  
+  print("This code will only run 50% of the time");
+```
 
 ## File storage
 

@@ -50,6 +50,7 @@ const docsNav = [
           "/code/python/",
           "/code/python/auth/",
           "/code/python/using-data-stores/",
+          "/code/python/rerun/",
           "/code/python/import-mappings/",
         ]
       },
