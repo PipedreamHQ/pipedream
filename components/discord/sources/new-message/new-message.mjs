@@ -3,7 +3,7 @@ import discord from "../../discord.app.mjs";
 export default {
   type: "source",
   key: "discord-new-message",
-  name: "New Message",
+  name: "New Message (Instant)",
   description: "Emit new event for each message posted to one or more channels in a Discord server",
   version: "1.0.0",
   dedupe: "unique",
