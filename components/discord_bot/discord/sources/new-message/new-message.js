@@ -5,7 +5,7 @@ module.exports = {
   key: "discord_bot-new-message",
   name: "New Message",
   description: "Emit new event for each message posted to one or more channels in a Discord server",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     discord,
@@ -23,18 +23,9 @@ module.exports = {
         return this.channels || [];
       },
     },
-    ignoreMyself: {
-      type: "boolean",
-      label: "Ignore myself",
-      description: "Ignore messages from me",
-      default: true,
-    },
   },
   async run(event) {
     if (event.guildID != this.discord.$auth.guild_id) {
-      return;
-    }
-    if (this.ignoreMyself && event.authorID == this.discord.$auth.oauth_uid) {
       return;
     }
     this.$emit(event, {
