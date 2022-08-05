@@ -1907,6 +1907,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/zonka_feedback:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/zoom:
     specifiers:
       '@pipedream/platform': ^1.1.0
