@@ -109,5 +109,14 @@ export default {
         path: `leads/pause/${email}`,
       });
     },
+    async removeLeadFromACampaign({
+      $, email, campaignId,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "DELETE",
+        path: `campaigns/${campaignId}/leads/${email}`,
+      });
+    },
   },
 };
