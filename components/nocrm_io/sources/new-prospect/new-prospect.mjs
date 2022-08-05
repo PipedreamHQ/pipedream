@@ -22,5 +22,6 @@ export default {
         ts: Date.parse(data.created_at),
       });
     },
+    async deploy() { },
   },
 };
