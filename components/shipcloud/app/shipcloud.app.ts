@@ -66,7 +66,7 @@ export default defineApp({
     },
   },
   propDefinitions: {
-    companyId: {
+    shipmentId: {
       type: "integer",
       label: "Shipment",
       description: `Select a **Shipment** from the list.
