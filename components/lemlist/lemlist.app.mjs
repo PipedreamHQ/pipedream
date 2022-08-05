@@ -100,13 +100,13 @@ export default {
         path: `campaigns/${campaignId}/leads/${email}`,
       });
     },
-    async pauseLeadFromAllCampaigns({
-      $, email,
+    async pauseResumeLeadFromAllCampaigns({
+      $, email, action,
     }) {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `leads/pause/${email}`,
+        path: `leads/${action}/${email}`,
       });
     },
     async removeLeadFromACampaign({

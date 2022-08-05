@@ -1,9 +1,9 @@
 import lemlist from "../../lemlist.app.mjs";
 
 export default {
-  key: "lemlist-pause-lead-from-all-campaigns",
-  name: "Pause Lead From All Campaigns",
-  description: "This action pauses a specific lead using its email in all campaigns. [See the docs here](https://developer.lemlist.com/#pause-a-specific-lead-by-email)",
+  key: "lemlist-resume-lead-from-all-campaigns",
+  name: "Resume Lead From All Campaigns",
+  description: "This action starts a specific lead using its email in all campaigns. [See the docs here](https://developer.lemlist.com/#resume-a-specific-lead-by-email)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -19,10 +19,10 @@ export default {
     const response = await this.lemlist.pauseResumeLeadFromAllCampaigns({
       $,
       email: this.email,
-      action: "pause",
+      action: "start",
     });
 
-    $.export("$summary", `Successfully paused ${this.email} lead from all campaigns!`);
+    $.export("$summary", `Successfully resumed ${this.email} lead from all campaigns!`);
     return response;
   },
 };
