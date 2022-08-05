@@ -110,12 +110,13 @@ export default {
       });
     },
     async removeLeadFromACampaign({
-      $, email, campaignId,
+      $, email, campaignId, params,
     }) {
       return this._makeRequest({
         $,
         method: "DELETE",
         path: `campaigns/${campaignId}/leads/${email}`,
+        params,
       });
     },
   },
