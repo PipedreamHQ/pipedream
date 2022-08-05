@@ -1,4 +1,5 @@
 import app from "../../new_relic.app.mjs";
+import common from "../../common/common-sources.mjs";
 
 export default {
   dedupe: "unique",
@@ -8,16 +9,7 @@ export default {
   description: "Emit new event when a new deployment is created.",
   version: "0.0.1",
   props: {
-    app,
-    db: "$.service.db",
-    timer: {
-      label: "Polling interval",
-      description: "How often to poll the New Relic for new events",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    ...common.props,
     application: {
       propDefinition: [
         app,

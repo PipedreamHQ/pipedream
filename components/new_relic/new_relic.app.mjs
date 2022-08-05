@@ -55,15 +55,20 @@ export default {
       }));
       return res.deployment;
     },
-    async listDeployments(appId, page) {
+    async listDeployments(appId) {
       const res = await axios(this, this._getAxiosParams({
         method: "GET",
         path: `/applications/${appId}/deployments.json`,
-        params: {
-          page,
-        },
       }));
       return res.deployments;
+    },
+    async listAlerts(query) {
+      const res = await axios(this, this._getAxiosParams({
+        method: "GET",
+        path: "/alerts_events.json",
+        params: query,
+      }));
+      return res.recent_events;
     },
   },
 };
