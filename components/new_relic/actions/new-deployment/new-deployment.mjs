@@ -3,7 +3,7 @@ import app from "../../new_relic.app.mjs";
 export default {
   name: "New Deployment",
   description: "Create a new deployment mark. [See the docs here](https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/record-monitor-deployments/)",
-  key: "new-relic_new-deployment",
+  key: "new_relic-new-deployment",
   version: "0.0.1",
   type: "action",
   props: {
@@ -52,7 +52,7 @@ export default {
       description,
       user,
     };
-    const res = await this.app.newDeployment(application, data);
+    const res = await this.app.newDeployment(application, data, $);
     $.export("$summary", "New deployment created");
     return res;
   },

@@ -4,7 +4,7 @@ import common from "../../common/common-sources.mjs";
 export default {
   dedupe: "unique",
   type: "source",
-  key: "new-relic_new-deployment",
+  key: "new_relic-new-deployment",
   name: "New Deployment",
   description: "Emit new event when a new deployment is created.",
   version: "0.0.1",
@@ -41,9 +41,9 @@ export default {
     const toEmitEvents = [];
     const prevRequestFirstItem = this._getLastEmittedDeploy();
     for (const deployment of deployments) {
-      if (prevRequestFirstItem == deployment.id ) {
+      if (prevRequestFirstItem == deployment.id) {
         break;
-      }2;
+      }
       toEmitEvents.unshift(deployment);
     }
     this._setLastEmittedDeploy(deployments[0].id);

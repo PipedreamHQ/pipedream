@@ -28,12 +28,11 @@ export default {
       };
     },
     _getAxiosParams(opts = {}) {
-      const res = {
+      return {
         ...opts,
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
-      return res;
     },
     async listApps(page) {
       const res = await axios(this, this._getAxiosParams({
@@ -45,8 +44,8 @@ export default {
       }));
       return res.applications;
     },
-    async newDeployment(appId, data) {
-      const res = await axios(this, this._getAxiosParams({
+    async newDeployment(appId, data, $ = this) {
+      const res = await axios($, this._getAxiosParams({
         method: "POST",
         path: `/applications/${appId}/deployments.json`,
         data: {

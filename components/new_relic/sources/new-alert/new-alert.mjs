@@ -3,7 +3,7 @@ import common from "../../common/common-sources.mjs";
 export default {
   dedupe: "unique",
   type: "source",
-  key: "new-relic_new-alert",
+  key: "new_relic-new-alert",
   name: "New Alert",
   description: "Emit new event when a new alert is created.",
   version: "0.0.1",
@@ -78,9 +78,9 @@ export default {
     const toEmitEvents = [];
     const prevRequestFirstItem = this._getLastEmittedAlert();
     for (const alert of alerts) {
-      if (prevRequestFirstItem == alert.id ) {
+      if (prevRequestFirstItem == alert.id) {
         break;
-      }2;
+      }
       toEmitEvents.unshift(alert);
     }
     this._setLastEmittedAlert(alerts[0].id);
