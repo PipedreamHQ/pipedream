@@ -73,22 +73,22 @@ export default {
       return leads;
 
     },
-    async markInterestedLeadInAllCampaigns({
-      $, email,
+    async markLeadInAllCampaigns({
+      $, email, action,
     }) {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `leads/interested/${email}`,
+        path: `leads/${action}/${email}`,
       });
     },
-    async markInterestedLeadInOneCampaign({
-      $, email, campaignId,
+    async markLeadInOneCampaign({
+      $, email, campaignId, action,
     }) {
       return this._makeRequest({
         $,
         method: "POST",
-        path: `campaigns/${campaignId}/leads/${email}/interested`,
+        path: `campaigns/${campaignId}/leads/${email}/${action}`,
       });
     },
     async addLeadToCampaign({
