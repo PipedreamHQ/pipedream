@@ -91,5 +91,14 @@ export default {
         path: `campaigns/${campaignId}/leads/${email}/interested`,
       });
     },
+    async addLeadToCampaign({
+      $, email, campaignId,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `campaigns/${campaignId}/leads/${email}`,
+      });
+    },
   },
 };
