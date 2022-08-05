@@ -48,7 +48,7 @@ export default {
         throw new Error(JSON.stringify(error.response.data, null, 2));
       }
     },
-    async listSurveys(opts = {}) {
+    async listSurveys(opts) {
       return this._makeRequest({
         path: "/surveys",
         ...opts,
@@ -65,6 +65,12 @@ export default {
       return this._makeRequest({
         path: "/sendsms",
         method: "post",
+        ...opts,
+      });
+    },
+    async getSurveyResponses(opts) {
+      return this._makeRequest({
+        path: "/responses",
         ...opts,
       });
     },
