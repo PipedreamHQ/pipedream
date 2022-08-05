@@ -100,5 +100,14 @@ export default {
         path: `campaigns/${campaignId}/leads/${email}`,
       });
     },
+    async pauseLeadFromAllCampaigns({
+      $, email,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `leads/pause/${email}`,
+      });
+    },
   },
 };
