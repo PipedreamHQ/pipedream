@@ -4,7 +4,7 @@ export default {
   ...gist,
   key: "gist-remove-tag-from-contact",
   name: "Remove Tag From Existing Contact",
-  description: "You can remove a tag from a contact by adding \"untag\": true to each of the contact objects. Passing the untag value to false is the same as requesting the contacts be tagged. [See docs](https://developers.getgist.com/api/#remove-a-tag-from-contacts)",
+  description: "Remove a tag from an existing contact or contacts. [See docs](https://developers.getgist.com/api/#remove-a-tag-from-contacts)",
   type: "action",
   version: "0.0.1",
   props: {
