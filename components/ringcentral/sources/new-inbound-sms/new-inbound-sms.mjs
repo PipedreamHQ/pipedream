@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-new-inbound-sms",
   name: "New Inbound SMS (Instant)",
   description: "Emit new event on each incoming SMS",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
