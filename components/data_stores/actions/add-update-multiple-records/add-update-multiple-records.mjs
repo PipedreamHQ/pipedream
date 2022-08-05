@@ -1,11 +1,10 @@
 import app from "../../data_stores.app.mjs";
-import xss from "xss";
 
 export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,
@@ -53,13 +52,7 @@ export default {
         }
       }
 
-      // Try to evaluate string as javascript, using xss as extra security
-      // If some problem occurs, return the original string
-      try {
-        return eval(`(${xss(value)})`);
-      } catch {
-        return value;
-      }
+      return this.app.evaluate(value);
     },
     /**
      * Add all the key-value pairs in the map object to be used in the data store
@@ -68,8 +61,7 @@ export default {
      */
     populateHashMapOfData(data, map) {
       if (!Array.isArray(data) && typeof(data) === "object") {
-        Object.keys(data)
-          .forEach((key) => map[key] = this.convertString(data[key]));
+        Object.keys(data).forEach((key) => map[key] = this.convertString(data[key]));
         return;
       }
 
@@ -87,7 +79,7 @@ export default {
   },
   async run({ $ }) {
     if (typeof this.data === "string") {
-      this.data = eval(`(${this.data})`);
+      this.data = this.app.evaluate(this.data);
     }
     const map = this.getHashMapOfData(this.data);
     const keys = Object.keys(map);
@@ -96,7 +88,9 @@ export default {
     if (keys.length === 0) {
       $.export("$summary", "No data was added to the data store.");
     } else {
-      $.export("$summary", `Successfully added or updated ${keys.length} record(s)`);
+      // eslint-disable-next-line multiline-ternary
+      $.export("$summary", `Successfully added or updated ${keys.length} record${keys.length === 1 ? "" : "s"}`);
     }
+    return map;
   },
 };

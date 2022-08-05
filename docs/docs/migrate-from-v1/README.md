@@ -309,7 +309,7 @@ You can still edit a deployed workflow, just like in v1 but automatic version ro
 
 In the v2 builder, you can still view individual events that trigger your v2 workflows in the **Inspector** events log. You can delete specific events or all of them in one click as well.
 
-However, at this time it's replaying past events against your deploy v2 workflows is not possible.
+To replay past events against your deploy v2 workflows, open the event's menu and click **Replay Event**. This will rerun your workflow with this same event.
 
 ## FAQs
 
