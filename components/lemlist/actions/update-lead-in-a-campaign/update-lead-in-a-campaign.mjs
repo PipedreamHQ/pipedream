@@ -1,0 +1,100 @@
+import lemlist from "../../lemlist.app.mjs";
+
+export default {
+  key: "lemlist-update-lead-in-a-campaign",
+  name: "Update Lead In Campaign",
+  description: "This action updates a lead in a specific campaign. If the lead doesn't exist a 404 error will be returned. [See the docs here](https://developer.lemlist.com/#update-a-lead-in-a-campaign)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    lemlist,
+    campaignId: {
+      propDefinition: [
+        lemlist,
+        "campaignId",
+      ],
+      withLabel: true,
+    },
+    email: {
+      propDefinition: [
+        lemlist,
+        "email",
+        (c) => ({
+          campaignId: c.campaignId.value,
+        }),
+      ],
+      async options({ campaignId }) {
+        const leads = await this.listLeads({
+          campaignId,
+        });
+
+        return leads.map((email) => ({
+          label: email,
+          value: email,
+        }));
+      },
+    },
+    firstName: {
+      propDefinition: [
+        lemlist,
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        lemlist,
+        "lastName",
+      ],
+    },
+    picture: {
+      propDefinition: [
+        lemlist,
+        "picture",
+      ],
+    },
+    phone: {
+      propDefinition: [
+        lemlist,
+        "phone",
+      ],
+    },
+    linkedinUrl: {
+      propDefinition: [
+        lemlist,
+        "linkedinUrl",
+      ],
+    },
+    companyName: {
+      propDefinition: [
+        lemlist,
+        "companyName",
+      ],
+    },
+    icebreaker: {
+      propDefinition: [
+        lemlist,
+        "icebreaker",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.lemlist.updateLeadInACampaign({
+      $,
+      email: this.email,
+      campaignId: this.campaignId.value,
+      data: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        picture: this.picture,
+        phone: this.phone,
+        linkedinUrl: this.linkedinUrl,
+        companyName: this.companyName,
+        icebraker: this.icebraker,
+      },
+    });
+
+    $.export("$summary", `Successfully updated ${this.email} lead in ${this.campaignId.label} campaign!`);
+    return response;
+  },
+};
+

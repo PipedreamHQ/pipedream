@@ -28,6 +28,48 @@ export default {
       label: "Email",
       description: "Email address of the lead.",
     },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the lead.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the lead.",
+      optional: true,
+    },
+    picture: {
+      type: "string",
+      label: "Picture",
+      description: "Picture of the lead.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone of the lead.",
+      optional: true,
+    },
+    linkedinUrl: {
+      type: "string",
+      label: "Linkedin URL",
+      description: "Linkedin URL of the lead.",
+      optional: true,
+    },
+    companyName: {
+      type: "string",
+      label: "Company Name",
+      description: "Company name of the lead.",
+      optional: true,
+    },
+    icebreaker: {
+      type: "string",
+      label: "Icebreacker",
+      description: "Icebreaker of the lead.",
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -126,6 +168,16 @@ export default {
         $,
         method: "POST",
         path: `unsubscribes/${email}`,
+      });
+    },
+    async updateLeadInACampaign({
+      $, email, campaignId, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "PATCH",
+        path: `campaigns/${campaignId}/leads/${email}`,
+        data,
       });
     },
   },
