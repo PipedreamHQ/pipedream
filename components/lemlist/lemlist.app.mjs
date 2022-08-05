@@ -119,5 +119,14 @@ export default {
         params,
       });
     },
+    async addEmailToUnsubscribes({
+      $, email,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `unsubscribes/${email}`,
+      });
+    },
   },
 };
