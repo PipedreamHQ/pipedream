@@ -5,24 +5,15 @@ export default {
   name: 'Retrieve Page Property Item',
   description:
     'Retrieves a property_item object for a given page_id and property_id.',
-  version: '0.0.19',
+  version: '0.0.21',
   type: 'action',
   props: {
     notion,
     pageId: {
       propDefinition: [notion, 'pageId'],
     },
-    databaseId: {
-      propDefinition: [notion, 'databaseId'],
-    },
     propertyId: {
-      propDefinition: [
-        notion,
-        'propertyId',
-        (c) => ({
-          database_id: c.databaseId,
-        }),
-      ],
+      propDefinition: [notion, 'propertyId'],
     },
   },
   async run({ $ }) {
