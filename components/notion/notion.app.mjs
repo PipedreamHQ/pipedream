@@ -30,24 +30,10 @@ export default {
       },
     },
     propertyId: {
-      type: 'string[]',
+      type: 'string',
       label: 'Property ID',
       description: 'The identifier for a Notion page property',
-      async options({ database_id }) {
-        try {
-          const { response } = await this.retrieveDatabase(database_id);
-          const properties = response.properties;
-          const propValues = Object.values(properties);
-
-          return propValues.map((prop) => ({
-            label: prop.name,
-            value: prop.id,
-          }));
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      },
+      optional: true,
     },
     metaTypes: {
       type: 'string[]',
