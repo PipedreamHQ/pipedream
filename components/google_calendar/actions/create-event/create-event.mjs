@@ -41,12 +41,12 @@ export default {
     eventStartDate: {
       label: "Event Date",
       type: "string",
-      description: "Enter the Event day in the format 'yyyy-mm-dd', if this is an all-day event.",
+      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     eventEndDate: {
       label: "Event End Date",
       type: "string",
-      description: "Enter the Event day in the format 'yyyy-mm-dd', if this is an all-day event.",
+      description: "For all-day events, enter the Event day in the format 'yyyy-mm-dd'. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): 'yyyy-mm-ddThh:mm:ss+01:00'. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
     },
     sendUpdates: {
       label: "Send Updates",
