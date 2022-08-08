@@ -13,8 +13,20 @@ export default {
     getWebhookEventType() {
       return "timetracking_added";
     },
+    async deploy() {
+      const timeEntries = await this.awork.getTimeEntries({
+        params: {
+          pageSize: 10,
+          orderby: "CreatedOn DESC",
+        },
+      });
+
+      timeEntries
+        .reverse()
+        .forEach(this.emitEvent);
+    },
     emitEvent(body) {
-      const data = body.entity;
+      const data = body?.entity ?? body;
 
       this.$emit(data, {
         id: data.id,

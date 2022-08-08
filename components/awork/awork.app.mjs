@@ -48,5 +48,17 @@ export default {
         ...args,
       });
     },
+    async getTasks({ ...args }) {
+      return this._makeRequest({
+        path: "/me/projecttasks",
+        ...args,
+      });
+    },
+    async getTimeEntries({ ...args }) {
+      return this._makeRequest({
+        path: "//timeentries",
+        ...args,
+      });
+    },
   },
 };
