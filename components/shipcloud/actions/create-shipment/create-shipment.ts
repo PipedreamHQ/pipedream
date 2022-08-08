@@ -48,7 +48,7 @@ export default defineAction({
       type: "object",
       label: "Additional Options",
       description:
-        "Additional options for this shipment [(more info on the Shipcloud Docs)](https://developers.shipcloud.io/reference/#creating-a-shipment)",
+        "Optional parameters to pass, such as `description` or `notification_email` [(more info on the Shipcloud Docs)](https://developers.shipcloud.io/reference/#creating-a-shipment)",
       optional: true,
     },
   },
@@ -65,7 +65,7 @@ export default defineAction({
     };
     const data: Shipment = await this.shipcloud.createShipment(params);
 
-    $.export("$summary", `Created shipment successfully`);
+    $.export("$summary", 'Created shipment successfully');
 
     return data;
   },
