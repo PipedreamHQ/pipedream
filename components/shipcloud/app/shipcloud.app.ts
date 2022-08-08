@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { GetShipmentParams, HttpRequestParams } from "../types/requestParams";
-import { Shipment } from "../types/responseSchemas";
+import { GetShipmentParams, HttpRequestParams } from "../common/requestParams";
+import { Shipment } from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
