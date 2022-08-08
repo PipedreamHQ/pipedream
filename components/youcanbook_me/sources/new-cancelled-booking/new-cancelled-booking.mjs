@@ -1,37 +1,24 @@
-import youcanbook_me from "../../youcanbook_me.app.mjs";
+import base from "../common/booking-base.mjs";
 
 export default {
+  ...base,
   name: "New Cancelled Booking",
   version: "0.0.1",
   key: "youcanbook_me",
   description: "Emit new event when a booking is cancelled",
   type: "source",
-  props: {
-    youcanbook_me,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 15 * 60,
-      },
-    },
-  },
+  dedupe: "unique",
   methods: {
     async emitEvent(event) {
+      if (!event.cancelled) {
+        return;
+      }
+
       this.$emit(event, {
         id: event.id,
         summary: `New cancelled booking with id ${event.id}`,
         ts: Date.parse(event.createdAt),
       });
     },
-  },
-  async run() {
-    const response = await this.youcanbook_me.getBookings({});
-
-    response.forEach((booking) => {
-      if (booking.cancelled) {
-        this.emitEvent(booking);
-      }
-    });
   },
 };

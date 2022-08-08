@@ -1,21 +1,13 @@
-import youcanbook_me from "../../youcanbook_me.app.mjs";
+import base from "../common/booking-base.mjs";
 
 export default {
+  ...base,
   name: "New Booking",
   version: "0.0.1",
   key: "youcanbook_me-new-booking",
   description: "Emit new event for each new booking",
   type: "source",
-  props: {
-    youcanbook_me,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 15 * 60,
-      },
-    },
-  },
+  dedupe: "unique",
   methods: {
     async emitEvent(event) {
       this.$emit(event, {
@@ -24,10 +16,5 @@ export default {
         ts: Date.parse(event.createdAt),
       });
     },
-  },
-  async run() {
-    const response = await this.youcanbook_me.getBookings({});
-
-    response.forEach(this.emitEvent);
   },
 };
