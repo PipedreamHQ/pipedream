@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import { GetShipmentParams, HttpRequestParams } from "../common/requestParams";
-import { Shipment } from "../common/responseSchemas";
+import { Address, Shipment } from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -48,12 +48,21 @@ export default defineApp({
     //     method: "DELETE",
     //   });
     // },
+    async createShipment({
+      id,
+      ...params
+    }: GetShipmentParams): Promise<Shipment> {
+      return this._httpRequest({
+        endpoint: `/shipments/${id}`,
+        ...params,
+      });
+    },
     async listShipments(): Promise<Shipment[]> {
       const response = await this._httpRequest({
         endpoint: "/shipments",
       });
 
-      return response.companies;
+      return response.shipments;
     },
     async getShipment({ id, ...params }: GetShipmentParams): Promise<Shipment> {
       return this._httpRequest({
@@ -62,7 +71,25 @@ export default defineApp({
       });
     },
     getShipmentLabel({ packages, price, to }: Shipment) {
-      return `${packages.length} packages ($${price}) to ${to.zip_code} (${to.country})`;
+      return `${packages.length} packages ($${price}) to ${this.getAddressLabel(to)}`;
+    },
+    async listAddresses(): Promise<Address[]> {
+      const response = await this._httpRequest({
+        endpoint: "/addresses",
+      });
+
+      return response.addresses;
+    },
+    getAddressLabel({
+      first_name,
+      last_name,
+      street,
+      street_no,
+      zip_code,
+      city,
+      country,
+    }: Address) {
+      return `${first_name} ${last_name} - ${street_no} ${street}, ${city} ${zip_code} (${country})`;
     },
   },
   propDefinitions: {
@@ -79,6 +106,23 @@ export default defineApp({
           return {
             label: this.getShipmentLabel(shipment),
             value: shipment.id,
+          };
+        });
+      },
+    },
+    address: {
+      type: "object",
+      label: "Recipient Address",
+      description: `Select an **Address** from the list.
+        \\
+        Alternatively, you can provide a custom [Address object](https://developers.shipcloud.io/reference/#creating-an-address).`,
+      async options() {
+        const addresses: Address[] = await this.listAddresses();
+
+        return addresses.map((address) => {
+          return {
+            label: this.getAddressLabel(address),
+            value: address,
           };
         });
       },

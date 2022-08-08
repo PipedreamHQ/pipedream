@@ -1,7 +1,22 @@
 import { Pipedream } from "@pipedream/types";
+import { Address } from "./responseSchemas";
 
 interface ActionRequestParams {
   $?: Pipedream;
+}
+
+interface CreateShipmentParams extends ActionRequestParams {
+  data: {
+    carrier: string;
+    to: Address;
+    from: Address;
+    package: object;
+    additionalOptions: object;
+  };
+}
+
+interface GetShipmentParams extends ActionRequestParams {
+  id: number;
 }
 
 interface HttpRequestParams extends ActionRequestParams {
@@ -10,11 +25,4 @@ interface HttpRequestParams extends ActionRequestParams {
   method?: string;
 }
 
-interface GetShipmentParams extends ActionRequestParams {
-  id: number;
-}
-
-export {
-  GetShipmentParams,
-  HttpRequestParams,
-};
+export { CreateShipmentParams, GetShipmentParams, HttpRequestParams };
