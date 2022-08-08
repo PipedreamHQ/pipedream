@@ -13,23 +13,10 @@ export default defineAction({
   props: {
     shipcloud,
     carrier: {
-      type: "string",
-      label: "Carrier",
-      description: "The carrier you want to use",
-      options: [
-        "angel_de",
-        "cargo_international",
-        "dhl",
-        "dhl_express",
-        "dpag",
-        "dpd",
-        "gls",
-        "go",
-        "hermes",
-        "iloxx",
-        "parcel_one",
-        "ups",
-      ],
+      propDefinition: [shipcloud, "carrier"]
+    },
+    service: {
+      propDefinition: [shipcloud, "service"]
     },
     toAddress: {
       propDefinition: [shipcloud, "address"],
@@ -39,10 +26,7 @@ export default defineAction({
       label: "Sender Address",
     },
     package: {
-      type: "object",
-      label: "Package",
-      description:
-        "Object describing the package [(more info on the Shipcloud Docs)](https://developers.shipcloud.io/reference/#creating-a-shipment)",
+      propDefinition: [shipcloud, "package"],
     },
     additionalOptions: {
       type: "object",
@@ -57,15 +41,16 @@ export default defineAction({
       $,
       data: {
         carrier: this.toAddress,
+        service: this.service,
         to: this.toAddress,
         from: this.fromAddress,
         package: this.package,
-        ...this.additionalOptions,
+        additionalOptions: this.additionalOptions,
       },
     };
     const data: Shipment = await this.shipcloud.createShipment(params);
 
-    $.export("$summary", 'Created shipment successfully');
+    $.export("$summary", "Created shipment successfully");
 
     return data;
   },

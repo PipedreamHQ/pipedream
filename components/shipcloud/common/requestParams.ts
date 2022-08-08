@@ -5,15 +5,22 @@ interface ActionRequestParams {
   $?: Pipedream;
 }
 
-interface CreateShipmentParams extends ActionRequestParams {
+interface CreateShipmentQuoteParams extends ActionRequestParams {
   data: {
     carrier: string;
+    service: string;
     to: Address;
     from: Address;
     package: object;
-    additionalOptions: object;
   };
 }
+
+type CreateShipmentParams = ActionRequestParams &
+  CreateShipmentQuoteParams & {
+    data: {
+      additionalOptions: object;
+    };
+  };
 
 interface GetShipmentParams extends ActionRequestParams {
   id: number;
@@ -25,4 +32,9 @@ interface HttpRequestParams extends ActionRequestParams {
   method?: string;
 }
 
-export { CreateShipmentParams, GetShipmentParams, HttpRequestParams };
+export {
+  CreateShipmentParams,
+  CreateShipmentQuoteParams,
+  GetShipmentParams,
+  HttpRequestParams,
+};
