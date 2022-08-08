@@ -45,6 +45,7 @@ export default {
         logId: this.logId,
         params: {
           pageSize: 10,
+          query: "isNew:true AND (severity:Error OR severity:Fatal)",
         },
       });
 
