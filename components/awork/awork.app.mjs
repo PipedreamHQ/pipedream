@@ -42,6 +42,13 @@ export default {
         ...args,
       });
     },
+    async createCompany({ ...args }) {
+      return this._makeRequest({
+        path: "/companies",
+        method: "post",
+        ...args,
+      });
+    },
     async getUsers({ ...args }) {
       return this._makeRequest({
         path: "/users",
