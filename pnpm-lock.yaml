@@ -161,6 +161,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/awork:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/aws:
     specifiers:
       '@aws-sdk/client-cloudwatch-logs': ^3.58.0
