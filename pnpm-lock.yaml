@@ -428,18 +428,9 @@ importers:
       do-wrapper: 4.5.1
 
   components/discord:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-    dependencies:
-      '@pipedream/platform': 0.10.0
+    specifiers: {}
 
   components/discord_bot:
-    specifiers:
-      '@pipedreamhq/platform': ^0.8.1
-    dependencies:
-      '@pipedreamhq/platform': 0.8.1
-
-  components/discord_bot/discord:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
@@ -493,6 +484,12 @@ importers:
 
   components/enormail:
     specifiers: {}
+
+  components/esignatures_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/exact:
     specifiers: {}
@@ -679,7 +676,6 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
-
 
   components/google_dialogflow:
     specifiers:
@@ -889,6 +885,9 @@ importers:
       '@linear/sdk': 1.22.0
 
   components/linqs_cc:
+    specifiers: {}
+
+  components/looker:
     specifiers: {}
 
   components/lusha:
@@ -14862,6 +14861,7 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
+    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -18586,9 +18586,6 @@ packages:
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
-
-  /typescript/4.7.2:
-    resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
 
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
