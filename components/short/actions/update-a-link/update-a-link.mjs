@@ -28,6 +28,7 @@ export default {
       "domain",
       "originalURL",
       "path",
+      "title",
       "tags",
       "allowDuplicates",
       "expiresAt",
