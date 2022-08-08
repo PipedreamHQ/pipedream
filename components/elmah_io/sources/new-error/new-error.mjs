@@ -1,9 +1,11 @@
 import elmah_io from "../../elmah_io.app.mjs";
 import constants from "../common/constants.mjs";
 
+const QUERY = "isNew:true AND (severity:Error OR severity:Fatal)";
+
 export default {
   name: "New Error",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "elmah_io-new-error",
   description: "Emit new event on each new error",
   type: "source",
@@ -45,6 +47,7 @@ export default {
         logId: this.logId,
         params: {
           pageSize: 10,
+          query: QUERY,
         },
       });
 
@@ -60,6 +63,7 @@ export default {
         params: {
           pageIndex: page,
           pageSize: constants.DEFAULT_PAGE_SIZE,
+          query: QUERY,
         },
       });
 
