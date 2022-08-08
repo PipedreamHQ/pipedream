@@ -1,8 +1,14 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { GetShipmentParams, HttpRequestParams } from "../common/requestParams";
-import { Address, Shipment } from "../common/responseSchemas";
-import { CARRIER_OPTIONS, SERVICE_OPTIONS } from "../common/constants";
+import {
+  GetShipmentParams, HttpRequestParams,
+} from "../common/requestParams";
+import {
+  Address, Shipment,
+} from "../common/responseSchemas";
+import {
+  CARRIER_OPTIONS, SERVICE_OPTIONS,
+} from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -65,15 +71,19 @@ export default defineApp({
 
       return response.shipments;
     },
-    async getShipment({ id, ...params }: GetShipmentParams): Promise<Shipment> {
+    async getShipment({
+      id, ...params
+    }: GetShipmentParams): Promise<Shipment> {
       return this._httpRequest({
         endpoint: `/shipments/${id}`,
         ...params,
       });
     },
-    getShipmentLabel({ packages, price, to }: Shipment) {
+    getShipmentLabel({
+      packages, price, to,
+    }: Shipment) {
       return `${packages.length} packages ($${price}) to ${this.getAddressLabel(
-        to
+        to,
       )}`;
     },
     async listAddresses(): Promise<Address[]> {

@@ -20,7 +20,9 @@ type Shipment = {
 type ShipmentQuote = {
   shipment_quote: {
     price: number;
-  }
-}
+  };
+};
 
-export { Address, Shipment, ShipmentQuote };
+export {
+  Address, Shipment, ShipmentQuote,
+};

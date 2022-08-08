@@ -32,6 +32,8 @@ const SERVICE_OPTIONS: string[] = [
   "gls_express_1000",
   "gls_express_1200",
   "ups_express_1200",
-]
+];
 
-export { CARRIER_OPTIONS, SERVICE_OPTIONS}
+export {
+  CARRIER_OPTIONS, SERVICE_OPTIONS,
+};

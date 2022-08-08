@@ -1,9 +1,7 @@
 import shipcloud from "../../app/shipcloud.app";
 import { defineAction } from "@pipedream/types";
 import { ShipmentQuote } from "../../common/responseSchemas";
-import {
-  CreateShipmentQuoteParams,
-} from "../../common/requestParams";
+import { CreateShipmentQuoteParams } from "../../common/requestParams";
 
 export default defineAction({
   name: "Create Shipment Quote",
@@ -15,20 +13,35 @@ export default defineAction({
   props: {
     shipcloud,
     carrier: {
-      propDefinition: [shipcloud, "carrier"]
+      propDefinition: [
+        shipcloud,
+        "carrier",
+      ],
     },
     service: {
-      propDefinition: [shipcloud, "service"]
+      propDefinition: [
+        shipcloud,
+        "service",
+      ],
     },
     toAddress: {
-      propDefinition: [shipcloud, "address"],
+      propDefinition: [
+        shipcloud,
+        "address",
+      ],
     },
     fromAddress: {
-      propDefinition: [shipcloud, "address"],
+      propDefinition: [
+        shipcloud,
+        "address",
+      ],
       label: "Sender Address",
     },
     package: {
-      propDefinition: [shipcloud, "package"],
+      propDefinition: [
+        shipcloud,
+        "package",
+      ],
     },
   },
   async run({ $ }): Promise<ShipmentQuote> {

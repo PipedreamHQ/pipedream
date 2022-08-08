@@ -28,7 +28,7 @@ export default defineAction({
 
     $.export(
       "$summary",
-      `Retrieved shipment info successfully`,
+      "Retrieved shipment info successfully",
     );
 
     return data;
