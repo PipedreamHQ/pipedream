@@ -428,18 +428,9 @@ importers:
       do-wrapper: 4.5.1
 
   components/discord:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-    dependencies:
-      '@pipedream/platform': 0.10.0
+    specifiers: {}
 
   components/discord_bot:
-    specifiers:
-      '@pipedreamhq/platform': ^0.8.1
-    dependencies:
-      '@pipedreamhq/platform': 0.8.1
-
-  components/discord_bot/discord:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
@@ -493,6 +484,12 @@ importers:
 
   components/enormail:
     specifiers: {}
+
+  components/esignatures_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/exact:
     specifiers: {}
@@ -888,6 +885,9 @@ importers:
       '@linear/sdk': 1.22.0
 
   components/linqs_cc:
+    specifiers: {}
+
+  components/looker:
     specifiers: {}
 
   components/lusha:

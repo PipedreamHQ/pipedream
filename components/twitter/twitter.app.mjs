@@ -558,11 +558,37 @@ export default {
         config,
       }));
     },
+    async getPaginateListTweets(opts = {}) {
+      let allTweets = [];
+      let maxId;
+      const pageSize = 100;
+      do {
+        const response = await this.getListTweets({
+          ...opts,
+          count: pageSize,
+          maxId,
+        });
+        const tweets = response.filter((r) => r.id != maxId);
+        if (!tweets || tweets.length < pageSize - 1) {
+          maxId = null;
+        } else {
+          const tweetWithMinId = tweets.reduce((prev, current) => {
+            return (prev.id < current.id) ?
+              prev :
+              current;
+          }, {});
+          maxId = tweetWithMinId?.id;
+        }
+        allTweets = allTweets.concat(tweets);
+      } while (maxId);
+      return allTweets;
+    },
     async getListTweets(opts = {}) {
       const {
         $,
         listId,
         count,
+        maxId,
         sinceId = "1",
         includeEntities = false,
         includeRetweets = false,
@@ -572,6 +598,7 @@ export default {
       const params = {
         list_id: listId,
         since_id: sinceId,
+        max_id: maxId,
         count,
         include_entities: includeEntities,
         include_rts: includeRetweets,
@@ -849,7 +876,7 @@ export default {
 
       for (const tweet of response.statuses) {
         if ((!sinceId || (sinceId && tweet.id_str !== sinceId)) &&
-            (!maxId || (maxId && tweet.id_str !== maxId))) {
+          (!maxId || (maxId && tweet.id_str !== maxId))) {
           if (enrichTweets) {
             tweets.push(this.enrichTweet(tweet));
           } else {
