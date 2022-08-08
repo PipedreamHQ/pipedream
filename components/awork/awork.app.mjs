@@ -29,7 +29,7 @@ export default {
         ...args,
       });
     },
-    async removeWebhook({ webhookId }) {
+    async removeWebhook(webhookId) {
       return this._makeRequest({
         path: `/webhooks/${webhookId}`,
         method: "delete",
