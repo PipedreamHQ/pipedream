@@ -1,14 +1,14 @@
-import notion from '@notionhq/client';
-import NOTION_META from './common/notion-meta-selection.mjs';
+import notion from "@notionhq/client";
+import NOTION_META from "./common/notion-meta-selection.mjs";
 
 export default {
-  type: 'app',
-  app: 'notion',
+  type: "app",
+  app: "notion",
   propDefinitions: {
     databaseId: {
-      type: 'string',
-      label: 'Database ID',
-      description: 'The identifier for a Notion database',
+      type: "string",
+      label: "Database ID",
+      description: "The identifier for a Notion database",
       async options({ prevContext }) {
         const response = await this.listDatabases({
           start_cursor: prevContext.nextPageParameters ?? undefined,
@@ -18,9 +18,9 @@ export default {
       },
     },
     pageId: {
-      type: 'string',
-      label: 'Page ID',
-      description: 'The identifier for a Notion page',
+      type: "string",
+      label: "Page ID",
+      description: "The identifier for a Notion page",
       async options({ prevContext }) {
         const response = await this.searchPage(undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
@@ -30,29 +30,31 @@ export default {
       },
     },
     propertyId: {
-      type: 'string',
-      label: 'Property ID',
-      description: 'The identifier for a Notion page property',
+      type: "string",
+      label: "Property ID",
+      description: "The identifier for a Notion page property",
       optional: true,
     },
     metaTypes: {
-      type: 'string[]',
-      label: 'Meta Types',
-      description: 'Select the page attributes such as icon and cover',
+      type: "string[]",
+      label: "Meta Types",
+      description: "Select the page attributes such as icon and cover",
       options: Object.keys(NOTION_META),
       optional: true,
       reloadProps: true,
     },
     propertyTypes: {
-      type: 'string[]',
-      label: 'Property Types',
-      description: 'Select the page properties',
+      type: "string[]",
+      label: "Property Types",
+      description: "Select the page properties",
       optional: true,
       reloadProps: true,
-      async options({ parentId, parentType }) {
+      async options({
+        parentId, parentType,
+      }) {
         try {
           const { properties } =
-            parentType === 'database'
+            parentType === "database"
               ? await this.retrieveDatabase(parentId)
               : await this.retrievePage(parentId);
           return Object.keys(properties);
@@ -63,22 +65,22 @@ export default {
       },
     },
     archived: {
-      type: 'boolean',
-      label: 'Archive page',
+      type: "boolean",
+      label: "Archive page",
       description:
-        'Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.',
+        "Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.",
       optional: true,
     },
     title: {
-      type: 'string',
-      label: 'Page Title',
-      description: 'The page title. Defaults to `Untitled`.',
+      type: "string",
+      label: "Page Title",
+      description: "The page title. Defaults to `Untitled`.",
       optional: true,
     },
     userIds: {
-      type: 'string[]',
-      label: 'Users',
-      description: 'A list of users',
+      type: "string[]",
+      label: "Users",
+      description: "A list of users",
       async options() {
         const users = await this.getUsers();
 
@@ -93,7 +95,7 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
-        notionVersion: '2022-02-22',
+        notionVersion: "2022-02-22",
       });
     },
     _extractDatabaseTitleOptions(databases) {
@@ -101,9 +103,9 @@ export default {
         const title = database.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
-          .reduce((prev, next) => prev + next, '');
+          .reduce((prev, next) => prev + next, "");
         return {
-          label: title || 'Untitled',
+          label: title || "Untitled",
           value: database.id,
         };
       });
@@ -111,14 +113,14 @@ export default {
     _extractPageTitleOptions(pages) {
       return pages.map((page) => {
         const propertyFound = Object.values(page.properties).find(
-          (property) => property.type === 'title' && property.title.length > 0
+          (property) => property.type === "title" && property.title.length > 0,
         );
         const title = propertyFound?.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
-          .reduce((prev, next) => prev + next, '');
+          .reduce((prev, next) => prev + next, "");
         return {
-          label: title || 'Untitled',
+          label: title || "Untitled",
           value: page.id,
         };
       });
@@ -132,16 +134,20 @@ export default {
       };
     },
     extractDatabaseTitle(database) {
-      return this._extractDatabaseTitleOptions([database])[0].label;
+      return this._extractDatabaseTitleOptions([
+        database,
+      ])[0].label;
     },
     extractPageTitle(page) {
-      return this._extractPageTitleOptions([page])[0].label;
+      return this._extractPageTitleOptions([
+        page,
+      ])[0].label;
     },
     async listDatabases(params = {}) {
       return this._getNotionClient().search({
         filter: {
-          property: 'object',
-          value: 'database',
+          property: "object",
+          value: "database",
         },
         ...params,
       });
@@ -175,8 +181,8 @@ export default {
       return this._getNotionClient().search({
         query: title,
         filter: {
-          property: 'object',
-          value: 'page',
+          property: "object",
+          value: "page",
         },
         ...params,
       });
@@ -204,7 +210,9 @@ export default {
           start_cursor: cursor,
         };
         const response = await this.queryDatabase(databaseId, params);
-        const { results: pages, next_cursor: nextCursor } = response;
+        const {
+          results: pages, next_cursor: nextCursor,
+        } = response;
 
         for (const page of pages) {
           yield page;
@@ -229,7 +237,9 @@ export default {
       if (!block.has_children) return children;
 
       do {
-        const { results, next_cursor: nextCursor } =
+        const {
+          results, next_cursor: nextCursor,
+        } =
           await this.listBlockChildren(block.id, params);
 
         children.push(...results);
@@ -238,7 +248,7 @@ export default {
 
       (
         await Promise.all(
-          children.map((child) => this.retrieveBlockChildren(child))
+          children.map((child) => this.retrieveBlockChildren(child)),
         )
       ).forEach((c, i) => {
         children[i].children = c;
