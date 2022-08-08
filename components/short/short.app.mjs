@@ -271,11 +271,15 @@ export default {
       return allLinks;
     },
     async listLinks(domainId) {
-      const response = await axios(this, this._getRequestParams({
-        method: "GET",
-        path: `/api/links?domain_id=${domainId}&limit=150`,
-      }));
-      return response.links;
+      try {
+        const response = await axios(this, this._getRequestParams({
+          method: "GET",
+          path: `/api/links?domain_id=${domainId}&limit=150`,
+        }));
+        return response.links;
+      } catch {
+        return [];
+      }
     },
     async getLinkInfo(domain, path) {
       const linkInfo = await axios(this, this._getRequestParams({
