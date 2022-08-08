@@ -91,7 +91,7 @@ export default {
       description: "The update text",
     },
     itemId: {
-      type: "integer",
+      type: "string",
       label: "Item ID",
       description: "The item's unique identifier",
       optional: true,
@@ -102,7 +102,7 @@ export default {
       },
     },
     updateId: {
-      type: "integer",
+      type: "string",
       label: "Update ID",
       description: "The update's unique identifier",
       optional: true,

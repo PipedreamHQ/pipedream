@@ -455,6 +455,9 @@
     },
     {
       "path": "components/google_directory"
+    },
+    {
+      "path": "components/looker"
     }
   ]
 }
