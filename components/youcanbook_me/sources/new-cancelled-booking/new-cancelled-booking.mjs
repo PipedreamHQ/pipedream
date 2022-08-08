@@ -4,7 +4,7 @@ export default {
   ...base,
   name: "New Cancelled Booking",
   version: "0.0.1",
-  key: "youcanbook_me",
+  key: "youcanbook_me-new-cancelled-booking",
   description: "Emit new event when a booking is cancelled",
   type: "source",
   dedupe: "unique",
