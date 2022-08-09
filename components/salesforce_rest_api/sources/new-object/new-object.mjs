@@ -8,7 +8,7 @@ export default {
   name: "New Object (of Selectable Type)",
   key: "salesforce_rest_api-new-object",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.0",
+  version: "0.1.1",
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {
@@ -46,10 +46,11 @@ export default {
         startTimestamp,
         endTimestamp,
       );
+      this.setLatestDateCovered(latestDateCovered);
 
       // By the time we try to retrieve an item, it might've been deleted. This
       // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that we still in Salesforce
+      // promise. Hence, we need to filter those items that are still in Salesforce
       // and exclude those that are not.
       const itemRetrievals = await Promise.allSettled(
         ids.map((id) => this.salesforce.getSObject(this.objectType, id)),
@@ -62,8 +63,6 @@ export default {
           const meta = this.generateMeta(item);
           this.$emit(item, meta);
         });
-
-      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };
