@@ -39,26 +39,25 @@ export default {
 
         const parentType = response.parent.type;
         try {
-          const { properties } =
+          const { properties }  =
           parentType === "database_id"
             ? await this.retrieveDatabase(response.parent.database_id)
             : response.properties;
 
-          const propKeys = Object.keys(properties);
-          const propValues = Object.values(properties);
-          const { propIds } = propKeys.length === 1 && propKeys.includes("title")
-            ? [
-              {
-                label: "Title",
-                value: "title",
-              },
-            ]
-            : propValues.map((prop) => {
+          const propEntries = Object.entries(properties);
+          const propIds  = propEntries.length === 1 && Object.values(propEntries)[0][1].id === "title"
+            ?
+            propEntries.map((prop) => {
               return {
-                label: prop.name,
-                value: prop.id,
+                label: prop[1].type,
+                value: prop[1].id,
               };
-            });
+            })
+            : propEntries.map((prop) => {
+              return {
+                label: prop[1].name,
+                value: prop[1].id,
+              };});
           return propIds;
         } catch (error) {
           console.log(error);
