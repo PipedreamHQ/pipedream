@@ -30,10 +30,41 @@ export default {
       },
     },
     propertyId: {
-      type: "string",
+      type: "string[]",
       label: "Property ID",
       description: "The identifier for a Notion page property",
       optional: true,
+      async options({ pageId }) {
+        const response = await this.retrievePage(pageId);
+
+        const parentType = response.parent.type;
+        try {
+          const { properties } =
+          parentType === "database_id"
+            ? await this.retrieveDatabase(response.parent.database_id)
+            : response.properties;
+
+          const propKeys = Object.keys(properties);
+          const propValues = Object.values(properties);
+          const { propIds } = propKeys.length === 1 && propKeys.includes("title")
+            ? [
+              {
+                label: "Title",
+                value: "title",
+              },
+            ]
+            : propValues.map((prop) => {
+              return {
+                label: prop.name,
+                value: prop.id,
+              };
+            });
+          return propIds;
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
+      },
     },
     metaTypes: {
       type: "string[]",
