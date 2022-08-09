@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "github-weebhook-events",
+  key: "github-webhook-events",
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",

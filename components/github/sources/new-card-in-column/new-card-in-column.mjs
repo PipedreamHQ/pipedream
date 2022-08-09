@@ -5,7 +5,7 @@ export default {
   key: "github-new-card-in-column",
   name: "New Card in Column (Instant)",
   description: "Emit new event when a project card is created or moved to a specific column",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -83,6 +83,7 @@ export default {
   async run(event) {
     const card = event.body.project_card;
     if (!card) {
+      console.log("No card in event. Skipping event.");
       return;
     }
 
