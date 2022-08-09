@@ -4,7 +4,7 @@ import common from "../../common/common-sources.mjs";
 export default {
   dedupe: "unique",
   type: "source",
-  key: "new_relic-new-deployment",
+  key: "new_relic-new-deployment-event",
   name: "New Deployment",
   description: "Emit new event when a new deployment is created.",
   version: "0.0.1",
