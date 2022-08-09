@@ -547,7 +547,7 @@ export default {
       }
     },
     async getLists({
-      $ = this, params,
+      $, params,
     }) {
       const config = {
         url: "https://api.twitter.com/1.1/lists/list.json",
@@ -1132,7 +1132,7 @@ export default {
       }));
     },
     async getUserFollows({
-      params, $ = this,
+      params, $,
     }) {
       const config = {
         url: "https://api.twitter.com/1.1/friends/list.json",
