@@ -1,10 +1,12 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  CreateShipmentParams,
+  CreateShipmentQuoteParams,
   GetShipmentParams, HttpRequestParams,
 } from "../common/requestParams";
 import {
-  Address, Shipment,
+  Address, Shipment, ShipmentQuote,
 } from "../common/responseSchemas";
 import {
   CARRIER_OPTIONS, SERVICE_OPTIONS,
@@ -55,12 +57,10 @@ export default defineApp({
     //     method: "DELETE",
     //   });
     // },
-    async createShipment({
-      id,
-      ...params
-    }: GetShipmentParams): Promise<Shipment> {
+    async createShipment(params: CreateShipmentParams): Promise<Shipment> {
       return this._httpRequest({
-        endpoint: `/shipments/${id}`,
+        method: "POST",
+        endpoint: "/shipments",
         ...params,
       });
     },
@@ -86,6 +86,13 @@ export default defineApp({
         to,
       )}`;
     },
+    async createShipmentQuote(params: CreateShipmentQuoteParams): Promise<ShipmentQuote> {
+      return this._httpRequest({
+        method: "POST",
+        endpoint: "/shipment_quotes",
+        ...params,
+      });
+    },
     async listAddresses(): Promise<Address[]> {
       const response = await this._httpRequest({
         endpoint: "/addresses",
@@ -107,7 +114,7 @@ export default defineApp({
   },
   propDefinitions: {
     shipmentId: {
-      type: "integer",
+      type: "string",
       label: "Shipment",
       description: `Select a **Shipment** from the list.
         \\
@@ -124,18 +131,18 @@ export default defineApp({
       },
     },
     address: {
-      type: "object",
+      type: "string",
       label: "Recipient Address",
       description: `Select an **Address** from the list.
         \\
-        Alternatively, you can provide a custom [Address object](https://developers.shipcloud.io/reference/#creating-an-address).`,
+        Alternatively, you can provide a custom JSON-stringified [Address object](https://developers.shipcloud.io/reference/#creating-an-address).`,
       async options() {
         const addresses: Address[] = await this.listAddresses();
 
         return addresses.map((address) => {
           return {
             label: this.getAddressLabel(address),
-            value: address,
+            value: JSON.stringify(address),
           };
         });
       },

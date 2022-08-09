@@ -48,10 +48,10 @@ export default defineAction({
     const params: CreateShipmentQuoteParams = {
       $,
       data: {
-        carrier: this.toAddress,
+        carrier: this.carrier,
         service: this.service,
-        to: this.toAddress,
-        from: this.fromAddress,
+        to: JSON.parse(this.toAddress),
+        from: JSON.parse(this.fromAddress),
         package: this.package,
       },
     };
