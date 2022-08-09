@@ -1131,6 +1131,19 @@ export default {
         config,
       }));
     },
+    async getUserFollows({
+      params, $,
+    }) {
+      const config = {
+        url: "https://api.twitter.com/1.1/friends/list.json",
+        method: "GET",
+        params,
+      };
+      return this._makeRequest({
+        $,
+        config,
+      });
+    },
     webhooks: {},
   },
 };
