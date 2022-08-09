@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/ethereum",
+  "version": "0.0.1",
+  "description": "Pipedream Etherscan Components",
+  "main": "dist/app/ethereum.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ethereum"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ethereum",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/elmah_io",
+  "name": "@pipedream/awork",
   "version": "0.0.1",
-  "description": "Pipedream elmah.io Components",
-  "main": "elmah_io.app.mjs",
+  "description": "Pipedream Awork Components",
+  "main": "awork.app.mjs",
   "keywords": [
     "pipedream",
-    "elmah_io"
+    "awork"
   ],
-  "homepage": "https://pipedream.com/apps/elmah_io",
+  "homepage": "https://pipedream.com/apps/awork",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
