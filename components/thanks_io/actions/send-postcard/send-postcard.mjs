@@ -17,7 +17,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const recipients = await this.getRecipients(this.recipients);
+    const recipients = await this.getRecipients(this.recipients, $);
     const resp = await this.thanksIo.sendPostcard({
       $,
       data: {

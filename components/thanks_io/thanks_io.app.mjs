@@ -60,7 +60,7 @@ export default {
           data: recipients, ...links
         } = prevContext?.next
           ? await this._makeRequest({
-            url: prevContext,
+            url: prevContext.next,
           })
           : await this.listRecipients({
             listId: mailingListId,
@@ -300,7 +300,7 @@ export default {
     },
     async deleteRecipient(id, args = {}) {
       return this._makeRequest({
-        method: "Delete",
+        method: "DELETE",
         path: `recipients/${id}`,
         ...args,
       });

@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   async run({ $ }) {
-    const recipients = await this.getRecipients(this.recipients);
+    const recipients = await this.getRecipients(this.recipients, $);
     const resp = await this.thanksIo.sendNotecard({
       $,
       data: {
