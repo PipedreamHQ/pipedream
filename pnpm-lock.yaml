@@ -161,6 +161,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/awork:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/aws:
     specifiers:
       '@aws-sdk/client-cloudwatch-logs': ^3.58.0
@@ -1426,6 +1432,14 @@ importers:
     dependencies:
       graphql: 16.5.0
       graphql-request: 3.7.0_graphql@16.5.0
+
+  components/short:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      lodash: 4.17.21
 
   components/shortcut:
     specifiers:
