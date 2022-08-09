@@ -42,7 +42,7 @@ export default {
           const { properties }  =
           parentType === "database_id"
             ? await this.retrieveDatabase(response.parent.database_id)
-            : response.properties;
+            : response;
 
           const propEntries = Object.entries(properties);
           const propIds  = propEntries.length === 1 && Object.values(propEntries)[0][1].id === "title"
