@@ -11,13 +11,15 @@ export default {
     },
   },
   methods: {
-    async emitEvent() { },
+    async emitEvent() {
+      throw new Error("emitEvent is now implemented");
+    },
   },
   hooks: {
     async deploy() {
       const bookings = await this.youcanbook_me.getBookings({});
 
-      bookings.forEach(this.emitEvent);
+      bookings.slice(-10).forEach(this.emitEvent);
     },
   },
   async run() {
