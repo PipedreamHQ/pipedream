@@ -249,3 +249,9 @@ If an issue _doesn't_ yet exist and you need to create one, please [use the issu
 You can read about our platform security and privacy [here](https://pipedream.com/docs/privacy-and-security/).
 
 If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
+
+## Troubleshooting
+
+Note: Event Source [New Card in Column](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-card-in-column/new-card-in-column.mjs) only supports legacy (classic) projects.
+
+Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the Github integration. We're happy to help!

@@ -1048,6 +1048,12 @@ importers:
       netlify: 6.1.29
       parse-link-header: 1.0.1
 
+  components/new_relic:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/nextdns:
     specifiers: {}
 
