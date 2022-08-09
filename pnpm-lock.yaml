@@ -497,6 +497,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/ethereum:
+    specifiers: {}
+
   components/exact:
     specifiers: {}
 
@@ -771,6 +774,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/html_css_to_image:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/http:
     specifiers:
@@ -1372,6 +1381,9 @@ importers:
       lodash: 4.17.21
       uuid: 8.3.2
       validate.js: 0.13.1
+
+  components/sendle:
+    specifiers: {}
 
   components/sentry:
     specifiers:
