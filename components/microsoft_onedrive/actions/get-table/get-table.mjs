@@ -3,7 +3,7 @@ import axios from "@pipedream/platform";
 export default {
   name: "Get Table",
   description: "Retrieve a table from an Excel spreadsheet stored in OneDrive",
-  key: "onedrive-get-excel-table",
+  key: "microsoft_onedrive-get-excel-table",
   version: "0.0.1",
   type: "action",
   props: {
