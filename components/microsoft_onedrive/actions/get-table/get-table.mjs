@@ -38,7 +38,7 @@ export default {
         const response = await axios(context, {
           url: `https://graph.microsoft.com/v1.0/me/drive/items/${this.itemId}/workbook/tables?$select=name`,
           headers: {
-            Authorization: `Bearer ${this.microsoft_onedrive.$auth.oauth_access_token}`,
+            Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
           },
         });
         return response.value.map( function ({ name }) {
