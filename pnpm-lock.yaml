@@ -1814,6 +1814,12 @@ importers:
       axios: 0.21.4
       lodash.get: 4.4.2
 
+  components/youcanbook_me:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/youtube_data_api:
     specifiers:
       '@googleapis/youtube': ^4.1.1
