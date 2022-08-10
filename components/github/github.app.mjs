@@ -83,6 +83,20 @@ export default {
         }));
       },
     },
+    branch: {
+      label: "Branch",
+      description: "Branch to monitor for new commits",
+      type: "string",
+      async options({ repoFullname }) {
+        const branches = await this.getBranches({
+          repoFullname,
+        });
+        return branches.map((branch) => ({
+          label: branch.name,
+          value: branch.commit.sha,
+        }));
+      },
+    },
     pullNumber: {
       type: "integer",
       label: "PR Number",
@@ -136,7 +150,7 @@ export default {
     async removeWebhook({
       repoFullname, webhookId,
     }) {
-      return this._client().request(`DELETE /webhooks/${repoFullname}/hooks/${webhookId}`, {});
+      return this._client().request(`DELETE /repos/${repoFullname}/hooks/${webhookId}`, {});
     },
     async getOrganizations() {
       const response = await this._client().request("GET /user/orgs", {});
@@ -272,6 +286,30 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/pulls/${pullNumber}/reviews`, {});
 
       return response.data;
+    },
+    async getCommits({
+      repoFullname, ...data
+    }) {
+      const { data: commits } = await this._client().request(`GET /repos/${repoFullname}/commits`, {
+        ...data,
+      });
+      return commits;
+    },
+    async getBranches({
+      repoFullname, ...data
+    }) {
+      const { data: branches } = await this._client().request(`GET /repos/${repoFullname}/branches`, {
+        ...data,
+      });
+      return branches;
+    },
+    async getProjectCards({
+      columnId, ...data
+    }) {
+      const { data: cards } = await this._client().request(`GET /projects/columns/${columnId}/cards`, {
+        ...data,
+      });
+      return cards;
     },
   },
 };

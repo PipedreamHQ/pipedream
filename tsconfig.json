@@ -464,6 +464,9 @@
     },
     {
       "path": "components/sendle"
+    },
+    {
+      "path": "components/google_workspace"
     }
   ]
 }
