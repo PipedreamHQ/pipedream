@@ -1,4 +1,4 @@
-import axios from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Get Table",
