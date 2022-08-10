@@ -30,34 +30,29 @@ export default {
       },
     },
     propertyId: {
-      type: "string[]",
+      type: "string",
       label: "Property ID",
       description: "The identifier for a Notion page property",
-      optional: true,
       async options({ pageId }) {
         const response = await this.retrievePage(pageId);
 
         const parentType = response.parent.type;
         try {
-          const { properties }  =
-          parentType === "database_id"
+          const { properties } = parentType === "database_id"
             ? await this.retrieveDatabase(response.parent.database_id)
             : response;
 
           const propEntries = Object.entries(properties);
           const propIds  = propEntries.length === 1 && Object.values(propEntries)[0][1].id === "title"
             ?
-            propEntries.map((prop) => {
-              return {
-                label: prop[1].type,
-                value: prop[1].id,
-              };
-            })
-            : propEntries.map((prop) => {
-              return {
-                label: prop[1].name,
-                value: prop[1].id,
-              };});
+            propEntries.map((prop) => ({
+              label: prop[1].type,
+              value: prop[1].id,
+            }))
+            : propEntries.map((prop) => ({
+              label: prop[1].name,
+              value: prop[1].id,
+            }));
           return propIds;
         } catch (error) {
           console.log(error);
@@ -83,10 +78,9 @@ export default {
         parentId, parentType,
       }) {
         try {
-          const { properties } =
-            parentType === "database"
-              ? await this.retrieveDatabase(parentId)
-              : await this.retrievePage(parentId);
+          const { properties } = parentType === "database"
+            ? await this.retrieveDatabase(parentId)
+            : await this.retrievePage(parentId);
           return Object.keys(properties);
         } catch (error) {
           console.log(error);
@@ -97,8 +91,8 @@ export default {
     archived: {
       type: "boolean",
       label: "Archive page",
-      description:
-        "Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.",
+      description: "Set to true to archive (delete) a page. Set to false to un-archive\
+(restore) a page.",
       optional: true,
     },
     title: {
@@ -142,9 +136,8 @@ export default {
     },
     _extractPageTitleOptions(pages) {
       return pages.map((page) => {
-        const propertyFound = Object.values(page.properties).find(
-          (property) => property.type === "title" && property.title.length > 0,
-        );
+        const propertyFound = Object.values(page.properties)
+          .find((property) => property.type === "title" && property.title.length > 0);
         const title = propertyFound?.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
@@ -241,7 +234,8 @@ export default {
         };
         const response = await this.queryDatabase(databaseId, params);
         const {
-          results: pages, next_cursor: nextCursor,
+          results: pages,
+          next_cursor: nextCursor,
         } = response;
 
         for (const page of pages) {
@@ -268,21 +262,18 @@ export default {
 
       do {
         const {
-          results, next_cursor: nextCursor,
-        } =
-          await this.listBlockChildren(block.id, params);
+          results,
+          next_cursor: nextCursor,
+        } = await this.listBlockChildren(block.id, params);
 
         children.push(...results);
         params.next_cursor = nextCursor;
       } while (params.next_cursor);
 
-      (
-        await Promise.all(
-          children.map((child) => this.retrieveBlockChildren(child)),
-        )
-      ).forEach((c, i) => {
-        children[i].children = c;
-      });
+      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child))))
+        .forEach((c, i) => {
+          children[i].children = c;
+        });
 
       return children;
     },
