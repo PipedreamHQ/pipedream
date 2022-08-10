@@ -65,7 +65,7 @@ export default {
     const range = await axios($, {
       url: `https://graph.microsoft.com/v1.0/me/drive/items/${this.itemId}/workbook/tables/${this.tableName}/range`,
       headers: {
-        Authorization: `Bearer ${this.microsoft_onedrive.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
       },
     });
 
