@@ -467,6 +467,9 @@
     },
     {
       "path": "components/google_workspace"
+    },
+    {
+      "path": "components/cartes"
     }
   ]
 }
