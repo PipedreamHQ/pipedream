@@ -20,17 +20,14 @@ export default {
             Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
           },
         });
-        const filtered = response.value.filter(
-          ( { name } ) => { return name.substring(name.length - 4) == "xlsx"; },
-        );
-        return filtered.map( function ({
-          name, id,
-        }) {
-          return ({
+        return response.value
+          .filter(({ name }) => name.endsWith(".xlsx"))
+          .map(({
+            name, id,
+          }) => ({
             label: name,
             value: id,
-          });
-        });
+          }));
       },
     },
     tableName: {
