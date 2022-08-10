@@ -12,6 +12,9 @@ export default {
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {
+      if (!item) {
+        return false;
+      }
       const startDate = Date.parse(startTimestamp);
       const endDate = Date.parse(endTimestamp);
       const createdDate = Date.parse(item.CreatedDate);
