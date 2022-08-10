@@ -17,7 +17,7 @@ export default {
         const response = await axios(context, {
           url: `https://graph.microsoft.com/v1.0/me/drive/search(q='${context?.query ?? ""} .xlsx')?select=name,id`,
           headers: {
-            Authorization: `Bearer ${this.microsoft_onedrive.$auth.oauth_access_token}`,
+            Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
           },
         });
         const filtered = response.value.filter(
