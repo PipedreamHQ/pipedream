@@ -41,12 +41,7 @@ export default {
             Authorization: `Bearer ${this.onedrive.$auth.oauth_access_token}`,
           },
         });
-        return response.value.map( function ({ name }) {
-          return ({
-            label: name,
-            value: name,
-          });
-        });
+        return response.value.map(({ name }) => name);
       },
     },
     removeHeaders: {
