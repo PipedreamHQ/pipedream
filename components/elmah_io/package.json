@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/elmah_io",
   "version": "0.0.1",
-  "description": "Pipedream Elmah.io Components",
+  "description": "Pipedream elmah.io Components",
   "main": "elmah_io.app.mjs",
   "keywords": [
     "pipedream",

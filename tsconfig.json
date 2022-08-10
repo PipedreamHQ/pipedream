@@ -458,6 +458,15 @@
     },
     {
       "path": "components/looker"
+    },
+    {
+      "path": "components/ethereum"
+    },
+    {
+      "path": "components/sendle"
+    },
+    {
+      "path": "components/google_workspace"
     }
   ]
 }
