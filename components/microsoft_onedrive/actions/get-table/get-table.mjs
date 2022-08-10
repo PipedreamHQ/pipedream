@@ -7,12 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    microsoft_onedrive: {
-      type: "app",
-      app: "microsoft_onedrive",
-      label: "",
-      description: "",
-    },
+    onedrive,
     itemId: {
       type: "string",
       label: "Spreadsheet",
