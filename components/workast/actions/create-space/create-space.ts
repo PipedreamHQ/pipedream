@@ -10,12 +10,6 @@ export default defineAction({
   type: "action",
   props: {
     workast,
-    listId: {
-      propDefinition: [
-        workast,
-        "listId",
-      ],
-    },
     name: {
       label: "Name",
       description: "The space name",
@@ -59,7 +53,6 @@ export default defineAction({
 
     const response = await this.workast.createSpace({
       $,
-      listId: this.listId,
       data: {
         name: this.name,
         description: this.description,

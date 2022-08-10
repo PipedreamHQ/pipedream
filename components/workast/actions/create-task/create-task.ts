@@ -50,7 +50,7 @@ export default defineAction({
     listPosition: {
       label: "List Position",
       description: "The task position within the list",
-      type: "string",
+      type: "integer",
       optional: true,
     },
   },
