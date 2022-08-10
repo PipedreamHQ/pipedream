@@ -14,23 +14,22 @@ export default {
         gist,
         "tagId",
       ],
-      type: "string",
     },
     contactId: {
       propDefinition: [
         gist,
         "contactId",
         (c) => ({
-          tagId: c.tagId,
+          tagId: c.tagId.value,
         }),
       ],
       type: "integer[]",
     },
   },
   async run({ $ }) {
-    const tag = JSON.parse(this.tagId);
     const data = {
-      ...tag,
+      id: this.tagId.value,
+      name: this.tagId.label,
       contacts: this.contactId.map((contactId) => {
         return {
           id: `${contactId}`,
@@ -44,8 +43,8 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully removed tag ${tag.name} from contact${
-      this.contactId.lenght
+    $.export("$summary", `Successfully removed tag ${this.tagId.label} from contact${
+      this.contactId.length > 1
         ? "s"
         : ""
     }`);

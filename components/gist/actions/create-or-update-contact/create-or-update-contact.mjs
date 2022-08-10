@@ -82,7 +82,7 @@ export default {
       last_seen_user_agent: this.lastSeenUserAgent,
       custom_properties: this.customProperties,
       unsubscribed_from_emails: this.unsubscribedFromEmails,
-      tags: this.tagId.map((tag) => JSON.parse(tag).name),
+      tags: this.tagId.map((tag) => tag.label),
     };
 
     const response = await this.gist.createOrUpdateContact({

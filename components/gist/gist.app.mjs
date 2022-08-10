@@ -11,7 +11,6 @@ export default {
       async options({
         page, tagId = null,
       }) {
-        if (tagId) tagId = JSON.parse(tagId).id;
         const { contacts } = await this.listContacts({
           params: {
             page: page + 1,
@@ -30,7 +29,8 @@ export default {
     tagId: {
       label: "Tag",
       description: "The tag that will be added",
-      type: "any",
+      type: "string",
+      withLabel: true,
       async options({ page }) {
         const { tags } = await this.listTags({
           params: {
@@ -42,10 +42,7 @@ export default {
           name, id,
         }) => ({
           label: name,
-          value: JSON.stringify({
-            id,
-            name,
-          }),
+          value: id,
         })) || [];
       },
     },

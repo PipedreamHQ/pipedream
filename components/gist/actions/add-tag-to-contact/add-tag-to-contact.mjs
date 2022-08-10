@@ -21,21 +21,12 @@ export default {
         gist,
         "tagId",
       ],
-      type: "string",
     },
   },
   async run({ $ }) {
-    let tag = {};
-    try {
-      tag = {
-        ...JSON.parse(this.tagId),
-      };
-    } catch (e) {
-      tag.name = this.tagId;
-    }
-
     const data = {
-      ...tag,
+      id: this.tagId.value,
+      name: this.tagId.label,
       contacts: this.contactId.map((contactId) => {
         return {
           id: `${contactId}`,
@@ -48,7 +39,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully added tag ${tag.name} to contact`);
+    $.export("$summary", `Successfully added tag ${this.tagId.label} to contact`);
 
     return response;
   },
