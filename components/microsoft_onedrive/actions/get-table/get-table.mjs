@@ -56,7 +56,8 @@ export default {
       optional: true,
       default: 0,
       min: 0,
-      label: "Number of rows to return (optional)",
+      label: "Number of rows to return",
+
       description: "Leave blank to return all rows.",
     },
   },
