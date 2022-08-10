@@ -9,6 +9,12 @@ export default {
   dedupe: "unique",
   props: {
     wistia,
+    timer: {
+      type: "$.interface.timer",
+      static: {
+        intervalSeconds: 60 * 15, // 15 minutes
+      },
+    },
   },
   methods: {
     emitEvent(data) {
@@ -46,7 +52,6 @@ export default {
       medias.forEach(this.emitEvent);
 
       if (medias && medias.length < 100) {
-        page = -1;
         return;
       }
 

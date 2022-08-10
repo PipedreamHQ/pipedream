@@ -60,6 +60,18 @@ export default {
         ...args,
       });
     },
+    async getVisitors({ ...args } = {}) {
+      return this._makeRequest({
+        path: "/stats/visitors.json",
+        ...args,
+      });
+    },
+    async getViewingSessions({ ...args } = {}) {
+      return this._makeRequest({
+        path: "/stats/events.json",
+        ...args,
+      });
+    },
     async uploadMedia({ ...args } = {}) {
       return this._makeRequest({
         url: this._uploadApiUrl(),
