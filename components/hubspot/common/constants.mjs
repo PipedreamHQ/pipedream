@@ -1,5 +1,6 @@
 import {
-  HUBSPOT_OWNER, OBJECT_TYPE,
+  HUBSPOT_OWNER,
+  OBJECT_TYPE,
   OBJECT_TYPES,
 } from "./object-types.mjs";
 

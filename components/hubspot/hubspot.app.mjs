@@ -1,6 +1,9 @@
 import { axios } from "@pipedream/platform";
 import {
-  API_PATH, ASSOCIATION_CATEGORY, BASE_URL, HUBSPOT_OWNER,
+  API_PATH,
+  ASSOCIATION_CATEGORY,
+  BASE_URL,
+  HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
 } from "./common/constants.mjs";
@@ -195,7 +198,7 @@ export default {
             label,
             value,
           })),
-        } || [];
+        };
       },
     },
     fileUrl: {
@@ -680,13 +683,10 @@ export default {
         },
       );
     },
-    async listWorkflows($) {
+    async listWorkflows() {
       return this.makeRequest(
         API_PATH.AUTOMATION,
         "/workflows",
-        {
-          $,
-        },
       );
     },
     async addContactsIntoWorkflow(workflowId, contactEmail, $) {
