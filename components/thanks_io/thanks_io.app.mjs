@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import COUNTRIES from "./common/countries.mjs";
 
 export default {
   type: "app",
@@ -141,6 +142,7 @@ export default {
       type: "string",
       label: "Country",
       description: "Recipient country",
+      options: COUNTRIES,
     },
     email: {
       type: "string",
