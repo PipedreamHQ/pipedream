@@ -33,7 +33,7 @@ export default {
       this.db.set("lastSubscriptionId", id);
     },
     _getLastSubscriptionId() {
-      this.db.get("lastSubscriptionId");
+      return this.db.get("lastSubscriptionId");
     },
   },
   hooks: {
