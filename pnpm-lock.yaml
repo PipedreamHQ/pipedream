@@ -497,6 +497,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/ethereum:
+    specifiers: {}
+
   components/exact:
     specifiers: {}
 
@@ -771,6 +774,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/html_css_to_image:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/http:
     specifiers:
@@ -1373,6 +1382,9 @@ importers:
       uuid: 8.3.2
       validate.js: 0.13.1
 
+  components/sendle:
+    specifiers: {}
+
   components/sentry:
     specifiers:
       axios: ^0.21.1
@@ -1784,7 +1796,12 @@ importers:
       wpapi: 1.2.2
 
   components/workast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      '@pipedream/types': 0.1.4
 
   components/woxo:
     specifiers: {}
@@ -1808,6 +1825,12 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/youcanbook_me:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/youtube_data_api:
     specifiers:
@@ -5995,7 +6018,6 @@ packages:
     resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
     dependencies:
       typescript: 4.7.4
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
