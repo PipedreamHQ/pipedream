@@ -3,23 +3,35 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  name: "New Event",
-  description: "Emit new event for each new event created in Sympla.",
-  key: "sympla-new-event",
+  name: "New Attendee",
+  description: "Emit new event for each new attendee in an event.",
+  key: "sympla-new-attendee",
   version: "0.0.1",
   type: "source",
   props: {
     ...common.props,
     app,
-    published: {
-      type: "boolean",
-      label: "Only Published Events",
-      description: "If `true`, only published events will be emitted.",
-      default: true,
+    eventId: {
+      propDefinition: [
+        app,
+        "eventId",
+      ],
     },
   },
   methods: {
     ...common.methods,
+    getMeta({
+      id,
+      email,
+      first_name,
+      last_name,
+    }) {
+      return {
+        id,
+        summary: `${first_name} ${last_name} (${email})`,
+        ts: Date.now(),
+      };
+    },
     async run() {
       console.log("Starting execution...");
       /*
@@ -28,10 +40,9 @@ export default {
       */
       let page = 1;
       while (true) {
-        const res = await this.app.listEvents(
+        const res = await this.app.listAttendees(
+          this.eventId,
           page,
-          this.getLastExecution(),
-          this.published,
         );
 
         for (const item of res.data) {
@@ -51,4 +62,3 @@ export default {
     },
   },
 };
-

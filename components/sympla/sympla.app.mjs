@@ -3,7 +3,20 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "sympla",
-  propDefinitions: {},
+  propDefinitions: {
+    eventId: {
+      type: "string",
+      label: "Event",
+      description: "Event to be emitted.",
+      async options({ page }) {
+        const res = await this.listEvents(page + 1);
+        return res.data.map((event) => ({
+          value: event.id,
+          label: event.name,
+        }));
+      },
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://api.sympla.com.br/public";
@@ -29,6 +42,16 @@ export default {
           page,
           from,
           published,
+        },
+      }));
+      return res;
+    },
+    async listAttendees(eventId, page) {
+      const res = await axios(this, this._getAxiosParams({
+        method: "GET",
+        path: `/v3/events/${eventId}/participants`,
+        params: {
+          page,
         },
       }));
       return res;
