@@ -18,11 +18,16 @@ export default {
   async run({ $ }) {
     const { dataStore } = this;
     const keys = await dataStore.keys();
-    const data = await keys.reduce(async (acc, key) => {
-      acc[key] = await dataStore.get(key);
-      return acc;
-    }, {});
-    $.export("$summary", `Successfully found ${keys.length} keys.`);
-    return data;
+    const promises = [];
+    for (const key of keys) {
+      promises.push(dataStore.get(key));
+    }
+    const arrData = await Promise.all(promises);
+    const objData = {};
+    for (let i = 0; i < keys.length; i++) {
+      objData[keys[i]] = arrData[i];
+    }
+    $.export("$summary", `Successfully returned ${keys.length} keys.`);
+    return objData;
   },
 };
