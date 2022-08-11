@@ -56,5 +56,15 @@ export default {
       }));
       return res;
     },
+    async listOrders(eventId, page) {
+      const res = await axios(this, this._getAxiosParams({
+        method: "GET",
+        path: `/v3/events/${eventId}/orders`,
+        params: {
+          page,
+        },
+      }));
+      return res;
+    },
   },
 };
