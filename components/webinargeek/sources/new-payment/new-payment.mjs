@@ -33,7 +33,7 @@ export default {
       this.db.set("lastPaymentId", id);
     },
     _getLastPaymentId() {
-      this.db.get("lastPaymentId");
+      return this.db.get("lastPaymentId");
     },
   },
   hooks: {
