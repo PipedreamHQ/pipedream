@@ -778,6 +778,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/html_css_to_image:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/http:
     specifiers:
       object-hash: ^3.0.0
@@ -965,10 +971,12 @@ importers:
   components/microsoft_onedrive:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
+      '@pipedream/platform': ^1.1.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.2
+      '@pipedream/platform': 1.1.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
 
@@ -1796,7 +1804,12 @@ importers:
       wpapi: 1.2.2
 
   components/workast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      '@pipedream/types': 0.1.4
 
   components/woxo:
     specifiers: {}
@@ -1820,6 +1833,12 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/youcanbook_me:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/youtube_data_api:
     specifiers:
@@ -6007,7 +6026,6 @@ packages:
     resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
     dependencies:
       typescript: 4.7.4
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
