@@ -19,9 +19,9 @@ export default {
   methods: {
     emitEvent(data) {
       this.$emit(data, {
-        id: data.id,
-        summary: `New visitor with id ${data.id}`,
-        ts: Date.parse(data.created),
+        id: data.visitor_key,
+        summary: `New visitor with id ${data.visitor_key}`,
+        ts: Date.parse(data.received_at),
       });
     },
   },
