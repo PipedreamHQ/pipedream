@@ -29,17 +29,10 @@ export default {
 
       return client;
     },
-    async executeCommand({ command }) {
+    async executeCommand(command) {
       const client = await this._createClient();
-
-      const response = await new Promise((resolve) => {
-        client.execCommand(command).then(function (result) {
-          return resolve(result);
-        });
-      });
-
-      await client.dispose();
-
+      const response = await client.execCommand(command);
+      client.dispose();
       return response;
     },
   },
