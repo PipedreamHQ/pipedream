@@ -19,8 +19,8 @@ export default {
   methods: {
     async emitEvent(data) {
       this.$emit(data, {
-        id: data.visitor_key,
-        summary: `New viewing session with id ${data.visitor_key}`,
+        id: data.event_key,
+        summary: `New viewing session with id ${data.event_key}`,
         ts: Date.parse(data.received_at),
       });
     },
@@ -46,6 +46,8 @@ export default {
           per_page: 100,
         },
       });
+
+      console.log(medias);
 
       medias.forEach(this.emitEvent);
 
