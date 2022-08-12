@@ -32,11 +32,11 @@ export default {
         ts: Date.now(),
       };
     },
-    async run() {
+    async execute() {
       console.log("Starting execution...");
       /*
         The sympla filter just allows to filter per published events.
-        In some cases we will repeat some events since a pulication can be in the future.
+        In some cases we will repeat some events since a publication can be in the future.
       */
       let page = 1;
       while (true) {

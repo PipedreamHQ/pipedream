@@ -42,11 +42,11 @@ export default {
         ts: Date.now(),
       };
     },
-    async run() {
+    async execute() {
       throw new Error("Not implemented");
     },
   },
   async run() {
-    await this.run();
+    await this.execute();
   },
 };
