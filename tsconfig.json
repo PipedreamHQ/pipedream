@@ -470,6 +470,9 @@
     },
     {
       "path": "components/cartes"
+    },
+    {
+      "path": "components/dictionary_api"
     }
   ]
 }
