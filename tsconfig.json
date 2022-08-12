@@ -473,6 +473,9 @@
     },
     {
       "path": "components/dictionary_api"
+    },
+    {
+      "path": "components/foxy"
     }
   ]
 }
