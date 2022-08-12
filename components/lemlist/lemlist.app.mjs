@@ -180,5 +180,27 @@ export default {
         data,
       });
     },
+    async getActivities({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "activities",
+        params,
+      });
+    },
+    async createWebhook({ data }) {
+      return this._makeRequest({
+        method: "POST",
+        path: "hooks",
+        data,
+      });
+    },
+    async removeWebhook({ hookId }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `hooks/${hookId}`,
+      });
+    },
   },
 };
