@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Get Word Definition",
   version: "0.0.1",
-  key: "get-word-definition",
+  key: "dictionary_api-get-word-definition",
   description: "Get the definition for an English word. [See docs here](https://dictionaryapi.dev/)",
   props: {
     dictionaryApi,
