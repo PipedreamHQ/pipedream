@@ -1774,6 +1774,12 @@ importers:
       '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
 
+  components/webinargeek:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/weworkbook:
     specifiers: {}
 
