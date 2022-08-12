@@ -116,5 +116,5 @@ function stepExport(step, message, key) {
         }
         step[key] = message;
     }
-    console.log(`export: ${key} - ${message}`);
+    console.log(`export: ${key} - ${JSON.stringify(message, null, 2)}`);
 }
