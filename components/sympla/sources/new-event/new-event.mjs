@@ -26,6 +26,7 @@ export default {
         The sympla filter just allows to filter per published events.
         In some cases we will repeat some events since a publication can be in the future.
       */
+      const executedIds = this.getExecutedIds();
       let page = 1;
       while (true) {
         const res = await this.app.listEvents(
@@ -35,10 +36,10 @@ export default {
         );
 
         for (const item of res.data) {
-          if (this.isIdExecuted(item.id)) {
+          if (executedIds[item.id]) {
             continue;
           }
-          this.addExecutedId(item.id);
+          executedIds[item.id] = 1;
           this.$emit(item, this.getMeta(item));
         }
 
@@ -47,6 +48,8 @@ export default {
           break;
         }
       }
+
+      this.setExecutedIds(executedIds);
       this.setLastExecution(new Date());
     },
   },

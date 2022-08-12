@@ -17,14 +17,11 @@ export default {
       // But since we cant, we will use a hashmap
       this.db.set("executedIds", {});
     },
-    addExecutedId(id) {
-      const executedIds = this.db.get("executedIds");
-      executedIds[id] = true;
+    setExecutedIds(executedIds) {
       this.db.set("executedIds", executedIds);
     },
-    isIdExecuted(id) {
-      const executedIds = this.db.get("executedIds");
-      return executedIds[id];
+    getExecutedIds() {
+      return this.db.get("executedIds");
     },
     setLastExecution(date) {
       this.db.set("lastExecution", date);
