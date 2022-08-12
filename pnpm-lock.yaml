@@ -161,6 +161,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/awork:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/aws:
     specifiers:
       '@aws-sdk/client-cloudwatch-logs': ^3.58.0
@@ -428,18 +434,9 @@ importers:
       do-wrapper: 4.5.1
 
   components/discord:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-    dependencies:
-      '@pipedream/platform': 0.10.0
+    specifiers: {}
 
   components/discord_bot:
-    specifiers:
-      '@pipedreamhq/platform': ^0.8.1
-    dependencies:
-      '@pipedreamhq/platform': 0.8.1
-
-  components/discord_bot/discord:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
@@ -499,6 +496,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.0
+
+  components/ethereum:
+    specifiers: {}
 
   components/exact:
     specifiers: {}
@@ -686,7 +686,6 @@ importers:
       '@pipedream/platform': 0.10.0
       googleapis: 96.0.0
 
-
   components/google_dialogflow:
     specifiers:
       '@google-cloud/dialogflow': ^5.1.0
@@ -727,6 +726,9 @@ importers:
       '@pipedream/platform': 0.10.0
       axios: 0.21.4
       uuidv4: 6.2.13
+
+  components/google_workspace:
+    specifiers: {}
 
   components/gorgias:
     specifiers:
@@ -775,6 +777,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/html_css_to_image:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/http:
     specifiers:
@@ -897,6 +905,9 @@ importers:
   components/linqs_cc:
     specifiers: {}
 
+  components/looker:
+    specifiers: {}
+
   components/lusha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -960,10 +971,12 @@ importers:
   components/microsoft_onedrive:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
+      '@pipedream/platform': ^1.1.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.2
+      '@pipedream/platform': 1.1.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
 
@@ -1048,6 +1061,12 @@ importers:
       jwt-simple: 0.5.6
       netlify: 6.1.29
       parse-link-header: 1.0.1
+
+  components/new_relic:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/nextdns:
     specifiers: {}
@@ -1368,6 +1387,9 @@ importers:
       uuid: 8.3.2
       validate.js: 0.13.1
 
+  components/sendle:
+    specifiers: {}
+
   components/sentry:
     specifiers:
       axios: ^0.21.1
@@ -1433,6 +1455,14 @@ importers:
     dependencies:
       graphql: 16.5.0
       graphql-request: 3.7.0_graphql@16.5.0
+
+  components/short:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      lodash: 4.17.21
 
   components/shortcut:
     specifiers:
@@ -1579,6 +1609,14 @@ importers:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
+
+  components/thanks_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      date-fns: ^2.29.1
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      date-fns: 2.29.1
 
   components/threescribe:
     specifiers: {}
@@ -1736,6 +1774,12 @@ importers:
       '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
 
+  components/webinargeek:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/weworkbook:
     specifiers: {}
 
@@ -1771,7 +1815,12 @@ importers:
       wpapi: 1.2.2
 
   components/workast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      '@pipedream/types': 0.1.4
 
   components/woxo:
     specifiers: {}
@@ -1795,6 +1844,12 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/youcanbook_me:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/youtube_data_api:
     specifiers:
@@ -1877,11 +1932,13 @@ importers:
       husky: ^3.0.0
       io-ts: ^2.0.0
       jest: ^24.8.0
+      querystring: ^0.2.1
       typescript: ^3.5.3
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.1
       io-ts: 2.2.16_fp-ts@2.12.1
+      querystring: 0.2.1
     devDependencies:
       '@octokit/core': 3.6.0
       husky: 3.1.0
@@ -4765,22 +4822,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.121:
-    resolution: {integrity: sha512-78HY1J+QiwZPXFZQWb9gPQPxAMNg6/1e4gl7gL/8dmd17vVWLi3AGrLJoG8Pn1p8d7MF2rlPw/2AE6+r1IHNHA==}
+  /@definitelytyped/header-parser/0.0.122:
+    resolution: {integrity: sha512-kvqZO15vBEnDWklreVHMbm1eo0hhpaNY6jQJwRLR5sXFPSMR0HHR5KfJwwLCWRh4ajbflLswwYX/gTm5kym/Zw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.121
+      '@definitelytyped/typescript-versions': 0.0.122
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.121:
-    resolution: {integrity: sha512-mTfkR7MrGo08lzOPZx3ZgIER9PoalRZok3hmrsLDxTUhS5lrgdgXBOpAyDMtnJUAO6AxrIx126XGlkN+1rvKcA==}
+  /@definitelytyped/typescript-versions/0.0.122:
+    resolution: {integrity: sha512-1T6SArgYfOeopSPHmJNXwXZeXzSdWhqI8/ZWuQZ2Y/Ieso2FUj1Ds+WUAsLHa0ri4b8u6ObWukD0Klm2XJ/jcQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.121:
-    resolution: {integrity: sha512-H2g09ZJcmCk0BAy86M/UcMP4pq0UGaKBGpjPjPe5btKgZDB6A1Tn1/TKd46cQ6grhFdsxJFE5cb8XWGTKkpA8w==}
+  /@definitelytyped/utils/0.0.122:
+    resolution: {integrity: sha512-nwgYoacFI6JU9sXbW8Q7elBXBv02dT6FgMKuoMWtywvgBjNxKTxI82aD3SuUdAuP5hG4JtsOomG1a6QHQtf3Ng==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.121
+      '@definitelytyped/typescript-versions': 0.0.122
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -5982,7 +6039,6 @@ packages:
     resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
     dependencies:
       typescript: 4.7.4
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -9778,6 +9834,11 @@ packages:
       whatwg-url: 8.7.0
     dev: true
 
+  /date-fns/2.29.1:
+    resolution: {integrity: sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==}
+    engines: {node: '>=0.11'}
+    dev: false
+
   /dateformat/5.0.3:
     resolution: {integrity: sha512-Kvr6HmPXUMerlLcLF+Pwq3K7apHpYmGDVqrxcDasBg86UcKeTSNWbEzU8bwdXnxnR44FtMhJAxI4Bov6Y/KUfA==}
     engines: {node: '>=12.20'}
@@ -10220,7 +10281,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.121
+      '@definitelytyped/header-parser': 0.0.122
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10236,9 +10297,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.121
-      '@definitelytyped/typescript-versions': 0.0.121
-      '@definitelytyped/utils': 0.0.121
+      '@definitelytyped/header-parser': 0.0.122
+      '@definitelytyped/typescript-versions': 0.0.122
+      '@definitelytyped/utils': 0.0.122
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -14868,6 +14929,7 @@ packages:
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
+    hasBin: true
     dependencies:
       minimist: 1.2.6
     dev: true
@@ -16333,6 +16395,7 @@ packages:
   /querystring/0.2.1:
     resolution: {integrity: sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==}
     engines: {node: '>=0.4.x'}
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
 
   /querystringify/2.2.0:
@@ -18592,9 +18655,6 @@ packages:
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
-
-  /typescript/4.7.2:
-    resolution: {integrity: sha512-Mamb1iX2FDUpcTRzltPxgWMKy3fhg0TN378ylbktPGPK/99KbDtMQ4W1hwgsbPAsG3a0xKa1vmw4VKZQbkvz5A==}
 
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}

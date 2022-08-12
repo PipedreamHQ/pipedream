@@ -8,7 +8,7 @@ export default {
   name: "New Deleted Object (of Selectable Type)",
   key: "salesforce_rest_api-object-deleted",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
-  version: "0.1.0",
+  version: "0.1.1",
   methods: {
     ...common.methods,
     generateMeta(item) {
@@ -38,6 +38,7 @@ export default {
         startTimestamp,
         endTimestamp,
       );
+      this.setLatestDateCovered(latestDateCovered);
 
       // When a record is deleted, the `getDeleted` API only shows the ID of the
       // deleted item and the date in which it was deleted.
@@ -45,8 +46,6 @@ export default {
         const meta = this.generateMeta(item);
         this.$emit(item, meta);
       });
-
-      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };
