@@ -1,12 +1,14 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  CreateHookParams,
   CreateShipmentParams,
   CreateShipmentQuoteParams,
+  DeleteHookParams,
   GetShipmentParams, HttpRequestParams,
 } from "../common/requestParams";
 import {
-  Address, Shipment, ShipmentQuote,
+  Address, Shipment, ShipmentQuote, Webhook,
 } from "../common/responseSchemas";
 import {
   CARRIER_OPTIONS, SERVICE_OPTIONS,
@@ -33,30 +35,19 @@ export default defineApp({
         ...args,
       });
     },
-    // async hookResponseRequest(apiUrl: string): Promise<object> {
-    //   if (!(apiUrl && apiUrl.startsWith(this._baseUrl()))) {
-    //     return {
-    //       noUrl: true,
-    //     };
-    //   }
-
-    //   return this._httpRequest({
-    //     url: apiUrl,
-    //   });
-    // },
-    // async createHook(data: CreateHookParams): Promise<Webhook> {
-    //   return this._httpRequest({
-    //     endpoint: "/hooks",
-    //     method: "POST",
-    //     data,
-    //   });
-    // },
-    // async deleteHook({ key }: DeleteHookParams): Promise<number> {
-    //   return this._httpRequest({
-    //     endpoint: `/hooks/${key}`,
-    //     method: "DELETE",
-    //   });
-    // },
+    async createHook(data: CreateHookParams): Promise<Webhook> {
+      return this._httpRequest({
+        endpoint: "/webhooks",
+        method: "POST",
+        data,
+      });
+    },
+    async deleteHook({ id }: DeleteHookParams): Promise<any> {
+      return this._httpRequest({
+        endpoint: `/webhooks/${id}`,
+        method: "DELETE",
+      });
+    },
     async createShipment(params: CreateShipmentParams): Promise<Shipment> {
       return this._httpRequest({
         method: "POST",

@@ -34,6 +34,24 @@ const SERVICE_OPTIONS: string[] = [
   "ups_express_1200",
 ];
 
-export {
-  CARRIER_OPTIONS, SERVICE_OPTIONS,
-};
+const WEBHOOK_EVENT_TYPES: string[] = [
+  "shipment.*",
+  "shipment.status.*",
+  "shipment.status.deleted",
+  "shipment.tracking.*",
+  "shipment.tracking.awaits_pickup_by_receiver",
+  "shipment.tracking.canceled",
+  "shipment.tracking.delayed",
+  "shipment.tracking.delivered",
+  "shipment.tracking.destroyed",
+  "shipment.tracking.exception",
+  "shipment.tracking.label_created",
+  "shipment.tracking.not_delivered",
+  "shipment.tracking.notification",
+  "shipment.tracking.out_for_delivery",
+  "shipment.tracking.picked_up",
+  "shipment.tracking.transit",
+  "shipment.tracking.unknown",
+];
+
+export { CARRIER_OPTIONS, SERVICE_OPTIONS, WEBHOOK_EVENT_TYPES };

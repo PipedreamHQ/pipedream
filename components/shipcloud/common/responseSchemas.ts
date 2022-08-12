@@ -23,6 +23,11 @@ type ShipmentQuote = {
   };
 };
 
+type Webhook = {
+  id: string;
+  deactivated: boolean;
+};
+
 export {
-  Address, Shipment, ShipmentQuote,
+  Address, Shipment, ShipmentQuote, Webhook
 };

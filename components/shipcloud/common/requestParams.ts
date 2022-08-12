@@ -23,7 +23,7 @@ type CreateShipmentParams = ActionRequestParams &
   };
 
 interface GetShipmentParams extends ActionRequestParams {
-  id: number;
+  id: string;
 }
 
 interface HttpRequestParams extends ActionRequestParams {
@@ -32,9 +32,20 @@ interface HttpRequestParams extends ActionRequestParams {
   method?: string;
 }
 
+interface CreateHookParams {
+  event_types: string[];
+  url: string;
+}
+
+interface DeleteHookParams {
+  id: string;
+}
+
 export {
   CreateShipmentParams,
   CreateShipmentQuoteParams,
   GetShipmentParams,
   HttpRequestParams,
+  CreateHookParams,
+  DeleteHookParams
 };
