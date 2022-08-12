@@ -5,7 +5,7 @@ export default {
   key: "github-new-card-in-column",
   name: "New Card in Column (Instant)",
   description: "Emit new event when a project card is created or moved to a specific column",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -59,24 +59,39 @@ export default {
         ts: Date.parse(card.updated_at),
       };
     },
+    async loadHistoricalEvents() {
+      const cards = await this.github.getProjectCards({
+        columnId: this.getThisColumnValue(),
+        per_page: 25,
+      });
+      for (const card of cards) {
+        await this.processCard(card);
+      }
+    },
+    async processCard(card) {
+      const meta = this.generateMeta(card);
+      const issue = await this.github.getIssueFromProjectCard({
+        repoFullname: this.repoFullname,
+        cardId: card.id,
+      });
+      this.$emit({
+        card,
+        issue,
+      }, meta);
+    },
   },
   async run(event) {
     const card = event.body.project_card;
+    if (!card) {
+      console.log("No card in event. Skipping event.");
+      return;
+    }
 
     if (!this.isCardInThisColumn(card)) {
       console.log(`Card not in ${this.getThisColumnLabel()}. Skipping...`);
       return;
     }
 
-    const meta = this.generateMeta(card);
-    const issue = await this.github.getIssueFromProjectCard({
-      repoFullName: this.repoFullname,
-      cardId: card.id,
-    });
-
-    this.$emit({
-      card,
-      issue,
-    }, meta);
+    this.processCard(card);
   },
 };
