@@ -16,19 +16,9 @@
 
 import { axios } from "@pipedream/platform";
 
-// global constants
-const METHOD_GET = "GET";
-const METHOD_POST = "POST";
-const METHOD_PUT = "PUT";
-
-const ACTION_OBJECTSEARCH = "OBJECTSEARCH";
-const ACTION_SUGGESTIONS = "SUGGESTIONS";
-const ACTION_RECIPIENTSEARCH = "RECIPIENTSEARCH";
-const ACTION_LOGACTIVITY = "LOGACTIVITY";
-
 export default {
   key: "showpad-custom-crm-hubspot",
-  name: "Showpad Custom CRM: Hubspot",
+  name: "Showpad Custom CRM: Hubspot (Alpha)",
   version: "0.0.2",
   description: "Example implementation of the endpoints required to connect Hubspot as a Showpad 'Custom CRM'. Use with HTTP API trigger.",
   props: {
@@ -75,15 +65,6 @@ export default {
       showpadUsername: req.body.showpad_info.username,
     };
 
-    // Map incoming request routes to desired action to perform
-    let requestedAction;
-    if (req.path == "/objectsearch") requestedAction = ACTION_OBJECTSEARCH;
-    if (req.path == "/recipientsearch") requestedAction = ACTION_RECIPIENTSEARCH;
-    if (req.path == "/logactivity") requestedAction = ACTION_LOGACTIVITY;
-    if (req.path == "/suggestions") requestedAction = ACTION_SUGGESTIONS;
-
-    console.log(`Requestion action: ${requestedAction} / Info for next steps:`, info);
-
     // helper function
     const sendResponse = async (statusCode, responseObject, existMessage = null) => {
       console.log("Will send response:", responseObject);
@@ -114,16 +95,16 @@ export default {
       this.HUBSPOT_ORG_ID,
       this.HUBSPOT_TOKEN);
 
-    if (requestedAction === ACTION_RECIPIENTSEARCH) {
+    if (req.path == "/recipientsearch") {
       await client.searchRecipients(req.body.query);
     }
-    else if (requestedAction === ACTION_OBJECTSEARCH) {
+    else if (req.path == "/objectsearch") {
       await client.searchObjects(req.body.query, req.body.objecttypes);
     }
-    else if (requestedAction === ACTION_SUGGESTIONS) {
+    else if (req.path == "/suggestions") {
       await client.getSuggestions(req.body.recipients);
     }
-    else if (requestedAction === ACTION_LOGACTIVITY) {
+    else if (req.path == "/logactivity") {
       await client.logactivity(req.body, info.showpadUsername);
     }
     else { // fallback
@@ -136,6 +117,11 @@ export default {
 
 class HubspotClient {
   constructor($, sendPipedreamResponse, tenantUrl, orgId, authToken) {
+    // global constants
+    this.METHOD_GET = "GET";
+    this.METHOD_POST = "POST";
+    this.METHOD_PUT = "PUT";
+
     // needed for 'pipedream-specific axios' which helps debugging with $ context
     this.$ = $;
     this.sendPipedreamResponse = sendPipedreamResponse;
@@ -213,7 +199,7 @@ class HubspotClient {
         "firstname",
         "lastname",
       ];
-      const hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/contacts/search", this.buildHubspotSearchJson(searchQuery, fields, true));
+      const hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/contacts/search", this.buildHubspotSearchJson(searchQuery, fields, true));
 
       const count = hubspotResults.total;
       const items = [];
@@ -245,7 +231,7 @@ class HubspotClient {
 
     // todo: run in parallel? clean up with less ugly duplicate code?
     if (typesToQuery.includes("account")) {
-      const hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/companies/search", this.buildHubspotSearchJson(searchQuery, [
+      const hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/companies/search", this.buildHubspotSearchJson(searchQuery, [
         "name",
       ]));
       for (let i = 0; i < hubspotResults.results.length; i++) {
@@ -255,7 +241,7 @@ class HubspotClient {
     }
 
     if (typesToQuery.includes("opportunity")) {
-      const hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/deals/search", this.buildHubspotSearchJson(searchQuery, [
+      const hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/deals/search", this.buildHubspotSearchJson(searchQuery, [
         "dealname",
       ]));
       for (let i = 0; i < hubspotResults.results.length; i++) {
@@ -265,7 +251,7 @@ class HubspotClient {
     }
 
     if (typesToQuery.includes("contact") || typesToQuery.includes("lead")) {
-      const hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/contacts/search", this.buildHubspotSearchJson(searchQuery, [
+      const hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/contacts/search", this.buildHubspotSearchJson(searchQuery, [
         "firstname",
       ]));
 
@@ -298,18 +284,18 @@ class HubspotClient {
     const firstContactId = recipients[0].split(":")[1];
 
     // person objects (just first recipient)
-    const hubspotContactDetails = await this.callHubspotCrmV3Api(METHOD_GET, `objects/contacts/${firstContactId}`);
+    const hubspotContactDetails = await this.callHubspotCrmV3Api(this.METHOD_GET, `objects/contacts/${firstContactId}`);
     personObjects = [
       toShowpadSuggestionItem(`${this.tenantUrl}/companies/${this.orgId}`, "account", "company", hubspotContactDetails),
     ];
 
     // related objects (companies, deals...)
     console.log(`Will get associations for contact: ${firstContactId}`);
-    const hubspotAssociationResults = await this.callHubspotCrmV3Api(METHOD_GET, `objects/contacts/${firstContactId}/associations/company`);
+    const hubspotAssociationResults = await this.callHubspotCrmV3Api(this.METHOD_GET, `objects/contacts/${firstContactId}/associations/company`);
     console.log("Hubspot contact association results:", hubspotAssociationResults);
     if (hubspotAssociationResults.results.length > 0) {
       for (let i = 0; i < hubspotAssociationResults.results.length; i++) {
-        const hubspotCompanyResults = await this.callHubspotCrmV3Api(METHOD_GET, `objects/companies/${hubspotAssociationResults.results[i]["id"]}`);
+        const hubspotCompanyResults = await this.callHubspotCrmV3Api(this.METHOD_GET, `objects/companies/${hubspotAssociationResults.results[i]["id"]}`);
         console.log("Hubspot company results:", hubspotCompanyResults);
         relatedObjects.push(toShowpadSuggestionItem(`${this.tenantUrl}/companies/${this.orgId}`, "account", "company", hubspotCompanyResults));
       }
@@ -329,7 +315,7 @@ class HubspotClient {
     else {
       // get hubspot user (crm 'owner') with matching email
       let hubspotUserId = false;
-      const hubspotOwners = await this.callHubspotCrmV3Api(METHOD_GET, "owners");
+      const hubspotOwners = await this.callHubspotCrmV3Api(this.METHOD_GET, "owners");
       for (let i = 0; i < hubspotOwners.results.length; i++) {
         if (hubspotOwners.results[i].email === showpadUsername) {
           hubspotUserId = hubspotOwners.results[i].id;
@@ -421,13 +407,13 @@ class HubspotClient {
         if (treatEmailSharesSeparately && requestBody.showpadUserAction === "email_share") {
           bodyData = buildHubspotEmailObjectJson(hubspotUserId, subject, message);
           console.log("Will send this email info to hubspot: ", bodyData);
-          hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/emails", bodyData);
+          hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/emails", bodyData);
         }
         else {
           bodyData = buildHubspotTaskObjectJson(hubspotUserId, subject, message);
 
           console.log("Will send this task info to hubspot: ", bodyData);
-          hubspotResults = await this.callHubspotCrmV3Api(METHOD_POST, "objects/tasks", bodyData);
+          hubspotResults = await this.callHubspotCrmV3Api(this.METHOD_POST, "objects/tasks", bodyData);
         }
         console.log("Hubspot results:", hubspotResults);
 
@@ -441,25 +427,25 @@ class HubspotClient {
             let relatedObject = relatedObjects[i];
             if (relatedObject.type === "contact") {
               console.log(`Will link created task #${hubspotResults.id} to contact #${relatedObject.id} ...`);
-              await this.callHubspotCrmV3Api(METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/contacts/${relatedObject.id}/task_to_contact`);
+              await this.callHubspotCrmV3Api(this.METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/contacts/${relatedObject.id}/task_to_contact`);
 
               // also got account here?
               if (relatedObject.account) {
                 console.log(`Will link created task #${hubspotResults.id} to contact's account/company #${relatedObject.account.id} ...`);
-                await this.callHubspotCrmV3Api(METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.account.id}/task_to_company`);
+                await this.callHubspotCrmV3Api(this.METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.account.id}/task_to_company`);
               }
             }
             else if (relatedObject.type === "account") {
               console.log(`Will link created task #${hubspotResults.id} to account/company #${relatedObject.id} ...`);
-              await this.callHubspotCrmV3Api(METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.id}/task_to_company`);
+              await this.callHubspotCrmV3Api(this.METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.id}/task_to_company`);
             }
             else if (relatedObject.type === "opportunity") {
               console.log(`Will link created task #${hubspotResults.id} to opportunity/deal #${relatedObject.id} ...`);
-              await this.callHubspotCrmV3Api(METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/deals/${relatedObject.id}/task_to_deal`);
+              await this.callHubspotCrmV3Api(this.METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/deals/${relatedObject.id}/task_to_deal`);
 
               if (relatedObject.accountId) {
                 console.log(`We also have accountId! Will link created task #${hubspotResults.id} to account/company #${relatedObject.accountId} ...`);
-                await this.callHubspotCrmV3Api(METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.accountId}/task_to_company`);
+                await this.callHubspotCrmV3Api(this.METHOD_PUT, `objects/tasks/${hubspotResults.id}/associations/companies/${relatedObject.accountId}/task_to_company`);
               }
             }
           }
