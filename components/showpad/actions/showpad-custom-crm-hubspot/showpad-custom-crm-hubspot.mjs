@@ -29,9 +29,9 @@ const ACTION_LOGACTIVITY = "LOGACTIVITY";
 export default {
   key: "showpad-custom-crm-hubspot",
   name: "Showpad Custom CRM: Hubspot",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Example implementation of the endpoints required to connect Hubspot as a Showpad 'Custom CRM'. Use with HTTP API trigger.",
-  props: {  // values filled on the workflow step under 'Configuration'
+  props: {
     HTTP_TRIGGER_EVENT: {
       type: "object",
       label: "HTTP Trigger Event",
