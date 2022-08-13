@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "zenkit",
   propDefinitions: {
-    workspace: {
+    workspaceId: {
       type: "string",
       label: "Workspace",
       description: "Filter by workspace",
@@ -19,7 +19,7 @@ export default {
         }));
       },
     },
-    list: {
+    listId: {
       type: "string",
       label: "List",
       description: "Filter by list",
@@ -33,6 +33,47 @@ export default {
         return lists.map((list) => ({
           value: list.shortId,
           label: list.name,
+        }));
+      },
+    },
+    entryId: {
+      type: "string",
+      label: "Entry",
+      description: "Filter by entry",
+      async options({
+        listId, page,
+      }) {
+        const limit = 10;
+        const entries = await this.listListEntries({
+          listId,
+          data: {
+            limit,
+            skip: limit * page,
+          },
+        });
+        if (!entries || entries?.length === 0) {
+          return [];
+        }
+        return entries.map((entry) => ({
+          value: entry.id,
+          label: entry.displayString,
+        }));
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User",
+      description: "Filter by user",
+      async options({ workspaceId }) {
+        const users = await this.listWorkspaceUsers({
+          workspaceId,
+        });
+        if (!users || users?.length === 0) {
+          return [];
+        }
+        return users.map((user) => ({
+          value: user.id,
+          label: user.fullname,
         }));
       },
     },
@@ -72,6 +113,22 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `webhooks/${id}`,
+      });
+    },
+    async getEntry({
+      listId, entryId, ...args
+    }) {
+      return this._makeRequest({
+        path: `lists/${listId}/entries/${entryId}`,
+        ...args,
+      });
+    },
+    async getList({
+      listId, ...args
+    }) {
+      return this._makeRequest({
+        path: `lists/${listId}`,
+        ...args,
       });
     },
     async listWorkspaces(args = {}) {
@@ -123,6 +180,14 @@ export default {
         ...args,
       });
       return listEntries;
+    },
+    async listWorkspaceUsers({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspaceId}/users`,
+        ...args,
+      });
     },
   },
 };

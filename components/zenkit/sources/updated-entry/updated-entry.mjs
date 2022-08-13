@@ -10,18 +10,18 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    workspace: {
+    workspaceId: {
       propDefinition: [
         common.props.zenkit,
-        "workspace",
+        "workspaceId",
       ],
     },
-    list: {
+    listId: {
       propDefinition: [
         common.props.zenkit,
-        "list",
+        "listId",
         (c) => ({
-          workspaceId: c.workspace,
+          workspaceId: c.workspaceId,
         }),
       ],
       optional: true,
@@ -30,13 +30,13 @@ export default {
   methods: {
     ...common.methods,
     async getHistoricalEvents(params) {
-      const activities = this.list
+      const activities = this.listId
         ? await this.zenkit.listListActivities({
-          listId: this.list,
+          listId: this.listId,
           params,
         })
         : await this.zenkit.listWorkspaceActivities({
-          workspaceId: this.workspace,
+          workspaceId: this.workspaceId,
           params,
         });
       if (!activities) {
@@ -50,8 +50,8 @@ export default {
     },
     getWebhookParams() {
       return {
-        workspaceId: this.workspace,
-        listId: this.list,
+        workspaceId: this.workspaceId,
+        listId: this.listId,
       };
     },
     generateMeta(activity) {
