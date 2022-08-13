@@ -19,7 +19,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "showpad-custom-crm-hubspot",
   name: "Showpad Custom CRM: Hubspot (Alpha)",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Example implementation of the endpoints required to connect Hubspot as a Showpad 'Custom CRM'. Use with HTTP API trigger.",
   props: {
     HTTP_TRIGGER_EVENT: {
@@ -28,24 +28,11 @@ export default {
       default: {},
       description: "Needed for action to capture the incoming request. Choose custom expression, then {{ steps.trigger.event}} ",
     },
-    HUBSPOT_TENANT_URL: {
-      type: "string",
-      label: "Hubspot Tenant URL",
-      default: "",
-      description: "Can be seen in Hubspot URLs, e.g. https://app-eu1.hubspot.com",
-    },
-    HUBSPOT_ORG_ID: {
-      type: "string",
-      label: "Hubspot Org ID",
-      default: "",
-      description: "Can be seen in Hubspot URLs, e.g. 25578038",
-    },
-    HUBSPOT_TOKEN: {
-      type: "string",
-      secret: true,
-      label: "Hubspot Private Application Auth Token",
-      default: "",
-      description: "From Hubspot Setup > Integrations > Private Application. E.g. pat-eu1-6791b273-4e9e-4064-84e2-a8d6434a2d72",
+    hubspot: {
+      type: "app",
+      app: "hubspot",
+      label: "Hubspot",
+      description: "Hubspot integration account",
     },
     SHOWPAD_CUSTOMCRM_API_KEY: {
       type: "string",
@@ -88,12 +75,12 @@ export default {
     }
 
     // handle actions
-    // Hubspot client defined below
+    const token = this.hubspot.$auth.oauth_access_token;
+    const orgId = this.hubspot.$auth.oauth_uid;
     const client = new HubspotClient($,
       sendResponse,
-      this.HUBSPOT_TENANT_URL,
-      this.HUBSPOT_ORG_ID,
-      this.HUBSPOT_TOKEN);
+      orgId,
+      token);
 
     if (req.path == "/recipientsearch") {
       await client.searchRecipients(req.body.query);
@@ -116,7 +103,7 @@ export default {
 };
 
 class HubspotClient {
-  constructor($, sendPipedreamResponse, tenantUrl, orgId, authToken) {
+  constructor($, sendPipedreamResponse, orgId, authToken) {
     // global constants
     this.METHOD_GET = "GET";
     this.METHOD_POST = "POST";
@@ -126,7 +113,7 @@ class HubspotClient {
     this.$ = $;
     this.sendPipedreamResponse = sendPipedreamResponse;
 
-    this.tenantUrl = tenantUrl;
+    this.tenantUrl = "https://app.hubspot.com";
     this.orgId = orgId;
     this.authToken = authToken;
   }
