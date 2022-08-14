@@ -1619,6 +1619,14 @@ importers:
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
 
+  components/thanks_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      date-fns: ^2.29.1
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      date-fns: 2.29.1
+
   components/threescribe:
     specifiers: {}
 
@@ -1774,6 +1782,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
+
+  components/webinargeek:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/weworkbook:
     specifiers: {}
@@ -9828,6 +9842,11 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
+
+  /date-fns/2.29.1:
+    resolution: {integrity: sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /dateformat/5.0.3:
     resolution: {integrity: sha512-Kvr6HmPXUMerlLcLF+Pwq3K7apHpYmGDVqrxcDasBg86UcKeTSNWbEzU8bwdXnxnR44FtMhJAxI4Bov6Y/KUfA==}

@@ -472,6 +472,12 @@
       "path": "components/cartes"
     },
     {
+      "path": "components/dictionary_api"
+    },
+    {
+      "path": "components/foxy"
+    },
+    {
       "path": "components/shipcloud"
     }
   ]
