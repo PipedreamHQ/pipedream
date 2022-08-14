@@ -19,8 +19,11 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "showpad-custom-crm-hubspot",
   name: "Showpad Custom CRM: Hubspot (Alpha)",
-  version: "0.0.3",
-  description: "Example implementation of the endpoints required to connect Hubspot as a Showpad 'Custom CRM'. Use with HTTP API trigger.",
+  version: "0.0.5",
+  description: `Example implementation of the endpoints required to connect Hubspot as a Showpad 'Custom CRM'. 
+  Use in workflow with HTTP API trigger.
+  (see 'code' section for more detailed instructions)
+  `,
   props: {
     HTTP_TRIGGER_EVENT: {
       type: "object",
@@ -63,11 +66,6 @@ export default {
       $.flow.exit(existMessage);
     };
 
-    // check auth @TODO: check SHA-256 / HMAC signature instead of bearer token
-    const signatureIsValid = (headers, apiKey) => {
-      return headers && headers["authorization"] === `Bearer ${apiKey}`;
-    };
-
     if (!signatureIsValid(req.headers, this.SHOWPAD_CUSTOMCRM_API_KEY)) {
       await sendResponse(401, {
         message: "Invalid or no auth header received",
@@ -102,8 +100,14 @@ export default {
   },
 };
 
+// check auth @TODO: check SHA-256 / HMAC signature instead of bearer token
+const signatureIsValid = (headers, apiKey) => {
+  return headers && headers["authorization"] === `Bearer ${apiKey}`;
+};
+
 class HubspotClient {
   constructor($, sendPipedreamResponse, orgId, authToken) {
+    console.log(`Init hubspot with org ${orgId} token ${authToken}`);
     // global constants
     this.METHOD_GET = "GET";
     this.METHOD_POST = "POST";
