@@ -21,6 +21,7 @@ export default defineSource({
     eventTypes: {
       label: "Event types",
       description: "The shipment update(s) that should trigger an event",
+      type: "string[]",
       options: WEBHOOK_EVENT_TYPES
     }
   },
@@ -31,14 +32,14 @@ export default defineSource({
         url: this.http.endpoint,
       };
 
-      const { id }: Webhook = await this.infusionsoft.createHook(data);
+      const { id }: Webhook = await this.shipcloud.createHook(data);
 
       this.db.set("hookId", id);
     },
     async deactivate() {
       const id: string = this.db.get("hookId");
 
-      await this.infusionsoft.deleteHook({
+      await this.shipcloud.deleteHook({
         id,
       });
     },
