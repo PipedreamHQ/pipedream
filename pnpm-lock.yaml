@@ -274,6 +274,9 @@ importers:
   components/captaindata:
     specifiers: {}
 
+  components/cartes:
+    specifiers: {}
+
   components/chaport:
     specifiers: {}
 
@@ -1660,7 +1663,10 @@ importers:
       toggl-api: 1.0.2
 
   components/tolstoy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/tomba:
     specifiers: {}
