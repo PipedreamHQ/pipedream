@@ -219,6 +219,7 @@ export default {
     try {
       properties = JSON.parse(this.properties);
     } catch (err) {
+      console.log("Failed to parse properties: ", err);
       // pass
     }
     const response = await this.jira.createIssue({
