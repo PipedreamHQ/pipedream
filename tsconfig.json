@@ -482,6 +482,12 @@
     },
     {
       "path": "components/voice"
+    },
+    {
+      "path": "components/switchboard"
+    },
+    {
+      "path": "components/uptimerobot"
     }
   ]
 }
