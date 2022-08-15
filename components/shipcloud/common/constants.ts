@@ -1,16 +1,25 @@
-const CARRIER_OPTIONS: string[] = [
-  "angel_de",
-  "cargo_international",
-  "dhl",
-  "dhl_express",
-  "dpag",
-  "dpd",
-  "gls",
-  "go",
-  "hermes",
-  "iloxx",
-  "parcel_one",
-  "ups",
+const CARRIER_OPTIONS: {
+  label: string;
+  value: string;
+}[] = [
+  {
+    label: "Angel DE",
+    value: "angel_de",
+  },
+  {
+    label: "Cargo International",
+    value: "cargo_international",
+  },
+  { label: "DHL", value: "dhl" },
+  { label: "DHL Express", value: "dhl_express" },
+  { label: "dpag", value: "dpag" },
+  { label: "DPD", value: "dpd" },
+  { label: "GLS", value: "gls" },
+  { label: "go", value: "go" },
+  { label: "hermes", value: "hermes" },
+  { label: "iloxx (MyDPD Business", value: "iloxx" },
+  { label: "PARCEL.ONE", value: "parcel_one" },
+  { label: "UPS", value: "ups" },
 ];
 
 const SERVICE_OPTIONS: string[] = [

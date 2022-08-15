@@ -49,7 +49,7 @@ export default defineSource({
       status: 200,
     });
 
-    this.$emit(data, {
+    this.$emit(data.body, {
       id: Date.now(),
       summary: "test summary",
       ts: Date.now(),
