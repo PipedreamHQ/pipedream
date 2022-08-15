@@ -478,6 +478,12 @@
       "path": "components/foxy"
     },
     {
+      "path": "components/lob"
+    },
+    {
+      "path": "components/voice"
+    },
+    {
       "path": "components/shipcloud"
     }
   ]
