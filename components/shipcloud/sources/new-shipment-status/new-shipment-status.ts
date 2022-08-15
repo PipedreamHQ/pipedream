@@ -1,5 +1,7 @@
 import shipcloud from "../../app/shipcloud.app";
-import { defineSource, SourceHttpRunOptions } from "@pipedream/types";
+import {
+  defineSource, SourceHttpRunOptions,
+} from "@pipedream/types";
 import { CreateHookParams } from "../../common/requestParams";
 import { Webhook } from "../../common/responseSchemas";
 import { WEBHOOK_EVENT_TYPES } from "../../common/constants";
@@ -22,8 +24,8 @@ export default defineSource({
       label: "Event types",
       description: "The shipment update(s) that should trigger an event",
       type: "string[]",
-      options: WEBHOOK_EVENT_TYPES
-    }
+      options: WEBHOOK_EVENT_TYPES,
+    },
   },
   hooks: {
     async activate() {

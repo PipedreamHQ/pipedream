@@ -47,5 +47,5 @@ export {
   GetShipmentParams,
   HttpRequestParams,
   CreateHookParams,
-  DeleteHookParams
+  DeleteHookParams,
 };

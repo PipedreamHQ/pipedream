@@ -29,5 +29,5 @@ type Webhook = {
 };
 
 export {
-  Address, Shipment, ShipmentQuote, Webhook
+  Address, Shipment, ShipmentQuote, Webhook,
 };
