@@ -274,6 +274,9 @@ importers:
   components/captaindata:
     specifiers: {}
 
+  components/cartes:
+    specifiers: {}
+
   components/chaport:
     specifiers: {}
 
@@ -727,6 +730,9 @@ importers:
       axios: 0.21.4
       uuidv4: 6.2.13
 
+  components/google_workspace:
+    specifiers: {}
+
   components/gorgias:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -774,6 +780,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/html_css_to_image:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/http:
     specifiers:
@@ -962,10 +974,12 @@ importers:
   components/microsoft_onedrive:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
+      '@pipedream/platform': ^1.1.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.2
+      '@pipedream/platform': 1.1.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
 
@@ -1599,6 +1613,14 @@ importers:
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
 
+  components/thanks_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      date-fns: ^2.29.1
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      date-fns: 2.29.1
+
   components/threescribe:
     specifiers: {}
 
@@ -1632,7 +1654,10 @@ importers:
       toggl-api: 1.0.2
 
   components/tolstoy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/tomba:
     specifiers: {}
@@ -1755,6 +1780,12 @@ importers:
       '@pipedream/platform': 1.1.0
       webflow-api: 0.5.4
 
+  components/webinargeek:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/weworkbook:
     specifiers: {}
 
@@ -1790,7 +1821,12 @@ importers:
       wpapi: 1.2.2
 
   components/workast:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+      '@pipedream/types': 0.1.4
 
   components/woxo:
     specifiers: {}
@@ -1814,6 +1850,12 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/youcanbook_me:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/youtube_data_api:
     specifiers:
@@ -1902,11 +1944,13 @@ importers:
       husky: ^3.0.0
       io-ts: ^2.0.0
       jest: ^24.8.0
+      querystring: ^0.2.1
       typescript: ^3.5.3
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.1
       io-ts: 2.2.16_fp-ts@2.12.1
+      querystring: 0.2.1
     devDependencies:
       '@octokit/core': 3.6.0
       husky: 3.1.0
@@ -6018,7 +6062,6 @@ packages:
     resolution: {integrity: sha512-0Jhk9ydw9REDJKHgl2GBzpnfK1COR3rXFrmAxzUWv2X1O1RmCB/HoeRcEhkZAZ7+kUSm8Em0Di3obiv4+oVSoA==}
     dependencies:
       typescript: 4.7.4
-    dev: true
 
   /@pipedreamhq/platform/0.8.1:
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -9813,6 +9856,11 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
+
+  /date-fns/2.29.1:
+    resolution: {integrity: sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /dateformat/5.0.3:
     resolution: {integrity: sha512-Kvr6HmPXUMerlLcLF+Pwq3K7apHpYmGDVqrxcDasBg86UcKeTSNWbEzU8bwdXnxnR44FtMhJAxI4Bov6Y/KUfA==}
