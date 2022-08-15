@@ -476,6 +476,9 @@
     },
     {
       "path": "components/foxy"
+    },
+    {
+      "path": "components/lob"
     }
   ]
 }
