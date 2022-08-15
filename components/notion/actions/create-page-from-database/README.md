@@ -8,7 +8,7 @@ This action interacts with the [Notion create a Page API endpoint](https://devel
 
 # Getting Started
 
-<?<iframe width="560" height="315" src="https://www.youtube.com/embed/wciWsu564_0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>?>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wciWsu564_0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  
 [Follow this short 4 minute guide to connect your Notion account and add new Database pages](https://youtu.be/wciWsu564_0)
 
@@ -45,4 +45,4 @@ Each selected `Property Type` will also add a new prop for that given column.
  
 If your database doesn't appear under the options, try deleting your Notion account connection and reconnecting.
 
-There's an issue with Notion Databases not appearing in the options if the Databse was created _after_ you connected your Notion account to Pipedream.
+There's an issue with Notion Databases not appearing in the options if the Database was created _after_ you connected your Notion account to Pipedream.
