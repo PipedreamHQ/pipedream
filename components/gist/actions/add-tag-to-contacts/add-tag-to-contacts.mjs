@@ -2,9 +2,9 @@ import gist from "../../gist.app.mjs";
 
 export default {
   ...gist,
-  key: "gist-add-tag-to-contact",
-  name: "Add Tag To An Existing Contact",
-  description: "Add Contact Tag [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",
+  key: "gist-add-tag-to-contacts",
+  name: "Add Tag To An Existing Contacts",
+  description: "This Action lets you assign a tag to multiple contacts at once. If the tag does not already exist it will be created for you. [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",
   type: "action",
   version: "0.0.1",
   props: {

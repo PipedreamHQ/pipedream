@@ -68,7 +68,7 @@ export default {
     },
   },
   async run() {
-    console.log("Raw received event:");
+    console.log("Run started:");
     return this.processEvent();
   },
 };

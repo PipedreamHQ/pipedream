@@ -9,7 +9,7 @@ export default {
       description: "The Id of the contact that will be retrieved",
       type: "integer",
       async options({
-        page, tagId = null,
+        page, tagId,
       }) {
         const { contacts } = await this.listContacts({
           params: {
@@ -23,7 +23,7 @@ export default {
         }) => ({
           label: `${name} - ${email}`,
           value: id,
-        })) || [];
+        }));
       },
     },
     tagId: {
@@ -43,7 +43,7 @@ export default {
         }) => ({
           label: name,
           value: id,
-        })) || [];
+        }));
       },
     },
     email: {
