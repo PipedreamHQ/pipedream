@@ -47,11 +47,9 @@ export default {
         },
       });
 
-      console.log(medias);
-
       medias.forEach(this.emitEvent);
 
-      if (medias && medias.length < 100) {
+      if (medias.length < 100) {
         return;
       }
 

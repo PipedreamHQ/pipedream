@@ -21,7 +21,7 @@ export default {
       this.$emit(data, {
         id: data.visitor_key,
         summary: `New visitor with id ${data.visitor_key}`,
-        ts: Date.parse(data.received_at),
+        ts: Date.parse(data.created_at),
       });
     },
   },
