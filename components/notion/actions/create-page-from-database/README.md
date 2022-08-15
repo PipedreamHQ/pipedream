@@ -7,6 +7,8 @@ This action features easy to use dropdowns that automatically populate your data
 This action interacts with the [Notion create a Page API endpoint](https://developers.notion.com/reference/post-page). The Database selected in the `Parent Database ID` is used as the `parent_id` parameter to that endpoint so the page is added to your databaset .
 
 # Getting Started
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wciWsu564_0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  
 [Follow this short 4 minute guide to connect your Notion account and add new Database pages](https://youtu.be/wciWsu564_0)
 
