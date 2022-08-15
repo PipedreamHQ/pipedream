@@ -17,7 +17,7 @@ export default {
     },
     projectId: {
       label: "Project ID",
-      description: "The ID of project",
+      description: "The ID of project. You can get this ID from the url. E.g. With URL `woxo.tech/video/editor?slug=F0AOtl8sdg` the ID will be `F0AOtl8sdg`",
       type: "string",
     },
   },
