@@ -1,22 +1,17 @@
-import zenkit from "../../zenkit.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "zenkit-get-user",
   name: "Get User",
   description: "Retrieve a user from a workspace on Zenkit. [See the docs](https://base.zenkit.com/docs/api/workspaces/get-api-v1-workspaces-workspaceid-users)",
   version: "0.0.1",
   type: "action",
   props: {
-    zenkit,
-    workspaceId: {
-      propDefinition: [
-        zenkit,
-        "workspaceId",
-      ],
-    },
+    ...common.props,
     userId: {
       propDefinition: [
-        zenkit,
+        common.props.zenkit,
         "userId",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -30,7 +25,7 @@ export default {
       $,
     });
     const user = users.find((user) => user.id == this.userId);
-    $.export("$summary", `Successfully retrieved user ${user.fullname}`);
+    $.export("$summary", `Successfully retrieved user '${user.fullname}'`);
     return user;
   },
 };

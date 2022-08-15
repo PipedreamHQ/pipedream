@@ -1,22 +1,17 @@
-import zenkit from "../../zenkit.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "zenkit-get-list",
   name: "Get List",
   description: "Retrieve a list/collection from a workspace on Zenkit. [See the docs](https://base.zenkit.com/docs/api/lists/get-api-v1-lists-listshortid)",
   version: "0.0.1",
   type: "action",
   props: {
-    zenkit,
-    workspaceId: {
-      propDefinition: [
-        zenkit,
-        "workspaceId",
-      ],
-    },
+    ...common.props,
     listId: {
       propDefinition: [
-        zenkit,
+        common.props.zenkit,
         "listId",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -29,7 +24,7 @@ export default {
       listId: this.listId,
       $,
     });
-    $.export("$summary", `Successfully retrieved list ${list.name}`);
+    $.export("$summary", `Successfully retrieved list '${list.name}'`);
     return list;
   },
 };

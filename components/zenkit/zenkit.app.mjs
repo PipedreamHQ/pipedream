@@ -77,6 +77,16 @@ export default {
         }));
       },
     },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "The sort order of the list entry",
+      options: [
+        "highest",
+        "lowest",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -128,6 +138,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `lists/${listId}`,
+        ...args,
+      });
+    },
+    async getListElements({
+      listId, ...args
+    }) {
+      return await this._makeRequest({
+        path: `lists/${listId}/elements`,
         ...args,
       });
     },
@@ -186,6 +204,33 @@ export default {
     }) {
       return this._makeRequest({
         path: `workspaces/${workspaceId}/users`,
+        ...args,
+      });
+    },
+    async addCommentToEntry({
+      listId, entryId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `users/me/lists/${listId}/entries/${entryId}/activities`,
+        ...args,
+      });
+    },
+    async createEntry({
+      listId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `lists/${listId}/entries`,
+        ...args,
+      });
+    },
+    async updateEntry({
+      listId, entryId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `lists/${listId}/entries/${entryId}`,
         ...args,
       });
     },
