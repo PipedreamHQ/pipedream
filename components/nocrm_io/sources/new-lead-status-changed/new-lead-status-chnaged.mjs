@@ -28,7 +28,9 @@ export default {
         },
       });
 
-      leads.forEach(this.emitEvent);
+      if (leads) {
+        leads.forEach(this.emitEvent);
+      }
     },
   },
 };
