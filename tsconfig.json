@@ -479,6 +479,9 @@
     },
     {
       "path": "components/lob"
+    },
+    {
+      "path": "components/voice"
     }
   ]
 }
