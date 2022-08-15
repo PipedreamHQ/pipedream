@@ -10,7 +10,7 @@ export default defineSource({
   name: "New Shipment Status",
   description:
     "Emit new event for shipment status changes [See docs here](https://developers.shipcloud.io/reference/#webhooks)",
-  key: "infusionsoft-new-appointment",
+  key: "shipcloud-new-shipment-status",
   version: "0.0.1",
   type: "source",
   props: {
