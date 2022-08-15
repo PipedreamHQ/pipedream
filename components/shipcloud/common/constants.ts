@@ -1,7 +1,4 @@
-type OptionsObject = {
-  label: string;
-  value: string;
-};
+import { OptionsObject } from "./types";
 
 const CARRIER_OPTIONS: OptionsObject[] = [
   {

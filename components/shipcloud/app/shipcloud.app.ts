@@ -13,6 +13,7 @@ import {
 import {
   CARRIER_OPTIONS, SERVICE_OPTIONS,
 } from "../common/constants";
+import { OptionsObject } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -113,7 +114,7 @@ export default defineApp({
       async options() {
         const shipments: Shipment[] = await this.listShipments();
 
-        return shipments.map((shipment) => {
+        return shipments.map((shipment): OptionsObject => {
           return {
             label: this.getShipmentLabel(shipment),
             value: shipment.id,
@@ -130,7 +131,7 @@ export default defineApp({
       async options() {
         const addresses: Address[] = await this.listAddresses();
 
-        return addresses.map((address) => {
+        return addresses.map((address): OptionsObject => {
           return {
             label: this.getAddressLabel(address),
             value: JSON.stringify(address),
