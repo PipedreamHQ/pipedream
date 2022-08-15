@@ -21,8 +21,6 @@ export default {
       email: this.email,
     });
 
-    console.log("response: ", response);
-
     $.export("$summary", `Successfully added ${this.email} lead to unsubscribed list!`);
     return response;
   },

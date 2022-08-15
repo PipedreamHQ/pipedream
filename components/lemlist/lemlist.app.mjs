@@ -100,6 +100,14 @@ export default {
         params,
       });
     },
+    async getLead({
+      $, email,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `leads/${email}`,
+      });
+    },
     async listLeads({
       $, campaignId = null,
     }) {
@@ -167,6 +175,15 @@ export default {
       return this._makeRequest({
         $,
         method: "POST",
+        path: `unsubscribes/${email}`,
+      });
+    },
+    async deleteEmailFromUnsubscribes({
+      $, email,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "DELETE",
         path: `unsubscribes/${email}`,
       });
     },
