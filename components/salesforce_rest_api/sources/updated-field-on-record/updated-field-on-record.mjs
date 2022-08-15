@@ -15,7 +15,7 @@ export default {
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     ...common.props,
     objectType: {
@@ -130,10 +130,11 @@ export default {
         startTimestamp,
         endTimestamp,
       );
+      this.setLatestDateCovered(latestDateCovered);
 
       // By the time we try to retrieve an item, it might've been deleted. This
       // will cause `getSObject` to throw a 404 exception, which will reject its
-      // promise. Hence, we need to filter those items that we still in Salesforce
+      // promise. Hence, we need to filter those items that are still in Salesforce
       // and exclude those that are not.
       const historyItemRetrievals = await Promise.allSettled(
         ids.map((id) => this.salesforce.getSObject(historyObjectType, id)),
@@ -172,8 +173,6 @@ export default {
         const meta = this.generateMeta(event);
         this.$emit(event, meta);
       });
-
-      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };
