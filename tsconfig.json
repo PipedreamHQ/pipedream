@@ -488,6 +488,12 @@
     },
     {
       "path": "components/uptimerobot"
+    },
+    {
+      "path": "components/google_appsheet"
+    },
+    {
+      "path": "components/rewardful"
     }
   ]
 }
