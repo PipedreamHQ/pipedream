@@ -30,12 +30,10 @@ export default {
     const data = {
       id: this.tagId.value,
       name: this.tagId.label,
-      contacts: this.contactId.map((contactId) => {
-        return {
-          id: `${contactId}`,
-          untag: true,
-        };
-      }),
+      contacts: this.contactId.map((contactId) => ({
+        id: `${contactId}`,
+        untag: true,
+      })),
     };
 
     const response = await this.gist.updateTagToContact({
