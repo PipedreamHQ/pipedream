@@ -6,7 +6,7 @@ export default {
   propDefinitions: {},
   methods: {
     _team() {
-      return this.$auth.api_key;
+      return this.$auth.team;
     },
     _apiKey() {
       return this.$auth.api_key;
