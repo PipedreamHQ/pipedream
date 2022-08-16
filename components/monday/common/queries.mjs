@@ -62,4 +62,39 @@ export default {
       }
     }
   `,
+  listColumns: `
+    query listColumns ($boardId: Int!) {
+      boards (ids: [$boardId]) {
+        columns {
+          id
+          title
+        }
+      }
+    }
+  `,
+  getItem: `
+    query getItem ($id: Int!) {
+      items (ids: [$id]) {
+        id
+        name
+        board {
+          id
+        }
+        group {
+          id
+        }
+        created_at
+        creator_id
+        updated_at
+        parent_item {
+          id
+        }
+        column_values {
+          id
+          value
+        }
+        email
+      }
+    }
+  `,
 };

@@ -115,6 +115,20 @@ export default {
         });
       },
     },
+    column: {
+      type: "string",
+      label: "Column",
+      description: "Column to watch for changes",
+      async options({ boardId }) {
+        const columns = await this.listColumns({
+          boardId: +boardId,
+        });
+        return columns.map((column) => ({
+          label: column.title,
+          value: column.id,
+        }));
+      },
+    },
   },
   methods: {
     async makeRequest({
@@ -123,6 +137,30 @@ export default {
       const monday = mondaySdk();
       monday.setToken(this.$auth.api_key);
       return monday.api(query, options);
+    },
+    async createWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.createWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async deleteWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.deleteWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItem(variables) {
+      return this.makeRequest({
+        query: queries.getItem,
+        options: {
+          variables,
+        },
+      });
     },
     async createBoard(variables) {
       return this.makeRequest({
@@ -200,6 +238,15 @@ export default {
           variables,
         },
       });
+    },
+    async listColumns(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listColumns,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0]?.columns;
     },
     async listBoardsOptions(variables) {
       const {
