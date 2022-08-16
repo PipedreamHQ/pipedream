@@ -494,6 +494,45 @@
     },
     {
       "path": "components/rewardful"
+    },
+    {
+      "path": "components/membervault"
+    },
+    {
+      "path": "components/alchemy"
+    },
+    {
+      "path": "components/mapbox"
+    },
+    {
+      "path": "components/mux"
+    },
+    {
+      "path": "components/radar"
+    },
+    {
+      "path": "components/guru"
+    },
+    {
+      "path": "components/circle"
+    },
+    {
+      "path": "components/godaddy"
+    },
+    {
+      "path": "components/paperform"
+    },
+    {
+      "path": "components/sender"
+    },
+    {
+      "path": "components/syncro"
+    },
+    {
+      "path": "components/teamdeck"
+    },
+    {
+      "path": "components/verifybee"
     }
   ]
 }
