@@ -15,7 +15,8 @@ export default {
         intervalSeconds: 60 * 15,
       },
     },
-    surveyId: {
+    surveyIds: {
+      type: "string[]",
       propDefinition: [
         zonkaFeedback,
         "surveyId",
@@ -23,6 +24,9 @@ export default {
     },
   },
   methods: {
+    isRelevant(event) {
+      return this.surveyIds.includes(event.surveyId);
+    },
     generateMeta(event) {
       const {
         receivedDate: ts,
@@ -46,17 +50,18 @@ export default {
 
     while (true) {
       const responses = await this.zonkaFeedback.getSurveyResponses({
-        surveyId: this.surveyId,
-        page: page++,
+        params: {
+          page: page++,
+        },
       });
       events.push(...responses);
-      if (responses.length < 25 || responses[0].id === events[events.length - 1].id) {
+      if (responses.length < 25) {
         break;
       }
     }
 
     for (const event of events) {
-      this.processEvent(event);
+      this.isRelevant(event) && this.processEvent(event);
     }
   },
 };
