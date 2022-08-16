@@ -533,6 +533,9 @@
     },
     {
       "path": "components/verifybee"
+    },
+    {
+      "path": "components/google_ads"
     }
   ]
 }
