@@ -551,6 +551,9 @@
     },
     {
       "path": "components/helpwise"
+    },
+    {
+      "path": "components/showpad"
     }
   ]
 }
