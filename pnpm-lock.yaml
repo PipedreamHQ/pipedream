@@ -1080,6 +1080,12 @@ importers:
   components/ninox:
     specifiers: {}
 
+  components/nocrm_io:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/notion:
     specifiers:
       '@notionhq/client': ^1.0.4
@@ -1791,6 +1797,12 @@ importers:
 
   components/wildberries:
     specifiers: {}
+
+  components/wistia:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/withings:
     specifiers:
