@@ -18,13 +18,16 @@ export default {
       return this.app.getStatuses;
     },
     getSummary(item) {
-      return `${item.title} (${item.body})`;
+      return `${item.title} (${item.report_date})`;
     },
     getResourceKey() {
       return "statuses";
     },
     compareFn(item) {
-      return new Date(item.created_at).getTime() > this.getLastFetchTime();
+      return new Date(item.completed_at).getTime() > this.getLastFetchTime();
+    },
+    getDateKey() {
+      return "completed_at";
     },
   },
 };

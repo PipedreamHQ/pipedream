@@ -31,6 +31,9 @@ export default {
     compareFn() {
       throw new Error("getCompareFn() is not implemented!");
     },
+    getDateKey() {
+      throw new Error("getDateKey() is not implemented!");
+    },
   },
   async run() {
     let newLastFetchTime = this.getLastFetchTime();
@@ -39,8 +42,7 @@ export default {
       resourceKey: this.getResourceKey(),
     });
     for await (const item of resourcesStream) {
-      const createdTime = new Date(item.created_at).getTime();
-      console.log("item", item);
+      const createdTime = new Date(item[this.getDateKey()]).getTime();
       if (this.compareFn(item)) {
         this.$emit(
           item,

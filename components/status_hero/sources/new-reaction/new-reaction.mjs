@@ -26,5 +26,8 @@ export default {
     compareFn(item) {
       return new Date(item.created_at).getTime() > this.getLastFetchTime();
     },
+    getDateKey() {
+      return "created_at";
+    },
   },
 };
