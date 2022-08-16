@@ -1,6 +1,6 @@
 import utils from "../common/utils.mjs";
 
-const intervalSeconds = 60 * 3; //ten minutes
+const intervalSeconds = 60 * 10; //ten minutes
 
 export default {
   props: {
