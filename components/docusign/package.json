@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/docusign",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Pipedream Docusign Components",
     "main": "docusign.app.js",
     "keywords": [
@@ -11,7 +11,7 @@
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
-        "@pipedream/platform": "^1.1.0"
+        "@pipedream/platform": "^1.1.1"
     },
     "publishConfig": {
         "access": "public"
