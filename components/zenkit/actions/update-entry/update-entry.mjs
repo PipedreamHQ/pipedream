@@ -28,12 +28,6 @@ export default {
         }),
       ],
     },
-    sortOrder: {
-      propDefinition: [
-        common.props.zenkit,
-        "sortOrder",
-      ],
-    },
   },
   async additionalProps() {
     return this.getListElementProps(this.listId);
