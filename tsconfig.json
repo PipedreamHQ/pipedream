@@ -536,6 +536,21 @@
     },
     {
       "path": "components/google_ads"
+    },
+    {
+      "path": "components/oksign"
+    },
+    {
+      "path": "components/cal_com"
+    },
+    {
+      "path": "components/niceboard"
+    },
+    {
+      "path": "components/getscreenshot"
+    },
+    {
+      "path": "components/helpwise"
     }
   ]
 }
