@@ -381,7 +381,7 @@ export default {
       type: "boolean",
       label: "Ignore myself",
       description: "Ignore messages from me",
-      default: true,
+      default: false,
     },
     word: {
       type: "string",

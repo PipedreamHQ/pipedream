@@ -25,7 +25,7 @@ Use the [`fs` module](https://nodejs.org/api/fs.html) to write data to `/tmp`:
 import fs from "fs"
 import { file } from 'tmp-promise'
 
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     const { path, cleanup } = await file();
     await fs.promises.appendFile(path, Buffer.from("hello, world"))
@@ -41,7 +41,7 @@ Return a list of the files saved in `/tmp`:
 ```javascript
 import fs from "fs";
 
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     return fs.readdirSync("/tmp");
   }
@@ -55,7 +55,7 @@ This example uses [step exports](/workflows/steps/#step-exports) to return the c
 ```javascript
 import fs from "fs";
 
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     const files = await fs.promises.readFile('/tmp/your-file');
     this.fileData = files.toString()
@@ -68,7 +68,7 @@ defineComponent({
 ```javascript
 import fs from "fs";
 
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     return await fs.promises.unlink('/tmp/your-file');
   }
