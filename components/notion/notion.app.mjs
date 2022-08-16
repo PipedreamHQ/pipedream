@@ -29,6 +29,37 @@ export default {
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
+    propertyId: {
+      type: "string",
+      label: "Property ID",
+      description: "The identifier for a Notion page property",
+      async options({ pageId }) {
+        const response = await this.retrievePage(pageId);
+
+        const parentType = response.parent.type;
+        try {
+          const { properties } = parentType === "database_id"
+            ? await this.retrieveDatabase(response.parent.database_id)
+            : response;
+
+          const propEntries = Object.entries(properties);
+          const propIds  = propEntries.length === 1 && Object.values(propEntries)[0][1].id === "title"
+            ?
+            propEntries.map((prop) => ({
+              label: prop[1].type,
+              value: prop[1].id,
+            }))
+            : propEntries.map((prop) => ({
+              label: prop[1].name,
+              value: prop[1].id,
+            }));
+          return propIds;
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
+      },
+    },
     metaTypes: {
       type: "string[]",
       label: "Meta Types",
@@ -60,7 +91,8 @@ export default {
     archived: {
       type: "boolean",
       label: "Archive page",
-      description: "Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.",
+      description: "Set to true to archive (delete) a page. Set to false to un-archive\
+(restore) a page.",
       optional: true,
     },
     title: {
@@ -162,6 +194,12 @@ export default {
         page_id: pageId,
       });
     },
+    async retrievePagePropertyItem(pageId, propertyId) {
+      return this._getNotionClient().pages.properties.retrieve({
+        page_id: pageId,
+        property_id: propertyId,
+      });
+    },
     async searchPage(title, params = {}) {
       return this._getNotionClient().search({
         query: title,
@@ -205,7 +243,6 @@ export default {
         }
 
         cursor = nextCursor;
-
       } while (cursor);
     },
     async appendBlock(parentId, blocks) {
