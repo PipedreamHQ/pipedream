@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/docusign",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "description": "Pipedream Docusign Components",
     "main": "docusign.app.js",
     "keywords": [
