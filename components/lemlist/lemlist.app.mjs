@@ -28,6 +28,21 @@ export default {
       label: "Email",
       description: "Email address of the lead.",
     },
+    campaignEmail: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the lead.",
+      async options({ campaignId }) {
+        const leads = await this.listLeads({
+          campaignId,
+        });
+
+        return leads.map((email) => ({
+          label: email,
+          value: email,
+        }));
+      },
+    },
     firstName: {
       type: "string",
       label: "First Name",

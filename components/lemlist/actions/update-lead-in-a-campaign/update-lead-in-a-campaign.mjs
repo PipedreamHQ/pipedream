@@ -15,24 +15,14 @@ export default {
       ],
       withLabel: true,
     },
-    email: {
+    campaignEmail: {
       propDefinition: [
         lemlist,
-        "email",
+        "campaignEmail",
         (c) => ({
           campaignId: c.campaignId.value,
         }),
       ],
-      async options({ campaignId }) {
-        const leads = await this.listLeads({
-          campaignId,
-        });
-
-        return leads.map((email) => ({
-          label: email,
-          value: email,
-        }));
-      },
     },
     firstName: {
       propDefinition: [
