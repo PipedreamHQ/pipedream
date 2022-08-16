@@ -1792,6 +1792,12 @@ importers:
   components/wildberries:
     specifiers: {}
 
+  components/wistia:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/withings:
     specifiers:
       '@pipedream/platform': ^0.10.0
