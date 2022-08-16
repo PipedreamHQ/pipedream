@@ -144,13 +144,9 @@ export default {
           method: "GET",
           url: `${baseUri}templates/${templateId}/documents/${documentId}/tabs`,
         };
-        const response = await this._makeRequest({
+        tabs.push(await this._makeRequest({
           config,
-        });
-        tabs.push(...Object.entries(response)
-          .filter((tab) => tab[0] !== "signHereTabs")
-          .map((tab) => tab[1])
-          .flat());
+        }));
       }
       return tabs;
     },
