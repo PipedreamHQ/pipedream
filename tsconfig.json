@@ -575,6 +575,9 @@
     },
     {
       "path": "components/worksnaps"
+    },
+    {
+      "path": "components/vosfactures"
     }
   ]
 }
