@@ -46,6 +46,26 @@ export default {
         }));
       },
     },
+    campaignId: {
+      label: "Campaign Id",
+      description: "The id of the campaign",
+      type: "string",
+      withLabel: true,
+      async options({ page }) {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return campaigns.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     email: {
       label: "Email",
       description: "The contact's email address. Required on create. Required if no user_id is supplied on update.",
@@ -54,7 +74,7 @@ export default {
     },
     userId: {
       label: "User Id",
-      description: "A unique string identifier for the user. It is required to create Contact of type User. Required on create. Required if no email is supplied on update.",
+      description: "A unique string identifier for the user. It is required to create Contact of type User. Required on create. Required if no email is supplied.",
       type: "string",
       optional: true,
     },
@@ -97,6 +117,18 @@ export default {
     unsubscribedFromEmails: {
       label: "Unsubscribed From Emails",
       description: "If the contact has unsubscribed from emails or not",
+      type: "boolean",
+      optional: true,
+    },
+    startingEmailIndex: {
+      label: "Starting Email Index",
+      description: "The index of the email to send first. Defaults to 0. Required if no User Id",
+      type: "integer",
+      optional: true,
+    },
+    reactivateIfRemoved: {
+      label: "Reactive If Removed",
+      description: "Sending true will force subscribe the contact even if they unsubscribed from the campaign earlier.",
       type: "boolean",
       optional: true,
     },
@@ -147,6 +179,15 @@ export default {
         params,
       });
     },
+    async listCampaigns({
+      $, params,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "campaigns",
+        params,
+      });
+    },
     async updateTagToContact({
       $, data,
     }) {
@@ -164,6 +205,16 @@ export default {
         $,
         method: "POST",
         path: "contacts",
+        data,
+      });
+    },
+    async addOrRemoveContactInCampaign({
+      $, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "campaigns",
         data,
       });
     },
