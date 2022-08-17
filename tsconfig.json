@@ -578,6 +578,9 @@
     },
     {
       "path": "components/vosfactures"
+    },
+    {
+      "path": "components/pointerpro"
     }
   ]
 }
