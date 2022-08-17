@@ -70,7 +70,7 @@ export default {
   async run({ $ }) {
     const response = await this.lemlist.updateLeadInACampaign({
       $,
-      email: this.email,
+      email: this.campaignEmail,
       campaignId: this.campaignId.value,
       data: {
         firstName: this.firstName,
@@ -83,7 +83,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully updated ${this.email} lead in ${this.campaignId.label} campaign!`);
+    $.export("$summary", `Successfully updated ${this.campaignEmail} lead in ${this.campaignId.label} campaign!`);
     return response;
   },
 };

@@ -28,11 +28,11 @@ export default {
   async run({ $ }) {
     const response = await this.lemlist.removeLeadFromACampaign({
       $,
-      email: this.email,
+      email: this.campaignEmail,
       campaignId: this.campaignId.value,
     });
 
-    $.export("$summary", `Successfully unsubscribed ${this.email} lead from ${this.campaignId.label} campaign!`);
+    $.export("$summary", `Successfully unsubscribed ${this.campaignEmail} lead from ${this.campaignId.label} campaign!`);
     return response;
   },
 };

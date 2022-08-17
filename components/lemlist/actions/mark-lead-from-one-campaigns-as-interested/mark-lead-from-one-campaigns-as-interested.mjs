@@ -28,12 +28,12 @@ export default {
   async run({ $ }) {
     const response = await this.lemlist.markLeadInOneCampaign({
       $,
-      email: this.email,
+      email: this.campaignEmail,
       campaignId: this.campaignId.value,
       action: "interested",
     });
 
-    $.export("$summary", `Successfully added ${this.email} lead as interested in ${this.campaignId.label} campaign!`);
+    $.export("$summary", `Successfully added ${this.campaignEmail} lead as interested in ${this.campaignId.label} campaign!`);
     return response;
   },
 };
