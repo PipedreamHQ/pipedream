@@ -560,6 +560,21 @@
     },
     {
       "path": "components/user_com"
+    },
+    {
+      "path": "components/tmetric"
+    },
+    {
+      "path": "components/pdfmonkey"
+    },
+    {
+      "path": "components/vivifyscrum"
+    },
+    {
+      "path": "components/workiom"
+    },
+    {
+      "path": "components/worksnaps"
     }
   ]
 }
