@@ -1,16 +1,19 @@
 {
-    "name": "@pipedream/woxo",
-    "version": "0.0.1",
-    "description": "Pipedream WOXO Components",
-    "main": "woxo.app.js",
-    "keywords": [
-      "pipedream",
-      "woxo"
-    ],
-    "homepage": "https://pipedream.com/apps/woxo",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/woxo",
+  "version": "0.0.1",
+  "description": "Pipedream WOXO Components",
+  "main": "woxo.app.js",
+  "keywords": [
+    "pipedream",
+    "woxo"
+  ],
+  "homepage": "https://pipedream.com/apps/woxo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
   }
+}
