@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
@@ -18,12 +18,6 @@ export default {
           boardId: c.boardId,
         }),
       ],
-    },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      // todo: get historical events
     },
   },
   methods: {

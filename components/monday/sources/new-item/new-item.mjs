@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
@@ -8,12 +8,6 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      // todo: get historical events
-    },
-  },
   methods: {
     ...common.methods,
     getWebhookArgs() {

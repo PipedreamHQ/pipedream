@@ -155,12 +155,31 @@ export default {
       });
     },
     async getItem(variables) {
-      return this.makeRequest({
+      const { data } = await this.makeRequest({
         query: queries.getItem,
         options: {
           variables,
         },
       });
+      return data?.items[0];
+    },
+    async getBoard(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getBoard,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0];
+    },
+    async getUser(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getUser,
+        options: {
+          variables,
+        },
+      });
+      return data?.users[0];
     },
     async createBoard(variables) {
       return this.makeRequest({
@@ -247,6 +266,15 @@ export default {
         },
       });
       return data?.boards[0]?.columns;
+    },
+    async listUsers(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listUsers,
+        options: {
+          variables,
+        },
+      });
+      return data?.users;
     },
     async listBoardsOptions(variables) {
       const {
