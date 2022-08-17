@@ -46,6 +46,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "New reaction added";
     },
@@ -53,6 +54,11 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
+      event.message = await this.getLastMessage({
+        channel: event.item.channel,
+        event_ts: event.item.ts,
+      });
+
       return event;
     },
   },
