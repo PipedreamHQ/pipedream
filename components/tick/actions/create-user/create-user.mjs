@@ -2,7 +2,7 @@ import tick from "../../tick.app.mjs";
 
 export default {
   name: "Create User",
-  version: "0.0.1",
+  version: "0.0.4",
   key: "tick-create-user",
   description: "Creates a user. [See docs here](https://github.com/tick/tick-api/blob/master/sections/users.md#create-user)",
   type: "action",
@@ -38,11 +38,15 @@ export default {
     const response = await this.tick.createUser({
       $,
       data: {
-        first_name: this.firstName,
-        last_name: this.lastName,
-        email: this.email,
-        admin: this.admin,
-        billable_rate: this.billableRate,
+        user: {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email,
+          admin: this.admin
+            ? "true"
+            : "false",
+          billable_rate: this.billableRate,
+        },
       },
     });
 
