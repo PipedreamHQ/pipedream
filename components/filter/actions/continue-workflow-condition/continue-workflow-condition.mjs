@@ -16,7 +16,7 @@ export default {
         filter,
         "reason",
       ],
-      description: "The reason for ending the workflow without bump up",
+      description: "The reason for ending the workflow without bump up version",
       default: reasons.END,
       optional: true,
     },
