@@ -375,6 +375,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/darwinbox:
+    specifiers: {}
+
   components/data_stores:
     specifiers:
       xss: ^1.0.11
@@ -922,6 +925,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/knowbe4:
+    specifiers: {}
 
   components/laposta:
     specifiers: {}
@@ -1790,6 +1796,9 @@ importers:
   components/triggercmd:
     specifiers: {}
 
+  components/turbohire:
+    specifiers: {}
+
   components/twilio:
     specifiers:
       twilio: ^3.54.2
@@ -1850,12 +1859,9 @@ importers:
   components/uptimerobot:
     specifiers: {}
 
-<<<<<<< HEAD
   components/user_com:
     specifiers: {}
 
-=======
->>>>>>> origin/master
   components/vbout:
     specifiers: {}
 
@@ -1886,12 +1892,9 @@ importers:
   components/virustotal:
     specifiers: {}
 
-<<<<<<< HEAD
   components/vivifyscrum:
     specifiers: {}
 
-=======
->>>>>>> origin/master
   components/voice:
     specifiers: {}
 
