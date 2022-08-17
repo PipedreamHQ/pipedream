@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/google_appsheet",
+  "version": "0.0.1",
+  "description": "Pipedream Google Appsheet Components",
+  "main": "dist/app/google_appsheet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_appsheet"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/google_appsheet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
