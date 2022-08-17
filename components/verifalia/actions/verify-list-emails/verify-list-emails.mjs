@@ -8,18 +8,18 @@ import {
 } from "verifalia";
 
 export default {
-  name: "Verify Email Address",
-  description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
-        "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
-  key: "verifalia-verify-email",
-  version: "1.0.4",
+  name: "Verify List of Email Address",
+  description: "Verify a list of email address and check if it is properly formatted, really exists and can accept mails, " +
+    "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
+  key: "verifalia-verify-list-emails",
+  version: "0.0.1",
   type: "action",
   props: {
     verifalia,
-    emailAddress: {
-      type: "string",
-      label: "Email address",
-      description: "Enter the email address to verify (e.g. `batman@gmail.com`)",
+    emailAddresses: {
+      type: "string[]",
+      label: "Email Addresses",
+      description: "Enter a list of email address to verify (e.g. `batman@gmail.com`)",
       optional: false,
     },
     quality: {
@@ -33,10 +33,10 @@ export default {
       type: "string",
       label: "Data Retention Period",
       description: "The data retention period to observe for the validation job, expressed in the format `dd.hh:mm:ss` " +
-                "(where dd: days, hh: hours, mm: minutes, ss: seconds); the initial `dd.` part is added only for periods of " +
-                "more than 24 hours. The value has a minimum of 5 minutes (`0:5:0`) and a maximum of 30 days (`30.0:0:0`): " +
-                "Verifalia will delete the job and its data once its data retention period is over, starting to count when " +
-                "it gets completed.",
+        "(where dd: days, hh: hours, mm: minutes, ss: seconds); the initial `dd.` part is added only for periods of " +
+        "more than 24 hours. The value has a minimum of 5 minutes (`0:5:0`) and a maximum of 30 days (`30.0:0:0`): " +
+        "Verifalia will delete the job and its data once its data retention period is over, starting to count when " +
+        "it gets completed.",
       optional: true,
     },
   },
@@ -53,7 +53,7 @@ export default {
 
       if (this.retention && !this.verifalia.isValidTimeSpan(this.retention)) {
         throw new Error(`The specified data retention period '${this.retention}' is incorrect: must be in the ` +
-                    "format dd.hh:mm:ss (where dd: days, hh: hours, mm: minutes, ss: seconds).");
+          "format dd.hh:mm:ss (where dd: days, hh: hours, mm: minutes, ss: seconds).");
       }
 
       // HACK: Pausing a workflow is not supported in test mode, as the editor would just
@@ -87,16 +87,20 @@ export default {
       let job;
 
       try {
+        const parsedEmails = !Array.isArray(this.emailAddresses)
+          ? JSON.parse(this.emailAddresses)
+          : this.emailAddresses;
+
+        const formattedEmails = parsedEmails.map((emailAddress) => ({
+          inputData: emailAddress,
+        }));
+
         job = await this.verifalia.wrapVerifaliaApiInvocation(async () => {
           return await verifaliaClient
             .emailValidations
             .submit({
               quality: this.quality,
-              entries: [
-                {
-                  inputData: this.emailAddress,
-                },
-              ],
+              entries: formattedEmails,
               retention: this.retention,
               callback: {
                 url: resumeUrl,
@@ -113,7 +117,7 @@ export default {
           // Had to replace the word req*ire with a synonym because of https://github.com/PipedreamHQ/pipedream/issues/3187 :)
 
           throw new Error("This operation would need some more time to complete and that would not work properly in " +
-                        "Pipedream's test mode. Please deploy your workflow to get a meaningful email verification result.");
+            "Pipedream's test mode. Please deploy your workflow to get a meaningful email verification result.");
         }
 
         throw error;
