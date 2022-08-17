@@ -16,7 +16,7 @@ export default {
         filter,
         "reason",
       ],
-      description: "The reason for ending the workflow",
+      description: "The reason for ending the workflow...",
       default: reasons.END,
       optional: true,
     },
