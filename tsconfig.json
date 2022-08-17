@@ -554,6 +554,33 @@
     },
     {
       "path": "components/showpad"
+    },
+    {
+      "path": "components/softr"
+    },
+    {
+      "path": "components/user_com"
+    },
+    {
+      "path": "components/tmetric"
+    },
+    {
+      "path": "components/pdfmonkey"
+    },
+    {
+      "path": "components/vivifyscrum"
+    },
+    {
+      "path": "components/workiom"
+    },
+    {
+      "path": "components/worksnaps"
+    },
+    {
+      "path": "components/vosfactures"
+    },
+    {
+      "path": "components/pointerpro"
     }
   ]
 }
