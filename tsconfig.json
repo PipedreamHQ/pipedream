@@ -581,6 +581,15 @@
     },
     {
       "path": "components/pointerpro"
+    },
+    {
+      "path": "components/darwinbox"
+    },
+    {
+      "path": "components/turbohire"
+    },
+    {
+      "path": "components/knowbe4"
     }
   ]
 }

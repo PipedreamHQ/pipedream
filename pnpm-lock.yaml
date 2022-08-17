@@ -1720,6 +1720,12 @@ importers:
   components/threescribe:
     specifiers: {}
 
+  components/tick:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/ticket_tailor:
     specifiers: {}
 
@@ -1844,9 +1850,12 @@ importers:
   components/uptimerobot:
     specifiers: {}
 
+<<<<<<< HEAD
   components/user_com:
     specifiers: {}
 
+=======
+>>>>>>> origin/master
   components/vbout:
     specifiers: {}
 
@@ -1877,9 +1886,12 @@ importers:
   components/virustotal:
     specifiers: {}
 
+<<<<<<< HEAD
   components/vivifyscrum:
     specifiers: {}
 
+=======
+>>>>>>> origin/master
   components/voice:
     specifiers: {}
 
@@ -2007,6 +2019,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       crypto: 1.0.1
+
+  components/zenkit:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/zerotier:
     specifiers: {}
