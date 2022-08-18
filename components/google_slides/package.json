@@ -1,0 +1,25 @@
+{
+    "name": "@pipedream/google_slides",
+    "version": "0.3.3",
+    "description": "Pipedream Google Slides Components",
+    "main": "google_slides.app.mjs",
+    "keywords": [
+        "pipedream",
+        "google_slides"
+    ],
+    "homepage": "https://pipedream.com/apps/google_slides",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "@googleapis/slides": "^0.7.1",
+        "@googleapis/drive": "^2.3.0",
+        "@pipedream/platform": "^0.9.0",
+        "axios": "^0.21.1",
+        "mime-db": "^1.51.0",
+        "uuid": "^8.3.2"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}
