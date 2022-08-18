@@ -203,10 +203,22 @@ export default {
 
       return response.data;
     },
+    async createOrgWebhook({
+      org, data,
+    }) {
+      const response = await this._client().request(`POST /orgs/${org}/hooks`, data);
+
+      return response.data;
+    },
     async removeWebhook({
       repoFullname, webhookId,
     }) {
       return this._client().request(`DELETE /repos/${repoFullname}/hooks/${webhookId}`, {});
+    },
+    async removeOrgWebhook({
+      org, webhookId,
+    }) {
+      return this._client().request(`DELETE /orgs/${org}/hooks/${webhookId}`, {});
     },
     async getOrganizations() {
       const response = await this._client().request("GET /user/orgs", {});
