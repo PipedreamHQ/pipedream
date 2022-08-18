@@ -602,6 +602,9 @@
     },
     {
       "path": "components/airnow"
+    },
+    {
+      "path": "components/waitwhile"
     }
   ]
 }
