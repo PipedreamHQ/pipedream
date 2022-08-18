@@ -593,6 +593,21 @@
     },
     {
       "path": "components/salestown"
+    },
+    {
+      "path": "components/adafruit_io"
+    },
+    {
+      "path": "components/iqair_airvisual"
+    },
+    {
+      "path": "components/airnow"
+    },
+    {
+      "path": "components/waitwhile"
+    },
+    {
+      "path": "components/meetup"
     }
   ]
 }
