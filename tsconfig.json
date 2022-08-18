@@ -605,6 +605,9 @@
     },
     {
       "path": "components/waitwhile"
+    },
+    {
+      "path": "components/meetup"
     }
   ]
 }
