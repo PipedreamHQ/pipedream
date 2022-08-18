@@ -375,6 +375,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/darwinbox:
+    specifiers: {}
+
   components/data_stores:
     specifiers:
       xss: ^1.0.11
@@ -923,6 +926,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/knowbe4:
+    specifiers: {}
+
   components/laposta:
     specifiers: {}
 
@@ -1242,6 +1248,9 @@ importers:
       lodash: 4.17.21
       pcloud-sdk-js: 2.0.0
 
+  components/pdfmonkey:
+    specifiers: {}
+
   components/persistiq:
     specifiers: {}
 
@@ -1281,6 +1290,9 @@ importers:
       pipedrive: ^13.2.7
     dependencies:
       pipedrive: 13.3.4
+
+  components/pointerpro:
+    specifiers: {}
 
   components/postgresql:
     specifiers:
@@ -1553,6 +1565,12 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sifter:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/signwell:
     specifiers: {}
 
@@ -1592,6 +1610,9 @@ importers:
       uuid: 8.3.2
 
   components/social_intents:
+    specifiers: {}
+
+  components/softr:
     specifiers: {}
 
   components/spotify:
@@ -1726,6 +1747,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/tmetric:
+    specifiers: {}
+
   components/todoist:
     specifiers:
       json-2-csv: ^3.15.1
@@ -1776,6 +1800,9 @@ importers:
       mime: 3.0.0
 
   components/triggercmd:
+    specifiers: {}
+
+  components/turbohire:
     specifiers: {}
 
   components/twilio:
@@ -1838,6 +1865,9 @@ importers:
   components/uptimerobot:
     specifiers: {}
 
+  components/user_com:
+    specifiers: {}
+
   components/vbout:
     specifiers: {}
 
@@ -1868,10 +1898,16 @@ importers:
   components/virustotal:
     specifiers: {}
 
+  components/vivifyscrum:
+    specifiers: {}
+
   components/voice:
     specifiers: {}
 
   components/voice_monkey:
+    specifiers: {}
+
+  components/vosfactures:
     specifiers: {}
 
   components/webflow:
@@ -1935,6 +1971,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
       '@pipedream/types': 0.1.4
+
+  components/workiom:
+    specifiers: {}
+
+  components/worksnaps:
+    specifiers: {}
 
   components/woxo:
     specifiers:
@@ -4951,22 +4993,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.122:
-    resolution: {integrity: sha512-kvqZO15vBEnDWklreVHMbm1eo0hhpaNY6jQJwRLR5sXFPSMR0HHR5KfJwwLCWRh4ajbflLswwYX/gTm5kym/Zw==}
+  /@definitelytyped/header-parser/0.0.123:
+    resolution: {integrity: sha512-FN5C2BliqO4SmWT6IzvuFMVzhoBCPcAZQx0pwFa8vOMczmLPXjeYsnAiwPpDXrvjKnAxk3RPCCdj7Ichm16sFg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.122
+      '@definitelytyped/typescript-versions': 0.0.123
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.122:
-    resolution: {integrity: sha512-1T6SArgYfOeopSPHmJNXwXZeXzSdWhqI8/ZWuQZ2Y/Ieso2FUj1Ds+WUAsLHa0ri4b8u6ObWukD0Klm2XJ/jcQ==}
+  /@definitelytyped/typescript-versions/0.0.123:
+    resolution: {integrity: sha512-OjoX8C3qyVKCqjBPJ7e5fBYu3qJ4OXS4u8ZHkgQtdZsslE43VNUDxY1rgJaqUqUyJrQSOQVxdnqIn7CA3jcWSQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.122:
-    resolution: {integrity: sha512-nwgYoacFI6JU9sXbW8Q7elBXBv02dT6FgMKuoMWtywvgBjNxKTxI82aD3SuUdAuP5hG4JtsOomG1a6QHQtf3Ng==}
+  /@definitelytyped/utils/0.0.123:
+    resolution: {integrity: sha512-tNNvbKMk2KZMM/BrnER9xYOND5sZskmquqOP+ZuLTLybGFJ70w+rRzIZ9sB22uoj/dNIKseTv3mzsJG3Q0naMw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.122
+      '@definitelytyped/typescript-versions': 0.0.123
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10421,7 +10463,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.122
+      '@definitelytyped/header-parser': 0.0.123
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10437,9 +10479,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.122
-      '@definitelytyped/typescript-versions': 0.0.122
-      '@definitelytyped/utils': 0.0.122
+      '@definitelytyped/header-parser': 0.0.123
+      '@definitelytyped/typescript-versions': 0.0.123
+      '@definitelytyped/utils': 0.0.123
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -15077,6 +15119,7 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
+    hasBin: true
 
   /mnemonist/0.38.3:
     resolution: {integrity: sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==}
