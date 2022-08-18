@@ -1550,6 +1550,9 @@ importers:
       lodash: 4.17.21
       validate.js: 0.13.1
 
+  components/showpad:
+    specifiers: {}
+
   components/signwell:
     specifiers: {}
 
@@ -1617,6 +1620,12 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/status_hero:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/stormglass_io:
     specifiers: {}
