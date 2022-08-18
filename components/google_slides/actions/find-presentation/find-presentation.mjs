@@ -3,7 +3,7 @@ import app from "../../google_slides.app.mjs";
 export default {
   key: "google_slides-find-presentation",
   name: "Find a Presentation",
-  description: "Find a presentation on Google Drive. [See the docs here](https://developers.google.com/slides/api/reference/rest/v1/presentations/get)",
+  description: "Find a presentation on Google Drive. [See the docs here](https://developers.google.com/slides/api/samples/presentation#list_existing_presentation_files)",
   version: "0.0.1",
   type: "action",
   props: {
