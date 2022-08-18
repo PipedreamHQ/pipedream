@@ -1,5 +1,6 @@
 import queries from "../../common/queries.mjs";
 import common from "../common/common-webhook-orgs.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -58,7 +59,7 @@ export default {
         fieldValueByName: { optionId },
       } = item;
 
-      if (type !== "ISSUE") {
+      if (type !== constants.ISSUE_TYPE) {
         message = `Not an issue: ${type}. Skipping...`;
         isRelevant = false;
       } else if (isArchived) {
@@ -78,6 +79,45 @@ export default {
       });
       return node;
     },
+    async processEvent(event) {
+      const item = await this.getProjectItem({
+        nodeId: event.projects_v2_item.node_id,
+      });
+
+      const issueNumber = item.content.number;
+      const statusName = item.fieldValueByName.name;
+
+      if (!this.isRelevant(item, issueNumber, statusName)) {
+        return;
+      }
+
+      const issue = await this.github.getIssue({
+        repoFullname: `${this.org}/${this.repo}`,
+        issueNumber,
+      });
+
+      console.log(`Emitting issue #${issueNumber}`);
+      const meta = this.generateMeta(issue, statusName);
+      this.$emit(issue, meta);
+    },
+    async loadHistoricalEvents() {
+      const response = await this.github.graphql(queries.projectItemsQuery, {
+        repoOwner: this.org,
+        repoName: this.repo,
+        project: this.project,
+        historicalEventsNumber: 25,
+      });
+      for (const node of response.repository.projectV2.items.nodes) {
+        if (node.type === constants.ISSUE_TYPE) {
+          const event = {
+            projects_v2_item: {
+              node_id: node.id,
+            },
+          };
+          await this.processEvent(event);
+        }
+      }
+    },
   },
   async run({ body: event }) {
     if (event.zen) {
@@ -85,24 +125,6 @@ export default {
       return;
     }
 
-    const item = await this.getProjectItem({
-      nodeId: event.projects_v2_item.node_id,
-    });
-
-    const issueNumber = item.content.number;
-    const statusName = item.fieldValueByName.name;
-
-    if (!this.isRelevant(item, issueNumber, statusName)) {
-      return;
-    }
-
-    const issue = await this.github.getIssue({
-      repoFullname: `${this.org}/${this.repo}`,
-      issueNumber,
-    });
-
-    console.log(`Emitting issue #${issueNumber}`);
-    const meta = this.generateMeta(issue, statusName);
-    this.$emit(issue, meta);
+    await this.processEvent(event);
   },
 };

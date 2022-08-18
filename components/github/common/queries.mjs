@@ -33,6 +33,21 @@ const statusFieldsQuery = `
   }
 `;
 
+const projectItemsQuery = `
+  query ($repoOwner: String!, $repoName: String!, $project: Int!, $historicalEventsNumber: Int!) {
+    repository(name: $repoName, owner: $repoOwner) {
+      projectV2(number: $project) {
+        items(last: $historicalEventsNumber) {
+          nodes {
+            id
+            type
+          }
+        }
+      }
+    }
+  }
+`;
+
 const projectItemQuery = `
   query ($nodeId: ID!) {
     node(id: $nodeId) {
@@ -58,5 +73,6 @@ const projectItemQuery = `
 export default {
   projectsQuery,
   statusFieldsQuery,
+  projectItemsQuery,
   projectItemQuery,
 };

@@ -1,4 +1,5 @@
 export default {
+  ISSUE_TYPE: "ISSUE",
   REPOSITORY_WEBHOOK_EVENTS: [
     {
       label: "Activity related to a branch protection rule",
