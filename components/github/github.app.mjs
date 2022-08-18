@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
+import queries from "./common/queries.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -41,6 +42,58 @@ export default {
         return projects.map((project) => ({
           label: project.name,
           value: project.id,
+        }));
+      },
+    },
+    projectV2: {
+      label: "Project V2",
+      description: "The project (V2) in a repository",
+      type: "integer",
+      async options({
+        prevContext, org, repo,
+      }) {
+        const cursor = prevContext?.cursor ?? null;
+
+        const {
+          projects,
+          nextCursor,
+        } = await this.getProjectsV2({
+          repoOwner: org,
+          repoName: repo,
+          cursor,
+        });
+
+        if (cursor && projects.length === 0) {
+          return [];
+        }
+
+        return {
+          options: projects.map((project) => ({
+            label: project.title,
+            value: project.number,
+          })),
+          context: {
+            cursor: nextCursor,
+          },
+        };
+      },
+    },
+    status: {
+      label: "Item Status",
+      description: "The status for a project item",
+      type: "string",
+      async options({
+        org, repo, project,
+      }) {
+        const { statuses } = await this.getProjectV2Statuses({
+          repoOwner: org,
+          repoName: repo,
+          project,
+        });
+
+        return statuses.map((status) => ({
+          label: status.name,
+          value: status.id,
         }));
       },
     },
@@ -140,6 +193,9 @@ export default {
         auth: this._accessToken(),
       });
     },
+    async graphql(query, opts = {}) {
+      return this._client().graphql(query, opts);
+    },
     async createWebhook({
       repoFullname, data,
     }) {
@@ -178,6 +234,31 @@ export default {
     },
     async getRepositoryProjects({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
+    },
+    async getProjectsV2({
+      repoOwner, repoName, cursor,
+    }) {
+      const response = await this.graphql(queries.projectsQuery, {
+        repoOwner,
+        repoName,
+        cursor,
+      });
+      return {
+        projects: response.repository.projectsV2.nodes,
+        nextCursor: response.repository.projectsV2.pageInfo.endCursor,
+      };
+    },
+    async getProjectV2Statuses({
+      repoOwner, repoName, project,
+    }) {
+      const response = await this.graphql(queries.statusFieldsQuery, {
+        repoOwner,
+        repoName,
+        project,
+      });
+      return {
+        statuses: response.repository.projectV2.field.options,
+      };
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
