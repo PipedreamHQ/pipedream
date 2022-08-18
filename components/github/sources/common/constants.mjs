@@ -1,4 +1,5 @@
 export default {
+  HISTORICAL_EVENTS: 25,
   ISSUE_TYPE: "ISSUE",
   REPOSITORY_WEBHOOK_EVENTS: [
     {

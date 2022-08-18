@@ -105,7 +105,7 @@ export default {
         repoOwner: this.org,
         repoName: this.repo,
         project: this.project,
-        historicalEventsNumber: 25,
+        historicalEventsNumber: constants.HISTORICAL_EVENTS,
       });
       for (const node of response.repository.projectV2.items.nodes) {
         if (node.type === constants.ISSUE_TYPE) {

@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -46,7 +47,7 @@ export default {
         sha: this.branch
           ? this.branch.value
           : undefined,
-        per_page: 25,
+        per_page: constants.HISTORICAL_EVENTS,
       });
       const commits = commitInfo.map((info) => ({
         id: info.commit.url.split("/").pop(),

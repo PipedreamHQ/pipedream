@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -62,7 +63,7 @@ export default {
     async loadHistoricalEvents() {
       const cards = await this.github.getProjectCards({
         columnId: this.getThisColumnValue(),
-        per_page: 25,
+        per_page: constants.HISTORICAL_EVENTS,
       });
       for (const card of cards) {
         await this.processCard(card);
