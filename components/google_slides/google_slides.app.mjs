@@ -32,6 +32,22 @@ export default {
         auth,
       });
     },
+    refreshChart(presentationId, chartId) {
+      const slides = this.slides();
+      const requests = [
+        {
+          refreshSheetsChart: {
+            objectId: chartId,
+          },
+        },
+      ];
+      return slides.presentations.batchUpdate({
+        presentationId,
+        requestBody: {
+          requests,
+        },
+      });
+    },
     async createPresentation(title) {
       const slides = this.slides();
       const presentation = await slides.presentations.create({
