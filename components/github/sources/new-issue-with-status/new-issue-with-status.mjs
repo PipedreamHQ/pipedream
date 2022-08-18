@@ -1,8 +1,8 @@
 import queries from "../../common/queries.mjs";
-import github from "../../github.app.mjs";
-import common from "../common/common-webhook.mjs";
+import common from "../common/common-webhook-orgs.mjs";
 
 export default {
+  ...common,
   key: "github-new-issue-with-status",
   name: "New Issue with Status (Projects V2)",
   description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
@@ -10,31 +10,10 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    github,
-    org: {
-      propDefinition: [
-        github,
-        "orgName",
-      ],
-    },
-    repo: {
-      propDefinition: [
-        github,
-        "repoFullname",
-        (c) => ({
-          org: c.org,
-        }),
-      ],
-      async options({ org }) {
-        const repositories = await this.getRepos();
-        return repositories
-          .filter((repository) => repository.full_name.split("/")[0] === org)
-          .map((repository) => repository.full_name.split("/")[1]);
-      },
-    },
+    ...common.props,
     project: {
       propDefinition: [
-        github,
+        common.props.github,
         "projectV2",
         (c) => ({
           org: c.org,
@@ -44,7 +23,7 @@ export default {
     },
     status: {
       propDefinition: [
-        github,
+        common.props.github,
         "status",
         (c) => ({
           org: c.org,
@@ -52,32 +31,6 @@ export default {
           project: c.project,
         }),
       ],
-    },
-    db: "$.service.db",
-    http: "$.interface.http",
-  },
-  hooks: {
-    async deploy() {},
-    async activate() {
-      const response = await this.github.createOrgWebhook({
-        org: this.org,
-        data: {
-          name: "web",
-          config: {
-            url: this.http.endpoint,
-            content_type: "json",
-          },
-          events: this.getWebhookEvents(),
-        },
-      });
-      this._setWebhookId(response.id);
-    },
-    async deactivate() {
-      const webhookId = this._getWebhookId();
-      await this.github.removeOrgWebhook({
-        org: this.org,
-        webhookId,
-      });
     },
   },
   methods: {

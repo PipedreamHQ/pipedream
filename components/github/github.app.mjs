@@ -30,6 +30,17 @@ export default {
         return repositories.map((repository) => repository.full_name);
       },
     },
+    repoOrg: {
+      label: "Organization Repository",
+      description: "The repository in a organization",
+      type: "string",
+      async options({ org }) {
+        const repositories = await this.getOrgRepos({
+          org,
+        });
+        return repositories.map((repository) => repository.full_name.split("/")[1]);
+      },
+    },
     project: {
       label: "Project",
       description: "The project in a repository",
@@ -227,6 +238,9 @@ export default {
     },
     async getRepos() {
       return this._client().paginate("GET /user/repos", {});
+    },
+    async getOrgRepos({ org }) {
+      return this._client().paginate(`GET /orgs/${org}/repos`, {});
     },
     async getRepo({ repoFullname }) {
       const response = await this._client().request(`GET /repos/${repoFullname}`, {});
