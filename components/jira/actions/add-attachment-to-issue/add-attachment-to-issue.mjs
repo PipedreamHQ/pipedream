@@ -21,7 +21,7 @@ export default {
     filename: {
       type: "string",
       label: "File name",
-      description: "Path of the file in /tmp folder to add as an attachment. To upload a file to /tmp filter, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      description: "Path of the file in /tmp folder to add as an attachment. To upload a file to /tmp folder, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
   },
   async run({ $ }) {
