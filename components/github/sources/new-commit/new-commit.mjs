@@ -6,7 +6,7 @@ export default {
   key: "github-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new events on new commits to a repo or branch",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
