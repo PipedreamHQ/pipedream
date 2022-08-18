@@ -470,15 +470,15 @@ importers:
 
   components/docusign:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/docusign_developer:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/doppler_ops:
     specifiers: {}
@@ -1641,6 +1641,12 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/status_hero:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/stormglass_io:
     specifiers: {}
