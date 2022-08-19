@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   name: "Validate reCAPTCHA v3",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "google_recaptcha-validate-v3-recaptcha",
   description: "Validate a Google reCAPTCHA v3 request. [See docs here](https://developers.google.com/recaptcha/docs/verify)",
   props: {
@@ -24,7 +24,7 @@ export default {
   methods: {},
   async run({ $ }) {
     return await axios($, {
-      url: `https://www.google.com/recaptcha/api/siteverify?secret=${this.$auth.secret}&response=${this.token}&remoteip=${this.remote_ip}`,
+      url: `https://www.google.com/recaptcha/api/siteverify?secret=${this.googleRecaptcha.$auth.secret}&response=${this.token}&remoteip=${this.remote_ip}`,
     });
   },
 };
