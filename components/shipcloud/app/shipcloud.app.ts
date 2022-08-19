@@ -61,7 +61,7 @@ export default defineApp({
         endpoint: "/shipments",
       });
 
-      return response.shipments;
+      return response.shipments ?? [];
     },
     async getShipment({
       id, ...params
@@ -90,7 +90,7 @@ export default defineApp({
         endpoint: "/addresses",
       });
 
-      return response.addresses;
+      return response.addresses ?? [];
     },
     getAddressLabel({
       first_name,
@@ -127,7 +127,9 @@ export default defineApp({
       label: "Recipient Address",
       description: `Select an **Address** from the list.
         \\
-        Alternatively, you can provide a custom JSON-stringified [Address object](https://developers.shipcloud.io/reference/#creating-an-address).`,
+        Alternatively, you can provide a custom JSON-stringified [Address object](https://developers.shipcloud.io/reference/#creating-an-address).
+        \\
+        Example address object: \`{"company":"MusterCompany","first_name":"Max","last_name":"Mustermann","street":"Musterstraße","street_no":"42","zip_code":"54321","city":"Musterstadt"}\``,
       async options() {
         const addresses: Address[] = await this.listAddresses();
 
@@ -155,7 +157,9 @@ export default defineApp({
       type: "object",
       label: "Package",
       description:
-        "Object describing the package [(more info on the Shipcloud Docs)](https://developers.shipcloud.io/reference/#creating-a-shipment)",
+        `Object describing the package. Required fields are \`height\`, \`length\`, \`weight\` and \`width\`.
+        \\
+        [(See more info on the Shipcloud Docs)](https://developers.shipcloud.io/reference/#creating-a-shipment)`,
     },
   },
 });
