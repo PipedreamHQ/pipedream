@@ -2,10 +2,10 @@ import googleRecaptcha from "../../google_recaptcha.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Validate reCAPTCHA v3",
+  name: "Validate reCAPTCHA Response",
   version: "0.0.1",
-  key: "google_recaptcha-validate-v3-recaptcha",
-  description: "Validate a Google reCAPTCHA v3 request. [See docs here](https://developers.google.com/recaptcha/docs/verify)",
+  key: "google_recaptcha-validate-recaptcha",
+  description: "Validate a Google reCAPTCHA request (v2 or v3). [See docs here](https://developers.google.com/recaptcha/docs/verify)",
   props: {
     googleRecaptcha,
     remote_ip: {
