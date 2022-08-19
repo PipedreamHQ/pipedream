@@ -623,6 +623,9 @@
     },
     {
       "path": "components/google_recaptcha"
+    },
+    {
+      "path": "components/amilia"
     }
   ]
 }
