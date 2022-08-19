@@ -5,6 +5,12 @@ export default {
     streak,
     db: "$.service.db",
     http: "$.interface.http",
+    pipelineId: {
+      propDefinition: [
+        streak,
+        "pipelineId",
+      ],
+    },
   },
   hooks: {
     async deploy() {
@@ -19,7 +25,9 @@ export default {
     },
     async deactivate() {
       const hookId = this._getHookId();
-      await this.streak.deleteWebhook(hookId);
+      await this.streak.deleteWebhook({
+        id: hookId,
+      });
     },
   },
   methods: {
@@ -28,6 +36,9 @@ export default {
     },
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
+    },
+    shortenKey(key) {
+      return key.slice(-72);
     },
     getHistoricalEvents() {
       throw new Error("getHistoricalEvents is not implemented");

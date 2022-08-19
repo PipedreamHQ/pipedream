@@ -2,31 +2,32 @@ import common from "../common/pipeline-based.mjs";
 
 export default {
   ...common,
-  key: "streak-new-box",
-  name: "New Box (Instant)",
-  description: "Emit new event when a new box is created in a pipeline.",
+  key: "streak-new-email-on-box",
+  name: "New Email on Box (Instant)",
+  description: "Emit new event when an email is added to a box in a pipeline.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getHistoricalEvents(limit) {
-      return this.streak.listBoxes({
+      const boxes = await this.streak.listBoxes({
         pipelineId: this.pipelineId,
         params: {
           limit,
-          sortBy: "creationTimestamp",
+          sortBy: "lastUpdatedTimestamp",
         },
       });
+      return boxes.filter((box) => box?.emailAddresses.length > 0);
     },
     getEventType() {
-      return "BOX_CREATE";
+      return "BOX_NEW_EMAIL_ADDRESS";
     },
     generateMeta(box) {
       return {
-        id: this.shortenKey(box.key),
+        id: box.lastUpdatedTimestamp,
         summary: box.name,
-        ts: box.creationTimestamp,
+        ts: box.lastUpdatedTimestamp,
       };
     },
   },

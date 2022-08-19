@@ -2,9 +2,9 @@ import common from "../common/pipeline-based.mjs";
 
 export default {
   ...common,
-  key: "streak-new-box",
-  name: "New Box (Instant)",
-  description: "Emit new event when a new box is created in a pipeline.",
+  key: "streak-box-changed-pipeline",
+  name: "Box Changed Pipeline (Instant)",
+  description: "Emit new event when a box changes pipelines.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -15,18 +15,18 @@ export default {
         pipelineId: this.pipelineId,
         params: {
           limit,
-          sortBy: "creationTimestamp",
+          sortBy: "lastUpdatedTimestamp",
         },
       });
     },
     getEventType() {
-      return "BOX_CREATE";
+      return "BOX_CHANGE_PIPELINE";
     },
     generateMeta(box) {
       return {
-        id: this.shortenKey(box.key),
+        id: box.lastUpdatedTimestamp,
         summary: box.name,
-        ts: box.creationTimestamp,
+        ts: box.lastUpdatedTimestamp,
       };
     },
   },

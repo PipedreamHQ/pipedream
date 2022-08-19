@@ -2,9 +2,9 @@ import common from "../common/pipeline-based.mjs";
 
 export default {
   ...common,
-  key: "streak-new-comment",
-  name: "New Comment (Instant)",
-  description: "Emit new event when a new comment is created within a pipeline.",
+  key: "streak-new-task",
+  name: "New Task (Instant)",
+  description: "Emit new event when a new task is created in a pipeline.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -18,27 +18,27 @@ export default {
           sortBy: "lastUpdatedTimestamp",
         },
       });
-      const comments = [];
+      const tasks = [];
       for (const box of boxes) {
-        const { results } = await this.streak.listComments({
+        const { results } = await this.streak.listTasks({
           boxId: box.key,
         });
-        comments.push(...results);
-        if (comments.length >= limit) {
-          comments.length = limit;
+        tasks.push(...results);
+        if (tasks.length >= limit) {
+          tasks.length = limit;
           break;
         }
       }
-      return comments;
+      return tasks;
     },
     getEventType() {
-      return "COMMENT_CREATE";
+      return "TASK_CREATE";
     },
-    generateMeta(comment) {
+    generateMeta(task) {
       return {
-        id: this.shortenKey(comment.key),
-        summary: comment.message,
-        ts: comment.timestamp,
+        id: this.shortenKey(task.key),
+        summary: task.text,
+        ts: task.creationDate,
       };
     },
   },

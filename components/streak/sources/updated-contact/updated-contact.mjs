@@ -2,9 +2,9 @@ import common from "../common/team-based.mjs";
 
 export default {
   ...common,
-  key: "streak-new-contact",
-  name: "New Contact (Instant)",
-  description: "Emit new event when a new contact is created within a team.",
+  key: "streak-updated-contact",
+  name: "Updated Contact (Instant)",
+  description: "Emit new event when a contact is updated within a team.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,13 +14,13 @@ export default {
       return this.getContactsInPipeline(limit);
     },
     getEventType() {
-      return "CONTACT_CREATE";
+      return "CONTACT_UPDATE";
     },
     generateMeta(contact) {
       return {
-        id: this.shortenKey(contact.key),
+        id: contact.lastSavedTimestamp,
         summary: contact.emailAddresses[0],
-        ts: contact.creationDate,
+        ts: contact.lastSavedTimestamp,
       };
     },
   },

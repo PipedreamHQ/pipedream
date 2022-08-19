@@ -2,15 +2,6 @@ import common from "./base.mjs";
 
 export default {
   ...common,
-  props: {
-    ...common.props,
-    pipelineId: {
-      propDefinition: [
-        common.props.streak,
-        "pipelineId",
-      ],
-    },
-  },
   hooks: {
     ...common.hooks,
     async activate() {

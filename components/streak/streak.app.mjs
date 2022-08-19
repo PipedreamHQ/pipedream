@@ -60,10 +60,21 @@ export default {
         ...args,
       });
     },
-    async deleteWebhook(id) {
+    async deleteWebhook({
+      id, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `v2/webhooks/${id}`,
+        ...args,
+      });
+    },
+    async getContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v2/contacts/${contactId}`,
+        ...args,
       });
     },
     async listPipelines(args = {}) {
@@ -94,14 +105,21 @@ export default {
         ...args,
       });
     },
-    async listContacts({
-      teamId, ...args
+    async listTasks({
+      boxId, ...args
     }) {
-      const { members } = await this._makeRequest({
-        path: `v2/teams/${teamId}`,
+      return this._makeRequest({
+        path: `v2/boxes/${boxId}/tasks`,
         ...args,
       });
-      return members;
+    },
+    async listContacts({
+      boxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/boxes/${boxId}`,
+        ...args,
+      });
     },
   },
 };

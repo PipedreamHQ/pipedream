@@ -26,4 +26,35 @@ export default {
       this._setHookId(key);
     },
   },
+  methods: {
+    ...common.methods,
+    async getContactsInPipeline(limit) {
+      const boxes = await this.streak.listBoxes({
+        pipelineId: this.pipelineId,
+        params: {
+          limit,
+          sortBy: "lastUpdatedTimestamp",
+        },
+      });
+      const contactIds = [];
+      for (const box of boxes) {
+        const contactKeys = box?.contacts.map((contact) => contact.key);
+        if (contactKeys?.length > 0) {
+          contactIds.push(...contactKeys);
+        }
+      }
+      const contacts = [];
+      for (const contactId of contactIds) {
+        const contact = await this.streak.getContact({
+          contactId,
+        });
+        contacts.push(contact);
+        if (contacts.length >= limit) {
+          contacts.length = limit;
+          break;
+        }
+      }
+      return contacts;
+    },
+  },
 };
