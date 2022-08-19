@@ -611,6 +611,9 @@
     },
     {
       "path": "components/vk"
+    },
+    {
+      "path": "components/apilio"
     }
   ]
 }
