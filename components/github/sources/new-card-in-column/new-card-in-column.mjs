@@ -1,11 +1,12 @@
 import common from "../common/common-webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "github-new-card-in-column",
-  name: "New Card in Column (Instant)",
-  description: "Emit new event when a project card is created or moved to a specific column",
-  version: "0.1.0",
+  name: "New Card in Column (Classic Projects)",
+  description: "Emit new event when a (classic) project card is created or moved to a specific column. For Projects V2 use `New Issue with Status` trigger. [More information here](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/tracking-work-with-project-boards/adding-issues-and-pull-requests-to-a-project-board)",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
@@ -62,7 +63,7 @@ export default {
     async loadHistoricalEvents() {
       const cards = await this.github.getProjectCards({
         columnId: this.getThisColumnValue(),
-        per_page: 25,
+        per_page: constants.HISTORICAL_EVENTS,
       });
       for (const card of cards) {
         await this.processCard(card);
