@@ -620,6 +620,9 @@
     },
     {
       "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
     }
   ]
 }
