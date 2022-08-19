@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   name: "Validate reCAPTCHA v3",
-  version: "0.0.3",
+  version: "0.0.1",
   key: "google_recaptcha-validate-v3-recaptcha",
   description: "Validate a Google reCAPTCHA v3 request. [See docs here](https://developers.google.com/recaptcha/docs/verify)",
   props: {
