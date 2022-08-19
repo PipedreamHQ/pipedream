@@ -79,7 +79,7 @@ export default {
         phone: this.phone,
         linkedinUrl: this.linkedinUrl,
         companyName: this.companyName,
-        icebraker: this.icebraker,
+        icebreaker: this.icebreaker,
       },
     });
 

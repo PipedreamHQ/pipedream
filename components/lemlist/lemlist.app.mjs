@@ -81,7 +81,7 @@ export default {
     },
     icebreaker: {
       type: "string",
-      label: "Icebreacker",
+      label: "Icebreaker",
       description: "Icebreaker of the lead.",
       optional: true,
     },
