@@ -61,6 +61,19 @@ export default {
         }
       });
     },
+    async getLastMessage({
+      channel, event_ts,
+    }) {
+      return this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
+        const info = await this.slack.sdk().conversations.history({
+          channel,
+          latest: event_ts,
+          limit: 1,
+          inclusive: true,
+        });
+        return info;
+      });
+    },
     processEvent(event) {
       return event;
     },
