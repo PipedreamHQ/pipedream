@@ -608,6 +608,9 @@
     },
     {
       "path": "components/meetup"
+    },
+    {
+      "path": "components/vk"
     }
   ]
 }
