@@ -611,6 +611,18 @@
     },
     {
       "path": "components/vk"
+    },
+    {
+      "path": "components/apilio"
+    },
+    {
+      "path": "components/ambient_weather"
+    },
+    {
+      "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
     }
   ]
 }
