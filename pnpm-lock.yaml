@@ -888,7 +888,10 @@ importers:
       '@pipedream/types': 0.1.4
 
   components/inksprout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/intercom:
     specifiers:
