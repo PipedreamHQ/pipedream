@@ -3,10 +3,10 @@ import { ConfigurationError } from "@pipedream/platform";
 import lodash from "lodash";
 
 export default {
-  key: "inksprout-summarize",
-  name: "Summarize",
-  description: "Summarize by either url or raw text. [See the docs](https://inksprout.co/docs/index.html).",
-  version: "0.0.3",
+  key: "inksprout-create-summary",
+  name: "Create Summary",
+  description: "Create summary by either url or raw text. [See the docs](https://inksprout.co/docs/index.html).",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
