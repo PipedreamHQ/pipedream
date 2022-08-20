@@ -9,7 +9,6 @@ export default {
       return "https://inksprout.co/api/v1";
     },
     _getHeaders() {
-      console.log(this.$auth);
       return {
         "content-type": "application/json",
         "Authorization": `Bearer ${this.$auth.api_key}`,
@@ -22,11 +21,21 @@ export default {
         headers: this._getHeaders(),
       };
     },
-    async summarize(ctx = this, params) {
+    async createSummary(ctx = this, params) {
       const result = await axios(ctx, this._getRequestParams({
         method: "POST",
         path: "/summarize",
         data: params,
+      }));
+      return result;
+    },
+    async listSummaries(ctx = this, offset) {
+      const result = await axios(ctx, this._getRequestParams({
+        method: "GET",
+        path: "/summaries",
+        params: {
+          offset,
+        },
       }));
       return result;
     },

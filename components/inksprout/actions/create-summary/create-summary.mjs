@@ -1,11 +1,10 @@
 import app from "../../inksprout.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import lodash from "lodash";
 
 export default {
   key: "inksprout-create-summary",
   name: "Create Summary",
-  description: "Create summary by either url or raw text. [See the docs](https://inksprout.co/docs/index.html).",
+  description: "Create summary by either url or raw text. [See the docs](https://inksprout.co/docs/index.html#item-2-2).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,14 +23,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const param = lodash.pick(this, [
-      "url",
-      "text",
-    ]);
+    const param = {
+      url: this.url,
+      text: this.text,
+    };
     if (!param.url && !param.text) {
       throw new ConfigurationError("Either url or text is required.");
     }
-    const result = await this.app.summarize($, param);
+    const result = await this.app.createSummary($, param);
     $.export("$summary", `Summarized text with status: ${result.status}`);
     return result;
   },
