@@ -626,6 +626,9 @@
     },
     {
       "path": "components/amilia"
+    },
+    {
+      "path": "components/bitrix24"
     }
   ]
 }
