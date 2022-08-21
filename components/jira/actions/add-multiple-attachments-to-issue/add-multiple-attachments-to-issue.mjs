@@ -8,7 +8,7 @@ export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     jira,
@@ -27,29 +27,43 @@ export default {
   async run({ $ }) {
     const responses = [];
 
+    //validate all files exist before processing
+    const not_found = [];
+    for (let i = 0; i < this.filenames.length; i++) {
+      const path = utils.checkTmp(this.filenames[i]);
+      if (!fs.existsSync(path)) {
+        not_found.push(path)
+      }
+    }
+
+    if (not_found.length > 0) {
+      throw new ConfigurationError(`File${not_found.length ? "s" : ""} not found: ${not_found.join(", ")}`);
+    }
+
+    //all files exist - let's process them
     for (let i = 0; i < this.filenames.length; i++) {
       const filename = this.filenames[i];
       const data = new FormData();
       const path = utils.checkTmp(filename);
-      if (!fs.existsSync(path)) {
-        throw new ConfigurationError("File does not exist!");
-      }
       const file = fs.createReadStream(path);
       const stats = fs.statSync(path);
+
       data.append("file", file, {
         knownLength: stats.size,
       });
+
       const headers = {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
         "X-Atlassian-Token": "no-check",
       };
+
       const response = await this.jira.addAttachmentToIssue({
         $,
         issueIdOrKey: this.issueIdOrKey,
         headers,
         data,
       });
-      
+
       responses.push(response);
     }
 
