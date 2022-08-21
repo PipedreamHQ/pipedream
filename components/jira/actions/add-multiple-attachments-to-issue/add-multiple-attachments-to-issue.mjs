@@ -37,7 +37,7 @@ export default {
     }
 
     if (not_found.length > 0) {
-      throw new ConfigurationError(`File${not_found.length ? "s" : ""} not found: ${not_found.join(", ")}`);
+      throw new ConfigurationError(`File${not_found.length > 1 ? "s" : ""} not found: ${not_found.join(", ")}`);
     }
 
     //all files exist - let's process them
