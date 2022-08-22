@@ -72,6 +72,9 @@ importers:
   components/acumbamail:
     specifiers: {}
 
+  components/adafruit_io:
+    specifiers: {}
+
   components/adalo:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -79,6 +82,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/agendor:
+    specifiers: {}
+
+  components/airnow:
     specifiers: {}
 
   components/airtable:
@@ -126,6 +132,12 @@ importers:
       '@aws-sdk/client-sesv2': 3.131.0
       '@pipedream/platform': 0.10.0
 
+  components/ambient_weather:
+    specifiers: {}
+
+  components/amilia:
+    specifiers: {}
+
   components/amplenote:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -144,6 +156,9 @@ importers:
     specifiers: {}
 
   components/api2pdf:
+    specifiers: {}
+
+  components/apilio:
     specifiers: {}
 
   components/apitemplate_io:
@@ -213,6 +228,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/bart:
+    specifiers: {}
 
   components/beehiiv:
     specifiers: {}
@@ -748,6 +766,9 @@ importers:
       mime-db: 1.52.0
       uuid: 8.3.2
 
+  components/google_recaptcha:
+    specifiers: {}
+
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
@@ -759,6 +780,22 @@ importers:
       '@pipedream/platform': 0.10.0
       axios: 0.21.4
       uuidv4: 6.2.13
+
+  components/google_slides:
+    specifiers:
+      '@googleapis/drive': ^2.3.0
+      '@googleapis/slides': ^0.7.1
+      '@pipedream/platform': ^0.9.0
+      axios: ^0.21.1
+      mime-db: ^1.51.0
+      uuid: ^8.3.2
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@googleapis/slides': 0.7.1
+      '@pipedream/platform': 0.9.0
+      axios: 0.21.4
+      mime-db: 1.52.0
+      uuid: 8.3.2
 
   components/google_workspace:
     specifiers: {}
@@ -879,6 +916,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/iqair_airvisual:
+    specifiers: {}
 
   components/isn:
     specifiers: {}
@@ -1014,6 +1054,9 @@ importers:
       lodash-es: 4.17.21
 
   components/mediatoolkit:
+    specifiers: {}
+
+  components/meetup:
     specifiers: {}
 
   components/membervault:
@@ -1438,6 +1481,9 @@ importers:
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.9_handlebars@4.7.7
 
+  components/salestown:
+    specifiers: {}
+
   components/scopemaster:
     specifiers: {}
 
@@ -1512,6 +1558,15 @@ importers:
       ssh2-sftp-client: ^8.1.0
     dependencies:
       ssh2-sftp-client: 8.1.0
+
+  components/shipcloud:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/shippotoken:
     specifiers: {}
@@ -1689,6 +1744,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
+
+  components/surveymethods:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/switchboard:
     specifiers: {}
@@ -1901,6 +1962,9 @@ importers:
   components/vivifyscrum:
     specifiers: {}
 
+  components/vk:
+    specifiers: {}
+
   components/voice:
     specifiers: {}
 
@@ -1908,6 +1972,9 @@ importers:
     specifiers: {}
 
   components/vosfactures:
+    specifiers: {}
+
+  components/waitwhile:
     specifiers: {}
 
   components/webflow:
@@ -4993,22 +5060,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.123:
-    resolution: {integrity: sha512-FN5C2BliqO4SmWT6IzvuFMVzhoBCPcAZQx0pwFa8vOMczmLPXjeYsnAiwPpDXrvjKnAxk3RPCCdj7Ichm16sFg==}
+  /@definitelytyped/header-parser/0.0.124:
+    resolution: {integrity: sha512-0MfRuxWJV8TXLgI/4PVsiXG4SS9WOrQ3abjZcAcQY0KC+M4Ny+GSZ1Ypbh76kTcFjYWqxL0Xw7ANQFk0OjuDaA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.123
+      '@definitelytyped/typescript-versions': 0.0.124
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.123:
-    resolution: {integrity: sha512-OjoX8C3qyVKCqjBPJ7e5fBYu3qJ4OXS4u8ZHkgQtdZsslE43VNUDxY1rgJaqUqUyJrQSOQVxdnqIn7CA3jcWSQ==}
+  /@definitelytyped/typescript-versions/0.0.124:
+    resolution: {integrity: sha512-95OsAortdPqZJrjopgrFKa/Fo2jrCsJNFMR05KRw3H6Q/Z0bWNJK5kJvB63eRVQhtz5M7OiG4xSwN/KDxf3eyw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.123:
-    resolution: {integrity: sha512-tNNvbKMk2KZMM/BrnER9xYOND5sZskmquqOP+ZuLTLybGFJ70w+rRzIZ9sB22uoj/dNIKseTv3mzsJG3Q0naMw==}
+  /@definitelytyped/utils/0.0.124:
+    resolution: {integrity: sha512-CnnbUBpxIrMAAxsLT9+rRp7nF/MHpMqf/+mfbY30LaTELrJHmH5FQqnxQSkHZkoUkHESvpxtl9xg4yYezCQ5qw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.123
+      '@definitelytyped/typescript-versions': 0.0.124
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -5420,6 +5487,16 @@ packages:
 
   /@googleapis/sheets/0.3.0:
     resolution: {integrity: sha512-Axhbw2Hi3IAPyYGC4y8wmE/0aY0NVTieDDc+RMnx2/iSQ8laodWqAUDsUskTdEm4ZB2JD2Z+SU6o3IXktDaG4Q==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/slides/0.7.1:
+    resolution: {integrity: sha512-/bK4sidpOjcjBLiHqMYCl3hsXcD2UiCogXgfRtmseYUdPOFaTb8FLGatv/sOVLNAVexJRZnfMsL405eWBEBmLQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0
@@ -10463,7 +10540,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.123
+      '@definitelytyped/header-parser': 0.0.124
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10479,9 +10556,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.123
-      '@definitelytyped/typescript-versions': 0.0.123
-      '@definitelytyped/utils': 0.0.123
+      '@definitelytyped/header-parser': 0.0.124
+      '@definitelytyped/typescript-versions': 0.0.124
+      '@definitelytyped/utils': 0.0.124
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -15119,7 +15196,6 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
-    hasBin: true
 
   /mnemonist/0.38.3:
     resolution: {integrity: sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==}
