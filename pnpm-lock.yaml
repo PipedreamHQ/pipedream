@@ -72,6 +72,9 @@ importers:
   components/acumbamail:
     specifiers: {}
 
+  components/adafruit_io:
+    specifiers: {}
+
   components/adalo:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -79,6 +82,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/agendor:
+    specifiers: {}
+
+  components/airnow:
     specifiers: {}
 
   components/airtable:
@@ -126,6 +132,12 @@ importers:
       '@aws-sdk/client-sesv2': 3.131.0
       '@pipedream/platform': 0.10.0
 
+  components/ambient_weather:
+    specifiers: {}
+
+  components/amilia:
+    specifiers: {}
+
   components/amplenote:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -144,6 +156,9 @@ importers:
     specifiers: {}
 
   components/api2pdf:
+    specifiers: {}
+
+  components/apilio:
     specifiers: {}
 
   components/apitemplate_io:
@@ -213,6 +228,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/bart:
+    specifiers: {}
 
   components/beehiiv:
     specifiers: {}
@@ -470,15 +488,15 @@ importers:
 
   components/docusign:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/docusign_developer:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/doppler_ops:
     specifiers: {}
@@ -748,6 +766,9 @@ importers:
       mime-db: 1.52.0
       uuid: 8.3.2
 
+  components/google_recaptcha:
+    specifiers: {}
+
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
@@ -759,6 +780,22 @@ importers:
       '@pipedream/platform': 0.10.0
       axios: 0.21.4
       uuidv4: 6.2.13
+
+  components/google_slides:
+    specifiers:
+      '@googleapis/drive': ^2.3.0
+      '@googleapis/slides': ^0.7.1
+      '@pipedream/platform': ^0.9.0
+      axios: ^0.21.1
+      mime-db: ^1.51.0
+      uuid: ^8.3.2
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@googleapis/slides': 0.7.1
+      '@pipedream/platform': 0.9.0
+      axios: 0.21.4
+      mime-db: 1.52.0
+      uuid: 8.3.2
 
   components/google_workspace:
     specifiers: {}
@@ -879,6 +916,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/iqair_airvisual:
+    specifiers: {}
 
   components/isn:
     specifiers: {}
@@ -1014,6 +1054,9 @@ importers:
       lodash-es: 4.17.21
 
   components/mediatoolkit:
+    specifiers: {}
+
+  components/meetup:
     specifiers: {}
 
   components/membervault:
@@ -1568,6 +1611,12 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sifter:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/signwell:
     specifiers: {}
 
@@ -1638,6 +1687,12 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/status_hero:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/stormglass_io:
     specifiers: {}
@@ -1898,6 +1953,9 @@ importers:
   components/vivifyscrum:
     specifiers: {}
 
+  components/vk:
+    specifiers: {}
+
   components/voice:
     specifiers: {}
 
@@ -1905,6 +1963,9 @@ importers:
     specifiers: {}
 
   components/vosfactures:
+    specifiers: {}
+
+  components/waitwhile:
     specifiers: {}
 
   components/webflow:
@@ -5417,6 +5478,16 @@ packages:
 
   /@googleapis/sheets/0.3.0:
     resolution: {integrity: sha512-Axhbw2Hi3IAPyYGC4y8wmE/0aY0NVTieDDc+RMnx2/iSQ8laodWqAUDsUskTdEm4ZB2JD2Z+SU6o3IXktDaG4Q==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/slides/0.7.1:
+    resolution: {integrity: sha512-/bK4sidpOjcjBLiHqMYCl3hsXcD2UiCogXgfRtmseYUdPOFaTb8FLGatv/sOVLNAVexJRZnfMsL405eWBEBmLQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0

@@ -593,6 +593,42 @@
     },
     {
       "path": "components/salestown"
+    },
+    {
+      "path": "components/adafruit_io"
+    },
+    {
+      "path": "components/iqair_airvisual"
+    },
+    {
+      "path": "components/airnow"
+    },
+    {
+      "path": "components/waitwhile"
+    },
+    {
+      "path": "components/meetup"
+    },
+    {
+      "path": "components/vk"
+    },
+    {
+      "path": "components/apilio"
+    },
+    {
+      "path": "components/ambient_weather"
+    },
+    {
+      "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
+    },
+    {
+      "path": "components/amilia"
+    },
+    {
+      "path": "components/bitrix24"
     }
   ]
 }
