@@ -772,8 +772,11 @@ importers:
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
+      '@pipedream/types': ^0.1.4
     dependencies:
       '@pipedream/platform': 0.10.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/google_sheets:
     specifiers:
