@@ -1559,6 +1559,15 @@ importers:
     dependencies:
       ssh2-sftp-client: 8.1.0
 
+  components/shipcloud:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
+
   components/shippotoken:
     specifiers: {}
 
