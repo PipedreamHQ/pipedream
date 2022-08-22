@@ -50,7 +50,7 @@ export default {
     const lastKnowledgeOfServer = this.getLastKnowledgeOfServer();
     const {
       server_knowledge: serverKnowledge,
-      transactions,
+      transactions = [],
     } = await this.app.getTransactionsByCategory({
       budgetId: this.budgetId,
       categoryId: this.categoryId.value,

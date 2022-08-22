@@ -51,7 +51,7 @@ export default {
 
     const {
       server_knowledge: serverKnowledge,
-      transactions,
+      transactions = [],
     } = await this.app.getTransactions({
       budgetId: this.budgetId.value,
       sinceDate: this.sinceDate || undefined,
