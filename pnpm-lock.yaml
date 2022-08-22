@@ -1736,6 +1736,12 @@ importers:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
 
+  components/surveymethods:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/switchboard:
     specifiers: {}
 
