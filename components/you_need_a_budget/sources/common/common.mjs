@@ -24,6 +24,12 @@ export default {
     setLastKnowledgeOfServer(lastKnowledgeOfServer) {
       this.db.set("lastKnowledgeOfServer", lastKnowledgeOfServer);
     },
+    getEmittedTransactions() {
+      return this.db.get("emittedTransactions") ?? {};
+    },
+    setEmittedTransactions(emittedTransactions) {
+      return this.db.set("emittedTransactions", emittedTransactions);
+    },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },

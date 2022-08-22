@@ -137,6 +137,17 @@ export default {
       const response = await this._client().payees.getPayees(budget_id);
       return response.data;
     },
+    async getTransactions({
+      budgetId, sinceDate, lastKnowledgeOfServer,
+    }) {
+      const response = await this._client().transactions.getTransactions(
+        budgetId,
+        sinceDate,
+        null,
+        lastKnowledgeOfServer,
+      );
+      return response.data;
+    },
     async getTransactionsByAccount({
       budgetId, accountId, sinceDate, lastKnowledgeOfServer,
     }) {
