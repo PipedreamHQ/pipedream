@@ -32,11 +32,12 @@ export default {
     for (let i = 0; i < this.filenames.length; i++) {
       const path = utils.checkTmp(this.filenames[i]);
       if (!fs.existsSync(path)) {
-        not_found.push(path)
+        not_found.push(path);
       }
     }
 
     if (not_found.length > 0) {
+      // eslint-disable-next-line multiline-ternary
       throw new ConfigurationError(`File${not_found.length > 1 ? "s" : ""} not found: ${not_found.join(", ")}`);
     }
 
