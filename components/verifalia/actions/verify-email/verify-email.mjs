@@ -1,6 +1,6 @@
 import axios from "axios";
 import verifalia from "../../verifalia.app.mjs";
-import opts from "../../common.mjs";
+import common from "../../common.mjs";
 
 import {
   CancellationToken,
@@ -10,14 +10,12 @@ import {
 export default {
   name: "Verify Email Address",
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
-        "flagging spam traps, disposable emails and much more. " +
-        "[See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
+        "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.0.2",
+  version: "1.0.4",
   type: "action",
   props: {
     verifalia,
-
     emailAddress: {
       type: "string",
       label: "Email address",
@@ -27,10 +25,9 @@ export default {
     quality: {
       type: "string",
       label: "Quality Level",
-      description: "The higher the quality level the longer it could take to complete the verification; by default, " +
-                "we use the configured default quality level for your Verifalia user.",
+      description: "The higher the quality level the longer it could take to complete the verification; by default, we use the configured default quality level for your Verifalia user.",
       optional: true,
-      options: opts.qualityLevelOptions,
+      options: common.qualityLevelOptions,
     },
     retention: {
       type: "string",

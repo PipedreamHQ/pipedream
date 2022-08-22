@@ -1,11 +1,11 @@
 import { axios } from "@pipedream/platform";
 import {
+  API_PATH,
   ASSOCIATION_CATEGORY,
+  BASE_URL,
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  BASE_URL,
-  API_PATH,
 } from "./common/constants.mjs";
 
 export default {
@@ -182,6 +182,22 @@ export default {
           context: {
             nextAfter: paging?.next?.after,
           },
+        };
+      },
+    },
+    workflow: {
+      type: "string",
+      label: "Workflow",
+      description: "The ID of the workflow you wish to see metadata for.",
+      async options() {
+        const { workflows } = await this.listWorkflows();
+        return {
+          options: workflows.map(({
+            name: label, id: value,
+          }) => ({
+            label,
+            value,
+          })),
         };
       },
     },
@@ -664,6 +680,22 @@ export default {
             })),
           },
           $,
+        },
+      );
+    },
+    async listWorkflows() {
+      return this.makeRequest(
+        API_PATH.AUTOMATION,
+        "/workflows",
+      );
+    },
+    async addContactsIntoWorkflow(workflowId, contactEmail, $) {
+      return this.makeRequest(
+        API_PATH.AUTOMATION,
+        `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
+        {
+          $,
+          method: "POST",
         },
       );
     },

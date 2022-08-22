@@ -1,7 +1,7 @@
 import {
+  HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  HUBSPOT_OWNER,
 } from "./object-types.mjs";
 
 const BASE_URL = "https://api.hubapi.com";
@@ -19,6 +19,7 @@ const API_PATH = {
   CRMV3: "/crm/v3",
   CRMV4: "/crm/v4",
   CMS: "/cms/v3",
+  AUTOMATION: "/automation/v2",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API

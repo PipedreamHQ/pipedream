@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-detect-intent",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Detect Intent",
   description: "Processes a natural language query and returns structured, actionable data as a result, [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects.agent.sessions/detectIntent) and [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.Sessions.html#detectIntent2)",
   props: {
@@ -23,7 +23,7 @@ export default {
     },
     queryInput: {
       label: "Query Input",
-      description: "Properties of a Query Input, See [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.IQueryInput.html)",
+      description: "Properties of a Query Input, See [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.IQueryInput.html). For example `{\"text\":{\"text\":\"Hi, what are you doing?\",\"languageCode\":\"en-EN\"}}`",
       type: "object",
       optional: true,
     },
@@ -47,14 +47,15 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.googleDialogflow.detectIntent({
-      session: this.sessionId,
+    const response = await this.googleDialogflow.detectIntent({
+      sessionId: this.sessionId,
       queryParams: utils.parseObject(this.queryParams),
       queryInput: utils.parseObject(this.queryInput),
       outputAudioConfig: utils.parseObject(this.outputAudioConfig),
       outputAudioConfigMask: utils.parseObject(this.outputAudioConfigMask),
       inputAudioFile: this.inputAudioFile,
     });
-    $.export("$summary", "Configured query has been sent.");
+    $.export("$summary", `Configured query has been sent and received response with ID(${response[0]?.responseId}).`);
+    return response[0]; //It always returns an array[3] with no info in index 1, 2
   },
 };

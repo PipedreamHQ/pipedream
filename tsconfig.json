@@ -409,6 +409,9 @@
       "path": "components/fedex"
     },
     {
+      "path": "components/infusionsoft"
+    },
+    {
       "path": "components/expensify"
     },
     {
@@ -452,6 +455,180 @@
     },
     {
       "path": "components/google_directory"
+    },
+    {
+      "path": "components/looker"
+    },
+    {
+      "path": "components/ethereum"
+    },
+    {
+      "path": "components/sendle"
+    },
+    {
+      "path": "components/google_workspace"
+    },
+    {
+      "path": "components/cartes"
+    },
+    {
+      "path": "components/dictionary_api"
+    },
+    {
+      "path": "components/foxy"
+    },
+    {
+      "path": "components/lob"
+    },
+    {
+      "path": "components/voice"
+    },
+    {
+      "path": "components/switchboard"
+    },
+    {
+      "path": "components/uptimerobot"
+    },
+    {
+      "path": "components/google_appsheet"
+    },
+    {
+      "path": "components/rewardful"
+    },
+    {
+      "path": "components/membervault"
+    },
+    {
+      "path": "components/alchemy"
+    },
+    {
+      "path": "components/mapbox"
+    },
+    {
+      "path": "components/mux"
+    },
+    {
+      "path": "components/radar"
+    },
+    {
+      "path": "components/guru"
+    },
+    {
+      "path": "components/circle"
+    },
+    {
+      "path": "components/godaddy"
+    },
+    {
+      "path": "components/paperform"
+    },
+    {
+      "path": "components/sender"
+    },
+    {
+      "path": "components/syncro"
+    },
+    {
+      "path": "components/teamdeck"
+    },
+    {
+      "path": "components/verifybee"
+    },
+    {
+      "path": "components/google_ads"
+    },
+    {
+      "path": "components/oksign"
+    },
+    {
+      "path": "components/cal_com"
+    },
+    {
+      "path": "components/niceboard"
+    },
+    {
+      "path": "components/getscreenshot"
+    },
+    {
+      "path": "components/helpwise"
+    },
+    {
+      "path": "components/showpad"
+    },
+    {
+      "path": "components/softr"
+    },
+    {
+      "path": "components/user_com"
+    },
+    {
+      "path": "components/tmetric"
+    },
+    {
+      "path": "components/pdfmonkey"
+    },
+    {
+      "path": "components/vivifyscrum"
+    },
+    {
+      "path": "components/workiom"
+    },
+    {
+      "path": "components/worksnaps"
+    },
+    {
+      "path": "components/vosfactures"
+    },
+    {
+      "path": "components/pointerpro"
+    },
+    {
+      "path": "components/darwinbox"
+    },
+    {
+      "path": "components/turbohire"
+    },
+    {
+      "path": "components/knowbe4"
+    },
+    {
+      "path": "components/salestown"
+    },
+    {
+      "path": "components/adafruit_io"
+    },
+    {
+      "path": "components/iqair_airvisual"
+    },
+    {
+      "path": "components/airnow"
+    },
+    {
+      "path": "components/waitwhile"
+    },
+    {
+      "path": "components/meetup"
+    },
+    {
+      "path": "components/vk"
+    },
+    {
+      "path": "components/apilio"
+    },
+    {
+      "path": "components/ambient_weather"
+    },
+    {
+      "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
+    },
+    {
+      "path": "components/amilia"
+    },
+    {
+      "path": "components/bitrix24"
     }
   ]
 }
