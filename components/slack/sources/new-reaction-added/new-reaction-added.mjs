@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "0.0.1",
+  version: "1.1.0",
   description: "Emit new event when a member has added an emoji reaction to an item",
   type: "source",
   dedupe: "unique",
@@ -38,12 +38,6 @@ export default {
         ];
       },
     },
-    ignoreMyself: {
-      propDefinition: [
-        common.props.slack,
-        "ignoreMyself",
-      ],
-    },
     ignoreBot: {
       propDefinition: [
         common.props.slack,
@@ -52,16 +46,19 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "New reaction added";
     },
     async processEvent(event) {
-      if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
-        return;
-      }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
+      event.message = await this.getLastMessage({
+        channel: event.item.channel,
+        event_ts: event.item.ts,
+      });
+
       return event;
     },
   },

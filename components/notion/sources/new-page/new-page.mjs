@@ -5,9 +5,9 @@ import constants from "../common/constants.mjs";
 export default {
   ...base,
   key: "notion-new-page",
-  name: "New Page",
-  description: "Emit new event when a page is created",
-  version: "0.0.1",
+  name: "New Page in Database",
+  description: "Emit new event when a page in a database is created",
+  version: "0.0.2",
   type: "source",
   props: {
     ...base.props,

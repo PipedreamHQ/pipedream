@@ -177,10 +177,18 @@ export default {
     },
     async detectIntent({
       inputAudioFile,
+      sessionId,
       ...otherParams
     } = {}) {
-      const inputAudio = fs.readFileSync(inputAudioFile);
-      await this.getSessionClient().detectIntent({
+      const inputAudio = inputAudioFile ?
+        fs.readFileSync(inputAudioFile) :
+        undefined;
+      const sessionPath = this.getSessionClient().projectAgentSessionPath(
+        this._getProjectId(),
+        sessionId,
+      );
+      return this.getSessionClient().detectIntent({
+        session: sessionPath,
         inputAudio,
         ...otherParams,
       });

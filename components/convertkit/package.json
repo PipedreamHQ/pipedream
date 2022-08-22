@@ -1,0 +1,19 @@
+{
+    "name": "@pipedream/bitbucket",
+    "version": "0.0.2",
+    "description": "Pipedream Convertkit Components",
+    "main": "convertkit.app.mjs",
+    "keywords": [
+        "pipedream",
+        "convertkit"
+    ],
+    "homepage": "https://pipedream.com/apps/convertkit",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "@pipedream/platform": "^0.10.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

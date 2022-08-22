@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/google_ads",
+  "version": "0.0.1",
+  "description": "Pipedream Google Ads Components",
+  "main": "dist/app/google_ads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_ads"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/google_ads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

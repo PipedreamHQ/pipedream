@@ -127,7 +127,7 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 Pipedream Data Stores are currently in Preview and are subject to change.
 
-Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
+Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 

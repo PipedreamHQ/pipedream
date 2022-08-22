@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/voice",
+  "version": "0.0.1",
+  "description": "Pipedream Voiceflow Components",
+  "main": "dist/app/voice.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voice"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/voice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

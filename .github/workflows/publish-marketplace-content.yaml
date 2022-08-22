@@ -44,14 +44,6 @@ jobs:
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
-          echo *** Added or modified
-          echo ${{ steps.files.outputs.added_modified }}
-          echo *** Renamed files
-          echo ${{ steps.files.outputs.renamed }}
-          echo ** merged lists
-          printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
-          echo *** End
-          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
-
+          printf -v added_modified_renamed_files '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
           pnpm dlx ts-node --esm scripts/updateMarketplaceReadme.mts $added_modified_renamed_files
 

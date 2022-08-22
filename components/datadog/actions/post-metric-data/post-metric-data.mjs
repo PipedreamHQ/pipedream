@@ -4,7 +4,7 @@ export default {
   key: "datadog-post-metric-data",
   name: "Post Metric Data",
   description: "The metrics end-point allows you to post time-series data that can be graphed on Datadog's dashboards. [See docs](https://docs.datadoghq.com/metrics)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     datadog,
@@ -29,18 +29,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const metric = this.metric;
-    const points = this.convertMetricPoints(this.points);
-
     const response = await this.datadog.postMetricData({
-      series: [
-        {
-          metric,
-          points,
-        },
-      ],
+      $,
+      data: {
+        series: [
+          {
+            metric: this.metric,
+            points: this.convertMetricPoints(this.points),
+          },
+        ],
+      },
     });
-    $.export("$summary", `Posted to ${metric} timeseries`);
+
+    $.export("$summary", `Posted to ${this.metric} timeseries`);
+
     return response;
   },
 };

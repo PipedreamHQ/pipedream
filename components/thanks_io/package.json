@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/thanks_io",
+  "version": "0.0.1",
+  "description": "Pipedream Thanks.io Components",
+  "main": "thanks_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thanks_io"
+  ],
+  "homepage": "https://pipedream.com/apps/thanks_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "date-fns": "^2.29.1"
+  }
+}

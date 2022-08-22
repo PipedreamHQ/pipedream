@@ -489,7 +489,7 @@ export default {
 First, import `axios` so we can make a request to the Github REST API:
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 ```
 
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
@@ -511,14 +511,14 @@ Finally, we'll update the `run()` method to fetch issues from Github using `axio
 
 ```javascript
 async run() {
-  const response = await axios({
+  const data = await axios(this, {
     method: 'get',
     headers: {
       Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
     },
     url: `https://api.github.com/repos/pddemo/demo/issues`
   })
-  response.data.forEach(issue => {
+  data.forEach(issue => {
     this.$emit(issue)
   })
 }
@@ -527,7 +527,7 @@ async run() {
 Here's the updated code.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -539,14 +539,14 @@ export default {
     },
   },
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue);
     });
   },
@@ -580,7 +580,7 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-import axios from "axios";
+import axios from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -593,14 +593,14 @@ export default {
   },
   dedupe: "greatest",
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue, {
         id: issue.id,
         summary: `ISSUE ${issue.number}: ${issue.title}`,
@@ -629,7 +629,7 @@ timer: {
 Here's the updated code.
 
 ```javascript
-import axios from "axios";
+import axios from "@pipedream/platform";
 
 export default {
   name: "Source Demo",
@@ -648,14 +648,14 @@ export default {
   },
   dedupe: "greatest",
   async run() {
-    const response = await axios({
+    const data = await axios(this, {
       method: "get",
       headers: {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
       url: `https://api.github.com/repos/pddemo/demo/issues`,
     });
-    response.data.forEach((issue) => {
+    data.forEach((issue) => {
       this.$emit(issue, {
         id: issue.id,
         summary: `ISSUE ${issue.number}: ${issue.title}`,

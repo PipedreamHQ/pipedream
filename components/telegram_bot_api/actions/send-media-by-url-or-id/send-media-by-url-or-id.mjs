@@ -1,11 +1,11 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
-import { TELEGRAM_BOT_API_UI_MEDIA_TYPES } from "../../constants.mjs";
+import { TELEGRAM_BOT_API_UI_MEDIA_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "telegram_bot_api-send-media-by-url-or-id",
   name: "Send Media by URL or ID",
   description: "Sends a file (document, photo, video, audio, ...) by HTTP URL or by ID that exists on the Telegram servers. [See the docs](https://core.telegram.org/bots/api#inputmedia) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegramBotApi,

@@ -201,7 +201,7 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just `import` it.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -231,7 +231,7 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -246,8 +246,10 @@ export default {
     }
   },
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+    return `hello ${data.name}!`
   },
 }
 ```
@@ -255,7 +257,7 @@ export default {
 Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -265,8 +267,10 @@ export default {
   type: "action",
   props: {},
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+    return `hello ${data.name}!`
   },
 }
 ```
@@ -274,7 +278,7 @@ export default {
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -284,8 +288,10 @@ export default {
   type: "action",
   props: {},
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-		return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+		return `hello ${data.name}!`
   },
 }
 ```

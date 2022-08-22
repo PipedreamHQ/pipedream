@@ -38,6 +38,20 @@ export default {
         }));
       },
     },
+    templateId: {
+      type: "string",
+      label: "Template ID",
+      description: "An email template ID. A template that contains a subject and content — either text or html — will override any subject and content values specified at the personalizations or message level.",
+      optional: true,
+      async options() {
+        const templates = await this.listTemplates();
+
+        return templates.map((template) => ({
+          label: template.name,
+          value: template.id,
+        }));
+      },
+    },
     contactEmail: {
       type: "string",
       label: "Email",
@@ -521,10 +535,9 @@ export default {
         url,
       };
       do {
-        const data  = (await this._makeClientRequest(config))[1];
+        const data = (await this._makeClientRequest(config))[1];
         contactLists.push(...data.result);
-        if (!data._metadata.next)
-        {
+        if (!data._metadata.next) {
           break;
         }
         url = data._metadata.next.replace("https://api.sendgrid.com", "");
@@ -574,7 +587,7 @@ export default {
       };
       let lastIteration = false;
       do {
-        const data  = (await this._makeClientRequest(config));
+        const data = (await this._makeClientRequest(config));
         items.push(...data[1]);
         if (lastIteration) {
           break;
@@ -662,6 +675,15 @@ export default {
       };
       const { result } = (await this._makeClientRequest(config))[1];
       return result;
+    },
+    async listTemplates() {
+      const config = {
+        method: "GET",
+        url: "/v3/templates?generations=dynamic",
+      };
+
+      const { templates } = (await this._makeClientRequest(config))[1];
+      return templates;
     },
     /**
      * Sends an email to the specified recipients.

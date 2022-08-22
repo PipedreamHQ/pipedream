@@ -1,11 +1,11 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
-import contentTypes from "../../content-types.mjs";
+import contentTypes from "../../common/content-types.mjs";
 
 export default {
   key: "telegram_bot_api-send-video-note",
   name: "Send a Video Note",
   description: "As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. [See the docs](https://core.telegram.org/bots/api#sendvideonote) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegramBotApi,

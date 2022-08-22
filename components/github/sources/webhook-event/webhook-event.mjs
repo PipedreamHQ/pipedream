@@ -3,16 +3,16 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "github-weebhook-vents",
+  key: "github-webhook-events",
   name: "New Webhook Event (Instant)",
-  description: "Emit new event for each selected event types",
+  description: "Emit new event for each selected event type",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     events: {
       label: "Webhook Events",
-      description: "The event will be emited",
+      description: "The event types to be emited",
       type: "string[]",
       options: constants.REPOSITORY_WEBHOOK_EVENTS,
     },
@@ -29,6 +29,12 @@ export default {
       headers,
       body,
     } = event;
+
+    // skip initial response from Github
+    if (body?.zen) {
+      console.log(body.zen);
+      return;
+    }
 
     this.$emit(body, {
       id: headers["x-github-delivery"],

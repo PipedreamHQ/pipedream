@@ -1,14 +1,14 @@
 import {
   TELEGRAM_BOT_API_MEDIA_PHOTO,
   TELEGRAM_BOT_API_MEDIA_VIDEO,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
 export default {
   key: "telegram_bot_api-edit-media-message",
   name: "Edit a Media Message",
   description: "Edits photo or video messages. [See the docs](https://core.telegram.org/bots/api#editmessagemedia) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegramBotApi,
