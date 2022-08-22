@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-column-value-updated",
   name: "Column Value Updated",
-  description: "Emit new event when a column value is updated on a board in Monday.",
+  description: "Emit new event when a column value is updated on a board in Monday. For changes to Name, use the Name Updated action.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

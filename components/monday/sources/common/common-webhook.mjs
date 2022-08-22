@@ -22,7 +22,7 @@ export default {
       })).data.boards[0];
       for (const item of items.slice(-25).reverse()) {
         const itemData = await this.monday.getItem({
-          id: item.id,
+          id: +item.id,
         });
         const meta = this.generateMeta(item);
         this.$emit(itemData, meta);

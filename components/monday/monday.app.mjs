@@ -123,10 +123,12 @@ export default {
         const columns = await this.listColumns({
           boardId: +boardId,
         });
-        return columns.map((column) => ({
-          label: column.title,
-          value: column.id,
-        }));
+        return columns
+          .filter((column) => column.id !== "name")
+          .map((column) => ({
+            label: column.title,
+            value: column.id,
+          }));
       },
     },
   },
