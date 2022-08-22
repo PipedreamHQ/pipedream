@@ -72,6 +72,9 @@ importers:
   components/acumbamail:
     specifiers: {}
 
+  components/adafruit_io:
+    specifiers: {}
+
   components/adalo:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -79,6 +82,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/agendor:
+    specifiers: {}
+
+  components/airnow:
     specifiers: {}
 
   components/airtable:
@@ -126,6 +132,12 @@ importers:
       '@aws-sdk/client-sesv2': 3.131.0
       '@pipedream/platform': 0.10.0
 
+  components/ambient_weather:
+    specifiers: {}
+
+  components/amilia:
+    specifiers: {}
+
   components/amplenote:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -144,6 +156,9 @@ importers:
     specifiers: {}
 
   components/api2pdf:
+    specifiers: {}
+
+  components/apilio:
     specifiers: {}
 
   components/apitemplate_io:
@@ -213,6 +228,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/bart:
+    specifiers: {}
 
   components/beehiiv:
     specifiers: {}
@@ -375,6 +393,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/darwinbox:
+    specifiers: {}
+
   components/data_stores:
     specifiers:
       xss: ^1.0.11
@@ -467,15 +488,15 @@ importers:
 
   components/docusign:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/docusign_developer:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.1.1
 
   components/doppler_ops:
     specifiers: {}
@@ -745,6 +766,9 @@ importers:
       mime-db: 1.52.0
       uuid: 8.3.2
 
+  components/google_recaptcha:
+    specifiers: {}
+
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
@@ -756,6 +780,22 @@ importers:
       '@pipedream/platform': 0.10.0
       axios: 0.21.4
       uuidv4: 6.2.13
+
+  components/google_slides:
+    specifiers:
+      '@googleapis/drive': ^2.3.0
+      '@googleapis/slides': ^0.7.1
+      '@pipedream/platform': ^0.9.0
+      axios: ^0.21.1
+      mime-db: ^1.51.0
+      uuid: ^8.3.2
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@googleapis/slides': 0.7.1
+      '@pipedream/platform': 0.9.0
+      axios: 0.21.4
+      mime-db: 1.52.0
+      uuid: 8.3.2
 
   components/google_workspace:
     specifiers: {}
@@ -877,6 +917,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/iqair_airvisual:
+    specifiers: {}
+
   components/isn:
     specifiers: {}
 
@@ -922,6 +965,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/knowbe4:
+    specifiers: {}
 
   components/laposta:
     specifiers: {}
@@ -1008,6 +1054,9 @@ importers:
       lodash-es: 4.17.21
 
   components/mediatoolkit:
+    specifiers: {}
+
+  components/meetup:
     specifiers: {}
 
   components/membervault:
@@ -1432,6 +1481,9 @@ importers:
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.9_handlebars@4.7.7
 
+  components/salestown:
+    specifiers: {}
+
   components/scopemaster:
     specifiers: {}
 
@@ -1559,6 +1611,12 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sifter:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/signwell:
     specifiers: {}
 
@@ -1629,6 +1687,12 @@ importers:
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
+
+  components/status_hero:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/stormglass_io:
     specifiers: {}
@@ -1720,6 +1784,12 @@ importers:
   components/threescribe:
     specifiers: {}
 
+  components/tick:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
+
   components/ticket_tailor:
     specifiers: {}
 
@@ -1782,6 +1852,9 @@ importers:
       mime: 3.0.0
 
   components/triggercmd:
+    specifiers: {}
+
+  components/turbohire:
     specifiers: {}
 
   components/twilio:
@@ -1880,6 +1953,9 @@ importers:
   components/vivifyscrum:
     specifiers: {}
 
+  components/vk:
+    specifiers: {}
+
   components/voice:
     specifiers: {}
 
@@ -1887,6 +1963,9 @@ importers:
     specifiers: {}
 
   components/vosfactures:
+    specifiers: {}
+
+  components/waitwhile:
     specifiers: {}
 
   components/webflow:
@@ -2007,6 +2086,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       crypto: 1.0.1
+
+  components/zenkit:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/zerotier:
     specifiers: {}
@@ -4966,22 +5051,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.122:
-    resolution: {integrity: sha512-kvqZO15vBEnDWklreVHMbm1eo0hhpaNY6jQJwRLR5sXFPSMR0HHR5KfJwwLCWRh4ajbflLswwYX/gTm5kym/Zw==}
+  /@definitelytyped/header-parser/0.0.124:
+    resolution: {integrity: sha512-0MfRuxWJV8TXLgI/4PVsiXG4SS9WOrQ3abjZcAcQY0KC+M4Ny+GSZ1Ypbh76kTcFjYWqxL0Xw7ANQFk0OjuDaA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.122
+      '@definitelytyped/typescript-versions': 0.0.124
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.122:
-    resolution: {integrity: sha512-1T6SArgYfOeopSPHmJNXwXZeXzSdWhqI8/ZWuQZ2Y/Ieso2FUj1Ds+WUAsLHa0ri4b8u6ObWukD0Klm2XJ/jcQ==}
+  /@definitelytyped/typescript-versions/0.0.124:
+    resolution: {integrity: sha512-95OsAortdPqZJrjopgrFKa/Fo2jrCsJNFMR05KRw3H6Q/Z0bWNJK5kJvB63eRVQhtz5M7OiG4xSwN/KDxf3eyw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.122:
-    resolution: {integrity: sha512-nwgYoacFI6JU9sXbW8Q7elBXBv02dT6FgMKuoMWtywvgBjNxKTxI82aD3SuUdAuP5hG4JtsOomG1a6QHQtf3Ng==}
+  /@definitelytyped/utils/0.0.124:
+    resolution: {integrity: sha512-CnnbUBpxIrMAAxsLT9+rRp7nF/MHpMqf/+mfbY30LaTELrJHmH5FQqnxQSkHZkoUkHESvpxtl9xg4yYezCQ5qw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.122
+      '@definitelytyped/typescript-versions': 0.0.124
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -5393,6 +5478,16 @@ packages:
 
   /@googleapis/sheets/0.3.0:
     resolution: {integrity: sha512-Axhbw2Hi3IAPyYGC4y8wmE/0aY0NVTieDDc+RMnx2/iSQ8laodWqAUDsUskTdEm4ZB2JD2Z+SU6o3IXktDaG4Q==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/slides/0.7.1:
+    resolution: {integrity: sha512-/bK4sidpOjcjBLiHqMYCl3hsXcD2UiCogXgfRtmseYUdPOFaTb8FLGatv/sOVLNAVexJRZnfMsL405eWBEBmLQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0
@@ -10436,7 +10531,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.122
+      '@definitelytyped/header-parser': 0.0.124
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10452,9 +10547,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.122
-      '@definitelytyped/typescript-versions': 0.0.122
-      '@definitelytyped/utils': 0.0.122
+      '@definitelytyped/header-parser': 0.0.124
+      '@definitelytyped/typescript-versions': 0.0.124
+      '@definitelytyped/utils': 0.0.124
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
