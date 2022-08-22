@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/amilia",
+  "version": "0.0.1",
+  "description": "Pipedream Amilia Components",
+  "main": "dist/app/amilia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amilia"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/amilia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

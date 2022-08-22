@@ -1,11 +1,12 @@
 import common from "../common/common-webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "github-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new events on new commits to a repo or branch",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,7 +47,7 @@ export default {
         sha: this.branch
           ? this.branch.value
           : undefined,
-        per_page: 25,
+        per_page: constants.HISTORICAL_EVENTS,
       });
       const commits = commitInfo.map((info) => ({
         id: info.commit.url.split("/").pop(),
