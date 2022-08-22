@@ -245,6 +245,9 @@ importers:
       axios: 0.27.2
       package-lock-only: 0.0.4
 
+  components/bitrix24:
+    specifiers: {}
+
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -767,7 +770,10 @@ importers:
       uuid: 8.3.2
 
   components/google_recaptcha:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/google_sheets:
     specifiers:

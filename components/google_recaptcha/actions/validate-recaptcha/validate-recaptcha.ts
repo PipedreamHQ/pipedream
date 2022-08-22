@@ -1,7 +1,7 @@
-import googleRecaptcha from "../../google_recaptcha.app.mjs";
-import { axios } from "@pipedream/platform";
+import googleRecaptcha from "../../app/google_recaptcha.app";
+import { defineAction } from "@pipedream/types";
 
-export default {
+export default defineAction({
   name: "Validate reCAPTCHA Response",
   version: "0.0.1",
   key: "google_recaptcha-validate-recaptcha",
@@ -23,8 +23,14 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    return await axios($, {
-      url: `https://www.google.com/recaptcha/api/siteverify?secret=${this.googleRecaptcha.$auth.secret}&response=${this.token}&remoteip=${this.remote_ip}`,
+    const response = await this.googleRecaptcha.validateRecaptcha({
+      $,
+      params: {
+        response: this.token,
+        remoteip: this.remote_ip,
+      },
     });
+    $.export("$summary", "reCAPTCHA validation request has been sent.");
+    return response;
   },
-};
+});

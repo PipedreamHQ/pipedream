@@ -1,13 +1,25 @@
 import { defineApp } from "@pipedream/types";
+import { axios } from "@pipedream/platform";
 
 export default defineApp({
   type: "app",
   app: "google_recaptcha",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async validateRecaptcha({
+      $,
+      params,
+    } = {
+      params: {},
+      $: this,
+    }) {
+      axios($, {
+        url: "https://www.google.com/recaptcha/api/siteverify",
+        params: {
+          secret: this.$auth.secret,
+          ...params,
+        },
+      });
     },
   },
 });
