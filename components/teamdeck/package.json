@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/teamdeck",
+  "version": "0.0.1",
+  "description": "Pipedream Teamdeck Components",
+  "main": "dist/app/teamdeck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamdeck"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/teamdeck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

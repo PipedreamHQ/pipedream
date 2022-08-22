@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/getscreenshot",
+  "version": "0.0.1",
+  "description": "Pipedream GetScreenshot Components",
+  "main": "dist/app/getscreenshot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getscreenshot"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/getscreenshot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

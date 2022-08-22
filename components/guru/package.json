@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/guru",
+  "version": "0.0.1",
+  "description": "Pipedream Guru Components",
+  "main": "dist/app/guru.app.mjs",
+  "keywords": [
+    "pipedream",
+    "guru"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/guru",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

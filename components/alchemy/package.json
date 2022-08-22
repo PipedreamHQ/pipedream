@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/alchemy",
+  "version": "0.0.1",
+  "description": "Pipedream Alchemy Components",
+  "main": "dist/app/alchemy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alchemy"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/alchemy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

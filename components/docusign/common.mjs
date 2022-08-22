@@ -118,6 +118,47 @@ export default {
         config,
       });
     },
+    async getTemplate(baseUri, templateId) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}templates/${templateId}`,
+      };
+      return this._makeRequest({
+        config,
+      });
+    },
+    async listTemplateCustomFields(baseUri, templateId) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}templates/${templateId}/custom_fields`,
+      };
+      return this._makeRequest({
+        config,
+      });
+    },
+    async listTemplateTabs(baseUri, templateId) {
+      const tabs = [];
+      const template = await this.getTemplate(baseUri, templateId);
+      for (const { documentId } of template.documents) {
+        const config = {
+          method: "GET",
+          url: `${baseUri}templates/${templateId}/documents/${documentId}/tabs`,
+        };
+        tabs.push(await this._makeRequest({
+          config,
+        }));
+      }
+      return tabs;
+    },
+    async listDocumentFields(baseUri, templateId, documentId) {
+      const config = {
+        method: "GET",
+        url: `${baseUri}templates/${templateId}/documents/${documentId}/fields`,
+      };
+      return this._makeRequest({
+        config,
+      });
+    },
     async createEnvelope({
       $, baseUri, data,
     }) {

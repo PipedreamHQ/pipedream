@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/tmetric",
+  "version": "0.0.1",
+  "description": "Pipedream TMetric Components",
+  "main": "dist/app/tmetric.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tmetric"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/tmetric",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
