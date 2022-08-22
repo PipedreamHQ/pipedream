@@ -8,7 +8,7 @@ export default {
       console.log("Initializing deploy...");
       this.initExecutedIds();
       this.setLastExecution(new Date("2000-01-01"));
-      await this.run();
+      await this.execute();
     },
   },
   methods: {
