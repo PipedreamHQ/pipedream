@@ -76,12 +76,17 @@ export default {
     async getSurveys({
       perPage = 100, page = 1, ...args
     } = {}) {
-      const response = await this._makeRequest({
-        path: `/surveys/details/${perPage}/${page}`,
-        ...args,
-      });
+      try {
+        const response = await this._makeRequest({
+          path: `/surveys/details/${perPage}/${page}`,
+          ...args,
+        });
 
-      return response?.pages[0]?.surveys ?? [];
+        return response?.pages[0]?.surveys ?? [];
+
+      } catch (error) {
+        return [];
+      }
     },
     async getResponses({
       surveyCode, perPage = 100, page = 1, ...args
