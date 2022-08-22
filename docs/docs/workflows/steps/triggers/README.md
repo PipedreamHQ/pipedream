@@ -457,10 +457,6 @@ By default, your cron job will be turned **Off**. **To enable it, select either 
 
 If you're running a cron job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a cron job at any time by pressing the **Run Now** button.
 
-### Future executions of your cron job
-
-You'll see the time your job is scheduled to run next under the **Next Job** section of the [Inspector](/workflows/events/inspect/).
-
 ### Job History
 
 You'll see the history of job executions under the **Job History** section of the [Inspector](/workflows/events/inspect/).

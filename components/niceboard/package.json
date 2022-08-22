@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/niceboard",
+  "version": "0.0.1",
+  "description": "Pipedream Niceboard Components",
+  "main": "dist/app/niceboard.app.mjs",
+  "keywords": [
+    "pipedream",
+    "niceboard"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/niceboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
