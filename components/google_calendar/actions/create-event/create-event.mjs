@@ -94,7 +94,7 @@ export default {
 
     const response = await this.googleCalendar.createEvent({
       calendarId: this.calendarId,
-      sendUpdates: this.sendUpdates ?? false,
+      sendUpdates: this.sendUpdates,
       resource: {
         summary: this.summary,
         location: this.location,
