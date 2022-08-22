@@ -629,6 +629,9 @@
     },
     {
       "path": "components/bitrix24"
+    },
+    {
+      "path": "components/ecwid"
     }
   ]
 }
