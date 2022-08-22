@@ -46,6 +46,9 @@ export default {
 
     const response = await this.ghostAdminApi.createPost({
       $,
+      params: {
+        source: "html",
+      },
       data: {
         posts: [
           {
