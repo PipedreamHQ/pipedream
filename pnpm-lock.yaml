@@ -245,6 +245,9 @@ importers:
       axios: 0.27.2
       package-lock-only: 0.0.4
 
+  components/bitrix24:
+    specifiers: {}
+
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -460,9 +463,6 @@ importers:
   components/dictionary_api:
     specifiers: {}
 
-  components/dictionary_api:
-    specifiers: {}
-
   components/digicert:
     specifiers: {}
 
@@ -599,9 +599,6 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
-
-  components/foxy:
-    specifiers: {}
 
   components/foxy:
     specifiers: {}
@@ -991,9 +988,6 @@ importers:
       '@linear/sdk': 1.22.0
 
   components/linqs_cc:
-    specifiers: {}
-
-  components/lob:
     specifiers: {}
 
   components/lob:
@@ -1839,7 +1833,7 @@ importers:
       '@pipedream/platform': ^1.1.0
       '@pipedream/types': ^0.1.4
     dependencies:
-      '@pipedream/platform': 1.1.0
+      '@pipedream/platform': 1.1.1
     devDependencies:
       '@pipedream/types': 0.1.4
 
@@ -1963,9 +1957,6 @@ importers:
     specifiers: {}
 
   components/vk:
-    specifiers: {}
-
-  components/voice:
     specifiers: {}
 
   components/voice:
