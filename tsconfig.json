@@ -632,6 +632,9 @@
     },
     {
       "path": "components/ecwid"
+    },
+    {
+      "path": "components/shipcloud"
     }
   ]
 }
