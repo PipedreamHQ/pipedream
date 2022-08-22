@@ -114,6 +114,9 @@ export default {
       }
       return parseFloat(value).toFixed(2) * 1000;
     },
+    convertFromMilliunit(value) {
+      return value / 1000;
+    },
     async getBudgets() {
       const response = await this._client().budgets.getBudgets();
       return response.data;
@@ -132,6 +135,30 @@ export default {
     },
     async getPayees({ budgetId: budget_id }) {
       const response = await this._client().payees.getPayees(budget_id);
+      return response.data;
+    },
+    async getTransactionsByAccount({
+      budgetId, accountId, sinceDate, lastKnowledgeOfServer,
+    }) {
+      const response = await this._client().transactions.getTransactionsByAccount(
+        budgetId,
+        accountId,
+        sinceDate,
+        null,
+        lastKnowledgeOfServer,
+      );
+      return response.data;
+    },
+    async getTransactionsByCategory({
+      budgetId, categoryId, sinceDate, lastKnowledgeOfServer,
+    }) {
+      const response = await this._client().transactions.getTransactionsByCategory(
+        budgetId,
+        categoryId,
+        sinceDate,
+        null,
+        lastKnowledgeOfServer,
+      );
       return response.data;
     },
     async createTransaction({
