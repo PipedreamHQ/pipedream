@@ -78,7 +78,7 @@ export default {
       data.append("payload_json", JSON.stringify({
         content: serializedContent,
         username,
-        avatarURL,
+        avatar_url: avatarURL,
         embeds,
       }));
       if (file) data.append("file", file);
