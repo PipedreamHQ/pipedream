@@ -620,6 +620,15 @@
     },
     {
       "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
+    },
+    {
+      "path": "components/amilia"
+    },
+    {
+      "path": "components/bitrix24"
     }
   ]
 }
