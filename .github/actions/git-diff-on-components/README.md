@@ -37,5 +37,5 @@ in that way `steps.changed_files.outputs.all` will be converted in array of stri
 You need to push all files generated in `dist` folder once you are finished with the build to test the new version of the github action in case you want to make modifications.
 ```
 $ cd .github/actions/git-diff-on-components/
-$ npm run build
+$ npm i && npm run build
 ```

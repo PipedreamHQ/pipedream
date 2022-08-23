@@ -306,9 +306,7 @@ async function run() {
     const filesToBeCheckedByDependency = getFilesToBeCheckByDependency(componentsDependencies);
     const componentsThatNeedToBeModified = await getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles });
     const componentsPendingForGitDiff = getComponentsPendingForGitDiff(componentsThatNeedToBeModified);
-    console.log("componentsPendingForGitDiff", componentsPendingForGitDiff);
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff);
-    console.log("componentsDiffContents", componentsDiffContents);
   }
 
   if (componentsThatDidNotModifyVersion.length) {
