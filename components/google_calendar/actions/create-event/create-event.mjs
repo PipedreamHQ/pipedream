@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     googleCalendar,
