@@ -125,8 +125,20 @@ export default {
       const response = await this._client().accounts.getAccounts(budget_id);
       return response.data;
     },
+    async getAccount({
+      budgetId, accountId,
+    }) {
+      const response = await this._client().accounts.getAccountById(budgetId, accountId);
+      return response.data;
+    },
     async getMonths({ budgetId: budget_id }) {
       const response = await this._client().months.getBudgetMonths(budget_id);
+      return response.data;
+    },
+    async getBudget({
+      budgetId, month,
+    }) {
+      const response = await this._client().months.getBudgetMonth(budgetId, month);
       return response.data;
     },
     async getCategories({ budgetId: budget_id }) {
