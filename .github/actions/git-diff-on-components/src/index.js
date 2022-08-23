@@ -294,6 +294,7 @@ async function run() {
   const componentsThatDidNotModifyVersion = await processFiles({ filePaths: existingFilePaths });
   const filteredWithOtherFilePaths = getFilteredFilePaths({ allFilePaths: allFiles, allowOtherFiles: true });
   const otherFiles = difference(filteredWithOtherFilePaths, existingFilePaths);
+  console.log("otherFiles", otherFiles);
 
   if (otherFiles.length) {
     const componentsPath = join(__dirname, "/../../../../components");
@@ -305,6 +306,7 @@ async function run() {
     const componentsThatNeedToBeModified = await getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles });
     const componentsPendingForGitDiff = getComponentsPendingForGitDiff(componentsThatNeedToBeModified);
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff);
+    console.log("componentsDiffContents", componentsDiffContents);
   }
 
   if (componentsThatDidNotModifyVersion.length) {
