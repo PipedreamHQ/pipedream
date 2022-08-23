@@ -638,6 +638,9 @@
     },
     {
       "path": "components/gmail"
+    },
+    {
+      "path": "components/growsurf"
     }
   ]
 }
