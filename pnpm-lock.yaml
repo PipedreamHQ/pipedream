@@ -245,6 +245,9 @@ importers:
       axios: 0.27.2
       package-lock-only: 0.0.4
 
+  components/bitrix24:
+    specifiers: {}
+
   components/blogger:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -767,7 +770,13 @@ importers:
       uuid: 8.3.2
 
   components/google_recaptcha:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/google_sheets:
     specifiers:
@@ -1559,6 +1568,15 @@ importers:
     dependencies:
       ssh2-sftp-client: 8.1.0
 
+  components/shipcloud:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
+
   components/shippotoken:
     specifiers: {}
 
@@ -1735,6 +1753,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
+
+  components/surveymethods:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/switchboard:
     specifiers: {}
