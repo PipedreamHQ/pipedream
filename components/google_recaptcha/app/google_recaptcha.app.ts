@@ -13,7 +13,7 @@ export default defineApp({
       params: {},
       $: this,
     }) {
-      axios($, {
+      return axios($, {
         url: "https://www.google.com/recaptcha/api/siteverify",
         params: {
           secret: this.$auth.secret,
