@@ -13,6 +13,7 @@ export default defineAction({
       label: "Remote IP Address",
       description: "The IP Address originating the request. This whould be the user IP where the challenge was executed on the frontend.",
       default: "{{steps.trigger.event.client_ip}}",
+      optional: true,
     },
     token: {
       type: "string",
