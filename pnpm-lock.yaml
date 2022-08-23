@@ -687,7 +687,10 @@ importers:
     specifiers: {}
 
   components/gmail:
-    specifiers: {}
+    specifiers:
+      '@googleapis/gmail': ^0.3.4
+    dependencies:
+      '@googleapis/gmail': 0.3.4
 
   components/gobio_link:
     specifiers: {}
@@ -5531,6 +5534,16 @@ packages:
 
   /@googleapis/drive/2.4.0:
     resolution: {integrity: sha512-BXesWAH5wozF7LJfarzR960BAICV1f7bdyrdAkohSWtMWko2QcCWBjlMYrzT9bVpZYKILLV9G/H7uXscfJb6qQ==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/gmail/0.3.4:
+    resolution: {integrity: sha512-5Z7CbSBRXZ2NZ5+EfwcE9T4dQtny5zcsKmOHPrI3LZOxo9s70z8YiyePr2Zf2mH9egqM8qGmUVITVRadHXDEww==}
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0
