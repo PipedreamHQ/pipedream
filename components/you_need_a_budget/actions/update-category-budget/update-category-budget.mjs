@@ -14,15 +14,6 @@ export default {
         "budgetId",
       ],
     },
-    month: {
-      propDefinition: [
-        app,
-        "month",
-        (c) => ({
-          budgetId: c.budgetId,
-        }),
-      ],
-    },
     categoryId: {
       propDefinition: [
         app,
@@ -38,6 +29,15 @@ export default {
         "amount",
       ],
       label: "Budget",
+    },
+    month: {
+      propDefinition: [
+        app,
+        "month",
+        (c) => ({
+          budgetId: c.budgetId,
+        }),
+      ],
     },
   },
   async run({ $ }) {

@@ -33,5 +33,11 @@ export default {
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
+    getThisMonth() {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+      return `${year}/${month}`;
+    },
   },
 };

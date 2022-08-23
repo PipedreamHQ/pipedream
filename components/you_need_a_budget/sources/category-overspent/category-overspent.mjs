@@ -20,39 +20,27 @@ export default {
         }),
       ],
     },
-    month: {
-      propDefinition: [
-        common.props.app,
-        "month",
-        (c) => ({
-          budgetId: c.budgetId,
-        }),
-      ],
-    },
   },
   methods: {
     ...common.methods,
-    generateMeta(balance, month, amount) {
+    generateMeta(balance, amount) {
       return {
         id: balance,
-        summary: `Balance - ${balance} - for ${month} dropped below ${amount}`,
+        summary: `Balance - ${balance} - for ${this.getThisMonth()} dropped below ${amount}`,
       };
     },
   },
   async run() {
-    const { month: budget } = await this.app.getBudget({
+    const { category } = await this.app.getCategoryBudget({
       budgetId: this.budgetId,
-      month: this.month,
+      categoryId: this.categoryId.value,
     });
-
-    const [
-      category,
-    ] = budget.categories.filter((category) => category.id === this.categoryId.value);
 
     const balance = this.app.convertFromMilliunit(category.balance);
     const budgeted = this.app.convertFromMilliunit(category.budgeted);
+
     if (balance < budgeted) {
-      const meta = this.generateMeta(balance, budget.month, budgeted);
+      const meta = this.generateMeta(balance, budgeted);
       this.$emit(category, meta);
     }
   },

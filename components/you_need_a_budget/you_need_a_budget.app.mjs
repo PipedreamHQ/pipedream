@@ -48,7 +48,8 @@ export default {
     month: {
       type: "string",
       label: "Month",
-      description: "The month for a budget",
+      description: "The month for a budget. Default is the `current` month",
+      optional: true,
       default: "current",
       async options({ budgetId }) {
         const { months } = await this.getMonths({
@@ -115,14 +116,14 @@ export default {
       return parseFloat(value).toFixed(2) * 1000;
     },
     convertFromMilliunit(value) {
-      return value / 1000;
+      return parseFloat(value / 1000).toFixed(2);
     },
     async getBudgets() {
       const response = await this._client().budgets.getBudgets();
       return response.data;
     },
-    async getAccounts({ budgetId: budget_id }) {
-      const response = await this._client().accounts.getAccounts(budget_id);
+    async getAccounts({ budgetId }) {
+      const response = await this._client().accounts.getAccounts(budgetId);
       return response.data;
     },
     async getAccount({
@@ -131,22 +132,26 @@ export default {
       const response = await this._client().accounts.getAccountById(budgetId, accountId);
       return response.data;
     },
-    async getMonths({ budgetId: budget_id }) {
-      const response = await this._client().months.getBudgetMonths(budget_id);
+    async getMonths({ budgetId }) {
+      const response = await this._client().months.getBudgetMonths(budgetId);
       return response.data;
     },
-    async getBudget({
-      budgetId, month,
+    async getCategories({ budgetId }) {
+      const response = await this._client().categories.getCategories(budgetId);
+      return response.data;
+    },
+    async getCategoryBudget({
+      budgetId, month = "current", categoryId,
     }) {
-      const response = await this._client().months.getBudgetMonth(budgetId, month);
+      const response = await this._client().categories.getMonthCategoryById(
+        budgetId,
+        month,
+        categoryId,
+      );
       return response.data;
     },
-    async getCategories({ budgetId: budget_id }) {
-      const response = await this._client().categories.getCategories(budget_id);
-      return response.data;
-    },
-    async getPayees({ budgetId: budget_id }) {
-      const response = await this._client().payees.getPayees(budget_id);
+    async getPayees({ budgetId }) {
+      const response = await this._client().payees.getPayees(budgetId);
       return response.data;
     },
     async getTransactions({

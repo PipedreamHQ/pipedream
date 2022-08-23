@@ -45,6 +45,7 @@ export default {
     // guarantee correct value is used
     const amount = this.app.convertFromMilliunit(this.app._convertToMilliunit(this.amount));
     const balance = this.app.convertFromMilliunit(account.balance);
+
     if (balance < amount) {
       const meta = this.generateMeta(balance, amount);
       this.$emit(account, meta);
