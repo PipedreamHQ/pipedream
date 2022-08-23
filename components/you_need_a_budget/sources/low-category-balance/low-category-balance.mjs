@@ -32,7 +32,7 @@ export default {
     generateMeta(balance, amount) {
       return {
         id: balance,
-        summary: `Balance - ${balance} - for ${this.getThisMonth()} dropped below ${amount}`,
+        summary: `Balance (${balance}) for ${this.getThisMonth()} dropped below ${amount}`,
       };
     },
   },

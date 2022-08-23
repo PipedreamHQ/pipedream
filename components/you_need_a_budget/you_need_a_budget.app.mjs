@@ -80,12 +80,12 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Date - e.g. `2021-11-29`",
+      description: "E.g. `2021-11-29`",
     },
     amount: {
       type: "string",
       label: "Amount",
-      description: "Amount - e.g. `290.99`",
+      description: "E.g. `-290.99`",
     },
   },
   methods: {
@@ -116,7 +116,7 @@ export default {
       return parseFloat(value).toFixed(2) * 1000;
     },
     convertFromMilliunit(value) {
-      return parseFloat(value / 1000).toFixed(2);
+      return parseFloat(value / 1000);
     },
     async getBudgets() {
       const response = await this._client().budgets.getBudgets();

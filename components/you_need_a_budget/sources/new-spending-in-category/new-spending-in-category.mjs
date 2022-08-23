@@ -54,7 +54,7 @@ export default {
     } = await this.app.getTransactionsByCategory({
       budgetId: this.budgetId,
       categoryId: this.categoryId.value,
-      sinceDate: this.sinceDate ?? undefined,
+      sinceDate: this.sinceDate || undefined,
       lastKnowledgeOfServer,
     });
     this.setLastKnowledgeOfServer(serverKnowledge);

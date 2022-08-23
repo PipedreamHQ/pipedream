@@ -53,7 +53,7 @@ export default {
     } = await this.app.getTransactionsByAccount({
       budgetId: this.budgetId,
       accountId: this.accountId,
-      sinceDate: this.sinceDate ?? undefined,
+      sinceDate: this.sinceDate || undefined,
       lastKnowledgeOfServer,
     });
     this.setLastKnowledgeOfServer(serverKnowledge);
