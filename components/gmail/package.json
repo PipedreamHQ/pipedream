@@ -2,12 +2,11 @@
   "name": "@pipedream/gmail",
   "version": "0.0.1",
   "description": "Pipedream Gmail Components",
-  "main": "dist/app/gmail.app.mjs",
+  "main": "gmail.app.mjs",
   "keywords": [
     "pipedream",
     "gmail"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gmail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
