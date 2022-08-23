@@ -4,8 +4,8 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Update Bitlink",
-  version: "0.0.10",
-  key: "update-bitlink",
+  version: "0.0.1",
+  key: "bitly-update-bitlink",
   description: "Updates fields in the specified link",
   props: {
     bitly,
