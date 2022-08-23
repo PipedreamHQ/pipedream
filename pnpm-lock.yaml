@@ -1776,7 +1776,10 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/sympla:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/syncro:
     specifiers: {}
