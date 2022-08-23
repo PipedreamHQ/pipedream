@@ -635,6 +635,9 @@
     },
     {
       "path": "components/shipcloud"
+    },
+    {
+      "path": "components/gmail"
     }
   ]
 }
