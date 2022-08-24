@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-set-chat-permissions",
   name: "Set Chat Permissions",
   description: "Set default chat permissions for all members. [See the docs](https://core.telegram.org/bots/api#setchatpermissions) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegramBotApi,
