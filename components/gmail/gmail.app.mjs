@@ -60,9 +60,14 @@ export default {
         auth,
       });
     },
-    async listMessages({ pageToken }) {
+    async listMessages({
+      q, labelIds, includeSpamTrash, pageToken,
+    }) {
       const { data } = await this._client().users.messages.list({
         userId: USER_ID,
+        q,
+        labelIds,
+        includeSpamTrash,
         pageToken,
       });
       return data;
