@@ -638,19 +638,17 @@ importers:
 
   components/ghost_org_admin_api:
     specifiers:
-      '@pipedream/platform': ^0.10.0
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.0.0
       jsonwebtoken: ^8.5.1
     dependencies:
-      '@pipedream/platform': 0.10.0
-      axios: 0.21.4
+      '@pipedream/platform': 1.1.0
       jsonwebtoken: 8.5.1
 
   components/ghost_org_content_api:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.0.0
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.1.0
 
   components/giphy:
     specifiers:
@@ -906,7 +904,10 @@ importers:
       '@pipedream/types': 0.1.4
 
   components/inksprout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/intercom:
     specifiers:
