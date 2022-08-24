@@ -47,17 +47,17 @@ export default {
       options: constants.PRIORITY_OPTIONS,
     },
     retry: {
-      // Consider making this a dynamic prop: https://pipedream.com/docs/components/api/#dynamic-props
-      type: "integer",
-      label: "Retry",
-      description: "Required when using Emergency priority (2). Specifies how often (in seconds) the Pushover servers will send the same notification to the user.",
+      propDefinition: [
+        pushover,
+        "retry",
+      ],
       optional: true,
     },
     expire: {
-      // Consider making this a dynamic prop: https://pipedream.com/docs/components/api/#dynamic-props
-      type: "integer",
-      label: "Expire",
-      description: "Required when using Emergency priority (2). Specifies how many seconds in total your notification will continue to be retried for. Maximum value of 10800 seconds (3 hours).",
+      propDefinition: [
+        pushover,
+        "expire",
+      ],
       optional: true,
     },
   },
