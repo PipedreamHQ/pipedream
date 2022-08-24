@@ -1,6 +1,5 @@
 import gmail from "@googleapis/gmail";
-
-const USER_ID = "me";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -64,7 +63,7 @@ export default {
       q, labelIds, includeSpamTrash, pageToken,
     }) {
       const { data } = await this._client().users.messages.list({
-        userId: USER_ID,
+        userId: constants.USER_ID,
         q,
         labelIds,
         includeSpamTrash,
@@ -74,7 +73,7 @@ export default {
     },
     async getMessage({ id }) {
       const { data } = await this._client().users.messages.get({
-        userId: USER_ID,
+        userId: constants.USER_ID,
         id,
       });
       return data;
@@ -88,7 +87,7 @@ export default {
     },
     async listLabels() {
       const { data } = await this._client().users.labels.list({
-        userId: USER_ID,
+        userId: constants.USER_ID,
       });
       // user-created labels first
       data.labels.sort((a) => a.type === "system"
@@ -100,7 +99,7 @@ export default {
       message, label,
     }) {
       const response = await this._client().users.messages.modify({
-        userId: USER_ID,
+        userId: constants.USER_ID,
         id: message,
         requestBody: {
           addLabelIds: [
