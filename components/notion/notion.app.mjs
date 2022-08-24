@@ -114,6 +114,39 @@ export default {
         }));
       },
     },
+    sortDirection: {
+      type: "string",
+      label: "Sort Direction",
+      description: "The direction to sort.",
+      optional: true,
+      options: [
+        "ascending",
+        "descending",
+      ],
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "The number of items from the full list desired in the response. Maximum: 100",
+      default: 100,
+      optional: true,
+    },
+    startCursor: {
+      type: "string",
+      label: "Start Cursor (page_id)",
+      description: "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
+      optional: true,
+    },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "The value of the property to filter the results by. Possible values for object type include `page` or `database`. Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `database`)",
+      optional: true,
+      options: [
+        "page",
+        "database",
+      ],
+    },
   },
   methods: {
     _getNotionClient() {
@@ -200,13 +233,9 @@ export default {
         property_id: propertyId,
       });
     },
-    async searchPage(title, params = {}) {
+    async search(title, params = {}) {
       return this._getNotionClient().search({
         query: title,
-        filter: {
-          property: "object",
-          value: "page",
-        },
         ...params,
       });
     },
