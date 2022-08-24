@@ -9,10 +9,10 @@ export default {
   props: {
     gmail,
     q: {
-      type: "string",
-      label: "Search Query",
-      description: "Search query used in Gmail. [More information here](https://support.google.com/mail/answer/7190).",
-      optional: true,
+      propDefinition: [
+        gmail,
+        "q",
+      ],
     },
     labels: {
       propDefinition: [

@@ -47,6 +47,12 @@ export default {
         }));
       },
     },
+    q: {
+      type: "string",
+      label: "Search Query",
+      description: "Search query used in Gmail. [More information here](https://support.google.com/mail/answer/7190).",
+      optional: true,
+    },
   },
   methods: {
     _client() {
@@ -59,15 +65,10 @@ export default {
         auth,
       });
     },
-    async listMessages({
-      q, labelIds, includeSpamTrash, pageToken,
-    }) {
+    async listMessages({ ...opts }) {
       const { data } = await this._client().users.messages.list({
         userId: constants.USER_ID,
-        q,
-        labelIds,
-        includeSpamTrash,
-        pageToken,
+        ...opts,
       });
       return data;
     },
