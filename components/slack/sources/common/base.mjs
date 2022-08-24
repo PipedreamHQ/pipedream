@@ -56,7 +56,7 @@ export default {
           });
           return info.team.name;
         } catch (err) {
-          console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps", err);
+          console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps!!", err);
           return id;
         }
       });
