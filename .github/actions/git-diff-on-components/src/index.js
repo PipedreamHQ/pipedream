@@ -279,7 +279,9 @@ async function checkVersionModification(componentsPendingForGitDiff) {
         contents: await execGitDiffContents(componentFilePath)
       }))
   );
-  return output.filter(({ contents }) => contents?.length && !contents.includes("version:"));
+  return output.filter(({ contents }) =>
+    !contents
+    || (contents?.length && !contents.includes("version:")));
 }
 
 function getComponentFilePath(filePath) {
