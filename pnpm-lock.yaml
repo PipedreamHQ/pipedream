@@ -518,6 +518,9 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/ecwid:
+    specifiers: {}
+
   components/elmah_io:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -685,6 +688,9 @@ importers:
   components/givebutter:
     specifiers: {}
 
+  components/gmail:
+    specifiers: {}
+
   components/gobio_link:
     specifiers: {}
 
@@ -770,7 +776,13 @@ importers:
       uuid: 8.3.2
 
   components/google_recaptcha:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/google_sheets:
     specifiers:
@@ -1562,6 +1574,15 @@ importers:
     dependencies:
       ssh2-sftp-client: 8.1.0
 
+  components/shipcloud:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
+
   components/shippotoken:
     specifiers: {}
 
@@ -1739,6 +1760,12 @@ importers:
       '@pipedream/platform': 0.9.0
       uuid: 8.3.2
 
+  components/surveymethods:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/switchboard:
     specifiers: {}
 
@@ -1749,7 +1776,10 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/sympla:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.0
 
   components/syncro:
     specifiers: {}
@@ -1916,6 +1946,14 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/uploadcare:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      qs: ^6.11.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      qs: 6.11.0
 
   components/uptimerobot:
     specifiers: {}
@@ -5054,22 +5092,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.124:
-    resolution: {integrity: sha512-0MfRuxWJV8TXLgI/4PVsiXG4SS9WOrQ3abjZcAcQY0KC+M4Ny+GSZ1Ypbh76kTcFjYWqxL0Xw7ANQFk0OjuDaA==}
+  /@definitelytyped/header-parser/0.0.125:
+    resolution: {integrity: sha512-tZArX/8jGkFUIxAz/H0YAicEtY7dF6ZmFL0/PDhK6JKpiUaoDgDRy/0G0e18fLZ4LcxhbK4HYX8VeYgyg3SfGw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.124
+      '@definitelytyped/typescript-versions': 0.0.125
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.124:
-    resolution: {integrity: sha512-95OsAortdPqZJrjopgrFKa/Fo2jrCsJNFMR05KRw3H6Q/Z0bWNJK5kJvB63eRVQhtz5M7OiG4xSwN/KDxf3eyw==}
+  /@definitelytyped/typescript-versions/0.0.125:
+    resolution: {integrity: sha512-3HVTcXACY5u5N+AF4RS2BeDx0+L5tlsWPitEWxnjTlurJcsiXVL3QqYS4xbguf7NmK8vP1vMvykC3C3WlXbiOw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.124:
-    resolution: {integrity: sha512-CnnbUBpxIrMAAxsLT9+rRp7nF/MHpMqf/+mfbY30LaTELrJHmH5FQqnxQSkHZkoUkHESvpxtl9xg4yYezCQ5qw==}
+  /@definitelytyped/utils/0.0.125:
+    resolution: {integrity: sha512-C2mFFlmsqi0nQvup8+PsCGk+N1+KFWMHok/KXzijZvuTfEHqeWiIrAMScImu2IQ+JflnvXglSYtmoL/OdvCwvw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.124
+      '@definitelytyped/typescript-versions': 0.0.125
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10534,7 +10572,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.124
+      '@definitelytyped/header-parser': 0.0.125
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10550,9 +10588,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.124
-      '@definitelytyped/typescript-versions': 0.0.124
-      '@definitelytyped/utils': 0.0.124
+      '@definitelytyped/header-parser': 0.0.125
+      '@definitelytyped/typescript-versions': 0.0.125
+      '@definitelytyped/utils': 0.0.125
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1

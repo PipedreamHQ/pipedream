@@ -629,6 +629,18 @@
     },
     {
       "path": "components/bitrix24"
+    },
+    {
+      "path": "components/ecwid"
+    },
+    {
+      "path": "components/shipcloud"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/growsurf"
     }
   ]
 }
