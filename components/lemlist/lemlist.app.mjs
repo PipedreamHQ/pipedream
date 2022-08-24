@@ -129,7 +129,7 @@ export default {
       const csv = await this._makeRequest({
         $,
         path: `campaigns/${campaignId}/export/leads`,
-        param: {
+        params: {
           state: "all",
         },
       });
