@@ -128,7 +128,10 @@ export default {
     }) {
       const csv = await this._makeRequest({
         $,
-        path: `campaigns/${campaignId}/export/leads?state=all`,
+        path: `campaigns/${campaignId}/export/leads`,
+        param: {
+          state: "all",
+        },
       });
       const leads = csv.split(/\r?\n/).map((line) => {
         return line.split(/\r?,/)[0];

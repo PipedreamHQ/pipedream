@@ -3,7 +3,7 @@ import lemlist from "../../lemlist.app.mjs";
 export default {
   key: "lemlist-mark-lead-from-all-campaigns-as-notinterested",
   name: "Mark Lead From All Campaigns As Not Interested",
-  description: "This action marks a specific lead as not interested using its email in all campaigns. [See the docs here](https://developer.lemlist.com/#mark-as-interested-a-specific-lead-by-email)",
+  description: "This action marks a specific lead as not interested using its email in all campaigns. [See the docs here](https://developer.lemlist.com/#mark-as-not-interested-a-specific-lead-by-email)",
   version: "0.0.1",
   type: "action",
   props: {
