@@ -4,7 +4,7 @@ const PRIORITY = {
   DEFAULT: 0,
   HIGH: 1,
   EMERGENCY: 2,
-};
+}
 
 const PRIORITY_OPTIONS = [
   {
@@ -27,11 +27,11 @@ const PRIORITY_OPTIONS = [
     value: PRIORITY.EMERGENCY,
     label: "Emergency priority, bypass quiet hours, and repeat until the notification is acknowledged by user",
   },
-];
+]
 
 export default {
   BASE_PATH: "https://api.pushover.net/1",
   PATH_SUFFIX: ".json",
   PRIORITY,
   PRIORITY_OPTIONS,
-};
+}
