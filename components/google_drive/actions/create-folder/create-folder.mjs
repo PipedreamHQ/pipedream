@@ -7,7 +7,7 @@ export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDrive,
