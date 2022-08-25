@@ -80,4 +80,34 @@ export default {
       }
     }
   `,
+  createWebhook: `
+    mutation createWebhook (
+      $boardId: Int!
+      $url: String!
+      $event: WebhookEventType!
+      $config: JSON
+    ) {
+      create_webhook(
+        board_id: $boardId
+        url: $url
+        event: $event
+        config: $config
+      ) {
+        id
+        board_id
+      }
+    }
+  `,
+  deleteWebhook: `
+    mutation deleteWebhook (
+      $id: Int!
+    ) {
+      delete_webhook(
+        id: $id
+      ) {
+        id
+        board_id
+      }
+    }
+  `,
 };

@@ -88,13 +88,13 @@ export default {
       return this.$auth.api_token;
     },
     _apiUrl() {
-      return "https://my.zerotier.com/api/v1";
+      return "https://api.zerotier.com/api/v1";
     },
     async _makeRequest(path, options = {}, $ = this) {
       return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: {
-          Authorization: `Bearer ${this._accessToken()}`,
+          Authorization: `token ${this._accessToken()}`,
         },
         ...options,
       });

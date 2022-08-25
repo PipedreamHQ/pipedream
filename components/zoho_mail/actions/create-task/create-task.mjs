@@ -4,7 +4,7 @@ export default {
   key: "zoho_mail-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the docs here](https://www.zoho.com/mail/help/api/post-add-new-task.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zohoMail,

@@ -4,13 +4,16 @@
     "description": "Pipedream Inksprout Components",
     "main": "inksprout.app.js",
     "keywords": [
-      "pipedream",
-      "inksprout"
+        "pipedream",
+        "inksprout"
     ],
     "homepage": "https://pipedream.com/apps/inksprout",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "publishConfig": {
-      "access": "public"
+        "access": "public"
+    },
+    "dependencies": {
+        "@pipedream/platform": "^1.1.1"
     }
-  }
+}

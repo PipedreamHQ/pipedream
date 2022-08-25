@@ -5,7 +5,7 @@ export default {
   key: "pushover-push-notification",
   name: "Push Notification",
   description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     pushover,
@@ -46,6 +46,20 @@ export default {
       optional: true,
       options: constants.PRIORITY_OPTIONS,
     },
+    retry: {
+      propDefinition: [
+        pushover,
+        "retry",
+      ],
+      optional: true,
+    },
+    expire: {
+      propDefinition: [
+        pushover,
+        "expire",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response =
@@ -56,6 +70,8 @@ export default {
         url_title: this.urlTitle,
         device: this.device,
         priority: this.priority,
+        retry: this.retry,
+        expire: this.expire,
       });
     $.export("$summary", "Sent notification");
     return response;

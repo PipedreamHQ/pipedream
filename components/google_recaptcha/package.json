@@ -13,5 +13,11 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.1.4"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
   }
 }
