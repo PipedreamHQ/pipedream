@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.7",
   key: "timecamp-create-task",
   description: "Creates a task. [See docs here](https://developer.timecamp.com/docs/timecamp-api/b3A6NTg5ODUxMA-create-new-task)",
   type: "action",
@@ -40,7 +40,7 @@ export default {
       optional: true,
     },
     parentId: {
-      title: "Parent Task ID",
+      label: "Parent Task ID",
       propDefinition: [
         timecamp,
         "taskId",
