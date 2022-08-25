@@ -1,5 +1,8 @@
 import googleDrive from "../../google_drive.app.mjs";
-import { getListFilesOpts } from "../../utils.mjs";
+import {
+  getListFilesOpts,
+  toSingleLineString,
+} from "../../utils.mjs";
 
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
 
@@ -54,18 +57,24 @@ export default {
     const {
       parentId,
       name,
+      createIfExists,
     } = this;
-    
-    if(!this.createIfExists){
+    let folder;
+    if (createIfExists == false) {//checking "false" because if this optional prop may not be given
       const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(this.drive, {
-        q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}' and trashed=false`.trim()
+        q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${name}' and trashed=false`.trim(),
       }))).files;
-      if(folders.length>0){
-        $.export("$summary", `Found existing folder, therefore not creating folder. Returning found folder.`);
-        return folders[0];
+      for (let f of folders) {
+        if (f.name == name) {
+          folder = f;
+          break;
+        }
+      }
+      if (folder) {
+        $.export("$summary", "Found existing folder, therefore not creating folder. Returning found folder.");
+        return folder;
       }
     }
-    
     const driveId = this.googleDrive.getDriveId(this.drive);
     const resp = await this.googleDrive.createFolder({
       name,
