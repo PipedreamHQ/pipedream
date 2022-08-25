@@ -2,24 +2,24 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "clickup-new-list",
-  name: "New List (Instant)",
-  description: "Emit new event when a new list is created",
+  key: "clickup-new-folder",
+  name: "New Folder (Instant)",
+  description: "Emit new event when a new folder is created",
   version: "0.0.1",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
-    _getMeta({ listId: listId }) {
+    _getMeta({ folder_id: folderId }) {
       return {
-        id: listId,
-        summary: listId,
+        id: folderId,
+        summary: folderId,
         ts: Date.now(),
       };
     },
     _getEventsList() {
       return [
-        "listCreated",
+        "folderCreated",
       ];
     },
   },
