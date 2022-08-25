@@ -38,6 +38,47 @@ export default {
       optional: true,
       default: constants.DEFAULT_MAX_REQUESTS,
     },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of contact",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of contact",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email Address",
+      description: "The email address of the contact",
+    },
+    address: {
+      type: "string",
+      label: "Contact Address",
+      description: "The address of the contact",
+      optional: true,
+    },
+    town: {
+      type: "string",
+      label: "City/Town",
+      description: "The city/town of the contact",
+      optional: true,
+    },
+    region: {
+      type: "string",
+      label: "Region/State",
+      description: "The region/state address of the contact",
+      optional: true,
+    },
+    postcode: {
+      type: "string",
+      label: "Postcode",
+      description: "The postcode/zipcode of the contact",
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -81,6 +122,13 @@ export default {
     }) {
       return this._makeRequest({
         path: `group/${segmentId}/contacts`,
+        ...args,
+      });
+    },
+    async createContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "contact",
         ...args,
       });
     },
