@@ -1,7 +1,7 @@
 import { Pipedream } from "@pipedream/types";
 
 interface ActionRequestParams {
-  $?: Pipedream;
+  $: Pipedream;
 }
 
 interface HttpRequestParams extends ActionRequestParams {
@@ -10,75 +10,89 @@ interface HttpRequestParams extends ActionRequestParams {
   method?: string;
 }
 
-interface CreateAppointmentTaskParams extends ActionRequestParams {
-  data?: {
+type CreateTaskParams = ActionRequestParams & {
+  data: {
     additionalOptions: object;
+    timezone: string;
+    has_pickup: 0 | 1;
+    has_delivery: 0 | 1;
+    layout_type: 0 | 1 | 2;
+  };
+};
+
+interface HasDeliveryParams {
+  data: {
     customer_address: string;
     job_delivery_datetime: string;
+  };
+}
+interface HasPickupDate {
+  data: {
     job_pickup_datetime: string;
-    timezone: string;
-    has_pickup: 0;
-    has_delivery: 0;
-    layout_type: 1;
   };
 }
 
-interface CreateDeliveryTask extends ActionRequestParams {
-  data?: {
-    additionalOptions: object;
-    customer_address: string;
-    job_delivery_datetime: string;
-    timezone: string;
-    has_pickup: 0;
-    has_delivery: 1;
-    layout_type: 0;
-  };
-}
-
-interface CreateFieldWorkforceTask extends ActionRequestParams {
-  data?: {
-    additionalOptions: object;
-    customer_address: string;
-    job_delivery_datetime: string;
-    job_pickup_datetime: string;
-    timezone: string;
-    has_pickup: 0;
-    has_delivery: 0;
-    layout_type: 2;
-  };
-}
-
-interface CreatePickupTask extends ActionRequestParams {
-  data?: {
-    additionalOptions: object;
+interface HasPickupAddress {
+  data: {
     job_pickup_address: string;
-    job_pickup_datetime: string;
-    timezone: string;
-    has_pickup: 1;
-    has_delivery: 0;
-    layout_type: 0;
   };
 }
 
-interface CreatePickupAndDeliveryTask extends ActionRequestParams {
-  data?: {
-    additionalOptions: object;
-    customer_address: string;
-    job_delivery_datetime: string;
-    job_pickup_address: string;
-    job_pickup_datetime: string;
-    timezone: string;
-    has_pickup: 1;
-    has_delivery: 1;
-    layout_type: 0;
+type CreateAppointmentTaskParams = CreateTaskParams &
+  HasDeliveryParams &
+  HasPickupDate & {
+    data: {
+      has_pickup: 0;
+      has_delivery: 0;
+      layout_type: 1;
+    };
   };
-}
+
+type CreateDeliveryTaskParams = CreateTaskParams &
+  HasDeliveryParams & {
+    data: {
+      has_pickup: 0;
+      has_delivery: 1;
+      layout_type: 0;
+    };
+  };
+
+type CreateFieldWorkforceTaskParams = CreateTaskParams &
+  HasDeliveryParams &
+  HasPickupDate & {
+    data: {
+      has_pickup: 0;
+      has_delivery: 0;
+      layout_type: 2;
+    };
+  };
+
+type CreatePickupTaskParams = CreateTaskParams &
+  HasPickupDate &
+  HasPickupAddress & {
+    data: {
+      has_pickup: 1;
+      has_delivery: 0;
+      layout_type: 0;
+    };
+  };
+
+type CreatePickupAndDeliveryTaskParams = CreateTaskParams &
+  HasPickupDate &
+  HasDeliveryParams &
+  HasPickupAddress & {
+    data: {
+      has_pickup: 1;
+      has_delivery: 1;
+      layout_type: 0;
+    };
+  };
 
 export {
   HttpRequestParams,
   CreateAppointmentTaskParams,
-  CreateDeliveryTask,
-  CreateFieldWorkforceTask,
-  CreatePickupTask,
-  CreatePickupAndDeliveryTask,
+  CreateDeliveryTaskParams,
+  CreateFieldWorkforceTaskParams,
+  CreatePickupTaskParams,
+  CreatePickupAndDeliveryTaskParams,
 };

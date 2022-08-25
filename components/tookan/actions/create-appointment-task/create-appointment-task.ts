@@ -12,17 +12,17 @@ export default defineAction({
   props: {
     tookan,
   },
-  async run({ $ }): Promise<any> {
-    const params: CreateAppointmentTaskParams = {
-      $,
-      // data: {
-        
-      // },
-    };
-    const data = await this.tookan.createAppointmentTask(params);
+  async run({ $ }) {
+    // const params: CreateAppointmentTaskParams = {
+    //   $,
+    //   // data: {
 
-    $.export("$summary", "Created appointment task successfully");
+    //   // },
+    // };
+    // const data = await this.tookan.createAppointmentTask(params);
 
-    return data;
+    // $.export("$summary", "Created appointment task successfully");
+
+    // return data;
   },
 });

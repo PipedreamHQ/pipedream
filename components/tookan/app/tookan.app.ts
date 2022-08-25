@@ -14,7 +14,7 @@ export default defineApp({
       $ = this,
       endpoint,
       data,
-      method
+      method,
     }: HttpRequestParams): Promise<object> {
       return axios($, {
         url: this._baseUrl() + endpoint,
@@ -23,9 +23,9 @@ export default defineApp({
         },
         data: {
           api_key: this.$auth.api_key,
-          ...data
+          ...data,
         },
-        method
+        method,
       });
     },
   },
