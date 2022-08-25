@@ -13,16 +13,23 @@ export default defineAction({
     tookan,
   },
   async run({ $ }) {
-    // const params: CreateAppointmentTaskParams = {
-    //   $,
-    //   // data: {
+    const params: CreateAppointmentTaskParams = {
+      $,
+      data: {
+        additionalOptions: {},
+        timezone: 'abc',
+        customer_address: 'test',
+        job_delivery_datetime: 'test',
+        job_pickup_datetime: 'test',
+        has_pickup: 0,
+        has_delivery: 0,
+        layout_type: 1
+      },
+    };
+    const data = await this.tookan.createAppointmentTask(params);
 
-    //   // },
-    // };
-    // const data = await this.tookan.createAppointmentTask(params);
+    $.export("$summary", "Created appointment task successfully");
 
-    // $.export("$summary", "Created appointment task successfully");
-
-    // return data;
+    return data;
   },
 });
