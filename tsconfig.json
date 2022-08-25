@@ -641,6 +641,9 @@
     },
     {
       "path": "components/growsurf"
+    },
+    {
+      "path": "components/productboard"
     }
   ]
 }
