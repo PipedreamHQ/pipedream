@@ -38,7 +38,10 @@ export default {
       });
       const contactIds = [];
       for (const box of boxes) {
-        const contactKeys = box?.contacts.map((contact) => contact.key);
+        if (!box.contacts) {
+          continue;
+        }
+        const contactKeys = box.contacts.map((contact) => contact.key);
         if (contactKeys?.length > 0) {
           contactIds.push(...contactKeys);
         }
