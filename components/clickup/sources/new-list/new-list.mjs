@@ -10,7 +10,7 @@ export default {
   type: "source",
   methods: {
     ...common.methods,
-    _getMeta({ listId: listId }) {
+    _getMeta({ list_id: listId }) {
       return {
         id: listId,
         summary: listId,
