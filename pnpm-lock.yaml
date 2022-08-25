@@ -2104,6 +2104,12 @@ importers:
       axios: 0.21.4
       lodash.get: 4.4.2
 
+  components/you_need_a_budget:
+    specifiers:
+      ynab: ^1.28.0
+    dependencies:
+      ynab: 1.29.0
+
   components/youcanbook_me:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -11314,6 +11320,14 @@ packages:
         optional: true
     dev: false
 
+  /fetch-ponyfill/7.1.0:
+    resolution: {integrity: sha512-FhbbL55dj/qdVO3YNK7ZEkshvj3eQ7EuIGV2I6ic/2YiocvyWv+7jg2s4AyS0wdRU75s3tA8ZxI/xPigb0v5Aw==}
+    dependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -19871,6 +19885,15 @@ packages:
     resolution: {integrity: sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==}
     engines: {node: '>=4.0.0'}
     requiresBuild: true
+    dev: false
+
+  /ynab/1.29.0:
+    resolution: {integrity: sha512-KEyELnL8T1fJiu4QMcNKZXfFgJsiAzOoCkgd5CZCORDVssX593JWDllKJrIYEFeiwI/giHdwlx+VlLEV0L6JhA==}
+    engines: {node: <17.0.0}
+    dependencies:
+      fetch-ponyfill: 7.1.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /yocto-queue/0.1.0:
