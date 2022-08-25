@@ -28,7 +28,7 @@ export default {
     emitEvent(data) {
       this.$emit(data, {
         id: data.id,
-        summary: `New task with id ${data.id}`,
+        summary: `New time entry with id ${data.id}`,
         ts: Date.parse(data.add_date),
       });
     },
