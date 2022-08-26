@@ -93,6 +93,6 @@ export {
   CreateAppointmentTaskParams,
   CreateDeliveryTaskParams,
   CreateFieldWorkforceTaskParams,
-  CreatePickupTaskParams,
   CreatePickupAndDeliveryTaskParams,
+  CreatePickupTaskParams,
 };
