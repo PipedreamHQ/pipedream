@@ -689,10 +689,12 @@ importers:
   components/gmail:
     specifiers:
       '@googleapis/gmail': ^0.3.4
+      '@pipedream/platform': ^1.1.1
       html-to-text: ^8.2.1
       nodemailer: ^6.7.8
     dependencies:
       '@googleapis/gmail': 0.3.4
+      '@pipedream/platform': 1.1.1
       html-to-text: 8.2.1
       nodemailer: 6.7.8
 
@@ -1383,6 +1385,9 @@ importers:
       dtslint: 4.2.1_typescript@4.7.4
 
   components/pretix:
+    specifiers: {}
+
+  components/productboard:
     specifiers: {}
 
   components/profitwell:

@@ -1,6 +1,7 @@
 import gmail from "@googleapis/gmail";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import { convert }  from "html-to-text";
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -62,6 +63,20 @@ export default {
         }));
       },
     },
+    delegate: {
+      type: "string",
+      label: "Send as a Delegate",
+      description: "[Delegates](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.delegates) are only available to service account clients that have been delegated domain-wide authority",
+      optional: true,
+      async options() {
+        try {
+          const { delegates } = await this.listDelegates();
+          return delegates.map(({ delegateEmail }) => delegateEmail);
+        } catch (e) {
+          throw new ConfigurationError(e);
+        }
+      },
+    },
     q: {
       type: "string",
       label: "Search Query",
@@ -121,6 +136,12 @@ export default {
       data.labels.sort((a) => a.type === "system"
         ? 1
         : -1);
+      return data;
+    },
+    async listDelegates() {
+      const { data } = await this._client().users.settings.delegates.list({
+        userId: constants.USER_ID,
+      });
       return data;
     },
     encodeMessage(message) {

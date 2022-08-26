@@ -30,6 +30,12 @@ export default {
       description: "A name that will be displayed in the `From` section of the email",
       optional: true,
     },
+    delegate: {
+      propDefinition: [
+        gmail,
+        "delegate",
+      ],
+    },
     replyTo: {
       type: "string",
       label: "Reply To",
