@@ -72,7 +72,9 @@ export default {
       }
       if (folder) {
         $.export("$summary", "Found existing folder, therefore not creating folder. Returning found folder.");
-        return folder;
+        const folderDetails = await this.googleDrive.getFile(folder.id);
+
+        return folderDetails;
       }
     }
     const driveId = this.googleDrive.getDriveId(this.drive);
