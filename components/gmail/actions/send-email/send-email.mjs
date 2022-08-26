@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "gmail-send-email",
   name: "Send Email",
-  description: "Send an email",
+  description: "Send an email from your Google Workspace email account",
   version: "0.0.1",
   type: "action",
   props: {
@@ -61,26 +61,15 @@ export default {
       ],
     },
     attachments: {
-      type: "string[]",
+      type: "object",
       label: "Attachments",
-      description: "A list of attachments. Each attachment sould be a `filename,url` formatted string. The `filename` should contain the file extension (i.e. `.jpeg`, `.txt`) and the `url` is the download link for the file.",
+      description: "A list of attachments in this object prop. The `keys` should be the `filename` and the `values` should be the `url` for the attachment, respectively. The `filename` should contain the file extension (i.e. `.jpeg`, `.txt`) and the `url` is the download link for the file.",
       optional: true,
     },
   },
   async run({ $ }) {
     let from = await this.gmail.myEmailAddress();
     if (this.fromName) from = `${this.fromName} <${from}>`;
-
-    const attachments = this.attachments?.map((attachment) => {
-      const [
-        filename,
-        path,
-      ] = attachment.split(",");
-      return {
-        filename,
-        path,
-      };
-    });
 
     const opts = {
       from,
@@ -89,8 +78,18 @@ export default {
       bcc: this.bcc,
       replyTo: this.replyTo,
       subject: this.subject,
-      attachments,
     };
+
+    if (this.attachments) {
+      opts.attachments = Object.entries(this.attachments)
+        .map(([
+          filename,
+          path,
+        ]) => ({
+          filename,
+          path,
+        }));
+    }
 
     if (this.signature) {
       this.body += this.signature;
