@@ -647,6 +647,12 @@
     },
     {
       "path": "components/vercel_token_auth"
+    },
+    {
+      "path": "components/action_builder"
+    },
+    {
+      "path": "components/action_network"
     }
   ]
 }
