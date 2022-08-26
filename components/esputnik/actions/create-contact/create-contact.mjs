@@ -3,7 +3,7 @@ import esputnik from "../../esputnik.app.mjs";
 export default {
   key: "esputnik-create-contact",
   name: "Create Contact",
-  description: "Create a new contact in eSputnik",
+  description: "Create a new contact in eSputnik. [See the docs here](https://esputnik.com/api/methods.html#/v1/contact-POST)",
   version: "0.0.1",
   type: "action",
   props: {

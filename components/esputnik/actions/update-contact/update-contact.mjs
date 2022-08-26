@@ -3,7 +3,7 @@ import esputnik from "../../esputnik.app.mjs";
 export default {
   key: "esputnik-update-contact",
   name: "Update Contact",
-  description: "Update an existing contact in eSputnik",
+  description: "Update an existing contact in eSputnik. [See the docs here](https://esputnik.com/api/methods.html#/v1/contact/{id}-PUT)",
   version: "0.0.1",
   type: "action",
   props: {
