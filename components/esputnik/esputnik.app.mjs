@@ -188,5 +188,12 @@ export default {
         ...args,
       });
     },
+    async sendEvent(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "event",
+        ...args,
+      });
+    },
   },
 };
