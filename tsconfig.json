@@ -644,6 +644,9 @@
     },
     {
       "path": "components/productboard"
+    },
+    {
+      "path": "components/vercel_token_auth"
     }
   ]
 }
