@@ -61,13 +61,13 @@ export default {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
       // The link is a URL without a protocol to prevent link unfurling. See
       // https://api.slack.com/reference/messaging/link-unfurling#classic_unfurl
-      const link = `pipedream.com/@/${workflowId}?o=a&a=slack`;
+      const link = `https://pipedream.com/@/${workflowId}?o=a&a=slack`;
       return {
         "type": "context",
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `Sent via ${link}`,
+            "text": `Sent via <${link}|Pipedream>`,
           },
         ],
       };

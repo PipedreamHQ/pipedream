@@ -5,7 +5,7 @@ export default {
   key: "slack-new-mention",
   name: "New Mention (Instant)",
   version: "1.0.0",
-  description: "Emit new event when a username or specific word is mentioned in a channel",
+  description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,10 +30,10 @@ export default {
         ];
       },
     },
-    word: {
+    keyword: {
       propDefinition: [
         common.props.slack,
-        "word",
+        "keyword",
       ],
     },
     isUsername: {
