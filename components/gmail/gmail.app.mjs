@@ -1,4 +1,6 @@
 import gmail from "@googleapis/gmail";
+import MailComposer from "nodemailer/lib/mail-composer/index.js";
+import { convert }  from "html-to-text";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -47,6 +49,19 @@ export default {
         }));
       },
     },
+    signature: {
+      type: "string",
+      label: "Signature",
+      description: "A HTML signature composed in the Gmail Web UI that will be included in the message",
+      optional: true,
+      async options() {
+        const { sendAs } = await this.listSignatures();
+        return sendAs.map(({ signature }) => ({
+          label: convert(signature),
+          value: signature,
+        }));
+      },
+    },
     q: {
       type: "string",
       label: "Search Query",
@@ -64,6 +79,12 @@ export default {
         version: "v1",
         auth,
       });
+    },
+    async myEmailAddress() {
+      const response = await this._client().users.getProfile({
+        userId: constants.USER_ID,
+      });
+      return response.data.emailAddress;
     },
     async listMessages({ ...opts }) {
       const { data } = await this._client().users.messages.list({
@@ -86,6 +107,12 @@ export default {
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
       return subject;
     },
+    async listSignatures() {
+      const { data } = await this._client().users.settings.sendAs.list({
+        userId: constants.USER_ID,
+      });
+      return data;
+    },
     async listLabels() {
       const { data } = await this._client().users.labels.list({
         userId: constants.USER_ID,
@@ -95,6 +122,25 @@ export default {
         ? 1
         : -1);
       return data;
+    },
+    encodeMessage(message) {
+      return Buffer.from(message)
+        .toString("base64")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
+    },
+    async sendEmail({ ...opts }) {
+      const mailComposer = new MailComposer(opts);
+      const message = await mailComposer.compile().build();
+      const rawMessage = this.encodeMessage(message);
+      const response = await this._client().users.messages.send({
+        userId: constants.USER_ID,
+        requestBody: {
+          raw: rawMessage,
+        },
+      });
+      return response.data;
     },
     async addLabelToEmail({
       message, label,
