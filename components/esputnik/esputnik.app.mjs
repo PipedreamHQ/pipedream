@@ -18,10 +18,42 @@ export default {
             maxrows,
           },
         });
+        if (!segments) {
+          return [];
+        }
         return {
           options: segments.map((segment) => ({
             label: segment.name,
             value: segment.id,
+          })),
+          context: {
+            startindex: startindex + maxrows,
+          },
+        };
+      },
+    },
+    contact: {
+      type: "string",
+      label: "Contact",
+      description: "Select the contact to update",
+      async options({ prevContext }) {
+        const maxrows = constants.DEFAULT_PAGE_SIZE;
+        const { startindex = 1 } = prevContext;
+        const contacts = await this.listContacts({
+          params: {
+            startindex,
+            maxrows,
+          },
+        });
+        if (!contacts) {
+          return [];
+        }
+        return {
+          options: contacts.map((contact) => ({
+            label: contact.firstName && contact.lastName
+              ? `${contact.firstName} ${contact.lastName}`
+              : `${contact.id}`,
+            value: contact.id,
           })),
           context: {
             startindex: startindex + maxrows,
@@ -105,6 +137,14 @@ export default {
       };
       return axios($, config);
     },
+    async getContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        path: `contact/${contactId}`,
+        ...args,
+      });
+    },
     async listSegments(args = {}) {
       return this._makeRequest({
         path: "groups",
@@ -129,6 +169,22 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "contact",
+        ...args,
+      });
+    },
+    async updateContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `contact/${contactId}`,
+        ...args,
+      });
+    },
+    async subscribeContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "contact/subscribe",
         ...args,
       });
     },
