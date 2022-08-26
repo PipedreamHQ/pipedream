@@ -25,7 +25,7 @@ export default {
     avatarURL: {
       type: "string",
       label: "Avatar URL",
-      description: "If used, it overrides the default avatar of the webhook",
+      description: "If used, it overrides the default avatar of the webhook. Note: Consecutive posts by the same username within 10 minutes of each other will not display updated avatar.",
       optional: true,
     },
     threadID: {
@@ -78,7 +78,7 @@ export default {
       data.append("payload_json", JSON.stringify({
         content: serializedContent,
         username,
-        avatarURL,
+        avatar_url: avatarURL,
         embeds,
       }));
       if (file) data.append("file", file);

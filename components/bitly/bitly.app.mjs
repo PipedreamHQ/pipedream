@@ -61,5 +61,12 @@ export default {
         params,
       });
     },
+    async updateBitlink(bitlink, data) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/bitlinks/${bitlink}`,
+        data,
+      });
+    },
   },
 };

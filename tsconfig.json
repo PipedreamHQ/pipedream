@@ -635,6 +635,18 @@
     },
     {
       "path": "components/shipcloud"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/growsurf"
+    },
+    {
+      "path": "components/productboard"
+    },
+    {
+      "path": "components/vercel_token_auth"
     }
   ]
 }
