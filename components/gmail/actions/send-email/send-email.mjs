@@ -69,7 +69,7 @@ export default {
     attachments: {
       type: "object",
       label: "Attachments",
-      description: "A list of attachments in this object prop. The `keys` should be the `filename` and the `values` should be the `url` for the attachment, respectively. The `filename` should contain the file extension (i.e. `.jpeg`, `.txt`) and the `url` is the download link for the file.",
+      description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment, respectively. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
       optional: true,
     },
   },

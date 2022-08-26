@@ -11,7 +11,6 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "An email message",
       async options({ prevContext }) {
         const {
           messages,
@@ -80,7 +79,7 @@ export default {
     q: {
       type: "string",
       label: "Search Query",
-      description: "Applies a search filter using Gmail's [standard search operators](https://support.google.com/mail/answer/7190)",
+      description: "Apply a search filter using Gmail's [standard search operators](https://support.google.com/mail/answer/7190)",
       optional: true,
     },
   },
