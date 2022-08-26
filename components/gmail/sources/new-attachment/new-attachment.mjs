@@ -37,7 +37,7 @@ export default {
     },
     filterMessagesWithAttachments(messages) {
       return messages.filter(
-        (message) => message.payload.parts.filter((part) => part.body?.attachmentId).length,
+        (message) => message.payload.parts?.filter((part) => part.body?.attachmentId).length,
       );
     },
     async processMessageIds(messageIds) {
