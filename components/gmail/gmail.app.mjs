@@ -153,7 +153,9 @@ export default {
     },
     async sendEmail({ ...opts }) {
       const mailComposer = new MailComposer(opts);
-      const message = await mailComposer.compile().build();
+      const mail = mailComposer.compile();
+      mail.keepBcc = true;
+      const message = await mail.build();
       const rawMessage = this.encodeMessage(message);
       const response = await this._client().users.messages.send({
         userId: constants.USER_ID,
