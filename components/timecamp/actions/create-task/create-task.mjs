@@ -34,7 +34,7 @@ export default {
     },
     budgetUnit: {
       label: "Budget Unit",
-      description: "The task is billable",
+      description: "The budget unit of the task",
       type: "string",
       options: constants.BUDGET_UNITS,
       optional: true,
