@@ -5,7 +5,7 @@ export default {
   key: "telegram_bot_api-channel-updates",
   name: "New Channel Updates (Instant)",
   description: "Emit new event each time a channel post is created or updated.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {

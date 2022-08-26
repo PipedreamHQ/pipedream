@@ -5,7 +5,7 @@ export default {
   key: "telegram_bot_api-send-media-by-url-or-id",
   name: "Send Media by URL or ID",
   description: "Sends a file (document, photo, video, audio, ...) by HTTP URL or by ID that exists on the Telegram servers. [See the docs](https://core.telegram.org/bots/api#inputmedia) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     telegramBotApi,

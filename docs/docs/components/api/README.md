@@ -158,7 +158,7 @@ props: {
 | `any`               |                 |                       | ✓                     |
 | `$.interface.http`  |                 | ✓                     |                       |
 | `$.interface.timer` |                 | ✓                     |                       |
-| `$.service.db`      |                 | ✓                     | ✓                     |
+| `$.service.db`      |                 | ✓                     |                       |
 
 **Usage**
 
