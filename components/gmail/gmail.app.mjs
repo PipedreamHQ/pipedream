@@ -65,7 +65,7 @@ export default {
     q: {
       type: "string",
       label: "Search Query",
-      description: "Search query used in Gmail. [More information here](https://support.google.com/mail/answer/7190).",
+      description: "Applies a search filter using Gmail's [standard search operators](https://support.google.com/mail/answer/7190)",
       optional: true,
     },
   },
