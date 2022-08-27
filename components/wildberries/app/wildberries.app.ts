@@ -1,10 +1,28 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import common from "../actions/common/common";
 
 export default defineApp({
   type: "app",
   app: "wildberries",
-  propDefinitions: {},
+  propDefinitions: {
+    orderId: {
+      type: "integer",
+      label: "Order id",
+      description: "Set the Order Id.",
+    },
+    orderIds: {
+      type: "integer[]",
+      label: "Order ids",
+      description: "Array of order ids.\n\n**Example:**`[8423848, 6436344]`",
+    },
+    status: {
+      label: "Status",
+      type: "string",
+      description: "Set the new status of the order.",
+      options: common.orderStatus,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://suppliers-api.wildberries.ru/api/v2";
@@ -27,6 +45,28 @@ export default defineApp({
         method: "GET",
         path: "/orders",
         params: this.filterEmptyValues(params),
+      }));
+      return response;
+    },
+    async updateOrderStatus($ = this, params) {
+      const response = await axios($, this._getRequestParams({
+        method: "PUT",
+        path: "/orders",
+        data: [
+          this.filterEmptyValues(params),
+        ],
+      }));
+      return response;
+    },
+    async listOrderStickers($ = this, params, asPdf) {
+      let path = "/orders/stickers";
+      if (asPdf) {
+        path += "/pdf";
+      }
+      const response = await axios($, this._getRequestParams({
+        method: "POST",
+        path,
+        data: this.filterEmptyValues(params),
       }));
       return response;
     },
