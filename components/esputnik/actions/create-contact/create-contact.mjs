@@ -74,10 +74,12 @@ export default {
         region: this.region,
         postcode: this.postcode,
       },
-      groups: this.segments.map((segment) => ({
-        id: segment,
-      })),
     };
+    if (this?.segments?.length > 0) {
+      data.groups = this.segments.map((segment) => ({
+        id: segment,
+      }));
+    }
     const resp = await this.esputnik.createContact({
       data,
       $,
