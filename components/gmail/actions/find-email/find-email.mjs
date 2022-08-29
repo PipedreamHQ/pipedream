@@ -26,7 +26,7 @@ export default {
     includeSpamTrash: {
       type: "boolean",
       label: "Include Spam and Trash?",
-      description: "Include messages from `SPAM` and `TRASH` in the results",
+      description: "Include messages from `SPAM` and `TRASH` in the results. Defaults to `false`.",
       optional: true,
     },
   },
