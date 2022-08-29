@@ -56,10 +56,12 @@ export default {
       optional: true,
       async options() {
         const { sendAs } = await this.listSignatures();
-        return sendAs.map(({ signature }) => ({
-          label: convert(signature),
-          value: signature,
-        }));
+        return sendAs
+          .filter(({ signature }) => signature)
+          .map(({ signature }) => ({
+            label: convert(signature),
+            value: signature,
+          }));
       },
     },
     delegate: {
@@ -120,6 +122,12 @@ export default {
       });
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
       return subject;
+    },
+    async getMessages(ids = []) {
+      const promises = ids.map((id) => this.getMessage({
+        id,
+      }));
+      return Promise.all(promises);
     },
     async listSignatures() {
       const { data } = await this._client().users.settings.sendAs.list({

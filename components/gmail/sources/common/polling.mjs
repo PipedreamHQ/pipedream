@@ -50,12 +50,6 @@ export default {
         this.db.set("lastMessageId", lastMessageId);
       }
     },
-    async getMessages(ids = []) {
-      const promises = ids.map((id) => this.gmail.getMessage({
-        id,
-      }));
-      return Promise.all(promises);
-    },
     processMessageIds() {
       throw new Error("processMessageIds not implemented");
     },

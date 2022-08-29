@@ -42,7 +42,7 @@ export default {
     },
     async processMessageIds(messageIds) {
       const messages = this.filterMessagesWithAttachments(
-        await this.getMessages(messageIds),
+        await this.gmail.getMessages(messageIds),
       );
       this.emitEvents(messages);
     },

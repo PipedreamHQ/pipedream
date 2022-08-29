@@ -31,7 +31,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const allMessages = [];
+    const messageIds = [];
     let pageToken;
 
     do {
@@ -44,14 +44,16 @@ export default {
         includeSpamTrash: this.includeSpamTrash,
         pageToken,
       });
-      allMessages.push(...messages);
+      messageIds.push(...messages.map(({ id }) => id));
       pageToken = nextPageToken;
     } while (pageToken);
 
-    const suffix = allMessages.length === 1
+    const messages = await this.gmail.getMessages(messageIds);
+
+    const suffix = messages.length === 1
       ? ""
       : "s";
-    $.export("$summary", `Successfully found ${allMessages.length} message${suffix}`);
-    return allMessages;
+    $.export("$summary", `Successfully found ${messages.length} message${suffix}`);
+    return messages;
   },
 };

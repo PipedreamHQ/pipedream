@@ -25,7 +25,7 @@ export default {
       }
     },
     async processMessageIds(messageIds) {
-      const messages = await this.getMessages(messageIds);
+      const messages = await this.gmail.getMessages(messageIds);
       this.emitEvents(messages);
     },
   },
