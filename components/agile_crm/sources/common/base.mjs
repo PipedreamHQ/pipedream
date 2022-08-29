@@ -28,7 +28,7 @@ export default {
       return !compareDate || +createdDate > +compareDate;
     },
     async *getPaginatedResources(compareDate, resourceFn, params = {}) {
-      let cursor, done;
+      let cursor;
       let count = 0;
 
       do {
@@ -44,14 +44,11 @@ export default {
         for (const item of items) {
           if (this.isLater(item.created_time, compareDate)) {
             yield item;
-          } else {
-            done = true;
-            break;
           }
         }
         cursor = items[items.length - 1]?.cursor;
         count++;
-      } while (cursor && !done && count < this.maxRequests);
+      } while (cursor && count < this.maxRequests);
     },
     getParams() {
       return {};
