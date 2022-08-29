@@ -653,6 +653,9 @@
     },
     {
       "path": "components/action_network"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
     }
   ]
 }
