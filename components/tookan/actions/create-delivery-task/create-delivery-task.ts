@@ -1,14 +1,14 @@
 import { defineAction } from "@pipedream/types";
-import { CreateAppointmentTaskParams } from "../../common/requestParams";
+import { CreateDeliveryTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "Create Appointment Task",
+  name: "Create Delivery Task",
   description:
-    "Create an appointment task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-an-appointment-task)",
-  key: "tookan-create-appointment-task",
+    "Create a delivery task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-a-delivery-task)",
+  key: "tookan-create-delivery-task",
   version: "0.0.1",
   type: "action",
   props: {
@@ -19,27 +19,23 @@ export default defineAction({
     jobDeliveryDatetime: {
       propDefinition: [tookan, "jobDeliveryDatetime"],
     },
-    jobPickupDatetime: {
-      propDefinition: [tookan, "jobPickupDatetime"],
-    },
   },
   async run({ $ }) {
-    const params: CreateAppointmentTaskParams = {
+    const params: CreateDeliveryTaskParams = {
       $,
       data: {
         additionalOptions: this.additionalOptions,
         timezone: this.timezone,
         customer_address: this.customerAddress,
         job_delivery_datetime: this.jobDeliveryDatetime,
-        job_pickup_datetime: this.jobPickupDatetime,
-        has_delivery: 0,
+        has_delivery: 1,
         has_pickup: 0,
-        layout_type: 1
+        layout_type: 0
       },
     };
-    const data = await this.tookan.createAppointmentTask(params);
+    const data = await this.tookan.createDeliveryTask(params);
 
-    $.export("$summary", "Created appointment task successfully");
+    $.export("$summary", "Created delivery task successfully");
 
     return data;
   },

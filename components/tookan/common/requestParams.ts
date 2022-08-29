@@ -14,8 +14,8 @@ type CreateTaskParams = ActionRequestParams & {
   data: {
     additionalOptions: object;
     timezone: string;
-    has_pickup: 0 | 1;
     has_delivery: 0 | 1;
+    has_pickup: 0 | 1;
     layout_type: 0 | 1 | 2;
   };
 };
@@ -42,8 +42,8 @@ type CreateAppointmentTaskParams = CreateTaskParams &
   HasDeliveryParams &
   HasPickupDate & {
     data: {
-      has_pickup: 0;
       has_delivery: 0;
+      has_pickup: 0;
       layout_type: 1;
     };
   };
@@ -51,8 +51,8 @@ type CreateAppointmentTaskParams = CreateTaskParams &
 type CreateDeliveryTaskParams = CreateTaskParams &
   HasDeliveryParams & {
     data: {
-      has_pickup: 0;
       has_delivery: 1;
+      has_pickup: 0;
       layout_type: 0;
     };
   };
@@ -61,8 +61,8 @@ type CreateFieldWorkforceTaskParams = CreateTaskParams &
   HasDeliveryParams &
   HasPickupDate & {
     data: {
-      has_pickup: 0;
       has_delivery: 0;
+      has_pickup: 0;
       layout_type: 2;
     };
   };
@@ -71,8 +71,8 @@ type CreatePickupTaskParams = CreateTaskParams &
   HasPickupDate &
   HasPickupAddress & {
     data: {
-      has_pickup: 1;
       has_delivery: 0;
+      has_pickup: 1;
       layout_type: 0;
     };
   };
@@ -82,8 +82,8 @@ type CreatePickupAndDeliveryTaskParams = CreateTaskParams &
   HasDeliveryParams &
   HasPickupAddress & {
     data: {
-      has_pickup: 1;
       has_delivery: 1;
+      has_pickup: 1;
       layout_type: 0;
     };
   };

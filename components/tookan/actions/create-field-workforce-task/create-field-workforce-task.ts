@@ -1,14 +1,14 @@
 import { defineAction } from "@pipedream/types";
-import { CreateAppointmentTaskParams } from "../../common/requestParams";
+import { CreateFieldWorkforceTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "Create Appointment Task",
+  name: "Create Field Workforce Task",
   description:
-    "Create an appointment task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-an-appointment-task)",
-  key: "tookan-create-appointment-task",
+    "Create a field workforce task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-a-field-workforce-task)",
+  key: "tookan-create-field-workforce-task",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,7 +24,7 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const params: CreateAppointmentTaskParams = {
+    const params: CreateFieldWorkforceTaskParams = {
       $,
       data: {
         additionalOptions: this.additionalOptions,
@@ -34,12 +34,12 @@ export default defineAction({
         job_pickup_datetime: this.jobPickupDatetime,
         has_delivery: 0,
         has_pickup: 0,
-        layout_type: 1
+        layout_type: 2
       },
     };
-    const data = await this.tookan.createAppointmentTask(params);
+    const data = await this.tookan.createFieldWorkforceTask(params);
 
-    $.export("$summary", "Created appointment task successfully");
+    $.export("$summary", "Created field workforce task successfully");
 
     return data;
   },

@@ -1,14 +1,14 @@
 import { defineAction } from "@pipedream/types";
-import { CreateAppointmentTaskParams } from "../../common/requestParams";
+import { CreatePickupAndDeliveryTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "Create Appointment Task",
+  name: "Create Pickup And Delivery Task",
   description:
-    "Create an appointment task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-an-appointment-task)",
-  key: "tookan-create-appointment-task",
+    "Create a pickup and delivery task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-a-pickup-and-delivery-task)",
+  key: "tookan-create-pickup-and-delivery-task",
   version: "0.0.1",
   type: "action",
   props: {
@@ -19,27 +19,31 @@ export default defineAction({
     jobDeliveryDatetime: {
       propDefinition: [tookan, "jobDeliveryDatetime"],
     },
+    jobPickupAddress: {
+      propDefinition: [tookan, "jobPickupAddress"],
+    },
     jobPickupDatetime: {
       propDefinition: [tookan, "jobPickupDatetime"],
     },
   },
   async run({ $ }) {
-    const params: CreateAppointmentTaskParams = {
+    const params: CreatePickupAndDeliveryTaskParams = {
       $,
       data: {
         additionalOptions: this.additionalOptions,
         timezone: this.timezone,
         customer_address: this.customerAddress,
         job_delivery_datetime: this.jobDeliveryDatetime,
+        job_pickup_address: this.jobPickupAddress,
         job_pickup_datetime: this.jobPickupDatetime,
-        has_delivery: 0,
-        has_pickup: 0,
-        layout_type: 1
+        has_delivery: 1,
+        has_pickup: 1,
+        layout_type: 0
       },
     };
-    const data = await this.tookan.createAppointmentTask(params);
+    const data = await this.tookan.createPickupAndDeliveryTask(params);
 
-    $.export("$summary", "Created appointment task successfully");
+    $.export("$summary", "Created pickup and delivery task successfully");
 
     return data;
   },
