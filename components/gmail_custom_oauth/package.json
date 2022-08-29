@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/gmail_custom_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Gmail (Consumer) Components",
+  "main": "dist/app/gmail_custom_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gmail_custom_oauth"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/gmail_custom_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
