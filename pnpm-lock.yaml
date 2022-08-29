@@ -539,6 +539,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/esputnik:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/ethereum:
     specifiers: {}
 
@@ -2006,6 +2012,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/vercel_token_auth:
+    specifiers: {}
 
   components/verifalia:
     specifiers:
