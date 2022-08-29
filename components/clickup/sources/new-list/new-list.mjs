@@ -13,7 +13,7 @@ export default {
     _getMeta({ list_id: listId }) {
       return {
         id: listId,
-        summary: listId,
+        summary: String(listId),
         ts: Date.now(),
       };
     },

@@ -13,7 +13,7 @@ export default {
     _getMeta({ folder_id: folderId }) {
       return {
         id: folderId,
-        summary: folderId,
+        summary: String(folderId),
         ts: Date.now(),
       };
     },

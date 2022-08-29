@@ -13,7 +13,7 @@ export default {
     _getMeta(historyItems) {
       return {
         id: historyItems[0].id,
-        summary: historyItems[0].id,
+        summary: String(historyItems[0].id),
         ts: Date.now(),
       };
     },

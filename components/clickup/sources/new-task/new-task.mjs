@@ -13,7 +13,7 @@ export default {
     _getMeta({ task_id: taskId }) {
       return {
         id: taskId,
-        summary: taskId,
+        summary: String(taskId),
         ts: Date.now(),
       };
     },
