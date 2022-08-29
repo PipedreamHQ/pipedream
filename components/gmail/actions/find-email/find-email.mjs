@@ -4,7 +4,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gmail,
@@ -29,6 +29,7 @@ export default {
       label: "Include Spam and Trash?",
       description: "Include messages from `SPAM` and `TRASH` in the results. Defaults to `false`.",
       optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
