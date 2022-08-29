@@ -30,6 +30,14 @@ export default {
         summary: `New alert with id ${data.id}`,
         ts: new Date(),
       });
+
+      this._setLastAlertId(data.id);
+    },
+    _setLastAlertId(alertId) {
+      this.db.set("lastAlertId", alertId);
+    },
+    _getLastAlertId() {
+      this.db.get("lastAlertId");
     },
   },
   hooks: {
@@ -45,9 +53,11 @@ export default {
     },
   },
   async run() {
+    const lastAlertId = this._getLastAlertId();
+
     let page = 1;
 
-    while (page >= 0) {
+    while (true) {
       const alerts = await this.statuscake.getAlerts({
         uptimeId: this.uptimeId,
         params: {
@@ -58,7 +68,9 @@ export default {
 
       alerts.reverse().forEach(this.emitEvent);
 
-      if (alerts.length < 100) {
+      const alertIds = alerts.map((uptime) => uptime.id);
+
+      if (alerts.length < 100 || alertIds.includes(lastAlertId)) {
         return;
       }
 

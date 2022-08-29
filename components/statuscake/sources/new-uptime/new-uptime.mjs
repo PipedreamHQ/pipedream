@@ -24,6 +24,14 @@ export default {
         summary: `New uptime with id ${data.id}`,
         ts: new Date(),
       });
+
+      this._setLastUptimeId(data.id);
+    },
+    _setLastUptimeId(alarmId) {
+      this.db.set("lastUptimeId", alarmId);
+    },
+    _getLastUptimeId() {
+      this.db.get("lastUptimeId");
     },
   },
   hooks: {
@@ -39,11 +47,12 @@ export default {
     },
   },
   async run() {
+    const lastUptimeId = this._getLastUptimeId();
+
     let page = 1;
 
-    while (page >= 0) {
+    while (true) {
       const uptimes = await this.statuscake.getUptimes({
-        uptimeId: this.uptimeId,
         params: {
           page,
           limit: 100,
@@ -52,7 +61,9 @@ export default {
 
       uptimes.reverse().forEach(this.emitEvent);
 
-      if (uptimes.length < 100) {
+      const uptimeIds = uptimes.map((uptime) => uptime.id);
+
+      if (uptimes.length < 100 || uptimeIds.includes(lastUptimeId)) {
         return;
       }
 
