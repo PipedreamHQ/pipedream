@@ -43,7 +43,7 @@ export default defineApp({
     },
     additionalOptions: {
       label: "Additional Options",
-      description: "Any optional parameters to pass to this request",
+      description: "Any optional parameters to pass to the request",
       type: "object",
       optional: true,
     },
