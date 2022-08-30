@@ -712,6 +712,18 @@ importers:
       html-to-text: 8.2.1
       nodemailer: 6.7.8
 
+  components/gmail_custom_oauth:
+    specifiers:
+      '@googleapis/gmail': ^0.3.4
+      '@pipedream/platform': ^1.1.1
+      html-to-text: ^8.2.1
+      nodemailer: ^6.7.8
+    dependencies:
+      '@googleapis/gmail': 0.3.4
+      '@pipedream/platform': 1.1.1
+      html-to-text: 8.2.1
+      nodemailer: 6.7.8
+
   components/gobio_link:
     specifiers: {}
 
@@ -1867,6 +1879,14 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/timecamp:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      dayjs: ^1.11.5
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      dayjs: 1.11.5
 
   components/tmetric:
     specifiers: {}
@@ -10206,6 +10226,10 @@ packages:
 
   /dayjs/1.11.3:
     resolution: {integrity: sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==}
+    dev: false
+
+  /dayjs/1.11.5:
+    resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
     dev: false
 
   /debug/2.6.9:

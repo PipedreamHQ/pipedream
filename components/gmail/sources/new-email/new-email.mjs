@@ -5,7 +5,7 @@ export default {
   key: "gmail-new-email",
   name: "New Email",
   description: "Emit new event when an email is received. This source is capped at 100 max new messages per run.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
