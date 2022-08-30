@@ -6,7 +6,8 @@ export default {
   type: "app",
   app: "gmail_custom_oauth",
   methods: {
-    _accessToken(){
+    ...base.methods,
+    _accessToken() {
       return this.$auth.oauth_access_token;
     },
     _client() {
