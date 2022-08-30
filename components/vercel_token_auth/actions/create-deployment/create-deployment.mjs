@@ -10,4 +10,5 @@ overrideApp(base);
 export default {
   ...base,
   key: "vercel_token_auth-create-deployment",
+  version: "0.0.2",
 };
