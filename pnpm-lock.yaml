@@ -61,6 +61,12 @@ importers:
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
 
+  components/action_builder:
+    specifiers: {}
+
+  components/action_network:
+    specifiers: {}
+
   components/activecampaign:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -1663,7 +1669,13 @@ importers:
       validate.js: 0.13.1
 
   components/showpad:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/sifter:
     specifiers:
