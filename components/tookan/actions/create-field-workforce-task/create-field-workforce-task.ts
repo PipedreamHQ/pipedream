@@ -14,13 +14,22 @@ export default defineAction({
   props: {
     ...common.props,
     customerAddress: {
-      propDefinition: [tookan, "customerAddress"],
+      propDefinition: [
+        tookan,
+        "customerAddress",
+      ],
     },
     jobDeliveryDatetime: {
-      propDefinition: [tookan, "jobDeliveryDatetime"],
+      propDefinition: [
+        tookan,
+        "jobDeliveryDatetime",
+      ],
     },
     jobPickupDatetime: {
-      propDefinition: [tookan, "jobPickupDatetime"],
+      propDefinition: [
+        tookan,
+        "jobPickupDatetime",
+      ],
     },
   },
   async run({ $ }) {
@@ -34,7 +43,7 @@ export default defineAction({
         job_pickup_datetime: this.jobPickupDatetime,
         has_delivery: 0,
         has_pickup: 0,
-        layout_type: 2
+        layout_type: 2,
       },
     };
     const data = await this.tookan.createFieldWorkforceTask(params);

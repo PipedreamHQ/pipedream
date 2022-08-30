@@ -70,7 +70,7 @@ export default defineApp({
         method,
       });
     },
-    async createTask(params: { data: object }) {
+    async createTask(params: { data: object; }) {
       return this._httpRequest({
         endpoint: "/create_task",
         method: "POST",
@@ -87,7 +87,7 @@ export default defineApp({
       return this.createTask(params);
     },
     async createPickupAndDeliveryTask(
-      params: CreatePickupAndDeliveryTaskParams
+      params: CreatePickupAndDeliveryTaskParams,
     ) {
       return this.createTask(params);
     },

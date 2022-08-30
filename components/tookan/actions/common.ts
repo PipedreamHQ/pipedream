@@ -4,10 +4,16 @@ export default {
   props: {
     tookan,
     additionalOptions: {
-      propDefinition: [tookan, "additionalOptions"],
+      propDefinition: [
+        tookan,
+        "additionalOptions",
+      ],
     },
     timezone: {
-      propDefinition: [tookan, "timezone"],
+      propDefinition: [
+        tookan,
+        "timezone",
+      ],
     },
   },
 };
