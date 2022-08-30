@@ -61,6 +61,12 @@ importers:
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
 
+  components/action_builder:
+    specifiers: {}
+
+  components/action_network:
+    specifiers: {}
+
   components/activecampaign:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -1361,6 +1367,12 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/pointagram:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/pointerpro:
     specifiers: {}
 
@@ -1378,6 +1390,9 @@ importers:
       dtslint: 4.2.1_typescript@4.7.4
 
   components/pretix:
+    specifiers: {}
+
+  components/productboard:
     specifiers: {}
 
   components/profitwell:
@@ -1996,6 +2011,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/vercel_token_auth:
+    specifiers: {}
 
   components/verifalia:
     specifiers:
