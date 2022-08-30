@@ -659,6 +659,9 @@
     },
     {
       "path": "components/crisp"
+    },
+    {
+      "path": "components/gmail"
     }
   ]
 }
