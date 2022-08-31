@@ -39,7 +39,7 @@ export default {
         {
           id: time_entry.id,
           summary: `Time Entry id: ${time_entry.id}`,
-          ts: Date.parse(time_entry.updated_at), // or new Date()
+          ts: Date.parse(time_entry.updated_at),
         });
     });
   },
