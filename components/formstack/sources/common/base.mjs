@@ -1,4 +1,5 @@
 import formstack from "../../formstack.app.mjs";
+import crypto from "crypto";
 
 export default {
   props: {
@@ -19,8 +20,10 @@ export default {
     _getWebhookId() {
       return this.db.get("webhookId");
     },
-    _requestIsValid(handshakeKey) {
-      return this.formstack._accessToken() === handshakeKey;
+    _requestIsValid(handshakeKey, key, sig, bodyRaw) {
+      return crypto.createHmac(key, handshakeKey)
+        .update(bodyRaw)
+        .digest("hex") === sig;
     },
     emitEvent(event) {
       throw new Error("emitEvent is not implemented", event);
@@ -43,7 +46,14 @@ export default {
     },
   },
   async run(event) {
-    if (!this._requestIsValid(event.body.HandshakeKey)) throw new Error("HandshakeKey validator is not equal the access token");
+    const [
+      key,
+      sig,
+    ] = event.headers["x-fs-signature"].split("=");
+
+    if (!this._requestIsValid(this.formstack._accessToken(), key, sig, event.bodyRaw)) {
+      throw new Error("Event couldn't be validated from Formstack");
+    }
 
     delete event.body.HandshakeKey;
 
