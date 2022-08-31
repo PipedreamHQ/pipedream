@@ -8,6 +8,7 @@ import {
   CreatePickupAndDeliveryTaskParams,
   CreatePickupTaskParams,
 } from "../common/requestParams";
+import { CreateTaskResponse } from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -71,27 +72,33 @@ export default defineApp({
       });
     },
     async createTask(params: { data: object; }) {
-      return this._httpRequest({
+      const response: CreateTaskResponse = await this._httpRequest({
         endpoint: "/create_task",
         method: "POST",
         ...params,
       });
+
+      if (response.status !== 200) {
+        throw new Error(response.message);
+      }
+
+      return response.data;
     },
-    async createAppointmentTask(params: CreateAppointmentTaskParams) {
+    async createAppointmentTask(params: CreateAppointmentTaskParams): Promise<object> {
       return this.createTask(params);
     },
-    async createDeliveryTask(params: CreateDeliveryTaskParams) {
+    async createDeliveryTask(params: CreateDeliveryTaskParams): Promise<object> {
       return this.createTask(params);
     },
-    async createFieldWorkforceTask(params: CreateFieldWorkforceTaskParams) {
+    async createFieldWorkforceTask(params: CreateFieldWorkforceTaskParams): Promise<object> {
       return this.createTask(params);
     },
     async createPickupAndDeliveryTask(
       params: CreatePickupAndDeliveryTaskParams,
-    ) {
+    ): Promise<object> {
       return this.createTask(params);
     },
-    async createPickupTask(params: CreatePickupTaskParams) {
+    async createPickupTask(params: CreatePickupTaskParams): Promise<object> {
       return this.createTask(params);
     },
   },

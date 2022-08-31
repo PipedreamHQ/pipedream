@@ -4,7 +4,7 @@ interface ActionRequestParams {
   $: Pipedream;
 }
 
-interface HttpRequestParams extends ActionRequestParams {
+export interface HttpRequestParams extends ActionRequestParams {
   endpoint: string;
   data?: object;
   method?: string;
@@ -38,7 +38,7 @@ interface HasPickupAddress {
   };
 }
 
-type CreateAppointmentTaskParams = CreateTaskParams &
+export type CreateAppointmentTaskParams = CreateTaskParams &
   HasDeliveryParams &
   HasPickupDate & {
     data: {
@@ -48,7 +48,7 @@ type CreateAppointmentTaskParams = CreateTaskParams &
     };
   };
 
-type CreateDeliveryTaskParams = CreateTaskParams &
+export type CreateDeliveryTaskParams = CreateTaskParams &
   HasDeliveryParams & {
     data: {
       has_delivery: 1;
@@ -57,7 +57,7 @@ type CreateDeliveryTaskParams = CreateTaskParams &
     };
   };
 
-type CreateFieldWorkforceTaskParams = CreateTaskParams &
+export type CreateFieldWorkforceTaskParams = CreateTaskParams &
   HasDeliveryParams &
   HasPickupDate & {
     data: {
@@ -67,7 +67,7 @@ type CreateFieldWorkforceTaskParams = CreateTaskParams &
     };
   };
 
-type CreatePickupTaskParams = CreateTaskParams &
+export type CreatePickupTaskParams = CreateTaskParams &
   HasPickupDate &
   HasPickupAddress & {
     data: {
@@ -77,7 +77,7 @@ type CreatePickupTaskParams = CreateTaskParams &
     };
   };
 
-type CreatePickupAndDeliveryTaskParams = CreateTaskParams &
+export type CreatePickupAndDeliveryTaskParams = CreateTaskParams &
   HasPickupDate &
   HasDeliveryParams &
   HasPickupAddress & {
@@ -87,12 +87,3 @@ type CreatePickupAndDeliveryTaskParams = CreateTaskParams &
       layout_type: 0;
     };
   };
-
-export {
-  HttpRequestParams,
-  CreateAppointmentTaskParams,
-  CreateDeliveryTaskParams,
-  CreateFieldWorkforceTaskParams,
-  CreatePickupAndDeliveryTaskParams,
-  CreatePickupTaskParams,
-};
