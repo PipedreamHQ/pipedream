@@ -13,6 +13,13 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _getPreviousValues() {
@@ -52,7 +59,12 @@ export default {
       const lastResult = useLastResult
         ? (this._getLastResult() || null)
         : null;
-      const rows = await this.postgresql.getRows(table, column, lastResult);
+      const rows = await this.postgresql.getRows(
+        table,
+        column,
+        lastResult,
+        this.rejectUnauthorized,
+      );
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);

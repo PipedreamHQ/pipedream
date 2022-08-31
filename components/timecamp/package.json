@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/timecamp",
+  "version": "0.0.1",
+  "description": "Pipedream TimeCamp Components",
+  "main": "timecamp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timecamp"
+  ],
+  "homepage": "https://pipedream.com/apps/timecamp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "dayjs": "^1.11.5"
+  }
+}
