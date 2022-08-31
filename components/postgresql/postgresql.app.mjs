@@ -155,7 +155,7 @@ export default {
      *  last time the table was queried.
      * @returns Array of rows returned from the query
      */
-    async getRows(table, column, lastResult = null) {
+    async getRows(table, column, lastResult = null, rejectUnauthorize = true) {
       const select = "SELECT * FROM %I";
       const where = "WHERE %I > $1";
       const orderby = "ORDER BY %I DESC";
@@ -167,7 +167,7 @@ export default {
           ],
         }
         : format(`${select} ${orderby}`, table, column);
-      return this.executeQuery(query);
+      return this.executeQuery(query, rejectUnauthorize);
     },
     /**
      * Gets a single row from a table based on a lookup column & value
