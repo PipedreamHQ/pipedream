@@ -6,7 +6,7 @@ export default {
   name: "Create Item",
   description: "Creates an item. [See the docs here](https://api.developer.monday.com/docs/items-queries#create-an-item)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     monday,
     boardId: {
@@ -30,11 +30,17 @@ export default {
         "itemName",
       ],
     },
-    columnValues: {
+    columns: {
       propDefinition: [
         monday,
-        "itemColumnValues",
+        "column",
+        (c) => ({
+          boardId: c.boardId,
+        }),
       ],
+      type: "string[]",
+      description: "Select columns to fill",
+      reloadProps: true,
     },
     createLabels: {
       propDefinition: [
@@ -43,7 +49,27 @@ export default {
       ],
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.columns) {
+      return props;
+    }
+    for (const column of this.columns) {
+      props[column] = {
+        type: "string",
+        label: column,
+        description: `Value for column ${column}`,
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
+    const columnValues = {};
+    if (this.columns?.length > 0) {
+      for (const column of this.columns) {
+        columnValues[column] = this[column];
+      }
+    }
     const {
       data,
       errors,
@@ -53,7 +79,7 @@ export default {
         boardId: +this.boardId,
         groupId: utils.emptyStrToUndefined(this.groupId),
         itemName: utils.emptyStrToUndefined(this.itemName),
-        columnValues: utils.strinfied(this.columnValues),
+        columnValues: utils.strinfied(columnValues),
         createLabels: utils.emptyStrToUndefined(this.createLabels),
       });
 
