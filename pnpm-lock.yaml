@@ -2037,9 +2037,9 @@ importers:
 
   components/vercel:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
     specifiers: {}
