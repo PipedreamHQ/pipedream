@@ -12,7 +12,6 @@ export default {
       description: "The ID of the portal",
       async options() {
         const { portals } = await this.getPortals();
-        console.log("portals", portals);
         return portals.map(({
           id: value, name: label,
         }) => ({
@@ -40,13 +39,52 @@ export default {
               range: constants.MAX_RANGE,
             },
           });
+        const currentLen = projects.length;
         const options = projects.map(({
-          id: value, name: label,
+          id_string: value,
+          name: label,
         }) => ({
           value,
           label,
         }));
-        const currentLen = projects.length;
+        return {
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + index
+              : null,
+          },
+        };
+      },
+    },
+    projectUserId: {
+      type: "string",
+      label: "Project User ID",
+      description: "User ID of the project.",
+      async options({
+        portalId, projectId, prevContext,
+      }) {
+        const { index = 1 } = prevContext;
+        if (index === null) {
+          return [];
+        }
+        const { users = [] } =
+          await this.getProjectUsers({
+            portalId,
+            projectId,
+            params: {
+              index,
+              range: constants.MAX_RANGE,
+            },
+          });
+        const currentLen = users.length;
+        const options = users.map(({
+          id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        }));
         return {
           options,
           context: {
@@ -63,12 +101,13 @@ export default {
       const { region } = this.$auth;
       return url || `${constants.BASE_PREFIX_URL}${region}${constants.VERSION_PATH}${path}`;
     },
-    getHeaders() {
+    getHeaders(headers) {
       const { oauth_access_token: oauthAccessToken } = this.$auth;
       const authorization = `${constants.TOKEN_PREFIX} ${oauthAccessToken}`;
       return {
-        authorization,
+        Authorization: authorization,
         ...constants.DEFAULT_HEADERS,
+        ...headers,
       };
     },
     getParams(url, params) {
@@ -77,15 +116,35 @@ export default {
       }
     },
     async makeRequest({
-      $ = this, url, path, params, ...args
+      $ = this, url, path, headers: preHeaders, params, data: preData, ...args
     } = {}) {
+      const contentType = constants.CONTENT_TYPE_KEY_HEADER;
+
+      const hasMultipartHeader = utils.hasMultipartHeader(preHeaders);
+      const data = hasMultipartHeader && utils.getFormData(preData) || preData;
+
+      const currentHeaders = this.getHeaders(preHeaders);
+      const headers = hasMultipartHeader
+        ? {
+          ...currentHeaders,
+          [contentType]: data.getHeaders()[contentType.toLowerCase()],
+        }
+        : currentHeaders;
+
       const config = {
-        headers: this.getHeaders(),
+        headers,
         url: this.getUrl(url, path),
         params: this.getParams(url, params),
+        data,
         ...args,
       };
-      return utils.withRetries(() => axios($, config));
+      try {
+        console.log("config", config);
+        return await utils.withRetries(() => axios($, config));
+      } catch (error) {
+        console.log("error", error.response?.data);
+        throw error;
+      }
     },
     async addTimeGeneralLog({
       portalId, projectId, ...args
@@ -146,7 +205,6 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/portal/${portalId}/search`,
-        method: "post",
         ...args,
       });
     },
@@ -227,6 +285,14 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/portal/${portalId}/projects/${projectId}/tasklists/`,
+        ...args,
+      });
+    },
+    async getProjectUsers({
+      portalId, projectId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/portal/${portalId}/projects/${projectId}/users/`,
         ...args,
       });
     },

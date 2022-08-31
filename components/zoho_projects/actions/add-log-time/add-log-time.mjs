@@ -1,11 +1,12 @@
 import zohoProjects from "../../zoho_projects.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "zoho_projects-add-log-time",
   name: "Add Log Time",
   description: "Add Time for a General Log. Adds the time log to other tasks. [See the docs here](https://www.zoho.com/projects/help/rest-api/log-time.html#alink11)",
   type: "action",
-  version: "0.0.29",
+  version: "0.0.1",
   props: {
     zohoProjects,
     portalId: {
@@ -31,17 +32,17 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Date of the timesheet. Eg. (`MM-DD-YYYY`)",
+      description: "Date of the timesheet. E.g. (`MM-DD-YYYY`)",
     },
     hours: {
       type: "string",
       label: "Hours",
-      description: "Time period of the timesheet. Eg. (`hh:mm`)",
+      description: "Time period of the timesheet. E.g. (`hh:mm`)",
     },
     billStatus: {
       type: "string",
       label: "Bill Status",
-      description: "Timesheet billable status must be provided as *Billable* or *Non Billable*.",
+      description: "Timesheet billable status must be provided as `Billable` or `Non Billable`.",
       options: [
         "Billable",
         "Non Billable",
@@ -68,6 +69,7 @@ export default {
     const response =
       await this.zohoProjects.addTimeGeneralLog({
         $,
+        headers: constants.MULTIPART_FORM_DATA_HEADERS,
         portalId,
         projectId,
         data: {

@@ -1,4 +1,5 @@
 import zohoProjects from "../../zoho_projects.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "zoho_projects-create-bug",
@@ -8,6 +9,57 @@ export default {
   version: "0.0.1",
   props: {
     zohoProjects,
+    portalId: {
+      propDefinition: [
+        zohoProjects,
+        "portalId",
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        zohoProjects,
+        "projectId",
+        ({ portalId }) => ({
+          portalId,
+        }),
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Name of the bug.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description of the bug.",
+      optional: true,
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      portalId,
+      projectId,
+      title,
+      description,
+    } = this;
+
+    const { bugs } =
+      await this.zohoProjects.createBug({
+        $,
+        headers: constants.MULTIPART_FORM_DATA_HEADERS,
+        portalId,
+        projectId,
+        data: {
+          title,
+          description,
+        },
+      });
+
+    const bug = bugs[0];
+
+    $.export("$summary", `Successfully created a new bug with ID ${bug.id_string}`);
+
+    return bug;
+  },
 };

@@ -1,5 +1,39 @@
+import { createReadStream } from "fs";
+import FormData from "form-data";
 import retry from "async-retry";
 import constants from "./constants.mjs";
+
+function hasMultipartHeader(headers) {
+  return headers
+    && headers[constants.CONTENT_TYPE_KEY_HEADER]
+      .includes(constants.MULTIPART_FORM_DATA_VALUE_HEADER);
+}
+
+function buildFormData(formData, data, parentKey) {
+  if (data && typeof(data) === "object") {
+    Object.keys(data)
+      .forEach(async (key) => {
+        buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
+      });
+
+  } else if (data && parentKey.includes(constants.FILE_PROP_NAME)) {
+    formData.append(parentKey, createReadStream(data));
+
+  } else if (data) {
+    formData.append(parentKey, (data).toString());
+  }
+}
+
+function getFormData(data) {
+  try {
+    const formData = new FormData();
+    buildFormData(formData, data);
+    return formData;
+  } catch (error) {
+    console.log("FormData Error", error);
+    throw error;
+  }
+}
 
 function isRetriable(statusCode) {
   return constants.RETRIABLE_STATUS_CODE.includes(statusCode);
@@ -23,5 +57,7 @@ async function withRetries(apiCall) {
 }
 
 export default {
+  hasMultipartHeader,
+  getFormData,
   withRetries,
 };
