@@ -9,15 +9,19 @@ import {
   CreatePickupTaskParams,
 } from "../common/requestParams";
 import { CreateTaskResponse } from "../common/responseSchemas";
+import timezoneOptions from "../common/timezones";
 
 export default defineApp({
   type: "app",
   app: "tookan",
   propDefinitions: {
     timezone: {
-      label: "Timezone",
-      description: "Timezone difference with UTC",
+      label: "Time Zone",
+      description: `Select a **time zone** from the list.
+        \\
+        You can also provide a custom value indicating the difference with UTC in minutes, such as \`+480\` for PST.`,
       type: "string",
+      options: timezoneOptions,
     },
     customerAddress: {
       label: "Customer Address",
@@ -44,7 +48,7 @@ export default defineApp({
     },
     additionalOptions: {
       label: "Additional Options",
-      description: "Any optional parameters to pass to the request",
+      description: "Any optional parameters to pass to the request [(see the Tookan API docs for available parameters)](https://tookanapi.docs.apiary.io/#reference/task/create-task)",
       type: "object",
       optional: true,
     },
@@ -79,7 +83,7 @@ export default defineApp({
       });
 
       if (response.status !== 200) {
-        throw new Error(response.message);
+        throw new Error("Tookan response: " + response.message);
       }
 
       return response.data;
