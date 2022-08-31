@@ -1,0 +1,39 @@
+import app from "../../pointagram.app.mjs";
+import options from "../../options.mjs";
+
+export default {
+  type: "action",
+  key: "pointagram_list-players",
+  name: "List Players",
+  description: "List all players. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
+  version: "0.0.1",
+  props: {
+    app,
+    searchBy: {
+      type: "string",
+      label: "Search By",
+      description: "The field to search by",
+      options: options.LIST_PLAYERS_SEARCH_BY,
+      optional: true,
+    },
+    searchValue: {
+      type: "string",
+      label: "Search Value",
+      description: "The value to search by",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const params = {};
+    if (this.searchBy) {
+      params.search_by = this.searchBy;
+    }
+
+    if (this.searchValue) {
+      params.filter = this.searchValue;
+    }
+    const res = await this.app.listPlayers(params, $);
+    $.export("$summary", "Players successfully listed");
+    return res;
+  },
+};

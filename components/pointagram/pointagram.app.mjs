@@ -78,10 +78,11 @@ export default {
       };
       return axios($, this._getAxiosParams(opts));
     },
-    async listPlayers($ = this) {
+    async listPlayers(params = {}, $ = this) {
       const opts = {
         path: "/externalapi.php/list_players",
         method: "GET",
+        params,
       };
       return axios($, this._getAxiosParams(opts));
     },
