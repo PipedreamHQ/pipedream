@@ -4,7 +4,7 @@ export default {
   type: "action",
   key: "pointagram_create-player",
   name: "Create Player",
-  description: "Create a new player",
+  description: "Create a new player. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
   version: "0.0.1",
   props: {
     app,
