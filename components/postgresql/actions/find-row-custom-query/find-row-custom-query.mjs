@@ -4,7 +4,7 @@ export default {
   name: "Find Row With Custom Query",
   key: "postgresql-find-row-custom-query",
   description: "Finds a row in a table via a custom query. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postgresql,

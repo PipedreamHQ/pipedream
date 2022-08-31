@@ -7,7 +7,7 @@ export default {
     country_code: {
       type: "string",
       label: "Enter a country code",
-      description: "[ISO 3166](https://www.iso.org/obp/ui/en/#iso:pub:PUB500001:en) two-character code for the country (eg. `FR`)",
+      description: "[ISO 3166](https://www.iso.org/obp/ui/en/#iso:pub:PUB500001:en) two-character code for the country (eg. `FR`) for one of [these supported countries](https://nordigen.com/en/coverage/).",
     },
     institution_id: {
       type: "string",

@@ -629,6 +629,39 @@
     },
     {
       "path": "components/bitrix24"
+    },
+    {
+      "path": "components/ecwid"
+    },
+    {
+      "path": "components/shipcloud"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/growsurf"
+    },
+    {
+      "path": "components/productboard"
+    },
+    {
+      "path": "components/vercel_token_auth"
+    },
+    {
+      "path": "components/action_builder"
+    },
+    {
+      "path": "components/action_network"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/crisp"
+    },
+    {
+      "path": "components/gmail"
     }
   ]
 }

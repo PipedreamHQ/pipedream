@@ -737,5 +737,19 @@ export default {
 
       return view;
     },
+    async createHook(teamId, endpoint, events, $ = this) {
+      return this._makeRequest(`team/${teamId}/webhook`, {
+        method: "POST",
+        data: {
+          events,
+          endpoint,
+        },
+      }, $);
+    },
+    async deleteHook(hookId, $ = this) {
+      return this._makeRequest(`webhook/${hookId}`, {
+        method: "DELETE",
+      }, $);
+    },
   },
 };

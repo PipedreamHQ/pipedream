@@ -6,7 +6,7 @@ export default {
   key: "clickup-update-list",
   name: "Update List",
   description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
