@@ -39,7 +39,7 @@ export default defineAction({
         layout_type: 0,
       },
     };
-    const data = await this.tookan.createPickupTask(params);
+    const data: object = await this.tookan.createPickupTask(params);
 
     $.export("$summary", "Created pickup task successfully");
 

@@ -39,7 +39,7 @@ export default defineAction({
         layout_type: 0,
       },
     };
-    const data = await this.tookan.createDeliveryTask(params);
+    const data: object = await this.tookan.createDeliveryTask(params);
 
     $.export("$summary", "Created delivery task successfully");
 

@@ -46,7 +46,7 @@ export default defineAction({
         layout_type: 1,
       },
     };
-    const data = await this.tookan.createAppointmentTask(params);
+    const data: object = await this.tookan.createAppointmentTask(params);
 
     $.export("$summary", "Created appointment task successfully");
 

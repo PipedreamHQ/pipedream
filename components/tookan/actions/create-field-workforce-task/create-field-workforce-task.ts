@@ -46,7 +46,7 @@ export default defineAction({
         layout_type: 2,
       },
     };
-    const data = await this.tookan.createFieldWorkforceTask(params);
+    const data: object = await this.tookan.createFieldWorkforceTask(params);
 
     $.export("$summary", "Created field workforce task successfully");
 
