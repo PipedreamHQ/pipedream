@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -51,6 +52,21 @@ export default {
         };
       },
     },
+    contactEmail: {
+      type: "string",
+      label: "Email",
+      description: "Email address for ticket. If selected contact has no email on record, Enter a custom expression to overwrite",
+      async options({ contactId }) {
+        const contact = await this.getContact({
+          contactId,
+        });
+        if (!contact) {
+          return [];
+        }
+        const emails = contact.properties.filter((prop) => prop.name === "email").map((prop) => prop.value);
+        return emails;
+      },
+    },
     maxRequests: {
       type: "integer",
       min: 1,
@@ -59,6 +75,12 @@ export default {
       description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results).",
       optional: true,
       default: 1,
+    },
+    group: {
+      type: "string",
+      label: "Group ID",
+      description: "ID of the group to assign to the new ticket",
+      optional: true,
     },
     firstName: {
       type: "string",
@@ -90,6 +112,56 @@ export default {
       description: "The contact's phone number",
       optional: true,
     },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Subject of the task",
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Type of task",
+      options: constants.TASK_TYPE_OPTIONS,
+    },
+    taskPriority: {
+      type: "string",
+      label: "Priority",
+      description: "Priority of the task",
+      options: constants.TASK_PRIORITY_OPTIONS,
+      optional: true,
+    },
+    ticketPriority: {
+      type: "string",
+      label: "Priority",
+      description: "Priority of the ticket",
+      options: constants.TICKET_PRIORITY_OPTIONS,
+      optional: true,
+    },
+    taskStatus: {
+      type: "string",
+      label: "Status",
+      description: "Status of the task",
+      options: constants.TASK_STATUS_OPTIONS,
+      optional: true,
+    },
+    ticketStatus: {
+      type: "string",
+      label: "Status",
+      description: "Status of the ticket",
+      options: constants.TICKET_STATUS_OPTIONS,
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description of the task",
+      optional: true,
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Message for the new ticket",
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -115,6 +187,14 @@ export default {
         ...otherArgs,
       };
       return axios($, config);
+    },
+    async getContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        path: `contacts/${contactId}`,
+        ...args,
+      });
     },
     async listContacts(args = {}) {
       return this._makeRequest({
@@ -144,6 +224,20 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "contacts",
+        ...args,
+      });
+    },
+    async createTask(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "tasks",
+        ...args,
+      });
+    },
+    async createTicket(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "tickets/new-ticket",
         ...args,
       });
     },
