@@ -1,9 +1,9 @@
 export default {
-  stickersRequestType: [
+  STICKERS_REQUEST_TYPE: [
     "code128",
     "qr",
   ],
-  orderStatus: [
+  ORDER_STATUSES: [
     {
       label: "New order",
       value: "0",

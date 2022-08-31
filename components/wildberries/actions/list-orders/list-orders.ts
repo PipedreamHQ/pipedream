@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List Orders",
-  description: "Returns a list of orders. [See docs](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/get_api_v2_orders)",
+  description: "Returns a list of orders. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/get_api_v2_orders)",
   key: "wildberries-list-orders",
   version: "0.0.1",
   type: "action",

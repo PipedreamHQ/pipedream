@@ -1,10 +1,10 @@
 import app from "../../app/wildberries.app";
-import common from "../common/common";
+import constants from "../common/constants";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List Order Stickers",
-  description: "List order stickers. [See docs](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/post_api_v2_orders_stickers)",
+  description: "List order stickers. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/post_api_v2_orders_stickers)",
   key: "wildberries-list-order-stickers",
   version: "0.0.1",
   type: "action",
@@ -19,14 +19,14 @@ export default defineAction({
     type: {
       label: "Type",
       type: "string",
-      description: "Sticker type, default: code128.",
+      description: "Sticker type, default: `code128`.",
       default: "code128",
-      options: common.stickersRequestType,
+      options: constants.STICKERS_REQUEST_TYPE,
     },
     asPdf: {
       type: "boolean",
       label: "List as PDF",
-      description: "Set true for use the PDF API [See docs](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/post_api_v2_orders_stickers_pdf).",
+      description: "Set true for use the PDF API [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/post_api_v2_orders_stickers_pdf).",
       default: false,
     },
   },

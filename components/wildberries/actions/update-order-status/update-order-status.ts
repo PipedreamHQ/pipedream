@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Update Order Status",
-  description: "Update a order status. [See docs](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
+  description: "Update a order status. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
   key: "wildberries-update-order-status",
   version: "0.0.1",
   type: "action",
@@ -24,7 +24,7 @@ export default defineAction({
     sgtin: {
       type: "any",
       label: "SGTIN",
-      description: "Array required only for pharmaceutical products when they are transferred to status `Customer received the goods`.\n\n**Example:** `[{ code: string, numerator: integer, denominator: integer, sid: integer }]`\n\n[See docs](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
+      description: "Array required only for pharmaceutical products when they are transferred to status `Customer received the goods`.\n\n**Example:** `[{ code: string, numerator: integer, denominator: integer, sid: integer }]`\n\n[See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
       optional: true,
     },
   },
@@ -32,7 +32,7 @@ export default defineAction({
     const params = {
       orderId: this.orderId,
       status: parseInt(this.status),
-      sgtin: null,
+      sgtin: this.sgtin,
     };
     if (this.sgtin && !Array.isArray(this.sgtin)) {
       params.sgtin = [

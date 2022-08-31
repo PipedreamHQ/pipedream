@@ -1,6 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import common from "../actions/common/common";
+import constants from "../actions/common/constants";
 
 export default defineApp({
   type: "app",
@@ -20,7 +20,7 @@ export default defineApp({
       label: "Status",
       type: "string",
       description: "Set the new status of the order.",
-      options: common.orderStatus,
+      options: constants.ORDER_STATUSES,
     },
   },
   methods: {
