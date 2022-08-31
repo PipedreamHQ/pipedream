@@ -2,7 +2,7 @@ import app from "../../pointagram.app.mjs";
 
 export default {
   type: "action",
-  key: "pointagram_add-points-to-player",
+  key: "pointagram-add-points-to-player",
   name: "Add Points to Player",
   description: "Add points to a player. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
   version: "0.0.1",

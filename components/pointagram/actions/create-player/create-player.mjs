@@ -2,7 +2,7 @@ import app from "../../pointagram.app.mjs";
 
 export default {
   type: "action",
-  key: "pointagram_create-player",
+  key: "pointagram-create-player",
   name: "Create Player",
   description: "Create a new player. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
   version: "0.0.1",

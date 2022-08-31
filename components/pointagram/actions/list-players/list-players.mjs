@@ -3,7 +3,7 @@ import options from "../../options.mjs";
 
 export default {
   type: "action",
-  key: "pointagram_list-players",
+  key: "pointagram-list-players",
   name: "List Players",
   description: "List all players. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
   version: "0.0.1",
