@@ -40,7 +40,7 @@ export default {
       player_external_id: this.externalId,
       offline: this.offline,
     }, $);
-    $.export("$summary", "Player successfully created");
+    $.export("$summary", `Player successfully created with id ${res.profile_id}`);
     return res;
   },
 };

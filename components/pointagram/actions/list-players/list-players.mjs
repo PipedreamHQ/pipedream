@@ -6,7 +6,7 @@ export default {
   key: "pointagram-list-players",
   name: "List Players",
   description: "List all players. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
-  version: "0.0.1",
+  version: "0.1.1",
   props: {
     app,
     searchBy: {
@@ -24,15 +24,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.searchBy) {
-      params.search_by = this.searchBy;
-    }
-
-    if (this.searchValue) {
-      params.filter = this.searchValue;
-    }
-    const res = await this.app.listPlayers(params, $);
+    const {
+      searchValue,
+      searchBy,
+    } = this;
+    const res = await this.app.listPlayers({
+      search_by: searchBy,
+      filter: searchValue,
+    }, $);
     $.export("$summary", "Players successfully listed");
     return res;
   },

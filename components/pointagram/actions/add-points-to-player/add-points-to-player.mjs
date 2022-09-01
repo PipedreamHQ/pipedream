@@ -4,7 +4,7 @@ export default {
   type: "action",
   key: "pointagram-add-points-to-player",
   name: "Add Points to Player",
-  description: "Add points to a player. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
+  description: "Add points to a player. [See docs here](https://www.pointagram.com/points-score-series/)",
   version: "0.0.1",
   props: {
     app,
@@ -32,7 +32,7 @@ export default {
       points: this.points,
       scoreseries_id: this.scoreSeriesId,
     }, $);
-    $.export("$summary", "Points successfully added");
+    $.export("$summary", `Points successfully added with id ${res.insid}`);
     return res;
   },
 };

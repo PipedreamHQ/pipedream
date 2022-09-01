@@ -63,11 +63,17 @@ export default {
     _getBaseUrl() {
       return "https://app.pointagram.com/server";
     },
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
+    _getApiUser() {
+      return this.$auth.api_user;
+    },
     _getHeaders() {
       return {
         "content-type": "application/json",
-        "api_key": this.$auth.api_key,
-        "api_user": this.$auth.api_user,
+        "api_key": this._getApiKey(),
+        "api_user": this._getApiUser(),
       };
     },
     async createPlayer(data, $ = this) {
