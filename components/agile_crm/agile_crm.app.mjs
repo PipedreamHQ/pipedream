@@ -164,13 +164,19 @@ export default {
     },
   },
   methods: {
+    _username() {
+      return this.$auth.username;
+    },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _getBaseUrl() {
       return `https://${this.$auth.domain}.agilecrm.com/dev/api/`;
     },
     _getAuth() {
       return {
-        username: this.$auth.username,
-        password: this.$auth.api_key,
+        username: this._username(),
+        password: this._apiKey(),
       };
     },
     async _makeRequest(args = {}) {
