@@ -74,11 +74,15 @@ export default {
     },
   },
   async run({ $ }) {
-    let from = await this.gmail.myEmailAddress();
-    if (this.fromName) from = `${this.fromName} <${from}>`;
+    const {
+      name: fromName,
+      email,
+    } = await this.gmail.userInfo();
 
     const opts = {
-      from,
+      from: this.fromName
+        ? `${this.fromName} <${email}>`
+        : `${fromName} <${email}>`,
       to: this.to,
       cc: this.cc,
       bcc: this.bcc,
