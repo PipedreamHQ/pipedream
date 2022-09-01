@@ -1,7 +1,10 @@
 import gmail from "@googleapis/gmail";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
-import { convert }  from "html-to-text";
-import { ConfigurationError } from "@pipedream/platform";
+import { convert } from "html-to-text";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -96,11 +99,20 @@ export default {
         auth,
       });
     },
-    async myEmailAddress() {
-      const response = await this._client().users.getProfile({
-        userId: constants.USER_ID,
+    async userInfo() {
+      const {
+        name,
+        email,
+      } = await axios(this, {
+        url: "https://www.googleapis.com/oauth2/v1/userinfo",
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
       });
-      return response.data.emailAddress;
+      return {
+        name,
+        email,
+      };
     },
     async listMessages({ ...opts }) {
       const { data } = await this._client().users.messages.list({
