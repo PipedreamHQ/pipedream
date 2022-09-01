@@ -55,10 +55,20 @@ export default {
       return props;
     }
     for (const column of this.columns) {
+      let description;
+      if (column === "status") {
+        description = "Value for status. [Status Index Value Map](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1)";
+      } else if (column === "person") {
+        description = "The ID of the person/user to add to item";
+      } else if (column === "date4") {
+        description = "Enter date of item in YYYY-MM-DD format. Eg. `2022-09-02`";
+      } else {
+        description = `Value for column ${column}`;
+      }
       props[column] = {
         type: "string",
         label: column,
-        description: `Value for column ${column}`,
+        description,
       };
     }
     return props;
