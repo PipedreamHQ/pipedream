@@ -1775,6 +1775,12 @@ importers:
     dependencies:
       axios: 0.21.4
 
+  components/streak:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stripe:
     specifiers:
       lodash.pick: ^4.4.0
