@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import { CreateFieldWorkforceTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
+import { TaskData } from "../../common/responseSchemas";
 
 export default defineAction({
   ...common,
@@ -46,9 +47,9 @@ export default defineAction({
         layout_type: 2,
       },
     };
-    const data: object = await this.tookan.createFieldWorkforceTask(params);
+    const data: TaskData = await this.tookan.createFieldWorkforceTask(params);
 
-    $.export("$summary", "Created field workforce task successfully");
+    $.export("$summary", `Created field workforce task successfully (id ${data.job_id})`);
 
     return data;
   },

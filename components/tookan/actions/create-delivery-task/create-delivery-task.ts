@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import { CreateDeliveryTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
+import { TaskData } from "../../common/responseSchemas";
 
 export default defineAction({
   ...common,
@@ -39,9 +40,9 @@ export default defineAction({
         layout_type: 0,
       },
     };
-    const data: object = await this.tookan.createDeliveryTask(params);
+    const data: TaskData = await this.tookan.createDeliveryTask(params);
 
-    $.export("$summary", "Created delivery task successfully");
+    $.export("$summary", `Created delivery task successfully (id ${data.job_id})`);
 
     return data;
   },

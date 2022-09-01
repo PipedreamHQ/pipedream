@@ -2,6 +2,7 @@ import { defineAction } from "@pipedream/types";
 import { CreatePickupAndDeliveryTaskParams } from "../../common/requestParams";
 import tookan from "../../app/tookan.app";
 import common from "../common";
+import { TaskData } from "../../common/responseSchemas";
 
 export default defineAction({
   ...common,
@@ -53,9 +54,14 @@ export default defineAction({
         layout_type: 0,
       },
     };
-    const data: object = await this.tookan.createPickupAndDeliveryTask(params);
+    const data: TaskData = await this.tookan.createPickupAndDeliveryTask(
+      params,
+    );
 
-    $.export("$summary", "Created pickup and delivery task successfully");
+    $.export(
+      "$summary",
+      `Created pickup and delivery task successfully (id ${data.job_id})`,
+    );
 
     return data;
   },
