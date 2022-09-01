@@ -30,12 +30,6 @@ export default {
       description: "A name that will be displayed in the `From` section of the email",
       optional: true,
     },
-    delegate: {
-      propDefinition: [
-        gmail,
-        "delegate",
-      ],
-    },
     replyTo: {
       type: "string",
       label: "Reply To",
@@ -59,12 +53,6 @@ export default {
       optional: true,
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
-    },
-    signature: {
-      propDefinition: [
-        gmail,
-        "signature",
-      ],
     },
     attachments: {
       type: "object",
@@ -99,11 +87,6 @@ export default {
           filename,
           path,
         }));
-    }
-
-    if (this.signature) {
-      this.body += this.signature;
-      this.bodyType = constants.BODY_TYPES.HTML;
     }
 
     if (this.bodyType === constants.BODY_TYPES.HTML) {
