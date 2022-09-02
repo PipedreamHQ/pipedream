@@ -10,16 +10,16 @@ export default {
   props: {
     app,
     email: {
-      type:"string",
-      label:"Email",
+      type: "string",
+      label: "Email",
       description: "If set, the result will only include user with that email.",
-      optional:true
+      optional: true,
     },
     accountType: { //no method to fetch account types
-      type:"string",
-      label:"Category",
+      type: "string",
+      label: "Category",
       description: "If set, the result will only include user with that account type.",
-      optional:true
+      optional: true,
     },
   },
   async run ({ $ }) {
@@ -36,6 +36,7 @@ export default {
     });
     for await (const item of resourcesStream)
       items.push(item);
+    // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${items.length} user${items.length != 1 ? "s" : ""} has been found.`);
     return items;
   },

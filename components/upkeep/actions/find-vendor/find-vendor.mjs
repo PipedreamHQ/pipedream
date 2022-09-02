@@ -10,10 +10,10 @@ export default {
   props: {
     app,
     businessName: {
-      type:"string",
-      label:"Business Name",
+      type: "string",
+      label: "Business Name",
       description: "If set, the result will only include vendors with that business name.",
-      optional:true
+      optional: true,
     },
   },
   async run ({ $ }) {
@@ -29,6 +29,7 @@ export default {
     });
     for await (const item of resourcesStream)
       items.push(item);
+    // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${items.length} vendor${items.length != 1 ? "s" : ""} has been found.`);
     return items;
   },

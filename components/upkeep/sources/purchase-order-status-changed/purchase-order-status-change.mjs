@@ -20,6 +20,7 @@ export default {
       ];
     },
     getSummarry(item) {
+      // eslint-disable-next-line multiline-ternary
       return `Purchase order(ID:${item?.id}, TITLE:${item?.title}) was ${item?.approvedAt ? "approved" : "declined"} at ${item?.approvedAt ?? item?.declinedAt}`;
     },
     getTime(item) {

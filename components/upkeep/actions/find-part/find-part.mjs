@@ -10,30 +10,30 @@ export default {
   props: {
     app,
     name: {
-      type:"string",
-      label:"Name",
+      type: "string",
+      label: "Name",
       description: "If set, the result will only include parts with that name.",
-      optional:true
+      optional: true,
     },
     category: { //no method to fetch part categories
-      type:"string",
-      label:"Category",
+      type: "string",
+      label: "Category",
       description: "If set, the result will only include parts with that category.",
-      optional:true
+      optional: true,
     },
     locationId: {
       propDefinition: [
         app,
         "locationId",
       ],
-      description: "The ID of the location. If set, the result will only include parts assigned to this location."
+      description: "The ID of the location. If set, the result will only include parts assigned to this location.",
     },
     createdByUser: {
       propDefinition: [
         app,
         "userId",
       ],
-      label:"Created By User",
+      label: "Created By User",
       description: "The ID of the user. If set, the result will only include parts created by this user.",
     },
   },
@@ -53,6 +53,7 @@ export default {
     });
     for await (const item of resourcesStream)
       items.push(item);
+    // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${items.length} part${items.length != 1 ? "s" : ""} has been found.`);
     return items;
   },

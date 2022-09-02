@@ -10,10 +10,10 @@ export default {
   props: {
     app,
     name: {
-      type:"string",
-      label:"Name",
+      type: "string",
+      label: "Name",
       description: "If set, the result will only include locations with that name.",
-      optional:true
+      optional: true,
     },
     locationId: {
       propDefinition: [
@@ -21,14 +21,14 @@ export default {
         "locationId",
       ],
       label: "Parent Location",
-      description: "If set, the result will only include sub locations of this parent location."
+      description: "If set, the result will only include sub locations of this parent location.",
     },
     createdByUser: {
       propDefinition: [
         app,
         "userId",
       ],
-      label:"Created By User",
+      label: "Created By User",
       description: "If set, the result will only include locations created by this user.",
     },
   },
@@ -47,6 +47,7 @@ export default {
     });
     for await (const item of resourcesStream)
       items.push(item);
+    // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${items.length} location${items.length != 1 ? "s" : ""} has been found.`);
     return items;
   },

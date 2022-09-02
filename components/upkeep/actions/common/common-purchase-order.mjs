@@ -69,7 +69,7 @@ export default {
         description: this.description,
         parts: utils.parseArray(this.parts),
         customFieldsPO: utils.parseArray(this.customFieldsPO),
-        ...utils.parseObject(this.otherFields)
+        ...utils.parseObject(this.otherFields),
       };
     },
   },

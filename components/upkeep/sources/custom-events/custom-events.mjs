@@ -26,7 +26,7 @@ export default {
     getEvents() {
       return this.events;
     },
-    getSummarry() {
+    getSummarry(item) {
       return `New custom event (ITEM ID:${item?.id})`;
     },
     getTime() {

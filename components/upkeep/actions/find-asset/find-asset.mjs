@@ -10,29 +10,29 @@ export default {
   props: {
     app,
     name: {
-      type:"string",
-      label:"Name",
+      type: "string",
+      label: "Name",
       description: "If set, the result will only include assets with that name.",
-      optional:true
+      optional: true,
     },
     locationId: {
       propDefinition: [
         app,
         "locationId",
       ],
-      description: "The ID of the location. If set, the result will only include assets assigned to this location."
+      description: "The ID of the location. If set, the result will only include assets assigned to this location.",
     },
     status: {
-      type:"string",
-      label:"Status",
+      type: "string",
+      label: "Status",
       description: "If set, the result will only include assets with this status.",
-      optional:true
+      optional: true,
     },
     category: { //no method to fetch asset categories
-      type:"string",
-      label:"Category",
+      type: "string",
+      label: "Category",
       description: "If set, the result will only include assets with this category.",
-      optional:true
+      optional: true,
     },
     userId: {
       propDefinition: [
@@ -46,7 +46,7 @@ export default {
         app,
         "userId",
       ],
-      label:"Created By User",
+      label: "Created By User",
       description: "The ID of the user. If set, the result will only include assets created by this user.",
     },
     downtimeStatus: {
@@ -75,6 +75,7 @@ export default {
     });
     for await (const item of resourcesStream)
       items.push(item);
+    // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${items.length} asset${items.length != 1 ? "s" : ""} has been found.`);
     return items;
   },
