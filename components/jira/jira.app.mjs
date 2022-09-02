@@ -9,7 +9,7 @@ export default {
       label: "Project ID",
       description: "The project ID.",
       async options({ prevContext }) {
-        const { startAt } = prevContext || {};
+        let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
           params: {
@@ -17,13 +17,16 @@ export default {
             maxResults: pageSize,
           },
         });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
         return {
           options: resp?.values.map((e) => ({
             label: e.name,
             value: e.id,
           })),
           context: {
-            after: startAt,
+            startAt,
           },
         };
       },
