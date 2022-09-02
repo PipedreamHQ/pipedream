@@ -9,13 +9,16 @@ export default {
       label: "Project ID",
       description: "The project ID.",
       useQuery: true,
-      async options({ prevContext }) {
+      async options({
+        prevContext, query,
+      }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
           params: {
             startAt,
             maxResults: pageSize,
+            query,
           },
         });
         startAt = startAt > 0
@@ -87,14 +90,18 @@ export default {
     accountId: {
       type: "string",
       label: "Assignee Id",
-      description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`, ",
-      async options({ prevContext }) {
+      description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getUsers({
           params: {
             startAt,
             maxResults: pageSize,
+            query,
           },
         });
         startAt = startAt > 0
