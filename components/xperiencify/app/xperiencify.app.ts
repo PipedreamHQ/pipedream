@@ -60,5 +60,12 @@ export default defineApp({
         ...opts,
       });
     },
+    async getStudentsForCourse({ courseId }) {
+      const courses = await this.listCourses();
+      const [
+        course,
+      ] = courses.filter((course) => course.id === courseId);
+      return course.users;
+    },
   },
 });
