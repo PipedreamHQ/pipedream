@@ -5,7 +5,7 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -52,7 +52,7 @@ export default {
   async run() {
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
-      this.text += `\n\n--\n${sentViaPipedreamText.elements[0].text}`;
+      this.text += `\n\n\n${sentViaPipedreamText.elements[0].text}`;
     }
 
     let metadataEventPayload;

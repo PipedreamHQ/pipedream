@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "vercel_token_auth",
+  app: "crisp",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

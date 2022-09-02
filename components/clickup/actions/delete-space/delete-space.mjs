@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-space",
   name: "Delete Space",
   description: "Delete a space. See the docs [here](https://clickup.com/api) in **Spaces  / Delete Space** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

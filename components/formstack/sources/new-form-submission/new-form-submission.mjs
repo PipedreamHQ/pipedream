@@ -5,7 +5,7 @@ export default {
   key: "formstack-new-form-submission",
   name: "New Form Submission (Instant)",
   description: "Emit new event for each new form submission. [See docs here](https://formstack.readme.io/docs/form-id-webhook-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   methods: {

@@ -2,16 +2,21 @@
   "name": "@pipedream/gmail",
   "version": "0.0.1",
   "description": "Pipedream Gmail Components",
-  "main": "dist/app/gmail.app.mjs",
+  "main": "gmail.app.mjs",
   "keywords": [
     "pipedream",
     "gmail"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gmail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@googleapis/gmail": "^0.3.4",
+    "@pipedream/platform": "^1.1.1",
+    "html-to-text": "^8.2.1",
+    "nodemailer": "^6.7.8"
   }
 }

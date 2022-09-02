@@ -653,6 +653,18 @@
     },
     {
       "path": "components/action_network"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/crisp"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/zoho_sheet"
     }
   ]
 }
