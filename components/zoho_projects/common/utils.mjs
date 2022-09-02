@@ -16,7 +16,7 @@ function buildFormData(formData, data, parentKey) {
         buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
       });
 
-  } else if (data && parentKey.includes(constants.FILE_PROP_NAME)) {
+  } else if (data && constants.FILE_PROP_NAMES.some((prop) => prop.includes(parentKey))) {
     formData.append(parentKey, createReadStream(data));
 
   } else if (data) {
@@ -56,8 +56,17 @@ async function withRetries(apiCall) {
   });
 }
 
+async function streamIterator(stream) {
+  let resources = [];
+  for await (const resource of stream) {
+    resources.push(resource);
+  }
+  return resources;
+}
+
 export default {
   hasMultipartHeader,
   getFormData,
   withRetries,
+  streamIterator,
 };

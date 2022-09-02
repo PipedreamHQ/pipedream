@@ -10,62 +10,85 @@ const MULTIPART_FORM_DATA_HEADERS = {
 const TOKEN_PREFIX = "Zoho-oauthtoken";
 const BASE_PREFIX_URL = "https://projectsapi.";
 const VERSION_PATH = "/restapi";
+const VERSION3_PATH = "/api/v3";
 const RETRIABLE_STATUS_CODE = [
   408,
   429,
   500,
 ];
 const MAX_RANGE = 200;
-const FILE_PROP_NAME = "uploaddoc";
+const MAX_RESOURCES = 500;
+const FILE_PROP_NAMES = [
+  "attachment",
+  "uploaddoc",
+  "upload_file",
+];
+
+const LAST_CREATED_AT = "lastCreatedAt";
+
+const MODULES = {
+  PROJECTS: "projects",
+  MILESTONES: "milestones",
+  TASKS: "tasks",
+  TASKLISTS: "tasklists",
+  FORUMS: "forums",
+  FORUMCOMMENTS: "forumcomments",
+  TASKCOMMENTS: "taskcomments",
+  BUGS: "bugs",
+  USERS: "users",
+  DOCUMENTS: "documents",
+  EVENTS: "events",
+  ALL: "all",
+};
 
 const MODULES_OPTIONS = [
   {
     label: "Projects",
-    value: "projects",
+    value: MODULES.PROJECTS,
   },
   {
     label: "Milestones",
-    value: "milestones",
+    value: MODULES.MILESTONES,
   },
   {
     label: "Tasks",
-    value: "tasks",
+    value: MODULES.TASKS,
   },
   {
     label: "Tasklists",
-    value: "tasklists",
+    value: MODULES.TASKLISTS,
   },
   {
     label: "Forums",
-    value: "forums",
+    value: MODULES.FORUMS,
   },
   {
     label: "Forum Comments",
-    value: "forumcomments",
+    value: MODULES.FORUMCOMMENTS,
   },
   {
     label: "Task Comments",
-    value: "taskcomments",
+    value: MODULES.TASKCOMMENTS,
   },
   {
     label: "Bugs",
-    value: "bugs",
+    value: MODULES.BUGS,
   },
   {
     label: "Users",
-    value: "users",
+    value: MODULES.USERS,
   },
   {
     label: "Documents",
-    value: "documents",
+    value: MODULES.DOCUMENTS,
   },
   {
     label: "Events",
-    value: "events",
+    value: MODULES.EVENTS,
   },
   {
     label: "All",
-    value: "all",
+    value: MODULES.ALL,
   },
 ];
 
@@ -75,11 +98,15 @@ export default {
   TOKEN_PREFIX,
   BASE_PREFIX_URL,
   VERSION_PATH,
+  VERSION3_PATH,
   RETRIABLE_STATUS_CODE,
   MAX_RANGE,
+  MAX_RESOURCES,
   MULTIPART_FORM_DATA_HEADERS,
   CONTENT_TYPE_KEY_HEADER,
   MULTIPART_FORM_DATA_VALUE_HEADER,
+  MODULES,
   MODULES_OPTIONS,
-  FILE_PROP_NAME,
+  FILE_PROP_NAMES,
+  LAST_CREATED_AT,
 };
