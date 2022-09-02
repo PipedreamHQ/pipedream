@@ -28,7 +28,7 @@ export default {
     async listTickets({
       $, params,
     }) {
-      const response = this._makeRequest({
+      const response = await this._makeRequest({
         $,
         path: "tickets",
         params,
