@@ -19,7 +19,6 @@ export default {
         agileCrm,
         "firstName",
       ],
-      optional: false,
     },
     lastName: {
       propDefinition: [
