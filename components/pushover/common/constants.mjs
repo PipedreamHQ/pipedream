@@ -23,6 +23,10 @@ const PRIORITY_OPTIONS = [
     value: PRIORITY.HIGH,
     label: "High priority, bypass quiet hours",
   },
+  {
+    value: PRIORITY.EMERGENCY,
+    label: "Emergency priority, bypass quiet hours, and repeat until the notification is acknowledged by user",
+  },
 ]
 
 export default {

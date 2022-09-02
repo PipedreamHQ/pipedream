@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/productboard",
+  "version": "0.0.1",
+  "description": "Pipedream Productboard Components",
+  "main": "dist/app/productboard.app.mjs",
+  "keywords": [
+    "pipedream",
+    "productboard"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/productboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

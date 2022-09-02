@@ -120,7 +120,7 @@ export default {
       } = args;
       const config = {
         method,
-        url: `https://mail.zoho.com/api/${path}`,
+        url: `https://mail.${this.$auth.base_api_uri}/api/${path}`,
         headers: {
           "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
           "User-Agent": "@PipedreamHQ/pipedream v0.1",
