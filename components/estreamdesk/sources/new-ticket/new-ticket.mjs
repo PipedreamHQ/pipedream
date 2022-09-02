@@ -5,7 +5,7 @@ export default {
   key: "estreamdesk-new-ticket",
   name: "New Ticket",
   description: "Emit new event when a ticket is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
