@@ -34,7 +34,7 @@ export default {
       template_data: this.templateModel
     };
     const response = await this.smtp2go.sendSingleEmailWithTemplate($, data, this.ignoreFailures);
-    $.export("$summary", "Sent email successfully");
+    $.export("$summary", `Sent email successfully with email ID ${response.data.email_id}`);
     return response;
   },
 };
