@@ -33,6 +33,17 @@ export default defineApp({
         }));
       },
     },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Student tags",
+      async options({ studentEmail }) {
+        const tags = await this.listStudentTags({
+          studentEmail,
+        });
+        return tags;
+      },
+    },
   },
   methods: {
     async _makeRequest({
@@ -65,6 +76,43 @@ export default defineApp({
         courseId: course.id,
       }));
       return (await Promise.all(promises)).flat();
+    },
+    async listStudentTags({
+      $, studentEmail,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/student/tag/list",
+        data: {
+          student_email: studentEmail,
+        },
+      });
+    },
+    async addTagsToStudent({
+      $, studentEmail, tags,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/student/tag/manager",
+        method: "post",
+        data: {
+          student_email: studentEmail,
+          tagname: tags,
+        },
+      });
+    },
+    async removeTagsFromStudent({
+      $, studentEmail, tags,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/student/tag/manager",
+        method: "delete",
+        data: {
+          student_email: studentEmail,
+          tagname: tags,
+        },
+      });
     },
     async removeStudentFromAllCourses({
       $, studentEmail,
