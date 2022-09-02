@@ -15,10 +15,12 @@ export default defineAction({
         "courseId",
       ],
     },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The student's email address",
+    student: {
+      propDefinition: [
+        xperiencify,
+        "student",
+      ],
+      options: undefined, // user will input a new email
     },
     firstName: {
       type: "string",
@@ -41,12 +43,12 @@ export default defineAction({
     const response = await this.xperiencify.addStudentToCourse({
       $,
       courseId: this.courseId,
-      studentEmail: this.email,
+      studentEmail: this.student,
       firstName: this.firstName,
       lastName: this.lastName,
       password: this.password,
     });
-    $.export("$summary", `Successfully added student ${this.email} to course`);
+    $.export("$summary", `Successfully added student ${this.student} to course`);
     return response;
   },
 });

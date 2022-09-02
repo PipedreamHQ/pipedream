@@ -17,6 +17,22 @@ export default defineApp({
         }));
       },
     },
+    student: {
+      type: "string",
+      label: "Student",
+      description: "The student's email address",
+      async options({ courseId }) {
+        const students = !courseId
+          ? await this.listAllStudents()
+          : await this.getStudentsForCourse({
+            courseId,
+          });
+        return students.map((student) => ({
+          label: student.first_name,
+          value: student.email,
+        }));
+      },
+    },
   },
   methods: {
     async _makeRequest({
@@ -43,6 +59,32 @@ export default defineApp({
         path: "/coach/courses",
       });
     },
+    async listAllStudents() {
+      const courses = await this.listCourses();
+      const promises = courses.map(async (course) => this.getStudentsForCourse({
+        courseId: course.id,
+      }));
+      return (await Promise.all(promises)).flat();
+    },
+    async removeStudentFromAllCourses({
+      $, studentEmail,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/student/course/remove/all",
+        method: "post",
+        data: {
+          student_email: studentEmail,
+        },
+      });
+    },
+    async getStudentsForCourse({ courseId }) {
+      const courses = await this.listCourses();
+      const [
+        course,
+      ] = courses.filter((course) => course.id === courseId);
+      return course.users;
+    },
     async addStudentToCourse({
       $, courseId, studentEmail, firstName, lastName, password, ...opts
     }) {
@@ -60,12 +102,18 @@ export default defineApp({
         ...opts,
       });
     },
-    async getStudentsForCourse({ courseId }) {
-      const courses = await this.listCourses();
-      const [
-        course,
-      ] = courses.filter((course) => course.id === courseId);
-      return course.users;
+    async removeStudentFromCourse({
+      $, courseId, studentEmail,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/student/course/remove",
+        method: "post",
+        data: {
+          course_id: courseId,
+          student_email: studentEmail,
+        },
+      });
     },
   },
 });
