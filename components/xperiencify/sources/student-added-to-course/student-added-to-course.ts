@@ -3,14 +3,19 @@ import xperiencify from "../../app/xperiencify.app";
 
 export default defineSource({
   name: "Student Added to Course",
-  description: "Emit new event when a student enrolls in a course.",
+  description: "Emit new event when a student enrolls into a course.",
   key: "xperiencify-student-added-to-course",
   version: "0.0.1",
   type: "source",
   props: {
     xperiencify,
     db: "$.service.db",
-    timer: "$.interface.timer",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15, // 15 minutes
+      },
+    },
     courseId: {
       propDefinition: [
         xperiencify,

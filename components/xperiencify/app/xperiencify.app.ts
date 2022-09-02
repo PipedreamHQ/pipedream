@@ -75,7 +75,7 @@ export default defineApp({
       const promises = courses.map(async (course) => this.getStudentsForCourse({
         courseId: course.id,
       }));
-      return (await Promise.all(promises)).flat();
+      return (await Promise.all(promises)).flat().sort();
     },
     async listStudentTags({
       $, studentEmail,
@@ -120,7 +120,7 @@ export default defineApp({
       return this._makeRequest({
         $,
         path: "/student/course/remove/all",
-        method: "post",
+        method: "post", // yes, it's supposed to be post
         data: {
           student_email: studentEmail,
         },
@@ -130,11 +130,15 @@ export default defineApp({
       const courses = await this.listCourses();
       const [
         course,
-      ] = courses.filter((course) => course.id === courseId);
+      ] = courses.filter((course) => course.id === courseId) || [];
+
+      if (!course) {
+        throw new Error(`Course ${courseId} not found`);
+      }
       return course.users;
     },
     async addStudentToCourse({
-      $, courseId, studentEmail, firstName, lastName, password, ...opts
+      $, courseId, studentEmail, firstName, lastName, password,
     }) {
       return this._makeRequest({
         $,
@@ -147,7 +151,6 @@ export default defineApp({
           last_name: lastName,
           password,
         },
-        ...opts,
       });
     },
     async removeStudentFromCourse({
@@ -156,7 +159,7 @@ export default defineApp({
       return this._makeRequest({
         $,
         path: "/student/course/remove",
-        method: "post",
+        method: "post", // yes, it's supposed to be post
         data: {
           course_id: courseId,
           student_email: studentEmail,
