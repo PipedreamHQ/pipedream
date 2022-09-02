@@ -45,7 +45,7 @@ export default {
       throw new Error("You must have EITHER a text body or an html body. Neither were provided.");
     }
     const response = await this.smtp2go.sendSingleEmail($, data, this.ignoreFailures);
-    $.export("$summary", "Sent email successfully");
+    $.export("$summary", `Sent email successfully with email ID ${response.data.email_id}`);
     return response;
   },
 };
