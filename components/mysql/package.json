@@ -1,5 +1,5 @@
 {
-  "name": "pipedream/mysql",
+  "name": "@pipedream/mysql",
   "version": "0.0.1",
   "description": "Pipedream Mysql Components",
   "main": "mysql.app.mjs",

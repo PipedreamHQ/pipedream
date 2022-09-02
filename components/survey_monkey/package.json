@@ -10,6 +10,9 @@
   "homepage": "https://pipedream.com/apps/survey-monkey",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "uuid": "^8.3.2",
     "@pipedream/platform": "^0.9.0"
