@@ -1394,6 +1394,12 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/pointagram:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/pointerpro:
     specifiers: {}
 
@@ -1775,6 +1781,12 @@ importers:
     dependencies:
       axios: 0.21.4
 
+  components/streak:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stripe:
     specifiers:
       lodash.pick: ^4.4.0
@@ -2037,9 +2049,9 @@ importers:
 
   components/vercel:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
     specifiers: {}
