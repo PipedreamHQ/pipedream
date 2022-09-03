@@ -25,6 +25,15 @@ export default {
         }),
       ],
     },
+    flag: {
+      type: "string",
+      label: "Flag",
+      description: "Task lists of the flag must be `internal` or `external`.",
+      options: [
+        "internal",
+        "external",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -35,9 +44,19 @@ export default {
       return this.zohoProjects.getTaskLists;
     },
     getResourceFnArgs() {
+      const {
+        portalId,
+        projectId,
+        flag,
+      } = this;
       return {
-        portalId: this.portalId,
-        projectId: this.projectId,
+        portalId,
+        projectId,
+        params: {
+          flag,
+          sort_column: "created_time", // created_time | last_modified_time
+          sort_order: "descending", // ascending | descending
+        },
       };
     },
     resourceFilter(resource) {

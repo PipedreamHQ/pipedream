@@ -46,7 +46,7 @@ export default {
 
       const [
         lastResource,
-      ] = resources.reverse();
+      ] = resources;
 
       resources
         .filter(this.resourceFilter)

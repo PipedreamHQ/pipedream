@@ -7,7 +7,7 @@ export default {
   name: "New Project",
   description: "Emit new event when a new project is created. [See the docs here](https://www.zoho.com/projects/help/rest-api/projects-api.html#alink1)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.1",
   props: {
     ...common.props,
     portalId: {
@@ -28,6 +28,10 @@ export default {
     getResourceFnArgs() {
       return {
         portalId: this.portalId,
+        params: {
+          sort_column: "created_time", // created_time | last_modified_time
+          sort_order: "descending", // ascending | descending
+        },
       };
     },
     resourceFilter(resource) {

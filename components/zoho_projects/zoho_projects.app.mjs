@@ -106,23 +106,30 @@ export default {
         if (index === null) {
           return [];
         }
-        const response =
+        const { folders } =
           await this.getAssociatedTeamFolders({
             portalId,
             projectId,
-            // params: {
-            //   index,
-            //   range: constants.MAX_RANGE,
-            // },
+            params: {
+              index,
+              range: constants.MAX_RANGE,
+            },
           });
-        console.log("response", response);
+        const currentLen = folders.length;
+        const options = folders.map(({
+          thirdparty_folder_id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        }));
         return {
-          options: [],
-          // context: {
-          //   index: currentLen
-          //     ? currentLen + index
-          //     : null,
-          // },
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + index
+              : null,
+          },
         };
       },
     },
@@ -258,15 +265,6 @@ export default {
         ...args,
       });
     },
-    async addDocument({
-      portalId, projectId, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/portal/${portalId}/projects/${projectId}/documents/`,
-        method: "post",
-        ...args,
-      });
-    },
     async getPortals(args = {}) {
       return this.makeRequest({
         path: "/portals/",
@@ -369,11 +367,11 @@ export default {
                 index,
               },
             });
-          console.log("response", response);
           ({ [resourceName]: nextResources } =
             response || {
               [resourceName]: [],
             });
+          console.log("nextResources", nextResources);
         } catch (error) {
           console.log("Stream error", error);
           return;

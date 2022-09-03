@@ -38,6 +38,10 @@ export default {
       return {
         portalId: this.portalId,
         projectId: this.projectId,
+        params: {
+          sort_column: "created_time", // created_time | last_modified_time
+          sort_order: "descending", // ascending | descending
+        },
       };
     },
     resourceFilter(resource) {
