@@ -1,4 +1,4 @@
-import ecwid from "../ecwid.app.mjs";
+import ecwid from "../../ecwid.app.mjs";
 
 export default {
   name: "Ecwid Paid Orders",
@@ -7,7 +7,6 @@ export default {
   description: "Search for new orders which are PAID and AWAITING_PROCESSING. Emits events for each order and" +
       " sets order fulfilment status to PROCESSING",
   props: {
-    db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
