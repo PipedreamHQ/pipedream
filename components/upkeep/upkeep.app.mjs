@@ -167,9 +167,12 @@ export default {
     _getUrl(path) {
       return `https://api.onupkeep.com/api/v2${path}`;
     },
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
     _getHeaders(headers = {}) {
       return {
-        "Session-Token": `${this.$auth.oauth_access_token}`,
+        "Session-Token": this._accessToken(),
         "Content-Type": "application/json",
         "Accept": "application/json",
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
