@@ -4,9 +4,6 @@ export default {
   app: "ecwid",
   propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
 
     async getOrders(history = 30, paymentStatus = "PAID", fulfilmentStatus = "AWAITING_PROCESSING") {
       const fromDate = new Date();
