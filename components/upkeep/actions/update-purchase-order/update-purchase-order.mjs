@@ -30,7 +30,7 @@ export default {
       purchaseOrderId: this.purchaseOrderId,
       data: this.prepareData(),
     });
-    $.export("$summary", `Purchase order with ID:${result.id} has been updated.`);
+    $.export("$summary", `Purchase order with ID ${result.id} has been updated.`);
     return result;
   },
 };

@@ -221,6 +221,7 @@ export default {
       });
     },
     async getPurchaseOrders({ ...args } = {}) {
+      console.log("getPurchaseOrders", args);
       return this._makeRequest({
         method: "GET",
         path: "/purchase-orders",
@@ -266,6 +267,20 @@ export default {
       return this._makeRequest({
         method: "GET",
         path: "/asset-downtime-statuses",
+        ...args,
+      });
+    },
+    async getRequests({ ...args } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/requests",
+        ...args,
+      });
+    },
+    async getWorkOrders({ ...args } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: "/work-orders",
         ...args,
       });
     },

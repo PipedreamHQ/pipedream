@@ -22,7 +22,7 @@ export default {
       $,
       data: this.prepareData(),
     });
-    $.export("$summary", `Purchase order with ID:${result.id} has been created.`);
+    $.export("$summary", `Purchase order with ID ${result.id} has been created.`);
     return result;
   },
 };

@@ -73,7 +73,7 @@ export default {
         dueDate: this.dueDate,
       },
     });
-    $.export("$summary", `Request with ID:${result.id} has been created.`);
+    $.export("$summary", `Request with ID ${result.id} has been created.`);
     return result;
   },
 };

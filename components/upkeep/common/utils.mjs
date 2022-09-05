@@ -1,4 +1,4 @@
-const pageSize = 35;
+const pageSize = 25;
 
 export default {
   parseOne(obj) {
@@ -31,13 +31,15 @@ export default {
     }
     return result;
   },
-  async asyncPropHandler({ resourceFn, page, labelVal } = {}) {
+  async asyncPropHandler({
+    resourceFn, page, labelVal,
+  } = {}) {
     let resp;
     try {
       resp = await resourceFn({
         params: {
-          offset: page * constants.pageSize,
-          limit: (page + 1) * constants.pageSize,
+          offset: page * pageSize,
+          limit: (page + 1) * pageSize,
         },
       });
     } catch (err) {
@@ -53,14 +55,15 @@ export default {
   async *getResourcesStream({
     resourceFn,
     resourceFnArgs,
+    resourceLimit,
   }) {
-    let page = 0;
+    let page = 0, resourceCount = 0;
     while (true) {
       try {
         const nextResources = await resourceFn({
           ...resourceFnArgs,
           params: {
-            ...resourceFnArgs.params,
+            ...resourceFnArgs?.params,
             offset: page * pageSize,
             limit: ++page * pageSize,
           },
@@ -68,7 +71,10 @@ export default {
         if (!nextResources?.results?.length)
           return;
         for (const resource of nextResources.results) {
-          yield resource;
+          if (resourceLimit && resourceLimit < ++resourceCount)
+            return;
+          else
+            yield resource;
         }
       } catch (err) { //sometimes the API returns an empty list, sometimes it returns a 404
         return;

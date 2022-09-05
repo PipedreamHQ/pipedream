@@ -18,13 +18,16 @@ export default {
         "WORK_ORDER_STATUS_UPDATED",
       ];
     },
-    getSummarry(item) {
+    getSummary(item) {
       return `Work order(ID:${item?.id}, TITLE:${item?.title}) status has been changed to ${item?.status}`;
     },
     getTime(item) {
       return item?.updatedAt ?
         new Date(item?.updatedAt).getTime() :
         new Date().getTime();
+    },
+    getHistoricalEventsFn() {
+      return this.app.getWorkOrders;
     },
   },
 };

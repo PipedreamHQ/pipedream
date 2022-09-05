@@ -18,13 +18,16 @@ export default {
         "REQUEST_CREATED",
       ];
     },
-    getSummarry(item) {
+    getSummary(item) {
       return `New request (ID:${item?.id}, TITLE:${item?.title})`;
     },
     getTime(item) {
       return item?.createdAt ?
         new Date(item?.createdAt).getTime() :
         new Date().getTime();
+    },
+    getHistoricalEventsFn() {
+      return this.app.getRequests;
     },
   },
 };

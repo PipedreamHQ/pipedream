@@ -18,13 +18,16 @@ export default {
         "REQUEST_APPROVED",
       ];
     },
-    getSummarry(item) {
+    getSummary(item) {
       return `Request(ID:${item?.id}, TITLE:${item?.title}) has been approved at ${item?.updatedAt}`;
     },
     getTime(item) {
       return item?.updatedAt ?
         new Date(item?.updatedAt).getTime() :
         new Date().getTime();
+    },
+    getHistoricalEventsFn() {
+      return this.app.getRequests;
     },
   },
 };

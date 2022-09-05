@@ -1,4 +1,5 @@
 import app from "../../upkeep.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -28,6 +29,16 @@ export default {
     getTime() {
       throw new Error("getTime is not implemented!");
     },
+    getHistoricalEventsFn() {
+      return false;
+    },
+    processMeta(item) {
+      return {
+        summary: this.getSummary(item),
+        id: item?.id,
+        ts: this.getTime(item),
+      };
+    },
   },
   hooks: {
     async activate() {
@@ -38,6 +49,21 @@ export default {
       });
       this._setHookID(webhookId);
       console.log(`Created webhook. (Hook ID: ${webhookId}, endpoint: ${this.http.endpoint})`);
+    },
+    async deploy() {
+      const resourceFn = this.getHistoricalEventsFn();
+      if (!resourceFn)
+        return;
+      const resourcesStream = utils.getResourcesStream({
+        resourceFn,
+        resourceLimit: 10,
+      });
+      for await (const item of resourcesStream) {
+        this.$emit(
+          item,
+          this.processMeta(item),
+        );
+      }
     },
     async deactivate() {
       await this.app.deleteWebhook({
@@ -51,11 +77,7 @@ export default {
     });
     this.$emit(
       event,
-      {
-        summary: this.getSummary(event.body),
-        id: event.body?.id,
-        ts: this.getTime(),
-      },
+      this.processMeta(event.body),
     );
   },
 };
