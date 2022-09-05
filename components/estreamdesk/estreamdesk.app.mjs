@@ -11,7 +11,7 @@ export default {
     },
     _getHeaders() {
       return {
-        "apiKey": `${this._apiKey()}`,
+        "apiKey": `${this.$auth.api_key}`,
       };
     },
     async _makeRequest({
