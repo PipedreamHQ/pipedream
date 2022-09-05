@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios }from "@pipedream/platform";
 export default {
   type: "app",
   app: "ecwid",
