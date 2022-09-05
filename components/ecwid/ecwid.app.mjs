@@ -1,36 +1,53 @@
-import { axios }from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "ecwid",
   propDefinitions: {},
   methods: {
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
+    _apiUrl() {
+      return `https://app.ecwid.com/api/v3/${this.$auth.storeId}`;
+    },
 
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($, {
+        url: `${this._apiUrl()}${path}`,
+        headers: {
+          "user-agent": "@PipedreamHQ/pipedream v0.1",
+          "accept": "application/json",
+          "Authorization": `Bearer ${this._accessToken()}`,
+        },
+        ...args,
+      });
+    },
+    async getOrder(orderId) {
+      return await this._makeRequest({
+        path: `/orders/${orderId}`,
+        method: "GET",
+      });
+    },
     async getOrders(history = 30, paymentStatus = "PAID", fulfilmentStatus = "AWAITING_PROCESSING") {
       const fromDate = new Date();
       fromDate.setDate(fromDate.getDate() - history);
       const fromDateTimeStamp = Math.floor(fromDate.getTime() / 1000).toString();
-      const res = await axios({
-        url: `https://app.ecwid.com/api/v3/${this.$auth.storeId}/orders?` +
-              `paymentStatus=${paymentStatus}&fulfillmentStatus=${fulfilmentStatus}&createdFrom=${fromDateTimeStamp}`,
+      return this._makeRequest({
+        path: "/orders",
         method: "GET",
-        headers: {
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "accept": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        params: {
+          "paymentStatus": paymentStatus,
+          "fulfillmentStatus": fulfilmentStatus,
+          "createdFrom": fromDateTimeStamp,
         },
       });
-      console.log(res);
-      return res.data.items;
     },
     async updateFulfilmentStatus(orderId, fulfilmentStatus = "PROCESSING") {
-      return await axios({
-        url: `https://app.ecwid.com/api/v3/${this.$auth.storeId}/orders/${orderId}`,
+      return this._makeRequest({
+        path: `/orders/${orderId}`,
         method: "PUT",
-        headers: {
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "accept": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
         data: {
           "fulfillmentStatus": fulfilmentStatus,
         },

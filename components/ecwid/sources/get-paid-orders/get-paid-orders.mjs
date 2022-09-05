@@ -1,7 +1,8 @@
 import ecwid from "../../ecwid.app.mjs";
+import { FULFILMENT_STATUS_LIST } from "../../commons/commons.mjs";
 
 export default {
-  name: "Ecwid Paid Orders",
+  name: "New Ecwid Paid Orders",
   version: "0.0.1",
   key: "ecwid-paid-orders",
   description: "Search for new orders which are PAID and AWAITING_PROCESSING. Emits events for each order and" +
@@ -26,24 +27,36 @@ export default {
       type: "boolean",
       default: true,
     },
+    newFulfilmentStatus: {
+      label: "New Fulfilment Status",
+      description: "New Fulfilment Status to be updated in the order",
+      type: "string",
+      options: FULFILMENT_STATUS_LIST,
+      default: "PROCESSING",
+    },
     ecwid,
   },
   type: "source",
   methods: {},
   async run() {
-    let results = await this.ecwid.getOrders(this.history);
-    for (const order of results) {
+    let ordersResponse = await this.ecwid.getOrders(this.history);
+    for (const order of ordersResponse.items) {
       this.$emit(order, {
         id: order.id,
         summary: `Order ${order.id}`,
         ts: Date.now(),
       });
       if (this.setFulfilmentStatus) {
-        let updateStatus = await this.ecwid.updateFulfilmentStatus(order.id);
-        if (updateStatus.data.updateCount === 1)
-          console.log("Updated Order Status of " + order.id + " to PROCESSING");
+        let updateStatus = await this.ecwid.updateFulfilmentStatus(
+          order.id,
+          this.newFulfilmentStatus,
+        );
+        if (updateStatus.updateCount === 1)
+          console.log("Updated Order Status of " + order.id +
+              " to " + this.newFulfilmentStatus);
         else
-          console.error("Error Updating Order Status of " + order.id + " to PROCESSING");
+          console.error("Error Updating Order Status of "
+              + order.id + " to " + this.newFulfilmentStatus);
       }
     }
   },
