@@ -25,7 +25,7 @@ export default {
 
       return axios($, config);
     },
-    async listTickets({ ...args } = {}) {
+    async listTickets(args = {}) {
       const response = await this._makeRequest({
         path: "tickets",
         ...args,
