@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-task",
   name: "Delete Task",
   description: "Delete a task. See the docs [here](https://clickup.com/api) in **Tasks  / Delete Task** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

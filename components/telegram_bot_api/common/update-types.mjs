@@ -47,4 +47,16 @@ export default [
     label: "Poll Answer",
     value: "poll_answer",
   },
+  {
+    label: "My Chat Member",
+    value: "my_chat_member",
+  },
+  {
+    label: "Chat Member",
+    value: "chat_member",
+  },
+  {
+    label: "Chat Join Request",
+    value: "chat_join_request",
+  },
 ];

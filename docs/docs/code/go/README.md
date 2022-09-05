@@ -313,7 +313,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-  // Don't forget to close close the file
+  // Don't forget to close the file
 	defer out.Close()
 
 	// Write the file data to file
