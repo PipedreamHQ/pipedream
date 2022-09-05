@@ -11,11 +11,11 @@ export default {
     },
     _getHeaders() {
       return {
-        "apiKey": `${this.$auth.api_key}`,
+        "apiKey": `${this._apiKey()}`,
       };
     },
     async _makeRequest({
-      $, path, ...otherConfig
+      $ = this, path, ...otherConfig
     }) {
       const config = {
         url: `${this._getBaseUrl()}/${path}`,
@@ -23,15 +23,12 @@ export default {
         ...otherConfig,
       };
 
-      return axios($ || this, config);
+      return axios($, config);
     },
-    async listTickets({
-      $, params,
-    }) {
+    async listTickets({ ...args } = {}) {
       const response = await this._makeRequest({
-        $,
         path: "tickets",
-        params,
+        ...args,
       });
 
       const {

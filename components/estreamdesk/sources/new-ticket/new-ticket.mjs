@@ -5,7 +5,7 @@ export default {
   key: "estreamdesk-new-ticket",
   name: "New Ticket",
   description: "Emit new event when a ticket is created",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -16,7 +16,7 @@ export default {
       description: "Pipedream will poll the eStreamDesk API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 60 * 15, // 15 minutes
       },
     },
   },
@@ -45,8 +45,9 @@ export default {
       let { lastId } = params;
 
       for await (const event of tickets) {
-        if (!lastId || lastId <= event.Id)
+        if (!lastId || lastId <= event.Id) {
           this._setLastId(event.Id);
+        }
 
         this.emitEvent(event);
         lastId = event.Id;
@@ -62,7 +63,6 @@ export default {
     },
   },
   async run() {
-    console.log("Raw received event:");
     const lastId = this._getLastId();
     const params = {};
     if (lastId) params.fromId = lastId;
