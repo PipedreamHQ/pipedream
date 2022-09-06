@@ -9,8 +9,16 @@ export default defineAction({
   type: "action",
   props: {
     lob,
+    postcardId: {
+      propDefinition: [
+        lob,
+        "postcardId",
+      ],
+    },
   },
   async run({ $ }) {
+    const response = await this.lob.retrievePostcard(this.postcardId);
     $.export("$summary", "Successfully retrieved postcard");
+    return response;
   },
 });

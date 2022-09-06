@@ -11,6 +11,11 @@ export default defineAction({
     lob,
   },
   async run({ $ }) {
-    $.export("$summary", "Successfully listed postcard(s)");
+    const response = await this.lob.listAllPostcards();
+    const suffix = response.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Successfully listed ${response.length} postcard${suffix}`);
+    return response;
   },
 });
