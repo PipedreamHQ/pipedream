@@ -668,6 +668,9 @@
     },
     {
       "path": "components/sailpoint"
+    },
+    {
+      "path": "components/snapdocs"
     }
   ]
 }
