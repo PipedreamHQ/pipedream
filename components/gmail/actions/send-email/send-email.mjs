@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gmail,
@@ -29,12 +29,6 @@ export default {
       label: "From Name",
       description: "A name that will be displayed in the `From` section of the email",
       optional: true,
-    },
-    delegate: {
-      propDefinition: [
-        gmail,
-        "delegate",
-      ],
     },
     replyTo: {
       type: "string",
@@ -60,12 +54,6 @@ export default {
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    signature: {
-      propDefinition: [
-        gmail,
-        "signature",
-      ],
-    },
     attachments: {
       type: "object",
       label: "Attachments",
@@ -74,11 +62,15 @@ export default {
     },
   },
   async run({ $ }) {
-    let from = await this.gmail.myEmailAddress();
-    if (this.fromName) from = `${this.fromName} <${from}>`;
+    const {
+      name: fromName,
+      email,
+    } = await this.gmail.userInfo();
 
     const opts = {
-      from,
+      from: this.fromName
+        ? `${this.fromName} <${email}>`
+        : `${fromName} <${email}>`,
       to: this.to,
       cc: this.cc,
       bcc: this.bcc,
@@ -97,11 +89,6 @@ export default {
         }));
     }
 
-    if (this.signature) {
-      this.body += this.signature;
-      this.bodyType = constants.BODY_TYPES.HTML;
-    }
-
     if (this.bodyType === constants.BODY_TYPES.HTML) {
       opts.html = this.body;
     } else {
@@ -109,7 +96,7 @@ export default {
     }
 
     const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to}`);
+    $.export("$summary", `Successfully sent email to ${this.to.join(", ")}`);
     return response;
   },
 };

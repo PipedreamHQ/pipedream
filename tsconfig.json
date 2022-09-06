@@ -662,6 +662,9 @@
     },
     {
       "path": "components/gmail"
+    },
+    {
+      "path": "components/zoho_sheet"
     }
   ]
 }
