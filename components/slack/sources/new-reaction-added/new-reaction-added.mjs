@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.0.0",
+  version: "1.1.1",
   description: "Emit new event when a member has added an emoji reaction to an item",
   type: "source",
   dedupe: "unique",
@@ -46,6 +46,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     getSummary() {
       return "New reaction added";
     },
@@ -53,6 +54,11 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
+      event.message = await this.getLastMessage({
+        channel: event.item.channel,
+        event_ts: event.item.ts,
+      });
+
       return event;
     },
   },
