@@ -42,11 +42,13 @@ export default defineAction({
   async run({ $ }) {
     const response = await this.xperiencify.addStudentToCourse({
       $,
-      courseId: this.courseId,
-      studentEmail: this.student,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password,
+      data: {
+        course_id: this.courseId,
+        student_email: this.student,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        password: this.password,
+      },
     });
     $.export("$summary", `Successfully added student ${this.student} to course`);
     return response;

@@ -28,8 +28,10 @@ export default defineAction({
   async run({ $ }) {
     const response = await this.xperiencify.removeStudentFromCourse({
       $,
-      courseId: this.courseId,
-      studentEmail: this.student,
+      data: {
+        course_id: this.courseId,
+        student_email: this.student,
+      },
     });
     $.export("$summary", `Successfully removed student ${this.student} from course`);
     return response;

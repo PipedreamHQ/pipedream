@@ -39,7 +39,9 @@ export default defineApp({
       description: "Student tags",
       async options({ studentEmail }) {
         const tags = await this.listStudentTags({
-          studentEmail,
+          data: {
+            student_email: studentEmail,
+          },
         });
         return tags;
       },
@@ -47,17 +49,15 @@ export default defineApp({
   },
   methods: {
     async _makeRequest({
-      $ = this, method = "get", path, params, data, ...opts
+      $ = this, path, params, ...opts
     }) {
       try {
         return await axios($, {
           url: `https://api.xperiencify.io/api/public${path}`,
-          method,
           params: {
             api_key: this.$auth.api_key,
             ...params,
           },
-          data,
           ...opts,
         });
       } catch (e) {
@@ -65,9 +65,10 @@ export default defineApp({
         throw e;
       }
     },
-    async listCourses() {
+    async listCourses(opts = {}) {
       return this._makeRequest({
         path: "/coach/courses",
+        ...opts,
       });
     },
     async listAllStudents() {
@@ -77,53 +78,31 @@ export default defineApp({
       }));
       return (await Promise.all(promises)).flat().sort();
     },
-    async listStudentTags({
-      $, studentEmail,
-    }) {
+    async listStudentTags(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/tag/list",
-        data: {
-          student_email: studentEmail,
-        },
+        ...opts,
       });
     },
-    async addTagsToStudent({
-      $, studentEmail, tags,
-    }) {
+    async addTagsToStudent(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/tag/manager",
         method: "post",
-        data: {
-          student_email: studentEmail,
-          tagname: tags,
-        },
+        ...opts,
       });
     },
-    async removeTagsFromStudent({
-      $, studentEmail, tags,
-    }) {
+    async removeTagsFromStudent(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/tag/manager",
         method: "delete",
-        data: {
-          student_email: studentEmail,
-          tagname: tags,
-        },
+        ...opts,
       });
     },
-    async removeStudentFromAllCourses({
-      $, studentEmail,
-    }) {
+    async removeStudentFromAllCourses(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/course/remove/all",
         method: "post", // yes, it's supposed to be post
-        data: {
-          student_email: studentEmail,
-        },
+        ...opts,
       });
     },
     async getStudentsForCourse({ courseId }) {
@@ -137,33 +116,18 @@ export default defineApp({
       }
       return course.users;
     },
-    async addStudentToCourse({
-      $, courseId, studentEmail, firstName, lastName, password,
-    }) {
+    async addStudentToCourse(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/create",
         method: "post",
-        data: {
-          course_id: courseId,
-          student_email: studentEmail,
-          first_name: firstName,
-          last_name: lastName,
-          password,
-        },
+        ...opts,
       });
     },
-    async removeStudentFromCourse({
-      $, courseId, studentEmail,
-    }) {
+    async removeStudentFromCourse(opts = {}) {
       return this._makeRequest({
-        $,
         path: "/student/course/remove",
         method: "post", // yes, it's supposed to be post
-        data: {
-          course_id: courseId,
-          student_email: studentEmail,
-        },
+        ...opts,
       });
     },
   },

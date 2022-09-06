@@ -32,8 +32,10 @@ export default defineAction({
     }
     const response = await this.xperiencify.removeTagsFromStudent({
       $,
-      studentEmail: this.student,
-      tags: this.tags.join(","),
+      data: {
+        student_email: this.student,
+        tagname: this.tags.join(","),
+      },
     });
     $.export("$summary", "Successfully removed tag(s) from student");
     return response;

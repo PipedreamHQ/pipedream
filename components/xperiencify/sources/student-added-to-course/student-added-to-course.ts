@@ -7,6 +7,7 @@ export default defineSource({
   key: "xperiencify-student-added-to-course",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     xperiencify,
     db: "$.service.db",
@@ -24,34 +25,23 @@ export default defineSource({
     },
   },
   methods: {
-    setStudents(students = new Set()) {
-      this.db.set("students", Array.from(students));
-    },
-    getStudents() {
-      const students = this.db.get("students");
-      return new Set(students);
-    },
-    getMeta(student) {
+    getMeta({
+      email, firstName,
+    }) {
       return {
-        id: student.email,
-        summary: `New student ${student.firstName}: ${student.email}`,
+        id: email,
+        summary: `New student ${firstName}: ${email}`,
         ts: new Date().getTime(),
       };
     },
   },
   async run() {
-    const current = this.getStudents();
     const all = await this.xperiencify.getStudentsForCourse({
       courseId: this.courseId,
     });
 
     for (const student of all) {
-      if (!current.has(student.email)) {
-        current.add(student.email);
-        this.$emit(student, this.getMeta(student));
-      }
+      this.$emit(student, this.getMeta(student));
     }
-
-    this.setStudents(current);
   },
 });
