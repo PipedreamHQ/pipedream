@@ -44,7 +44,6 @@ export default {
       resourceKey: this.getResourceKey(),
     });
     for await (const item of resourcesStream) {
-      console.log("item", item);
       const createdTime = new Date(this.getDate(item) || 0).getTime();
       if (this.compareFn(item)) {
         this.$emit(
