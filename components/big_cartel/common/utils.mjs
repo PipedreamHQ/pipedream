@@ -4,26 +4,16 @@ export default {
     resourceFnArgs = {},
     resourceKey,
   }) {
-    const firstResources = await resourceFn({
-      ...resourceFnArgs,
-      params: {
-        ...resourceFnArgs?.params,
-      },
-    });
-    if (!firstResources[resourceKey]?.length) {
-      return;
-    }
-    for (const resource of firstResources[resourceKey]) {
-      yield resource;
-    }
-    let next = firstResources?.links?.next;
-    while (next) {
+    let next;
+    while (true) {
       const nextResources = await resourceFn({
         ...resourceFnArgs,
         params: {
           ...resourceFnArgs?.params,
         },
-        url: next,
+        ...( next && {
+          url: next,
+        }),
       });
       for (const resource of nextResources[resourceKey]) {
         yield resource;
@@ -32,6 +22,8 @@ export default {
         return;
       }
       next = nextResources?.links?.next;
+      if (!next)
+        return;
     }
   },
 };

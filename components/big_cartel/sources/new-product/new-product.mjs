@@ -1,4 +1,3 @@
-import app from "../../big_cartel.app.mjs";
 import common from "../common.mjs";
 
 export default {
@@ -7,11 +6,8 @@ export default {
   description: "Emit new events when a new product is created. [See the docs here](https://developers.bigcartel.com/api/v1#get-all-products)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   ...common,
-  props: {
-    app,
-    ...common.props,
-  },
   methods: {
     ...common.methods,
     getResourceFn() {

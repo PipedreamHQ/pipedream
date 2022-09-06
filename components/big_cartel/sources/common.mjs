@@ -1,9 +1,11 @@
+import app from "../big_cartel.app.mjs";
 import utils from "../common/utils.mjs";
 
 const intervalSeconds = 60 * 10; //ten minutes
 
 export default {
   props: {
+    app,
     timer: {
       type: "$.interface.timer",
       default: {
@@ -42,6 +44,7 @@ export default {
       resourceKey: this.getResourceKey(),
     });
     for await (const item of resourcesStream) {
+      console.log("item", item);
       const createdTime = new Date(this.getDate(item) || 0).getTime();
       if (this.compareFn(item)) {
         this.$emit(
