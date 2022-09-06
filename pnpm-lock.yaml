@@ -1942,7 +1942,13 @@ importers:
     specifiers: {}
 
   components/tookan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/totango:
     specifiers:
