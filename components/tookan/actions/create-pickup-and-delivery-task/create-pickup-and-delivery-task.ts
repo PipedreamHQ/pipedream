@@ -43,7 +43,6 @@ export default defineAction({
     const params: CreatePickupAndDeliveryTaskParams = {
       $,
       data: {
-        additionalOptions: this.additionalOptions,
         timezone: this.timezone,
         customer_address: this.customerAddress,
         job_delivery_datetime: this.jobDeliveryDatetime,
@@ -52,6 +51,7 @@ export default defineAction({
         has_delivery: 1,
         has_pickup: 1,
         layout_type: 0,
+        ...this.additionalOptions,
       },
     };
     const data: TaskData = await this.tookan.createPickupAndDeliveryTask(

@@ -31,13 +31,13 @@ export default defineAction({
     const params: CreatePickupTaskParams = {
       $,
       data: {
-        additionalOptions: this.additionalOptions,
         timezone: this.timezone,
         job_pickup_address: this.jobPickupAddress,
         job_pickup_datetime: this.jobPickupDatetime,
         has_delivery: 0,
         has_pickup: 1,
         layout_type: 0,
+        ...this.additionalOptions,
       },
     };
     const data: TaskData = await this.tookan.createPickupTask(params);

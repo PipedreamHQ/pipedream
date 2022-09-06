@@ -37,7 +37,6 @@ export default defineAction({
     const params: CreateAppointmentTaskParams = {
       $,
       data: {
-        additionalOptions: this.additionalOptions,
         timezone: this.timezone,
         customer_address: this.customerAddress,
         job_delivery_datetime: this.jobDeliveryDatetime,
@@ -45,6 +44,7 @@ export default defineAction({
         has_delivery: 0,
         has_pickup: 0,
         layout_type: 1,
+        ...this.additionalOptions,
       },
     };
     const data: TaskData = await this.tookan.createAppointmentTask(params);

@@ -12,7 +12,6 @@ export interface HttpRequestParams extends ActionRequestParams {
 
 type CreateTaskParams = ActionRequestParams & {
   data: {
-    additionalOptions: object;
     timezone: string;
     has_delivery: 0 | 1;
     has_pickup: 0 | 1;
