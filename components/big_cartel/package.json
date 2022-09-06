@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/big_cartel",
+  "version": "0.0.1",
+  "description": "Pipedream Big Cartel Components",
+  "main": "big_cartel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "big cartel",
+    "big_cartel"
+  ],
+  "homepage": "https://pipedream.com/apps/big-cartel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
