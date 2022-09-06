@@ -15,5 +15,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@lob/lob-typescript-sdk": "^1.0.0"
   }
 }
