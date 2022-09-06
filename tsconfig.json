@@ -665,6 +665,9 @@
     },
     {
       "path": "components/zoho_sheet"
+    },
+    {
+      "path": "components/sailpoint"
     }
   ]
 }
