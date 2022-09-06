@@ -17,11 +17,10 @@ export default defineAction({
       ],
     },
     tags: {
-      propDefinition: [
-        xperiencify,
-        "tags",
-      ],
-      options: undefined, // no way to list all tags
+      // no way to list all tags
+      type: xperiencify.propDefinitions.tags.type,
+      label: xperiencify.propDefinitions.tags.label,
+      description: xperiencify.propDefinitions.tags.description,
     },
   },
   async run({ $ }) {

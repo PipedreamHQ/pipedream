@@ -16,11 +16,10 @@ export default defineAction({
       ],
     },
     student: {
-      propDefinition: [
-        xperiencify,
-        "student",
-      ],
-      options: undefined, // user will input a new email
+      // user will input a new email
+      type: xperiencify.propDefinitions.student.type,
+      label: xperiencify.propDefinitions.student.label,
+      description: xperiencify.propDefinitions.student.description,
     },
     firstName: {
       type: "string",
