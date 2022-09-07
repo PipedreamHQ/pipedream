@@ -671,6 +671,9 @@
     },
     {
       "path": "components/snapdocs"
+    },
+    {
+      "path": "components/wakatime"
     }
   ]
 }
