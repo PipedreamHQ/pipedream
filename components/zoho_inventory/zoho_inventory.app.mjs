@@ -23,6 +23,44 @@ export default {
         }));
       },
     },
+    customer: {
+      type: "string",
+      label: "Customer",
+      description: "Customer to assign to sales order",
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { contacts } = await this.listContacts({
+          params,
+        });
+        return contacts
+          .filter((contact) => contact.contact_type === "customer")
+          .map((contact) => ({
+            label: contact.contact_name,
+            value: contact.contact_id,
+          }));
+      },
+    },
+    items: {
+      type: "string[]",
+      label: "Item",
+      description: "Items contained in the sales order",
+      async options({ page }) {
+        const params = {
+          per_page: constants.DEFAULT_PAGE_SIZE,
+          page: page + 1,
+        };
+        const { items } = await this.listItems({
+          params,
+        });
+        return items.map((item) => ({
+          label: item.name,
+          value: item.item_id,
+        }));
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Maximum Results",
@@ -81,6 +119,20 @@ export default {
     },
     async listSalesOrders(args = {}) {
       return this._makeRequest({
+        path: "salesorders",
+        ...args,
+      });
+    },
+    async createContact(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "contacts",
+        ...args,
+      });
+    },
+    async createSalesOrder(args = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "salesorders",
         ...args,
       });
