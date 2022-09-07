@@ -8,22 +8,29 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The project ID.",
-      async options({ prevContext }) {
-        const { startAt } = prevContext || {};
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
           params: {
             startAt,
             maxResults: pageSize,
+            query,
           },
         });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
         return {
           options: resp?.values.map((e) => ({
             label: e.name,
             value: e.id,
           })),
           context: {
-            after: startAt,
+            startAt,
           },
         };
       },
@@ -58,7 +65,7 @@ export default {
       label: "Issue id or key",
       description: "The ID or key of the issue where the attachment will be added to.",
       async options({ prevContext }) {
-        const { startAt } = prevContext || {};
+        let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getIssues({
           params: {
@@ -66,13 +73,16 @@ export default {
             maxResults: pageSize,
           },
         });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
         return {
           options: resp?.issues?.map((issue) => ({
             value: issue.id,
             label: issue.key,
           })),
           context: {
-            after: startAt,
+            startAt,
           },
         };
       },
@@ -80,23 +90,30 @@ export default {
     accountId: {
       type: "string",
       label: "Assignee Id",
-      description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`, ",
-      async options({ prevContext }) {
-        const { startAt } = prevContext || {};
+      description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getUsers({
           params: {
             startAt,
             maxResults: pageSize,
+            query,
           },
         });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
         return {
           options: resp?.map((user) => ({
             value: user.accountId,
             label: user.displayName,
           })),
           context: {
-            after: startAt,
+            startAt,
           },
         };
       },
@@ -132,7 +149,7 @@ export default {
       async options({
         prevContext, issueIdOrKey,
       }) {
-        const { startAt } = prevContext || {};
+        let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getTransitions({
           issueIdOrKey,
@@ -141,13 +158,16 @@ export default {
             maxResults: pageSize,
           },
         });
+        startAt = startAt > 0
+          ? startAt + pageSize
+          : pageSize;
         return {
           options: resp?.transitions?.map((issue) => ({
             value: issue.id,
             label: issue.name,
           })),
           context: {
-            after: startAt,
+            startAt,
           },
         };
       },
