@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-task-custom-field",
   name: "Update Task Custom Field",
   description: "Update custom field value of a task. See the docs [here](https://clickup.com/api) in **Custom Fields / Set Custom Field Value** section.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

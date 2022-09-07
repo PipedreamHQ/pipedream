@@ -84,6 +84,8 @@ export default {
       const retryOpts = {
         retries: 3,
         factor: 2,
+        minTimeout: 500,
+        maxTimeout: 1500,
       };
       return retry(async (bail) => {
         try {
