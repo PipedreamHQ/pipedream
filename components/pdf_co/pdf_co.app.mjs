@@ -22,11 +22,27 @@ export default {
         headers: this._getHeaders(),
       };
     },
+    filterEmptyValues(obj) {
+      return Object.entries(obj)
+        .reduce((reduction,
+          [
+            key,
+            value,
+          ]) => {
+          if (value === undefined || value === null) {
+            return reduction;
+          }
+          return {
+            ...reduction,
+            [key]: value,
+          };
+        }, {});
+    },
     async generateBarcode($ = this, param) {
       const response = await axios($, this._getRequestParams({
         method: "POST",
         path: "/barcode/generate",
-        data: param,
+        data: this.filterEmptyValues(param),
       }));
       return response;
     },
