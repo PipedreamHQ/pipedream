@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Barcode Generator",
-  description: "Generate high quality barcode images. Supports QR Code, DataMatrix, Code 39, Code 128, PDF417 and many other barcode types. [See docs here](https://apidocs.pdf.co/40-barcode-generator?utm_referer=https://app.pdf.co/#post-barcodegenerate)",
+  description: "Generate high quality barcode images. Supports QR Code, DataMatrix, Code 39, Code 128, PDF417 and many other barcode types. [See docs here](https://apidocs.pdf.co/40-barcode-generator)",
   key: "pdf_co-barcode-generator",
   version: "0.0.5",
   type: "action",
@@ -47,16 +47,16 @@ export default {
       optional: true,
     },
     async: {
-      type: "boolean",
-      label: "Async",
-      description: "Runs processing asynchronously. Returns JobId.",
-      optional: true,
+      propDefinition: [
+        app,
+        "async",
+      ],
     },
     profiles: {
-      type: "any",
-      label: "Profiles",
-      description: "Use this parameter to set additional configuration for fine tuning and extra options. [Explore PDF.co](https://apidocs.pdf.co/kb/OCR/how-to-add-profile-to-pdfco-request) for profile examples.",
-      optional: true,
+      propDefinition: [
+        app,
+        "profiles",
+      ],
     },
   },
   async run({ $ }) {
