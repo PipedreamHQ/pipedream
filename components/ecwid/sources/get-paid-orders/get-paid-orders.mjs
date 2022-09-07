@@ -21,8 +21,8 @@ export default {
       default: 30,
     },
     setFulfilmentStatus: {
-      label: "Set fulfilment status to PROCESSING (Preferred)",
-      description: "Upon receiving the order, fulfilment status will be set to PROCESSING so that " +
+      label: "Set order fulfilment status (Preferred)",
+      description: "Upon receiving the order, fulfilment status will be set to user defined value so that " +
           "the same order is not fetched again. If unchecked, it needs to be handled in the workflow",
       type: "boolean",
       default: true,
