@@ -1539,6 +1539,9 @@ importers:
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
 
+  components/sailpoint:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
@@ -1726,6 +1729,9 @@ importers:
     specifiers: {}
 
   components/snapchat_marketing:
+    specifiers: {}
+
+  components/snapdocs:
     specifiers: {}
 
   components/snowflake:
@@ -2101,6 +2107,9 @@ importers:
   components/waitwhile:
     specifiers: {}
 
+  components/wakatime:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2260,11 +2269,20 @@ importers:
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
+  components/zoho_inventory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_mail:
     specifiers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/zoho_sheet:
+    specifiers: {}
 
   components/zonka_feedback:
     specifiers:
