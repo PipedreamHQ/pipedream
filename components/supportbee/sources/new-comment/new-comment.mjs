@@ -26,7 +26,7 @@ export default {
         ts: Date.parse(data.created_at),
       });
     },
-    getResources({ ...args } = {}) {
+    getResources(args = {}) {
       return this.supportbee.getTicketComments({
         ticketId: this.ticketId,
         ...args,

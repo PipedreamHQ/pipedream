@@ -15,7 +15,7 @@ export default {
     emitEvent(data) {
       throw new Error("emitEvent is not implemented", data);
     },
-    getResources({ ...args } = {}) {
+    getResources(args = {}) {
       throw new Error("getResources is not implemented", args);
     },
     _setLastResourceId(resourceId) {
@@ -30,6 +30,7 @@ export default {
       const resources = await this.getResources({
         params: {
           per_page: 10,
+          sort_by: "creation_time",
         },
       });
 
@@ -52,11 +53,14 @@ export default {
       });
 
       resources.reverse().forEach(this.emitEvent);
-      this._setLastResourceId(resources[0].id);
+
+      if (resources.length) {
+        this._setLastResourceId(resources[0].id);
+      }
 
       if (
         resources.length < 100 ||
-        resources.filter((payment) => payment.id === lastResourceId)
+        resources.find((payment) => payment.id === lastResourceId)
       ) {
         return;
       }

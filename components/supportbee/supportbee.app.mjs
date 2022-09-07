@@ -49,7 +49,7 @@ export default {
         },
       });
     },
-    async getTickets({ ...args } = {}) {
+    async getTickets(args = {}) {
       const response = await this._makeRequest({
         path: "/tickets",
         ...args,
@@ -67,7 +67,7 @@ export default {
 
       return response.comments ?? [];
     },
-    async createTicket({ ...args } = {}) {
+    async createTicket(args = {}) {
       return this._makeRequest({
         path: "/tickets",
         method: "post",
