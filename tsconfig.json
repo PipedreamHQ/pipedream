@@ -656,6 +656,24 @@
     },
     {
       "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/crisp"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/zoho_sheet"
+    },
+    {
+      "path": "components/sailpoint"
+    },
+    {
+      "path": "components/snapdocs"
+    },
+    {
+      "path": "components/wakatime"
     }
   ]
 }

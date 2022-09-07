@@ -5,7 +5,7 @@ export default {
   name: "New or Updated Row",
   key: "postgresql-new-or-updated-row",
   description: "Emit new event when a row is added or modified",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -16,7 +16,19 @@ export default {
         "table",
       ],
     },
-    column: {
+    identifierColumn: {
+      label: "Identifier Column",
+      propDefinition: [
+        common.props.postgresql,
+        "column",
+        (c) => ({
+          table: c.table,
+        }),
+      ],
+      description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
+    },
+    timestampColumn: {
+      label: "Timestamp Column",
       propDefinition: [
         common.props.postgresql,
         "column",
@@ -31,23 +43,13 @@ export default {
     ...common.methods,
     generateMeta(row, column) {
       return {
-        id: row[column],
+        id: `${row[this.identifierColumn]}-${row[column]}`,
         summary: "Row Added/Updated",
         ts: row[column],
       };
     },
   },
   async run() {
-    const {
-      table,
-      column,
-    } = this;
-
-    const isColumnUnique = await this.isColumnUnique(table, column);
-    if (!isColumnUnique) {
-      throw new Error("The column selected contains duplicate values. Column must be unique");
-    }
-
-    await this.newRows(table, column);
+    await this.newRows(this.table, this.timestampColumn);
   },
 };
