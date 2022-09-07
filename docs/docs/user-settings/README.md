@@ -91,11 +91,11 @@ This will restrict your account usage to a certain allocation of [invocations](/
 
 To enable this feature, _click_ on the toggle and define your maximum number of invocations in the period.
 
-![Enabling the Invocation Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1661802465/docs/components/CleanShot_2022-08-29_at_15.46.40_2x_erbgtt.png)
+![Enabling the Invocation Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
 
 ::: tip
 
-By default the Invocation Budget will be set to the maximum number of invocations allocated for your plan for the month. Setting your Invocation Budget below the default is not recommended.
+If enabled, the default Invocation Budget is maximum number of invocations allocated for your plan for the month. Setting your Invocation Budget below the default is not recommended.
 
 :::
 
