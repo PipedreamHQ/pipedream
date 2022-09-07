@@ -1,4 +1,4 @@
-import smtp2go from "../smtp2go.app";
+import smtp2go from "../app/smtp2go.app";
 
 export default {
   props: {
@@ -108,10 +108,10 @@ export default {
       });
     },
     getReplyToHeaders(replyToEmail: string) {
-      return reply_to ? [
+      return replyToEmail ? [
         {
           header: "Reply-To",
-          value: reply_to
+          value: replyToEmail
         }
       ] : [];
     },

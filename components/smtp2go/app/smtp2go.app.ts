@@ -35,7 +35,7 @@ export default {
     },
     verifiedSent(result){      
       if(result.data.failed>0){
-        throw new Error(`Mail sender responded with the following error(s): ${string.join(result.data.failures, ",")}`);
+        throw new Error(`Mail sender responded with the following error(s): ${result.data.failures.join(",")}`);
       }
     },
     async sendSingleEmail($, data: { sender: string, to: string[], cc: string[], bcc: string[], subject: string, text_body: string, html_body: string, attachments: any[], custom_headers: any[] }, ignoreFailures: boolean) {

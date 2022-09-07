@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common";
 
 export default {
   ...common,
