@@ -39,6 +39,7 @@ export default {
         {
           id: invoice.id,
           summary: `Invoice number: ${invoice.number}`,
+          ts: new Date.parse(invoice.updated_at),
         });
     });
   },
