@@ -41,7 +41,7 @@ export default {
         ...args,
       });
     },
-    async getUptimes({ ...args } = {}) {
+    async getUptimes(args = {}) {
       const response = await this._makeRequest({
         path: "/uptime",
         ...args,
