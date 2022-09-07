@@ -1,5 +1,6 @@
 import quickemailverification from "../../app/quickemailverification.app";
 import { defineAction } from "@pipedream/types";
+import { VerifyEmailParams } from "../../common/requestParams";
 
 export default defineAction({
   name: "Verify Email Address",
@@ -10,12 +11,18 @@ export default defineAction({
   type: "action",
   props: {
     quickemailverification,
+    email: {
+      label: "Email Address",
+      description: "An email address to be verified.",
+      type: "string",
+    },
   },
   async run({ $ }): Promise<any> {
-    const params = {
+    const params: VerifyEmailParams = {
       $,
-      data: {
-      },
+      params: {
+        email: this.email
+      }
     };
     const data = await this.quickemailverification.verifyEmailAddress(params);
 
