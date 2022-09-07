@@ -90,6 +90,12 @@ importers:
   components/agendor:
     specifiers: {}
 
+  components/agile_crm:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/airnow:
     specifiers: {}
 
@@ -1397,6 +1403,12 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/pointagram:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/pointerpro:
     specifiers: {}
 
@@ -1936,7 +1948,13 @@ importers:
     specifiers: {}
 
   components/tookan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/totango:
     specifiers:
@@ -2107,7 +2125,10 @@ importers:
     specifiers: {}
 
   components/wildberries:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/wistia:
     specifiers:
