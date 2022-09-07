@@ -4,7 +4,7 @@ export default {
   key: "jira-make-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Jira API, [See](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/) for all options.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     jira,

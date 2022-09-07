@@ -82,6 +82,23 @@ _Click_ on a specific column to see invocations for that day, broken out by work
 
 [Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
+
+### Invocation Budget
+
+Control the maximum number of invocations permitted on your account with an *Invocation Budget*.
+
+This will restrict your account usage to a certain allocation of [invocations](/pricing/#invocations) on a monthly or daily basis.
+
+To enable this feature, _click_ on the toggle and define your maximum number of invocations in the period.
+
+![Enabling the Invocation Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1661802465/docs/components/CleanShot_2022-08-29_at_15.46.40_2x_erbgtt.png)
+
+::: tip
+
+By default the Invocation Budget will be set to the maximum number of invocations allocated for your plan for the month. Setting your Invocation Budget below the default is not recommended.
+
+:::
+
 ### Limits
 
 For users on the [Developer (free) tier](/pricing/#developer-tier), this section displays your usage towards your [invocations](/limits/#daily-invocations) and [compute time](/limits/#compute-time-per-day) quota for the current UTC day.
