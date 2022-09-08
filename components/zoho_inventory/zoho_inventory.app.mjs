@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return "https://inventory.zoho.com/api/v1/";
+      return `https://inventory.${this.$auth.base_api_uri}/api/v1/`;
     },
     _getHeaders() {
       return {
