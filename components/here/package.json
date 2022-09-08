@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/here",
-    "version": "0.3.3",
-    "description": "Pipedream Here Components",
-    "main": "here.app.js",
-    "keywords": [
-        "pipedream",
-        "here"
-    ],
-    "homepage": "https://pipedream.com/apps/here",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedreamhq/platform": "^0.8.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/here",
+  "version": "0.3.4",
+  "description": "Pipedream Here Components",
+  "main": "here.app.js",
+  "keywords": [
+    "pipedream",
+    "here"
+  ],
+  "homepage": "https://pipedream.com/apps/here",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedreamhq/platform": "^0.8.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/adafruit_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Adafruit IO Components",
   "main": "dist/app/adafruit_io.app.mjs",
   "keywords": [
     "pipedream",
     "adafruit_io"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/adafruit_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

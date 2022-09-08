@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sftp_password_based_auth",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Pipedream SFTP Components",
   "main": "sftp_password_based_auth.app.mjs",
   "keywords": [

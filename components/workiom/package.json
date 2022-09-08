@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/workiom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Workiom Components",
   "main": "dist/app/workiom.app.mjs",
   "keywords": [
     "pipedream",
     "workiom"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/workiom",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

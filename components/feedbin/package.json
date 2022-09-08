@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/feedbin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Feedbin Components",
   "main": "feedbin.app.mjs",
   "keywords": [
-		"pipedream",
-		"feedbin"
+    "pipedream",
+    "feedbin"
   ],
   "homepage": "https://pipedream.com/apps/feedbin",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

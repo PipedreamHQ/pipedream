@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/adalo",
-    "version": "0.0.2",
-    "description": "Pipedream Adalo Components",
-    "main": "adalo.app.mjs",
-    "keywords": [
-        "pipedream",
-        "adalo"
-    ],
-    "homepage": "https://pipedream.com/apps/adalo",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "@pipedream/platform": "^0.10.0"
-    }
+  "name": "@pipedream/adalo",
+  "version": "0.0.3",
+  "description": "Pipedream Adalo Components",
+  "main": "adalo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adalo"
+  ],
+  "homepage": "https://pipedream.com/apps/adalo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
 }

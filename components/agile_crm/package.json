@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/agile_crm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Agile CRM Components",
   "main": "agile_crm.app.mjs",
   "keywords": [

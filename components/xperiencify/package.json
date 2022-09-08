@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/xperiencify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Xperiencify Components",
   "main": "dist/app/xperiencify.app.mjs",
   "keywords": [
     "pipedream",
     "xperiencify"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/xperiencify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

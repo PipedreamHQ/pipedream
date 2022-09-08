@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/google_directory",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Google Directory Components",
   "main": "dist/app/google_directory.app.mjs",
   "keywords": [
     "pipedream",
     "google_directory"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/google_directory",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
