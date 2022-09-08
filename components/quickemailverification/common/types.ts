@@ -6,3 +6,8 @@ export interface VerifyEmailParams {
     email: string
   }
 }
+
+export interface VerifyEmailResponse {
+  reason: string;
+  success: boolean;
+}
