@@ -129,31 +129,81 @@ export default {
   ANYTHING_TO_PDF_SOURCE_TYPES: [
     {
       label: "CSV, XLS, XLSX",
-      value: "CSV",
+      value: "/pdf/convert/from/csv",
     },
     {
       label: "DOC, DOCX, RTF, TXT, XPS",
-      value: "DOC",
+      value: "/pdf/convert/from/doc",
     },
     {
       label: "JPG, PNG, TIFF",
-      value: "IMAGE",
+      value: "/pdf/convert/from/image",
     },
     {
       label: "PDF from URL",
-      value: "URL",
+      value: "/pdf/convert/from/url",
     },
     {
       label: "PDF from HTML",
-      value: "HTML",
+      value: "/pdf/convert/from/html",
     },
     {
       label: "PDF from EMAIL",
-      value: "EMAIL",
+      value: "/pdf/convert/from/email",
     },
     {
-      label: "PDF from XLS or CSV",
-      value: "XLS",
+      label: "PDF from XLS",
+      value: "/xls/convert/to/pdf",
+    },
+  ],
+  PDF_TO_ANYTHING_OUTPUT_TYPES: [
+    {
+      label: "PDF To CSV",
+      value: "/pdf/convert/to/csv",
+    },
+    {
+      label: "PDF To JSON",
+      value: "/pdf/convert/to/json2",
+    },
+    {
+      label: "PDF To Text",
+      value: "/pdf/convert/to/text",
+    },
+    {
+      label: "PDF To Text Simple",
+      value: "/pdf/convert/to/text-simple",
+    },
+    {
+      label: "PDF To XLS",
+      value: "/pdf/convert/to/xls",
+    },
+    {
+      label: "PDF To XLSX",
+      value: "/pdf/convert/to/xlsx",
+    },
+    {
+      label: "PDF To XML",
+      value: "/pdf/convert/to/xml",
+    },
+    {
+      label: "PDF To HTML",
+      value: "/pdf/convert/to/html",
+    },
+    {
+      label: "PDF To JPG",
+      value: "/pdf/convert/to/jpg",
+    },
+    {
+      label: "PDF To PNG",
+      value: "/pdf/convert/to/png",
+    },
+    {
+      label: "PDF To WEBP",
+      value: "/pdf/convert/to/webp",
+    },
+    {
+      label: "PDF To TIFF",
+      value: "/pdf/convert/to/tiff",
     },
   ],
 };

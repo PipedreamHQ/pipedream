@@ -5,22 +5,10 @@ export default {
   name: "Anything to PDF Converter",
   description: "Convert CSV, XLS, XLSX, DOC, DOCX, RTF, TXT, XPS, JPG, PNG, TIFF, URL, HTML, EMAIL to PDF. [See docs here](https://apidocs.pdf.co/22-pdf-from-csv-csv-to-pdf)",
   key: "pdf_co-anything-to-pdf-converter",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     app,
-    source: {
-      type: "string",
-      label: "Source",
-      description: "Set the URL of the source file or the raw HTML depending on the Source Type. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
-    },
-    sourceType: {
-      type: "string",
-      label: "Source Type",
-      description: "Select the type of the source file.",
-      options: constants.ANYTHING_TO_PDF_SOURCE_TYPES,
-      reloadProps: true,
-    },
     httpusername: {
       propDefinition: [
         app,
@@ -56,6 +44,18 @@ export default {
         app,
         "profiles",
       ],
+    },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "Set the URL of the source file or the raw HTML depending on the Source Type. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
+    },
+    sourceType: {
+      type: "string",
+      label: "Source Type",
+      description: "Select the type of the source file.",
+      options: constants.ANYTHING_TO_PDF_SOURCE_TYPES,
+      reloadProps: true,
     },
   },
   async additionalProps() {
@@ -176,10 +176,10 @@ export default {
     } else {
       param.url = this.source;
     }
-    const response = await this.app.convertAnythingToPDF(
+    const response = await this.app.genericRequest(
       $,
-      this.sourceType,
       param,
+      this.sourceType,
     );
     $.export("$summary", `Successfully converted ${this.sourceType} to PDF`);
     return response;

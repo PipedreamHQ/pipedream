@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -44,6 +43,12 @@ export default {
       type: "any",
       label: "Profiles",
       description: "Use this parameter to set additional configuration for fine tuning and extra options. [Explore PDF.co](https://apidocs.pdf.co/kb/OCR/how-to-add-profile-to-pdfco-request) for profile examples.",
+      optional: true,
+    },
+    pages: {
+      type: "string",
+      label: "Pages",
+      description: "For ALL pages just leave this param empty. Comma-separated list of page indices (or ranges) to process. the very first page starts at 0 (zero). To set a range use the dash -, for example: 0,2-5,7-. To set a range from index to the last page use range like this: 2- (from page #3 as the index starts at zero and till the end of the document). Example: 0,2-5,7- means first page, then 3rd page to 6th page, and then the range from 8th (index = 7) page till the end of the document.",
       optional: true,
     },
   },
@@ -97,78 +102,10 @@ export default {
       }));
       return response;
     },
-    async convertAnythingToPDF($ = this, sourceType, param) {
-      switch (sourceType) {
-      case "CSV":
-        return this.convertFromCSVToPDF($, param);
-      case "DOC":
-        return this.convertFromDOCToPDF($, param);
-      case "IMAGE":
-        return this.convertFromImageToPDF($, param);
-      case "URL":
-        return this.convertFromUrlToPDF($, param);
-      case "EMAIL":
-        return this.convertFromEmailToPDF($, param);
-      case "HTML":
-        return this.convertFromHtmlToPDF($, param);
-      case "XLS":
-        return this.convertFromXLSToPDF($, param);
-      default:
-        throw new ConfigurationError("Invalid source type.");
-      }
-    },
-    async convertFromCSVToPDF($ = this, param) {
+    async genericRequest($ = this, param, path) {
       const response = await axios($, this._getRequestParams({
         method: "POST",
-        path: "/pdf/convert/from/csv",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromDOCToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/pdf/convert/from/doc",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromImageToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/pdf/convert/from/image",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromUrlToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/pdf/convert/from/url",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromHtmlToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/pdf/convert/from/html",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromEmailToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/pdf/convert/from/email",
-        data: this.filterEmptyValues(param),
-      }));
-      return response;
-    },
-    async convertFromXLSToPDF($ = this, param) {
-      const response = await axios($, this._getRequestParams({
-        method: "POST",
-        path: "/xls/convert/to/pdf",
+        path,
         data: this.filterEmptyValues(param),
       }));
       return response;
