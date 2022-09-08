@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/calendly",
-    "version": "0.3.3",
-    "description": "Pipedream Calendly Components",
-    "main": "calendly.app.js",
-    "keywords": [
-        "pipedream",
-        "calendly"
-    ],
-    "homepage": "https://pipedream.com/apps/calendly",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/calendly",
+  "version": "0.3.4",
+  "description": "Pipedream Calendly Components",
+  "main": "calendly.app.js",
+  "keywords": [
+    "pipedream",
+    "calendly"
+  ],
+  "homepage": "https://pipedream.com/apps/calendly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

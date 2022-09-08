@@ -1,19 +1,19 @@
 {
-    "name": "@pipedream/inksprout",
-    "version": "0.0.1",
-    "description": "Pipedream Inksprout Components",
-    "main": "inksprout.app.js",
-    "keywords": [
-        "pipedream",
-        "inksprout"
-    ],
-    "homepage": "https://pipedream.com/apps/inksprout",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "@pipedream/platform": "^1.1.1"
-    }
+  "name": "@pipedream/inksprout",
+  "version": "0.0.2",
+  "description": "Pipedream Inksprout Components",
+  "main": "inksprout.app.js",
+  "keywords": [
+    "pipedream",
+    "inksprout"
+  ],
+  "homepage": "https://pipedream.com/apps/inksprout",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
 }

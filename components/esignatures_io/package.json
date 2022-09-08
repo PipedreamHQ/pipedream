@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/esignatures_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Esignatures IO Components",
   "main": "esignatures_io.app.mjs",
   "keywords": [

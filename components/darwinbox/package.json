@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/darwinbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Darwinbox Components",
   "main": "dist/app/darwinbox.app.mjs",
   "keywords": [
     "pipedream",
     "darwinbox"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/darwinbox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

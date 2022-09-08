@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/reply_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Reply.io Components",
   "main": "dist/app/reply_io.app.mjs",
   "keywords": [
     "pipedream",
     "reply_io"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/reply_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

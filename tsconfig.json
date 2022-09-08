@@ -665,6 +665,15 @@
     },
     {
       "path": "components/zoho_sheet"
+    },
+    {
+      "path": "components/sailpoint"
+    },
+    {
+      "path": "components/snapdocs"
+    },
+    {
+      "path": "components/wakatime"
     }
   ]
 }

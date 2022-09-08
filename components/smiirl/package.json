@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smiirl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Smiirl Components",
   "main": "smiirl.app.mjs",
   "keywords": [

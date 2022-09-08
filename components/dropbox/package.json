@@ -1,21 +1,21 @@
 {
-    "name": "@pipedream/dropbox",
-    "version": "0.3.3",
-    "description": "Pipedream Dropbox Components",
-    "main": "dropbox.app.js",
-    "keywords": [
-        "pipedream",
-        "dropbox"
-    ],
-    "homepage": "https://pipedream.com/apps/dropbox",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "dropbox": "^8.2.0",
-        "isomorphic-fetch": "^3.0.0"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/dropbox",
+  "version": "0.3.4",
+  "description": "Pipedream Dropbox Components",
+  "main": "dropbox.app.js",
+  "keywords": [
+    "pipedream",
+    "dropbox"
+  ],
+  "homepage": "https://pipedream.com/apps/dropbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "dropbox": "^8.2.0",
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

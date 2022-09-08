@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/bitrix24",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Bitrix24 Components",
   "main": "dist/app/bitrix24.app.mjs",
   "keywords": [
     "pipedream",
     "bitrix24"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/bitrix24",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

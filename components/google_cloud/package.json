@@ -1,27 +1,27 @@
 {
-    "name": "@pipedream/google_cloud",
-    "version": "0.3.4",
-    "description": "Pipedream Google_cloud Components",
-    "main": "google_cloud.app.mjs",
-    "keywords": [
-        "pipedream",
-        "google_cloud"
-    ],
-    "homepage": "https://pipedream.com/apps/google_cloud",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "@google-cloud/bigquery": "^6.0.0",
-        "@google-cloud/logging": "^10.0.3",
-        "@google-cloud/pubsub": "^3.0.1",
-        "@google-cloud/storage": "^6.0.1",
-        "@pipedream/platform": "^0.10.0",
-        "crypto": "^1.0.1",
-        "lodash-es": "^4.17.21",
-        "uuid": "^8.3.2"
-    }
+  "name": "@pipedream/google_cloud",
+  "version": "0.3.5",
+  "description": "Pipedream Google_cloud Components",
+  "main": "google_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/google_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^6.0.0",
+    "@google-cloud/logging": "^10.0.3",
+    "@google-cloud/pubsub": "^3.0.1",
+    "@google-cloud/storage": "^6.0.1",
+    "@pipedream/platform": "^0.10.0",
+    "crypto": "^1.0.1",
+    "lodash-es": "^4.17.21",
+    "uuid": "^8.3.2"
+  }
 }
