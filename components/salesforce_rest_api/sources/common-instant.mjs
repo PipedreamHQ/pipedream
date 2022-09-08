@@ -5,31 +5,18 @@ import salesforce from "../salesforce_rest_api.app.mjs";
 export default {
   dedupe: "unique",
   props: {
+    salesforce,
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
-    salesforce,
     objectType: {
-      type: "string",
-      label: "Object Type",
-      description: "The type of object for which to monitor events",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          // The list of allowed SObject types is static and exhaustively
-          // provided through a single method call
-          return [];
-        }
-
-        const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(this.getEventType());
-        return supportedObjectTypes.map((i) => ({
-          label: i.label,
-          value: i.name,
-        }));
-      },
+      propDefinition: [
+        salesforce,
+        "objectType",
+      ],
     },
   },
   hooks: {

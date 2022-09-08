@@ -23,11 +23,7 @@ export default {
       type: "string",
       label: "SObject Type",
       description: "Standard object type of the record to get field values from",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
+      async options() {
         const { sobjects } = await this.listSObjectTypes();
         return sobjects
           .filter((sobject) => sobject.replicateable)
@@ -200,10 +196,6 @@ export default {
         sobject.associateEntityType === "History" &&
         sobject.name.includes("History")
       );
-    },
-    listAllowedSObjectTypes(eventType) {
-      const verbose = true;
-      return SalesforceClient.getAllowedSObjects(eventType, verbose);
     },
     async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
       const {
