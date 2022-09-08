@@ -1,10 +1,10 @@
 import { Pipedream } from "@pipedream/types";
 
 export interface VerifyEmailParams {
-  $: Pipedream,
+  $: Pipedream;
   params: {
-    email: string
-  }
+    email: string;
+  };
 }
 
 export interface VerifyEmailResponse {
