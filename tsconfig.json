@@ -674,6 +674,9 @@
     },
     {
       "path": "components/wakatime"
+    },
+    {
+      "path": "components/congress_gov"
     }
   ]
 }
