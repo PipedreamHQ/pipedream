@@ -6,6 +6,14 @@ export default {
     zohoInventory,
     db: "$.service.db",
     http: "$.interface.http",
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "Pipedream will poll the Zoho Inventory API on this schedule",
+      default: {
+        intervalSeconds: 60 * 15, // 15 minutes
+      },
+    },
     organization: {
       propDefinition: [
         zohoInventory,
