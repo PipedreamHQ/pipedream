@@ -104,4 +104,56 @@ export default {
     "UPCE",
     "UPU",
   ],
+  PAPER_SIZE_OPTS: [
+    "Letter",
+    "Legal",
+    "Tabloid",
+    "Ledger",
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+  ],
+  ORIENTATION_OPTS: [
+    "Portrait",
+    "Landscape",
+  ],
+  MEDIA_TYPE_OPTS: [
+    "print",
+    "screen",
+    "none",
+  ],
+  ANYTHING_TO_PDF_SOURCE_TYPES: [
+    {
+      label: "CSV, XLS, XLSX",
+      value: "CSV",
+    },
+    {
+      label: "DOC, DOCX, RTF, TXT, XPS",
+      value: "DOC",
+    },
+    {
+      label: "JPG, PNG, TIFF",
+      value: "IMAGE",
+    },
+    {
+      label: "PDF from URL",
+      value: "URL",
+    },
+    {
+      label: "PDF from HTML",
+      value: "HTML",
+    },
+    {
+      label: "PDF from EMAIL",
+      value: "EMAIL",
+    },
+    {
+      label: "PDF from XLS or CSV",
+      value: "XLS",
+    },
+  ],
 };

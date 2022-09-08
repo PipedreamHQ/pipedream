@@ -23,16 +23,16 @@ export default {
       optional: true,
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "File name for generated output.",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
     expiration: {
-      type: "integer",
-      label: "Expiration",
-      description: "Output link expiration in minutes. Default is 60 (i.e. 60 minutes or 1 hour).",
-      optional: true,
+      propDefinition: [
+        app,
+        "expiration",
+      ],
     },
     inline: {
       type: "boolean",

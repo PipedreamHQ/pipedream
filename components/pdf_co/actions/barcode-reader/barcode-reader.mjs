@@ -10,10 +10,10 @@ export default {
   props: {
     app,
     url: {
-      type: "string",
-      label: "URL",
-      description: "URL to the source file. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
-      optional: false,
+      propDefinition: [
+        app,
+        "url",
+      ],
     },
     types: {
       type: "string[]",
@@ -22,16 +22,16 @@ export default {
       options: constants.BARCODE_READER_TYPE_OPTS,
     },
     httpusername: {
-      type: "string",
-      label: "HTTP Username",
-      description: "HTTP auth user name if required to access source url.",
-      optional: true,
+      propDefinition: [
+        app,
+        "httpusername",
+      ],
     },
     httppassword: {
-      type: "string",
-      label: "HTTP Password",
-      description: "HTTP auth password if required to access source url.",
-      optional: true,
+      propDefinition: [
+        app,
+        "httppassword",
+      ],
     },
     pages: {
       type: "string",
