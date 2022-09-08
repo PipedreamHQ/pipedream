@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/joomla",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Joomla Components",
   "main": "joomla.app.mjs",
   "keywords": [
-      "pipedream",
-      "joomla"
+    "pipedream",
+    "joomla"
   ],
   "homepage": "https://pipedream.com/apps/joomla",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -15,6 +15,6 @@
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
-      "access": "public"
+    "access": "public"
   }
 }

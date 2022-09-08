@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/commercehq",
-    "version": "0.0.1",
-    "description": "Pipedream CommerceHQ Components",
-    "main": "commercehq.app.js",
-    "keywords": [
-      "pipedream",
-      "commercehq"
-    ],
-    "homepage": "https://pipedream.com/apps/commercehq",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/commercehq",
+  "version": "0.0.2",
+  "description": "Pipedream CommerceHQ Components",
+  "main": "commercehq.app.js",
+  "keywords": [
+    "pipedream",
+    "commercehq"
+  ],
+  "homepage": "https://pipedream.com/apps/commercehq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

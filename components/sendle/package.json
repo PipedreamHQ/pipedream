@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/sendle",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sendle Components",
   "main": "dist/app/sendle.app.mjs",
   "keywords": [
     "pipedream",
     "sendle"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/sendle",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

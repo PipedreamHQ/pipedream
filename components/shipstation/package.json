@@ -1,21 +1,20 @@
 {
-    "name": "@pipedream/shipstation",
-    "version": "0.0.1",
-    "description": "Pipedream ShipStation Components",
-    "main": "shipstation.app.mjs",
-    "keywords": [
-        "pipedream",
-        "shipstation"
-    ],
-    "homepage": "https://pipedream.com/apps/shipstation",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "@pipedream/platform": "^0.10.0"
-    }
+  "name": "@pipedream/shipstation",
+  "version": "0.0.2",
+  "description": "Pipedream ShipStation Components",
+  "main": "shipstation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shipstation"
+  ],
+  "homepage": "https://pipedream.com/apps/shipstation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
 }
-

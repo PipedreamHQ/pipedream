@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/pdfmonkey",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream PDFMonkey Components",
   "main": "dist/app/pdfmonkey.app.mjs",
   "keywords": [
     "pipedream",
     "pdfmonkey"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/pdfmonkey",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

@@ -247,6 +247,12 @@ importers:
   components/beehiiv:
     specifiers: {}
 
+  components/big_cartel:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -596,9 +602,9 @@ importers:
 
   components/feedbin:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/figma:
     specifiers:
@@ -1545,6 +1551,9 @@ importers:
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
 
+  components/sailpoint:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
@@ -1734,6 +1743,9 @@ importers:
   components/snapchat_marketing:
     specifiers: {}
 
+  components/snapdocs:
+    specifiers: {}
+
   components/snowflake:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1786,6 +1798,12 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/statuscake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/stormglass_io:
     specifiers: {}
@@ -2107,6 +2125,9 @@ importers:
   components/waitwhile:
     specifiers: {}
 
+  components/wakatime:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2188,7 +2209,10 @@ importers:
     specifiers: {}
 
   components/xperiencify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/yahoo_fantasy_sports:
     specifiers:
@@ -2271,6 +2295,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/zoho_sheet:
+    specifiers: {}
 
   components/zonka_feedback:
     specifiers:
@@ -17776,6 +17803,7 @@ packages:
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
+    hasBin: true
     dev: false
 
   /semver/7.3.7:
