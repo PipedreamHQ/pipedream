@@ -1,5 +1,11 @@
 import { Pipedream } from "@pipedream/types";
 
+export interface HttpRequestParams {
+  endpoint: string;
+  $?: Pipedream;
+  params?: object;
+}
+
 export interface VerifyEmailParams {
   $: Pipedream;
   params: {
@@ -8,6 +14,8 @@ export interface VerifyEmailParams {
 }
 
 export interface VerifyEmailResponse {
+  email: string;
   reason: string;
-  success: boolean;
+  result: string;
+  success: string; // API returns this as a string ("true" or "false"), not as a boolean
 }

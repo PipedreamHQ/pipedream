@@ -1,13 +1,13 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  HttpRequestParams,
   VerifyEmailParams, VerifyEmailResponse,
 } from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "quickemailverification",
-  propDefinitions: {},
   methods: {
     _baseUrl(): string {
       return "https://api.quickemailverification.com/v1";
@@ -16,7 +16,7 @@ export default defineApp({
       $ = this,
       endpoint,
       params,
-    }): Promise<object> {
+    }: HttpRequestParams): Promise<object> {
       return axios($, {
         url: this._baseUrl() + endpoint,
         params: {
@@ -30,6 +30,8 @@ export default defineApp({
         endpoint: "/verify",
         ...args,
       });
+
+      if (response.success !== "true") throw new Error(`QuickEmailVerification response: ${response.reason}`);
 
       return response;
     },

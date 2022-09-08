@@ -28,9 +28,9 @@ export default defineAction({
         email,
       },
     };
-    const data = await this.quickemailverification.verifyEmailAddress(params);
+    const data: VerifyEmailResponse = await this.quickemailverification.verifyEmailAddress(params);
 
-    $.export("$summary", "Verified email address successfully");
+    $.export("$summary", `Verified email ${data.email} (${data.result})`);
 
     return data;
   },
