@@ -1781,6 +1781,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/statuscake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stormglass_io:
     specifiers: {}
 
@@ -1942,7 +1948,13 @@ importers:
     specifiers: {}
 
   components/tookan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/totango:
     specifiers:
@@ -2113,7 +2125,10 @@ importers:
     specifiers: {}
 
   components/wildberries:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/wistia:
     specifiers:
