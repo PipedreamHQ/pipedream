@@ -602,9 +602,9 @@ importers:
 
   components/feedbin:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/figma:
     specifiers:
@@ -1545,6 +1545,9 @@ importers:
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
 
+  components/sailpoint:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
@@ -1732,6 +1735,9 @@ importers:
     specifiers: {}
 
   components/snapchat_marketing:
+    specifiers: {}
+
+  components/snapdocs:
     specifiers: {}
 
   components/snowflake:
@@ -2113,6 +2119,9 @@ importers:
   components/waitwhile:
     specifiers: {}
 
+  components/wakatime:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2194,7 +2203,10 @@ importers:
     specifiers: {}
 
   components/xperiencify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/yahoo_fantasy_sports:
     specifiers:
