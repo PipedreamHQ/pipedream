@@ -1,5 +1,6 @@
 import app from "../../upkeep.app.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -41,10 +42,17 @@ export default {
       optional: true,
     },
     parts: {
-      type: "string[]",
-      label: "Parts",
-      description: "A list of parts of the purchase order. Its child attributes are `id` and `quantity`, e.g. `{\"id\": \"t0RYP2jIPz\",\"quantity\": 5}`",
-      optional: true,
+      propDefinition: [
+        app,
+        "parts",
+      ],
+      description: "An array of Part IDs to include with the purchase order",
+    },
+    respectivePartQuantityUsed: {
+      propDefinition: [
+        app,
+        "respectivePartQuantityUsed",
+      ],
     },
     otherFields: {
       type: "object",
@@ -61,13 +69,22 @@ export default {
   },
   methods: {
     prepareData() {
+      if (this.parts.length != this.respectivePartQuantityUsed.length)
+        throw new ConfigurationError("`Respective Part Quantities`  and `Parts` must have the same length!");
+      const parts = [];
+      for (let i = 0; i < this.parts.length; i++) {
+        parts.push({
+          id: this.parts[i],
+          quantity: this.respectivePartQuantityUsed[i],
+        });
+      }
       return {
         title: this.title,
-        vendorId: this.vendorId,
+        vendor: this.vendorId,
         category: this.categoryId,
         purchaseOrderNumber: parseInt(this.purchaseOrderNumber),
         description: this.description,
-        parts: utils.parseArray(this.parts),
+        parts,
         customFieldsPO: utils.parseArray(this.customFieldsPO),
         ...utils.parseObject(this.otherFields),
       };

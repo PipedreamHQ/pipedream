@@ -27,6 +27,10 @@ export default {
       label: "Status",
       description: "If set, the result will only include assets with this status.",
       optional: true,
+      options: [
+        "Operational",
+        "Not Operational",
+      ],
     },
     category: { //no method to fetch asset categories
       type: "string",

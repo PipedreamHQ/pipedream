@@ -1,5 +1,6 @@
 import app from "../../upkeep.app.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "action",
@@ -21,7 +22,8 @@ export default {
         app,
         "description",
       ],
-      description: "Description of the work order",
+      label: "Description",
+      description: "",
     },
     priority: {
       propDefinition: [
@@ -38,7 +40,7 @@ export default {
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date, timestamp in milliseconds, e.g. `1515482422310`",
+      description: "Due date, in ISO 8601 format, e.g. `2022-09-07` or `2022-09-07T13:26:53`",
       optional: true,
     },
     assetId: {
@@ -103,6 +105,9 @@ export default {
     },
   },
   async run ({ $ }) {
+    const dueDate = Date.parse(this.dueDate);
+    if (isNaN(dueDate))
+      throw new ConfigurationError("Due Date should be in ISO 8601 format!");
     const { result } = await this.app.createWorkOrder({
       $,
       data: {
@@ -110,7 +115,7 @@ export default {
         description: this.description,
         priority: parseInt(this.priority),
         category: this.category,
-        dueDate: this.dueDate,
+        dueDate,
         asset: this.assetId,
         location: this.locationId,
         assignedToUser: this.userId,

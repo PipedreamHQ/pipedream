@@ -20,7 +20,8 @@ export default {
         app,
         "description",
       ],
-      description: "Description of the purchase order",
+      label: "Description",
+      description: "",
     },
     priority: {
       propDefinition: [

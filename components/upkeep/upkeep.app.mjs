@@ -19,8 +19,26 @@ export default {
     priority: {
       type: "string",
       label: "Priority",
-      description: "Priority of the request. `0`,`1`,`2`,`3`. `0` being lowest",
+      description: "Priority of the request.",
       optional: true,
+      options: [
+        {
+          label: "None",
+          value: "0",
+        },
+        {
+          label: "Low",
+          value: "1",
+        },
+        {
+          label: "Medium",
+          value: "2",
+        },
+        {
+          label: "High",
+          value: "3",
+        },
+      ],
     },
     respectivePartQuantityUsed: {
       type: "integer[]",
