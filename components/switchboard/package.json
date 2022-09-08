@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/switchboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Switchboard Components",
   "main": "dist/app/switchboard.app.mjs",
   "keywords": [
     "pipedream",
     "switchboard"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/switchboard",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

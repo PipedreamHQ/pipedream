@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/wildberries",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Wildberries Components",
   "main": "dist/app/wildberries.app.mjs",
   "keywords": [
     "pipedream",
     "wildberries"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/wildberries",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

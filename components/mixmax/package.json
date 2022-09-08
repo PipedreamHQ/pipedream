@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/mixmax",
-    "version": "0.0.1",
-    "description": "Pipedream MixMax Components",
-    "main": "mixmax.app.js",
-    "keywords": [
-      "pipedream",
-      "mixmax"
-    ],
-    "homepage": "https://pipedream.com/apps/mixmax",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/mixmax",
+  "version": "0.0.2",
+  "description": "Pipedream MixMax Components",
+  "main": "mixmax.app.js",
+  "keywords": [
+    "pipedream",
+    "mixmax"
+  ],
+  "homepage": "https://pipedream.com/apps/mixmax",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

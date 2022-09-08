@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/oksign",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream OKSign Components",
   "main": "dist/app/oksign.app.mjs",
   "keywords": [
     "pipedream",
     "oksign"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/oksign",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

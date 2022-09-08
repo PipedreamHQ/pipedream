@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/brosix",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Brosix Components",
   "main": "dist/app/brosix.app.mjs",
   "keywords": [
     "pipedream",
     "brosix"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/brosix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

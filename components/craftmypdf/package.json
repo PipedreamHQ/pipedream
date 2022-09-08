@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/craftmypdf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CraftMyPDF Components",
   "main": "dist/app/craftmypdf.app.mjs",
   "keywords": [
     "pipedream",
     "craftmypdf"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/craftmypdf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

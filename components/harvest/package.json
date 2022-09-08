@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/harvest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Harvest Components",
   "main": "harvest.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^0.9.0",
-    "moment":"^2.29.3",
+    "moment": "^2.29.3",
     "async-retry": "^1.3.3"
   }
 }
