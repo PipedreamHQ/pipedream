@@ -20,12 +20,10 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<VerifyEmailResponse> {
-    const email: string = this.email;
-
     const params: VerifyEmailParams = {
       $,
       params: {
-        email,
+        email: this.email,
       },
     };
     const data: VerifyEmailResponse = await this.quickemailverification.verifyEmailAddress(params);
