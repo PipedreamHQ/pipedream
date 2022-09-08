@@ -562,6 +562,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/estreamdesk:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      xml2json-light: ^1.0.6
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      xml2json-light: 1.0.6
+
   components/esputnik:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -19990,6 +19998,10 @@ packages:
     dependencies:
       sax: 1.2.4
       xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2json-light/1.0.6:
+    resolution: {integrity: sha512-6CSibpteBS4B8/fzJaj6TDtWatIlonSFfVVK3TLM23mlTOxkMgVA4b2FaGeTIrrhOMdDZ8X1/dvo4mfBtsU4yw==}
     dev: false
 
   /xmlbuilder/11.0.1:
