@@ -71,6 +71,9 @@ export default {
       };
     },
     filterEmptyValues(obj) {
+      if (!obj) {
+        return obj;
+      }
       return Object.entries(obj)
         .reduce((reduction,
           [
@@ -102,11 +105,12 @@ export default {
       }));
       return response;
     },
-    async genericRequest($ = this, param, path) {
+    async genericRequest($ = this, payload, path, params, method = "POST") {
       const response = await axios($, this._getRequestParams({
-        method: "POST",
+        method,
         path,
-        data: this.filterEmptyValues(param),
+        data: this.filterEmptyValues(payload),
+        params: this.filterEmptyValues(params),
       }));
       return response;
     },

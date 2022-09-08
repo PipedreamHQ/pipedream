@@ -206,4 +206,8 @@ export default {
       value: "/pdf/convert/to/tiff",
     },
   ],
+  CUSTOM_CALL_METHODS: [
+    "POST",
+    "GET",
+  ],
 };
