@@ -1781,6 +1781,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/statuscake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stormglass_io:
     specifiers: {}
 
