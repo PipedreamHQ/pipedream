@@ -4,7 +4,7 @@ export default {
   key: "upkeep-new-request",
   name: "New Request Event",
   description: "Emit new event when a request is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

@@ -4,7 +4,7 @@ export default {
   key: "upkeep-purchase-order-status-change",
   name: "New Purchase Order Status Change Event",
   description: "Emit new event when a purchase order status is changed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

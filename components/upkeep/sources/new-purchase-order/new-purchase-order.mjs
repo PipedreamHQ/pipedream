@@ -4,7 +4,7 @@ export default {
   key: "upkeep-new-purchase-order",
   name: "New Purchase Order Event",
   description: "Emit new event when a purchase order is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,
