@@ -5,7 +5,7 @@ export default {
   key: "upkeep-new-custom-events",
   name: "New Custom Event",
   description: "Emit new event when a configured event occurs.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

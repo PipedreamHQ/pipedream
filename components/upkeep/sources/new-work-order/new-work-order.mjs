@@ -4,7 +4,7 @@ export default {
   key: "upkeep-new-work-order",
   name: "New Work Order Event",
   description: "Emit new event when a work order is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

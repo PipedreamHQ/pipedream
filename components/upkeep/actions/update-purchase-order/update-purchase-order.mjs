@@ -3,7 +3,7 @@ import common from "../common/common-purchase-order.mjs";
 export default {
   type: "action",
   key: "upkeep-update-purchase-order",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Update Purchase Order",
   description: "Update a Purchase Order, [See the docs](https://developers.onupkeep.com/#update-a-specific-purchase-order)",
   ...common,
