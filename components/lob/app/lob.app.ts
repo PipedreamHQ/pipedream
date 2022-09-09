@@ -14,6 +14,19 @@ export default defineApp({
   type: "app",
   app: "lob",
   propDefinitions: {
+    addressId: {
+      type: "string",
+      label: "Address",
+      async options() {
+        const addresses = await this.listAllAddresses();
+        return addresses.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     postcardId: {
       type: "string",
       label: "Postcard",
