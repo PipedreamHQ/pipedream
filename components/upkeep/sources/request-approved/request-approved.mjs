@@ -4,7 +4,7 @@ export default {
   key: "upkeep-request-approved",
   name: "New Request Approved Event",
   description: "Emit new event when a request is approved.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,
