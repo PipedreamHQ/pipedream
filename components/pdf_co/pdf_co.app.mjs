@@ -9,6 +9,11 @@ export default {
       label: "URL",
       description: "URL to the source file. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
     },
+    urls: {
+      type: "string[]",
+      label: "URL",
+      description: "Array of urls to the source PDF files in the same order that you want them to be processed. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
+    },
     httpusername: {
       type: "string",
       label: "HTTP Username",
