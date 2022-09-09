@@ -95,9 +95,11 @@ export default {
       payload,
       endpoint,
     );
-    $.export("$summary", `Successfully changed PDF to ${this.setSearchable ?
+
+    const isSetSearchable = this.setSearchable ?
       "searchable"
-      : "unsearchable"}`);
+      : "unsearchable";
+    $.export("$summary", `Successfully changed the PDF to ${isSetSearchable}`);
     return response;
   },
 };
