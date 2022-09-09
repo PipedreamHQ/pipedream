@@ -210,4 +210,9 @@ export default {
     "POST",
     "GET",
   ],
+  DOCUMENT_PARSER_OUTPUT_FORMAT: [
+    "JSON",
+    "CSV",
+    "XML",
+  ],
 };

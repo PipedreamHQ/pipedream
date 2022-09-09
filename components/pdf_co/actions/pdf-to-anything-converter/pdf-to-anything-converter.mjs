@@ -70,10 +70,10 @@ export default {
       optional: true,
     },
     inline: {
-      type: "boolean",
-      label: "Inline",
-      description: "Must be one of: true to return data as inline or false to return link to output file (default).",
-      optional: true,
+      propDefinition: [
+        app,
+        "inline",
+      ],
     },
     lineGrouping: {
       type: "boolean",
@@ -82,9 +82,10 @@ export default {
       optional: true,
     },
     url: {
-      type: "string",
-      label: "Source URL",
-      description: "URL to the source file. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
+      propDefinition: [
+        app,
+        "url",
+      ],
     },
     outputType: {
       type: "string",

@@ -51,6 +51,18 @@ export default {
       description: "For ALL pages just leave this param empty. Comma-separated list of page indices (or ranges) to process. the very first page starts at 0 (zero). To set a range use the dash -, for example: 0,2-5,7-. To set a range from index to the last page use range like this: 2- (from page #3 as the index starts at zero and till the end of the document). Example: 0,2-5,7- means first page, then 3rd page to 6th page, and then the range from 8th (index = 7) page till the end of the document.",
       optional: true,
     },
+    inline: {
+      type: "boolean",
+      label: "Inline",
+      description: "Must be one of: true to return data as inline or false to return link to output file (default).",
+      optional: true,
+    },
+    password: {
+      type: "string",
+      label: "PDF Password",
+      description: "Password of PDF file.",
+      optional: true,
+    },
   },
   methods: {
     _getUrl(path) {
