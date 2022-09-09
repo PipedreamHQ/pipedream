@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/zoho_inventory",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho Inventory Components",
+  "main": "zoho_inventory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_inventory"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_inventory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}
