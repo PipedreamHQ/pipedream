@@ -28,8 +28,14 @@ export default {
       description: "If set, the result will only include assets with this status.",
       optional: true,
       options: [
-        "Operational",
-        "Not Operational",
+        {
+          label: "Operational",
+          value: "active",
+        },
+        {
+          label: "Not Operational",
+          value: "inactive",
+        },
       ],
     },
     category: { //no method to fetch asset categories
