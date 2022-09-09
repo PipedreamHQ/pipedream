@@ -63,6 +63,12 @@ export default {
       description: "Password of PDF file.",
       optional: true,
     },
+    lang: {
+      type: "string",
+      label: "Lang",
+      description: "Sets language for OCR (text from image) to use for scanned PDF, PNG, JPG documents input when extracting text. Default is “eng”. Other languages are also supported: deu, spa, chi_sim, jpn and many others (full list of supported OCR languages is (here)[https://apidocs.pdf.co/kb/OCR/list-of-supported-languages-for-ocr]. You can also use 2 languages simultaneously like this: eng+deu or jpn+kor (any combination).",
+      optional: true,
+    },
   },
   methods: {
     _getUrl(path) {
