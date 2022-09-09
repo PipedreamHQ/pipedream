@@ -3,9 +3,9 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Anything to PDF Converter",
-  description: "Convert CSV, XLS, XLSX, DOC, DOCX, RTF, TXT, XPS, JPG, PNG, TIFF, URL, HTML, EMAIL to PDF. [See docs here](https://apidocs.pdf.co/22-pdf-from-csv-csv-to-pdf)",
+  description: "Convert CSV, XLS, XLSX, DOC, DOCX, RTF, TXT, XPS, JPG, PNG, TIFF, URL, EMAIL to PDF. [See docs here](https://apidocs.pdf.co/22-pdf-from-csv-csv-to-pdf)",
   key: "pdf_co-anything-to-pdf-converter",
-  version: "0.0.11",
+  version: "0.0.13",
   type: "action",
   props: {
     app,
@@ -45,10 +45,11 @@ export default {
         "profiles",
       ],
     },
-    source: {
-      type: "string",
-      label: "Source",
-      description: "Set the URL of the source file or the raw HTML depending on the Source Type. Supports links from Google Drive, Dropbox and from built-in PDF.co files storage.",
+    url: {
+      propDefinition: [
+        app,
+        "url",
+      ],
     },
     sourceType: {
       type: "string",
@@ -63,7 +64,7 @@ export default {
       return {};
     }
     let additionalProps = {};
-    if (this.sourceType === "URL" || this.sourceType === "HTML" || this.sourceType === "EMAIL") {
+    if (this.sourceType.endsWith("/from/url") || this.sourceType.endsWith("/from/email")) {
       additionalProps = {
         margins: {
           type: "string",
@@ -86,7 +87,7 @@ export default {
           optional: true,
         },
       };
-      if (this.sourceType === "URL" || this.sourceType === "HTML") {
+      if (this.sourceType.endsWith("/from/url")) {
         additionalProps = {
           ...additionalProps,
           printBackground: {
@@ -122,7 +123,7 @@ export default {
           },
         };
       }
-      if (this.sourceType === "EMAIL") {
+      if (this.sourceType.endsWith("/from/email")) {
         additionalProps = {
           ...additionalProps,
           embedAttachments: {
@@ -140,7 +141,7 @@ export default {
         };
       }
     }
-    if (this.sourceType === "XLS") {
+    if (this.sourceType.startsWith("/xls/convert")) {
       additionalProps = {
         worksheetIndex: {
           type: "integer",
@@ -154,6 +155,7 @@ export default {
   },
   async run({ $ }) {
     const param = {
+      url: this.url,
       httpusername: this.httpusername,
       httppassword: this.httppassword,
       name: this.name,
@@ -171,11 +173,6 @@ export default {
       embedAttachments: this.embedAttachments,
       convertAttachments: this.convertAttachments,
     };
-    if (this.sourceType === "HTML") {
-      param.html = this.source;
-    } else {
-      param.url = this.source;
-    }
     const response = await this.app.genericRequest(
       $,
       param,

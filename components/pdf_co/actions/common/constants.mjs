@@ -144,10 +144,6 @@ export default {
       value: "/pdf/convert/from/url",
     },
     {
-      label: "PDF from HTML",
-      value: "/pdf/convert/from/html",
-    },
-    {
       label: "PDF from EMAIL",
       value: "/pdf/convert/from/email",
     },
