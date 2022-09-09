@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "upkeep-find-part",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Find Part",
   description: "Finds parts according to props configured, if no prop configured returns all parts, [See the docs](https://developers.onupkeep.com/#get-all-parts)",
   props: {
