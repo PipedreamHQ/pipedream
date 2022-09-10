@@ -5,7 +5,7 @@ export default {
   name: "New Table",
   key: "postgresql-new-table",
   description: "Emit new event when a new table is added to the database",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   async run() {
     const previousTables = this._getPreviousValues() || [];

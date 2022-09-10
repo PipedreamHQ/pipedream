@@ -5,7 +5,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Emit new event when a new row is added to a table",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

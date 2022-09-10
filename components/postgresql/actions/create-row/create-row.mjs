@@ -1,10 +1,10 @@
 import postgresql from "../../postgresql.app.mjs";
 
 export default {
-  name: "New Row",
-  key: "postgresql-new-row",
+  name: "Create Row",
+  key: "postgresql-create-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     postgresql,

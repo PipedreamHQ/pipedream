@@ -5,7 +5,7 @@ export default {
   name: "New Row Custom Query",
   key: "postgresql-new-row-custom-query",
   description: "Emit new event when new rows are returned from a custom query that you provide",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
