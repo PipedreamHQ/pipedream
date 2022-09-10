@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/givebutter",
-    "version": "0.3.3",
-    "description": "Pipedream Givebutter Components",
-    "main": "givebutter.app.js",
-    "keywords": [
-      "pipedream",
-      "givebutter"
-    ],
-    "homepage": "https://pipedream.com/apps/givebutter",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/givebutter",
+  "version": "0.3.4",
+  "description": "Pipedream Givebutter Components",
+  "main": "givebutter.app.js",
+  "keywords": [
+    "pipedream",
+    "givebutter"
+  ],
+  "homepage": "https://pipedream.com/apps/givebutter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

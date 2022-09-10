@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/vosfactures",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Vosfactures Components",
   "main": "dist/app/vosfactures.app.mjs",
   "keywords": [
     "pipedream",
     "vosfactures"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/vosfactures",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

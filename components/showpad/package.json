@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/showpad",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Showpad Components",
   "main": "dist/app/showpad.app.mjs",
   "keywords": [
     "pipedream",
     "showpad"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/showpad",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
