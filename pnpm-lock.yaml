@@ -392,6 +392,9 @@ importers:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
 
+  components/congress_gov:
+    specifiers: {}
+
   components/convertkit:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -562,6 +565,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/esputnik:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/estreamdesk:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -569,12 +578,6 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       xml2json-light: 1.0.6
-
-  components/esputnik:
-    specifiers:
-      '@pipedream/platform': ^1.1.1
-    dependencies:
-      '@pipedream/platform': 1.1.1
 
   components/ethereum:
     specifiers: {}
@@ -1446,7 +1449,13 @@ importers:
     specifiers: {}
 
   components/profitwell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/propelauth:
     specifiers: {}
