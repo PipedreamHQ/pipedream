@@ -1,17 +1,17 @@
 {
-    "name": "@pipedream/hacker_news",
-    "version": "0.3.3",
-    "description": "Pipedream Hacker_news Components",
-    "main": "hacker_news.app.js",
-    "keywords": [
-        "pipedream",
-        "hacker_news"
-    ],
-    "homepage": "https://pipedream.com/apps/hacker_news",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/hacker_news",
+  "version": "0.3.4",
+  "description": "Pipedream Hacker_news Components",
+  "main": "hacker_news.app.js",
+  "keywords": [
+    "pipedream",
+    "hacker_news"
+  ],
+  "homepage": "https://pipedream.com/apps/hacker_news",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

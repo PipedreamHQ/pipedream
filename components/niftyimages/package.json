@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/niftyimages",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream NiftyImages Components",
   "main": "dist/app/niftyimages.app.mjs",
   "keywords": [
     "pipedream",
     "niftyimages"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/niftyimages",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

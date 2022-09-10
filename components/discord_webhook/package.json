@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/discord_webhook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Discord_Webook Components",
   "main": "discord_webhook.app.mjs",
   "keywords": [

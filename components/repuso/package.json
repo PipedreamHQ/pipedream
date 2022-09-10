@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/repuso",
-    "version": "0.0.1",
-    "description": "Pipedream Repuso Components",
-    "main": "repuso.app.js",
-    "keywords": [
-      "pipedream",
-      "repuso"
-    ],
-    "homepage": "https://pipedream.com/apps/repuso",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/repuso",
+  "version": "0.0.2",
+  "description": "Pipedream Repuso Components",
+  "main": "repuso.app.js",
+  "keywords": [
+    "pipedream",
+    "repuso"
+  ],
+  "homepage": "https://pipedream.com/apps/repuso",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

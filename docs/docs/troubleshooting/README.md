@@ -152,3 +152,12 @@ Often, objects with this many nested objects result from a programming error tha
 Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
 
 [Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
+
+
+### Invocation Budget Exceeded
+
+Invocation Budgets are configurable invocation limits on your invocations at the account or organization level.
+
+If you're receiving this warning on a source or workflow, this means your allocated Invocation Budget has been reached for the defined period.
+
+You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).

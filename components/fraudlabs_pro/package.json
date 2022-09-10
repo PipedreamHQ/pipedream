@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fraudlabs_pro",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Pipedream Fraudlabs_pro Components",
   "main": "fraudlabs_pro.app.mjs",
   "keywords": [

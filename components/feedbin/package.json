@@ -1,17 +1,17 @@
 {
   "name": "@pipedream/feedbin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Feedbin Components",
   "main": "feedbin.app.mjs",
   "keywords": [
-		"pipedream",
-		"feedbin"
+    "pipedream",
+    "feedbin"
   ],
   "homepage": "https://pipedream.com/apps/feedbin",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^1.1.1"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

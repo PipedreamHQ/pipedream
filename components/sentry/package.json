@@ -1,22 +1,22 @@
 {
-    "name": "@pipedream/sentry",
-    "version": "0.3.3",
-    "description": "Pipedream Sentry Components",
-    "main": "sentry.app.js",
-    "keywords": [
-        "pipedream",
-        "sentry"
-    ],
-    "homepage": "https://pipedream.com/apps/sentry",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "parse-link-header": "^1.0.1",
-        "slugify": "^1.4.6"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/sentry",
+  "version": "0.3.4",
+  "description": "Pipedream Sentry Components",
+  "main": "sentry.app.js",
+  "keywords": [
+    "pipedream",
+    "sentry"
+  ],
+  "homepage": "https://pipedream.com/apps/sentry",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "parse-link-header": "^1.0.1",
+    "slugify": "^1.4.6"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

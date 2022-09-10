@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ssh",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SSH Components",
   "main": "ssh.app.js",
   "keywords": [
