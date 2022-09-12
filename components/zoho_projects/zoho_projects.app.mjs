@@ -185,7 +185,6 @@ export default {
         ...args,
       };
       try {
-        console.log("config", config);
         return withRetries
           ? await utils.withRetries(() => axios($, config))
           : await axios($, config);
@@ -371,7 +370,6 @@ export default {
             response || {
               [resourceName]: [],
             });
-          console.log("nextResources", nextResources);
         } catch (error) {
           console.log("Stream error", error);
           return;
