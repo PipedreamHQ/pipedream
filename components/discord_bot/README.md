@@ -47,3 +47,11 @@ By default, this event source is configured to emit an event for every new messa
 <img alt="Emit messages as a single event" src="/images/discord/emit-messages-as-single-event.png" />
 
 In this example, the source would emit a single event: an array of 5 messages.
+
+#### Message content is empty or missing
+
+If you've successfully authenticated your Discord Bot to Pipedream, but the incoming message data including `content`, `embeds` and `attachments` are empty; then your bot needs to [apply for access to this messaging data](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-FAQ).
+
+At the time of writing, Discord only requires bots in 100 or more servers to apply for this access.
+
+You can request for this approval in the **Discord Developer Portal**.
