@@ -4,7 +4,7 @@ export default {
   key: "harvest-new-invoice-entry",
   name: "New Invoice Entry",
   description: "Emit new notifications when a new invoice is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     harvest,
@@ -39,6 +39,7 @@ export default {
         {
           id: invoice.id,
           summary: `Invoice number: ${invoice.number}`,
+          ts: Date.parse(invoice.updated_at),
         });
     });
   },

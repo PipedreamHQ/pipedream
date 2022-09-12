@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/e_conomic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream E-conomic Components",
   "main": "dist/app/e_conomic.app.mjs",
   "keywords": [
     "pipedream",
     "e_conomic"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/e_conomic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

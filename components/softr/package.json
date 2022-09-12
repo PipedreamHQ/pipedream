@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/softr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Softr Components",
   "main": "dist/app/softr.app.mjs",
   "keywords": [
     "pipedream",
     "softr"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/softr",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

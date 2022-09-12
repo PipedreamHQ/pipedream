@@ -3,8 +3,8 @@ import harvest from "../../harvest.app.mjs";
 export default {
   key: "harvest-new-timesheet-entry",
   name: "New Timesheet Entry",
-  description: "Emit new notifications when a new timesheet is created",
-  version: "0.0.1",
+  description: "Emit new notifications when a new timesheet entry is created",
+  version: "0.0.2",
   type: "source",
   props: {
     harvest,
@@ -13,7 +13,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 60 * 15, //15 minutes
       },
     },
     db: "$.service.db",
@@ -41,6 +41,7 @@ export default {
           summary: `Task: ${entry.task.name} - ${entry.spent_date} ${entry.started_time || ""} ${entry.ended_time
             ? " to " + entry.ended_time
             : ""}`,
+          ts: Date.parse(entry.updated_at),
         });
     });
   },

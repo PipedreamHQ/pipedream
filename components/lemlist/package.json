@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/lemlist",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Lemlist Components",
   "main": "dist/app/lemlist.app.mjs",
   "keywords": [
     "pipedream",
     "lemlist"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/lemlist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/mailrefine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Mailrefine Components",
   "main": "dist/app/mailrefine.app.mjs",
   "keywords": [
     "pipedream",
     "mailrefine"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/mailrefine",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

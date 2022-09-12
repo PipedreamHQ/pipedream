@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_dialogflow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Google Dialogflow Components",
   "main": "google_dialogflow.app.mjs",
   "keywords": [

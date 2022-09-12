@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/cloudfill",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CloudFill Components",
   "main": "dist/app/cloudfill.app.mjs",
   "keywords": [
     "pipedream",
     "cloudfill"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/cloudfill",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

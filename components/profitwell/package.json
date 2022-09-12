@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/profitwell",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ProfitWell Components",
   "main": "dist/app/profitwell.app.mjs",
   "keywords": [
     "pipedream",
     "profitwell"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/profitwell",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
