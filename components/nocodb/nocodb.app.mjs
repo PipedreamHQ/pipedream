@@ -104,7 +104,7 @@ export default {
       return this.sdk().project.list();
     },
     async listTables({ projectId }) {
-      return await this.sdk().dbTable.list(projectId);
+      return this.sdk().dbTable.list(projectId);
     },
     async createTableRow({
       projectId,
