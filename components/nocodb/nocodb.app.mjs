@@ -119,7 +119,7 @@ export default {
       rowId,
       data,
     }) {
-      return await this.sdk().dbTableRow.update("v1", projectId, tableName, rowId, data);
+      return this.sdk().dbTableRow.update("v1", projectId, tableName, rowId, data);
     },
     async deleteTableRow({
       projectId,
