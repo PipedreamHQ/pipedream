@@ -212,6 +212,7 @@ importers:
       '@aws-sdk/client-sqs': ^3.58.0
       '@aws-sdk/client-ssm': ^3.58.0
       '@aws-sdk/client-sts': ^3.58.0
+      '@pipedream/helper_functions': ^0.3.5
       mailparser-mit: ^1.0.0
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.131.0
@@ -227,6 +228,7 @@ importers:
       '@aws-sdk/client-sqs': 3.131.0
       '@aws-sdk/client-ssm': 3.131.0
       '@aws-sdk/client-sts': 3.131.0
+      '@pipedream/helper_functions': 0.3.5
       mailparser-mit: 1.0.0
 
   components/bandwidth:
@@ -6453,6 +6455,14 @@ packages:
   /@panva/asn1.js/1.0.0:
     resolution: {integrity: sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==}
     engines: {node: '>=10.13.0'}
+    dev: false
+
+  /@pipedream/helper_functions/0.3.5:
+    resolution: {integrity: sha512-VulkmPPQ88yGiF6tqwpwGbVWdU0+7l2QLo99ZJzeVaCwMQvWDVRbt+LhFSpCIEBb6HE6MqY98iPFduTSL0D9Dg==}
+    dependencies:
+      '@pipedream/platform': 0.10.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@pipedream/helpers/1.3.12:
