@@ -562,6 +562,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
 
+  components/estreamdesk:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      xml2json-light: ^1.0.6
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      xml2json-light: 1.0.6
+
   components/esputnik:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1063,7 +1071,10 @@ importers:
     specifiers: {}
 
   components/lob:
-    specifiers: {}
+    specifiers:
+      '@lob/lob-typescript-sdk': ^1.0.0
+    dependencies:
+      '@lob/lob-typescript-sdk': 1.0.0
 
   components/looker:
     specifiers: {}
@@ -1839,6 +1850,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/supportbee:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/supportivekoala:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2059,6 +2076,12 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/upkeep:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/uploadcare:
     specifiers:
@@ -2289,6 +2312,12 @@ importers:
       '@pipedream/platform': 1.1.0
       crypto: 1.0.1
       lodash.sortby: 4.7.0
+
+  components/zoho_inventory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/zoho_mail:
     specifiers:
@@ -6147,6 +6176,16 @@ packages:
       - encoding
     dev: false
 
+  /@lob/lob-typescript-sdk/1.0.0:
+    resolution: {integrity: sha512-E+xrHTJt60T1QeCS2kN3Aw1HIq6VpiIIWhJ7rfb5/vVWyc49xjGd1pZFIjPJ4TE4wd4Jd4suhjsDo3MT1u6taA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      axios: 0.24.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@mailchimp/mailchimp_marketing/3.0.75:
     resolution: {integrity: sha512-UWg3zHd1XMIbXEWlhZpuJiUi1jQ5z3MumJwa5RKjf9/iKboz39X8v4Goq4isi2/mFf07dgftkt/zOSChY32eqg==}
     engines: {node: '>=10.0.0'}
@@ -9079,6 +9118,14 @@ packages:
 
   /axios/0.23.0:
     resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+    dependencies:
+      follow-redirects: 1.15.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
       follow-redirects: 1.15.1
     transitivePeerDependencies:
@@ -19996,6 +20043,10 @@ packages:
     dependencies:
       sax: 1.2.4
       xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2json-light/1.0.6:
+    resolution: {integrity: sha512-6CSibpteBS4B8/fzJaj6TDtWatIlonSFfVVK3TLM23mlTOxkMgVA4b2FaGeTIrrhOMdDZ8X1/dvo4mfBtsU4yw==}
     dev: false
 
   /xmlbuilder/11.0.1:
