@@ -36,7 +36,9 @@ export default {
 
       resources.reverse().forEach(this.emitEvent);
 
-      this._setLastResourceId(resources[0].id);
+      if (resources.length) {
+        this._setLastResourceId(resources[0].id);
+      }
     },
   },
   async run() {
