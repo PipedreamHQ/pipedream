@@ -1,10 +1,10 @@
 import app from "../../pdf_co.app.mjs";
 
 export default {
-  name: "Document Classifier",
-  description: "Auto classification of incoming documents. [See docs here](https://apidocs.pdf.co/01-1-document-classifier)",
-  key: "pdf_co-document-classifier",
-  version: "0.0.2",
+  name: "PDF Split text search",
+  description: "Split PDF by text search. [See docs here](https://apidocs.pdf.co/30-pdf-split)",
+  key: "pdf_co-pdf-split-by-text-search",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -12,6 +12,36 @@ export default {
       propDefinition: [
         app,
         "url",
+      ],
+    },
+    searchString: {
+      propDefinition: [
+        app,
+        "searchString",
+      ],
+    },
+    excludeKeyPages: {
+      propDefinition: [
+        app,
+        "excludeKeyPages",
+      ],
+    },
+    regexSearch: {
+      propDefinition: [
+        app,
+        "regexSearch",
+      ],
+    },
+    caseSensitive: {
+      propDefinition: [
+        app,
+        "caseSensitive",
+      ],
+    },
+    lang: {
+      propDefinition: [
+        app,
+        "lang",
       ],
     },
     httpusername: {
@@ -26,30 +56,6 @@ export default {
         "httppassword",
       ],
     },
-    rulescsv: {
-      type: "string",
-      label: "Rules CSV",
-      description: "Define custom classification rules in CSV format. [learn more](https://apidocs.pdf.co/01-1-document-classifier)",
-      optional: true,
-    },
-    caseSensitive: {
-      propDefinition: [
-        app,
-        "caseSensitive",
-      ],
-    },
-    password: {
-      propDefinition: [
-        app,
-        "password",
-      ],
-    },
-    inline: {
-      propDefinition: [
-        app,
-        "inline",
-      ],
-    },
     name: {
       propDefinition: [
         app,
@@ -60,6 +66,12 @@ export default {
       propDefinition: [
         app,
         "expiration",
+      ],
+    },
+    inline: {
+      propDefinition: [
+        app,
+        "inline",
       ],
     },
     async: {
@@ -80,22 +92,24 @@ export default {
       url: this.url,
       httpusername: this.httpusername,
       httppassword: this.httppassword,
-      rulescsv: this.rulescsv,
-      caseSensitive: this.caseSensitive,
-      inline: this.inline,
-      password: this.password,
       async: this.async,
+      profiles: this.profiles,
+      inline: this.inline,
       name: this.name,
       expiration: this.expiration,
-      profiles: this.profiles,
+      searchString: this.searchString,
+      excludeKeyPages: this.excludeKeyPages,
+      regexSearch: this.regexSearch,
+      caseSensitive: this.caseSensitive,
+      lang: this.lang,
     };
-    const endpoint = "/pdf/classifier";
+    const endpoint = "/pdf/split2";
     const response = await this.app.genericRequest(
       $,
       payload,
       endpoint,
     );
-    $.export("$summary", `Successfully classified PDF from: ${this.url}`);
+    $.export("$summary", `Successfully splitted from: ${this.url}`);
     return response;
   },
 };

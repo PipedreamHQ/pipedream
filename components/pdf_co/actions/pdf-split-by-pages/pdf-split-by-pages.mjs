@@ -1,10 +1,10 @@
 import app from "../../pdf_co.app.mjs";
 
 export default {
-  name: "Document Classifier",
-  description: "Auto classification of incoming documents. [See docs here](https://apidocs.pdf.co/01-1-document-classifier)",
-  key: "pdf_co-document-classifier",
-  version: "0.0.2",
+  name: "PDF Split by page index",
+  description: "Split PDF by page index. [See docs here](https://apidocs.pdf.co/30-pdf-split)",
+  key: "pdf_co-pdf-split-by-pages",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -13,6 +13,13 @@ export default {
         app,
         "url",
       ],
+    },
+    pages: {
+      propDefinition: [
+        app,
+        "pages",
+      ],
+      optional: false,
     },
     httpusername: {
       propDefinition: [
@@ -26,30 +33,6 @@ export default {
         "httppassword",
       ],
     },
-    rulescsv: {
-      type: "string",
-      label: "Rules CSV",
-      description: "Define custom classification rules in CSV format. [learn more](https://apidocs.pdf.co/01-1-document-classifier)",
-      optional: true,
-    },
-    caseSensitive: {
-      propDefinition: [
-        app,
-        "caseSensitive",
-      ],
-    },
-    password: {
-      propDefinition: [
-        app,
-        "password",
-      ],
-    },
-    inline: {
-      propDefinition: [
-        app,
-        "inline",
-      ],
-    },
     name: {
       propDefinition: [
         app,
@@ -60,6 +43,12 @@ export default {
       propDefinition: [
         app,
         "expiration",
+      ],
+    },
+    inline: {
+      propDefinition: [
+        app,
+        "inline",
       ],
     },
     async: {
@@ -80,22 +69,20 @@ export default {
       url: this.url,
       httpusername: this.httpusername,
       httppassword: this.httppassword,
-      rulescsv: this.rulescsv,
-      caseSensitive: this.caseSensitive,
-      inline: this.inline,
-      password: this.password,
       async: this.async,
+      profiles: this.profiles,
+      inline: this.inline,
       name: this.name,
       expiration: this.expiration,
-      profiles: this.profiles,
+      pages: this.pages,
     };
-    const endpoint = "/pdf/classifier";
+    const endpoint = "/pdf/split";
     const response = await this.app.genericRequest(
       $,
       payload,
       endpoint,
     );
-    $.export("$summary", `Successfully classified PDF from: ${this.url}`);
+    $.export("$summary", `Successfully splitted from: ${this.url}`);
     return response;
   },
 };

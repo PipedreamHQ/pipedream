@@ -32,6 +32,11 @@ export default {
       description: "File name for generated output.",
       optional: true,
     },
+    searchString: {
+      type: "string",
+      label: "Search String",
+      description: "Text to search for on pages.",
+    },
     expiration: {
       type: "integer",
       label: "Expiration",
@@ -72,6 +77,24 @@ export default {
       type: "string",
       label: "Lang",
       description: "Sets language for OCR (text from image) to use for scanned PDF, PNG, JPG documents input when extracting text. Default is “eng”. Other languages are also supported: deu, spa, chi_sim, jpn and many others (full list of supported OCR languages is (here)[https://apidocs.pdf.co/kb/OCR/list-of-supported-languages-for-ocr]. You can also use 2 languages simultaneously like this: eng+deu or jpn+kor (any combination).",
+      optional: true,
+    },
+    caseSensitive: {
+      type: "boolean",
+      label: "Case Sensitive",
+      description: "Defines if keywords in rules are case sensitive or not.",
+      optional: true,
+    },
+    excludeKeyPages: {
+      type: "boolean",
+      label: "Exclude Key Pages",
+      description: "Set to true if you want to exclude pages where text was found. false by default.",
+      optional: true,
+    },
+    regexSearch: {
+      type: "boolean",
+      label: "Regex Search",
+      description: "Set to true to enable regular expressions for search string. false by default.",
       optional: true,
     },
   },
