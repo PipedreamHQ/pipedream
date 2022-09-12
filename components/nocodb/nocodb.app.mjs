@@ -133,7 +133,7 @@ export default {
       tableName,
       rowId,
     }) {
-      return await this.sdk().dbTableRow.read("v1", projectId, tableName, rowId);
+      return this.sdk().dbTableRow.read("v1", projectId, tableName, rowId);
     },
     async listTableRow({
       projectId,
