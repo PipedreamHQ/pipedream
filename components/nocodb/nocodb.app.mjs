@@ -126,7 +126,7 @@ export default {
       tableName,
       rowId,
     }) {
-      return await this.sdk().dbTableRow.delete("v1", projectId, tableName, rowId);
+      return this.sdk().dbTableRow.delete("v1", projectId, tableName, rowId);
     },
     async getTableRow({
       projectId,
