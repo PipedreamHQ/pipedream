@@ -1071,7 +1071,10 @@ importers:
     specifiers: {}
 
   components/lob:
-    specifiers: {}
+    specifiers:
+      '@lob/lob-typescript-sdk': ^1.0.0
+    dependencies:
+      '@lob/lob-typescript-sdk': 1.0.0
 
   components/looker:
     specifiers: {}
@@ -6161,6 +6164,16 @@ packages:
       - encoding
     dev: false
 
+  /@lob/lob-typescript-sdk/1.0.0:
+    resolution: {integrity: sha512-E+xrHTJt60T1QeCS2kN3Aw1HIq6VpiIIWhJ7rfb5/vVWyc49xjGd1pZFIjPJ4TE4wd4Jd4suhjsDo3MT1u6taA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      axios: 0.24.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@mailchimp/mailchimp_marketing/3.0.75:
     resolution: {integrity: sha512-UWg3zHd1XMIbXEWlhZpuJiUi1jQ5z3MumJwa5RKjf9/iKboz39X8v4Goq4isi2/mFf07dgftkt/zOSChY32eqg==}
     engines: {node: '>=10.0.0'}
@@ -9093,6 +9106,14 @@ packages:
 
   /axios/0.23.0:
     resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+    dependencies:
+      follow-redirects: 1.15.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
       follow-redirects: 1.15.1
     transitivePeerDependencies:
