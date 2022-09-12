@@ -121,6 +121,11 @@ export default {
     "Portrait",
     "Landscape",
   ],
+  WORD_MATCHING_MODES: [
+    "SmartMatch",
+    "ExactMatch",
+    "None",
+  ],
   MEDIA_TYPE_OPTS: [
     "print",
     "screen",

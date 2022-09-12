@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -84,6 +85,13 @@ export default {
       label: "Case Sensitive",
       description: "Defines if keywords in rules are case sensitive or not.",
       optional: true,
+    },
+    wordMatchingMode: {
+      type: "string",
+      label: "Word Matching Mode",
+      description: "Values can be either ‘SmartMatch’, ‘ExactMatch’ or ‘None’.",
+      optional: true,
+      options: constants.WORD_MATCHING_MODES,
     },
     excludeKeyPages: {
       type: "boolean",
