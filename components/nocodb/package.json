@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/nocodb",
+  "version": "0.0.1",
+  "description": "Pipedream Nocodb Components",
+  "main": "dist/app/nocodb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nocodb"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/nocodb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "nocodb-sdk": "^0.92.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
