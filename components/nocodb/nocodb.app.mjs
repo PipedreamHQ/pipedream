@@ -140,7 +140,7 @@ export default {
       tableName,
       query = {},
     }) {
-      return await this.sdk().dbTableRow.list("v1", projectId, tableName, query);
+      return this.sdk().dbTableRow.list("v1", projectId, tableName, query);
     },
   },
 };
