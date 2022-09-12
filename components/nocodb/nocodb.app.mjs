@@ -111,7 +111,7 @@ export default {
       tableName,
       data,
     }) {
-      return await this.sdk().dbTableRow.create("v1", projectId, tableName, data);
+      return this.sdk().dbTableRow.create("v1", projectId, tableName, data);
     },
     async updateTableRow({
       projectId,
