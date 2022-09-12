@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail_custom_oauth",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Gmail (Consumer) Components",
   "main": "dist/app/gmail_custom_oauth.app.mjs",
   "keywords": [

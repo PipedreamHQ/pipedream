@@ -152,9 +152,9 @@ importers:
 
   components/amplenote:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/amqp:
     specifiers:
@@ -246,6 +246,12 @@ importers:
 
   components/beehiiv:
     specifiers: {}
+
+  components/big_cartel:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/bitbucket:
     specifiers:
@@ -385,6 +391,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
+
+  components/congress_gov:
+    specifiers: {}
 
   components/convertkit:
     specifiers:
@@ -562,6 +571,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/estreamdesk:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      xml2json-light: ^1.0.6
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      xml2json-light: 1.0.6
+
   components/ethereum:
     specifiers: {}
 
@@ -596,9 +613,9 @@ importers:
 
   components/feedbin:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/figma:
     specifiers:
@@ -1057,7 +1074,10 @@ importers:
     specifiers: {}
 
   components/lob:
-    specifiers: {}
+    specifiers:
+      '@lob/lob-typescript-sdk': ^1.0.0
+    dependencies:
+      '@lob/lob-typescript-sdk': 1.0.0
 
   components/looker:
     specifiers: {}
@@ -1453,7 +1473,13 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/quickemailverification:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/qwilr:
     specifiers: {}
@@ -1538,6 +1564,9 @@ importers:
       '@types/feedparser': 2.2.5
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
+
+  components/sailpoint:
+    specifiers: {}
 
   components/sales_simplify:
     specifiers: {}
@@ -1728,6 +1757,9 @@ importers:
   components/snapchat_marketing:
     specifiers: {}
 
+  components/snapdocs:
+    specifiers: {}
+
   components/snowflake:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1781,6 +1813,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/statuscake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stormglass_io:
     specifiers: {}
 
@@ -1814,6 +1852,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/supportbee:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/supportivekoala:
     specifiers:
@@ -1942,7 +1986,13 @@ importers:
     specifiers: {}
 
   components/tookan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/totango:
     specifiers:
@@ -2030,6 +2080,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/upkeep:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/uploadcare:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2095,6 +2151,9 @@ importers:
   components/waitwhile:
     specifiers: {}
 
+  components/wakatime:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2113,7 +2172,10 @@ importers:
     specifiers: {}
 
   components/wildberries:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/wistia:
     specifiers:
@@ -2173,7 +2235,10 @@ importers:
     specifiers: {}
 
   components/xperiencify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/yahoo_fantasy_sports:
     specifiers:
@@ -2251,11 +2316,20 @@ importers:
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
+  components/zoho_inventory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_mail:
     specifiers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/zoho_sheet:
+    specifiers: {}
 
   components/zonka_feedback:
     specifiers:
@@ -6105,6 +6179,16 @@ packages:
       - encoding
     dev: false
 
+  /@lob/lob-typescript-sdk/1.0.0:
+    resolution: {integrity: sha512-E+xrHTJt60T1QeCS2kN3Aw1HIq6VpiIIWhJ7rfb5/vVWyc49xjGd1pZFIjPJ4TE4wd4Jd4suhjsDo3MT1u6taA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      axios: 0.24.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@mailchimp/mailchimp_marketing/3.0.75:
     resolution: {integrity: sha512-UWg3zHd1XMIbXEWlhZpuJiUi1jQ5z3MumJwa5RKjf9/iKboz39X8v4Goq4isi2/mFf07dgftkt/zOSChY32eqg==}
     engines: {node: '>=10.0.0'}
@@ -9037,6 +9121,14 @@ packages:
 
   /axios/0.23.0:
     resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+    dependencies:
+      follow-redirects: 1.15.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
       follow-redirects: 1.15.1
     transitivePeerDependencies:
@@ -17761,6 +17853,7 @@ packages:
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
+    hasBin: true
     dev: false
 
   /semver/7.3.7:
@@ -19953,6 +20046,10 @@ packages:
     dependencies:
       sax: 1.2.4
       xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2json-light/1.0.6:
+    resolution: {integrity: sha512-6CSibpteBS4B8/fzJaj6TDtWatIlonSFfVVK3TLM23mlTOxkMgVA4b2FaGeTIrrhOMdDZ8X1/dvo4mfBtsU4yw==}
     dev: false
 
   /xmlbuilder/11.0.1:

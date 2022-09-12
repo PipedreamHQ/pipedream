@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/pretix",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream pretix Components",
   "main": "dist/app/pretix.app.mjs",
   "keywords": [
     "pipedream",
     "pretix"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/pretix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

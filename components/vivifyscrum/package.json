@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/vivifyscrum",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream VivifyScrum Components",
   "main": "dist/app/vivifyscrum.app.mjs",
   "keywords": [
     "pipedream",
     "vivifyscrum"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/vivifyscrum",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/agendor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Agendor Components",
   "main": "dist/app/agendor.app.mjs",
   "keywords": [
     "pipedream",
     "agendor"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/agendor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/qwilr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Qwilr Components",
   "main": "dist/app/qwilr.app.mjs",
   "keywords": [
     "pipedream",
     "qwilr"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/qwilr",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

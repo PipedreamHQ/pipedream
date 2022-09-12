@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/iqair_airvisual",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream IQAir AirVisual Components",
   "main": "dist/app/iqair_airvisual.app.mjs",
   "keywords": [
     "pipedream",
     "iqair_airvisual"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/iqair_airvisual",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

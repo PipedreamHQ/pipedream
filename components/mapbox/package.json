@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/mapbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Mapbox Components",
   "main": "dist/app/mapbox.app.mjs",
   "keywords": [
     "pipedream",
     "mapbox"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/mapbox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

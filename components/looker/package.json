@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/looker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Looker Components",
   "main": "dist/app/looker.app.mjs",
   "keywords": [
     "pipedream",
     "looker"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/looker",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

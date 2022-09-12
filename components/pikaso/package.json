@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/pikaso",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Pikaso Components",
   "main": "dist/app/pikaso.app.mjs",
   "keywords": [
     "pipedream",
     "pikaso"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/pikaso",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
