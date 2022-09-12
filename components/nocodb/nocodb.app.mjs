@@ -101,7 +101,7 @@ export default {
       } while (lastPage);
     },
     async listProjects() {
-      return await this.sdk().project.list();
+      return this.sdk().project.list();
     },
     async listTables({ projectId }) {
       return await this.sdk().dbTable.list(projectId);
