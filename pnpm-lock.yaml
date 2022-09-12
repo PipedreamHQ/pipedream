@@ -1844,6 +1844,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/supportbee:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/supportivekoala:
     specifiers:
       '@pipedream/platform': ^1.1.0
