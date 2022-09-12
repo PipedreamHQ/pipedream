@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/helcim",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Helcim  Components",
   "main": "dist/app/helcim.app.mjs",
   "keywords": [
     "pipedream",
     "helcim"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/helcim",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

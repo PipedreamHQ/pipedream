@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/dots_",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Dots! Components",
   "main": "dist/app/dots_.app.mjs",
   "keywords": [
     "pipedream",
     "dots_"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/dots_",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

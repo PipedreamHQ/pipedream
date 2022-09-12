@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/junip",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Junip Components",
   "main": "dist/app/junip.app.mjs",
   "keywords": [
     "pipedream",
     "junip"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/junip",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

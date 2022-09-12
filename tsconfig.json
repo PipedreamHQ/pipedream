@@ -665,6 +665,18 @@
     },
     {
       "path": "components/zoho_sheet"
+    },
+    {
+      "path": "components/sailpoint"
+    },
+    {
+      "path": "components/snapdocs"
+    },
+    {
+      "path": "components/wakatime"
+    },
+    {
+      "path": "components/congress_gov"
     }
   ]
 }

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/vbout",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream VBOUT Components",
   "main": "dist/app/vbout.app.mjs",
   "keywords": [
     "pipedream",
     "vbout"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/vbout",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

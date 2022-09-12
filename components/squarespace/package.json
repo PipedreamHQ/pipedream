@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/squarespace",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Squarespace Components",
   "main": "squarespace.app.js",
   "keywords": [

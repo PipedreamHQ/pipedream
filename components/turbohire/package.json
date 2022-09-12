@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/turbohire",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream TurboHire Components",
   "main": "dist/app/turbohire.app.mjs",
   "keywords": [
     "pipedream",
     "turbohire"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/turbohire",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

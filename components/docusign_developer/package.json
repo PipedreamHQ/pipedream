@@ -1,19 +1,19 @@
 {
-    "name": "@pipedream/docusign_developer",
-    "version": "0.1.0",
-    "description": "Pipedream Docusign_developer Components",
-    "main": "docusign_developer.app.js",
-    "keywords": [
-        "pipedream",
-        "docusign_developer"
-    ],
-    "homepage": "https://pipedream.com/apps/docusign_developer",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedream/platform": "^1.1.1"
-    },
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/docusign_developer",
+  "version": "0.1.1",
+  "description": "Pipedream Docusign_developer Components",
+  "main": "docusign_developer.app.js",
+  "keywords": [
+    "pipedream",
+    "docusign_developer"
+  ],
+  "homepage": "https://pipedream.com/apps/docusign_developer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
