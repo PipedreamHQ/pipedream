@@ -6,7 +6,7 @@ export default {
   key: "eversign-new-event",
   type: "source",
   name: "New Event",
-  description: "Emit new event when a new event occurs in EverSign",
+  description: "Emit new event when a new event occurs in EverSign. To begin receiving events, navigate to your Developer dashboard, and enter the URL of this source/workflow as the Webhook URL. https://eversign.com/api/documentation/webhooks",
   version: "0.0.1",
   dedupe: "unique",
   props: {

@@ -4,14 +4,18 @@
   "description": "Pipedream Eversign Components",
   "main": "eversign.app.js",
   "keywords": [
-      "pipedream",
-      "eversign"
+    "pipedream",
+    "eversign"
   ],
   "homepage": "https://pipedream.com/apps/eversign",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
-      "access": "public"
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "crypto": "^1.0.1"
   }
 }
