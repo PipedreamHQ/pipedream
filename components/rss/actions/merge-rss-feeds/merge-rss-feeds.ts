@@ -22,7 +22,7 @@ export default defineAction({
       const feedItems = await this.rss.fetchAndParseFeed(url);
       items.push(...feedItems);
     }
-    $.export("$summary", "Successfully merged feeds");
+    $.export("$summary", "Successfully merged feeds!");
     return this.rss.sortItemsForActions(items);
   },
 });
