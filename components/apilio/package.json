@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/apilio",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Apilio Components",
   "main": "dist/app/apilio.app.mjs",
   "keywords": [
     "pipedream",
     "apilio"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/apilio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

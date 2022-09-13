@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/stormglass_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream stormglass.io Components",
   "main": "dist/app/stormglass_io.app.mjs",
   "keywords": [
     "pipedream",
     "stormglass_io"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/stormglass_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

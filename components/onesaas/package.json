@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/onesaas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream 1SaaS Components",
   "main": "dist/app/onesaas.app.mjs",
   "keywords": [
     "pipedream",
     "onesaas"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/onesaas",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

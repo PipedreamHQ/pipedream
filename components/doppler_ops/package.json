@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/doppler_ops",
-    "version": "0.0.1",
-    "description": "Pipedream Doppler Secrets Manager Components",
-    "main": "doppler_ops.app.js",
-    "keywords": [
-      "pipedream",
-      "doppler_ops"
-    ],
-    "homepage": "https://pipedream.com/apps/doppler_ops",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/doppler_ops",
+  "version": "0.0.2",
+  "description": "Pipedream Doppler Secrets Manager Components",
+  "main": "doppler_ops.app.js",
+  "keywords": [
+    "pipedream",
+    "doppler_ops"
+  ],
+  "homepage": "https://pipedream.com/apps/doppler_ops",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

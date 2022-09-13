@@ -1,22 +1,22 @@
 {
-    "name": "@pipedream/stack_exchange",
-    "version": "0.3.3",
-    "description": "Pipedream Stack_exchange Components",
-    "main": "stack_exchange.app.js",
-    "keywords": [
-        "pipedream",
-        "stack_exchange"
-    ],
-    "homepage": "https://pipedream.com/apps/stack_exchange",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "he": "^1.2.0",
-        "lodash": "^4.17.20"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/stack_exchange",
+  "version": "0.3.4",
+  "description": "Pipedream Stack_exchange Components",
+  "main": "stack_exchange.app.js",
+  "keywords": [
+    "pipedream",
+    "stack_exchange"
+  ],
+  "homepage": "https://pipedream.com/apps/stack_exchange",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "he": "^1.2.0",
+    "lodash": "^4.17.20"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/membervault",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Membervault Components",
   "main": "dist/app/membervault.app.mjs",
   "keywords": [
     "pipedream",
     "membervault"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/membervault",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/api2pdf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Api2pdf Components",
   "main": "dist/app/api2pdf.app.mjs",
   "keywords": [
     "pipedream",
     "api2pdf"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/api2pdf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
