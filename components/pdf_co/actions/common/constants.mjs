@@ -126,6 +126,16 @@ export default {
     "ExactMatch",
     "None",
   ],
+  PRINT_QUALITY_OPTS: [
+    "HighResolution",
+    "LowResolution",
+  ],
+  ENCRYPTION_ALGORITHM_OPTS: [
+    "RC4_40bit",
+    "RC4_128bit",
+    "AES_128bit",
+    "AES_256bit",
+  ],
   MEDIA_TYPE_OPTS: [
     "print",
     "screen",
