@@ -2316,6 +2316,12 @@ importers:
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
+  components/zoho_desk:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_inventory:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -5258,22 +5264,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.127:
-    resolution: {integrity: sha512-4BvTT/EXZPqkmpw/mhg7inbaLI16Sq1E7K6QeWoTGU60mf8sfB7me7Kta+/EYZptZzyyt/xR6I7MnptWuDCoPw==}
+  /@definitelytyped/header-parser/0.0.129:
+    resolution: {integrity: sha512-4LcBmghSDBU+NukAd0nLosWyrurWyjF8WeMJXk3wUUBBUbTvjU3F7i4r6eS5TCdoEWPCoKOBBymbj5HW8NFGpA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.127
+      '@definitelytyped/typescript-versions': 0.0.129
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.127:
-    resolution: {integrity: sha512-q/vGlB0sVOKeEj4L661MmYPmBBzfZltG/unjsFGBaglu1zz9BIuhSW3NYPeiPrtq8OyrwtR6slet22b2SH/xyw==}
+  /@definitelytyped/typescript-versions/0.0.129:
+    resolution: {integrity: sha512-tJvjfd1FT3ow/ggYfXUWVD+N0WP7dcDGoN9/pTlC8Xxc890Yja4B42bYCnZCuE5H2LDXlPCnugNydl1OsD3suw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.127:
-    resolution: {integrity: sha512-EBpYDuYt8T9i63k/jBjWgF7Gr6YebKUiKaNH5kWkIfvGAC1NfyruhxBT40pFTcKICt02/w4Bws/AcjEEekWyww==}
+  /@definitelytyped/utils/0.0.129:
+    resolution: {integrity: sha512-qmLW4fYzl24XS5a3CPCnzFmQ0l+07NIZR111RYXvAgqQuGpPjr7ce+gZwywpACprRAHPVHtxW1B5UxII8Zh3rQ==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.127
+      '@definitelytyped/typescript-versions': 0.0.129
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10809,7 +10815,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.127
+      '@definitelytyped/header-parser': 0.0.129
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10825,9 +10831,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.127
-      '@definitelytyped/typescript-versions': 0.0.127
-      '@definitelytyped/utils': 0.0.127
+      '@definitelytyped/header-parser': 0.0.129
+      '@definitelytyped/typescript-versions': 0.0.129
+      '@definitelytyped/utils': 0.0.129
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
