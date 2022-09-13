@@ -5,7 +5,7 @@ export default {
   name: "Custom API Call",
   description: "Custom API Call. [See docs here](https://apidocs.pdf.co/)",
   key: "pdf_co-custom-api-call",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

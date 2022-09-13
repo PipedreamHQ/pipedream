@@ -5,7 +5,7 @@ export default {
   name: "HTML to PDF Converter",
   description: "Convert HTML code snippet into full featured PDF. [See docs here](https://apidocs.pdf.co/25-pdf-from-html-html-to-pdf)",
   key: "pdf_co-html-to-pdf-converter",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

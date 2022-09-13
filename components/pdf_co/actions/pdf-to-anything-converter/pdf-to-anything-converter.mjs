@@ -5,7 +5,7 @@ export default {
   name: "PDF to Anything Converter",
   description: "Convert PDF to CSV, JSON, Text, XLS, XLSX [See docs here](https://apidocs.pdf.co/12-pdf-to-csv)",
   key: "pdf_co-pdf-to-anything-converter",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

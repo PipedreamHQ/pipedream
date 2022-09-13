@@ -17,7 +17,7 @@ export default {
     setSearchable: {
       type: "boolean",
       label: "Set Searchable",
-      description: "Select if the document should be searchable or not.",
+      description: "Select if the document should be searchable.",
     },
     httpusername: {
       propDefinition: [

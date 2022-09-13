@@ -5,7 +5,7 @@ export default {
   name: "Add PDF security",
   description: "Add PDF security. [See docs here](https://apidocs.pdf.co/32-pdf-password-and-security)",
   key: "pdf_co-pdf-add-security",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

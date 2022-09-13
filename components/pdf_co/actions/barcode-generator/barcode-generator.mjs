@@ -5,7 +5,7 @@ export default {
   name: "Barcode Generator",
   description: "Generate high quality barcode images. Supports QR Code, DataMatrix, Code 39, Code 128, PDF417 and many other barcode types. [See docs here](https://apidocs.pdf.co/40-barcode-generator)",
   key: "pdf_co-barcode-generator",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -35,10 +35,10 @@ export default {
       ],
     },
     inline: {
-      type: "boolean",
-      label: "Inline",
-      description: "Set to true to generate DataUri url instead of file.",
-      optional: true,
+      propDefinition: [
+        app,
+        "inline",
+      ],
     },
     decorationImage: {
       type: "string",

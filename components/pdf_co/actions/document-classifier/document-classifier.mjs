@@ -4,7 +4,7 @@ export default {
   name: "Document Classifier",
   description: "Auto classification of incoming documents. [See docs here](https://apidocs.pdf.co/01-1-document-classifier)",
   key: "pdf_co-document-classifier",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

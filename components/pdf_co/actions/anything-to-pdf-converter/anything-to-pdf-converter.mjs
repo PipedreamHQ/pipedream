@@ -5,7 +5,7 @@ export default {
   name: "Anything to PDF Converter",
   description: "Convert CSV, XLS, XLSX, DOC, DOCX, RTF, TXT, XPS, JPG, PNG, TIFF, URL, EMAIL to PDF. [See docs here](https://apidocs.pdf.co/22-pdf-from-csv-csv-to-pdf)",
   key: "pdf_co-anything-to-pdf-converter",
-  version: "0.0.13",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
