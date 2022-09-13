@@ -69,7 +69,7 @@ export default {
         margins: {
           type: "string",
           label: "Margins",
-          description: "set to css style margins like 10px, 5mm, 5in for all sides or 5px 5px 5px 5px (the order of margins is top, right, bottom, left).",
+          description: "Set to css style margins like 10px, 5mm, 5in for all sides or 5px 5px 5px 5px (the order of margins is top, right, bottom, left).",
           optional: true,
         },
         paperSize: {
@@ -129,13 +129,13 @@ export default {
           embedAttachments: {
             type: "boolean",
             label: "Embed Attachments",
-            description: "Set to true to automatically embeds all attachments from original input email into final output PDF.",
+            description: "Set to true to automatically embed all attachments from original input email into final output PDF.",
             optional: true,
           },
           convertAttachments: {
             type: "boolean",
             label: "Convert Attachments",
-            description: "Set to false if you does not want to convert attachments from original email and want to embed them as original files. set True to convert attachments that are supported by API (doc, docx, html, png, jpg etc) into PDF and merges into final output PDF.",
+            description: "Set to false if you do not want to convert attachments from original email and want to embed them as original files. Set to true to convert attachments that are supported by API (doc, docx, html, png, jpg etc) into PDF and merges into final output PDF.",
             optional: true,
           },
         };
