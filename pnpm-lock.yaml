@@ -2336,6 +2336,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/zoho_projects:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_sheet:
     specifiers: {}
 
