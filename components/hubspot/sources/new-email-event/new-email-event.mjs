@@ -1,5 +1,4 @@
 import common from "../common.mjs";
-import { monthAgo } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -27,7 +26,7 @@ export default {
       };
     },
     getParams() {
-      const startTimestamp = Date.parse(monthAgo());
+      const startTimestamp = new Date();
       return {
         limit: 100,
         startTimestamp,

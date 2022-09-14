@@ -1,4 +1,3 @@
-import { monthAgo } from "../common/utils.mjs";
 import hubspot from "../hubspot.app.mjs";
 import Bottleneck from "bottleneck";
 
@@ -31,7 +30,7 @@ export default {
       return limiter.schedule(async () => await resourceFn(params));
     },
     _getAfter() {
-      return this.db.get("after") || Date.parse(monthAgo());
+      return this.db.get("after") || new Date();
     },
     _setAfter(after) {
       this.db.set("after", after);
