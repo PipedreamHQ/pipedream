@@ -198,18 +198,13 @@ export default {
       );
     },
     async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
-      const {
-        fieldsToCheck,
-        fieldsToCheckMode,
-      } = opts;
       const client = this._getSalesforceClient();
       const webhookOpts = {
         endpointUrl,
         sObjectType,
         event,
         secretToken,
-        fieldsToCheck,
-        fieldsToCheckMode,
+        ...opts,
       };
       return client.createWebhook(webhookOpts);
     },

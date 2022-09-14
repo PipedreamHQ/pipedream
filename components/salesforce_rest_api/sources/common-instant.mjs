@@ -37,6 +37,7 @@ export default {
           {
             fieldsToCheck: this.getFieldsToCheck(),
             fieldsToCheckMode: this.getFieldsToCheckMode(),
+            skipValidation: true, // neccessary for custom objects
           },
         );
       } catch (err) {
