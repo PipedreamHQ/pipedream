@@ -677,6 +677,9 @@
     },
     {
       "path": "components/congress_gov"
+    },
+    {
+      "path": "components/lodgify"
     }
   ]
 }
