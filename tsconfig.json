@@ -680,6 +680,9 @@
     },
     {
       "path": "components/lodgify"
+    },
+    {
+      "path": "components/sailpoint_personal_token"
     }
   ]
 }
