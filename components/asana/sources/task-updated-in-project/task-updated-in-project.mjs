@@ -3,11 +3,11 @@ const { asana } = common.props;
 
 export default {
   ...common,
-  key: "asana-new-subtask",
+  key: "asana-task-updated-in-project",
   type: "source",
-  name: "New Update To Task (Instant)",
+  name: "Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "0.1.1",
+  version: "1.0.0",
   dedupe: "unique",
   props: {
     ...common.props,
