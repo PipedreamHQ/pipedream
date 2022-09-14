@@ -7,6 +7,7 @@ export default {
   description: "Emit new event each time a deal is updated.",
   version: "0.0.4",
   type: "source",
+  dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
