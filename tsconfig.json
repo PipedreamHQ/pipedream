@@ -683,6 +683,9 @@
     },
     {
       "path": "components/sailpoint_personal_token"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
     }
   ]
 }
