@@ -1972,6 +1972,12 @@ importers:
   components/teamdeck:
     specifiers: {}
 
+  components/teamwork:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/telegram_bot_api:
     specifiers:
       '@pipedream/platform': ^0.9.0
