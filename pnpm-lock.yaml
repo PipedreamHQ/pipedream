@@ -1388,6 +1388,12 @@ importers:
       lodash: 4.17.21
       pcloud-sdk-js: 2.0.0
 
+  components/pdf_co:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pdfmonkey:
     specifiers: {}
 
