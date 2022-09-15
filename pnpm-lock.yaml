@@ -926,9 +926,11 @@ importers:
 
   components/helper_functions:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
+      streamifier: ^0.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
+      streamifier: 0.1.1
 
   components/helpwise:
     specifiers: {}
@@ -18366,6 +18368,11 @@ packages:
 
   /stream-shift/1.0.1:
     resolution: {integrity: sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==}
+    dev: false
+
+  /streamifier/0.1.1:
+    resolution: {integrity: sha512-zDgl+muIlWzXNsXeyUfOk9dChMjlpkq0DRsxujtYPgyJ676yQ8jEm6zzaaWHFDg5BNcLuif0eD2MTyJdZqXpdg==}
+    engines: {node: '>=0.10'}
     dev: false
 
   /strict-uri-encode/2.0.0:
