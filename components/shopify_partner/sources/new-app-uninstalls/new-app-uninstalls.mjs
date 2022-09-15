@@ -1,12 +1,12 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppUninstalls from "../../queries/getAppUninstalls.mjs";
+import getAppUninstalls from "../../common/queries/getAppUninstalls.mjs";
 
 export default {
   key: "shopify_partner-new-app-uninstalls",
   name: "New App Uninstalls",
   type: "source",
-  version: "0.0.10",
+  version: "0.0.11",
   description: "Emit new events when new shops uninstall your app.",
   ...common,
   props: {

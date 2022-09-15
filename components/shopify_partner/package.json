@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopify_partner",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Shopify Partner Components",
   "main": "shopify_partner.app.js",
   "keywords": [
@@ -18,4 +18,3 @@
     "access": "public"
   }
 }
-
