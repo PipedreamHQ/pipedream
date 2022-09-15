@@ -116,9 +116,7 @@ export default {
     updateTypes: {
       type: "string[]",
       label: "Types of updates",
-      description: `The types of updates you want to watch for on these files. 
-        [See Google's docs]
-        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
+      description: `The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
     },
@@ -126,7 +124,7 @@ export default {
       type: "boolean",
       label: "Watch for changes to file properties",
       description: `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
-        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
+        in addition to changes to content. Defaults to \`false\`, watching for only changes to content.`,
       optional: true,
       default: false,
     },
