@@ -1,17 +1,17 @@
 {
-    "name": "@pipedream/dev_to",
-    "version": "0.3.3",
-    "description": "Pipedream Dev_to Components",
-    "main": "dev_to.app.js",
-    "keywords": [
-        "pipedream",
-        "dev_to"
-    ],
-    "homepage": "https://pipedream.com/apps/dev_to",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/dev_to",
+  "version": "0.3.4",
+  "description": "Pipedream Dev_to Components",
+  "main": "dev_to.app.js",
+  "keywords": [
+    "pipedream",
+    "dev_to"
+  ],
+  "homepage": "https://pipedream.com/apps/dev_to",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

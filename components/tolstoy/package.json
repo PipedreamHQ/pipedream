@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tolstoy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Tolstoy Components",
   "main": "dist/app/tolstoy.app.mjs",
   "keywords": [

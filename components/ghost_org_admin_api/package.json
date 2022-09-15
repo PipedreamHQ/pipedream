@@ -1,21 +1,21 @@
 {
-    "name": "@pipedream/ghost_org_admin_api",
-    "version": "0.1.0",
-    "description": "Pipedream Ghost_org_admin_api Components",
-    "main": "ghost_org_admin_api.app.mjs",
-    "keywords": [
-        "pipedream",
-        "ghost_org_admin_api"
-    ],
-    "homepage": "https://pipedream.com/apps/ghost_org_admin_api",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedream/platform": "^1.0.0",
-        "jsonwebtoken": "^8.5.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/ghost_org_admin_api",
+  "version": "0.1.1",
+  "description": "Pipedream Ghost_org_admin_api Components",
+  "main": "ghost_org_admin_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ghost_org_admin_api"
+  ],
+  "homepage": "https://pipedream.com/apps/ghost_org_admin_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.0.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

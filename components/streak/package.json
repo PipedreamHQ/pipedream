@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/streak",
+  "version": "0.0.2",
+  "description": "Pipedream Streak Components",
+  "main": "streak.app.mjs",
+  "keywords": [
+    "pipedream",
+    "streak"
+  ],
+  "homepage": "https://pipedream.com/apps/streak",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

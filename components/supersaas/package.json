@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/supersaas",
-    "version": "0.3.3",
-    "description": "Pipedream Supersaas Components",
-    "main": "supersaas.app.js",
-    "keywords": [
-        "pipedream",
-        "supersaas"
-    ],
-    "homepage": "https://pipedream.com/apps/supersaas",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedreamhq/platform": "^0.8.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/supersaas",
+  "version": "0.3.4",
+  "description": "Pipedream Supersaas Components",
+  "main": "supersaas.app.js",
+  "keywords": [
+    "pipedream",
+    "supersaas"
+  ],
+  "homepage": "https://pipedream.com/apps/supersaas",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedreamhq/platform": "^0.8.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

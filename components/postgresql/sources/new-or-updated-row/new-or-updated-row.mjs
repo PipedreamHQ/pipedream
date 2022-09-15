@@ -4,24 +4,47 @@ export default {
   ...common,
   name: "New or Updated Row",
   key: "postgresql-new-or-updated-row",
-  description: "Emit new event when a row is added or modified",
-  version: "0.0.2",
+  description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
+    schema: {
+      propDefinition: [
+        common.props.postgresql,
+        "schema",
+      ],
+    },
     table: {
       propDefinition: [
         common.props.postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+        }),
       ],
     },
-    column: {
+    identifierColumn: {
+      label: "Identifier Column",
       propDefinition: [
         common.props.postgresql,
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
+        }),
+      ],
+      description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
+    },
+    timestampColumn: {
+      label: "Timestamp Column",
+      propDefinition: [
+        common.props.postgresql,
+        "column",
+        (c) => ({
+          table: c.table,
+          schema: c.schema,
         }),
       ],
       description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
@@ -31,23 +54,13 @@ export default {
     ...common.methods,
     generateMeta(row, column) {
       return {
-        id: row[column],
+        id: `${row[this.identifierColumn]}-${row[column]}`,
         summary: "Row Added/Updated",
         ts: row[column],
       };
     },
   },
   async run() {
-    const {
-      table,
-      column,
-    } = this;
-
-    const isColumnUnique = await this.isColumnUnique(table, column);
-    if (!isColumnUnique) {
-      throw new Error("The column selected contains duplicate values. Column must be unique");
-    }
-
-    await this.newRows(table, column);
+    await this.newRows(this.schema, this.table, this.timestampColumn);
   },
 };

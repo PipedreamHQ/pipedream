@@ -1,12 +1,12 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppInstalls from "../../queries/getAppInstalls.mjs";
+import getAppInstalls from "../../common/queries/getAppInstalls.mjs";
 
 export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.11",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -28,12 +28,6 @@ export default {
       propDefinition: [
         shopify,
         "occurredAtMax",
-      ],
-    },
-    paginationEnabled: {
-      propDefinition: [
-        shopify,
-        "paginationEnabled",
       ],
     },
   },

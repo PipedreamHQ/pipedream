@@ -13,6 +13,13 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",
     },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _getPreviousValues() {
@@ -48,19 +55,25 @@ export default {
      * @param {boolean} [useLastResult] - Determines whether to return only rows
      * created since lastResult
      */
-    async newRows(table, column, useLastResult = true) {
+    async newRows(schema, table, column, useLastResult = true) {
       const lastResult = useLastResult
         ? (this._getLastResult() || null)
         : null;
-      const rows = await this.postgresql.getRows(table, column, lastResult);
+      const rows = await this.postgresql.getRows(
+        table,
+        column,
+        lastResult,
+        this.rejectUnauthorized,
+        schema,
+      );
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);
       }
       this._setLastResult(rows, column);
     },
-    async isColumnUnique(table, column) {
-      const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I", column, table);
+    async isColumnUnique(schema, table, column) {
+      const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I.%I", column, schema, table);
       const hasDuplicates = await this.postgresql.executeQuery(query);
       const { duplicate_flag: duplicateFlag } = hasDuplicates[0];
       return !duplicateFlag;

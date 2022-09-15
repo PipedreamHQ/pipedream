@@ -1,17 +1,22 @@
 {
   "name": "@pipedream/lob",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Lob Components",
   "main": "dist/app/lob.app.mjs",
   "keywords": [
     "pipedream",
     "lob"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/lob",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@lob/lob-typescript-sdk": "^1.0.0"
   }
 }

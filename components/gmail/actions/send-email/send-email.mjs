@@ -6,79 +6,74 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     gmail,
     to: {
       type: "string[]",
       label: "To",
+      description: "Enter a single recipient's email or multiple emails as items in an array."
     },
     cc: {
       type: "string[]",
       label: "Cc",
       optional: true,
+      description: "Enter a single recipient's email or multiple emails as items in an array."
     },
     bcc: {
       type: "string[]",
       label: "Bcc",
       optional: true,
+      description: "Enter a single recipient's email or multiple emails as items in an array."
     },
     fromName: {
       type: "string",
       label: "From Name",
-      description: "A name that will be displayed in the `From` section of the email",
+      description: "Specify the name that will be displayed in the \"From\" section of the email.",
       optional: true,
-    },
-    delegate: {
-      propDefinition: [
-        gmail,
-        "delegate",
-      ],
     },
     replyTo: {
       type: "string",
       label: "Reply To",
-      description: "An email address that will appear on the `Reply To` field",
+      description: "Specify the email address that will appear on the \"Reply-To\" field, if different than the sender's email.",
       optional: true,
     },
     subject: {
       type: "string",
       label: "Subject",
-      description: "The subject of the email",
+      description: "Specify a subject for the email.",
     },
     body: {
       type: "any",
       label: "Email Body",
-      description: "The email body plain text or html",
+      description: "Include an email body as either plain text or HTML. If HTML, make sure to set the \"Body Type\" prop to `html`.",
     },
     bodyType: {
       type: "string",
       label: "Body Type",
-      description: "Plain Text or HTML. Defaults to `plaintext`.",
+      description: "Choose to send as plain text or HTML. Defaults to `plaintext`.",
       optional: true,
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    signature: {
-      propDefinition: [
-        gmail,
-        "signature",
-      ],
-    },
     attachments: {
       type: "object",
       label: "Attachments",
-      description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment, respectively. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
+      description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
       optional: true,
     },
   },
   async run({ $ }) {
-    let from = await this.gmail.myEmailAddress();
-    if (this.fromName) from = `${this.fromName} <${from}>`;
+    const {
+      name: fromName,
+      email,
+    } = await this.gmail.userInfo();
 
     const opts = {
-      from,
+      from: this.fromName
+        ? `${this.fromName} <${email}>`
+        : `${fromName} <${email}>`,
       to: this.to,
       cc: this.cc,
       bcc: this.bcc,
@@ -97,11 +92,6 @@ export default {
         }));
     }
 
-    if (this.signature) {
-      this.body += this.signature;
-      this.bodyType = constants.BODY_TYPES.HTML;
-    }
-
     if (this.bodyType === constants.BODY_TYPES.HTML) {
       opts.html = this.body;
     } else {
@@ -109,7 +99,7 @@ export default {
     }
 
     const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to}`);
+    $.export("$summary", `Successfully sent email to ${this.to.join(", ")}`);
     return response;
   },
 };

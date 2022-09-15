@@ -61,6 +61,12 @@ importers:
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
 
+  components/action_builder:
+    specifiers: {}
+
+  components/action_network:
+    specifiers: {}
+
   components/activecampaign:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -83,6 +89,12 @@ importers:
 
   components/agendor:
     specifiers: {}
+
+  components/agile_crm:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/airnow:
     specifiers: {}
@@ -140,9 +152,9 @@ importers:
 
   components/amplenote:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/amqp:
     specifiers:
@@ -200,6 +212,7 @@ importers:
       '@aws-sdk/client-sqs': ^3.58.0
       '@aws-sdk/client-ssm': ^3.58.0
       '@aws-sdk/client-sts': ^3.58.0
+      '@pipedream/helper_functions': ^0.3.6
       mailparser-mit: ^1.0.0
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.131.0
@@ -215,6 +228,7 @@ importers:
       '@aws-sdk/client-sqs': 3.131.0
       '@aws-sdk/client-ssm': 3.131.0
       '@aws-sdk/client-sts': 3.131.0
+      '@pipedream/helper_functions': 0.3.6
       mailparser-mit: 1.0.0
 
   components/bandwidth:
@@ -234,6 +248,12 @@ importers:
 
   components/beehiiv:
     specifiers: {}
+
+  components/big_cartel:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/bitbucket:
     specifiers:
@@ -374,6 +394,9 @@ importers:
       '@pipedream/platform': 0.9.0
       axios: 0.23.0
 
+  components/congress_gov:
+    specifiers: {}
+
   components/convertkit:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -384,6 +407,9 @@ importers:
     specifiers: {}
 
   components/craftmypdf:
+    specifiers: {}
+
+  components/crisp:
     specifiers: {}
 
   components/crove_app:
@@ -547,8 +573,24 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/estreamdesk:
+    specifiers:
+      '@pipedream/platform': ^0.9.0
+      xml2json-light: ^1.0.6
+    dependencies:
+      '@pipedream/platform': 0.9.0
+      xml2json-light: 1.0.6
+
   components/ethereum:
     specifiers: {}
+
+  components/eversign:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      crypto: 1.0.1
 
   components/exact:
     specifiers: {}
@@ -581,9 +623,9 @@ importers:
 
   components/feedbin:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/figma:
     specifiers:
@@ -695,6 +737,18 @@ importers:
     specifiers: {}
 
   components/gmail:
+    specifiers:
+      '@googleapis/gmail': ^0.3.4
+      '@pipedream/platform': ^1.1.1
+      html-to-text: ^8.2.1
+      nodemailer: ^6.7.8
+    dependencies:
+      '@googleapis/gmail': 0.3.4
+      '@pipedream/platform': 1.1.1
+      html-to-text: 8.2.1
+      nodemailer: 6.7.8
+
+  components/gmail_custom_oauth:
     specifiers:
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
@@ -874,9 +928,11 @@ importers:
 
   components/helper_functions:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
+      streamifier: ^0.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
+      streamifier: 0.1.1
 
   components/helpwise:
     specifiers: {}
@@ -1030,6 +1086,12 @@ importers:
     specifiers: {}
 
   components/lob:
+    specifiers:
+      '@lob/lob-typescript-sdk': ^1.0.0
+    dependencies:
+      '@lob/lob-typescript-sdk': 1.0.0
+
+  components/lodgify:
     specifiers: {}
 
   components/looker:
@@ -1333,6 +1395,12 @@ importers:
       lodash: 4.17.21
       pcloud-sdk-js: 2.0.0
 
+  components/pdf_co:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/pdfmonkey:
     specifiers: {}
 
@@ -1375,6 +1443,12 @@ importers:
       pipedrive: ^13.2.7
     dependencies:
       pipedrive: 13.3.4
+
+  components/pointagram:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/pointerpro:
     specifiers: {}
@@ -1420,7 +1494,13 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/quickemailverification:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/qwilr:
     specifiers: {}
@@ -1505,6 +1585,9 @@ importers:
       '@types/feedparser': 2.2.5
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
+
+  components/sailpoint:
+    specifiers: {}
 
   components/sales_simplify:
     specifiers: {}
@@ -1690,9 +1773,21 @@ importers:
       '@smiirl/smiirl-library-js': 1.0.5
 
   components/smtp2go:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/smugmug:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/snapchat_marketing:
+    specifiers: {}
+
+  components/snapdocs:
     specifiers: {}
 
   components/snowflake:
@@ -1748,6 +1843,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/statuscake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/stormglass_io:
     specifiers: {}
 
@@ -1756,6 +1857,12 @@ importers:
       axios: ^0.21.1
     dependencies:
       axios: 0.21.4
+
+  components/streak:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/stripe:
     specifiers:
@@ -1775,6 +1882,12 @@ importers:
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
       '@pipedreamhq/platform': 0.8.1
+
+  components/supportbee:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/supportivekoala:
     specifiers:
@@ -1903,7 +2016,13 @@ importers:
     specifiers: {}
 
   components/tookan:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/totango:
     specifiers:
@@ -1991,6 +2110,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/upkeep:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/uploadcare:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2019,9 +2144,9 @@ importers:
 
   components/vercel:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
     specifiers: {}
@@ -2056,6 +2181,9 @@ importers:
   components/waitwhile:
     specifiers: {}
 
+  components/wakatime:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2074,7 +2202,10 @@ importers:
     specifiers: {}
 
   components/wildberries:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/wistia:
     specifiers:
@@ -2134,7 +2265,10 @@ importers:
     specifiers: {}
 
   components/xperiencify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/yahoo_fantasy_sports:
     specifiers:
@@ -2212,11 +2346,26 @@ importers:
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
+  components/zoho_inventory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_mail:
     specifiers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/zoho_projects:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/zoho_sheet:
+    specifiers: {}
 
   components/zonka_feedback:
     specifiers:
@@ -5145,22 +5294,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.126:
-    resolution: {integrity: sha512-gOCZqdH0PNhC0q+3HZtB2ju8eDSrE9dN2kaoJP6Fbsv/oPLv3wOIWHvO2VP9+zMK5ZKdamOF7K0Wu+Mf51D9HQ==}
+  /@definitelytyped/header-parser/0.0.129:
+    resolution: {integrity: sha512-4LcBmghSDBU+NukAd0nLosWyrurWyjF8WeMJXk3wUUBBUbTvjU3F7i4r6eS5TCdoEWPCoKOBBymbj5HW8NFGpA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.126
+      '@definitelytyped/typescript-versions': 0.0.129
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.126:
-    resolution: {integrity: sha512-9lH5Gc/dO4JkvdMbtXh6824qy5D3P108ZAcaQiLpcZiH5KgE4fWeUF6bk5WpXp4iRWe5d5Ncyyge1vcM+R90dw==}
+  /@definitelytyped/typescript-versions/0.0.129:
+    resolution: {integrity: sha512-tJvjfd1FT3ow/ggYfXUWVD+N0WP7dcDGoN9/pTlC8Xxc890Yja4B42bYCnZCuE5H2LDXlPCnugNydl1OsD3suw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.126:
-    resolution: {integrity: sha512-P6fFx6PoiRGLr/MgxlpcN5yHJHjIlkC1qy/h0HnU6w6wydLtogZ1mRF1WYYEAovJa42TYFVZLvR/MCuCZwtlAg==}
+  /@definitelytyped/utils/0.0.129:
+    resolution: {integrity: sha512-qmLW4fYzl24XS5a3CPCnzFmQ0l+07NIZR111RYXvAgqQuGpPjr7ce+gZwywpACprRAHPVHtxW1B5UxII8Zh3rQ==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.126
+      '@definitelytyped/typescript-versions': 0.0.129
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -6066,6 +6215,16 @@ packages:
       - encoding
     dev: false
 
+  /@lob/lob-typescript-sdk/1.0.0:
+    resolution: {integrity: sha512-E+xrHTJt60T1QeCS2kN3Aw1HIq6VpiIIWhJ7rfb5/vVWyc49xjGd1pZFIjPJ4TE4wd4Jd4suhjsDo3MT1u6taA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      axios: 0.24.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@mailchimp/mailchimp_marketing/3.0.75:
     resolution: {integrity: sha512-UWg3zHd1XMIbXEWlhZpuJiUi1jQ5z3MumJwa5RKjf9/iKboz39X8v4Goq4isi2/mFf07dgftkt/zOSChY32eqg==}
     engines: {node: '>=10.0.0'}
@@ -6328,6 +6487,15 @@ packages:
   /@panva/asn1.js/1.0.0:
     resolution: {integrity: sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==}
     engines: {node: '>=10.13.0'}
+    dev: false
+
+  /@pipedream/helper_functions/0.3.6:
+    resolution: {integrity: sha512-R/44qZ9+ueTwY21MQFRAfYHUnDL7o5WTfDYRZvvfxyPQ1E3Cu8sm4x7NFOu9gZTIJ1kB5jdaYKZ4BitddrAzHA==}
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      streamifier: 0.1.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@pipedream/helpers/1.3.12:
@@ -9004,6 +9172,14 @@ packages:
       - debug
     dev: false
 
+  /axios/0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
+    dependencies:
+      follow-redirects: 1.15.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
@@ -10678,7 +10854,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.126
+      '@definitelytyped/header-parser': 0.0.129
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10694,9 +10870,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.126
-      '@definitelytyped/typescript-versions': 0.0.126
-      '@definitelytyped/utils': 0.0.126
+      '@definitelytyped/header-parser': 0.0.129
+      '@definitelytyped/typescript-versions': 0.0.129
+      '@definitelytyped/utils': 0.0.129
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -17722,6 +17898,7 @@ packages:
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
+    hasBin: true
     dev: false
 
   /semver/7.3.7:
@@ -18202,6 +18379,11 @@ packages:
 
   /stream-shift/1.0.1:
     resolution: {integrity: sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==}
+    dev: false
+
+  /streamifier/0.1.1:
+    resolution: {integrity: sha512-zDgl+muIlWzXNsXeyUfOk9dChMjlpkq0DRsxujtYPgyJ676yQ8jEm6zzaaWHFDg5BNcLuif0eD2MTyJdZqXpdg==}
+    engines: {node: '>=0.10'}
     dev: false
 
   /strict-uri-encode/2.0.0:
@@ -19914,6 +20096,10 @@ packages:
     dependencies:
       sax: 1.2.4
       xmlbuilder: 11.0.1
+    dev: false
+
+  /xml2json-light/1.0.6:
+    resolution: {integrity: sha512-6CSibpteBS4B8/fzJaj6TDtWatIlonSFfVVK3TLM23mlTOxkMgVA4b2FaGeTIrrhOMdDZ8X1/dvo4mfBtsU4yw==}
     dev: false
 
   /xmlbuilder/11.0.1:
