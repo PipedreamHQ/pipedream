@@ -90,7 +90,7 @@ export default defineComponent({
 
 ### Using $.export
 
-<VideoPlayer src="https://youtu.be/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
+<VideoPlayer src="https://www.youtube.com/embed/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
 
 Alternatively, use the built in `$.export` helper instead of returning data. The `$.export` creates a _named_ export with the given value.
 
