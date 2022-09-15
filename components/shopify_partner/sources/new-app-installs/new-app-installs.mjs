@@ -1,6 +1,6 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppInstalls from "../../queries/getAppInstalls.mjs";
+import getAppInstalls from "../../common/queries/getAppInstalls.mjs";
 
 export default {
   key: "shopify_partner-new-app-installs",

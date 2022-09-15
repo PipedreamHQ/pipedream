@@ -1,7 +1,7 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppRelationshipEventsBackwards from "../../queries/getAppRelationshipEventsBackwards.mjs";
-import getAppRelationshipEventsForwards from "../../queries/getAppRelationshipEventsForwards.mjs";
+import getAppRelationshipEventsBackwards from "../../common/queries/getAppRelationshipEventsBackwards.mjs";
+import getAppRelationshipEventsForwards from "../../common/queries/getAppRelationshipEventsForwards.mjs";
 
 export default {
   key: "shopify_partner-new-app-relationship-events",

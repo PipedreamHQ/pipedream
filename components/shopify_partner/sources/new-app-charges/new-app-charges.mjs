@@ -1,11 +1,11 @@
 import common from "../../common/common.mjs";
-import getAppTransactions from "../../queries/getAppTransactions.mjs";
+import getAppTransactions from "../../common/queries/getAppTransactions.mjs";
 
 export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
-  version: "0.0.10",
+  version: "0.0.11",
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
