@@ -3,7 +3,7 @@ By connecting your personal Gmail account to Pipedream, you'll be able to incorp
 
 # Getting Started
 
-To connect your Gmail account to Pipedream, just accept the prompt when connecting your Gmail account. 
+To connect your Gmail account to Pipedream, just accept the prompt when connecting your Gmail account.
 
 ## What's the difference between the **Gmail** app and the **Gmail Developer App**?
 
