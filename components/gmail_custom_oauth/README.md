@@ -24,9 +24,9 @@ In order to connect your personal or workspace Gmail account to Pipedream, you'l
 
   ![Search for an select the Gmail Enterprise API](https://res.cloudinary.com/pipedreamin/image/upload/v1663268442/docs/components/CleanShot_2022-09-15_at_15.00.22_skvwei.gif)
 
-7. Click **OAuth consent screen**”* on the left side
+7. Click **OAuth consent screen** on the left side
    
-  [Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/pipedreamin/image/upload/v1663268506/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
+  ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/pipedreamin/image/upload/v1663268506/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
 
 8. Select **External** User Type and click “Create”
 
