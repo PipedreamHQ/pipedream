@@ -96,6 +96,10 @@ If an event emitted by an event source triggers a single workflow, that will cou
 
 Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
 
+#### Scenarios
+
+
+
 ### Compute Time
 
 Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
