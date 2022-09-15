@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.10",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -28,12 +28,6 @@ export default {
       propDefinition: [
         shopify,
         "occurredAtMax",
-      ],
-    },
-    paginationEnabled: {
-      propDefinition: [
-        shopify,
-        "paginationEnabled",
       ],
     },
   },
