@@ -47,12 +47,13 @@ export default {
       label: "Lookup Value",
       description: "Value to search for",
       async options({
-        table, column, prevContext,
+        table, column, prevContext, schema,
       }) {
         const limit = 20;
+        const normalizedSchema = this.getNormalizedSchema(schema);
         const { offset = 0 } = prevContext;
         return {
-          options: await this.getColumnValues(table, column, limit, offset),
+          options: await this.getColumnValues(table, column, limit, offset, normalizedSchema),
           context: {
             offset: limit + offset,
           },
@@ -193,9 +194,9 @@ export default {
      * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns A single database row
      */
-    async findRowByValue(table, column, value, rejectUnauthorized) {
+    async findRowByValue(schema, table, column, value, rejectUnauthorized) {
       const rows = await this.executeQuery({
-        text: format("SELECT * FROM %I WHERE %I = $1", table, column),
+        text: format("SELECT * FROM %I.%I WHERE %I = $1", schema, table, column),
         values: [
           value,
         ],
@@ -209,9 +210,9 @@ export default {
      * @param {string} value - A column value. Used to find the row(s) to delete
      * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      */
-    async deleteRows(table, column, value, rejectUnauthorized) {
+    async deleteRows(schema, table, column, value, rejectUnauthorized) {
       return this.executeQuery({
-        text: format("DELETE FROM %I WHERE %I = $1 RETURNING *", table, column),
+        text: format("DELETE FROM %I.%I WHERE %I = $1 RETURNING *", schema, table, column),
         values: [
           value,
         ],
@@ -225,16 +226,16 @@ export default {
      * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly created row
      */
-    async insertRow(table, columns, values, rejectUnauthorized) {
+    async insertRow(schema, table, columns, values, rejectUnauthorized) {
       const placeholders = this.getPlaceholders({
         values,
       });
       return this.executeQuery({
         text: format(`
-          INSERT INTO %I (${columns}) 
+          INSERT INTO %I.%I (${columns}) 
             VALUES (${placeholders})
             RETURNING *
-        `, table),
+        `, schema, table),
         values,
       }, rejectUnauthorized);
     },
@@ -253,20 +254,20 @@ export default {
      * @param {boolean} rejectUnauthorized - if false, allow self-signed certificates
      * @returns The newly updated row
      */
-    async updateRow(table, lookupColumn, lookupValue, rowValues, rejectUnauthorized) {
+    async updateRow(schema, table, lookupColumn, lookupValue, rowValues, rejectUnauthorized) {
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
       });
       const response = await this.executeQuery({
         text: format(`
-          UPDATE %I SET ${columnsPlaceholders}
+          UPDATE %I.%I SET ${columnsPlaceholders}
             WHERE %I = (
-              SELECT %I FROM %I
+              SELECT %I FROM %I.%I
               WHERE %I = $1
               ORDER BY %I LIMIT 1
             ) RETURNING *
-        `, table, lookupColumn, lookupColumn, table, lookupColumn, lookupColumn),
+        `, schema, table, lookupColumn, lookupColumn, schema, table, lookupColumn, lookupColumn),
         values: [
           lookupValue,
           ...Object.values(rowValues),
@@ -288,12 +289,12 @@ export default {
      * @params {integer} [offset] - number of rows to skip, used for pagination
      * @returns Array of column values
      */
-    async getColumnValues(table, column, limit = "ALL", offset = 0) {
+    async getColumnValues(table, column, limit = "ALL", offset = 0, schema = "public") {
       const rows = await this.executeQuery({
         text: format(`
-          SELECT %I FROM %I
+          SELECT %I FROM %I.%I
             LIMIT $1::numeric OFFSET $2::numeric
-        `, column, table),
+        `, column, schema, table),
         values: [
           limit,
           offset,
