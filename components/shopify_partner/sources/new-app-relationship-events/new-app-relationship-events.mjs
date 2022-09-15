@@ -1,13 +1,13 @@
 import common from "../../common/common.mjs";
 import shopify from "../../common/shopify_partner.app.mjs";
-import getAppRelationshipEventsBackwards from "../../queries/getAppRelationshipEventsBackwards.mjs";
-import getAppRelationshipEventsForwards from "../../queries/getAppRelationshipEventsForwards.mjs";
+import getAppRelationshipEventsBackwards from "../../common/queries/getAppRelationshipEventsBackwards.mjs";
+import getAppRelationshipEventsForwards from "../../common/queries/getAppRelationshipEventsForwards.mjs";
 
 export default {
   key: "shopify_partner-new-app-relationship-events",
   name: "New App Relationship Events",
   type: "source",
-  version: "0.0.7",
+  version: "0.0.8",
   description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {
