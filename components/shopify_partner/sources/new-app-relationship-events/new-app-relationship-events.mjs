@@ -1,12 +1,13 @@
 import common from "../../common/common.mjs";
 import shopify from "../../shopify_partner.app.mjs";
-import getAppRelationshipEvents from "../../queries/getAppRelationshipEvents.mjs";
+import getAppRelationshipEventsBackwards from "../../queries/getAppRelationshipEventsBackwards.mjs";
+import getAppRelationshipEventsForwards from "../../queries/getAppRelationshipEventsForwards.mjs";
 
 export default {
   key: "shopify_partner-new-app-relationship-events",
   name: "New App Relationship Events",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {
@@ -30,10 +31,16 @@ export default {
         "occurredAtMax",
       ],
     },
-    paginationEnabled: {
+    recordsPerRun: {
       propDefinition: [
         shopify,
-        "paginationEnabled",
+        "recordsPerRun",
+      ],
+    },
+    paginationDirection: {
+      propDefinition: [
+        shopify,
+        "paginationDirection",
       ],
     },
   },
@@ -43,6 +50,8 @@ export default {
       occurredAtMin,
       occurredAtMax,
       db,
+      paginationDirection,
+      recordsPerRun,
     } = this;
 
     const variables = {
@@ -56,7 +65,9 @@ export default {
     await this.shopify.query({
       db,
       key: "shopify_partner-relationship-events",
-      query: getAppRelationshipEvents,
+      query: this.paginationDirection === "backward" || !this.db.get("shopify_partner-relationship-events") // on the first run, pull records from present day
+        ? getAppRelationshipEventsBackwards
+        : getAppRelationshipEventsForwards,
       variables,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
@@ -67,13 +78,25 @@ export default {
         });
       },
       getCursor: (data) => {
-        const edges = data?.transactions?.edges || [];
-        const [
-          last,
-        ] = edges.reverse();
-        return last?.cursor;
+        const edges = data?.app?.events?.edges || [];
+        if (this.paginationDirection === "backward") {
+          const last = edges[edges.length - 1];
+          console.log("Last event in batch: ", last);
+          return last?.cursor;
+        } else {
+          const [
+            first,
+          ] = edges;
+          console.log("First event in batch: ", first);
+          return first?.cursor;
+        }
+
       },
-      hasNextPagePath: "app.events.pageInfo.hasNextPage",
+      hasNextPagePath: this.paginationDirection === "forward" || !this.db.get("shopify_partner-relationship-events")
+        ? "app.events.pageInfo.hasNextPage"
+        : "app.events.pageInfo.hasPreviousPage",
+      paginationDirection,
+      recordsPerRun,
     });
   },
 };

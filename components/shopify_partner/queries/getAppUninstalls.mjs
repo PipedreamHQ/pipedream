@@ -21,6 +21,7 @@ export default gql`
       ) {
         edges {
           node {
+            id
             occurredAt
             __typename
             ... on RelationshipUninstalled {
