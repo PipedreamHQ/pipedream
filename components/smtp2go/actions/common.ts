@@ -1,4 +1,4 @@
-import smtp2go from "../smtp2go.app";
+import smtp2go from "../app/smtp2go.app";
 
 export default {
   props: {
@@ -80,8 +80,8 @@ export default {
       type: "boolean",
       label: "Ignore Failures",
       description: "Should this action ignore failures to send an email?",
-      optional: true
-    }    
+      optional: true,
+    },
   },
   methods: {
     getActionRequestCommonData() {
@@ -91,13 +91,16 @@ export default {
         cc: this.ccEmail,
         bcc: this.bccEmail,
         reply_to: this.replyTo,
-        custom_headers: [...this.getHeaderData(this.customHeaders), ...this.getReplyToHeaders(this.replyTo)],
-        attachments: this.getAttachmentData(this.attachments)            
+        custom_headers: [
+          ...this.getHeaderData(this.customHeaders),
+          ...this.getReplyToHeaders(this.replyTo),
+        ],
+        attachments: this.getAttachmentData(this.attachments),
       };
     },
     getAttachmentData(attachments: any[]) {
       return attachments?.map((str) => {
-        let params = str.split("|");
+        const params = str.split("|");
         return params.length === 3
           ? {
             filename: params[0],
@@ -108,20 +111,22 @@ export default {
       });
     },
     getReplyToHeaders(replyToEmail: string) {
-      return reply_to ? [
-        {
-          header: "Reply-To",
-          value: reply_to
-        }
-      ] : [];
+      return replyToEmail
+        ? [
+          {
+            header: "Reply-To",
+            value: replyToEmail,
+          },
+        ]
+        : [];
     },
     getCustomHeaderData(headers: any[]) {
       return headers?.map((str) => {
-        let params = str.split("|");
+        const params = str.split("|");
         return params.length === 2
           ? {
             header: params[0],
-            value: params[1]            
+            value: params[1],
           }
           : JSON.parse(str);
       });
