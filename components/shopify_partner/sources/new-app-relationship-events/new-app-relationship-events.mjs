@@ -1,5 +1,5 @@
 import common from "../../common/common.mjs";
-import shopify from "../../common/shopify_partner.app.mjs";
+import shopify from "../../shopify_partner.app.mjs";
 import getAppRelationshipEventsBackwards from "../../common/queries/getAppRelationshipEventsBackwards.mjs";
 import getAppRelationshipEventsForwards from "../../common/queries/getAppRelationshipEventsForwards.mjs";
 
