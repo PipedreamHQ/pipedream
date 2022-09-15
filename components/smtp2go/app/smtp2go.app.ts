@@ -23,7 +23,10 @@ export default {
         url: `https://api.smtp2go.com/v3/${endpoint}`,
         method,
         headers: this.getHeaders(),
-        data: { ...data, api_key: this._apikey },
+        data: {
+          ...data,
+          api_key: this._apikey,
+        },
       });
     },
     async sharedActionRequest($, endpoint: string, data: any) {
@@ -33,20 +36,20 @@ export default {
         data,
       });
     },
-    verifiedSent(result){      
-      if(result.data.failed>0){
-        throw new Error(`Mail sender responded with the following error(s): ${string.join(result.data.failures, ",")}`);
+    verifiedSent(result) {
+      if (result.data.failed > 0) {
+        throw new Error(`Mail sender responded with the following error(s): ${result.data.failures.join(",")}`);
       }
     },
-    async sendSingleEmail($, data: { sender: string, to: string[], cc: string[], bcc: string[], subject: string, text_body: string, html_body: string, attachments: any[], custom_headers: any[] }, ignoreFailures: boolean) {
+    async sendSingleEmail($, data: { sender: string; to: string[]; cc: string[]; bcc: string[]; subject: string; text_body: string; html_body: string; attachments: any[]; custom_headers: any[]; }, ignoreFailures: boolean) {
       const result = this.sharedActionRequest($, "email/send", data);
-      if(ignoreFailures) return result;
+      if (ignoreFailures) return result;
       return this.verifiedSent(result);
     },
-    async sendSingleEmailWithTemplate($, data: { sender: string, to: string[], cc: string[], bcc: string[], subject: string, template_id: string, template_data: any, attachments: any[], custom_headers: any[] }, ignoreFailures: boolean) {
+    async sendSingleEmailWithTemplate($, data: { sender: string; to: string[]; cc: string[]; bcc: string[]; subject: string; template_id: string; template_data: any; attachments: any[]; custom_headers: any[]; }, ignoreFailures: boolean) {
       const result = this.sharedActionRequest($, "email/send", data);
-      if(ignoreFailures) return result;
+      if (ignoreFailures) return result;
       return this.verifiedSent(result);
-    }
+    },
   },
 };
