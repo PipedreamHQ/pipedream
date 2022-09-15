@@ -5,11 +5,12 @@ import { gql } from "graphql-request";
  * https://shopify.dev/api/partner/reference/apps/appeventconnection
  */
 export default gql`
-  query getAppRelationshipEvents(
+  query getAppRelationshipEventsBackwards(
     $appId: ID!
     $occurredAtMin: DateTime
     $occurredAtMax: DateTime
     $after: String
+    $recordsPerRun: Int
   ) {
     app(id: $appId) {
       events(
@@ -18,9 +19,13 @@ SUBSCRIPTION_CHARGE_UNFROZEN]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
         after: $after
-        first: 50
+        first: $recordsPerRun
       ) {
+        pageInfo {
+          hasNextPage
+        }
         edges {
+          cursor
           node {
             occurredAt
             __typename

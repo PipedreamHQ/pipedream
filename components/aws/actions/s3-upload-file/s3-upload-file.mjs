@@ -4,13 +4,12 @@ import { toSingleLineString } from "../../common/utils.mjs";
 export default {
   ...common,
   key: "aws-s3-upload-file",
-  name: "S3 - Upload File",
+  name: "S3 - Upload File - Base64",
   description: toSingleLineString(`
     Accepts a base64-encoded string and a filename, then uploads as a file to S3.
-import common from "../../common/common-s3.mjs";
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     aws: common.props.aws,

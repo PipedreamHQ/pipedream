@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Time Entry",
-  version: "0.0.1",
-  key: "tick-new-project",
+  version: "0.0.2",
+  key: "tick-new-time-entry",
   description: "Emit new event on each created time entry.",
   type: "source",
   dedupe: "unique",

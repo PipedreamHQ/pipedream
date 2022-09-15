@@ -10,5 +10,5 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-add-label-to-email",
-  version: "0.0.2",
+  version: "0.0.3",
 };
