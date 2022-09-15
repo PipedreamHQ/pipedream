@@ -13,6 +13,8 @@ export default {
       customResponse: true,
     },
     objectType: {
+      label: "Object Type",
+      description: "The type of object for which to monitor events",
       propDefinition: [
         salesforce,
         "objectType",
