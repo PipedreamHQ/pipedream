@@ -3,15 +3,24 @@ import app from "../../teamwork.app.mjs";
 export default {
   type: "action",
   key: "teamwork-create-task",
-  version: "0.0.13",
+  version: "0.0.21",
   name: "Create Task",
   description: "Create a new task in the backlog. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/cd8948166b1b1-create-a-task)",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
     tasklistId: {
       propDefinition: [
         app,
         "tasklistId",
+        ({ projectId }) => ({
+          projectId,
+        }),
       ],
     },
     content: {
@@ -54,6 +63,16 @@ export default {
       description: "The id of the person who is responsible for the task",
       optional: true,
     },
+    columnId: {
+      propDefinition: [
+        app,
+        "columnId",
+        ({ projectId }) => ({
+          projectId,
+        }),
+      ],
+      optional: true,
+    },
     startDate: {
       type: "string",
       label: "Start Date",
@@ -79,6 +98,8 @@ export default {
       "description": this.description,
       "creator-id": this.creatorId,
       "responsible-party-id": this.responsiblePartyId,
+      "priority": this.priority,
+      "columnId": this.columnId,
       "start-date": this.startDate,
       "due-date": this.dueDate,
       "use-defaults": this.useDefaults,
