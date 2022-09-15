@@ -5,20 +5,31 @@ export default {
   type: "app",
   app: "postgresql",
   propDefinitions: {
+    schema: {
+      type: "string",
+      label: "Schema",
+      description: "Database schema",
+      async options() {
+        return this.getSchemas();
+      },
+    },
     table: {
       type: "string",
       label: "Table",
       description: "Database table",
-      async options() {
-        return this.getTables();
+      async options({ schema }) {
+        return this.getTables(this.getNormalizedSchema(schema));
       },
     },
     column: {
       type: "string",
       label: "Column",
       description: "The name of a column in the table to use for deduplication. Defaults to the table's primary key",
-      async options({ table }) {
-        return this.getColumns(table);
+      async options({
+        table,
+        schema,
+      }) {
+        return this.getColumns(table, this.getNormalizedSchema(schema));
       },
     },
     query: {
@@ -108,26 +119,31 @@ export default {
      * Gets an array of table names in a database
      * @returns Array of table names
      */
-    async getTables() {
-      const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+    async getTables(schema = "public") {
+      const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = %L", schema);
       const rows = await this.executeQuery(query, false);
       return rows.map((row) => row.table_name);
+    },
+    /**
+     * Gets an array of schemas in a database
+     * @returns Array of schemas
+     */
+    async getSchemas() {
+      const query = format("select schema_name FROM information_schema.schemata");
+      const rows = await this.executeQuery(query, false);
+      return rows.map((row) => row.schema_name);
     },
     /**
      * Gets an array of column names in a table
      * @param {string} table - Name of the table to get columns in
      * @returns Array of column names
      */
-    async getColumns(table) {
-      const rows = await this.executeQuery({
-        text: format(`
-          SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_NAME = $1
-        `),
-        values: [
-          table,
-        ],
-      }, false);
+    async getColumns(table, schema = "public") {
+      if (!table) {
+        return [];
+      }
+      const query = format("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %L AND TABLE_NAME = %L", schema, table);
+      const rows = await this.executeQuery(query, false);
       return rows.map((row) => row.column_name);
     },
     /**
@@ -135,15 +151,15 @@ export default {
      * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
-    async getPrimaryKey(table) {
+    async getPrimaryKey(table, schema = "public") {
       const rows = await this.executeQuery({
         text: format(`
           SELECT c.column_name, c.ordinal_position
           FROM information_schema.key_column_usage AS c
           LEFT JOIN information_schema.table_constraints AS t
           ON t.constraint_name = c.constraint_name
-          WHERE t.table_name = '${table}' AND t.constraint_type = 'PRIMARY KEY';
-        `),
+          WHERE t.table_name = %L and t.table_schema = %L AND t.constraint_type = 'PRIMARY KEY';
+        `, table, schema),
       });
       return rows[0]?.column_name;
     },
@@ -155,18 +171,18 @@ export default {
      *  last time the table was queried.
      * @returns Array of rows returned from the query
      */
-    async getRows(table, column, lastResult = null, rejectUnauthorize = true) {
-      const select = "SELECT * FROM %I";
+    async getRows(table, column, lastResult = null, rejectUnauthorize = true, schema = "public") {
+      const select = "SELECT * FROM %I.%I";
       const where = "WHERE %I > $1";
       const orderby = "ORDER BY %I DESC";
       const query = lastResult
         ? {
-          text: format(`${select} ${where} ${orderby}`, table, column, column),
+          text: format(`${select} ${where} ${orderby}`, schema, table, column, column),
           values: [
             lastResult,
           ],
         }
-        : format(`${select} ${orderby}`, table, column);
+        : format(`${select} ${orderby}`, schema, table, column);
       return this.executeQuery(query, rejectUnauthorize);
     },
     /**
@@ -285,6 +301,13 @@ export default {
       }, false);
       const values = rows.map((row) => row[column]?.toString());
       return values.filter((row) => row);
+    },
+    /**Normalize Schema**/
+    getNormalizedSchema(schema) {
+      if (!schema) {
+        return "public";
+      }
+      return schema;
     },
   },
 };

@@ -5,15 +5,24 @@ export default {
   name: "New Row Custom Query",
   key: "postgresql-new-row-custom-query",
   description: "Emit new event when new rows are returned from a custom query that you provide",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
+    schema: {
+      propDefinition: [
+        common.props.postgresql,
+        "schema",
+      ],
+    },
     table: {
       propDefinition: [
         common.props.postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+        }),
       ],
     },
     column: {
@@ -22,6 +31,7 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
         }),
       ],
     },
@@ -50,6 +60,7 @@ export default {
   },
   async run() {
     const {
+      schema,
       table,
       column,
       query,
@@ -65,7 +76,7 @@ export default {
       throw new Error("The number of values provided does not match the number of values in the query.");
     }
 
-    const isColumnUnique = await this.isColumnUnique(table, column);
+    const isColumnUnique = await this.isColumnUnique(schema, table, column);
     if (!isColumnUnique) {
       throw new Error("The column selected contains duplicate values. Column must be unique");
     }
