@@ -46,13 +46,6 @@ export default {
     setNameField(nameField) {
       this.db.set("nameField", nameField);
     },
-    isValidSObject(sobject) {
-      // Only the activity of those SObject types that have the `replicateable`
-      // flag set is published via the `getUpdated` API.
-      //
-      // See the API docs here: https://sforce.co/3gDy3uP
-      return sobject.replicateable;
-    },
     processEvent() {
       throw new Error("processEvent is not implemented");
     },
