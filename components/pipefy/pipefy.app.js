@@ -4,15 +4,27 @@ module.exports = {
   type: "app",
   app: "pipefy",
   propDefinitions: {
-    organizations: {
+    organization: {
       type: "string",
       label: "Organization",
-      description: "Select yor organization",
+      description: "Select your organization",
       async options() {
         const orgs = await this.listOrganizations();
         return orgs.map((org) => ({
           label: org.name,
           value: org.id,
+        }));
+      },
+    },
+    pipe: {
+      type: "string",
+      label: "Pipe",
+      description: "Select a pipe",
+      async options({ orgId }) {
+        const pipes = await this.listPipes(orgId);
+        return pipes.map((pipe) => ({
+          label: pipe.name,
+          value: pipe.id,
         }));
       },
     },
@@ -159,6 +171,21 @@ module.exports = {
         `,
       };
       return (await this._makeQueriesRequest(data)).data.organizations;
+    },
+    async listPipes(orgId) {
+      const data = {
+        query: `
+          {
+            organization(id:${orgId}) {
+              pipes {
+                id
+                name
+              }
+            }
+          }
+        `,
+      };
+      return (await this._makeQueriesRequest(data)).data.organization.pipes;
     },
   },
 };

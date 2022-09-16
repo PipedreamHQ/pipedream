@@ -1,24 +1,31 @@
-// legacy_hash_id: a_52ie7G
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.js";
 
 export default {
   key: "pipefy-create-card",
   name: "Create Card",
-  description: "Create a new Card in a Pipe",
-  version: "0.1.1",
+  description: "Create a new Card in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createCard/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
     },
   },
-  async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/createCard/
-
+  async run() {
+  /*
   Example query:
 
   mutation{
@@ -35,17 +42,18 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
-    }
+    const data = {
+      mutation: `{
+        createCard( input: {
+          pipe_id: ${this.pipe}
+          fields_attributes: [
+            {}
+          ]
+        })
+        { card { id title } }
+      }`,
+    };
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    return await this.pipefy._makeRequest(data, "graphql");
   },
 };
