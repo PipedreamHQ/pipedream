@@ -6,7 +6,7 @@ export default {
   name: "New Updated Ticket",
   description: "Emit new event when a ticket is updated. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Listalltickets)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -20,7 +20,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.zohoDesk.getTickets;
+      return this.zohoDesk.searchTickets;
     },
     getResourceFnArgs() {
       return {
@@ -28,18 +28,19 @@ export default {
           orgId: this.orgId,
         },
         params: {
-          sortBy: "customerResponseTime", // responseDueDate | customerResponseTime | createdTime | ticketNumber
+          sortBy: "modifiedTime", // relevance | modifiedTime | createdTime | customerResponseTime
         },
       };
     },
     resourceFilter(resource) {
       const lastUpdatedAt = this.getLastUpdatedAt() || 0;
-      return Date.parse(resource.customerResponseTime) > lastUpdatedAt;
+      return Date.parse(resource.modifiedTime) > lastUpdatedAt;
     },
     generateMeta(resource) {
+      const ts = Date.parse(resource.modifiedTime);
       return {
-        id: resource.id,
-        ts: Date.parse(resource.customerResponseTime),
+        id: ts,
+        ts,
         summary: `Ticket ID ${resource.id}`,
       };
     },

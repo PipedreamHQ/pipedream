@@ -25,148 +25,63 @@ export default {
       type: "string",
       label: "Department ID",
       description: "The ID of the department",
-      async options({
-        orgId, prevContext,
-      }) {
-        const { from = 1 } = prevContext;
-        if (from === null) {
-          return [];
-        }
-        const { data: departments } =
-          await this.getDepartments({
-            headers: {
-              orgId,
-            },
-            params: {
-              from,
-              limit: constants.DEFAULT_LIMIT,
-            },
-          });
-        const currentLen = departments.length;
-        const options = departments.map(({
-          id: value, name: label,
-        }) => ({
-          value,
-          label,
-        }));
-        return {
-          options,
-          context: {
-            index: currentLen
-              ? currentLen + from
-              : null,
-          },
-        };
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getDepartments,
+          resourceMapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
       },
     },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact",
-      async options({
-        orgId, prevContext,
-      }) {
-        const { from = 1 } = prevContext;
-        if (from === null) {
-          return [];
-        }
-        const { data: contacts } =
-          await this.getContacts({
-            headers: {
-              orgId,
-            },
-            params: {
-              from,
-              limit: constants.DEFAULT_LIMIT,
-            },
-          });
-        const currentLen = contacts.length;
-        const options = contacts.map(({
-          id: value, lastName: label,
-        }) => ({
-          value,
-          label,
-        }));
-        return {
-          options,
-          context: {
-            index: currentLen
-              ? currentLen + from
-              : null,
-          },
-        };
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getContacts,
+          resourceMapper: ({
+            id: value, lastName: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
       },
     },
     ticketId: {
       type: "string",
       label: "Ticket ID",
       description: "The ID of the ticket",
-      async options({
-        orgId, prevContext,
-      }) {
-        const { from = 1 } = prevContext;
-        if (from === null) {
-          return [];
-        }
-        const { data: tickets } =
-          await this.getTickets({
-            headers: {
-              orgId,
-            },
-            params: {
-              from,
-              limit: constants.DEFAULT_LIMIT,
-            },
-          });
-        const currentLen = tickets.length;
-        const options = tickets.map(({
-          id: value, subject: label,
-        }) => ({
-          value,
-          label,
-        }));
-        return {
-          options,
-          context: {
-            index: currentLen
-              ? currentLen + from
-              : null,
-          },
-        };
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getTickets,
+          resourceMapper: ({
+            id: value, subject: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
       },
     },
     supportEmailAddress: {
       type: "string",
       label: "Support Email Address",
       description: "Support email address configured in your help desk",
-      async options({
-        orgId, departmentId, prevContext,
-      }) {
-        const { from = 1 } = prevContext;
-        if (from === null) {
-          return [];
-        }
-        const { data: emails } =
-          await this.getSupportEmailAddresses({
-            headers: {
-              orgId,
-            },
-            params: {
-              departmentId,
-              from,
-              limit: constants.DEFAULT_LIMIT,
-            },
-          });
-        const currentLen = emails.length;
-        const options = emails.map(({ address }) => address);
-        return {
-          options,
-          context: {
-            index: currentLen
-              ? currentLen + from
-              : null,
-          },
-        };
+      async options(args) {
+        return this.getResourcesOptions({
+          ...args,
+          resourceFn: this.getSupportEmailAddresses,
+          resourceMapper: ({ address }) => address,
+        });
       },
     },
   },
@@ -364,6 +279,35 @@ export default {
         path: "/agents",
         ...args,
       });
+    },
+    async getResourcesOptions({
+      orgId, departmentId, prevContext, resourceFn, resourceMapper,
+    }) {
+      const { from = 1 } = prevContext;
+      if (from === null) {
+        return [];
+      }
+      const { data: resources } =
+        await resourceFn({
+          headers: {
+            orgId,
+          },
+          params: {
+            departmentId,
+            from,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+      const currentLen = resources.length;
+      const options = resources.map(resourceMapper);
+      return {
+        options,
+        context: {
+          index: currentLen
+            ? currentLen + from
+            : null,
+        },
+      };
     },
     async *getResourcesStream({
       resourceFn,

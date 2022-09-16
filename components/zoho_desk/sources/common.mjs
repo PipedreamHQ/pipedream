@@ -57,15 +57,13 @@ export default {
 
       if (lastResource) {
         const {
-          customerResponseTime,
           commentedTime,
           createdTime,
           modifiedTime,
         } = lastResource;
         const lastCreatedAt =
           Date.parse(
-            customerResponseTime
-            || commentedTime
+            commentedTime
             || createdTime
             || new Date(),
           );
