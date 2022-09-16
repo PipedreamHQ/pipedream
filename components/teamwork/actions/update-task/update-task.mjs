@@ -2,10 +2,10 @@ import app from "../../teamwork.app.mjs";
 
 export default {
   type: "action",
-  key: "teamwork-create-task",
-  version: "0.0.21",
-  name: "Create Task",
-  description: "Create a new task in the backlog. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/cd8948166b1b1-create-a-task)",
+  key: "teamwork-update-task",
+  name: "Update Task",
+  description: "Update a task. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/6e3da2c04d779-update-a-task)",
+  version: "0.0.4",
   props: {
     app,
     projectId: {
@@ -14,10 +14,10 @@ export default {
         "projectId",
       ],
     },
-    tasklistId: {
+    taskId: {
       propDefinition: [
         app,
-        "tasklistId",
+        "taskId",
         ({ projectId }) => ({
           projectId,
         }),
@@ -88,7 +88,7 @@ export default {
       ],
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const data = {
       "content": this.content,
       "description": this.description,
@@ -100,11 +100,12 @@ export default {
       "due-date": this.dueDate,
       "use-defaults": this.useDefaults,
     };
-    await this.app.createTask(
-      this.tasklistId,
+    const res = await this.app.updateTask(
+      this.taskId,
       data,
       $,
     );
-    $.export("$summary", "Task successfully created");
+    $.export("$summary", "Task successfully updated");
+    return res;
   },
 };
