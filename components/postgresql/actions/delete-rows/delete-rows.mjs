@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     postgresql,
+    schema: {
+      propDefinition: [
+        postgresql,
+        "schema",
+      ],
+    },
     table: {
       propDefinition: [
         postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+        }),
       ],
     },
     column: {
@@ -20,6 +29,7 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
         }),
       ],
       label: "Lookup Column",
@@ -32,6 +42,7 @@ export default {
         (c) => ({
           table: c.table,
           column: c.column,
+          schema: c.schema,
         }),
       ],
     },
@@ -45,13 +56,20 @@ export default {
   async run({ $ }) {
     const {
       table,
+      schema,
       column,
       value,
       rejectUnauthorized,
     } = this;
 
     try {
-      const rows = await this.postgresql.deleteRows(table, column, value, rejectUnauthorized);
+      const rows = await this.postgresql.deleteRows(
+        schema,
+        table,
+        column,
+        value,
+        rejectUnauthorized,
+      );
       $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
       return rows;
     } catch (error) {
