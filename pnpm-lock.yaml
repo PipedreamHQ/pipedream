@@ -958,8 +958,10 @@ importers:
   components/hubspot:
     specifiers:
       '@pipedream/platform': ^0.10.0
+      bottleneck: ^2.19.5
     dependencies:
       '@pipedream/platform': 0.10.0
+      bottleneck: 2.19.5
 
   components/ifttt:
     specifiers:
@@ -1587,6 +1589,9 @@ importers:
       '@types/object-hash': 2.2.1
 
   components/sailpoint:
+    specifiers: {}
+
+  components/sailpoint_personal_token:
     specifiers: {}
 
   components/sales_simplify:
