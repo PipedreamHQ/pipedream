@@ -33,8 +33,7 @@ export default {
       };
     },
     resourceFilter() {
-      const lastCreatedAt = this.getLastCreatedAt() || 0;
-      return Date.now() > lastCreatedAt;
+      return true;
     },
     generateMeta(resource) {
       return {

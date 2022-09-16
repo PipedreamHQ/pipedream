@@ -303,7 +303,7 @@ export default {
       return {
         options,
         context: {
-          index: currentLen
+          from: currentLen
             ? currentLen + from
             : null,
         },

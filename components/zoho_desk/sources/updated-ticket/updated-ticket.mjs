@@ -39,7 +39,7 @@ export default {
     generateMeta(resource) {
       const ts = Date.parse(resource.modifiedTime);
       return {
-        id: ts,
+        id: `${resource.id}-${ts}`,
         ts,
         summary: `Ticket ID ${resource.id}`,
       };
