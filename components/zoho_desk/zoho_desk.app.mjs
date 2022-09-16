@@ -287,7 +287,7 @@ export default {
       if (from === null) {
         return [];
       }
-      const { data: resources } =
+      const { data: resources = [] } =
         await resourceFn({
           headers: {
             orgId,
@@ -298,8 +298,8 @@ export default {
             limit: constants.DEFAULT_LIMIT,
           },
         });
-      const currentLen = resources.length;
-      const options = resources.map(resourceMapper);
+      const currentLen = resources?.length;
+      const options = resources?.map(resourceMapper);
       return {
         options,
         context: {
