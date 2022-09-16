@@ -5,7 +5,7 @@ export default {
   key: "teamwork-list-project-tasks",
   name: "List Project Tasks",
   description: "List tasks from a project. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/6e3da2c04d779-get-all-tasks-on-a-given-project)",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
     app,
     projectId: {
@@ -14,14 +14,63 @@ export default {
         "projectId",
       ],
     },
+    completeAfterDate: {
+      type: "string",
+      label: "Complete After Date",
+      description: "Only return tasks that are complete after this date. Format: YYYYMMDDHHMMSS",
+      optional: true,
+    },
+    completeBeforeDate: {
+      type: "string",
+      label: "Complete Before Date",
+      description: "Only return tasks that are complete before this date. Format: YYYYMMDDHHMMSS",
+      optional: true,
+    },
+    creatorsId: {
+      propDefinition: [
+        app,
+        "peopleId",
+      ],
+      type: "string[]",
+      label: "Creators Id",
+      description: "Only return tasks that were created by these people.",
+      optional: true,
+    },
+    showDeleted: {
+      type: "boolean",
+      label: "Show Deleted",
+      description: "Show deleted tasks.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const res = await this.app.listProjectTasks(
-      this.projectId,
-      {},
-      $,
-    );
+    const PAGE_SIZE = 250;
+    let page = 1;
+
+    let data = [];
+    do {
+      const params = {
+        page,
+        "pageSize": PAGE_SIZE,
+        "completeAfterDate": this.completeAfterDate,
+        "completeBeforeDate": this.completeBeforeDate,
+        "creators-id": this.creatorsId,
+        "showDeleted": this.showDeleted,
+      };
+      const res = await this.app.listProjectTasks(
+        this.projectId,
+        params,
+        $,
+      );
+      data = data.concat(res);
+
+      if (res.length < PAGE_SIZE) {
+        break;
+      }
+      page++;
+    } while (true);
+
     $.export("$summary", "Tasks successfully listed");
-    return res;
+    return data;
   },
 };
