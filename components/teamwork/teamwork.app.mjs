@@ -58,6 +58,64 @@ export default {
         }));
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task Id",
+      description: "Id of the task to list tasks from",
+      async options({
+        projectId,
+        page,
+      }) {
+        const params = {
+          page: page + 1,
+        };
+        const tasks = await this.listProjectTasks(projectId, params);
+        return tasks.map((item) => ({
+          label: item.content,
+          value: item.id,
+        }));
+      },
+    },
+    content: {
+      type: "string",
+      label: "Content",
+      description: "The content of the task",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the task",
+      optional: true,
+    },
+    priority: {
+      type: "string",
+      label: "Priority",
+      description: "The priority of the task",
+      optional: true,
+      options: [
+        "Low",
+        "Medium",
+        "High",
+      ],
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The date the task should start. `yyyymmdd`",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The date the task is due `yyyymmdd`",
+      optional: true,
+    },
+    useDefaults: {
+      type: "boolean",
+      label: "Use Defaults",
+      description: "Use the default values for the task",
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -118,6 +176,15 @@ export default {
       return axios(ctx, this._getAxiosParams({
         method: "POST",
         path: `tasklists/${taskListId}/tasks.json`,
+        data: {
+          "todo-item": data,
+        },
+      }));
+    },
+    async updateTask(taskId, data, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "PUT",
+        path: `tasks/${taskId}.json`,
         data: {
           "todo-item": data,
         },
