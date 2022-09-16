@@ -5,7 +5,7 @@ export default {
   key: "teamwork-update-task",
   name: "Update Task",
   description: "Update a task. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/6e3da2c04d779-update-a-task)",
-  version: "0.0.4",
+  version: "0.0.1",
   props: {
     app,
     projectId: {
