@@ -26,7 +26,7 @@ export default {
       async options() {
         const { sobjects } = await this.listSObjectTypes();
         return sobjects
-          .filter((sobject) => sobject.replicateable)
+          .filter(this.isValidSObject)
           .map((sobject) => ({
             label: sobject.label,
             value: sobject.name,
@@ -190,6 +190,13 @@ export default {
         ...props,
         [prop]: sobject[prop],
       }), {});
+    },
+    isValidSObject(sobject) {
+      // Only the activity of those SObject types that have the `replicateable`
+      // flag set is published via the `getUpdated` API.
+      //
+      // See the API docs here: https://sforce.co/3gDy3uP
+      return sobject.replicateable;
     },
     isHistorySObject(sobject) {
       return (
