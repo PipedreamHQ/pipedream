@@ -1,0 +1,3 @@
+student name: Jan Stengs
+Student number: 700242
+student class: HAFTIT1B
