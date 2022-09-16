@@ -3,14 +3,28 @@ const axios = require("axios");
 module.exports = {
   type: "app",
   app: "pipefy",
+  propDefinitions: {
+    organizations: {
+      type: "string",
+      label: "Organization",
+      description: "Select yor organization",
+      async options() {
+        const orgs = await this.listOrganizations();
+        return orgs.map((org) => ({
+          label: org.name,
+          value: org.id,
+        }));
+      },
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://app.pipefy.com";
     },
     _getHeaders() {
       return {
-        Accept: "application/json",
-        Authorization: `Bearer ${this.$auth.token}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${this.$auth.token}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
@@ -29,7 +43,9 @@ module.exports = {
     async _makeGraphQlRequest(data = null) {
       return await this._makeRequest(data, "graphql");
     },
-    async createHook({ pipe_id, name, url, actions }) {
+    async createHook({
+      pipe_id, name, url, actions,
+    }) {
       const data = {
         query: `
           mutation { 
@@ -38,7 +54,7 @@ module.exports = {
               name: "${name}" 
               url: "${url}" 
               actions: ["${actions}"] 
-              headers: \"{\\\"token\\\": \\\"${this.$auth.token}\\\"}\" 
+              headers: "{\\"token\\": \\"${this.$auth.token}\\"}" 
             }) 
             { 
               webhook { 
@@ -130,6 +146,19 @@ module.exports = {
         `,
       };
       return (await this._makeQueriesRequest(data)).data.cards;
+    },
+    async listOrganizations() {
+      const data = {
+        query: `
+          {
+            organizations{
+              id
+              name
+            }
+          }
+        `,
+      };
+      return (await this._makeQueriesRequest(data)).data.organizations;
     },
   },
 };
