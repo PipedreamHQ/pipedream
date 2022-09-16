@@ -1,6 +1,7 @@
-import zohoDesk from "../../zoho_desk.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "zoho_desk-new-ticket-attachment",
   name: "New Ticket Attachment",
   description: "Emit new event when a new ticket attachment is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_Listticketattachments)",
@@ -8,7 +9,49 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    zohoDesk,
+    ...common.props,
+    orgId: {
+      propDefinition: [
+        common.props.zohoDesk,
+        "orgId",
+      ],
+    },
+    ticketId: {
+      propDefinition: [
+        common.props.zohoDesk,
+        "ticketId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.zohoDesk.getTicketAttachments;
+    },
+    getResourceFnArgs() {
+      return {
+        ticketId: this.ticketId,
+        headers: {
+          orgId: this.orgId,
+        },
+        params: {
+          sortBy: "createdTime",
+        },
+      };
+    },
+    resourceFilter(resource) {
+      const lastCreatedAt = this.getLastCreatedAt() || 0;
+      return Date.parse(resource.createdTime) > lastCreatedAt;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        ts: Date.parse(resource.createdTime),
+        summary: `Ticket Attachment ID ${resource.id}`,
+      };
+    },
+  },
 };

@@ -8,6 +8,37 @@ export default {
   version: "0.0.1",
   props: {
     zohoDesk,
+    orgId: {
+      propDefinition: [
+        zohoDesk,
+        "orgId",
+      ],
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Search throughout the ticket with `wildcard search` strategy",
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      orgId,
+      search,
+    } = this;
+
+    const { data: tickets = [] } =
+      await this.zohoDesk.searchTickets({
+        headers: {
+          orgId,
+        },
+        params: {
+          _all: search,
+          sortBy: "relevance",
+        },
+      });
+
+    $.export("$summary", `Successfully found ${tickets.length} ticket(s)`);
+
+    return tickets;
+  },
 };

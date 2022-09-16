@@ -8,6 +8,54 @@ export default {
   version: "0.0.1",
   props: {
     zohoDesk,
+    orgId: {
+      propDefinition: [
+        zohoDesk,
+        "orgId",
+      ],
+    },
+    ticketId: {
+      propDefinition: [
+        zohoDesk,
+        "ticketId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Subject of the ticket",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description in the ticket",
+      optional: true,
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      orgId,
+      ticketId,
+      subject,
+      description,
+    } = this;
+
+    const response = await this.zohoDesk.updateTicket({
+      ticketId,
+      headers: {
+        orgId,
+      },
+      data: {
+        subject,
+        description,
+      },
+    });
+
+    $.export("$summary", `Successfully updated ticket with ID ${response.id}`);
+
+    return response;
+  },
 };

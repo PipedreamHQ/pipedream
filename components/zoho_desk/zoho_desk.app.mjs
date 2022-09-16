@@ -1,45 +1,409 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "zoho_desk",
   propDefinitions: {
-    commonProperty: {
+    orgId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Organization ID",
+      description: "The ID of the organization",
+      async options() {
+        const { data: organizations } =
+          await this.getOrganizations();
+        return organizations.map(({
+          id: value, companyName: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    departmentId: {
+      type: "string",
+      label: "Department ID",
+      description: "The ID of the department",
+      async options({
+        orgId, prevContext,
+      }) {
+        const { from = 1 } = prevContext;
+        if (from === null) {
+          return [];
+        }
+        const { data: departments } =
+          await this.getDepartments({
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = departments.length;
+        const options = departments.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+        return {
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "The ID of the contact",
+      async options({
+        orgId, prevContext,
+      }) {
+        const { from = 1 } = prevContext;
+        if (from === null) {
+          return [];
+        }
+        const { data: contacts } =
+          await this.getContacts({
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = contacts.length;
+        const options = contacts.map(({
+          id: value, lastName: label,
+        }) => ({
+          value,
+          label,
+        }));
+        return {
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
+    ticketId: {
+      type: "string",
+      label: "Ticket ID",
+      description: "The ID of the ticket",
+      async options({
+        orgId, prevContext,
+      }) {
+        const { from = 1 } = prevContext;
+        if (from === null) {
+          return [];
+        }
+        const { data: tickets } =
+          await this.getTickets({
+            headers: {
+              orgId,
+            },
+            params: {
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = tickets.length;
+        const options = tickets.map(({
+          id: value, subject: label,
+        }) => ({
+          value,
+          label,
+        }));
+        return {
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
+    },
+    supportEmailAddress: {
+      type: "string",
+      label: "Support Email Address",
+      description: "Support email address configured in your help desk",
+      async options({
+        orgId, departmentId, prevContext,
+      }) {
+        const { from = 1 } = prevContext;
+        if (from === null) {
+          return [];
+        }
+        const { data: emails } =
+          await this.getSupportEmailAddresses({
+            headers: {
+              orgId,
+            },
+            params: {
+              departmentId,
+              from,
+              limit: constants.DEFAULT_LIMIT,
+            },
+          });
+        const currentLen = emails.length;
+        const options = emails.map(({ address }) => address);
+        return {
+          options,
+          context: {
+            index: currentLen
+              ? currentLen + from
+              : null,
+          },
+        };
+      },
     },
   },
   methods: {
-    getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
-    },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getUrl(url, path, versionPath) {
+      const { region } = this.$auth;
+      return url || `${constants.BASE_PREFIX_URL}${region}${versionPath}${path}`;
     },
     getHeaders(headers) {
+      const { oauth_access_token: oauthAccessToken } = this.$auth;
+      const authorization = `${constants.TOKEN_PREFIX} ${oauthAccessToken}`;
       return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        Authorization: authorization,
+        ...constants.DEFAULT_HEADERS,
         ...headers,
       };
     },
+    getParams(url, params) {
+      if (!url) {
+        return params;
+      }
+    },
     async makeRequest({
-      $ = this, path, url, ...args
+      $ = this,
+      url,
+      path,
+      headers: preHeaders,
+      params,
+      data: preData,
+      versionPath = constants.VERSION_PATH,
+      withRetries = true,
+      ...args
     } = {}) {
+      const contentType = constants.CONTENT_TYPE_KEY_HEADER;
+
+      const hasMultipartHeader = utils.hasMultipartHeader(preHeaders);
+      const data = hasMultipartHeader && utils.getFormData(preData) || preData;
+
+      const currentHeaders = this.getHeaders(preHeaders);
+      const headers = hasMultipartHeader
+        ? {
+          ...currentHeaders,
+          [contentType]: data.getHeaders()[contentType.toLowerCase()],
+        }
+        : currentHeaders;
 
       const config = {
-        headers: this.getHeaders(args.headers),
-        url: this.getUrl(path, url),
+        headers,
+        url: this.getUrl(url, path, versionPath),
+        params: this.getParams(url, params),
+        data,
         ...args,
       };
-
       try {
-        return await axios($, config);
+        return withRetries
+          ? await utils.withRetries(() => axios($, config))
+          : await axios($, config);
       } catch (error) {
-        console.log("Error", error);
-        throw "Error";
+        console.log("Request error", error.response?.data);
+        throw error.response?.data;
+      }
+    },
+    getOrganizations(args = {}) {
+      return this.makeRequest({
+        path: "/organizations",
+        ...args,
+      });
+    },
+    createAccount(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/accounts",
+        ...args,
+      });
+    },
+    createContact(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/contacts",
+        ...args,
+      });
+    },
+    updateContact({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    searchContacts(args = {}) {
+      return this.makeRequest({
+        path: "/contacts/search",
+        ...args,
+      });
+    },
+    getDepartments(args = {}) {
+      return this.makeRequest({
+        path: "/departments",
+        ...args,
+      });
+    },
+    createTicket(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/tickets",
+        ...args,
+      });
+    },
+    updateTicket({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
+    createTicketComment({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    getTickets(args = {}) {
+      return this.makeRequest({
+        path: "/tickets",
+        ...args,
+      });
+    },
+    searchTickets(args = {}) {
+      return this.makeRequest({
+        path: "/tickets/search",
+        ...args,
+      });
+    },
+    createTicketAttachment({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: `/tickets/${ticketId}/attachments`,
+        ...args,
+      });
+    },
+    getTicketAttachments({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/attachments`,
+        ...args,
+      });
+    },
+    getTicketComments({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    sendReply({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: `/tickets/${ticketId}/sendReply`,
+        ...args,
+      });
+    },
+    getContacts(args = {}) {
+      return this.makeRequest({
+        path: "/contacts",
+        ...args,
+      });
+    },
+    getSupportEmailAddresses(args = {}) {
+      return this.makeRequest({
+        path: "/supportEmailAddress",
+        ...args,
+      });
+    },
+    getAccounts(args = {}) {
+      return this.makeRequest({
+        path: "/accounts",
+        ...args,
+      });
+    },
+    getAgents(args = {}) {
+      return this.makeRequest({
+        path: "/agents",
+        ...args,
+      });
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      max = constants.MAX_RESOURCES,
+    }) {
+      let from = 1;
+      let resourcesCount = 0;
+      let nextResources;
+
+      while (true) {
+        try {
+          ({ data: nextResources = [] } =
+            await resourceFn({
+              withRetries: false,
+              ...resourceFnArgs,
+              params: {
+                ...resourceFnArgs.params,
+                from,
+              },
+            }));
+        } catch (error) {
+          console.log("Stream error", error);
+          return;
+        }
+
+        if (nextResources?.length < 1) {
+          return;
+        }
+
+        from += nextResources?.length;
+
+        for (const resource of nextResources) {
+          resourcesCount += 1;
+          yield resource;
+        }
+
+        if (max && resourcesCount >= max) {
+          return;
+        }
       }
     },
   },

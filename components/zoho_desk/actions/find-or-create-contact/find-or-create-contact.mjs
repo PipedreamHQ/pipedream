@@ -8,6 +8,70 @@ export default {
   version: "0.0.1",
   props: {
     zohoDesk,
+    orgId: {
+      propDefinition: [
+        zohoDesk,
+        "orgId",
+      ],
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the contact with `wildcard search` strategy",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the contact with `wildcard search`, `empty check` or `not empty check` strategy",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email ID of the contact with `wildcard search`, `empty check` or `not empty check` strategy",
+      optional: true,
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      orgId,
+      lastName,
+      firstName,
+      email,
+    } = this;
+
+    const { data: contacts = [] } =
+      await this.zohoDesk.searchContacts({
+        headers: {
+          orgId,
+        },
+        params: {
+          lastName,
+          firstName,
+          email,
+          sortBy: "relevance",
+        },
+      });
+
+    if (contacts?.length) {
+      $.export("$summary", `Successfully found ${contacts.length} contact(s)`);
+
+      return contacts;
+    }
+
+    const response = await this.zohoDesk.createContact({
+      headers: {
+        orgId,
+      },
+      data: {
+        lastName,
+        firstName,
+        email,
+      },
+    });
+
+    $.export("$summary", `Successfully created a new contact with ID ${response.id}`);
+
+    return response;
+  },
 };
