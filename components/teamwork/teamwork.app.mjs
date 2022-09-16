@@ -190,6 +190,12 @@ export default {
         },
       }));
     },
+    async deleteTask(taskId, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "DELETE",
+        path: `tasks/${taskId}.json`,
+      }));
+    },
     async listProjectTasks(projectId, params, ctx = this) {
       const res = await axios(ctx, this._getAxiosParams({
         method: "GET",
