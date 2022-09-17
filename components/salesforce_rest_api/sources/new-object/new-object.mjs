@@ -8,7 +8,7 @@ export default {
   name: "New Object (of Selectable Type)",
   key: "salesforce_rest_api-new-object",
   description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
-  version: "0.1.1",
+  version: "0.1.2",
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {
