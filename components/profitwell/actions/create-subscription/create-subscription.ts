@@ -1,0 +1,105 @@
+import profitwell from "../../app/profitwell.app";
+import { defineAction } from "@pipedream/types";
+import { CreateSubscriptionParams } from "../../common/requestParams";
+
+export default defineAction({
+  name: "Create Subscription",
+  description:
+    "Create a subscription [See docs here](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription)",
+  key: "profitwell-create-subscription",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    profitwell,
+    userId: {
+      type: "string",
+      label: "User ID",
+      description:
+        "Only use if you are referencing an existing user for whom you need to create an additional subscription.",
+      optional: true,
+    },
+    userAlias: {
+      type: "string",
+      label: "User Alias",
+      description:
+        "For a new user, you can include your own identifier here. If creating a subscription for an existing user, this can be used instead of `User ID`.",
+      optional: true,
+    },
+    subscriptionAlias: {
+      type: "string",
+      label: "Subscription Alias",
+      description: `If included, you can use this to reference the subscription later, instead of its ID.
+        \\
+        Note that this alias must be **unique** across all users in your company, and cannot contain more than **36 characters**.`,
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email Address",
+      description:
+        "The email address of the user. This will be the display text that is used on the Customers tab.",
+    },
+    planId: {
+      type: "string",
+      label: "Plan ID",
+      description:
+        "The ID of the plan that the user is on. For the sake of consistency (and the ability to later segment your data), this name should be consistent across everyone who is on this plan.",
+    },
+    planInterval: {
+      type: "string",
+      label: "Plan Interval",
+      description: "The billing cycle for this plan.",
+      options: ["month", "year"],
+    },
+    planCurrency: {
+      type: "string",
+      label: "Plan Currency",
+      description:
+        "The currency in which users of this plan are charged. [See the docs](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription) for the full list of accepted currency codes.",
+      optional: true,
+      default: "usd",
+    },
+    status: {
+      type: "string",
+      label: "Plan Currency",
+      description:
+        "The currency in which users of this plan are charged. [See the docs](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription) for the full list of accepted currency codes.",
+      optional: true,
+      options: ["active", "trialing"],
+      default: "active",
+    },
+    value: {
+      type: "integer",
+      label: "Value",
+      description:
+        "The amount that you bill your user, per billing period, in cents.",
+    },
+    effectiveDate: {
+      type: "string",
+      label: "Effective Date",
+      description: "UNIX timestamp of when the subscription starts.",
+    },
+  },
+  async run({ $ }): Promise<any> {
+    const params: CreateSubscriptionParams = {
+      $,
+      data: {
+        effective_date: this.effectiveDate,
+        email: this.email,
+        plan_id: this.planId,
+        plan_interval: this.planInterval,
+        value: this.value,
+        plan_currency: this.planCurrency,
+        status: this.status,
+        subscription_alias: this.subscriptionAlias,
+        user_alias: this.userAlias,
+        user_id: this.userId,
+      },
+    };
+    const data = await this.profitwell.createSubscription(params);
+
+    $.export("$summary", "Created subscription successfully");
+
+    return data;
+  },
+});
