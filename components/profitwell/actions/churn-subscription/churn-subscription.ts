@@ -1,5 +1,6 @@
 import profitwell from "../../app/profitwell.app";
 import { defineAction } from "@pipedream/types";
+import { ChurnSubscriptionParams } from "../../common/requestParams";
 
 export default defineAction({
   name: "Churn Subscription",
@@ -10,22 +11,36 @@ export default defineAction({
   type: "action",
   props: {
     profitwell,
-    effectiveDate: {
+    subscriptionIdOrAlias: {
       type: "string",
+      label: "Subscription ID or Alias",
+      description:
+        "Either the `subscription_id` or `subscription_alias` of the subscription",
+    },
+    effectiveDate: {
+      type: "number",
       label: "Effective Date",
-      description: "UNIX timestamp of when the subscription churns",
+      description:
+        "UNIX timestamp (in seconds) of when the subscription churns",
     },
     churnType: {
       type: "string",
       label: "Churn Type",
-      options: ["voluntary", "delinquent"],
+      options: [
+        "voluntary",
+        "delinquent",
+      ],
       default: "voluntary",
     },
   },
   async run({ $ }): Promise<any> {
-    const params = {
+    const params: ChurnSubscriptionParams = {
       $,
-      data: {},
+      subscriptionIdOrAlias: this.subscriptionIdOrAlias,
+      params: {
+        churn_type: this.churnType,
+        effective_date: this.effectiveDate,
+      },
     };
     const data = await this.profitwell.churnSubscription(params);
 

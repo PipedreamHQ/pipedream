@@ -49,7 +49,10 @@ export default defineAction({
       type: "string",
       label: "Plan Interval",
       description: "The billing cycle for this plan.",
-      options: ["month", "year"],
+      options: [
+        "month",
+        "year",
+      ],
     },
     planCurrency: {
       type: "string",
@@ -65,7 +68,10 @@ export default defineAction({
       description:
         "The currency in which users of this plan are charged. [See the docs](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription) for the full list of accepted currency codes.",
       optional: true,
-      options: ["active", "trialing"],
+      options: [
+        "active",
+        "trialing",
+      ],
       default: "active",
     },
     value: {
@@ -75,9 +81,9 @@ export default defineAction({
         "The amount that you bill your user, per billing period, in cents.",
     },
     effectiveDate: {
-      type: "string",
+      type: "number",
       label: "Effective Date",
-      description: "UNIX timestamp of when the subscription starts.",
+      description: "UNIX timestamp (in seconds) of when the subscription starts.",
     },
   },
   async run({ $ }): Promise<any> {

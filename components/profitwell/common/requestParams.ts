@@ -6,8 +6,16 @@ interface ActionRequestParams {
 export interface HttpRequestParams extends ActionRequestParams {
   endpoint: string;
   data?: object;
-  params?: object;
   method?: string;
+  params?: object;
+}
+
+export interface ChurnSubscriptionParams extends ActionRequestParams {
+  subscriptionIdOrAlias: string;
+  params: {
+    churn_type: "voluntary" | "delinquent";
+    effective_date: number;
+  };
 }
 
 export interface CreateSubscriptionParams extends ActionRequestParams {
