@@ -3,8 +3,8 @@ import sendinBlueApp from "../../sendinblue.app.mjs";
 export default {
   key: "sendinblue-send-transactional-email",
   name: "Send Transactional Email",
-  description: "Send transactional email. [See the docs here](https://developers.sendinblue.com/reference/sendtransacemail)",
-  version: "0.0.3",
+  description: "Send transactional email. [See the docs](https://developers.sendinblue.com/reference/sendtransacemail) for more information.",
+  version: "0.0.39",
   type: "action",
   props: {
     sendinBlueApp,
@@ -110,8 +110,11 @@ export default {
   },
   methods: {
     formatEmailProp(prop, field) {
+      if (typeof (prop) === "string") {
+        prop = JSON.parse(prop);
+      }
       if (!Array.isArray(prop)) {
-        throw new Error(`Field ${field} should be an array`, prop);
+        throw new Error(`Field "${field}" should be an array`, prop);
       }
       if (typeof prop[0] === "string") {
         return Object.keys(prop).map((key) => JSON.parse(prop[key]));
@@ -144,7 +147,7 @@ export default {
       : null;
 
     if (!Array.isArray(to) || to.length === 0) {
-      throw new Error("Must provide to parameter");
+      throw new Error("Must provide field \"To\".");
     }
 
     const emailSent = await this.sendinBlueApp.sendTransactionalEmail(
