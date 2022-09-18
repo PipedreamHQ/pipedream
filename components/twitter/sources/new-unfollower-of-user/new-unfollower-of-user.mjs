@@ -5,7 +5,7 @@ export default {
   key: "twitter-new-unfollower-of-user",
   name: "New Unfollower of User",
   description: "Emit new event when a specific user loses a follower on Twitter",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...base.props,
