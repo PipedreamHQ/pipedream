@@ -686,6 +686,9 @@
     },
     {
       "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/cloudlayer"
     }
   ]
 }
