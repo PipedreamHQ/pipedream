@@ -12,7 +12,7 @@ export default defineAction({
   },
   async run({ $ }) {
     const { publications } = await this.app.listPublications($);
-    $.export("$summary", `Successfully listed ${publications.length} publications`);
+    $.export("$summary", `Successfully listed ${publications.length} publication(s)`);
     return publications;
   },
 });
