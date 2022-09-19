@@ -1,5 +1,7 @@
 import { defineApp } from "@pipedream/types";
-import { axios, ConfigurationError } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   ChurnSubscriptionParams,
   CreateSubscriptionParams,
@@ -111,18 +113,18 @@ export default defineApp({
       });
     },
     getUnixTimestamp(dateString) {
-      let number = Number(dateString);
+      const number = Number(dateString);
       if (!isNaN(number)) {
         return number;
       }
 
-      let date = new Date(dateString);
-      let value = date.valueOf();
+      const date = new Date(dateString);
+      const value = date.valueOf();
       if (isNaN(value)) {
-        throw new ConfigurationError('**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`')
+        throw new ConfigurationError("**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`");
       }
 
       return Math.floor(value / 1000);
-    }
+    },
   },
 });
