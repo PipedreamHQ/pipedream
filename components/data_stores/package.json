@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/data_stores",
+  "version": "0.0.2",
+  "description": "Pipedream Data Stores Components",
+  "main": "data_stores.app.js",
+  "keywords": [
+    "pipedream",
+    "blogger"
+  ],
+  "homepage": "https://pipedream.com/apps/data_stores",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "xss": "^1.0.11"
+  }
+}

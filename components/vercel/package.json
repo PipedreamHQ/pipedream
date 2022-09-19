@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/vercel",
+  "version": "0.1.1",
+  "description": "Pipedream Vercel Components",
+  "main": "vercel.app.js",
+  "keywords": [
+    "pipedream",
+    "vercel"
+  ],
+  "homepage": "https://pipedream.com/apps/vercel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

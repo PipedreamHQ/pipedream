@@ -1,21 +1,23 @@
 {
-    "name": "@pipedream/google_calendar",
-    "version": "0.3.3",
-    "description": "Pipedream Google_calendar Components",
-    "main": "google_calendar.app.js",
-    "keywords": [
-        "pipedream",
-        "google_calendar"
-    ],
-    "homepage": "https://pipedream.com/apps/google_calendar",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "googleapis": "^67.0.0",
-        "lodash.get": "^4.4.2"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/google_calendar",
+  "version": "0.3.4",
+  "description": "Pipedream Google_calendar Components",
+  "main": "google_calendar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_calendar"
+  ],
+  "homepage": "https://pipedream.com/apps/google_calendar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@googleapis/calendar": "^1.0.2",
+    "lodash.get": "^4.4.2",
+    "moment-timezone": "^0.5.33",
+    "uuid": "^8.3.2"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

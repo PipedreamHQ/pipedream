@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ultramsg",
+  "version": "0.3.4",
+  "description": "Pipedream Ultramsg Components",
+  "main": "ultramsg.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ultramsg"
+  ],
+  "homepage": "https://pipedream.com/apps/ultramsg",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

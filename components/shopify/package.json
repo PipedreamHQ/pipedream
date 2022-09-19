@@ -1,21 +1,22 @@
 {
-    "name": "@pipedream/shopify",
-    "version": "0.3.3",
-    "description": "Pipedream Shopify Components",
-    "main": "shopify.app.js",
-    "keywords": [
-        "pipedream",
-        "shopify"
-    ],
-    "homepage": "https://pipedream.com/apps/shopify",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "lodash.get": "^4.4.2"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/shopify",
+  "version": "0.3.4",
+  "description": "Pipedream Shopify Components",
+  "main": "shopify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shopify"
+  ],
+  "homepage": "https://pipedream.com/apps/shopify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash.get": "^4.4.2",
+    "shopify-api-node": "^3.9.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

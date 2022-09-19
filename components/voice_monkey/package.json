@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/voice_monkey",
+  "version": "0.0.2",
+  "description": "Pipedream Voice Monkey Components",
+  "main": "voice_monkey.app.js",
+  "keywords": [
+    "pipedream",
+    "voice_monkey"
+  ],
+  "homepage": "https://pipedream.com/apps/voice_monkey",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

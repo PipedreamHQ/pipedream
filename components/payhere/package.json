@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/payhere",
+  "version": "0.0.2",
+  "description": "Pipedream Payhere Components",
+  "main": "payhere.app.mjs",
+  "keywords": [
+    "pipedream",
+    "payhere"
+  ],
+  "homepage": "https://pipedream.com/apps/payhere",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

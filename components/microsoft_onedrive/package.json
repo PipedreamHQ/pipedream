@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/microsoft_onedrive",
+  "version": "1.0.1",
+  "description": "Pipedream Microsoft OneDrive components",
+  "main": "microsoft_onedrive.app.js",
+  "homepage": "https://pipedream.com/apps/microsoft-onedrive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.1",
+    "@pipedream/platform": "^1.1.0",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash.get": "^4.4.2"
+  }
+}

@@ -1,16 +1,28 @@
 {
   "devDependencies": {
-    "node-sass": "^4.12.0",
+    "express": "^4.17.3",
+    "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
     "vuepress": "^1.1.0",
+    "vuepress-plugin-check-md": "^0.0.2",
     "webpack": "^4.30.0"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "docs:build:serve": "node local-server.mjs",
+    "tailwind": "tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/.vuepress/public/dist/tailwind.css",
+    "tailwind:watch": "tailwindcss -o docs/.vuepress/styles/tailwind.css --watch",
+    "build:css": "NODE_ENV=production tailwindcss -o src/tailwind.css -m"
   },
   "dependencies": {
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue-gtm": "^2.0.0",
-    "vuepress-plugin-canonical": "^1.0.0"
+    "vue-tabs-component": "^1.5.0",
+    "vuepress-plugin-canonical": "^1.0.0",
+    "vuepress-plugin-code-copy": "^1.0.6",
+    "vuepress-plugin-tabs": "^0.3.0"
   }
 }

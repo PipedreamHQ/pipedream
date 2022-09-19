@@ -1,0 +1,30 @@
+{
+  "name": "@pipedream/notion",
+  "version": "0.0.3",
+  "description": "Pipedream Notion Components",
+  "main": "notion.app.mjs",
+  "keywords": [
+    "pipedream",
+    "notion"
+  ],
+  "homepage": "https://pipedream.com/apps/notion",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@notionhq/client": "^1.0.4",
+    "asynckit": "^0.4.0",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
+    "form-data": "^3.0.1",
+    "lodash-es": "^4.17.21",
+    "mime-db": "^1.52.0",
+    "mime-types": "^2.1.35",
+    "node-fetch": "^2.6.7",
+    "tr46": "^0.0.3",
+    "webidl-conversions": "^3.0.1",
+    "whatwg-url": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

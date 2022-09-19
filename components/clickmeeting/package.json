@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/clickmeeting",
+  "version": "0.0.2",
+  "description": "Pipedream ClickMeeting  Components",
+  "main": "dist/app/clickmeeting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clickmeeting"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/clickmeeting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

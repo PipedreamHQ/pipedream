@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/paypro",
+  "version": "0.0.2",
+  "description": "Pipedream PayPro Components",
+  "main": "dist/app/paypro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paypro"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/paypro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

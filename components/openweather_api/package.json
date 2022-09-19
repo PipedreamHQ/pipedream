@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/openweather_api",
+  "version": "0.0.2",
+  "description": "Pipedream Openweather Components",
+  "main": "openweather_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openweather_api"
+  ],
+  "homepage": "https://pipedream.com/apps/openweather_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

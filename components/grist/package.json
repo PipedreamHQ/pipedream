@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/grist",
+  "version": "0.0.2",
+  "description": "Pipedream Grist Components",
+  "main": "dist/app/grist.app.mjs",
+  "keywords": [
+    "pipedream",
+    "grist"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/grist",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

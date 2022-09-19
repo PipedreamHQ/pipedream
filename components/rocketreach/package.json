@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/rocketreach",
+  "version": "0.0.2",
+  "description": "Pipedream RocketReach Components",
+  "main": "rocketreach.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rocketreach"
+  ],
+  "homepage": "https://pipedream.com/apps/rocketreach",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

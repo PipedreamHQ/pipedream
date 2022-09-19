@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/sftp_password_based_auth",
+  "version": "0.3.4",
+  "description": "Pipedream SFTP Components",
+  "main": "sftp_password_based_auth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sftp_password_based_auth"
+  ],
+  "homepage": "https://pipedream.com/apps/sftp_password_based_auth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "ssh2-sftp-client": "^8.1.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

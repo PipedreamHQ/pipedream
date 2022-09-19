@@ -1,46 +1,42 @@
 <template>
   <nav v-if="userLinks.length || repoLink" class="nav-links">
     <!-- user links -->
-    <div v-for="item in userLinks" :key="item.link" class="nav-item">
+    <div
+      v-for="item in userLinks"
+      :key="item.link"
+      class="nav-item"
+      :class="item.className"
+    >
       <DropdownLink v-if="item.type === 'links'" :item="item" />
+      <NavbarGrid v-else-if="item.grid" :item="item" />
       <NavLink v-else :item="item" />
     </div>
-
-    <a href="https://pipedream.com">
-      <img
-        class="navbar-icons"
-        src="https://res.cloudinary.com/pipedreamin/image/upload/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg"
-      />
-    </a>
-    <!-- repo link -->
-    <a
-      v-if="repoLink"
-      :href="repoLink"
-      class="repo-link"
-      target="_blank"
-      rel="noopener"
-    >
-      <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social">
-    </a>
   </nav>
 </template>
 
 <script>
 import DropdownLink from "@theme/components/DropdownLink.vue";
+import NavbarGrid from "@theme/components/NavbarGrid.vue";
 import { resolveNavLinkItem } from "../util";
 import NavLink from "@theme/components/NavLink.vue";
 
 export default {
   name: "NavLinks",
 
+  props: ["slice"],
+
   components: {
     NavLink,
     DropdownLink,
+    NavbarGrid,
   },
 
   computed: {
     userNav() {
-      return this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || [];
+      return (
+        // this.$themeLocaleConfig.nav[this.slice] ||
+        this.$site.themeConfig.nav[this.slice] || []
+      );
     },
 
     nav() {
@@ -115,13 +111,19 @@ export default {
 
 <style lang="stylus">
 .nav-links {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin-left: 1.2em;
+    margin-right: 1.2em;
+  }
 
   a {
     line-height: 1.4rem;
     color: inherit;
-    display: inline-block !important;
 
+    // display: inline-block !important;
     &:hover, &.router-link-active {
       color: $accentColor;
     }
@@ -130,8 +132,9 @@ export default {
   .nav-item {
     position: relative;
     display: inline-block;
-    margin-left: 1.5rem;
-    line-height: 2rem
+    // margin-left: 1.5rem;
+    // margin-right: 1.5rem;
+    line-height: 2rem;
 
     &:first-child {
       margin-left: 0;
@@ -140,6 +143,14 @@ export default {
 
   .repo-link {
     margin-left: 0.75rem;
+  }
+
+  .docs-version {
+    .dropdown-title, .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.2em;
+    }
   }
 }
 
@@ -151,7 +162,7 @@ export default {
   }
 
   .nav-links {
-    margin-left: 3rem;
+    margin-left: 0.1rem;
   }
 }
 

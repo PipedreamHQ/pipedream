@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/wordpress_org",
+  "version": "0.3.5",
+  "description": "Pipedream Wordpress.org Components",
+  "main": "wordpress_org.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wordpress_org"
+  ],
+  "homepage": "https://pipedream.com/apps/wordpress_org",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "wpapi": "^1.2.2"
+  },
+  "gitHead": "c351fb656d3754e65ef977f0d62e61967b4dc356",
+  "publishConfig": {
+    "access": "public"
+  }
+}

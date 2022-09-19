@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/pointagram",
+  "version": "0.0.2",
+  "description": "Pipedream Pointagram Components",
+  "main": "pointagram.app.js",
+  "keywords": [
+    "pipedream",
+    "pointagram"
+  ],
+  "homepage": "https://pipedream.com/apps/pointagram",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

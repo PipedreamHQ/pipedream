@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/squarespace",
+  "version": "0.0.2",
+  "description": "Pipedream Squarespace Components",
+  "main": "squarespace.app.js",
+  "keywords": [
+    "pipedream",
+    "squarespace"
+  ],
+  "homepage": "https://pipedream.com/apps/squarespace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "dayjs": "^1.11.3"
+  }
+}

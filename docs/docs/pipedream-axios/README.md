@@ -4,7 +4,7 @@
 
 ## Why `@pipedream/platform` axios?
 
-`axios` is an HTTP client for Node.js ([see these docs](/workflows/steps/code/nodejs/http-requests/) for usage examples).
+`axios` is an HTTP client for Node.js ([see these docs](/code/nodejs/http-requests/) for usage examples).
 
 `axios` has a simple programming API and works well for most use cases. But its default error handling behavior isn't easy to use. When you make an HTTP request and the server responds with an error code in the 4XX or 5XX range of status codes, `axios` returns this stack trace:
 

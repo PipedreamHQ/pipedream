@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/oncehub",
+  "version": "0.0.2",
+  "description": "Pipedream OnceHub Components",
+  "main": "dist/app/oncehub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oncehub"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/oncehub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

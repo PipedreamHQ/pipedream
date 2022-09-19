@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/amplenote",
+  "version": "0.0.2",
+  "description": "Pipedream Amplenote Components",
+  "main": "dist/app/amplenote.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amplenote"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/amplenote",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

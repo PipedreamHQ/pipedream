@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/xendit",
+  "version": "0.0.2",
+  "description": "Pipedream Xendit Components",
+  "main": "dist/app/xendit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "xendit"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/xendit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

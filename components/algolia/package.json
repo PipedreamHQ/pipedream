@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/algolia",
+  "version": "0.0.2",
+  "description": "Pipedream Algolia Components",
+  "main": "algolia.app.js",
+  "keywords": [
+    "pipedream",
+    "algolia"
+  ],
+  "homepage": "https://pipedream.com/apps/algolia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.13.1"
+  }
+}

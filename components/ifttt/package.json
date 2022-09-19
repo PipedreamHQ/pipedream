@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/ifttt",
+  "version": "0.3.5",
+  "description": "Pipedream IFTTT Components",
+  "main": "ifttt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ifttt"
+  ],
+  "homepage": "https://pipedream.com/apps/ifttt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/circle",
+  "version": "0.0.2",
+  "description": "Pipedream Circle Components",
+  "main": "dist/app/circle.app.mjs",
+  "keywords": [
+    "pipedream",
+    "circle"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/circle",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

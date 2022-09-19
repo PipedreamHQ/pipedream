@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/yr",
+  "version": "0.0.2",
+  "description": "Pipedream Yr Components",
+  "main": "dist/app/yr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yr"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/yr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

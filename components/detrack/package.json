@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/detrack",
+  "version": "0.0.2",
+  "description": "Pipedream DeTrack Components",
+  "main": "dist/app/detrack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "detrack"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/detrack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

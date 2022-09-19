@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/twilio",
-    "version": "0.3.3",
-    "description": "Pipedream Twilio Components",
-    "main": "twilio.app.js",
-    "keywords": [
-        "pipedream",
-        "twilio"
-    ],
-    "homepage": "https://pipedream.com/apps/twilio",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "twilio": "^3.54.2"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/twilio",
+  "version": "0.3.4",
+  "description": "Pipedream Twilio Components",
+  "main": "twilio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "twilio"
+  ],
+  "homepage": "https://pipedream.com/apps/twilio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "twilio": "^3.54.2"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

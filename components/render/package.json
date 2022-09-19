@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/render",
+  "version": "0.0.2",
+  "description": "Pipedream Render Components",
+  "main": "dist/app/render.app.mjs",
+  "keywords": [
+    "pipedream",
+    "render"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/render",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

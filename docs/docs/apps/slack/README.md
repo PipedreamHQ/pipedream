@@ -1,6 +1,6 @@
 # Slack
 
-The Pipedream Slack app enables you to build event-driven workflows that interact with the Slack API. When you authorize the Pipedream app's access to your workspace, you can use [Pipedream workflows](/workflows/) to perform common Slack [actions](#workflow-actions), or [write your own code](/workflows/steps/code/) against the Slack API.
+The Pipedream Slack app enables you to build event-driven workflows that interact with the Slack API. When you authorize the Pipedream app's access to your workspace, you can use [Pipedream workflows](/workflows/) to perform common Slack [actions](#workflow-actions), or [write your own code](/code/) against the Slack API.
 
 The Pipedream Slack app is not a typical app. You don't interact with it directly as a bot, and it doesn't add custom functionality to your workspace out of the box. It just makes it easier to automate anything you'd typically use the Slack API for, using Pipedream workflows. 
 
@@ -29,7 +29,7 @@ You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/
 
 ## Workflow Actions
 
-[Actions](/components/actions/) are reusable code steps that wrap common operations for an API. Pipedream provides Slack actions for sending a message, setting a channel topic, adding reminders, and more.
+[Actions](/components#actions) are reusable code steps that wrap common operations for an API. Pipedream provides Slack actions for sending a message, setting a channel topic, adding reminders, and more.
 
 ## Privacy Policy
 

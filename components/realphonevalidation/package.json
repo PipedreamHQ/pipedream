@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/realphonevalidation",
+  "version": "0.0.2",
+  "description": "Pipedream RealPhoneValidation Components",
+  "main": "dist/app/realphonevalidation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "realphonevalidation"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/realphonevalidation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

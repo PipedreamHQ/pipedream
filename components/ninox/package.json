@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ninox",
+  "version": "0.0.2",
+  "description": "Pipedream Ninox Components",
+  "main": "dist/app/ninox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ninox"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/ninox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

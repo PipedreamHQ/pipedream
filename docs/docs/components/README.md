@@ -4,9 +4,13 @@
 
 ## What are Components?
 
-Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
+Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
 
 Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components) or you can author and share your own.
+
+::: tip
+Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/components/typescript/).
+:::
 
 ## Component Types
 
@@ -14,13 +18,13 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 
 ### Sources
 
-[Sources](/event-sources/) must be instantiated and they run as independent resources on Pipedream. They are commonly used as workflow triggers (but can also be used as standalone serverless functions).
+[Sources](/sources/) must be instantiated and they run as independent resources on Pipedream. They are commonly used as workflow triggers (but can also be used as standalone serverless functions).
 
 **Capabilities**
 
 - Accept user input on deploy via `props`
 - [Trigger](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
-- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/overview/)
+- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/)
 - Store and retrieve state using the [built-in key-value store](api/#db) 
 - Use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
 - Deploy via Pipedream's UI, CLI or API
@@ -74,7 +78,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api/) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
 
 ## Sharing Components
 

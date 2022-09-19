@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/pinterest",
+  "version": "0.0.2",
+  "description": "Pipedream Pinterest Components",
+  "main": "pinterest.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pinterest"
+  ],
+  "homepage": "https://pipedream.com/apps/pinterest",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "url-exist": "^3.0.0",
+    "js-base64": "^3.7.2",
+    "mime-types": "^2.1.35",
+    "axios": "^0.27.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/zendesk",
+  "version": "0.3.4",
+  "description": "Pipedream Zendesk Components",
+  "main": "zendesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zendesk"
+  ],
+  "homepage": "https://pipedream.com/apps/zendesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.9.0",
+    "crypto": "^1.0.1"
+  }
+}

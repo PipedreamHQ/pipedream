@@ -5,7 +5,7 @@ next: false
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/components/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
 To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
 
@@ -28,9 +28,10 @@ Users on the Developer Tier have access to community support, on [our forum](htt
 The Professional Tier includes all the features of the Developer Tier. It also comes with the following benefits:
 
 - **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
-- When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
-
-Pipedream will be adding more features to the Professional tier over time.
+- Your event history per workflow increases from {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}} to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}}.
+- You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
+- You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
+- When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
 
 ### Upgrading to the Professional Tier
 
@@ -46,11 +47,11 @@ Users on the Professional Tier have access to community support, on [our forum](
 
 ## Team Plan
 
-You can create as many [organizations](/orgs) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
+You can create as many [organizations](/orgs/) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
 
-Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please reach out about an [Enterprise Plan](#enterprise-plan).
+Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
 
-The Team Plan also includes all of the features of the Professional Plan.
+The Team Plan includes all of the features of the Professional Plan. Additionally, you have access to a [Pipedream-provided HTTP proxy](/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
 
 ### Upgrading to the Team Plan
 
@@ -65,6 +66,17 @@ See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing i
 Teams have access to support from the Pipedream team via email or a shared Slack channel between our organizations. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Enterprise Plan
+
+Enterprise plans are great for larger organizations or teams that have specific requirements, like SSO support or an SLA. 
+
+Enterprise plans are custom to each customer, but typically include:
+
+- Custom invocations, users, and orgs
+- SSO support (GSuite and [Okta](/orgs/sso/okta/))
+- [A 99.95% uptime SLA](https://pipedream.com/sla)
+- Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
+- Premium support: onboarding, ongoing training, and anything your team needs to be successful
+- Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 
@@ -84,6 +96,45 @@ If an event emitted by an event source triggers a single workflow, that will cou
 
 Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
 
+#### Scenarios
+
+::: details Webhook triggered workflow
+
+*1* invocation is incurred per HTTP webhook. The HTTP endpoint is *not* considered a source.
+
+:::
+
+::: details Scheduled workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: a schedule triggered workflow is configured to run every 15 minutes. Two invocations are incurred every 15 minutes. One from the timer source emitting an event, and the other from the workflow processing the event.
+
+```
+2 invocations * 15 minutes * 4 times per hour * 24 hours in a day = 2,880 daily invocations
+```
+
+:::
+
+::: details App webhook powered source triggered workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: an _Slack New Message in Channel (Instant)_ source receives a webhook from Slack when a new message is received in a channel. Two total invocations are incurred, one from the Slack source emitting the message event, the other from the workflow processing the event.
+
+:::
+
+::: details App polling source triggered workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: a _Twitter Search Tweets_ source checks finds a new tweet published. Two total invocations are incurred, one from the source emitting the tweet event, the other for the workflow processing the event.
+
+:::
+
 ### Compute Time
 
 Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
@@ -96,7 +147,7 @@ Many of the usage statistics for paid users are tied to a **billing period**. Yo
 
 For example, if you sign up on Jan 1st, your first billing period will last one month, ending around Feb 1st, at which point you'll start a new billing period.
 
-Your invoices are tied to your billing period. [Read more about invoicing / billing here](/#when-am-i-invoiced-billed).
+Your invoices are tied to your billing period. [Read more about invoicing / billing here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ### Base Invocations Quota
 
@@ -104,7 +155,7 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 ### Additional Billable Invocations
 
-Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed).
+Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ## FAQ
 
@@ -132,9 +183,13 @@ When you upgrade to the Professional tier, Stripe will immediately charge your p
 
 If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
 
+### Do any plans support payment by invoice, instead of credit / debit card?
+
+Yes, Pipedream can issue invoices on the Enterprise Plan. Invoices are paid annually.
+
 ### How does Pipedream secure my credit card data?
 
-Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/privacy-and-security/#payment-processor) for more information.
 
 ### Are unused invocations rolled over from one period to the next?
 

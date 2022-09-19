@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/signwell",
+  "version": "0.0.2",
+  "description": "Pipedream SignWell  Components",
+  "main": "dist/app/signwell.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signwell"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/signwell",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

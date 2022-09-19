@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/nextdns",
+  "version": "0.0.2",
+  "description": "Pipedream NextDNS Components",
+  "main": "dist/app/nextdns.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nextdns"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/nextdns",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

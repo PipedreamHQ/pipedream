@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/clickup",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Pipedream Clickup Components",
-  "main": "clickup.app.js",
+  "main": "clickup.app.mjs",
   "keywords": [
     "pipedream",
     "clickup"
@@ -10,11 +10,13 @@
   "homepage": "https://pipedream.com/apps/clickup",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "axios-retry": "^3.1.9"
-  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "crypto": "^1.0.1",
+    "lodash": "^4.17.21"
   }
 }

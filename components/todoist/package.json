@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/todoist",
+  "version": "0.0.2",
+  "description": "Pipedream Todoist Components",
+  "main": "todoist.app.mjs",
+  "keywords": [
+    "pipedream",
+    "todoist"
+  ],
+  "homepage": "https://pipedream.com/apps/todoist",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "querystring": "^0.2.1",
+    "uuid": "^8.3.2",
+    "tmp-promise": "^3.0.3",
+    "json-2-csv": "^3.15.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

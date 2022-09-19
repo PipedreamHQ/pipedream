@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/godial",
+  "version": "0.0.2",
+  "description": "Pipedream GoDial Components",
+  "main": "dist/app/godial.app.mjs",
+  "keywords": [
+    "pipedream",
+    "godial"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/godial",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

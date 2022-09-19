@@ -12,7 +12,10 @@ function checkKeys(p, nameSlug) {
   const names = fs.readdirSync(p);
   for (const name of names) {
     const pp = path.join(p, name);
-    if (name.endsWith(".mjs") || name.endsWith(".js")) {
+    if (name === "node_modules") {
+      continue;
+    }
+    if (name.endsWith(".mjs") || name.endsWith(".js") || name.endsWith(".ts") || name.endsWith(".mts")) {
       const data = fs.readFileSync(pp, "utf8");
       const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
       if (md) {
@@ -37,11 +40,27 @@ for (const name of dirs) {
   const subnames = fs.readdirSync(p);
   let nameSlug;
   for (const subname of subnames) {
-    if (subname.endsWith(".app.mjs") || subname.endsWith(".app.js")) {
+    if (subname === "node_modules") {
+      continue;
+    }
+    // Some app files are in the root of the component dir, not in a subdir
+    if (subname.endsWith(".app.mjs") || subname.endsWith(".app.js") || subname.endsWith(".app.mts") || subname.endsWith(".app.ts")) {
       const appPath = path.join(p, subname);
       const data = fs.readFileSync(appPath, "utf8");
       const md = data.match(/['"]?app['"]?: ['"]([^'"]+)/);
       nameSlug = md[1];
+    } 
+    // Some app files are kept in the app dir
+    if (subname === "app") {
+      const appDir = path.join(p, subname);
+      const appFiles = fs.readdirSync(appDir);
+      for (const appFile of appFiles) {
+        if (appFile.endsWith(".mjs") || appFile.endsWith(".js") || appFile.endsWith(".mts") || appFile.endsWith(".ts")) {
+          const data = fs.readFileSync(path.join(appDir, appFile), "utf8");
+          const md = data.match(/['"]?app['"]?: ['"]([^'"]+)/);
+          nameSlug = md[1];
+        }
+      }
     }
   }
   if (!nameSlug) {

@@ -1,16 +1,16 @@
 # Strava
 
-Pipedream provides a serverless programming platform for building event-driven [workflows](/workflows/) that integrate apps. Pipedream comes with [prebuilt actions](/components/actions/) for interacting with the Strava API, and allows you to listen for Strava events in your account and trigger code when they happen.
+Pipedream provides a serverless programming platform for building event-driven [workflows](/workflows/) that integrate apps. Pipedream comes with [prebuilt actions](/components#actions) for interacting with the Strava API, and allows you to listen for Strava events in your account and trigger code when they happen.
 
-Pipedream is fully programmable - you can write [any Node.js code](/workflows/steps/code/) to control your workflows - but also fully-managed: Pipedream runs your code, so you don't have to manage any infrastructure and can focus on your workflow's logic.
+Pipedream is fully programmable - you can write [any code](/code/) to control your workflows - but also fully-managed: Pipedream runs your code, so you don't have to manage any infrastructure and can focus on your workflow's logic.
 
 [[toc]]
 
 ## Overview
 
-**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Strava API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Strava [actions](/components/actions/) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc).
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Strava API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Strava [actions](/components#actions) or [write your own code](/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc).
 
-**Pipedream [**event sources**](/event-sources/) expose real-time event streams for [Strava events](#strava-events-event-sources)** - just connect your Strava account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Strava. For example, to run a workflow each time you complete a new activity, you can create an **Activity Created** source. This source emits an event when you add a new activity to Strava, which can trigger a workflow that [sends the activity data to Slack](https://pipedream.com/@dylan/send-new-strava-activities-to-slack-p_5VCBKZ/edit), [stores it in a Google sheet](https://pipedream.com/@dylan/store-new-strava-activity-data-in-a-google-spreadsheet-p_D1CvkG/edit), or anything else you'd like.
+**Pipedream [**event sources**](/sources/) expose real-time event streams for [Strava events](#strava-events-event-sources)** - just connect your Strava account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Strava. For example, to run a workflow each time you complete a new activity, you can create an **Activity Created** source. This source emits an event when you add a new activity to Strava, which can trigger a workflow that [sends the activity data to Slack](https://pipedream.com/@dylan/send-new-strava-activities-to-slack-p_5VCBKZ/edit), [stores it in a Google sheet](https://pipedream.com/@dylan/store-new-strava-activity-data-in-a-google-spreadsheet-p_D1CvkG/edit), or anything else you'd like.
 
 You can also subscribe to a [private SSE stream](/api/sse/) that lets you listen for these events **in your own application**, in real time. This allows you to use Pipedream to host the event source, which can trigger existing code in your own infrastructure (vs. a Pipedream workflow).
 

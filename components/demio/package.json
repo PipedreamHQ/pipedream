@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/demio",
+  "version": "0.0.3",
+  "description": "Pipedream Demio Components",
+  "main": "demio.app.js",
+  "keywords": [
+    "pipedream",
+    "demio"
+  ],
+  "homepage": "https://pipedream.com/apps/demio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "dayjs": "^1.11.2"
+  }
+}

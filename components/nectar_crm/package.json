@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/nectar_crm",
+  "version": "0.0.2",
+  "description": "Pipedream Nectar CRM Components",
+  "main": "dist/app/nectar_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nectar_crm"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/nectar_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

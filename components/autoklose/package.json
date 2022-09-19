@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/autoklose",
+  "version": "0.0.2",
+  "description": "Pipedream Autoklose Components",
+  "main": "dist/app/autoklose.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autoklose"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/autoklose",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

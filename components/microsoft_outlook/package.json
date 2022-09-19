@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/microsoft_outlook",
+  "version": "0.0.4",
+  "description": "Pipedream Microsoft Outlook Components",
+  "main": "microsoft_outlook.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_outlook",
+    "microsoft",
+    "outlook"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_outlook",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "js-base64": "^3.7.2",
+    "mime-types": "^2.1.35"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

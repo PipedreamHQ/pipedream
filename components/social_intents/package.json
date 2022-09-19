@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/social_intents",
+  "version": "0.0.2",
+  "description": "Pipedream Social Intents Components",
+  "main": "dist/app/social_intents.app.mjs",
+  "keywords": [
+    "pipedream",
+    "social_intents"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/social_intents",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

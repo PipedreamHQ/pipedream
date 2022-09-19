@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-list-invoices",
   name: "List Invoices",
   type: "action",
-  version: "0.0.1",
-  description: "Find or list invoices",
+  version: "0.0.2",
+  description: "Find or list invoices. [See the docs](https://stripe.com/docs/api/invoices/list) " +
+    "for more information",
   props: {
     stripe,
     customer: {
@@ -19,6 +20,12 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
+        ({
+          customer, price,
+        }) => ({
+          customer,
+          price,
+        }),
       ],
     },
     status: {
@@ -40,16 +47,18 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "customer",
       "subscription",
       "status",
       "collection_method",
     ]);
-    return await this.stripe.sdk().invoices.list(params)
+    const resp = await this.stripe.sdk().invoices.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+    $.export("$summary", "Successfully fetched invoices");
+    return resp;
   },
 };

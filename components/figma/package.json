@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/figma",
+  "version": "0.0.2",
+  "description": "Pipedream Figma Components",
+  "main": "figma.app.js",
+  "keywords": [
+    "pipedream",
+    "figma"
+  ],
+  "homepage": "https://pipedream.com/apps/figma",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

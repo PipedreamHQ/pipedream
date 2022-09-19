@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/ip2whois",
+  "version": "0.3.4",
+  "description": "Pipedream Ip2whois Components",
+  "main": "ip2whois.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ip2whois"
+  ],
+  "homepage": "https://pipedream.com/apps/ip2whois",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

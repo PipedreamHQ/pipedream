@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/linear_app",
+  "version": "0.4.1",
+  "description": "Pipedream Linear_app Components",
+  "main": "linear_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "linear_app"
+  ],
+  "homepage": "https://pipedream.com/apps/linear_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@linear/sdk": "^1.22.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

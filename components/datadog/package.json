@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/datadog",
+  "version": "0.1.1",
+  "description": "Pipedream Datadog Components",
+  "main": "datadog.app.mjs",
+  "keywords": [
+    "pipedream",
+    "datadog"
+  ],
+  "homepage": "https://pipedream.com/apps/datadog",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}

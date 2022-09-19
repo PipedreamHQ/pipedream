@@ -29,7 +29,7 @@ curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
-Learn more about [API authentication](/api/auth)
+Learn more about [API authentication](/api/auth/)
 
 ## Required headers
 
@@ -70,6 +70,20 @@ including all fields). Pass as a string of comma-separated values:
 `comma,separated,fields,to,include`
 
 ---
+
+`org_id` **string**
+
+Some endpoints require you to specify [the org ID](/orgs/#finding-your-organization-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+
+[Find your org's ID here](/orgs/#finding-your-organization-s-id).
+
+## Working with resources owned by an organization
+
+If you're interacting with resources owned by an [organization](/orgs/), you may need to specify the org ID as a part of the request's query string parameter or route:
+
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your org's ID. If your user is a part of the org, you should have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
+- When _listing_ resources, use [the org-specific endpoints here](#organizations).
 
 ## Pagination
 
@@ -504,7 +518,7 @@ GET /orgs/<org_id>/subscriptions
 
 `org_id` **string**
 
-[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
 
 #### Example Request
 
@@ -534,11 +548,65 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
 }
 ```
 
+### Get Org's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
 webhooks, emitting those events for use on Pipedream. Event sources can function
-as workflow triggers. [Read more here](/event-sources/).
+as workflow triggers. [Read more here](/sources/).
 
 ### List Current User Sources
 
@@ -792,13 +860,19 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 `event_name` **string** (optional)
 
-The name of the event stream whose events you'd like to receive:
+**Only pass `event_name` when you're listening for events on a custom channel, with the name of the custom channel**:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+```
+event_name=<custom_channel>
+```
+
+See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+
+Pipedream also exposes channels for logs and errors:
+
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -858,11 +932,9 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 
 The name of the event stream whose events you'd like to receive:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -982,12 +1054,12 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own.
 Webhooks are managed at an account-level, and you send data to these webhooks
 using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources) that listens
+For example, you can run a Twitter [event source](/sources/) that listens
 for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
 
-[**See these tutorials**](/api/rest/webhooks) for examples.
+[**See these tutorials**](/api/rest/webhooks/) for examples.
 
 ### Create a webhook
 
@@ -1079,6 +1151,37 @@ creating [subscriptions](#subscriptions).
 
 You can list webhooks you've created in your account using the
 [`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
+
+### Delete a webhook
+
+---
+
+Use this endpoint to delete a webhook in your account.
+
+#### Endpoint
+
+```
+DELETE /webhooks/{id}
+```
+
+#### Path Parameters
+
+---
+
+`id` **string**
+
+The ID of a webhook in your account.
+
+---
+
+#### Example Request
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
 
 ## Workflows
 

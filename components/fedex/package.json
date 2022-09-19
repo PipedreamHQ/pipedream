@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/fedex",
+  "version": "0.0.2",
+  "description": "Pipedream FedEx Components",
+  "main": "dist/app/fedex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fedex"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/fedex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

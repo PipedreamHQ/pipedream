@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/godaddy",
+  "version": "0.0.2",
+  "description": "Pipedream GoDaddy Components",
+  "main": "dist/app/godaddy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "godaddy"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/godaddy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

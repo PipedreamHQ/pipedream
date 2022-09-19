@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/emailoctopus",
+  "version": "0.0.2",
+  "description": "Pipedream Emailoctopus Components",
+  "main": "emailoctopus.app.js",
+  "keywords": [
+    "pipedream",
+    "emailoctopus"
+  ],
+  "homepage": "https://pipedream.com/apps/emailoctopus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

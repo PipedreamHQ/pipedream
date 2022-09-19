@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sender",
+  "version": "0.0.2",
+  "description": "Pipedream Sender Components",
+  "main": "dist/app/sender.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sender"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/sender",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

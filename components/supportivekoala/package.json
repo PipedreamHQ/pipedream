@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/supportivekoala",
+  "version": "0.0.2",
+  "description": "Pipedream Supportivekoala Components",
+  "main": "supportivekoala.app.js",
+  "keywords": [
+    "pipedream",
+    "supportivekoala"
+  ],
+  "homepage": "https://pipedream.com/apps/supportivekoala",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}

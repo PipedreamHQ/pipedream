@@ -1,21 +1,21 @@
 {
-    "name": "@pipedream/typeform",
-    "version": "0.3.3",
-    "description": "Pipedream Typeform Components",
-    "main": "typeform.app.js",
-    "keywords": [
-        "pipedream",
-        "typeform"
-    ],
-    "homepage": "https://pipedream.com/apps/typeform",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "querystring": "^0.2.0"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/typeform",
+  "version": "0.3.4",
+  "description": "Pipedream Typeform Components",
+  "main": "typeform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "typeform"
+  ],
+  "homepage": "https://pipedream.com/apps/typeform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "querystring": "^0.2.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

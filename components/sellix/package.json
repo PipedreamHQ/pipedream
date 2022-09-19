@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sellix",
+  "version": "0.0.2",
+  "description": "Pipedream Sellix Components",
+  "main": "dist/app/sellix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sellix"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/sellix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/typebot",
+  "version": "0.0.2",
+  "description": "Pipedream Typebot Components",
+  "main": "dist/app/typebot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "typebot"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/typebot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

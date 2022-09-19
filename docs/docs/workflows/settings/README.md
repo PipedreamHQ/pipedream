@@ -1,18 +1,27 @@
-# Workflow Settings
+# Settings
 
-You can control workflow-specific settings in the **Settings** header, just above your workflow's code.
+You can control workflow-specific settings in your workflow's **Settings**:
 
-<div>
-<img alt="Workflow settings" src="./images/workflow-settings.png">
-</div>
+1. Visit your workflow
+2. Select the *...* menu at the top-right and click **Settings**:
+
+<br />
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif" alt="Click on the ... menu at the top-right and select Settings" width="300px">
+<br />
 
 [[toc]]
 
-## Errors
+## Enable Workflow
 
-By default, any errors raised in a workflow are sent to the **Global Error Workflow**. This workflow sends you an email with the details of this error, once per error, per workflow, per 24-hour period. 
+If you'd like to pause your workflow from executing completely, you can disable it or reenable it here.
 
-But the Global Error Workflow is just another workflow, and lives in your account. So you can modify it however you'd like. For example, you can send errors to Slack, or send critical issues to Pagerduty, or log all errors to a table in the [SQL service](/destinations/sql/) for later analysis.
+## Error Handling
+
+By default, you'll receive notifications when your workflow throws an unhandled error. See the [error docs](/workflows/errors/) for more detail on these notifications. 
+
+You can disable these notifications for your workflow by disabling the **Notify me on errors** toggle:
+
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle">
 
 ## Execution Controls
 
@@ -30,22 +39,18 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 
 ### Concurrency and Throttling
 
-[Manage the concurrency and rate](/workflows/events/concurrency-and-throttling/) at which events from a source trigger your workflow code.
-
-## Current checkpoint values
-
-If you're using [`$checkpoint`](/workflows/steps/code/#workflow-level-state-checkpoint) or [`this.$checkpoint`](/workflows/steps/code/#step-level-state-this-checkpoint) to manage state in your workflow, you can view their values here. You can also modify the values or clear the whole contents of a given checkpoint.
+[Manage the concurrency and rate](/workflows/concurrency-and-throttling/) at which events from a source trigger your workflow code.
 
 ## Attachments
 
-Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow using the `$attachments` object.
+Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow under the `steps.trigger.context.attachments` object.
 
-For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `$attachments["test.csv"]`. You can read the contents of the file using `fs.readFileSync`:
+For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `steps.trigger.context.attachments["test.csv"]`. You can read the contents of the file using `fs.readFileSync`:
 
 ```javascript
 import fs from "fs";
 
-const fileData = fs.readFileSync($attachments["test.csv"]).toString();
+const fileData = fs.readFileSync(steps.trigger.context.attachments["test.csv"]).toString();
 console.log(fileData);
 ```
 

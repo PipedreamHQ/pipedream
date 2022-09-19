@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/mailjet",
+  "version": "0.4.1",
+  "description": "Pipedream Mailjet Components",
+  "main": "mailjet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailjet"
+  ],
+  "homepage": "https://pipedream.com/apps/mailjet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "node-mailjet": "^3.3.13"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -40,7 +40,7 @@ Searching for sources matching http
 Deletes an event source. Run:
 
 ```
-pd describe <source-id-or-name>
+pd delete <source-id-or-name>
 ```
 
 Run `pd list so` to display a list of your event sources.
@@ -137,7 +137,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/components/actions/) from a template.
+Creates a new directory and [a component action](/components#actions) from a template.
 
 ```
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -146,7 +146,7 @@ pd init action add-new-event
 
 #### `pd init source`
 
-Creates a new directory and [an event source](/event-sources/) from a template.
+Creates a new directory and [an event source](/sources/) from a template.
 
 ```
 # Creates cancelled-event/ directory and cancelled_event.mjs file
@@ -155,11 +155,11 @@ pd init source cancelled-event
 
 You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
 
-| Prop type        | Flag           |
-| ------------- |-------------|
-| Database      | `--db` |
-| HTTP      | `--http`      |
-| Timer | `--timer`      |
+| Prop type | Flag      |
+| --------- | --------- |
+| Database  | `--db`    |
+| HTTP      | `--http`  |
+| Timer     | `--timer` |
 
 For example, running:
 
@@ -221,7 +221,7 @@ pd logout -p <profile>
 
 Event sources produce logs that can be useful for troubleshooting issues with that source. `pd logs` displays logs for a source.
 
-Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/event-sources/logs/), displaying new logs as the source produces them.
+Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/sources/logs/), displaying new logs as the source produces them.
 
 Any errors thrown by the source will also appear here.
 

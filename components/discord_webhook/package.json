@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/discord_webhook",
+  "version": "1.0.1",
+  "description": "Pipedream Discord_Webook Components",
+  "main": "discord_webhook.app.mjs",
+  "keywords": [
+    "pipedream",
+    "discord_webhook"
+  ],
+  "homepage": "https://pipedream.com/apps/discord_webhook",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "form-data": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

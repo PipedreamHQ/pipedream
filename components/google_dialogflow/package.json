@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/google_dialogflow",
+  "version": "0.0.2",
+  "description": "Pipedream Google Dialogflow Components",
+  "main": "google_dialogflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "Google",
+    "Dialogflow",
+    "Google_Dialogflow"
+  ],
+  "homepage": "https://pipedream.com/apps/google_dialogflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/dialogflow": "^5.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

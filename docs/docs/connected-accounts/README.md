@@ -1,5 +1,7 @@
 # Connected Accounts
 
+<VideoPlayer title="Connecting accounts to Pipedream" url="https://www.youtube.com/embed/xmDD1wRWnp0" />
+
 Pipedream allows you to connect accounts for various apps and services within our UI. Once you connect an account, you can link that account to any step of a workflow, and use the OAuth access tokens, API key, or other auth info to make API requests to the desired service.
 
 For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
@@ -7,18 +9,28 @@ For example, you can connect to Slack from Pipedream (via their OAuth integratio
 ```javascript
 import { WebClient } from '@slack/web-api';
 
-const web = new WebClient(auths.slack.oauth_access_token)
-return await web.chat.postMessage({
-  text: "Hello, world!",
-  channel: "#general",
-})
+defineComponent({
+  props: {
+    slack: {
+      type: 'app',
+      app: 'slack'
+    }
+  },
+  async run({ steps, $ }) {
+    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    return await web.chat.postMessage({
+      text: "Hello, world!",
+      channel: "#general",
+    })
+  })
+});
 ```
 
 [[toc]]
 
 ## Supported Apps
 
-Pipedream supports [400+ apps](https://pipedream.com/apps), with more added every day.
+Pipedream supports [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps), with more added every day.
 
 If we don't support a service you need, please [request an app here](#requesting-a-new-app-or-service).
 
@@ -37,12 +49,7 @@ If you've already connected an account for this app, you'll also see a list of e
 
 ### From a code step
 
-You can connect accounts to code steps, too:
-
-1. Click the **+** button to the left of any step.
-2. Search for your app from the list.
-
-Selecting an app will present the same **Connect Account** button you'll see for actions.
+You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/code/nodejs/auth/).
 
 ## Managing Connected Accounts from Apps
 
@@ -75,7 +82,7 @@ If you encounter errors in a step that appear to be related to credentials / aut
 
 For services that support OAuth, Pipedream operates an OAuth application that mediates access to the service so you don't have to maintain your own app, store refresh and access tokens, and more.
 
-When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can access these tokens [in code steps](/workflows/steps/code/auth/).
+When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can [access these tokens in code steps](/code/nodejs/auth/).
 
 ### Key-based
 

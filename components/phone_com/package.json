@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/phone_com",
+  "version": "0.0.2",
+  "description": "Pipedream Phone.com Components",
+  "main": "dist/app/phone_com.app.mjs",
+  "keywords": [
+    "pipedream",
+    "phone_com"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/phone_com",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

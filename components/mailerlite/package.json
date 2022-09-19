@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/mailerlite",
+  "version": "1.0.1",
+  "description": "Pipedream Mailerlite Components",
+  "main": "mailerlite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailerlite"
+  ],
+  "homepage": "https://pipedream.com/apps/mailerlite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "lodash.pickby": "^4.6.0",
+    "mailerlite-api-v2-node": "^1.2.0"
+  }
+}

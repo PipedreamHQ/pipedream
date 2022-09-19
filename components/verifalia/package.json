@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/verifalia",
+  "version": "1.0.3",
+  "description": "Pipedream Verifalia Components",
+  "main": "verifalia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "verifalia"
+  ],
+  "homepage": "https://verifalia.com/",
+  "author": "Verifalia <support@verifalia.com> (https://verifalia.com/)",
+  "contributors": [
+    "Efran Cobisi (https://verifalia.com/)"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "verifalia": "3.2.2"
+  }
+}

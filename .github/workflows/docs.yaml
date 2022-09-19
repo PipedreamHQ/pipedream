@@ -1,0 +1,37 @@
+name: Pull Request Checks
+
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'docs/**'
+
+jobs:
+  check_broken_links:
+    name: Ensure no broken links end up in docs
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3.0.2
+      name: Checkout repo
+      with:
+        # See https://github.com/actions/checkout#checkout-v2
+        # This will be slow. The intent is to fetch all commits
+        # since the merge-base (the commit where we branched off)
+        # so we can check the git diff against all changed files.
+        # By default, the checkout action only returns the last commit,
+        # There's no native way to do this in the checkout action, so 
+        # we have to fetch the entire history. See
+        # https://github.com/actions/checkout/issues/266#issuecomment-638346893
+        fetch-depth: 0
+    - name: Install docs deps and check broken links
+      run: |-
+        cd docs
+        yarn install
+        npx vuepress check-md docs/

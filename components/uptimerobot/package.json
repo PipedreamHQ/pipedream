@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/uptimerobot",
+  "version": "0.0.2",
+  "description": "Pipedream UptimeRobot Components",
+  "main": "dist/app/uptimerobot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uptimerobot"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/uptimerobot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

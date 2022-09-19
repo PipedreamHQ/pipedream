@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/clearbit",
+  "version": "0.0.2",
+  "description": "Pipedream Clearbit Components",
+  "main": "clearbit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clearbit"
+  ],
+  "homepage": "https://pipedream.com/apps/clearbit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  }
+}

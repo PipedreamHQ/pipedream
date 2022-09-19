@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/shippotoken",
+  "version": "0.0.2",
+  "description": "Pipedream ShippoToken Components",
+  "main": "dist/app/shippotoken.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shippotoken"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/shippotoken",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

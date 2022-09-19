@@ -1,4 +1,4 @@
-# Troubleshooting
+# Troubleshooting Common Issues
 
 This doc describes some common solutions for fixing issues with [pipedream.com](https://pipedream.com) or with a specific workflow.
 
@@ -28,6 +28,35 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
+## Why am I seeing more than one invocation charged each time my workflow runs?
+
+Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event. 
+
+If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
+
+Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
+
+To see your invocations broken out by resource, visit [https://pipedream.com/settings/billing?invocationsByResource=1](https://pipedream.com/settings/billing?invocationsByResource=1). This will show you the invocations charged for your workflow, event source, or other resources.
+
+## Why is my trigger not emitting events?
+
+Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
+
+### Webhook-based instant sources
+
+- These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation.
+- To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
+- For example, if you've configured the "[Message Updates (Instant)](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) Telegram source, you'll need to send a message in the Telegram account you've selected in order for an event to appear.
+![Select an event](https://res.cloudinary.com/pipedreamin/image/upload/v1653434586/docs/webhook-triggers-select-event_qj7nlp.png)
+- Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
+
+### Timer-based polling sources
+
+- These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
+![Configure polling timer](https://res.cloudinary.com/pipedreamin/image/upload/v1653434591/docs/polling-triggers-timer_ooz26c.png)
+- In most cases, Pipedream will automatically fetch recent historical events to help enable easier workflow development.
+- Sources for apps like [Twitter](https://pipedream.com/apps/twitter/triggers/search-mentions) and [Spotify](https://pipedream.com/apps/spotify/triggers/new-playlist) require we poll their endpoints in order to fetch new events.
+
 ## Where do I find my workflow's ID?
 
 Open [https://pipedream.com](https://pipedream.com) and visit your workflow. Copy the URL that appears in your browser's address bar. For example:
@@ -47,3 +76,88 @@ https://pipedream.com/sources/dc_abc123
 ```
 
 Your source's ID is the value that starts with `dc_`. In this example: `dc_abc123`.
+
+## Warnings
+
+Pipedream displays warnings below steps in certain conditions. These warnings do not stop the execution of your workflow, but can signal an issue you should be aware of.
+
+### This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.
+
+See the reference on [running asynchronous code on Pipedream](/code/nodejs/async/).
+
+## Pipedream Internal Errors
+
+Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
+
+### Invocations Quota Exceeded
+
+On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily invocations](/limits/#daily-invocations) across all workflows and sources. If you hit this limit, you'll see an **Invocations Quota Exceeded** error.
+
+Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no invocations limit. [Upgrade here](https://pipedream.com/pricing). 
+
+### Runtime Quota Exceeded
+
+On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily compute time](/limits/#compute-time-per-day) across all workflows and sources. If you hit this limit, you'll see a **Runtime Quota Exceeded** error.
+
+Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no compute time limit. [Upgrade here](https://pipedream.com/pricing).
+
+### Timeout
+
+Event sources and workflows have a [default time limit on a given execution](/limits/#time-per-execution). If your code exceeds that limit, you may encounter a **Timeout** error.
+
+To address timeouts, you'll either need to:
+
+1. Figure out why your code is running for longer than expected. It's important to note that **timeouts are not an issue with Pipedream — they are specific to your workflow**. Often, you're making a request to a third party API doesn't respond in the time you expect, or you're processing a large amount of data in your workflow, and it doesn't complete before you hit the execution limit.
+2. If it's expected that your code is taking a long time to run, you can raise the execution limit of a workflow in your [workflow's settings](/workflows/settings/#execution-timeout-limit). If you need to change the execution limit for an event source, please [reach out to our team](https://pipedream.com/support/).
+
+### Out of Memory
+
+Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error.
+
+This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
+
+**You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
+
+### Rate Limit Exceeded
+
+Pipedream limits the number of events that can be processed by a given interface (e.g. HTTP endpoints) during a given interval. This limit is most commonly reached for HTTP interfaces - see the [QPS limits documentation](/limits/#qps-queries-per-second) for more information on that limit.
+
+**This limit can be raised for HTTP endpoints**. [Reach out to our team](https://pipedream.com/support/) to request an increase.
+
+### Request Entity Too Large
+
+By default, Pipedream limits the size of incoming HTTP payloads. If you exceed this limit, you'll see a **Request Entity Too Large** error.
+
+Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits/).
+
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
+
+### Function Payload Limit Exceeded
+
+The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+
+Often, this occurs when you pass large data between steps using [step exports](/workflows/steps/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
+
+Pipedream also compresses the function payload from your workflow, which can yield roughly a 2x-3x increase in payload size (somewhere between `12MB` and `18MB`), depending on the data.
+
+### JSON Nested Property Limit Exceeded
+
+Working with nested JavaScript objects that have more than 256 nested objects will trigger a **JSON Nested Property Limit Exceeded** error.
+
+Often, objects with this many nested objects result from a programming error that explodes the object in an unexpected way. Please confirm the code you're using to convert data into an object is correctly parsing the object.
+
+### Event Queue Full
+
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
+
+[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
+
+
+### Invocation Budget Exceeded
+
+Invocation Budgets are configurable invocation limits on your invocations at the account or organization level.
+
+If you're receiving this warning on a source or workflow, this means your allocated Invocation Budget has been reached for the defined period.
+
+You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).

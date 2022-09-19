@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/uchat",
+  "version": "0.0.2",
+  "description": "Pipedream Uchat Components",
+  "main": "dist/app/uchat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uchat"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/uchat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

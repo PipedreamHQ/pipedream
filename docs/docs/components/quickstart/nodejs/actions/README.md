@@ -56,7 +56,7 @@ We recommend that you complete the examples below in order.
 
 ### hello world!
 
-The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
+The following code represents a simple component that can be published as an action ([learn more](/components/api/) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
 export default {
@@ -201,7 +201,7 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just `import` it.
 
 ```javascript
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Action Demo",
@@ -231,7 +231,7 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -246,8 +246,10 @@ export default {
     }
   },
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+    return `hello ${data.name}!`
   },
 }
 ```
@@ -255,7 +257,7 @@ export default {
 Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -265,8 +267,10 @@ export default {
   type: "action",
   props: {},
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+    return `hello ${data.name}!`
   },
 }
 ```
@@ -274,7 +278,7 @@ export default {
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-import axios from "axios"
+import { axios } from "@pipedream/platform"
 
 export default {
   name: "Action Demo",
@@ -284,8 +288,10 @@ export default {
   type: "action",
   props: {},
   async run() {
-    const response = await axios.get("https://swapi.dev/api/people/1/")
-		return `hello ${response.data.name}!`
+    const data = await axios(this, {
+      url: "https://swapi.dev/api/people/1/"
+    })
+		return `hello ${data.name}!`
   },
 }
 ```
@@ -389,6 +395,41 @@ export default {
 }
 ```
 
+In order to help users understand what's happening with each action step, we recommend surfacing a brief summary with `$summary` ([read more](/components/api/#actions) about exporting data using `$.export`).
+
+```javascript
+import { Octokit } from '@octokit/rest';
+
+export default {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.3",
+  type: "action",
+  props: {
+    github: {
+      type: "app",
+      app: "github",
+    }
+  },
+  async run({ $ }) {
+    const octokit = new Octokit({
+      auth: this.github.$auth.oauth_access_token
+    })
+    
+    const { data } = await octokit.repos.get({
+      owner: `pipedreamhq`,
+      repo: `pipedream`,
+    })
+
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
+    
+    return data;
+  },
+}
+```
+
+
 Finally, update the version to `0.0.4`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
@@ -406,15 +447,19 @@ export default {
       app: "github",
     }
   },
-  async run() {
-  	const octokit = new Octokit({
+  async run({ $ }) {
+    const octokit = new Octokit({
       auth: this.github.$auth.oauth_access_token
     })
     
-    return (await octokit.repos.get({
+    const { data } = await octokit.repos.get({
       owner: `pipedreamhq`,
       repo: `pipedream`,
-    })).data
+    })
+
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
+    
+    return data;
   },
 }
 ```
