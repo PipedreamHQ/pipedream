@@ -1,4 +1,4 @@
-import events from "./event-types.mjs";
+import events from "./common/event-types.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -94,9 +94,9 @@ export default {
   methods: {
     async _makeRequest(opts) {
       const {
-        $,
+        $ = this,
         endpoint,
-        method,
+        method = "GET",
         params,
         data,
       } = opts;
@@ -110,17 +110,17 @@ export default {
       };
       if (params) config.params = params;
       if (data) config.data = data;
-      return await axios($ ?? this, config);
+      return axios($, config);
     },
     async createHook(data) {
-      return await this._makeRequest({
+      return this._makeRequest({
         endpoint: "hooks/subscribe",
         method: "POST",
         data,
       });
     },
     async deleteHook(targetUrl) {
-      return await this._makeRequest({
+      return this._makeRequest({
         endpoint: "hooks/unsubscribe",
         method: "POST",
         data: {
@@ -128,47 +128,76 @@ export default {
         },
       });
     },
-    async getWorkspaces({ $ }) {
-      return await this._makeRequest({
-        $,
+    async getWorkspaces(args = {}) {
+      return this._makeRequest({
         endpoint: "workspaces/get",
-        method: "GET",
+        ...args,
       });
     },
     async getChannels({
-      $, workspace,
+      workspace, ...args
     }) {
-      return await this._makeRequest({
-        $,
+      return this._makeRequest({
         endpoint: "channels/get",
-        method: "GET",
         params: {
           workspace_id: workspace,
         },
+        ...args,
       });
     },
     async getThreads({
-      $, channel,
+      channel, ...args
     }) {
-      return await this._makeRequest({
-        $,
+      return this._makeRequest({
         endpoint: "threads/get",
-        method: "GET",
         params: {
           channel_id: channel,
         },
+        ...args,
       });
     },
     async getConversations({
-      $, workspace,
+      workspace, ...args
     }) {
-      return await this._makeRequest({
-        $,
+      return this._makeRequest({
         endpoint: "conversations/get",
-        method: "GET",
         params: {
           workspace_id: workspace,
         },
+        ...args,
+      });
+    },
+    async getConversationMessages({
+      conversation, ...args
+    }) {
+      return this._makeRequest({
+        endpoint: "conversation_messages/get",
+        params: {
+          conversation_id: conversation,
+        },
+        ...args,
+      });
+    },
+    async getComments({
+      thread, ...args
+    }) {
+      return this._makeRequest({
+        endpoint: "comments/get",
+        params: {
+          thread_id: thread,
+        },
+        ...args,
+      });
+    },
+    async getGroups({
+      workspace, ...args
+    }) {
+      return this._makeRequest({
+        endpoint: "groups/get",
+        params: {
+          workspace_id: workspace,
+        },
+        ...args,
       });
     },
   },

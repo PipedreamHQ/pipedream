@@ -1,11 +1,10 @@
-import twist from "../twist.app.mjs";
+import twist from "../../twist.app.mjs";
 
 export default {
   dedupe: "unique",
   props: {
     twist,
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -17,7 +16,28 @@ export default {
       ],
     },
   },
+  methods: {
+    getHistoricalEvents() {
+      throw new Error("getHistoricalEvents is not implemented");
+    },
+    getHookActivationData() {
+      throw new Error("getHookActivationData is not implemented");
+    },
+    getMeta() {
+      throw new Error("getMeta is not implemented");
+    },
+  },
   hooks: {
+    async deploy() {
+      const events = await this.getHistoricalEvents();
+      if (!events || events.length === 0) {
+        return;
+      }
+      for (const event of events.slice(0, 10)) {
+        const meta = await this.getMeta(event);
+        this.$emit(event, meta);
+      }
+    },
     async activate() {
       const data = this.getHookActivationData();
       await this.twist.createHook(data);

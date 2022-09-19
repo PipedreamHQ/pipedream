@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -9,6 +9,11 @@ export default {
   description: "Emit new event for any new channel added in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   methods: {
     ...common.methods,
+    async getHistoricalEvents() {
+      return this.twist.getChannels({
+        workspace: this.workspace,
+      });
+    },
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,

@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -21,6 +21,11 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getHistoricalEvents() {
+      return this.twist.getThreads({
+        channel: this.channel,
+      });
+    },
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
