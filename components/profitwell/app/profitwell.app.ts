@@ -122,7 +122,7 @@ export default defineApp({
         throw new ConfigurationError('**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`')
       }
 
-      return value;
+      return Math.floor(value / 1000);
     }
   },
 });
