@@ -42,3 +42,13 @@ export interface CreateSubscriptionParams extends ActionRequestParams {
     user_id?: string;
   };
 }
+
+export interface UpdateSubscriptionParams extends ActionRequestParams {
+  subscriptionIdOrAlias: string;
+  data: {
+    effective_date: number;
+    plan_id: string;
+    plan_interval: string;
+    value: number;
+  };
+}

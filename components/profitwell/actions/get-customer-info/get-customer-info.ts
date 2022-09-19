@@ -1,6 +1,7 @@
 import profitwell from "../../app/profitwell.app";
 import { defineAction } from "@pipedream/types";
 import { GetCustomerInfoParams } from "../../common/requestParams";
+import { Customer } from "../../common/responseSchemas";
 
 export default defineAction({
   name: "Get Customer Info",
@@ -17,15 +18,18 @@ export default defineAction({
       description: "The email address of the customer.",
     },
     customerId: {
-      propDefinition: [profitwell, "customerId"],
+      propDefinition: [
+        profitwell,
+        "customerId",
+      ],
     },
   },
-  async run({ $ }): Promise<any> {
+  async run({ $ }): Promise<Customer> {
     const params: GetCustomerInfoParams = {
       $,
       customerId: this.customerId,
     };
-    const data = await this.profitwell.getCustomerInfo(params);
+    const data: Customer = await this.profitwell.getCustomerInfo(params);
 
     $.export("$summary", "Obtained customer info successfully");
 

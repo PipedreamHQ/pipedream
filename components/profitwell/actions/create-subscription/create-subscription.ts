@@ -1,6 +1,7 @@
 import profitwell from "../../app/profitwell.app";
 import { defineAction } from "@pipedream/types";
 import { CreateSubscriptionParams } from "../../common/requestParams";
+import { Subscription } from "../../common/responseSchemas";
 
 export default defineAction({
   name: "Create Subscription",
@@ -64,9 +65,7 @@ export default defineAction({
     },
     status: {
       type: "string",
-      label: "Plan Currency",
-      description:
-        "The currency in which users of this plan are charged. [See the docs](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/creating-subscriptions/create-a-subscription) for the full list of accepted currency codes.",
+      label: "Status",
       optional: true,
       options: [
         "active",
@@ -86,7 +85,7 @@ export default defineAction({
       description: "UNIX timestamp (in seconds) of when the subscription starts.",
     },
   },
-  async run({ $ }): Promise<any> {
+  async run({ $ }): Promise<Subscription> {
     const params: CreateSubscriptionParams = {
       $,
       data: {
@@ -102,7 +101,7 @@ export default defineAction({
         user_id: this.userId,
       },
     };
-    const data = await this.profitwell.createSubscription(params);
+    const data: Subscription = await this.profitwell.createSubscription(params);
 
     $.export("$summary", "Created subscription successfully");
 
