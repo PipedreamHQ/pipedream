@@ -7,11 +7,14 @@
     "pipedream",
     "nocodb"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/nocodb",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "moment": "^2.29.4",
     "nocodb-sdk": "^0.92.4"
   },
   "publishConfig": {

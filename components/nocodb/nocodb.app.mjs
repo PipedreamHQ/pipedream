@@ -75,7 +75,8 @@ export default {
       fn, params = {}, offset = 0,
     }) {
       let lastPage = false;
-      const { query: { limit } } = params;
+      const { query } = params;
+      const limit = query.limit || null;
       let count = 0;
 
       do {
@@ -138,7 +139,7 @@ export default {
     async listTableRow({
       projectId,
       tableName,
-      query = {},
+      query,
     }) {
       return await this.sdk().dbTableRow.list("v1", projectId, tableName, query);
     },
