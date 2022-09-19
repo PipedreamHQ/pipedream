@@ -2,6 +2,7 @@ import profitwell from "../../app/profitwell.app";
 import { defineAction } from "@pipedream/types";
 import { UpdateSubscriptionParams } from "../../common/requestParams";
 import { Subscription } from "../../common/responseSchemas";
+import { EffectiveDateDescription } from "../../common/propDescriptions";
 
 export default defineAction({
   name: "Update Subscription",
@@ -19,31 +20,29 @@ export default defineAction({
         "Either the `subscription_id` or `subscription_alias` of the subscription",
     },
     effectiveDate: {
-      type: "number",
-      label: "Effective Date",
-      description:
-        "UNIX timestamp (in seconds) of when the subscription churns",
+      propDefinition: [
+        profitwell,
+        "effectiveDate",
+      ],
+      description: EffectiveDateDescription("this update takes effect"),
     },
     planId: {
-      type: "string",
-      label: "Plan ID",
-      description:
-        "The ID of the plan that the user is on. For the sake of consistency (and the ability to later segment your data), this name should be consistent across everyone who is on this plan.",
+      propDefinition: [
+        profitwell,
+        "planId",
+      ],
     },
     planInterval: {
-      type: "string",
-      label: "Plan Interval",
-      description: "The billing cycle for this plan.",
-      options: [
-        "month",
-        "year",
+      propDefinition: [
+        profitwell,
+        "planInterval",
       ],
     },
     value: {
-      type: "integer",
-      label: "Value",
-      description:
-        "The amount that you bill your user, per billing period, in cents.",
+      propDefinition: [
+        profitwell,
+        "value",
+      ],
     },
   },
   async run({ $ }): Promise<Subscription> {

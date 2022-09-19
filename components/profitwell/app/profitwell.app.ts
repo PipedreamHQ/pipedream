@@ -35,6 +35,31 @@ export default defineApp({
         );
       },
     },
+    effectiveDate: {
+      type: "number",
+      label: "Effective Date",
+    },
+    planId: {
+      type: "string",
+      label: "Plan ID",
+      description:
+        "The ID of the plan that the user is on. For the sake of consistency (and the ability to later segment your data), this name should be consistent across everyone who is on this plan.",
+    },
+    planInterval: {
+      type: "string",
+      label: "Plan Interval",
+      description: "The billing cycle for this plan.",
+      options: [
+        "month",
+        "year",
+      ],
+    },
+    value: {
+      type: "integer",
+      label: "Value",
+      description:
+        "The amount that you bill your user, per billing period, in cents.",
+    },
   },
   methods: {
     _baseUrl(): string {

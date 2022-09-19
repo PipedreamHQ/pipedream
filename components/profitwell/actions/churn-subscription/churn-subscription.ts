@@ -2,6 +2,7 @@ import profitwell from "../../app/profitwell.app";
 import { defineAction } from "@pipedream/types";
 import { ChurnSubscriptionParams } from "../../common/requestParams";
 import { Subscription } from "../../common/responseSchemas";
+import { EffectiveDateDescription } from "../../common/propDescriptions";
 
 export default defineAction({
   name: "Churn Subscription",
@@ -19,10 +20,11 @@ export default defineAction({
         "Either the `subscription_id` or `subscription_alias` of the subscription",
     },
     effectiveDate: {
-      type: "number",
-      label: "Effective Date",
-      description:
-        "UNIX timestamp (in seconds) of when the subscription churns",
+      propDefinition: [
+        profitwell,
+        "effectiveDate",
+      ],
+      description: EffectiveDateDescription("the subscription churns"),
     },
     churnType: {
       type: "string",
