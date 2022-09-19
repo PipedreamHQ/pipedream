@@ -204,15 +204,18 @@ export default {
       }));
       return res["todo-items"] || [];
     },
-    async createWebhook(event, url, ctx = this) {
+    async createWebhook(event, url, token, ctx = this) {
       return axios(ctx, this._getAxiosParams({
         method: "POST",
         path: "webhooks.json",
         data: {
-          event,
-          url,
-          status: "ACTIVE",
-          version: "2",
+          webhook: {
+            event,
+            url,
+            status: "ACTIVE",
+            version: "2",
+            token,
+          },
         },
       }));
     },
