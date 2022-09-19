@@ -6,26 +6,26 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     gmail,
     to: {
       type: "string[]",
       label: "To",
-      description: "Enter a single recipient's email or multiple emails as items in an array."
+      description: "Enter a single recipient's email or multiple emails as items in an array.",
     },
     cc: {
       type: "string[]",
       label: "Cc",
       optional: true,
-      description: "Enter a single recipient's email or multiple emails as items in an array."
+      description: "Enter a single recipient's email or multiple emails as items in an array.",
     },
     bcc: {
       type: "string[]",
       label: "Bcc",
       optional: true,
-      description: "Enter a single recipient's email or multiple emails as items in an array."
+      description: "Enter a single recipient's email or multiple emails as items in an array.",
     },
     fromName: {
       type: "string",

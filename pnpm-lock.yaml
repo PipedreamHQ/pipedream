@@ -958,8 +958,10 @@ importers:
   components/hubspot:
     specifiers:
       '@pipedream/platform': ^0.10.0
+      bottleneck: ^2.19.5
     dependencies:
       '@pipedream/platform': 0.10.0
+      bottleneck: 2.19.5
 
   components/ifttt:
     specifiers:
@@ -1595,6 +1597,9 @@ importers:
   components/sailpoint:
     specifiers: {}
 
+  components/sailpoint_personal_token:
+    specifiers: {}
+
   components/sales_simplify:
     specifiers: {}
 
@@ -1607,13 +1612,13 @@ importers:
       handlebars: ^4.7.7
       lodash: ^4.17.21
       lodash-es: ^4.17.21
-      salesforce-webhooks: ^1.1.4
+      salesforce-webhooks: ^1.1.11
     dependencies:
       '@pipedream/platform': 0.9.0
       handlebars: 4.7.7
       lodash: 4.17.21
       lodash-es: 4.17.21
-      salesforce-webhooks: 1.1.9_handlebars@4.7.7
+      salesforce-webhooks: 1.1.11_handlebars@4.7.7
 
   components/salestown:
     specifiers: {}
@@ -14452,6 +14457,7 @@ packages:
 
   /json5/0.5.1:
     resolution: {integrity: sha512-4xrs1aW+6N5DalkqSVA8fxh458CXvR99WU8WLKmq4v8eWAL86Xo3BVqyd3SkA9wEVjCMqyvvRRkshAdOnBp5rw==}
+    hasBin: true
     dev: false
 
   /json5/2.2.1:
@@ -17832,8 +17838,8 @@ packages:
   /safer-buffer/2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  /salesforce-webhooks/1.1.9_handlebars@4.7.7:
-    resolution: {integrity: sha512-48LKx+QYMtGxLFthQTWwxOfbA5vsbv+ARUexW76dNJNymzCfLVYB2kN1urCbUMCI/wd/jnqR1bJxAwdowIgS3A==}
+  /salesforce-webhooks/1.1.11_handlebars@4.7.7:
+    resolution: {integrity: sha512-gT5CkcAWowxaFKQr+5aC3o6tCz4wsnzm4PqWPZ2vQ0l/1qv9uG8S6W8pJeJDwUa9P1ICKfL7A6C4akmk3/7Aaw==}
     dependencies:
       axios: 0.21.4
       bindings: 1.5.0

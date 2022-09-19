@@ -686,6 +686,15 @@
     },
     {
       "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/cloudlayer"
+    },
+    {
+      "path": "components/qstash"
+    },
+    {
+      "path": "components/twelve_data"
     }
   ]
 }
