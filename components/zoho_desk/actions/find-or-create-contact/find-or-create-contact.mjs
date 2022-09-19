@@ -22,13 +22,13 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "First name of the contact with `wildcard search`, `empty check` or `not empty check` strategy",
+      description: "First name of the contact with `wildcard search` strategy",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Email ID of the contact with `wildcard search`, `empty check` or `not empty check` strategy",
+      description: "Email ID of the contact with `wildcard search` strategy",
       optional: true,
     },
   },
@@ -46,9 +46,9 @@ export default {
           orgId,
         },
         params: {
-          lastName,
-          firstName,
-          email,
+          lastName: `${lastName}*`,
+          firstName: firstName && `${firstName}*`,
+          email: email && `${email}*`,
           sortBy: "relevance",
         },
       });
