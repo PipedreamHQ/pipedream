@@ -692,6 +692,9 @@
     },
     {
       "path": "components/qstash"
+    },
+    {
+      "path": "components/twelve_data"
     }
   ]
 }
