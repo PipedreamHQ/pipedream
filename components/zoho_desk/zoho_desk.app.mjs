@@ -84,6 +84,22 @@ export default {
         });
       },
     },
+    ticketStatus: {
+      type: "string",
+      label: "Status",
+      description: "Status of the ticket",
+      async options() {
+        const { data: fields = [] } =
+          await this.getOrganizationFields({
+            params: {
+              module: "tickets",
+              apiNames: "status",
+            },
+          });
+        const { allowedValues = [] } = fields[0] || {};
+        return allowedValues.map(({ value }) => value);
+      },
+    },
   },
   methods: {
     getUrl(url, path, versionPath) {
@@ -135,6 +151,7 @@ export default {
         data,
         ...args,
       };
+      console.log("req", config);
       try {
         return withRetries
           ? await utils.withRetries(() => axios($, config))
@@ -256,6 +273,14 @@ export default {
         ...args,
       });
     },
+    getTicketThreads({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/threads`,
+        ...args,
+      });
+    },
     getContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts",
@@ -277,6 +302,12 @@ export default {
     getAgents(args = {}) {
       return this.makeRequest({
         path: "/agents",
+        ...args,
+      });
+    },
+    getOrganizationFields(args = {}) {
+      return this.makeRequest({
+        path: "/organizationFields",
         ...args,
       });
     },
@@ -333,6 +364,7 @@ export default {
           console.log("Stream error", error);
           return;
         }
+        console.log("nextResources", nextResources);
 
         if (nextResources?.length < 1) {
           return;
