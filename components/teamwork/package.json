@@ -14,6 +14,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.1.1",
+    "crypto": "^1.0.1",
+    "uuid": "^9.0.0"
   }
 }
