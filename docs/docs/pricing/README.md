@@ -96,6 +96,45 @@ If an event emitted by an event source triggers a single workflow, that will cou
 
 Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
 
+#### Scenarios
+
+::: details Webhook triggered workflow
+
+*1* invocation is incurred per HTTP webhook. The HTTP endpoint is *not* considered a source.
+
+:::
+
+::: details Scheduled workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: a schedule triggered workflow is configured to run every 15 minutes. Two invocations are incurred every 15 minutes. One from the timer source emitting an event, and the other from the workflow processing the event.
+
+```
+2 invocations * 15 minutes * 4 times per hour * 24 hours in a day = 2,880 daily invocations
+```
+
+:::
+
+::: details App webhook powered source triggered workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: an _Slack New Message in Channel (Instant)_ source receives a webhook from Slack when a new message is received in a channel. Two total invocations are incurred, one from the Slack source emitting the message event, the other from the workflow processing the event.
+
+:::
+
+::: details App polling source triggered workflow
+
+*1* invocation is incurred per new event emitted by the source.
+*1* invocation is incurred per new event processed by the workflow.
+
+Example: a _Twitter Search Tweets_ source checks finds a new tweet published. Two total invocations are incurred, one from the source emitting the tweet event, the other for the workflow processing the event.
+
+:::
+
 ### Compute Time
 
 Pipedream calculates **compute time** as the total time your workflow or event source runs user code.

@@ -1,5 +1,4 @@
 import "graphql/language/index.js";
-import get from "lodash/get.js";
 import { GraphQLClient } from "graphql-request";
 
 export default {
@@ -25,11 +24,28 @@ export default {
       label: "occurredAtMax",
       optional: true,
     },
-    paginationEnabled: {
-      type: "boolean",
-      label: "Paginate results",
-      description: "Paginate through all of your Shopify Partner records until occurredAtMin is reached. This can cause many invocations.",
-      default: false,
+    recordsPerRun: {
+      type: "integer",
+      description: "Number of records to retrieve per run",
+      label: "Maximum records to query per run",
+      optional: true,
+      default: 50,
+    },
+    paginationDirection: {
+      label: "Pagination direction",
+      type: "string",
+      options: [
+        {
+          label: "Forwards",
+          value: "forward",
+        },
+        {
+          label: "Backwards",
+          value: "backward",
+        },
+      ],
+      description: "Which direction to paginate through records. Forwards will only look into the future, whereas backwards will comb through all records.",
+      default: "forward",
     },
   },
   methods: {
@@ -53,8 +69,9 @@ export default {
       variables,
       handleEmit,
       key = "",
-      hasNextPagePath = "transactions.pageInfo.hasNextPage",
       getCursor,
+      paginationDirection = "forward",
+      recordsPerRun = 50,
     }) {
       const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2022-07/graphql.json`;
       const client = new GraphQLClient(endpoint, {
@@ -65,15 +82,24 @@ export default {
       });
 
       // the key is unique to the source module, so we should always be getting the last message
+      console.log("key", key);
+      console.log("paginationDirection", paginationDirection);
       const lastCursor = db.get(key);
+      const direction = paginationDirection === "forward"
+        ? "before"
+        : "after";
+
+      console.log("lastCursor", lastCursor);
+      console.log("direction", direction);
 
       const queryVars = {
         ...variables,
-        ...(lastCursor && this.paginationEnabled
+        ...(lastCursor
           ? {
-            after: lastCursor,
+            [direction]: lastCursor,
           }
           : {}),
+        recordsPerRun,
       };
 
       console.log("queryVars", queryVars);
@@ -84,23 +110,10 @@ export default {
       if (data) {
         handleEmit(data);
         const cursor = getCursor(data);
+        console.log("getCursor", cursor);
         if (cursor) {
           db.set(key, getCursor(data));
         }
-      }
-
-      // paginate the results recursively if enabled
-      if (data && get(data, hasNextPagePath) && this.paginationEnabled) {
-        await this.query({
-          db,
-          key,
-          query,
-          mutation,
-          getCursor,
-          hasNextPagePath,
-          handleEmit,
-          variables,
-        });
       }
     },
   },
