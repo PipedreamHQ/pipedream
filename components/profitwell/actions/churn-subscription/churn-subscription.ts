@@ -42,10 +42,10 @@ export default defineAction({
       subscriptionIdOrAlias: this.subscriptionIdOrAlias,
       params: {
         churn_type: this.churnType,
-        effective_date: this.effectiveDate,
+        effective_date: this.profitwell.getUnixTimestamp(this.effectiveDate),
       },
     };
-    const data: Subscription = await this.profitwell.churnSubscription(params);
+    const data: Subscription = await this.profitwell.updateSubscription(params);
 
     $.export("$summary", "Churned subscription successfully");
 

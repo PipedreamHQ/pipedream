@@ -50,7 +50,7 @@ export default defineAction({
       $,
       subscriptionIdOrAlias: this.subscriptionIdOrAlias,
       data: {
-        effective_date: this.effectiveDate,
+        effective_date: this.profitwell.getUnixTimestamp(this.effectiveDate),
         plan_id: this.planId,
         plan_interval: this.planInterval,
         value: this.value,

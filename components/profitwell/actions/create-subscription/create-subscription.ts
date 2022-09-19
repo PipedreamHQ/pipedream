@@ -89,7 +89,7 @@ export default defineAction({
     const params: CreateSubscriptionParams = {
       $,
       data: {
-        effective_date: this.effectiveDate,
+        effective_date: this.profitwell.getUnixTimestamp(this.effectiveDate),
         email: this.email,
         plan_id: this.planId,
         plan_interval: this.planInterval,

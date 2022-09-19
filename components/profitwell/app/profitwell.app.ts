@@ -1,5 +1,5 @@
 import { defineApp } from "@pipedream/types";
-import { axios } from "@pipedream/platform";
+import { axios, ConfigurationError } from "@pipedream/platform";
 import {
   ChurnSubscriptionParams,
   CreateSubscriptionParams,
@@ -36,7 +36,7 @@ export default defineApp({
       },
     },
     effectiveDate: {
-      type: "number",
+      type: "string",
       label: "Effective Date",
     },
     planId: {
@@ -86,20 +86,10 @@ export default defineApp({
         ...args,
       });
     },
-    async churnSubscription({
-      subscriptionIdOrAlias,
-      ...args
-    }: ChurnSubscriptionParams) {
-      return this._httpRequest({
-        endpoint: `/subscriptions/${subscriptionIdOrAlias}`,
-        method: "PUT",
-        ...args,
-      });
-    },
     async updateSubscription({
       subscriptionIdOrAlias,
       ...args
-    }: UpdateSubscriptionParams) {
+    }: ChurnSubscriptionParams | UpdateSubscriptionParams) {
       return this._httpRequest({
         endpoint: `/subscriptions/${subscriptionIdOrAlias}`,
         method: "PUT",
@@ -120,5 +110,19 @@ export default defineApp({
         endpoint: `/customers/${customerId}`,
       });
     },
+    getUnixTimestamp(dateString) {
+      let number = Number(dateString);
+      if (!isNaN(number)) {
+        return number;
+      }
+
+      let date = new Date(dateString);
+      let value = date.valueOf();
+      if (isNaN(value)) {
+        throw new ConfigurationError('**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`')
+      }
+
+      return value;
+    }
   },
 });
