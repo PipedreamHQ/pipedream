@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Screenshot Tweet",
-  description: "With the Pikaso API you can automate creating screenshots from tweets. [See docs](https://pikaso.me/api)",
+  description: "With the Pikaso API you can automate creating screenshots from tweets. [See the docs](https://pikaso.me/api) for more information",
   key: "pikaso-screenshot-tweet",
   version: "0.0.1",
   type: "action",
@@ -43,7 +43,7 @@ export default defineAction({
       size: this.size,
     };
     const response = await this.app.screenshotTweet($, params);
-    $.export("$summary", `Successfully took a screenshot from the tweet with id: ${tweetId}`);
+    $.export("$summary", `Successfully took a screenshot from tweet with id: ${tweetId}`);
     const encodedResponse = Buffer.from(response, "binary").toString("base64");
     return `data:image/png;base64,${encodedResponse}`;
   },
