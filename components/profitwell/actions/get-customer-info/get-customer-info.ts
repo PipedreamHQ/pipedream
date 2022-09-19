@@ -23,9 +23,7 @@ export default defineAction({
   async run({ $ }): Promise<any> {
     const params: GetCustomerInfoParams = {
       $,
-      params: {
-        customer_id: this.customerId,
-      },
+      customerId: this.customerId,
     };
     const data = await this.profitwell.getCustomerInfo(params);
 

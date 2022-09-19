@@ -18,10 +18,14 @@ export interface ChurnSubscriptionParams extends ActionRequestParams {
   };
 }
 
-export interface GetCustomerInfoParams extends ActionRequestParams {
+export interface SearchCustomerParams {
   params: {
-    customer_id: string;
+    email: string;
   };
+}
+
+export interface GetCustomerInfoParams extends ActionRequestParams {
+  customerId: string;
 }
 
 export interface CreateSubscriptionParams extends ActionRequestParams {
