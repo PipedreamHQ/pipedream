@@ -3,8 +3,8 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "nocodb-list-records",
-  name: "List Records In Table",
-  description: "This action list all rows in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-list)",
+  name: "List Records in Table",
+  description: "This action lists all rows in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-list)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -102,17 +102,17 @@ export default {
       } while (lastPage);
     },
     async listProjects() {
-      return await this.sdk().project.list();
+      return this.sdk().project.list();
     },
     async listTables({ projectId }) {
-      return await this.sdk().dbTable.list(projectId);
+      return this.sdk().dbTable.list(projectId);
     },
     async createTableRow({
       projectId,
       tableName,
       data,
     }) {
-      return await this.sdk().dbTableRow.create("v1", projectId, tableName, data);
+      return this.sdk().dbTableRow.create("v1", projectId, tableName, data);
     },
     async updateTableRow({
       projectId,
@@ -120,28 +120,28 @@ export default {
       rowId,
       data,
     }) {
-      return await this.sdk().dbTableRow.update("v1", projectId, tableName, rowId, data);
+      return this.sdk().dbTableRow.update("v1", projectId, tableName, rowId, data);
     },
     async deleteTableRow({
       projectId,
       tableName,
       rowId,
     }) {
-      return await this.sdk().dbTableRow.delete("v1", projectId, tableName, rowId);
+      return this.sdk().dbTableRow.delete("v1", projectId, tableName, rowId);
     },
     async getTableRow({
       projectId,
       tableName,
       rowId,
     }) {
-      return await this.sdk().dbTableRow.read("v1", projectId, tableName, rowId);
+      return this.sdk().dbTableRow.read("v1", projectId, tableName, rowId);
     },
     async listTableRow({
       projectId,
       tableName,
       query,
     }) {
-      return await this.sdk().dbTableRow.list("v1", projectId, tableName, query);
+      return this.sdk().dbTableRow.list("v1", projectId, tableName, query);
     },
   },
 };
