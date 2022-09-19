@@ -689,6 +689,12 @@
     },
     {
       "path": "components/cloudlayer"
+    },
+    {
+      "path": "components/qstash"
+    },
+    {
+      "path": "components/twelve_data"
     }
   ]
 }
