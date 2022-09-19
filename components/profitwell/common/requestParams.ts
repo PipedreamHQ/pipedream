@@ -18,6 +18,12 @@ export interface ChurnSubscriptionParams extends ActionRequestParams {
   };
 }
 
+export interface GetCustomerInfoParams extends ActionRequestParams {
+  params: {
+    customer_id: string;
+  };
+}
+
 export interface CreateSubscriptionParams extends ActionRequestParams {
   data: {
     effective_date: number;

@@ -7,6 +7,23 @@ import {
 export default defineApp({
   type: "app",
   app: "profitwell",
+  propDefinitions: {
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description:
+        "Search for customers with the email address entered above. You can also provide a custom *Customer ID*.",
+      async options({ email }) {
+        const customers = await this.searchCustomers({ email });
+        return customers.map(({ first_name, last_name, customer_id }) => {
+          return {
+            label: `${first_name} ${last_name}`,
+            value: customer_id,
+          };
+        });
+      },
+    },
+  },
   methods: {
     _baseUrl(): string {
       return "https://api.profitwell.com/v2";
