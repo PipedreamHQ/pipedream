@@ -21,8 +21,8 @@ export default defineAction({
       propDefinition: [
         profitwell,
         "customerId",
-        (c) => ({
-          email: c.email,
+        ({ email }: {email: string;}) => ({
+          email,
         }),
       ],
     },

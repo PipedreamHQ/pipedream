@@ -14,10 +14,10 @@ export default defineAction({
   props: {
     profitwell,
     subscriptionIdOrAlias: {
-      type: "string",
-      label: "Subscription ID or Alias",
-      description:
-        "Either the `subscription_id` or `subscription_alias` of the subscription",
+      propDefinition: [
+        profitwell,
+        "subscriptionIdOrAlias",
+      ],
     },
     effectiveDate: {
       propDefinition: [

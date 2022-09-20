@@ -10,7 +10,9 @@ import {
   SearchCustomerParams,
   UpdateSubscriptionParams,
 } from "../common/requestParams";
-import { Customer } from "../common/responseSchemas";
+import {
+  Customer, Subscription,
+} from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -21,24 +23,22 @@ export default defineApp({
       label: "Customer ID",
       description:
         "Search for customers with the email address entered above. You can also provide a custom *Customer ID*.",
-      async options({ email }) {
+      async options({ email }: {
+        email: string;
+      }): Promise<{ label: string; value: string; }[]> {
         const searchParams: SearchCustomerParams = {
           params: {
-            email
-          }
-        }
-        console.log(searchParams);
-        const customers = await this.searchCustomers(searchParams);
-        return customers.map(
-          ({
-            first_name, last_name, customer_id,
-          }: Customer) => {
-            return {
-              label: `${first_name} ${last_name}`,
-              value: customer_id,
-            };
+            email,
           },
-        );
+        };
+        const customers = await this.searchCustomers(searchParams);
+        return customers.map((customer: Customer) => {
+          const label: string = this.getCustomerLabel(customer);
+          return {
+            label,
+            value: customer.customer_id,
+          };
+        });
       },
     },
     effectiveDate: {
@@ -59,6 +59,12 @@ export default defineApp({
         "month",
         "year",
       ],
+    },
+    subscriptionIdOrAlias: {
+      type: "string",
+      label: "Subscription ID or Alias",
+      description:
+        "Either the `subscription_id` or `subscription_alias` of the subscription",
     },
     value: {
       type: "integer",
@@ -85,7 +91,9 @@ export default defineApp({
         ...args,
       });
     },
-    async createSubscription(args: CreateSubscriptionParams) {
+    async createSubscription(
+      args: CreateSubscriptionParams,
+    ): Promise<Subscription> {
       return this._httpRequest({
         endpoint: "/subscriptions/",
         method: "POST",
@@ -95,7 +103,7 @@ export default defineApp({
     async churnSubscription({
       subscriptionIdOrAlias,
       ...args
-    }: ChurnSubscriptionParams) {
+    }: ChurnSubscriptionParams): Promise<Subscription> {
       return this._httpRequest({
         endpoint: `/subscriptions/${subscriptionIdOrAlias}/`,
         method: "DELETE",
@@ -105,28 +113,45 @@ export default defineApp({
     async updateSubscription({
       subscriptionIdOrAlias,
       ...args
-    }: UpdateSubscriptionParams) {
+    }: UpdateSubscriptionParams): Promise<Subscription> {
       return this._httpRequest({
         endpoint: `/subscriptions/${subscriptionIdOrAlias}/`,
         method: "PUT",
         ...args,
       });
     },
-    async searchCustomers(args: SearchCustomerParams) {
+    async searchCustomers(args: SearchCustomerParams): Promise<Customer[]> {
       return this._httpRequest({
         endpoint: "/customers/",
         ...args,
       });
     },
     async getCustomerInfo({
-      $, customerId,
-    }: GetCustomerInfoParams) {
+      $,
+      customerId,
+    }: GetCustomerInfoParams): Promise<Customer> {
       return this._httpRequest({
         $,
         endpoint: `/customers/${customerId}/`,
       });
     },
-    getUnixTimestamp(dateString) {
+    getCustomerLabel({
+      first_name, email, last_name,
+    }: Customer): string {
+      let label = "";
+      [
+        first_name,
+        last_name,
+      ].forEach((name) => (label += ` ${name}`));
+      label = label.trim();
+
+      label = label
+        ? (label += ` (${email})`)
+        : email;
+
+      return label;
+    },
+    getUnixTimestamp(dateString: string): number {
       const number = Number(dateString);
       if (!isNaN(number)) {
         return number;
@@ -135,7 +160,9 @@ export default defineApp({
       const date = new Date(dateString);
       const value = date.valueOf();
       if (isNaN(value)) {
-        throw new ConfigurationError("**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`");
+        throw new ConfigurationError(
+          "**Invalid date provided.** Make sure it is either a UNIX timestamp in seconds, or a valid ISO 8601 string such as `2022-02-15`",
+        );
       }
 
       return Math.floor(value / 1000);
