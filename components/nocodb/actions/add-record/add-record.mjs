@@ -23,7 +23,7 @@ export default {
         tableName,
         data,
       } = this;
-      return await this.nocodb.createTableRow({
+      return this.nocodb.createTableRow({
         projectId,
         tableName: tableName.value,
         data,
