@@ -23,7 +23,9 @@ export default {
             value: domain.id,
           })),
           context: {
-            lastId: domains[domains.length].id,
+            lastId: domains.length > 0
+              ? domains[domains.length - 1].id
+              : undefined,
           },
         };
       },
@@ -45,7 +47,9 @@ export default {
             value: link.id,
           })),
           context: {
-            lastId: links[0].id,
+            lastId: links.length > 0
+              ? links[links.length - 1].id
+              : undefined,
           },
         };
       },
