@@ -58,27 +58,11 @@ export default defineApp({
         headers: this._getHeaders(),
       };
     },
-    filterEmptyValues(obj) {
-      return Object.entries(obj)
-        .reduce((reduction,
-          [
-            key,
-            value,
-          ]) => {
-          if (value === undefined || value === null) {
-            return reduction;
-          }
-          return {
-            ...reduction,
-            [key]: value,
-          };
-        }, {});
-    },
     async screenshotTweet($ = this, params) {
       const linkInfo = await axios($, this._getRequestParams({
         method: "GET",
         path: "/tweet",
-        params: this.filterEmptyValues(params),
+        params,
         responseType: "arraybuffer",
       }));
       return linkInfo;
