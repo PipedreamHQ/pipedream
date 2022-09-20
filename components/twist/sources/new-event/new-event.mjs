@@ -135,7 +135,7 @@ export default {
         });
       }
       if (this.eventType.includes("message")) {
-        return this.twist.getConversatioMessages({
+        return this.twist.getConversationMessages({
           conversation: this.conversation,
         });
       }
