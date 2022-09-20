@@ -100,6 +100,7 @@ export default {
         fromEmailAddress,
         to,
         content,
+        contentType,
         ticketStatus,
         channel: "EMAIL",
         isForward: "true",
