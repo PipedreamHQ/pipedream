@@ -247,7 +247,12 @@ importers:
     specifiers: {}
 
   components/beehiiv:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/big_cartel:
     specifiers:
