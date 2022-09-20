@@ -55,30 +55,11 @@ export default defineApp({
         headers: this._getHeaders(),
       };
     },
-    filterEmptyValues(obj) {
-      if (!obj) {
-        return obj;
-      }
-      return Object.entries(obj)
-        .reduce((reduction,
-          [
-            key,
-            value,
-          ]) => {
-          if (value === undefined || value === null) {
-            return reduction;
-          }
-          return {
-            ...reduction,
-            [key]: value,
-          };
-        }, {});
-    },
     async createSubscriber($ = this, param) {
       const response = await axios($, this._getRequestParams({
         method: "POST",
         path: "/subscribers",
-        data: this.filterEmptyValues(param),
+        data: param,
       }));
       return response;
     },
