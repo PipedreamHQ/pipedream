@@ -1,4 +1,4 @@
-import { defineAction } from "@pipedream/types"
+import { defineAction } from "@pipedream/types";
 import rise from "../../app/rise.app";
 
 export default defineAction({
@@ -13,7 +13,7 @@ export default defineAction({
       label: "Email",
       description: "The email of user to find invitations",
       type: "string",
-    }
+    },
   },
   async run({ $ }) {
     const response = await this.rise.getInvitations({
@@ -24,7 +24,7 @@ export default defineAction({
     });
 
     if (response.invitations) {
-      $.export("$summary", `Successfully found invitations`);
+      $.export("$summary", "Successfully found invitations");
     }
 
     return response.invitations;

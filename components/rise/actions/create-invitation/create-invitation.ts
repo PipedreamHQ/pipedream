@@ -1,4 +1,4 @@
-import { defineAction } from "@pipedream/types"
+import { defineAction } from "@pipedream/types";
 import rise from "../../app/rise.app";
 import constants from "../common/constants";
 
@@ -19,20 +19,20 @@ export default defineAction({
       label: "Role",
       description: "The role of user to invite",
       type: "string",
-      options: constants.USER_ROLES
+      options: constants.USER_ROLES,
     },
     firstName: {
       label: "First Name",
       description: "The first name of user to invite",
       type: "string",
-      optional: true
+      optional: true,
     },
     lastName: {
       label: "Last Name",
       description: "The last name of user to invite",
       type: "string",
-      optional: true
-    }
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.rise.createInvitation({

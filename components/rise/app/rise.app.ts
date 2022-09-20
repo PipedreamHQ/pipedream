@@ -1,5 +1,5 @@
 import { defineApp } from "@pipedream/types";
-import { axios } from '@pipedream/platform'
+import { axios } from "@pipedream/platform";
 
 export default defineApp({
   type: "app",
