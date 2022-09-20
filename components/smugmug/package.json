@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/smugmug",
+  "version": "0.0.1",
+  "description": "Pipedream Smugmug Components",
+  "main": "smugmug.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smugmug"
+  ],
+  "homepage": "https://pipedream.com/apps/smugmug",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
