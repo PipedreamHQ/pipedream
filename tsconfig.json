@@ -695,6 +695,9 @@
     },
     {
       "path": "components/twelve_data"
+    },
+    {
+      "path": "components/sms"
     }
   ]
 }
