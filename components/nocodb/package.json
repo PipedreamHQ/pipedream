@@ -2,7 +2,7 @@
   "name": "@pipedream/nocodb",
   "version": "0.0.1",
   "description": "Pipedream Nocodb Components",
-  "main": "dist/app/nocodb.app.mjs",
+  "main": "nocodb.app.mjs",
   "keywords": [
     "pipedream",
     "nocodb"
