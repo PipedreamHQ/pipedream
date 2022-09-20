@@ -42,7 +42,7 @@ export default {
         ? ""
         : "s";
 
-      return `Returned ${response.length} row${suffix} from ${this.tableName.label} table`;
+      return `Successfully updated row in ${this.tableName.label} table`;
     },
   },
 };
