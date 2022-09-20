@@ -52,16 +52,6 @@ export default {
       label: "To",
       description: "To email ID in the thread",
     },
-    contentType: {
-      type: "string",
-      label: "Content Type",
-      description: "Formatting type of the content. Values supported are `html` and `plainText` (default).",
-      optional: true,
-      options: [
-        "html",
-        "plainText",
-      ],
-    },
     content: {
       type: "string",
       label: "Content",
