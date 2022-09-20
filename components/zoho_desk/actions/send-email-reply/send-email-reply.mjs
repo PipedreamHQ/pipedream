@@ -87,6 +87,7 @@ export default {
       fromEmailAddress,
       to,
       content,
+      contentType,
       ticketStatus,
     } = this;
 
