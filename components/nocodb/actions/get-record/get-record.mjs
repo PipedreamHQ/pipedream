@@ -23,7 +23,7 @@ export default {
         tableName,
         rowId,
       } = this;
-      return await this.nocodb.getTableRow({
+      return this.nocodb.getTableRow({
         projectId,
         tableName: tableName.value,
         rowId,
