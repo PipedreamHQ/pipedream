@@ -1,4 +1,4 @@
-import pipefy from "../../pipefy.app.js";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-create-card",
@@ -23,6 +23,38 @@ export default {
         }),
       ],
     },
+    phase: {
+      propDefinition: [
+        pipefy,
+        "phase",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
+      reloadProps: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the new card",
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    const fields = await this.pipefy.listFields(this.phase);
+    for (const field of fields) {
+      props[field.id] = {
+        type: "string",
+        label: field.label,
+        description: field.description,
+        optional: !field.required,
+      };
+      if (field.options.length > 0) {
+        props[field.id].options = field.options;
+      }
+    }
+    return props;
   },
   async run() {
   /*
@@ -42,16 +74,32 @@ export default {
   }
   */
 
-    const data = {
-      mutation: `{
-        createCard( input: {
-          pipe_id: ${this.pipe}
-          fields_attributes: [
-            {}
+    let mutationString = `{
+      createCard( input: {
+        pipe_id: ${this.pipe}
+        phase_id: ${this.phase}
+        title: ${this.title}
+        fields_attributes: [`;
+
+    const fields = await this.pipefy.listFields(this.phase);
+    for (const field of fields) {
+      if (this[field.id]) {
+        mutationString += `
+          {
+            field_id: ${field.id}
+            field_value: ${this.field.id}
+          }`;
+      }
+    }
+    mutationString += `
           ]
         })
         { card { id title } }
-      }`,
+      }
+    `;
+
+    const data = {
+      mutation: mutationString,
     };
 
     return await this.pipefy._makeRequest(data, "graphql");

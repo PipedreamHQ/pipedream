@@ -1,6 +1,6 @@
-const axios = require("axios");
+import { axios } from "@pipedream/platform";
 
-module.exports = {
+export default {
   type: "app",
   app: "pipefy",
   propDefinitions: {
@@ -28,6 +28,18 @@ module.exports = {
         }));
       },
     },
+    phase: {
+      type: "string",
+      label: "Phase",
+      description: "Select a phase",
+      async options({ pipeId }) {
+        const phases = await this.listPhases(pipeId);
+        return phases.map((phase) => ({
+          label: phase.name,
+          value: phase.id,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -40,20 +52,20 @@ module.exports = {
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
-    async _makeRequest(data, endpoint) {
+    async _makeRequest(data, endpoint, $ = this) {
       const config = {
         method: "POST",
         url: `${this._getBaseUrl()}/${endpoint}`,
         headers: this._getHeaders(),
         data,
-      };
-      return (await axios(config)).data;
+      }; console.log(config);
+      return axios($, config);
     },
     async _makeQueriesRequest(data = null) {
-      return await this._makeRequest(data, "queries");
+      return this._makeRequest(data, "queries");
     },
     async _makeGraphQlRequest(data = null) {
-      return await this._makeRequest(data, "graphql");
+      return this._makeRequest(data, "graphql");
     },
     async createHook({
       pipe_id, name, url, actions,
@@ -110,7 +122,7 @@ module.exports = {
           }
         `,
       };
-      return await this._makeGraphQlRequest(data);
+      return this._makeGraphQlRequest(data);
     },
     async listCards(pipe_id) {
       const data = {
@@ -186,6 +198,39 @@ module.exports = {
         `,
       };
       return (await this._makeQueriesRequest(data)).data.organization.pipes;
+    },
+    async listPhases(pipeId) {
+      const data = {
+        query: `
+          {
+            pipe(id:${pipeId}) {
+              phases {
+                id
+                name
+              }
+            }
+          }
+        `,
+      };
+      return (await this._makeQueriesRequest(data)).data.pipe.phases;
+    },
+    async listFields(phaseId) {
+      const data = {
+        query: `
+          {
+            phase(id:${phaseId}) {
+              fields {
+                id
+                label
+                required
+                options
+                description
+              }
+            }
+          }
+        `,
+      };
+      return (await this._makeQueriesRequest(data)).data.phase.fields;
     },
   },
 };
