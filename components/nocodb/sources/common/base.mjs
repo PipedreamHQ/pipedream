@@ -92,7 +92,7 @@ export default {
     // moment is necessary because nocodb query doesn't filter equal datetime in 'greater than'
     if (lastTime) params.query.where = `(${timeField},gte,${moment(lastTime).add(1, "ms")
       .toISOString()})`;
-    return await this.processEvent({
+    return this.processEvent({
       params,
       lastTime,
     });
