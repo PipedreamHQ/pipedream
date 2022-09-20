@@ -2360,6 +2360,12 @@ importers:
       crypto: 1.0.1
       lodash.sortby: 4.7.0
 
+  components/zoho_desk:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/zoho_inventory:
     specifiers:
       '@pipedream/platform': ^1.1.1
