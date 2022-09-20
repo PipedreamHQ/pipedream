@@ -83,8 +83,8 @@ export default defineApp({
     },
     async createSubscription(args: CreateSubscriptionParams) {
       return this._httpRequest({
-        endpoint: "/subscriptions",
-        method: "PUT",
+        endpoint: "/subscriptions/",
+        method: "POST",
         ...args,
       });
     },
@@ -93,14 +93,14 @@ export default defineApp({
       ...args
     }: ChurnSubscriptionParams | UpdateSubscriptionParams) {
       return this._httpRequest({
-        endpoint: `/subscriptions/${subscriptionIdOrAlias}`,
+        endpoint: `/subscriptions/${subscriptionIdOrAlias}/`,
         method: "PUT",
         ...args,
       });
     },
     async searchCustomers(args: SearchCustomerParams) {
       return this._httpRequest({
-        endpoint: "/customers",
+        endpoint: "/customers/",
         ...args,
       });
     },
@@ -109,7 +109,7 @@ export default defineApp({
     }: GetCustomerInfoParams) {
       return this._httpRequest({
         $,
-        endpoint: `/customers/${customerId}`,
+        endpoint: `/customers/${customerId}/`,
       });
     },
     getUnixTimestamp(dateString) {
