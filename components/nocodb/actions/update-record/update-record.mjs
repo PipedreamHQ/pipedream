@@ -30,7 +30,7 @@ export default {
         rowId,
         data,
       } = this;
-      return await this.nocodb.updateTableRow({
+      return this.nocodb.updateTableRow({
         projectId,
         tableName: tableName.value,
         rowId,
