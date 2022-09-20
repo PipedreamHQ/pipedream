@@ -57,8 +57,9 @@ export default defineAction({
       },
     };
     const data: Subscription = await this.profitwell.updateSubscription(params);
+    const label: string = this.profitwell.getSubscriptionLabel(data);
 
-    $.export("$summary", "Updated subscription successfully");
+    $.export("$summary", `Successfully updated subscription ${label}`);
 
     return data;
   },

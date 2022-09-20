@@ -151,6 +151,15 @@ export default defineApp({
 
       return label;
     },
+    getSubscriptionLabel({
+      subscription_alias,
+      subscription_id,
+      user_alias,
+    }: Subscription) {
+      if (subscription_alias) return `"${subscription_alias}"`;
+      if (user_alias) return `for user "${user_alias}"`;
+      return subscription_id;
+    },
     getUnixTimestamp(dateString: string): number {
       const number = Number(dateString);
       if (!isNaN(number)) {

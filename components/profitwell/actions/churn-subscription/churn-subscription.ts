@@ -46,8 +46,9 @@ export default defineAction({
       },
     };
     const data: Subscription = await this.profitwell.churnSubscription(params);
+    const label: string = this.profitwell.getSubscriptionLabel(data);
 
-    $.export("$summary", "Churned subscription successfully");
+    $.export("$summary", `Successfully churned subscription ${label}`);
 
     return data;
   },

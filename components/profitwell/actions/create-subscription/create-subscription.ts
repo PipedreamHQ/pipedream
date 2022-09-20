@@ -102,8 +102,9 @@ export default defineAction({
       },
     };
     const data: Subscription = await this.profitwell.createSubscription(params);
+    const label: string = this.profitwell.getSubscriptionLabel(data);
 
-    $.export("$summary", "Created subscription successfully");
+    $.export("$summary", `Successfully created subscription ${label}`);
 
     return data;
   },

@@ -34,7 +34,7 @@ export default defineAction({
     };
     const data: Customer = await this.profitwell.getCustomerInfo(params);
 
-    $.export("$summary", "Obtained customer info successfully");
+    $.export("$summary", `Successfully obtained customer info for ${data.email}`);
 
     return data;
   },

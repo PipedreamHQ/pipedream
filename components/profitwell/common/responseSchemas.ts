@@ -1,11 +1,15 @@
-export interface Customer {
-  customer_id: string;
-  first_name: string;
+interface CustomerData {
   email: string;
-  last_name: string;
 }
 
-export interface Subscription {
+export interface Customer extends CustomerData {
+  first_name: string;
+  last_name: string;
+  customer_id: string;
+}
+
+export interface Subscription extends CustomerData {
   subscription_id: string;
-  user_id: string;
+  subscription_alias?: string;
+  user_alias?: string;
 }
