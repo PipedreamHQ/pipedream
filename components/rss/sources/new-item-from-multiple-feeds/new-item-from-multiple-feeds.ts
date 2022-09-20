@@ -21,7 +21,7 @@ export default defineSource({
     max: {
       type: "integer",
       label: "Max per Feed",
-      description: "Maximum number of posts per feed to retrieve at one time",
+      description: "Maximum number of posts per feed to retrieve at one time. Defaults to 20.",
       optional: true,
       default: 20,
     },
@@ -40,6 +40,7 @@ export default defineSource({
     const items = [];
     for (const url of this.urls) {
       const feedItems = (await this.rss.fetchAndParseFeed(url))?.slice(0, this.max);
+      console.log(`Retrieved items from ${url}`);
       items.push(...feedItems);
     }
     this.rss.sortItems(items).forEach((item: any) => {
