@@ -3,7 +3,7 @@ import smaily from "../../app/smaily.app";
 
 export default defineAction({
   name: "Update Subscriber",
-  version: "0.0.5",
+  version: "0.0.1",
   key: "smaily-update-subscriber",
   description: "Updates a subscriber. [See docs here](https://smaily.com/help/api/subscribers-2/create-and-update-subscribers/)",
   type: "action",
