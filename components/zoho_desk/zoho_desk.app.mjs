@@ -151,7 +151,6 @@ export default {
         data,
         ...args,
       };
-      console.log("req", config);
       try {
         return withRetries
           ? await utils.withRetries(() => axios($, config))
@@ -364,7 +363,6 @@ export default {
           console.log("Stream error", error);
           return;
         }
-        console.log("nextResources", nextResources);
 
         if (nextResources?.length < 1) {
           return;

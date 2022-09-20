@@ -104,7 +104,6 @@ export default {
         isForward: "true",
       },
     });
-    console.log("res", response);
 
     $.export("$summary", `Successfully sent email reply with ID ${response.id}`);
 
