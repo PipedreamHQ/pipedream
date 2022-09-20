@@ -3,7 +3,7 @@ import woodpecker from "../../woodpecker_co.app.mjs";
 export default {
   key: "woodpecker_co-stop-follow-ups",
   name: "Stop Follow-Ups",
-  description: "This action searches a specific prospect. [See the docs here](https://woodpecker.co/help/api-managing-prospects/)",
+  description: "This action updates a prospect to stop receiving follow-ups. [See the docs here](https://woodpecker.co/help/api-managing-prospects/)",
   version: "0.0.1",
   type: "action",
   props: {

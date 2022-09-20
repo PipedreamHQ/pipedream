@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/woodpecker_co",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream Woodpecker.co Components",
-  "main": "dist/app/woodpecker_co.app.mjs",
+  "main": "woodpecker_co.app.mjs",
   "keywords": [
     "pipedream",
     "woodpecker_co"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/woodpecker-co",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

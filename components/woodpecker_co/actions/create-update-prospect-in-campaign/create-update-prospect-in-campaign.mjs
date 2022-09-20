@@ -17,7 +17,10 @@ export default {
     id: {
       propDefinition: [
         woodpecker,
-        "id",
+        "campaignProspectId",
+        (c) => ({
+          campaignId: c.campaignId.value,
+        }),
       ],
       optional: true,
     },

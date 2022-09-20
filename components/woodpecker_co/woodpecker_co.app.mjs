@@ -1,7 +1,7 @@
 import woodpecker from "woodpecker-api";
 import {
   orderOptions, removeEmpty,
-} from "./utils.mjs";
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -24,20 +24,19 @@ export default {
       type: "integer",
       label: "Id",
       description: "Prospect's ID.",
-      async options({ campaignId }) {
+      async options({
+        page, campaignId,
+      }) {
         const prospects = await this.listProspects({
           campaign: campaignId,
+          $page: page + 1,
+          sort: "id",
         });
         return prospects.map((prospect) => ({
           value: prospect.id,
           label: `${prospect.first_name} ${prospect.last_name} (${prospect.email})`,
         }));
       },
-    },
-    id: {
-      type: "integer",
-      label: "Id",
-      description: "Prospect's ID.",
     },
     sort: {
       type: "string[]",
@@ -125,39 +124,34 @@ export default {
     },
     async listProspects(params) {
       params = removeEmpty(params);
-      return await this.sdk().prospects()
+      return this.sdk().prospects()
         .find(params);
     },
     async createOrUpdateProspect({
-      params, campaignId = null,
+      params, campaignId,
     }) {
       params = removeEmpty(params);
       const prospects = this.sdk().prospects();
 
       if (params.id) {
         return prospects.edit(params, campaignId);
-      } else {
-        return prospects.add(params, campaignId);
       }
+      return prospects.add(params, campaignId);
     },
     async listCampaigns() {
-      return await this.sdk().campaigns()
-        .find();
-    },
-    async unsubscribeProspect() {
-      return await this.sdk().campaigns()
+      return this.sdk().campaigns()
         .find();
     },
     async createHook(
       url, event,
     ) {
-      return await this.sdk().webhooks()
+      return this.sdk().webhooks()
         .subscribe(url, event);
     },
     async deleteHook(
       url, event,
     ) {
-      return await this.sdk().webhooks()
+      return this.sdk().webhooks()
         .unsubscribe(url, event);
     },
   },
