@@ -1656,6 +1656,12 @@ importers:
       uuid: 8.3.2
       validate.js: 0.13.1
 
+  components/sendinblue:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/sendle:
     specifiers: {}
 
