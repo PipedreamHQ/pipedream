@@ -23,7 +23,7 @@ export default {
         tableName,
         rowId,
       } = this;
-      return await this.nocodb.deleteTableRow({
+      return this.nocodb.deleteTableRow({
         projectId,
         tableName: tableName.value,
         rowId,
