@@ -45,11 +45,17 @@ export default {
       type: "string[]",
       label: "Fields",
       description: "Fields that will be fetched [See the docs here](https://docs.nocodb.com/developer-resources/rest-apis/#query-params)",
+      async options({ tableId }) {
+        return this.listTableFields(tableId);
+      },
     },
     sort: {
       type: "string[]",
       label: "Sort",
       description: "Order in which the data will be fetched [See the docs here](https://docs.nocodb.com/developer-resources/rest-apis/#query-params)",
+      async options({ tableId }) {
+        return this.listSortFields(tableId);
+      },
     },
     where: {
       type: "string",
@@ -106,6 +112,27 @@ export default {
     },
     async listTables({ projectId }) {
       return this.sdk().dbTable.list(projectId);
+    },
+    async readTable({ tableId }) {
+      return this.sdk().dbTable.read(tableId);
+    },
+    async listTableFields(tableId) {
+      const { columns } = await this.readTable({
+        tableId,
+      });
+      return columns
+        .map((column) => column.title);
+    },
+    async listSortFields(tableId) {
+      const { columns } = await this.readTable({
+        tableId,
+      });
+      return columns.reduce((acc, cur) => {
+        return acc.concat([
+          `${cur.title}`,
+          `-${cur.title}`,
+        ]);
+      }, []);
     },
     async createTableRow({
       projectId,

@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         common.props.nocodb,
         "fields",
+        (c) => ({
+          tableId: c.tableName.value,
+        }),
       ],
       optional: true,
     },
@@ -20,6 +23,9 @@ export default {
       propDefinition: [
         common.props.nocodb,
         "sort",
+        (c) => ({
+          tableId: c.tableName.value,
+        }),
       ],
       optional: true,
     },
