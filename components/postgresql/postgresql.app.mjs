@@ -303,12 +303,12 @@ export default {
       const values = rows.map((row) => row[column]?.toString());
       return values.filter((row) => row);
     },
-    async getInitialRows(table, column, limitNum = 10, rejectUnauthorize = true) {
-      const select = "SELECT * FROM %I";
+    async getInitialRows(schema, table, column, limitNum = 10, rejectUnauthorize = true) {
+      const select = "SELECT * FROM %I.%I";
       const orderby = "ORDER BY %I DESC";
       const limit = "LIMIT $1";
       const query = {
-        text: format(`${select} ${orderby} ${limit}`, table, column),
+        text: format(`${select} ${orderby} ${limit}`, schema, table, column),
         values: [
           limitNum,
         ],

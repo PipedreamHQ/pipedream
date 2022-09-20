@@ -52,7 +52,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.initialRows(this.table, this.timestampColumn);
+      await this.initialRows(this.schema, this.table, this.timestampColumn);
     },
   },
   methods: {

@@ -68,8 +68,8 @@ export default {
       );
       this.emitRows(rows, column);
     },
-    async initialRows(table, column, limit) {
-      const rows = await this.postgresql.getInitialRows(table, column, limit);
+    async initialRows(schema, table, column, limit) {
+      const rows = await this.postgresql.getInitialRows(schema, table, column, limit);
       this.emitRows(rows, column);
     },
     emitRows(rows, column) {
