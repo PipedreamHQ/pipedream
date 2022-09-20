@@ -45,7 +45,7 @@ export default defineAction({
         effective_date: this.profitwell.getUnixTimestamp(this.effectiveDate),
       },
     };
-    const data: Subscription = await this.profitwell.updateSubscription(params);
+    const data: Subscription = await this.profitwell.churnSubscription(params);
 
     $.export("$summary", "Churned subscription successfully");
 

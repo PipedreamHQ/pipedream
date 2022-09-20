@@ -22,9 +22,13 @@ export default defineApp({
       description:
         "Search for customers with the email address entered above. You can also provide a custom *Customer ID*.",
       async options({ email }) {
-        const customers = await this.searchCustomers({
-          email,
-        });
+        const searchParams: SearchCustomerParams = {
+          params: {
+            email
+          }
+        }
+        console.log(searchParams);
+        const customers = await this.searchCustomers(searchParams);
         return customers.map(
           ({
             first_name, last_name, customer_id,
@@ -88,10 +92,20 @@ export default defineApp({
         ...args,
       });
     },
+    async churnSubscription({
+      subscriptionIdOrAlias,
+      ...args
+    }: ChurnSubscriptionParams) {
+      return this._httpRequest({
+        endpoint: `/subscriptions/${subscriptionIdOrAlias}/`,
+        method: "DELETE",
+        ...args,
+      });
+    },
     async updateSubscription({
       subscriptionIdOrAlias,
       ...args
-    }: ChurnSubscriptionParams | UpdateSubscriptionParams) {
+    }: UpdateSubscriptionParams) {
       return this._httpRequest({
         endpoint: `/subscriptions/${subscriptionIdOrAlias}/`,
         method: "PUT",

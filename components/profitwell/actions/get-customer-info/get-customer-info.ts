@@ -15,12 +15,15 @@ export default defineAction({
     email: {
       type: "string",
       label: "Email Address",
-      description: "The email address of the customer.",
+      description: "The email address to search for customers with.",
     },
     customerId: {
       propDefinition: [
         profitwell,
         "customerId",
+        (c) => ({
+          email: c.email,
+        }),
       ],
     },
   },
