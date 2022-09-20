@@ -148,5 +148,17 @@ export default {
       return await this.sdk().campaigns()
         .find();
     },
+    async createHook(
+      url, event,
+    ) {
+      return await this.sdk().webhooks()
+        .subscribe(url, event);
+    },
+    async deleteHook(
+      url, event,
+    ) {
+      return await this.sdk().webhooks()
+        .unsubscribe(url, event);
+    },
   },
 };
