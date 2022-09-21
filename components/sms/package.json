@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/sms",
+  "version": "0.0.2",
+  "description": "Pipedream SMS Components",
+  "main": "dist/app/sms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/sms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
