@@ -8,6 +8,40 @@ export default {
   version: "0.0.1",
   props: {
     zenler,
+    webinarId: {
+      propDefinition: [
+        zenler,
+        "webinarId",
+      ],
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email of the live webinar",
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      webinarId,
+      email,
+    } = this;
+
+    const response = await this.zenler.registerLiveWebinar({
+      webinarId,
+      data: {
+        email,
+      },
+    });
+
+    if (typeof(response) === "string") {
+      console.log(response);
+      throw new Error("Response error");
+    }
+
+    const { data } = response;
+
+    $.export("$summary", data.message);
+
+    return response;
+  },
 };

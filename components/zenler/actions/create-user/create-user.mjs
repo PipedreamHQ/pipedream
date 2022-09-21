@@ -29,31 +29,53 @@ export default {
       description: "Password of the user",
     },
     commission: {
-      type: "string",
+      type: "integer",
       label: "Commission",
       description: "Commission of the user",
     },
     roles: {
-      type: "string",
+      type: "string[]",
       label: "Roles",
       description: "Roles of the user",
       options: [
         {
-          label: "3",
+          label: "Site Admin",
+          value: "2",
+        },
+        {
+          label: "Course Instructor",
           value: "3",
         },
         {
-          label: "7",
+          label: "Student",
+          value: "4",
+        },
+        {
+          label: "Affiliate",
           value: "7",
+        },
+        {
+          label: "Lead",
+          value: "8",
+        },
+        {
+          label: "Assistant",
+          value: "11",
+        },
+        {
+          label: "Support",
+          value: "12",
         },
       ],
     },
     address: {
+      type: "string",
       label: "Address",
       description: "Address of the user",
       optional: true,
     },
     city: {
+      type: "string",
       label: "City",
       description: "City of the user",
       optional: true,
@@ -66,15 +88,19 @@ export default {
       email,
       password,
       commission,
-      roles,
       address,
       city,
     } = this;
 
+    const roles =
+      Array.isArray(this.roles)
+      && this.roles.map(parseInt)
+      || [];
+
     const response = await this.zenler.createUser({
       data: {
-        firstName,
-        lastName,
+        first_name: firstName,
+        last_name: lastName,
         email,
         password,
         commission,
@@ -84,7 +110,14 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created a new user with ID ${response.id}`);
+    if (typeof(response) === "string") {
+      console.log(response);
+      throw new Error("Response error");
+    }
+
+    const { data } = response;
+
+    $.export("$summary", `Successfully created a new user with ID ${data.id}`);
 
     return response;
   },

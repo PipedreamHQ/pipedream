@@ -8,6 +8,41 @@ export default {
   version: "0.0.1",
   props: {
     zenler,
+    userId: {
+      propDefinition: [
+        zenler,
+        "userId",
+      ],
+    },
+    courseId: {
+      propDefinition: [
+        zenler,
+        "courseId",
+      ],
+    },
   },
-  async run() {},
+  async run({ $ }) {
+    const {
+      userId,
+      courseId,
+    } = this;
+
+    const response = await this.zenler.unenrollUser({
+      userId,
+      data: {
+        course_id: courseId,
+      },
+    });
+
+    if (typeof(response) === "string") {
+      console.log(response);
+      throw new Error("Response error");
+    }
+
+    const { data } = response;
+
+    $.export("$summary", data);
+
+    return response;
+  },
 };

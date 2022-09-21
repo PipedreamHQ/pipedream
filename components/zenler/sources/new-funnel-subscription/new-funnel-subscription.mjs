@@ -1,6 +1,7 @@
-import zenler from "../../zenler.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "zenler-new-funnel-subscription",
   name: "New Funnel Subscription",
   description: "Emit new event when a funnel is created. [See the docs here](https://www.newzenler.com/api/documentation/public/api-doc.html#0052da8d-ca30-b23b-48b3-5cbdce72547e)",
@@ -8,7 +9,34 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    zenler,
+    ...common.props,
+    funnelId: {
+      propDefinition: [
+        common.props.zenler,
+        "funnelId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.zenler.getFunnelSubscriptions;
+    },
+    getResourceFnArgs() {
+      return {
+        funnelId: this.funnelId,
+      };
+    },
+    resourceFilter(resource) {
+      const lastCreatedAt = this.getLastCreatedAt() || 0;
+      return Date.parse(resource.created_at) > lastCreatedAt;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        ts: Date.parse(resource.created_at),
+        summary: `Funnel Subscription ID ${resource.id}`,
+      };
+    },
+  },
 };
