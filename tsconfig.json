@@ -683,6 +683,27 @@
     },
     {
       "path": "components/sailpoint_personal_token"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/cloudlayer"
+    },
+    {
+      "path": "components/qstash"
+    },
+    {
+      "path": "components/twelve_data"
+    },
+    {
+      "path": "components/sms"
+    },
+    {
+      "path": "components/planning_center"
+    },
+    {
+      "path": "components/printful_oauth"
     }
   ]
 }
