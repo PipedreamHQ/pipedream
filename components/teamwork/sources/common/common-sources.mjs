@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { v4 as uuidv4 } from "uuid";
-import app from "../teamwork.app.mjs";
+import app from "../../teamwork.app.mjs";
 
 export default {
   props: {
@@ -63,4 +63,3 @@ export default {
     },
   },
 };
-
