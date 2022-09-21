@@ -10,7 +10,7 @@ export default {
     body: {
       type: "any",
       label: "Email Body",
-      description: "Include an email body as either plain text or HTML. If HTML, make sure to set the \"Body Type\" prop to `html`.",
+      description: "Include an email body as either plain text or HTML. If HTML, make sure to set the \"Body Type\" prop to `HTML`.",
     },
     bodyType: {
       type: "string",
