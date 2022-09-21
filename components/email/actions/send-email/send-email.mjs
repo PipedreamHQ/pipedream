@@ -15,6 +15,7 @@ export default {
     recipientName: {
       type: "string",
       label: "Recipient Name",
+      description: "Specify the name that will be displayed in the \"To\" section of the email.",
       optional: true,
     },
     subject: {
