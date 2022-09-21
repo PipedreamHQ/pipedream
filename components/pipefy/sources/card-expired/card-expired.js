@@ -5,15 +5,18 @@ module.exports = {
   name: "Card Expired",
   key: "pipefy-card-expired",
   description: "Emits an event each time a card becomes expired in a Pipe.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   methods: {
     isCardRelevant({ node }) {
       return (
-        node.expired && 
+        node.expired &&
         !node.done
       );
     },
-    getMeta({ node, event }) {
+    getMeta({
+      node, event,
+    }) {
       const {
         id: nodeId,
         title: summary,

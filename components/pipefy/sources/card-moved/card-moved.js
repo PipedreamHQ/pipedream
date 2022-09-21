@@ -5,11 +5,14 @@ module.exports = {
   name: "Card Moved (Instant)",
   key: "pipefy-card-moved",
   description: "Emits an event each time a card is moved in a Pipe.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   methods: {
     ...common.methods,
     getActions() {
-      return ["card.move"];
+      return [
+        "card.move",
+      ];
     },
     getMeta(card, cardData) {
       return {

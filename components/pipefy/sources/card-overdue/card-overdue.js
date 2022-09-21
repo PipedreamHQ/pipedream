@@ -5,9 +5,12 @@ module.exports = {
   name: "Card Overdue",
   key: "pipefy-card-overdue",
   description: "Emits an event each time a card becomes overdue in a Pipe.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   methods: {
-    isCardRelevant({ node, event }) {
+    isCardRelevant({
+      node, event,
+    }) {
       const { timestamp: eventTimestamp } = event;
       const eventDate = eventTimestamp * 1000;
       const { due_date: dueDateIso } = node;
@@ -17,7 +20,9 @@ module.exports = {
         !node.done
       );
     },
-    getMeta({ node, event }) {
+    getMeta({
+      node, event,
+    }) {
       const {
         id,
         title: summary,
@@ -30,6 +35,6 @@ module.exports = {
         summary,
         ts,
       };
-    }
+    },
   },
 };
