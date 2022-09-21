@@ -698,6 +698,9 @@
     },
     {
       "path": "components/sms"
+    },
+    {
+      "path": "components/planning_center"
     }
   ]
 }
