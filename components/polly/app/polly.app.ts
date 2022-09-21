@@ -1,4 +1,6 @@
-export default {
+import { defineApp } from "@pipedream/types";
+
+export default defineApp({
   type: "app",
   app: "polly",
   propDefinitions: {},
@@ -8,4 +10,4 @@ export default {
       console.log(Object.keys(this.$auth));
     },
   },
-};
+});

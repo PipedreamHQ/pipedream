@@ -1462,6 +1462,9 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/planning_center:
+    specifiers: {}
+
   components/pointagram:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1470,6 +1473,14 @@ importers:
 
   components/pointerpro:
     specifiers: {}
+
+  components/polly:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/postgresql:
     specifiers:
@@ -1485,6 +1496,9 @@ importers:
       dtslint: 4.2.1_typescript@4.7.4
 
   components/pretix:
+    specifiers: {}
+
+  components/printful_oauth:
     specifiers: {}
 
   components/productboard:
@@ -1807,6 +1821,9 @@ importers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
+
+  components/sms:
+    specifiers: {}
 
   components/smtp2go:
     specifiers:
@@ -9657,7 +9674,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: false
 
@@ -17952,6 +17969,7 @@ packages:
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+    hasBin: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
