@@ -3,8 +3,9 @@ import qstash from "../../qstash.app.mjs";
 export default {
   name: "Publish Endpoint Message",
   version: "0.0.1",
-  key: "publish-endpoint-message",
+  key: "qstash-publish-endpoint-message",
   description: "Publish a message to call back to a URL",
+  type: "action",
   props: {
     qstash,
     endpoint: {
@@ -44,14 +45,12 @@ export default {
       ],
     },
   },
-  type: "action",
-  methods: {},
   async run({ $ }) {
     const {
       body, endpoint, deduplicationId, retries, cron, delay,
     } = this;
 
-    return await this.qstash.publishEndpointMessage({
+    return this.qstash.publishEndpointMessage({
       $,
       body,
       endpoint,

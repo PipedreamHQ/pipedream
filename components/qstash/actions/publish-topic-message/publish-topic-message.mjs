@@ -3,8 +3,9 @@ import qstash from "../../qstash.app.mjs";
 export default {
   name: "Publish Topic Message",
   version: "0.0.1",
-  key: "publish-topic-message",
+  key: "qstash-publish-topic-message",
   description: "Publish a message to a topic",
+  type: "action",
   props: {
     qstash,
     topic: {
@@ -44,13 +45,12 @@ export default {
       ],
     },
   },
-  type: "action",
   async run({ $ }) {
     const {
       body, topic, delay, retries, deduplicationId, cron,
     } = this;
 
-    return await this.qstash.publishTopicMessage({
+    return this.qstash.publishTopicMessage({
       $,
       body,
       topic,
