@@ -51,8 +51,8 @@ export default {
   },
   async run({ $ }) {
     const options = {
-      recipientEmail: this.recipientEmail,
-      recipientName: this.recipientName,
+      to: this.recipientEmail,
+      toName: this.recipientName,
       subject: this.subject,
       html: this.bodyType == 'html' ? this.body : undefined,
       text: this.bodyType == 'plaintext' ? this.body : undefined,
@@ -60,6 +60,6 @@ export default {
       fromName: this.fromName,
       replyTo: this.replyTo
     };
-    return options
+    $.send.email(options)
   },
 }

@@ -34,6 +34,5 @@ export default {
       text: this.bodyType == 'plaintext' ? this.body : undefined,
     };
     $.send.email(options);
-    $.export("$summary", "Successfully sent email");
   },
 };
