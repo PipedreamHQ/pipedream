@@ -66,6 +66,13 @@ export default {
         this.rejectUnauthorized,
         schema,
       );
+      this.emitRows(rows, column);
+    },
+    async initialRows(schema, table, column, limit) {
+      const rows = await this.postgresql.getInitialRows(schema, table, column, limit);
+      this.emitRows(rows, column);
+    },
+    emitRows(rows, column) {
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);
