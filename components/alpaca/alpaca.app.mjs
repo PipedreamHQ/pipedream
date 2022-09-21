@@ -29,17 +29,29 @@ export default {
       type: "string",
       label: "Order Id",
       description: "Order Id",
-      async options({ isPaperAPI }) {
+      async options({
+        prevContext,
+        isPaperAPI,
+      }) {
+        const pageSize = 25;
+        const after = prevContext.nextAfter;
         const orders = await this.getOrders({
           isPaperAPI,
           params: {
-            limit: 500, //max allowed limit, no pagination
+            limit: pageSize,
+            after,
           },
         });
-        return orders.map((order) => ({
-          label: `${order.symbol} ${order.type} ${order.side} - ${order.qty ?? order.notional}`,
-          value: order.id,
-        }));
+        const nextAfter = orders[orders.length - 1]?.updated_at;
+        return {
+          options: orders.map((order) => ({
+            label: `${order.symbol} ${order.type} ${order.side} - ${order.qty ?? order.notional}`,
+            value: order.id,
+          })),
+          context: {
+            nextAfter,
+          },
+        };
       },
     },
     positionSymbol: {

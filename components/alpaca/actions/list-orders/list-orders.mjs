@@ -69,22 +69,31 @@ export default {
     const until = this.until && Date.parse(this.until);
     if (this.until && isNaN(until))
       throw new ConfigurationError("`Until` should be in ISO 8601 format!");
-
-    const response = await this.app.getOrders({
-      $,
-      isPaperAPI: this.isPaperAPI,
-      params: {
-        symbols: this.symbols && this.symbols.join(),
-        side: this.side,
-        status: this.status,
-        limit: 500, //max allowed limit, no pagination
-        after: after && new Date(after).toISOString(),
-        until: until && new Date(until).toISOString(),
-        nested: this.nested,
-      },
-    });
+    let pageSize = 25, orders = [], nextAfter = after && new Date(after).toISOString();
+    while (true) {
+      const response = await this.app.getOrders({
+        $,
+        isPaperAPI: this.isPaperAPI,
+        params: {
+          symbols: this.symbols && this.symbols.join(),
+          side: this.side,
+          status: this.status,
+          after: nextAfter,
+          until: until && new Date(until).toISOString(),
+          nested: this.nested,
+          direction: "asc",
+          limit: pageSize,
+        },
+      });
+      for (const order of response)
+        orders.push(order);
+      if (response.length < pageSize)
+        break;
+      else
+        nextAfter = response.pop().updated_at;
+    }
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${response.length} order${response.length == 1 ? "" : "s"} has been retrieved.`);
-    return response;
+    $.export("$summary", `${orders.length} order${orders.length == 1 ? "" : "s"} has been retrieved.`);
+    return orders;
   },
 };
