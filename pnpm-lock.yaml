@@ -1491,7 +1491,13 @@ importers:
     specifiers: {}
 
   components/profitwell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/propelauth:
     specifiers: {}
