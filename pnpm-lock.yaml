@@ -247,7 +247,12 @@ importers:
     specifiers: {}
 
   components/beehiiv:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/big_cartel:
     specifiers:
@@ -1486,7 +1491,13 @@ importers:
     specifiers: {}
 
   components/profitwell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/propelauth:
     specifiers: {}
@@ -1663,6 +1674,12 @@ importers:
       lodash: 4.17.21
       uuid: 8.3.2
       validate.js: 0.13.1
+
+  components/sendinblue:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/sendle:
     specifiers: {}
@@ -2367,6 +2384,12 @@ importers:
       '@pipedream/platform': 1.1.0
       crypto: 1.0.1
       lodash.sortby: 4.7.0
+
+  components/zoho_desk:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/zoho_inventory:
     specifiers:
