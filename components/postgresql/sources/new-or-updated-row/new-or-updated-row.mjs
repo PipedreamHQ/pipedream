@@ -7,6 +7,7 @@ export default {
   description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
   version: "0.0.5",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     schema: {
@@ -23,6 +24,18 @@ export default {
           schema: c.schema,
         }),
       ],
+    },
+    identifierColumn: {
+      label: "Identifier Column",
+      propDefinition: [
+        common.props.postgresql,
+        "column",
+        (c) => ({
+          table: c.table,
+          schema: c.schema,
+        }),
+      ],
+      description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
     },
     timestampColumn: {
       label: "Timestamp Column",
@@ -46,7 +59,7 @@ export default {
     ...common.methods,
     generateMeta(row, column) {
       return {
-        id: row[column],
+        id: `${row[this.identifierColumn]}-${row[column]}`,
         summary: "Row Added/Updated",
         ts: row[column],
       };
