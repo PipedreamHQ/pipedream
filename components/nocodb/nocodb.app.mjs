@@ -39,7 +39,7 @@ export default {
     data: {
       type: "any",
       label: "data",
-      description: "Data that will be recorded",
+      description: "Enter Json Formated data",
     },
     fields: {
       type: "string[]",
