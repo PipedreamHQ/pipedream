@@ -119,7 +119,12 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return this.$auth.domain;
+      // Some domains has not the / in the end
+      let domain = this.$auth.domain;
+      if (domain[domain.length - 1] !== "/") {
+        domain += "/";
+      }
+      return domain;
     },
     _getHeaders() {
       return {
