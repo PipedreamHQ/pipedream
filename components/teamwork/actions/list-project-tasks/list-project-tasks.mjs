@@ -52,9 +52,9 @@ export default {
       const params = {
         page,
         "pageSize": PAGE_SIZE,
-        "completeAfterDate": this.completeAfterDate,
-        "completeBeforeDate": this.completeBeforeDate,
-        "creators-id": this.creatorsId,
+        "completedAfterDate": this.completeAfterDate,
+        "completedBeforeDate": this.completeBeforeDate,
+        "creator-ids": this.creatorsId.join(","),
         "showDeleted": this.showDeleted,
       };
       const res = await this.app.listProjectTasks(
