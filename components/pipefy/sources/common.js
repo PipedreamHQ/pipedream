@@ -1,4 +1,4 @@
-const pipefy = require("../pipefy.app.js");
+const pipefy = require("../pipefy.app.mjs");
 
 module.exports = {
   dedupe: "unique",

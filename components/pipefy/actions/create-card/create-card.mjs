@@ -74,11 +74,12 @@ export default {
   }
   */
 
-    let mutationString = `{
+    let mutationString = `
+    mutation{
       createCard( input: {
         pipe_id: ${this.pipe}
         phase_id: ${this.phase}
-        title: ${this.title}
+        title: "${this.title}"
         fields_attributes: [`;
 
     const fields = await this.pipefy.listFields(this.phase);
@@ -86,20 +87,19 @@ export default {
       if (this[field.id]) {
         mutationString += `
           {
-            field_id: ${field.id}
-            field_value: ${this.field.id}
+            field_id: "${field.id}"
+            field_value: "${this[field.id]}"
           }`;
       }
     }
     mutationString += `
-          ]
-        })
-        { card { id title } }
-      }
-    `;
+        ]
+      })
+      { card { id title } }
+    }`;
 
     const data = {
-      mutation: mutationString,
+      query: mutationString,
     };
 
     return await this.pipefy._makeRequest(data, "graphql");
