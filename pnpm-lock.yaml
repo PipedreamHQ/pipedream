@@ -2101,6 +2101,12 @@ importers:
     dependencies:
       twilio: 3.79.0
 
+  components/twist:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/twitch:
     specifiers:
       axios: ^0.27.2
