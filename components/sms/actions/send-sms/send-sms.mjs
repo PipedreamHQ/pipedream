@@ -10,10 +10,10 @@ export default {
     sms,
     message: {
       type: "string",
-      description: "Send an SMS to the [verified phone number for your account](https://pipedream.com/settings). While this feature is in alpha, you may send up to 10 messages per day."
-    }
+      description: "Send an SMS to the [verified phone number for your account](https://pipedream.com/settings). While this feature is in alpha, you may send up to 10 messages per day.",
+    },
   },
-  async run({steps, $}) {
-    $.send.sms(this.message)
+  async run({ $ }) {
+    $.send.sms(this.message);
   },
 };
