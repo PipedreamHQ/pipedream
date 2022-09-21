@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import app from "../teamwork.app.mjs";
 
 export default {
-  dedupe: "unique",
   props: {
     app,
     db: "$.service.db",

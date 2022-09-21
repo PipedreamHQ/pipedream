@@ -1,7 +1,8 @@
-import common from "../../common/common-sources.mjs";
+import common from "../common/common-sources.mjs";
 
 export default {
   ...common,
+  dedupe: "unique",
   type: "source",
   key: "teamwork-new-task",
   name: "New Task",
