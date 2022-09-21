@@ -40,6 +40,7 @@ export default {
           params: {
             limit: pageSize,
             after,
+            direction: "asc",
           },
         });
         const nextAfter = orders[orders.length - 1]?.updated_at;
