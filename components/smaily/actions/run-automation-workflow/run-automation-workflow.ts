@@ -20,7 +20,6 @@ export default defineAction({
         smaily,
         "segmentId",
       ],
-      optional: true,
     },
     emails: {
       propDefinition: [

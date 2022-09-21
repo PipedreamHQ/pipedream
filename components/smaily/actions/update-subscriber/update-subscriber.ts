@@ -14,7 +14,6 @@ export default defineAction({
         smaily,
         "segmentId",
       ],
-      optional: true,
     },
     email: {
       label: "Subscriber Email",
