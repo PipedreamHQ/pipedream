@@ -2,7 +2,7 @@
   "name": "@pipedream/teamwork",
   "version": "0.0.1",
   "description": "Pipedream TeamWork Components",
-  "main": "teamwork.app.js",
+  "main": "teamwork.app.mjs",
   "keywords": [
     "pipedream",
     "teamwork"
