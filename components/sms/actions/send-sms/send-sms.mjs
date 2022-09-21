@@ -15,5 +15,6 @@ export default {
   },
   async run({ $ }) {
     $.send.sms(this.message);
+    // Omitting $summary export since SMS may not be successfully sent
   },
 };
