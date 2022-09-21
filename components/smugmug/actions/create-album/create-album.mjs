@@ -5,7 +5,7 @@ export default {
   key: "smugmug-create-album",
   name: "Create Album",
   description: "Creates an album.",
-  version: "0.4.1",
+  version: "2.0.0",
   type: "action",
   props: {
     smugmug: {

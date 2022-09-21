@@ -118,6 +118,8 @@ jobs:
           VALIDATE_JSON: true
       - name: Check component keys
         run: node scripts/findBadKeys.js
+      - name: Check for duplicate component keys
+        run: node scripts/findDuplicateKeys.js
 
   pnpm-publish-dry-run:
     name: pnpm publish dry run

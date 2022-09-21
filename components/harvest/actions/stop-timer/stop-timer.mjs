@@ -1,10 +1,10 @@
 import harvest from "../../harvest.app.mjs";
 
 export default {
-  key: "harvest-start-timer",
+  key: "harvest-stop-timer",
   name: "Stop Time Entry",
   description: "Stop a timer entry. [See docs here](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#stop-a-running-time-entry)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     harvest,
