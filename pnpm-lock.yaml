@@ -1800,7 +1800,10 @@ importers:
       '@slack/web-api': 5.15.0
 
   components/smaily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/smiirl:
     specifiers:
