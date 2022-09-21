@@ -695,6 +695,15 @@
     },
     {
       "path": "components/twelve_data"
+    },
+    {
+      "path": "components/sms"
+    },
+    {
+      "path": "components/planning_center"
+    },
+    {
+      "path": "components/printful_oauth"
     }
   ]
 }
