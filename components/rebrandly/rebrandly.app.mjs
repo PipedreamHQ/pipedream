@@ -9,12 +9,17 @@ export default {
       description: "The domain to be used",
       type: "string",
       async options({ prevContext }) {
+        const params = {
+          orderBy: "createdAt",
+          orderDir: "asc",
+        };
+
+        if (prevContext.lastId) {
+          params.last = prevContext.lastId;
+        }
+
         const domains = await this.getDomains({
-          params: {
-            last: prevContext.lastId,
-            orderBy: "createdAt",
-            orderDir: "asc",
-          },
+          params,
         });
 
         return {
@@ -35,10 +40,17 @@ export default {
       description: "The ID of the link",
       type: "string",
       async options({ prevContext }) {
+        const params = {
+          orderBy: "createdAt",
+          orderDir: "asc",
+        };
+
+        if (prevContext.lastId) {
+          params.last = prevContext.lastId;
+        }
+
         const links = await this.getLinks({
-          params: {
-            last: prevContext.lastId,
-          },
+          params,
         });
 
         return {
