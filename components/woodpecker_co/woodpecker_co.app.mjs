@@ -32,10 +32,12 @@ export default {
           $page: page + 1,
           sort: "id",
         });
-        return prospects.map((prospect) => ({
-          value: prospect.id,
-          label: `${prospect.first_name} ${prospect.last_name} (${prospect.email})`,
-        }));
+        return prospects.length
+          ? prospects.map((prospect) => ({
+            value: prospect.id,
+            label: `${prospect.first_name} ${prospect.last_name} (${prospect.email})`,
+          }))
+          : [];
       },
     },
     sort: {
