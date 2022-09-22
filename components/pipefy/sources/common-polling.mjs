@@ -1,6 +1,6 @@
-const common = require("./common.js");
+import common from "./common.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -15,8 +15,14 @@ module.exports = {
     const cards = await this.pipefy.listCards(this.pipeId);
     for (const edge of cards.edges) {
       const { node } = edge;
-      if (!this.isCardRelevant({ node, event })) continue;
-      const meta = this.getMeta({ node, event });
+      if (!this.isCardRelevant({
+        node,
+        event,
+      })) continue;
+      const meta = this.getMeta({
+        node,
+        event,
+      });
       this.$emit(node, meta);
     }
   },

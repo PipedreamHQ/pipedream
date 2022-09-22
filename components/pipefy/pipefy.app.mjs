@@ -1,4 +1,7 @@
-import { axios } from "@pipedream/platform";
+import "graphql/language/index.js";
+import {
+  GraphQLClient, gql,
+} from "graphql-request";
 
 export default {
   type: "app",
@@ -52,185 +55,186 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
-    async _makeRequest(data, endpoint, $ = this) {
-      const config = {
-        method: "POST",
-        url: `${this._getBaseUrl()}/${endpoint}`,
+    async _getGraphQLClient(endpoint) {
+      return new GraphQLClient(`${this._getBaseUrl()}/${endpoint}`, {
         headers: this._getHeaders(),
-        data,
-      }; console.log(config);
-      return axios($, config);
+      });
     },
-    async _makeQueriesRequest(data = null) {
-      return this._makeRequest(data, "queries");
+    async _makeQueriesRequest(data, variables) {
+      const client = await this._getGraphQLClient("queries");
+      return client.request(data, variables);
     },
-    async _makeGraphQlRequest(data = null) {
-      return this._makeRequest(data, "graphql");
+    async _makeGraphQlRequest(data, variables) {
+      const client = await this._getGraphQLClient("graphql");
+      return client.request(data, variables);
     },
     async createHook({
       pipe_id, name, url, actions,
     }) {
-      const data = {
-        query: `
-          mutation { 
-            createWebhook(input: { 
-              pipe_id: ${pipe_id} 
-              name: "${name}" 
-              url: "${url}" 
-              actions: ["${actions}"] 
-              headers: "{\\"token\\": \\"${this.$auth.token}\\"}" 
-            }) 
-            { 
-              webhook { 
-                id 
-                name 
-              } 
+      const query = `
+        mutation { 
+          createWebhook(input: { 
+            pipe_id: ${pipe_id} 
+            name: "${name}" 
+            url: "${url}" 
+            actions: ["${actions}"] 
+            headers: "{\\"token\\": \\"${this.$auth.token}\\"}" 
+          }) 
+          { 
+            webhook { 
+              id 
+              name 
             } 
-          }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.createWebhook;
+          } 
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).createWebhook;
     },
     async deleteHook(hookId) {
-      const data = {
-        query: `
-          mutation { 
-            deleteWebhook(input: { 
-              id: ${hookId} 
-            }) 
-            { 
-              success 
-            } 
-          }
-        `,
-      };
-      await this._makeQueriesRequest(data);
+      const query = `
+        mutation { 
+          deleteWebhook(input: { 
+            id: ${hookId} 
+          }) 
+          { 
+            success 
+          } 
+        }
+      `;
+      await this._makeQueriesRequest(query);
     },
     async getCard(id) {
-      const data = {
-        query: `
-          { 
-            card(id: ${id}) { 
-              id 
-              title 
-              url 
-              comments{text} 
-              createdAt 
-              createdBy{name} 
-              due_date 
-            } 
-          }
-        `,
-      };
-      return this._makeGraphQlRequest(data);
+      const query = `
+        { 
+          card(id: ${id}) { 
+            id 
+            title 
+            url 
+            comments{text} 
+            createdAt 
+            createdBy{name} 
+            due_date 
+          } 
+        }
+      `;
+      return this._makeGraphQlRequest(query);
     },
     async listCards(pipe_id) {
-      const data = {
-        query: `
-          { 
-            cards(pipe_id: ${pipe_id}, first: 100) { 
-              edges { 
-                node { 
+      const query = `
+        { 
+          cards(pipe_id: ${pipe_id}, first: 100) { 
+            edges { 
+              node { 
+                id 
+                title 
+                assignees { 
                   id 
-                  title 
-                  assignees { 
-                    id 
-                  } 
-                  comments { 
-                    text 
-                  } 
-                  comments_count 
-                  current_phase { 
-                    name 
-                    id 
-                  } 
-                  done 
-                  late 
-                  expired 
-                  due_date 
-                  fields { 
-                    name 
-                    value 
-                  } 
-                  labels { 
-                    name 
-                  } 
-                  phases_history { 
-                    phase { 
-                      name 
-                    } 
-                    firstTimeIn 
-                    lastTimeOut 
-                  } 
-                  url 
                 } 
+                comments { 
+                  text 
+                } 
+                comments_count 
+                current_phase { 
+                  name 
+                  id 
+                } 
+                done 
+                late 
+                expired 
+                due_date 
+                fields { 
+                  name 
+                  value 
+                } 
+                labels { 
+                  name 
+                } 
+                phases_history { 
+                  phase { 
+                    name 
+                  } 
+                  firstTimeIn 
+                  lastTimeOut 
+                } 
+                url 
               } 
             } 
-          }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.cards;
+          } 
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).cards;
     },
     async listOrganizations() {
-      const data = {
-        query: `
-          {
-            organizations{
+      const query = `
+        {
+          organizations{
+            id
+            name
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).organizations;
+    },
+    async listPipes(orgId) {
+      const query = `
+        {
+          organization(id:${orgId}) {
+            pipes {
               id
               name
             }
           }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.organizations;
-    },
-    async listPipes(orgId) {
-      const data = {
-        query: `
-          {
-            organization(id:${orgId}) {
-              pipes {
-                id
-                name
-              }
-            }
-          }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.organization.pipes;
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).organization.pipes;
     },
     async listPhases(pipeId) {
-      const data = {
-        query: `
-          {
-            pipe(id:${pipeId}) {
-              phases {
-                id
-                name
-              }
+      const query = `
+        {
+          pipe(id:${pipeId}) {
+            phases {
+              id
+              name
             }
           }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.pipe.phases;
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).pipe.phases;
     },
     async listFields(phaseId) {
-      const data = {
-        query: `
-          {
-            phase(id:${phaseId}) {
-              fields {
-                id
-                label
-                required
-                options
-                description
-              }
+      const query = `
+        {
+          phase(id:${phaseId}) {
+            fields {
+              id
+              label
+              required
+              options
+              description
             }
           }
-        `,
-      };
-      return (await this._makeQueriesRequest(data)).data.phase.fields;
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).phase.fields;
+    },
+    async createCard(variables) {
+      const mutation = gql`
+        mutation(
+          $pipeId: ID!
+          $phaseId: ID!
+          $title: String!
+          $fieldsAttributes: [FieldValueInput]
+        ){
+          createCard( input: {
+            pipe_id: $pipeId
+            phase_id: $phaseId
+            title: $title
+            fields_attributes: $fieldsAttributes
+          })
+          { card { id title } }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
     },
   },
 };

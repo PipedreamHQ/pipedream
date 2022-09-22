@@ -1,16 +1,16 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "Card Expired",
-  key: "pipefy-card-expired",
-  description: "Emits an event each time a card becomes expired in a Pipe.",
+  name: "Card Late",
+  key: "pipefy-card-late",
+  description: "Emits an event each time a card becomes late in a Pipe.",
   version: "0.0.2",
   type: "source",
   methods: {
     isCardRelevant({ node }) {
       return (
-        node.expired &&
+        node.late &&
         !node.done
       );
     },

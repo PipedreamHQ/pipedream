@@ -1,6 +1,6 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Card Overdue",
   key: "pipefy-card-overdue",

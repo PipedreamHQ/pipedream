@@ -1,6 +1,6 @@
-const common = require("../common-webhook.js");
+import common from "../common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Card Done (Instant)",
   key: "pipefy-card-done",

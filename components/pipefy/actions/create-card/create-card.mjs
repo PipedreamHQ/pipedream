@@ -4,7 +4,8 @@ export default {
   key: "pipefy-create-card",
   name: "Create Card",
   description: "Create a new Card in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createCard/)",
-  version: "0.1.2",
+  //version: "0.1.2",
+  version: "0.1.58",
   type: "action",
   props: {
     pipefy,
@@ -56,7 +57,7 @@ export default {
     }
     return props;
   },
-  async run() {
+  async run({ $ }) {
   /*
   Example query:
 
@@ -74,34 +75,26 @@ export default {
   }
   */
 
-    let mutationString = `
-    mutation{
-      createCard( input: {
-        pipe_id: ${this.pipe}
-        phase_id: ${this.phase}
-        title: "${this.title}"
-        fields_attributes: [`;
-
+    const fieldsAttributes = [];
     const fields = await this.pipefy.listFields(this.phase);
     for (const field of fields) {
       if (this[field.id]) {
-        mutationString += `
-          {
-            field_id: "${field.id}"
-            field_value: "${this[field.id]}"
-          }`;
+        fieldsAttributes.push({
+          field_id: field.id,
+          field_value: this[field.id],
+        });
       }
     }
-    mutationString += `
-        ]
-      })
-      { card { id title } }
-    }`;
 
-    const data = {
-      query: mutationString,
+    const variables = {
+      pipeId: this.pipe,
+      phaseId: this.phase,
+      title: this.title,
+      fieldsAttributes,
     };
 
-    return await this.pipefy._makeRequest(data, "graphql");
+    const response = await this.pipefy.createCard(variables);
+    $.export("$summary", "Successfully created card");
+    return response;
   },
 };
