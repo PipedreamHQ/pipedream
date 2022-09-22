@@ -1,5 +1,5 @@
 import ninox from "../../app/ninox.app";
-import { defineAction } from '@pipedream/types'
+import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create Record",

@@ -58,9 +58,9 @@ export default {
         databaseId: this.databaseId,
         tableId: this.tableId,
         params: {
-          page
-        }
-      })
+          page,
+        },
+      });
 
       records.reverse().forEach(this.emitEvent);
 

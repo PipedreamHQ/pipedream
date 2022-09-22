@@ -1,5 +1,5 @@
 import common from "../common/common";
-import { defineSource } from '@pipedream/types'
+import { defineSource } from "@pipedream/types";
 
 export default defineSource({
   ...common,
@@ -12,7 +12,7 @@ export default defineSource({
   methods: {
     ...common.methods,
     emitEvent(data) {
-      this._setLastRecordId(data.id)
+      this._setLastRecordId(data.id);
 
       this.$emit(data, {
         id: data.id,

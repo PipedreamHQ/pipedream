@@ -1,5 +1,5 @@
 import common from "../common/common";
-import { defineSource } from '@pipedream/types'
+import { defineSource } from "@pipedream/types";
 
 export default defineSource({
   ...common,
@@ -13,10 +13,10 @@ export default defineSource({
     ...common.methods,
     emitEvent(data) {
       if (data.createdAt === data.modifiedAt) {
-        return
+        return;
       }
 
-      this._setLastRecordId(data.id)
+      this._setLastRecordId(data.id);
 
       this.$emit(data, {
         id: `${data.id}-${data.modifiedAt}`,

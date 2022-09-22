@@ -1,5 +1,5 @@
 import ninox from "../../app/ninox.app";
-import { defineAction } from '@pipedream/types'
+import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Update Record",
@@ -12,7 +12,7 @@ export default defineAction({
     recordId: {
       label: "Record ID",
       description: "The record ID to be updated",
-      type: "string"
+      type: "string",
     },
     teamId: {
       propDefinition: [
