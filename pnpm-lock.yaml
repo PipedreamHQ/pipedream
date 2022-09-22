@@ -247,7 +247,12 @@ importers:
     specifiers: {}
 
   components/beehiiv:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/big_cartel:
     specifiers:
@@ -1427,7 +1432,10 @@ importers:
     specifiers: {}
 
   components/pikaso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/pinterest:
     specifiers:
@@ -1457,6 +1465,9 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/planning_center:
+    specifiers: {}
+
   components/pointagram:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1482,11 +1493,20 @@ importers:
   components/pretix:
     specifiers: {}
 
+  components/printful_oauth:
+    specifiers: {}
+
   components/productboard:
     specifiers: {}
 
   components/profitwell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/propelauth:
     specifiers: {}
@@ -1789,13 +1809,19 @@ importers:
       '@slack/web-api': 5.15.0
 
   components/smaily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
+
+  components/sms:
+    specifiers: {}
 
   components/smtp2go:
     specifiers:
@@ -1958,6 +1984,16 @@ importers:
   components/teamdeck:
     specifiers: {}
 
+  components/teamwork:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto: ^1.0.1
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      crypto: 1.0.1
+      uuid: 9.0.0
+
   components/telegram_bot_api:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -2086,6 +2122,12 @@ importers:
       twilio: ^3.54.2
     dependencies:
       twilio: 3.79.0
+
+  components/twist:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/twitch:
     specifiers:
@@ -19688,6 +19730,11 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
     dev: false
 
