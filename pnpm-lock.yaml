@@ -1465,6 +1465,9 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/planning_center:
+    specifiers: {}
+
   components/pointagram:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1488,6 +1491,15 @@ importers:
       dtslint: 4.2.1_typescript@4.7.4
 
   components/pretix:
+    specifiers: {}
+
+  components/printful:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/printful_oauth:
     specifiers: {}
 
   components/productboard:
@@ -1813,6 +1825,9 @@ importers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
+
+  components/sms:
+    specifiers: {}
 
   components/smtp2go:
     specifiers:
