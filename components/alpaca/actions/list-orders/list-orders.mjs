@@ -85,12 +85,12 @@ export default {
           limit: pageSize,
         },
       });
-      for (const order of response)
-        orders.push(order);
-      if (response.length < pageSize)
+      orders.push(...response);
+      if (response.length < pageSize) {
         break;
-      else
+      } else {
         nextAfter = response.pop().updated_at;
+      }
     }
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `${orders.length} order${orders.length == 1 ? "" : "s"} has been retrieved.`);

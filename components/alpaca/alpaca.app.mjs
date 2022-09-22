@@ -43,6 +43,9 @@ export default {
             direction: "asc",
           },
         });
+        if (!orders.length) {
+          return [];
+        }
         const nextAfter = orders[orders.length - 1]?.updated_at;
         return {
           options: orders.map((order) => ({
