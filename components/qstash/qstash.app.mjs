@@ -52,57 +52,49 @@ export default {
     },
   },
   methods: {
+    baseUrl() {
+      return "https://qstash.upstash.io/v1/publish";
+    },
     getHeaders({
       deduplicationId, delay, cron, retries, contentBasedDeduplicationEnabled,
     }) {
-      return {
+      let headers = {
         "Authorization": `Bearer ${this.$auth.qstash_token}`,
         "Content-Type": "application/json",
-        ...(contentBasedDeduplicationEnabled
-          ? {
-            "Upstash-Content-Based-Deduplication": contentBasedDeduplicationEnabled,
-          }
-          : {}),
-        ...(deduplicationId
-          ? {
-            "Upstash-Content-Based-Deduplication": deduplicationId,
-          }
-          : {}),
-        ...(delay
-          ? {
-            "Upstash-Delay": delay,
-          }
-          : {}),
-        ...(cron
-          ? {
-            "Upstash-Cron": cron,
-          }
-          : {}),
-        ...(retries
-          ? {
-            "Upstash-Retries": retries,
-          }
-          : {}),
       };
+      if (contentBasedDeduplicationEnabled) {
+        headers["Upstash-Content-Based-Deduplication"] = contentBasedDeduplicationEnabled;
+      }
+      if (deduplicationId) {
+        headers["Upstash-Deduplication-Id"] = deduplicationId;
+      }
+      if (delay) {
+        headers["Upstash-Delay"] = delay;
+      }
+      if (cron) {
+        headers["Upstash-Cron"] = cron;
+      }
+      if (retries) {
+        headers["Upstash-Retries"] = retries;
+      }
+      return headers;
     },
     async publishEndpointMessage({
       $, body, endpoint, ...headers
     }) {
-      const httpHeaders = this.getHeaders(headers);
-      console.log(httpHeaders);
       return axios($, {
-        url: `https://qstash.upstash.io/v1/publish/${endpoint}`,
+        url: `${this.baseUrl()}/${endpoint}`,
         method: "POST",
         data: body,
-        headers: httpHeaders,
+        headers: this.getHeaders(headers),
       });
     },
 
     async publishTopicMessage({
       $, body, topic, ...headers
     }) {
-      return await axios($, {
-        url: `https://qstash.upstash.io/v1/publish/${topic}`,
+      return axios($, {
+        url: `${this.baseUrl()}/${topic}`,
         method: "POST",
         data: body,
         headers: this.getHeaders(headers),
