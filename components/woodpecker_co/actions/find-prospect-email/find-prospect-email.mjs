@@ -130,9 +130,7 @@ export default {
       city,
       state,
       country,
-      sort: sort
-        ? sort.toString()
-        : null,
+      sort: sort?.toString(),
     });
 
     const suffix = response.length > 1
