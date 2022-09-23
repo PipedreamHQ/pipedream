@@ -50,10 +50,20 @@ export default {
       description: "You can use a tool like [Crontab.guru](https://crontab.guru) to generate cron expressions.",
       optional: true,
     },
+    topicName: {
+      type: "string",
+      label: "Topic Name",
+      description: "The name of the topic.",
+    },
+    endpointUrl: {
+      type: "string",
+      label: "Endpoint URL",
+      description: "User controlled service url where we will send webhooks to.",
+    },
   },
   methods: {
     baseUrl() {
-      return "https://qstash.upstash.io/v1/publish";
+      return "https://qstash.upstash.io/v1";
     },
     getHeaders({
       deduplicationId, delay, cron, retries, contentBasedDeduplicationEnabled,
@@ -83,21 +93,76 @@ export default {
       $, body, endpoint, ...headers
     }) {
       return axios($, {
-        url: `${this.baseUrl()}/${endpoint}`,
+        url: `${this.baseUrl()}/publish/${endpoint}`,
         method: "POST",
         data: body,
         headers: this.getHeaders(headers),
       });
     },
-
     async publishTopicMessage({
       $, body, topic, ...headers
     }) {
       return axios($, {
-        url: `${this.baseUrl()}/${topic}`,
+        url: `${this.baseUrl()}/publish/${topic}`,
         method: "POST",
         data: body,
         headers: this.getHeaders(headers),
+      });
+    },
+    async listEndpoints({ $ }) {
+      return axios($ || this, {
+        url: `${this.baseUrl()}/endpoints`,
+        method: "GET",
+        headers: this.getHeaders({}),
+      });
+    },
+    async listTopics({ $ = this }) {
+      return axios($, {
+        url: `${this.baseUrl()}/topics`,
+        method: "GET",
+        headers: this.getHeaders({}),
+      });
+    },
+    async createTopic({
+      $, topicName,
+    }) {
+      return axios($, {
+        url: `${this.baseUrl()}/topics`,
+        method: "POST",
+        data: {
+          name: topicName,
+        },
+        headers: this.getHeaders({}),
+      });
+    },
+    async createEndpoint({
+      $, topicName, topicId, endpointUrl,
+    }) {
+      return axios($, {
+        url: `${this.baseUrl()}/endpoints`,
+        method: "POST",
+        data: {
+          topicName,
+          topicId,
+          url: endpointUrl,
+        },
+        headers: this.getHeaders({}),
+      });
+    },
+    async deleteEndpoint({
+      $ = this, endpointId,
+    }) {
+      return axios($, {
+        url: `${this.baseUrl()}/endpoints/${endpointId}`,
+        method: "DELETE",
+        headers: this.getHeaders({}),
+      });
+    },
+    async getKeys({ $ = this }) {
+      return axios($, {
+        url: `${this.baseUrl()}/keys`,
+        method: "GET",
+        headers: this.getHeaders({}),
       });
     },
   },
