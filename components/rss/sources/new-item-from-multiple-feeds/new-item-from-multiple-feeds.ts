@@ -5,10 +5,10 @@ import rssCommon from "../common/common";
 export default defineSource({
   ...rssCommon,
   key: "rss-new-item-from-multiple-feeds",
-  name: "New item from multiple RSS feeds",
+  name: "New Item From Multiple RSS Feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
-  version: "1.0.3",
+  version: "1.0.4",
   props: {
     ...rssCommon.props,
     urls: {
@@ -16,6 +16,14 @@ export default defineSource({
         rss,
         "urls",
       ],
+      description: "Enter one or multiple URLs from any public RSS feed. To avoid timeouts, 5 or less URLs is recommended.",
+    },
+    max: {
+      type: "integer",
+      label: "Max per Feed",
+      description: "Maximum number of posts per feed to retrieve at one time. Defaults to 20.",
+      optional: true,
+      default: 20,
     },
   },
   dedupe: "unique",
@@ -31,7 +39,8 @@ export default defineSource({
   async run() {
     const items = [];
     for (const url of this.urls) {
-      const feedItems = await this.rss.fetchAndParseFeed(url);
+      const feedItems = (await this.rss.fetchAndParseFeed(url))?.slice(0, this.max);
+      console.log(`Retrieved items from ${url}`);
       items.push(...feedItems);
     }
     this.rss.sortItems(items).forEach((item: any) => {

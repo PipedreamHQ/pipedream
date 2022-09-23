@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.1.1",
+  version: "1.1.2",
   description: "Emit new event when a member has added an emoji reaction to an item",
   type: "source",
   dedupe: "unique",
@@ -25,7 +25,7 @@ export default {
       type: "$.interface.apphook",
       appProp: "slack",
       async eventNames() {
-        if (this.conversations.length) {
+        if (this.conversations?.length) {
           const conversations = [];
           for (const conversation of this.conversations) {
             conversations.push(`reaction_added:${conversation}`);
