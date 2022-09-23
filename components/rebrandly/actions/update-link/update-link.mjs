@@ -24,11 +24,6 @@ export default {
       description: "New title you want to assign to a branded short link",
       type: "string",
     },
-    favourite: {
-      label: "Favourite",
-      description: "Whether a link should be marked as favourite (loved) or not",
-      type: "boolean",
-    },
   },
   async run({ $ }) {
     const response = await this.rebrandly.updateLink({
@@ -37,7 +32,6 @@ export default {
       data: {
         destination: this.destination,
         title: this.title,
-        favourite: this.favourite,
       },
     });
 
