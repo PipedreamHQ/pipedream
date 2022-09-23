@@ -4,7 +4,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "Update Customer Note Entry",
   version: "0.0.1",
-  key: "waithwile-update-customer-note-entry",
+  key: "waitwhile-update-customer-note-entry",
   description: "Update a customer note entry",
   props: {
     waitwhile,

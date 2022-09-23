@@ -21,10 +21,10 @@ export default defineAction({
       description: "State of visit",
     },
     tag: {
-      label: "Tag",
-      type: "string",
-      optional: true,
-      description: "Tag associated with visit",
+      propDefinition: [
+        waitwhile,
+        "tag",
+      ],
     },
     q: {
       label: "Query",

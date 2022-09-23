@@ -75,11 +75,6 @@ export default defineApp({
       type: "string",
       description: "Identifier of location",
     },
-    locationIds: {
-      label: "Location IDs",
-      type: "string[]",
-      description: "Identifier of location",
-    },
     name: {
       label: "Name",
       type: "string",
@@ -107,11 +102,11 @@ export default defineApp({
       optional: true,
       description: "Identifier(s) or value(s) to paginate results (comma-separated)",
     },
-    tags: {
-      label: "Tags",
-      type: "string[]",
+    tag: {
+      label: "Tag",
+      type: "string",
       optional: true,
-      description: "Optional tags associated with customer",
+      description: "Tag associated with visit",
     },
     toDate: {
       label: "To Date",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/waitwhile",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Waitwhile Components",
   "main": "dist/app/waitwhile.app.mjs",
   "types": "dist/app/waitwhile.app.d.ts",
@@ -14,10 +14,7 @@
   "homepage": "https://pipedream.com/apps/waitwhile",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
-  "scripts": {
-    "build": "tsc --build",
-    "clean": "tsc --build --clean"
-  },
+ 
   "publishConfig": {
     "access": "public"
   },

@@ -43,15 +43,18 @@ export default defineAction({
       ],
     },
     tags: {
+      type: "string[]",
+      description: "Optional tags associated with customer",
       propDefinition: [
         waitwhile,
-        "tags",
+        "tag",
       ],
     },
     locationIds: {
+      type: "string[]",
       propDefinition: [
         waitwhile,
-        "locationIds",
+        "locationId",
       ],
     },
     addTag: {

@@ -41,5 +41,6 @@ const formatString = (key: string, ALLOWED_KEYS: string[]): string => {
 };
 
 export {
-  formatArrayStrings, formatString,
+  formatArrayStrings, 
+  formatString,
 };

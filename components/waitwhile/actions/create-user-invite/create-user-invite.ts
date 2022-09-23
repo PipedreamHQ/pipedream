@@ -30,9 +30,10 @@ export default defineAction({
       description: "Identifier of location",
     },
     locationIds: {
+      type: "string[]",
       propDefinition: [
         waitwhile,
-        "locationIds",
+        "locationId",
       ],
     },
     roles: {
