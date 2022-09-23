@@ -1,0 +1,10 @@
+{
+  "name": "@pipedream/deployhq",
+  "version": "0.0.1",
+  "description": "Pipedream DeployHQ Components",
+  "keywords": [
+    "pipedream",
+    "deployhq"
+  ],
+  "license": "MIT"
+}

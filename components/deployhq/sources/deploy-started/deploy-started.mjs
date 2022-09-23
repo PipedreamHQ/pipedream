@@ -1,0 +1,29 @@
+import common, { STATUS_RUNNING } from "../common.mjs";
+
+export default {
+  ...common,
+  key: "deployhq-deploy-started",
+  name: "Deploy Started",
+  version: "0.0.1",
+  description: "Emit new events when deploys start",
+  type: "source",
+  props: {
+    http: "$.interface.http",
+  },
+  async run(request) {
+    const { payload } = this.validateRequest(request);
+
+    if (payload.status !== STATUS_RUNNING) {
+      console.log(`Deploy status [${payload.status}] is not ${STATUS_RUNNING}`);
+      return;
+    }
+
+    this.$emit({
+      payload,
+    }, {
+      id: payload.identifier,
+      summary: `Started ${payload.identifier}`,
+      ts: Date.now(),
+    });
+  },
+};
