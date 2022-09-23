@@ -29,7 +29,13 @@ export default {
     deduplicationId: {
       type: "string",
       label: "Deduplication ID",
-      description: "This id will be used to detect duplicate messages. If a duplicate message is detected, the request will be accepted but not enqueued.",
+      description: "Provide an ID that will be used to detect duplicate messages. If a duplicate message is detected, the request will be accepted but not enqueued. [Learn more.](https://docs.upstash.com/qstash/howto/publishing#optional-parameters-and-configuration)",
+      optional: true,
+    },
+    contentBasedDeduplicationEnabled: {
+      type: "boolean",
+      label: "Content Based Deduplication Enabled",
+      description: "If true, the message content will get hashed and used as deduplication ID. If a duplicate message is detected, the request will be accepted but not enqueued.",
       optional: true,
     },
     delay: {
@@ -47,14 +53,14 @@ export default {
   },
   methods: {
     getHeaders({
-      deduplicationId, delay, cron, retries, contentBasedDeduplication,
+      deduplicationId, delay, cron, retries, contentBasedDeduplicationEnabled,
     }) {
       return {
         "Authorization": `Bearer ${this.$auth.qstash_token}`,
         "Content-Type": "application/json",
-        ...(contentBasedDeduplication
+        ...(contentBasedDeduplicationEnabled
           ? {
-            "Upstash-Content-Based-Deduplication": contentBasedDeduplication,
+            "Upstash-Content-Based-Deduplication": contentBasedDeduplicationEnabled,
           }
           : {}),
         ...(deduplicationId

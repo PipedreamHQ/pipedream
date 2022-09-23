@@ -31,6 +31,12 @@ export default {
         "deduplicationId",
       ],
     },
+    contentBasedDeduplicationEnabled: {
+      propDefinition: [
+        qstash,
+        "contentBasedDeduplicationEnabled",
+      ],
+    },
     delay: {
       propDefinition: [
         qstash,
@@ -47,7 +53,7 @@ export default {
   type: "action",
   async run({ $ }) {
     const {
-      body, topic, delay, retries, deduplicationId, cron,
+      body, topic, delay, retries, deduplicationId, cron, contentBasedDeduplicationEnabled,
     } = this;
 
     return await this.qstash.publishTopicMessage({
@@ -56,6 +62,7 @@ export default {
       topic,
       delay,
       retries,
+      contentBasedDeduplicationEnabled,
       deduplicationId,
       cron,
     });
