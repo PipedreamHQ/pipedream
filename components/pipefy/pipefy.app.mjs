@@ -43,6 +43,19 @@ export default {
         }));
       },
     },
+    members: {
+      type: "string[]",
+      label: "Members",
+      description: "Select members",
+      optional: true,
+      async options({ orgId }) {
+        const members = await this.listMembers(orgId);
+        return members.map((member) => ({
+          label: member.user.displayName,
+          value: member.user.id,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -217,6 +230,21 @@ export default {
       `;
       return (await this._makeQueriesRequest(query)).phase.fields;
     },
+    async listMembers(organizationId) {
+      const query = `
+        {
+          organization(id: ${organizationId}) {
+            members {
+              user {
+                id
+                displayName
+              }
+            }
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).organization.members;
+    },
     async createCard(variables) {
       const mutation = gql`
         mutation(
@@ -232,6 +260,27 @@ export default {
             fields_attributes: $fieldsAttributes
           })
           { card { id title } }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async createPipe(variables) {
+      const mutation = gql`
+        mutation createNewPipe(
+          $name: String!
+          $organizationId: ID!
+          $icon: String!
+          $phases: [PhaseInput]
+          $members: [MemberInput]
+        ){
+          createPipe( input: {
+            name: $name
+            organization_id: $organizationId
+            icon: $icon
+            phases: $phases
+            members: $members
+          })
+          { pipe { id name} }
         }
       `;
       return this._makeGraphQlRequest(mutation, variables);
