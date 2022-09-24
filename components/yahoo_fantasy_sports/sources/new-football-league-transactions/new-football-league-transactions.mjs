@@ -4,7 +4,7 @@ export default {
   key: "yahoo_fantasy_sports-new-football-league-transactions",
   name: "New Football League Transactions",
   description: "Emit new event when a new football league transaction occurs",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -51,7 +51,6 @@ export default {
       : this.eventTypes;
 
     const transactions = await this.yfs.getLeagueTransactions(this.league, eventTypes);
-    console.log(transactions);
     if (Object.keys(transactions).length === 0) {
       return;
     }
