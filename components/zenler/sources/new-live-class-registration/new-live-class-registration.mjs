@@ -16,19 +16,14 @@ export default {
     getResourceFnArgs() {
       return {
         params: {
-          orderby: "created_at",
-          order: "asc",
+          order: "desc",
         },
       };
-    },
-    resourceFilter(resource) {
-      const lastCreatedAt = this.getLastCreatedAt() || 0;
-      return Date.parse(resource.created_at) > lastCreatedAt;
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        ts: Date.parse(resource.created_at),
+        ts: Date.now(),
         summary: `Live Class ID ${resource.id}`,
       };
     },

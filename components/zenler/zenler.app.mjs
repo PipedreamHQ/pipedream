@@ -113,7 +113,6 @@ export default {
         url: this.getUrl(path, url),
         ...args,
       };
-      console.log("req", config);
       try {
         return await axios($, config);
       } catch (error) {
@@ -256,6 +255,18 @@ export default {
       const { items } = data;
       return items.map(mapper);
     },
+    getNextResources(items) {
+      return Array.isArray(items)
+        ? items
+        : Object.entries(items)
+          .map(([
+            key,
+            resource,
+          ]) => ({
+            ...resource,
+            id: resource.id || key,
+          }));
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
@@ -263,11 +274,11 @@ export default {
     }) {
       let page = 1;
       let resourcesCount = 0;
-      let nextResources;
+      let response;
 
       while (true) {
         try {
-          const { data } =
+          response =
             await resourceFn({
               ...resourceFnArgs,
               params: {
@@ -276,22 +287,23 @@ export default {
                 ...resourceFnArgs.params,
               },
             });
-          const { items } = data;
-          nextResources =
-            Array.isArray(items)
-              ? items
-              : Object.entries(items)
-                .map(([
-                  key,
-                  resource,
-                ]) => ({
-                  ...resource,
-                  id: resource.id || key,
-                }));
+
+          const isStringResponse = typeof(response) === "string";
+
+          if (isStringResponse && !response) {
+            return;
+          }
+
+          if (isStringResponse && response) {
+            throw response;
+          }
         } catch (error) {
           console.log("Stream error", error);
           return;
         }
+
+        const { items } = response.data;
+        const nextResources = this.getNextResources(items);
 
         if (nextResources?.length < 1) {
           return;

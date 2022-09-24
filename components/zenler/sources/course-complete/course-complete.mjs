@@ -13,19 +13,16 @@ export default {
     getResourceFn() {
       return this.zenler.getCoursesBrief;
     },
-    getResourceFnArgs() {
-      return {};
+    reverseResources(resources) {
+      return resources;
     },
     resourceFilter(resource) {
-      const lastCreatedAt = this.getLastCreatedAt() || 0;
-      console.log("resource", resource);
-      return resource.completed
-        && Date.parse(resource.created_at) > lastCreatedAt;
+      return resource.total_students === resource.completed;
     },
     generateMeta(resource) {
       return {
         id: resource.id,
-        ts: Date.parse(resource.created_at),
+        ts: Date.now(),
         summary: `Course ID ${resource.id}`,
       };
     },

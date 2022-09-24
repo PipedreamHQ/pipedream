@@ -4,13 +4,13 @@ export default {
   ...common,
   key: "zenler-lesson-complete",
   name: "New Lesson Complete",
-  description: "Emit new event when a lesson is completed. [See the docs here](https://www.newzenler.com/api/documentation/public/api-doc.html#ad904518-bab0-5e8c-ed81-0f9efe508812)",
+  description: "Emit new event when a lesson is completed. [See the docs here](https://www.newzenler.com/api/documentation/public/api-doc.html#e0160d58-f0c5-8264-7ee2-fb991cd33e1b)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
-    courseId: {
+    courseIds: {
       propDefinition: [
         common.props.zenler,
         "courseId",
@@ -20,22 +20,23 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.zenler.getCourse;
+      return this.zenler.getCoursesDetailed;
     },
     getResourceFnArgs() {
       return {
-        courseId: this.courseId,
+        params: {
+          "course_ids[]": this.courseIds,
+        },
       };
     },
-    resourceFilter(resource) {
-      const lastCreatedAt = this.getLastCreatedAt() || 0;
-      return Date.parse(resource.created_at) > lastCreatedAt;
+    reverseResources(resources) {
+      return resources;
     },
     generateMeta(resource) {
       return {
-        id: resource.id,
-        ts: Date.parse(resource.created_at),
-        summary: `User ID ${resource.id}`,
+        id: `${resource.id}${resource.completion_percentage}`,
+        ts: Date.now(),
+        summary: `Course ID ${resource.id} %${resource.completion_percentage}`,
       };
     },
   },

@@ -19,14 +19,10 @@ export default {
         order: "desc",
       };
     },
-    resourceFilter(resource) {
-      const lastCreatedAt = this.getLastCreatedAt() || 0;
-      return Date.parse(resource.created_at) > lastCreatedAt;
-    },
     generateMeta(resource) {
       return {
         id: resource.id,
-        ts: Date.parse(resource.created_at),
+        ts: Date.now(),
         summary: `User ID ${resource.id}`,
       };
     },

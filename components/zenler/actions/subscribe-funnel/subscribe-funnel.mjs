@@ -5,7 +5,7 @@ export default {
   name: "Subscribe Funnel",
   description: "Subscribes to a funnel. [See the docs here](https://www.newzenler.com/api/documentation/public/api-doc.html#subscribe_to_funnel)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.1",
   props: {
     zenler,
     funnelId: {

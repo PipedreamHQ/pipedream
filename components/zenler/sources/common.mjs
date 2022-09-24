@@ -1,5 +1,4 @@
 import zenler from "../zenler.app.mjs";
-import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
 
 export default {
@@ -16,29 +15,20 @@ export default {
     },
   },
   methods: {
-    setLastCreatedAt(value) {
-      this.db.set(constants.LAST_CREATED_AT, value);
-    },
-    getLastCreatedAt() {
-      return this.db.get(constants.LAST_CREATED_AT);
-    },
-    setLastUpdatedAt(value) {
-      this.db.set(constants.LAST_UPDATED_AT, value);
-    },
-    getLastUpdatedAt() {
-      return this.db.get(constants.LAST_UPDATED_AT);
-    },
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");
     },
     getResourceFnArgs() {
-      throw new Error("getResourceFnArgs is not implemented");
+      return {};
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
     resourceFilter() {
-      throw new Error("resourceFilter is not implemented");
+      return true;
+    },
+    reverseResources(resources = []) {
+      return resources.reverse();
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
@@ -46,20 +36,9 @@ export default {
     },
     async processStreamEvents(stream) {
       const resources = await utils.streamIterator(stream);
-
-      const [
-        lastResource,
-      ] = resources;
-
-      resources
+      this.reverseResources(resources)
         .filter(this.resourceFilter)
         .forEach(this.processEvent);
-
-      if (lastResource) {
-        const { created_at: createdAt } = lastResource;
-        const lastCreatedAt = Date.parse(createdAt || new Date());
-        this.setLastCreatedAt(lastCreatedAt);
-      }
     },
   },
   async run() {
