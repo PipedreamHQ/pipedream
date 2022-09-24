@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sendinblue",
+  "version": "0.0.1",
+  "description": "Pipedream SendinBlue Components",
+  "main": "sendinblue.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendinblue"
+  ],
+  "homepage": "https://pipedream.com/apps/sendinblue",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}
