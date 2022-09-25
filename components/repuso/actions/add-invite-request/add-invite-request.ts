@@ -6,21 +6,38 @@ export default defineAction({
   description:
     "Add an invite request [See docs here](https://documenter.getpostman.com/view/4975691/TzzGFYg3#f417c9ce-2376-495c-85c3-bdcfc204eee2)",
   key: "repuso-add-invite-request",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     repuso,
+    recipient: {
+      type: "string",
+      label: "Recipient",
+    },
+    schedule: {
+      type: "string",
+      label: "Schedule",
+      description: "Use a date/time string such as `2021-08-30 16:00:00`, or leave empty for the default settings",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      optional: true,
+    },
   },
   async run({ $ }): Promise<any> {
     const params = {
       $,
       data: {
-        
+        name: this.name,
+        recipient: this.recipient,
+        schedule: this.schedule,
       },
     };
     const data = await this.repuso.addInviteRequest(params);
 
-    $.export("$summary", "");
+    $.export("$summary", `Successfully added invite request ${data.id}`);
 
     return data;
   },

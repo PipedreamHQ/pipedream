@@ -16,17 +16,19 @@ export default defineApp({
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
-          Authorization: `Bearer ${this.repuso.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
         ...args,
       });
     },
-    async addInviteRequest({
-      
-    }) {
+    async addInviteRequest(
+      params,
+    ) {
       return this._httpRequest({
-        endpoint: 'invite/requests/add'
-      })
-    }
+        endpoint: "invite/requests/add",
+        method: 'POST',
+        ...params,
+      });
+    },
   },
 });
