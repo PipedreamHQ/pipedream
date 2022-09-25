@@ -21,5 +21,12 @@ export default defineApp({
         ...args,
       });
     },
+    async addInviteRequest({
+      
+    }) {
+      return this._httpRequest({
+        endpoint: 'invite/requests/add'
+      })
+    }
   },
 });
