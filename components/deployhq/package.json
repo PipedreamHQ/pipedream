@@ -6,5 +6,9 @@
     "pipedream",
     "deployhq"
   ],
-  "license": "MIT"
+  "homepage": "https://pipedream.com/apps/deployhq",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
