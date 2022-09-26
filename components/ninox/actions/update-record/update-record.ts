@@ -41,7 +41,7 @@ export default defineAction({
     },
     fields: {
       label: "Fields",
-      description: "Object to create an row in the table. E.g. `{ \name\": \"Lucas Caresia\", \"age\": 23 }`",
+      description: "Object to create an row in the table. E.g. `{ \"name\": \"Lucas Caresia\", \"age\": 23 }`",
       type: "object",
     },
   },
