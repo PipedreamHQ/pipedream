@@ -102,7 +102,11 @@ export default defineApp({
         ...args,
       });
 
-      return Object.values(response?.schema?.types);
+      try {
+        return Object.values(response?.schema?.types)
+      } catch (error) {
+        return []
+      };
     },
     async getRecords({
       teamId, databaseId, tableId, ...args
