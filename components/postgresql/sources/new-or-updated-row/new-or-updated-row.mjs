@@ -5,7 +5,7 @@ export default {
   name: "New or Updated Row",
   key: "postgresql-new-or-updated-row",
   description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -48,6 +48,11 @@ export default {
         }),
       ],
       description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.initialRows(this.schema, this.table, this.timestampColumn);
     },
   },
   methods: {
