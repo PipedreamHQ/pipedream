@@ -4,7 +4,7 @@ export default {
   name: "Create Topic",
   version: "0.0.1",
   key: "qstash-create-topic",
-  description: "",
+  description: "Create a new QStash topic that emits to multiple endpoints.",
   props: {
     qstash,
     topicName: {
@@ -15,7 +15,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     return this.qstash.createTopic({
       $,

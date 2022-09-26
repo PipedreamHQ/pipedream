@@ -4,7 +4,7 @@ export default {
   name: "Create Endpoint",
   version: "0.0.1",
   key: "qstash-create-endpoint",
-  description: "",
+  description: "Create a new HTTP endpoint on a QStash topic.",
   props: {
     qstash,
     topicName: {

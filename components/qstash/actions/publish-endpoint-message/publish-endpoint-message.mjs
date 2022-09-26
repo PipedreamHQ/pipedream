@@ -4,7 +4,7 @@ export default {
   name: "Publish Endpoint Message",
   version: "0.0.1",
   key: "qstash-publish-endpoint-message",
-  description: "Publish a message to call back to a URL",
+  description: "Publish a message a callback endpoint",
   type: "action",
   props: {
     qstash,
