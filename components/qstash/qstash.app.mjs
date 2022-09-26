@@ -9,6 +9,11 @@ export default {
       label: "Topic",
       description: "Topics allow you to publish a single message to more than one API endpoints.",
     },
+    topicId: {
+      type: "string",
+      label: "Topic",
+      description: "The ID of th QStash topic.",
+    },
     endpoint: {
       type: "string",
       label: "Callback Endpoint",
