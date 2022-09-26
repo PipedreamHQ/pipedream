@@ -12,7 +12,7 @@ export interface AddInviteRequestParams {
     recipient: string;
     name?: string;
     schedule?: string;
-  }
+  };
 }
 
 export interface InviteRequest {

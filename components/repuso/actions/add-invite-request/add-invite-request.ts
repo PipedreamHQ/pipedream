@@ -1,6 +1,8 @@
 import repuso from "../../app/repuso.app";
 import { defineAction } from "@pipedream/types";
-import { AddInviteRequestParams, InviteRequest } from "../../common/types";
+import {
+  AddInviteRequestParams, InviteRequest,
+} from "../../common/types";
 
 export default defineAction({
   name: "Add Invite Request",
@@ -38,7 +40,7 @@ export default defineAction({
     };
     const data: InviteRequest = await this.repuso.addInviteRequest(params);
 
-    $.export("$summary", `Successfully added invite request ${data.id}`);
+    $.export("$summary", `Successfully added invite request (id ${data.id})`);
 
     return data;
   },
