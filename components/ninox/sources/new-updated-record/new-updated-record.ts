@@ -6,7 +6,7 @@ export default defineSource({
   name: "New Updated Record",
   version: "0.0.1",
   key: "ninox-new-updated-record",
-  description: "Emit new event on each record is updated.",
+  description: "Emit new event on each updated record.",
   type: "source",
   dedupe: "unique",
   methods: {
