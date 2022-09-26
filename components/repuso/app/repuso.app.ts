@@ -1,5 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import { AddInviteRequestParams, HttpRequestParams, InviteRequest } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -12,7 +13,7 @@ export default defineApp({
       $ = this,
       endpoint,
       ...args
-    }): Promise<object> {
+    }: HttpRequestParams): Promise<object> {
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
@@ -22,8 +23,8 @@ export default defineApp({
       });
     },
     async addInviteRequest(
-      params,
-    ) {
+      params: AddInviteRequestParams,
+    ): Promise<InviteRequest> {
       return this._httpRequest({
         endpoint: "invite/requests/add",
         method: 'POST',
