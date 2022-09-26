@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/repuso",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Repuso Components",
   "main": "dist/app/repuso.app.mjs",
   "keywords": [
