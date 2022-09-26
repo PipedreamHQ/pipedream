@@ -5,7 +5,7 @@ export default {
   key: "deployhq-deploy-failed",
   name: "Deploy Failed",
   version: "0.0.1",
-  description: "Emit new events when deploys fail",
+  description: "Emit new event when a deploy fails",
   type: "source",
   props: {
     http: "$.interface.http",

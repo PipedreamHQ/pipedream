@@ -5,7 +5,7 @@ export default {
   key: "deployhq-deploy-complete",
   name: "Deploy Complete",
   version: "0.0.1",
-  description: "Emit new events when deploys complete",
+  description: "Emit new event when a deploy is completed",
   type: "source",
   props: {
     http: "$.interface.http",
