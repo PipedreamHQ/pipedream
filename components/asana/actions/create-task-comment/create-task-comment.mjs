@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task-comment",
   name: "Create Task Comment",
   description: "Adds a comment to a task. [See the docs here](https://developers.asana.com/docs/create-a-story-on-a-task)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,

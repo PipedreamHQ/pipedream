@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the docs here](https://developers.asana.com/docs/create-a-task)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     ...common.props,

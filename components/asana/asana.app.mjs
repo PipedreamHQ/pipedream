@@ -10,7 +10,7 @@ export default {
       type: "string[]",
       async options() {
         const organizations = await this.getOrganizations();
-        
+
         return organizations.map((organization) => ({
           label: organization.name,
           value: organization.gid,
@@ -90,15 +90,16 @@ export default {
       type: "string[]",
       async options({ project }) {
         const tasks = await this.getTasks({
-          project,
+          params: {
+            project,
+          },
         });
-
-        return tasks.map((task) => {
-          return {
-            label: task.name,
-            value: task.gid,
-          };
-        });
+        return tasks.map(({
+          name: label, gid: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     sections: {
@@ -149,11 +150,13 @@ export default {
      * @returns {string} The request result data.
      */
     async _makeRequest(path, options = {}, $ = this) {
-      return axios($, {
+      const config = {
         url: `${this._apiUrl()}/${path}`,
         headers: this._headers(),
         ...options,
-      });
+      };
+      console.log("conf", config);
+      return axios($, config);
     },
     /**
      * Create a webhook
@@ -257,7 +260,8 @@ export default {
      * @returns {string} An Asana Task.
      */
     async getTask(taskId, $) {
-      return (await this._makeRequest(`tasks/${taskId}`), {}, $).data;
+      const response = await this._makeRequest(`tasks/${taskId}`, {}, $);
+      return response.data;
     },
     /**
      * Get an Asana Task list.
