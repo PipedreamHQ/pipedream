@@ -1565,6 +1565,12 @@ importers:
   components/realphonevalidation:
     specifiers: {}
 
+  components/rebrandly:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/referralrock:
     specifiers: {}
 

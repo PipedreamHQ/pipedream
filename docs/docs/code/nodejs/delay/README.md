@@ -88,3 +88,9 @@ export default defineComponent({
 
 // Delay happens at the end of this step
 ```
+
+## Delays and HTTP responses
+
+You cannot run `$.respond` after running `$.flow.delay`. Pipedream ends the original execution of the workflow when `$.flow.delay` is called and issues the following response to the client to indicate this state:
+
+> $.respond() not called for this invocation
