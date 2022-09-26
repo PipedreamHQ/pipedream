@@ -5,7 +5,7 @@ export default defineAction({
   name: "Update Record",
   version: "0.0.1",
   key: "ninox-update-record",
-  description: "updates a record. [See docs here](https://docs.ninox.com/en/api/private-cloud-apis#create-update-multiple-records-with-post)",
+  description: "Updates a record. [See docs here](https://docs.ninox.com/en/api/private-cloud-apis#create-update-multiple-records-with-post)",
   type: "action",
   props: {
     ninox,
