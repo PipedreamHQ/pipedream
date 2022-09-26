@@ -155,7 +155,6 @@ export default {
         headers: this._headers(),
         ...options,
       };
-      console.log("conf", config);
       return axios($, config);
     },
     /**
