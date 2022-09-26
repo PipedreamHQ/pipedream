@@ -66,7 +66,7 @@ export default {
 
       if (
         records.length < 100 ||
-        records.filter((record) => record.id === lastRecordId)
+        records.filter((record) => record.id === lastRecordId).length
       ) {
         return;
       }
