@@ -57,16 +57,23 @@ export default {
     },
     async activate() {
       console.log("activate hook started");
+
+      const keys = await this.qstash.getKeys({
+        $: this,
+      });
+
+      const currentSigningKey = keys.current;
+      const nextSigningKey = keys.next;
+
+      this.db.set("currentSigningKey", currentSigningKey);
+      this.db.set("nextSigningKey", nextSigningKey);
+      console.log("Set QStash signing keys");
     },
   },
   async run(event) {
     const signature = event.headers["upstash-signature"];
-    const keys = await this.qstash.getKeys({
-      $: this,
-    });
-
-    const currentSigningKey = keys.current;
-    const nextSigningKey = keys.next;
+    const currentSigningKey = this.db.get("currentSigningKey");
+    const nextSigningKey = this.db.get("nextSigningKey");
     const url = event.url.slice(0, -1);
 
     try {
