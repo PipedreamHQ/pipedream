@@ -42,7 +42,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    const fields = await this.pipefy.listFields(this.phase);
+    const fields = await this.pipefy.listPhaseFields(this.phase);
     for (const field of fields) {
       props[field.id] = {
         type: "string",

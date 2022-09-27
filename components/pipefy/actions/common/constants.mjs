@@ -75,7 +75,30 @@ const ROLE_OPTIONS = [
   "read_and_comment",
 ];
 
+const USER_FIELDS = [
+  "avatarUrl",
+  "confirmationTokenHasExpired",
+  "confirmed",
+  "createdAt",
+  "departmentKey",
+  "displayName",
+  "email",
+  "hasUnreadNotifications",
+  "id",
+  "intercomHash",
+  "intercomId",
+  "invited",
+  "locale",
+  "name",
+  "phone",
+  "signupData",
+  "timezone",
+  "username",
+  "uuid",
+];
+
 export default {
   ICON_OPTIONS,
   ROLE_OPTIONS,
+  USER_FIELDS,
 };

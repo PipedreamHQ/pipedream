@@ -56,6 +56,39 @@ export default {
         }));
       },
     },
+    table: {
+      type: "string",
+      label: "Table",
+      description: "Select a table",
+      async options({ orgId }) {
+        const tables = await this.listTables(orgId);
+        return tables.map((table) => ({
+          label: table.node.name,
+          value: table.node.internal_id,
+        }));
+      },
+    },
+    card: {
+      type: "string",
+      label: "Card",
+      description: "Select a card",
+      async options({
+        pipeId, prevContext,
+      }) {
+        const { after } = prevContext;
+        const cards = await this.listCards(pipeId, after);
+        const options = cards.edges.map((card) => ({
+          label: card.node.title,
+          value: card.node.id,
+        }));
+        return {
+          options,
+          context: {
+            after: cards.pageInfo.cursor,
+          },
+        };
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -130,12 +163,20 @@ export default {
           } 
         }
       `;
-      return this._makeGraphQlRequest(query);
+      return this._makeQueriesRequest(query);
     },
-    async listCards(pipe_id) {
+    async getAuthenticatedUser(userFields) {
+      const query = `
+        {
+          me { ${userFields} }
+        }
+      `;
+      return this._makeQueriesRequest(query);
+    },
+    async listCards(pipeId, after = null) {
       const query = `
         { 
-          cards(pipe_id: ${pipe_id}, first: 100) { 
+          cards(pipe_id: ${pipeId}, after: ${after}) { 
             edges { 
               node { 
                 id 
@@ -171,6 +212,10 @@ export default {
                 } 
                 url 
               } 
+            }
+            pageInfo {
+              endCursor
+              hasNextPage
             } 
           } 
         }
@@ -214,7 +259,7 @@ export default {
       `;
       return (await this._makeQueriesRequest(query)).pipe.phases;
     },
-    async listFields(phaseId) {
+    async listPhaseFields(phaseId) {
       const query = `
         {
           phase(id:${phaseId}) {
@@ -230,6 +275,45 @@ export default {
       `;
       return (await this._makeQueriesRequest(query)).phase.fields;
     },
+    async listTableFields(tableId) {
+      const query = `
+        {
+          table(id:${tableId}) {
+            table_fields {
+              id
+              label
+              required
+              options
+              description
+            }
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).table.table_fields;
+    },
+    async listTableRecords(tableId, after = null) {
+      const query = `
+        {
+          table(id: ${tableId}) {
+            table_records(after: ${after}) {
+              edges {
+                node {
+                  record_fields {
+                    name
+                    value
+                  }
+                }
+              }
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
+            }
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).table.table_records;
+    },
     async listMembers(organizationId) {
       const query = `
         {
@@ -244,6 +328,23 @@ export default {
         }
       `;
       return (await this._makeQueriesRequest(query)).organization.members;
+    },
+    async listTables(organizationId) {
+      const query = `
+        {
+          organization(id: ${organizationId}) {
+            tables {
+              edges {
+                node {
+                  internal_id
+                  name
+                }
+              }
+            }
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).organization.tables.edges;
     },
     async createCard(variables) {
       const mutation = gql`
@@ -281,6 +382,38 @@ export default {
             members: $members
           })
           { pipe { id name} }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async createTableRecord(variables) {
+      const mutation = gql`
+        mutation createNewTableRecord(
+          $tableId: ID!
+          $assigneeIds: [ID]
+          $title: String!
+          $fieldsAttributes: [FieldValueInput]
+        ){
+          createTableRecord( input: {
+            table_id: $tableId
+            assignee_ids: $assigneeIds
+            title: $title
+            fields_attributes: $fieldsAttributes
+          })
+          { table_record{ id title} }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async deleteCard(variables) {
+      const mutation = gql`
+        mutation deleteExistingCard(
+          $id: ID!
+        ){
+          deleteCard( input: {
+            id: $id
+          })
+          { success }
         }
       `;
       return this._makeGraphQlRequest(mutation, variables);
