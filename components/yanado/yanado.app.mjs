@@ -98,5 +98,12 @@ export default {
         ...opts,
       });
     },
+    async createTask(opts = {}) {
+      return this._makeRequest({
+        path: "/tasks",
+        method: "post",
+        ...opts,
+      });
+    },
   },
 };
