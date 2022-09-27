@@ -9,10 +9,16 @@ export default {
   props: {
     qstash,
     topic: {
-      propDefinition: [
-        qstash,
-        "topic",
-      ],
+      type: "string",
+      label: "QStash Topic",
+      description: "The QStash topic to publish a message to.",
+      async options() {
+        const topics = await this.qstash.listTopics({
+          $: this,
+        });
+
+        return topics.map((topic) => topic.name);
+      },
     },
     body: {
       propDefinition: [
