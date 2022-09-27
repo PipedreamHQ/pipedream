@@ -15,7 +15,7 @@ export default defineAction({
     repuso,
     recipient: {
       type: "string",
-      label: "Recipient",
+      label: "Recipient Email",
     },
     schedule: {
       type: "string",
