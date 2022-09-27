@@ -7,6 +7,17 @@ export default {
   type: "app",
   app: "yanado",
   propDefinitions: {
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      async options() {
+        const tasks = await this.findTasks();
+        return tasks.map((task) => ({
+          label: task.name,
+          value: task.taskId,
+        }));
+      },
+    },
     listId: {
       type: "string",
       label: "List ID",
@@ -101,6 +112,18 @@ export default {
       return this._makeRequest({
         path: "/tasks",
         method: "post",
+        ...opts,
+      });
+    },
+    async updateTask({
+      taskId, ...opts
+    }) {
+      if (!taskId) {
+        throw new ConfigurationError("Missing required `taskId` parameter");
+      }
+      return this._makeRequest({
+        path: `/tasks/${taskId}`,
+        method: "put",
         ...opts,
       });
     },
