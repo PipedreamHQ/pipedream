@@ -704,6 +704,9 @@
     },
     {
       "path": "components/printful_oauth"
+    },
+    {
+      "path": "components/docupilot"
     }
   ]
 }
