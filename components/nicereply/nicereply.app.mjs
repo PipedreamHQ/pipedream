@@ -63,7 +63,7 @@ export default {
           reqObj.url = prevContext;
         }
 
-        const response = await this.getCustomers(reqObj);
+        const response = await this.getUsers(reqObj);
 
         return {
           options: response._results.map((user) => ({
@@ -87,7 +87,7 @@ export default {
           reqObj.url = prevContext;
         }
 
-        const response = await this.getCustomers(reqObj);
+        const response = await this.getTeams(reqObj);
 
         return {
           options: response._results.map((team) => ({
@@ -128,7 +128,7 @@ export default {
     },
     async getCustomers(args = {}) {
       return this._makeRequest({
-        path: "/surveys",
+        path: "/customers",
         ...args,
       });
     },
@@ -170,19 +170,19 @@ export default {
     },
     async getCSTARatings(args = {}) {
       return this._makeRequest({
-        path: "/csta/ratings",
+        path: "/csat/ratings",
         ...args,
       });
     },
     async getCESRatings(args = {}) {
       return this._makeRequest({
-        path: "/csta/ratings",
+        path: "/ces/ratings",
         ...args,
       });
     },
     async getNPSRatings(args = {}) {
       return this._makeRequest({
-        path: "/csta/ratings",
+        path: "/nps/ratings",
         ...args,
       });
     },

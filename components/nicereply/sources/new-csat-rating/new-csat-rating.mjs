@@ -2,10 +2,10 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New CSTA Rating",
+  name: "New CSAT Rating",
   version: "0.0.1",
-  key: "nicereply-new-csta-rating",
-  description: "Emit new event on each new CSTA rating.",
+  key: "nicereply-new-csat-rating",
+  description: "Emit new event on each new CSAT rating.",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -13,7 +13,7 @@ export default {
     emitEvent(data) {
       this.$emit(data, {
         id: data.id,
-        summary: `New CSTA rating with id ${data.id}`,
+        summary: `New CSAT rating with id ${data.id}`,
         ts: Date.parse(data.created_at),
       });
     },
