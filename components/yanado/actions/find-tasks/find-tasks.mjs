@@ -23,7 +23,6 @@ export default {
         }),
       ],
       description: "Filter by assignee",
-      optional: true,
     },
     statusId: {
       propDefinition: [
@@ -34,7 +33,6 @@ export default {
         }),
       ],
       description: "Filter by status",
-      optional: true,
     },
   },
   async run({ $ }) {

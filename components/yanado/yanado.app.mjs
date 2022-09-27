@@ -32,6 +32,7 @@ export default {
     assigneeId: {
       type: "string",
       label: "Assignee ID",
+      optional: true,
       async options({ listId }) {
         const users = await this.getUsers({
           listId,
@@ -45,6 +46,7 @@ export default {
     statusId: {
       type: "string",
       label: "Status ID",
+      optional: true,
       async options({ listId }) {
         const statuses = await this.getStatuses({
           listId,
@@ -54,6 +56,22 @@ export default {
           value: status.id,
         }));
       },
+    },
+    name: {
+      type: "string",
+      label: "Task Name",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Task Description",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Date in `YYYY-MM-DD` or `YYYY-MM-DDTHH-MM-SS` format",
+      optional: true,
     },
   },
   methods: {

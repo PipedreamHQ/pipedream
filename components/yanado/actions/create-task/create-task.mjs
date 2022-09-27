@@ -15,13 +15,17 @@ export default {
       ],
     },
     name: {
-      type: "string",
-      label: "Task Name",
+      propDefinition: [
+        yanado,
+        "name",
+      ],
+      optional: false,
     },
     description: {
-      type: "string",
-      label: "Task Description",
-      optional: true,
+      propDefinition: [
+        yanado,
+        "description",
+      ],
     },
     statusId: {
       propDefinition: [
@@ -31,6 +35,7 @@ export default {
           listId: c.listId,
         }),
       ],
+      optional: false,
     },
     assigneeId: {
       propDefinition: [
@@ -40,13 +45,12 @@ export default {
           listId: c.listId,
         }),
       ],
-      optional: true,
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "Date in `YYYY-MM-DD` or `YYYY-MM-DDTHH-MM-SS` format",
-      optional: true,
+      propDefinition: [
+        yanado,
+        "dueDate",
+      ],
     },
   },
   async run({ $ }) {
