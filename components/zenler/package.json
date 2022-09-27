@@ -4,8 +4,8 @@
   "description": "Pipedream Zenler Components",
   "main": "zenler.app.mjs",
   "keywords": [
-		"pipedream",
-		"zenler"
+    "pipedream",
+    "zenler"
   ],
   "homepage": "https://pipedream.com/apps/zenler",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

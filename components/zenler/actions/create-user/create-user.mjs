@@ -1,4 +1,5 @@
 import zenler from "../../zenler.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "zenler-create-user",
@@ -37,36 +38,7 @@ export default {
       type: "string[]",
       label: "Roles",
       description: "Roles of the user",
-      options: [
-        {
-          label: "Site Admin",
-          value: "2",
-        },
-        {
-          label: "Course Instructor",
-          value: "3",
-        },
-        {
-          label: "Student",
-          value: "4",
-        },
-        {
-          label: "Affiliate",
-          value: "7",
-        },
-        {
-          label: "Lead",
-          value: "8",
-        },
-        {
-          label: "Assistant",
-          value: "11",
-        },
-        {
-          label: "Support",
-          value: "12",
-        },
-      ],
+      options: constants.ROLES_OPTIONS,
     },
     address: {
       type: "string",
