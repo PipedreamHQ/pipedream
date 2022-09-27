@@ -33,12 +33,11 @@ export default {
     },
     async activateHook(eventType) {
       const url = this.http.endpoint;
-      const test = await this.wisepops.createHook({
+      const { id } = await this.wisepops.createHook({
         target_url: url,
         event: eventType,
         wisepop_id: this.wisepopId,
       });
-      const { id } = test;
       this.setHookId(id);
     },
     emitEvent(events) {
