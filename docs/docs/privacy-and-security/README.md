@@ -9,6 +9,8 @@ Pipedream is committed to the privacy and security of your data. Below, we outli
 
 It is also your responsibility as a customer to ensure you're securing your workflows' code and data. See our [security best practices](/privacy-and-security/best-practices/) for more information.
 
+Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type I report upon request. Please reach out to <span style="font-weight: bold">support@pipedream.com</span> to request that report.
+
 If you have any questions related to data privacy, please email <span style="font-weight: bold">privacy@pipedream.com</span>. If you have any security-related questions, or if you'd like to report a suspected vulnerability, please email <span style="font-weight: bold">security@pipedream.com</span>.
 
 [[toc]]
@@ -23,11 +25,41 @@ If you need to encrypt sensitive data as part of your report, you can use our [P
 
 If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
 
+## Compliance
+
+### SOC 2
+
+Pipedream undergoes regular third-party audits. We have demonstrated SOC 2 compliance and can provide a SOC 2 Type I report upon request. Please reach out to <span style="font-weight: bold">support@pipedream.com</span> to request that report.
+
+We use [Drata](https://drata.com) to continuosly monitor our infrastructure's compliance with standards like SOC 2, and you can visit our [Security Report](https://app.drata.com/security-report/b45c2f79-1968-496b-8a10-321115b55845/27f61ebf-57e1-4917-9536-780faed1f236) to see a list of policies and processes we implement and track within Drata.
+
+### GDPR
+
+#### Data Protection Addendum
+
+Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
+
+The Pipedream Data Protection Addendum includes the [Standard Contractual Clauses (SCCs)](https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en). These clarify how Pipedream handles your data, and they update our GDPR policies to cover the latest standards set by the European Commission.
+
+You can find a list of Pipedream subprocessors [here](/subprocessors/).
+
+#### Submitting a GDPR deletion request
+
+When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
+
+If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
+
 ## Hosting Details
 
 Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
 
 Pipedream further secures access to AWS resources through a series of controls, including but not limited to: using multi-factor authentication to access AWS, hosting services within a private network inaccessible to the public internet, and more.
+
+## Intrustion Detection and Prevention
+
+Pipedream uses AWS WAF, GuardDuty, and Datadog to monitor and block suspected attacks against Pipedream infrastructure, including DDoS attacks.
+
+Pipedream implements a number of industry-standard and custom alerts to detect anomalous activity on the platform, and reacts to potential threats quickly based on [our incident response policy](#incident-response).
 
 ## User Accounts, Authentication and Authorization
 
@@ -49,7 +81,7 @@ Pipedream encrypts all OAuth grants, key-based credentials, and environment vari
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
-No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that invocation from your source or workflow.
+No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that invocation from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/limits/#event-execution-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
@@ -64,6 +96,10 @@ Each version of a source or workflow is deployed to its own virtual machine. Thi
 When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. When you create an HTTP interface in Pipedream, the Pipedream UI defaults to displaying the HTTPS endpoint, which we recommend you use when sending HTTP traffic to Pipedream so that your data is encrypted in transit.
 
 All Pipedream-managed certificates used to protect user data in transit are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon.
+
+## Encryption of data at rest
+
+Pipedream encrypts customer data at rest in our databases and data stores. We use [AWS KMS](https://aws.amazon.com/kms/) to manage encryption keys, and all keys are controlled by Pipedream. KMS keys are 256 bit in length and use the Advanced Encryption Standard (AES) in Galois/Counter Mode (GCM). Access to administer these keys is limited to specific members of our team. Keys are automatically rotated once a year. KMS has achieved SOC 1, 2, 3, and ISO 9001, 27001, 27017, 27018 compliance. Copies of these certifications are available from Amazon on request.
 
 ## Email Security
 
@@ -82,19 +118,54 @@ Pipedream implements incident response best practices for identifying, documenti
 
 Pipedream notifies customers of any data breaches according to our [Data Protection Addendum](https://pipedream.com/dpa).
 
-## GDPR / Data Protection Addendum
+## Software Development
 
-Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
+Pipedream uses GitHub to store and version all production code. Employee access to Pipedream's GitHub organization is protected by multi-factor authentication.
 
-The Pipedream Data Protection Addendum includes the [Standard Contractual Clauses (SCCs)](https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en). These clarify how Pipedream handles your data, and they update our GDPR policies to cover the latest standards set by the European Commission.
+Only authorized employees are able to deploy code to production. Deploys are tested and monitored before and after release.
 
-You can find a list of Pipedream subprocessors [here](/subprocessors/).
+## Vulnerability Management
 
-## Submitting a GDPR deletion request
+Pipedream monitors our code, infrastructure and core application for known vulnerabilities and addresses critical vulnerabilities in a timely manner.
 
-When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
+## Corporate Security
 
-If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
+### Background Checks
+
+Pipedream performs background checks on all new hires.
+
+### Workstation Security
+
+Pipedream provides hardware to all new hires. These machines run a local agent that sets configuration of the operating system to hardened standards, including:
+
+* Automatic OS updates
+* Hard disk encryption
+* Anti-malware software
+* Screen lock
+
+and more.
+
+### System Access
+
+Employee access to systems is granted on a least-privilege basis. This means that employees only have access to the data they need to perform their job. System access is reviewed quarterly, on any change in role, or upon termination.
+
+### Security Training
+
+Pipedream provides annual security training to all employees. Developers go through a separate, annual training on secure software development practices.
+
+## Data Retention
+
+Pipedream retains data only for as long as necessary to provide the core service. Pipedream stores your workflow code, data in data stores, and other data indefinitely, until you choose to delete it.
+
+Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/limits/#event-execution-history).
+
+Pipedream deletes most internal application logs and logs tied to subprocessors within 30 days. We retain a subset of logs for longer periods where required for security investigations.
+
+## Data Deletion
+
+If you choose to delete your Pipedream account, Pipedream deletes all customer data and event data associated with your account. We also make a request to all subprocessors to delete any data those vendors store on our behalf.
+
+Pipedream deletes customer data in backups within 30 days.
 
 ## Payment Processor
 
