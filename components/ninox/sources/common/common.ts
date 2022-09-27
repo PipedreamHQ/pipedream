@@ -50,9 +50,9 @@ export default {
   async run() {
     const lastRecordId = this._getLastRecordId();
 
-    let page = 1;
+    let page = 0;
 
-    while (page >= 0) {
+    while (true) {
       const records = await this.ninox.getRecords({
         teamId: this.teamId,
         databaseId: this.databaseId,
