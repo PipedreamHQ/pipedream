@@ -2368,9 +2368,9 @@ importers:
 
   components/yahoo_fantasy_sports:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.1.1
 
   components/yotpo:
     specifiers:
