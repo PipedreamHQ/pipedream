@@ -1,4 +1,5 @@
 import yfs from "../../yahoo_fantasy_sports.app.mjs";
+import options from "../common/options.mjs";
 
 export default {
   key: "yahoo_fantasy_sports-new-football-league-transactions",
@@ -19,13 +20,7 @@ export default {
       type: "string[]",
       label: "Event Types",
       description: "Select the types of events to watch for",
-      options: [
-        "*",
-        "add",
-        "drop",
-        "commish",
-        "trade",
-      ], // not type with team_key
+      options: options.EVENT_TYPES,
       optional: true,
       default: [
         "*",
@@ -42,12 +37,7 @@ export default {
   },
   async run() {
     const eventTypes = this.eventTypes.includes("*")
-      ? [
-        "add",
-        "drop",
-        "commish",
-        "trade",
-      ]
+      ? options.ALL_EVENT_TYPES
       : this.eventTypes;
 
     const transactions = await this.yfs.getLeagueTransactions(this.league, eventTypes);
