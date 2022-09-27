@@ -13,6 +13,7 @@ export default {
       },
     },
     objectType: {
+      type: "string",
       label: "Object Type",
       description: "The type of object for which to monitor events",
       propDefinition: [
