@@ -7,17 +7,20 @@ export default {
   description: "Create a new HTTP endpoint on a QStash topic.",
   props: {
     qstash,
-    topicName: {
-      propDefinition: [
-        qstash,
-        "topicName",
-      ],
-    },
     topicId: {
-      propDefinition: [
-        qstash,
-        "topicId",
-      ],
+      type: "string",
+      label: "QStash Topic",
+      description: "The QStash topic to subscribe to.",
+      async options() {
+        const topics = await this.qstash.listTopics({
+          $: this,
+        });
+
+        return topics.map((topic) => ({
+          label: topic.name,
+          value: topic.topicId,
+        }));
+      },
     },
     endpointUrl: {
       propDefinition: [
