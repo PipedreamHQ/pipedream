@@ -39,6 +39,12 @@ export default {
       description: "Title of the new card",
       optional: true,
     },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The card due date. An ISO‐8601 encoded UTC date time string (YYYY-MM-DD HH:MM:SS).",
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
@@ -89,6 +95,7 @@ export default {
       pipeId: this.pipe,
       phaseId: this.phase,
       title: this.title,
+      dueDate: this.dueDate,
       fieldsAttributes,
     };
 

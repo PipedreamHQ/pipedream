@@ -89,6 +89,41 @@ export default {
         };
       },
     },
+    record: {
+      type: "string",
+      label: "Record",
+      description: "Select a table record",
+      async options({
+        tableId, prevContext,
+      }) {
+        const { after } = prevContext;
+        const records = await this.listTableRecords(tableId, after);
+        const options = records.edges.map((record) => ({
+          label: record.node.title,
+          value: record.node.id,
+        }));
+        return {
+          options,
+          context: {
+            after: records.pageInfo.cursor,
+          },
+        };
+      },
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Select the record status",
+      optional: true,
+      async options({ tableId }) {
+        const { table } = await this.getTable(tableId);
+        const statuses = table.statuses;
+        return statuses.map((status) => ({
+          label: status.name,
+          value: status.id,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -160,6 +195,117 @@ export default {
             createdAt 
             createdBy{name} 
             due_date 
+            current_phase {
+              id
+              name
+            }
+          } 
+        }
+      `;
+      return this._makeQueriesRequest(query);
+    },
+    async getPipe(id) {
+      const query = `
+        { 
+          pipe(id: ${id}) { 
+            id 
+            name
+            cards_count
+            color
+            created_at
+            description
+            emailAddress
+            members {
+              role_name
+              user {
+                id
+                displayName
+              }
+            }
+            users {
+              id
+              displayName
+            }
+            public
+            uuid
+          } 
+        }
+      `;
+      return this._makeQueriesRequest(query);
+    },
+    async getPhase(id) {
+      const query = `
+        { 
+          phase(id: ${id}) {
+            id
+            name 
+            description 
+            cards_count
+            color
+            created_at
+            done
+            expiredCardsCount
+            lateCardsCount
+            sequentialId
+            fields{
+              id
+              label
+              options
+              required
+            }
+          } 
+        }
+      `;
+      return this._makeQueriesRequest(query);
+    },
+    async getTable(id) {
+      const query = `
+        { 
+          table(id: ${id}) {
+            id
+            name 
+            description 
+            color
+            icon
+            internal_id
+            members {
+              role_name
+              user {
+                id
+                displayName
+              }
+            }
+            table_fields {
+              id
+              label
+              options
+              required
+            }
+            statuses {
+              id
+              name
+            }
+            public
+            table_records_count
+            url
+            users_count
+            uuid
+          } 
+        }
+      `;
+      return this._makeQueriesRequest(query);
+    },
+    async getTableRecord(id) {
+      const query = `
+        { 
+          table_record(id: ${id}) {
+            id
+            title
+            due_date
+            status {
+              id
+              name
+            }
           } 
         }
       `;
@@ -298,6 +444,8 @@ export default {
             table_records(after: ${after}) {
               edges {
                 node {
+                  id
+                  title
                   record_fields {
                     name
                     value
@@ -352,13 +500,34 @@ export default {
           $pipeId: ID!
           $phaseId: ID!
           $title: String!
+          $dueDate: DateTime!
           $fieldsAttributes: [FieldValueInput]
         ){
           createCard( input: {
             pipe_id: $pipeId
             phase_id: $phaseId
             title: $title
+            due_date: $dueDate
             fields_attributes: $fieldsAttributes
+          })
+          { card { id title } }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async updateCard(variables) {
+      const mutation = gql`
+        mutation(
+          $id: ID!
+          $title: String!
+          $dueDate: DateTime!
+          $assigneeIds: [ID]
+        ){
+          updateCard( input: {
+            id: $id
+            title: $title
+            due_date: $dueDate
+            assignee_ids: $assigneeIds
           })
           { card { id title } }
         }
@@ -414,6 +583,59 @@ export default {
             id: $id
           })
           { success }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async updateCardField(variables) {
+      const mutation = gql`
+        mutation(
+          $cardId: ID!
+          $fieldId: ID!
+          $newValue: [UndefinedInput]
+        ){
+          updateCardField( input: {
+            card_id: $cardId
+            field_id: $fieldId
+            new_value: $newValue
+          })
+          { card { id title } }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async updateTable(variables) {
+      const mutation = gql`
+        mutation(
+          $tableId: ID!
+          $name: String!
+          $icon: String!
+          $color: Colors!
+        ){
+          updateTable( input: {
+            id: $tableId
+            name: $name
+            icon: $icon
+            color: $color
+          })
+          { table { id name } }
+        }
+      `;
+      return this._makeGraphQlRequest(mutation, variables);
+    },
+    async updateTableRecord(variables) {
+      const mutation = gql`
+        mutation(
+          $recordId: ID!
+          $title: String!
+          $statusId: ID!
+        ){
+          updateTableRecord( input: {
+            id: $recordId
+            title: $title
+            statusId: $statusId
+          })
+          { table_record { id title } }
         }
       `;
       return this._makeGraphQlRequest(mutation, variables);

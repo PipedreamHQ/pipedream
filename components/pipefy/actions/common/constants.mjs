@@ -97,8 +97,24 @@ const USER_FIELDS = [
   "uuid",
 ];
 
+const TABLE_COLORS = [
+  "blue",
+  "cyan",
+  "gray",
+  "green",
+  "indigo",
+  "lime",
+  "pink",
+  "purple",
+  "orange",
+  "red",
+  "sky",
+  "yellow",
+];
+
 export default {
   ICON_OPTIONS,
   ROLE_OPTIONS,
   USER_FIELDS,
+  TABLE_COLORS,
 };
