@@ -29,7 +29,6 @@ export default {
           label: user.name,
           value: user.id,
         }));
-
       },
     },
     statusId: {
