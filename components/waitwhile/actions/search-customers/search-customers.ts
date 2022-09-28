@@ -12,6 +12,9 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
     state: {

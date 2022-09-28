@@ -11,6 +11,9 @@ export default defineAction({
     customerId: {
       propDefinition: [
         "customerId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
   },

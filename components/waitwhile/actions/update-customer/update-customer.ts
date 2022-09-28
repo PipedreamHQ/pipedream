@@ -11,6 +11,9 @@ export default defineAction({
     customerId: {
       propDefinition: [
         "customerId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
     name: {
@@ -56,6 +59,9 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
     addTag: {

@@ -1,9 +1,5 @@
 import waitwhile from "../../app/waitwhile.app";
 import { defineAction } from "@pipedream/types";
-import {
-  formatArrayStrings, formatString,
-} from "../../common/utils";
-import constants from "../../common/constants";
 
 export default defineAction({
   name: "Create Customer",
@@ -55,6 +51,9 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
     addTag: {
@@ -79,33 +78,21 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-    const {
-      tags,
-      addTag,
-      removeTag,
-    } = this;
 
-    interface Params {
-      [key: string]: any;
-    }
 
-    const updatedTags = formatArrayStrings(tags, constants.TAGS, "tags");
-    const updatedAddTag = formatString(addTag, constants.TAGS);
-    const updatedRemoveTag = formatString(removeTag, constants.TAGS);
-
-    const params: Params = {
+    const params = {
       name: this.name,
       firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
       email: this.email,
+      tags: this.tags,
       locationIds: this.locationIds,
+      addTag: this.addTag,
+      removeTag: this.removeTag,
       externalId: this.externalId,
     };
 
-    updatedTags?.length && (params.tags = updatedTags);
-    updatedAddTag && (params.addTag = updatedAddTag);
-    updatedRemoveTag && (params.removeTag = updatedRemoveTag);
 
     const data = await this.waitwhile.createCustomers(params);
     $.export("summary", "Successfully created a customer");

@@ -12,12 +12,18 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "customerId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
     noteId: {
       propDefinition: [
         waitwhile,
-        "noteId",
+        "customerNoteId",
+        (c) => ({
+          customerId: c.customerId,
+        }),
       ],
     },
 

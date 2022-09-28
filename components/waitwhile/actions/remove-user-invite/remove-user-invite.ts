@@ -12,6 +12,9 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "inviteId",
+        (c) => ({
+          prevContext: c.prevContext,
+        }),
       ],
     },
   },
