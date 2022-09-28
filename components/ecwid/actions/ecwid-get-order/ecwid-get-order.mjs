@@ -1,9 +1,9 @@
 import ecwid from "../../ecwid.app.mjs";
 
 export default {
-  name: "Get Order",
+  name: "Ecwid Get Order",
   version: "0.0.1",
-  key: "get-order",
+  key: "ecwid-get-order",
   description: "",
   props: {
     orderId: {
