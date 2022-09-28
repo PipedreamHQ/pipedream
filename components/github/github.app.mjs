@@ -247,6 +247,15 @@ export default {
 
       return response.data;
     },
+    async getRepoContent({
+      repoFullname,
+      path,
+    }) {
+      const { data } = await this
+        ._client()
+        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
+      return data;
+    },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
     },
