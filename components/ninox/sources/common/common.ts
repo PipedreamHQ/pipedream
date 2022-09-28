@@ -40,31 +40,29 @@ export default {
     emitEvent(event) {
       throw new Error("emitEvent is not implemented - " + event);
     },
-    _setLastRecordId(id) {
-      this.db.set("lastRecordId", id);
+    _setLastTimestamp(timestamp) {
+      this.db.set("lastTimestamp", timestamp);
     },
-    _getLastRecordId() {
-      return this.db.get("lastRecordId");
+    _getLastTimestamp() {
+      return this.db.get("lastTimestamp");
     },
   },
   hooks: {
     async deploy() {
+      this._setLastTimestamp(new Date().getTime())
+
       const records = await this.ninox.getRecords({
         teamId: this.teamId,
         databaseId: this.databaseId,
         tableId: this.tableId,
       });
 
-      if (records.length) {
-        this._setLastRecordId(records[0].id);
-      }
-
       records.slice(-20).reverse()
         .forEach(this.emitEvent);
     },
   },
   async run() {
-    const lastRecordId = this._getLastRecordId();
+    const lastTimestamp = this._getLastTimestamp();
 
     let page = 0;
 
@@ -78,11 +76,7 @@ export default {
         },
       });
 
-      if (records.length) {
-        this._setLastRecordId(records.reverse()[0].id);
-      }
-
-      records.filter((record) => record.id <= lastRecordId).forEach(this.emitEvent)
+      records.filter((record) => Date.parse(record.createdAt) >= lastTimestamp).forEach(this.emitEvent)
 
       if (records.length < 100) {
         return;
