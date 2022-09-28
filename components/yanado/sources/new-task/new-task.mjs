@@ -1,28 +1,13 @@
-import yanado from "../../yanado.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
-  key: "yanado-new-task",
+  ...common,
   name: "New Task",
-  description: "Emit new event for every new task",
+  key: "yanado-new-task",
+  description: "Emit new event for every new task in  a list",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    yanado,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    listId: {
-      propDefinition: [
-        yanado,
-        "listId",
-      ],
-    },
-  },
   methods: {
     _getTasks() {
       const tasks = this.db.get("tasks") || [];

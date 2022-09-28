@@ -1,30 +1,17 @@
-import yanado from "../../yanado.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
-  key: "yanado-changed-task-status",
   // eslint-disable-next-line pipedream/source-name
   name: "Changed Task Status",
+  key: "yanado-changed-task-status",
   description: "Emit new event when a task status changes",
   version: "0.0.1",
   type: "source",
   props: {
-    yanado,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    listId: {
-      propDefinition: [
-        yanado,
-        "listId",
-      ],
-    },
+    ...common.props,
     statusId: {
       propDefinition: [
-        yanado,
+        common.props.yanado,
         "statusId",
         (c) => ({
           listId: c.listId,
