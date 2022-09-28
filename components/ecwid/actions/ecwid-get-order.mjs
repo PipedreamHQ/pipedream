@@ -1,4 +1,4 @@
-import ecwid from "../../ecwid.app.mjs";
+import ecwid from "../ecwid.app.mjs";
 
 export default {
   name: "Ecwid Get Order",

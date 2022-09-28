@@ -1,5 +1,5 @@
-import { FULFILMENT_STATUS_LIST } from "../../commons/commons.mjs";
-import ecwid from "../../ecwid.app.mjs";
+import { FULFILMENT_STATUS_LIST } from "../commons/commons.mjs";
+import ecwid from "../ecwid.app.mjs";
 export default {
   name: "Ecwid Update Order Status",
   version: "0.0.1",
