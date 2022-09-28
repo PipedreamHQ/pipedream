@@ -944,9 +944,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.1
       streamifier: ^0.1.1
+      xml-js: ^1.6.11
     dependencies:
       '@pipedream/platform': 1.1.1
       streamifier: 0.1.1
+      xml-js: 1.6.11
 
   components/helpwise:
     specifiers: {}
@@ -20239,6 +20241,13 @@ packages:
     engines: {node: '>=8'}
     dev: false
     optional: true
+
+  /xml-js/1.6.11:
+    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
+    hasBin: true
+    dependencies:
+      sax: 1.2.4
+    dev: false
 
   /xml-name-validator/3.0.0:
     resolution: {integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==}
