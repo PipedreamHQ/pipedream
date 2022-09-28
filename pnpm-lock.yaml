@@ -944,9 +944,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.1
       streamifier: ^0.1.1
+      xml-js: ^1.6.11
     dependencies:
       '@pipedream/platform': 1.1.1
       streamifier: 0.1.1
+      xml-js: 1.6.11
 
   components/helpwise:
     specifiers: {}
@@ -1474,6 +1476,12 @@ importers:
   components/planning_center:
     specifiers: {}
 
+  components/pocket:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/pointagram:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1587,7 +1595,12 @@ importers:
     specifiers: {}
 
   components/repuso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/rewardful:
     specifiers: {}
@@ -2363,9 +2376,9 @@ importers:
 
   components/yahoo_fantasy_sports:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.1.1
 
   components/yotpo:
     specifiers:
@@ -5391,22 +5404,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.130:
-    resolution: {integrity: sha512-YlxMpcHRiS7fdx4soaR0JKSf4NY4jsDRmu47YGId/DsTd0uhZIlUPJKULhMKMivgdOhJKHrNvfB2pWla4Q8atA==}
+  /@definitelytyped/header-parser/0.0.132:
+    resolution: {integrity: sha512-xjj2ahDRAf9pB77xFSfrCzSIIjksAieDVfc6KcrfLXHzcA3FJ5tyXWCljWmTYBR1bnknrp8XVvosC7IiUN66jg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.130
+      '@definitelytyped/typescript-versions': 0.0.132
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.130:
-    resolution: {integrity: sha512-yAcgQPDahepjsUzUbOFWNvG7yNtrkoqeb56Sh64jf0yJ875oc4N8V1/U+XIG5TRvzezP0ch9m7rIxATR/OyDIw==}
+  /@definitelytyped/typescript-versions/0.0.132:
+    resolution: {integrity: sha512-jHe+l/djS7RGQ+YWKPGuzfh4WXKPeRmBJ+4QHXpB4moahEyK86nMaTmdqYZliO8rD4HUEK20/4V/g+uUrG1GxQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.130:
-    resolution: {integrity: sha512-cDgPSk6WznDImz6svQFfs/pHrK4gK0em3mXzHdJofAJtKcEZeiaCH3rRxLO10CexRYR+aiXQ+hYwTS9bs4HfWw==}
+  /@definitelytyped/utils/0.0.132:
+    resolution: {integrity: sha512-freIvPdHEjuFqa+W/7T6m2XzxZRYe5LYiBa2tmWGQ7qwZhbBnDyZN8y0k7fe/YP+LRU5ahho7BBVrPeD4t+U7w==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.130
+      '@definitelytyped/typescript-versions': 0.0.132
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10955,7 +10968,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.130
+      '@definitelytyped/header-parser': 0.0.132
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10971,9 +10984,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.130
-      '@definitelytyped/typescript-versions': 0.0.130
-      '@definitelytyped/utils': 0.0.130
+      '@definitelytyped/header-parser': 0.0.132
+      '@definitelytyped/typescript-versions': 0.0.132
+      '@definitelytyped/utils': 0.0.132
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -18024,6 +18037,7 @@ packages:
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+    hasBin: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
@@ -20227,6 +20241,13 @@ packages:
     engines: {node: '>=8'}
     dev: false
     optional: true
+
+  /xml-js/1.6.11:
+    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
+    hasBin: true
+    dependencies:
+      sax: 1.2.4
+    dev: false
 
   /xml-name-validator/3.0.0:
     resolution: {integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==}
