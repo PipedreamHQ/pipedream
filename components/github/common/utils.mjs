@@ -1,14 +1,3 @@
-export default {
-  getOwnerAndRepo(repoFullname) {
-    const splited = repoFullname.split("/");
-
-    return {
-      owner: splited[0],
-      repo: splited[0],
-    };
-  },
-};
-
 /**
  * A utility function that accepts a string as an argument and reformats it in
  * order to remove newline characters and consecutive spaces. Useful when
