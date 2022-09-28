@@ -1,5 +1,5 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
@@ -10,36 +10,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",
