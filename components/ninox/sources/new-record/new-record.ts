@@ -12,8 +12,6 @@ export default defineSource({
   methods: {
     ...common.methods,
     emitEvent(data) {
-      this._setLastRecordId(data.id);
-
       this.$emit(data, {
         id: data.id,
         summary: `New record created with id ${data.id}`,

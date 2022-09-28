@@ -67,19 +67,6 @@ export default defineApp({
         ...args,
       });
     },
-    // async createWebhook({ ...args }) {
-    //   return this._makeRequest({
-    //     path: "/webhooks",
-    //     method: "post",
-    //     ...args,
-    //   });
-    // },
-    // async removeWebhook(webhookId) {
-    //   return this._makeRequest({
-    //     path: `/webhooks/${webhookId}`,
-    //     method: "delete",
-    //   });
-    // },
     async getTeams(args = {}) {
       return this._makeRequest({
         path: "/teams",
@@ -103,10 +90,10 @@ export default defineApp({
       });
 
       try {
-        return Object.values(response?.schema?.types)
+        return Object.values(response?.schema?.types);
       } catch (error) {
-        return []
-      };
+        return [];
+      }
     },
     async getRecords({
       teamId, databaseId, tableId, ...args

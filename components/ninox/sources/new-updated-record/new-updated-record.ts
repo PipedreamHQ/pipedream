@@ -16,8 +16,6 @@ export default defineSource({
         return;
       }
 
-      this._setLastRecordId(data.id);
-
       this.$emit(data, {
         id: `${data.id}-${data.modifiedAt}`,
         summary: `New record updated with id ${data.id}`,

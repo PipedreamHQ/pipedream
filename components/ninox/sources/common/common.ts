@@ -38,13 +38,29 @@ export default {
   },
   methods: {
     emitEvent(event) {
-      throw new Error("emitEvent is not implemented");
+      throw new Error("emitEvent is not implemented - " + event);
     },
     _setLastRecordId(id) {
       this.db.set("lastRecordId", id);
     },
     _getLastRecordId() {
       return this.db.get("lastRecordId");
+    },
+  },
+  hooks: {
+    async deploy() {
+      const records = await this.ninox.getRecords({
+        teamId: this.teamId,
+        databaseId: this.databaseId,
+        tableId: this.tableId,
+      });
+
+      if (records.length) {
+        this._setLastRecordId(records[0].id);
+      }
+
+      records.slice(-20).reverse()
+        .forEach(this.emitEvent);
     },
   },
   async run() {
@@ -62,12 +78,13 @@ export default {
         },
       });
 
-      records.reverse().forEach(this.emitEvent);
+      if (records.length) {
+        this._setLastRecordId(records.reverse()[0].id);
+      }
 
-      if (
-        records.length < 100 ||
-        records.filter((record) => record.id === lastRecordId).length
-      ) {
+      records.filter((record) => record.id <= lastRecordId).forEach(this.emitEvent)
+
+      if (records.length < 100) {
         return;
       }
 
