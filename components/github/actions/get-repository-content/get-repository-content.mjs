@@ -13,9 +13,6 @@ export default {
   props: {
     github,
     repoFullname: {
-      label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
-      type: "string",
       propDefinition: [
         github,
         "repoFullname",
