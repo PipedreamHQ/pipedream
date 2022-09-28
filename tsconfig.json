@@ -710,6 +710,9 @@
     },
     {
       "path": "components/deployhq"
+    },
+    {
+      "path": "components/bingx"
     }
   ]
 }
