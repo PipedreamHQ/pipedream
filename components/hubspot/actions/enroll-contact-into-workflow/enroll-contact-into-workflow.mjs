@@ -4,7 +4,7 @@ export default {
   key: "hubspot-enroll-contact-into-workflow",
   name: "Enroll Contact Into Workflow",
   description: "Add a contact to a workflow. Note: The Workflows API currently only supports contact-based workflows. [See the docs here](https://legacydocs.hubspot.com/docs/methods/workflows/add_contact)",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,
