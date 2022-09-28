@@ -4,25 +4,6 @@ export default {
   type: "app",
   app: "liveagent",
   propDefinitions: {
-    customerId: {
-      label: "Customer ID",
-      description: "The customer ID",
-      type: "string",
-      async options({ page }) {
-        const customers = await this.getCustomers({
-          params: {
-            _page: page + 1,
-          },
-        });
-
-        return customers.map((customer) => ({
-          label: customer.firstname + (customer.lastname
-            ? " " + customer.lastname
-            : ""),
-          value: customer.id,
-        }));
-      },
-    },
     groupId: {
       label: "Group ID",
       description: "The group ID",
@@ -74,12 +55,10 @@ export default {
         ...args,
       });
     },
-    async updateCustomer({
-      customerId, ...args
-    }) {
+    async createCustomer(args = {}) {
       return this._makeRequest({
-        path: `/contacts/${customerId}`,
-        method: "patch",
+        path: "/contacts",
+        method: "post",
         ...args,
       });
     },
