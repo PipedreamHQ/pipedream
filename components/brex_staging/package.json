@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brex_staging",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Brex Staging Components",
   "main": "brex_staging.app.js",
   "keywords": [
