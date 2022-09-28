@@ -1,23 +1,17 @@
-const threads = require("../../threads.app.js");
+import threads from "../../threads.app.mjs";
 
-module.exports = {
+export default {
   key: "threads-post-thread",
   name: "Post a Thread",
   description: "Post a new thread to a specific forum",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     threads,
-    forumID: {
+    ChannelID: {
       propDefinition: [
         threads,
-        "forumID",
-      ],
-    },
-    title: {
-      propDefinition: [
-        threads,
-        "title",
+        "ChannelID",
       ],
     },
     body: {
@@ -27,16 +21,19 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
-      forumID,
-      title,
+      ChannelID,
       body,
     } = this;
-    return await this.threads.postThread({
-      forumID,
-      title,
+
+    const post = await this.threads.postThread({
+      $,
+      ChannelID,
       body,
     });
+
+    $.export("$summary", `Thread successfully posted "${post?.result?.threadID}"`);
+    return post;
   },
 };
