@@ -23,22 +23,24 @@ export default {
       listId: this.listId,
     });
 
-    for (const task of tasks) {
-      const {
-        taskId: id,
-        createTime: ts,
-        name,
-      } = task;
+    tasks
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+      .forEach((task) => {
+        const {
+          taskId: id,
+          createTime: ts,
+          name,
+        } = task;
 
-      if (!savedTasks.has(id)) {
-        savedTasks.add(id);
-        this.$emit(task, {
-          id,
-          summary: `New task: ${name}`,
-          ts,
-        });
-      }
-    }
+        if (!savedTasks.has(id)) {
+          savedTasks.add(id);
+          this.$emit(task, {
+            id,
+            summary: `New task: ${name}`,
+            ts,
+          });
+        }
+      });
 
     this._setTasks(savedTasks);
   },
