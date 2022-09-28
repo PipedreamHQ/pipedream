@@ -40,6 +40,9 @@ export default {
       label: "Folder",
       description: "The id of a folder",
       async options({ spaceId }) {
+        if (!spaceId) {
+          throw new ConfigurationError("Please select a **Space** first");
+        }
         const folders = await this.getFolders({
           spaceId,
         });
