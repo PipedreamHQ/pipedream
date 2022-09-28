@@ -13,6 +13,8 @@ export default {
       type: "integer",
       label: "Max",
       description: "The maximum amount of registered that will be fetched. Defaults to `500`.",
+      default: 500,
+      max: 1000,
       optional: true,
     },
     location: {

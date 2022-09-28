@@ -6,7 +6,7 @@ export default {
   name: "List Transactions for Selected Cash Account",
   description: "Lists all transactions for the specified cash account. [See the docs here](https://developer.brex.com/openapi/transactions_api/#operation/listCashTransactions).",
   key: "brex_staging-list-transactions-for-selected-cash-account",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brexApp,
