@@ -1,5 +1,5 @@
 # Overview
-      
+
 Using the Airtable API, you can build applications that can:
 
 - Create and manage databases

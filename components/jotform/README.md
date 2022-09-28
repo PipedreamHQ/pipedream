@@ -1,6 +1,8 @@
 # Overview
-      
-Using the Jotform API, you can easily add forms to your website or application. You can also use the Jotform API to manage your form submissions, gather insights from your form data, and more.
+
+Using the Jotform API, you can easily add forms to your website or application.
+You can also use the Jotform API to manage your form submissions, gather
+insights from your form data, and more.
 
 Here are some examples of what you can build using the Jotform API:
 

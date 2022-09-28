@@ -1,6 +1,7 @@
 # Overview
-      
-There are lots of things you can build using the YouTube API! Here are just a few examples:
+
+There are lots of things you can build using the YouTube API! Here are just a
+few examples:
 
 - A YouTube video player
 - A YouTube search engine
