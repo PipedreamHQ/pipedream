@@ -89,6 +89,16 @@ export default {
       description: "Watch for new events concerning the object type specified.",
       options: OBJECT_TYPES,
     },
+    objectId: {
+      type: "string",
+      label: "Object ID",
+      description: "Hubspot's internal ID for the contact",
+      async options({
+        objectType, ...opts
+      }) {
+        return this.createOptions(objectType, opts);
+      },
+    },
     objectIds: {
       type: "string[]",
       label: "Object",
@@ -527,6 +537,19 @@ export default {
         `/objects/${objectType}`,
         {
           method: "POST",
+          data: {
+            properties,
+          },
+          $,
+        },
+      );
+    },
+    async updateObject(objectType, properties, objectId, $) {
+      return this.makeRequest(
+        API_PATH.CRMV3,
+        `/objects/${objectType}/${objectId}`,
+        {
+          method: "PATCH",
           data: {
             properties,
           },
