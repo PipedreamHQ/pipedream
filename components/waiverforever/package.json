@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/waiverforever",
+  "version": "0.3.6",
+  "description": "Pipedream Waiverforever Components",
+  "main": "waiverforever.app.mjs",
+  "keywords": [
+    "pipedream",
+    "waiverforever"
+  ],
+  "homepage": "https://pipedream.com/apps/waiverforever",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

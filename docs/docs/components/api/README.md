@@ -191,7 +191,7 @@ To see more examples, explore the [curated components in Pipedream's GitHub repo
 
 ##### Advanced Configuration
 
-##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.js))
+##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.mjs))
 
 Async options allow users to select prop values that can be programmatically-generated (e.g., based on a real-time API response).
 
