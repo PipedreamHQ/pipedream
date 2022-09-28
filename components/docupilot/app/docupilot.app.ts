@@ -5,21 +5,27 @@ export default defineApp({
   type: "app",
   app: "docupilot",
   methods: {
-    _baseUrl(): string {
-      return "https://api.docupilot.app/api/v1";
+    createDocumentBaseUrl(): string {
+      return "https://api.docupilot.app/documents/create/";
     },
     async _httpRequest({
       $ = this,
-      endpoint,
       ...args
     }): Promise<object> {
       return axios($, {
-        url: this._baseUrl() + endpoint,
         headers: {
           "apikey": this.$auth.api_key,
+          "Content-Type": "application/json",
         },
         ...args,
       });
+    },
+    async getTemplateSchema(id: number) {
+      const { data } = await this._httpRequest({
+        url: `https://api.docupilot.app/api/v1/templates/${id}/schema`,
+      });
+
+      return data.schema;
     },
   },
 });
