@@ -704,6 +704,12 @@
     },
     {
       "path": "components/printful_oauth"
+    },
+    {
+      "path": "components/repuso"
+    },
+    {
+      "path": "components/deployhq"
     }
   ]
 }
