@@ -266,6 +266,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bingx:
+    specifiers: {}
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2048,6 +2051,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.0
       date-fns: 2.29.1
+
+  components/threads:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/threescribe:
     specifiers: {}
