@@ -4,7 +4,7 @@ export default {
   name: "Ecwid Get Order",
   version: "0.0.1",
   key: "ecwid-get-order",
-  description: "",
+  description: "Get Ecwid Order by Order Id. Details of the structure present here - https://api-docs.ecwid.com/reference/get-order",
   props: {
     ecwid,
     orderId: {

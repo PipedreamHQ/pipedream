@@ -4,7 +4,7 @@ export default {
   name: "Ecwid Update Order Status",
   version: "0.0.1",
   key: "ecwid-update-order-status",
-  description: "",
+  description: "Update Status of an Ecwid Order. Makes use of update order API - https://api-docs.ecwid.com/reference/update-order",
   props: {
     ecwid,
     condition: {
