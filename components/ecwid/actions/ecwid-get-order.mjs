@@ -6,13 +6,13 @@ export default {
   key: "ecwid-get-order",
   description: "",
   props: {
+    ecwid,
     orderId: {
       label: "Order ID",
       description: "Order ID for which order details need to be fetched",
       type: "string",
       optional: false,
     },
-    ecwid,
   },
   type: "action",
   methods: {},

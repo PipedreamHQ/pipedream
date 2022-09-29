@@ -6,6 +6,7 @@ export default {
   key: "ecwid-update-order-status",
   description: "",
   props: {
+    ecwid,
     condition: {
       label: "Condition to execute Update",
       description: "Apply status change conditionally based on input",
@@ -26,7 +27,6 @@ export default {
       options: FULFILMENT_STATUS_LIST,
       optional: false,
     },
-    ecwid,
   },
   type: "action",
   methods: {},
