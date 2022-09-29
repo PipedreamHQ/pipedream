@@ -40,6 +40,9 @@ export default {
     emitEvent(event) {
       throw new Error("emitEvent is not implemented - " + event);
     },
+    getTimestampField() {
+      throw new Error("getTimestampField is not implemented");
+    },
     _setLastTimestamp(timestamp) {
       this.db.set("lastTimestamp", timestamp);
     },
@@ -76,7 +79,7 @@ export default {
         },
       });
 
-      records.filter((record) => Date.parse(record.createdAt) >= lastTimestamp).forEach(this.emitEvent)
+      records.filter((record) => Date.parse(record[this.getTimestampField()]) >= lastTimestamp).forEach(this.emitEvent)
 
       if (records.length < 100) {
         return;

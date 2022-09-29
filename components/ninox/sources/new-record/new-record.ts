@@ -11,6 +11,9 @@ export default defineSource({
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getTimestampField() {
+      return 'createdAt'
+    },
     emitEvent(data) {
       this.$emit(data, {
         id: data.id,
