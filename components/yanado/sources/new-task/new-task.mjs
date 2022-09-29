@@ -24,7 +24,7 @@ export default {
     });
 
     tasks
-      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+      .sort((a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime())
       .forEach((task) => {
         const {
           taskId: id,
