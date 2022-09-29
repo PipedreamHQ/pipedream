@@ -713,6 +713,9 @@
     },
     {
       "path": "components/bingx"
+    },
+    {
+      "path": "components/razorpay"
     }
   ]
 }
