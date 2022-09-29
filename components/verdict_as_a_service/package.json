@@ -7,11 +7,16 @@
     "pipedream",
     "verdict_as_a_service"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/verdict_as_a_service",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "gdata-vaas": "^2.2.7"
   }
 }

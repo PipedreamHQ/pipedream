@@ -1,13 +1,33 @@
 import { defineApp } from "@pipedream/types";
+import {
+  Vaas,
+  CreateVaasWithClientCredentialsGrant as createVaas,
+  VAAS_URL,
+} from "gdata-vaas";
 
 export default defineApp({
   type: "app",
   app: "verdict_as_a_service",
-  propDefinitions: {},
+  propDefinitions: {
+    file: {
+      type: "string",
+      label: "File",
+      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.txt`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getClient() {
+      const {
+        client_id: clientId,
+        client_secret: secret,
+        token_url: token,
+        vaas_url: url = VAAS_URL,
+      } = this.$auth;
+      return createVaas(clientId, secret, token, url);
+    },
+    async requestVerdictForFile(file: Uint8Array) {
+      const client: Vaas = await this.getClient();
+      return client.forFile(file);
     },
   },
 });
