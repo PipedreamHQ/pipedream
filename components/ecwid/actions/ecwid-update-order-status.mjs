@@ -2,9 +2,9 @@ import { FULFILMENT_STATUS_LIST } from "../commons/commons.mjs";
 import ecwid from "../ecwid.app.mjs";
 export default {
   name: "Ecwid Update Order Status",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "ecwid-update-order-status",
-  description: "Update Status of an Ecwid Order. Makes use of update order API - https://api-docs.ecwid.com/reference/update-order",
+  description: "Update the Status of an Ecwid Order. Makes use of the [Update Order API](https://api-docs.ecwid.com/reference/update-order).",
   props: {
     ecwid,
     condition: {

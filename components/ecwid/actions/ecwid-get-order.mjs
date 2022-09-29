@@ -2,9 +2,9 @@ import ecwid from "../ecwid.app.mjs";
 
 export default {
   name: "Ecwid Get Order",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "ecwid-get-order",
-  description: "Get Ecwid Order by Order Id. Details of the structure present here - https://api-docs.ecwid.com/reference/get-order",
+  description: "Get Ecwid Order by Order ID. Details of the structure are present [here](https://api-docs.ecwid.com/reference/get-order).",
   props: {
     ecwid,
     orderId: {
