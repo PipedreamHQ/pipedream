@@ -27,7 +27,7 @@ export default {
       });
     },
     getRatings() {
-      return this.nicereply.getUsersRatings;
+      return this.nicereply.getUserRatings;
     },
     getRequestExtraArgs() {
       return {

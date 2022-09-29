@@ -27,7 +27,7 @@ export default {
       });
     },
     getRatings() {
-      return this.nicereply.getTeamsRatings;
+      return this.nicereply.getTeamRatings;
     },
     getRequestExtraArgs() {
       return {

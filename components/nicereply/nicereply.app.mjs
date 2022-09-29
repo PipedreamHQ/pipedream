@@ -66,8 +66,8 @@ export default {
         const response = await this.getUsers(reqObj);
 
         return {
-          options: response._results.map((user) => ({
-            label: user.name,
+          options: response._results.filter((user) => user.has_access).map((user) => ({
+            label: user.fullname,
             value: user.id,
           })),
           context: {
@@ -160,11 +160,19 @@ export default {
         ...args,
       });
     },
-    async getUsersRatings({
+    async getUserRatings({
       userId, ...args
     }) {
       return this._makeRequest({
         path: `/users/${userId}/ratings`,
+        ...args,
+      });
+    },
+    async getTeamRatings({
+      teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/teams/${teamId}/ratings`,
         ...args,
       });
     },
