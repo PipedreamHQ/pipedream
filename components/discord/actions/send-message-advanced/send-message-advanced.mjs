@@ -5,7 +5,7 @@ export default {
   key: "discord-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ...common.props,
@@ -26,6 +26,9 @@ export default {
   async run({ $ }) {
     const {
       message,
+      avatarURL,
+      threadID,
+      username,
       includeSentViaPipedream,
       embeds,
     } = this;
@@ -35,11 +38,15 @@ export default {
     }
 
     try {
-      const resp = await this.discord.createMessage(this.channel, {
+      const resp = await this.discord.sendMessage(this.channel, {
+        avatar_url: avatarURL,
+        username,
         embeds,
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message ?? "")
           : message,
+      }, {
+        thread_id: threadID,
       });
       $.export("$summary", "Message sent successfully");
       return resp;

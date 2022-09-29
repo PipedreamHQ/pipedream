@@ -1,11 +1,13 @@
 import common from "../common/common.mjs";
+import axios from "axios";
+import fs from "fs";
 
 export default {
   ...common,
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ...common.props,
@@ -17,28 +19,51 @@ export default {
       optional: true,
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the file to attach",
+      propDefinition: [
+        common.props.discord,
+        "fileUrl",
+      ],
+    },
+    filePath: {
+      propDefinition: [
+        common.props.discord,
+        "filePath",
+      ],
     },
   },
   async run({ $ }) {
     const {
       message,
+      avatarURL,
+      threadID,
+      username,
       fileUrl,
+      filePath,
       includeSentViaPipedream,
     } = this;
 
+    if (!fileUrl && !filePath) {
+      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+    }
+
+    const file = fileUrl
+      ? (await axios({
+        method: "get",
+        url: fileUrl,
+        responseType: "stream",
+      })).data
+      : fs.createReadStream(filePath);
+
     try {
-      const resp = await this.discord.createMessage(this.channel, {
-        files: [
-          {
-            attachment: fileUrl,
-          },
-        ],
+      const resp = await this.discord.sendMessage(this.channel, {
+        avatar_url: avatarURL,
+        username,
+        file,
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message ?? "")
           : message,
+      }, {
+        thread_id: threadID,
       });
       $.export("$summary", "Message sent successfully");
       return resp;
