@@ -22,6 +22,7 @@ export default {
           orgId: c.organization,
         }),
       ],
+      reloadProps: true,
     },
     phase: {
       propDefinition: [
@@ -37,23 +38,25 @@ export default {
       type: "string",
       label: "Title",
       description: "Title of the new card",
-      optional: true,
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The card due date. An ISO‐8601 encoded UTC date time string (YYYY-MM-DD HH:MM:SS).",
-      optional: true,
     },
   },
   async additionalProps() {
     const props = {};
-    const fields = await this.pipefy.listPhaseFields(this.phase);
-    for (const field of fields) {
+    const startFields = this.pipe
+      ? await this.pipefy.listPipeFields(this.pipe)
+      : [];
+    const fields = this.phase
+      ? await this.pipefy.listPhaseFields(this.phase)
+      : [];
+    const allFields = [
+      ...startFields,
+      ...fields,
+    ];
+    for (const field of allFields) {
       props[field.id] = {
         type: "string",
         label: field.label,
-        description: field.description,
+        description: `Type: ${field.type}. ${field.description}`,
         optional: !field.required,
       };
       if (field.options.length > 0) {
@@ -81,8 +84,13 @@ export default {
   */
 
     const fieldsAttributes = [];
+    const startFields = await this.pipefy.listPipeFields(this.pipe);
     const fields = await this.pipefy.listPhaseFields(this.phase);
-    for (const field of fields) {
+    const allFields = [
+      ...startFields,
+      ...fields,
+    ];
+    for (const field of allFields) {
       if (this[field.id]) {
         fieldsAttributes.push({
           field_id: field.id,
@@ -95,7 +103,6 @@ export default {
       pipeId: this.pipe,
       phaseId: this.phase,
       title: this.title,
-      dueDate: this.dueDate,
       fieldsAttributes,
     };
 

@@ -199,6 +199,10 @@ export default {
               id
               name
             }
+            fields {
+              name
+              value
+            }
           } 
         }
       `;
@@ -415,6 +419,7 @@ export default {
               required
               options
               description
+              type
             }
           }
         }
@@ -436,6 +441,23 @@ export default {
         }
       `;
       return (await this._makeQueriesRequest(query)).table.table_fields;
+    },
+    async listPipeFields(pipeId) {
+      const query = `
+        {
+          pipe(id:${pipeId}) {
+            start_form_fields {
+              id
+              label
+              required
+              options
+              description
+              type
+            }
+          }
+        }
+      `;
+      return (await this._makeQueriesRequest(query)).pipe.start_form_fields;
     },
     async listTableRecords(tableId, after = null) {
       const query = `
@@ -500,14 +522,12 @@ export default {
           $pipeId: ID!
           $phaseId: ID!
           $title: String!
-          $dueDate: DateTime!
           $fieldsAttributes: [FieldValueInput]
         ){
           createCard( input: {
             pipe_id: $pipeId
             phase_id: $phaseId
             title: $title
-            due_date: $dueDate
             fields_attributes: $fieldsAttributes
           })
           { card { id title } }
