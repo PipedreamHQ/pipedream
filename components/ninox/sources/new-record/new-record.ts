@@ -12,7 +12,7 @@ export default defineSource({
   methods: {
     ...common.methods,
     getTimestampField() {
-      return 'createdAt'
+      return "createdAt";
     },
     emitEvent(data) {
       this.$emit(data, {

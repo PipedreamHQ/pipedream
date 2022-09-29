@@ -12,7 +12,7 @@ export default defineSource({
   methods: {
     ...common.methods,
     getTimestampField() {
-      return 'modifiedAt'
+      return "modifiedAt";
     },
     emitEvent(data) {
       if (data.createdAt === data.modifiedAt) {

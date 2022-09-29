@@ -52,7 +52,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      this._setLastTimestamp(new Date().getTime())
+      this._setLastTimestamp(new Date().getTime());
 
       const records = await this.ninox.getRecords({
         teamId: this.teamId,
@@ -60,8 +60,15 @@ export default {
         tableId: this.tableId,
       });
 
-      records.slice(-20).reverse()
-        .forEach(this.emitEvent);
+      if (this.getTimestampField() == "modifiedAt") {
+        records.filter((record) => record.createdAt !== record.modifiedAt).slice(-20)
+          .reverse()
+          .forEach(this.emitEvent);
+      } else {
+        records.slice(-20).reverse()
+          .forEach(this.emitEvent);
+      }
+
     },
   },
   async run() {
@@ -79,7 +86,7 @@ export default {
         },
       });
 
-      records.filter((record) => Date.parse(record[this.getTimestampField()]) >= lastTimestamp).forEach(this.emitEvent)
+      records.filter((record) => Date.parse(record[this.getTimestampField()]) >= lastTimestamp).forEach(this.emitEvent);
 
       if (records.length < 100) {
         return;
