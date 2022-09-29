@@ -34,7 +34,7 @@ export default {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
-    async processStreamEvents(stream) {
+    async processStream(stream) {
       const resources = await utils.streamIterator(stream);
       this.reverseResources(resources)
         .filter(this.resourceFilter)
@@ -42,12 +42,11 @@ export default {
     },
   },
   async run() {
-    const resourcesStream =
-      await this.zenler.getResourcesStream({
-        resourceFn: this.getResourceFn(),
-        resourceFnArgs: this.getResourceFnArgs(),
-      });
+    const stream = this.zenler.getResourcesStream({
+      resourceFn: this.getResourceFn(),
+      resourceFnArgs: this.getResourceFnArgs(),
+    });
 
-    await this.processStreamEvents(resourcesStream);
+    await this.processStream(stream);
   },
 };

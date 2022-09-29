@@ -10,7 +10,7 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    courseIds: {
+    courseId: {
       propDefinition: [
         common.props.zenler,
         "courseId",
@@ -25,9 +25,12 @@ export default {
     getResourceFnArgs() {
       return {
         params: {
-          "course_ids[]": this.courseIds,
+          "course_id": this.courseId,
         },
       };
+    },
+    resourceFilter(resource) {
+      return resource.completion_percentage;
     },
     reverseResources(resources) {
       return resources;
@@ -35,8 +38,8 @@ export default {
     generateMeta(resource) {
       return {
         id: `${resource.id}${resource.completion_percentage}`,
-        ts: Date.now(),
-        summary: `Course ID ${resource.id} %${resource.completion_percentage}`,
+        ts: Date.parse(resource.last_attended),
+        summary: `${resource.name} completed %${resource.completion_percentage}`,
       };
     },
   },

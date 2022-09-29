@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+      return `${constants.BASE_URL.replace(constants.API_PLACEHOLDER, this.$auth.account_name)}${constants.VERSION_PATH}`;
     },
     getUrl(path, url) {
       return url || `${this.getBaseUrl()}${path}`;
@@ -302,7 +302,10 @@ export default {
           return;
         }
 
-        const { items } = response.data;
+        const {
+          items,
+          pagination,
+        } = response.data;
         const nextResources = this.getNextResources(items);
 
         if (nextResources?.length < 1) {
@@ -314,6 +317,10 @@ export default {
         for (const resource of nextResources) {
           resourcesCount += 1;
           yield resource;
+        }
+
+        if (page > pagination.total_pages) {
+          return;
         }
 
         if (max && resourcesCount >= max) {
