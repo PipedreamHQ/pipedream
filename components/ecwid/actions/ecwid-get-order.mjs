@@ -8,7 +8,7 @@ export default {
   props: {
     orderId: {
       label: "Order ID",
-      description: "Order ID for which fulfilment status need to be updated",
+      description: "Order ID for which order details need to be fetched",
       type: "string",
       optional: false,
     },
