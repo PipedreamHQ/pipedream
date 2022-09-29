@@ -5,7 +5,7 @@ export default {
   key: "asana-update-task",
   name: "Update Task",
   description: "Updates a specific and existing task. [See the docs here](https://developers.asana.com/docs/update-a-task)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     ...common.props,
