@@ -81,7 +81,7 @@ export default {
   */
 
     const fieldsAttributes = [];
-    const fields = await this.pipefy.listFields(this.phase);
+    const fields = await this.pipefy.listPhaseFields(this.phase);
     for (const field of fields) {
       if (this[field.id]) {
         fieldsAttributes.push({
