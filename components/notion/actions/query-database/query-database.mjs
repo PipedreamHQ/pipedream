@@ -32,7 +32,7 @@ export default {
 
     const response = await this.notion.queryDatabase(this.databaseId, {
       filter: utils.parseStringToJSON(filter),
-      sorts: utils.parseStringToJSON(sorts),
+      sorts: utils.parseStringToJSON(sorts, undefined),
     });
 
     $.export("$summary", "Retrieved database query result");
