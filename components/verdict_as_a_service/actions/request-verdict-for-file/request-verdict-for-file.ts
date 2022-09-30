@@ -18,7 +18,8 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const fileArray = Uint8Array.from(createReadStream(this.file).read());
+    const stream = createReadStream(this.file);
+    const fileArray = Uint8Array.from(stream.read());
     const verdict = await this.verdict.requestVerdictForFile(fileArray);
 
     $.export("$summary", "Successfully requested a verdict");
