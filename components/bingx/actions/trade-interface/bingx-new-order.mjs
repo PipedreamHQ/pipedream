@@ -1,9 +1,9 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Trade FutureTrade",
+  name: "BingX Trade NewOrder",
   version: "0.0.1",
-  key: "bingx-market-get-ticker",
+  key: "bingx-trade-new-order",
   description: "Place a New Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order).",
   props: {
     bingx,

@@ -1,7 +1,8 @@
 import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 import {
-  KLINE_DESC_LIST, TRADE_SIDES, TRADE_TYPES, TRADE_ACTIONS,
+  KLINE_DESC_LIST, TRADE_SIDES, TRADE_TYPES,
+  TRADE_ACTIONS, TRADE_MARGIN_MODES, TRADE_LEVERAGE_SIDES,
 } from "./bingx-common.mjs";
 
 export default {
@@ -44,6 +45,13 @@ export default {
       options: TRADE_SIDES,
       optional: false,
     },
+    leverageSide: {
+      label: "Leverage Side",
+      description: "Leverage of Long or Short positions",
+      type: "string",
+      options: TRADE_LEVERAGE_SIDES,
+      optional: false,
+    },
     entrustPrice: {
       label: "Price",
       description: "Price",
@@ -68,6 +76,25 @@ export default {
       description: "Open/Close",
       type: "string",
       options: TRADE_ACTIONS,
+      optional: false,
+    },
+    positionId: {
+      label: "Position Id",
+      description: "ID of the position needs to be closed with one click",
+      type: "integer",
+      optional: false,
+    },
+    orderId: {
+      label: "Order ID",
+      description: "Order ID",
+      type: "string",
+      optional: false,
+    },
+    marginMode: {
+      label: "Margin Mode",
+      description: "Isolated or Cross\n",
+      type: "string",
+      options: TRADE_MARGIN_MODES,
       optional: false,
     },
   },

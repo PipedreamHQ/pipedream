@@ -44,3 +44,13 @@ export const TRADE_ACTIONS = [
   "Open",
   "Close",
 ];
+
+export const TRADE_MARGIN_MODES = [
+  "Isolated",
+  "Cross",
+];
+
+export const TRADE_LEVERAGE_SIDES = [
+  "Long",
+  "Short",
+];
