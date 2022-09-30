@@ -1,13 +1,13 @@
-import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import common from "./common.mjs";
+import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
+import common from "../../../youtube_data_api/sources/new-videos-in-playlist/common.mjs";
 
 export default {
   ...common,
-  type: "source",
-  key: "youtube_data_api-new-videos-in-playlist",
+  key: "youtube_data_api_custom_app-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emit new event for each new Youtube video added to a Playlist.",
-  version: "0.0.8",
+  version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     youtubeDataApi,
