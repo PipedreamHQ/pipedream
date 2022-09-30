@@ -35,8 +35,6 @@ export default {
       body,
     });
 
-    console.log("chatMessage: ", chatMessage);
-
     $.export("$summary", `Chat message successfully sent "${chatMessage?.result?.chatMessageID}"`);
     return chatMessage;
   },
