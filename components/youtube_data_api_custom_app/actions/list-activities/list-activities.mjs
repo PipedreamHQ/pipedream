@@ -1,14 +1,15 @@
-import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import consts from "../../consts.mjs";
-import common from "./common.mjs";
+import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
+import common from "../../../youtube_data_api/actions/list-activities/common.mjs";
+import consts from "../../../youtube_data_api/consts.mjs";
 
 export default {
   ...common,
-  key: "youtube_data_api-list-activities",
+  key: "youtube_data_api_custom_app-list-activities",
   name: "List Activities",
   description: "Returns a list of channel activity events that match the request criteria. [See the docs](https://developers.google.com/youtube/v3/docs/channels/list) for more information",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
+  dedupe: "unique",
   props: {
     youtubeDataApi,
     useCase: {

@@ -1,13 +1,14 @@
-import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import common from "./common.mjs";
+import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
+import common from "../../../youtube_data_api/actions/upload-video/common.mjs";
 
 export default {
   ...common,
-  key: "youtube_data_api-upload-video",
+  key: "youtube_data_api_custom_app-upload-video",
   name: "Upload Video",
   description: "Post a video to your channel. [See the docs](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
+  dedupe: "unique",
   props: {
     youtubeDataApi,
     title: {
