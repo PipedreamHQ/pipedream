@@ -7,7 +7,8 @@ export default {
   type: "source",
   name: "New Tag Added To Task (Instant)",
   description: "Emit new event for each new tag added to a task.",
-  version: "0.1.0",
+  version: "0.1.1",
+  dedupe: "unique",
   props: {
     ...common.props,
     project: {
@@ -23,11 +24,12 @@ export default {
       ],
     },
     tasks: {
+      optional: true,
       propDefinition: [
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -46,26 +48,33 @@ export default {
       };
     },
     async emitEvent(event) {
-      const { body } = event;
-      if (!body || !body.events) return;
+      const { tasks } = this;
+      const { events = [] } = event.body || {};
 
-      const tasks = this.db.get("tasks");
+      const promises = events
+        .filter(({ resource }) => {
+          return tasks?.length
+            ? tasks.includes(String(resource.gid))
+            : true;
+        })
+        .map(async (event) => ({
+          event,
+          task: await this.asana.getTask(event.resource.gid),
+          tag: await this.asana.getTag(event.parent.gid),
+        }));
 
-      for (const e of body.events) {
-        if (e.parent.resource_type !== "tag") continue;
+      const responses = await Promise.all(promises);
 
-        if (!tasks || tasks.length <= 0 || Object.keys(tasks).length <= 0 ||
-          tasks.includes(e.resource.gid)) {
-          const task = await this.asana.getTask(e.resource.gid);
-          const tag = await this.asana.getTag(e.parent.gid);
-
-          this.$emit(tag, {
-            id: tag.gid,
-            summary: `${tag.name} added to ${task.name}`,
-            ts: Date.now(),
-          });
-        }
-      }
+      responses.forEach(({
+        event, task, tag,
+      }) => {
+        const ts = Date.parse(event.created_at);
+        this.$emit(tag, {
+          id: `${tag.gid}-${ts}`,
+          summary: `${tag.name} added to ${task.name}`,
+          ts,
+        });
+      });
     },
   },
 };

@@ -1,25 +1,52 @@
-// legacy_hash_id: a_WYiwx5
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "pipefy-update-table",
   name: "Update Table",
-  description: "Updates a table.",
-  version: "0.1.1",
+  description: "Updates a table. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateTableRecord/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [UpdateTable](https://api-docs.pipefy.com/reference/mutations/updateTable/) specification.",
+    table: {
+      propDefinition: [
+        pipefy,
+        "table",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The new table name",
+      optional: true,
+    },
+    icon: {
+      type: "string",
+      label: "Icon",
+      description: "The new table icon",
+      options: constants.ICON_OPTIONS,
+      optional: true,
+    },
+    color: {
+      type: "string",
+      label: "Color",
+      description: "The new table color",
+      options: constants.TABLE_COLORS,
+      optional: true,
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/updateTable/
-
+  /*
   Example query:
 
   mutation updateExistingTable{
@@ -31,17 +58,16 @@ export default {
 
   */
 
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
-    }
+    const { table } = await this.pipefy.getTable(this.table);
+    const variables = {
+      tableId: this.table,
+      name: this.name || table.name,
+      icon: this.icon || table.icon,
+      color: this.color || table.color,
+    };
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    const response = await this.pipefy.updateTable(variables);
+    $.export("$summary", "Successfully updatedTable");
+    return response;
   },
 };
