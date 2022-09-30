@@ -1,17 +1,13 @@
 import docupilot from "../../app/docupilot.app";
-import {
-  defineAction,
-} from "@pipedream/types";
-import {
-  ConfigurationError,
-} from "@pipedream/platform";
+import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default defineAction({
   name: "Create Document",
   description:
     "Create a document [See docs here](https://help.docupilot.app/create-document/api-and-webhook-integration#api-integration)",
   key: "docupilot-create-document",
-  version: "0.0.17",
+  version: "0.0.19",
   type: "action",
   props: {
     docupilot,
@@ -40,7 +36,7 @@ export default defineAction({
     const params = {
       $,
       url,
-      data
+      data,
     };
 
     const response = await this.docupilot.createDocument(params);

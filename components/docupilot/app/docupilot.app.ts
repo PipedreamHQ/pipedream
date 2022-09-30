@@ -22,9 +22,9 @@ export default defineApp({
     },
     async createDocument(params) {
       return this._httpRequest({
-        method: 'POST',
-        ...params
-      })
-    }
+        method: "POST",
+        ...params,
+      });
+    },
   },
 });
