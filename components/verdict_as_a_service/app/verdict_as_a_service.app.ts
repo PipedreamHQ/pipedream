@@ -20,10 +20,10 @@ export default defineApp({
       const {
         client_id: clientId,
         client_secret: secret,
-        token_url: token,
+        token_url: tokenUrl,
         vaas_url: url = VAAS_URL,
       } = this.$auth;
-      return createVaas(clientId, secret, token, url);
+      return createVaas(clientId, secret, tokenUrl, url);
     },
     async requestVerdictForFile(file: Uint8Array) {
       const client: Vaas = await this.getClient();

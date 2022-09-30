@@ -18,5 +18,8 @@
   },
   "dependencies": {
     "gdata-vaas": "^2.2.7"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.1.4"
   }
 }
