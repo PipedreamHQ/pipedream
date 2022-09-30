@@ -8,15 +8,10 @@ export default {
   props: {
     bingx,
     currency: {
-      label: "Currency",
-      description: "Account Asset",
-      type: "string",
-      default: "USDT",
-      optional: true,
-      async options() {
-        const contractsData = await this.bingx.getAllMarketContracts();
-        return contractsData.data.contracts.map((contract) => contract.currency);
-      },
+      propDefinition: [
+        bingx,
+        "currency",
+      ],
     },
   },
   type: "action",

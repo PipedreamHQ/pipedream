@@ -1,10 +1,41 @@
 import { axios } from "@pipedream/platform";
 import crypto from "crypto";
+import { KLINE_DESC_LIST } from "./bingx-common.mjs";
 
 export default {
   type: "app",
   app: "bingx",
-  propDefinitions: {},
+  propDefinitions: {
+    symbol: {
+      label: "Symbol",
+      description: "Symbol/Ticker/Trading Pair. There must be a hyphen/ \"-\" in the trading pair symbol. eg: BTC-USDT",
+      type: "string",
+      optional: false,
+      default: "BTC-USDT",
+      async options() {
+        const contractsData = await this.bingx.getAllMarketContracts();
+        return contractsData.data.contracts.map((contract) => contract.symbol);
+      },
+    },
+    currency: {
+      label: "Currency",
+      description: "Account Asset",
+      type: "string",
+      default: "USDT",
+      optional: true,
+      async options() {
+        const contractsData = await this.bingx.getAllMarketContracts();
+        return contractsData.data.contracts.map((contract) => contract.currency);
+      },
+    },
+    klineType: {
+      label: "K-Line Type",
+      description: "The type of K-Line (minutes, hours, weeks etc.)",
+      type: "string",
+      options: KLINE_DESC_LIST,
+      optional: false,
+    },
+  },
   methods: {
     _apiUrl() {
       return "https://api-swap-rest.bingbon.pro";

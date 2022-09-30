@@ -8,15 +8,10 @@ export default {
   props: {
     bingx,
     symbol: {
-      label: "Symbol",
-      description: "Symbol/Ticker/Trading Pair. There must be a hyphen/ \"-\" in the trading pair symbol. eg: BTC-USDT",
-      type: "string",
-      optional: false,
-      default: "BTC-USDT",
-      async options() {
-        const contractsData = await this.bingx.getAllMarketContracts();
-        return contractsData.data.contracts.map((contract) => contract.symbol);
-      },
+      propDefinition: [
+        bingx,
+        "symbol",
+      ],
     },
     level: {
       label: "Level",
