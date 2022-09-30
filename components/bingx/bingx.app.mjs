@@ -13,7 +13,7 @@ export default {
       optional: false,
       default: "BTC-USDT",
       async options() {
-        const contractsData = await this.bingx.getAllMarketContracts();
+        const contractsData = await this.getAllMarketContracts();
         return contractsData.data.contracts.map((contract) => contract.symbol);
       },
     },
@@ -24,7 +24,7 @@ export default {
       default: "USDT",
       optional: true,
       async options() {
-        const contractsData = await this.bingx.getAllMarketContracts();
+        const contractsData = await this.getAllMarketContracts();
         return contractsData.data.contracts.map((contract) => contract.currency);
       },
     },
