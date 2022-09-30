@@ -17,7 +17,12 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    let returnValue = await this.bingx.getBalance(this.currency);
+    const API_METHOD = "POST";
+    const API_PATH = "/api/v1/user/getBalance";
+    const parameters = {
+      "currency": this.currency,
+    };
+    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `Balance Retrieved for account currency \`${this.currency}\` for account \`${returnValue.data.account.userId}\``);
     return returnValue;
   },

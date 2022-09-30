@@ -11,7 +11,10 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    let returnValue = await this.bingx.getAllMarketContracts();
+    const API_METHOD = "GET";
+    const API_PATH = "/api/v1/market/getAllContracts";
+    const parameters = {};
+    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", "Contract Information for Trading Pairs BingX");
     return returnValue;
   },

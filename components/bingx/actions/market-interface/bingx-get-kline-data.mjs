@@ -25,8 +25,13 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    let returnValue = await this.bingx.getLatestKline(this.symbol,
-      KLINE_DESC_MAPPING[this.klineType]);
+    const API_METHOD = "GET";
+    const API_PATH = "/api/v1/market/getLatestKline";
+    const parameters = {
+      "symbol": this.symbol,
+      "klineType": KLINE_DESC_MAPPING[this.klineType],
+    };
+    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `K-Line Data for Trading Pair ${this.symbol}`);
     return returnValue;
   },

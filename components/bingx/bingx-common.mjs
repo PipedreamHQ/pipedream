@@ -29,3 +29,18 @@ export const KLINE_DESC_MAPPING = {
   "1W": "1W",
   "1M": "1M",
 };
+
+export const TRADE_SIDES = [
+  "Bid",
+  "Ask",
+];
+
+export const TRADE_TYPES = [
+  "Market",
+  "Limit",
+];
+
+export const TRADE_ACTIONS = [
+  "Open",
+  "Close",
+];

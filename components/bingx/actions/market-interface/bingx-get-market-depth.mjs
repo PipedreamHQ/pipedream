@@ -23,7 +23,13 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    let returnValue = await this.bingx.getMarketDepth(this.symbol, this.level);
+    const API_METHOD = "GET";
+    const API_PATH = "/api/v1/market/getMarketDepth";
+    const parameters = {
+      "symbol": this.symbol,
+      "level": this.level,
+    };
+    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `Market depth of Trading Pair ${this.symbol}`);
     return returnValue;
   },

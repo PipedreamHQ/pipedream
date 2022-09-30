@@ -1,6 +1,8 @@
 import { axios } from "@pipedream/platform";
 import crypto from "crypto";
-import { KLINE_DESC_LIST } from "./bingx-common.mjs";
+import {
+  KLINE_DESC_LIST, TRADE_SIDES, TRADE_TYPES, TRADE_ACTIONS,
+} from "./bingx-common.mjs";
 
 export default {
   type: "app",
@@ -33,6 +35,39 @@ export default {
       description: "The type of K-Line (minutes, hours, weeks etc.)",
       type: "string",
       options: KLINE_DESC_LIST,
+      optional: false,
+    },
+    side: {
+      label: "Trade Side",
+      description: "(Bid/Ask)",
+      type: "string",
+      options: TRADE_SIDES,
+      optional: false,
+    },
+    entrustPrice: {
+      label: "Price",
+      description: "Price",
+      type: "float",
+      optional: false,
+    },
+    entrustVolume: {
+      label: "Volume",
+      description: "Volume",
+      type: "float",
+      optional: false,
+    },
+    tradeType: {
+      label: "Trade Type",
+      description: "Market/Limit",
+      type: "string",
+      options: TRADE_TYPES,
+      optional: false,
+    },
+    action: {
+      label: "Action",
+      description: "Open/Close",
+      type: "string",
+      options: TRADE_ACTIONS,
       optional: false,
     },
   },
@@ -82,102 +117,18 @@ export default {
         ...args,
       });
     },
-    async _makeSignedRequest(method, path, parameters) {
+    async makeRequest(method, path, pathParameters) {
+      const basicParameters = this._getBasicParameters();
+      const parameters = {
+        ...pathParameters,
+        ...basicParameters,
+      };
       parameters["sign"] = this._generateSignature(method, path, parameters);
       return await this._makeRequest({
         path: path,
         method: method,
         params: parameters,
       });
-    },
-    async getBalance(currency) {
-      const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/getBalance";
-      const parameters = this._getBasicParameters();
-      parameters["currency"] = currency;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getPositions(symbol) {
-      const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/getPositions";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getAllMarketContracts() {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getAllContracts";
-      const parameters = this._getBasicParameters();
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getLatestPrice(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getLatestPrice";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getMarketDepth(symbol, level) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getMarketDepth";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      if (level)
-        parameters["level"] = level;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getMarketTrades(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getMarketTrades";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getLatestFunding(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getLatestFunding";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getHistoryFunding(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getHistoryFunding";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getLatestKline(symbol, klineType) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getLatestKline";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      parameters["klineType"] = klineType;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getHistoryKlines(symbol, klineType, startTs, endTs) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getHistoryKlines";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      parameters["klineType"] = klineType;
-      parameters["startTs"] = startTs;
-      parameters["endTs"] = endTs;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getOpenPositions(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getOpenPositions";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
-    },
-    async getTicker(symbol) {
-      const API_METHOD = "GET";
-      const API_PATH = "/api/v1/market/getTicker";
-      const parameters = this._getBasicParameters();
-      parameters["symbol"] = symbol;
-      return await this._makeSignedRequest(API_METHOD, API_PATH, parameters);
     },
   },
 };
