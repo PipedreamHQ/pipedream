@@ -29,7 +29,6 @@ export default {
       return {
         "apiKey": `${this._apiKey()}`,
         "timestamp": Date.now(),
-        "currency": "USDT",
       };
     },
 
@@ -52,12 +51,27 @@ export default {
         ...args,
       });
     },
-    async getBalance() {
+    async getBalance(currency) {
       const API_METHOD = "POST";
       const API_PATH = "/api/v1/user/getBalance";
       const parameters = this._getBasicParameters();
+      parameters["currency"] = currency;
       parameters["sign"] = this._generateSignature(API_METHOD, API_PATH, parameters);
 
+      return await this._makeRequest({
+        path: API_PATH,
+        method: API_METHOD,
+        params: parameters,
+      });
+    },
+    async getPositions(symbol) {
+      const API_METHOD = "POST";
+      const API_PATH = "/api/v1/user/getPositions";
+      const parameters = this._getBasicParameters();
+      parameters["symbol"] = symbol;
+      console.log("Parameters before sign :" + parameters);
+      parameters["sign"] = this._generateSignature(API_METHOD, API_PATH, parameters);
+      console.log("Parameters after sign :" + parameters);
       return await this._makeRequest({
         path: API_PATH,
         method: API_METHOD,
