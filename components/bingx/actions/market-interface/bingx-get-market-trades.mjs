@@ -1,10 +1,10 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Account GetPositions",
+  name: "BingX Market GetMarketTrades",
   version: "0.0.1",
-  key: "bingx-account-get-positions",
-  description: "Perpetual Swap Positions [reference](https://bingx-api.github.io/docs/swap/account-api.html#_2-perpetual-swap-positions).",
+  key: "bingx-market-get-market-trades",
+  description: "The latest Trade of a Trading Pair [reference](https://bingx-api.github.io/docs/swap/market-api.html#_4-the-latest-trade-of-a-trading-pair).",
   props: {
     bingx,
     symbol: {
@@ -18,8 +18,8 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    let returnValue = await this.bingx.getPositions(this.symbol);
-    $.export("$summary", `Positions retrieved for symbol \`${this.symbol}\``);
+    let returnValue = await this.bingx.getMarketTrades(this.symbol);
+    $.export("$summary", `Latest Trade of Trading Pair ${this.symbol}`);
     return returnValue;
   },
 };
