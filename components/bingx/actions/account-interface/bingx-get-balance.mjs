@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Account GetBalance",
-  version: "0.0.1",
+  version: "0.0.5",
   key: "bingx-account-get-balance",
   description: "Get Perpetual Swap Account Asset Information [reference](https://bingx-api.github.io/docs/swap/account-api.html#_1-get-perpetual-swap-account-asset-information).",
   props: {
@@ -13,6 +13,10 @@ export default {
       type: "string",
       default: "USDT",
       optional: true,
+      async options() {
+        const contractsData = await this.bingx.getAllMarketContracts();
+        return contractsData.data.contracts.map((contract) => contract.currency);
+      },
     },
   },
   type: "action",

@@ -17,6 +17,10 @@ export default {
       type: "string",
       optional: false,
       default: "BTC-USDT",
+      async options() {
+        const contractsData = await this.bingx.getAllMarketContracts();
+        return contractsData.data.contracts.map((contract) => contract.symbol);
+      },
     },
     klineType: {
       label: "K-Line Type",
