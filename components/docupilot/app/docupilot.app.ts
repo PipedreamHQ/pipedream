@@ -5,7 +5,7 @@ export default defineApp({
   type: "app",
   app: "docupilot",
   methods: {
-    createDocumentBaseUrl(): string {
+    _createDocumentBaseUrl(): string {
       return "https://api.docupilot.app/documents/create/";
     },
     async _httpRequest({
@@ -20,12 +20,11 @@ export default defineApp({
         ...args,
       });
     },
-    async getTemplateSchema(id: number) {
-      const { data } = await this._httpRequest({
-        url: `https://api.docupilot.app/api/v1/templates/${id}/schema`,
-      });
-
-      return data.schema;
-    },
+    async createDocument(params) {
+      return this._httpRequest({
+        method: 'POST',
+        ...params
+      })
+    }
   },
 });

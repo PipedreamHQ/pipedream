@@ -1,7 +1,10 @@
 import docupilot from "../../app/docupilot.app";
 import {
-  defineAction, UserProp,
+  defineAction,
 } from "@pipedream/types";
+import {
+  ConfigurationError,
+} from "@pipedream/platform";
 
 export default defineAction({
   name: "Create Document",
@@ -12,106 +15,38 @@ export default defineAction({
   type: "action",
   props: {
     docupilot,
-    createUrl: {
+    templateUrl: {
       type: "string",
       label: "Template URL",
       description: `Choose a template in the Docupilot dashboard, and go to the **Create** tab, then to **API integrations**.
         \\
         Copy the ***POST Merge URL*** here. Example: \`https://api.docupilot.app/documents/create/46ac75c3/5e7d03ec\``,
     },
-    templateId: {
-      type: "integer",
-      label: "Template ID",
-      description: `While in the previous page, copy the Template ID from your browser's URL.
-        \\
-        Example: id **48479** in URL \`https://dashboard.docupilot.app/templates/48479/generate/integrations\``,
-      reloadProps: true,
-    },
-  },
-  methods: {
-    processProp(
-      {
-        name, type, fields,
-      },
-      {
-        props, counterObj, additionalOptions, parentObjName = "",
-      },
-    ) {
-      switch (type) {
-      case "object":
-        fields.forEach((childProp) =>
-          this.processProp(childProp, {
-            props,
-            counterObj,
-            additionalOptions,
-            parentObjName: `${name}.`,
-          }));
-        break;
-
-      case "string":
-        props[`schemaProp${counterObj.counter++}`] = {
-          type,
-          label: parentObjName + name,
-        };
-        break;
-
-      case "array":
-        props[`schemaProp${counterObj.counter++}`] = {
-          type: "string[]",
-          label: parentObjName + name,
-          description: `Each item in the array should be a JSON-stringified object with the properties: \`${fields
-            .map(({ name }) => name)
-            .join("`, `")}\``,
-        };
-        break;
-
-      default:
-        additionalOptions.push(name);
-        break;
-      }
-    },
-  },
-  async additionalProps(): Promise<any> {
-    const props: {[key: string]: UserProp;} = {};
-    const additionalOptions = [];
-    const counterObj = {
-      counter: 0,
-    };
-
-    if (this.templateId) {
-      const schema = await this.docupilot.getTemplateSchema(this.templateId);
-      schema.forEach((prop) =>
-        this.processProp(prop, {
-          props,
-          counterObj,
-          additionalOptions,
-        }));
-    }
-
-    props.additionalOptions = {
+    tokens: {
       type: "object",
-      label: "Additional Options",
-      description: "Any additional parameters to be passed to the template.",
-      optional: true,
-    };
-
-    if (additionalOptions.length) {
-      props.additionalOptions.description += ` These parameters should be included: \`${additionalOptions.join(
-        "`, `",
-      )}\``;
-    }
-
-    return props;
+      label: "Template Tokens",
+      description: `The tokens used in this template (as object keys) and their values.
+       \\
+       Objects and arrays should be in JSON-stringified format.`,
+    },
   },
   async run({ $ }): Promise<any> {
+    const url: string = this.templateUrl.trim();
+    const baseUrl: string = this.docupilot._createDocumentBaseUrl();
+    if (!url.startsWith(baseUrl)) throw new ConfigurationError("Invalid `Template URL`. Check the prop and make sure you copied the URL properly.");
+
+    const data = this.tokens;
+
     const params = {
       $,
-      data: {},
+      url,
+      data
     };
-    const data = await this.docupilot.createDocument(params);
+
+    const response = await this.docupilot.createDocument(params);
 
     $.export("$summary", "Created document successfully");
 
-    return data;
+    return response;
   },
 });
