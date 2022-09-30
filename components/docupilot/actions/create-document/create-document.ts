@@ -1,13 +1,16 @@
 import docupilot from "../../app/docupilot.app";
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
+import {
+  CreateDocumentParams, DocumentResponse,
+} from "../../common/types";
 
 export default defineAction({
   name: "Create Document",
   description:
     "Create a document [See docs here](https://help.docupilot.app/create-document/api-and-webhook-integration#api-integration)",
   key: "docupilot-create-document",
-  version: "0.0.21",
+  version: "0.0.1",
   type: "action",
   props: {
     docupilot,
@@ -28,7 +31,7 @@ export default defineAction({
        If you need to include characters such as \`{}[]\` in a value, and it should not be parsed as an object or array, prefix the key with \`$\`.`,
     },
   },
-  async run({ $ }): Promise<any> {
+  async run({ $ }): Promise<DocumentResponse> {
     const url: string = this.templateUrl.trim();
     const baseUrl: string = this.docupilot._createDocumentBaseUrl();
     if (!url.startsWith(baseUrl))
@@ -36,12 +39,8 @@ export default defineAction({
         "Invalid `Template URL`. Check the prop and make sure you copied the URL properly.",
       );
 
-    type tokensObject = {
-      [key: string]: string;
-    };
-
     const data = {};
-    const tokens: tokensObject = this.tokens;
+    const tokens: {[key: string]: string;} = this.tokens;
 
     if (tokens) {
       Object.entries(tokens).forEach(([
@@ -64,13 +63,13 @@ export default defineAction({
       });
     }
 
-    const params = {
+    const params: CreateDocumentParams = {
       $,
       url,
       data,
     };
 
-    const response = await this.docupilot.createDocument(params);
+    const response: DocumentResponse = await this.docupilot.createDocument(params);
 
     $.export("$summary", "Created document successfully");
 
