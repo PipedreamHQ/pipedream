@@ -34,12 +34,6 @@ export default {
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
     },
-    _getTasks() {
-      return this.db.get("tasks");
-    },
-    _setTasks(tasks) {
-      this.db.set("tasks", tasks);
-    },
     getWebhookFilter() {
       throw new Error("getWebhookFilter is not implemented");
     },
@@ -57,10 +51,6 @@ export default {
       });
 
       this._setWebhookId(response.gid);
-
-      if (this.tasks) {
-        this._setTasks(this.tasks);
-      }
     },
     async deactivate() {
       const webhookId = this._getWebhookId();
