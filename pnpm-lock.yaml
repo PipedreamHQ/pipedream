@@ -2269,9 +2269,12 @@ importers:
 
   components/verdict_as_a_service:
     specifiers:
+      '@pipedream/types': ^0.1.4
       gdata-vaas: ^2.2.7
     dependencies:
       gdata-vaas: 2.2.7
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/verifalia:
     specifiers:
@@ -5447,7 +5450,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.133:
     resolution: {integrity: sha512-Mv1F76WeuzdO9qrVi9hRQHjbwmb9bU5Gw5jdmUVWHma68IeiMNYlcMeKwQua7yVM+zRvihWvEI9s4O5NxY/gAA==}
     dependencies:
@@ -5455,7 +5458,6 @@ packages:
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
-
 
   /@definitelytyped/typescript-versions/0.0.133:
     resolution: {integrity: sha512-tfitkEgTmOBXDfgzzlxoXSYsUqIimKV2rdLd+61Mfzcp34yZ3bdhS8+4Gnc6rdMR4+V/sa3yvy5lYZLK2HP11Q==}
