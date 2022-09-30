@@ -1,7 +1,3 @@
-import {
-  createReadStream,
-  PathLike,
-} from "fs";
 import { defineAction } from "@pipedream/types";
 import verdict from "../../app/verdict_as_a_service.app";
 
@@ -20,30 +16,8 @@ export default defineAction({
       ],
     },
   },
-  methods: {
-    getUint8ArrayFile(file: PathLike): Promise<Uint8Array> {
-      let data = Buffer.alloc(0);
-      const readStream = createReadStream(file);
-      return new Promise((resolve, reject) => {
-        return readStream
-          .on("data", (chunk: Buffer) => {
-            data = Buffer.concat([
-              data,
-              chunk,
-            ]);
-          })
-          .on("end", async () => {
-            return resolve(Uint8Array.from(data));
-          })
-          .on("error", () => {
-            return reject("Error trying to convert a File Read Stream into Uint8Array");
-          });
-      });
-    },
-  },
   async run({ $ }) {
-    const fileArray = await this.getUint8ArrayFile(this.file);
-    const verdict = await this.verdict.requestVerdictForFile(fileArray);
+    const verdict = await this.verdict.requestVerdictForFile(this.file);
 
     $.export("$summary", "Successfully requested a verdict");
 

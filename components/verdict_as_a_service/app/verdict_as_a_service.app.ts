@@ -1,3 +1,5 @@
+import { PathLike } from "fs";
+import { open } from "fs/promises";
 import { defineApp } from "@pipedream/types";
 import {
   Vaas,
@@ -25,9 +27,17 @@ export default defineApp({
       } = this.$auth;
       return createVaas(clientId, secret, tokenUrl, url);
     },
-    async requestVerdictForFile(file: Uint8Array) {
+    async requestVerdictForFile(file: PathLike) {
       const client: Vaas = await this.getClient();
-      return client.forFile(file);
+      const fileHandle = await open(file, "r");
+      const buffer = await fileHandle.readFile();
+
+      try {
+        return client.forFile(buffer);
+      } finally {
+        fileHandle.close();
+        client.close();
+      }
     },
   },
 });
