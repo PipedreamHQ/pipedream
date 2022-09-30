@@ -27,6 +27,7 @@ export default {
       `),
       type: "string",
       default: "",
+      optional: true,
     },
   },
   async run({ $ }) {
