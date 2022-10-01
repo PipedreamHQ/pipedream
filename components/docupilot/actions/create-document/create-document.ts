@@ -34,10 +34,11 @@ export default defineAction({
   async run({ $ }): Promise<DocumentResponse> {
     const url: string = this.templateUrl.trim();
     const baseUrl: string = this.docupilot._createDocumentBaseUrl();
-    if (!url.startsWith(baseUrl))
+    if (!url.startsWith(baseUrl)) {
       throw new ConfigurationError(
         "Invalid `Template URL`. Check the prop and make sure you copied the URL properly.",
       );
+    }
 
     const data = {};
     const tokens: {[key: string]: string;} = this.tokens;
