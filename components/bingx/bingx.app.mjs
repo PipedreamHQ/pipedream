@@ -157,5 +157,12 @@ export default {
         params: parameters,
       });
     },
+
+    async getAllMarketContracts() {
+      const API_METHOD = "GET";
+      const API_PATH = "/api/v1/market/getAllContracts";
+      const parameters = {};
+      return await this.makeRequest(API_METHOD, API_PATH, parameters);
+    },
   },
 };
