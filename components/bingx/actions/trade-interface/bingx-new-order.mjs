@@ -53,8 +53,8 @@ export default {
     const parameters = {
       "symbol": this.symbol,
       "side": this.side,
-      "entrustPrice": this.entrustPrice,
-      "entrustVolume": this.entrustVolume,
+      "entrustPrice": this.bingx.convertToFloat(this.entrustPrice),
+      "entrustVolume": this.bingx.convertToFloat(this.entrustVolume),
       "tradeType": this.tradeType,
       "action": this.action,
     };
