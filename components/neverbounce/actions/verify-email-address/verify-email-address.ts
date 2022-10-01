@@ -1,4 +1,4 @@
-import quickemailverification from "../../app/neverbounce.app";
+import neverbounce from "../../app/neverbounce.app";
 import { defineAction } from "@pipedream/types";
 import {
   VerifyEmailParams, VerifyEmailResponse,
@@ -7,12 +7,12 @@ import {
 export default defineAction({
   name: "Verify Email Address",
   description:
-    "Verify an email address [See docs here](http://docs.quickemailverification.com/email-verification-api/verify-an-email-address)",
-  key: "quickemailverification-verify-email-address",
+    "Verify an email address [See docs here](https://developers.neverbounce.com/docs/verifying-an-email)",
+  key: "neverbounce-verify-email-address",
   version: "0.0.1",
   type: "action",
   props: {
-    quickemailverification,
+    neverbounce,
     email: {
       label: "Email Address",
       description: "An email address to be verified.",
@@ -20,15 +20,16 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<VerifyEmailResponse> {
+    const email = this.email;
     const params: VerifyEmailParams = {
       $,
       params: {
-        email: this.email,
+        email,
       },
     };
-    const data: VerifyEmailResponse = await this.quickemailverification.verifyEmailAddress(params);
+    const data: VerifyEmailResponse = await this.neverbounce.verifyEmailAddress(params);
 
-    $.export("$summary", `Verified email ${data.email} (${data.result})`);
+    $.export("$summary", `Verified email ${email} (${data.result})`);
 
     return data;
   },

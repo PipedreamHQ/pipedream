@@ -14,8 +14,6 @@ export interface VerifyEmailParams {
 }
 
 export interface VerifyEmailResponse {
-  email: string;
-  reason: string;
   result: string;
-  success: string; // API returns this as a string ("true" or "false"), not as a boolean
+  status: string;
 }
