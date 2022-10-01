@@ -1,6 +1,6 @@
-const pipefy = require("../pipefy.app.js");
+import pipefy from "../pipefy.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     pipefy,

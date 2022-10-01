@@ -1,6 +1,6 @@
-const common = require("./common.js");
+import common from "./common.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -8,7 +8,9 @@ module.exports = {
   },
   methods: {
     verifyEvent(event) {
-      const { headers, body } = event;
+      const {
+        headers, body,
+      } = event;
       // verify webhook
       if (!headers || headers.token !== this.pipefy.$auth.token) {
         return false;
@@ -42,8 +44,10 @@ module.exports = {
 
     const cardData = event.body.data;
     const cardId = cardData.card.id;
-    const card = (await this.pipefy.getCard(cardId)).data.card;
-    const { body, id, summary } = this.getMeta(card, cardData);
+    const card = (await this.pipefy.getCard(cardId)).card;
+    const {
+      body, id, summary,
+    } = this.getMeta(card, cardData);
     this.$emit(body, {
       id,
       summary,
