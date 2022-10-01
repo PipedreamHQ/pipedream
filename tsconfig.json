@@ -718,6 +718,9 @@
       "path": "components/razorpay"
     },
     {
+      "path": "components/neverbounce"
+    },
+    {
       "path": "components/verdict_as_a_service"
     }
   ]

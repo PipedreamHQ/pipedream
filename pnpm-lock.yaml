@@ -266,6 +266,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bingx:
+    specifiers: {}
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1290,6 +1293,14 @@ importers:
       netlify: 6.1.29
       parse-link-header: 1.0.1
 
+  components/neverbounce:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/new_relic:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1581,6 +1592,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/razorpay:
+    specifiers: {}
 
   components/rd_station_crm:
     specifiers: {}
@@ -2265,6 +2279,9 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
+    specifiers: {}
+
+  components/verdict_as_a_service:
     specifiers: {}
 
   components/verifalia:
@@ -5441,7 +5458,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.133:
     resolution: {integrity: sha512-Mv1F76WeuzdO9qrVi9hRQHjbwmb9bU5Gw5jdmUVWHma68IeiMNYlcMeKwQua7yVM+zRvihWvEI9s4O5NxY/gAA==}
     dependencies:
@@ -5449,7 +5466,6 @@ packages:
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
-
 
   /@definitelytyped/typescript-versions/0.0.133:
     resolution: {integrity: sha512-tfitkEgTmOBXDfgzzlxoXSYsUqIimKV2rdLd+61Mfzcp34yZ3bdhS8+4Gnc6rdMR4+V/sa3yvy5lYZLK2HP11Q==}
