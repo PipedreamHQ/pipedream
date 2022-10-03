@@ -700,6 +700,14 @@ importers:
       '@pipedream/platform': 0.10.0
       form-data: 4.0.0
 
+  components/fullstory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto-js: ^4.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      crypto-js: 4.1.1
+
   components/getprospect:
     specifiers: {}
 
@@ -1109,6 +1117,12 @@ importers:
   components/linqs_cc:
     specifiers: {}
 
+  components/liveagent:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -1481,6 +1495,12 @@ importers:
       pipedrive: ^13.2.7
     dependencies:
       pipedrive: 13.3.4
+
+  components/pipefy:
+    specifiers:
+      graphql-request: ^5.0.0
+    dependencies:
+      graphql-request: 5.0.0_graphql@16.5.0
 
   components/planning_center:
     specifiers: {}
@@ -2409,6 +2429,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/yanado:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/yotpo:
     specifiers:
       axios: ^0.21.1
@@ -2449,6 +2475,12 @@ importers:
       crypto: 1.0.1
 
   components/zenkit:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/zenler:
     specifiers:
       '@pipedream/platform': ^1.1.1
     dependencies:
@@ -5441,7 +5473,6 @@ packages:
       parsimmon: 1.18.1
     dev: true
 
-
   /@definitelytyped/typescript-versions/0.0.133:
     resolution: {integrity: sha512-tfitkEgTmOBXDfgzzlxoXSYsUqIimKV2rdLd+61Mfzcp34yZ3bdhS8+4Gnc6rdMR4+V/sa3yvy5lYZLK2HP11Q==}
     dev: true
@@ -5899,10 +5930,20 @@ packages:
       - supports-color
     dev: false
 
-  /@graphql-typed-document-node/core/3.1.1:
+  /@graphql-typed-document-node/core/3.1.1_graphql@15.8.0:
     resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 15.8.0
+    dev: false
+
+  /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.5.0
     dev: false
 
   /@grpc/grpc-js/1.6.7:
@@ -6348,7 +6389,7 @@ packages:
     resolution: {integrity: sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
+      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       graphql: 15.8.0
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
@@ -9756,7 +9797,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: false
 
@@ -10414,6 +10455,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /crypto-random-string/1.0.0:
     resolution: {integrity: sha512-GsVpkFPlycH7/fRR7Dhcmnoii54gV1nz7y4CWyeFS14N+JVBBhY+r8amRHE4BwSYal7BPTDp8isvAlCxyFt3Hg==}
@@ -12556,6 +12601,20 @@ packages:
       graphql: 16.5.0
     transitivePeerDependencies:
       - encoding
+
+  /graphql-request/5.0.0_graphql@16.5.0:
+    resolution: {integrity: sha512-SpVEnIo2J5k2+Zf76cUkdvIRaq5FMZvGQYnA4lUWYbc99m+fHh4CZYRRO/Ff4tCLQ613fzCm3SiDT64ubW5Gyw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      cross-fetch: 3.1.5
+      extract-files: 9.0.0
+      form-data: 3.0.1
+      graphql: 16.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /graphql/15.8.0:
     resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==}
