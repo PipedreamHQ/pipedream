@@ -22,18 +22,30 @@ export default {
       static: [],
     },
   },
-  hooks: {
-    async activate() {
-      const state = await this.dropbox.initState(this);
-      this._setDropboxState(state);
-    },
-  },
   methods: {
     _getDropboxState() {
       return this.db.get("dropbox_state");
     },
     _setDropboxState(state) {
       this.db.set("dropbox_state", state);
+    },
+    async getHistoricalEvents(fileTypes = []) {
+      const files = await this.dropbox.listFilesFolders({
+        path: this.path?.value || this.path,
+        recursive: this.recursive,
+        include_media_info: this.includeMediaInfo,
+      });
+      let count = 0;
+      for (const file of files) {
+        if (!fileTypes.includes(file[".tag"])) {
+          continue;
+        }
+        this.$emit(file, this.getMeta(file.id, file.path_display || file.id));
+        count++;
+        if (count >= 25) {
+          break;
+        }
+      }
     },
     getMeta(id, summary) {
       return {

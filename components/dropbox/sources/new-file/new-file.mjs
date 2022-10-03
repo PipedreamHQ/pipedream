@@ -25,6 +25,9 @@ export default {
   },
   hooks: {
     async activate() {
+      await this.getHistoricalEvents([
+        "file",
+      ]);
       const startTime = new Date();
       const state = await this.dropbox.initState(this);
       this._setLastFileModTime(startTime);

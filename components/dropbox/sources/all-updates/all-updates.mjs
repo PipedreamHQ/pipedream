@@ -23,6 +23,16 @@ export default {
       default: false,
     },
   },
+  hooks: {
+    async activate() {
+      await this.getHistoricalEvents([
+        "file",
+        "folder",
+      ]);
+      const state = await this.dropbox.initState(this);
+      this._setDropboxState(state);
+    },
+  },
   async run() {
     const state = this._getDropboxState();
     const {
