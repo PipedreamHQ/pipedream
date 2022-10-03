@@ -1,25 +1,61 @@
-// legacy_hash_id: a_PNiB3z
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-update-card",
   name: "Update Card",
-  description: "Updates an existing card.",
-  version: "0.1.1",
+  description: "Updates an existing card. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateCard/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [UpdateCard](https://api-docs.pipefy.com/reference/mutations/updateCard/) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    card: {
+      propDefinition: [
+        pipefy,
+        "card",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "New title of the card",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The new card due date. An ISO‐8601 encoded UTC date time string (YYYY-MM-DD HH:MM:SS).",
+      optional: true,
+    },
+    assignees: {
+      propDefinition: [
+        pipefy,
+        "members",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/updateCard/
-
+  /*
   Example query:
 
   mutation updateExistingCard{
@@ -30,18 +66,16 @@ export default {
     }
 
   */
+    const { card } = await this.pipefy.getCard(this.card);
+    const variables = {
+      id: this.card,
+      title: this.title || card.title,
+      dueDate: this.dueDate || card.due_date,
+      assigneeIds: this.assignees,
+    };
 
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    const response = await this.pipefy.updateCard(variables);
+    $.export("$summary", "Successfully updated card");
+    return response;
   },
 };
