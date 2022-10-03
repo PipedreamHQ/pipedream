@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/liveagent",
+  "version": "0.0.1",
+  "description": "Pipedream Liveagent Components",
+  "main": "liveagent.app.mjs",
+  "keywords": [
+    "pipedream",
+    "liveagent"
+  ],
+  "homepage": "https://pipedream.com/apps/liveagent",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}

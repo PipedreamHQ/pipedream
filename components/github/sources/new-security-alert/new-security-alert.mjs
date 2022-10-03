@@ -5,7 +5,7 @@ export default {
   key: "github-new-secutiry-alert",
   name: "New Secutory Alert",
   description: "Emit new events when GitHub discovers a security vulnerability in one of your repositories",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   async run() {
