@@ -5,13 +5,13 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841235/docs/
 
 # Sharing code across workflows
 
-[Actions](/components#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step.
+[Actions](/docs/components#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step.
 
 Pipedream provides two ways to share code across workflows:
 
 - **Publish an action from a Node.js code step**. Publish any Node.js code step in a workflow as a resusable action in your account or organization.
 
-- **Create an action from code**.  [Learn how to build your first action here](/components/quickstart/nodejs/actions/). Instead of deploying and managing from Pipedream, manage your code from a Github repository for version control.
+- **Create an action from code**.  [Learn how to build your first action here](/docs/components/quickstart/nodejs/actions/). Instead of deploying and managing from Pipedream, manage your code from a Github repository for version control.
 
 ## Publish an action from a Node.js code step
 
@@ -80,7 +80,7 @@ export default defineComponent({
 })
 ```
 
-After publishing a new version, all other steps using this same action will have the option to [update to the latest version](https://pipedream.com/docs/workflows/steps/actions/#updating-actions-to-the-latest-version).
+After publishing a new version, all other steps using this same action will have the option to [update to the latest version](/docs/workflows/steps/actions/#updating-actions-to-the-latest-version).
 
 ## Differences between publishing actions from workflow Node.js code steps and directly from code
 
@@ -89,5 +89,5 @@ Publishing reusable actions from Node.js code steps allows you to quickly scaffo
 However, there are some differences.
 
 1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/docs/components/guidelines/#promoting-reusability).
-2. Node.js code step actions cannot be published to the [Pipedream Component Registry](http://localhost:8080/docs/components/guidelines/#contributing-to-the-pipedream-registry).
+2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/docs/components/guidelines/#contributing-to-the-pipedream-registry).
 3. Node.js code step actions have a slightly different structure than [action components](/docs/components/api/#component-api).
