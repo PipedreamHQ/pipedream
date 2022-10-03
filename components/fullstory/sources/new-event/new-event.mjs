@@ -1,7 +1,7 @@
 import common from "../common.mjs";
 
 export default {
-  key: "fullstory-new-pin",
+  key: "fullstory-new-event",
   name: "New Event",
   description: "Emit new events when configured events occur. [See the docs here](https://developer.fullstory.com/create-endpoint)",
   version: "0.0.1",
