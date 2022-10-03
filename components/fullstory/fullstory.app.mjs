@@ -22,8 +22,7 @@ export default {
       description: "Webhook Event Subcategory",
       optional: true,
       async options({
-        eventType,
-        prevContext,
+        eventType, prevContext,
       }) {
         const resp = await this.getEventSubcategories({
           eventType,
