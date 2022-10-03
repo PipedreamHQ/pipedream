@@ -4,7 +4,7 @@ export default {
   key: "fullstory-new-event",
   name: "New Event",
   description: "Emit new events when configured events occur. [See the docs here](https://developer.fullstory.com/create-endpoint)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,
