@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/checklist-props.mjs";
 
 export default {
   key: "clickup-update-checklist-item",
@@ -9,66 +8,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-      optional: true,
-    },
-    checklistId: {
-      propDefinition: [
-        clickup,
-        "checklists",
-        (c) => ({
-          taskId: c.taskId,
-        }),
-      ],
-    },
-    checklistItemId: {
-      propDefinition: [
-        clickup,
-        "checklistItems",
-        (c) => ({
-          taskId: c.taskId,
-          checklistId: c.checklistId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",
@@ -78,7 +17,7 @@ export default {
       label: "Assignee",
       type: "string",
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -96,7 +35,7 @@ export default {
       label: "Checklist Parent",
       description: "Set another checklist as parent",
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "checklists",
         (c) => ({
           taskId: c.taskId,
