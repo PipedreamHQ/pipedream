@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   key: "clickup-create-checklist",
@@ -9,46 +8,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",
