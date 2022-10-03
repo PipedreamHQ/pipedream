@@ -6,7 +6,7 @@ export default {
   type: "app",
   app: "threads",
   propDefinitions: {
-    ChannelID: {
+    channelID: {
       type: "integer",
       label: "Channel ID",
       description:
