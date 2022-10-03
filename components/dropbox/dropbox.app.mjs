@@ -239,7 +239,6 @@ export default {
       const {
         path,
         recursive,
-        db,
       } = context;
       try {
         let fixedPath = path == "/" ?
@@ -259,11 +258,10 @@ export default {
         }
         const { cursor } = response;
         const state = {
-          path,
+          path: fixedPath,
           recursive,
           cursor,
         };
-        db.set("dropbox_state", state);
         return state;
       } catch (err) {
         console.log(err);
@@ -273,24 +271,24 @@ export default {
         }`;
       }
     },
-    async getState(context) {
+    async getState(context, state) {
       const {
         path,
         recursive,
-        db,
       } = context;
-      let state = db.get("dropbox_state");
-      if (state == null || state.path != path || state.recursive != recursive) {
+      const fixedPath = typeof (path) === "object" ?
+        path.value :
+        path;
+      if (state == null || state.path != fixedPath || state.recursive != recursive) {
         state = await this.initState(context);
       }
       return state;
     },
-    async getUpdates(context) {
+    async getUpdates(context, dbState) {
       let ret = [];
-      const state = await this.getState(context);
+      const state = await this.getState(context, dbState);
       if (state) {
         try {
-          const { db } = context;
           let [
             cursor,
             hasMore,
@@ -317,13 +315,15 @@ export default {
             ret = ret.concat(entries);
           }
           state.cursor = cursor;
-          db.set("dropbox_state", state);
         } catch (err) {
           console.log(err);
           throw `Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`;
         }
       }
-      return ret;
+      return {
+        ret,
+        state,
+      };
     },
     async createFolder(args) {
       try {

@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.7",
+  version: "0.0.8",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
@@ -24,14 +24,15 @@ export default {
     },
   },
   async run() {
-    const updates = await this.dropbox.getUpdates(this);
+    const state = this._getDropboxState();
+    const {
+      ret: updates, state: newState,
+    } = await this.dropbox.getUpdates(this, state);
+    this._setDropboxState(newState);
     for (let update of updates) {
       let file = {
         ...update,
       };
-      if (update[".tag"] !== "file") {
-        continue;
-      }
       if (this.includeMediaInfo) {
         file = await this.getMediaInfo(update);
       }

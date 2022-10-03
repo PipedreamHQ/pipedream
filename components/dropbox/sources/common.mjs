@@ -24,10 +24,17 @@ export default {
   },
   hooks: {
     async activate() {
-      await this.dropbox.initState(this);
+      const state = await this.dropbox.initState(this);
+      this._setDropboxState(state);
     },
   },
   methods: {
+    _getDropboxState() {
+      return this.db.get("dropbox_state");
+    },
+    _setDropboxState(state) {
+      this.db.set("dropbox_state", state);
+    },
     getMeta(id, summary) {
       return {
         id,
