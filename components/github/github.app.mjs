@@ -10,7 +10,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The repository",
+      description: "The name of the Github organization. The name is not case sensitive.",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -20,7 +20,7 @@ export default {
     },
     repoFullname: {
       label: "Repository",
-      description: "The repository",
+      description: "The name of the repository. The name is not case sensitive",
       type: "string",
       async options({ org }) {
         const repositories = await this.getRepos({
@@ -246,6 +246,15 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}`, {});
 
       return response.data;
+    },
+    async getRepoContent({
+      repoFullname,
+      path,
+    }) {
+      const { data } = await this
+        ._client()
+        .request(`GET /repos/${repoFullname}/contents/${path}`, {});
+      return data;
     },
     async getRepositoryLabels({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/labels`, {});
