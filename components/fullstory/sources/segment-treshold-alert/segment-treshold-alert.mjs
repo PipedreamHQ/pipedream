@@ -11,11 +11,12 @@ export default {
   methods: {
     ...common.methods,
     getMeta(event) {
+      const date = event?.body?.data?.timestamp ?
+        new Date(event?.body?.data?.timestamp).getTime() :
+        Date.now();
       return {
-        id: event?.body?.data?.id,
-        ts: event?.body?.data?.timestamp ?
-          new Date(event?.body?.data?.timestamp).getTime() :
-          Date.now(),
+        id: date,
+        ts: date,
         summary: `New segment treshold alert: ${event?.body?.data?.notificationUrl}`,
       };
     },

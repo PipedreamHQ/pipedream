@@ -11,11 +11,12 @@ export default {
   methods: {
     ...common.methods,
     getMeta(event) {
+      const date = event?.body?.data?.created ?
+        new Date(event?.body?.data?.created).getTime() :
+        Date.now();
       return {
-        id: event?.body?.data?.id,
-        ts: event?.body?.data?.created ?
-          new Date(event?.body?.data?.created).getTime() :
-          Date.now(),
+        id: date,
+        ts: date,
         summary: `New custom event: ${event?.body?.data?.text}`,
       };
     },
