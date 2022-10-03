@@ -7,7 +7,7 @@ export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-folders",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     dropbox,
