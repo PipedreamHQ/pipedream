@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     threads,
-    ChannelID: {
+    channelID: {
       propDefinition: [
         threads,
-        "ChannelID",
+        "channelID",
       ],
     },
     body: {
@@ -23,13 +23,13 @@ export default {
   },
   async run({ $ }) {
     const {
-      ChannelID,
+      channelID,
       body,
     } = this;
 
     const post = await this.threads.postThread({
       $,
-      ChannelID,
+      channelID,
       body,
     });
 
