@@ -29,7 +29,7 @@ export default {
     },
   },
   async run() {
-    return await this.slack.sdk().conversations.invite({
+    return await this.slack.sdk().users.invite({
       channel_ids: [
         this.conversation,
       ],
