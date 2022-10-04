@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@googleapis/youtube": "^6.0.0",
-    "got": "^12.5.1"
+    "got": "^12.5.1",
+    "util": "^0.12.4"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
