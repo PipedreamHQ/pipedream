@@ -3,13 +3,19 @@ import { ConfigurationError } from "@pipedream/platform";
 import { defineAction } from "@pipedream/types";
 
 export default defineAction({
-  name: "Create Image",
-  description: "Create a new image. [See the docs](https://apitemplate.io/apiv2/#tag/API-Integration/operation/create-image) for more information",
+  name: "Create an Image",
+  description: "Create a JPEG file(along with PNG) with JSON data and your template. [See the docs](https://apitemplate.io/apiv2/#tag/API-Integration/operation/create-image) for more information",
   key: "apitemplate_io-create-image",
   version: "0.0.1",
   type: "action",
   props: {
     app,
+    apiEndpoints: {
+      propDefinition: [
+        app,
+        "apiEndpoints",
+      ],
+    },
     templateId: {
       propDefinition: [
         app,
@@ -23,12 +29,6 @@ export default defineAction({
       propDefinition: [
         app,
         "overrides",
-      ],
-    },
-    apiEndpoints: {
-      propDefinition: [
-        app,
-        "apiEndpoints",
       ],
     },
     expiration: {

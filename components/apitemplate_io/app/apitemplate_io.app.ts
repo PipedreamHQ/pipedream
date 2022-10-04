@@ -41,6 +41,62 @@ export default defineApp({
         },
       ],
     },
+    exportType: {
+      type: "string",
+      label: "Export Type",
+      description: "Either `file` or `json`(Default).",
+      optional: true,
+      options: [
+        "json",
+        "file",
+      ],
+    },
+    outputHtml: {
+      type: "boolean",
+      label: "Output HTML",
+      description: "Whether it should output html or not",
+      optional: true,
+    },
+    isCmyk: {
+      type: "boolean",
+      label: "Is CMYK",
+      description: "Use CMYK color profile, Default to `false`",
+      optional: true,
+    },
+    async: {
+      type: "boolean",
+      label: "Async",
+      description: "To generate PDF asynchronously, set the value to `true` and the API call returns immediately. Once the PDF document is generated, we will make a HTTP/HTTPS GET to your webhook and will retry for 3 times before giving up.",
+      optional: true,
+    },
+    webhookUrl: {
+      type: "string",
+      label: "Webhook URL",
+      description: "It is the URL of your webhook URL, it starts with `http://` or `https://` and has to be urlencoded.",
+      optional: true,
+    },
+    filename: {
+      type: "string",
+      label: "Filename",
+      description: "Default to UUID (e.g 0c93bd9e-9ebb-4634-a70f-de9131848416.pdf). Use this to specify custom file name, it should end with `.pdf`",
+      optional: true,
+    },
+    imageResampleRes: {
+      type: "integer",
+      label: "Image Resample Res",
+      description: "We embed the original images by default, meaning large PDF file sizes. Specifying this option helps reduce the PDF file size. Common values are `72`, `96`, `150`, `300` and `600`.",
+      optional: true,
+    },
+    outputFormat: {
+      type: "string",
+      label: "Output Format",
+      description: "Either `pdf`(Default) or `html`.",
+      optional: true,
+      options: [
+        "pdf",
+        "html",
+      ],
+    },
     templateId: {
       type: "string",
       label: "Template Id",
@@ -73,6 +129,11 @@ export default defineApp({
       type: "any",
       label: "Overrides",
       description: "Array of objects with the property name and the replaced values on the template, as shown below:\n\n`[{\"name\": \"text_name\",\"text\": \"My Name\"}, {\"name\": \"text_quote\",\"text\": \"Lorem ipsum dolor sit...\"}]`",
+    },
+    data: {
+      type: "any",
+      label: "Data",
+      description: "Object to replace values on the template, you can [check here](https://app.apitemplate.io/manage-templates/) for the JSON example for your template.",
     },
   },
   methods: {
