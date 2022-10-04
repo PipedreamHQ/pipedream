@@ -1,17 +1,11 @@
-import clickup from "../../clickup.app.mjs";
+import common from "./workspace-prop.mjs";
 
 export default {
   props: {
-    clickup,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-    },
+    ...common.props,
     spaceId: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "spaces",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -22,7 +16,7 @@ export default {
     },
     folderId: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "folders",
         (c) => ({
           spaceId: c.spaceId,
@@ -33,7 +27,7 @@ export default {
     },
     listId: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "lists",
         (c) => ({
           workspaceId: c.workspaceId,
