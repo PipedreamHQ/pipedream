@@ -1,5 +1,4 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
 
 export default {
   key: "clickup-create-view-comment",
@@ -8,7 +7,13 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
+    clickup,
+    workspaceId: {
+      propDefinition: [
+        clickup,
+        "workspaces",
+      ],
+    },
     spaceId: {
       propDefinition: [
         clickup,

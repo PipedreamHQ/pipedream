@@ -1,5 +1,4 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
@@ -9,7 +8,13 @@ export default {
   version: "0.0.7",
   type: "action",
   props: {
-    ...common.props,
+    clickup,
+    workspaceId: {
+      propDefinition: [
+        clickup,
+        "workspaces",
+      ],
+    },
     spaceId: {
       propDefinition: [
         clickup,
