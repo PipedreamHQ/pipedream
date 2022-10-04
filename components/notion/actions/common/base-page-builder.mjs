@@ -151,6 +151,10 @@ export default {
      * @returns the page properties in Notion format
      */
     buildPageProperties(parentProperties) {
+      if (this?.Tags && typeof this?.Tags === "string") {
+        this.Tags = JSON.parse(this.Tags);
+      }
+
       const filteredProperties = this._filterProps(parentProperties);
       return this._buildNotionPageProperties(filteredProperties);
     },

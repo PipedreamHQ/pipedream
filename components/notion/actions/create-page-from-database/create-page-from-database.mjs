@@ -70,10 +70,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this?.Tags && typeof this?.Tags === "string") {
-      this.Tags = JSON.parse(this.Tags);
-    }
-
     const parentPage = await this.notion.retrieveDatabase(this.parent);
     const page = this.buildPage(parentPage);
     const response = await this.notion.createPage(page);
