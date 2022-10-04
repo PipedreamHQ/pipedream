@@ -136,6 +136,19 @@ export default defineApp({
         return this.getTemplateOpts(limit, offset, format);
       },
     },
+    transactionRef: {
+      type: "string",
+      label: "Transaction Ref",
+      description: "Object transaction reference.",
+      async options({ prevContext }) {
+        const limit = 300;
+        let offset = 0;
+        if (prevContext && Number.isInteger(prevContext.offset)) {
+          offset = ((prevContext.offset / limit) + 1) * limit;
+        }
+        return this.listObjectOpts(limit, offset);
+      },
+    },
     expiration: {
       type: "integer",
       label: "Expiration",
@@ -217,10 +230,48 @@ export default defineApp({
     },
     async listObjects($ = this, api, params) {
       const response = await axios($, this._getRequestParams({
-        method: "POST",
+        method: "GET",
         api,
         path: "/list-objects",
         params,
+      }));
+      return response;
+    },
+    async listObjectOpts(limit, offset) {
+      const { objects } = await this.listObjects(this, null, {
+        limit,
+        offset,
+      });
+      const options = objects.filter((obj) => obj.deletion_status === 0)
+        .map((obj) => ({
+          label: obj.meta || obj.primary_url
+            .split("/")
+            .pop()
+            .split("?")
+            .shift(),
+          value: obj.transaction_ref,
+        }));
+      return {
+        context: {
+          offset,
+        },
+        options,
+      };
+    },
+    async deleteObject($ = this, api, params) {
+      const response = await axios($, this._getRequestParams({
+        method: "GET",
+        api,
+        path: "/delete-object",
+        params,
+      }));
+      return response;
+    },
+    async getAccountInformation($ = this, api) {
+      const response = await axios($, this._getRequestParams({
+        method: "GET",
+        api,
+        path: "/account-information",
       }));
       return response;
     },

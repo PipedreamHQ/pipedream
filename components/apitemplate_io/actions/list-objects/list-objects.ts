@@ -5,7 +5,7 @@ export default defineAction({
   name: "List Generated Objects",
   description: "Retrieves all the generated PDFs and images. [See the docs](https://apitemplate.io/apiv2/#tag/API-Integration/operation/list-objects) for more information",
   key: "apitemplate_io-list-objects",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
