@@ -180,7 +180,10 @@ importers:
     specifiers: {}
 
   components/apitemplate_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/asana:
     specifiers:
@@ -1593,6 +1596,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/razorpay:
+    specifiers: {}
+
   components/rd_station_crm:
     specifiers: {}
 
@@ -2282,6 +2288,9 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
+    specifiers: {}
+
+  components/verdict_as_a_service:
     specifiers: {}
 
   components/verifalia:
@@ -5464,7 +5473,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.133:
     resolution: {integrity: sha512-Mv1F76WeuzdO9qrVi9hRQHjbwmb9bU5Gw5jdmUVWHma68IeiMNYlcMeKwQua7yVM+zRvihWvEI9s4O5NxY/gAA==}
     dependencies:
