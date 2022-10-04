@@ -1593,6 +1593,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/razorpay:
+    specifiers: {}
+
   components/rd_station_crm:
     specifiers: {}
 
@@ -2205,7 +2208,12 @@ importers:
       uuid: 8.3.2
 
   components/twitch_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      uuid: 9.0.0
 
   components/twitter:
     specifiers:
@@ -2282,6 +2290,9 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/vercel_token_auth:
+    specifiers: {}
+
+  components/verdict_as_a_service:
     specifiers: {}
 
   components/verifalia:
@@ -5464,7 +5475,7 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-    
+
   /@definitelytyped/header-parser/0.0.133:
     resolution: {integrity: sha512-Mv1F76WeuzdO9qrVi9hRQHjbwmb9bU5Gw5jdmUVWHma68IeiMNYlcMeKwQua7yVM+zRvihWvEI9s4O5NxY/gAA==}
     dependencies:
