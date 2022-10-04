@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/voilanorbert",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream VoilaNorbert Components",
   "main": "dist/app/voilanorbert.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^1.1.1"
   },
   "publishConfig": {
     "access": "public"
