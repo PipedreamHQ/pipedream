@@ -3,7 +3,7 @@ import common from "../common/view-props.mjs";
 export default {
   key: "clickup-get-view",
   name: "Get View",
-  description: "Get a view. See the docs [here](https://clickup.com/api) in **Views  / Get View** section.",
+  description: "Get a view. See the docs [here](https://clickup.com/api) in **Views / Get View** section.",
   version: "0.0.2",
   type: "action",
   props: common.props,

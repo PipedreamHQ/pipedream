@@ -3,7 +3,7 @@ import common from "../common/folder-props.mjs";
 export default {
   key: "clickup-delete-folder",
   name: "Delete Folder",
-  description: "Delete a folder. See the docs [here](https://clickup.com/api) in **Folders  / Delete Folder** section.",
+  description: "Delete a folder. See the docs [here](https://clickup.com/api) in **Folders / Delete Folder** section.",
   version: "0.0.2",
   type: "action",
   props: common.props,

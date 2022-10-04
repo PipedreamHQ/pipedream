@@ -3,7 +3,7 @@ import common from "../common/folder-props.mjs";
 export default {
   key: "clickup-get-lists",
   name: "Get Lists",
-  description: "Get a list of lists. See the docs [here](https://clickup.com/api) in **Lists  / Get Lists** section.",
+  description: "Get a list of lists. See the docs [here](https://clickup.com/api) in **Lists / Get Lists** section.",
   version: "0.0.2",
   type: "action",
   props: {

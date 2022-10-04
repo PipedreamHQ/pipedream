@@ -3,7 +3,7 @@ import common from "../common/folder-props.mjs";
 export default {
   key: "clickup-update-folder",
   name: "Update Folder",
-  description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders  / Update Folder** section.",
+  description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders / Update Folder** section.",
   version: "0.0.2",
   type: "action",
   props: {

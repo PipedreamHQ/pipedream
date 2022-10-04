@@ -3,7 +3,7 @@ import common from "../common/checklist-props.mjs";
 export default {
   key: "clickup-update-checklist-item",
   name: "Update Checklist Item",
-  description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Edit Checklist Item** section.",
+  description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist Item** section.",
   version: "0.0.2",
   type: "action",
   props: {

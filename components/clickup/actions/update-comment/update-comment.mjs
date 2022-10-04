@@ -3,7 +3,7 @@ import common from "../common/comment-props.mjs";
 export default {
   key: "clickup-update-comment",
   name: "Update Comment",
-  description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments  / Update Comment** section.",
+  description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments / Update Comment** section.",
   version: "0.0.3",
   type: "action",
   props: {

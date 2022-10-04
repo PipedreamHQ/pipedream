@@ -3,7 +3,7 @@ import common from "../common/view-props.mjs";
 export default {
   key: "clickup-get-view-tasks",
   name: "Get View Tasks",
-  description: "Get all tasks of a view. See the docs [here](https://clickup.com/api) in **Views  / Get View Tasks** section.",
+  description: "Get all tasks of a view. See the docs [here](https://clickup.com/api) in **Views / Get View Tasks** section.",
   version: "0.0.2",
   type: "action",
   props: {

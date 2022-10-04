@@ -5,7 +5,7 @@ import constants from "../common/constants.mjs";
 export default {
   key: "clickup-create-task",
   name: "Create Task",
-  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks  / Create Task** section.",
+  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
   version: "0.0.5",
   type: "action",
   props: {

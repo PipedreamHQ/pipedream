@@ -3,7 +3,7 @@ import common from "../common/comment-props.mjs";
 export default {
   key: "clickup-delete-comment",
   name: "Delete Comment",
-  description: "Deletes a comment. See the docs [here](https://clickup.com/api) in **Comments  / Deleet Comment** section.",
+  description: "Deletes a comment. See the docs [here](https://clickup.com/api) in **Comments / Deleet Comment** section.",
   version: "0.0.2",
   type: "action",
   props: common.props,
