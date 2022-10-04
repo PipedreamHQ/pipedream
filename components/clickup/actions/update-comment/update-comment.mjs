@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/comment-props.mjs";
 
 export default {
   key: "clickup-update-comment",
@@ -9,76 +8,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    workspaceId: {
-      propDefinition: [
-        clickup,
-        "workspaces",
-      ],
-    },
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-      optional: true,
-    },
-    viewId: {
-      propDefinition: [
-        clickup,
-        "views",
-        (c) => ({
-          workspaceId: c.workspaceId,
-          spaceId: c.spaceId,
-          listId: c.listId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    commentId: {
-      propDefinition: [
-        clickup,
-        "comments",
-        (c) => ({
-          listId: c.listId,
-          taskId: c.taskId,
-          viewId: c.viewId,
-        }),
-      ],
-    },
     commentText: {
       label: "Comment Text",
       description: "The text of the comment",
@@ -87,7 +16,7 @@ export default {
     },
     assignee: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
