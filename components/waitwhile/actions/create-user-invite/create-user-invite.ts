@@ -34,9 +34,6 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
       ],
     },
     roles: {
@@ -48,9 +45,6 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "resourceId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
       ],
     },
   },

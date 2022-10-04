@@ -11,28 +11,19 @@ export default defineAction({
     customerId: {
       propDefinition: [
         waitwhile,
-        "customerId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
+        "customerId"
       ],
     },
     locationId: {
       propDefinition: [
         waitwhile,
-        "locationId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
+        "locationId"
       ],
     },
     visitId: {
       propDefinition: [
         waitwhile,
-        "visitId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
+        "visitId"
       ],
     },
     content: {

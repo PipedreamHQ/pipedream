@@ -50,10 +50,7 @@ export default defineAction({
       type: "string[]",
       propDefinition: [
         waitwhile,
-        "locationId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
+        "locationId"
       ],
     },
     addTag: {
