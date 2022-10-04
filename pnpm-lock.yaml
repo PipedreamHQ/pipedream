@@ -537,6 +537,14 @@ importers:
       axios: 0.21.4
       form-data: 4.0.0
 
+  components/docupilot:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/docusign:
     specifiers:
       '@pipedream/platform': ^1.1.1
