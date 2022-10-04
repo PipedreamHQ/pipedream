@@ -1,4 +1,4 @@
-import common from "../common/checklist-props.mjs";
+import common from "../common/checklist-item-props.mjs";
 
 export default {
   key: "clickup-update-checklist-item",
