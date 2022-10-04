@@ -4,7 +4,7 @@ export default {
   key: "threads-post-thread",
   name: "Post a Thread",
   description: "Post a new thread to a specific forum",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     threads,
