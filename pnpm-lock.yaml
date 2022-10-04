@@ -2471,9 +2471,11 @@ importers:
     specifiers:
       '@googleapis/youtube': ^6.0.0
       got: ^12.5.1
+      util: ^0.12.4
     dependencies:
       '@googleapis/youtube': 6.0.0
       got: 12.5.1
+      util: 0.12.4
 
   components/youtube_data_api_custom_app:
     specifiers:
