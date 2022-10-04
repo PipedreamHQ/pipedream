@@ -118,7 +118,7 @@ export default defineAction({
     };
 
     const response = await this.app.createImage($, this.apiEndpoints, params, this.data);
-    $.export("$summary", `Successfully created a new image: ${response.transaction_ref}`);
+    $.export("$summary", `Successfully created a new PDF: ${response.transaction_ref}`);
     return response;
   },
 });

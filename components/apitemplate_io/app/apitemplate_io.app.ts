@@ -51,6 +51,17 @@ export default defineApp({
         "file",
       ],
     },
+    transactionType: {
+      type: "string",
+      label: "Transaction Type",
+      description: "Filtered by transaction type.",
+      optional: true,
+      options: [
+        "PDF",
+        "JPEG",
+        "MERGE",
+      ],
+    },
     outputHtml: {
       type: "boolean",
       label: "Output HTML",
@@ -85,6 +96,18 @@ export default defineApp({
       type: "integer",
       label: "Image Resample Res",
       description: "We embed the original images by default, meaning large PDF file sizes. Specifying this option helps reduce the PDF file size. Common values are `72`, `96`, `150`, `300` and `600`.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Retrieve only the number of records specified. Default to 300.",
+      optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "Offset is used to skip the number of records from the results. Default to 0.",
       optional: true,
     },
     outputFormat: {
@@ -189,6 +212,15 @@ export default defineApp({
         path: "/create-image",
         params,
         data,
+      }));
+      return response;
+    },
+    async listObjects($ = this, api, params) {
+      const response = await axios($, this._getRequestParams({
+        method: "POST",
+        api,
+        path: "/list-objects",
+        params,
       }));
       return response;
     },
