@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apitemplate_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream APITemplate.io Components",
   "main": "dist/app/apitemplate_io.app.mjs",
   "keywords": [
