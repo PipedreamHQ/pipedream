@@ -4,15 +4,7 @@ export default {
   props: {
     ...common.props,
     listId: {
-      propDefinition: [
-        common.props.clickup,
-        "lists",
-        (c) => ({
-          workspaceId: c.workspaceId,
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
+      ...common.props.listId,
       optional: true,
     },
     taskId: {
