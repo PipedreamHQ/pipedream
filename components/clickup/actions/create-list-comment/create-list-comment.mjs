@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-list-comment",
   name: "Create List Comment",
   description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments / Create List Comment** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

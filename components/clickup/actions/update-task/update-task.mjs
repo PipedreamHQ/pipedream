@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
