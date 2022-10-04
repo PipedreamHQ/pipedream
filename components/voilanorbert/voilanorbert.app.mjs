@@ -9,6 +9,16 @@ export default {
       type: "integer",
       label: "Contact Id",
       description: "The contact's id.",
+      async options({ page }) {
+        const { result } = await this.getContacts(page + 1);
+
+        return result?.map(({
+          name, email, id,
+        }) => ({
+          label: `${name} - ${email?.email}`,
+          value: id,
+        })) ?? [];
+      },
     },
     name: {
       type: "string",
@@ -26,9 +36,9 @@ export default {
       description: "The name of the company. (Either `domain` or `company` is required).",
     },
     emails: {
-      type: "string",
+      type: "string[]",
       label: "Emails",
-      description: "Comma separated emails",
+      description: "A list of emails",
     },
     listId: {
       type: "integer",
@@ -71,6 +81,18 @@ export default {
         },
       };
       return axios($, config);
+    },
+    async getContacts(page) {
+      try {
+        return await this._makeRequest({
+          path: "contacts/",
+          params: {
+            page,
+          },
+        });
+      } catch (e) {
+        return [];
+      }
     },
     async getContact({ contactId }) {
       return await this._makeRequest({

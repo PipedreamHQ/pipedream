@@ -22,7 +22,7 @@ export default {
     async processEvent({ $ }) {
       const { resume_url } = $.flow.suspend();
       return this.voilanorbert.verifyEmails({
-        emails: this.emails,
+        emails: this.emails.toString(),
         webhook: resume_url,
       });
     },
