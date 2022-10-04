@@ -20,7 +20,7 @@ export default {
         return {
           options,
           context: {
-            continueToken,
+            token: continueToken,
           },
         };
       },
