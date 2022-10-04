@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/workspace-prop.mjs";
 
 export default {
   key: "clickup-create-space",

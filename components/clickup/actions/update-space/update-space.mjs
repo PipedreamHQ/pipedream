@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/space-props.mjs";
 
 export default {
   key: "clickup-update-space",
@@ -9,15 +8,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",

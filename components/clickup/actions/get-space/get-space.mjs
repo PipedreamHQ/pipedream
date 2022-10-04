@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/space-props.mjs";
 
 export default {
   key: "clickup-get-space",
@@ -7,18 +6,7 @@ export default {
   description: "Get a space in a workplace. See the docs [here](https://clickup.com/api) in **Spaces  / Get Space** section.",
   version: "0.0.2",
   type: "action",
-  props: {
-    ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-    },
-  },
+  props: common.props,
   async run({ $ }) {
     const { spaceId } = this;
 

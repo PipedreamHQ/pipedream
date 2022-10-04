@@ -1,5 +1,4 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/folder-props.mjs";
 
 export default {
   key: "clickup-get-folder-views",
@@ -7,28 +6,7 @@ export default {
   description: "Get all views of a folder. See the docs [here](https://clickup.com/api) in **Views  / Get Folder Views** section.",
   version: "0.0.2",
   type: "action",
-  props: {
-    ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
-  },
+  props: common.props,
   async run({ $ }) {
     const { folderId } = this;
 
