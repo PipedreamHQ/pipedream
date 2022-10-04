@@ -266,6 +266,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bingx:
+    specifiers: {}
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -696,6 +699,14 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       form-data: 4.0.0
+
+  components/fullstory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto-js: ^4.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      crypto-js: 4.1.1
 
   components/getprospect:
     specifiers: {}
@@ -2064,6 +2075,12 @@ importers:
       '@pipedream/platform': 1.1.0
       date-fns: 2.29.1
 
+  components/threads:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/threescribe:
     specifiers: {}
 
@@ -2407,6 +2424,12 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/yahoo_fantasy_sports:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/yanado:
     specifiers:
       '@pipedream/platform': ^1.1.1
     dependencies:
@@ -5449,7 +5472,6 @@ packages:
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
-
 
   /@definitelytyped/typescript-versions/0.0.133:
     resolution: {integrity: sha512-tfitkEgTmOBXDfgzzlxoXSYsUqIimKV2rdLd+61Mfzcp34yZ3bdhS8+4Gnc6rdMR4+V/sa3yvy5lYZLK2HP11Q==}
@@ -9775,7 +9797,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: false
 
@@ -10433,6 +10455,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /crypto-random-string/1.0.0:
     resolution: {integrity: sha512-GsVpkFPlycH7/fRR7Dhcmnoii54gV1nz7y4CWyeFS14N+JVBBhY+r8amRHE4BwSYal7BPTDp8isvAlCxyFt3Hg==}
