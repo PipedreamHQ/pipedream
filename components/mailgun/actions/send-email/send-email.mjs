@@ -1,5 +1,7 @@
 import mailgun from "../../mailgun.app.mjs";
 import common from "../common.mjs";
+import mg from "mailgun-js";
+import downloader from "@pipedream/helper_functions/actions/download-file-to-tmp/download-file-to-tmp.mjs";
 
 export default {
   ...common,
@@ -74,6 +76,13 @@ export default {
       ],
       optional: true,
     },
+    attachments: {
+      type: "object",
+      label: "Attachments",
+      description: "Add any attachments you'd like to include as objects. The `key` should be " +
+       "the **filename** and the `value` should be the **url** download link for the attachment.",
+      optional: true,
+    },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     testMode: {
       type: "boolean",
@@ -100,6 +109,35 @@ export default {
     },
     ...common.props,
   },
+  methods: {
+    ...common.methods,
+    async download($, attachments) {
+      const results = [];
+      // TODO: parallel download
+      for (const [
+        filename,
+        url,
+      ] of Object.entries(attachments)) {
+        const filedata = await downloader.run.bind({
+          url,
+          filename,
+        })({
+          $,
+        });
+        const data = filedata[3];
+        results.push(this.createAttachment(data, filename));
+      }
+      return results;
+    },
+    createAttachment(data, filename) {
+      return new (mg({
+        apiKey: "api",
+      }).Attachment)({
+        data,
+        filename,
+      });
+    },
+  },
   async run({ $ }) {
     const msg = {
       "from": `${this.fromName} <${this.from}>`,
@@ -108,6 +146,9 @@ export default {
       "text": this.text,
       "html": this.html,
     };
+    if (this.attachments) {
+      msg["attachment"] = await this.download($, this.attachments);
+    }
     if (this.testMode) {
       msg["o:testmode"] = "yes";
     }
