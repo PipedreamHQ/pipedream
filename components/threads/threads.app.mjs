@@ -7,7 +7,7 @@ export default {
   app: "threads",
   propDefinitions: {
     channelID: {
-      type: "integer",
+      type: "string",
       label: "Channel ID",
       description:
         "This is ID of the channel you want to post to. An easy way to find a channelID for a channel is to navigate to that channel on the Threads website. The URL will be trythreads.com/<your_channel_id>",

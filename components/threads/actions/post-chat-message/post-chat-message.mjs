@@ -4,7 +4,7 @@ export default {
   key: "threads-post-chat-message",
   name: "Post a Chat Message",
   description: "Post a message to a chat. First, make sure you add your Bot user to the chat.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     threads,
