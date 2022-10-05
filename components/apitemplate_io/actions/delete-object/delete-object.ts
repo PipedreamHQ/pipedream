@@ -5,7 +5,7 @@ export default defineAction({
   name: "Delete an Object",
   description: "Delete a PDF or an image from CDN and mark the transaction as deleted. [See the docs](https://apitemplate.io/apiv2/#tag/API-Integration/operation/delete-object) for more information",
   key: "apitemplate_io-delete-object",
-  version: "0.0.6",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
