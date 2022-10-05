@@ -1,6 +1,7 @@
-import common from "../../app/common/common.mjs";
+import common from "../../app/common/common";
+import { defineSource } from "@pipedream/types";
 
-export default {
+export default defineSource({
   ...common,
   name: "New Streams By Streamer (Instant)",
   key: "twitch-dev-streams-by-streamer-instant",
@@ -51,4 +52,4 @@ export default {
     },
   },
 
-};
+});
