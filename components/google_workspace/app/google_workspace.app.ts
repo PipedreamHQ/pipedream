@@ -12,6 +12,40 @@ export default defineApp({
       description: "Application name for which the events are to be retrieved.",
       options: constants.APPLICATION_NAME_OPTIONS,
     },
+    userKey: {
+      type: "string",
+      label: "User Key",
+      description: "Represents the profile ID or the user email for which the data should be filtered. Unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For more details on this parameter see the [docs here](https://developers.google.com/admin-sdk/reports/reference/rest/v1/activities/list#path-parameters)",
+      async options({ prevContext }) {
+        const { pageToken } = prevContext;
+        const {
+          users,
+          nextPageToken,
+        }: admin.admin_directory_v1.Schema$Users =
+          await this.listUsers({
+            pageToken,
+          });
+        const options =
+          users?.map(({
+            name: label, primaryEmail: value,
+          }) => ({
+            label,
+            value,
+          }));
+        return {
+          options,
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
+    eventName: {
+      type: "string",
+      label: "Event Name",
+      description: "The name of the event being queried by the API. Each **Event Name** is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings type structure has all of the Calendar **Event Name** activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings type and **Event Name** parameters. For more information about **Event Name** query strings and parameters, see the list of event names for various applications above in **Application Name**. For more details on this parameter see the [docs here](https://developers.google.com/admin-sdk/reports/reference/rest/v1/activities/list#query-parameters)",
+      optional: true,
+    },
     endTime: {
       type: "string",
       label: "End Time",
@@ -36,12 +70,6 @@ export default defineApp({
       description: "The filters query string is a comma-separated list composed of event parameters manipulated by relational operators. Event parameters are in the form `{parameter1 name}{relational operator}{parameter1 value},{parameter2 name}{relational operator}{parameter2 value},....`. For more details on this parameter see the [docs here](https://developers.google.com/admin-sdk/reports/reference/rest/v1/activities/list#query-parameters)",
       optional: true,
     },
-    eventName: {
-      type: "string",
-      label: "Event Name",
-      description: "The name of the event being queried by the API. Each **Event Name** is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings type structure has all of the Calendar **Event Name** activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings type and **Event Name** parameters. For more information about **Event Name** query strings and parameters, see the list of event names for various applications above in **Application Name**. For more details on this parameter see the [docs here](https://developers.google.com/admin-sdk/reports/reference/rest/v1/activities/list#query-parameters)",
-      optional: true,
-    },
   },
   methods: {
     admin() {
@@ -54,14 +82,34 @@ export default defineApp({
         auth,
       });
     },
-    async listActivities(args: admin.admin_reports_v1.Params$Resource$Activities$List = {}) {
+    users() {
+      const auth = new admin.auth.OAuth2();
+      auth.setCredentials({
+        access_token: this.$auth.oauth_access_token,
+      });
+      return admin.admin({
+        version: "directory_v1",
+        auth,
+      });
+    },
+    async listAdminActivities(args: admin.admin_reports_v1.Params$Resource$Activities$List = {}) {
       try {
-        const admin: admin.admin_reports_v1.Admin  = this.admin();
+        const admin: admin.admin_reports_v1.Admin = this.admin();
         const { data } = await admin.activities.list(args);
         return data;
       } catch (error) {
-        console.log("Error response", JSON.stringify(error.response, null, 2));
-        console.log("Error data", JSON.stringify(error.response?.data, null, 2));
+        console.log("Response Error", JSON.stringify(error.response, null, 2));
+        throw error;
+      }
+    },
+    async listUsers(args: admin.admin_directory_v1.Params$Resource$Users$List = {}) {
+      try {
+        const users: admin.admin_directory_v1.Admin = this.users();
+        const { data } =
+          await users.users.list(args);
+        return data;
+      } catch (error) {
+        console.log("Response error", JSON.stringify(error.response, null, 2));
         throw error;
       }
     },

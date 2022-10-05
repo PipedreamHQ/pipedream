@@ -17,6 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@googleapis/admin": "^6.0.2"
+    "@googleapis/admin": "^6.0.2",
+    "googleapis": "^108.0.0"
   }
 }

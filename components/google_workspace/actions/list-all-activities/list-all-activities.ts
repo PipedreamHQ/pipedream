@@ -3,8 +3,8 @@ import googleWorkspace from "../../app/google_workspace.app";
 export default {
   key: "google_workspace-list-all-activities",
   name: "List All Activities",
-  description: "Retrieve a report of all administrative activities done for an account,. [See the docs](https://developers.google.com/admin-sdk/reports/v1/guides/manage-audit-admin#get_account_events) for more information",
-  version: "0.0.5",
+  description: "Retrieves a report of all administrative activities done for an account. [See the docs](https://developers.google.com/admin-sdk/reports/v1/guides/manage-audit-admin#get_account_events) for more information",
+  version: "0.0.6",
   type: "action",
   props: {
     googleWorkspace,
@@ -38,12 +38,6 @@ export default {
         "filters",
       ],
     },
-    eventName: {
-      propDefinition: [
-        googleWorkspace,
-        "eventName",
-      ],
-    },
   },
   async run({ $ }) {
     const {
@@ -52,23 +46,17 @@ export default {
       startTime,
       maxResults,
       filters,
-      eventName,
     } = this;
 
-    const {
-      items: activities,
-      ...other
-    } = await this.googleWorkspace.listActivities({
-      userKey: "all",
-      applicationName,
-      endTime,
-      startTime,
-      maxResults,
-      filters,
-      eventName,
-    });
-
-    console.log("other", other);
+    const { items: activities } =
+      await this.googleWorkspace.listAdminActivities({
+        userKey: "all",
+        applicationName,
+        endTime,
+        startTime,
+        maxResults,
+        filters,
+      });
 
     $.export("$summary", `Successfully listed ${activities.length} activities.`);
 
