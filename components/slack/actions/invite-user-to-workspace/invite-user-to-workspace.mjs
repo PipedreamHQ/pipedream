@@ -4,7 +4,7 @@ export default {
   key: "slack-invite-user-to-workspace",
   name: "Invite User to Workspace",
   description: "Invite a user to an existing workspace. [See docs here](https://api.slack.com/methods/admin.users.invite)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
