@@ -112,22 +112,18 @@ export default {
   methods: {
     ...common.methods,
     async download($, attachments) {
-      const results = [];
-      // TODO: parallel download
-      for (const [
+      const promises = Object.entries(attachments).map(async ([
         filename,
         url,
-      ] of Object.entries(attachments)) {
-        const filedata = await downloader.run.bind({
-          url,
-          filename,
-        })({
-          $,
-        });
-        const data = filedata[3];
-        results.push(this.createAttachment(data, filename));
-      }
-      return results;
+      ]) => downloader.run.bind({
+        url,
+        filename,
+      })({
+        $,
+      }));
+
+      return (await Promise.all(promises))
+        .map((filedata) => this.createAttachment(filedata[3], filedata[0]));
     },
     createAttachment(data, filename) {
       return new (mg({
