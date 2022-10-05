@@ -1,4 +1,5 @@
-import common from "../common.mjs";
+import youtubeDataApi from "../../youtube_data_api.app.mjs";
+import common from "./common.mjs";
 
 export default {
   ...common,
@@ -6,44 +7,16 @@ export default {
   key: "youtube_data_api-new-liked-videos",
   name: "New Liked Videos",
   description: "Emit new event for each new Youtube video liked by the authenticated user.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
-  hooks: {
-    ...common.hooks,
-    deploy() {},
-  },
   props: {
-    ...common.props,
+    youtubeDataApi,
     maxResults: {
       propDefinition: [
-        common.props.youtubeDataApi,
+        youtubeDataApi,
         "maxResults",
       ],
     },
-  },
-  methods: {
-    ...common.methods,
-    generateMeta(video) {
-      const {
-        id,
-        snippet,
-      } = video;
-      return {
-        id,
-        summary: snippet.title,
-        ts: Date.parse(snippet.publishedAt),
-      };
-    },
-    isRelevant() {
-      return true;
-    },
-  },
-  async run() {
-    const params = {
-      part: "contentDetails,id,snippet,status",
-      playlistId: "LL",
-      maxResults: this.maxResults,
-    };
-    await this.paginatePlaylistItems(params);
+    ...common.props,
   },
 };

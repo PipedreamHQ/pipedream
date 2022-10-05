@@ -10,7 +10,7 @@ export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     googleDrive,
@@ -47,7 +47,7 @@ export default {
       label: "Create If Exists?",
       description: toSingleLineString(`
         If the folder already exists and is not in the trash, should we create it? This option defaults to 'true' for
-        backwards compatability and to be consistent with default Google Drive behavior. 
+        backwards compatibility and to be consistent with default Google Drive behavior. 
       `),
       optional: true,
       default: true,

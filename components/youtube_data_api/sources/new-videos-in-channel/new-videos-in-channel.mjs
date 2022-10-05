@@ -1,4 +1,5 @@
-import common from "../common.mjs";
+import youtubeDataApi from "../../youtube_data_api.app.mjs";
+import common from "./common.mjs";
 
 export default {
   ...common,
@@ -6,22 +7,10 @@ export default {
   key: "youtube_data_api-new-videos-in-channel",
   name: "New Videos in Channel",
   description: "Emit new event for each new Youtube video posted to a Channel.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
+    youtubeDataApi,
     ...common.props,
-    channelId: {
-      type: "string",
-      label: "Channel ID",
-      description: "The ID of the channel to search for new videos in.",
-    },
-  },
-  methods: {
-    ...common.methods,
-    getParams() {
-      return {
-        channelId: this.channelId,
-      };
-    },
   },
 };
