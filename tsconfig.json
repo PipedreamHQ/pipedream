@@ -704,6 +704,24 @@
     },
     {
       "path": "components/printful_oauth"
+    },
+    {
+      "path": "components/docupilot"
+    },
+    {
+      "path": "components/repuso"
+    },
+    {
+      "path": "components/deployhq"
+    },
+    {
+      "path": "components/bingx"
+    },
+    {
+      "path": "components/razorpay"
+    },
+    {
+      "path": "components/verdict_as_a_service"
     }
   ]
 }

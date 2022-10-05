@@ -1,25 +1,76 @@
-// legacy_hash_id: a_nji3rP
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "pipefy-create-pipe",
   name: "Create Pipe",
-  description: "Creates a pipe.",
-  version: "0.3.1",
+  description: "Creates a pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createPipe/)",
+  version: "0.3.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [CreatePipe](https://api-docs.pipefy.com/reference/mutations/createPipe/) specification.",
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the new Pipe",
+    },
+    phases: {
+      type: "string[]",
+      label: "Phase Names",
+      description: "Names of the new Pipe's phases",
+      reloadProps: true,
+    },
+    members: {
+      propDefinition: [
+        pipefy,
+        "members",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+      withLabel: true,
+      reloadProps: true,
+    },
+    icon: {
+      type: "string",
+      label: "Icon",
+      description: "The Pipe icon",
+      options: constants.ICON_OPTIONS,
+      optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.phases?.length > 0) {
+      for (const phase of this.phases) {
+        props[phase] = {
+          type: "boolean",
+          label: `${phase} Done?`,
+          description: `Is ${phase} a final/done phase?`,
+          default: false,
+        };
+      }
+    }
+    if (this.members?.length > 0) {
+      for (const member of this.members) {
+        props[member.value] = {
+          type: "string",
+          label: `Role for ${member.label}`,
+          description: "The user role name",
+          options: constants.ROLE_OPTIONS,
+        };
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/createPipe/
-
+  /*
   Example query:
 
   mutation createNewPipe{
@@ -28,20 +79,38 @@ export default {
             pipe{id name}
       }
   }
-
   */
 
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
+    const variables = {
+      name: this.name,
+      organizationId: this.organization,
+      icon: this.icon,
+    };
+
+    if (this.phases?.length > 0) {
+      const phases = [];
+      for (const phase of this.phases) {
+        phases.push({
+          name: phase,
+          done: this[phase],
+        });
+      }
+      variables.phases = phases;
     }
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    if (this.members?.length > 0) {
+      const members = [];
+      for (const member of this.members) {
+        members.push({
+          role_name: this[member.value],
+          user_id: member.value,
+        });
+      }
+      variables.members = members;
+    }
+
+    const response = await this.pipefy.createPipe(variables);
+    $.export("$summary", "Successfully created pipe");
+    return response;
   },
 };
