@@ -1882,6 +1882,12 @@ importers:
   components/signwell:
     specifiers: {}
 
+  components/simplesat:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/slack:
     specifiers:
       '@slack/web-api': ^5.15.0
