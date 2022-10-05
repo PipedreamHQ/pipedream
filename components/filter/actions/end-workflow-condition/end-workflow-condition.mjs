@@ -5,17 +5,28 @@ import reasons from "../../common/reasons.mjs";
 export default {
   ...common,
   name: "End Workflow on Condition",
-  version: "0.0.1",
+  version: "0.0.5",
   key: "filter-end-workflow-condition",
   description: "End workflow based on the comparison of 2 values",
   type: "action",
   props: {
     filter,
-    reason: {
+    reasonEnding: {
       propDefinition: [
         filter,
         "reason",
       ],
+      label: "Reason to end",
+      description: "The reason for ending the workflow",
+      default: reasons.END,
+      optional: true,
+    },
+    reasonContinuing: {
+      propDefinition: [
+        filter,
+        "reason",
+      ],
+      label: "Reason to continue",
       description: "The reason for continuing the workflow",
       default: reasons.CONTINUE,
       optional: true,
@@ -26,9 +37,9 @@ export default {
     ...common.methods,
     consolidateResult($, result) {
       if (result) {
-        return $.flow.exit(reasons.END);
+        return $.flow.exit(this.reasonEnding);
       }
-      return $.export("$summary", this.reason);
+      return $.export("$summary", this.reasonContinuing);
     },
   },
 };
