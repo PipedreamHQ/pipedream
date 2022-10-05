@@ -1324,6 +1324,12 @@ importers:
   components/niceboard:
     specifiers: {}
 
+  components/nicereply:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/niftyimages:
     specifiers: {}
 
