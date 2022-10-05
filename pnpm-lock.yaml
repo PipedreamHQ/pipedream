@@ -2248,11 +2248,19 @@ importers:
 
   components/typeform:
     specifiers:
+      '@pipedream/platform': ^1.1.1
       axios: ^0.21.1
+      lodash: ^4.17.21
+      luxon: ^3.0.4
       querystring: ^0.2.0
+      uuidv4: ^6.2.13
     dependencies:
+      '@pipedream/platform': 1.1.1
       axios: 0.21.4
+      lodash: 4.17.21
+      luxon: 3.0.4
       querystring: 0.2.1
+      uuidv4: 6.2.13
 
   components/typless:
     specifiers: {}
@@ -15293,6 +15301,11 @@ packages:
 
   /lru_map/0.3.3:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
+    dev: false
+
+  /luxon/3.0.4:
+    resolution: {integrity: sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw==}
+    engines: {node: '>=12'}
     dev: false
 
   /mailerlite-api-v2-node/1.2.0:
