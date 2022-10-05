@@ -50,7 +50,9 @@ export default {
         file.link = await this.getTemporaryLink(update);
       }
       // new unique identification from merging the file id and the last file revision
-      const id = `${file.id}-${file.rev}`;
+      const id = update[".tag"] === "file"
+        ? `${file.id}-${file.rev}`
+        : `${file.id}-${newState.cursor}`;
       this.$emit(file, this.getMeta(id, file.path_display || file.id));
     }
   },

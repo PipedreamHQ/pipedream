@@ -51,7 +51,7 @@ export default {
       return {
         id,
         summary,
-        tz: Date.now(),
+        ts: Date.now(),
       };
     },
     async isNewFile(update, lastFileModTime) {
