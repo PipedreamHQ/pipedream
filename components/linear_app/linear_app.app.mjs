@@ -203,42 +203,31 @@ export default {
         },
       };
     },
-    async *paginateResources({ resourcesFn }) {
-      const params = {
-        after: null,
-        first: constants.DEFAULT_LIMIT,
-      };
-      let hasNextPage = true;
+    async *paginateResources({
+      resourcesFn,
+      resourcesFnArgs,
+      max = constants.DEFAULT_MAX_RECORDS,
+    }) {
+      let counter = 0;
+      let hasNextPage;
+      let endCursor;
       do {
         const {
           nodes,
           pageInfo,
-        } = await resourcesFn(params);
-        for (const d of nodes) {
-          yield d;
+        } = await resourcesFn({
+          after: endCursor,
+          first: constants.DEFAULT_LIMIT,
+          ...resourcesFnArgs,
+        });
+        for (const node of nodes) {
+          counter += 1;
+          yield node;
         }
-        hasNextPage = pageInfo.hasNextPage;
-        if (hasNextPage) {
-          params.after = pageInfo.endCursor;
-        }
-      } while (hasNextPage);
-    },
-    isActionSet(body, actions) {
-      if (!actions.includes(body?.action)) {
-        return false;
-      }
-      return true;
-    },
-    async isProjectIdSet(body, projectId) {
-      if (projectId) {
-        if (!body.data?.projectId) {
-          const issue = body.data?.issue?.id && await this.getIssue(body.data?.issue?.id);
-          return issue?._project?.id === projectId;
-        } else {
-          return body.data.projectId === projectId;
-        }
-      }
-      return true;
+        ({
+          hasNextPage, endCursor,
+        } = pageInfo);
+      } while (hasNextPage && counter < max);
     },
   },
 };

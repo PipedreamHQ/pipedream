@@ -1,11 +1,13 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
 import consts from "../../consts.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "youtube_data_api-list-playlists",
   name: "List Playlists",
   description: "Returns a collection of playlists that match the API request parameters. [See the docs](https://developers.google.com/youtube/v3/docs/playlists/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -16,6 +18,7 @@ export default {
       ],
       options: consts.LIST_PLAYLISTS_USE_CASE,
     },
+    ...common.props,
   },
   async additionalProps() {
     const dynamicProps = {};
@@ -51,34 +54,5 @@ export default {
         ...youtubeDataApi.propDefinitions.onBehalfOfContentOwnerChannel,
       },
     };
-  },
-  async run({ $ }) {
-    const {
-      useCase,
-      id,
-      channelId,
-      part,
-      hl,
-      maxResults,
-      onBehalfOfContentOwner,
-      onBehalfOfContentOwnerChannel,
-    } = this;
-
-    const mine = useCase === "mine" ?
-      true :
-      undefined;
-
-    const playlists = (await this.youtubeDataApi.listPlaylists({
-      part,
-      id,
-      mine,
-      channelId,
-      hl,
-      onBehalfOfContentOwner,
-      onBehalfOfContentOwnerChannel,
-      maxResults,
-    })).data;
-    $.export("$summary", `Successfully fetched "${playlists.items.length}" playlists`);
-    return playlists;
   },
 };
