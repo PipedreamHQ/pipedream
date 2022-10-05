@@ -15,5 +15,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@googleapis/admin": "^6.0.2"
   }
 }
