@@ -1,8 +1,5 @@
-import youtubeDataApi from "../youtube_data_api.app.mjs";
-
 export default {
   props: {
-    youtubeDataApi,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
