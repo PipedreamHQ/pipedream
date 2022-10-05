@@ -34,7 +34,7 @@ export default {
       type: "string",
       label: "Thread ID",
       description:
-        "Navigate to your thread on the Threads website. The URL will be threads.com/${thread_id}",
+        "Navigate to your thread on the Threads website. The URL will be trythreads.com/${thread_id}",
     },
     chatID: {
       type: "string",
