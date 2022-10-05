@@ -60,7 +60,6 @@ export default defineApp({
     async getWebHooks(url) {
       let endpoint = "eventsub/subscriptions";
       let allWebHooks = (await this._makeRequest("GET", endpoint)).data;
-      console.log(allWebHooks);
       return allWebHooks.filter((item) => item.transport.callback === url);
     },
     verifyWebhookRequest(message, secretToken, verifySignature) {
