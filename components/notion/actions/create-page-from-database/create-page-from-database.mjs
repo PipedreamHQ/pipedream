@@ -60,7 +60,6 @@ export default {
     buildPage(parentDatabase) {
       const meta = this.buildDatabaseMeta(parentDatabase);
       const properties = this.buildPageProperties(parentDatabase.properties);
-
       const children = this.createBlocks(this.pageContent);
       return {
         ...meta,
