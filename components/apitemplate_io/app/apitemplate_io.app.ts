@@ -1,5 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import constants from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -10,57 +11,21 @@ export default defineApp({
       label: "API Endpoints",
       description: "A regional API endpoint is intended for customers in the same region. The data for the request and generated PDFs/images are processed and stored within the region. [see docs](https://apitemplate.io/apiv2/#section/Regional-API-endpoint(s))",
       optional: true,
-      options: [
-        {
-          label: "Default (Singapore)",
-          value: "https://rest.apitemplate.io",
-        },
-        {
-          label: "Europe (Frankfurt)",
-          value: "https://rest-de.apitemplate.io",
-        },
-        {
-          label: "US East (N. Virginia)",
-          value: "https://rest-us.apitemplate.io",
-        },
-        {
-          label: "Australia (Sydney)",
-          value: "https://rest-au.apitemplate.io",
-        },
-        {
-          label: "Alternative Default (Singapore)",
-          value: "https://rest-alt.apitemplate.io",
-        },
-        {
-          label: "Alternative Europe (Frankfurt)",
-          value: "https://rest-alt-de.apitemplate.io",
-        },
-        {
-          label: "Alternative US East (N. Virginia)",
-          value: "https://rest-alt-us.apitemplate.io",
-        },
-      ],
+      options: constants.API_ENDPOINTS_OPTS,
     },
     exportType: {
       type: "string",
       label: "Export Type",
       description: "Either `file` or `json`(Default).",
       optional: true,
-      options: [
-        "json",
-        "file",
-      ],
+      options: constants.EXPORT_TYPE_OPTS,
     },
     transactionType: {
       type: "string",
       label: "Transaction Type",
       description: "Filtered by transaction type.",
       optional: true,
-      options: [
-        "PDF",
-        "JPEG",
-        "MERGE",
-      ],
+      options: constants.TRANSACTION_TYPE_OPTS,
     },
     outputHtml: {
       type: "boolean",
@@ -115,10 +80,7 @@ export default defineApp({
       label: "Output Format",
       description: "Either `pdf`(Default) or `html`.",
       optional: true,
-      options: [
-        "pdf",
-        "html",
-      ],
+      options: constants.OUTPUT_FORMAT_OPTS,
     },
     templateId: {
       type: "string",
@@ -128,12 +90,17 @@ export default defineApp({
         prevContext,
         format,
       }) {
-        const limit = 300;
+        const limit = constants.DEFAULT_LIMIT;
         let offset = 0;
         if (prevContext && Number.isInteger(prevContext.offset)) {
           offset = ((prevContext.offset / limit) + 1) * limit;
         }
-        return this.getTemplateOpts(limit, offset, format);
+        const params = {
+          limit,
+          offset,
+          format,
+        };
+        return this.getTemplateOpts(params);
       },
     },
     transactionRef: {
@@ -141,12 +108,16 @@ export default defineApp({
       label: "Transaction Ref",
       description: "Object transaction reference.",
       async options({ prevContext }) {
-        const limit = 300;
+        const limit = constants.DEFAULT_LIMIT;
         let offset = 0;
         if (prevContext && Number.isInteger(prevContext.offset)) {
           offset = ((prevContext.offset / limit) + 1) * limit;
         }
-        return this.listObjectOpts(limit, offset);
+        const params = {
+          limit,
+          offset,
+        };
+        return this.listObjectOpts(params);
       },
     },
     expiration: {
@@ -193,27 +164,23 @@ export default defineApp({
         headers: this._getHeaders(),
       };
     },
-    async getTemplates($ = this, limit, offset, format) {
+    async getTemplates($ = this, params) {
       const response = await axios($, this._getRequestParams({
         method: "GET",
         path: "/list-templates",
-        params: {
-          limit,
-          offset,
-          format,
-        },
+        params,
       }));
       return response;
     },
-    async getTemplateOpts(limit, offset, format) {
-      const { templates } = await this.getTemplates(this, limit, offset, format);
+    async getTemplateOpts(params) {
+      const { templates } = await this.getTemplates(this, params);
       const options = templates.map((template) => ({
         label: template.name,
         value: template.template_id,
       }));
       return {
         context: {
-          offset,
+          offset: params.offset,
         },
         options,
       };
@@ -237,11 +204,8 @@ export default defineApp({
       }));
       return response;
     },
-    async listObjectOpts(limit, offset) {
-      const { objects } = await this.listObjects(this, null, {
-        limit,
-        offset,
-      });
+    async listObjectOpts(params) {
+      const { objects } = await this.listObjects(this, null, params);
       const options = objects.filter((obj) => obj.deletion_status === 0)
         .map((obj) => ({
           label: obj.meta || obj.primary_url
@@ -253,7 +217,7 @@ export default defineApp({
         }));
       return {
         context: {
-          offset,
+          offset: params.offset,
         },
         options,
       };
