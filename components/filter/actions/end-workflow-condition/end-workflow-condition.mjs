@@ -5,7 +5,7 @@ import reasons from "../../common/reasons.mjs";
 export default {
   ...common,
   name: "End Workflow on Condition",
-  version: "0.0.5",
+  version: "0.0.2",
   key: "filter-end-workflow-condition",
   description: "End workflow based on the comparison of 2 values",
   type: "action",
