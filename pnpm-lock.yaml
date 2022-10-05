@@ -537,6 +537,14 @@ importers:
       axios: 0.21.4
       form-data: 4.0.0
 
+  components/docupilot:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/docusign:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2293,7 +2301,13 @@ importers:
     specifiers: {}
 
   components/verdict_as_a_service:
-    specifiers: {}
+    specifiers:
+      '@pipedream/types': ^0.1.4
+      gdata-vaas: ^2.2.7
+    dependencies:
+      gdata-vaas: 2.2.7
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/verifalia:
     specifiers:
@@ -8662,6 +8676,12 @@ packages:
       '@types/webidl-conversions': 6.1.1
     dev: false
 
+  /@types/ws/8.5.3:
+    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
+    dependencies:
+      '@types/node': 18.0.6
+    dev: false
+
   /@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
     dev: true
@@ -8824,6 +8844,10 @@ packages:
       '@typescript-eslint/types': 5.30.7
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@ungap/url-search-params/0.2.2:
+    resolution: {integrity: sha512-qQsguKXZVKdCixOHX9jqnX/K/1HekPDpGKyEcXHT+zR6EjGA7S4boSuelL4uuPv6YfhN0n8c4UxW+v/Z3gM2iw==}
+    dev: false
 
   /@vue/compiler-sfc/2.7.7:
     resolution: {integrity: sha512-Ah8dIuo6ZVPHTq9+s4rBU/YpJu3vGSNyeOTCrPrVPQnkUfnT5Ig+IKBhePuQWFXguYb2TuEWrEfiiX9DZ3aJlA==}
@@ -11713,6 +11737,10 @@ packages:
     resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
     dev: false
 
+  /fast-sha256/1.3.0:
+    resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
+    dev: false
+
   /fast-text-encoding/1.0.4:
     resolution: {integrity: sha512-x6lDDm/tBAzX9kmsPcZsNbvDs3Zey3+scsxaZElS8xWLgUMAg/oFLeewfUz0mu1CblHhhsu15jGkraldkFh8KQ==}
     dev: false
@@ -12256,6 +12284,24 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /gdata-vaas/2.2.7:
+    resolution: {integrity: sha512-ilj1HhnO1fhRlKmPJnuZ97bqEGaZ7AV2/okxvetpZHzRUgffIud2FlEhd9l8TXgin9z15+R3rMB5y4FnWHklcA==}
+    dependencies:
+      '@types/uuid': 8.3.4
+      '@types/ws': 8.5.3
+      '@ungap/url-search-params': 0.2.2
+      axios: 0.27.2
+      fast-sha256: 1.3.0
+      isomorphic-ws: 4.0.1_ws@8.7.0
+      typescript-json-serializer: 3.4.5
+      uuid: 8.3.2
+      ws: 8.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
     dev: false
 
   /generic-pool/3.8.2:
@@ -13518,6 +13564,14 @@ packages:
       unfetch: 4.2.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /isomorphic-ws/4.0.1_ws@8.7.0:
+    resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
+    peerDependencies:
+      ws: '*'
+    dependencies:
+      ws: 8.7.0
     dev: false
 
   /isstream/0.1.2:
@@ -17448,6 +17502,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
   /regenerate-unicode-properties/10.0.1:
     resolution: {integrity: sha512-vn5DU6yg6h8hP/2OkQo3K7uVILvY4iu0oI4t3HFa81UPkhGJwkRwM10JEc3upjdhHjs/k8GJY1sRBhk5sr69Bw==}
     engines: {node: '>=4'}
@@ -19554,6 +19612,13 @@ packages:
   /typedarray/0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
+  /typescript-json-serializer/3.4.5:
+    resolution: {integrity: sha512-KWsDGa1vddY3alUIzE9oBo6AfVzVXQCCHm9ATF4oiGAoTHTTIV0IBGSRAu2uiJHrpPC/n7fxnnAagOhLQZyTcg==}
+    dependencies:
+      reflect-metadata: 0.1.13
+      tslib: 2.4.0
+    dev: false
+
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
@@ -20332,6 +20397,19 @@ packages:
       utf-8-validate:
         optional: true
     dev: true
+
+  /ws/8.7.0:
+    resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /xcase/2.0.1:
     resolution: {integrity: sha512-UmFXIPU+9Eg3E9m/728Bii0lAIuoc+6nbrNUKaRPJOFp91ih44qqGlWtxMB6kXFrRD6po+86ksHM5XHCfk6iPw==}
