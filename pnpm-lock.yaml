@@ -923,8 +923,10 @@ importers:
   components/google_workspace:
     specifiers:
       '@googleapis/admin': ^6.0.2
+      googleapis: ^108.0.0
     dependencies:
       '@googleapis/admin': 6.0.2
+      googleapis: 108.0.0
 
   components/gorgias:
     specifiers:
@@ -2426,6 +2428,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
@@ -12688,6 +12693,7 @@ packages:
   /google-p12-pem/4.0.0:
     resolution: {integrity: sha512-lRTMn5ElBdDixv4a86bixejPSRk1boRtUowNepeKEVvYiFlkLuAJUVpEz6PfObDHYEKnZWq/9a2zC98xu62A9w==}
     engines: {node: '>=12.0.0'}
+    hasBin: true
     dependencies:
       node-forge: 1.3.1
     dev: false
@@ -12702,6 +12708,32 @@ packages:
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis-common/6.0.3:
+    resolution: {integrity: sha512-Xyb4FsQ6PQDu4tAE/M/ev4yzZhFe2Gc7+rKmuCX2ZGk1ajBKbafsGlVYpmzGqQOT93BRDe8DiTmQb6YSkbICrA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      extend: 3.0.2
+      gaxios: 5.0.1
+      google-auth-library: 8.1.1
+      qs: 6.11.0
+      url-template: 2.0.8
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/108.0.0:
+    resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
       - supports-color

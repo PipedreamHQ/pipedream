@@ -4,7 +4,7 @@ export default {
   key: "google_workspace-list-activities-by-admin",
   name: "List Activities By Admin",
   description: "Retrieves a report of all Admin console activities done by a specific administrator. [See the docs](https://developers.google.com/admin-sdk/reports/v1/guides/manage-audit-admin#get_admin_events) for more information",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     googleWorkspace,
