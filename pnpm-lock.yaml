@@ -180,7 +180,10 @@ importers:
     specifiers: {}
 
   components/apitemplate_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/asana:
     specifiers:
