@@ -140,16 +140,6 @@ export default {
         data,
         params,
       } = opts;
-      console.log({
-        method,
-        url: `https://api.cloudflare.com/client/v4${path}`,
-        data,
-        params,
-        headers: {
-          ...this._getHeaders(),
-          ...opts.headers,
-        },
-      });
       return axios($, {
         method,
         url: `https://api.cloudflare.com/client/v4${path}`,

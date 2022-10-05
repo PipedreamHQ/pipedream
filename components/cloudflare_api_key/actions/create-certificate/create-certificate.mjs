@@ -5,7 +5,7 @@ export default {
   key: "cloudflare_api_key-create-certificate",
   name: "Create a Certificate",
   description: "Creates an Origin CA certificate. [See the docs here](https://api.cloudflare.com/#origin-ca-create-certificate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,

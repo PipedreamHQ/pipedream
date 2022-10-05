@@ -2,10 +2,10 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "cloudflare_api_key-cloudflare-create-dns-record",
+  key: "cloudflare_api_key-create-dns-record",
   name: "Create DNS Record",
   description: "Creates a DNS Record given its zone id",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     cloudflare_api_key: {

@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-patch-dns-record",
   name: "Patch DNS Record",
   description: "Patches a DNS record of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-patch-dns-record)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,

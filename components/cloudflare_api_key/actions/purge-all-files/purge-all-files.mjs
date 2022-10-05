@@ -2,10 +2,10 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "cloudflare_api_key-cloudflare-purge-all-files",
+  key: "cloudflare_api_key-purge-all-files",
   name: "Purge All Files",
   description: "Remove ALL files from Cloudflare's cache.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     cloudflare_api_key: {

@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-export-dns-records",
   name: "Export DNS Records",
   description: "Export a BIND config of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-export-dns-records)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,

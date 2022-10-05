@@ -9,7 +9,7 @@ export default {
   key: "cloudflare_api_key-import-dns-records",
   name: "Import DNS Records",
   description: "Import a BIND config into a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-import-dns-records)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,
