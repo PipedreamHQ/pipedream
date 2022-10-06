@@ -84,7 +84,6 @@ export default {
     const balanceQuery = await this.getBalance();
     console.log(balanceQuery);
     if (balanceQuery.code) {
-      console.log("Inside If");
       $.export("$summary", `Error : ${balanceQuery.msg}`);
       return $.flow.exit(`Error : ${balanceQuery.msg}`);
     }
