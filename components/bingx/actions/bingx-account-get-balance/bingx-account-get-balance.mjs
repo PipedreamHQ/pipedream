@@ -23,7 +23,13 @@ export default {
       "currency": this.currency,
     };
     let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    $.export("$summary", `Balance Retrieved for account currency \`${this.currency}\` for account \`${returnValue.data.account.userId}\``);
+    console.log(returnValue);
+    if (returnValue.code) {
+      $.export("$summary", `Error : ${returnValue.msg}`);
+      return $.flow.exit(`Error : ${returnValue.msg}`);
+    } else {
+      $.export("$summary", `Balance Retrieved for account currency \`${this.currency}\` for account \`${returnValue.data.account.userId}\``);
+    }
     return returnValue;
   },
 };

@@ -59,8 +59,7 @@ export default {
       const parameters = {
         "currency": this.currency,
       };
-      let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-      return returnValue.data.account.balance;
+      return await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     },
     async getLatestPrice() {
       const API_METHOD = "GET";
@@ -69,7 +68,6 @@ export default {
         "symbol": this.symbol,
       };
       let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-      console.log(returnValue);
       return returnValue.data.indexPrice;
     },
   },
@@ -83,7 +81,14 @@ export default {
     let tpDirection = entryPrice > this.stopPrice
       ? "Ask"
       : "Bid";
-    const balance = await this.getBalance();
+    const balanceQuery = await this.getBalance();
+    console.log(balanceQuery);
+    if (balanceQuery.code) {
+      console.log("Inside If");
+      $.export("$summary", `Error : ${balanceQuery.msg}`);
+      return $.flow.exit(`Error : ${balanceQuery.msg}`);
+    }
+    const balance = balanceQuery.data.account.balance;
     const risk = this.bingx.convertToFloat(this.riskOnCapital) * balance / 100;
 
     const stopDiff = Math.abs(entryPrice - this.stopPrice);
