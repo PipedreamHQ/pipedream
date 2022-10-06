@@ -707,11 +707,12 @@ export default {
       return comments;
     },
     async createTaskComment({
-      taskId, data, $,
+      taskId, data, $, params,
     }) {
       return this._makeRequest(`task/${taskId}/comment`, {
         method: "POST",
         data,
+        params,
       }, $);
     },
     async createListComment({
