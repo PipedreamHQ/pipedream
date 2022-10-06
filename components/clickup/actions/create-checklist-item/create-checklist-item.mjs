@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-checklist-item",
   name: "Create Checklist Item",
   description: "Creates a new item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Create Checklist Item** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,25 @@ export default {
       ],
       optional: true,
     },
+    useCustomTaskIds: {
+      propDefinition: [
+        clickup,
+        "useCustomTaskIds",
+      ],
+    },
+    authorizedTeamId: {
+      propDefinition: [
+        clickup,
+        "authorizedTeamId",
+      ],
+    },
     taskId: {
       propDefinition: [
         clickup,
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
     },
@@ -55,6 +68,8 @@ export default {
         "checklists",
         (c) => ({
           taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
@@ -84,6 +99,11 @@ export default {
       assignee,
     } = this;
 
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
+
     const response = await this.clickup.createChecklistItem({
       $,
       taskId,
@@ -92,6 +112,7 @@ export default {
         name,
         assignee,
       },
+      params,
     });
 
     $.export("$summary", "Successfully created checklist item");

@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import clickup from "../../clickup.app.mjs";
 import common from "../common/common.mjs";
 
@@ -67,14 +66,10 @@ export default {
   async run({ $ }) {
     const { taskId } = this;
 
-    const params = {};
-    if (this.useCustomTaskIds) {
-      if (!this.authorizedTeamId) {
-        throw new ConfigurationError("The prop \"Use Custom Task IDs\" must to be used with the prop \"Authorized Team\"");
-      }
-      params.custom_task_ids = this.useCustomTaskIds;
-      params.team_id = this.authorizedTeamId;
-    }
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
 
     const response = await this.clickup.getTask({
       $,

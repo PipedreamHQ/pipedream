@@ -146,10 +146,16 @@ export default {
       type: "string",
       label: "Checklist",
       description: "The id of a checklist",
-      async options({ taskId }) {
+      async options({
+        taskId, useCustomTaskIds, authorizedTeamId,
+      }) {
         if (!taskId) return [];
+
+        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
+
         const checklists = await this.getChecklists({
           taskId,
+          params,
         });
 
         return checklists.map((checklist) => ({
@@ -329,6 +335,17 @@ export default {
       };
 
       return axios($ ?? this, config);
+    },
+    getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId) {
+      const params = {};
+      if (useCustomTaskIds) {
+        if (!authorizedTeamId) {
+          throw new ConfigurationError("The prop \"Use Custom Task IDs\" must to be used with the prop \"Authorized Team\"");
+        }
+        params.custom_task_ids = useCustomTaskIds;
+        params.team_id = authorizedTeamId;
+      }
+      return params;
     },
     async getWorkspaces({ $ } = {}) {
       const { teams } = await this._makeRequest("team", {}, $);
@@ -588,11 +605,12 @@ export default {
       return tags;
     },
     async getChecklists({
-      taskId, $,
+      taskId, $, params,
     }) {
       const { checklists } = await this.getTask({
         $,
         taskId,
+        params,
       });
 
       return checklists;
@@ -644,11 +662,12 @@ export default {
       return items;
     },
     async createChecklistItem({
-      checklistId, data, $,
+      checklistId, data, $, params,
     }) {
       return this._makeRequest(`checklist/${checklistId}/checklist_item`, {
         method: "POST",
         data,
+        params,
       }, $);
     },
     async updateChecklistItem({
