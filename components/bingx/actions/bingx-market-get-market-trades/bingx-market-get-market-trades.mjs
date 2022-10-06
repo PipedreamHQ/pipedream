@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Market GetMarketTrades",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bingx-market-get-market-trades",
   description: "The latest Trade of a Trading Pair [reference](https://bingx-api.github.io/docs/swap/market-api.html#_4-the-latest-trade-of-a-trading-pair).",
   props: {
