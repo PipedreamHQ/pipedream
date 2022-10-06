@@ -23,7 +23,6 @@ export default {
       "currency": this.currency,
     };
     let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
-    console.log(returnValue);
     if (returnValue.code) {
       $.export("$summary", `Error : ${returnValue.msg}`);
       return $.flow.exit(`Error : ${returnValue.msg}`);
