@@ -1,4 +1,5 @@
 import conditions, { constants } from "./common/conditions.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -119,9 +120,11 @@ export default {
       );
     },
     checkIfInArray(operand1, operand2) {
+      operand2 = this.parse(operand2, "array");
       return operand2.includes(operand1);
     },
     checkIfKeyExists(operand1, operand2) {
+      operand2 = this.parse(operand2, "object");
       return operand1 in operand2 && !this.checkIfIsNull(operand2[operand1]);
     },
     convertToString(input) {
@@ -133,6 +136,20 @@ export default {
         throw new Error("Input cannot be converted to a number");
       }
       return input;
+    },
+    parse(input, type) {
+      try {
+        const parsed = JSON.parse(input);
+        if (type === "array" && !Array.isArray(parsed)) {
+          throw new Error("Unable to parse second value to array");
+        }
+        if (type === "object" && (typeof parsed !== "object" || Array.isArray(parsed))) {
+          throw new Error("Unable to parse second value to object");
+        }
+        return parsed;
+      } catch (e) {
+        throw new ConfigurationError(e);
+      }
     },
   },
 };
