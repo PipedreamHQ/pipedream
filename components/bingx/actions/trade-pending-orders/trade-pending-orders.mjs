@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade PendingOrders",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "bingx-trade-pending-orders",
   description: "Unfilled Order Acquisition [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_7-unfilled-order-acquisition).",
   props: {
