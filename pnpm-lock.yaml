@@ -2358,7 +2358,12 @@ importers:
     specifiers: {}
 
   components/vk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/voice:
     specifiers: {}
@@ -2423,6 +2428,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
