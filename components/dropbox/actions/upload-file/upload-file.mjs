@@ -1,8 +1,8 @@
 import dropbox from "../../dropbox.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import fs from "fs";
 import got from "got";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,

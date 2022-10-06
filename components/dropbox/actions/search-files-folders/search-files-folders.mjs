@@ -1,7 +1,7 @@
 import dropbox from "../../dropbox.app.mjs";
 import isNil from "lodash/isNil.js";
 import get from "lodash/get.js";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 
 export default {
   name: "Search files and folders",

@@ -1,5 +1,5 @@
 import dropbox from "../../dropbox.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 
 export default {
   name: "Create/Update a Share Link",

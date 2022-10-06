@@ -1,5 +1,5 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   name: "Create or Append to a Text File",
