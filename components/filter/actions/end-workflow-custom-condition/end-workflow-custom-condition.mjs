@@ -2,7 +2,7 @@ import filter from "../../filter.app.mjs";
 
 export default {
   name: "End Workflow on Custom Condition",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "filter-end-workflow-custom-condition",
   description: "Stop workflow execution in this step based on any custom condition",
   type: "action",
