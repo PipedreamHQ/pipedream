@@ -19,7 +19,7 @@ export default {
     items: {
       propDefinition: [
         stripe,
-        "subscription_item",
+        "price",
       ],
       optional: false,
       type: "string[]",
@@ -71,10 +71,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const items = typeof this.items === "string"
+      ? JSON.parse(this.items)
+      : this.items;
+
     const resp = await this.stripe.sdk().subscriptions.create({
       ...pick(this, [
         "customer",
-        "items",
         "currency",
         "description",
         "collection_method",
@@ -82,6 +85,9 @@ export default {
         "default_payment_method",
         "metadata",
       ]),
+      items: items.map((item) => ({
+        price: item,
+      })),
       ...this.advanced,
     });
 
