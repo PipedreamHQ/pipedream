@@ -725,6 +725,15 @@
     },
     {
       "path": "components/wix"
+    },
+    {
+      "path": "components/wishpond"
+    },
+    {
+      "path": "components/nusii_proposals"
+    },
+    {
+      "path": "components/callingly"
     }
   ]
 }
