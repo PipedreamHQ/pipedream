@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-checklist",
   name: "Delete Checklist",
   description: "Deletes a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists  / Delete Checklist** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,25 @@ export default {
       ],
       optional: true,
     },
+    useCustomTaskIds: {
+      propDefinition: [
+        clickup,
+        "useCustomTaskIds",
+      ],
+    },
+    authorizedTeamId: {
+      propDefinition: [
+        clickup,
+        "authorizedTeamId",
+      ],
+    },
     taskId: {
       propDefinition: [
         clickup,
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
     },
@@ -55,6 +68,8 @@ export default {
         "checklists",
         (c) => ({
           taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
@@ -65,10 +80,16 @@ export default {
       checklistId,
     } = this;
 
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
+
     const response = await this.clickup.deleteChecklist({
       $,
       taskId,
       checklistId,
+      params,
     });
 
     $.export("$summary", "Successfully deleted checklist");

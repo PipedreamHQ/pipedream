@@ -644,10 +644,11 @@ export default {
       }, $);
     },
     async deleteChecklist({
-      checklistId, $,
+      checklistId, $, params,
     }) {
       return this._makeRequest(`checklist/${checklistId}`, {
         method: "DELETE",
+        params,
       }, $);
     },
     async getChecklistItems({
