@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.8",
+  version: "0.0.9",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,

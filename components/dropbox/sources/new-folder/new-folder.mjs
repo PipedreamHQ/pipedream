@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-new-folder",
   name: "New Folder",
-  version: "0.0.8",
+  version: "0.0.9",
   description: "Emit new event when a new folder is created. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   hooks: {
     async activate() {
