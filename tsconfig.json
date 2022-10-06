@@ -706,6 +706,9 @@
       "path": "components/printful_oauth"
     },
     {
+      "path": "components/docupilot"
+    },
+    {
       "path": "components/repuso"
     },
     {
@@ -719,6 +722,9 @@
     },
     {
       "path": "components/verdict_as_a_service"
+    },
+    {
+      "path": "components/wix"
     }
   ]
 }
