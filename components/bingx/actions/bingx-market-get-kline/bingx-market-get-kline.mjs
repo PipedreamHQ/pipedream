@@ -1,5 +1,5 @@
 import bingx from "../../bingx.app.mjs";
-import { KLINE_DESC_MAPPING } from "../../bingx-common.mjs";
+import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
   name: "BingX Market GetLatestKline",

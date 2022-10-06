@@ -3,7 +3,7 @@ import crypto from "crypto";
 import {
   KLINE_DESC_LIST, TRADE_SIDES, TRADE_TYPES,
   TRADE_ACTIONS, TRADE_MARGIN_MODES, TRADE_LEVERAGE_SIDES,
-} from "./bingx-common.mjs";
+} from "./common.mjs";
 
 export default {
   type: "app",
