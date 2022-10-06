@@ -3,7 +3,7 @@ import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
   name: "BingX Market GetHistoryKlines",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bingx-market-get-kline-history",
   description: "K-Line Data History " +
         "[reference](https://bingx-api.github.io/docs/swap/market-api.html#_8-k-line-data-history).",
