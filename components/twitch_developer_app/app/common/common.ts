@@ -35,7 +35,7 @@ export default {
     },
   },
   methods: {
-    async manageWebHooks(type, conditions) {
+    async manageWebHooks(type: string, conditions: any) {
       const secretToken = uuidv4();
       this.db.set("secretToken", secretToken);
       for (const condition of conditions)
@@ -68,7 +68,7 @@ export default {
     if (true ===
       this.twitch.verifyWebhookRequest(message, secretToken, headers[TWITCH_MESSAGE_SIGNATURE])) {
 
-      let notification = body;
+      const notification = body;
 
       if (MESSAGE_TYPE_NOTIFICATION === headers[MESSAGE_TYPE]) {
         console.log(`Event type: ${notification.subscription.type}`);

@@ -23,7 +23,7 @@ export default defineApp({
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(method, endpoint, options = {}, $ = this) {
+    async _makeRequest(method:string, endpoint:string, options = {}, $ = this) {
       const config = {
         method,
         url: `${this._getBaseUrl()}/${endpoint}`,
@@ -33,7 +33,7 @@ export default defineApp({
       return axios($, config);
     },
     async getUsers(login = []) {
-      let endpoint = "users";
+      const endpoint = "users";
       const params = {
         login,
       };
@@ -41,8 +41,8 @@ export default defineApp({
         params,
       });
     },
-    async createWebHook(type, condition = {}, url, secretToken) {
-      let endpoint = "eventsub/subscriptions";
+    async createWebHook(type:string, condition = {}, url:string, secretToken:string) {
+      const endpoint = "eventsub/subscriptions";
       const data = {
         "type": type,
         "version": "1",
@@ -57,19 +57,19 @@ export default defineApp({
         data,
       });
     },
-    async getWebHooks(url) {
-      let endpoint = "eventsub/subscriptions";
+    async getWebHooks(url:string) {
+      const endpoint = "eventsub/subscriptions";
       let allWebHooks = (await this._makeRequest("GET", endpoint)).data;
-      return allWebHooks.filter((item) => item.transport.callback === url);
+      return allWebHooks.filter((item: { transport: { callback: string; }; }) => item.transport.callback === url);
     },
-    verifyWebhookRequest(message, secretToken, verifySignature) {
+    verifyWebhookRequest(message:string, secretToken:string, verifySignature:string) {
       const HMAC_PREFIX = "sha256=";
       const hmac = HMAC_PREFIX + crypto.createHmac("sha256", secretToken)
         .update(message)
         .digest("hex");
       return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(verifySignature));
     },
-    async deleteEventSub(subID) {
+    async deleteEventSub(subID:string) {
       let endpoint = "eventsub/subscriptions";
       const data = {
         "id": subID,
@@ -77,10 +77,6 @@ export default defineApp({
       return await this._makeRequest("DELETE", endpoint, {
         data,
       });
-    },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 });

@@ -37,7 +37,7 @@ export default defineSource({
       return "stream.online";
     },
 
-    getMeta(item) {
+    getMeta(item: { id: string; started_at: string; broadcaster_user_name: string; }) {
       const {
         id,
         started_at: startedAt,
