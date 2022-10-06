@@ -21,7 +21,7 @@ export default {
       ],
       label: "Message",
       description:
-        "This is the body of the message. To format the body, you can send markdown.",
+        "Compose your chat message here, and include markdown if you'd like. See [here](https://github.com/ThreadsHQ/api-documentation#2-1) for examples.",
     },
   },
   async run({ $ }) {
