@@ -2313,7 +2313,12 @@ importers:
     specifiers: {}
 
   components/vbout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/vectera:
     specifiers: {}
@@ -2423,6 +2428,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
