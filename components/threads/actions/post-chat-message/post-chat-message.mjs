@@ -4,7 +4,7 @@ export default {
   key: "threads-post-chat-message",
   name: "Post a Chat Message",
   description: "Post a message to a chat. First, make sure you add your Bot user to the chat.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     threads,
@@ -21,7 +21,7 @@ export default {
       ],
       label: "Message",
       description:
-        "This is the body of the message. To format the body, you can send markdown.",
+        "Compose your chat message here, and include markdown if you'd like. See [here](https://github.com/ThreadsHQ/api-documentation#2-1) for examples.",
     },
   },
   async run({ $ }) {

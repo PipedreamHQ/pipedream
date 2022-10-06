@@ -1,9 +1,9 @@
 import bingx from "../../bingx.app.mjs";
-import { KLINE_DESC_MAPPING } from "../../bingx-common.mjs";
+import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
   name: "BingX Market GetLatestKline",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bingx-market-get-kline",
   description: "Get K-Line Data " +
                 "[reference](https://bingx-api.github.io/docs/swap/market-api.html#_7-get-k-line-data).",

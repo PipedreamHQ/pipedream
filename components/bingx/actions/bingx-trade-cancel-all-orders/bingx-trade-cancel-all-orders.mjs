@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade CancelAllOrders",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bingx-trade-cancel-all-orders",
   description: "Cancel All Orders [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_6-cancel-all-orders).",
   props: {
