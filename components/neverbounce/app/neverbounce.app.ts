@@ -1,8 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams,
-  VerifyEmailParams, VerifyEmailResponse,
+  HttpRequestParams, VerifyEmailParams, VerifyEmailResponse,
 } from "../common/types";
 
 export default defineApp({

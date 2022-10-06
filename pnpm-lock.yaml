@@ -1317,7 +1317,7 @@ importers:
 
   components/neverbounce:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.1.1
       '@pipedream/types': ^0.1.4
     dependencies:
       '@pipedream/platform': 1.1.1
@@ -2431,6 +2431,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
