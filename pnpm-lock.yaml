@@ -664,6 +664,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/filter:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/firebase_admin_sdk:
     specifiers:
       '@firebase/app-compat': ^0.1.25
@@ -2423,6 +2429,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
