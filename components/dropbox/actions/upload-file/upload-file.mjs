@@ -8,8 +8,8 @@ export default {
   ...common,
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
-  key: "dropbox-upload-a-file",
-  version: "0.0.4",
+  key: "dropbox-upload-file",
+  version: "0.0.5",
   type: "action",
   props: {
     dropbox,
