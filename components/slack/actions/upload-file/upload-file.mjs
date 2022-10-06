@@ -4,35 +4,37 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See docs here](https://api.slack.com/methods/files.upload)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     slack,
-    content: {
-      propDefinition: [
-        slack,
-        "content",
-      ],
-    },
-    initial_comment: {
-      propDefinition: [
-        slack,
-        "initial_comment",
-      ],
-      optional: true,
-    },
     conversation: {
       propDefinition: [
         slack,
         "conversation",
       ],
     },
+    content: {
+      propDefinition: [
+        slack,
+        "content",
+      ],
+    },
+    initialComment: {
+      label: "Report Name",
+      description: "Will be added as an initial comment before the image",
+      propDefinition: [
+        slack,
+        "initial_comment",
+      ],
+      optional: true,
+    },
   },
   async run() {
     return await this.slack.sdk().files.upload({
       content: this.content,
       channel: this.conversation,
-      initial_comment: this.initial_comment,
+      initial_comment: this.initialComment,
     });
   },
 };
