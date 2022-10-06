@@ -1,14 +1,4 @@
-const types = {
-  TEXT: "TEXT",
-  NUMBER: "NUMBER",
-  DATETIME: "DATETIME",
-  BOOLEAN: "BOOLEAN",
-  NULL: "NULL",
-  ARRAY: "ARRAY",
-  OBJECT: "OBJECT",
-};
-
-const constants = {
+export const constants = {
   IN: "IN",
   NOT_IN: "NOT_IN",
   TEXT_EQUALS: "TEXT_EQUALS",
@@ -22,9 +12,6 @@ const constants = {
   LESS_THAN: "LESS_THAN",
   LESS_THAN_EQUALS: "LESS_THAN_EQUALS",
   EQUALS: "EQUALS",
-  AFTER: "AFTER",
-  BEFORE: "BEFORE",
-  DATE_EQUALS: "DATE_EQUALS",
   TRUE: "TRUE",
   FALSE: "FALSE",
   IS_NULL: "IS_NULL",
@@ -33,133 +20,101 @@ const constants = {
   NOT_IN_ARRAY: "NOT_IN_ARRAY",
   KEY_EXISTS: "KEY_EXISTS",
   KEY_NOT_EXISTS: "KEY_NOT_EXISTS",
+  CONTINUE: "Continue",
+  END: "End",
 };
 
-const textOptions = [
+export const binaryConditions = [
   {
-    label: "Contains",
+    label: "[Text] Contains",
     value: constants.IN,
   },
   {
-    label: "Does not contain",
+    label: "[Text] Does not contain",
     value: constants.NOT_IN,
   },
   {
-    label: "Matches exactly",
+    label: "[Text] Matches exactly",
     value: constants.TEXT_EQUALS,
   },
   {
-    label: "Does not exactly match",
+    label: "[Text] Does not exactly match",
     value: constants.TEXT_NOT_EQUALS,
   },
   {
-    label: "Starts with",
+    label: "[Text] Starts with",
     value: constants.STARTS_WITH,
   },
   {
-    label: "Does not start with",
+    label: "[Text] Does not start with",
     value: constants.NOT_STARTS_WITH,
   },
   {
-    label: "Ends with",
+    label: "[Text] Ends with",
     value: constants.ENDS_WITH,
   },
   {
-    label: "Does not end with",
+    label: "[Text] Does not end with",
     value: constants.NOT_ENDS_WITH,
   },
-];
-
-const numberOptions = [
   {
-    label: "Greater than",
+    label: "[Number] Greater than",
     value: constants.GREATER_THAN,
   },
   {
-    label: "Greater than or equals",
+    label: "[Number] Greater than or equal to",
     value: constants.GREATER_THAN_EQUALS,
   },
   {
-    label: "Less than",
+    label: "[Number] Less than",
     value: constants.LESS_THAN,
   },
   {
-    label: "Less than or equals",
+    label: "[Number] Less than or equal to",
     value: constants.LESS_THAN_EQUALS,
   },
   {
-    label: "Is equal to",
+    label: "[Number] Equal to",
     value: constants.EQUALS,
   },
-];
-
-const dateTimeOptions = [
   {
-    label: "After",
-    value: constants.AFTER,
-  },
-  {
-    label: "Before",
-    value: constants.BEFORE,
-  },
-  {
-    label: "Equals",
-    value: constants.DATE_EQUALS,
-  },
-];
-
-const booleanOptions = [
-  {
-    label: "Is True",
-    value: constants.TRUE,
-  },
-  {
-    label: "Is False",
-    value: constants.FALSE,
-  },
-];
-
-const nullOptions = [
-  {
-    label: "Is null or undefined",
-    value: constants.IS_NULL,
-  },
-  {
-    label: "Is not null or undefined",
-    value: constants.NOT_NULL,
-  },
-];
-
-const arrayOptions = [
-  {
-    label: "Is in array",
+    label: "[Array] Is present in array",
     value: constants.IN_ARRAY,
   },
   {
-    label: "Is not in array",
+    label: "[Array] Is not present in array",
     value: constants.NOT_IN_ARRAY,
   },
-];
-
-const objectOptions = [
   {
-    label: "Key exists and value is not null or undefined",
+    label: "[Object] Key exists and is not null or undefined",
     value: constants.KEY_EXISTS,
   },
   {
-    label: "Key does not exist or value is null or undefined",
+    label: "[Object] Key does not exist or value is null or undefined",
     value: constants.KEY_NOT_EXISTS,
   },
 ];
 
-export default {
-  types,
-  constants,
-  textOptions,
-  numberOptions,
-  dateTimeOptions,
-  booleanOptions,
-  nullOptions,
-  arrayOptions,
-  objectOptions,
-};
+export const unaryConditions = [
+  {
+    label: "[Boolean] Evaluates to True",
+    value: constants.TRUE,
+  },
+  {
+    label: "[Boolean] Evaluates to False",
+    value: constants.FALSE,
+  },
+  {
+    label: "[NULL] Is null or undefined",
+    value: constants.IS_NULL,
+  },
+  {
+    label: "[NULL] Is not null or undefined",
+    value: constants.NOT_NULL,
+  },
+];
+
+export default [
+  ...binaryConditions,
+  ...unaryConditions,
+];
