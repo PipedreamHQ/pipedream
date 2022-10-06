@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.7",
+  version: "0.0.9",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
@@ -23,15 +23,26 @@ export default {
       default: false,
     },
   },
+  hooks: {
+    async activate() {
+      await this.getHistoricalEvents([
+        "file",
+        "folder",
+      ]);
+      const state = await this.dropbox.initState(this);
+      this._setDropboxState(state);
+    },
+  },
   async run() {
-    const updates = await this.dropbox.getUpdates(this);
+    const state = this._getDropboxState();
+    const {
+      ret: updates, state: newState,
+    } = await this.dropbox.getUpdates(this, state);
+    this._setDropboxState(newState);
     for (let update of updates) {
       let file = {
         ...update,
       };
-      if (update[".tag"] !== "file") {
-        continue;
-      }
       if (this.includeMediaInfo) {
         file = await this.getMediaInfo(update);
       }
@@ -39,7 +50,9 @@ export default {
         file.link = await this.getTemporaryLink(update);
       }
       // new unique identification from merging the file id and the last file revision
-      const id = `${file.id}-${file.rev}`;
+      const id = update[".tag"] === "file"
+        ? `${file.id}-${file.rev}`
+        : `${file.id}-${newState.cursor}`;
       this.$emit(file, this.getMeta(id, file.path_display || file.id));
     }
   },

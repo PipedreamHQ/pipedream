@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-new-file",
   name: "New File",
-  version: "0.0.7",
+  version: "0.0.9",
   description: "Emit new event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
@@ -25,9 +25,13 @@ export default {
   },
   hooks: {
     async activate() {
+      await this.getHistoricalEvents([
+        "file",
+      ]);
       const startTime = new Date();
-      await this.dropbox.initState(this);
+      const state = await this.dropbox.initState(this);
       this._setLastFileModTime(startTime);
+      this._setDropboxState(state);
     },
   },
   methods: {
@@ -41,8 +45,12 @@ export default {
   },
   async run() {
     const lastFileModTime = this._getLastFileModTime();
+    const state = this._getDropboxState();
     let currFileModTime = "";
-    const updates = await this.dropbox.getUpdates(this);
+    const {
+      ret: updates, state: newState,
+    } = await this.dropbox.getUpdates(this, state);
+    this._setDropboxState(newState);
     for (let update of updates) {
       let file = {
         ...update,

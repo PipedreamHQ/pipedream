@@ -725,6 +725,9 @@
     },
     {
       "path": "components/verdict_as_a_service"
+    },
+    {
+      "path": "components/wix"
     }
   ]
 }
