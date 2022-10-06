@@ -6,7 +6,7 @@ import {
 
 export default {
   name: "Filter Based on Condition",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "filter-end-workflow-execution",
   description: "Continue or end workflow execution based on a condition",
   type: "action",
