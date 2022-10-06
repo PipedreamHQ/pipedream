@@ -84,8 +84,7 @@ export default {
     const balanceQuery = await this.getBalance();
     console.log(balanceQuery);
     if (balanceQuery.code) {
-      $.export("$summary", `Error : ${balanceQuery.msg}`);
-      return $.flow.exit(`Error : ${balanceQuery.msg}`);
+      throw new Error(balanceQuery.msg);
     }
     const balance = balanceQuery.data.account.balance;
     const risk = this.bingx.convertToFloat(this.riskOnCapital) * balance / 100;
