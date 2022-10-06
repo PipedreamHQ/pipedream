@@ -73,12 +73,32 @@ export default {
         }));
       },
     },
+    useCustomTaskIds: {
+      type: "boolean",
+      label: "Use custom task ids",
+      description: "Whether it should use custom task id instead of the ClickUp task id. should be used with `Authorized Team`",
+      optional: true,
+    },
+    authorizedTeamId: {
+      type: "string",
+      label: "Authorized Team",
+      description: "The id of the authorized team. should be used with `Custom Task Id`",
+      optional: true,
+      async options() {
+        const teams = await this.getAuthorizedTeams();
+
+        return teams.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
+    },
     tasks: {
       type: "string",
       label: "Task",
       description: "The id of a task",
       async options({
-        listId, page,
+        listId, page, useCustomTaskIds,
       }) {
         const tasks = await this.getTasks({
           listId,
@@ -89,7 +109,9 @@ export default {
 
         return tasks.map((task) => ({
           label: task.name,
-          value: task.id,
+          value: useCustomTaskIds ?
+            task.custom_id :
+            task.id,
         }));
       },
     },
@@ -505,9 +527,11 @@ export default {
       return tasks;
     },
     async getTask({
-      taskId, $,
+      taskId, $, params,
     }) {
-      return this._makeRequest(`task/${taskId}`, {}, $);
+      return this._makeRequest(`task/${taskId}`, {
+        params,
+      }, $);
     },
     async createTask({
       listId, data, $,
@@ -708,6 +732,11 @@ export default {
       const { views } = await this._makeRequest(`team/${workspaceId}/view`, {}, $);
 
       return views;
+    },
+    async getAuthorizedTeams() {
+      const { teams } = await this._makeRequest("team", {}, this);
+
+      return teams;
     },
     async getSpaceViews({
       spaceId, $,
