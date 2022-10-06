@@ -4,7 +4,7 @@ export default {
   key: "threads-post-thread",
   name: "Post a Thread",
   description: "Post a new thread to a specific channel",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     threads,
