@@ -1,3 +1,8 @@
+const WEBHOOK_ID = "webhookId";
+const RESOURCE_ID = "resourceId";
+const EXPIRATION_TIMESTAMP = "expirationTimestamp";
+const WEBHOOK_TOKEN = "token";
+
 const APPLICATION_NAME_OPTIONS = [
   "access_transparency",
   "admin",
@@ -23,5 +28,9 @@ const APPLICATION_NAME_OPTIONS = [
 ];
 
 export default {
+  WEBHOOK_ID,
+  RESOURCE_ID,
+  EXPIRATION_TIMESTAMP,
+  WEBHOOK_TOKEN,
   APPLICATION_NAME_OPTIONS,
 };

@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@googleapis/admin": "^6.0.2",
-    "googleapis": "^108.0.0"
+    "@pipedream/platform": "^1.1.1",
+    "googleapis": "^108.0.0",
+    "uuidv4": "^6.2.13"
   }
 }

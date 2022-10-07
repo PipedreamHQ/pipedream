@@ -1,6 +1,7 @@
 import admin from "@googleapis/admin";
 import { defineApp } from "@pipedream/types";
 import constants from "../common/constants";
+import utils from "../common/utils";
 
 export default defineApp({
   type: "app",
@@ -98,7 +99,26 @@ export default defineApp({
         const { data } = await admin.activities.list(args);
         return data;
       } catch (error) {
-        console.log("Response Error", JSON.stringify(error.response, null, 2));
+        console.log("Error in listAdminActivities", utils.stringifyError(error));
+        throw error;
+      }
+    },
+    async watchAdminActivities(args: admin.admin_reports_v1.Params$Resource$Activities$Watch) {
+      try {
+        const admin: admin.admin_reports_v1.Admin = this.admin();
+        const { data } = await admin.activities.watch(args);
+        return data;
+      } catch (error) {
+        console.log("Error in watchAdminActivities", utils.stringifyError(error));
+        throw error;
+      }
+    },
+    async stopAdminActivities(args: admin.admin_reports_v1.Params$Resource$Channels$Stop) {
+      try {
+        const admin: admin.admin_reports_v1.Admin = this.admin();
+        return await admin.channels.stop(args);
+      } catch (error) {
+        console.log("Error in stopAdminActivities", utils.stringifyError(error));
         throw error;
       }
     },
@@ -109,7 +129,7 @@ export default defineApp({
           await users.users.list(args);
         return data;
       } catch (error) {
-        console.log("Response error", JSON.stringify(error.response, null, 2));
+        console.log("Error in listUsers", utils.stringifyError(error));
         throw error;
       }
     },
