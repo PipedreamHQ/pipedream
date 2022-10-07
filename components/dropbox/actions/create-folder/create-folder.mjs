@@ -1,12 +1,12 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     dropbox,
