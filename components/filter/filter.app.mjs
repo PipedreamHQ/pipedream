@@ -138,6 +138,13 @@ export default {
       return input;
     },
     parse(input, type) {
+      if (type === "array" && Array.isArray(input)) {
+        return input;
+      }
+      if (type === "object" && typeof input === "object" && !Array.isArray(input) && input !== null) {
+        return input;
+      }
+
       try {
         const parsed = JSON.parse(input);
         if (type === "array" && !Array.isArray(parsed)) {
