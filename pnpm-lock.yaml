@@ -1315,6 +1315,14 @@ importers:
       netlify: 6.1.29
       parse-link-header: 1.0.1
 
+  components/neverbounce:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/new_relic:
     specifiers:
       '@pipedream/platform': ^1.1.0

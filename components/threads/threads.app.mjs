@@ -33,13 +33,13 @@ export default {
       type: "string",
       label: "Thread ID",
       description:
-        "To find your thread ID, open the relevant thread in your browser and copy the ID: https://trythreads.com/{thread_id}",
+        "To find your thread ID, open the relevant thread in your browser and copy the ID: `https://trythreads.com/{thread_id}`",
     },
     chatID: {
       type: "string",
       label: "Chat ID",
       description:
-        "To find the chat ID, open the Threads chat in your browser and copy the ID: https://trythreads.com/messages/{your_chat_id}",
+        "To find the chat ID, open the Threads chat in your browser and copy the ID: `https://trythreads.com/messages/{your_chat_id}`",
     },
   },
   methods: {
