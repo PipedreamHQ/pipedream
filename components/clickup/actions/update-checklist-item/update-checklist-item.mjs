@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-checklist-item",
   name: "Update Checklist Item",
   description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Edit Checklist Item** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,25 @@ export default {
       ],
       optional: true,
     },
+    useCustomTaskIds: {
+      propDefinition: [
+        clickup,
+        "useCustomTaskIds",
+      ],
+    },
+    authorizedTeamId: {
+      propDefinition: [
+        clickup,
+        "authorizedTeamId",
+      ],
+    },
     taskId: {
       propDefinition: [
         clickup,
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
       optional: true,
@@ -56,6 +69,8 @@ export default {
         "checklists",
         (c) => ({
           taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
@@ -66,6 +81,8 @@ export default {
         (c) => ({
           taskId: c.taskId,
           checklistId: c.checklistId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
@@ -97,9 +114,12 @@ export default {
       description: "Set another checklist as parent",
       propDefinition: [
         clickup,
-        "checklists",
+        "checklistItems",
         (c) => ({
           taskId: c.taskId,
+          checklistId: c.checklistId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
       optional: true,
