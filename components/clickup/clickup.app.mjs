@@ -107,6 +107,11 @@ export default {
           },
         });
 
+        const tasksHasCustomId = tasks.some((task) => task.custom_id);
+        if (useCustomTaskIds && !tasksHasCustomId) {
+          throw new ConfigurationError("Custom task id is a ClickApp, and it must to be enabled on ClickUp settings.");
+        }
+
         return tasks.map((task) => ({
           label: task.name,
           value: useCustomTaskIds ?
