@@ -573,19 +573,21 @@ export default {
       }, $);
     },
     async updateTask({
-      taskId, data, $,
+      taskId, data, $, params,
     }) {
       return this._makeRequest(`task/${taskId}`, {
         method: "PUT",
         data,
+        params,
       }, $);
     },
     async updateTaskCustomField({
-      taskId, customFieldId, data, $,
+      taskId, customFieldId, data, $, params,
     }) {
       return this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
         method: "POST",
         data,
+        params,
       }, $);
     },
     async deleteTask({
