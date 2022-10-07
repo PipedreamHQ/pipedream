@@ -192,15 +192,18 @@ export default {
       label: "Comment",
       description: "The id of a comment",
       async options({
-        taskId, listId, viewId,
+        taskId, listId, viewId, useCustomTaskIds, authorizedTeamId,
       }) {
         if (!taskId && !listId && !viewId) {
           throw new ConfigurationError("Please enter the List, View, or Task to retrieve Comments from");
         }
         let comments = [];
 
+        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
+
         if (taskId) comments = comments.concat(await this.getTaskComments({
           taskId,
+          params,
         }));
         if (listId) comments = comments.concat(await this.getListComments({
           listId,
@@ -691,9 +694,11 @@ export default {
       }, $);
     },
     async getTaskComments({
-      taskId, $,
+      taskId, $, params,
     }) {
-      const { comments } = await this._makeRequest(`task/${taskId}/comment`, {}, $);
+      const { comments } = await this._makeRequest(`task/${taskId}/comment`, {
+        params,
+      }, $);
 
       return comments;
     },

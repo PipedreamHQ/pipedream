@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-comment",
   name: "Delete Comment",
   description: "Deletes a comment. See the docs [here](https://clickup.com/api) in **Comments  / Deleet Comment** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,25 @@ export default {
       ],
       optional: true,
     },
+    useCustomTaskIds: {
+      propDefinition: [
+        clickup,
+        "useCustomTaskIds",
+      ],
+    },
+    authorizedTeamId: {
+      propDefinition: [
+        clickup,
+        "authorizedTeamId",
+      ],
+    },
     taskId: {
       propDefinition: [
         clickup,
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
       optional: true,
@@ -71,6 +84,8 @@ export default {
           listId: c.listId,
           taskId: c.taskId,
           viewId: c.viewId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
