@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-custom-fields",
   name: "Get Custom Fields",
   description: "Get a list of custom fields. See the docs [here](https://clickup.com/api) in **Custom Fields  / Get Accessible Custom Fields** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-spaces",
   name: "Get Spaces",
   description: "Get a list of spaces in a workplace. See the docs [here](https://clickup.com/api) in **Spaces  / Get Spaces** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
