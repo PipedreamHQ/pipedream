@@ -1,6 +1,7 @@
+import { defineSource } from "@pipedream/types";
 import common from "../common";
 
-export default {
+export default defineSource({
   ...common,
   key: "google_workspace-new-admin-activity-by-user",
   name: "New Admin Activity By User",
@@ -30,5 +31,5 @@ export default {
       };
     },
   },
-};
+});
 

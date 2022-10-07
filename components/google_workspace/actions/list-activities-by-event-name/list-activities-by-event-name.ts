@@ -1,6 +1,7 @@
+import { defineAction } from "@pipedream/types";
 import googleWorkspace from "../../app/google_workspace.app";
 
-export default {
+export default defineAction({
   key: "google_workspace-list-activities-by-event-name",
   name: "List Activities By Event Name",
   description: "Retrieves a report of all activities for a specific event name. [See the docs](https://developers.google.com/admin-sdk/reports/v1/guides/manage-audit-admin#get_all_events) for more information",
@@ -71,4 +72,4 @@ export default {
 
     return activities;
   },
-};
+});
