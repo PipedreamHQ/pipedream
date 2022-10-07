@@ -6,7 +6,7 @@ export default {
   key: "notion-new-database",
   name: "New Database",
   description: "Emit new event when a database is created. Note: Databases must be shared with your Pipedream Integtration to trigger event.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   async run() {
     const databases = [];
