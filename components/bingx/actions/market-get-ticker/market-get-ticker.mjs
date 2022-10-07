@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Market GetTicker",
   version: "0.0.2",
-  key: "market-get-ticker",
+  key: "bingx-market-get-ticker",
   description: "Get Ticker [reference](https://bingx-api.github.io/docs/swap/market-api.html#_10-get-ticker).",
   props: {
     bingx,

@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Trade SetMarginMode",
   version: "0.0.2",
-  key: "trade-set-margin-mode",
+  key: "bingx-trade-set-margin-mode",
   description: "Switch Margin Mode [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_9-switch-margin-mode).",
   props: {
     bingx,

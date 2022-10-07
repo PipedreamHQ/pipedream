@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Trade QueryOrder",
   version: "0.0.2",
-  key: "trade-query-order",
+  key: "bingx-trade-query-order",
   description: "Query Order Details [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_8-query-order-details).",
   props: {
     bingx,

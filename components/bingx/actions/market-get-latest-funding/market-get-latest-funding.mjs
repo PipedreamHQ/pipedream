@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Market getLatestFunding",
   version: "0.0.2",
-  key: "market-get-latest-funding",
+  key: "bingx-market-get-latest-funding",
   description: "Current Funding Rate [reference](https://bingx-api.github.io/docs/swap/market-api.html#_5-current-funding-rate).",
   props: {
     bingx,

@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Market GetOpenPositions",
   version: "0.0.2",
-  key: "market-get-open-positions",
+  key: "bingx-market-get-open-positions",
   description: "Get Swap Open Positions [reference](https://bingx-api.github.io/docs/swap/market-api.html#_9-get-swap-open-positions).",
   props: {
     bingx,

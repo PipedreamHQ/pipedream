@@ -3,7 +3,7 @@ import bingx from "../../bingx.app.mjs";
 export default {
   name: "BingX Market GetLatestPrice",
   version: "0.0.2",
-  key: "market-get-latest-price",
+  key: "bingx-market-get-latest-price",
   description: "Get Latest Price of a Trading Pair [reference](https://bingx-api.github.io/docs/swap/market-api.html#_2-get-latest-price-of-a-trading-pair).",
   props: {
     bingx,
