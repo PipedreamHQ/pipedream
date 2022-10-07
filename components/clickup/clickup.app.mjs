@@ -589,10 +589,11 @@ export default {
       }, $);
     },
     async deleteTask({
-      taskId, $,
+      taskId, $, params,
     }) {
       return this._makeRequest(`task/${taskId}`, {
         method: "DELETE",
+        params,
       }, $);
     },
     async removeTaskCustomField({
