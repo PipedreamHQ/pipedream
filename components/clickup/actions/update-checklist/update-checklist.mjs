@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-checklist",
   name: "Update Checklist",
   description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists  / Edit Checklist** section.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,25 @@ export default {
       ],
       optional: true,
     },
+    useCustomTaskIds: {
+      propDefinition: [
+        clickup,
+        "useCustomTaskIds",
+      ],
+    },
+    authorizedTeamId: {
+      propDefinition: [
+        clickup,
+        "authorizedTeamId",
+      ],
+    },
     taskId: {
       propDefinition: [
         clickup,
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
     },
@@ -55,6 +68,8 @@ export default {
         "checklists",
         (c) => ({
           taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },
@@ -73,7 +88,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      taskId,
       checklistId,
       name,
       position,
@@ -81,7 +95,6 @@ export default {
 
     const response = await this.clickup.updateChecklist({
       $,
-      taskId,
       checklistId,
       data: {
         name,
