@@ -67,7 +67,7 @@ export default {
       if (shouldExit) {
         $.flow.exit(this.messageOnEnd);
       } else {
-        console.log(this.messageOnContinue);
+        return this.messageOnContinue;
       }
     },
   },
