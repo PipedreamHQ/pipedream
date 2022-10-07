@@ -1,6 +1,5 @@
 import mailgun from "../../mailgun.app.mjs";
 import common from "../common.mjs";
-import mg from "mailgun-js";
 import downloader from "@pipedream/helper_functions/actions/download-file-to-tmp/download-file-to-tmp.mjs";
 
 export default {
@@ -126,12 +125,10 @@ export default {
         .map((filedata) => this.createAttachment(filedata[3], filedata[0]));
     },
     createAttachment(data, filename) {
-      return new (mg({
-        apiKey: "api",
-      }).Attachment)({
+      return {
         data,
         filename,
-      });
+      };
     },
   },
   async run({ $ }) {
@@ -163,6 +160,7 @@ export default {
       domain: this.domain,
       msg,
     });
+    $.export("filedata", null); // remove set filedata from downloader
     $.export("$summary", "Successfully sent email.");
     return resp;
   },
