@@ -1,63 +1,13 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/checklist-props.mjs";
 
 export default {
   key: "clickup-create-checklist-item",
   name: "Create Checklist Item",
-  description: "Creates a new item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists  / Create Checklist Item** section.",
-  version: "0.0.2",
+  description: "Creates a new item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists / Create Checklist Item** section.",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-    },
-    checklistId: {
-      propDefinition: [
-        clickup,
-        "checklists",
-        (c) => ({
-          taskId: c.taskId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",
@@ -67,7 +17,7 @@ export default {
       label: "Assignee",
       type: "string",
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
