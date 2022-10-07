@@ -24,11 +24,22 @@ export default {
       optional: false,
       type: "string[]",
     },
+    country: {
+      propDefinition: [
+        stripe,
+        "country",
+      ],
+      optional: true,
+    },
     currency: {
       propDefinition: [
         stripe,
         "currency",
+        ({ country }) => ({
+          country,
+        }),
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
@@ -50,12 +61,21 @@ export default {
         "invoice_days_until_due",
       ],
     },
+    paymentType: {
+      type: "string",
+      propDefinition: [
+        stripe,
+        "payment_method_types",
+      ],
+      optional: true,
+    },
     default_payment_method: {
       propDefinition: [
         stripe,
         "payment_method",
-        ({ customer }) => ({
-          customer,
+        (c) => ({
+          customer: c.customer,
+          type: c.paymentType,
         }),
       ],
       label: "Default Payment Method",
