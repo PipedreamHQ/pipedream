@@ -597,10 +597,11 @@ export default {
       }, $);
     },
     async removeTaskCustomField({
-      taskId, customFieldId, $,
+      taskId, customFieldId, $, params,
     }) {
       return this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
         method: "DELETE",
+        params,
       }, $);
     },
     async getTags({
