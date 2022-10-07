@@ -22,7 +22,7 @@ export default defineApp({
         const {
           users,
           nextPageToken,
-        }: admin.admin_directory_v1.Schema$Users =
+        } =
           await this.listUsers({
             pageToken,
           });
@@ -93,9 +93,9 @@ export default defineApp({
         auth,
       });
     },
-    async listAdminActivities(args: admin.admin_reports_v1.Params$Resource$Activities$List = {}) {
+    async listAdminActivities(args = {}) {
       try {
-        const admin: admin.admin_reports_v1.Admin = this.admin();
+        const admin = this.admin();
         const { data } = await admin.activities.list(args);
         return data;
       } catch (error) {
@@ -103,9 +103,9 @@ export default defineApp({
         throw error;
       }
     },
-    async watchAdminActivities(args: admin.admin_reports_v1.Params$Resource$Activities$Watch) {
+    async watchAdminActivities(args) {
       try {
-        const admin: admin.admin_reports_v1.Admin = this.admin();
+        const admin = this.admin();
         const { data } = await admin.activities.watch(args);
         return data;
       } catch (error) {
@@ -113,18 +113,18 @@ export default defineApp({
         throw error;
       }
     },
-    async stopAdminActivities(args: admin.admin_reports_v1.Params$Resource$Channels$Stop) {
+    async stopAdminActivities(args) {
       try {
-        const admin: admin.admin_reports_v1.Admin = this.admin();
+        const admin = this.admin();
         return await admin.channels.stop(args);
       } catch (error) {
         console.log("Error in stopAdminActivities", utils.stringifyError(error));
         throw error;
       }
     },
-    async listUsers(args: admin.admin_directory_v1.Params$Resource$Users$List = {}) {
+    async listUsers(args = {}) {
       try {
-        const users: admin.admin_directory_v1.Admin = this.users();
+        const users = this.users();
         const { data } =
           await users.users.list(args);
         return data;
