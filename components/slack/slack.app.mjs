@@ -309,7 +309,7 @@ export default {
     },
     content: {
       label: "File Path",
-      description: "Full path to the image in `/tmp/` directory or a direct link. E.g. `/tmp/cut_cat.jpg` or `https://images.com/cut_cat.jpg`",
+      description: "Full path to the image in `/tmp/` directory or a direct link. E.g. `/tmp/cute_cat.jpg`",
       type: "string",
     },
     link_names: {
