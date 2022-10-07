@@ -60,14 +60,14 @@ export default {
   },
   methods: {
     consolidateResult($, result) {
-      if (result) {
-        this.continueOrEnd === constants.CONTINUE
-          ? $.export("$summary", this.messageOnContinue)
-          : $.flow.exit(this.messageOnEnd);
+      const shouldExit =
+        (result && this.continueOrEnd === constants.END) ||
+        (!result && this.continueOrEnd === constants.CONTINUE);
+
+      if (shouldExit) {
+        $.flow.exit(this.messageOnEnd);
       } else {
-        this.continueOrEnd === constants.CONTINUE
-          ? $.flow.exit(this.messageOnEnd)
-          : $.export("$summary", this.messageOnContinue);
+        console.log(this.messageOnContinue);
       }
     },
   },
