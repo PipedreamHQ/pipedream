@@ -7,10 +7,9 @@ export default {
   app: "threads",
   propDefinitions: {
     channelID: {
-      type: "integer",
+      type: "string",
       label: "Channel ID",
-      description:
-        "This is ID of the channel you want to post to. An easy way to find a channelID for a channel is to navigate to that channel on the Threads website. The URL will be trythreads.com/<your_channel_id>",
+      description: "Select the channel for your post",
       async options({ $ }) {
         const { result = [] } = await this.listChannels({
           $,
@@ -28,19 +27,19 @@ export default {
       type: "string",
       label: "Thread Body",
       description:
-        "The body of your thread. Supports Markdown",
+        "Compose your thread here, and include markdown if you'd like. See [here](https://github.com/ThreadsHQ/api-documentation#examples) for examples.",
     },
     threadID: {
       type: "string",
       label: "Thread ID",
       description:
-        "Navigate to your thread on the Threads website. The URL will be threads.com/${thread_id}",
+        "To find your thread ID, open the relevant thread in your browser and copy the ID: `https://trythreads.com/{thread_id}`",
     },
     chatID: {
       type: "string",
       label: "Chat ID",
       description:
-        "This is ID of the chat you want to post to. An easy way to find a chatID for a chat is to navigate to that chat on the Threads website. The URL will be trythreads.com/messages/<your_chat_id>",
+        "To find the chat ID, open the Threads chat in your browser and copy the ID: `https://trythreads.com/messages/{your_chat_id}`",
     },
   },
   methods: {

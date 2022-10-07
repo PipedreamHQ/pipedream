@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/neverbounce",
+  "version": "0.0.1",
+  "description": "Pipedream NeverBounce Components",
+  "main": "dist/app/neverbounce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neverbounce"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/neverbounce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

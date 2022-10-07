@@ -1,11 +1,11 @@
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "List File Revisions",
   description: "Retrieves a list of file revisions needed to recover previous content. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListRevisions__anchor)",
   key: "dropbox-list-file-revisions",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     dropbox,
