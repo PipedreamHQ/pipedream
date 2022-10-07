@@ -80,16 +80,10 @@ export default {
       checklistId,
     } = this;
 
-    const params = this.clickup.getParamsForCustomTaskIdCall(
-      this.useCustomTaskIds,
-      this.authorizedTeamId,
-    );
-
     const response = await this.clickup.deleteChecklist({
       $,
       taskId,
       checklistId,
-      params,
     });
 
     $.export("$summary", "Successfully deleted checklist");

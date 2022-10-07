@@ -93,26 +93,18 @@ export default {
   },
   async run({ $ }) {
     const {
-      taskId,
       checklistId,
       name,
       assignee,
     } = this;
 
-    const params = this.clickup.getParamsForCustomTaskIdCall(
-      this.useCustomTaskIds,
-      this.authorizedTeamId,
-    );
-
     const response = await this.clickup.createChecklistItem({
       $,
-      taskId,
       checklistId,
       data: {
         name,
         assignee,
       },
-      params,
     });
 
     $.export("$summary", "Successfully created checklist item");

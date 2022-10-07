@@ -169,13 +169,16 @@ export default {
       label: "Checklist Item",
       description: "The id of a checklist item",
       async options({
-        taskId, checklistId,
+        taskId, checklistId, useCustomTaskIds, authorizedTeamId,
       }) {
         if (!taskId || !checklistId) return [];
+
+        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
 
         const items = await this.getChecklistItems({
           taskId,
           checklistId,
+          params,
         });
 
         return items.map((item) => ({
@@ -616,11 +619,12 @@ export default {
       return checklists;
     },
     async getChecklist({
-      taskId, checklistId, $,
+      taskId, checklistId, $, params,
     }) {
       const checklists = await this.getChecklists({
         $,
         taskId,
+        params,
       });
 
       return _.find(checklists, {
@@ -628,11 +632,12 @@ export default {
       });
     },
     async createChecklist({
-      taskId, data, $,
+      taskId, data, $, params,
     }) {
       return this._makeRequest(`task/${taskId}/checklist`, {
         method: "POST",
         data,
+        params,
       }, $);
     },
     async updateChecklist({
@@ -644,31 +649,30 @@ export default {
       }, $);
     },
     async deleteChecklist({
-      checklistId, $, params,
+      checklistId, $,
     }) {
       return this._makeRequest(`checklist/${checklistId}`, {
         method: "DELETE",
-        params,
       }, $);
     },
     async getChecklistItems({
-      taskId, checklistId, $,
+      taskId, checklistId, $, params,
     }) {
       const { items } = await this.getChecklist({
         taskId,
         checklistId,
         $,
+        params,
       });
 
       return items;
     },
     async createChecklistItem({
-      checklistId, data, $, params,
+      checklistId, data, $,
     }) {
       return this._makeRequest(`checklist/${checklistId}/checklist_item`, {
         method: "POST",
         data,
-        params,
       }, $);
     },
     async updateChecklistItem({
