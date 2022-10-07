@@ -931,13 +931,11 @@ importers:
       '@googleapis/admin': ^6.0.2
       '@pipedream/platform': ^1.1.1
       '@pipedream/types': ^0.1.4
-      gaxios: ^5.0.2
       googleapis: ^108.0.0
       uuidv4: ^6.2.13
     dependencies:
       '@googleapis/admin': 6.0.2
       '@pipedream/platform': 1.1.1
-      gaxios: 5.0.2
       googleapis: 108.0.0
       uuidv4: 6.2.13
     devDependencies:
