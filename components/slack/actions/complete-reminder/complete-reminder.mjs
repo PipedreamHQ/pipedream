@@ -4,7 +4,7 @@ export default {
   key: "slack-complete-reminder",
   name: "Complete Reminder",
   description: "Complete a reminder. [See docs here](https://api.slack.com/methods/reminders.complete)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     slack,

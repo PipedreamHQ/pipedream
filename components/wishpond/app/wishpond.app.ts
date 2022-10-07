@@ -1,6 +1,8 @@
-export default {
+import { defineApp } from "@pipedream/types";
+
+export default defineApp({
   type: "app",
-  app: "neverbounce",
+  app: "wishpond",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
@@ -8,4 +10,4 @@ export default {
       console.log(Object.keys(this.$auth));
     },
   },
-};
+});
