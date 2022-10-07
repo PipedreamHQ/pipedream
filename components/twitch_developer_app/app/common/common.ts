@@ -1,5 +1,6 @@
 import twitch from "../twitch_developer_app.app";
 import { v4 as uuidv4 } from "uuid";
+import { Condition } from "./types";
 
 // Notification request headers
 const TWITCH_MESSAGE_ID = "Twitch-Eventsub-Message-Id".toLowerCase();
@@ -35,7 +36,7 @@ export default {
     },
   },
   methods: {
-    async manageWebHooks(type: string, conditions: any) {
+    async manageWebHooks(type: string, conditions: Condition[]) {
       const secretToken = uuidv4();
       this.db.set("secretToken", secretToken);
       for (const condition of conditions)

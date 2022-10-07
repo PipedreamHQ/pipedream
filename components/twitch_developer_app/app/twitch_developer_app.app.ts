@@ -59,7 +59,7 @@ export default defineApp({
     },
     async getWebHooks(url:string) {
       const endpoint = "eventsub/subscriptions";
-      let allWebHooks = (await this._makeRequest("GET", endpoint)).data;
+      const allWebHooks = (await this._makeRequest("GET", endpoint)).data;
       return allWebHooks.filter((item: { transport: { callback: string; }; }) => item.transport.callback === url);
     },
     verifyWebhookRequest(message:string, secretToken:string, verifySignature:string) {
@@ -70,7 +70,7 @@ export default defineApp({
       return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(verifySignature));
     },
     async deleteEventSub(subID:string) {
-      let endpoint = "eventsub/subscriptions";
+      const endpoint = "eventsub/subscriptions";
       const data = {
         "id": subID,
       };

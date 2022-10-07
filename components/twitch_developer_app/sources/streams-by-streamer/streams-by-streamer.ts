@@ -1,10 +1,11 @@
 import common from "../../app/common/common";
 import { defineSource } from "@pipedream/types";
+import { Condition } from "../../app/common/types";
 
 export default defineSource({
   ...common,
   name: "New Streams By Streamer (Instant)",
-  key: "twitch_developer_app-streams-by-streamer-instant",
+  key: "twitch_developer_app-streams-by-streamer",
   description: "Emit new event when a live stream starts from the streamers you specify.",
   version: "0.0.1",
   type: "source",
