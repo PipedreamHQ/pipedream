@@ -11,6 +11,14 @@ export default {
     async _makeRequest({
       $ = this, path, ...opts
     }) {
+      if (opts.paginate) {
+        delete opts.paginate;
+        return this.paginate({
+          ...opts,
+          path,
+        });
+      }
+
       return axios($, {
         url: this._baseUrl() + path,
         headers: {
@@ -19,14 +27,30 @@ export default {
         ...opts,
       });
     },
-    async listAccounts({
-      $, ...opts
-    }) {
+    async listAccounts(opts = {}) {
+      const path = "/accounts";
       return this._makeRequest({
-        $,
-        path: "/accounts",
         ...opts,
+        path,
       });
+    },
+    async paginate(opts) {
+      const items = [];
+      let page = 1;
+
+      while (true) {
+        const response = await this._makeRequest({
+          ...opts,
+          params: {
+            ...opts.params,
+            page: page++,
+          },
+        });
+        items.push(...response.Items);
+        if (!response.Paging?.Next) {
+          return items;
+        }
+      }
     },
   },
 };

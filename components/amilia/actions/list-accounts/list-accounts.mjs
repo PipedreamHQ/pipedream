@@ -21,6 +21,7 @@ export default {
       params: {
         showArchived: this.showArchived,
       },
+      paginate: true,
     });
     $.export("$summary", "Succesfully retrieved all accounts");
     return response;
