@@ -17,6 +17,6 @@
       "common"
     ],
     "exclude": [
-        "dist",
+      "dist",
     ]
   }
