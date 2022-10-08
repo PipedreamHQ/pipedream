@@ -24,6 +24,12 @@ export default defineAction({
         }),
       ],
     },
+    content: {
+      propDefinition: [
+        waitwhile,
+        "content"
+      ],
+    }
 
   },
   type: "action",

@@ -3,28 +3,28 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List Customers",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "waitwhile-list-customers",
   description: "List of customers",
   props: {
     waitwhile,
     limit: {
-      label: "Limit",
-      type: "integer",
-      optional: true,
-      description: "Max number of results",
+      propDefinition: [
+        waitwhile,
+        "limit",
+      ],
     },
     startAfter: {
-      label: "Start After",
-      type: "string",
-      optional: true,
-      description: "Identifier(s) or value(s) to paginate results (comma-separated)",
+      propDefinition: [
+        waitwhile,
+        "startAfter",
+      ],
     },
     desc: {
-      label: "Desc",
-      type: "boolean",
-      optional: true,
-      description: "Show result in descending order",
+      propDefinition: [
+        waitwhile,
+        "desc",
+      ],
     },
     locationId: {
       propDefinition: [

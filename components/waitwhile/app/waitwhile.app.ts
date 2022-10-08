@@ -1,6 +1,5 @@
 import { defineApp } from "@pipedream/types";
 import api from "api";
-import listCustomers from "../actions/list-customers/list-customers";
 
 export default defineApp({
   type: "app",
@@ -12,17 +11,23 @@ export default defineApp({
       optional: true,
       description: "Adds specified tag to existing tags",
     },
+    content: {
+      label: "Content",
+      type: "string",
+      optional: true,
+      description: "Optional notes"
+    },
     customerId: {
       label: "Customer ID",
       type: "string",
       description: "Identifier of customer, automatically derived from visitor contact information if not provided.",
       async options({prevContext}){
         const{prevEndAt} = prevContext
-        const {endAt, customers} = await this.listCustomers({startAfter: prevEndAt});
+        const {endAt, results} = await this.listCustomers({startAfter: prevEndAt});
         return {
-          options: customers.map((customer) => ({
-            label: customer.name,
-            value: customer.id,
+          options: results.map((result) => ({
+            label: result.name,
+            value: result.id,
           })),
           context : {
             prevEndAt: endAt
@@ -35,7 +40,7 @@ export default defineApp({
       type: "string",
       description: "Identifier of customer-note",
       async options({customerId}){
-        const {notes} = await this.listCustomerNoteEntries({customerId: customerId});
+        const notes = await this.listCustomerNoteEntries({customerId: customerId});
         return {
           options: notes.map((note) => ({
             label: note.createdByName,
@@ -84,11 +89,11 @@ export default defineApp({
       description: "Unique identifier",
       async options({prevContext}){
         const{prevEndAt} = prevContext
-        const {endAt, invites} = await this.listInvites({startAfter: prevEndAt});
+        const {endAt, results} = await this.listInvites({startAfter: prevEndAt});
         return {
-          options: invites.map((invite) => ({
-            label: invite.name,
-            value: invite.id,
+          options: results.map((result) => ({
+            label: result.name,
+            value: result.id,
           })),
           context : {
             prevEndAt: endAt
@@ -104,19 +109,21 @@ export default defineApp({
     limit: {
       label: "Limit",
       type: "string",
+      optional: true,
       description: "Max number of results",
     },
     locationId: {
       label: "Location ID",
       type: "string",
+      optional: true,
       description: "Identifier of location",
       async options({prevContext}){
         const{prevEndAt} = prevContext
-        const {endAt, locationIds} = await this.listLocations({startAfter: prevEndAt});
+        const {endAt, results} = await this.listLocations({startAfter: prevEndAt});
         return {
-          options: locationIds.map((locationId) => ({
-            label: locationId.name,
-            value: locationId.id,
+          options: results.map((result) => ({
+            label: result.name,
+            value: result.id,
           })),
           context : {
             prevEndAt: endAt
@@ -132,19 +139,21 @@ export default defineApp({
     phone: {
       label: "Phone",
       type: "string",
+      optional: true,
       description: "Phone number in E.164 format",
     },
     resourceId: {
       label: "Resource ID",
       type: "string",
       description: "Identifier of resource",
+      optional: true,
       async options({prevContext}){
         const{prevEndAt} = prevContext
-        const {endAt, resources} = await this.listResources({startAfter: prevEndAt});
+        const {endAt, results} = await this.listResources({startAfter: prevEndAt});
         return {
-          options: resources.map((resource) => ({
-            label: resource.name,
-            value: resource.id,
+          options: results.map((result) => ({
+            label: result.name,
+            value: result.id,
           })),
           context : {
             prevEndAt: endAt
@@ -178,6 +187,12 @@ export default defineApp({
       optional: true,
       description: "Date in ISO-8601 format",
     },
+    toTime: {
+      label: "To Time",
+      type: "string",
+      optional: true,
+      description: "Date in ISO-8601 format"
+    },
     visitId: {
       label: "Visit ID",
       type: "string",
@@ -185,11 +200,11 @@ export default defineApp({
       description: "Identifier of visit",
       async options({prevContext}){
         const{prevEndAt} = prevContext
-        const {endAt, visits} = await this.listVisits({startAfter: prevEndAt});
+        const {endAt, results} = await this.listVisits({startAfter: prevEndAt});
         return {
-          options: visits.map((visit) => ({
-            label: visit.name,
-            value: visit.id,
+          options: results.map((result) => ({
+            label: result.name,
+            value: result.id,
           })),
           context : {
             prevEndAt: endAt
@@ -233,7 +248,7 @@ export default defineApp({
       return await this._client().deleteCustomersCustomerid(customerId);
     },
     async listCustomerNoteEntries(customerId: string): Promise<any> {
-      return await this._client().getCustomersCustomeridNote(customerId);
+      return await this._client().getCustomersCustomeridNotes(customerId);
     },
     async addCustomerNoteEntry(options: Record<string, unknown>, params: Record<string, unknown> ): Promise<any> {
       return await this._client().postCustomersCustomeridNotes(options, params);

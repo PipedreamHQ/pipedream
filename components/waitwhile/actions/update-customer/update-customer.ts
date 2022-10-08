@@ -5,13 +5,12 @@ export default defineAction({
   name: "Update Customer",
   version: "0.0.1",
   key: "waitwhile-update-customer",
-  description: "",
+  description: "Update a customer",
   props: {
     waitwhile,
     customerId: {
       propDefinition: [
         "customerId",
-        
       ],
     },
     name: {
@@ -38,6 +37,15 @@ export default defineAction({
         "phone",
       ],
     },
+    notes: {
+      propDefinition: [
+        waitwhile,
+        "customerNoteId",
+        (c) => ({
+          customerId: c.customerId,
+        }),
+      ]
+    },
     email: {
       propDefinition: [
         waitwhile,
@@ -57,9 +65,6 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
       ],
     },
     addTag: {
@@ -85,9 +90,11 @@ export default defineAction({
       phone: this.phone,
       email: this.email,
       tags: this.tags,
+      notes: this.notes,
       locationIds: this.locationIds,
       addTag: this.addTag,
       removeTag: this.removeTag,
+      customerId: this.customerId
 
     };
 

@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Delete Customer Note Entry",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "waitwhile-delete-customer-note-entry",
   description: "Delete a customer note entry",
   props: {

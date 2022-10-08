@@ -3,50 +3,55 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create User Invite",
-  version: "0.0.1",
+  version: "0.0.6",
   key: "waitwhile-create-user-invite",
   description: "Create a user invite",
   props: {
     waitwhile,
     name: {
-      label: "Name",
-      type: "string",
-      description: "Name",
-    },
-    email: {
-      label: "Email",
-      type: "string",
-      description: "Email address",
-    },
-    phone: {
-      label: "Phone",
-      type: "string",
-      optional: true,
-      description: "Phone number in E.164 format",
-    },
-    defaultLocationId: {
+      propDefinition: [
+          waitwhile,
+          "name",
+      ],
+  },
+  email: {
+      propDefinition: [
+          waitwhile,
+          "email",
+      ],
+  },
+  phone: {
+      propDefinition: [
+          waitwhile,
+          "phone",
+      ],
+  },
+  defaultLocationId: {
       label: "Default Location ID",
       type: "string",
+      optional: true,
       description: "Identifier of location",
-    },
-    locationIds: {
+  },
+  locationIds: {
       type: "string[]",
+      optional: true,
       propDefinition: [
-        waitwhile,
-        "locationId",
+          waitwhile,
+          "locationId",
       ],
-    },
-    roles: {
+  },
+  roles: {
       label: "Roles",
       type: "string[]",
+      optional: true,
       description: "User roles",
-    },
-    resourceId: {
+  },
+  resourceId: {
       propDefinition: [
-        waitwhile,
-        "resourceId",
+          waitwhile,
+          "resourceId",
       ],
-    },
+  },
   },
   type: "action",
   methods: {},
@@ -61,7 +66,7 @@ export default defineAction({
       resourceId: this.resourceId,
     };
 
-    const data = await this.waitwhile.createUserInvites(params);
+    const data = await this.waitwhile.createUserInvite(params);
     $.export("summary", "Successfully created a user invite");
     return data;
   },

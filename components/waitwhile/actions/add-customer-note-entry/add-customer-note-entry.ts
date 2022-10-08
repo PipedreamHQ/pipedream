@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Add Customer Note Entry",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "waitwhile-add-customer-note-entry",
   description: "Add a customer note entry",
   props: {
@@ -27,10 +27,10 @@ export default defineAction({
       ],
     },
     content: {
-      label: "Content",
-      type: "string",
-      optional: true,
-      description: "Optional notes",
+      propDefinition: [
+        waitwhile,
+        "content"
+      ],
     },
 
   },
