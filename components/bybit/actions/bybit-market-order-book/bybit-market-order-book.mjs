@@ -1,16 +1,16 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Wallet Get Balance",
+  name: "ByBit Market Order Book",
   version: "0.0.1",
-  key: "bybit-wallet-get-balance",
-  description: "Get Wallet Balance.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-balance)",
+  key: "bybit-market-order-book",
+  description: "Get Order Book.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-orderbook)",
   props: {
     bybit,
-    coin: {
+    symbol: {
       propDefinition: [
         bybit,
-        "coin",
+        "symbol",
       ],
     },
   },
@@ -18,12 +18,12 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = "/v2/private/wallet/balance";
+    const API_PATH = "/v2/public/orderBook/L2";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.code) {
       throw new Error(returnValue.msg);
     } else {
-      $.export("$summary", "Get Balance Info Successful");
+      $.export("$summary", "Get Order Book Successful");
     }
     return returnValue;
   },

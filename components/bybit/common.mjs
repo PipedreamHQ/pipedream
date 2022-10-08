@@ -20,19 +20,16 @@ export const TP_SL_MODE = [
   "Partial",
 ];
 
-export const CURRENCY = [
-  "BTC",
-  "ETH",
-  "EOS",
-  "XRP",
-  "DOT",
-  "USDT",
-];
-
 export const CONTRACT_TYPE = [
   "InversePerpetual",
   "LinearPerpetual",
   "InverseFutures",
+];
+
+export const CATEGORY_TYPE = [
+  "linear",
+  "inverse",
+  "option",
 ];
 
 export const CONTRACT_STATUS = [

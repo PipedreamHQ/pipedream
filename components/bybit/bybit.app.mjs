@@ -1,11 +1,18 @@
 import { axios } from "@pipedream/platform";
 import CryptoJS from "crypto-js";
-import { CURRENCY } from "./common.mjs";
-
+import { CATEGORY_TYPE } from "./common.mjs";
 export default {
   type: "app",
   app: "bybit",
   propDefinitions: {
+    category: {
+      label: "Category",
+      description: "Derivatives products category",
+      type: "string",
+      optional: false,
+      default: "linear",
+      options: CATEGORY_TYPE,
+    },
     symbol: {
       label: "Symbol",
       description: "Symbol/Ticker",
@@ -13,18 +20,22 @@ export default {
       optional: false,
       default: "",
       async options() {
-        const contractsData = await this.getAllSymbols();
-        return contractsData.data.result.map((contract) => contract.name);
+        const contractsData = await this.getAllSymbols("linear");
+        return contractsData.result.list.map((contract) => contract.symbol);
       },
     },
     coin: {
       label: "Coin",
-      description: "Coin",
+      description: "Quote coin. Like 'USDT' in BTC-USDT.",
       type: "string",
       optional: true,
       default: "",
-      options: CURRENCY,
+      async options() {
+        const contractsData = await this.getAllSymbols("linear");
+        return contractsData.result.list.map((contract) => contract.quoteCoin);
+      },
     },
+
   },
   methods: {
     _apiUrl(sandbox = false) {
@@ -76,10 +87,13 @@ export default {
         params: parameters,
       });
     },
-    async getAllSymbols() {
+    async getAllSymbols(category) {
       const API_METHOD = "GET";
-      const API_PATH = "/v2/public/symbols";
-      return await this.makeRequest(API_METHOD, API_PATH, {});
+      const API_PATH = "/derivatives/v3/public/instruments-info";
+      const parameters = {
+        "category": category,
+      };
+      return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     getAllValidParameters(parameters) {
       return Object.fromEntries(Object.entries(parameters).filter(([
