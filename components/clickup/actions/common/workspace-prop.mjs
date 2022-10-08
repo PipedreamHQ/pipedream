@@ -8,7 +8,6 @@ export default {
         clickup,
         "workspaces",
       ],
-      optional: true,
     },
   },
 };

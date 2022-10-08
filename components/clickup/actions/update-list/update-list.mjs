@@ -1,45 +1,15 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   key: "clickup-update-list",
   name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
+  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists / Update List** section.",
   version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",

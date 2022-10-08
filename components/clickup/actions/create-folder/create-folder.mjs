@@ -1,23 +1,13 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/space-props.mjs";
 
 export default {
   key: "clickup-create-folder",
   name: "Create Folder",
-  description: "Creates a new folder. See the docs [here](https://clickup.com/api) in **Folders  / Create Folder** section.",
+  description: "Creates a new folder. See the docs [here](https://clickup.com/api) in **Folders / Create Folder** section.",
   version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-    },
     name: {
       label: "Name",
       type: "string",

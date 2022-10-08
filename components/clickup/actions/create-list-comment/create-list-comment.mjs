@@ -1,44 +1,14 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   key: "clickup-create-list-comment",
   name: "Create List Comment",
-  description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments  / Create List Comment** section.",
+  description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments / Create List Comment** section.",
   version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-    },
     commentText: {
       label: "Comment Text",
       description: "The text of the comment",

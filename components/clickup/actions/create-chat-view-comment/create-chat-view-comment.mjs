@@ -1,14 +1,19 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
 
 export default {
   key: "clickup-create-chat-view-comment",
   name: "Create Chat View Comment",
-  description: "Creates a chat view comment. See the docs [here](https://clickup.com/api) in **Comments  / Create Chat View Comment** section.",
+  description: "Creates a chat view comment. See the docs [here](https://clickup.com/api) in **Comments / Create Chat View Comment** section.",
   version: "0.0.3",
   type: "action",
   props: {
-    ...common.props,
+    clickup,
+    workspaceId: {
+      propDefinition: [
+        clickup,
+        "workspaces",
+      ],
+    },
     spaceId: {
       propDefinition: [
         clickup,

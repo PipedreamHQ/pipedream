@@ -1,44 +1,14 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   key: "clickup-get-tasks",
   name: "Get Tasks",
-  description: "Get a list of tasks. See the docs [here](https://clickup.com/api) in **Tasks  / Get Tasks** section.",
+  description: "Get a list of tasks. See the docs [here](https://clickup.com/api) in **Tasks / Get Tasks** section.",
   version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-    },
     archived: {
       type: "boolean",
       label: "Archived",
