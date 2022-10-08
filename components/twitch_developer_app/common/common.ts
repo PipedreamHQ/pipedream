@@ -1,4 +1,4 @@
-import twitch from "../twitch_developer_app.app";
+import twitch from "../app/twitch_developer_app.app";
 import { v4 as uuidv4 } from "uuid";
 import { Condition } from "./types";
 

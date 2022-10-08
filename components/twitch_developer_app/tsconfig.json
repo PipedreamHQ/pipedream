@@ -13,7 +13,8 @@
   "include": [
     "app",
     "actions",
-    "sources"
+    "sources",
+    "common"  
   ],
   "exclude": [
       "dist",

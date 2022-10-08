@@ -1,6 +1,5 @@
-import common from "../../app/common/common";
+import common from "../../common/common";
 import { defineSource } from "@pipedream/types";
-import { Condition } from "../../app/common/types";
 
 export default defineSource({
   ...common,
