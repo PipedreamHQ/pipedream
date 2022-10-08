@@ -63,7 +63,7 @@ export default {
     limit: {
       label: "Limit",
       type: "integer",
-      description: "Limit for data size, max size is 200. Default as showing 200 pieces of data\n",
+      description: "Limit for data size, max size is 200. Default as showing 200 pieces of data",
       optional: true,
       max: 200,
     },
