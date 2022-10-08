@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import CryptoJS from "crypto-js";
 import {
-  CATEGORY_TYPE, KLINE_DESC_MAPPING,
+  CATEGORY_TYPE, KLINE_DESC_MAPPING, TRIGGER_PRICE_TYPES,
 } from "./common.mjs";
 export default {
   type: "app",
@@ -67,6 +67,14 @@ export default {
       optional: true,
       max: 200,
     },
+    triggerPriceType: {
+      label: "Price Type",
+      description: "Price Type for the derivatives",
+      type: "string",
+      optional: true,
+      default: "Last Price",
+      options: Object.keys(TRIGGER_PRICE_TYPES),
+    },
   },
   methods: {
     _apiUrl(sandbox = false) {
@@ -99,10 +107,10 @@ export default {
         ...args,
       });
     },
-    async makeRequest(method, path, pathParameters) {
+    async makeRequest(method, path, pathParameters, excludes = []) {
       const basicParameters = this._getBasicParameters();
       const parameters = {
-        ...this.getAllValidParameters(pathParameters),
+        ...this.getAllValidParameters(pathParameters, excludes),
         ...basicParameters,
       };
       Object.keys(parameters).forEach((k) => parameters[k] || delete parameters[k]);
@@ -126,10 +134,11 @@ export default {
       };
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
-    getAllValidParameters(parameters) {
+    getAllValidParameters(parameters, excludes = []) {
+      excludes.push("bybit");
       return Object.fromEntries(Object.entries(parameters).filter(([
         key,
-      ]) => !key.includes("bybit") && parameters[key]));
+      ]) => !excludes.includes(key) && parameters[key]));
     },
   },
 };

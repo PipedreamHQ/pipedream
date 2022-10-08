@@ -62,11 +62,12 @@ export const TIME_IN_FORCE = [
   "PostOnly",
 ];
 
-export const TRIGGER_PRICE_TYPE = [
-  "LastPrice",
-  "IndexPrice",
-  "MarkPrice",
-];
+export const TRIGGER_PRICE_TYPES = {
+  "Last Price": "/public/linear/kline",
+  "Index Price": "/public/linear/index-price-kline",
+  "Premium Index Price": "/public/linear/premium-index-kline",
+  "Mark Price": "/public/linear/mark-price-kline",
+};
 
 export const KLINE_DESC_MAPPING = {
   "1 minute": "1",
