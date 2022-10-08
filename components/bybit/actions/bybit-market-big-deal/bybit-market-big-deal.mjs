@@ -1,10 +1,11 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Market Recent Trading Records",
+  name: "ByBit Market Big Deal",
   version: "0.0.1",
-  key: "bybit-market-recent-trading-records",
-  description: "Get recent trades.[reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-latestsymbolinfo)",
+  key: "bybit-market-big-deal",
+  description: "Obtain filled orders worth more than 500,000 USD within the last 24h. " +
+      "[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-marketbigdeal)",
   props: {
     bybit,
     symbol: {
@@ -26,13 +27,13 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = "/public/linear/recent-trading-records";
+    const API_PATH = "/v2/public/big-deal";
     console.log(this.interval);
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.code) {
       throw new Error(returnValue.msg);
     } else {
-      $.export("$summary", "Get recent trades Successful");
+      $.export("$summary", "Big Deal Request Successful");
     }
     return returnValue;
   },

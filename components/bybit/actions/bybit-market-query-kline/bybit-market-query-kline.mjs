@@ -3,7 +3,7 @@ import { TRIGGER_PRICE_TYPES } from "../../common.mjs";
 
 export default {
   name: "ByBit Market Query Kline",
-  version: "0.0.10",
+  version: "0.0.1",
   key: "bybit-market-query-kline",
   description: "Get kline.[reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-querykline)",
   props: {

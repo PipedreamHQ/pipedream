@@ -1,10 +1,11 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Market Recent Trading Records",
+  name: "ByBit Market Open Interest",
   version: "0.0.1",
-  key: "bybit-market-recent-trading-records",
-  description: "Get recent trades.[reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-latestsymbolinfo)",
+  key: "bybit-market-open-interest",
+  description: "Gets the total amount of unsettled contracts. In other words, the total number of contracts held " +
+      "in open positions.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-marketopeninterest)",
   props: {
     bybit,
     symbol: {
@@ -13,26 +14,32 @@ export default {
         "symbol",
       ],
     },
+    period: {
+      propDefinition: [
+        bybit,
+        "period",
+      ],
+    },
     limit: {
       propDefinition: [
         bybit,
         "limit",
       ],
       max: 1000,
-      description: "Limit for data size, max size is 1000. Default as showing 500 pieces of data",
+      description: "Limit for data size, max size is 200. Default as showing 50 pieces of data",
     },
   },
   type: "action",
   methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = "/public/linear/recent-trading-records";
+    const API_PATH = "/v2/public/open-interest";
     console.log(this.interval);
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.code) {
       throw new Error(returnValue.msg);
     } else {
-      $.export("$summary", "Get recent trades Successful");
+      $.export("$summary", "Open Interest Request Successful");
     }
     return returnValue;
   },

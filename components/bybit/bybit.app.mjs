@@ -60,6 +60,13 @@ export default {
       optional: true,
       default: 1,
     },
+    period: {
+      label: "Period",
+      type: "string",
+      description: "Data recording period. 5min, 15min, 30min, 1h, 4h, 1d",
+      optional: false,
+      default: "1d",
+    },
     limit: {
       label: "Limit",
       type: "integer",
