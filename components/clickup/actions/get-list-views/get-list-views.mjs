@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-list-views",
   name: "Get List Views",
   description: "Get all views of a list. See the docs [here](https://clickup.com/api) in **Views / Get List Views** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: common.props,
   async run({ $ }) {
