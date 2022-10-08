@@ -14,7 +14,7 @@
     "app",
     "actions",
     "sources",
-    "common"  
+    "common"
   ],
   "exclude": [
       "dist",
