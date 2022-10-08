@@ -1,0 +1,24 @@
+import bybit from "../../bybit.app.mjs";
+
+export default {
+  name: "ByBit Market Query Symbols",
+  version: "0.0.1",
+  key: "bybit-market-query-symbols",
+  description: "Get symbol info.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-querysymbol)",
+  props: {
+    bybit,
+  },
+  type: "action",
+  methods: {},
+  async run({ $ }) {
+    const API_METHOD = "GET";
+    const API_PATH = "/v2/public/symbols";
+    let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
+    if (returnValue.code) {
+      throw new Error(returnValue.msg);
+    } else {
+      $.export("$summary", "Get Symbols Information Successful");
+    }
+    return returnValue;
+  },
+};
