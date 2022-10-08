@@ -44,12 +44,11 @@ export default {
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = TRIGGER_PRICE_TYPES[this.triggerPriceType];
-    console.log(this.interval);
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this, [
       "triggerPriceType",
     ]);
-    if (returnValue.code) {
-      throw new Error(returnValue.msg);
+    if (returnValue.ret_code) {
+      throw new Error(returnValue.ret_msg);
     } else {
       $.export("$summary", "Get kline Successful");
     }

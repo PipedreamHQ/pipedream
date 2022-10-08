@@ -69,6 +69,11 @@ export const TRIGGER_PRICE_TYPES = {
   "Mark Price": "/public/linear/mark-price-kline",
 };
 
+export const TRIGGER_BY = [
+  "LastPrice",
+  "IndexPrice",
+  "MarkPrice",
+];
 export const KLINE_DESC_MAPPING = {
   "1 minute": "1",
   "3 minutes": "3",
@@ -85,9 +90,25 @@ export const KLINE_DESC_MAPPING = {
   "1 Month": "M",
 };
 
+export const POSITION_INDEX_TYPE = {
+  "One-Way Mode": 0,
+  "Buy side of both side mode": 1,
+  "Sell side of both side mode": 2,
+};
+
 export const TICK_DIRECTION = [
   "PlusTick",
   "ZeroPlusTick",
   "MinusTick",
   "ZeroMinusTick",
+];
+
+export const ORDER_STATUS_ACTIVE = [
+  "Created",
+  "New",
+  "Rejected",
+  "PartiallyFilled",
+  "Filled",
+  "PendingCancel",
+  "Cancelled",
 ];

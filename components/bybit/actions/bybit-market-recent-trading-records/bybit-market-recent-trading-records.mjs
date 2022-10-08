@@ -27,10 +27,9 @@ export default {
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/public/linear/recent-trading-records";
-    console.log(this.interval);
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
-    if (returnValue.code) {
-      throw new Error(returnValue.msg);
+    if (returnValue.ret_code) {
+      throw new Error(returnValue.ret_msg);
     } else {
       $.export("$summary", "Get recent trades Successful");
     }

@@ -21,8 +21,8 @@ export default {
     const API_METHOD = "GET";
     const API_PATH = "/v2/public/tickers";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
-    if (returnValue.code) {
-      throw new Error(returnValue.msg);
+    if (returnValue.ret_code) {
+      throw new Error(returnValue.ret_msg);
     } else {
       $.export("$summary", "Get Ticker Information Successful");
     }
