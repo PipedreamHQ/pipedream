@@ -69,19 +69,19 @@ export const TRIGGER_PRICE_TYPE = [
 ];
 
 export const KLINE_DESC_MAPPING = {
-  "1min": "1",
-  "3min": "3",
-  "5min": "5",
-  "15min": "15",
-  "30min": "30",
-  "1h": "60",
-  "2h": "120",
-  "4h": "240",
-  "6h": "360",
-  "12h": "720",
-  "1D": "D",
-  "1W": "W",
-  "1M": "M",
+  "1 minute": "1",
+  "3 minutes": "3",
+  "5 minutes": "5",
+  "15 minutes": "15",
+  "30 minutes": "30",
+  "1 hour": "60",
+  "2 hours": "120",
+  "4 hours": "240",
+  "6 hours": "360",
+  "12 hours": "720",
+  "1 Day": "D",
+  "1 Week": "W",
+  "1 Month": "M",
 };
 
 export const TICK_DIRECTION = [

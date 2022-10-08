@@ -1,9 +1,12 @@
 import { axios } from "@pipedream/platform";
 import CryptoJS from "crypto-js";
-import { CATEGORY_TYPE } from "./common.mjs";
+import {
+  CATEGORY_TYPE, KLINE_DESC_MAPPING,
+} from "./common.mjs";
 export default {
   type: "app",
   app: "bybit",
+  description: "ByBit USDT Perpetual",
   propDefinitions: {
     category: {
       label: "Category",
@@ -35,7 +38,35 @@ export default {
         return contractsData.result.list.map((contract) => contract.quoteCoin);
       },
     },
-
+    interval: {
+      label: "Interval",
+      description: "Data refresh interval. Enum : 1 3 5 15 30 60 120 240 360 720 \"D\" \"M\" \"W\"",
+      type: "string",
+      optional: false,
+      default: "D",
+      options() {
+        return Object.keys(KLINE_DESC_MAPPING).map((key) => {
+          return {
+            "label": key,
+            "value": KLINE_DESC_MAPPING[key],
+          };
+        });
+      },
+    },
+    from: {
+      label: "From",
+      type: "integer",
+      description: "From timestamp in seconds",
+      optional: true,
+      default: 1,
+    },
+    limit: {
+      label: "Limit",
+      type: "integer",
+      description: "Limit for data size, max size is 200. Default as showing 200 pieces of data\n",
+      optional: true,
+      max: 200,
+    },
   },
   methods: {
     _apiUrl(sandbox = false) {
