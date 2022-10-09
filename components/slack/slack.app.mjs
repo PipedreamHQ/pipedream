@@ -400,14 +400,14 @@ export default {
       label: "Ignore Bots",
       description: "Ignore messages from bots",
       default: false,
-      optional: true
+      optional: true,
     },
     resolveNames: {
       type: "boolean",
       label: "Resolve Names",
       description: "Instead of returning `channel`, `team`, and `user` as IDs, return their human-readable names.",
       default: false,
-      optional: true
+      optional: true,
     },
   },
   methods: {
