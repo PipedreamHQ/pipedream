@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-block",
   name: "Retrieve Block",
   description: "Retrieves a block. A block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block. [See the docs](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,

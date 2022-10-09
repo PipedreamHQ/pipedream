@@ -1,11 +1,13 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
 import consts from "../../consts.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "youtube_data_api-list-activities",
   name: "List Activities",
   description: "Returns a list of channel activity events that match the request criteria. [See the docs](https://developers.google.com/youtube/v3/docs/channels/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -16,6 +18,7 @@ export default {
       ],
       options: consts.LIST_ACTIVITIES_USE_CASES,
     },
+    ...common.props,
   },
   async additionalProps() {
     const dynamicProps = {};
@@ -45,29 +48,5 @@ export default {
         optional: true,
       },
     };
-  },
-  async run({ $ }) {
-    const {
-      channelId,
-      regionCode,
-      maxResults,
-      publishedBefore,
-      publishedAfter,
-    } = this;
-    const part = consts.LIST_ACTIVITIES_PART;
-    const mine = this.useCase === "mine" ?
-      true :
-      undefined;
-    const activities = (await this.youtubeDataApi.listActivities({
-      channelId,
-      mine,
-      part,
-      regionCode,
-      maxResults,
-      publishedBefore,
-      publishedAfter,
-    })).data;
-    $.export("$summary", `Successfully fetched "${activities.items.length}" activities`);
-    return activities;
   },
 };

@@ -7,7 +7,7 @@ export default {
   key: "notion-new-page",
   name: "New Page in Database",
   description: "Emit new event when a page in a database is created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...base.props,

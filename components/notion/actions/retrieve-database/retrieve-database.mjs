@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-database",
   name: "Retrieve Database",
   description: "Retrieves a database. [See the docs](https://developers.notion.com/reference/retrieve-a-database)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,

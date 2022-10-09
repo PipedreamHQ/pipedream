@@ -40,6 +40,9 @@ export default {
       label: "Folder",
       description: "The id of a folder",
       async options({ spaceId }) {
+        if (!spaceId) {
+          throw new ConfigurationError("Please select a **Space** first");
+        }
         const folders = await this.getFolders({
           spaceId,
         });
@@ -54,18 +57,23 @@ export default {
       label: "List",
       description: "The id of a list",
       async options({
-        folderId, spaceId,
+        workspaceId, folderId, spaceId,
       }) {
+        const lists = [];
+
         if (!folderId && !spaceId) {
-          throw new ConfigurationError("Please enter the Space and/or Folder to retrieve Lists from");
-        }
-        const lists = folderId
-          ? await this.getLists({
+          lists.push(...await this.getAllLists({
+            workspaceId,
+          }));
+        } else if (folderId) {
+          lists.push(...await this.getLists({
             folderId,
-          })
-          : await this.getFolderlessLists({
+          }));
+        } else if (spaceId) {
+          lists.push(...await this.getFolderlessLists({
             spaceId,
-          });
+          }));
+        }
 
         return lists.map((list) => ({
           label: list.name,
@@ -410,6 +418,36 @@ export default {
       return this._makeRequest(`folder/${folderId}`, {
         method: "DELETE",
       }, $);
+    },
+    async getAllLists({
+      workspaceId, params, $,
+    }) {
+      const lists = [];
+      const foldersPromises = [];
+
+      const spaces = await this.getSpaces({
+        workspaceId,
+        params,
+        $,
+      });
+
+      for (const { id: spaceId } of spaces) {
+        foldersPromises.push(this.getFolders({
+          spaceId,
+        }));
+        lists.push(...await this.getFolderlessLists({
+          spaceId,
+        }));
+      }
+
+      const folders = (await Promise.all(foldersPromises)).flat();
+      for (const { id: folderId } of folders) {
+        lists.push(...await this.getLists({
+          folderId,
+        }));
+      }
+
+      return lists;
     },
     async getLists({
       folderId, params, $,
