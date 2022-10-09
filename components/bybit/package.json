@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bybit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream ByBit Components",
   "main": "dist/app/bybit.app.mjs",
   "keywords": [
