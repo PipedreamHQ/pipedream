@@ -1,5 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import { Pipedream } from "@pipedream/types";
 import crypto from "crypto";
 
 export default defineApp({
@@ -23,7 +24,7 @@ export default defineApp({
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(method:string, endpoint:string, options = {}, $ = this) {
+    async _makeRequest(method:string, endpoint:string, options = {}, $:Pipedream = this) {
       const config = {
         method,
         url: `${this._getBaseUrl()}/${endpoint}`,

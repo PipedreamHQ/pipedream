@@ -1,5 +1,6 @@
 import common from "../../common/common";
 import { defineSource } from "@pipedream/types";
+import { RawEvent } from "../../common/types";
 
 export default defineSource({
   ...common,
@@ -37,7 +38,7 @@ export default defineSource({
       return "stream.online";
     },
 
-    getMeta(item: { id: string; started_at: string; broadcaster_user_name: string; }) {
+    getMeta(item: RawEvent) {
       const {
         id,
         started_at: startedAt,
