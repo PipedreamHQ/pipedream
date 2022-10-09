@@ -112,3 +112,16 @@ export const ORDER_STATUS_ACTIVE = [
   "PendingCancel",
   "Cancelled",
 ];
+
+export const ORDER_STATUS_CONDITIONAL = [
+  "Untriggered",
+  "Deactivated",
+  "Triggered",
+  "Active",
+  ...ORDER_STATUS_ACTIVE,
+];
+
+export const SORT_ORDER = {
+  "Ascending": "asc",
+  "Descending": "desc",
+};

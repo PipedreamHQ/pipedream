@@ -2,10 +2,12 @@ import { axios } from "@pipedream/platform";
 import CryptoJS from "crypto-js";
 import {
   CATEGORY_TYPE,
-  KLINE_DESC_MAPPING, ORDER_STATUS_ACTIVE,
+  KLINE_DESC_MAPPING,
+  ORDER_STATUS_ACTIVE,
+  ORDER_STATUS_CONDITIONAL,
   ORDER_TYPE,
   POSITION_INDEX_TYPE,
-  SIDE,
+  SIDE, SORT_ORDER,
   TIME_IN_FORCE,
   TRIGGER_BY,
   TRIGGER_PRICE_TYPES,
@@ -15,6 +17,13 @@ export default {
   app: "bybit",
   description: "ByBit USDT Perpetual",
   propDefinitions: {
+    base_price: {
+      description: "It will be used to compare with the value of stop_px, to decide whether your " +
+          "conditional order will be triggered by crossing trigger price from upper side or lower side. " +
+          "Mainly used to identify the expected direction of the current conditional order.",
+      type: "string",
+      optional: false,
+    },
     category: {
       label: "Category",
       description: "Derivatives products category",
@@ -102,11 +111,25 @@ export default {
       type: "string",
       optional: true,
     },
+    stop_px: {
+      label: "Trigger price",
+      description: "If you're expecting the price to rise to trigger your conditional order, " +
+          "make sure stop_px > max(market price, base_price) else, stop_px < min(market price, base_price)",
+      type: "string",
+      optional: false,
+    },
     tp_trigger_by: {
       label: "Take Profit Trigger By",
       description: "Take profit trigger price type, default: LastPrice",
       type: "string",
       optional: true,
+      options: TRIGGER_BY,
+    },
+    trigger_by: {
+      label: "Trigger Price Type",
+      description: "Trigger price type for conditional orders",
+      type: "string",
+      optional: false,
       options: TRIGGER_BY,
     },
     order_id: {
@@ -188,6 +211,27 @@ export default {
       optional: true,
       max: 200,
     },
+    page: {
+      label: "Page",
+      type: "integer",
+      description: "By default, gets first page of data. Maximum of 50 pages",
+      optional: true,
+      max: 50,
+    },
+    order: {
+      label: "Order",
+      type: "string",
+      description: "Sort orders by creation date. Defaults to asc\n",
+      optional: true,
+      options() {
+        return Object.keys(SORT_ORDER).map((key) => {
+          return {
+            "label": key,
+            "value": SORT_ORDER[key],
+          };
+        });
+      },
+    },
     triggerPriceType: {
       label: "Price Type",
       description: "Price Type for the derivatives",
@@ -204,6 +248,15 @@ export default {
       type: "string[]",
       optional: true,
       options: ORDER_STATUS_ACTIVE,
+    },
+    stop_order_status: {
+      label: "Order Status",
+      description: "Queries orders of all statuses if order_status not provided. " +
+          "If you want to query orders with specific statuses, " +
+          "you can pass the order_status split by ',' (eg Filled,New).",
+      type: "string[]",
+      optional: true,
+      options: ORDER_STATUS_CONDITIONAL,
     },
   },
   methods: {

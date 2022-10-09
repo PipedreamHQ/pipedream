@@ -1,11 +1,11 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Account Get Active Orders",
+  name: "ByBit Account Get Conditional Orders",
   version: "0.0.1",
-  key: "bybit-account-get-active-orders",
-  description: "List of active orders." +
-      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-getactive)",
+  key: "bybit-account-get-conditional-orders",
+  description: "List of conditional orders." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-getcond)",
   props: {
     bybit,
     symbol: {
@@ -14,13 +14,13 @@ export default {
         "symbol",
       ],
     },
-    order_status: {
+    stop_order_status: {
       propDefinition: [
         bybit,
-        "order_status",
+        "stop_order_status",
       ],
     },
-    order_id: {
+    stop_order_id: {
       propDefinition: [
         bybit,
         "order_id",
@@ -57,12 +57,12 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = "/private/linear/order/list";
+    const API_PATH = "/private/linear/stop-order/list";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);
     } else {
-      $.export("$summary", "Active Orders Fetched Successfully");
+      $.export("$summary", "Conditional Orders Fetched Successfully");
     }
     return returnValue;
   },
