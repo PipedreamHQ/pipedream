@@ -224,6 +224,7 @@ export default {
         url: `${this._apiUrl()}${path}`,
         headers: {
           "user-agent": "@PipedreamHQ/pipedream v0.1",
+          "accept": "application/json",
         },
         ...args,
       });
@@ -234,7 +235,6 @@ export default {
         ...this.getAllValidParameters(pathParameters, excludes),
         ...basicParameters,
       };
-      Object.keys(parameters).forEach((k) => parameters[k] || delete parameters[k]);
       let queryString = Object.keys(parameters).sort()
         .map((key) => {
           return `${key}=${parameters[key]}`;
@@ -258,19 +258,20 @@ export default {
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     getAllValidParameters(parameters, excludes = []) {
-      Object.entries(parameters)
-        .filter(([
-          , value,
-        ]) => typeof value == "boolean")
-        .forEach(([
-          key,
-          value,
-        ]) => parameters[key] = value.toString());
+      // Object.entries(parameters)
+      //   .filter(([
+      //     , value,
+      //   ]) => typeof value == "boolean")
+      //   .forEach(([
+      //     key,
+      //     value,
+      //   ]) => parameters[key] = value.toString());
       excludes.push("bybit");
       return Object.fromEntries(Object.entries(parameters)
         .filter(([
           key,
-        ]) => !excludes.includes(key)));
+          value,
+        ]) => !excludes.includes(key) && (value || typeof value == "boolean")));
     },
   },
 };
