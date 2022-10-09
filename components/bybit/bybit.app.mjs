@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 import CryptoJS from "crypto-js";
 import {
   CATEGORY_TYPE,
-  KLINE_DESC_MAPPING,
+  KLINE_DESC_MAPPING, ORDER_STATUS_ACTIVE,
   ORDER_TYPE,
   POSITION_INDEX_TYPE,
   SIDE,
@@ -109,12 +109,18 @@ export default {
       optional: true,
       options: TRIGGER_BY,
     },
-    sl_trigger_by: {
-      label: "Stop Loss Trigger By",
-      description: "Stop loss trigger price type, default: LastPrice",
+    order_id: {
+      label: "Order ID",
+      description: "Order ID of the order",
       type: "string",
       optional: true,
-      options: TRIGGER_BY,
+    },
+    period: {
+      label: "Period",
+      type: "string",
+      description: "Data recording period. 5min, 15min, 30min, 1h, 4h, 1d",
+      optional: false,
+      default: "1d",
     },
     position_idx: {
       label: "Position Index",
@@ -133,6 +139,13 @@ export default {
           };
         });
       },
+    },
+    sl_trigger_by: {
+      label: "Stop Loss Trigger By",
+      description: "Stop loss trigger price type, default: LastPrice",
+      type: "string",
+      optional: true,
+      options: TRIGGER_BY,
     },
     coin: {
       label: "Coin",
@@ -167,13 +180,7 @@ export default {
       optional: true,
       default: 1,
     },
-    period: {
-      label: "Period",
-      type: "string",
-      description: "Data recording period. 5min, 15min, 30min, 1h, 4h, 1d",
-      optional: false,
-      default: "1d",
-    },
+
     limit: {
       label: "Limit",
       type: "integer",
@@ -194,8 +201,9 @@ export default {
       description: "Queries orders of all statuses if order_status not provided. " +
           "If you want to query orders with specific statuses, " +
           "you can pass the order_status split by ',' (eg Filled,New).",
-      type: "string",
+      type: "string[]",
       optional: true,
+      options: ORDER_STATUS_ACTIVE,
     },
   },
   methods: {
@@ -259,6 +267,14 @@ export default {
     },
     getAllValidParameters(parameters, excludes = []) {
       excludes.push("bybit");
+      Object.entries(parameters)
+        .filter(([
+          , value,
+        ]) => Array.isArray(value))
+        .forEach(([
+          key,
+          value,
+        ]) => parameters[key] = `${value}`);
       return Object.fromEntries(Object.entries(parameters)
         .filter(([
           key,
