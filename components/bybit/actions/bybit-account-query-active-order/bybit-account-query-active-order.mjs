@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Query Active Order",
   version: "0.0.1",
   key: "bybit-account-query-active-order",
-  description: "Query Active Order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-queryactive)",
+  description: "Query Active Order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-queryactive)",
   props: {
     bybit,
     symbol: {

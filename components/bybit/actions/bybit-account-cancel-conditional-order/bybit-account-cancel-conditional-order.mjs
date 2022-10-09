@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Cancel Conditional Order",
   version: "0.0.1",
   key: "bybit-account-cancel-conditional-order",
-  description: "Cancel Conditional Order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelcond)",
+  description: "Cancel Conditional Order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelcond)",
   props: {
     bybit,
     symbol: {

@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Cancel Active Order",
   version: "0.0.1",
   key: "bybit-account-cancel-active-order",
-  description: "Cancel Active Order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelactive)",
+  description: "Cancel Active Order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelactive)",
   props: {
     bybit,
     symbol: {

@@ -14,10 +14,10 @@ export default {
         "symbol",
       ],
     },
-    triggerPriceType: {
+    trigger_price_type: {
       propDefinition: [
         bybit,
-        "triggerPriceType",
+        "trigger_price_type",
       ],
     },
     interval: {
@@ -43,9 +43,9 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
-    const API_PATH = TRIGGER_PRICE_TYPES[this.triggerPriceType];
+    const API_PATH = TRIGGER_PRICE_TYPES[this.trigger_price_type];
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this, [
-      "triggerPriceType",
+      "trigger_price_type",
     ]);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);

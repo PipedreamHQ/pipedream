@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Place Active Order",
   version: "0.0.1",
   key: "bybit-account-place-active-order",
-  description: "Place active order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placeactive)",
+  description: "Place active order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placeactive)",
   props: {
     bybit,
     side: {

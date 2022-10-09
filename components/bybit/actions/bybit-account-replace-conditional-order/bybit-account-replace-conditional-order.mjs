@@ -1,11 +1,11 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Account Replace Active Order",
+  name: "ByBit Account Replace Conditional Order",
   version: "0.0.1",
-  key: "bybit-account-replace-active-order",
-  description: "Replace active order." +
-      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-replaceactive)",
+  key: "bybit-account-replace-conditional-order",
+  description: "Replace conditional order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-replacecond)",
   props: {
     bybit,
     symbol: {
@@ -14,7 +14,7 @@ export default {
         "symbol",
       ],
     },
-    order_id: {
+    stop_order_id: {
       propDefinition: [
         bybit,
         "order_id",
@@ -36,6 +36,12 @@ export default {
       propDefinition: [
         bybit,
         "price",
+      ],
+    },
+    p_r_trigger_price: {
+      propDefinition: [
+        bybit,
+        "stop_px",
       ],
     },
     take_profit: {
@@ -67,12 +73,12 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "POST";
-    const API_PATH = "/private/linear/order/replace";
+    const API_PATH = "/private/linear/stop-order/replace";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);
     } else {
-      $.export("$summary", "Replace Active Order Successful");
+      $.export("$summary", "Replace Stop Order Successful");
     }
     return returnValue;
   },

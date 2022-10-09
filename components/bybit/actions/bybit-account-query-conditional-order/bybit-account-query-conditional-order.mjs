@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Query Conditional Order",
   version: "0.0.1",
   key: "bybit-account-query-conditional-order",
-  description: "Query Conditional Order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-querycond)",
+  description: "Query Conditional Order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-querycond)",
   props: {
     bybit,
     symbol: {

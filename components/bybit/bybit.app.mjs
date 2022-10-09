@@ -32,58 +32,6 @@ export default {
       default: "linear",
       options: CATEGORY_TYPE,
     },
-    side: {
-      label: "Side",
-      description: "Buy/Sell Side",
-      type: "string",
-      optional: false,
-      options: SIDE,
-    },
-    symbol: {
-      label: "Symbol",
-      description: "Symbol/Ticker",
-      type: "string",
-      optional: false,
-      default: "",
-      async options() {
-        const contractsData = await this.getAllSymbols("linear");
-        return contractsData.result.list.map((contract) => contract.symbol);
-      },
-    },
-    order_type: {
-      label: "Order Type",
-      description: "Market/Limit order",
-      type: "string",
-      optional: false,
-      options: ORDER_TYPE,
-    },
-    qty: {
-      label: "Quantity",
-      description: "Order quantity in cryptocurrency",
-      type: "string",
-      optional: false,
-    },
-    price: {
-      label: "Price",
-      description: "Order price. Required if you make limit price order",
-      type: "string",
-      optional: true,
-    },
-    time_in_force: {
-      label: "Time In Force",
-      description: "Time in force selections (GTC, IOC, FOK)",
-      type: "string",
-      optional: false,
-      options: TIME_IN_FORCE,
-      default: "GoodTillCancel",
-    },
-    reduce_only: {
-      label: "Reduce Only",
-      description: "True means your position can only reduce in size if this order is triggered. " +
-          "When reduce_only is true, take profit/stop loss cannot be set",
-      type: "boolean",
-      optional: false,
-    },
     close_on_trigger: {
       label: "Close On Trigger",
       description: "For a closing order. It can only reduce your position, not increase it. " +
@@ -93,50 +41,94 @@ export default {
       type: "boolean",
       optional: false,
     },
-    order_link_id: {
-      label: "Order Link",
-      description: "Unique user-set order ID. Maximum length of 36 characters",
+    coin: {
+      label: "Coin",
+      description: "Quote coin. Like 'USDT' in BTC-USDT.",
       type: "string",
       optional: true,
+      default: "",
+      async options() {
+        const contractsData = await this.getAllSymbols("linear");
+        return contractsData.result.list.map((contract) => contract.quoteCoin);
+      },
     },
-    take_profit: {
-      label: "Take Profit",
-      description: "Take profit price, only take effect upon opening the position",
-      type: "string",
+    from: {
+      label: "From",
+      type: "integer",
+      description: "From timestamp in seconds",
       optional: true,
+      default: 1,
     },
-    stop_loss: {
-      label: "Stop Loss",
-      description: "Stop loss price, only take effect upon opening the position",
-      type: "string",
-      optional: true,
-    },
-    stop_px: {
-      label: "Trigger price",
-      description: "If you're expecting the price to rise to trigger your conditional order, " +
-          "make sure stop_px > max(market price, base_price) else, stop_px < min(market price, base_price)",
+    interval: {
+      label: "Interval",
+      description: "Data refresh interval. Enum : 1 3 5 15 30 60 120 240 360 720 \"D\" \"M\" \"W\"",
       type: "string",
       optional: false,
+      default: "D",
+      options() {
+        return Object.keys(KLINE_DESC_MAPPING).map((key) => {
+          return {
+            "label": key,
+            "value": KLINE_DESC_MAPPING[key],
+          };
+        });
+      },
     },
-    tp_trigger_by: {
-      label: "Take Profit Trigger By",
-      description: "Take profit trigger price type, default: LastPrice",
-      type: "string",
+    limit: {
+      label: "Limit",
+      type: "integer",
+      description: "Limit for data size, max size is 200. Default as showing 200 pieces of data",
       optional: true,
-      options: TRIGGER_BY,
+      max: 200,
     },
-    trigger_by: {
-      label: "Trigger Price Type",
-      description: "Trigger price type for conditional orders",
+    order: {
+      label: "Order",
       type: "string",
-      optional: false,
-      options: TRIGGER_BY,
+      description: "Sort orders by creation date. Defaults to asc\n",
+      optional: true,
+      options() {
+        return Object.keys(SORT_ORDER).map((key) => {
+          return {
+            "label": key,
+            "value": SORT_ORDER[key],
+          };
+        });
+      },
     },
     order_id: {
       label: "Order ID",
       description: "Order ID of the order",
       type: "string",
       optional: true,
+    },
+    order_link_id: {
+      label: "Order Link",
+      description: "Unique user-set order ID. Maximum length of 36 characters",
+      type: "string",
+      optional: true,
+    },
+    order_status: {
+      label: "Order Status",
+      description: "Queries orders of all statuses if order_status not provided. " +
+          "If you want to query orders with specific statuses, " +
+          "you can pass the order_status split by ',' (eg Filled,New).",
+      type: "string[]",
+      optional: true,
+      options: ORDER_STATUS_ACTIVE,
+    },
+    order_type: {
+      label: "Order Type",
+      description: "Market/Limit order",
+      type: "string",
+      optional: false,
+      options: ORDER_TYPE,
+    },
+    page: {
+      label: "Page",
+      type: "integer",
+      description: "By default, gets first page of data. Maximum of 50 pages",
+      optional: true,
+      max: 50,
     },
     period: {
       label: "Period",
@@ -163,6 +155,32 @@ export default {
         });
       },
     },
+    price: {
+      label: "Price",
+      description: "Order price. Required if you make limit price order",
+      type: "string",
+      optional: true,
+    },
+    qty: {
+      label: "Quantity",
+      description: "Order quantity in cryptocurrency",
+      type: "string",
+      optional: false,
+    },
+    reduce_only: {
+      label: "Reduce Only",
+      description: "True means your position can only reduce in size if this order is triggered. " +
+          "When reduce_only is true, take profit/stop loss cannot be set",
+      type: "boolean",
+      optional: false,
+    },
+    side: {
+      label: "Side",
+      description: "Buy/Sell Side",
+      type: "string",
+      optional: false,
+      options: SIDE,
+    },
     sl_trigger_by: {
       label: "Stop Loss Trigger By",
       description: "Stop loss trigger price type, default: LastPrice",
@@ -170,84 +188,11 @@ export default {
       optional: true,
       options: TRIGGER_BY,
     },
-    coin: {
-      label: "Coin",
-      description: "Quote coin. Like 'USDT' in BTC-USDT.",
+    stop_loss: {
+      label: "Stop Loss",
+      description: "Stop loss price, only take effect upon opening the position",
       type: "string",
       optional: true,
-      default: "",
-      async options() {
-        const contractsData = await this.getAllSymbols("linear");
-        return contractsData.result.list.map((contract) => contract.quoteCoin);
-      },
-    },
-    interval: {
-      label: "Interval",
-      description: "Data refresh interval. Enum : 1 3 5 15 30 60 120 240 360 720 \"D\" \"M\" \"W\"",
-      type: "string",
-      optional: false,
-      default: "D",
-      options() {
-        return Object.keys(KLINE_DESC_MAPPING).map((key) => {
-          return {
-            "label": key,
-            "value": KLINE_DESC_MAPPING[key],
-          };
-        });
-      },
-    },
-    from: {
-      label: "From",
-      type: "integer",
-      description: "From timestamp in seconds",
-      optional: true,
-      default: 1,
-    },
-
-    limit: {
-      label: "Limit",
-      type: "integer",
-      description: "Limit for data size, max size is 200. Default as showing 200 pieces of data",
-      optional: true,
-      max: 200,
-    },
-    page: {
-      label: "Page",
-      type: "integer",
-      description: "By default, gets first page of data. Maximum of 50 pages",
-      optional: true,
-      max: 50,
-    },
-    order: {
-      label: "Order",
-      type: "string",
-      description: "Sort orders by creation date. Defaults to asc\n",
-      optional: true,
-      options() {
-        return Object.keys(SORT_ORDER).map((key) => {
-          return {
-            "label": key,
-            "value": SORT_ORDER[key],
-          };
-        });
-      },
-    },
-    triggerPriceType: {
-      label: "Price Type",
-      description: "Price Type for the derivatives",
-      type: "string",
-      optional: true,
-      default: "Last Price",
-      options: Object.keys(TRIGGER_PRICE_TYPES),
-    },
-    order_status: {
-      label: "Order Status",
-      description: "Queries orders of all statuses if order_status not provided. " +
-          "If you want to query orders with specific statuses, " +
-          "you can pass the order_status split by ',' (eg Filled,New).",
-      type: "string[]",
-      optional: true,
-      options: ORDER_STATUS_ACTIVE,
     },
     stop_order_status: {
       label: "Order Status",
@@ -257,6 +202,60 @@ export default {
       type: "string[]",
       optional: true,
       options: ORDER_STATUS_CONDITIONAL,
+    },
+    stop_px: {
+      label: "Trigger price",
+      description: "If you're expecting the price to rise to trigger your conditional order, " +
+          "make sure stop_px > max(market price, base_price) else, stop_px < min(market price, base_price)",
+      type: "string",
+      optional: false,
+    },
+    symbol: {
+      label: "Symbol",
+      description: "Symbol/Ticker",
+      type: "string",
+      optional: false,
+      default: "",
+      async options() {
+        const contractsData = await this.getAllSymbols("linear");
+        return contractsData.result.list.map((contract) => contract.symbol);
+      },
+    },
+    take_profit: {
+      label: "Take Profit",
+      description: "Take profit price, only take effect upon opening the position",
+      type: "string",
+      optional: true,
+    },
+    time_in_force: {
+      label: "Time In Force",
+      description: "Time in force selections (GTC, IOC, FOK)",
+      type: "string",
+      optional: false,
+      options: TIME_IN_FORCE,
+      default: "GoodTillCancel",
+    },
+    tp_trigger_by: {
+      label: "Take Profit Trigger By",
+      description: "Take profit trigger price type, default: LastPrice",
+      type: "string",
+      optional: true,
+      options: TRIGGER_BY,
+    },
+    trigger_by: {
+      label: "Trigger Price Type",
+      description: "Trigger price type for conditional orders",
+      type: "string",
+      optional: false,
+      options: TRIGGER_BY,
+    },
+    trigger_price_type: {
+      label: "Price Type",
+      description: "Price Type for the derivatives",
+      type: "string",
+      optional: true,
+      default: "Last Price",
+      options: Object.keys(TRIGGER_PRICE_TYPES),
     },
   },
   methods: {

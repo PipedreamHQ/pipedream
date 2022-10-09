@@ -4,7 +4,8 @@ export default {
   name: "ByBit Account Place Conditional Order",
   version: "0.0.1",
   key: "bybit-account-place-conditional-order",
-  description: "Place Conditional Order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placecond)",
+  description: "Place Conditional Order." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placecond)",
   props: {
     bybit,
     side: {
