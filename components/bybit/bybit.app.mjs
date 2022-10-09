@@ -258,14 +258,6 @@ export default {
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     getAllValidParameters(parameters, excludes = []) {
-      // Object.entries(parameters)
-      //   .filter(([
-      //     , value,
-      //   ]) => typeof value == "boolean")
-      //   .forEach(([
-      //     key,
-      //     value,
-      //   ]) => parameters[key] = value.toString());
       excludes.push("bybit");
       return Object.fromEntries(Object.entries(parameters)
         .filter(([
