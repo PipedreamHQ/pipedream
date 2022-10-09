@@ -225,6 +225,12 @@ export default {
       optional: false,
       options: SIDE,
     },
+    sl_size: {
+      label: "Stop Loss Quantity",
+      description: "Stop loss quantity (when in partial mode)",
+      type: "string",
+      optional: true,
+    },
     sl_trigger_by: {
       label: "Stop Loss Trigger By",
       description: "Stop loss trigger price type, default: LastPrice",
@@ -279,6 +285,12 @@ export default {
       options: TIME_IN_FORCE,
       default: "GoodTillCancel",
     },
+    tp_size: {
+      label: "Take Profit Quantity",
+      description: "Take profit quantity (when in partial mode)",
+      type: "string",
+      optional: true,
+    },
     tp_sl_mode: {
       label: "TSL/TP Mode",
       description: "Stop loss and take profit mode\n",
@@ -292,6 +304,12 @@ export default {
       type: "string",
       optional: true,
       options: TRIGGER_BY,
+    },
+    trailing_stop: {
+      label: "Trailing Stop",
+      description: "Cannot be less than 0, 0 means cancel TS (Not effective under partial mode)",
+      type: "string",
+      optional: true,
     },
     trigger_by: {
       label: "Trigger Price Type",
