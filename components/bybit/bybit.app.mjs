@@ -17,6 +17,11 @@ export default {
   app: "bybit",
   description: "ByBit USDT Perpetual",
   propDefinitions: {
+    auto_add_margin: {
+      description: "Auto add margin",
+      type: "boolean",
+      optional: false,
+    },
     base_price: {
       description: "It will be used to compare with the value of stop_px, to decide whether your " +
           "conditional order will be triggered by crossing trigger price from upper side or lower side. " +

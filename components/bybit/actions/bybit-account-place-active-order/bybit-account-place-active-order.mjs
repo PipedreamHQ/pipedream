@@ -8,16 +8,16 @@ export default {
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placeactive)",
   props: {
     bybit,
-    side: {
-      propDefinition: [
-        bybit,
-        "side",
-      ],
-    },
     symbol: {
       propDefinition: [
         bybit,
         "symbol",
+      ],
+    },
+    side: {
+      propDefinition: [
+        bybit,
+        "side",
       ],
     },
     order_type: {
