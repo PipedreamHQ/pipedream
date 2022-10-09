@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Account Position TL/SL Switch",
-  version: "0.0.2",
+  version: "0.0.1",
   key: "bybit-account-position-tpsl-switch",
   description: "Switch mode between Full or Partial. " +
       "When set to Partial, TP/SL orders may have a quantity less than the position size. " +

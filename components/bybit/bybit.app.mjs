@@ -113,6 +113,12 @@ export default {
         });
       },
     },
+    margin: {
+      label: "Margin",
+      type: "string",
+      description: "Add/Remove how much margin: Increase 10; decrease -10, supports 4 decimal places",
+      optional: false,
+    },
     order: {
       label: "Order",
       type: "string",

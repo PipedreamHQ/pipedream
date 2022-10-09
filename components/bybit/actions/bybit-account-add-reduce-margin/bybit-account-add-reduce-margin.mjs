@@ -1,11 +1,11 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Account Set Auto Margin",
+  name: "ByBit Account Add Reduce Margin",
   version: "0.0.1",
-  key: "bybit-account-set-auto-margin",
-  description: "Auto Update Margin." +
-      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-setautoaddmargin)",
+  key: "bybit-account-add-reduce-margin",
+  description: "Add Reduce Margin." +
+      " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-addmargin)",
   props: {
     bybit,
     symbol: {
@@ -20,10 +20,10 @@ export default {
         "side",
       ],
     },
-    auto_add_margin: {
+    margin: {
       propDefinition: [
         bybit,
-        "auto_add_margin",
+        "margin",
       ],
     },
     position_idx: {
@@ -37,12 +37,12 @@ export default {
   methods: {},
   async run({ $ }) {
     const API_METHOD = "POST";
-    const API_PATH = "/private/linear/position/set-auto-add-margin";
+    const API_PATH = "/private/linear/position/add-margin";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);
     } else {
-      $.export("$summary", "Auto Margin Preference Update Successful");
+      $.export("$summary", "Margin Update Successful");
     }
     return returnValue;
   },
