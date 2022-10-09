@@ -1,10 +1,10 @@
 import bybit from "../../bybit.app.mjs";
 
 export default {
-  name: "ByBit Account Get Active Order",
+  name: "ByBit Account Get Active Orders",
   version: "0.0.1",
-  key: "bybit-account-get-active-order",
-  description: "Market price active order." +
+  key: "bybit-account-get-active-orders",
+  description: "List of active orders." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-getactive)",
   props: {
     bybit,
@@ -28,9 +28,9 @@ export default {
     const API_PATH = "/private/linear/order/list";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
-      throw new Error(returnValue.msg);
+      throw new Error(returnValue.ret_msg);
     } else {
-      $.export("$summary", "Active Order Placed Successfully");
+      $.export("$summary", "Active Order Fetched Successfully");
     }
     return returnValue;
   },

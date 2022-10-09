@@ -224,7 +224,6 @@ export default {
         url: `${this._apiUrl()}${path}`,
         headers: {
           "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "accept": "application/json",
         },
         ...args,
       });
@@ -236,15 +235,13 @@ export default {
         ...basicParameters,
       };
       Object.keys(parameters).forEach((k) => parameters[k] || delete parameters[k]);
-      const queryString = Object.keys(parameters).sort()
+      let queryString = Object.keys(parameters).sort()
         .map((key) => {
           return `${key}=${parameters[key]}`;
         })
         .join("&");
       parameters["sign"] = CryptoJS.HmacSHA256(queryString, this._secretKey()).toString();
-      console.log(parameters);
-      console.log(path);
-      console.log(method);
+
       return await this._makeRequest({
         path: path,
         method: method,
@@ -261,10 +258,19 @@ export default {
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     getAllValidParameters(parameters, excludes = []) {
+      Object.entries(parameters)
+        .filter(([
+          , value,
+        ]) => typeof value == "boolean")
+        .forEach(([
+          key,
+          value,
+        ]) => parameters[key] = value.toString());
       excludes.push("bybit");
-      return Object.fromEntries(Object.entries(parameters).filter(([
-        key,
-      ]) => !excludes.includes(key) && parameters[key]));
+      return Object.fromEntries(Object.entries(parameters)
+        .filter(([
+          key,
+        ]) => !excludes.includes(key)));
     },
   },
 };

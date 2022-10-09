@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Account Place Active Order",
-  version: "0.0.1",
+  version: "0.0.16",
   key: "bybit-account-place-active-order",
   description: "Market price active order. [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placeactive)",
   props: {
@@ -99,7 +99,7 @@ export default {
     const API_PATH = "/private/linear/order/create";
     let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
-      throw new Error(returnValue.msg);
+      throw new Error(returnValue.ret_msg);
     } else {
       $.export("$summary", "Active Order Placed Successfully");
     }
