@@ -125,3 +125,8 @@ export const SORT_ORDER = {
   "Ascending": "asc",
   "Descending": "desc",
 };
+
+export const POSITION_MODE = {
+  "One-Way": "MergedSingle",
+  "Hedge": "BothSide",
+};

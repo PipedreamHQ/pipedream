@@ -7,8 +7,9 @@ import {
   ORDER_STATUS_CONDITIONAL,
   ORDER_TYPE,
   POSITION_INDEX_TYPE,
+  POSITION_MODE,
   SIDE, SORT_ORDER,
-  TIME_IN_FORCE,
+  TIME_IN_FORCE, TP_SL_MODE,
   TRIGGER_BY,
   TRIGGER_PRICE_TYPES,
 } from "./common.mjs";
@@ -27,6 +28,12 @@ export default {
           "conditional order will be triggered by crossing trigger price from upper side or lower side. " +
           "Mainly used to identify the expected direction of the current conditional order.",
       type: "string",
+      optional: false,
+    },
+    buy_leverage: {
+      label: "Buy Leverage",
+      type: "integer",
+      description: "Must be greater than 0 and less than the risk limit leverage",
       optional: false,
     },
     category: {
@@ -79,12 +86,32 @@ export default {
         });
       },
     },
+    is_isolated: {
+      label: "Is Isolated",
+      description: "Cross/Isolated: true is Isolated; false is Cross",
+      type: "boolean",
+      optional: false,
+    },
     limit: {
       label: "Limit",
       type: "integer",
       description: "Limit for data size, max size is 200. Default as showing 200 pieces of data",
       optional: true,
       max: 200,
+    },
+    mode: {
+      label: "Position Mode",
+      type: "string",
+      description: "Position Mode. MergedSingle: One-Way Mode; BothSide: Hedge Mode",
+      optional: false,
+      options() {
+        return Object.keys(POSITION_MODE).map((key) => {
+          return {
+            "label": key,
+            "value": POSITION_MODE[key],
+          };
+        });
+      },
     },
     order: {
       label: "Order",
@@ -179,6 +206,12 @@ export default {
       type: "boolean",
       optional: false,
     },
+    sell_leverage: {
+      label: "Sell Leverage",
+      type: "integer",
+      description: "Must be greater than 0 and less than the risk limit leverage",
+      optional: false,
+    },
     side: {
       label: "Side",
       description: "Buy/Sell Side",
@@ -239,6 +272,13 @@ export default {
       optional: false,
       options: TIME_IN_FORCE,
       default: "GoodTillCancel",
+    },
+    tp_sl_mode: {
+      label: "TSL/TP Mode",
+      description: "Stop loss and take profit mode\n",
+      type: "string",
+      optional: false,
+      options: TP_SL_MODE,
     },
     tp_trigger_by: {
       label: "Take Profit Trigger By",
