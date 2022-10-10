@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-list-comments",
   name: "Get List Comments",
   description: "Get a list comments. See the docs [here](https://clickup.com/api) in **Comments / Get List Comments** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: common.props,
   async run({ $ }) {

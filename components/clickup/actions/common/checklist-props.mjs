@@ -1,3 +1,5 @@
+/* eslint-disable pipedream/props-description */
+/* eslint-disable pipedream/props-label */
 import common from "./task-props.mjs";
 
 export default {
@@ -13,6 +15,8 @@ export default {
         "checklists",
         (c) => ({
           taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
       description: "To show options please select a **Task** first",
