@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -25,7 +25,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile --fix-lockfile
+        run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
         uses: actions/setup-node@v3.5.0
         with:
@@ -46,4 +46,3 @@ jobs:
         run: |
           printf -v added_modified_renamed_files '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
           pnpm dlx ts-node --esm scripts/updateMarketplaceReadme.mts $added_modified_renamed_files
-
