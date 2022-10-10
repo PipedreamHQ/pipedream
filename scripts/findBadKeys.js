@@ -34,7 +34,10 @@ function checkKeys(p, nameSlug) {
     }
   }
 }
-console.log("the args are here", args);
+
+
+
+console.log("the args are here", JSON.stringify(args));
 function checkPathVsKey(p, nameSlug) {
   console.log("p is", p);
   console.log("nameSlug is", nameSlug);
@@ -79,6 +82,7 @@ for (const name of dirs) {
     err = true;
   }
   checkKeys(p, nameSlug);
+  checkPathVsKey(p, nameSlug);
 }
 
 if (err) {
