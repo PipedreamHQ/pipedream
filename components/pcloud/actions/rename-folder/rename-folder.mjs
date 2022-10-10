@@ -3,11 +3,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "pcloud-create-folder",
-  name: "Create Folder",
-  description:
-    "Create a folder in the specified folder. [See the docs here](https://docs.pcloud.com/methods/folder/createfolder.html)",
-  version: "0.0.3",
+  key: "pcloud-rename-folder",
+  name: "Rename Folder",
+  description: "Renames a folder. [See the docs here](https://docs.pcloud.com/methods/folder/renamefolder.html)",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -16,25 +15,29 @@ export default {
         pcloud,
         "folderId",
       ],
-      description: `Select a **Folder** to create the new folder within.
+      description: `Select a **Folder** to rename.
         \\
         Alternatively, you can provide a custom *Folder ID*.`,
-      label: "Parent Folder ID",
     },
-    name: {
+    toName: {
       propDefinition: [
         pcloud,
         "name",
       ],
+      label: "New Folder Name",
+      description: "New name of the folder.",
     },
   },
   methods: {
     ...common.methods,
     getSummary() {
-      return `Created folder "${this.name}" successfully`;
+      return `Successfully renamed folder to ${this.toName}`;
     },
     async requestMethod() {
-      return this.pcloud.createFolder(this.name, this.folderId);
+      return this.pcloud.renameFolder(
+        this.folderId,
+        this.toName,
+      );
     },
   },
 };
