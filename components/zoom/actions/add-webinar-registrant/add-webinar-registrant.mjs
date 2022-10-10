@@ -5,7 +5,7 @@ export default {
   key: "zoom-add-webinar-registrant",
   name: "Add Webinar Registrant",
   description: "Registers a participant for a webinar.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoom: {
