@@ -13,5 +13,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "crypto-js": "^4.1.1"
   }
 }
