@@ -8,7 +8,7 @@ export default {
   key: "imap-new-email",
   name: "New Email",
   description: "Emit new event for each new email in a mailbox",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
