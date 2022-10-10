@@ -12,7 +12,7 @@ import {
   TIME_IN_FORCE, TP_SL_MODE,
   TRIGGER_BY,
   TRIGGER_PRICE_TYPES,
-} from "./common.mjs";
+} from "./common/constants.mjs";
 export default {
   type: "app",
   app: "bybit",

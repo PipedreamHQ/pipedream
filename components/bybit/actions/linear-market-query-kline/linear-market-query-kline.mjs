@@ -1,5 +1,5 @@
 import bybit from "../../bybit.app.mjs";
-import { TRIGGER_PRICE_TYPES } from "../../common.mjs";
+import { TRIGGER_PRICE_TYPES } from "../../common/constants.mjs";
 
 export default {
   name: "ByBit Linear Market Query Kline",
