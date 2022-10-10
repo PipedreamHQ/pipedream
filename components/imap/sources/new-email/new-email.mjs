@@ -8,7 +8,7 @@ export default {
   key: "imap-new-email",
   name: "New Email",
   description: "Emit new event for each new email in a mailbox",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -69,6 +69,27 @@ export default {
       for await (const message of stream) {
         this.processMessage(message);
       }
+    },
+    async getHistoricalEvents() {
+      const { mailbox } = this;
+      const connection = await this.imap.getConnection();
+      try {
+        const box = await this.imap.openMailbox(connection, mailbox);
+        const startSeqno = box.messages.total > 25
+          ? box.messages.total - 24
+          : 1;
+        const messageStream = this.imap.fetchMessages(connection, {
+          startSeqno,
+        });
+        await this.processMessageStream(messageStream);
+      } finally {
+        await this.imap.closeConnection(connection);
+      }
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.getHistoricalEvents();
     },
   },
   async run() {
