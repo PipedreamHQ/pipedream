@@ -4,7 +4,7 @@ export default {
   key: "clickup-update-comment",
   name: "Update Comment",
   description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments / Update Comment** section.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
