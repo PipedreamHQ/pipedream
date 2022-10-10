@@ -26,7 +26,7 @@ export default {
         "limit",
       ],
       max: 1000,
-      description: "Limit for data size, max size is 200. Default as showing 50 pieces of data",
+      description: "Limit for data size, max size is `200`. Default as showing `50` pieces of data",
     },
   },
   type: "action",
