@@ -37,7 +37,7 @@ function checkKeys(p, nameSlug) {
 
 
 
-console.log("the args are here", JSON.stringify(args));
+console.log("the args are here", JSON.stringify(args[2]));
 function checkPathVsKey(p, nameSlug) {
   console.log("p is", p);
   console.log("nameSlug is", nameSlug);
@@ -81,6 +81,7 @@ for (const name of dirs) {
     console.error(`[!] directory '${name}' does not match name slug '${nameSlug}'`);
     err = true;
   }
+  console.log("checking...", p, "-----", nameSlug);
   checkKeys(p, nameSlug);
   checkPathVsKey(p, nameSlug);
 }
