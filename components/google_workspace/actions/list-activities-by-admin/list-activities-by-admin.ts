@@ -1,4 +1,3 @@
-import "gaxios";
 import { defineAction } from "@pipedream/types";
 import googleWorkspace from "../../app/google_workspace.app";
 
