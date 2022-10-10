@@ -20,7 +20,7 @@ export default {
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/public/linear/funding/prev-funding-rate";
-    let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
+    const returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);
     } else {

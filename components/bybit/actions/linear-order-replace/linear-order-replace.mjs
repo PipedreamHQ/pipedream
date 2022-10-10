@@ -67,7 +67,7 @@ export default {
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/private/linear/order/replace";
-    let returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
+    const returnValue = await this.bybit.makeRequest(API_METHOD, API_PATH, this);
     if (returnValue.ret_code) {
       throw new Error(returnValue.ret_msg);
     } else {
