@@ -2284,7 +2284,14 @@ importers:
       uuid: 8.3.2
 
   components/twitch_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+      uuid: 9.0.0
 
   components/twitter:
     specifiers:
