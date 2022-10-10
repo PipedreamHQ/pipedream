@@ -15,7 +15,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/v2/private/wallet/balance";

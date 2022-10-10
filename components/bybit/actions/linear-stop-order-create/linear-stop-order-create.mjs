@@ -112,7 +112,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/private/linear/stop-order/create";

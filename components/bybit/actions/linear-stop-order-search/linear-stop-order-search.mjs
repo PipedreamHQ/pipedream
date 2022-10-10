@@ -28,7 +28,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/private/linear/stop-order/search";

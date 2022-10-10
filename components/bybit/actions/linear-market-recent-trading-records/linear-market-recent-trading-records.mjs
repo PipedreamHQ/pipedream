@@ -23,7 +23,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/public/linear/recent-trading-records";

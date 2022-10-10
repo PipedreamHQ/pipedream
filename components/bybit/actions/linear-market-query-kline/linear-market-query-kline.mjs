@@ -40,7 +40,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = TRIGGER_PRICE_TYPES[this.trigger_price_type];
