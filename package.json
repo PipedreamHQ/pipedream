@@ -44,7 +44,7 @@
     "eslint-plugin-jsonc": "^1.6.0",
     "eslint-plugin-pipedream": "0.2.4",
     "eslint-plugin-putout": "^15.1.1",
-    "graphql": "^16.2.0",
+    "graphql": "14 - 16",
     "graphql-request": "^3.7.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
