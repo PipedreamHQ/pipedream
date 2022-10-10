@@ -116,7 +116,6 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
-      
       -name: Get Changed Files
         id: changed_files
         uses: jitterbit/get-changed-files@v1
