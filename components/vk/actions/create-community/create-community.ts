@@ -1,6 +1,7 @@
+import { defineAction } from "@pipedream/types";
 import vk from "../../app/vk.app";
 
-export default {
+export default defineAction({
   key: "vk-create-community",
   name: "Create A Community",
   description: "Creates a new community. [See the docs here](https://vk.com/dev/groups.create)",
@@ -12,4 +13,4 @@ export default {
   async run() {
     console.log("run");
   },
-};
+});

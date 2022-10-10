@@ -1,6 +1,7 @@
+import { defineAction } from "@pipedream/types";
 import vk from "../../app/vk.app";
 
-export default {
+export default defineAction({
   key: "vk-get-authenticated-user",
   name: "Get Authenticated User",
   description: "Returns the current account info. [See the docs here](https://vk.com/dev/account.getProfileInfo)",
@@ -12,4 +13,4 @@ export default {
   async run() {
     console.log("run");
   },
-};
+});

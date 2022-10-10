@@ -1,6 +1,7 @@
+import { defineAction } from "@pipedream/types";
 import vk from "../../app/vk.app";
 
-export default {
+export default defineAction({
   key: "vk-get-photos",
   name: "Get Photos",
   description: "Returns a list of a user&#39;s or community&#39;s photos. [See the docs here](https://vk.com/dev/photos.get)",
@@ -12,4 +13,4 @@ export default {
   async run() {
     console.log("run");
   },
-};
+});

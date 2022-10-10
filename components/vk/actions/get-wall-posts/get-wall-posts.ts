@@ -1,11 +1,12 @@
+import { defineAction } from "@pipedream/types";
 import vk from "../../app/vk.app";
 
-export default {
+export default defineAction({
   key: "vk-get-wall-posts",
   name: "Get Wall Posts",
   description: "Returns a list of posts on a user wall or community wall. [See the docs here](https://vk.com/dev/wall.get)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.9",
   props: {
     vk,
     offset: {
@@ -27,14 +28,16 @@ export default {
       count,
     } = this;
 
-    const response =
+    const { response: { items = [] } } =
       await this.vk.getWallPosts({
-        offset,
-        count,
+        params: {
+          offset,
+          count,
+        },
       });
 
-    $.export("$summary", "Successfully listed wall posts");
+    $.export("$summary", `Successfully listed ${items.length} wall posts`);
 
-    return response;
+    return items;
   },
-};
+});

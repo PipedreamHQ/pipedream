@@ -19,6 +19,31 @@ export default defineApp({
       max: 100,
       optional: true,
     },
+    postId: {
+      type: "string",
+      label: "Post ID",
+      description: "Post ID",
+      async options({ prevContext }) {
+        const { offset = 0 } = prevContext;
+        const { response: { items } } =
+          await this.getWallPosts({
+            offset,
+          });
+        const options =
+          items.map(({
+            id: value, text: label,
+          }) => ({
+            value,
+            label,
+          }));
+        return {
+          options,
+          context: {
+            offset: offset + items.length,
+          },
+        };
+      },
+    },
   },
   methods: {
     getBaseUrl() {
@@ -37,7 +62,6 @@ export default defineApp({
     async makeRequest({
       $ = this, path = "", url = "", params = {}, ...args
     } = {}) {
-
       const config = {
         params: this.getParams(params),
         url: this.getUrl(path, url),
@@ -46,9 +70,7 @@ export default defineApp({
       console.log("conf", config);
 
       try {
-        const res = await axios($, config);
-        console.log("res", res);
-        return res;
+        return await axios($, config);
       } catch (error) {
         console.log("Error", error);
         throw "Error";
@@ -57,6 +79,24 @@ export default defineApp({
     getWallPosts(args = {}) {
       return this.makeRequest({
         path: "/wall.get",
+        ...args,
+      });
+    },
+    getWallPost(args = {}) {
+      return this.makeRequest({
+        path: "/wall.getById",
+        ...args,
+      });
+    },
+    getProfileInfo(args = {}) {
+      return this.makeRequest({
+        path: "/account.getProfileInfo",
+        ...args,
+      });
+    },
+    getUsers(args = {}) {
+      return this.makeRequest({
+        path: "/users.get",
         ...args,
       });
     },

@@ -1,6 +1,7 @@
+import { defineSource } from "@pipedream/types";
 import vk from "../../app/vk.app";
 
-export default {
+export default defineSource({
   key: "vk-new-photo",
   name: "New Photo",
   description: "Emit new event when a photo is created. [See the docs here](https://vk.com/dev/callback_api)",
@@ -13,4 +14,4 @@ export default {
   async run() {
     console.log("run");
   },
-};
+});
