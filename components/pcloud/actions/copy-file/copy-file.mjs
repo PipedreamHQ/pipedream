@@ -7,7 +7,7 @@ export default {
   name: "Copy File",
   description:
     "Copy a file to the specified destination. [See the docs here](https://docs.pcloud.com/methods/file/copyfile.html)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
