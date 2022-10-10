@@ -4,6 +4,7 @@ const path = require("path");
 
 const rootDir = path.resolve(__dirname, "..");
 const componentsDir = path.join(rootDir, "components");
+const args = process.argv;
 
 let err = false;
 
@@ -32,6 +33,11 @@ function checkKeys(p, nameSlug) {
       }
     }
   }
+}
+console.log("the args are here", args);
+function checkPathVsKey(p, nameSlug) {
+  console.log("p is", p);
+  console.log("nameSlug is", nameSlug);
 }
 
 const dirs = fs.readdirSync(componentsDir);
