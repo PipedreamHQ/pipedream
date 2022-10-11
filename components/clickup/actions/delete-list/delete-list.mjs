@@ -1,45 +1,12 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   key: "clickup-delete-list",
   name: "Delete List",
-  description: "Delete a list. See the docs [here](https://clickup.com/api) in **Lists  / Delete List** section.",
-  version: "0.0.2",
+  description: "Delete a list. See the docs [here](https://clickup.com/api) in **Lists / Delete List** section.",
+  version: "0.0.4",
   type: "action",
-  props: {
-    ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
-  },
+  props: common.props,
   async run({ $ }) {
     const { listId } = this;
 
