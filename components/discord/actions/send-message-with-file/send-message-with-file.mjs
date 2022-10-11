@@ -1,6 +1,7 @@
 import common from "../common/common.mjs";
 import axios from "axios";
 import fs from "fs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -43,7 +44,7 @@ export default {
     } = this;
 
     if (!fileUrl && !filePath) {
-      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+      throw new ConfigurationError("This action requires either File URL or File Path. Please enter one or the other above.");
     }
 
     const file = fileUrl
