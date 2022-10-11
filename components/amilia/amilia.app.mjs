@@ -46,6 +46,26 @@ export default {
         ...opts,
       });
     },
+    async createWebhook(opts = {}) {
+      const path = "/webhooks";
+      const method = "POST";
+      return this._makeRequest({
+        ...opts,
+        path,
+        method,
+      });
+    },
+    async deleteWebhook({
+      id, ...opts
+    }) {
+      const path = `/webhooks/${id}`;
+      const method = "DELETE";
+      return this._makeRequest({
+        ...opts,
+        path,
+        method,
+      });
+    },
     async listAccounts(opts = {}) {
       const path = "/accounts";
       return this._makeRequest({
