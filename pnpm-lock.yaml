@@ -946,7 +946,19 @@ importers:
       uuid: 8.3.2
 
   components/google_workspace:
-    specifiers: {}
+    specifiers:
+      '@googleapis/admin': ^6.0.2
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+      googleapis: ^108.0.0
+      uuidv4: ^6.2.13
+    dependencies:
+      '@googleapis/admin': 6.0.2
+      '@pipedream/platform': 1.1.1
+      googleapis: 108.0.0
+      uuidv4: 6.2.13
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/gorgias:
     specifiers:
@@ -5991,6 +6003,16 @@ packages:
       stream-events: 1.0.5
       teeny-request: 8.0.0
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@googleapis/admin/6.0.2:
+    resolution: {integrity: sha512-lliLBMPg+8jn0MoqLnxkLYlLTXjd/CYGnZj67z9xrxR+B6qX5j0wQWrMj54TUMUV64PTHjREEQVTfVeMQyGQFA==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12175,6 +12197,19 @@ packages:
       - supports-color
     dev: false
 
+  /gaxios/5.0.2:
+    resolution: {integrity: sha512-TjtV2AJOZoMQqRYoy5eM8cCQogYwazWNYLQ72QB0kwa6vHHruYkGmhhyrlzbmgNHK1dNnuP2WSH81urfzyN2Og==}
+    engines: {node: '>=12'}
+    dependencies:
+      extend: 3.0.2
+      https-proxy-agent: 5.0.1
+      is-stream: 2.0.1
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /gcp-metadata/4.3.1:
     resolution: {integrity: sha512-x850LS5N7V1F3UcV7PoupzGsyD6iVwTVvsh3tbXfkctZnBnjW5yu5z1/3k3SehF7TyoTIe78rJs02GMMy+LF+A==}
     engines: {node: '>=10'}
@@ -12190,7 +12225,7 @@ packages:
     resolution: {integrity: sha512-gfwuX3yA3nNsHSWUL4KG90UulNiq922Ukj3wLTrcnX33BB7PwB1o0ubR8KVvXu9nJH+P5w1j2SQSNNqto+H0DA==}
     engines: {node: '>=12'}
     dependencies:
-      gaxios: 5.0.1
+      gaxios: 5.0.2
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
@@ -12444,7 +12479,7 @@ packages:
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
       fast-text-encoding: 1.0.4
-      gaxios: 5.0.1
+      gaxios: 5.0.2
       gcp-metadata: 5.0.0
       gtoken: 6.1.0
       jws: 4.0.0
@@ -12509,6 +12544,7 @@ packages:
   /google-p12-pem/4.0.0:
     resolution: {integrity: sha512-lRTMn5ElBdDixv4a86bixejPSRk1boRtUowNepeKEVvYiFlkLuAJUVpEz6PfObDHYEKnZWq/9a2zC98xu62A9w==}
     engines: {node: '>=12.0.0'}
+    hasBin: true
     dependencies:
       node-forge: 1.3.1
     dev: false
@@ -12523,6 +12559,32 @@ packages:
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis-common/6.0.3:
+    resolution: {integrity: sha512-Xyb4FsQ6PQDu4tAE/M/ev4yzZhFe2Gc7+rKmuCX2ZGk1ajBKbafsGlVYpmzGqQOT93BRDe8DiTmQb6YSkbICrA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      extend: 3.0.2
+      gaxios: 5.0.2
+      google-auth-library: 8.1.1
+      qs: 6.11.0
+      url-template: 2.0.8
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/108.0.0:
+    resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
       - supports-color
