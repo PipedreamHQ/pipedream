@@ -1,5 +1,8 @@
-import { axios } from "@pipedream/platform";
 import { defineApp } from "@pipedream/types";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 import constants from "../common/constants";
 
 export default defineApp({
@@ -9,13 +12,13 @@ export default defineApp({
     offset: {
       type: "integer",
       label: "Offset",
-      description: "Offset needed to return a specific subset of posts.",
+      description: "Offset needed to return a specific subset of resources.",
       optional: true,
     },
     count: {
       type: "integer",
       label: "Count",
-      description: "Number of posts to return (maximum `100`).",
+      description: "Number of resources to return (maximum `100`).",
       max: 100,
       optional: true,
     },
@@ -27,7 +30,9 @@ export default defineApp({
         const { offset = 0 } = prevContext;
         const { response: { items } } =
           await this.getWallPosts({
-            offset,
+            params: {
+              offset,
+            },
           });
         const options =
           items.map(({
@@ -40,6 +45,39 @@ export default defineApp({
           options,
           context: {
             offset: offset + items.length,
+          },
+        };
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "Group ID",
+      async options({ prevContext }) {
+        const { offset = 0 } = prevContext;
+        const { response: { items: groupIds } } =
+          await this.getGroups({
+            params: {
+              offset,
+            },
+          });
+        const { response: groups } =
+          await this.getGroupsByIds({
+            params: {
+              group_ids: groupIds.join(","),
+            },
+          });
+        const options =
+          groups.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }));
+        return {
+          options,
+          context: {
+            offset: offset + groupIds.length,
           },
         };
       },
@@ -70,10 +108,12 @@ export default defineApp({
       console.log("conf", config);
 
       try {
-        return await axios($, config);
+        const response = await axios($, config);
+        this.throwErrorIfAny(response.error);
+        return response;
       } catch (error) {
         console.log("Error", error);
-        throw "Error";
+        throw error || "Error in request";
       }
     },
     getWallPosts(args = {}) {
@@ -99,6 +139,57 @@ export default defineApp({
         path: "/users.get",
         ...args,
       });
+    },
+    getVideos(args = {}) {
+      return this.makeRequest({
+        path: "/video.get",
+        ...args,
+      });
+    },
+    getPhotos(args = {}) {
+      return this.makeRequest({
+        path: "/photos.get",
+        ...args,
+      });
+    },
+    getGroups(args = {}) {
+      return this.makeRequest({
+        path: "/groups.get",
+        ...args,
+      });
+    },
+    getGroupsByIds(args = {}) {
+      return this.makeRequest({
+        path: "/groups.getById",
+        ...args,
+      });
+    },
+    createCommunity(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/groups.create",
+        ...args,
+      });
+    },
+    addCallbackServer(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/groups.addCallbackServer",
+        ...args,
+      });
+    },
+    deleteCallbackServer(args = {}) {
+      return this.makeRequest({
+        method: "delete",
+        path: "/groups.deleteCallbackServer",
+        ...args,
+      });
+    },
+    throwErrorIfAny(error) {
+      if (error) {
+        console.log(JSON.stringify(error, null, 2));
+        throw new ConfigurationError(error.error_msg);
+      }
     },
   },
 });

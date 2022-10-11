@@ -28,7 +28,7 @@ export default defineAction({
       count,
     } = this;
 
-    const { response: { items = [] } } =
+    const { response: { items = [] } = {} } =
       await this.vk.getWallPosts({
         params: {
           offset,

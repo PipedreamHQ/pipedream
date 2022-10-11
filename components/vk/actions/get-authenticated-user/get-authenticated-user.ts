@@ -10,7 +10,11 @@ export default defineAction({
   props: {
     vk,
   },
-  async run() {
-    console.log("run");
+  async run({ $ }) {
+    const response = await this.vk.getProfileInfo();
+
+    $.export("$summary", "Successfully found user info");
+
+    return response;
   },
 });

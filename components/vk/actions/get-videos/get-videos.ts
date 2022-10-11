@@ -6,11 +6,38 @@ export default defineAction({
   name: "Get Videos",
   description: "Returns detailed information about videos. [See the docs here](https://vk.com/dev/video.get)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.12",
   props: {
     vk,
+    offset: {
+      propDefinition: [
+        vk,
+        "offset",
+      ],
+    },
+    count: {
+      propDefinition: [
+        vk,
+        "count",
+      ],
+    },
   },
-  async run() {
-    console.log("run");
+  async run({ $ }) {
+    const {
+      offset,
+      count,
+    } = this;
+
+    const { response: { items = [] } = {} } =
+      await this.vk.getVideos({
+        params: {
+          offset,
+          count,
+        },
+      });
+
+    $.export("$summary", `Successfully listed ${items.length} videos`);
+
+    return items;
   },
 });
