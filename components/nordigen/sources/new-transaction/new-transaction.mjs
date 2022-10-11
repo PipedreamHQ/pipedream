@@ -1,7 +1,6 @@
 import nordigen from "../../nordigen.app.mjs";
 import axios from "axios";
 
-// TODO: Add description docs
 export default {
   key: "nordigen-new-transation",
   name: "New transaction",
