@@ -4,7 +4,7 @@ export default {
   key: "clickup-update-folder",
   name: "Update Folder",
   description: "Update a folder. See the docs [here](https://clickup.com/api) in **Folders / Update Folder** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
