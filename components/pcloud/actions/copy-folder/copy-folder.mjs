@@ -6,7 +6,7 @@ export default {
   key: "pcloud-copy-folder",
   name: "Copy Folder",
   description: "Copy a folder to the specified folder. [See the docs here](https://docs.pcloud.com/methods/folder/copyfolder.html)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

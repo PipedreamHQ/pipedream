@@ -737,6 +737,9 @@
     },
     {
       "path": "components/callingly"
+    },
+    {
+      "path": "components/bybit"
     }
   ]
 }
