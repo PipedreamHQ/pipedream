@@ -66,7 +66,9 @@ export default {
         thread_id: threadID,
       });
       $.export("$summary", "Message sent successfully");
-      return resp;
+      return resp || {
+        success: true,
+      };
     } catch (err) {
       const unsentMessage = this.getUserInputProps();
       $.export("unsent", unsentMessage);
