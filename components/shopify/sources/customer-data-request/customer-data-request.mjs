@@ -18,14 +18,9 @@ export default {
   dedupe: "unique",
   type: "source",
   async run(event) {
-    this.$emit(
-      {
-        event,
-      },
-      {
-        summary: "Customer has requested information",
-        ts: Date.now(),
-      },
-    );
+    this.$emit(event.body, {
+      summary: "Customer has requested information",
+      ts: Date.now(),
+    });
   },
 };
