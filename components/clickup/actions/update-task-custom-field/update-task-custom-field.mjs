@@ -1,56 +1,16 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   key: "clickup-update-task-custom-field",
   name: "Update Task Custom Field",
   description: "Update custom field value of a task. See the docs [here](https://clickup.com/api) in **Custom Fields / Set Custom Field Value** section.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-    },
     customFieldId: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "customFields",
         (c) => ({
           listId: c.listId,
@@ -70,6 +30,11 @@ export default {
       value,
     } = this;
 
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
+
     const response = await this.clickup.updateTaskCustomField({
       $,
       taskId,
@@ -77,6 +42,7 @@ export default {
       data: {
         value,
       },
+      params,
     });
 
     $.export("$summary", "Successfully updated custom field of task");

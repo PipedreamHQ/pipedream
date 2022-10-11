@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/youtube_data_api_custom_app",
+  "version": "0.0.1",
+  "description": "Pipedream Youtube Custom App Components",
+  "main": "youtube_data_api_custom_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "youtube_data_api_custom_app"
+  ],
+  "homepage": "https://pipedream.com/apps/youtube_data_api_custom_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@googleapis/youtube": "^6.0.0",
+    "got": "^12.5.1"
+  }
+}

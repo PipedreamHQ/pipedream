@@ -1,44 +1,14 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   key: "clickup-create-task-from-template",
   name: "Create Task From Template",
-  description: "Creates a new task from a template. See the docs [here](https://clickup.com/api) in **Task Templates  / Create Task From Template** section.",
-  version: "0.0.2",
+  description: "Creates a new task from a template. See the docs [here](https://clickup.com/api) in **Task Templates / Create Task From Template** section.",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-    },
     taskTemplateId: {
       propDefinition: [
         clickup,
