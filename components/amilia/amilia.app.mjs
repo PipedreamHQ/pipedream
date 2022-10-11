@@ -1,9 +1,28 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "amilia",
-  propDefinitions: {},
+  propDefinitions: {
+    account: {
+      type: "string",
+      label: "Account",
+      description: "An account in the organization.",
+      async options({ page }) {
+        const { Items: accounts } = await this.listAccounts({
+          params: {
+            page: ++page,
+            perPage: constants.DEFAULT_PER_PAGE,
+          },
+        });
+        return accounts.map((account) => ({
+          label: account.Owners[0].AccountOwnerFullName,
+          value: account.Id,
+        }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://www.amilia.com/api/v3/en/org/" + this.$auth.organization;
@@ -29,6 +48,15 @@ export default {
     },
     async listAccounts(opts = {}) {
       const path = "/accounts";
+      return this._makeRequest({
+        ...opts,
+        path,
+      });
+    },
+    async getAccount({
+      account, ...opts
+    }) {
+      const path = `/accounts/${account}`;
       return this._makeRequest({
         ...opts,
         path,
