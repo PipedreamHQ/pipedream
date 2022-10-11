@@ -1,0 +1,29 @@
+import base from "../common/base.mjs";
+
+export default {
+  ...base,
+  key: "amilia-new-activity",
+  name: "New Activity",
+  description: "Emit new event for every new activity in the organization",
+  type: "source",
+  version: "0.0.1",
+  dedupe: "unique",
+  methods: {
+    ...base.methods,
+    getWebhookData() {
+      return {
+        Context: "Activity",
+        Action: "Create",
+        Name: "Pipedream Webhook for New Activities",
+      };
+    },
+    processEvent(event) {
+      const { Payload: activity } = event;
+      this.$emit(activity, {
+        id: activity.Id,
+        summary: `New activity ${activity.Name} for program ${activity.ProgramName}`,
+        ts: Date.parse(event.EventTime),
+      });
+    },
+  },
+};
