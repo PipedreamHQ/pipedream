@@ -6,7 +6,7 @@ export default defineAction({
   name: "Get Wall Posts",
   description: "Returns a list of posts on a user wall or community wall. [See the docs here](https://vk.com/dev/wall.get)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.1",
   props: {
     vk,
     offset: {

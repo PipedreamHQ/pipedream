@@ -6,7 +6,7 @@ export default defineAction({
   name: "Get Photos",
   description: "Returns a list of a users or community photos. [See the docs here](https://vk.com/dev/photos.get)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.1",
   props: {
     vk,
     albumId: {

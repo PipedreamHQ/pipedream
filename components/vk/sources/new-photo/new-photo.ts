@@ -7,7 +7,7 @@ export default defineSource({
   name: "New Photo",
   description: "Emit new event when a photo is created. [See the docs here](https://vk.com/dev/callback_api)",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
