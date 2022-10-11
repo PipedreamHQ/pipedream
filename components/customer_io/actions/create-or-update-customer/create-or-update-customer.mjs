@@ -33,10 +33,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.customerId) {
-      throw new Error("Must provide customerId parameter.");
-    }
-
     const res = await this.app.createOrUpdateCustomer(this.customerId, {
       email: this.email,
       created_at: this.created_at,

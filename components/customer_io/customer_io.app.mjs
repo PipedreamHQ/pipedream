@@ -39,5 +39,12 @@ export default {
         data,
       }));
     },
+    sendEventTo(customerId, data, $ = this) {
+      return axios($, this._getAxiosParams({
+        method: "POST",
+        path: `/customers/${customerId}/events`,
+        data,
+      }));
+    },
   },
 };
