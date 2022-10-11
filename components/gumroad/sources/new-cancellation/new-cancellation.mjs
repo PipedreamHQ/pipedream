@@ -2,26 +2,30 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New Product",
+  name: "New Cancellation",
   version: "0.0.1",
-  key: "gumroad-new-product",
-  description: "Emit new event on each new product.",
+  key: "gumroad-new-cancellation",
+  description: "Emit new event on a sale is cancelled.",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     emitEvent(data) {
+      if (!data.cancelled) {
+        return;
+      }
+
       this.$emit(data, {
         id: data.id,
-        summary: `New product with id ${data.id}`,
+        summary: `New sale cancelled with id ${data.id}`,
         ts: new Date(),
       });
     },
     getResources() {
-      return this.gumroad.getProducts();
+      return this.gumroad.getSales();
     },
     getResourcesKey() {
-      return "products";
+      return "sales";
     },
   },
 };

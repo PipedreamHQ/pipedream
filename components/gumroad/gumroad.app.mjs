@@ -1,4 +1,4 @@
-import { axios } from '@pipedream/platform'
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -23,18 +23,16 @@ export default {
       });
     },
     async getProducts(args = {}) {
-      const response = await this._makeRequest({
+      return this._makeRequest({
         path: "/products",
-        ...args
-      })
-
-      return response.products
+        ...args,
+      });
     },
     async getSales(args = {}) {
-      this._makeRequest({
+      return this._makeRequest({
         path: "/sales",
-        ...args
-      })
-    }
+        ...args,
+      });
+    },
   },
 };

@@ -13,13 +13,17 @@ export default {
   },
   methods: {
     emitEvent(data) {
-      throw new Error('emitEvent is not implemented', data)
+      throw new Error("emitEvent is not implemented", data);
     },
     getResources() {
-      throw new Error('getResources is not implemented')
+      throw new Error("getResources is not implemented");
     },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", id);
+    getResourcesKey() {
+      throw new Error("getResourcesKey is not implemented");
+    },
+    _setLastTimestamp() {
+      this.db.set("lastTimestamp", new Date().toISOString()
+        .slice(0, 10));
     },
     _getLastTimestamp() {
       return this.db.get("lastTimestamp");
@@ -27,38 +31,37 @@ export default {
   },
   hooks: {
     async deploy() {
-      const resources = await this.getResources();
+      this._setLastTimestamp();
 
-      resources.slice(10).reverse().forEach(this.emitEvent);
+      const response = await this.getResources();
+      const resources = response[this.getResourcesKey()];
+
+      resources.slice(10).reverse()
+        .forEach(this.emitEvent);
     },
   },
   async run() {
-    const page = 0
+    const lastTimestamp = this._getLastTimestamp();
+    this._setLastTimestamp();
+
+    let page = 0;
 
     while (true) {
-      const subscriptions = await this.webinargeek.getSubscriptions({
+      const response = await this.getResources({
         params: {
           page,
-          per_page: 100,
+          after: lastTimestamp,
         },
       });
+      const resources = response[this.getResourcesKey()];
 
-      subscriptions.reverse().forEach(this.emitEvent);
+      resources.reverse().forEach(this.emitEvent);
 
-      if (
-        subscriptions.length < 100 ||
-        subscriptions.filter((subscription) => subscription.id === lastSubscriptionId)
-      ) {
+      if (!resources?.next_page_url) {
         return;
       }
 
       page++;
     }
-    while (true) {
-
-    }
-    const resources = await this.getResources();
-
-    resources.reverse().forEach(this.emitEvent);
   },
 };

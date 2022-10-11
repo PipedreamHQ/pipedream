@@ -2,10 +2,10 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New Product",
+  name: "New Sale",
   version: "0.0.1",
-  key: "gumroad-new-product",
-  description: "Emit new event on each new product.",
+  key: "gumroad-new-sale",
+  description: "Emit new event on each new sale.",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -13,15 +13,15 @@ export default {
     emitEvent(data) {
       this.$emit(data, {
         id: data.id,
-        summary: `New product with id ${data.id}`,
-        ts: new Date(),
+        summary: `New sale with id ${data.id}`,
+        ts: Date.parse(data.created_at),
       });
     },
     getResources() {
-      return this.gumroad.getProducts();
+      return this.gumroad.getSales();
     },
     getResourcesKey() {
-      return "products";
+      return "sales";
     },
   },
 };

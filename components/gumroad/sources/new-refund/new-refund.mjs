@@ -2,26 +2,30 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New Product",
+  name: "New Refund",
   version: "0.0.1",
-  key: "gumroad-new-product",
-  description: "Emit new event on each new product.",
+  key: "gumroad-new-refund",
+  description: "Emit new event on a sale is refunded.",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     emitEvent(data) {
+      if (!data.chargedback) {
+        return;
+      }
+
       this.$emit(data, {
         id: data.id,
-        summary: `New product with id ${data.id}`,
+        summary: `New sale refunded with id ${data.id}`,
         ts: new Date(),
       });
     },
     getResources() {
-      return this.gumroad.getProducts();
+      return this.gumroad.getSales();
     },
     getResourcesKey() {
-      return "products";
+      return "sales";
     },
   },
 };
