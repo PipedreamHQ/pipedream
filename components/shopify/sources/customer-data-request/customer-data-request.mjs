@@ -1,10 +1,12 @@
+import shopify from "../../shopify.app.mjs";
+
 export default {
-  name: "Customer Data Request",
+  name: "New Customer Data Request",
   version: "0.0.1",
   key: "shopify-customer-data-request",
-  description:
-    "Emit a new event when a customer requests for data via a GDPR request.",
+  description: "Emit new customer data requests for data via a GDPR request.",
   props: {
+    shopify,
     shopifyApphook: {
       type: "$.interface.apphook",
       appProp: "shopify",
@@ -13,8 +15,8 @@ export default {
       ],
     },
   },
+  dedupe: "unique",
   type: "source",
-  methods: {},
   async run(event) {
     this.$emit(
       {
