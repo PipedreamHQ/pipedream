@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,8 +12,8 @@ export default {
     ...base.methods,
     getWebhookData() {
       return {
-        Context: "Account",
-        Action: "Update",
+        Context: constants.TRIGGERS.CONTEXT.ACCOUNT,
+        Action: constants.TRIGGERS.ACTION.UPDATE,
         Name: "Pipedream Webhook for Updated Accounts",
       };
     },
