@@ -3,9 +3,8 @@ import notion from "../../notion.app.mjs";
 export default {
   key: "notion-retrieve-page-property-item",
   name: "Retrieve Page Property Item",
-  description:
-    "Retrieves a `property_item` object for a given `page_id` and `property_id`.",
-  version: "0.0.1",
+  description: "Retrieves a `property_item` object for a given `page_id` and `property_id`.",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,
