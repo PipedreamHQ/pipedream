@@ -11,9 +11,11 @@ export default {
   },
   hooks: {
     async activate() {
+      const webhookData = this.getWebhookData();
+      console.log(`Creating ${webhookData.Name}...`);
       const { Id: id } = await this.amilia.createWebhook({
         data: {
-          ...this.getWebhookData(),
+          ...webhookData,
           Version: "V1",
           Url: this.http.endpoint,
         },
@@ -21,6 +23,7 @@ export default {
       this._setWebhookId(id);
     },
     async deactivate() {
+      console.log("Deleting webhook...");
       await this.amilia.deleteWebhook({
         id: this._getWebhookId(),
       });

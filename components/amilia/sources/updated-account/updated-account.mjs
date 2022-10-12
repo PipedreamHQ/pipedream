@@ -25,9 +25,11 @@ export default {
     },
     processEvent(event) {
       const { Payload: account } = event;
+      const name = account.Owners[0].AccountOwnerFullName;
+      console.log(`Emitting event for ${name}'s account...`);
       this.$emit(account, {
         id: account.Id,
-        summary: `Updated account: ${account.Owners[0].AccountOwnerFullName}`,
+        summary: `Updated account: ${name}`,
         ts: Date.parse(event.EventTime),
       });
     },

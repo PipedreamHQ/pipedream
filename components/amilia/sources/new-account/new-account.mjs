@@ -12,6 +12,7 @@ export default {
   hooks: {
     ...base.hooks,
     async deploy() {
+      console.log("Retrieving at most last 25 created accounts...");
       const accounts = await this.amilia.listAccounts({
         paginate: true,
       });
@@ -34,9 +35,11 @@ export default {
     },
     processEvent(event) {
       const { Payload: account } = event;
+      const name = account.Owners[0].AccountOwnerFullName;
+      console.log(`Emitting event for ${name}'s account...`);
       this.$emit(account, {
         id: account.Id,
-        summary: `New account created: ${account.Owners[0].AccountOwnerFullName}`,
+        summary: `New account created: ${name}`,
         ts: Date.parse(event.EventTime),
       });
     },

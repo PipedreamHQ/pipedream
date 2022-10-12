@@ -25,6 +25,7 @@ export default {
     },
     processEvent(event) {
       const { Payload: activity } = event;
+      console.log(`Emitting event for ${activity.ProgramName} activity...`);
       this.$emit(activity, {
         id: activity.Id,
         summary: `Updated activity ${activity.Name} for program ${activity.ProgramName}`,
