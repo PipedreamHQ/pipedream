@@ -403,6 +403,22 @@ importers:
   components/cloudfill:
     specifiers: {}
 
+  components/cloudflare_api_key:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      cloudflare: ^2.9.1
+      form-data: ^4.0.0
+      got: ^12.5.1
+      stream: ^0.0.2
+      util: ^0.12.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      cloudflare: 2.9.1
+      form-data: 4.0.0
+      got: 12.5.1
+      stream: 0.0.2
+      util: 0.12.4
+
   components/cloudlayer:
     specifiers: {}
 
@@ -930,7 +946,19 @@ importers:
       uuid: 8.3.2
 
   components/google_workspace:
-    specifiers: {}
+    specifiers:
+      '@googleapis/admin': ^6.0.2
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+      googleapis: ^108.0.0
+      uuidv4: ^6.2.13
+    dependencies:
+      '@googleapis/admin': 6.0.2
+      '@pipedream/platform': 1.1.1
+      googleapis: 108.0.0
+      uuidv4: 6.2.13
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/gorgias:
     specifiers:
@@ -1396,6 +1424,12 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.0
+
+  components/nordigen:
+    specifiers:
+      axios: ^0.21.1
+    dependencies:
+      axios: 0.21.4
 
   components/notion:
     specifiers:
@@ -5986,6 +6020,16 @@ packages:
       - supports-color
     dev: false
 
+  /@googleapis/admin/6.0.2:
+    resolution: {integrity: sha512-lliLBMPg+8jn0MoqLnxkLYlLTXjd/CYGnZj67z9xrxR+B6qX5j0wQWrMj54TUMUV64PTHjREEQVTfVeMQyGQFA==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      googleapis-common: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@googleapis/calendar/1.0.4:
     resolution: {integrity: sha512-rom4S/+k386GWF+hTswiOhw9Imglv1N4Jz2cmsb8sEg3TzNZn0xxg58XwMBy4lDKjs/dl9acB4En2/De5ayRNQ==}
     engines: {node: '>=10.0.0'}
@@ -9406,6 +9450,10 @@ packages:
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  /autocreate/1.2.0:
+    resolution: {integrity: sha512-69hVJ14Nm6rP5b4fd5TQGbBCPxH3M4L+/eDrCePoa3dCyNHWFS/HhE8mY6DG5q6LMscjMcjpSwEsX8G+8jT5ZA==}
+    dev: false
+
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -9435,6 +9483,7 @@ packages:
 
   /axios/0.19.2:
     resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
     dependencies:
       follow-redirects: 1.5.10
     transitivePeerDependencies:
@@ -9978,6 +10027,11 @@ packages:
   /caniuse-lite/1.0.30001367:
     resolution: {integrity: sha512-XDgbeOHfifWV3GEES2B8rtsrADx4Jf+juKX2SICJcaUhjYBO3bR96kvEIHa15VU6ohtOhBZuPGGYGbXMRn0NCw==}
 
+  /capture-stack-trace/1.0.2:
+    resolution: {integrity: sha512-X/WM2UQs6VMHUtjUDnZTRI+i1crWteJySFzr9UpGoQa4WQffXVTTXuekjl7TjZRlcF2XfjgITT0HxZ9RnxeT0w==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /cardinal/0.4.4:
     resolution: {integrity: sha512-3MxV0o9wOpQcobrcSrRpaSxlYkohCcZu0ytOjJUww/Yo/223q4Ecloo7odT+M0SI5kPgb1JhvSaF4EEuVXOLAQ==}
     dependencies:
@@ -10165,6 +10219,20 @@ packages:
     resolution: {integrity: sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==}
     dependencies:
       mimic-response: 1.0.1
+    dev: false
+
+  /cloudflare/2.9.1:
+    resolution: {integrity: sha512-x8yXPPoloy7xQ9GCKnsvQ3U1nwvcLndA2B3nxwSjIWxgLTUJOyakeEDsrqxZO8Dr6FkGdaXwy554fQVMpOabiw==}
+    dependencies:
+      autocreate: 1.2.0
+      es-class: 2.1.1
+      got: 6.7.1
+      https-proxy-agent: 5.0.1
+      object-assign: 4.1.1
+      should-proxy: 1.0.4
+      url-pattern: 1.0.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /clubhouse-lib/0.12.0:
@@ -10437,6 +10505,13 @@ packages:
     dependencies:
       crc: 3.8.0
       readable-stream: 3.6.0
+    dev: false
+
+  /create-error-class/3.0.2:
+    resolution: {integrity: sha512-gYTKKexFO3kh200H1Nit76sRwRtOY32vQd3jpAQKpLtZqyNsSQNfI4N7o3eP2wUjV35pTWKRYqFUDBvUha/Pkw==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      capture-stack-trace: 1.0.2
     dev: false
 
   /create-hash/1.2.0:
@@ -11050,6 +11125,10 @@ packages:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
 
+  /duplexer3/0.1.5:
+    resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
+    dev: false
+
   /duplexify/4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
     dependencies:
@@ -11175,6 +11254,10 @@ packages:
       string.prototype.trimend: 1.0.5
       string.prototype.trimstart: 1.0.5
       unbox-primitive: 1.0.2
+    dev: false
+
+  /es-class/2.1.1:
+    resolution: {integrity: sha512-loFNtCIGY81XvaHMzsxPocOgwZW71p+d/iES+zDSWeK9D4JaxrR/AoO0sZnWbV39D/ESppKbHrApxMi+Vbl8rg==}
     dev: false
 
   /es-shim-unscopables/1.0.0:
@@ -12127,6 +12210,19 @@ packages:
       - supports-color
     dev: false
 
+  /gaxios/5.0.2:
+    resolution: {integrity: sha512-TjtV2AJOZoMQqRYoy5eM8cCQogYwazWNYLQ72QB0kwa6vHHruYkGmhhyrlzbmgNHK1dNnuP2WSH81urfzyN2Og==}
+    engines: {node: '>=12'}
+    dependencies:
+      extend: 3.0.2
+      https-proxy-agent: 5.0.1
+      is-stream: 2.0.1
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /gcp-metadata/4.3.1:
     resolution: {integrity: sha512-x850LS5N7V1F3UcV7PoupzGsyD6iVwTVvsh3tbXfkctZnBnjW5yu5z1/3k3SehF7TyoTIe78rJs02GMMy+LF+A==}
     engines: {node: '>=10'}
@@ -12142,7 +12238,7 @@ packages:
     resolution: {integrity: sha512-gfwuX3yA3nNsHSWUL4KG90UulNiq922Ukj3wLTrcnX33BB7PwB1o0ubR8KVvXu9nJH+P5w1j2SQSNNqto+H0DA==}
     engines: {node: '>=12'}
     dependencies:
-      gaxios: 5.0.1
+      gaxios: 5.0.2
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
@@ -12214,6 +12310,11 @@ packages:
     resolution: {integrity: sha512-sY22aA6xchAzprjyqmSEQv4UbAAzRN0L2dQB0NlN5acTTK9Don6nhoc3eAbUnpZiCANAMfd/+40kVdKfFygohg==}
     engines: {node: '>=10'}
     dev: true
+
+  /get-stream/3.0.0:
+    resolution: {integrity: sha512-GlhdIUuVakc8SJ6kK0zAFbiGzRFzNnY4jUuEbV9UROo4Y+0Ny4fjvcZFVTeDA4odpFyOQzaw6hXukJSq/f28sQ==}
+    engines: {node: '>=4'}
+    dev: false
 
   /get-stream/4.1.0:
     resolution: {integrity: sha512-GMat4EJ5161kIy2HevLlr4luNjBgvmj413KaQA7jt4V8B4RDsfpHk7WQ9GVqfYyyx8OS/L66Kox+rJRNklLK7w==}
@@ -12391,7 +12492,7 @@ packages:
       base64-js: 1.5.1
       ecdsa-sig-formatter: 1.0.11
       fast-text-encoding: 1.0.4
-      gaxios: 5.0.1
+      gaxios: 5.0.2
       gcp-metadata: 5.0.0
       gtoken: 6.1.0
       jws: 4.0.0
@@ -12456,6 +12557,7 @@ packages:
   /google-p12-pem/4.0.0:
     resolution: {integrity: sha512-lRTMn5ElBdDixv4a86bixejPSRk1boRtUowNepeKEVvYiFlkLuAJUVpEz6PfObDHYEKnZWq/9a2zC98xu62A9w==}
     engines: {node: '>=12.0.0'}
+    hasBin: true
     dependencies:
       node-forge: 1.3.1
     dev: false
@@ -12470,6 +12572,32 @@ packages:
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis-common/6.0.3:
+    resolution: {integrity: sha512-Xyb4FsQ6PQDu4tAE/M/ev4yzZhFe2Gc7+rKmuCX2ZGk1ajBKbafsGlVYpmzGqQOT93BRDe8DiTmQb6YSkbICrA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      extend: 3.0.2
+      gaxios: 5.0.2
+      google-auth-library: 8.1.1
+      qs: 6.11.0
+      url-template: 2.0.8
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/108.0.0:
+    resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12518,6 +12646,25 @@ packages:
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
+    dev: false
+
+  /got/6.7.1:
+    resolution: {integrity: sha512-Y/K3EDuiQN9rTZhBvPRWMLXIKdeD1Rj0nzunfoi0Yyn5WBEbzxXKU9Ub2X41oZBagVWOBU3MuDonFMgPWQFnwg==}
+    engines: {node: '>=4'}
+    dependencies:
+      '@types/keyv': 3.1.4
+      '@types/responselike': 1.0.0
+      create-error-class: 3.0.2
+      duplexer3: 0.1.5
+      get-stream: 3.0.0
+      is-redirect: 1.0.0
+      is-retry-allowed: 1.2.0
+      is-stream: 1.1.0
+      lowercase-keys: 1.0.1
+      safe-buffer: 5.2.1
+      timed-out: 4.0.1
+      unzip-response: 2.0.1
+      url-parse-lax: 1.0.0
     dev: false
 
   /graceful-fs/4.2.10:
@@ -12613,6 +12760,7 @@ packages:
   /har-validator/5.1.5:
     resolution: {integrity: sha512-nmT2T0lljbxdQZfspsno9hgrG3Uir6Ks5afism62poxqBM6sDnMEuPmzTq8XN0OEwqKLLdh1jQI3qyE66Nzb3w==}
     engines: {node: '>=6'}
+    deprecated: this library is no longer supported
     dependencies:
       ajv: 6.12.6
       har-schema: 2.0.0
@@ -13197,6 +13345,11 @@ packages:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
     dev: true
 
+  /is-redirect/1.0.0:
+    resolution: {integrity: sha512-cr/SlUEe5zOGmzvj9bUyC4LVvkNVAXu4GytXLNMr1pny+a65MpQ9IJzFHD5vi7FyJgb4qt27+eS3TuQnqB+RQw==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /is-regex/1.1.4:
     resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==}
     engines: {node: '>= 0.4'}
@@ -13216,6 +13369,11 @@ packages:
     dependencies:
       is-unc-path: 1.0.0
     dev: true
+
+  /is-retry-allowed/1.2.0:
+    resolution: {integrity: sha512-RUbUeKwvm3XG2VYamhJL1xFktgjvPzL0Hq8C+6yrWIswDy3BIXGqCxhxkc30N9jqK311gVU137K8Ei55/zVJRg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /is-shared-array-buffer/1.0.2:
     resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==}
@@ -14980,6 +15138,11 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /lowercase-keys/1.0.1:
+    resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /lowercase-keys/2.0.0:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
     engines: {node: '>=8'}
@@ -16560,6 +16723,11 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
+  /prepend-http/1.0.4:
+    resolution: {integrity: sha512-PhmXi5XmoyKw1Un4E+opM2KcsJInDvKyuOumcjjw3waw86ZNjHwVUOOWLc4bCzLdcKNaWBH9e99sbWzDQsVaYg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /pretty-format/27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -17418,6 +17586,7 @@ packages:
   /request/2.88.2:
     resolution: {integrity: sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==}
     engines: {node: '>= 6'}
+    deprecated: request has been deprecated, see https://github.com/request/request/issues/3142
     dependencies:
       aws-sign2: 0.7.0
       aws4: 1.11.0
@@ -17739,6 +17908,7 @@ packages:
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
+    hasBin: true
     dev: false
 
   /semver/7.3.7:
@@ -17804,6 +17974,10 @@ packages:
       lodash: 4.17.21
       qs: 6.11.0
       stopcock: 1.1.0
+    dev: false
+
+  /should-proxy/1.0.4:
+    resolution: {integrity: sha512-RPQhIndEIVUCjkfkQ6rs6sOR6pkxJWCNdxtfG5pP0RVgUYbK5911kLTF0TNcCC0G3YCGd492rMollFT2aTd9iQ==}
     dev: false
 
   /side-channel/1.0.4:
@@ -18072,6 +18246,7 @@ packages:
   /sshpk/1.17.0:
     resolution: {integrity: sha512-/9HIEs1ZXGhSPE8X6Ccm7Nam1z8KcoCqPdI7ecm1N33EzAetWahvQWVqLZtaZQ+IDKX4IyA2o0gBzqIMkAagHQ==}
     engines: {node: '>=0.10.0'}
+    hasBin: true
     dependencies:
       asn1: 0.2.6
       assert-plus: 1.0.0
@@ -18669,6 +18844,11 @@ packages:
       xtend: 4.0.2
     dev: false
 
+  /timed-out/4.0.1:
+    resolution: {integrity: sha512-G7r3AhovYtr5YKOWQkta8RKAPb+J9IsO4uVmzjl8AZwfhs8UcUwTiD6gcJYSgOtzyjvQKrKYn41syHbUWMkafA==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /tiny-warning/1.0.3:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
     dev: false
@@ -19214,6 +19394,11 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
+  /unzip-response/2.0.1:
+    resolution: {integrity: sha512-N0XH6lqDtFH84JxptQoZYmloF4nzrQqqrAymNj+/gW60AO2AZgOcf4O/nUXJcYfyQkqvMo9lSupBZmmgvuVXlw==}
+    engines: {node: '>=4'}
+    dev: false
+
   /update-browserslist-db/1.0.5_browserslist@4.21.2:
     resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
     hasBin: true
@@ -19245,11 +19430,23 @@ packages:
     resolution: {integrity: sha512-H6dnQ/yPAAVzMQRvEvyz01hhfQL5qRWSEt7BX8t9DqnPw9BjMb64fjIRq76Uvf1hkHp+mTZvEVJ5guXOT0Xqaw==}
     dev: false
 
+  /url-parse-lax/1.0.0:
+    resolution: {integrity: sha512-BVA4lR5PIviy2PMseNd2jbFQ+jwSwQGdJejf5ctd1rEXt0Ypd7yanUK9+lYechVlN5VaTJGsu2U/3MDDu6KgBA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      prepend-http: 1.0.4
+    dev: false
+
   /url-parse/1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
+    dev: false
+
+  /url-pattern/1.0.3:
+    resolution: {integrity: sha512-uQcEj/2puA4aq1R3A2+VNVBgaWYR24FdWjl7VNW83rnWftlhyzOZ/tBjezRiC2UkIzuxC8Top3IekN3vUf1WxA==}
+    engines: {node: '>=0.12.0'}
     dev: false
 
   /url-template/2.0.8:
@@ -19305,9 +19502,12 @@ packages:
 
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
+    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    hasBin: true
 
   /uuid/8.0.0:
     resolution: {integrity: sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==}
+    hasBin: true
     dev: false
 
   /uuid/8.3.2:

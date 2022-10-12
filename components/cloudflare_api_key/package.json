@@ -1,0 +1,24 @@
+{
+  "name": "@pipedream/cloudflare_api_key",
+  "version": "0.0.1",
+  "description": "Pipedream Cloudflare Components",
+  "main": "cloudflare_api_key.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudflare_api_key"
+  ],
+  "homepage": "https://pipedream.com/apps/cloudflare_api_key",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "cloudflare": "^2.9.1",
+    "form-data": "^4.0.0",
+    "got": "^12.5.1",
+    "stream": "^0.0.2",
+    "util": "^0.12.4"
+  }
+}
