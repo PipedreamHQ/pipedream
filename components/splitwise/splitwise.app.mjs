@@ -8,11 +8,25 @@ export default {
       type: "integer",
       label: "Group",
       description: "Filter by a specific group.",
+      async options() {
+        const groups = await this.getGroups();
+        return groups.map((group) => ({
+          label: group.name,
+          value: group.id,
+        }));
+      },
     },
     friend: {
       type: "integer",
       label: "Friend",
       description: "Filter by a specific friend that are not in any group.",
+      async options() {
+        const friends = await this.getFriends();
+        return friends.map((friend) => ({
+          label: this.getPersonName(friend),
+          value: friend.id,
+        }));
+      },
     },
     datedAfter: {
       type: "string",
@@ -47,6 +61,31 @@ export default {
         },
         ...opts,
       });
+    },
+    getPersonName(person) {
+      const {
+        first_name: firstName,
+        last_name: lastName,
+      } = person;
+      return lastName
+        ? `${firstName} ${lastName}`
+        : firstName;
+    },
+    async getGroups(opts = {}) {
+      const path = "/get_groups";
+      const { groups } = await this._makeRequest({
+        ...opts,
+        path,
+      });
+      return groups;
+    },
+    async getFriends(opts = {}) {
+      const path = "/get_friends";
+      const { friends } = await this._makeRequest({
+        ...opts,
+        path,
+      });
+      return friends;
     },
     async getExpenses(opts = {}) {
       const path = "/get_expenses";
