@@ -29,7 +29,7 @@ export default {
         showMedicalInfo: this.showMedicalInfo,
       },
     });
-    $.export("$summary", `Succesfully retrieved account for ${response.Owners[0].AccountOwnerFullName}`);
+    $.export("$summary", `Succesfully retrieved account for ${this.amilia.getAccountName(response)}`);
     return response;
   },
 };

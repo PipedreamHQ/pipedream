@@ -19,7 +19,7 @@ export default {
           },
         });
         return accounts.map((account) => ({
-          label: account.Owners[0].AccountOwnerFullName,
+          label: this.getAccountName(account),
           value: account.Id,
         }));
       },
@@ -125,6 +125,9 @@ export default {
         ...opts,
         path,
       });
+    },
+    getAccountName(account) {
+      return account.Owners[0].AccountOwnerFullName;
     },
     async paginate(opts) {
       const items = [];

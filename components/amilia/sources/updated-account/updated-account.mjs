@@ -25,7 +25,7 @@ export default {
     },
     processEvent(event) {
       const { Payload: account } = event;
-      const name = account.Owners[0].AccountOwnerFullName;
+      const name = this.amilia.getAccountName(account);
       console.log(`Emitting event for ${name}'s account...`);
       this.$emit(account, {
         id: account.Id,
