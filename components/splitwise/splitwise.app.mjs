@@ -4,6 +4,18 @@ export default {
   type: "app",
   app: "splitwise",
   propDefinitions: {
+    expense: {
+      type: "integer",
+      label: "Expense",
+      description: "Get a specific expense.",
+      async options() {
+        const expenses = await this.getExpenses();
+        return expenses.map((expense) => ({
+          label: expense.description,
+          value: expense.id,
+        }));
+      },
+    },
     group: {
       type: "integer",
       label: "Group",
@@ -94,6 +106,16 @@ export default {
         path,
       });
       return expenses;
+    },
+    async getExpense({
+      id, ...opts
+    }) {
+      const path = `/get_expense/${id}`;
+      const { expense } = await this._makeRequest({
+        ...opts,
+        path,
+      });
+      return expense;
     },
   },
 };
