@@ -10,7 +10,6 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
     async activate() {
       const { Id: id } = await this.amilia.createWebhook({
         data: {

@@ -8,6 +8,12 @@ export default {
   description: "Emit new event for every updated activity in the organization",
   type: "source",
   version: "0.0.1",
+  hooks: {
+    ...base.hooks,
+    deploy() {
+      console.log("Skipping retrieval of historical events for updated activities");
+    },
+  },
   methods: {
     ...base.methods,
     getWebhookData() {

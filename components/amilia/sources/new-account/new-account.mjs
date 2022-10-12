@@ -9,6 +9,20 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
+  hooks: {
+    ...base.hooks,
+    async deploy() {
+      const accounts = await this.amilia.listAccounts({
+        paginate: true,
+      });
+      for (const account of accounts.slice(-25)) {
+        this.processEvent({
+          Payload: account,
+          EventTime: new Date(),
+        });
+      }
+    },
+  },
   methods: {
     ...base.methods,
     getWebhookData() {
