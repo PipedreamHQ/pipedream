@@ -50,7 +50,7 @@ export default defineAction({
 
     const response =
       await this.vk.createCommunity({
-        params: {
+        data: {
           title,
           description,
           type,

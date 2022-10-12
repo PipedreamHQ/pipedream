@@ -16,7 +16,6 @@ export default defineAction({
       options: [
         "profile",
         "wall",
-        "saved",
       ],
     },
     offset: {
