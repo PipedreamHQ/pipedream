@@ -19,8 +19,8 @@ export default defineApp({
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
-          'Content-Type': 'application/json',
-          "X-API-KEY": this.detrack.$auth.api_key,
+          "Content-Type": "application/json",
+          "X-API-KEY": this.$auth.api_key,
         },
         ...args,
       });
@@ -28,7 +28,7 @@ export default defineApp({
     async createJob(params: CreateJobParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
-        endpoint: '/dn/jobs',
+        endpoint: "/dn/jobs",
         ...params,
       });
     },

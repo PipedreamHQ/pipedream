@@ -1,8 +1,6 @@
 import detrack from "../../app/detrack.app";
 import { defineAction } from "@pipedream/types";
-import {
-  CreateJobParams,
-} from "../../common/types";
+import { CreateJobParams } from "../../common/types";
 
 export default defineAction({
   name: "Create Job",
@@ -17,12 +15,12 @@ export default defineAction({
       type: "object",
       label: "Job Params",
       description: "The parameters to pass in the request body. [See the docs for more info.](https://detrackapiv2.docs.apiary.io/#reference/jobs/list-create/create)",
-    }
+    },
   },
   async run({ $ }): Promise<any> {
     const params: CreateJobParams = {
       $,
-      data: JSON.stringify(this.jobParams)
+      data: JSON.stringify(this.jobParams),
     };
 
     const response = await this.detrack.createJob(params);
