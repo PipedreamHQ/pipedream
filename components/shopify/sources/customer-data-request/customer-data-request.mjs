@@ -15,7 +15,6 @@ export default {
       ],
     },
   },
-  dedupe: "unique",
   type: "source",
   async run(event) {
     this.$emit(event.body, {
