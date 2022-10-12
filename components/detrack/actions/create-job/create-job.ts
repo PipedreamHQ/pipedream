@@ -20,7 +20,9 @@ export default defineAction({
   async run({ $ }): Promise<any> {
     const params: CreateJobParams = {
       $,
-      data: JSON.stringify(this.jobParams),
+      data: JSON.stringify({
+        data: this.jobParams
+      }),
     };
 
     const response = await this.detrack.createJob(params);
