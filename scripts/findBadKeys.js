@@ -44,12 +44,12 @@ const checkPathVsKey = () => {
     const componentKey = getComponentKey(p);
     if (!componentKey) {
       err = true;
-      console.error(`[!] ${file} has no component key! Either its file name should start with 'common' or it should be in a folder named 'common'`);
+      console.error(`[!] ${file} has no component key! Either its file name should start with 'common' or it should be in a folder named 'common'! See the docs: https://pipedream.com/docs/components/guidelines/#folder-structure`);
     } else {
       const uriParts = file.split("/");
       if (uriParts.length < 2) {
         err = true;
-        console.error(`[!] ${file} components should be in folders named as the same with their file names!`);
+        console.error(`[!] ${file} components should be in folders named as the same with their file names! See the docs: https://pipedream.com/docs/components/guidelines/#folder-structure`);
       } else {
         const folderName = uriParts[uriParts.length - 2];
         const fileName = uriParts[uriParts.length - 1].split(".")[0];
@@ -58,7 +58,7 @@ const checkPathVsKey = () => {
           .join("-");
         if (folderName != fileName || fileName != keyName) {
           err = true;
-          console.error(`[!] ${file} component folder name, component file name without extension and component key without slug should be the same!`);
+          console.error(`[!] ${file} component folder name, component file name without extension and component key without slug should be the same! See the docs: https://pipedream.com/docs/components/guidelines/#folder-structure`);
         }
       }
     }
@@ -107,7 +107,7 @@ for (const name of dirs) {
       const data = fs.readFileSync(appPath, "utf8");
       const md = data.match(/['"]?app['"]?: ['"]([^'"]+)/);
       nameSlug = md[1];
-    } 
+    }
     // Some app files are kept in the app dir
     if (subname === "app") {
       const appDir = path.join(p, subname);
