@@ -13,10 +13,16 @@ export default defineAction({
   type: "action",
   props: {
     detrack,
+    jobParams: {
+      type: "object",
+      label: "Job Params",
+      description: "The parameters to pass in the request body. [See the docs for more info.](https://detrackapiv2.docs.apiary.io/#reference/jobs/list-create/create)",
+    }
   },
   async run({ $ }): Promise<any> {
     const params: CreateJobParams = {
       $,
+      data: JSON.stringify(this.jobParams)
     };
 
     const response = await this.detrack.createJob(params);

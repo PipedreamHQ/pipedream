@@ -8,17 +8,19 @@ export default defineApp({
   type: "app",
   app: "detrack",
   methods: {
-    _createDocumentBaseUrl(): string {
-      return "https://api.detrack.app/documents/create/";
+    _baseUrl(): string {
+      return "https://app.detrack.com/api/v2";
     },
     async _httpRequest({
       $ = this,
+      endpoint,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
+        url: this._baseUrl() + endpoint,
         headers: {
-          "apikey": this.$auth.api_key,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
+          "X-API-KEY": this.detrack.$auth.api_key,
         },
         ...args,
       });
@@ -26,6 +28,7 @@ export default defineApp({
     async createJob(params: CreateJobParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
+        endpoint: '/dn/jobs',
         ...params,
       });
     },

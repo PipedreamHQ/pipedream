@@ -1,17 +1,12 @@
-import {
-  JSONValue, Pipedream,
-} from "@pipedream/types";
+import { JSONValue, Pipedream } from "@pipedream/types";
 
 export interface HttpRequestParams {
   $: Pipedream;
-  url: string;
+  endpoint: string;
   data: object;
 }
 
 export interface CreateJobParams {
   $: Pipedream;
-  url: string;
-  data: {
-    [key: string]: JSONValue;
-  };
+  data: string;
 }
