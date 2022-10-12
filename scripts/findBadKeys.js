@@ -7,6 +7,58 @@ const componentsDir = path.join(rootDir, "components");
 
 let err = false;
 
+const isAppFile = ( subname ) =>
+  subname.endsWith(".app.mjs") || subname.endsWith(".app.js") || subname.endsWith(".app.mts") || subname.endsWith(".app.ts");
+
+const isSourceFile = ( subname ) =>
+  subname.endsWith(".mjs") || subname.endsWith(".js") || subname.endsWith(".mts") || subname.endsWith(".ts");
+
+const isCommonFile = ( subname ) => {
+  const regex = /\/common.*(\/|\.js|\.mjs|\.ts|\.mts|)/g;
+  return regex.test(subname);
+};
+
+const getComponentKey = ( p )  => {
+  const data = fs.readFileSync(p, "utf8");
+  const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
+  if (md && md.length > 1)
+    return md[1];
+  return false;
+};
+
+const checkPathVsKey = () => {
+  const changedFiles = [
+    ...process.argv[2].split(","),
+    ...process.argv[3].split(","),
+  ];
+  for (const file of changedFiles) {
+    const p = path.join(rootDir, file);
+    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
+      continue;
+    const componentKey = getComponentKey(p);
+    if (!componentKey) {
+      err = true;
+      console.error(`[!] ${file} has no component key! Either its file name should start with 'common' or it should be in a folder named 'common'`);
+    } else {
+      const uriParts = file.split("/");
+      if (uriParts.length < 2) {
+        err = true;
+        console.error(`[!] ${file} components should be in folders named as the same with their file names!`);
+      } else {
+        const folderName = uriParts[uriParts.length - 2];
+        const fileName = uriParts[uriParts.length - 1].split(".")[0];
+        const keyName = componentKey.split("-")
+          .slice(1)
+          .join("-");
+        if (folderName != fileName || fileName != keyName) {
+          err = true;
+          console.error(`[!] ${file} component folder name, component file name without extension and component key without slug should be the same!`);
+        }
+      }
+    }
+  }
+};
+
 // now walk dirs looking for components and `key: ""`... (find component keys better)
 function checkKeys(p, nameSlug) {
   const names = fs.readdirSync(p);
@@ -74,6 +126,8 @@ for (const name of dirs) {
   }
   checkKeys(p, nameSlug);
 }
+
+checkPathVsKey();
 
 if (err) {
   process.exit(1);
