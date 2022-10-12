@@ -11,7 +11,7 @@
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.21.1"
+        "axios": "^0.21.3"
     },
     "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
     "publishConfig": {
