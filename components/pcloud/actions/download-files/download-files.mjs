@@ -6,7 +6,7 @@ export default {
   key: "pcloud-download-files",
   name: "Download File(s)",
   description: "Download one or more files to a folder. [See the docs here](https://docs.pcloud.com/methods/file/downloadfile.html)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

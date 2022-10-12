@@ -9,7 +9,7 @@ export default {
     accountIdentifier: {
       type: "string",
       label: "Account ID",
-      description: "Account of which the zone is created in",
+      description: "Account which the zone is created in",
       async options({ prevContext }) {
         const page = prevContext.page || 1;
         const accounts = await this.getAccounts({
@@ -91,6 +91,18 @@ export default {
             page: page + 1,
           },
         };
+      },
+    },
+    namespace: {
+      type: "string",
+      label: "Namespace",
+      description: "The namespace identifier",
+      async options({ accountId }) {
+        const namespaces = await this.listNamespaces(accountId);
+        return namespaces.result.map((namespace) => ({
+          label: namespace.title,
+          value: namespace.id,
+        }));
       },
     },
     dnsRecordType: {
@@ -329,6 +341,44 @@ export default {
           method: "GET",
           path: "/accounts/",
           params,
+        });
+        return response;
+      } catch (error) {
+        this._throwApiRequestFormattedError(error);
+      }
+    },
+    async listNamespaces(accountId) {
+      const cf = this._getCloudflareClient();
+      try {
+        const response = await cf.enterpriseZoneWorkersKVNamespaces.browse(accountId);
+        return response;
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async createNamespace(accountId, config) {
+      const cf = this._getCloudflareClient();
+      try {
+        const response = await cf.enterpriseZoneWorkersKVNamespaces.add(accountId, config);
+        return response;
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async createKeyValuePair(accountId, namespaceId, data) {
+      const cf = this._getCloudflareClient();
+      try {
+        const response = await cf.enterpriseZoneWorkersKV.addMulti(accountId, namespaceId, data);
+        return response;
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async getWorkerAnalytics($, accountId) {
+      try {
+        const response = await this._makeRequest($, {
+          method: "GET",
+          path: `/accounts/${accountId}/storage/analytics`,
         });
         return response;
       } catch (error) {

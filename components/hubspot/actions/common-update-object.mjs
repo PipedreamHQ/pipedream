@@ -3,16 +3,6 @@ import common from "./common-create.mjs";
 export default {
   ...common,
   props: {
-    ...common.props,
-    objectId: {
-      propDefinition: [
-        common.props.hubspot,
-        "objectId",
-        () => ({
-          objectType: "contact",
-        }),
-      ],
-    },
     // Re-defining propertyGroups so this.getObjectType() can be called from async options
     // eslint-disable-next-line pipedream/props-description
     propertyGroups: {

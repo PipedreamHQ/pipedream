@@ -6,7 +6,7 @@ export default {
   key: "pcloud-move-file",
   name: "Move File",
   description: "Moves a file to the specified destination. [See the docs here](https://docs.pcloud.com/methods/file/renamefile.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

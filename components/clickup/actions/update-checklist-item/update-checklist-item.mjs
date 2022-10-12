@@ -4,7 +4,7 @@ export default {
   key: "clickup-update-checklist-item",
   name: "Update Checklist Item",
   description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist Item** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -33,12 +33,15 @@ export default {
     },
     parent: {
       label: "Checklist Parent",
-      description: "Set another checklist as parent",
+      description: "Set another checklist item as parent",
       propDefinition: [
         common.props.clickup,
-        "checklists",
+        "checklistItems",
         (c) => ({
           taskId: c.taskId,
+          checklistId: c.checklistId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
       optional: true,
