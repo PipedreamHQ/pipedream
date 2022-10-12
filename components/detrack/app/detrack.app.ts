@@ -1,13 +1,33 @@
 import { defineApp } from "@pipedream/types";
+import { axios } from "@pipedream/platform";
+import {
+  CreateJobParams, HttpRequestParams,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "detrack",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _createDocumentBaseUrl(): string {
+      return "https://api.detrack.app/documents/create/";
+    },
+    async _httpRequest({
+      $ = this,
+      ...args
+    }: HttpRequestParams): Promise<object> {
+      return axios($, {
+        headers: {
+          "apikey": this.$auth.api_key,
+          "Content-Type": "application/json",
+        },
+        ...args,
+      });
+    },
+    async createJob(params: CreateJobParams): Promise<object> {
+      return this._httpRequest({
+        method: "POST",
+        ...params,
+      });
     },
   },
 });
