@@ -27,10 +27,15 @@ const getComponentKey = ( p )  => {
 };
 
 const checkPathVsKey = () => {
-  const changedFiles = [
-    ...process.argv[2].split(","),
-    ...process.argv[3].split(","),
-  ];
+
+  let changedFiles = [];
+  if (process.argv[2])
+    changedFiles = process.argv[2].split(",");
+  if (process.argv[3])
+    changedFiles = [
+      ...changedFiles,
+      ...process.argv[3].split(","),
+    ];
   for (const file of changedFiles) {
     const p = path.join(rootDir, file);
     if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
