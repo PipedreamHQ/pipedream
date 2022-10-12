@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "mailerlite-create-subscriber",
   name: "Create Subscriber",
-  description: "Create a new subscriber. [See docs](https://developers.mailerlite.com/reference/create-a-subscriber)",
+  description: "Create a new subscriber. [See docs](https://developers.mailerlite.com/docs/subscribers.html#create-update-subscriber)",
   version: "0.0.1",
   type: "action",
   props: {

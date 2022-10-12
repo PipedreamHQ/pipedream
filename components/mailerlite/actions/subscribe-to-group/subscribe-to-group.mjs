@@ -3,7 +3,7 @@ import mailerlite from "../../mailerlite.app.mjs";
 export default {
   key: "mailerlite-subscribe-to-group",
   name: "Subscribe to MailerLite Group",
-  description: "Add a subscriber to a group. [See the docs here](https://developers.mailerlite.com/reference/add-single-subscriber)",
+  description: "Add a subscriber to a group. [See the docs here](https://developers.mailerlite.com/docs/groups.html#assign-subscriber-to-a-group)",
   version: "0.3.0",
   type: "action",
   props: {

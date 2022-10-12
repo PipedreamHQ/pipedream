@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "mailerlite-list-subscribers",
   name: "List Subscribers",
-  description: "Lists all subscribers in a group. [See the docs here](https://developers.mailerlite.com/reference/subscribers)",
+  description: "Lists all subscribers in a group. [See the docs here](https://developers.mailerlite.com/docs/subscribers.html#list-all-subscribers)",
   version: "0.0.1",
   type: "action",
   props: {
