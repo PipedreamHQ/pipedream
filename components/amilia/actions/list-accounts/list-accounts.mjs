@@ -3,7 +3,7 @@ import amilia from "../../amilia.app.mjs";
 export default {
   key: "amilia-list-accounts",
   name: "List Accounts",
-  description: "List all accounts in an organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAccounts)",
+  description: "List all (client) accounts in an organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAccounts)",
   version: "0.0.1",
   type: "action",
   props: {

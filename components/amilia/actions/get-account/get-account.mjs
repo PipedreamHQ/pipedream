@@ -3,7 +3,7 @@ import amilia from "../../amilia.app.mjs";
 export default {
   key: "amilia-get-account",
   name: "Get Account",
-  description: "Get an account in your organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAnAccount)",
+  description: "Get an (client) account in your organization. [See the docs here](https://www.amilia.com/ApiDocs/v3org#GetAnAccount)",
   version: "0.0.1",
   type: "action",
   props: {

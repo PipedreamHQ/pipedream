@@ -5,7 +5,7 @@ export default {
   ...base,
   key: "amilia-new-account",
   name: "New Account",
-  description: "Emit new event for every created account in the organization",
+  description: "Emit new event for every created (client) account in the organization",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

@@ -5,7 +5,7 @@ export default {
   ...base,
   key: "amilia-updated-account",
   name: "Updated Account",
-  description: "Emit new event for every updated account in the organization",
+  description: "Emit new event for every updated (client) account in the organization",
   type: "source",
   version: "0.0.1",
   hooks: {
