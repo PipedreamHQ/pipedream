@@ -15,9 +15,13 @@ Pipedream provides two ways to share code across workflows:
 
 ## Publish an action from a Node.js code step
 
-You can publish any of Node.js code steps into a reusable action. This enables you to write a Node.js code step once, and reuse it across many workflows without rewriting it.
+You can publish any of your Node.js code steps into a reusable action. This enables you to write a Node.js code step once, and reuse it across many workflows without rewriting it.
 
-To convert a Node.js code step into an publishable action,add these properties `version`, `name` `key`, and `type` to your Node.js step:
+To convert a Node.js code step into an publishable action, make sure to include the below properties in your Node.js step:
+- `version`
+- `name`
+- `key`
+- `type`
 
 ```javascript{3-6}
 // Adding properties to a regular Node.js code step make it publishable
@@ -40,7 +44,7 @@ export default defineComponent({
 
 ```
 
-Click **Test** to verify the step is working as expected. Only tested actions are publishable.
+Click **Test** to verify the step is working as expected. Only actions that have been successfully tested are to be published.
 
 Then open the menu in the top righthand corner of the code step and select **Publish to My Actions**:
 
