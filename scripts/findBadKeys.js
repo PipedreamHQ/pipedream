@@ -37,7 +37,7 @@ const checkPathVsKey = () => {
     ];
   for (const file of changedFiles) {
     const p = path.join(rootDir, file);
-    if (file.startsWith("components/"))
+    if (!file.startsWith("components/"))
       continue;
     if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
       continue;
