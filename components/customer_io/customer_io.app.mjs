@@ -11,11 +11,17 @@ export default {
     },
   },
   methods: {
+    _getSiteId() {
+      return this.$auth.site_id;
+    },
+    _getApiKey() {
+      return this.$auth.api_key;
+    },
     _getBaseUrl() {
       return "https://track.customer.io/api/v1";
     },
     _getHeaders() {
-      const basicauthUserPwd = `${this.$auth.site_id}:${this.$auth.api_key}`;
+      const basicauthUserPwd = `${this._getSiteId()}:${this._getApiKey()}`;
       const buff = Buffer.from(basicauthUserPwd);
       const base64BasicauthUserPwd = buff.toString("base64");
 
