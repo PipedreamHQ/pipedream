@@ -116,20 +116,29 @@ export default {
   async run(event) {
     const {
       timestamp,
+      headers,
       body,
     } = event;
     const currentTSInMS = timestamp * 1000;
     const expirationTSInMS = this.getExpirationTS();
     const token = this.getToken();
 
-    if (body?.token !== token) {
+    if (headers?.["x-goog-channel-token"] !== token) {
       throw new ConfigurationError("Webhook token is not valid!");
     }
 
-    this.$emit(body, this.getMetadata({
-      ...body,
-      timestamp,
-    }));
+    const {
+      events = [],
+      ...otherProps
+    } = body;
+
+    events.forEach((event) => {
+      const data = {
+        ...otherProps,
+        ...event,
+      };
+      this.$emit(data, this.getMetadata(data));
+    });
 
     if (expirationTSInMS && expirationTSInMS < currentTSInMS) {
       await this.renewWebhook();
