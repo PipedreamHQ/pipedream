@@ -28,7 +28,7 @@ export default {
     },
     content: {
       label: "Content",
-      description: "Content of the email in text format",
+      description: "Content of the email in text or html format",
       type: "string",
       optional: true,
     },
