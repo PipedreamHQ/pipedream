@@ -66,7 +66,7 @@ export default {
         parent,
       },
     };
-    const { data: feature } = await this.productboard.createFeature(data);
+    const { data: feature } = await this.productboard.createFeature(data, $);
 
     $.export("$summary", "Successfully created feature");
 

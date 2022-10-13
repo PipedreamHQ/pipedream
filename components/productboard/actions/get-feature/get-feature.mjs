@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.productboard.getFeature(this.feature);
+    const { data } = await this.productboard.getFeature(this.feature, $);
 
     $.export("$summary", "Successfully retrieved feature");
 

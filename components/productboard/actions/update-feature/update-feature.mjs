@@ -85,7 +85,7 @@ export default {
       };
     }
     console.log(data);
-    const { data: feature } = await this.productboard.updateFeature(this.feature, data);
+    const { data: feature } = await this.productboard.updateFeature(this.feature, data, $);
 
     $.export("$summary", "Successfully updated feature");
 

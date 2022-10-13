@@ -43,8 +43,8 @@ export default {
       const {
         data, links,
       } = next
-        ? await this.productboard.getTarget(next)
-        : await this.productboard.listFeatures(params);
+        ? await this.productboard.getTarget(next, $)
+        : await this.productboard.listFeatures(params, $);
       features.push(...data);
       next = links?.next;
     } while (next && features.length < this.max);

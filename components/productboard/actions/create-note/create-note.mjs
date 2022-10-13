@@ -40,7 +40,7 @@ export default {
       },
       tags: this.tags,
     };
-    const { data: note } = await this.productboard.createNote(data);
+    const { data: note } = await this.productboard.createNote(data, $);
 
     $.export("$summary", "Successfully created note");
 

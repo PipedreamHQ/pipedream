@@ -115,32 +115,37 @@ export default {
         path: `webhooks/${id}`,
       });
     },
-    async getTarget(targetUrl) {
+    async getTarget(targetUrl, $) {
       return this._makeRequest({
         url: targetUrl,
+        $,
       });
     },
-    async getFeature(id) {
+    async getFeature(id, $) {
       return this._makeRequest({
         path: `features/${id}`,
+        $,
       });
     },
-    async listComponents(params = {}) {
+    async listComponents(params = {}, $) {
       return this._makeRequest({
         path: "components",
         params,
+        $,
       });
     },
-    async listProducts(params = {}) {
+    async listProducts(params = {}, $) {
       return this._makeRequest({
         path: "products",
         params,
+        $,
       });
     },
-    async listFeatures(params = {}) {
+    async listFeatures(params = {}, $) {
       return this._makeRequest({
         path: "features",
         params,
+        $,
       });
     },
     async listFeatureStatuses() {
@@ -148,25 +153,28 @@ export default {
         path: "feature-statuses",
       });
     },
-    async createFeature(data = {}) {
+    async createFeature(data = {}, $) {
       return this._makeRequest({
         method: "POST",
         path: "features",
         data,
+        $,
       });
     },
-    async createNote(data = {}) {
+    async createNote(data = {}, $) {
       return this._makeRequest({
         method: "POST",
         path: "notes",
         data,
+        $,
       });
     },
-    async updateFeature(id, data = {}) {
+    async updateFeature(id, data = {}, $) {
       return this._makeRequest({
         method: "PATCH",
         path: `features/${id}`,
         data,
+        $,
       });
     },
   },
