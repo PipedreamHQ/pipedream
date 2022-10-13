@@ -1,4 +1,5 @@
 import app from "../../customer_io.app.mjs";
+import options from "../../common/options.mjs";
 
 export default {
   key: "customer_io-add-customers-to-segment",
@@ -25,11 +26,7 @@ export default {
       label: "Id Type",
       type: "string",
       description: "The type of ids you want to use. All of the values in the `ids` array must be of this type. If you don't provide this parameter, we assume that the `ids` array contains `id` values.",
-      options: [
-        "id",
-        "email",
-        "cio_id",
-      ],
+      options: options.ID_TYPES,
       optional: true,
     },
   },
