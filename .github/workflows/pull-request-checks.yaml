@@ -116,8 +116,13 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
+      - name: Get Changed Files
+        id: changed_files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Check component keys
-        run: node scripts/findBadKeys.js
+        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
       - name: Check for duplicate component keys
         run: node scripts/findDuplicateKeys.js
 
