@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  CreateJobParams, HttpRequestParams,
+  CreateJobParams, HttpRequestParams, JobResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -25,7 +25,7 @@ export default defineApp({
         ...args,
       });
     },
-    async createJob(params: CreateJobParams): Promise<object> {
+    async createJob(params: CreateJobParams): Promise<JobResponse> {
       return this._httpRequest({
         method: "POST",
         endpoint: "/dn/jobs",

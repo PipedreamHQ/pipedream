@@ -10,3 +10,9 @@ export interface CreateJobParams {
   $: Pipedream;
   data: string;
 }
+
+export interface JobResponse {
+  data: {
+    id: string;
+  };
+}
