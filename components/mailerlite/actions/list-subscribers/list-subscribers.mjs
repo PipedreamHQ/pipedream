@@ -5,7 +5,7 @@ export default {
   key: "mailerlite-list-subscribers",
   name: "List Subscribers",
   description: "Lists all subscribers in a group. [See the docs here](https://developers.mailerlite.com/docs/subscribers.html#list-all-subscribers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailerlite,
