@@ -155,6 +155,13 @@ export default {
         data,
       });
     },
+    async createNote(data = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "notes",
+        data,
+      });
+    },
     async updateFeature(id, data = {}) {
       return this._makeRequest({
         method: "PATCH",
