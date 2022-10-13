@@ -6,7 +6,7 @@ export default defineSource({
   key: "google_workspace-new-admin-activity-by-user",
   name: "New Admin Activity By User",
   description: "Emit new admin activities by selected user",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,11 +23,11 @@ export default defineSource({
     getUserKey() {
       return this.userKey;
     },
-    getMetadata(resource) {
+    getMetadata(data) {
       return {
-        id: resource.timestamp,
-        ts: resource.timestamp,
-        summary: "New Admin Activity",
+        id: data.id.uniqueQualifier,
+        ts: Date.parse(data.id.time),
+        summary: "New Admin Activity By User",
       };
     },
   },
