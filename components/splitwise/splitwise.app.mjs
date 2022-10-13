@@ -83,6 +83,14 @@ export default {
         ? `${firstName} ${lastName}`
         : firstName;
     },
+    async getNotifications(opts = {}) {
+      const path = "/get_notifications";
+      const { notifications } = await this._makeRequest({
+        ...opts,
+        path,
+      });
+      return notifications;
+    },
     async getGroups(opts = {}) {
       const path = "/get_groups";
       const { groups } = await this._makeRequest({
