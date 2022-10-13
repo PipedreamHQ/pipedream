@@ -60,16 +60,19 @@ export default {
     },
   },
   methods: {
-    baseUrl() {
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
+    _baseUrl() {
       return "https://secure.splitwise.com/api/v3.0";
     },
     async _makeRequest({
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: this.baseUrl() + path,
+        url: this._baseUrl() + path,
         headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this._accessToken()}`,
         },
         ...opts,
       });
