@@ -125,5 +125,21 @@ export default {
       });
       return expense;
     },
+    async createExpense(opts = {}) {
+      const path = "/create_expense";
+      const method = "POST";
+      const {
+        expenses,
+        errors,
+      } = await this._makeRequest({
+        ...opts,
+        path,
+        method,
+      });
+      if (Object.keys(errors).length) {
+        throw new Error(errors);
+      }
+      return expenses;
+    },
   },
 };
