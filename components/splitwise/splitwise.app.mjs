@@ -19,7 +19,7 @@ export default {
     group: {
       type: "integer",
       label: "Group",
-      description: "Filter by a specific group.",
+      description: "If provided, only expenses in that group will be returned, and `friend` will be ignored.",
       async options() {
         const groups = await this.getGroups();
         return groups.map((group) => ({
@@ -31,7 +31,7 @@ export default {
     friend: {
       type: "integer",
       label: "Friend",
-      description: "Filter by a specific friend that are not in any group.",
+      description: "If provided, only expenses between the current and provided user will be returned.",
       async options() {
         const friends = await this.getFriends();
         return friends.map((friend) => ({
