@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.2",
+  version: "1.0.3",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
