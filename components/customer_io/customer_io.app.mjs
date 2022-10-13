@@ -32,18 +32,30 @@ export default {
       };
       return res;
     },
-    createOrUpdateCustomer(customerId, data, $ = this) {
+    async createOrUpdateCustomer(customerId, data, $ = this) {
       return axios($, this._getAxiosParams({
         method: "PUT",
         path: `/customers/${customerId}`,
         data,
       }));
     },
-    sendEventTo(customerId, data, $ = this) {
+    async sendEventTo(customerId, data, $ = this) {
       return axios($, this._getAxiosParams({
         method: "POST",
         path: `/customers/${customerId}/events`,
         data,
+      }));
+    },
+    async addCustomersToSegment(segmentId, customers, idType, $ = this) {
+      return axios($, this._getAxiosParams({
+        method: "POST",
+        path: `/segments/${segmentId}/add_customers`,
+        data: {
+          ids: customers,
+        },
+        params: {
+          id_type: idType,
+        },
       }));
     },
   },
