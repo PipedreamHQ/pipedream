@@ -31,8 +31,7 @@ export default {
       name: this.eventName,
       data: this.data,
     };
-    const res = await this.app.sendEventTo(this.customerId, data, $);
+    await this.app.sendEventTo(this.customerId, data, $);
     $.export("$summary", "Successfully sent event");
-    return res;
   },
 };

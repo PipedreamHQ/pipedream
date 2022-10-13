@@ -33,12 +33,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const res = await this.app.createOrUpdateCustomer(this.customerId, {
+    await this.app.createOrUpdateCustomer(this.customerId, {
       email: this.email,
       created_at: this.created_at,
       ...this.attributes,
     }, $);
     $.export("$summary", "Successfully created/updated customer");
-    return res;
   },
 };

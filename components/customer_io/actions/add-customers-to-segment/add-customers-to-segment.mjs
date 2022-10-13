@@ -34,13 +34,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const res = await this.app.addCustomersToSegment(
+    await this.app.addCustomersToSegment(
       this.segmentId,
       this.customerIds,
       this.idType,
       $,
     );
-    $.export("$summary", "Successfully created/updated customer");
-    return res;
+    $.export("$summary", "Successfully added customers to segment");
   },
 };
