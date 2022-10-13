@@ -42,7 +42,7 @@ export default {
     };
     const { data: note } = await this.productboard.createNote(data, $);
 
-    $.export("$summary", "Successfully created note");
+    $.export("$summary", `Successfully created note with ID ${note.id}`);
 
     return note;
   },

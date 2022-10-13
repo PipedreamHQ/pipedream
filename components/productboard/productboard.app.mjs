@@ -61,9 +61,12 @@ export default {
     _baseUrl() {
       return "https://api.productboard.com/";
     },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _headers() {
       return {
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this._apiKey()}`,
         "X-Version": 1,
       };
     },

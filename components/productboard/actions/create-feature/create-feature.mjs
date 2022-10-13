@@ -68,7 +68,7 @@ export default {
     };
     const { data: feature } = await this.productboard.createFeature(data, $);
 
-    $.export("$summary", "Successfully created feature");
+    $.export("$summary", `Successfully created feature with ID ${feature.id}`);
 
     return feature;
   },
