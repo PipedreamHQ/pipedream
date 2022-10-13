@@ -1,4 +1,4 @@
-import splitwise from "../../splitwise.app.mjs";
+import base from "../common/base.mjs";
 
 export default {
   key: "splitwise-expense-created",
@@ -8,30 +8,25 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    splitwise,
+    ...base.props,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
     group: {
       propDefinition: [
-        splitwise,
+        base.props.splitwise,
         "group",
       ],
       optional: true,
     },
     friend: {
       propDefinition: [
-        splitwise,
+        base.props.splitwise,
         "friend",
       ],
       optional: true,
     },
   },
   methods: {
+    ...base.methods,
     _getOffset() {
       return this.db.get("offset") || 0;
     },
@@ -43,6 +38,8 @@ export default {
     let offset = this._getOffset();
     const limit = 100;
     const all = [];
+
+    console.log("Retrieving expenses...");
 
     while (true) {
       const expenses = await this.splitwise.getExpenses({
@@ -61,6 +58,7 @@ export default {
     }
 
     this._setOffset(offset);
+    this.logEmitEvent(all);
 
     for (const expense of all) {
       this.$emit(expense, {

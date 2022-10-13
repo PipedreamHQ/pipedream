@@ -1,4 +1,4 @@
-import splitwise from "../../splitwise.app.mjs";
+import base from "../common/base.mjs";
 
 export default {
   key: "splitwise-group-created",
@@ -7,26 +7,20 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    splitwise,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-  },
+  props: base.props,
+  methods: base.methods,
   async run() {
-    const groups = await this.splitwise.getGroups();
+    console.log("Retrieving groups...");
+
+    const groups = (await this.splitwise.getGroups()).filter(({ id }) => id !== 0);
+    this.logEmitEvent(groups);
+
     for (const group of groups) {
-      if (group.id !== 0) {
-        this.$emit(group, {
-          id: group.id,
-          summary: `New group: ${group.name}`,
-          ts: Date.parse(group.created_at),
-        });
-      }
+      this.$emit(group, {
+        id: group.id,
+        summary: `New group: ${group.name}`,
+        ts: Date.parse(group.created_at),
+      });
     }
   },
 };

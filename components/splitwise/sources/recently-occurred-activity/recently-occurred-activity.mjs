@@ -1,4 +1,4 @@
-import splitwise from "../../splitwise.app.mjs";
+import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
@@ -9,14 +9,8 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    splitwise,
+    ...base.props,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
     types: {
       type: "integer[]",
       label: "Notification Types",
@@ -29,13 +23,14 @@ export default {
     },
     updatedAfter: {
       propDefinition: [
-        splitwise,
+        base.props.splitwise,
         "datedAfter",
       ],
       description: "ISO 8601 Datetime. Return notifications after this date.",
     },
   },
   methods: {
+    ...base.methods,
     removeHtmlTags(text) {
       const regex = new RegExp(constants.HTML_TAGS.join("|"), "g");
       return text.replace(regex, "");
@@ -44,20 +39,22 @@ export default {
   async run() {
     const allowedTypes = this.types || [];
 
-    const notifications = await this.splitwise.getNotifications({
+    console.log("Retrieving recent activities...");
+
+    const notifications = (await this.splitwise.getNotifications({
       params: {
         updated_after: this.updatedAfter,
       },
-    });
+    })).filter(({ type }) => allowedTypes.includes(type));
 
-    notifications
-      .filter(({ type }) => allowedTypes.includes(type))
-      .forEach((notification) => {
-        this.$emit(notification, {
-          id: notification.id,
-          summary: this.removeHtmlTags(notification.content),
-          ts: new Date(notification.created_at),
-        });
+    this.logEmitEvent(notifications);
+
+    for (const notification of notifications) {
+      this.$emit(notification, {
+        id: notification.id,
+        summary: this.removeHtmlTags(notification.content),
+        ts: new Date(notification.created_at),
       });
+    }
   },
 };
