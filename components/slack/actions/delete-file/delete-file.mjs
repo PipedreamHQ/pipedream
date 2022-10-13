@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-file",
   name: "Delete File",
   description: "Delete a file. [See docs here](https://api.slack.com/methods/files.delete)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     slack,
