@@ -6,15 +6,15 @@ export default defineSource({
   key: "google_workspace-new-admin-activity",
   name: "New Admin Activity",
   description: "Emit new admin activities",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getMetadata(resource) {
+    getMetadata(data) {
       return {
-        id: resource.timestamp,
-        ts: resource.timestamp,
+        id: data.id.uniqueQualifier,
+        ts: Date.parse(data.id.time),
         summary: "New Admin Activity",
       };
     },
