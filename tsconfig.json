@@ -740,6 +740,9 @@
     },
     {
       "path": "components/bybit"
+    },
+    {
+      "path": "components/aircall"
     }
   ]
 }

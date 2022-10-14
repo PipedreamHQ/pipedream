@@ -6,7 +6,7 @@ export default defineSource({
   key: "google_workspace-new-admin-activity-by-user-and-app-name",
   name: "New Admin Activity By User And Application Name",
   description: "Emit new admin activities by selected user and application name",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -32,11 +32,11 @@ export default defineSource({
     getApplicationName() {
       return this.applicationName;
     },
-    getMetadata(resource) {
+    getMetadata(data) {
       return {
-        id: resource.timestamp,
-        ts: resource.timestamp,
-        summary: "New Admin Activity",
+        id: data.id.uniqueQualifier,
+        ts: Date.parse(data.id.time),
+        summary: "New Admin Activity By User And App Name",
       };
     },
   },
