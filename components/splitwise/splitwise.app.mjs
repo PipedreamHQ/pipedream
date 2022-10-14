@@ -43,13 +43,13 @@ export default {
     datedAfter: {
       type: "string",
       label: "Dated After",
-      description: "ISO 8601 Datetime. Return expenses after this date.",
+      description: "ISO 8601 Datetime. Gets expenses only after this date.",
       optional: true,
     },
     datedBefore: {
       type: "string",
       label: "Dated Before",
-      description: "ISO 8601 Date time. Return expenses earlier this date.",
+      description: "ISO 8601 Date time. Gets expenses only earlier than this date.",
       optional: true,
     },
     limit: {
