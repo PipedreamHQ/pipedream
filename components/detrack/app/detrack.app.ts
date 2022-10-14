@@ -8,6 +8,9 @@ export default defineApp({
   type: "app",
   app: "detrack",
   methods: {
+    _apiKey(): string {
+      return this.$auth.api_key;
+    },
     _baseUrl(): string {
       return "https://app.detrack.com/api/v2";
     },
@@ -20,7 +23,7 @@ export default defineApp({
         url: this._baseUrl() + endpoint,
         headers: {
           "Content-Type": "application/json",
-          "X-API-KEY": this.$auth.api_key,
+          "X-API-KEY": this._apiKey(),
         },
         ...args,
       });

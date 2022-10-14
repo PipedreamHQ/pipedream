@@ -65,7 +65,7 @@ export default defineAction({
       });
     }
 
-    $.export("$summary", `Successfully created job ${data.id}`);
+    $.export("$summary", `Successfully created job with ID ${data.id}`);
 
     return response;
   },
