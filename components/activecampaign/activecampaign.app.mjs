@@ -145,35 +145,143 @@ export default {
         return this.listPipelineOptions(prevContext);
       },
     },
+    status: {
+      type: "integer",
+      label: "Status",
+      description: "Deal's status. Valid values:\n* `0` - Open\n* `1` - Won\n* `2` - Lost",
+      options: [
+        {
+          label: "Open",
+          value: 0,
+        },
+        {
+          label: "Won",
+          value: 1,
+        },
+        {
+          label: "Lost",
+          value: 2,
+        },
+      ],
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Deal's custom field values [{customFieldId, fieldValue}]",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "List of tags available",
+      optional: true,
+      async options() {
+        return this.listTagOptions();
+      },
+    },
+    contactTags: {
+      type: "string[]",
+      label: "Contact Tags",
+      description: "List of contact tags available",
+      async options({ contactId }) {
+        const { contactTags } = await this.getContactTags({
+          contactId,
+        });
+        return contactTags.map(({ id }) => ({
+          label: id,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
-    _getHeaders() {
-      return {
-        "Api-Token": this.$auth.api_key,
-      };
+    getUrl(url, path, api) {
+      return api === constants.API.TRACKCMP
+        ? `https://trackcmp.net${path}`
+        : url || `${this.$auth.base_url}${constants.VERSION_PATH}${path}`;
     },
-    async makeRequest(customConfig) {
-      const {
-        $ = this,
-        url,
-        path,
-        method,
-        params,
-        data,
-        ...otherConfig
-      } = customConfig;
-
-      const BASE_URL = this.$auth.base_url;
-
+    getHeaders(api) {
+      return api === constants.API.TRACKCMP
+        ? {
+          "accept": "application/json",
+          "content-type": "application/x-www-form-urlencoded",
+        }
+        : {
+          "Api-Token": this.$auth.api_key,
+          "accept": "application/json",
+          "content-type": "application/json",
+        };
+    },
+    async makeRequest({
+      api = constants.API.ACTIVECAMPAIGN,
+      $ = this,
+      url,
+      path,
+      method,
+      params,
+      data,
+      ...args
+    } = {}) {
       const config = {
         method,
-        url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
-        headers: this._getHeaders(),
+        url: this.getUrl(url, path, api),
+        headers: this.getHeaders(api),
         params,
         data,
-        ...otherConfig,
+        ...args,
       };
-      return axios($, config);
+      try {
+        return await axios($, config);
+      } catch (error) {
+        throw error.response?.data?.message || error;
+      }
+    },
+    async trackEvent(args = {}) {
+      return this.makeRequest({
+        api: constants.API.TRACKCMP,
+        method: "POST",
+        path: "/event",
+        ...args,
+      });
+    },
+    async addContactToAutomation(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contactAutomations",
+        ...args,
+      });
+    },
+    async createDeal(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/deals",
+        ...args,
+      });
+    },
+    async updateDeal({
+      dealId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/deals/${dealId}`,
+        ...args,
+      });
+    },
+    async getDeal({
+      dealId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/deals/${dealId}`,
+        ...args,
+      });
+    },
+    async createNote(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/notes",
+        ...args,
+      });
     },
     async createAccount(args = {}) {
       return this.makeRequest({
@@ -186,6 +294,38 @@ export default {
       return this.makeRequest({
         method: "POST",
         path: "/contacts",
+        ...args,
+      });
+    },
+    async getContact({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    async getContactTags({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/contacts/${contactId}/contactTags`,
+        ...args,
+      });
+    },
+    async createContactTag(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contactTags",
+        ...args,
+      });
+    },
+    async removeContactTag({
+      contactTagId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/contactTags/${contactTagId}`,
         ...args,
       });
     },
@@ -280,6 +420,12 @@ export default {
     async listContactCustomFields(args = {}) {
       return this.makeRequest({
         path: "/fields",
+        ...args,
+      });
+    },
+    async listTags(args = {}) {
+      return this.makeRequest({
+        path: "/tags",
         ...args,
       });
     },
@@ -385,16 +531,25 @@ export default {
         }),
       });
     },
+    async listTagOptions() {
+      return this.paginateResources({
+        requestFn: this.listTags,
+        resourceName: "tags",
+        mapper: ({
+          id, tag,
+        }) => ({
+          label: tag,
+          value: id,
+        }),
+      });
+    },
     async paginateResources({
-      requestFn, requestArgs, resourceName, mapper = (resource) => resource,
+      requestFn, requestArgs = {}, resourceName, mapper = (resource) => resource,
     }) {
       const limit = requestArgs.params?.limit ?? constants.DEFAULT_LIMIT;
       const offset = (requestArgs.params?.offset ?? 0) + limit;
 
-      const {
-        [resourceName]: resources,
-        meta,
-      } =
+      const { [resourceName]: resources } =
         await requestFn({
           ...requestArgs,
           params: {
@@ -407,7 +562,6 @@ export default {
         options: resources.map(mapper),
         context: {
           offset,
-          total: meta.total,
         },
       };
     },

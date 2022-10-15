@@ -1,117 +1,141 @@
-// legacy_hash_id: a_Q3ixw3
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-update-deal",
   name: "Update Deal",
-  description: "Updates an existing deal.",
-  version: "0.1.2",
+  description: "Updates an existing deal. See the docs [here](https://developers.activecampaign.com/reference/update-a-deal-new).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    deal_id: {
+    activecampaign,
+    dealId: {
       type: "string",
+      label: "Deal ID",
       description: "Id of the deal to update.",
+      propDefinition: [
+        activecampaign,
+        "deals",
+      ],
     },
     title: {
       type: "string",
+      label: "Title",
       description: "Deal's title.",
       optional: true,
     },
     description: {
       type: "string",
+      label: "Description",
       description: "Deal's description.",
       optional: true,
     },
     account: {
       type: "string",
+      label: "Account ID",
       description: "Deal's account id.",
       optional: true,
     },
     contact: {
       type: "string",
+      label: "Contact ID",
       description: "Deal's primary contact id.",
       optional: true,
     },
     value: {
       type: "string",
+      label: "Value",
       description: "Deal's value in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero. int32 datatype.",
       optional: true,
     },
     currency: {
       type: "string",
+      label: "Currency",
       description: "Deal's currency in 3-digit ISO format, lowercased.",
       optional: true,
     },
     group: {
       type: "string",
+      label: "Group",
       description: "Deal's pipeline id. Deal's stage or `deal.stage` should belong to `deal.group`.",
       optional: true,
     },
     stage: {
       type: "string",
+      label: "Stage",
       description: "Deal's stage id. `deal.stage` should belong to Deal's pipeline or `deal.group`.",
       optional: true,
     },
     owner: {
       type: "string",
+      label: "Owner",
       description: "Deal's owner id.",
       optional: true,
     },
     percent: {
       type: "string",
+      label: "Percent",
       description: "Deal's percentage. int32 datatype.",
       optional: true,
     },
     status: {
-      type: "string",
-      description: "Deal's status. Available values:\n* `0` - Open\n* `1` - Won\n* `2` - Lost",
-      optional: true,
-      options: [
-        "0",
-        "1",
-        "2",
+      propDefinition: [
+        activecampaign,
+        "status",
       ],
     },
     fields: {
-      type: "any",
-      description: "Deal's custom field values [{customFieldId, fieldValue}].",
-      optional: true,
+      propDefinition: [
+        activecampaign,
+        "fields",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#update-a-deal-new
+    const {
+      dealId,
+      title,
+      value,
+      currency,
+      group,
+      stage,
+      owner,
+      description,
+      account,
+      contact,
+      percent,
+      status,
+      fields,
+    } = this;
 
-    if (!this.deal_id) {
-      throw new Error("Must provide deal_id parameter.");
+    let parsedFields;
+    try {
+      parsedFields = fields?.map(JSON.parse);
+    } catch (error) {
+      throw new Error("Syntax error in `Fields` property");
     }
 
-    const config = {
-      method: "put",
-      url: `${this.activecampaign.$auth.base_url}/api/3/deals/${this.deal_id}`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const response = await this.activecampaign.createDeal({
+      dealId,
       data: {
         deal: {
-          title: this.title,
-          description: this.description,
-          account: this.account,
-          contact: this.contact,
-          value: this.value,
-          currency: this.currency,
-          group: this.group,
-          stage: this.stage,
-          owner: this.owner,
-          percent: this.percent,
-          status: this.status,
-          fields: this.fields,
+          title,
+          description,
+          account,
+          contact,
+          value,
+          currency,
+          group,
+          stage,
+          owner,
+          percent,
+          status,
+          fields: parsedFields,
         },
       },
-    };
-    return await axios($, config);
+    });
+
+    $.export("$summary", `Successfully updated a deal with ID ${response.deal.id}`);
+
+    return response;
   },
 };
