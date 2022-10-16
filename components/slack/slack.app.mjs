@@ -308,9 +308,9 @@ export default {
       optional: true,
     },
     content: {
-      label: "Content",
+      label: "File Path",
+      description: "Full path to the file in `/tmp/` directory. E.g. `/tmp/cute_cat.jpg`",
       type: "string",
-      description: "File contents via a POST variable.",
     },
     link_names: {
       type: "string",

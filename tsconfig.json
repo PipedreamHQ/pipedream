@@ -740,6 +740,12 @@
     },
     {
       "path": "components/bybit"
+    },
+    {
+      "path": "components/aircall"
+    },
+    {
+      "path": "components/kucoin_futures"
     }
   ]
 }
