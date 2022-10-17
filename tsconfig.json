@@ -758,6 +758,9 @@
     },
     {
       "path": "components/habitica"
+    },
+    {
+      "path": "components/freshbooks"
     }
   ]
 }
