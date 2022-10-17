@@ -752,6 +752,12 @@
     },
     {
       "path": "components/sendblue"
+    },
+    {
+      "path": "components/zuora"
+    },
+    {
+      "path": "components/habitica"
     }
   ]
 }
