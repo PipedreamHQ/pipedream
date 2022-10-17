@@ -96,6 +96,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/aircall:
+    specifiers: {}
+
   components/airnow:
     specifiers: {}
 
@@ -1639,7 +1642,10 @@ importers:
     specifiers: {}
 
   components/productboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/profitwell:
     specifiers:
