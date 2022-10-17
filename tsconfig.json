@@ -749,6 +749,9 @@
     },
     {
       "path": "components/deepl"
+    },
+    {
+      "path": "components/sendblue"
     }
   ]
 }
