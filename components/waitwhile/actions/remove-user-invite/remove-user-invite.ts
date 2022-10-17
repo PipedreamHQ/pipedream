@@ -19,8 +19,15 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-    const data = await this.waitwhile.removeUserInvite(this.inviteId);
-    $.export("summary", "Successfully removed user invite");
-    return data;
+    try {
+      const data = await this.waitwhile.removeUserInvite(this.inviteId);
+      $.export("summary", "Successfully removed user invite");
+      return data;
+    }catch(error){
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `);
+    }
+   
   },
 });

@@ -40,8 +40,15 @@ export default defineAction({
       noteId: this.noteId,
     };
 
-    const data = await this.waitwhile.updateCustomerNoteEntry(params);
+    try {
+      const data = await this.waitwhile.updateCustomerNoteEntry(params);
     $.export("summary", "Successfully updated customer note entry");
     return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `); 
+    }
+    
   },
 });

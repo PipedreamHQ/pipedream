@@ -44,7 +44,7 @@ export default defineAction({
       locationId: this.locationId,
     };
 
-    const data = await this.waitwhile.retrieveUserInvite(params);
+    const data = await this.waitwhile.listUserInvites(params);
     $.export("summary", "Successfully listed user invites");
     return data;
   },

@@ -18,8 +18,15 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-    const data = await this.waitwhile.retrieveUserInvite(this.inviteId);
+    try {
+      const data = await this.waitwhile.retrieveUserInvite(this.inviteId);
     $.export("summary", "Successfully retrieved user invite");
     return data;
+    } catch(error){
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `); 
+    }
+    
   },
 });

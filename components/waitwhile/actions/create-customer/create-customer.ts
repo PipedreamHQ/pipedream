@@ -47,10 +47,12 @@ export default defineAction({
       ],
     },
     locationIds: {
+      label: "Location IDs",
       type: "string[]",
+      description: "Identifier of customer, automatically derived from visitor contact information if not provided.",
       propDefinition: [
         waitwhile,
-        "locationId"
+        "locationId",
       ],
     },
     addTag: {

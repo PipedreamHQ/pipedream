@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create User Invite",
-  version: "0.0.6",
+  version: "0.0.11",
   key: "waitwhile-create-user-invite",
   description: "Create a user invite",
   props: {
@@ -33,12 +33,14 @@ export default defineAction({
       description: "Identifier of location",
   },
   locationIds: {
+      label: "Location IDs",
       type: "string[]",
+      description: "Identifier of customer, automatically derived from visitor contact information if not provided.",
       optional: true,
       propDefinition: [
-          waitwhile,
-          "locationId",
-      ],
+        waitwhile,
+        "locationId",
+    ],
   },
   roles: {
       label: "Roles",

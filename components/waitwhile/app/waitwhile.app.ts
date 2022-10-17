@@ -14,7 +14,6 @@ export default defineApp({
     content: {
       label: "Content",
       type: "string",
-      optional: true,
       description: "Optional notes"
     },
     customerId: {
@@ -160,7 +159,6 @@ export default defineApp({
           }
         };
       },
-
     },
     removeTag: {
       label: "Remove Tag",
