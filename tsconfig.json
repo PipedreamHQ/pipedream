@@ -746,6 +746,9 @@
     },
     {
       "path": "components/kucoin_futures"
+    },
+    {
+      "path": "components/deepl"
     }
   ]
 }
