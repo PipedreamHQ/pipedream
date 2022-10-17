@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export default {
   name: "Shopify Partner Verify Webhook",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "shopify_partner-verify-webhook",
   description:
     "Verify an incoming webhook from Shopify. Exits the workflow if the signature is not valid, otherwise returns `true`",
