@@ -14,6 +14,8 @@ export default {
     ...common.props,
     repo: {
       ...common.props.repo,
+      label: common.props.repo.label,
+      description: common.props.repo.description,
       optional: true,
     },
     project: {
