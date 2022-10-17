@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/productboard",
-  "version": "0.0.3",
-  "description": "Pipedream Productboard Components",
-  "main": "productboard.app.mjs",
+  "name": "@pipedream/splitwise",
+  "version": "0.0.1",
+  "description": "Pipedream Splitwise Components",
+  "main": "splitwise.app.mjs",
   "keywords": [
     "pipedream",
-    "productboard"
+    "splitwise"
   ],
-  "homepage": "https://pipedream.com/apps/productboard",
+  "homepage": "https://pipedream.com/apps/splitwise",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
