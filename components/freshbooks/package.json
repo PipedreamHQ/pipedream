@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/freshbooks",
+  "version": "0.0.1",
+  "description": "Pipedream FreshBooks Components",
+  "main": "dist/app/freshbooks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freshbooks"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/freshbooks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
