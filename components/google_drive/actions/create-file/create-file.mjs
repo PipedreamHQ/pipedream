@@ -7,7 +7,7 @@ export default {
   key: "google_drive-create-file",
   name: "Create a New File",
   description: "Create a new file from a URL or /tmp/filepath. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     googleDrive,
@@ -135,7 +135,7 @@ export default {
       label: "Copy Requires Writer Permission",
       description: toSingleLineString(`
         Whether the options to copy, print, or download this file, should be disabled for 
-        readers and commenters
+        readers and commentators
       `),
       optional: true,
     },

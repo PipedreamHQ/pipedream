@@ -180,7 +180,10 @@ importers:
     specifiers: {}
 
   components/apitemplate_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/asana:
     specifiers:
@@ -265,6 +268,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.1
+
+  components/bingx:
+    specifiers: {}
 
   components/bitbucket:
     specifiers:
@@ -483,6 +489,9 @@ importers:
       '@pipedream/platform': 0.10.0
       dayjs: 1.11.3
 
+  components/deployhq:
+    specifiers: {}
+
   components/detrack:
     specifiers: {}
 
@@ -530,6 +539,14 @@ importers:
     dependencies:
       axios: 0.21.4
       form-data: 4.0.0
+
+  components/docupilot:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/docusign:
     specifiers:
@@ -693,6 +710,14 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       form-data: 4.0.0
+
+  components/fullstory:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto-js: ^4.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      crypto-js: 4.1.1
 
   components/getprospect:
     specifiers: {}
@@ -944,9 +969,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.1
       streamifier: ^0.1.1
+      xml-js: ^1.6.11
     dependencies:
       '@pipedream/platform': 1.1.1
       streamifier: 0.1.1
+      xml-js: 1.6.11
 
   components/helpwise:
     specifiers: {}
@@ -1101,6 +1128,12 @@ importers:
   components/linqs_cc:
     specifiers: {}
 
+  components/liveagent:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/lob:
     specifiers:
       '@lob/lob-typescript-sdk': ^1.0.0
@@ -1139,11 +1172,17 @@ importers:
 
   components/mailgun:
     specifiers:
+      '@pipedream/helper_functions': ^0.3.7
+      '@pipedream/platform': ^1.1.1
       form-data: ^4.0.0
+      lodash: ^4.17.21
       lodash.get: ^4.4.2
       mailgun.js: ^3.5.2
     dependencies:
+      '@pipedream/helper_functions': 0.3.7
+      '@pipedream/platform': 1.1.1
       form-data: 4.0.0
+      lodash: 4.17.21
       lodash.get: 4.4.2
       mailgun.js: 3.7.3
 
@@ -1174,7 +1213,10 @@ importers:
       lodash-es: 4.17.21
 
   components/mediatoolkit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/meetup:
     specifiers: {}
@@ -1279,6 +1321,14 @@ importers:
       netlify: 6.1.29
       parse-link-header: 1.0.1
 
+  components/neverbounce:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/new_relic:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1291,11 +1341,20 @@ importers:
   components/niceboard:
     specifiers: {}
 
+  components/nicereply:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/niftyimages:
     specifiers: {}
 
   components/ninox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/nocodb:
     specifiers:
@@ -1471,8 +1530,20 @@ importers:
     dependencies:
       pipedrive: 13.3.4
 
+  components/pipefy:
+    specifiers:
+      graphql-request: ^5.0.0
+    dependencies:
+      graphql-request: 5.0.0_graphql@16.5.0
+
   components/planning_center:
     specifiers: {}
+
+  components/pocket:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/pointagram:
     specifiers:
@@ -1556,6 +1627,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/razorpay:
+    specifiers: {}
+
   components/rd_station_crm:
     specifiers: {}
 
@@ -1564,6 +1638,24 @@ importers:
 
   components/realphonevalidation:
     specifiers: {}
+
+  components/rebrandly:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/reddit:
+    specifiers:
+      async-retry: ^1.3.3
+      axios: ^0.27.2
+      lodash: ^4.17.21
+      qs: ^6.11.0
+    dependencies:
+      async-retry: 1.3.3
+      axios: 0.27.2
+      lodash: 4.17.21
+      qs: 6.11.0
 
   components/referralrock:
     specifiers: {}
@@ -1581,7 +1673,12 @@ importers:
     specifiers: {}
 
   components/repuso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/rewardful:
     specifiers: {}
@@ -1811,6 +1908,12 @@ importers:
   components/signwell:
     specifiers: {}
 
+  components/simplesat:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/slack:
     specifiers:
       '@slack/web-api': ^5.15.0
@@ -2027,6 +2130,12 @@ importers:
       '@pipedream/platform': 1.1.0
       date-fns: 2.29.1
 
+  components/threads:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/threescribe:
     specifiers: {}
 
@@ -2171,11 +2280,19 @@ importers:
 
   components/typeform:
     specifiers:
+      '@pipedream/platform': ^1.1.1
       axios: ^0.21.1
+      lodash: ^4.17.21
+      luxon: ^3.0.4
       querystring: ^0.2.0
+      uuidv4: ^6.2.13
     dependencies:
+      '@pipedream/platform': 1.1.1
       axios: 0.21.4
+      lodash: 4.17.21
+      luxon: 3.0.4
       querystring: 0.2.1
+      uuidv4: 6.2.13
 
   components/typless:
     specifiers: {}
@@ -2230,6 +2347,15 @@ importers:
   components/vercel_token_auth:
     specifiers: {}
 
+  components/verdict_as_a_service:
+    specifiers:
+      '@pipedream/types': ^0.1.4
+      gdata-vaas: ^2.2.7
+    dependencies:
+      gdata-vaas: 2.2.7
+    devDependencies:
+      '@pipedream/types': 0.1.4
+
   components/verifalia:
     specifiers:
       verifalia: 3.2.2
@@ -2274,6 +2400,12 @@ importers:
       '@pipedream/types': 0.1.4
       '@types/node': 17.0.45
 
+  components/waiverforever:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/wakatime:
     specifiers: {}
 
@@ -2300,6 +2432,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/wisepops:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      node-forge: ^1.3.1
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      node-forge: 1.3.1
+
   components/wistia:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -2311,6 +2451,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/wix:
+    specifiers: {}
 
   components/woocommerce:
     specifiers:
@@ -2371,9 +2514,15 @@ importers:
 
   components/yahoo_fantasy_sports:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.1.1
+
+  components/yanado:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/yotpo:
     specifiers:
@@ -2397,11 +2546,21 @@ importers:
 
   components/youtube_data_api:
     specifiers:
-      '@googleapis/youtube': ^4.1.1
-      got: ^11.8.3
+      '@googleapis/youtube': ^6.0.0
+      got: ^12.5.1
+      util: ^0.12.4
     dependencies:
-      '@googleapis/youtube': 4.2.0
-      got: 11.8.5
+      '@googleapis/youtube': 6.0.0
+      got: 12.5.1
+      util: 0.12.4
+
+  components/youtube_data_api_custom_app:
+    specifiers:
+      '@googleapis/youtube': ^6.0.0
+      got: ^12.5.1
+    dependencies:
+      '@googleapis/youtube': 6.0.0
+      got: 12.5.1
 
   components/yr:
     specifiers: {}
@@ -2415,6 +2574,12 @@ importers:
       crypto: 1.0.1
 
   components/zenkit:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/zenler:
     specifiers:
       '@pipedream/platform': ^1.1.1
     dependencies:
@@ -4493,7 +4658,6 @@ packages:
   /@babel/parser/7.18.9:
     resolution: {integrity: sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==}
     engines: {node: '>=6.0.0'}
-    hasBin: true
     dependencies:
       '@babel/types': 7.18.9
 
@@ -5408,22 +5572,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.132:
-    resolution: {integrity: sha512-xjj2ahDRAf9pB77xFSfrCzSIIjksAieDVfc6KcrfLXHzcA3FJ5tyXWCljWmTYBR1bnknrp8XVvosC7IiUN66jg==}
+  /@definitelytyped/header-parser/0.0.133:
+    resolution: {integrity: sha512-Mv1F76WeuzdO9qrVi9hRQHjbwmb9bU5Gw5jdmUVWHma68IeiMNYlcMeKwQua7yVM+zRvihWvEI9s4O5NxY/gAA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.132
+      '@definitelytyped/typescript-versions': 0.0.133
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.132:
-    resolution: {integrity: sha512-jHe+l/djS7RGQ+YWKPGuzfh4WXKPeRmBJ+4QHXpB4moahEyK86nMaTmdqYZliO8rD4HUEK20/4V/g+uUrG1GxQ==}
+  /@definitelytyped/typescript-versions/0.0.133:
+    resolution: {integrity: sha512-tfitkEgTmOBXDfgzzlxoXSYsUqIimKV2rdLd+61Mfzcp34yZ3bdhS8+4Gnc6rdMR4+V/sa3yvy5lYZLK2HP11Q==}
     dev: true
 
-  /@definitelytyped/utils/0.0.132:
-    resolution: {integrity: sha512-freIvPdHEjuFqa+W/7T6m2XzxZRYe5LYiBa2tmWGQ7qwZhbBnDyZN8y0k7fe/YP+LRU5ahho7BBVrPeD4t+U7w==}
+  /@definitelytyped/utils/0.0.133:
+    resolution: {integrity: sha512-aRCduwfl3l+3FJDGGDA5HDVF5FwKLYVEFQ5xKEi8Yz4RZqpAXRN7xKAuQiGx1yQ57CkMRaaOgLrcGoYECSBWcA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.132
+      '@definitelytyped/typescript-versions': 0.0.133
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -5867,8 +6031,8 @@ packages:
       - supports-color
     dev: false
 
-  /@googleapis/youtube/4.2.0:
-    resolution: {integrity: sha512-8a/uVTYpjgs4htxJTDdJTffsucKgJKg+f3U3OVBBscdJWYq7SGWnKbacx2nNErSykgEPqIt2LPEH355sasB2QQ==}
+  /@googleapis/youtube/6.0.0:
+    resolution: {integrity: sha512-21b4E9r7Yj6CA/vN77A7M8gUVgo4/adYxO5NGUikd9psGHMbdMSOeTgMi31KMI2MQAkI4EZOZhME0tTqrwL2Ag==}
     engines: {node: '>=10.0.0'}
     dependencies:
       googleapis-common: 5.1.0
@@ -6625,6 +6789,16 @@ packages:
       - debug
     dev: false
 
+  /@pipedream/helper_functions/0.3.7:
+    resolution: {integrity: sha512-pWU8IkdqmOrdtElc1N9WUVtY+GuuOFDuGJjfC+kF81+bGmGYV7hL4bd1jLFy8Ka5zs+FO48FEAPQeQDJ/b34kQ==}
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      streamifier: 0.1.1
+      xml-js: 1.6.11
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@pipedream/helpers/1.3.12:
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
     dependencies:
@@ -6636,8 +6810,8 @@ packages:
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
     dependencies:
       axios: 0.19.2
-      fp-ts: 2.12.1
-      io-ts: 2.2.16_fp-ts@2.12.1
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -8248,6 +8422,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /@sindresorhus/is/5.3.0:
+    resolution: {integrity: sha512-CX6t4SYQ37lzxicAqsBtxA3OseeoVrh9cSJ5PFYam0GksYlupRfy1A+Q4aYD3zvcfECLc0zO2u+ZnR2UYKvCrw==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
     dependencies:
@@ -8301,6 +8480,13 @@ packages:
   /@szmarczak/http-timer/4.0.6:
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
+    dependencies:
+      defer-to-connect: 2.0.1
+    dev: false
+
+  /@szmarczak/http-timer/5.0.1:
+    resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
+    engines: {node: '>=14.16'}
     dependencies:
       defer-to-connect: 2.0.1
     dev: false
@@ -8659,6 +8845,12 @@ packages:
       '@types/webidl-conversions': 6.1.1
     dev: false
 
+  /@types/ws/8.5.3:
+    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
+    dependencies:
+      '@types/node': 18.0.6
+    dev: false
+
   /@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
     dev: true
@@ -8821,6 +9013,10 @@ packages:
       '@typescript-eslint/types': 5.30.7
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@ungap/url-search-params/0.2.2:
+    resolution: {integrity: sha512-qQsguKXZVKdCixOHX9jqnX/K/1HekPDpGKyEcXHT+zR6EjGA7S4boSuelL4uuPv6YfhN0n8c4UxW+v/Z3gM2iw==}
+    dev: false
 
   /@vue/compiler-sfc/2.7.7:
     resolution: {integrity: sha512-Ah8dIuo6ZVPHTq9+s4rBU/YpJu3vGSNyeOTCrPrVPQnkUfnT5Ig+IKBhePuQWFXguYb2TuEWrEfiiX9DZ3aJlA==}
@@ -8992,7 +9188,6 @@ packages:
   /align-spaces/1.0.4:
     resolution: {integrity: sha512-JPl93xFbsX4OY7VFKjerJ9cjaelmKo1wt1EP0ScrKI578vro1WhGy+w9C0nAFup8qYADgAS2FvMb7uLPStTB6g==}
     engines: {node: '>=8.3.0'}
-    hasBin: true
     dev: true
 
   /ansi-align/3.0.1:
@@ -9386,7 +9581,6 @@ packages:
 
   /axios/0.19.2:
     resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
-    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
     dependencies:
       follow-redirects: 1.5.10
     transitivePeerDependencies:
@@ -9855,7 +10049,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: false
 
@@ -9903,6 +10097,24 @@ packages:
   /cacheable-lookup/5.0.4:
     resolution: {integrity: sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==}
     engines: {node: '>=10.6.0'}
+    dev: false
+
+  /cacheable-lookup/7.0.0:
+    resolution: {integrity: sha512-+qJyx4xiKra8mZrcwhjMRMUhD5NR1R8esPkzIYxX96JiecFoxAXFuz/GpR3+ev4PE1WamHip78wV0vcmPQtp8w==}
+    engines: {node: '>=14.16'}
+    dev: false
+
+  /cacheable-request/10.2.1:
+    resolution: {integrity: sha512-3tLJyBjGuXw1s5gpKFSG3iS4kaKT4id04dZi98wzHQp/8cqZNweBnrF9J+rrlvrf4M53OdtDGNctNHFias8BEA==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      '@types/http-cache-semantics': 4.0.1
+      get-stream: 6.0.1
+      http-cache-semantics: 4.1.0
+      keyv: 4.5.0
+      mimic-response: 4.0.0
+      normalize-url: 7.2.0
+      responselike: 3.0.0
     dev: false
 
   /cacheable-request/7.0.2:
@@ -10576,6 +10788,10 @@ packages:
       which: 2.0.2
     dev: true
 
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
+
   /crypto-random-string/1.0.0:
     resolution: {integrity: sha512-GsVpkFPlycH7/fRR7Dhcmnoii54gV1nz7y4CWyeFS14N+JVBBhY+r8amRHE4BwSYal7BPTDp8isvAlCxyFt3Hg==}
     engines: {node: '>=4'}
@@ -10589,7 +10805,6 @@ packages:
 
   /crypto/1.0.1:
     resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
-    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
     dev: false
 
   /css-functions-list/3.1.0:
@@ -11180,7 +11395,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.132
+      '@definitelytyped/header-parser': 0.0.133
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -11196,9 +11411,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.132
-      '@definitelytyped/typescript-versions': 0.0.132
-      '@definitelytyped/utils': 0.0.132
+      '@definitelytyped/header-parser': 0.0.133
+      '@definitelytyped/typescript-versions': 0.0.133
+      '@definitelytyped/utils': 0.0.133
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -11932,6 +12147,10 @@ packages:
     resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
     dev: false
 
+  /fast-sha256/1.3.0:
+    resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
+    dev: false
+
   /fast-text-encoding/1.0.4:
     resolution: {integrity: sha512-x6lDDm/tBAzX9kmsPcZsNbvDs3Zey3+scsxaZElS8xWLgUMAg/oFLeewfUz0mu1CblHhhsu15jGkraldkFh8KQ==}
     dev: false
@@ -12236,6 +12455,11 @@ packages:
   /forever-agent/0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
 
+  /form-data-encoder/2.1.2:
+    resolution: {integrity: sha512-FCaIOVTRA9E0siY6FeXid7D5yrCqpsErplUkE2a1BEiKj1BE9z6FbKB4ntDTwC4NVLie9p+4E9nX4mWwEOT05A==}
+    engines: {node: '>= 14.17'}
+    dev: false
+
   /form-data/2.3.3:
     resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
     engines: {node: '>= 0.12'}
@@ -12488,6 +12712,24 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /gdata-vaas/2.2.7:
+    resolution: {integrity: sha512-ilj1HhnO1fhRlKmPJnuZ97bqEGaZ7AV2/okxvetpZHzRUgffIud2FlEhd9l8TXgin9z15+R3rMB5y4FnWHklcA==}
+    dependencies:
+      '@types/uuid': 8.3.4
+      '@types/ws': 8.5.3
+      '@ungap/url-search-params': 0.2.2
+      axios: 0.27.2
+      fast-sha256: 1.3.0
+      isomorphic-ws: 4.0.1
+      typescript-json-serializer: 3.4.5
+      uuid: 8.3.2
+      ws: 8.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
     dev: false
 
   /generic-pool/3.8.2:
@@ -12846,6 +13088,23 @@ packages:
       responselike: 2.0.1
     dev: false
 
+  /got/12.5.1:
+    resolution: {integrity: sha512-sD16AK8cCyUoPtKr/NMvLTFFa+T3i3S+zoiuvhq0HP2YiqBZA9AtlBjAdsQBsLBK7slPuvmfE0OxhGi7N5dD4w==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      '@sindresorhus/is': 5.3.0
+      '@szmarczak/http-timer': 5.0.1
+      cacheable-lookup: 7.0.0
+      cacheable-request: 10.2.1
+      decompress-response: 6.0.0
+      form-data-encoder: 2.1.2
+      get-stream: 6.0.1
+      http2-wrapper: 2.1.11
+      lowercase-keys: 3.0.0
+      p-cancelable: 3.0.0
+      responselike: 3.0.0
+    dev: false
+
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
 
@@ -12864,6 +13123,20 @@ packages:
       graphql: 16.5.0
     transitivePeerDependencies:
       - encoding
+
+  /graphql-request/5.0.0_graphql@16.5.0:
+    resolution: {integrity: sha512-SpVEnIo2J5k2+Zf76cUkdvIRaq5FMZvGQYnA4lUWYbc99m+fHh4CZYRRO/Ff4tCLQ613fzCm3SiDT64ubW5Gyw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1
+      cross-fetch: 3.1.5
+      extract-files: 9.0.0
+      form-data: 3.0.1
+      graphql: 16.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /graphql/15.8.0:
     resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==}
@@ -12933,7 +13206,6 @@ packages:
   /har-validator/5.1.5:
     resolution: {integrity: sha512-nmT2T0lljbxdQZfspsno9hgrG3Uir6Ks5afism62poxqBM6sDnMEuPmzTq8XN0OEwqKLLdh1jQI3qyE66Nzb3w==}
     engines: {node: '>=6'}
-    deprecated: this library is no longer supported
     dependencies:
       ajv: 6.12.6
       har-schema: 2.0.0
@@ -13047,7 +13319,6 @@ packages:
 
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
-    hasBin: true
     dev: false
 
   /hexoid/1.0.0:
@@ -13098,7 +13369,6 @@ packages:
   /html-to-text/8.2.1:
     resolution: {integrity: sha512-aN/3JvAk8qFsWVeE9InWAWueLXrbkoVZy0TkzaGhoRBC2gCFEeRLDDJN3/ijIGHohy6H+SZzUQWN/hcYtaPK8w==}
     engines: {node: '>=10.23.2'}
-    hasBin: true
     dependencies:
       '@selderee/plugin-htmlparser2': 0.6.0
       deepmerge: 4.2.2
@@ -13171,6 +13441,14 @@ packages:
 
   /http2-wrapper/1.0.3:
     resolution: {integrity: sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg==}
+    engines: {node: '>=10.19.0'}
+    dependencies:
+      quick-lru: 5.1.1
+      resolve-alpn: 1.2.1
+    dev: false
+
+  /http2-wrapper/2.1.11:
+    resolution: {integrity: sha512-aNAk5JzLturWEUiuhAN73Jcbq96R7rTitAoXV54FYMatvihnpD2+6PUgU4ce3D/m5VDbw+F5CsyKSF176ptitQ==}
     engines: {node: '>=10.19.0'}
     dependencies:
       quick-lru: 5.1.1
@@ -13815,6 +14093,15 @@ packages:
       unfetch: 4.2.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /isomorphic-ws/4.0.1:
+    resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
+    dependencies:
+      ws: 8.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /isstream/0.1.2:
@@ -14917,7 +15204,6 @@ packages:
   /jsesc/2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
-    hasBin: true
 
   /json-2-csv/3.17.1:
     resolution: {integrity: sha512-i6QynVy42GGMgY8fYde0mp6nYteptvk8oJsphOLiT3CITzw7NBBAiRwHV35kDOBii/elDQe1HCWLqaBPJ3istQ==}
@@ -14999,7 +15285,6 @@ packages:
 
   /json5/0.5.1:
     resolution: {integrity: sha512-4xrs1aW+6N5DalkqSVA8fxh458CXvR99WU8WLKmq4v8eWAL86Xo3BVqyd3SkA9wEVjCMqyvvRRkshAdOnBp5rw==}
-    hasBin: true
     dev: false
 
   /json5/2.2.1:
@@ -15146,6 +15431,12 @@ packages:
     resolution: {integrity: sha512-AcysI17RvakTh8ir03+a3zJr5r0ovnAH/XTXei/4HIv3bL2K/jzvgivLK9UuI/JbU1aJjM3NSAnVvVVd3n+4DQ==}
     dependencies:
       compress-brotli: 1.3.8
+      json-buffer: 3.0.1
+    dev: false
+
+  /keyv/4.5.0:
+    resolution: {integrity: sha512-2YvuMsA+jnFGtBareKqgANOEKe1mk3HKiXu2fRmAfyxG0MJAywNhi5ttWA3PMjl4NmpyjZNbFifR2vNjW1znfA==}
+    dependencies:
       json-buffer: 3.0.1
     dev: false
 
@@ -15562,6 +15853,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /lowercase-keys/3.0.0:
+    resolution: {integrity: sha512-ozCC6gdQ+glXOQsveKD0YsDy8DSQFjDTz4zyzEHNV5+JP5D62LmfDZ6o1cycFx9ouG940M5dE8C8CTewdj2YWQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
   /lru-cache/2.5.0:
     resolution: {integrity: sha512-dVmQmXPBlTgFw77hm60ud//l2bCuDKkqC2on1EBoM7s9Urm9IQDrnujwZ93NFnAq0dVZ0HBXTS7PwEG+YE7+EQ==}
     dev: false
@@ -15600,6 +15896,11 @@ packages:
 
   /lru_map/0.3.3:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
+    dev: false
+
+  /luxon/3.0.4:
+    resolution: {integrity: sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw==}
+    engines: {node: '>=12'}
     dev: false
 
   /mailerlite-api-v2-node/1.2.0:
@@ -16083,6 +16384,11 @@ packages:
     resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
     engines: {node: '>=10'}
 
+  /mimic-response/4.0.0:
+    resolution: {integrity: sha512-e5ISH9xMYU0DzrT+jl8q2ze9D6eWBto+I8CNpe+VI+K2J/F/k3PdkdTdz4wvGVH4NTpo+NRYTVIuMQEMMcsLqg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
   /min-indent/1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
@@ -16317,7 +16623,6 @@ packages:
 
   /nearley/2.20.1:
     resolution: {integrity: sha512-+Mc8UaAebFzgV+KpI5n7DasuuQCHA89dmwm7JXw3TV43ukfNQ9DnBH3Mdb2g/I4Fdxc26pwimBWvjIw0UAILSQ==}
-    hasBin: true
     dependencies:
       commander: 2.20.3
       moo: 0.5.1
@@ -16548,6 +16853,11 @@ packages:
   /normalize-url/6.1.0:
     resolution: {integrity: sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==}
     engines: {node: '>=10'}
+    dev: false
+
+  /normalize-url/7.2.0:
+    resolution: {integrity: sha512-uhXOdZry0L6M2UIo9BTt7FdpBDiAGN/7oItedQwPKh8jh31ZlvC8U9Xl/EJ3aijDHaywXTW3QbZ6LuCocur1YA==}
+    engines: {node: '>=12.20'}
     dev: false
 
   /npm-normalize-package-bin/1.0.1:
@@ -16848,6 +17158,11 @@ packages:
   /p-cancelable/2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
     engines: {node: '>=8'}
+    dev: false
+
+  /p-cancelable/3.0.0:
+    resolution: {integrity: sha512-mlVgR3PGuzlo0MmTdk4cXqXWlwQDLnONTAg6sm62XkMJEiRxN3GL3SffkYvqwonbkJBcrI7Uvv5Zh9yjvn2iUw==}
+    engines: {node: '>=12.20'}
     dev: false
 
   /p-defer/3.0.0:
@@ -17496,7 +17811,6 @@ packages:
 
   /protobufjs/6.11.3:
     resolution: {integrity: sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==}
-    hasBin: true
     requiresBuild: true
     dependencies:
       '@protobufjs/aspromise': 1.1.2
@@ -17806,7 +18120,6 @@ packages:
   /querystring/0.2.1:
     resolution: {integrity: sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==}
     engines: {node: '>=0.4.x'}
-    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
 
   /querystringify/2.2.0:
@@ -18015,6 +18328,9 @@ packages:
 
   /reftools/1.1.9:
     resolution: {integrity: sha512-OVede/NQE13xBQ+ob5CKd5KyeJYU2YInb1bmV4nRoOfquZPkAkxuOXicSe1PvqIuZZ4kD13sPKBbR7UFDmli6w==}
+
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
     dev: false
 
   /regenerate-unicode-properties/10.0.1:
@@ -18322,7 +18638,6 @@ packages:
   /request-promise-any/1.0.9_request@2.88.2:
     resolution: {integrity: sha512-TCS+MYW4C0TupboWQqCcq4ua7wt/wbMxQBX0vJ39qoGCdd379TZSDOdzLvgXNfEjP1lMOd/tqtk7cyeb59Kagw==}
     engines: {node: '>=0.10.0'}
-    deprecated: request-promise-any has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
     peerDependencies:
       request: ^2.34
     dependencies:
@@ -18370,7 +18685,6 @@ packages:
   /request/2.88.2:
     resolution: {integrity: sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==}
     engines: {node: '>= 6'}
-    deprecated: request has been deprecated, see https://github.com/request/request/issues/3142
     dependencies:
       aws-sign2: 0.7.0
       aws4: 1.11.0
@@ -18470,7 +18784,6 @@ packages:
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
-    hasBin: true
     dependencies:
       is-core-module: 2.9.0
       path-parse: 1.0.7
@@ -18488,6 +18801,13 @@ packages:
     resolution: {integrity: sha512-4gl03wn3hj1HP3yzgdI7d3lCkF95F21Pz4BPGvKHinyQzALR5CapwC8yIi0Rh58DEMQ/SguC03wFj2k0M/mHhw==}
     dependencies:
       lowercase-keys: 2.0.0
+    dev: false
+
+  /responselike/3.0.0:
+    resolution: {integrity: sha512-40yHxbNcl2+rzXvZuVkrYohathsSJlMTXKryG5y8uciHv1+xDLHQpgjG64JUO9nrEq2jGLH6IZ8BcZyw3wrweg==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      lowercase-keys: 3.0.0
     dev: false
 
   /restore-cursor/3.1.0:
@@ -18725,13 +19045,11 @@ packages:
 
   /semver/7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
-    hasBin: true
     dev: false
 
   /semver/7.3.7:
     resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
@@ -19160,7 +19478,6 @@ packages:
   /sshpk/1.17.0:
     resolution: {integrity: sha512-/9HIEs1ZXGhSPE8X6Ccm7Nam1z8KcoCqPdI7ecm1N33EzAetWahvQWVqLZtaZQ+IDKX4IyA2o0gBzqIMkAagHQ==}
     engines: {node: '>=0.10.0'}
-    hasBin: true
     dependencies:
       asn1: 0.2.6
       assert-plus: 1.0.0
@@ -20228,6 +20545,13 @@ packages:
   /typedarray/0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
+  /typescript-json-serializer/3.4.5:
+    resolution: {integrity: sha512-KWsDGa1vddY3alUIzE9oBo6AfVzVXQCCHm9ATF4oiGAoTHTTIV0IBGSRAu2uiJHrpPC/n7fxnnAagOhLQZyTcg==}
+    dependencies:
+      reflect-metadata: 0.1.13
+      tslib: 2.4.0
+    dev: false
+
   /typescript/3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
     engines: {node: '>=4.2.0'}
@@ -20235,7 +20559,6 @@ packages:
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
-    hasBin: true
 
   /typical/4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
@@ -20558,8 +20881,6 @@ packages:
 
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
-    hasBin: true
 
   /uuid/8.0.0:
     resolution: {integrity: sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==}
@@ -20567,12 +20888,10 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
     dev: false
 
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
-    hasBin: true
     dev: false
 
   /uuidv4/6.2.13:
@@ -21047,6 +21366,19 @@ packages:
         optional: true
     dev: true
 
+  /ws/8.7.0:
+    resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
   /xcase/2.0.1:
     resolution: {integrity: sha512-UmFXIPU+9Eg3E9m/728Bii0lAIuoc+6nbrNUKaRPJOFp91ih44qqGlWtxMB6kXFrRD6po+86ksHM5XHCfk6iPw==}
     dev: false
@@ -21056,6 +21388,12 @@ packages:
     engines: {node: '>=8'}
     dev: false
     optional: true
+
+  /xml-js/1.6.11:
+    resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
+    dependencies:
+      sax: 1.2.4
+    dev: false
 
   /xml-name-validator/3.0.0:
     resolution: {integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==}

@@ -1,25 +1,55 @@
-// legacy_hash_id: a_rJidQX
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-update-table-record",
   name: "Update Table Record",
-  description: "Updates a table record.",
-  version: "0.1.1",
+  description: "Updates a table record. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateTable/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [UpdateTableRecord](https://api-docs.pipefy.com/reference/objects/TableRecord/) specification.",
+    table: {
+      propDefinition: [
+        pipefy,
+        "table",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    record: {
+      propDefinition: [
+        pipefy,
+        "record",
+        (c) => ({
+          tableId: c.table,
+        }),
+      ],
+    },
+    status: {
+      propDefinition: [
+        pipefy,
+        "status",
+        (c) => ({
+          tableId: c.table,
+        }),
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The new title of the record",
+      optional: true,
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/updateTableRecord/
-
+  /*
   Example query:
 
   mutation updateTableRecord{
@@ -31,17 +61,15 @@ export default {
 
   */
 
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
-    }
+    const { table_record: record } = await this.pipefy.getTableRecord(this.record);
+    const variables = {
+      recordId: this.record,
+      title: this.title || record.title,
+      statusId: this.status || record.status.id,
+    };
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    const response = await this.pipefy.updateTableRecord(variables);
+    $.export("$summary", "Successfully updated table record");
+    return response;
   },
 };

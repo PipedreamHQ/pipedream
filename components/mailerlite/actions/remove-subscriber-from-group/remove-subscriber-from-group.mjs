@@ -4,7 +4,7 @@ export default {
   key: "mailerlite-remove-subscriber-from-group",
   name: "Remove Subscriber From Group",
   description: "Removes single subscriber from specified group. [See the docs here](https://developers.mailerlite.com/reference/remove-subscriber)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailerlite,
@@ -37,8 +37,13 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.mailerlite.removeSubscriberFromGroup(this.group, this.subscriber);
+    const response = await this.mailerlite.removeSubscriberFromGroup(
+      this.group,
+      encodeURIComponent(this.subscriber),
+    );
+
     $.export("$summary", "Removed subscriber from group");
-    // nothing to return
+
+    return response;
   },
 };

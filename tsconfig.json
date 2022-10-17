@@ -704,6 +704,42 @@
     },
     {
       "path": "components/printful_oauth"
+    },
+    {
+      "path": "components/docupilot"
+    },
+    {
+      "path": "components/repuso"
+    },
+    {
+      "path": "components/deployhq"
+    },
+    {
+      "path": "components/bingx"
+    },
+    {
+      "path": "components/razorpay"
+    },
+    {
+      "path": "components/neverbounce"
+    },
+    {
+      "path": "components/verdict_as_a_service"
+    },
+    {
+      "path": "components/wix"
+    },
+    {
+      "path": "components/wishpond"
+    },
+    {
+      "path": "components/nusii_proposals"
+    },
+    {
+      "path": "components/callingly"
+    },
+    {
+      "path": "components/bybit"
     }
   ]
 }

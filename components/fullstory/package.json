@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/fullstory",
+  "version": "0.0.2",
+  "description": "Pipedream Fullstory Components",
+  "main": "fullstory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fullstory"
+  ],
+  "homepage": "https://pipedream.com/apps/fullstory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "crypto-js": "^4.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
