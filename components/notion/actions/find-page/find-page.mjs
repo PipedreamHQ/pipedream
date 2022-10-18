@@ -5,7 +5,7 @@ export default {
   key: "notion-find-page",
   name: "Find a Page",
   description: "Searches for a page by its title. [See the docs](https://developers.notion.com/reference/post-search)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   methods: {
     getSummary({

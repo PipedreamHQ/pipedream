@@ -1,39 +1,31 @@
-import smtp2go from "../app/smtp2go.app";
-
 export default {
   props: {
-    smtp2go,
     fromEmail: {
       type: "string",
       label: "\"From\" email address",
-      description:
-        "The sender email address. To include a name, use the format 'Full Name &lt;sender@domain.com&gt;' for the address.",
+      description: "The sender email address. To include a name, use the format 'Full Name &lt;sender@domain.com&gt;' for the address.",
     },
     toEmail: {
-      type: "string",
+      type: "string[]",
       label: "Recipient email address(es)",
-      description:
-        "Recipient email address. Multiple addresses are comma separated. Max 50.",
+      description: "Recipient email address. Max 50.",
     },
     ccEmail: {
-      type: "string",
+      type: "string[]",
       label: "CC email address(es)",
-      description:
-        "Cc recipient email address. Multiple addresses are comma separated. Max 50.",
+      description: "Cc recipient email address. Max 50.",
       optional: true,
     },
     bccEmail: {
-      type: "string",
+      type: "string[]",
       label: "BCC email address(es)",
-      description:
-        "Bcc recipient email address. Multiple addresses are comma separated. Max 50.",
+      description: "Bcc recipient email address. Max 50.",
       optional: true,
     },
     replyTo: {
       type: "string",
       label: "\"Reply To\" email address",
-      description:
-        "Reply To override email address. Defaults to the Reply To set in the sender signature.",
+      description: "Reply To override email address. Defaults to the Reply To set in the sender signature.",
       optional: true,
     },
     customHeaders: {
@@ -86,13 +78,13 @@ export default {
   methods: {
     getActionRequestCommonData() {
       return {
-        from: this.fromEmail,
+        sender: this.fromEmail,
         to: this.toEmail,
         cc: this.ccEmail,
         bcc: this.bccEmail,
         reply_to: this.replyTo,
         custom_headers: [
-          ...this.getHeaderData(this.customHeaders),
+          ...this.getCustomHeaderData(this.customHeaders),
           ...this.getReplyToHeaders(this.replyTo),
         ],
         attachments: this.getAttachmentData(this.attachments),
@@ -121,15 +113,17 @@ export default {
         : [];
     },
     getCustomHeaderData(headers: any[]) {
-      return headers?.map((str) => {
-        const params = str.split("|");
-        return params.length === 2
-          ? {
-            header: params[0],
-            value: params[1],
-          }
-          : JSON.parse(str);
-      });
+      return headers
+        ? headers?.map((str) => {
+          const params = str.split("|");
+          return params.length === 2
+            ? {
+              header: params[0],
+              value: params[1],
+            }
+            : JSON.parse(str);
+        })
+        : [];
     },
   },
 };

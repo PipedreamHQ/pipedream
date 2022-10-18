@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/habitica",
+  "version": "0.0.1",
+  "description": "Pipedream Habitica Components",
+  "main": "dist/app/habitica.app.mjs",
+  "keywords": [
+    "pipedream",
+    "habitica"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/habitica",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

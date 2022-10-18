@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bingx",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Pipedream BingX Components",
   "main": "dist/app/bingx.app.mjs",
   "keywords": [

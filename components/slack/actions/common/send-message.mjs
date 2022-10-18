@@ -110,10 +110,13 @@ export default {
     let metadataEventPayload;
 
     if (this.metadata_event_type) {
-      try {
-        metadataEventPayload = JSON.parse(this.metadata_event_payload);
-      } catch (error) {
-        throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+
+      if (typeof metadataEventPayload === "string") {
+        try {
+          metadataEventPayload = JSON.parse(this.metadata_event_payload);
+        } catch (error) {
+          throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+        }
       }
 
       this.metadata = {
