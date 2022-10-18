@@ -504,6 +504,9 @@ importers:
   components/deepgram:
     specifiers: {}
 
+  components/deepl:
+    specifiers: {}
+
   components/degreed:
     specifiers: {}
 
@@ -673,6 +676,9 @@ importers:
       '@pipedream/types': 0.1.3
       qs: 6.11.0
 
+  components/expofp:
+    specifiers: {}
+
   components/f15five:
     specifiers: {}
 
@@ -732,6 +738,9 @@ importers:
       fraudlabspro-nodejs: ^2.1.0
     dependencies:
       fraudlabspro-nodejs: 2.1.0
+
+  components/freshbooks:
+    specifiers: {}
 
   components/freshdesk:
     specifiers:
@@ -998,6 +1007,9 @@ importers:
   components/guru:
     specifiers: {}
 
+  components/habitica:
+    specifiers: {}
+
   components/hacker_news:
     specifiers: {}
 
@@ -1073,6 +1085,9 @@ importers:
       mailparser: 3.5.0
       stream: 0.0.2
       util: 0.12.4
+
+  components/imgbb:
+    specifiers: {}
 
   components/infusionsoft:
     specifiers:
@@ -1166,6 +1181,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/knowbe4:
+    specifiers: {}
+
+  components/kucoin_futures:
     specifiers: {}
 
   components/laposta:
@@ -1372,9 +1390,9 @@ importers:
 
   components/nectar_crm:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.1.1
     dependencies:
-      '@pipedream/platform': 1.1.0
+      '@pipedream/platform': 1.1.1
 
   components/netlify:
     specifiers:
@@ -1848,6 +1866,9 @@ importers:
   components/sellix:
     specifiers: {}
 
+  components/sendblue:
+    specifiers: {}
+
   components/sender:
     specifiers: {}
 
@@ -1998,6 +2019,9 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/slicktext:
+    specifiers: {}
 
   components/smaily:
     specifiers:
@@ -2735,6 +2759,9 @@ importers:
       uuid: ^8.3.2
     dependencies:
       uuid: 8.3.2
+
+  components/zuora:
+    specifiers: {}
 
   helpers:
     specifiers:
@@ -5644,26 +5671,6 @@ packages:
       colorspace: 1.1.4
       enabled: 2.0.0
       kuler: 2.0.0
-    dev: false
-
-  /@datadog/datadog-api-client/1.0.0-beta.9:
-    resolution: {integrity: sha512-yCjrLVZvuxpsZhfriyFZb3q7s0IY/aK7AmyovKwGa/7LZoaaQE8ry6C/9cmWFaUfqie5t3oWr50eRKVhe+Dm6A==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@types/buffer-from': 1.1.0
-      '@types/node': 17.0.31
-      '@types/pako': 1.0.4
-      btoa: 1.2.1
-      buffer-from: 1.1.2
-      cross-fetch: 3.1.5
-      durations: 3.4.2
-      es6-promise: 4.2.8
-      form-data: 3.0.1
-      loglevel: 1.8.0
-      pako: 2.0.4
-      url-parse: 1.5.10
-    transitivePeerDependencies:
-      - encoding
     dev: false
 
   /@definitelytyped/header-parser/0.0.133:
