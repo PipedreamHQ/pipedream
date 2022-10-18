@@ -29,6 +29,11 @@ export default {
       description:
         "Compose your thread here, and include markdown if you'd like. See [here](https://github.com/ThreadsHQ/api-documentation#examples) for examples.",
     },
+    blocks: {
+      label: "Blocks",
+      type: "string[]",
+      description: "Add one or more blocks to your thread. You can use [Markdown](https://www.markdownguide.org/basic-syntax/) to format text. Try `# This is a block`",
+    },
     threadID: {
       type: "string",
       label: "Thread ID",
@@ -80,7 +85,9 @@ export default {
         $,
         path: "postThread",
         method: "POST",
-        data,
+        data: {
+          ...data,
+        },
       });
     },
     async deleteThread({

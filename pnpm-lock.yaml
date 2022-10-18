@@ -96,6 +96,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/aircall:
+    specifiers: {}
+
   components/airnow:
     specifiers: {}
 
@@ -154,7 +157,14 @@ importers:
     specifiers: {}
 
   components/amilia:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      async-retry: ^1.3.3
+      lodash: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      async-retry: 1.3.3
+      lodash: 4.17.21
 
   components/amplenote:
     specifiers:
@@ -515,7 +525,12 @@ importers:
     specifiers: {}
 
   components/detrack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/dev_to:
     specifiers: {}
@@ -1632,7 +1647,10 @@ importers:
     specifiers: {}
 
   components/productboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/profitwell:
     specifiers:
@@ -2030,6 +2048,12 @@ importers:
 
   components/softr:
     specifiers: {}
+
+  components/splitwise:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/spotify:
     specifiers: {}
@@ -17089,11 +17113,13 @@ packages:
   /querystring/0.2.0:
     resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
     engines: {node: '>=0.4.x'}
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
 
   /querystring/0.2.1:
     resolution: {integrity: sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==}
     engines: {node: '>=0.4.x'}
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
 
   /querystringify/2.2.0:

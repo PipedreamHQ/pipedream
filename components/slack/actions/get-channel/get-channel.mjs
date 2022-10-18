@@ -4,7 +4,7 @@ export default {
   key: "slack-get-channel",
   name: "Get Channel",
   description: "Return information about a workspace channel. [See docs here](https://api.slack.com/methods/conversations.info)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     slack,
