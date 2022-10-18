@@ -743,6 +743,33 @@
     },
     {
       "path": "components/aircall"
+    },
+    {
+      "path": "components/kucoin_futures"
+    },
+    {
+      "path": "components/deepl"
+    },
+    {
+      "path": "components/sendblue"
+    },
+    {
+      "path": "components/zuora"
+    },
+    {
+      "path": "components/habitica"
+    },
+    {
+      "path": "components/freshbooks"
+    },
+    {
+      "path": "components/slicktext"
+    },
+    {
+      "path": "components/expofp"
+    },
+    {
+      "path": "components/karbon"
     }
   ]
 }

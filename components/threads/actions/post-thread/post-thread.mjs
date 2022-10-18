@@ -4,7 +4,7 @@ export default {
   key: "threads-post-thread",
   name: "Post a Thread",
   description: "Post a new thread to a specific channel",
-  version: "0.1.3",
+  version: "0.2.0",
   type: "action",
   props: {
     threads,
@@ -14,23 +14,23 @@ export default {
         "channelID",
       ],
     },
-    body: {
+    blocks: {
       propDefinition: [
         threads,
-        "body",
+        "blocks",
       ],
     },
   },
   async run({ $ }) {
     const {
       channelID,
-      body,
+      blocks,
     } = this;
 
     const post = await this.threads.postThread({
       $,
       channelID,
-      body,
+      blocks,
     });
 
     $.export("$summary", `Thread successfully posted "${post?.result?.threadID}"`);
