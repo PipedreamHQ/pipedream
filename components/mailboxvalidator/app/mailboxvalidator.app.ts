@@ -2,7 +2,8 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   HttpRequestParams,
-  VerifyEmailParams, VerifyEmailResponse,
+  VerifyEmailParams,
+  VerifyEmailResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -21,19 +22,18 @@ export default defineApp({
         url: this._baseUrl() + endpoint,
         params: {
           ...params,
-          apikey: this.$auth.api_key,
+          key: this.$auth.api_key,
+          format: 'json',
         },
       });
     },
-    async verifyEmailAddress(args: VerifyEmailParams): Promise<VerifyEmailResponse> {
-      const response: VerifyEmailResponse = await this._httpRequest({
-        endpoint: "/verify",
+    async validateEmail(
+      args: VerifyEmailParams
+    ): Promise<VerifyEmailResponse> {
+      return this._httpRequest({
+        endpoint: "/validation/single",
         ...args,
       });
-
-      if (response.success !== "true") throw new Error(`mailboxvalidator response: ${response.reason}`);
-
-      return response;
     },
   },
 });
