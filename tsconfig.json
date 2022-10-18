@@ -746,6 +746,21 @@
     },
     {
       "path": "components/kucoin_futures"
+    },
+    {
+      "path": "components/deepl"
+    },
+    {
+      "path": "components/sendblue"
+    },
+    {
+      "path": "components/zuora"
+    },
+    {
+      "path": "components/habitica"
+    },
+    {
+      "path": "components/freshbooks"
     }
   ]
 }

@@ -3,9 +3,9 @@ import { axios } from "@pipedream/platform";
 
 export default {
   key: "trello-add-image-attachment",
-  name: "Trello Add Image Attachment to Card",
+  name: "Add Image Attachment to Card",
   description: "Adds image to card",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     trello: {
