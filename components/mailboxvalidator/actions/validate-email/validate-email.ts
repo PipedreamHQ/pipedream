@@ -1,7 +1,7 @@
 import mailboxvalidator from "../../app/mailboxvalidator.app";
 import { defineAction } from "@pipedream/types";
 import {
-  VerifyEmailParams, VerifyEmailResponse,
+  ValidateEmailParams, ValidateEmailResponse,
 } from "../../common/types";
 
 export default defineAction({
@@ -19,16 +19,20 @@ export default defineAction({
       type: "string",
     },
   },
-  async run({ $ }): Promise<VerifyEmailResponse> {
-    const params: VerifyEmailParams = {
+  async run({ $ }): Promise<ValidateEmailResponse> {
+    const params: ValidateEmailParams = {
       $,
       params: {
         email: this.email,
       },
     };
-    const data: VerifyEmailResponse = await this.mailboxvalidator.verifyEmailAddress(params);
+    const data: ValidateEmailResponse = await this.mailboxvalidator.validateEmail(params);
 
-    $.export("$summary", `Verified email ${data.email} (${data.result})`);
+    if (data.error_code) {
+      throw new Error(`MailboxValidator response: error code ${data.error_code} - ${data.error_message}`);
+    }
+
+    $.export("$summary", `Verified email ${data.email_address} (${data.status === 'true' ? 'valid' : 'invalid'})`);
 
     return data;
   },

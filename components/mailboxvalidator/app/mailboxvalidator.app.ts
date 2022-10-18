@@ -2,8 +2,8 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   HttpRequestParams,
-  VerifyEmailParams,
-  VerifyEmailResponse,
+  ValidateEmailParams,
+  ValidateEmailResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -28,8 +28,8 @@ export default defineApp({
       });
     },
     async validateEmail(
-      args: VerifyEmailParams
-    ): Promise<VerifyEmailResponse> {
+      args: ValidateEmailParams
+    ): Promise<ValidateEmailResponse> {
       return this._httpRequest({
         endpoint: "/validation/single",
         ...args,
