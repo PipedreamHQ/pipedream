@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/digital_ocean",
-    "version": "0.0.1",
-    "description": "Pipedream Digital Ocean Components",
-    "main": "digital_ocean.app.mjs",
-    "keywords": [
-        "pipedream",
-        "digital ocean"
-    ],
-    "homepage": "https://pipedream.com/apps/digital_ocean",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "do-wrapper": "^4.5.1"
-    }
+  "name": "@pipedream/digital_ocean",
+  "version": "0.0.2",
+  "description": "Pipedream Digital Ocean Components",
+  "main": "digital_ocean.app.mjs",
+  "keywords": [
+    "pipedream",
+    "digital ocean"
+  ],
+  "homepage": "https://pipedream.com/apps/digital_ocean",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "do-wrapper": "^4.5.1"
+  }
 }

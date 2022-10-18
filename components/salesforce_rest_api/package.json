@@ -1,24 +1,24 @@
 {
-    "name": "@pipedream/salesforce_rest_api",
-    "version": "0.4.0",
-    "description": "Pipedream Salesforce (REST API) Components",
-    "main": "salesforce_rest_api.app.mjs",
-    "keywords": [
-        "pipedream",
-        "salesforce_rest_api"
-    ],
-    "homepage": "https://pipedream.com/apps/salesforce_rest_api",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedream/platform": "^0.9.0",
-        "handlebars": "^4.7.7",
-        "lodash": "^4.17.21",
-        "salesforce-webhooks": "^1.1.4",
-        "lodash-es":"^4.17.21"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/salesforce_rest_api",
+  "version": "0.4.4",
+  "description": "Pipedream Salesforce (REST API) Components",
+  "main": "salesforce_rest_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "salesforce_rest_api"
+  ],
+  "homepage": "https://pipedream.com/apps/salesforce_rest_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.9.0",
+    "handlebars": "^4.7.7",
+    "lodash": "^4.17.21",
+    "salesforce-webhooks": "^1.1.11",
+    "lodash-es": "^4.17.21"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,13 +1,14 @@
-import fs from "fs";
-import FormData from "form-data";
-import jira from "../../jira.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
+import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-add-attachment-to-issue",
   name: "Add Attachment To Issue",
   description: "Adds an attachment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.2.2",
+  version: "0.2.5",
   type: "action",
   props: {
     jira,
@@ -20,16 +21,17 @@ export default {
     filename: {
       type: "string",
       label: "File name",
-      description: "Path of the file to add as an attachment. Must exist in the related workflow's `/tmp` folder.",
+      description: "Path of the file in /tmp folder to add as an attachment. To upload a file to /tmp folder, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
   },
   async run({ $ }) {
     const data = new FormData();
-    if (!fs.existsSync(this.filename)) {
+    const path = utils.checkTmp(this.filename);
+    if (!fs.existsSync(path)) {
       throw new ConfigurationError("File does not exist!");
     }
-    const file = fs.createReadStream(this.filename);
-    const stats = fs.statSync(this.filename);
+    const file = fs.createReadStream(path);
+    const stats = fs.statSync(path);
     data.append("file", file, {
       knownLength: stats.size,
     });

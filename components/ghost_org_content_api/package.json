@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/ghost",
-    "version": "0.3.3",
-    "description": "Pipedream Ghost Components",
-    "main": "ghost.app.js",
-    "keywords": [
-        "pipedream",
-        "ghost"
-    ],
-    "homepage": "https://pipedream.com/apps/ghost",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/ghost_org_content_api",
+  "version": "0.1.1",
+  "description": "Pipedream Ghost_org_content_api Components",
+  "main": "ghost_org_content_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ghost"
+  ],
+  "homepage": "https://pipedream.com/apps/ghost_org_content_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.0.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

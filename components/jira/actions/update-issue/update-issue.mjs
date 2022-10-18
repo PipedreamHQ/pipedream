@@ -1,11 +1,11 @@
-import jira from "../../jira.app.mjs";
 import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.1.2",
+  version: "0.2.1",
   type: "action",
   props: {
     jira,
@@ -37,6 +37,9 @@ export default {
       propDefinition: [
         jira,
         "transition",
+        (c) => ({
+          issueIdOrKey: c.issueIdOrKey,
+        }),
       ],
     },
     fields: {
@@ -48,7 +51,7 @@ export default {
     update: {
       type: "object",
       label: "Update",
-      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included in here cannot be included in `fields`.",
+      description: "A Map containing the field name and a list of operations to perform on the issue screen field. Note that fields included in here cannot be included in `fields`. (.i.e for Update {\"summary\":[{\"set\":\"Updated issue from Pipedream\"}],\"labels\":[{\"add\":\"triaged\"}]}') [see doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
       optional: true,
     },
     historyMetadata: {
@@ -74,7 +77,9 @@ export default {
   async run({ $ }) {
     const update = utils.parseObject(this.update);
     const fields = utils.parseObject(this.fields);
-    const transition = utils.parseObject(this.transition);
+    const transition = {
+      id: this.transition,
+    };
     const historyMetadata = utils.parseObject(this.historyMetadata);
     const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
@@ -92,13 +97,13 @@ export default {
         overrideEditableFlag: this.overrideEditableFlag,
       },
       data: {
-        transition,
         fields,
         update,
         historyMetadata,
         properties,
         ...additionalProperties,
       },
+      transition,
     });
     $.export("$summary", `Issue with ID(or key): ${this.issueIdOrKey} has been updated.`);
     return response;

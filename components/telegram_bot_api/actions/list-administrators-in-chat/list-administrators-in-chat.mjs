@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-list-administrators-in-chat",
   name: "List Administrators In Chat",
   description: "Use this module to get a list of administrators in a chat. [See the docs](https://core.telegram.org/bots/api#getchatadministrators) for more information",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     telegramBotApi,

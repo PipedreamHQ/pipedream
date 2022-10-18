@@ -1,50 +1,31 @@
-// eslint-disable-next-line camelcase
-import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import base from "../common/webhooks.mjs";
 
 export default {
-  type: "source",
+  ...base,
   key: "telegram_bot_api-message-updates",
-  name: "Message Updates (Instant)",
+  name: "New Message Updates (Instant)",
   description: "Emit new event each time a Telegram message is created or updated.",
-  version: "0.0.3",
+  version: "0.1.2",
+  type: "source",
   dedupe: "unique",
-  props: {
-    db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...base.methods,
+    getMeta(event, message) {
+      return {
+        id: event.update_id,
+        summary: message.text,
+        ts: new Date(message.edit_date ?? message.date),
+      };
     },
-    telegramBotApi,
-  },
-  hooks: {
-    async activate() {
-      await this.telegramBotApi.createHook(this.http.endpoint, [
+    getEventTypes() {
+      return [
         "message",
         "edited_message",
-      ]);
+      ];
     },
-    async deactivate() {
-      await this.telegramBotApi.deleteHook();
+    processEvent(event) {
+      const message = event.edited_message ?? event.message;
+      this.$emit(event, this.getMeta(event, message));
     },
-  },
-  async run(event) {
-    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
-      return;
-    }
-    this.http.respond({
-      status: 200,
-    });
-    const { body } = event;
-    if (!body) {
-      return;
-    }
-    const message = body.edited_message ?? body.message;
-    this.$emit(body,
-      {
-        id: body.update_id,
-        summary: message.text,
-        ts: Date.now(),
-      });
   },
 };

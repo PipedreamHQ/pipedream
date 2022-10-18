@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-deal",
   name: "New Deals",
   description: "Emit new event for each new deal created.",
-  version: "0.0.4",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   hooks: {},

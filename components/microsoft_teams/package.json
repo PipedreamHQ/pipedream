@@ -1,6 +1,6 @@
 {
-  "name": "pipedream/microsoft_teams",
-  "version": "0.0.2",
+  "name": "@pipedream/microsoft_teams",
+  "version": "0.0.3",
   "description": "Pipedream Microsoft Teams Components",
   "main": "microsoft_teams.app.mjs",
   "keywords": [
@@ -19,4 +19,3 @@
     "isomorphic-fetch": "^3.0.0"
   }
 }
-

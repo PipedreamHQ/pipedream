@@ -5,9 +5,9 @@ import constants from "../common/constants.mjs";
 export default {
   ...base,
   key: "notion-updated-page",
-  name: "Updated Page", /* eslint-disable-line pipedream/source-name */
-  description: "Emit new event when a page is updated",
-  version: "0.0.2",
+  name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
+  description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

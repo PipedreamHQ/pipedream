@@ -1,54 +1,13 @@
-import clickup from "../../clickup.app.mjs";
-import common from "../common/common.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   key: "clickup-create-task-comment",
   name: "Create Task Comment",
-  description: "Creates a task comment. See the docs [here](https://clickup.com/api) in **Comments  / Create Task Comment** section.",
-  version: "0.0.1",
+  description: "Creates a task comment. See the docs [here](https://clickup.com/api) in **Comments / Create Task Comment** section.",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
-    spaceId: {
-      propDefinition: [
-        clickup,
-        "spaces",
-        (c) => ({
-          workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        clickup,
-        "lists",
-        (c) => ({
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
-    },
     commentText: {
       label: "Comment Text",
       description: "The text of the comment",
@@ -63,7 +22,7 @@ export default {
     },
     assignees: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -81,6 +40,11 @@ export default {
       assignees,
     } = this;
 
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
+
     const response = await this.clickup.createTaskComment({
       $,
       taskId,
@@ -89,6 +53,7 @@ export default {
         notify_all: notifyAll,
         assignees,
       },
+      params,
     });
 
     $.export("$summary", "Successfully created task comment");

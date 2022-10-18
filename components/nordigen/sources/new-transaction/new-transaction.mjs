@@ -1,12 +1,11 @@
 import nordigen from "../../nordigen.app.mjs";
 import axios from "axios";
 
-// TODO: Add description docs
 export default {
-  key: "nordigen-new-transation",
+  key: "nordigen-new-transaction",
   name: "New transaction",
   description: "Emit new event when a transaction occurs",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

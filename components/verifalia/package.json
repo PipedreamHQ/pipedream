@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/verifalia",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Pipedream Verifalia Components",
   "main": "verifalia.app.mjs",
   "keywords": [

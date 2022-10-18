@@ -111,16 +111,6 @@ export default {
       description: "Phone number of the contact.",
       optional: true,
     },
-    contactFieldValues: {
-      type: "string[]",
-      label: "Contact's field values",
-      description: "Contact's custom field values `[{field, value}]`",
-      optional: true,
-      withLabel: true,
-      async options({ prevContext }) {
-        return this.listCustomFieldValuesOptions(prevContext);
-      },
-    },
     dealTitle: {
       type: "string",
       label: "Deal's title",
@@ -164,7 +154,7 @@ export default {
     },
     async makeRequest(customConfig) {
       const {
-        $,
+        $ = this,
         url,
         path,
         method,
@@ -183,27 +173,27 @@ export default {
         data,
         ...otherConfig,
       };
-
-      return axios($ || this, config);
+      return axios($, config);
     },
-    async createAccount({
-      $, data,
-    } = {}) {
+    async createAccount(args = {}) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: "/accounts",
-        data,
+        ...args,
       });
     },
-    async createContact({
-      $, data,
-    } = {}) {
+    async createContact(args = {}) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: "/contacts",
-        data,
+        ...args,
+      });
+    },
+    async createOrUpdateContact(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contact/sync",
+        ...args,
       });
     },
     async createHook(events, url, sources, listid = null) {
@@ -233,63 +223,64 @@ export default {
         path: `/lists/${id}`,
       });
     },
-    async listPipelines({ params } = {}) {
+    async listPipelines(args = {}) {
       return this.makeRequest({
         path: "/dealGroups",
-        params,
+        ...args,
       });
     },
-    async listAutomations({ params } = {}) {
+    async listAutomations(args = {}) {
       return this.makeRequest({
         path: "/automations",
-        params,
+        ...args,
       });
     },
-    async listCampaigns({ params } = {}) {
+    async listCampaigns(args = {}) {
       return this.makeRequest({
         path: "/campaigns",
-        params,
+        ...args,
       });
     },
-    async listContacts({ params } = {}) {
+    async listContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts",
-        params,
+        ...args,
       });
     },
-    async listDeals({ params } = {}) {
+    async listDeals(args = {}) {
       return this.makeRequest({
         path: "/deals",
-        params,
+        ...args,
       });
     },
-    async listLists({ params } = {}) {
+    async listLists(args = {}) {
       return this.makeRequest({
         path: "/lists",
-        params,
+        ...args,
       });
     },
-    async listWebhookEvents() {
+    async listWebhookEvents(args = {}) {
       return this.makeRequest({
         path: "/webhook/events",
+        ...args,
       });
     },
-    async listAccounts({ params } = {}) {
+    async listAccounts(args = {}) {
       return this.makeRequest({
         path: "/accounts",
-        params,
+        ...args,
       });
     },
-    async listCalendarFeeds({ params } = {}) {
+    async listCalendarFeeds(args = {}) {
       return this.makeRequest({
         path: "/calendars",
-        params,
+        ...args,
       });
     },
-    async listCustomFieldValues({ params } = {}) {
+    async listContactCustomFields(args = {}) {
       return this.makeRequest({
-        path: "/accountCustomFieldData",
-        params,
+        path: "/fields",
+        ...args,
       });
     },
     async listPipelineOptions(prevContext) {
@@ -306,23 +297,6 @@ export default {
         }) => ({
           label: title,
           value: id,
-        }),
-      });
-    },
-    async listCustomFieldValuesOptions(prevContext) {
-      return this.paginateResources({
-        requestFn: this.listCustomFieldValues,
-        requestArgs: {
-          params: {
-            offset: prevContext.offset || 0,
-          },
-        },
-        resourceName: "accountCustomFieldData",
-        mapper: ({
-          customFieldId, fieldValue,
-        }) => ({
-          label: fieldValue,
-          value: customFieldId,
         }),
       });
     },
@@ -412,7 +386,7 @@ export default {
       });
     },
     async paginateResources({
-      requestFn, requestArgs, resourceName, mapper,
+      requestFn, requestArgs, resourceName, mapper = (resource) => resource,
     }) {
       const limit = requestArgs.params?.limit ?? constants.DEFAULT_LIMIT;
       const offset = (requestArgs.params?.offset ?? 0) + limit;

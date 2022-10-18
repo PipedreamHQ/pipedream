@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-pin-message",
   name: "Pin a Message",
   description: "Pins a message. [See the docs](https://core.telegram.org/bots/api#pinchatmessage) for more information",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     telegramBotApi,

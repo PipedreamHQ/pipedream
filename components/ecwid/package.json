@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/ecwid",
+  "version": "0.0.7",
+  "description": "Pipedream Ecwid Components",
+  "main": "dist/ecwid.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ecwid"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ecwid",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

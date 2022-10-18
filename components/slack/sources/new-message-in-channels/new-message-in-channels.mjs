@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "0.0.7",
+  version: "1.0.3",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -29,12 +29,6 @@ export default {
           "message",
         ];
       },
-    },
-    ignoreMyself: {
-      propDefinition: [
-        common.props.slack,
-        "ignoreMyself",
-      ],
     },
     resolveNames: {
       propDefinition: [
@@ -65,9 +59,6 @@ export default {
         // events, we are ignoring them for now. If you want to handle these types of
         // events, feel free to change this code!!
         console.log("Ignoring message with subtype.");
-        return;
-      }
-      if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
         return;
       }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {

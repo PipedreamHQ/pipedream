@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/new-relic",
+  "version": "0.0.2",
+  "description": "Pipedream New Relic Components",
+  "main": "new_relic.app.js",
+  "keywords": [
+    "pipedream",
+    "new relic"
+  ],
+  "homepage": "https://pipedream.com/apps/new-relic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}

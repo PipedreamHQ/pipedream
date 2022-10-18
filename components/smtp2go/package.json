@@ -1,17 +1,22 @@
 {
   "name": "@pipedream/smtp2go",
-  "version": "0.0.1",
-  "description": "Pipedream SMTP2GO  Components",
-  "main": "dist/app/smtp2go.app.mjs",
+  "version": "0.0.3",
+  "description": "Pipedream SMTP2GO Components",
+  "main": "dist/smtp2go.app.ts",
   "keywords": [
     "pipedream",
     "smtp2go"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/smtp2go",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
   }
 }

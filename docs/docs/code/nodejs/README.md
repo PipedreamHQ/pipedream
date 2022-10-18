@@ -90,7 +90,7 @@ export default defineComponent({
 
 ### Using $.export
 
-<VideoPlayer src="https://youtu.be/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
+<VideoPlayer src="https://www.youtube.com/embed/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
 
 Alternatively, use the built in `$.export` helper instead of returning data. The `$.export` creates a _named_ export with the given value.
 
@@ -355,7 +355,7 @@ You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/t
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
 - You may want to end your workflow early if you don't receive all the fields you expect in the event data.
-- You only want to run your workflow for 5% of all events sent to your source.
+- You only want to run your workflow for 5% of all events sent from your source.
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
@@ -379,6 +379,8 @@ export default defineComponent({
   }
 });
 ```
+
+Or exit the workflow early within a conditional:
 
 ```javascript
 export default defineComponent({

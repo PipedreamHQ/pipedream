@@ -1,17 +1,25 @@
 {
   "name": "@pipedream/tookan",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Tookan Components",
   "main": "dist/app/tookan.app.mjs",
   "keywords": [
     "pipedream",
     "tookan"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/tookan",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.1.4"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
   }
 }

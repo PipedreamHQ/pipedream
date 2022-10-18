@@ -308,9 +308,9 @@ export default {
       optional: true,
     },
     content: {
-      label: "Content",
+      label: "File Path",
+      description: "Full path to the file in `/tmp/` directory. E.g. `/tmp/cute_cat.jpg`",
       type: "string",
-      description: "File contents via a POST variable.",
     },
     link_names: {
       type: "string",
@@ -381,30 +381,33 @@ export default {
       type: "boolean",
       label: "Ignore myself",
       description: "Ignore messages from me",
-      default: true,
+      default: false,
     },
-    word: {
+    keyword: {
       type: "string",
-      label: "Word",
-      description: "Word to monitoring",
+      label: "Keyword",
+      description: "Keyword to monitor",
     },
     isUsername: {
       type: "boolean",
       label: "Is Username",
-      description: "Validates if the mentioned word is a username",
+      description: "Filters out mentions of the keyword that are not a username",
       default: false,
+      optional: true,
     },
     ignoreBot: {
       type: "boolean",
-      label: "Ignore bots",
+      label: "Ignore Bots",
       description: "Ignore messages from bots",
       default: false,
+      optional: true,
     },
     resolveNames: {
       type: "boolean",
-      label: "Resolve names",
-      description: "Resolve user and channel names (incurs extra API calls)",
+      label: "Resolve Names",
+      description: "Instead of returning `channel`, `team`, and `user` as IDs, return their human-readable names.",
       default: false,
+      optional: true,
     },
   },
   methods: {

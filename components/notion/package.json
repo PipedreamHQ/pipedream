@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Pipedream Notion Components",
   "main": "notion.app.mjs",
   "keywords": [

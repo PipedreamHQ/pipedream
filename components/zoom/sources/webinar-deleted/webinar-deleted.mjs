@@ -1,14 +1,15 @@
-import zoom from "../../zoom.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "zoom-webinar-deleted",
   name: "Webinar Deleted",
-  description:
-    "Emits an event each time a webinar is deleted where you're the host",
-  version: "0.0.3",
-  dedupe: "unique", // Dedupe based on meeting ID
+  description: "Emit new event each time a webinar is deleted where you're the host",
+  version: "0.0.4",
+  type: "source",
+  dedupe: "unique", // Dedupe based on webinar ID
   props: {
-    zoom,
+    ...common.props,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
@@ -18,19 +19,20 @@ export default {
       ],
     },
   },
-  async run(event) {
-    const { payload } = event;
-    const { object } = payload;
-    this.$emit(
-      {
+  methods: {
+    emitEvent(payload, object) {
+      const meta = this.generateMeta(object);
+      this.$emit({
         event: "webinar.deleted",
         payload,
-      },
-      {
-        summary: object.topic,
+      }, meta);
+    },
+    generateMeta(object) {
+      return {
         id: object.uuid,
+        summary: object.topic,
         ts: +new Date(object.start_time),
-      },
-    );
+      };
+    },
   },
 };

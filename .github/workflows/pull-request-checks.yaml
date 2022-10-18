@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -24,62 +24,28 @@ jobs:
           # since the merge-base (the commit where we branched off)
           # so we can check the git diff against all changed files.
           # By default, the checkout action only returns the last commit,
-          # There's no native way to do this in the checkout action, so 
+          # There's no native way to do this in the checkout action, so
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
       - uses: jitterbit/get-changed-files@v1
         id: changed_files
         name: Get changed files
-      # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
-      # If the changes don't contain modifications to the version, we want to log that fact but not exit early
-      # Once we've checked all files, exit the script if any files failed to modify version
-      - id: git_diff_on_components
-        name: Check git diff for version changes
-        env:
-          head_commit: ${{ github.event.pull_request.head.sha }}
+        with:
+          format: json
+      - name: Check git diff for version changes
+        uses: ./.github/actions/git-diff-on-components
+        with:
+          all_files: ${{ steps.changed_files.outputs.all }}
           base_commit: ${{ github.event.pull_request.base.sha }}
-        run: |-
-          commit_contained_components_that_did_not_modify_version=0
-          for f in ${{ steps.changed_files.outputs.all }}
-          do
-            ext="${f##*.}"
-            # Only run this check on modified sources or actions, excluding common files
-            if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]] || [[ "$ext" == "ts" ]]) && \
-              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && [[ "${f}" != *common*.*ts ]] && \
-              [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]] && \
-              [[ "$(<${f})" == *"version:"* ]]
-            then
-              BASE_COMMIT=${{env.base_commit}}
-              HEAD_COMMIT=${{env.head_commit}}
-              DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
-              if [[ ${DIFF} != *"version:"* ]]
-              then
-                BASE_COMMIT=${{env.base_commit}}
-                HEAD_COMMIT=${{env.head_commit}}
-                DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
-                if [[ ${DIFF} != *"version:"* ]]
-                then
-                  echo "You didn't modify the version of ${f}"
-                  commit_contained_components_that_did_not_modify_version=1
-                fi
-              fi
-            fi
-          done
-
-          if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
-          then
-            echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
-            exit 1
-          fi
-        
+          head_commit: ${{ github.event.pull_request.head.sha }}
 
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3.0.2
+    - uses: actions/checkout@v3.1.0
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -98,7 +64,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.25.0
+    - uses: rojopolis/spellcheck-github-actions@0.27.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -111,12 +77,12 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -133,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v3.4.1
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -150,16 +116,23 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
+      - name: Get Changed Files
+        id: changed_files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Check component keys
-        run: node scripts/findBadKeys.js
+        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
+      - name: Check for duplicate component keys
+        run: node scripts/findDuplicateKeys.js
 
   pnpm-publish-dry-run:
     name: pnpm publish dry run
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -173,7 +146,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v3.4.1
+      - uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -186,14 +159,14 @@ jobs:
       - name: pnpm publish
         run: pnpm publish -r --no-git-checks --dry-run
 
-  publish-typescript-components-dry-run:
-    name: Publish TypeScript components
+  verify-typescript-components:
+    name: Verify TypeScript components
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
-      - uses: pnpm/action-setup@v2.0.1
+        uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -208,7 +181,96 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.4.1
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Install Dependencies
+        run: pnpm install -r
+      - name: Compile TypeScript
+        id: compile
+        run: npm run build > files.txt
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
+      - name: Check For Compiled TypeScript Files
+        run: |
+          IFS=$'\n'
+          # Remove initial tsc output
+          output_files=$(cat files.txt | sed 1,3d)
+          declare -a ERRORS
+          declare -a SKIPPED
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          for added_modified_file in "${added_modified_renamed_files[@]}";
+          do
+            echo "Checking if $added_modified_file is a publishable ts file"
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
+                && [[ $added_modified_file != */common*.ts ]] && [[ $added_modified_file != */common/* ]]
+            then
+              # XXX This is a hacky way to publish only TS components with changes. If a changed
+              # file "path-a/path-b/c.ts" has a corresponding compiled output file
+              # "path-a/dist/path-b/c.mjs", attempt to publish the output `.mjs` file.
+              changed_output_file=""
+              for f in $output_files; # check each output file for a match
+              do
+                # Replaces /dist/path/filename.mjs with /path/filename.ts
+                maybe_source_file=$(echo "$f" | sed 's/\/dist\//\//;s/.mjs/\.ts/')
+                if [[ ${maybe_source_file} == **/${added_modified_file} ]]
+                then
+                  changed_output_file=${f}
+                  break
+                fi
+              done
+              if [[ $changed_output_file == "" ]]
+              then
+                ERROR_MESSAGE="cannot find an output .mjs file with ${added_modified_file}"
+                echo $ERROR_MESSAGE
+                ERRORS+=("*${ERROR_MESSAGE}")
+              fi
+            else
+              echo "$added_modified_file will not be added to the registry"
+              SKIPPED+=("*$added_modified_file")
+            fi
+          done
+          if [[ ${#SKIPPED[@]} -ne 0 ]]; then
+            echo "the following files were skipped:"
+            printf '%s\n' "${SKIPPED[@]}"
+          fi
+          if [[ ${#ERRORS[@]} -ne 0 ]]; then
+            echo "the following files generated errors:"
+            printf '%s\n' "${ERRORS[@]}"
+            echo "Please check if the components above were successfully compiled"
+            echo "More information here: https://pipedream.com/docs/components/typescript/#developing-typescript-components-in-the-pipedreamhq-pipedream-registry"
+            exit 1
+          fi
+          unset IFS
+
+  publish-typescript-components-dry-run:
+    name: Publish TypeScript components
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7.0.0
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Setup Node Env
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -253,7 +315,3 @@ jobs:
             fi
           done
           unset IFS
-
- 
-
-

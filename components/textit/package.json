@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/textit",
+  "version": "0.0.2",
+  "description": "Pipedream TextIt Components",
+  "main": "textit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textit"
+  ],
+  "homepage": "https://pipedream.com/apps/textit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}

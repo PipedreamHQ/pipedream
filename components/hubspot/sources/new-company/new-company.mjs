@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-company",
   name: "New Companies",
   description: "Emit new event for each new company added.",
-  version: "0.0.4",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   hooks: {},

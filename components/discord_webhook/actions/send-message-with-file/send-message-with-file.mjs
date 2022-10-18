@@ -7,7 +7,7 @@ export default {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,

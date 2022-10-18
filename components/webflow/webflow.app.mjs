@@ -1,4 +1,5 @@
 import Webflow from "webflow-api";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -155,7 +156,7 @@ export default {
       return apiClient.get(`/sites/${siteId}/orders`, {
         status: status,
         offset: page ?? 0,
-        limit: 100,
+        limit: constants.LIMIT,
       });
     },
     /**
@@ -243,7 +244,7 @@ export default {
       const response = await webflow.items({
         collectionId,
       }, {
-        limit: 100,
+        limit: constants.LIMIT,
         offset: page,
       });
 

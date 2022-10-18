@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pinterest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Pinterest Components",
   "main": "pinterest.app.mjs",
   "keywords": [

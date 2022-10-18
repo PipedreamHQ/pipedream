@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/vercel_token_auth",
+  "version": "0.0.2",
+  "description": "Pipedream Vercel (token-based auth) Components",
+  "main": "vercel_token_auth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vercel_token_auth"
+  ],
+  "homepage": "https://pipedream.com/apps/vercel_token_auth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

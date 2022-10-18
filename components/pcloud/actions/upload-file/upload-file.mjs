@@ -8,7 +8,7 @@ export default {
   name: "Upload File",
   description:
     "Upload a file to the specified folder. [See the docs here](https://docs.pcloud.com/methods/file/uploadfile.html)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

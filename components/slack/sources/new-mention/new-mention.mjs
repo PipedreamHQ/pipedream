@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "slack-new-mention",
   name: "New Mention (Instant)",
-  version: "0.0.1",
-  description: "Emit new event when a username or specific word is mentioned in a channel",
+  version: "1.0.3",
+  description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,16 +30,10 @@ export default {
         ];
       },
     },
-    ignoreMyself: {
+    keyword: {
       propDefinition: [
         common.props.slack,
-        "ignoreMyself",
-      ],
-    },
-    word: {
-      propDefinition: [
-        common.props.slack,
-        "word",
+        "keyword",
       ],
     },
     isUsername: {
@@ -71,9 +65,6 @@ export default {
       // events, we are ignoring them for now. If you want to handle these types of
       // events, feel free to change this code!!
         console.log("Ignoring message with subtype.");
-        return;
-      }
-      if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
         return;
       }
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {

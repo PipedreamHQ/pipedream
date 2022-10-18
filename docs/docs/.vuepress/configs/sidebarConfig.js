@@ -13,6 +13,7 @@ const docsNav = [
       "/workflows/events/",
       "/workflows/events/inspect/",
       "/workflows/built-in-functions/",
+      "/workflows/errors/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
@@ -45,7 +46,13 @@ const docsNav = [
       { 
         title: "Python",
         type: "group",
-        children: ["/code/python/", "/code/python/import-mappings/",]
+        children: [
+          "/code/python/",
+          "/code/python/auth/",
+          "/code/python/using-data-stores/",
+          "/code/python/rerun/",
+          "/code/python/import-mappings/",
+        ]
       },
       "/code/go/",
       {
@@ -110,7 +117,6 @@ const referenceNav = [
       "/api/rest/",
       "/api/rest/webhooks/",
       "/api/rest/rss/",
-      "/api/rest/workflow-errors/",
       "/api/sse/",
     ],
   },

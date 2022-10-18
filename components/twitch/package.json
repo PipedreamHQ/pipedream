@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/twitch",
+  "version": "0.0.2",
+  "description": "Pipedream Twitch Components",
+  "main": "twitch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "twitch"
+  ],
+  "homepage": "https://pipedream.com/apps/twitch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "crypto": "^1.0.1",
+    "qs": "^6.10.5",
+    "uuid": "^8.3.2"
+  }
+}

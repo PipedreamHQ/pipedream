@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   type: "source",
   key: "webflow-new-deleted-collection-item",
   name: "New Deleted Collection Item",
   description: "Emit new event when a collection item is deleted. [See the docs here](https://developers.webflow.com/#item-model)",
-  version: "0.1.1",
+  version: "0.2.0",
   ...common,
   methods: {
     ...common.methods,
@@ -16,7 +16,7 @@ export default {
       return {
         id: data.itemId,
         summary: `Collection item ${data.itemId} deleted.`,
-        ts: Date.now(),
+        ts: Date.parse(data["created-on"]),
       };
     },
   },

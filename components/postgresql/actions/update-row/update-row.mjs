@@ -4,14 +4,23 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.3",
+  version: "0.0.6",
   type: "action",
   props: {
     postgresql,
+    schema: {
+      propDefinition: [
+        postgresql,
+        "schema",
+      ],
+    },
     table: {
       propDefinition: [
         postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+        }),
       ],
     },
     column: {
@@ -20,6 +29,7 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
         }),
       ],
       label: "Lookup Column",
@@ -32,6 +42,7 @@ export default {
         (c) => ({
           table: c.table,
           column: c.column,
+          schema: c.schema,
         }),
       ],
     },
@@ -50,6 +61,7 @@ export default {
   },
   async run({ $ }) {
     const {
+      schema,
       table,
       column,
       value,
@@ -58,6 +70,7 @@ export default {
     } = this;
     try {
       const res = await this.postgresql.updateRow(
+        schema,
         table,
         column,
         value,

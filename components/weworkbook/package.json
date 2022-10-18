@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/weworkbook",
-    "version": "0.0.1",
-    "description": "Pipedream Weworkbook Components",
-    "main": "weworkbook.app.js",
-    "keywords": [
-      "pipedream",
-      "weworkbook"
-    ],
-    "homepage": "https://pipedream.com/apps/weworkbook",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/weworkbook",
+  "version": "0.0.2",
+  "description": "Pipedream Weworkbook Components",
+  "main": "weworkbook.app.js",
+  "keywords": [
+    "pipedream",
+    "weworkbook"
+  ],
+  "homepage": "https://pipedream.com/apps/weworkbook",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

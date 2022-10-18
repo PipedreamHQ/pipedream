@@ -1,60 +1,45 @@
-// legacy_hash_id: a_3Li6eK
-import { axios } from "@pipedream/platform";
+import app from "../../customer_io.app.mjs";
 
 export default {
   key: "customer_io-send-event-to-customer-io",
   name: "Send Event To Customer io",
-  description: "Sends, tracks a customer event to Customer io",
-  version: "0.2.2",
+  description: "Sends, tracks a customer event to Customer io. [See the docs here](https://customer.io/docs/api/#operation/track)",
+  version: "0.3.0",
   type: "action",
   props: {
-    customer_io: {
-      type: "app",
-      app: "customer_io",
+    app,
+    customerId: {
+      propDefinition: [
+        app,
+        "customerId",
+      ],
     },
-    customer_id: {
+    eventName: {
       type: "string",
-      description: "The unique identifier for the customer.",
-    },
-    event_name: {
-      type: "string",
+      label: "Event Name",
       description: "The name of the event to track.",
     },
     type: {
       type: "string",
+      label: "Type",
       description: "Used to change event type. For Page View events set to \"page\".",
       optional: true,
     },
-    custom_data: {
+    customData: {
       type: "object",
+      label: "Custom Data",
       description: "Custom data to include with the event.",
       optional: true,
     },
   },
   async run({ $ }) {
-  // See the API docs: https://customer.io/docs/api/#apitrackeventsevent_add
-
-    if (!this.customer_id || !this.event_name) {
-      throw new Error("Must provide customer_id, and event_name parameters.");
-    }
-
-    const basicauthUserPwd = `${this.customer_io.$auth.site_id}:${this.customer_io.$auth.api_key}`;
-    const buff = Buffer.from(basicauthUserPwd);
-    const base64BasicauthUserPwd = buff.toString("base64");
-
-    const config = {
-      method: "post",
-      url: `https://track.customer.io/api/v1/customers/${this.customer_id}/events`,
-      headers: {
-        Authorization: `Basic ${base64BasicauthUserPwd}`,
-      },
-      data: {
-        name: this.event_name,
-        type: this.type,
-        data: this.custom_data,
-      },
+    const data = {
+      name: this.eventName,
+      type: this.type,
+      data: this.customData,
     };
-
-    return axios($, config);
+    const res = await this.app.sendEventTo(this.customerId, data, $);
+    $.export("$summary", "Successfully sent event");
+    return res;
   },
 };

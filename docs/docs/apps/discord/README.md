@@ -26,9 +26,7 @@ You can use Pipedream to automate any workflow where you need to receive a messa
 
 Watch this video to see how to create a new Discord webhook using Pipedream, and how to send the name of a random Star Wars character to a Discord channel once an hour:
 
-<VideoPlayer url="https://www.youtube.com/embed/SLNqwnMbAKA" title="Connect a Discord webhook to Pipedream" />
-
-[See the finished workflow here](https://pipedream.com/@dylburger/send-a-random-star-wars-character-name-to-a-discord-channel-discord-webhooks-p_QPCNpq/readme). We'll walk through the setup described in the video below.
+<VideoPlayer url="https://www.youtube.com/embed/UODtCjkqMQw" title="Connect a Discord webhook to Pipedream" />
 
 ### Using the Discord Webhook integration
 

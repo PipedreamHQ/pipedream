@@ -1,11 +1,11 @@
 import { axios } from "@pipedream/platform";
 import {
+  API_PATH,
   ASSOCIATION_CATEGORY,
+  BASE_URL,
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  BASE_URL,
-  API_PATH,
 } from "./common/constants.mjs";
 
 export default {
@@ -88,6 +88,16 @@ export default {
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
       options: OBJECT_TYPES,
+    },
+    objectId: {
+      type: "string",
+      label: "Object ID",
+      description: "Hubspot's internal ID for the contact",
+      async options({
+        objectType, ...opts
+      }) {
+        return this.createOptions(objectType, opts);
+      },
     },
     objectIds: {
       type: "string[]",
@@ -182,6 +192,22 @@ export default {
           context: {
             nextAfter: paging?.next?.after,
           },
+        };
+      },
+    },
+    workflow: {
+      type: "string",
+      label: "Workflow",
+      description: "The ID of the workflow you wish to see metadata for.",
+      async options() {
+        const { workflows } = await this.listWorkflows();
+        return {
+          options: workflows.map(({
+            name: label, id: value,
+          }) => ({
+            label,
+            value,
+          })),
         };
       },
     },
@@ -518,6 +544,19 @@ export default {
         },
       );
     },
+    async updateObject(objectType, properties, objectId, $) {
+      return this.makeRequest(
+        API_PATH.CRMV3,
+        `/objects/${objectType}/${objectId}`,
+        {
+          method: "PATCH",
+          data: {
+            properties,
+          },
+          $,
+        },
+      );
+    },
     async getPropertyGroups(objectType, $) {
       return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}/groups`, {
         $,
@@ -664,6 +703,22 @@ export default {
             })),
           },
           $,
+        },
+      );
+    },
+    async listWorkflows() {
+      return this.makeRequest(
+        API_PATH.AUTOMATION,
+        "/workflows",
+      );
+    },
+    async addContactsIntoWorkflow(workflowId, contactEmail, $) {
+      return this.makeRequest(
+        API_PATH.AUTOMATION,
+        `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
+        {
+          $,
+          method: "POST",
         },
       );
     },

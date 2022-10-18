@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/docupilot",
+  "version": "0.0.1",
+  "description": "Pipedream Docupilot Components",
+  "main": "dist/app/docupilot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docupilot"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/docupilot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "@pipedream/types": "^0.1.4"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/platform",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pipedream platform globals (typing and runtime type checking)",
   "homepage": "https://pipedream.com",
   "main": "dist/index.js",
@@ -19,11 +19,12 @@
   "dependencies": {
     "axios": "^0.21.2",
     "fp-ts": "^2.0.2",
-    "io-ts": "^2.0.0"
+    "io-ts": "^2.0.0",
+    "querystring": "^0.2.1"
   },
   "devDependencies": {
     "husky": "^3.0.0",
-    "jest": "^24.8.0",
+    "jest": "^29.1.2",
     "@octokit/core": "^3.6.0",
     "typescript": "^3.5.3"
   }
