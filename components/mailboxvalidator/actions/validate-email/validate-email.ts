@@ -32,7 +32,9 @@ export default defineAction({
       throw new Error(`MailboxValidator response: error code ${data.error_code} - ${data.error_message}`);
     }
 
-    $.export("$summary", `Verified email ${data.email_address} (${data.status === 'true' ? 'valid' : 'invalid'})`);
+    $.export("$summary", `Verified email ${data.email_address} (${data.status === "true"
+      ? "valid"
+      : "invalid"})`);
 
     return data;
   },

@@ -23,12 +23,12 @@ export default defineApp({
         params: {
           ...params,
           key: this.$auth.api_key,
-          format: 'json',
+          format: "json",
         },
       });
     },
     async validateEmail(
-      args: ValidateEmailParams
+      args: ValidateEmailParams,
     ): Promise<ValidateEmailResponse> {
       return this._httpRequest({
         endpoint: "/validation/single",
