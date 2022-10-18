@@ -14,7 +14,6 @@ export default defineAction({
       label: "Name",
       description: "The name of the contact",
       type: "string",
-      optional: true,
     },
     cnpj: {
       label: "CNPJ",
