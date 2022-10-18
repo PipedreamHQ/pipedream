@@ -37,6 +37,7 @@ export default {
         googleCalendar,
         "orderBy",
       ],
+      default: "",
     },
     pageToken: {
       propDefinition: [
@@ -138,7 +139,7 @@ export default {
       iCalUID: this.iCalUID,
       maxAttendees: this.maxAttendees,
       maxResults: this.maxResults,
-      orderBy: this.orderBy,
+      orderBy: this.orderBy || undefined,
       pageToken: this.pageToken,
       privateExtendedProperty: this.privateExtendedProperty,
       q: this.q,
