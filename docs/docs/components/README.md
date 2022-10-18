@@ -55,13 +55,13 @@ Components may be instantiated or added to workflows via Pipedream's UI.
 
 ### Using Private Actions
 
-Private action components published from the [CLI](/docs/cli/reference/#pd-publish) or from a Node.js Code Step are available for use across your workflows.
+Private action components published from the [CLI](/cli/reference/#pd-publish) or from a Node.js Code Step are available for use across your workflows.
 
 To use a published action, add a new step to your workflow and click **My Actions**. Your privately published action components will appear in this list.
 
 ### Using Private Sources
 
-Private source components deployed from your account via the [CLI](/docs/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
+Private source components deployed from your account via the [CLI](/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
 
 You can also deploy new instances of a source from the Components dashboard. To deploy a new instance of a source, click the menu on the right hand side and select **Create source**.
 
