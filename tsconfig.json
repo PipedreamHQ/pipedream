@@ -770,6 +770,30 @@
     },
     {
       "path": "components/karbon"
+    },
+    {
+      "path": "components/dynatrace_api"
+    },
+    {
+      "path": "components/freshsales"
+    },
+    {
+      "path": "components/gender_api"
+    },
+    {
+      "path": "components/sms_magic"
+    },
+    {
+      "path": "components/mailcoach"
+    },
+    {
+      "path": "components/mozilla_observatory"
+    },
+    {
+      "path": "components/mx_toolbox"
+    },
+    {
+      "path": "components/nano_nets"
     }
   ]
 }
