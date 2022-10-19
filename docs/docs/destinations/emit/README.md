@@ -12,7 +12,7 @@ You can emit arbitrary events from any [Node.js code steps](/code/nodejs/) using
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      raw_event: {
+      {
         name: "Yoda",
       },
     });
@@ -24,7 +24,27 @@ export default defineComponent({
 
 ```javascript
 $.send.emit({
-  raw_event, // An object that contains the event you'd like to emit
+  event, // An object that contains the event you'd like to emit
+  channel, // Optional, a string specifying the channel
+});
+```
+
+## Emitting events to channels
+
+By default, events are emitted to the default channel. You can optionally emit events to a different channel, and listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel.
+
+Pass the channel as the second argument to `$.send.emit`:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    $.send.emit({
+      {
+        name: "Yoda",
+      },
+      'channel_name'
+    });
+  }
 });
 ```
 
@@ -38,7 +58,7 @@ If you're authoring a [component action](/components#actions), you can emit data
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      raw_event: {
+      {
         name: "Yoda",
       },
     });
@@ -56,7 +76,7 @@ export default defineComponent({
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     for (const name of names) {
       $.send.emit({
-        raw_event: {
+        {
           name,
         },
       });
@@ -92,7 +112,7 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.emit({
-      raw_event: {
+      {
         name: "Yoda",
       },
     });
@@ -102,7 +122,7 @@ export default defineComponent({
 
 This should trigger your listener, and you should see the same event in [the event inspector](/workflows/events/inspect/#the-inspector).
 
-**Note**: since configuring this trigger happens via API, you also won't see the emitted event appear as the trigger for your your listener. Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/241) if you'd like to see UI support for that. Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/682) to see support for _adding_ emitted events as a workflow trigger in the UI.
+**Note**: Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/682) to see support for _adding_ emitted events as a workflow trigger in the UI.
 
 ## Consuming emitted events via REST API
 

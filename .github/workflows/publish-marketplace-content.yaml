@@ -1,4 +1,4 @@
-on: 
+on:
   push:
     branches:
       - master
@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
-      - uses: pnpm/action-setup@v2.2.2
+        uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -25,9 +25,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install -r --no-frozen-lockfile --fix-lockfile
+        run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
-        uses: actions/setup-node@v3.5.0
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -46,4 +46,3 @@ jobs:
         run: |
           printf -v added_modified_renamed_files '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
           pnpm dlx ts-node --esm scripts/updateMarketplaceReadme.mts $added_modified_renamed_files
-

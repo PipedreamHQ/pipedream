@@ -551,6 +551,16 @@ this.parsed = await simpleParser(f);
 
 Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/). Pipedream generates a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
+### Email attachments
+
+You can attach any files to your email, up to [the total email size limit](/limits/#email-triggers). 
+
+Attachments are stored in `steps.trigger.event.attachments`, which provides an array of attachment objects. Each attachment in that array exposes key properties:
+
+- `contentUrl`: a URL that hosts your attachment. You can [download this file to the `/tmp` directory](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) and process it in your workflow.
+- `content`: If the attachment contains text-based content, Pipedream renders the attachment in `content`, up to 10,000 bytes.
+- `contentTruncated`: `true` if the attachment contained text-based content larger than 10,000 bytes. If `true`, the data in `content` will be truncated, and you should fetch the full attachment from `contentUrl`.
+
 ### Appending metadata to the incoming email address with `+data`
 
 Pipedream provides a way to append metadata to incoming emails by adding a `+` sign to the incoming email key, followed by any arbitrary string:

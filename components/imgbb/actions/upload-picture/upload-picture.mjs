@@ -4,10 +4,10 @@ import { stringify } from "qs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "imgbb-upload-picturesfojsfojsofjo",
+  key: "imgbb-upload-picture",
   name: "Upload picture",
   description: "Upload a picture to imgbb. [See the docs here](https://api.imgbb.com/)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,

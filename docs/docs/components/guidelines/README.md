@@ -253,6 +253,8 @@ across registry components and should follow the pattern:
 
 `app_name_slug`-`slugified-component-name`
 
+**Source** keys should use past tense verbs that describe the event that occurred (e.g., `linear_app-issue-created-instant`). For **action** keys, use active verbs to describe the action that will occur, (e.g., `linear_app-create-issue`).
+
 #### Versioning
 
 When you first publish a component to the registry, set its version to `0.0.1`.
