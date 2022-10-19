@@ -19,5 +19,5 @@
   "devDependencies": {
     "@pipedream/platform": "^1.1.1",
     "@pipedream/types": "^0.1.4"
-  },
+  }
 }

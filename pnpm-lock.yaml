@@ -504,6 +504,9 @@ importers:
   components/deepgram:
     specifiers: {}
 
+  components/deepl:
+    specifiers: {}
+
   components/degreed:
     specifiers: {}
 
@@ -673,6 +676,9 @@ importers:
       '@pipedream/types': 0.1.3
       qs: 6.11.0
 
+  components/expofp:
+    specifiers: {}
+
   components/f15five:
     specifiers: {}
 
@@ -732,6 +738,9 @@ importers:
       fraudlabspro-nodejs: ^2.1.0
     dependencies:
       fraudlabspro-nodejs: 2.1.0
+
+  components/freshbooks:
+    specifiers: {}
 
   components/freshdesk:
     specifiers:
@@ -998,6 +1007,9 @@ importers:
   components/guru:
     specifiers: {}
 
+  components/habitica:
+    specifiers: {}
+
   components/hacker_news:
     specifiers: {}
 
@@ -1073,6 +1085,9 @@ importers:
       mailparser: 3.5.0
       stream: 0.0.2
       util: 0.12.4
+
+  components/imgbb:
+    specifiers: {}
 
   components/infusionsoft:
     specifiers:
@@ -1159,6 +1174,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/karbon:
+    specifiers: {}
+
   components/knack:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1166,6 +1184,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/knowbe4:
+    specifiers: {}
+
+  components/kucoin_futures:
     specifiers: {}
 
   components/laposta:
@@ -1267,6 +1288,14 @@ importers:
 
   components/marketing_master_io:
     specifiers: {}
+
+  components/mattermost:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    devDependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/mautic:
     specifiers:
@@ -1845,6 +1874,9 @@ importers:
   components/sellix:
     specifiers: {}
 
+  components/sendblue:
+    specifiers: {}
+
   components/sender:
     specifiers: {}
 
@@ -1995,6 +2027,9 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/slicktext:
+    specifiers: {}
 
   components/smaily:
     specifiers:
@@ -2732,6 +2767,9 @@ importers:
       uuid: ^8.3.2
     dependencies:
       uuid: 8.3.2
+
+  components/zuora:
+    specifiers: {}
 
   helpers:
     specifiers:
@@ -6968,7 +7006,6 @@ packages:
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
@@ -9514,7 +9551,6 @@ packages:
       follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /axios/0.23.0:
     resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
@@ -12072,7 +12108,6 @@ packages:
 
   /fp-ts/2.12.2:
     resolution: {integrity: sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==}
-    dev: false
 
   /fraudlabspro-nodejs/2.1.0:
     resolution: {integrity: sha512-yqup43EVXMq7vF+ecQ7XBysB4s5/eQZDZf8gK3pGOAkQXsXsyWFAeZMBfj2sIBBiSDmyf9KcxvHkkC30DD5tXQ==}
@@ -13178,7 +13213,6 @@ packages:
       fp-ts: ^2.5.0
     dependencies:
       fp-ts: 2.12.2
-    dev: false
 
   /ip/1.1.8:
     resolution: {integrity: sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==}
@@ -17120,7 +17154,6 @@ packages:
     resolution: {integrity: sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==}
     engines: {node: '>=0.4.x'}
     deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
-    dev: false
 
   /querystringify/2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
