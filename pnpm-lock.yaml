@@ -676,6 +676,9 @@ importers:
       '@pipedream/types': 0.1.3
       qs: 6.11.0
 
+  components/expofp:
+    specifiers: {}
+
   components/f15five:
     specifiers: {}
 
@@ -1394,7 +1397,10 @@ importers:
       '@pipedream/types': 0.1.3
 
   components/nectar_crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/netlify:
     specifiers:
@@ -2021,6 +2027,9 @@ importers:
       '@slack/web-api': ^5.15.0
     dependencies:
       '@slack/web-api': 5.15.0
+
+  components/slicktext:
+    specifiers: {}
 
   components/smaily:
     specifiers:
