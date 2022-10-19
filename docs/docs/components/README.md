@@ -59,11 +59,15 @@ Private action components published from the [CLI](/cli/reference/#pd-publish) o
 
 To use a published action, add a new step to your workflow and click **My Actions**. Your privately published action components will appear in this list.
 
+![Use the "My Actions" section in a new step to include your private actions](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
+
 ### Using Private Sources
+
+<AlphaFeatureNotice feature="Components Page - add a page for published components" />
 
 Private source components deployed from your account via the [CLI](/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
 
-You can also deploy new instances of a source from the Components dashboard. To deploy a new instance of a source, click the menu on the right hand side and select **Create source**.
+You can also deploy new instances of a source from the [Components dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png). To deploy a new instance of a source, click the menu on the right hand side and select **Create source**.
 
 ![Creating a source from the Component dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1666106571/docs/CleanShot_2022-10-18_at_11.22.02_ajjopm.gif)
 
@@ -108,6 +112,8 @@ Your private components published from the CLI or from Node.js code steps are li
 
 ### Unpublishing Privately Published Components
 
+<AlphaFeatureNotice feature="Components Page - add a page for published components" />
+
 To unpublish components belonging to your account or organization, open the menu on the right hand side of the component details and select **Unpublish Component**.
 
 A prompt will open to confirm the action, click **Confirm** to unpublish your action.
@@ -118,11 +124,10 @@ A prompt will open to confirm the action, click **Confirm** to unpublish your ac
 
 ::: danger
 
-Unpublishing a component is an permanent action, please be careful.
+Unpublishing a component is an permanent action, please be careful to you still have access to the source code.
 
 :::
 
-Unpublishing
 
 ## Sharing Components
 

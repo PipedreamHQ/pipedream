@@ -15,6 +15,10 @@ Pipedream provides two ways to share code across workflows:
 
 ## Publish an action from a Node.js code step
 
+<AlphaFeatureNotice feature="Enable Step Publishing" />
+
+<VideoPlayer src="https://www.youtube.com/embed/s7SWG1gikbw" title="Reusing code steps as actions" />
+
 You can publish any of your Node.js code steps into a reusable action. This enables you to write a Node.js code step once, and reuse it across many workflows without rewriting it.
 
 To convert a Node.js code step into an publishable action, make sure to include the below properties in your Node.js step:
@@ -23,22 +27,31 @@ To convert a Node.js code step into an publishable action, make sure to include 
 - `key`
 - `type`
 
-```javascript{3-6}
+```javascript{6-9}
 // Adding properties to a regular Node.js code step make it publishable
+import { parseISO, format } from 'date-fns';
+
+// Returns a formatted datetime string
 export default defineComponent({
-  type: "action",
-  key: "parse-json-string",
-  version: "0.0.1",
-  name: "Parse JSON string",
+  name: 'Format Date',
+  version: '0.0.1',
+  key: 'format-date',
+  type: 'action',
   props: {
-    json_string: {
+    date: {
       type: "string",
-      label: "JSON string",
-      description: "A JSON string to be parsed into a JS object."
+      label: "Date",
+      description: "Date to be formatted",
+    },
+    format: {
+      type: 'string',
+      label: "Format",
+      description: "Format to apply to the date. [See date-fns format](https://date-fns.org/v2.29.3/docs/format) as a reference."
     }
-  }
-  async run({ steps, $ }) {
-    return JSON.parse(this.json_string);
+  },
+  async run({ $ }) {
+    const formatted = format(parseISO(this.date), this.format);
+    return formatted;
   },
 })
 
@@ -64,22 +77,30 @@ From there you'll be able to view and select any of your published actions and u
 
 If you need to make a change and update the underlying code to your published Node.js code step, you can do so by incrementing the `version` field on the Node.js code step:
 
-```javascript{5}
+```javascript{6}
+import { parseISO, format } from 'date-fns';
+
 // The version field on a Node.js action is versioned
 export default defineComponent({
-  type: "action",
-  key: "parse-json-string",
-  version: "0.0.2",
-  name: "Parse JSON string",
+  name: 'Format Date',
+  version: '0.0.2',
+  key: 'format-date',
+  type: 'action',
   props: {
-    json_string: {
+    date: {
       type: "string",
-      label: "JSON string",
-      description: "A JSON string to be parsed into a JS object."
+      label: "Date",
+      description: "Date to be formatted",
+    },
+    format: {
+      type: 'string',
+      label: "Format",
+      description: "Format to apply to the date. [See date-fns format](https://date-fns.org/v2.29.3/docs/format) as a reference."
     }
-  }
-  async run({ steps, $ }) {
-    return JSON.parse(this.json_string);
+  },
+  async run({ $ }) {
+    const formatted = format(parseISO(this.date), this.format);
+    return formatted;
   },
 })
 ```
