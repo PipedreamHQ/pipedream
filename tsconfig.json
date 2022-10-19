@@ -794,6 +794,12 @@
     },
     {
       "path": "components/nano_nets"
+    },
+    {
+      "path": "components/dispatch"
+    },
+    {
+      "path": "components/edapp"
     }
   ]
 }
