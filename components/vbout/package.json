@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vbout",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream VBOUT Components",
   "main": "dist/app/vbout.app.mjs",
   "keywords": [
@@ -13,6 +13,10 @@
   "homepage": "https://pipedream.com/apps/vbout",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "moment": "^2.29.4"
+  },
   "publishConfig": {
     "access": "public"
   }
