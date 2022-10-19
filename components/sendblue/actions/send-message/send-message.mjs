@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Send Message",
-  version: "0.0.3",
+  version: "0.0.1",
   key: "sendblue-send-message",
   description: "Sends an iMessage or SMS to any enabled phone globally. [See docs here](https://sendblue.co/docs/outbound/#sending-imessages)",
   type: "action",
