@@ -65,6 +65,18 @@ Then open the menu in the top righthand corner of the code step and select **Pub
 
 And now you've successfully saved a custom Node.js code step to your account. You'll be able to use this code step in any of your workflows.
 
+::: details Why can't I use the `steps` variable in published Node.js code steps?
+
+The `steps` variable contains the _workflows_ step exports.
+
+When you publish a Node.js code step as an action, it becomes reusable across many workflows.
+
+This means that the step exports available vary depending on the workflow it's running on. 
+
+Defining props is a way to map inputs to actions and allow individual workflows to define which exports should be used.
+
+:::
+
 ## Using your published actions
 
 To use your custom action, create a new step in your workflow and select **My Actions**.
