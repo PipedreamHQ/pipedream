@@ -769,6 +769,9 @@
       "path": "components/expofp"
     },
     {
+      "path": "components/mattermost"
+    },
+    {
       "path": "components/karbon"
     }
   ]
