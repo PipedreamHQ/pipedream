@@ -5,6 +5,7 @@ export default {
   methods: {
     // this.$auth contains connected account data
     authKeys() {
+      console.log('Hello World!')
       console.log(Object.keys(this.$auth));
     },
   },
