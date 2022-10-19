@@ -746,6 +746,66 @@
     },
     {
       "path": "components/kucoin_futures"
+    },
+    {
+      "path": "components/deepl"
+    },
+    {
+      "path": "components/sendblue"
+    },
+    {
+      "path": "components/zuora"
+    },
+    {
+      "path": "components/habitica"
+    },
+    {
+      "path": "components/mailboxvalidator"
+    },
+    {
+      "path": "components/freshbooks"
+    },
+    {
+      "path": "components/slicktext"
+    },
+    {
+      "path": "components/expofp"
+    },
+    {
+      "path": "components/karbon"
+    },
+    {
+      "path": "components/dynatrace_api"
+    },
+    {
+      "path": "components/freshsales"
+    },
+    {
+      "path": "components/gender_api"
+    },
+    {
+      "path": "components/sms_magic"
+    },
+    {
+      "path": "components/mailcoach"
+    },
+    {
+      "path": "components/mozilla_observatory"
+    },
+    {
+      "path": "components/mx_toolbox"
+    },
+    {
+      "path": "components/nano_nets"
+    },
+    {
+      "path": "components/dispatch"
+    },
+    {
+      "path": "components/edapp"
+    },
+    {
+      "path": "components/miro_custom_app"
     }
   ]
 }

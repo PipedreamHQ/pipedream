@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/freshsales",
+  "version": "0.0.1",
+  "description": "Pipedream Freshsales Components",
+  "main": "dist/app/freshsales.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freshsales"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/freshsales",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

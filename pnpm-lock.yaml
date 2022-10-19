@@ -504,6 +504,9 @@ importers:
   components/deepgram:
     specifiers: {}
 
+  components/deepl:
+    specifiers: {}
+
   components/degreed:
     specifiers: {}
 
@@ -732,6 +735,9 @@ importers:
       fraudlabspro-nodejs: ^2.1.0
     dependencies:
       fraudlabspro-nodejs: 2.1.0
+
+  components/freshbooks:
+    specifiers: {}
 
   components/freshdesk:
     specifiers:
@@ -998,6 +1004,9 @@ importers:
   components/guru:
     specifiers: {}
 
+  components/habitica:
+    specifiers: {}
+
   components/hacker_news:
     specifiers: {}
 
@@ -1073,6 +1082,9 @@ importers:
       mailparser: 3.5.0
       stream: 0.0.2
       util: 0.12.4
+
+  components/imgbb:
+    specifiers: {}
 
   components/infusionsoft:
     specifiers:
@@ -1168,6 +1180,9 @@ importers:
   components/knowbe4:
     specifiers: {}
 
+  components/kucoin_futures:
+    specifiers: {}
+
   components/laposta:
     specifiers: {}
 
@@ -1215,6 +1230,14 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/mailboxvalidator:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/mailchimp:
     specifiers:
@@ -1843,6 +1866,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/sellix:
+    specifiers: {}
+
+  components/sendblue:
     specifiers: {}
 
   components/sender:
@@ -2732,6 +2758,9 @@ importers:
       uuid: ^8.3.2
     dependencies:
       uuid: 8.3.2
+
+  components/zuora:
+    specifiers: {}
 
   helpers:
     specifiers:
@@ -19213,6 +19242,7 @@ packages:
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
 
   /typical/4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
