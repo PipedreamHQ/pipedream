@@ -1,32 +1,61 @@
 import mattermost from "../../app/mattermost.app";
 import { defineAction } from "@pipedream/types";
 import {
-  VerifyEmailParams, VerifyEmailResponse,
+  PostMessageParams, PostMessageResponse,
 } from "../../common/types";
 
 export default defineAction({
   name: "Post Message",
   description:
-    "Post a message [See docs here]()",
+    "Create a new post in a channel [See docs here](https://api.mattermost.com/#tag/posts/operation/CreatePost)",
   key: "mattermost-post-message",
   version: "0.0.1",
   type: "action",
   props: {
     mattermost,
-    email: {
-      label: "Email Address",
-      description: "An email address to be verified.",
+    channelId: {
+      label: "Channel",
+      description: "The channel to post in",
+      type: "string"
+    },
+    message: {
+      label: "Message",
+      description: "The message contents, can be formatted with Markdown",
       type: "string",
     },
+    rootId: {
+      label: "Root ID",
+      description: "The post ID to comment on",
+      type: "string",
+      optional: true
+    },
+    fileIds: {
+      label: "File IDs",
+      description: "A list of file IDs to associate with the post. Note that posts are limited to 5 files maximum. Please use additional posts for more files.",
+      type: "string[]",
+      optional: true
+    },
+    postProps: {
+      label: "Props",
+      description: "A general JSON property bag to attach to the post",
+      type: "object",
+      optional: true
+    },
+    setOnline: {
+      label: "Set Online",
+      description: "Whether to set the user status as online or not.",
+      type: "boolean",
+      optional: true
+    }
   },
-  async run({ $ }): Promise<VerifyEmailResponse> {
-    const params: VerifyEmailParams = {
+  async run({ $ }): Promise<PostMessageResponse> {
+    const params: PostMessageParams = {
       $,
       params: {
-        email: this.email,
+        email: ""
       },
     };
-    const data: VerifyEmailResponse = await this.mattermost.verifyEmailAddress(params);
+    const data: PostMessageResponse = await this.mattermost.verifyEmailAddress(params);
 
     $.export("$summary", `Verified email ${data.email} (${data.result})`);
 

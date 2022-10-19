@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   HttpRequestParams,
-  VerifyEmailParams, VerifyEmailResponse,
+  PostMessageParams, PostMessageResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -35,8 +35,8 @@ export default defineApp({
         },
       });
     },
-    async verifyEmailAddress(args: VerifyEmailParams): Promise<VerifyEmailResponse> {
-      const response: VerifyEmailResponse = await this._httpRequest({
+    async verifyEmailAddress(args: PostMessageParams): Promise<PostMessageResponse> {
+      const response: PostMessageResponse = await this._httpRequest({
         endpoint: "/verify",
         ...args,
       });

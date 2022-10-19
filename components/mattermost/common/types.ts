@@ -6,14 +6,14 @@ export interface HttpRequestParams {
   params?: object;
 }
 
-export interface VerifyEmailParams {
+export interface PostMessageParams {
   $: Pipedream;
   params: {
     email: string;
   };
 }
 
-export interface VerifyEmailResponse {
+export interface PostMessageResponse {
   email: string;
   reason: string;
   result: string;
