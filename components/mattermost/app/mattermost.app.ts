@@ -17,11 +17,11 @@ export default defineApp({
         domain: this.$auth.domain,
         token: this.$auth.oauth_access_token,
       }
-    }
+    },
     async _httpRequest({
       $ = this,
       endpoint,
-      params,
+      ...args
     }: HttpRequestParams): Promise<object> {
       const { domain, token } = this._getAuth();
       return axios($, {
@@ -29,15 +29,13 @@ export default defineApp({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        params: {
-          ...params,
-          apikey: this.$auth.api_key,
-        },
+        ...args
       });
     },
-    async verifyEmailAddress(args: PostMessageParams): Promise<PostMessageResponse> {
+    async postMessage(args: PostMessageParams): Promise<PostMessageResponse> {
       const response: PostMessageResponse = await this._httpRequest({
-        endpoint: "/verify",
+        endpoint: "/posts",
+        method: "POST",
         ...args,
       });
 

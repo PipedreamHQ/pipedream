@@ -51,13 +51,20 @@ export default defineAction({
   async run({ $ }): Promise<PostMessageResponse> {
     const params: PostMessageParams = {
       $,
+      data: {
+        channel_id: this.channelId,
+        message: this.message,
+        root_id: this.rootId,
+        file_ids: this.fileIds,
+        props: this.postProps
+      },
       params: {
-        email: ""
+        set_online: this.setOnline
       },
     };
-    const data: PostMessageResponse = await this.mattermost.verifyEmailAddress(params);
+    const data: PostMessageResponse = await this.mattermost.postMessage(params);
 
-    $.export("$summary", `Verified email ${data.email} (${data.result})`);
+    $.export("$summary", 'Successfully posted message');
 
     return data;
   },
