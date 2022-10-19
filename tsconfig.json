@@ -764,6 +764,15 @@
     },
     {
       "path": "components/freshbooks"
+    },
+    {
+      "path": "components/slicktext"
+    },
+    {
+      "path": "components/expofp"
+    },
+    {
+      "path": "components/karbon"
     }
   ]
 }

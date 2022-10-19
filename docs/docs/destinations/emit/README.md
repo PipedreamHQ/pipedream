@@ -102,7 +102,7 @@ export default defineComponent({
 
 This should trigger your listener, and you should see the same event in [the event inspector](/workflows/events/inspect/#the-inspector).
 
-**Note**: since configuring this trigger happens via API, you also won't see the emitted event appear as the trigger for your your listener. Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/241) if you'd like to see UI support for that. Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/682) to see support for _adding_ emitted events as a workflow trigger in the UI.
+**Note**: Please upvote [this issue](https://github.com/PipedreamHQ/pipedream/issues/682) to see support for _adding_ emitted events as a workflow trigger in the UI.
 
 ## Consuming emitted events via REST API
 
