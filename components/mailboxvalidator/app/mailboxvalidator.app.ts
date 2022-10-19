@@ -10,6 +10,9 @@ export default defineApp({
   type: "app",
   app: "mailboxvalidator",
   methods: {
+    _apiKey(): string {
+      return this.$auth.api_key;
+    },
     _baseUrl(): string {
       return "https://api.mailboxvalidator.com/v1";
     },
@@ -22,7 +25,7 @@ export default defineApp({
         url: this._baseUrl() + endpoint,
         params: {
           ...params,
-          key: this.$auth.api_key,
+          key: this._apiKey(),
           format: "json",
         },
       });
