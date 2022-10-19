@@ -800,6 +800,9 @@
     },
     {
       "path": "components/edapp"
+    },
+    {
+      "path": "components/miro_custom_app"
     }
   ]
 }
