@@ -806,6 +806,63 @@
     },
     {
       "path": "components/miro_custom_app"
+    },
+    {
+      "path": "components/nozbe_teams"
+    },
+    {
+      "path": "components/coderpad"
+    },
+    {
+      "path": "components/elopage"
+    },
+    {
+      "path": "components/simpletexting"
+    },
+    {
+      "path": "components/pilvio"
+    },
+    {
+      "path": "components/webscraping_ai"
+    },
+    {
+      "path": "components/corrently"
+    },
+    {
+      "path": "components/logoraisr"
+    },
+    {
+      "path": "components/firmalyzer_iotvas"
+    },
+    {
+      "path": "components/rat_genome_database"
+    },
+    {
+      "path": "components/samcart"
+    },
+    {
+      "path": "components/zulip"
+    },
+    {
+      "path": "components/textmagic"
+    },
+    {
+      "path": "components/talentlms"
+    },
+    {
+      "path": "components/abuselpdb"
+    },
+    {
+      "path": "components/amcards"
+    },
+    {
+      "path": "components/api_void"
+    },
+    {
+      "path": "components/beaconstac"
+    },
+    {
+      "path": "components/data247"
     }
   ]
 }
