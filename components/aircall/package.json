@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/aircall",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Aircall Components",
-  "main": "dist/app/aircall.app.mjs",
+  "main": "aircall.app.mjs",
   "keywords": [
     "pipedream",
     "aircall"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/aircall",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

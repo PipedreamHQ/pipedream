@@ -1234,6 +1234,14 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/mailboxvalidator:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/mailchimp:
     specifiers:
       '@mailchimp/mailchimp_marketing': ^3.0.74
@@ -1389,7 +1397,10 @@ importers:
       '@pipedream/types': 0.1.3
 
   components/nectar_crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/netlify:
     specifiers:
@@ -2495,6 +2506,12 @@ importers:
 
   components/voice_monkey:
     specifiers: {}
+
+  components/voilanorbert:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/vosfactures:
     specifiers: {}
@@ -19243,6 +19260,7 @@ packages:
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
 
   /typical/4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
