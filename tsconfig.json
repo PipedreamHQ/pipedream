@@ -760,6 +760,9 @@
       "path": "components/habitica"
     },
     {
+      "path": "components/mailboxvalidator"
+    },
+    {
       "path": "components/freshbooks"
     },
     {
