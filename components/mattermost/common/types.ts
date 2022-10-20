@@ -22,7 +22,7 @@ export interface PostMessageParams {
 }
 
 export interface PostMessageResponse {
-
+  id: string;
 }
 
 export interface Channel {

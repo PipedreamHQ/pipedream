@@ -21,12 +21,12 @@ export default defineAction({
     },
     message: {
       label: "Message",
-      description: "The message contents, can be formatted with Markdown",
+      description: "The message contents, can be formatted with Markdown.",
       type: "string",
     },
     rootId: {
       label: "Root ID",
-      description: "The post ID to comment on",
+      description: "The post ID to comment on. You can use the ID of a previously created post, or get it by copying the link to a post on Mattermost's interface.",
       type: "string",
       optional: true,
     },
@@ -38,7 +38,7 @@ export default defineAction({
     },
     postProps: {
       label: "Props",
-      description: "A general JSON property bag to attach to the post",
+      description: "A general JSON property bag to attach to the post.",
       type: "object",
       optional: true,
     },
@@ -65,7 +65,7 @@ export default defineAction({
     };
     const data: PostMessageResponse = await this.mattermost.postMessage(params);
 
-    $.export("$summary", "Successfully posted message");
+    $.export("$summary", `Successfully posted message (id ${data.id})`);
 
     return data;
   },

@@ -12,14 +12,14 @@ export default defineApp({
   propDefinitions: {
     channelId: {
       label: "Channel",
-      description: "The channel to post in",
+      description: "The channel to post in.",
       type: "string",
       async options() {
         const channels: Channel[] = await this.listChannels();
 
         return channels.map(({
           id, name, display_name,
-        }: Channel) => {
+        }) => {
           const label = name && display_name && (name !== display_name)
             ? `${display_name} (${name})`
             : (display_name || name);
