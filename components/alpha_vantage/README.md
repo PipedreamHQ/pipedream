@@ -1,6 +1,6 @@
 # Overview
 
-Some examples of what you can do with the Alpha Vantage API:
+Some examples of what you can build with the Alpha Vantage API:
 
 - Stock Market Data
 - Technical Indicators
