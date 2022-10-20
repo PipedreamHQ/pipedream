@@ -4,10 +4,30 @@ import {
   HttpRequestParams,
   PostMessageParams, PostMessageResponse,
 } from "../common/types";
+import { Channel } from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "mattermost",
+  propDefinitions: {
+    channelId: {
+      label: "Channel",
+      description: "The channel to post in",
+      type: "string",
+      async options() {
+        const channels: Channel[] = await this.listChannels();
+        
+        return channels.map(({id, name, display_name}: Channel) => {
+          const label = name && display_name && (name !== display_name) ? `${display_name} (${name})` : (display_name || name);
+
+          return {
+            label,
+            value: id
+          }
+        })
+      }
+    },
+  },
   methods: {
     _baseUrl(domain: string): string {
       return `https://${domain}/api/v4`;
@@ -33,13 +53,16 @@ export default defineApp({
       });
     },
     async postMessage(args: PostMessageParams): Promise<PostMessageResponse> {
-      const response: PostMessageResponse = await this._httpRequest({
+      return this._httpRequest({
         endpoint: "/posts",
         method: "POST",
         ...args,
       });
-
-      return response;
     },
+    async listChannels(): Promise<Channel[]> {
+      return this._httpRequest({
+        endpoint: "/channels"
+      })
+    }
   },
 });

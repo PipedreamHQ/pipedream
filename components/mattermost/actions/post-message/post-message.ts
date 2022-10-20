@@ -14,9 +14,10 @@ export default defineAction({
   props: {
     mattermost,
     channelId: {
-      label: "Channel",
-      description: "The channel to post in",
-      type: "string"
+      propDefinition: [
+        mattermost,
+        "channelId"
+      ]
     },
     message: {
       label: "Message",

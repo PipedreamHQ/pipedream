@@ -24,3 +24,9 @@ export interface PostMessageParams {
 export interface PostMessageResponse {
   
 }
+
+export interface Channel {
+  id: string;
+  name: string;
+  display_name: string;
+}
