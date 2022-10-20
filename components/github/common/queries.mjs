@@ -105,6 +105,9 @@ const projectItemQuery = `
         content {
           ... on Issue {
             number
+            repository {
+              name
+            }
           }
         }
         fieldValueByName(name: "Status") {
