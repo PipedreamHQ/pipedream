@@ -90,8 +90,6 @@ export default {
         nodeId: event.projects_v2_item.node_id,
       });
 
-      console.log(item);
-
       const issueNumber = item.content.number;
       const statusName = item.fieldValueByName.name;
 
