@@ -1,6 +1,8 @@
 # Acquire
 
-Acquire is a powerful customer engagement platform that makes it easy to build custom applications. With Acquire, you can create custom chatbots, live chat interfaces, and more.
+Acquire is a powerful customer engagement platform that makes it easy to build
+custom applications. With Acquire, you can create custom chatbots, live chat
+interfaces, and more.
 
 Here are a few examples of what you can build with the Acquire API:
 

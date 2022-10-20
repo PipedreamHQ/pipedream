@@ -1,6 +1,7 @@
 # Algorithmia
 
-You can use the Algorithmia API to build programs that perform a variety of tasks, including:
+You can use the Algorithmia API to build programs that perform a variety of
+tasks, including:
 
 - Machine learning algorithms
 - Data analysis algorithms

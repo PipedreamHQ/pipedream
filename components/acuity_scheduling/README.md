@@ -1,6 +1,9 @@
 # Acuity Scheduling
 
-Acuity Scheduling is a cloud-based appointment scheduling software that enables businesses to manage their appointments and bookings online. The Acuity Scheduling API allows developers to access and integrate the functionality of Acuity Scheduling with other applications.
+Acuity Scheduling is a cloud-based appointment scheduling software that enables
+businesses to manage their appointments and bookings online. The Acuity
+Scheduling API allows developers to access and integrate the functionality of
+Acuity Scheduling with other applications.
 
 With the Acuity Scheduling API, you can:
 

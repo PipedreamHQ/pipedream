@@ -1,7 +1,5 @@
 # AerisWeather
 
-Build a Weather App
-
 With the AerisWeather API, you can build a weather app that does the following:
 
 - Displays the current weather conditions for a location

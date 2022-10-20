@@ -1,9 +1,8 @@
 # Alpha Vantage
 
-1. Stock Market Data
+Some examples of what you can do with the Alpha Vantage API:
 
-2. Technical Indicators
-
-3. Sector Performance
-
-4. Currency Exchange Rates
+- Stock Market Data
+- Technical Indicators
+- Sector Performance
+- Currency Exchange Rates

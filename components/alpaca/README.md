@@ -1,6 +1,8 @@
 # Alpaca
 
-Alpaca is a financial technology company that offers a commission-free API for trading and investing. With Alpaca, you can build trading and investing applications for the web, mobile, and desktop.
+Alpaca is a financial technology company that offers a commission-free API for
+trading and investing. With Alpaca, you can build trading and investing
+applications for the web, mobile, and desktop.
 
 Here are some examples of what you can build with Alpaca:
 
