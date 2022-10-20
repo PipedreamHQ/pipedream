@@ -59,11 +59,7 @@ export default {
     },
     getSentViaPipedreamText() {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
-      // The link text is a URL without a protocol for consistency with the "Send via link" text in
-      // Slack messages
-      const linkText = `pipedream.com/@/${workflowId}?o=a&a=discord`;
-      const link = `https://${linkText}`;
-      return `Sent via [${linkText}](<${link}>)`;
+      return `Sent via [Pipedream](<https://pipedream.com/@/${workflowId}?o=a&a=discord>)`;
     },
   },
 };
