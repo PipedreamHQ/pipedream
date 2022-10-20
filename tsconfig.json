@@ -884,6 +884,27 @@
     },
     {
       "path": "components/commcare"
+    },
+    {
+      "path": "components/cdc_national_environmental_public_health_tracking"
+    },
+    {
+      "path": "components/enigma"
+    },
+    {
+      "path": "components/easyship"
+    },
+    {
+      "path": "components/avochato"
+    },
+    {
+      "path": "components/graphhopper"
+    },
+    {
+      "path": "components/humanitix"
+    },
+    {
+      "path": "components/dialmycalls"
     }
   ]
 }
