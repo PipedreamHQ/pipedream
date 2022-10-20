@@ -195,7 +195,7 @@ export default {
           });
           return utils.getCategoryChannelOptions(channels);
         } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+          throw new ConfigurationError("A Guild ID is required to retrieve Category options.");
         }
       },
     },
@@ -211,7 +211,7 @@ export default {
           });
           return utils.getRolePermissionOptions(roles);
         } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+          throw new ConfigurationError("A Guild ID is required to retrieve Role options.");
         }
       },
     },
@@ -242,7 +242,7 @@ export default {
             }),
           ]);
         } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+          throw new ConfigurationError("A Guild ID is required to retrieve Member options.");
         }
 
         const [
@@ -310,7 +310,7 @@ export default {
           });
         }
         catch {
-          throw new ConfigurationError("A Channel ID is required to retrieve User options.");
+          throw new ConfigurationError("A Channel ID is required to retrieve Message options.");
         }
 
         const options = utils.getMessageOptions(messages);
