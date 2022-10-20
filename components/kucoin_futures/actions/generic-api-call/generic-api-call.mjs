@@ -35,6 +35,9 @@ export default {
   },
   type: "action",
   async run({ $ }) {
+    if (!this.api_path.startsWith("/")) {
+      throw new Error("Api Path property should always start with `/` as a path like string");
+    }
     const returnValue = await this.kucoin_futures.makeRequest(
       this.http_method, this.api_path, this.params,
     );
