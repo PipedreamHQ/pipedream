@@ -7,7 +7,7 @@ export default {
   key: "github-new-issue-with-status",
   name: "New Issue with Status (Projects V2)",
   description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.0.23",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -90,6 +90,8 @@ export default {
         nodeId: event.projects_v2_item.node_id,
       });
 
+      console.log(item);
+
       const issueNumber = item.content.number;
       const statusName = item.fieldValueByName.name;
       const repoName = this.repo ?? item.content.repository.name;
@@ -97,8 +99,6 @@ export default {
       if (!this.isRelevant(item, issueNumber, statusName)) {
         return;
       }
-
-      console.log(item);
 
       const issue = await this.github.getIssue({
         repoFullname: `${this.org}/${repoName}`,
