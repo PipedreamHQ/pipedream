@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/textmagic",
+  "version": "0.0.1",
+  "description": "Pipedream TextMagic Components",
+  "main": "dist/app/textmagic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textmagic"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/textmagic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
