@@ -25,20 +25,18 @@ export default {
       type: "string",
       label: "Reason for continuing",
       description: "Return a message indicating why workflow execution **continued**",
-      default: "Continuing workflow...",
       optional: true,
     },
     messageOnEnd: {
       type: "string",
       label: "Reason for ending",
       description: "Return a message indicating why workflow execution **ended**",
-      default: "Ending workflow...",
       optional: true,
     },
     initialValue: {
       type: "any",
       label: "Initial value",
-      description: "Enter a value to evaluate, or reference one from a previous step",
+      description: "The 1st of 2 values to compare",
     },
     condition: {
       propDefinition: [
@@ -53,7 +51,7 @@ export default {
       props.secondValue = {
         type: "any",
         label: "Second value",
-        description: "Enter what you'd like to compare the first value against, or reference one from a previous step",
+        description: "The 2nd of 2 values to compare",
       };
     }
     return props;
