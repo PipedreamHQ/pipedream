@@ -66,8 +66,7 @@ export default {
         const cursor = prevContext?.cursor ?? null;
 
         const {
-          projects,
-          nextCursor,
+          projects, nextCursor,
         } = await this.getProjectsV2({
           repoOwner: org,
           repoName: repo,
@@ -273,14 +272,18 @@ export default {
     async getProjectsV2({
       repoOwner, repoName, cursor,
     }) {
-      const response = await this.graphql(queries.projectsQuery, {
+      const response = await this.graphql(repoName
+        ? queries.projectsQuery
+        : queries.organizationProjectsQuery, {
         repoOwner,
         repoName,
         cursor,
       });
       return {
-        projects: response.repository.projectsV2.nodes,
-        nextCursor: response.repository.projectsV2.pageInfo.endCursor,
+        projects: response?.repository?.projectsV2?.nodes ??
+          response?.organization?.projectsV2?.nodes,
+        nextCursor: response?.repository?.projectsV2?.pageInfo?.endCursor ??
+          response?.organization?.projectsV2?.pageInfo?.endCursor,
       };
     },
     async getProjectV2Statuses({

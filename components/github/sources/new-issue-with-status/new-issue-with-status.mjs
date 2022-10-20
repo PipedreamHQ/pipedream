@@ -7,11 +7,17 @@ export default {
   key: "github-new-issue-with-status",
   name: "New Issue with Status (Projects V2)",
   description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
+    repo: {
+      ...common.props.repo,
+      label: common.props.repo.label,
+      description: common.props.repo.description,
+      optional: true,
+    },
     project: {
       propDefinition: [
         common.props.github,

@@ -1,5 +1,21 @@
 const DEFAULT_PAGE_SIZE = 10;
 
+const organizationProjectsQuery = `
+  query ($repoOwner: String!, $cursor: String) {
+    organization(login: $repoOwner) {
+      projectsV2(first: ${DEFAULT_PAGE_SIZE}, after: $cursor) {
+        nodes {
+          number
+          title
+        }
+        pageInfo {
+          endCursor
+        }
+      }
+    }
+  }
+`;
+
 const projectsQuery = `
   query ($repoOwner: String!, $repoName: String!, $cursor: String) {
     repository(owner: $repoOwner, name: $repoName) {
@@ -72,6 +88,7 @@ const projectItemQuery = `
 
 export default {
   projectsQuery,
+  organizationProjectsQuery,
   statusFieldsQuery,
   projectItemsQuery,
   projectItemQuery,
