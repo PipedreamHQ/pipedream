@@ -30,24 +30,11 @@ export default {
       threadID,
       username,
       includeSentViaPipedream,
-      embeds: embedsProp,
+      embeds,
     } = this;
-    let embeds = embedsProp;
 
     if (!message && !embeds) {
       throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
-    }
-
-    let content = message;
-    if (includeSentViaPipedream) {
-      if (embeds?.length) {
-        embeds.push({
-          "color": 16777215,
-          "description": this.getSentViaPipedreamText(),
-        });
-      } else {
-        content = this.appendPipedreamText(message ?? "");
-      }
     }
 
     try {
@@ -55,7 +42,9 @@ export default {
         avatar_url: avatarURL,
         username,
         embeds,
-        content,
+        content: includeSentViaPipedream
+          ? this.appendPipedreamText(message ?? "")
+          : message,
       }, {
         thread_id: threadID,
       });
