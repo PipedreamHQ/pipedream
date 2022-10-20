@@ -863,6 +863,12 @@
     },
     {
       "path": "components/data247"
+    },
+    {
+      "path": "components/chatrace"
+    },
+    {
+      "path": "components/amentum_aerospace"
     }
   ]
 }
