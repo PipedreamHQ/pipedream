@@ -20,13 +20,15 @@ export default {
     },
     contentType: {
       label: "Content Type",
-      description: "Content type (default `HTML`)",
+      description: "Content type (default `text`)",
       type: "string",
       optional: true,
+      options: ["text", "html"],
+      default: "text",
     },
     content: {
       label: "Content",
-      description: "Content of the email in text format",
+      description: "Content of the email in text or html format",
       type: "string",
       optional: true,
     },
@@ -196,7 +198,7 @@ export default {
         subject: self.subject,
         body: {
           content: self.content,
-          contentType: self.contentType ?? "HTML",
+          contentType: self.contentType,
         },
         toRecipients,
         attachments,
