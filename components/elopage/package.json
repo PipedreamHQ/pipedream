@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/elopage",
+  "version": "0.0.1",
+  "description": "Pipedream elopage Components",
+  "main": "dist/app/elopage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "elopage"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/elopage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
