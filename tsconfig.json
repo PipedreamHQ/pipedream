@@ -875,6 +875,15 @@
     },
     {
       "path": "components/buy_me_a_coffee"
+    },
+    {
+      "path": "components/idealpostcodes"
+    },
+    {
+      "path": "components/datumbox"
+    },
+    {
+      "path": "components/commcare"
     }
   ]
 }
