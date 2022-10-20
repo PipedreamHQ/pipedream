@@ -167,7 +167,7 @@ export default {
     photo: {
       type: "string",
       label: "Photo",
-      description: "Link of the photo which will be attached to the post.",
+      description: "Link of the photo which will be attached to the post. E.g. `https://example.org/image.png`",
     },
     replyTo: {
       type: "string",
@@ -177,7 +177,7 @@ export default {
     scheduledDatetime: {
       type: "string",
       label: "Scheduled Datetime",
-      description: "The date and time to schedule the campaign.",
+      description: "The date and time to schedule the campaign. Date format accepted: m/d/Y | Y-m-d",
     },
     status: {
       type: "string",
@@ -240,7 +240,7 @@ export default {
         ...opts,
       };
 
-      return await axios($, config);
+      return axios($, config);
     },
     async *paginate({
       fn, params = {}, field,
@@ -298,14 +298,11 @@ export default {
         return newArray.reverse();
       }
     },
-    async createEmailList({
-      $, ...data
-    }) {
+    async createEmailList({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/addlist",
         method: "POST",
-        data,
+        args,
       });
     },
     async getLists() {
@@ -379,64 +376,46 @@ export default {
 
       return response?.data;
     },
-    async moveContact({
-      $, ...params
-    }) {
+    async moveContact({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/movecontact",
         method: "POST",
-        params,
+        args,
       });
     },
-    async syncContact({
-      $, ...params
-    }) {
+    async syncContact({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/synccontact",
         method: "POST",
-        params,
+        args,
       });
     },
-    async updateContact({
-      $, ...params
-    }) {
+    async updateContact({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/editcontact",
         method: "POST",
-        params,
+        args,
       });
     },
-    async addActivity({
-      $, ...params
-    }) {
+    async addActivity({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/addactivity",
         method: "POST",
-        params,
+        args,
       });
     },
-    async createCampaign({
-      $, ...params
-    }) {
+    async createCampaign({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "emailmarketing/addcampaign",
         method: "POST",
-        params,
+        args,
       });
     },
-    async createPost({
-      $, ...params
-    }) {
+    async createPost({ ...args }) {
       return await this._makeRequest({
-        $,
         path: "socialmedia/addpost",
         method: "POST",
-        params,
+        args,
       });
     },
   },

@@ -1,7 +1,6 @@
 import vbout from "../../vbout.app.mjs";
 
 export default {
-  type: "action",
   props: {
     vbout,
   },
