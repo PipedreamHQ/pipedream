@@ -94,11 +94,12 @@ export default {
 
       const issueNumber = item.content.number;
       const statusName = item.fieldValueByName.name;
-      const repoName = this.repo ?? item.content.repository.name;
 
       if (!this.isRelevant(item, issueNumber, statusName)) {
         return;
       }
+
+      const repoName = this.repo ?? item.content.repository.name;
 
       const issue = await this.github.getIssue({
         repoFullname: `${this.org}/${repoName}`,
