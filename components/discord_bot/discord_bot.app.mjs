@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -45,14 +46,19 @@ export default {
       }) {
         const { after } = prevContext || {};
 
-        const members =
-          await this.getGuildMembers({
-            guildId,
-            params: {
-              after,
-              limit: 20,
-            },
-          });
+        let members;
+        try {
+          members =
+            await this.getGuildMembers({
+              guildId,
+              params: {
+                after,
+                limit: 20,
+              },
+            });
+        } catch {
+          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        }
 
         const options = members.reduce((reduction, member) => {
           if (member.user.bot) {
@@ -87,37 +93,31 @@ export default {
       async options({
         guildId, userId, isAddRole = true,
       }) {
-        const [
-          member,
-          allRoles,
-        ] = await Promise.all([
-          this.getGuildMember({
-            guildId,
-            userId,
-          }),
-          this.getGuildRoles({
-            guildId,
-          }),
-        ]);
-
+        const allRoles = await this.getGuildRoles({
+          guildId,
+        });
         const roles = allRoles.filter((role) => !role.managed && !role.name.startsWith("@"));
 
-        return roles.reduce((reduction, role) => {
-          const filter =
-            isAddRole
-              ? !member.roles.includes(role.id)
-              : member.roles.includes(role.id);
+        let filter;
+        // If guild member cannot be retrieved, return all guild roles
+        try {
+          const member = await this.getGuildMember({
+            guildId,
+            userId,
+          });
+          filter = isAddRole
+            ? roles.filter((role) => !member.roles.includes(role.id))
+            : roles.filter((role) => member.roles.includes(role.id));
+        } catch {
+          filter = roles;
+        }
 
-          return filter
-            ? [
-              ...reduction,
-              {
-                label: role.name,
-                value: role.id,
-              },
-            ]
-            : reduction;
-        }, []);
+        return filter?.length > 0
+          ? filter.map((role) => ({
+            label: role.name,
+            value: role.id,
+          }))
+          : [];
       },
     },
     channelId: {
@@ -127,9 +127,14 @@ export default {
       async options({
         guildId, notAllowedChannels,
       }) {
-        const channels = await this.getChannels({
-          guildId,
-        });
+        let channels;
+        try {
+          channels = await this.getChannels({
+            guildId,
+          });
+        } catch {
+          throw new ConfigurationError("A Guild ID is required to retrieve Channel options.");
+        }
         return utils.getChannelOptions({
           channels,
           notAllowedChannels,
@@ -184,10 +189,14 @@ export default {
       description: "Id of the new parent category for a channel",
       optional: true,
       async options({ guildId }) {
-        const channels = await this.getGuildChannels({
-          guildId,
-        });
-        return utils.getCategoryChannelOptions(channels);
+        try {
+          const channels = await this.getGuildChannels({
+            guildId,
+          });
+          return utils.getCategoryChannelOptions(channels);
+        } catch {
+          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        }
       },
     },
     channelRolePermissions: {
@@ -196,10 +205,14 @@ export default {
       description: "Choose the roles you want to add to your channel",
       optional: true,
       async options({ guildId }) {
-        const roles = await this.getGuildRoles({
-          guildId,
-        });
-        return utils.getRolePermissionOptions(roles);
+        try {
+          const roles = await this.getGuildRoles({
+            guildId,
+          });
+          return utils.getRolePermissionOptions(roles);
+        } catch {
+          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        }
       },
     },
     channelMemberPermissions: {
@@ -211,21 +224,26 @@ export default {
         guildId, prevContext,
       }) {
         const { after } = prevContext || {};
-        const responses = await Promise.all([
-          this.getGuild({
-            guildId,
-          }),
-          this.getGuildRoles({
-            guildId,
-          }),
-          this.getGuildMembers({
-            guildId,
-            params: {
-              after,
-              limit: 100,
-            },
-          }),
-        ]);
+        let responses;
+        try {
+          responses = await Promise.all([
+            this.getGuild({
+              guildId,
+            }),
+            this.getGuildRoles({
+              guildId,
+            }),
+            this.getGuildMembers({
+              guildId,
+              params: {
+                after,
+                limit: 100,
+              },
+            }),
+          ]);
+        } catch {
+          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        }
 
         const [
           ,, members,
@@ -281,13 +299,19 @@ export default {
       }) {
         const { after } = prevContext || {};
 
-        const messages = await this.getMessages({
-          channelId,
-          params: {
-            limit: 10,
-            after,
-          },
-        });
+        let messages;
+        try {
+          messages = await this.getMessages({
+            channelId,
+            params: {
+              limit: 10,
+              after,
+            },
+          });
+        }
+        catch {
+          throw new ConfigurationError("A Channel ID is required to retrieve User options.");
+        }
 
         const options = utils.getMessageOptions(messages);
 
