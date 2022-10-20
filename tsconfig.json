@@ -872,6 +872,9 @@
     },
     {
       "path": "components/patreon"
+    },
+    {
+      "path": "components/buy_me_a_coffee"
     }
   ]
 }
