@@ -869,6 +869,9 @@
     },
     {
       "path": "components/amentum_aerospace"
+    },
+    {
+      "path": "components/patreon"
     }
   ]
 }
