@@ -81,6 +81,21 @@ const projectItemsQuery = `
   }
 `;
 
+const organizationProjectItemsQuery = `
+  query ($repoOwner: String!, $project: Int!, $historicalEventsNumber: Int!) {
+    organization(login: $repoOwner) {
+      projectV2(number: $project) {
+        items(last: $historicalEventsNumber) {
+          nodes {
+            id
+            type
+          }
+        }
+      }
+    }
+  }
+`;
+
 const projectItemQuery = `
   query ($nodeId: ID!) {
     node(id: $nodeId) {
@@ -109,5 +124,6 @@ export default {
   statusFieldsQuery,
   organizationStatusFieldsQuery,
   projectItemsQuery,
+  organizationProjectItemsQuery,
   projectItemQuery,
 };

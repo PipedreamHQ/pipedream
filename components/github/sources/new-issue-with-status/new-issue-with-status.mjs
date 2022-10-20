@@ -107,13 +107,20 @@ export default {
       this.$emit(issue, meta);
     },
     async loadHistoricalEvents() {
-      const response = await this.github.graphql(queries.projectItemsQuery, {
+      const response = await this.github.graphql(this.repo ?
+        queries.projectItemsQuery :
+        queries.organizationProjectItemsQuery,
+      {
         repoOwner: this.org,
         repoName: this.repo,
         project: this.project,
         historicalEventsNumber: constants.HISTORICAL_EVENTS,
       });
-      for (const node of response.repository.projectV2.items.nodes) {
+
+      const items = response?.repository?.projectV2?.items?.nodes ??
+        response?.organization?.projectV2?.items?.nodes;
+
+      for (const node of items) {
         if (node.type === constants.ISSUE_TYPE) {
           const event = {
             projects_v2_item: {
