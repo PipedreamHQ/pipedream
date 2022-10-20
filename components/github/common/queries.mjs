@@ -32,6 +32,23 @@ const projectsQuery = `
   }
 `;
 
+const organizationStatusFieldsQuery = `
+  query ($repoOwner: String!, $project: Int!) {
+    organization(login: $repoOwner) {
+      projectV2(number: $project) {
+        field(name: "Status") {
+          ... on ProjectV2SingleSelectField {
+            options {
+              name
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const statusFieldsQuery = `
   query ($repoOwner: String!, $repoName: String!, $project: Int!) {
     repository(name: $repoName, owner: $repoOwner) {
@@ -90,6 +107,7 @@ export default {
   projectsQuery,
   organizationProjectsQuery,
   statusFieldsQuery,
+  organizationStatusFieldsQuery,
   projectItemsQuery,
   projectItemQuery,
 };
