@@ -16,8 +16,8 @@ export default defineAction({
     channelId: {
       propDefinition: [
         mattermost,
-        "channelId"
-      ]
+        "channelId",
+      ],
     },
     message: {
       label: "Message",
@@ -28,26 +28,26 @@ export default defineAction({
       label: "Root ID",
       description: "The post ID to comment on",
       type: "string",
-      optional: true
+      optional: true,
     },
     fileIds: {
       label: "File IDs",
       description: "A list of file IDs to associate with the post. Note that posts are limited to 5 files maximum. Please use additional posts for more files.",
       type: "string[]",
-      optional: true
+      optional: true,
     },
     postProps: {
       label: "Props",
       description: "A general JSON property bag to attach to the post",
       type: "object",
-      optional: true
+      optional: true,
     },
     setOnline: {
       label: "Set Online",
       description: "Whether to set the user status as online or not.",
       type: "boolean",
-      optional: true
-    }
+      optional: true,
+    },
   },
   async run({ $ }): Promise<PostMessageResponse> {
     const params: PostMessageParams = {
@@ -57,15 +57,15 @@ export default defineAction({
         message: this.message,
         root_id: this.rootId,
         file_ids: this.fileIds,
-        props: this.postProps
+        props: this.postProps,
       },
       params: {
-        set_online: this.setOnline
+        set_online: this.setOnline,
       },
     };
     const data: PostMessageResponse = await this.mattermost.postMessage(params);
 
-    $.export("$summary", 'Successfully posted message');
+    $.export("$summary", "Successfully posted message");
 
     return data;
   },

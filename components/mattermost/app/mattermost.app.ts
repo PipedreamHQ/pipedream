@@ -16,16 +16,20 @@ export default defineApp({
       type: "string",
       async options() {
         const channels: Channel[] = await this.listChannels();
-        
-        return channels.map(({id, name, display_name}: Channel) => {
-          const label = name && display_name && (name !== display_name) ? `${display_name} (${name})` : (display_name || name);
+
+        return channels.map(({
+          id, name, display_name,
+        }: Channel) => {
+          const label = name && display_name && (name !== display_name)
+            ? `${display_name} (${name})`
+            : (display_name || name);
 
           return {
             label,
-            value: id
-          }
-        })
-      }
+            value: id,
+          };
+        });
+      },
     },
   },
   methods: {
@@ -36,20 +40,22 @@ export default defineApp({
       return {
         domain: this.$auth.domain,
         token: this.$auth.oauth_access_token,
-      }
+      };
     },
     async _httpRequest({
       $ = this,
       endpoint,
       ...args
     }: HttpRequestParams): Promise<object> {
-      const { domain, token } = this._getAuth();
+      const {
+        domain, token,
+      } = this._getAuth();
       return axios($, {
         url: this._baseUrl(domain) + endpoint,
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        ...args
+        ...args,
       });
     },
     async postMessage(args: PostMessageParams): Promise<PostMessageResponse> {
@@ -61,8 +67,8 @@ export default defineApp({
     },
     async listChannels(): Promise<Channel[]> {
       return this._httpRequest({
-        endpoint: "/channels"
-      })
-    }
+        endpoint: "/channels",
+      });
+    },
   },
 });
