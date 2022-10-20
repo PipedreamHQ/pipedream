@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.1.0
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
-        uses: actions/setup-node@v3.5.0
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/

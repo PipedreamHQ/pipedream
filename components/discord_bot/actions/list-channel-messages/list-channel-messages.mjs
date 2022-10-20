@@ -10,7 +10,7 @@ export default {
   name: "List Channel Messages",
   description: "Return the messages for a channel. [See the docs here](https://discord.com/developers/docs/resources/channel#get-channel-messages)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     max: {
