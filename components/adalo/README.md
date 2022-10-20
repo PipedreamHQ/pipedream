@@ -1,6 +1,6 @@
 # Overview
 
-Some examples of what you can do with the Adalo API:
+Some examples of what you can build with the Adalo API:
 
 - Todo List
 - Pinterest Board
