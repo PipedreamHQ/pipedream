@@ -1,4 +1,4 @@
-# Agile CRM
+# Overview
 
 Agile CRM provides an API that lets developers build a wide range of
 applications and integrations with the Agile CRM platform. Here are some

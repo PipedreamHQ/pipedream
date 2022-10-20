@@ -1,4 +1,4 @@
-# Affinity
+# Overview
 
 With the Affinity API, you can build a variety of applications that work with
 Affinity data, including:

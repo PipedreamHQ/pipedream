@@ -1,4 +1,4 @@
-# Acumbamail
+# Overview
 
 With Acumbamail's API, you can build a variety of applications and integrations
 to help you automate your email marketing. Here are some examples of what you

@@ -1,4 +1,4 @@
-# Alpha Vantage
+# Overview
 
 Some examples of what you can do with the Alpha Vantage API:
 

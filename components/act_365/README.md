@@ -1,4 +1,4 @@
-# Act! 365
+# Overview
 
 With the Act! 365 API, you can build applications that:
 

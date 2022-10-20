@@ -1,4 +1,4 @@
-# Abstract - IP Geolocation API
+# Overview
 
 The Abstract - IP Geolocation API allows you to request detailed information
 about a specific IP address, including country, region, city, latitude and

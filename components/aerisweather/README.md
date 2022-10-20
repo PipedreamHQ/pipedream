@@ -1,4 +1,4 @@
-# AerisWeather
+# Overview
 
 With the AerisWeather API, you can build a weather app that does the following:
 

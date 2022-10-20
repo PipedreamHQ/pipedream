@@ -1,4 +1,4 @@
-# Adafruit IO
+# Overview
 
 You can use the Adafruit IO API to build applications that can:
 

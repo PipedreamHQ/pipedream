@@ -1,4 +1,4 @@
-# Akeneo
+# Overview
 
 With the Akeneo API, you can build a variety of products and solutions that
 help companies manage their product data. Here are some examples:

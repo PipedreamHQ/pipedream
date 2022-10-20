@@ -1,4 +1,4 @@
-# AirNow
+# Overview
 
 The AirNow API can be used to retrieve air quality data for current conditions,
 as well as historical data dating back to 1980. This data can be used to track

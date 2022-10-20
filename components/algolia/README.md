@@ -1,4 +1,4 @@
-# Algolia
+# Overview
 
 Algolia provides a powerful API that lets you build scalable, fast search
 applications. Here are some examples of what you can build with Algolia:

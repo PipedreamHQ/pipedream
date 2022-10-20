@@ -1,4 +1,4 @@
-# Accelo
+# Overview
 
 Accelo's API lets you build a wide variety of integrations and automations to
 streamline your workflows. Here are some examples of what you can build:

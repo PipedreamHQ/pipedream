@@ -1,4 +1,4 @@
-# Alegra
+# Overview
 
 With the Alegra API, you can build a variety of applications and integrations.
 Here are some examples:

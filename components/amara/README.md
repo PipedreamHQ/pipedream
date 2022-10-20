@@ -1,4 +1,4 @@
-# Amara
+# Overview
 
 The Amara API enables you to build a wide variety of applications and tools
 that work with subtitles and captions. Here are just a few examples:

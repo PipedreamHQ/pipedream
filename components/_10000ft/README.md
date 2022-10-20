@@ -1,4 +1,4 @@
-# 10,000ft by Smartsheet
+# Overview
 
 With the 10,000ft API, you can build applications that:
 

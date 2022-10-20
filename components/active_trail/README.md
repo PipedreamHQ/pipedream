@@ -1,4 +1,4 @@
-# Active Trail
+# Overview
 
 ActiveTrail's API lets you integrate ActiveTrail's powerful email marketing and
 automation features into your own app or service. With the API, you can:

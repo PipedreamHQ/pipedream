@@ -1,4 +1,4 @@
-# Agenty
+# Overview
 
 Agenty API enables you to integrate Agenty account with your application to
 automate the web scraping.

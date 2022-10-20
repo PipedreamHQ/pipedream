@@ -1,4 +1,4 @@
-# Aha
+# Overview
 
 With the Aha API, you can build integrations that allow you to do things like:
 

@@ -1,4 +1,4 @@
-# ActiveCampaign
+# Overview
 
 With ActiveCampaign's API, you can build a variety of integrations and
 applications to help streamline your business. Here are just a few examples:

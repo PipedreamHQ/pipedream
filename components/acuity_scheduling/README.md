@@ -1,4 +1,4 @@
-# Acuity Scheduling
+# Overview
 
 Acuity Scheduling is a cloud-based appointment scheduling software that enables
 businesses to manage their appointments and bookings online. The Acuity

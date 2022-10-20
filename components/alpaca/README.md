@@ -1,4 +1,4 @@
-# Alpaca
+# Overview
 
 Alpaca is a financial technology company that offers a commission-free API for
 trading and investing. With Alpaca, you can build trading and investing

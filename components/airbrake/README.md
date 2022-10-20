@@ -1,4 +1,4 @@
-# Airbrake
+# Overview
 
 With the Airbrake API, you can build integrations that send data to Airbrake
 from your application. This can include:
