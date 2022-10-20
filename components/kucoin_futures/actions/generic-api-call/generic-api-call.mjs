@@ -1,4 +1,4 @@
-import kucoin_futures from "../../kucoin_futures.mjs";
+import kucoin_futures from "../../kucoin_futures.app.mjs";
 
 export default {
   name: "Kucoin Futures Generic API Call",
