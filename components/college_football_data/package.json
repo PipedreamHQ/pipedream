@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/college_football_data",
+  "version": "0.0.1",
+  "description": "Pipedream College Football Data Components",
+  "main": "dist/app/college_football_data.app.mjs",
+  "keywords": [
+    "pipedream",
+    "college_football_data"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/college_football_data",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
