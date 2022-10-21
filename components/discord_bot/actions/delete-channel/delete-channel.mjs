@@ -6,7 +6,7 @@ export default {
   name: "Delete Channel",
   description: "Delete a Channel.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   async run({ $ }) {
     return this.discord.deleteChannel({
       $,

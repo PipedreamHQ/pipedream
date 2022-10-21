@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/buy_me_a_coffee",
+  "version": "0.0.1",
+  "description": "Pipedream Buy Me a Coffee Components",
+  "main": "dist/app/buy_me_a_coffee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "buy_me_a_coffee"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/buy_me_a_coffee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
