@@ -14,7 +14,6 @@ export default {
         common.props.vbout,
         "list",
       ],
-      description: "Select the list where the contact will be unsubscribed",
     },
     contact: {
       propDefinition: [
@@ -24,6 +23,7 @@ export default {
           listId: c.list.value,
         }),
       ],
+      description: "Select the contact that will be unsubscribed.",
     },
   },
   methods: {

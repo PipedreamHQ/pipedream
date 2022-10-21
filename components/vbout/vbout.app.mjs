@@ -180,7 +180,7 @@ export default {
       description: "The date and time to schedule the campaign. Date format accepted: m/d/Y | Y-m-d",
     },
     status: {
-      type: "string",
+      type: "integer",
       label: "Status",
       description: "The status of the contact.",
       options: [
