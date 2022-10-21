@@ -274,7 +274,8 @@ export default {
     }) {
       const response = await this.graphql(repoName
         ? queries.projectsQuery
-        : queries.organizationProjectsQuery, {
+        : queries.organizationProjectsQuery,
+      {
         repoOwner,
         repoName,
         cursor,
@@ -289,13 +290,18 @@ export default {
     async getProjectV2Statuses({
       repoOwner, repoName, project,
     }) {
-      const response = await this.graphql(queries.statusFieldsQuery, {
+      const response = await this.graphql(repoName ?
+        queries.statusFieldsQuery :
+        queries.organizationStatusFieldsQuery,
+      {
         repoOwner,
         repoName,
         project,
       });
+
       return {
-        statuses: response.repository.projectV2.field.options,
+        statuses: response?.repository?.projectV2?.field?.options ??
+          response?.organization?.projectV2?.field?.options,
       };
     },
     async getProjectColumns({ project }) {
