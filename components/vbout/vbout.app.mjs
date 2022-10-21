@@ -184,8 +184,22 @@ export default {
       label: "Status",
       description: "The status of the contact.",
       options: [
-        "Active",
-        "Disactive",
+        {
+          label: "Unconfirmed",
+          value: 0,
+        },
+        {
+          label: "Active",
+          value: 1,
+        },
+        {
+          label: "Unsubscribe",
+          value: 2,
+        },
+        {
+          label: "Bounced Email",
+          value: 3,
+        },
       ],
     },
     subject: {

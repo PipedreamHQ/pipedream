@@ -33,7 +33,7 @@ export default {
         $,
         params: {
           id: contact.value,
-          status: "Disactive",
+          status: 2,
         },
       });
     },
