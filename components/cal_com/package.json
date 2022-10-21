@@ -1,19 +1,19 @@
 {
   "name": "@pipedream/cal_com",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Cal.com Components",
-  "main": "dist/app/cal_com.app.mjs",
+  "main": "cal_com.app.mjs",
   "keywords": [
     "pipedream",
     "cal_com"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/cal_com",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
   }
 }
