@@ -298,11 +298,11 @@ export default {
         return newArray.reverse();
       }
     },
-    async createEmailList({ ...args }) {
+    async createEmailList(args) {
       return await this._makeRequest({
         path: "emailmarketing/addlist",
         method: "POST",
-        args,
+        ...args,
       });
     },
     async getLists() {
@@ -376,46 +376,46 @@ export default {
 
       return response?.data;
     },
-    async moveContact({ ...args }) {
+    async moveContact(args) {
       return await this._makeRequest({
         path: "emailmarketing/movecontact",
         method: "POST",
-        args,
+        ...args,
       });
     },
-    async syncContact({ ...args }) {
+    async syncContact(args) {
       return await this._makeRequest({
         path: "emailmarketing/synccontact",
         method: "POST",
-        args,
+        ...args,
       });
     },
-    async updateContact({ ...args }) {
+    async updateContact(args) {
       return await this._makeRequest({
         path: "emailmarketing/editcontact",
         method: "POST",
-        args,
+        ...args,
       });
     },
-    async addActivity({ ...args }) {
+    async addActivity(args) {
       return await this._makeRequest({
         path: "emailmarketing/addactivity",
         method: "POST",
-        args,
+        ...args,
       });
     },
-    async createCampaign({ ...args }) {
+    async createCampaign(args) {
       return await this._makeRequest({
         path: "emailmarketing/addcampaign",
         method: "POST",
-        args,
+        ...args,
       });
     },
-    async createPost({ ...args }) {
+    async createPost(args) {
       return await this._makeRequest({
         path: "socialmedia/addpost",
         method: "POST",
-        args,
+        ...args,
       });
     },
   },

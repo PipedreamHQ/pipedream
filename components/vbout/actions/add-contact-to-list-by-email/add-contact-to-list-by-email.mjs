@@ -40,8 +40,10 @@ export default {
       } = this;
       return this.vbout.syncContact({
         $,
-        email: contact.label,
-        listid: list.value,
+        params: {
+          email: contact.label,
+          listid: list.value,
+        },
       });
     },
     getSummary() {

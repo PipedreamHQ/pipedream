@@ -24,6 +24,7 @@ export default {
           listId: c.list.value,
         }),
       ],
+      description: "Select the contact you want to add the activity.",
     },
     description: {
       propDefinition: [
@@ -40,9 +41,11 @@ export default {
       } = this;
       return this.vbout.addActivity({
         $,
-        id: contact.value,
-        description: description,
-        datetime: moment().format("YYYY-MM-DD HH:mm"),
+        params: {
+          id: contact.value,
+          description: description,
+          datetime: moment().format("YYYY-MM-DD HH:mm"),
+        },
       });
     },
     getSummary() {

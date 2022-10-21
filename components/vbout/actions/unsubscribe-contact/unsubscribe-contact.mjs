@@ -31,8 +31,10 @@ export default {
       const { contact } = this;
       return this.vbout.updateContact({
         $,
-        id: contact.value,
-        status: "Disactive",
+        params: {
+          id: contact.value,
+          status: "Disactive",
+        },
       });
     },
     getSummary() {

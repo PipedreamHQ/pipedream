@@ -66,15 +66,17 @@ export default {
 
       return this.vbout.createPost({
         $,
-        message,
-        channel: (channel.label.split(" - "))[0],
-        channelid: channel.value,
-        photo,
-        isscheduled: isScheduled,
-        scheduleddate: dateTime.format("YYYY-MM-DD"),
-        scheduledhours: dateTime.format("HH:mm"),
-        scheduledampm: dateTime.format("A"),
-        trackableLinks,
+        params: {
+          message,
+          channel: channel && (channel.label.split(" - "))[0],
+          channelid: channel && channel.value,
+          photo,
+          isscheduled: isScheduled,
+          scheduleddate: dateTime && dateTime.format("YYYY-MM-DD"),
+          scheduledhours: dateTime && dateTime.format("hh:mm"),
+          scheduledampm: dateTime && dateTime.format("A"),
+          trackableLinks,
+        },
       });
     },
     getSummary() {

@@ -82,7 +82,6 @@ export default {
         common.props.vbout,
         "audiences",
       ],
-      optional: true,
     },
     lists: {
       propDefinition: [
@@ -110,18 +109,20 @@ export default {
       } = this;
       return this.vbout.createCampaign({
         $,
-        name,
-        subject,
-        fromemail: fromEmail,
-        from_name: fromName,
-        reply_to: replyTo,
-        body,
-        type,
-        isscheduled: isScheduled,
-        isdraft: isDraft,
-        scheduled_datetime: scheduledDatetime,
-        audiences: audiences.toString(),
-        lists: lists.toString(),
+        params: {
+          name,
+          subject,
+          fromemail: fromEmail,
+          from_name: fromName,
+          reply_to: replyTo,
+          body,
+          type,
+          isscheduled: isScheduled,
+          isdraft: isDraft,
+          scheduled_datetime: scheduledDatetime,
+          audiences: audiences && audiences.toString(),
+          lists: lists && lists.toString(),
+        },
       });
     },
     getSummary() {

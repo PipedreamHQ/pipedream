@@ -41,9 +41,11 @@ export default {
       } = this;
       return this.vbout.moveContact({
         $,
-        id: contact.value,
-        listid: list.value,
-        sourceid: listFrom.value,
+        params: {
+          id: contact.value,
+          listid: list.value,
+          sourceid: listFrom.value,
+        },
       });
     },
     getSummary() {

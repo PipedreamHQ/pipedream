@@ -25,6 +25,7 @@ export default {
           listId: c.list.value,
         }),
       ],
+      description: "Select the contact you want to update.",
     },
     email: {
       propDefinition: [
@@ -78,8 +79,7 @@ export default {
         vbout, list, contact, email, ipaddress, status, ...customFields
       } = this;
 
-      const fields = {
-        $,
+      const params = {
         id: contact.value,
         email,
         ipaddress,
@@ -89,10 +89,13 @@ export default {
       for (const key in customFields) {
         const item = customFields[key];
         const customFieldName = (key.split("fields-"))[1];
-        fields[`fields[${customFieldName}]`] = item;
+        params[`fields[${customFieldName}]`] = item;
       }
 
-      return this.vbout.updateContact(fields);
+      return this.vbout.updateContact({
+        $,
+        params,
+      });
     },
     getSummary() {
       return `Contact ${this.contact.label} Successfully unsubscribed!`;
