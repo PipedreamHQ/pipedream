@@ -908,6 +908,15 @@
     },
     {
       "path": "components/enedis"
+    },
+    {
+      "path": "components/manifestly_checklists"
+    },
+    {
+      "path": "components/chatfuel_dashboard_api_"
+    },
+    {
+      "path": "components/cloudtalk"
     }
   ]
 }
