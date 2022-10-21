@@ -2,7 +2,7 @@
   "name": "@pipedream/printavo",
   "version": "0.0.1",
   "description": "Pipedream Printavo Components",
-  "main": "figma.app.js",
+  "main": "printavo.app.mjs",
   "keywords": [
     "pipedream",
     "printavo"
