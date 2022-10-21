@@ -216,6 +216,9 @@ importers:
   components/autoklose:
     specifiers: {}
 
+  components/avochato:
+    specifiers: {}
+
   components/aweber:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
@@ -348,6 +351,9 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/buy_me_a_coffee:
+    specifiers: {}
+
   components/bybit:
     specifiers: {}
 
@@ -370,6 +376,9 @@ importers:
     specifiers: {}
 
   components/cartes:
+    specifiers: {}
+
+  components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
 
   components/chaport:
@@ -456,6 +465,9 @@ importers:
   components/coinbase_commerce:
     specifiers: {}
 
+  components/commcare:
+    specifiers: {}
+
   components/commercehq:
     specifiers: {}
 
@@ -518,6 +530,9 @@ importers:
     dependencies:
       uuid: 8.3.2
 
+  components/datumbox:
+    specifiers: {}
+
   components/dear:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -563,6 +578,9 @@ importers:
       '@pipedream/types': 0.1.4
 
   components/dev_to:
+    specifiers: {}
+
+  components/dialmycalls:
     specifiers: {}
 
   components/dialpad:
@@ -650,6 +668,9 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/easyship:
+    specifiers: {}
+
   components/ecwid:
     specifiers: {}
 
@@ -666,6 +687,9 @@ importers:
     specifiers: {}
 
   components/emailoctopus:
+    specifiers: {}
+
+  components/enigma:
     specifiers: {}
 
   components/enormail:
@@ -1046,6 +1070,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/graphhopper:
+    specifiers: {}
+
   components/grist:
     specifiers: {}
 
@@ -1121,6 +1148,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       bottleneck: 2.19.5
+
+  components/humanitix:
+    specifiers: {}
+
+  components/idealpostcodes:
+    specifiers: {}
 
   components/ifttt:
     specifiers:
@@ -1631,6 +1664,9 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/paperform:
+    specifiers: {}
+
+  components/patreon:
     specifiers: {}
 
   components/payhere:
@@ -2550,7 +2586,12 @@ importers:
     specifiers: {}
 
   components/vbout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/vectera:
     specifiers: {}
