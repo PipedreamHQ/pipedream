@@ -1052,6 +1052,12 @@ importers:
   components/growsurf:
     specifiers: {}
 
+  components/gumroad:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/guru:
     specifiers: {}
 
