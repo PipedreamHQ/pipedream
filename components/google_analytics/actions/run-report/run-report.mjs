@@ -37,6 +37,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const metrics = this.metrics || [];
+    const dimensions = this.dimensions || [];
+
     const data = {
       resource: {
         reportRequests: [
@@ -48,10 +51,10 @@ export default {
                 endDate: this.endDate,
               },
             ],
-            dimensions: this.dimensions.map((dimension) => ({
+            dimensions: dimensions.map((dimension) => ({
               name: dimension,
             })),
-            metrics: this.metrics.map((metric) => ({
+            metrics: metrics.map((metric) => ({
               expression: metric,
             })),
           },
