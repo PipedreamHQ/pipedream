@@ -298,8 +298,8 @@ export default {
         return newArray.reverse();
       }
     },
-    async createEmailList(args) {
-      return await this._makeRequest({
+    createEmailList(args) {
+      return this._makeRequest({
         path: "emailmarketing/addlist",
         method: "POST",
         ...args,
@@ -376,43 +376,43 @@ export default {
 
       return response?.data;
     },
-    async moveContact(args) {
-      return await this._makeRequest({
+    moveContact(args) {
+      return this._makeRequest({
         path: "emailmarketing/movecontact",
         method: "POST",
         ...args,
       });
     },
-    async syncContact(args) {
-      return await this._makeRequest({
+    syncContact(args) {
+      return this._makeRequest({
         path: "emailmarketing/synccontact",
         method: "POST",
         ...args,
       });
     },
-    async updateContact(args) {
-      return await this._makeRequest({
+    updateContact(args) {
+      return this._makeRequest({
         path: "emailmarketing/editcontact",
         method: "POST",
         ...args,
       });
     },
-    async addActivity(args) {
-      return await this._makeRequest({
+    addActivity(args) {
+      return this._makeRequest({
         path: "emailmarketing/addactivity",
         method: "POST",
         ...args,
       });
     },
-    async createCampaign(args) {
-      return await this._makeRequest({
+    createCampaign(args) {
+      return this._makeRequest({
         path: "emailmarketing/addcampaign",
         method: "POST",
         ...args,
       });
     },
-    async createPost(args) {
-      return await this._makeRequest({
+    createPost(args) {
+      return this._makeRequest({
         path: "socialmedia/addpost",
         method: "POST",
         ...args,
