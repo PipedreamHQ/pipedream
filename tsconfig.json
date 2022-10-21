@@ -905,6 +905,9 @@
     },
     {
       "path": "components/dialmycalls"
+    },
+    {
+      "path": "components/enedis"
     }
   ]
 }
