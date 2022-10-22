@@ -33,10 +33,10 @@ export default defineApp({
     },
   },
   methods: {
-    _baseUrl(domain: string): string {
+    _baseUrl(domain: string) {
       return `https://${domain}/api/v4`;
     },
-    _getAuth(): object {
+    _getAuth() {
       return {
         domain: this.$auth.domain,
         token: this.$auth.oauth_access_token,
