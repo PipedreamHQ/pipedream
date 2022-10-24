@@ -1,14 +1,15 @@
-import common from "../common-webhook.mjs";
 import twilio from "twilio";
+import common from "../common-webhook.mjs";
+import constants from "../../common/constants.mjs";
+
 const MessagingResponse = twilio.twiml.MessagingResponse;
 
 export default {
   ...common,
   key: "twilio-new-incoming-sms",
   name: "New Incoming SMS (Instant)",
-  description:
-    "Configures a webhook in Twilio, tied to an incoming phone number, and emits an event each time an SMS is sent to that number",
-  version: "0.0.7",
+  description: "Emit new event every time an SMS is sent to the phone number set. Configures a webhook in Twilio, tied to an incoming phone number.",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -22,8 +23,8 @@ export default {
   },
   methods: {
     ...common.methods,
-    async setWebhook(...args) {
-      return await this.twilio.setIncomingSMSWebhookURL(...args);
+    getServiceType() {
+      return constants.SERVICE_TYPE.SMS;
     },
     getResponseBody() {
       const twiml = new MessagingResponse();
