@@ -5,7 +5,7 @@ export default {
   key: "twilio-new-transcription",
   name: "New Transcription",
   description: "Emit new event when a new call transcription is created",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {

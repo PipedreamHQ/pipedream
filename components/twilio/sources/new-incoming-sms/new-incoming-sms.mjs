@@ -9,7 +9,7 @@ export default {
   key: "twilio-new-incoming-sms",
   name: "New Incoming SMS (Instant)",
   description: "Emit new event every time an SMS is sent to the phone number set. Configures a webhook in Twilio, tied to an incoming phone number.",
-  version: "0.0.8",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
