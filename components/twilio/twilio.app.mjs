@@ -8,7 +8,7 @@ import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "twilio",
+  app: "danny_twilio_test",
   propDefinitions: {
     body: {
       type: "string",
@@ -161,7 +161,7 @@ export default {
       );
     },
     getClient() {
-      return twilio(this.$auth.AccountSid, this.$auth.authToken);
+      return twilio(this.$auth.accountSid, this.$auth.authToken);
     },
     setWebhookURL({
       serviceType = constants.SERVICE_TYPE.SMS, phoneNumberSid, url,
