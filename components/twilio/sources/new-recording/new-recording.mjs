@@ -2,7 +2,7 @@ import common from "../common-polling.mjs";
 
 export default {
   ...common,
-  key: "twilio-new-phone-recording",
+  key: "twilio-new-recording",
   name: "New Recording",
   description: "Emit new event when a new call recording is created",
   version: "0.0.4",
