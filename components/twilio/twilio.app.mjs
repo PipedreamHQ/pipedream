@@ -8,7 +8,7 @@ import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "danny_twilio_test",
+  app: "twilio",
   propDefinitions: {
     body: {
       type: "string",
