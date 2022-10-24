@@ -49,7 +49,7 @@ const NOTION_PAGE_PROPERTIES = {
     options: (property) => property.multi_select.options?.map((option) => option.name)
       ?? property.multi_select.map((option) => option.name),
     convertToNotion: (property) => ({
-      multi_select: property.value.map((name) => ({
+      multi_select: utils.parseArray(property.value).map((name) => ({
         name,
       })),
     }),
@@ -69,7 +69,7 @@ const NOTION_PAGE_PROPERTIES = {
     example: "[\"16799fa1-f1f7-437e-8a12-5eb2eedc1b05\"]",
     options: () => undefined,
     convertToNotion: (property) => ({
-      people: property.value.map((id) => ({
+      people: utils.parseArray(property.value).map((id) => ({
         id,
       })),
     }),
@@ -79,7 +79,7 @@ const NOTION_PAGE_PROPERTIES = {
     example: "[\"https://site.com/image1.png\", \"https://site.com/image2.png\"]",
     options: () => undefined,
     convertToNotion: (property) => ({
-      files: property.value.map((url) => ({
+      files: utils.parseArray(property.value).map((url) => ({
         name: url.slice(0, 99),
         type: "external",
         external: {
@@ -124,7 +124,7 @@ const NOTION_PAGE_PROPERTIES = {
     example: "[\"cd11c7df-d793-49cf-9501-70c7ba59950d\", \"532c3f83-51c0-4789-b53c-f05461582f73\"]",
     options: () => undefined,
     convertToNotion: (property) => ({
-      relation: property.value.map((id) => ({
+      relation: utils.parseArray(property.value).map((id) => ({
         id,
       })),
     }),

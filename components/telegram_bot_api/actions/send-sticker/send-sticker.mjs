@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-send-sticker",
   name: "Send a Sticker",
   description: "Sends a .webp sticker to you Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendsticker) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     telegramBotApi,

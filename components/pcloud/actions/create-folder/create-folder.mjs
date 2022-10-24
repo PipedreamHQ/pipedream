@@ -7,7 +7,7 @@ export default {
   name: "Create Folder",
   description:
     "Create a folder in the specified folder. [See the docs here](https://docs.pcloud.com/methods/folder/createfolder.html)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

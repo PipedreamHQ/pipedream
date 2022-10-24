@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/simplesat",
+  "version": "0.0.1",
+  "description": "Pipedream Simplesat Components",
+  "main": "simplesat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simplesat"
+  ],
+  "homepage": "https://pipedream.com/apps/simplesat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

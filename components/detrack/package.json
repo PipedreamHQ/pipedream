@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/detrack",
-  "version": "0.0.2",
-  "description": "Pipedream DeTrack Components",
+  "version": "0.0.3",
+  "description": "Pipedream Detrack Components",
   "main": "dist/app/detrack.app.mjs",
   "keywords": [
     "pipedream",
@@ -15,5 +15,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "@pipedream/types": "^0.1.4"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/threads",
+  "version": "0.2.0",
+  "description": "Pipedream Threads Components",
+  "main": "threads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "threads"
+  ],
+  "homepage": "https://pipedream.com/apps/threads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
