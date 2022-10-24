@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/easyship",
+  "version": "0.0.1",
+  "description": "Pipedream Easyship Components",
+  "main": "dist/app/easyship.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easyship"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/easyship",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
