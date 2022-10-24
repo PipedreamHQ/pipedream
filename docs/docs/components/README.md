@@ -107,12 +107,11 @@ Components published to your account or organization are available in the [Compo
 Your private components published from the CLI or from Node.js code steps are listed here.
 
 
-
-
-
 ### Unpublishing Privately Published Components
 
 <AlphaFeatureNotice feature="Components Page - add a page for published components" />
+
+<VideoPlayer src="https://www.youtube.com/embed/3wmnFi7thUg" title="Unpublishing Privately Published Components" />
 
 To unpublish components belonging to your account or organization, open the menu on the right hand side of the component details and select **Unpublish Component**.
 
