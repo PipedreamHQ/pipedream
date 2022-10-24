@@ -956,6 +956,9 @@
     },
     {
       "path": "components/facturadirecta"
+    },
+    {
+      "path": "components/danny_twilio_test"
     }
   ]
 }
