@@ -1184,7 +1184,6 @@ importers:
 
   components/idealpostcodes:
     specifiers: {}
-
   components/idealspot:
     specifiers: {}
 
@@ -1431,6 +1430,14 @@ importers:
 
   components/marketing_master_io:
     specifiers: {}
+
+  components/mattermost:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/mautic:
     specifiers:
@@ -1833,6 +1840,12 @@ importers:
 
   components/pretix:
     specifiers: {}
+
+  components/printavo:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/printful_oauth:
     specifiers: {}
@@ -2646,7 +2659,12 @@ importers:
     specifiers: {}
 
   components/vbout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/vectera:
     specifiers: {}
@@ -18166,6 +18184,7 @@ packages:
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
+    hasBin: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}

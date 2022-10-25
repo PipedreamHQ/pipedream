@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "kucoin_futures",
+  app: "danny_twilio_test",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
