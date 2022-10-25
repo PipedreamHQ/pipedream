@@ -4,7 +4,7 @@ export default {
   key: "vercel-cancel-deployment",
   name: "Cancel Deployment",
   description: "Cancel a deployment which is currently building. [See the docs](https://vercel.com/docs/rest-api#endpoints/deployments/cancel-a-deployment)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     vercel,
