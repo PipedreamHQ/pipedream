@@ -1,7 +1,7 @@
 /* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
   pipedream/required-properties-version, pipedream/required-properties-description,
   pipedream/required-properties-type */
-import base from "./common/common-webhook.mjs";
+import base from "../common/common-webhook.mjs";
 
 export default {
   ...base,
