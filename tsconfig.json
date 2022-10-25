@@ -760,7 +760,208 @@
       "path": "components/habitica"
     },
     {
+      "path": "components/mailboxvalidator"
+    },
+    {
       "path": "components/freshbooks"
+    },
+    {
+      "path": "components/slicktext"
+    },
+    {
+      "path": "components/expofp"
+    },
+    {
+      "path": "components/mattermost"
+    },
+    {
+      "path": "components/karbon"
+    },
+    {
+      "path": "components/dynatrace_api"
+    },
+    {
+      "path": "components/freshsales"
+    },
+    {
+      "path": "components/gender_api"
+    },
+    {
+      "path": "components/sms_magic"
+    },
+    {
+      "path": "components/mailcoach"
+    },
+    {
+      "path": "components/mozilla_observatory"
+    },
+    {
+      "path": "components/mx_toolbox"
+    },
+    {
+      "path": "components/nano_nets"
+    },
+    {
+      "path": "components/dispatch"
+    },
+    {
+      "path": "components/edapp"
+    },
+    {
+      "path": "components/miro_custom_app"
+    },
+    {
+      "path": "components/nozbe_teams"
+    },
+    {
+      "path": "components/coderpad"
+    },
+    {
+      "path": "components/elopage"
+    },
+    {
+      "path": "components/simpletexting"
+    },
+    {
+      "path": "components/pilvio"
+    },
+    {
+      "path": "components/webscraping_ai"
+    },
+    {
+      "path": "components/corrently"
+    },
+    {
+      "path": "components/logoraisr"
+    },
+    {
+      "path": "components/firmalyzer_iotvas"
+    },
+    {
+      "path": "components/rat_genome_database"
+    },
+    {
+      "path": "components/samcart"
+    },
+    {
+      "path": "components/zulip"
+    },
+    {
+      "path": "components/textmagic"
+    },
+    {
+      "path": "components/talentlms"
+    },
+    {
+      "path": "components/abuselpdb"
+    },
+    {
+      "path": "components/amcards"
+    },
+    {
+      "path": "components/api_void"
+    },
+    {
+      "path": "components/beaconstac"
+    },
+    {
+      "path": "components/data247"
+    },
+    {
+      "path": "components/chatrace"
+    },
+    {
+      "path": "components/amentum_aerospace"
+    },
+    {
+      "path": "components/patreon"
+    },
+    {
+      "path": "components/buy_me_a_coffee"
+    },
+    {
+      "path": "components/idealpostcodes"
+    },
+    {
+      "path": "components/datumbox"
+    },
+    {
+      "path": "components/commcare"
+    },
+    {
+      "path": "components/cdc_national_environmental_public_health_tracking"
+    },
+    {
+      "path": "components/enigma"
+    },
+    {
+      "path": "components/easyship"
+    },
+    {
+      "path": "components/avochato"
+    },
+    {
+      "path": "components/graphhopper"
+    },
+    {
+      "path": "components/humanitix"
+    },
+    {
+      "path": "components/dialmycalls"
+    },
+    {
+      "path": "components/enedis"
+    },
+    {
+      "path": "components/manifestly_checklists"
+    },
+    {
+      "path": "components/chatfuel_dashboard_api_"
+    },
+    {
+      "path": "components/cloudtalk"
+    },
+    {
+      "path": "components/bc_gov_news"
+    },
+    {
+      "path": "components/sportsdata"
+    },
+    {
+      "path": "components/labs64_netlicensing"
+    },
+    {
+      "path": "components/circl_hash_lookup"
+    },
+    {
+      "path": "components/appcues"
+    },
+    {
+      "path": "components/college_football_data"
+    },
+    {
+      "path": "components/listen_notes"
+    },
+    {
+      "path": "components/doppler_marketing_automation"
+    },
+    {
+      "path": "components/idealspot"
+    },
+    {
+      "path": "components/rawg_video_games_database"
+    },
+    {
+      "path": "components/neutrino"
+    },
+    {
+      "path": "components/uk_gov_vehecle_enquiry_api"
+    },
+    {
+      "path": "components/facturadirecta"
+    },
+    {
+      "path": "components/danny_twilio_test"
     }
   ]
 }

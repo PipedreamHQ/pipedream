@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/cloudtalk",
+  "version": "0.0.1",
+  "description": "Pipedream CloudTalk Components",
+  "main": "dist/app/cloudtalk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudtalk"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cloudtalk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

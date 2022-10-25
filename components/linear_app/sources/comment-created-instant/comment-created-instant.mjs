@@ -7,7 +7,7 @@ export default {
   name: "New Created Comment (Instant)",
   description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -27,6 +27,11 @@ export default {
         sortBy: "createdAt",
         filter: {
           issue: {
+            team: {
+              id: {
+                in: this.teamIds,
+              },
+            },
             project: {
               id: {
                 eq: this.projectId,

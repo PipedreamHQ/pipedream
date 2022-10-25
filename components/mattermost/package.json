@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/mattermost",
+  "version": "0.0.1",
+  "description": "Pipedream Mattermost Components",
+  "main": "dist/app/mattermost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mattermost"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/mattermost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

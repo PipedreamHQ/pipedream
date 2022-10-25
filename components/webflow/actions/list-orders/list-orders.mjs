@@ -5,7 +5,7 @@ export default {
   key: "webflow-list-orders",
   name: "List Orders",
   description: "List orders. [See the docs here](https://developers.webflow.com/#get-all-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     webflow,
