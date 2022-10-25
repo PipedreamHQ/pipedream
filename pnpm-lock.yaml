@@ -1841,6 +1841,12 @@ importers:
   components/pretix:
     specifiers: {}
 
+  components/printavo:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/printful_oauth:
     specifiers: {}
 
@@ -2084,6 +2090,12 @@ importers:
 
   components/sendle:
     specifiers: {}
+
+  components/sendowl:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/sentry:
     specifiers:

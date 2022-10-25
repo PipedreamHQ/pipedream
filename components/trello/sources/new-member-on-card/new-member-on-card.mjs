@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
-  description: "Emit new event for each card joined by the authenticated Trello user.",
-  version: "0.0.9",
+  description: "Emit new event for each member that join in a card.",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -29,7 +29,9 @@ export default {
       id, name: summary, dateLastActivity,
     }) {
       return {
-        id: `${id}${dateLastActivity}`,
+        id: this.onlyEventsRelatedWithAuthenticatedUser ?
+          id :
+          `${id}${dateLastActivity}`,
         summary,
         ts: Date.now(),
       };
