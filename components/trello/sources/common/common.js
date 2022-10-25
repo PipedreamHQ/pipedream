@@ -1,4 +1,4 @@
-const trello = require("../trello.app.js");
+const trello = require("../../trello.app");
 
 module.exports = {
   props: {

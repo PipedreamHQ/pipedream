@@ -1,11 +1,11 @@
-import common from "../board-based.mjs";
+import common from "../common/common-board-based.mjs";
 
 export default {
   ...common,
   key: "trello-new-checklist",
   name: "New Checklist (Instant)",
   description: "Emit new event for each new checklist added to a board.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   methods: {
