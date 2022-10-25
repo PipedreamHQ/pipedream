@@ -4,7 +4,7 @@ export default {
   key: "discord-guild-member",
   name: "New Guild Member (Instant)",
   description: "Emit new event for each new member added to a guild",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {
