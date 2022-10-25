@@ -1,4 +1,4 @@
-import common from "../send-message-common.mjs";
+import common from "../common-send-message.mjs";
 import axios from "axios";
 import fs from "fs";
 
@@ -7,7 +7,7 @@ export default {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     ...common.props,

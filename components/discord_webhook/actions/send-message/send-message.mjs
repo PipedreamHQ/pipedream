@@ -1,11 +1,11 @@
-import common from "../send-message-common.mjs";
+import common from "../common-send-message.mjs";
 
 export default {
   ...common,
   key: "discord_webhook-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     ...common.props,
