@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Worksheet (Shared Drive, Instant)",
   description: "Emit new event each time a new worksheet is created in a spreadsheet in a shared drive",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...httpBase.hooks,

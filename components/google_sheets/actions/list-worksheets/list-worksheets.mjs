@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-list-worksheets",
   name: "List Worksheets",
   description: "Get a list of all worksheets in a spreadsheet",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleSheets,
