@@ -7,7 +7,7 @@ import {
   CreatePaymentParams,
   GetObjectParams,
   HttpRequestParams,
-} from "../types/requestParams";
+} from "../common/requestParams";
 import {
   Appointment,
   Company,
@@ -15,7 +15,7 @@ import {
   Webhook,
   Order,
   Product,
-} from "../types/responseSchemas";
+} from "../common/responseSchemas";
 
 export default defineApp({
   type: "app",

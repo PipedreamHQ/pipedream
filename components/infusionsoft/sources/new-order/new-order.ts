@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { Order } from "../../types/responseSchemas";
+import { Order } from "../../common/responseSchemas";
 import common from "../common";
 
 export default defineSource({
@@ -8,7 +8,7 @@ export default defineSource({
   description:
     "Emit new event for each new **order** [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getOrderUsingGET)",
   key: "infusionsoft-new-order",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

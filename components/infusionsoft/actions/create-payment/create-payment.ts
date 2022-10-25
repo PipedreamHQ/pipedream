@@ -1,13 +1,13 @@
 import infusionsoft from "../../app/infusionsoft.app";
 import { defineAction } from "@pipedream/types";
-import { CreatePaymentParams } from "../../types/requestParams";
+import { CreatePaymentParams } from "../../common/requestParams";
 
 export default defineAction({
   name: "Create Payment",
   description:
     "Create or add a payment record [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/createPaymentOnOrderUsingPOST)",
   key: "infusionsoft-create-payment",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     infusionsoft,
