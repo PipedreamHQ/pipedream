@@ -28,6 +28,7 @@ export default {
       label: "Parameters",
       description: "API Parameters",
       type: "object",
+      optional: true
     },
   },
   type: "action",
