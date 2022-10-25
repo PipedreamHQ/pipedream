@@ -29,7 +29,9 @@ export default {
       id, name: summary, dateLastActivity,
     }) {
       return {
-        id: `${id}${dateLastActivity}`,
+        id: this.onlyEventsRelatedWithAuthenticatedUser ?
+          id :
+          `${id}${dateLastActivity}`,
         summary,
         ts: Date.now(),
       };
