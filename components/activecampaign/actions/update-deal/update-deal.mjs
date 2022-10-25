@@ -1,4 +1,5 @@
 import activecampaign from "../../activecampaign.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "activecampaign-update-deal",
@@ -111,7 +112,7 @@ export default {
     try {
       parsedFields = fields?.map(JSON.parse);
     } catch (error) {
-      throw new Error("Syntax error in `Fields` property");
+      throw new ConfigurationError("Syntax error in `Fields` property");
     }
 
     const response = await this.activecampaign.createDeal({

@@ -188,10 +188,7 @@ export default {
         const { contactTags } = await this.getContactTags({
           contactId,
         });
-        return contactTags.map(({ id }) => ({
-          label: id,
-          value: id,
-        }));
+        return contactTags.map(({ id }) => id);
       },
     },
   },

@@ -3,7 +3,7 @@ import activecampaign from "../../activecampaign.app.mjs";
 export default {
   key: "activecampaign-remove-tag-from-contact",
   name: "Remove Contact Tag",
-  description: "Removes a tag from a contact.",
+  description: "Removes a tag from a contact. See the docs [here](https://developers.activecampaign.com/reference/remove-a-contacts-tag)",
   version: "0.5.0",
   type: "action",
   props: {
