@@ -2,10 +2,10 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "close-custom-source",
+  key: "close-custom-event",
   name: "New Custom Event",
   description: "Emit new event when configured type of events triggered, [See all possibilities](https://developer.close.com/resources/event-log/list-of-events/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
