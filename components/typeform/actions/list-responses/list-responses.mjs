@@ -1,6 +1,6 @@
 import typeform from "../../typeform.app.mjs";
-import utils from "../utils.mjs";
-import constants from "../../constants.mjs";
+import utils from "../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 const { commaSeparatedList } = utils;
 
@@ -9,7 +9,7 @@ export default {
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     formId: {

@@ -1,5 +1,5 @@
 import typeform from "../../typeform.app.mjs";
-import utils from "../utils.mjs";
+import utils from "../common/utils.mjs";
 
 const { reduceProperties } = utils;
 
@@ -8,7 +8,7 @@ export default {
   name: "Create a Form",
   description: "Creates a form with its corresponing fields. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     title: {
