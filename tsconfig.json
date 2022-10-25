@@ -772,6 +772,9 @@
       "path": "components/expofp"
     },
     {
+      "path": "components/mattermost"
+    },
+    {
       "path": "components/karbon"
     },
     {
@@ -956,6 +959,9 @@
     },
     {
       "path": "components/facturadirecta"
+    },
+    {
+      "path": "components/danny_twilio_test"
     }
   ]
 }

@@ -7,7 +7,7 @@ export default {
   name: "New Updated Issue (Instant)",
   description: "Emit new event when an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.2.3",
+  version: "0.2.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -26,6 +26,11 @@ export default {
       return {
         sortBy: "updatedAt",
         filter: {
+          team: {
+            id: {
+              in: this.teamIds,
+            },
+          },
           project: {
             id: {
               eq: this.projectId,
