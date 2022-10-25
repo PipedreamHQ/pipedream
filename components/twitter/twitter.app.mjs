@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import { DateTime } from "luxon";
 import retry from "async-retry";
-import isoLanguages from "./sources/language-codes.mjs";
+import isoLanguages from "./sources/common/language-codes.mjs";
 
 export default {
   type: "app",
@@ -256,28 +256,28 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: `The text of the status update. Note: In order to comply with Twitter’s 
-        terms of service, this text will have all @mentions removed. 
+      description: `The text of the status update. Note: In order to comply with Twitter’s
+        terms of service, this text will have all @mentions removed.
         Please refer to [our docs for more details](https://pipedream.com/docs/apps/twitter/#limitations-on-mentions).`,
     },
     inReplyToStatusId: {
       type: "string",
       label: "In Reply To Status ID",
-      description: `The ID of an existing status that the update is in reply to. Note: This 
-        parameter will be ignored unless the author of the Tweet this parameter 
-        references is mentioned within the status text. Therefore, you must 
-        include \`@username\` , where \`username\` is the author of the referenced 
+      description: `The ID of an existing status that the update is in reply to. Note: This
+        parameter will be ignored unless the author of the Tweet this parameter
+        references is mentioned within the status text. Therefore, you must
+        include \`@username\` , where \`username\` is the author of the referenced
         Tweet, within the update.`,
       optional: true,
     },
     autoPopulateReplyMetadata: {
       type: "boolean",
       label: "Auto Populate Reply Metadata",
-      description: `If set to true and used with \`in_reply_to_status_id\`, leading 
-        \`@mentions\` will be looked up from the original Tweet, and added to the 
-        new Tweet from there. This will append \`@mentions\` into the metadata 
-        of an extended Tweet as a reply chain grows, until the limit on 
-        \`@mentions\` is reached. In cases where the original Tweet has been 
+      description: `If set to true and used with \`in_reply_to_status_id\`, leading
+        \`@mentions\` will be looked up from the original Tweet, and added to the
+        new Tweet from there. This will append \`@mentions\` into the metadata
+        of an extended Tweet as a reply chain grows, until the limit on
+        \`@mentions\` is reached. In cases where the original Tweet has been
         deleted, the reply will fail.`,
       optional: true,
       default: false,
@@ -285,39 +285,39 @@ export default {
     excludeReplyUserIds: {
       type: "string",
       label: "Exclude Reply User Ids",
-      description: `When used with \`auto_populate_reply_metadata\`, a 
-        comma-separated list of user ids which will be removed from the 
-        server-generated \`@mentions\` prefix on an extended Tweet. Note that 
-        the leading \`@mention\` cannot be removed as it would break the 
-        \`in-reply-to-status-id\` semantics. Attempting to remove it will be 
+      description: `When used with \`auto_populate_reply_metadata\`, a
+        comma-separated list of user ids which will be removed from the
+        server-generated \`@mentions\` prefix on an extended Tweet. Note that
+        the leading \`@mention\` cannot be removed as it would break the
+        \`in-reply-to-status-id\` semantics. Attempting to remove it will be
         silently ignored.`,
       optional: true,
     },
     attachmentUrl: {
       type: "string",
       label: "Attachment URL",
-      description: `In order for a URL to not be counted in the status body of an extended 
-        Tweet, provide a URL as a Tweet attachment. This URL must be a 
-        Tweet permalink or Direct Message deep link. Arbitrary, non-Twitter 
-        URLs must remain in the status text. URLs passed to the 
-        \`attachment_url\` parameter not matching either a Tweet permalink or 
-        Direct Message deep link will fail at Tweet creation and cause an 
+      description: `In order for a URL to not be counted in the status body of an extended
+        Tweet, provide a URL as a Tweet attachment. This URL must be a
+        Tweet permalink or Direct Message deep link. Arbitrary, non-Twitter
+        URLs must remain in the status text. URLs passed to the
+        \`attachment_url\` parameter not matching either a Tweet permalink or
+        Direct Message deep link will fail at Tweet creation and cause an
         exception.`,
       optional: true,
     },
     mediaIds: {
       type: "string",
       label: "Media IDs",
-      description: `A comma-delimited list of \`media_ids\` to associate with the Tweet. You 
+      description: `A comma-delimited list of \`media_ids\` to associate with the Tweet. You
         may include up to 4 photos or 1 animated GIF or 1 video in a Tweet.`,
       optional: true,
     },
     possiblySensitive: {
       type: "boolean",
       label: "Possibly Sensitive",
-      description: `If you upload Tweet media that might be considered sensitive content 
-        such as nudity or medical procedures, you must set this value to true. 
-        If this parameter is included in your request, it will override the user’s 
+      description: `If you upload Tweet media that might be considered sensitive content
+        such as nudity or medical procedures, you must set this value to true.
+        If this parameter is included in your request, it will override the user’s
         preferences.`,
       optional: true,
     },
@@ -342,14 +342,14 @@ export default {
     displayCoordinates: {
       type: "boolean",
       label: "Display Coordinates",
-      description: `Whether or not to put a pin on the exact coordinates a Tweet has been 
+      description: `Whether or not to put a pin on the exact coordinates a Tweet has been
         sent from.`,
       optional: true,
     },
     trimUser: {
       type: "boolean",
       label: "Trim User",
-      description: `When set to true, the response will include a user object including 
+      description: `When set to true, the response will include a user object including
         only the author's ID.`,
       optional: true,
       default: false,
@@ -357,9 +357,9 @@ export default {
     enableDmcommands: {
       type: "boolean",
       label: "Enable DM Commands",
-      description: `When set to true, enables shortcode commands for sending Direct 
-        Messages as part of the status text to send a Direct Message to a user. 
-        When set to false, it turns off this behavior and includes any leading 
+      description: `When set to true, enables shortcode commands for sending Direct
+        Messages as part of the status text to send a Direct Message to a user.
+        When set to false, it turns off this behavior and includes any leading
         characters in the status text that is posted.`,
       optional: true,
       default: false,
@@ -367,8 +367,8 @@ export default {
     failDmcommands: {
       type: "boolean",
       label: "Fail DM Commands",
-      description: `When set to true, causes any status text that starts with shortcode 
-        commands to return an API error. When set to false, allows shortcode 
+      description: `When set to true, causes any status text that starts with shortcode
+        commands to return an API error. When set to false, allows shortcode
         commands to be sent in the status text and acted on by the API.`,
       optional: true,
       default: true,
@@ -376,7 +376,7 @@ export default {
     cardUri: {
       type: "string",
       label: "Card URI",
-      description: `Associate an ads card with the Tweet using the card_uri value from any 
+      description: `Associate an ads card with the Tweet using the card_uri value from any
         ads card response.`,
       optional: true,
     },

@@ -4,7 +4,7 @@ export default {
   key: "twitter-my-liked-tweets",
   name: "My Liked Tweets",
   description: "Emit new Tweets you like on Twitter",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     twitter,

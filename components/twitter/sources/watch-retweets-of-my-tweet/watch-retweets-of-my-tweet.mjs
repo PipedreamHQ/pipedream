@@ -5,7 +5,7 @@ export default {
   key: "twitter-watch-retweets-of-my-tweet",
   name: "Watch Retweets of My Tweet",
   description: "Emit new event when a specific Tweet from the authenticated user is retweeted",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...base.props,

@@ -5,7 +5,7 @@ export default {
   key: "twitter-new-unfollower-of-me",
   name: "New Unfollower of Me",
   description: "Emit new event when a user unfollows you on Twitter",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   methods: {
     ...common.methods,
