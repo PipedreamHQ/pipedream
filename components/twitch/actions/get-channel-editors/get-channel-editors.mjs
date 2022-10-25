@@ -5,7 +5,7 @@ export default {
   name: "Get Channel Editors",
   key: "twitch-get-channel-editors",
   description: "Gets a list of users who are editors for your channel",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   async run() {
     // get the userID of the authenticated user
