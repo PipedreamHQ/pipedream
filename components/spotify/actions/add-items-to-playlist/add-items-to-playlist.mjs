@@ -5,8 +5,8 @@ import get from "lodash/get.js";
 export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/add-tracks-to-playlist).",
-  key: "spotify-add-item-to-a-playlist",
-  version: "0.0.4",
+  key: "spotify-add-items-to-playlist",
+  version: "0.0.5",
   type: "action",
   props: {
     spotify,

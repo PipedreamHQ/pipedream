@@ -8,8 +8,8 @@ import { promisify } from "util";
 import {
   ITEM_TYPES,
   ITEM_TYPES_RESULT_NAME,
-} from "./consts.mjs";
-import Countries from "./country-codes.mjs";
+} from "./common/consts.mjs";
+import Countries from "./common/country-codes.mjs";
 
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
