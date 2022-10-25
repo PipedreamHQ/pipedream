@@ -772,6 +772,9 @@
       "path": "components/expofp"
     },
     {
+      "path": "components/mattermost"
+    },
+    {
       "path": "components/karbon"
     },
     {
@@ -905,6 +908,60 @@
     },
     {
       "path": "components/dialmycalls"
+    },
+    {
+      "path": "components/enedis"
+    },
+    {
+      "path": "components/manifestly_checklists"
+    },
+    {
+      "path": "components/chatfuel_dashboard_api_"
+    },
+    {
+      "path": "components/cloudtalk"
+    },
+    {
+      "path": "components/bc_gov_news"
+    },
+    {
+      "path": "components/sportsdata"
+    },
+    {
+      "path": "components/labs64_netlicensing"
+    },
+    {
+      "path": "components/circl_hash_lookup"
+    },
+    {
+      "path": "components/appcues"
+    },
+    {
+      "path": "components/college_football_data"
+    },
+    {
+      "path": "components/listen_notes"
+    },
+    {
+      "path": "components/doppler_marketing_automation"
+    },
+    {
+      "path": "components/idealspot"
+    },
+    {
+      "path": "components/rawg_video_games_database"
+    },
+    {
+      "path": "components/neutrino"
+    },
+    {
+      "path": "components/uk_gov_vehecle_enquiry_api"
+    },
+    {
+      "path": "components/facturadirecta"
+    },
+    {
+      "path": "components/danny_twilio_test"
     }
   ]
 }
