@@ -48,7 +48,6 @@ export default {
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         headers: {
-
           "accept": "application/json",
         },
         ...args,
