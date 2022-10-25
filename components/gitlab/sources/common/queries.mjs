@@ -16,7 +16,7 @@ export function create_destination(destination, groupPath) { return `
                         }
                     }
                 }
-            }`};
+            }`;}
 
 export function list_destinations(groupPath) { return `
                 query {
@@ -29,7 +29,7 @@ export function list_destinations(groupPath) { return `
                             }
                         }
                     }
-                }`};
+                }`;}
 
 export function delete_destination(destinationId) { return `
             mutation {
@@ -40,4 +40,4 @@ export function delete_destination(destinationId) { return `
                 {
                     errors
                 }
-            }`};
+            }`;}
