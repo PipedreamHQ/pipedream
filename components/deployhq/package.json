@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deployhq",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream DeployHQ Components",
   "main": "dist/app/deployhq.app.mjs",
   "keywords": [
