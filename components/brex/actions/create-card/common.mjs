@@ -1,4 +1,4 @@
-import options from "../../options.mjs";
+import options from "../../common-options.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
