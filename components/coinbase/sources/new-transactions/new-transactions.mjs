@@ -6,7 +6,7 @@ export default {
   name: "New Transactions",
   description: "New Transactions. [See the docs here](https://developers.coinbase.com/api/v2#transaction-resource)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
