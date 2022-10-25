@@ -3,7 +3,7 @@ import common, { STATUS_FAILED } from "../common.mjs";
 export default {
   ...common,
   key: "deployhq-deploy-failed",
-  name: "Deploy Failed",
+  name: "New Deploy Failed",
   version: "0.0.1",
   description: "Emit new event when a deploy fails",
   type: "source",

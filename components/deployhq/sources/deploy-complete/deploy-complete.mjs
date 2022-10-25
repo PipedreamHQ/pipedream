@@ -3,7 +3,7 @@ import common, { STATUS_COMPLETE } from "../common.mjs";
 export default {
   ...common,
   key: "deployhq-deploy-complete",
-  name: "Deploy Complete",
+  name: "New Deploy Complete",
   version: "0.0.1",
   description: "Emit new event when a deploy is completed",
   type: "source",

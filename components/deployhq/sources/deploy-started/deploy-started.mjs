@@ -3,7 +3,7 @@ import common, { STATUS_RUNNING } from "../common.mjs";
 export default {
   ...common,
   key: "deployhq-deploy-started",
-  name: "Deploy Started",
+  name: "New Deploy Started",
   version: "0.0.1",
   description: "Emit new event when a deploy starts",
   type: "source",
