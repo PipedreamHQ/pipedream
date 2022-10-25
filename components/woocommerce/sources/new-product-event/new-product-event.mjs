@@ -5,7 +5,7 @@ export default {
   key: "woocommerce-new-product-event",
   name: "New Product Event (Instant)",
   description: "Emit new event each time the specified product event(s) occur",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
