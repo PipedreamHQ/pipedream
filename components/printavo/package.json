@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/printavo",
+  "version": "0.0.1",
+  "description": "Pipedream Printavo Components",
+  "main": "printavo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "printavo"
+  ],
+  "homepage": "https://pipedream.com/apps/printavo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}
