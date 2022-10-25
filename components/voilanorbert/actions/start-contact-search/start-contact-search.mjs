@@ -8,7 +8,7 @@ export default {
   When your account does not have sufficient credits an HTTP status code of 402 is returned.
   Also, take into consideration that we check the domain for its validity. So even if you provide a correct name+domain set, we may return a HTTP status code of 400 for the domain if we can't locate it.
   [See the docs here](https://api.voilanorbert.com/2018-01-08/#search-endpoint-post)`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

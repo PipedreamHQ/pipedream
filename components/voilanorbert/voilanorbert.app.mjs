@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { objectToString } from "./utils.mjs";
+import { objectToString } from "./common/utils.mjs";
 
 export default {
   type: "app",
