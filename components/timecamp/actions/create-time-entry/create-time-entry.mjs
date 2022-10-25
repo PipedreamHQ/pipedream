@@ -3,8 +3,8 @@ import timecamp from "../../timecamp.app.mjs";
 
 export default {
   name: "Create Time Entry",
-  version: "0.1.3",
-  key: "timecamp-create-timeentry",
+  version: "0.1.4",
+  key: "timecamp-create-time-entry",
   description: "Creates a time entry. [See docs here](https://developer.timecamp.com/docs/timecamp-api/b3A6NTY2NDIyOQ-create-time-entry)",
   type: "action",
   props: {
