@@ -4,9 +4,9 @@ export default {
   ...common,
   type: "source",
   name: "New Unsubscribed Recipient (Instant)",
-  key: "lemlist-unsubscribe-recipient",
+  key: "lemlist-unsubscribed-recipient",
   description: "Emit new event when a recipient unsubscribes. [See docs here](https://developer.lemlist.com/#add-a-hook)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
