@@ -4,7 +4,7 @@ export default {
   name: "Send a Link",
   description: "Send a link to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/link)",
   key: "ultramsg-send-link",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ultramsg,

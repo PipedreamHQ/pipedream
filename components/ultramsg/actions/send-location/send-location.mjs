@@ -4,7 +4,7 @@ export default {
   name: "Send a Location",
   description: "Send a location to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/location)",
   key: "ultramsg-send-location",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ultramsg,

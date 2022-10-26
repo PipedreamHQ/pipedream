@@ -4,7 +4,7 @@ export default {
   name: "Send an Image",
   description: "Send an image to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/image)",
   key: "ultramsg-send-image",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ultramsg,

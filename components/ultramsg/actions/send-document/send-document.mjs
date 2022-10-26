@@ -4,7 +4,7 @@ export default {
   name: "Send a Document",
   description: "Send a document to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/document)",
   key: "ultramsg-send-document",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ultramsg,

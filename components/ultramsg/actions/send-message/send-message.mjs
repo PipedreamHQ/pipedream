@@ -5,7 +5,7 @@ export default {
   name: "Send a Message",
   description: "Send a message to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/chat)",
   key: "ultramsg-send-message",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ultramsg,
