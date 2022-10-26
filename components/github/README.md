@@ -94,9 +94,9 @@ Here's an action that accepts a `name` as input and prints it to the workflow's 
 
 ```javascript
 export default {
-  name: "Action Demo",
-  description: "This is a demo action",
-  key: "action_demo",
+  name: "Action Example",
+  description: "This is a example action",
+  key: "action_example",
   version: "0.0.1",
   type: "action",
   props: {
