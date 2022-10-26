@@ -4,7 +4,7 @@ export default {
   key: "google_drive-search-shared-drives",
   name: "Search for Shared Drives",
   description: "Search for shared drives with query options. [See the docs](https://developers.google.com/drive/api/v3/search-shareddrives) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,

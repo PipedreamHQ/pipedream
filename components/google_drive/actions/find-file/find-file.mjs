@@ -1,11 +1,11 @@
 import googleDrive from "../../google_drive.app.mjs";
-import { getListFilesOpts } from "../../utils.mjs";
+import { getListFilesOpts } from "../../common/utils.mjs";
 
 export default {
   key: "google_drive-find-file",
   name: "Find File",
   description: "Search for a specific file by name. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,

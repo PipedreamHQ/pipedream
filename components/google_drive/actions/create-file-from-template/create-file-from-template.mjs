@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new google doc file from template. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleDrive,

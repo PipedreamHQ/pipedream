@@ -2,9 +2,9 @@ import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../constants.mjs";
-import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
-import { toSingleLineString } from "../../utils.mjs";
+import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
+import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the docs](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,

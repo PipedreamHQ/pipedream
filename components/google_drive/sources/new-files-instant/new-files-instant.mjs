@@ -2,14 +2,14 @@ import common from "../common-webhook.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event any time a new file is added in your linked Google Drive",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "source",
   dedupe: "unique",
   props: {

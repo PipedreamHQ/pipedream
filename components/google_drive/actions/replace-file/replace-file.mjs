@@ -1,21 +1,21 @@
 import path from "path";
 import googleDrive from "../../google_drive.app.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import { omitEmptyStringValues } from "../../common/utils.mjs";
 import {
   getFileStream,
   streamToBuffer,
   byteToMB,
-} from "../../utils.mjs";
+} from "../../common/utils.mjs";
 import {
   GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     googleDrive,

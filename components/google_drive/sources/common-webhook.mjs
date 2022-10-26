@@ -2,7 +2,7 @@ import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
 import googleDrive from "../google_drive.app.mjs";
-import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../constants.mjs";
+import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../common/constants.mjs";
 
 export default {
   props: {

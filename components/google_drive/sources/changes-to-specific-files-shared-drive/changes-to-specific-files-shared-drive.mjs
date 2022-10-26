@@ -13,7 +13,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 /**
  * This source uses the Google Drive API's
@@ -25,7 +25,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

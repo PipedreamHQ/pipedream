@@ -13,7 +13,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -21,7 +21,7 @@ export default {
   name: "New or Modified Folders",
   description:
     "Emits a new event any time any folder in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
