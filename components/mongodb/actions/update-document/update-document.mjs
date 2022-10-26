@@ -1,10 +1,10 @@
 import mongodbApp from "../../mongodb.app.mjs";
 
 export default {
-  key: "mongodb-update-a-document",
+  key: "mongodb-update-document",
   name: "Update a Document",
   description: "Updates a single document by ID. [See the docs here](https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     mongodbApp,
