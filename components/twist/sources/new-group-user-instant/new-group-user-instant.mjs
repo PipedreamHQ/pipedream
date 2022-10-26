@@ -2,22 +2,22 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New Channel (Instant)",
+  name: "New Group User (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-channel-instant",
-  description: "Emit new event for any new channel added in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
+  key: "twist-new-group-user-instant",
+  description: "Emit new event for any new user added to a workspace group [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   methods: {
     ...common.methods,
     async getHistoricalEvents() {
-      return this.twist.getChannels({
+      return this.twist.getGroups({
         workspace: this.workspace,
       });
     },
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
-        event: "channel_added",
+        event: "group_user_added",
         workspace_id: this.workspace,
       };
     },
@@ -25,12 +25,12 @@ export default {
       const {
         id,
         name,
-        created_ts: created,
+        user_ids: userIds,
       } = body;
       return {
-        id,
+        id: `${id}${userIds}`,
         summary: name,
-        ts: Date.parse(created),
+        ts: Date.now(),
       };
     },
   },

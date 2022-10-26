@@ -2,17 +2,17 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "New Thread (Instant)",
-  version: "0.0.2",
+  name: "New Message (Instant)",
+  version: "0.0.3",
   type: "source",
-  key: "twist-new-thread-instant",
-  description: "Emit new event for any new thread in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
+  key: "twist-new-message-instant",
+  description: "Emit new event for any new message in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   props: {
     ...common.props,
-    channel: {
+    conversation: {
       propDefinition: [
         common.props.twist,
-        "channel",
+        "conversation",
         (c) => ({
           workspace: c.workspace,
         }),
@@ -22,27 +22,27 @@ export default {
   methods: {
     ...common.methods,
     async getHistoricalEvents() {
-      return this.twist.getThreads({
-        channel: this.channel,
+      return this.twist.getConversationMessages({
+        conversation: this.conversation,
       });
     },
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
-        event: "thread_added",
+        event: "message_added",
         workspace_id: this.workspace,
-        channel_id: this.channel,
+        conversation_id: this.conversation,
       };
     },
     getMeta(body) {
       const {
         id,
-        title,
+        content,
         posted,
       } = body;
       return {
         id,
-        summary: title,
+        summary: content,
         ts: Date.parse(posted),
       };
     },

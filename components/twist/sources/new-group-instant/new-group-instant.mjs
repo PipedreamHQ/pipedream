@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Group (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   key: "twist-new-group-instant",
   description: "Emit new event for any new group added in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
