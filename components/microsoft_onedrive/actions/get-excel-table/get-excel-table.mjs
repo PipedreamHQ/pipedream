@@ -5,7 +5,7 @@ export default {
   name: "Get Table",
   description: "Retrieve a table from an Excel spreadsheet stored in OneDrive",
   key: "microsoft_onedrive-get-excel-table",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     onedrive,
