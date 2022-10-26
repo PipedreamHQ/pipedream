@@ -1,12 +1,12 @@
 import app from "../../pointagram.app.mjs";
-import options from "../../options.mjs";
+import options from "../../common/options.mjs";
 
 export default {
   type: "action",
   key: "pointagram-list-players",
   name: "List Players",
   description: "List all players. [See the docs here](https://www.pointagram.com/custom-integration-gamification/)",
-  version: "0.1.1",
+  version: "0.1.2",
   props: {
     app,
     searchBy: {
