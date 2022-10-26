@@ -962,6 +962,9 @@
     },
     {
       "path": "components/danny_twilio_test"
+    },
+    {
+      "path": "components/xata"
     }
   ]
 }
