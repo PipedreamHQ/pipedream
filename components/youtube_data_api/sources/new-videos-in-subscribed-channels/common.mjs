@@ -1,5 +1,5 @@
 import common from "../common.mjs";
-import { toArray } from "../../utils.mjs";
+import { toArray } from "../../common/utils.mjs";
 
 /**
  * @typedef {import('@googleapis/youtube').youtube_v3.Schema$Subscription} Subscription

@@ -1,5 +1,5 @@
 import youtube from "@googleapis/youtube";
-import { toArray } from "./utils.mjs";
+import { toArray } from "./common/utils.mjs";
 import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 

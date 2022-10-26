@@ -1,5 +1,5 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import common from "./common.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-update-playlist",
   name: "Update Playlist",
   description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. **If you are submitting an update request, and your request does not specify a value for a property that already has a value, the property's existing value will be deleted.** [See the docs](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,
