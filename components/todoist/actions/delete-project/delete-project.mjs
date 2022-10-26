@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-project",
   name: "Delete Project",
   description: "Deletes a project. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

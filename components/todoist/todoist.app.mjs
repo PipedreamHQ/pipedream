@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import querystring from "querystring";
-import resourceTypes from "./resource-types.mjs";
-import colors from "./colors.mjs";
+import resourceTypes from "./common/resource-types.mjs";
+import colors from "./common/colors.mjs";
 import { v4 as uuid } from "uuid";
 
 export default {

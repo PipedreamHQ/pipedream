@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-section",
   name: "Update Section",
   description: "Updates a section. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-section)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

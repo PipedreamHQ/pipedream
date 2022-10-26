@@ -4,7 +4,7 @@ export default {
   key: "todoist-find-project",
   name: "Find Project",
   description: "Finds a project (by name/title). [See Docs](https://developer.todoist.com/rest/v1/#get-all-projects) Optionally, create one if none are found. [See Docs](https://developer.todoist.com/rest/v1/#create-a-new-project)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

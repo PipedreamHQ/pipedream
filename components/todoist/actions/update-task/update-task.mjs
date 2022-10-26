@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-task",
   name: "Update Task",
   description: "Updates a task. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

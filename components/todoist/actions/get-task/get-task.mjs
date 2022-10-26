@@ -4,7 +4,7 @@ export default {
   key: "todoist-get-task",
   name: "Get Task",
   description: "Returns info about a task. [See the docs here](https://developer.todoist.com/rest/v1/#get-an-active-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

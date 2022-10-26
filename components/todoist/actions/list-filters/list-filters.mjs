@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-filters",
   name: "List Filters",
   description: "Returns a list of all filters. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

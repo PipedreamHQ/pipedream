@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-comment",
   name: "Delete Comment",
   description: "Deletes a comment. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-comment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-label",
   name: "Create Label",
   description: "Creates a label. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-label)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-task-comments",
   name: "List Task Comments",
   description: "Returns a list of comments for a task. [See the docs here](https://developer.todoist.com/rest/v1/#get-all-comments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

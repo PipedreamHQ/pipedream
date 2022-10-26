@@ -4,7 +4,7 @@ export default {
   key: "todoist-invite-user-to-project",
   name: "Invite User To Project",
   description: "Sends email to a person, inviting them to use one of your projects. [See the docs here](https://developer.todoist.com/sync/v8/#share-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
