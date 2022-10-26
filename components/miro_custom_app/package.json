@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/miro_custom_app",
+  "version": "0.0.1",
+  "description": "Pipedream Miro Developer App Components",
+  "main": "dist/app/miro_custom_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "miro_custom_app"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/miro_custom_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

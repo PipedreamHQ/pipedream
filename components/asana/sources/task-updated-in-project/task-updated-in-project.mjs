@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.0.0",
+  version: "1.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -24,11 +24,12 @@ export default {
       ],
     },
     tasks: {
+      optional: true,
       propDefinition: [
         asana,
         "tasks",
         (c) => ({
-          projects: c.project,
+          project: c.project,
         }),
       ],
     },
@@ -47,26 +48,32 @@ export default {
       };
     },
     async emitEvent(event) {
-      const { body } = event;
-      if (!body || !body.events) return;
+      const { tasks } = this;
+      const { events = [] } = event.body || {};
 
-      const tasks = this.db.get("tasks");
+      const promises = events
+        .filter(({ resource }) => {
+          return tasks?.length
+            ? tasks.includes(String(resource.gid))
+            : true;
+        })
+        .map(async (event) => ({
+          event,
+          task: await this.asana.getTask(event.resource.gid),
+        }));
 
-      for (const e of body.events) {
-        // This conditional ignore when Asana fire a subtask update event
-        if (e.parent && e.parent.resource_type === "task") continue;
+      const responses = await Promise.all(promises);
 
-        if (!tasks || tasks.length <= 0 || Object.keys(tasks).length <= 0 ||
-          tasks.includes(e.resource.gid)) {
-          const task = await this.asana.getTask(e.resource.gid);
-
-          this.$emit(task, {
-            id: task.gid,
-            summary: task.name,
-            ts: Date.now(),
-          });
-        }
-      }
+      responses.forEach(({
+        event, task,
+      }) => {
+        const ts = Date.parse(event.created_at);
+        this.$emit(task, {
+          id: `${task.gid}-${ts}`,
+          summary: task.name,
+          ts,
+        });
+      });
     },
   },
 };

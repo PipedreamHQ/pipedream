@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
   description: "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,

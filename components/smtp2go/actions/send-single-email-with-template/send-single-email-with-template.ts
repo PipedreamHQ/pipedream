@@ -1,3 +1,4 @@
+import smtp2go from "../../app/smtp2go.app";
 import common from "../common";
 
 export default {
@@ -5,34 +6,50 @@ export default {
   key: "smtp2go-send-single-email-with-template",
   name: "Send Single Email with Template",
   description: "Send a single email with SMTP2GO using a pre-defined template and data object [(See docs here)](https://apidoc.smtp2go.com/documentation/#/POST%20/email/send)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
+    smtp2go,
     subject: {
       type: "string",
       label: "Subject",
       description: "Email subject.",
     },
     templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The ID of the pre-defined template in SMTP2GO.",
-    },
-    templateModel: {
-      type: "object",
-      label: "Template Model",
-      description:
-        "The model to be applied to the specified template to generate the email body and subject.",
+      propDefinition: [
+        smtp2go,
+        "templateId",
+      ],
+      reloadProps: true,
     },
     // The above props are intentionally placed first
     ...common.props,
+  },
+  async additionalProps() {
+    const props = {};
+    const { template_variables: variables } = await this.smtp2go.getTemplate(this.templateId);
+    for (const key of Object.keys(variables)) {
+      props[key] = {
+        type: "string",
+        label: key,
+        description: `Value for ${key}`,
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const data = {
       ...this.getActionRequestCommonData(),
       template_id: this.templateId,
-      template_data: this.templateModel,
+      template_data: {},
     };
+    const { template_variables: variables } = await this.smtp2go.getTemplate(this.templateId);
+    for (const key of Object.keys(variables)) {
+      if (this[key]) {
+        data.template_data[key] = this[key];
+      }
+    }
     const response = await this.smtp2go.sendSingleEmailWithTemplate($, data, this.ignoreFailures);
     $.export("$summary", `Sent email successfully with email ID ${response.data.email_id}`);
     return response;

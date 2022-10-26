@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/zulip",
+  "version": "0.0.1",
+  "description": "Pipedream Zulip Components",
+  "main": "dist/app/zulip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zulip"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/zulip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

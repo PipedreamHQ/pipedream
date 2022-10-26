@@ -1,114 +1,130 @@
-// legacy_hash_id: a_bKilj2
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-list-all-contacts",
   name: "List All Contacts",
-  description: "Retrieve all existing contacts.",
-  version: "0.1.2",
+  description: "Retrieve all existing contacts. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
+    activecampaign,
     ids: {
       type: "string",
+      label: "IDs",
       description: "Filter contacts by ID. Can be repeated for multiple IDs. Example: ids[]=1&ids[]=2&ids[]=42",
       optional: true,
     },
     email: {
       type: "string",
+      label: "Email",
       description: "Email address of the contact you want to get",
       optional: true,
     },
-    email_like: {
+    emailLike: {
       type: "string",
+      label: "Email Like",
       description: "Filter contacts that contain the given value in the email address",
       optional: true,
     },
     exclude: {
       type: "string",
+      label: "Excluded Contact ID",
       description: "Exclude from the response the contact with the given ID",
       optional: true,
     },
     formid: {
       type: "string",
+      label: "Form ID",
       description: "Filter contacts associated with the given form",
       optional: true,
     },
-    id_greater: {
+    idGreater: {
       type: "string",
+      label: "Greater Contact ID",
       description: "Only include contacts with an ID greater than the given ID",
       optional: true,
     },
-    id_less: {
+    idLess: {
       type: "string",
+      label: "Less Contact ID",
       description: "Only include contacts with an ID less than the given ID",
       optional: true,
     },
     listid: {
       type: "string",
+      label: "List ID",
       description: "Filter contacts associated with the given list",
       optional: true,
     },
     organization: {
       type: "string",
+      label: "Organization",
       description: "(Deprecated) Please use Account-Contact end points. Filter contacts associated with the given organization ID",
       optional: true,
     },
     search: {
       type: "string",
+      label: "Search",
       description: "Filter contacts that match the given value in the contact names, organization, phone or email",
       optional: true,
     },
     segmentid: {
       type: "string",
+      label: "Segment ID",
       description: "Return only contacts that match a list segment (this param initially returns segment information, when it is run a second time it will return contacts that match the segment)",
       optional: true,
     },
     seriesid: {
       type: "string",
+      label: "Series ID",
       description: "Filter contacts associated with the given automation",
       optional: true,
     },
     status: {
       type: "string",
+      label: "Status",
       description: "See [available values](https://developers.activecampaign.com/reference#section-contact-parameters-available-values)",
       optional: true,
     },
     tagid: {
       type: "string",
+      label: "Tag ID",
       description: "Filter contacts associated with the given tag",
       optional: true,
     },
-    created_before: {
+    createdBefore: {
       type: "string",
+      label: "Created Before",
       description: "Filter contacts that were created prior to this date",
       optional: true,
     },
-    created_after: {
+    createdAfter: {
       type: "string",
+      label: "Created After",
       description: "Filter contacts that were created after this date",
       optional: true,
     },
-    updated_before: {
+    updatedBefore: {
       type: "string",
+      label: "Updated Before",
       description: "Filter contacts that were updated before this date",
       optional: true,
     },
-    updated_after: {
+    updatedAfter: {
       type: "string",
+      label: "Updated After",
       description: "Filter contacts that were updated after this date",
       optional: true,
     },
     waitid: {
       type: "string",
+      label: "Wait ID",
       description: "Filter by contacts in the wait queue of an automation block",
       optional: true,
     },
-    cdate: {
+    orderByCreationDate: {
       type: "string",
+      label: "Order By Creation Date",
       description: "Order contacts by creation date",
       optional: true,
       options: [
@@ -116,8 +132,9 @@ export default {
         "DESC",
       ],
     },
-    oemail: {
+    orderByEmail: {
       type: "string",
+      label: "Order By Email",
       description: "Order contacts by email",
       optional: true,
       options: [
@@ -125,8 +142,9 @@ export default {
         "DESC",
       ],
     },
-    first_name: {
+    orderByFirstName: {
       type: "string",
+      label: "Order By First Name",
       description: "Order contacts by first name",
       optional: true,
       options: [
@@ -134,8 +152,9 @@ export default {
         "DESC",
       ],
     },
-    last_name: {
+    orderByLastName: {
       type: "string",
+      label: "Order By Last Name",
       description: "Order contacts by last name",
       optional: true,
       options: [
@@ -143,8 +162,9 @@ export default {
         "DESC",
       ],
     },
-    name: {
+    orderByName: {
       type: "string",
+      label: "Order By Name",
       description: "Order contacts by full name",
       optional: true,
       options: [
@@ -152,8 +172,9 @@ export default {
         "DESC",
       ],
     },
-    score: {
+    orderByScore: {
       type: "string",
+      label: "Order By Score",
       description: "Order contacts by score",
       optional: true,
       options: [
@@ -161,54 +182,76 @@ export default {
         "DESC",
       ],
     },
-    in_group_lists: {
+    inGroupLists: {
       type: "string",
-      description: "Set this to `true` in order to return only contacts that the current user has permissions to see.",
+      label: "In Group Lists",
+      description: "Set this to `true` in order to return only contacts that the current user has permissions to see.",
       optional: true,
-      options: [
-        "ASC",
-        "DESC",
-      ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developers.activecampaign.com/reference#list-all-contacts
+    const {
+      ids,
+      email,
+      emailLike,
+      exclude,
+      formid,
+      idGreater,
+      idLess,
+      listid,
+      organization,
+      search,
+      segmentid,
+      seriesid,
+      status,
+      tagid,
+      createdBefore,
+      createdAfter,
+      updatedBefore,
+      updatedAfter,
+      waitid,
+      orderByCreationDate,
+      orderByEmail,
+      orderByFirstName,
+      orderByLastName,
+      orderByName,
+      orderByScore,
+      inGroupLists,
+    } = this;
 
-    const config = {
-      url: `${this.activecampaign.$auth.base_url}/api/3/contacts`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const response = await this.activecampaign.listContacts({
       params: {
-        "ids": this.ids,
-        "email": this.email,
-        "email_like": this.email_like,
-        "exclude": this.exclude,
-        "formid": this.formid,
-        "id_greater": this.id_greater,
-        "id_less": this.id_less,
-        "listid": this.listid,
-        "organization": this.organization,
-        "search": this.search,
-        "segmentid": this.segmentid,
-        "seriesid": this.seriesid,
-        "status": this.status,
-        "tagid": this.tagid,
-        "filters[created_before]": this.created_before,
-        "filters[created_after]": this.created_after,
-        "filters[updated_before]": this.updated_before,
-        "filters[updated_after]": this.updated_after,
-        "waitid": this.waitid,
-        "orders[cdate]": this.cdate,
-        "orders[email]": this.oemail,
-        "orders[first_name]": this.first_name,
-        "orders[last_name]": this.last_name,
-        "orders[name]": this.name,
-        "orders[score]": this.score,
-        "in_group_lists": this.in_group_lists,
+        ids,
+        email,
+        "email_like": emailLike,
+        exclude,
+        formid,
+        "id_greater": idGreater,
+        "id_less": idLess,
+        listid,
+        organization,
+        search,
+        segmentid,
+        seriesid,
+        status,
+        tagid,
+        "filters[created_before]": createdBefore,
+        "filters[created_after]": createdAfter,
+        "filters[updated_before]": updatedBefore,
+        "filters[updated_after]": updatedAfter,
+        waitid,
+        "orders[cdate]": orderByCreationDate,
+        "orders[email]": orderByEmail,
+        "orders[first_name]": orderByFirstName,
+        "orders[last_name]": orderByLastName,
+        "orders[name]": orderByName,
+        "orders[score]": orderByScore,
+        "in_group_lists": inGroupLists,
       },
-    };
+    });
 
-    return await axios($, config);
+    $.export("$summary", `Successfully listed ${response.contacts.length} contact(s)`);
+
+    return response;
   },
 };

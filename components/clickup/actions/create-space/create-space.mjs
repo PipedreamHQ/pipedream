@@ -1,10 +1,10 @@
-import common from "../common/common.mjs";
+import common from "../common/workspace-prop.mjs";
 
 export default {
   key: "clickup-create-space",
   name: "Create Space",
-  description: "Creates a new space. See the docs [here](https://clickup.com/api) in **Spaces  / Create Space** section.",
-  version: "0.0.2",
+  description: "Creates a new space. See the docs [here](https://clickup.com/api) in **Spaces / Create Space** section.",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

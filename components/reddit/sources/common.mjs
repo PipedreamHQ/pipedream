@@ -52,7 +52,7 @@ export default {
             : null;
           keys.pop();
         }
-      } while (!valid);
+      } while (!valid && before !== null);
       this._setBefore(before);
       this._setCache(cache);
       this._setKeys(keys);
