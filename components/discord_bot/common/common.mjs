@@ -1,4 +1,4 @@
-import discord from "./discord_bot.app.mjs";
+import discord from "../discord_bot.app.mjs";
 
 export default {
   props: {

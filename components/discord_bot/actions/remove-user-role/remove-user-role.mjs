@@ -1,4 +1,4 @@
-import common from "../../common.mjs";
+import common from "../../common/common.mjs";
 
 const { discord } = common.props;
 
@@ -8,7 +8,7 @@ export default {
   name: "Remove User Role",
   description: "Remove a selected role from the specified user. [See the docs here](https://discord.com/developers/docs/resources/guild#remove-guild-member-role)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     userId: {

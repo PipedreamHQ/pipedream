@@ -1,7 +1,7 @@
 import { promisify } from "util";
 import maxBy from "lodash.maxby";
-import common from "../common.mjs";
-import constants from "../constants.mjs";
+import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 const { discord } = common.props;

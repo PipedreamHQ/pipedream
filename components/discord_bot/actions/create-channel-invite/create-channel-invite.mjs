@@ -1,5 +1,5 @@
 import common from "../common.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "Create Channel Invite",
   description: "Create a new invite for the channel. [See the docs here](https://discord.com/developers/docs/resources/channel#create-channel-invite)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     maxAge: {

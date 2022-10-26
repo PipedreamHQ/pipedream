@@ -1,5 +1,5 @@
-import common from "../../common.mjs";
-import constants from "../../constants.mjs";
+import common from "../../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 const { discord } = common.props;
 
@@ -9,7 +9,7 @@ export default {
   name: "Create Guild Channel",
   description: "Create a new channel for the guild. [See the docs here](https://discord.com/developers/docs/resources/guild#create-guild-channel)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     name: {

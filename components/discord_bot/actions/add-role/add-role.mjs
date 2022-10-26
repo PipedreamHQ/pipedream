@@ -1,4 +1,4 @@
-import common from "../../common.mjs";
+import common from "../../common/common.mjs";
 
 const { discord } = common.props;
 
@@ -8,7 +8,7 @@ export default {
   name: "Add Role",
   description: "Assign a role to a user. Remember that your bot requires the `MANAGE_ROLES` permission. [See the docs here](https://discord.com/developers/docs/resources/guild#add-guild-member-role)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     userId: {

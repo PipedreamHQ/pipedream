@@ -1,5 +1,5 @@
-import common from "../../common.mjs";
-import messageCommon from "../send-message-common.mjs";
+import common from "../../common/common.mjs";
+import messageCommon from "../common-send-message.mjs";
 import utils from "../../common/utils.mjs";
 
 const { discord } = common.props;
@@ -8,7 +8,7 @@ export default {
   key: "discord_bot-create-user-dm",
   name: "Create DM",
   description: "Create a new DM channel with a user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "0.0.27",
+  version: "0.0.28",
   type: "action",
   ...messageCommon,
   props: {
