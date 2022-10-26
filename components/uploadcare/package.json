@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uploadcare",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Uploadcare Components",
   "main": "uploadcare.app.mjs",
   "keywords": [

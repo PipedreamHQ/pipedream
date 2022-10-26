@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Uploaded File (Instant)",
   version: "0.0.1",
-  key: "uploadcare-new-task",
+  key: "uploadcare-new-uploaded-file",
   description: "Emit new event on each created task.",
   type: "source",
   dedupe: "unique",
