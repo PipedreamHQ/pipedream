@@ -4,7 +4,7 @@ export default {
   key: "twilio-delete-call",
   name: "Delete Call",
   description: "Remove a call record from your account. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#delete-a-call-resource) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twilio,

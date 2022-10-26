@@ -4,7 +4,7 @@ export default {
   key: "twilio-get-message",
   name: "Get Message",
   description: "Return details of a message. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#fetch-a-message-resource) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twilio,

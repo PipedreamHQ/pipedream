@@ -1,12 +1,12 @@
 import twilio from "../../twilio.app.mjs";
 import { phone } from "phone";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import { omitEmptyStringValues } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-list-messages",
   name: "List Messages",
   description: "Return a list of messages associated with your account. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#read-multiple-message-resources) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twilio,

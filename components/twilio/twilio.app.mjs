@@ -3,7 +3,7 @@ import {
   callToString,
   messageToString,
   recordingToString,
-} from "./utils.mjs";
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
