@@ -2,7 +2,7 @@ import tally from "../../tally.app.mjs";
 
 export default {
   name: "Get Responses",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "tally-get-responses",
   description: "Get a list of responses. [See docs here](https://tallyso.notion.site/Tally-OAuth-2-reference-d0442c679a464664823628f675f43454)",
   type: "action",

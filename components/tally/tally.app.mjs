@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import contants from "./contants.mjs";
+import contants from "./common/contants.mjs";
 
 export default {
   type: "app",
