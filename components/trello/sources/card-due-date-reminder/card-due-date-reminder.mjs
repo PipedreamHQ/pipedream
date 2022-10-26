@@ -1,11 +1,11 @@
-import common from "../common-polling.mjs";
+import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder",
   description: "Emit new event at a specified time before a card is due.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

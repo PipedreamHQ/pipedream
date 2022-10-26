@@ -1,11 +1,11 @@
-import common from "../board-based.mjs";
+import common from "../common/common-board-based.mjs";
 
 export default {
   ...common,
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description: "Emit new event for each member that join in a card.",
-  version: "0.0.10",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,11 +1,11 @@
-import common from "../board-based.mjs";
+import common from "../common/common-board-based.mjs";
 
 export default {
   ...common,
   key: "trello-new-label",
   name: "New Label (Instant)",
   description: "Emit new event for each new label added to a board.",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   methods: {

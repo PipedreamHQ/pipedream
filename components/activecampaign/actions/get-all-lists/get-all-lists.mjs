@@ -1,28 +1,41 @@
-// legacy_hash_id: a_67iLjr
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-get-all-lists",
   name: "Get All Lists",
-  description: "Retrieves all contact lists.",
-  version: "0.1.2",
+  description: "Retrieves all lists. See the docs [here](https://developers.activecampaign.com/reference/retrieve-all-lists)",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
+    activecampaign,
+    name: {
+      type: "string",
+      label: "Name Filter",
+      description: "Filter by the name of the list",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Limit the number of returned results",
+      optional: true,
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#retrieve-all-lists
+    const {
+      name,
+      limit,
+    } = this;
 
-    const config = {
-      url: `${this.activecampaign.$auth.base_url}/api/3/lists`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
+    const response = await this.activecampaign.listLists({
+      params: {
+        "filters[name]": name,
+        limit,
       },
-    };
+    });
 
-    return await axios($, config);
+    $.export("$summary", `Successfully found ${response.lists.length} list(s)`);
+
+    return response;
   },
 };

@@ -1,74 +1,51 @@
-// legacy_hash_id: a_xqig4J
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-add-contact-to-automation",
   name: "Add Contact to Automation",
-  description: "Adds an existing contact to an existing automation.",
-  version: "0.1.2",
+  description: "Adds an existing contact to an existing automation. See the docs [here](https://developers.activecampaign.com/reference/create-new-contactautomation).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
-    automation: {
+    activecampaign,
+    contactId: {
       type: "string",
-      description: "List segment ID (0 for no segment).",
-      optional: true,
+      label: "Contact ID",
+      description: "Contact ID of the Contact, to be linked to the contactAutomation",
+      optional: false,
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
     },
-    contact_id: {
+    automationId: {
       type: "string",
-      optional: true,
-    },
-    contact_email: {
-      type: "string",
-      optional: true,
-    },
-    api_output: {
-      type: "string",
-      description: "Response format: `xml`, `json`, or `serialize` (default is `xml`)",
-      optional: true,
-      options: [
-        "xml",
-        "json",
-        "serialize",
+      label: "Automation ID",
+      description: "Automation ID of the automation, to be linked to the contactAutomation.",
+      optional: false,
+      propDefinition: [
+        activecampaign,
+        "automations",
       ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://www.activecampaign.com/api/example.php?call=automation_contact_add
+    const {
+      contactId,
+      automationId,
+    } = this;
 
-    if (!this.automation || (!this.contact_id && !this.contact_email)) {
-      throw new Error("Must provide automation, and one of contact_id or contact_email parameters.");
-    }
-
-    //Prepares query string parameters object of the request
-    var queryParams = {
-      api_action: "automation_contact_add",
-      api_key: this.activecampaign.$auth.api_key,
-      api_output: this.api_output,
-    };
-
-    //Prepares body parameters of the recrets. API endpoint not taking object, works as string.
-    var data = `automation=${this.automation}&`;
-    if (this.contact_id) {
-      data += `contact_id=${this.contact_id}`;
-    } else {
-      data += `contact_email=${this.contact_email}`;
-    }
-
-    //Sends the request against Active Campaign API
-    const config = {
-      method: "post",
-      url: `${this.activecampaign.$auth.base_url}/admin/api.php`,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    const response = await this.activecampaign.addContactToAutomation({
+      data: {
+        contactAutomation: {
+          contact: parseInt(contactId),
+          automation: parseInt(automationId),
+        },
       },
-      params: queryParams,
-      data,
-    };
+    });
 
-    return axios($, config);
+    $.export("$summary", `Successfully added a contact automation with ID ${response.contactAutomation.id}`);
+
+    return response;
   },
 };

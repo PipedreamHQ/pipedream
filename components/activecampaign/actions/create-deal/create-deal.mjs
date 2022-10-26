@@ -1,105 +1,126 @@
-// legacy_hash_id: a_Mdi7Jj
-import { axios } from "@pipedream/platform";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-create-deal",
   name: "Create Deal",
-  description: "Creates a new deal.",
-  version: "0.1.2",
+  description: "Creates a new deal. See the docs [here](https://developers.activecampaign.com/reference/create-a-deal-new).",
+  version: "0.2.0",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
+    activecampaign,
     title: {
       type: "string",
+      label: "Title",
       description: "Deal's title.",
     },
     value: {
       type: "integer",
+      label: "Value",
       description: "Deal's value in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero.",
     },
     currency: {
       type: "string",
+      label: "Currency",
       description: "Deal's currency in 3-digit ISO format, lowercased.",
-    },
-    description: {
-      type: "string",
-      description: "Deal's description.",
-      optional: true,
-    },
-    account: {
-      type: "string",
-      description: "Deal's account id.",
-      optional: true,
-    },
-    contact: {
-      type: "string",
-      description: "Deal's primary contact's id.",
-      optional: true,
     },
     group: {
       type: "string",
+      label: "Group",
       description: "Deal's pipeline id. Required if `deal.stage` is not provided. If `deal.group` is not provided, the stage's pipeline will be assigned to the deal automatically.",
       optional: true,
     },
     stage: {
       type: "string",
+      label: "Stage",
       description: "Deal's stage id. Required if `deal.group` is not provided. If `deal.stage` is not provided, the deal will be assigned with the first stage in the pipeline provided in `deal.group`.",
       optional: true,
     },
     owner: {
       type: "string",
+      label: "Owner",
       description: "Deal's owner id. Required if pipeline's auto-assign option is disabled.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Deal's description.",
+      optional: true,
+    },
+    account: {
+      type: "string",
+      label: "Account",
+      description: "Deal's account id.",
+      optional: true,
+    },
+    contact: {
+      type: "string",
+      label: "Contact",
+      description: "Deal's primary contact's id.",
       optional: true,
     },
     percent: {
       type: "integer",
+      label: "Percent",
       description: "Deal's percentage.",
       optional: true,
     },
     status: {
-      type: "integer",
-      description: "Deal's status. Valid values:\n* `0` - Open\n* `1` - Won\n* `2` - Lost",
-      optional: true,
+      propDefinition: [
+        activecampaign,
+        "status",
+      ],
     },
     fields: {
-      type: "any",
-      description: "Deal's custom field values [{customFieldId, fieldValue}]",
-      optional: true,
+      propDefinition: [
+        activecampaign,
+        "fields",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs: https://developers.activecampaign.com/reference#create-a-deal-new
+    const {
+      title,
+      value,
+      currency,
+      group,
+      stage,
+      owner,
+      description,
+      account,
+      contact,
+      percent,
+      status,
+      fields,
+    } = this;
 
-    if (!this.title || !this.value || !this.currency) {
-      throw new Error("Must provide title, value, and currency parameters.");
+    let parsedFields;
+    try {
+      parsedFields = fields?.map(JSON.parse);
+    } catch (error) {
+      throw new Error("Syntax error in `Fields` property");
     }
 
-    const config = {
-      method: "post",
-      url: `${this.activecampaign.$auth.base_url}/api/3/deals`,
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
-      },
+    const response = await this.activecampaign.createDeal({
       data: {
         deal: {
-          title: this.title,
-          description: this.description,
-          account: this.account,
-          contact: this.contact,
-          value: parseInt(this.value),
-          currency: this.currency,
-          group: this.group,
-          stage: this.stage,
-          owner: this.owner,
-          percent: parseInt(this.percent),
-          status: parseInt(this.status),
-          fields: this.fields,
+          title,
+          description,
+          account,
+          contact,
+          value,
+          currency,
+          group,
+          stage,
+          owner,
+          percent,
+          status,
+          fields: parsedFields,
         },
       },
-    };
-    return await axios($, config);
+    });
+
+    $.export("$summary", `Successfully created a deal with ID ${response.deal.id}`);
+
+    return response;
   },
 };
