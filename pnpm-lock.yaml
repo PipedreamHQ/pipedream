@@ -1500,7 +1500,10 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/printful_oauth:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/productboard:
     specifiers: {}
@@ -5366,22 +5369,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.130:
-    resolution: {integrity: sha512-YlxMpcHRiS7fdx4soaR0JKSf4NY4jsDRmu47YGId/DsTd0uhZIlUPJKULhMKMivgdOhJKHrNvfB2pWla4Q8atA==}
+  /@definitelytyped/header-parser/0.0.134:
+    resolution: {integrity: sha512-FvSuPPpV2j7ydIdIPRxE5Dhld9LjSkehD9V9/wntA4KotMxzW0ADkvNshGztQixoYSlrAHUguLabZ5ApIKyY3w==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.130
+      '@definitelytyped/typescript-versions': 0.0.134
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.130:
-    resolution: {integrity: sha512-yAcgQPDahepjsUzUbOFWNvG7yNtrkoqeb56Sh64jf0yJ875oc4N8V1/U+XIG5TRvzezP0ch9m7rIxATR/OyDIw==}
+  /@definitelytyped/typescript-versions/0.0.134:
+    resolution: {integrity: sha512-2c9DYxUWvh8SFCbJIg1UmVzZuzpKFO0hWNhNS7WhXKGYlMAG2dYADjpP/IJuILlXp6/IthXYyRt6DLwx8mEfgQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.130:
-    resolution: {integrity: sha512-cDgPSk6WznDImz6svQFfs/pHrK4gK0em3mXzHdJofAJtKcEZeiaCH3rRxLO10CexRYR+aiXQ+hYwTS9bs4HfWw==}
+  /@definitelytyped/utils/0.0.134:
+    resolution: {integrity: sha512-YFbK2BGPjgE+aqg0uPssOC4lp+BArGk72LXhDlt/vb4J+SvM6toK8RRWcWyjbcY7TU1gJfsUD3zXX/UD0pM5Ug==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.130
+      '@definitelytyped/typescript-versions': 0.0.134
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10926,7 +10929,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.130
+      '@definitelytyped/header-parser': 0.0.134
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -10942,9 +10945,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.130
-      '@definitelytyped/typescript-versions': 0.0.130
-      '@definitelytyped/utils': 0.0.130
+      '@definitelytyped/header-parser': 0.0.134
+      '@definitelytyped/typescript-versions': 0.0.134
+      '@definitelytyped/utils': 0.0.134
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
