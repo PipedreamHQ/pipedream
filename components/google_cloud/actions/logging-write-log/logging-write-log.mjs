@@ -1,9 +1,9 @@
 import googleCloud from "../../google_cloud.app.mjs";
-import logSeverity from "../../utils/logSeverity.mjs";
+import logSeverity from "../../common/logSeverity.mjs";
 
 export default {
   name: "Logging - Write Log",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "google_cloud-logging-write-log",
   description: "Writes log data to the Logging service, [See the docs](https://cloud.google.com/nodejs/docs/reference/logging/latest/logging/log#_google_cloud_logging_Log_write_member_1_)",
   props: {

@@ -1,9 +1,9 @@
 import googleCloud from "../../google_cloud.app.mjs";
-import storageClasses from "../../utils/storageClasses.mjs";
+import storageClasses from "../../common/storageClasses.mjs";
 
 export default {
   name: "Create Bucket",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "google_cloud-create-bucket",
   type: "action",
   description: "Creates a bucket on Google Cloud Storage [See the docs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#create)",
