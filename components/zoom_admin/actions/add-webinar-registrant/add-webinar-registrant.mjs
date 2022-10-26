@@ -6,8 +6,8 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Add webinar registrant",
   description: "Register a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate)",
-  key: "zoom_admin-action-add-webinar-registrant",
-  version: "0.0.1",
+  key: "zoom_admin-add-webinar-registrant",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

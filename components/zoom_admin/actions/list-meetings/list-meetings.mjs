@@ -1,12 +1,12 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   name: "List meetings",
   description: "List all meetings. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetings)",
-  key: "zoom_admin-action-list-meetings",
-  version: "0.0.1",
+  key: "zoom_admin-list-meetings",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

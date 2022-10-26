@@ -3,8 +3,8 @@ import axios from "axios";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
 import flatten from "lodash/flatten.js";
-import zoomCountries from "./zoom_countries.mjs";
-import consts from "./consts.mjs";
+import zoomCountries from "./common/zoom_countries.mjs";
+import consts from "./common/consts.mjs";
 
 export default {
   type: "app",

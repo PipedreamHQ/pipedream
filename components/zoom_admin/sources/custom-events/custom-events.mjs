@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Custom Events",
   description: "Listen for any events tied to your Zoom account",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     zoomAdmin,
     eventNameOptions: {

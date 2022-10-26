@@ -5,7 +5,8 @@ export default {
   name: "Webinar Deleted",
   description:
     "Emits an event each time a webinar is deleted in your Zoom account",
-  version: "0.0.3",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,

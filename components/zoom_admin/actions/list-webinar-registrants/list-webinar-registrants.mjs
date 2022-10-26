@@ -1,13 +1,13 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   name: "List webinar registrants",
   description: "List all users that have registered for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
-  key: "zoom_admin-action-list-webinar-registrants",
-  version: "0.0.1",
+  key: "zoom_admin-list-webinar-registrants",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,
@@ -37,7 +37,7 @@ export default {
     trackingSourceId: {
       type: "string",
       label: "Tracking Source ID",
-      description: "This filter can be useful if you share the webinar registration page in multiple locations. See [Creating source tracking links for webinar registration](https://support.zoom.us/hc/en-us/articles/360000315683-Creating-source-tracking-links-for-webinar-registration) for details.",
+      description: "This filter can be useful if you share the webinar registration page in multiple locations. See [Creating source tracking links for webinar registration](https://support.zoom.us/hc/en-us/articles/3600.0.25683-Creating-source-tracking-links-for-webinar-registration) for details.",
       optional: true,
     },
     pageSize: {

@@ -1,13 +1,13 @@
 import crypto from "crypto";
 import difference from "lodash/difference.js";
 import zoomAdmin from "../../zoom_admin.app.mjs";
-import { sanitizedArray } from "../../utils.mjs";
+import { sanitizedArray } from "../../common/utils.mjs";
 
 export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {

@@ -5,8 +5,8 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Delete webinar",
   description: "Delete a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinardelete)",
-  key: "zoom_admin-action-delete-webinar",
-  version: "0.0.1",
+  key: "zoom_admin-delete-webinar",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

@@ -1,13 +1,13 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
   name: "List meeting registrants",
   description: "List all users who have registered for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrants)",
-  key: "zoom_admin-action-list-meeting-registrants",
-  version: "0.0.1",
+  key: "zoom_admin-list-meeting-registrants",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

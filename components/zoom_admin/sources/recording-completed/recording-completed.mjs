@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "Recording Completed",
   description: "Emits an event each time a recording is ready for viewing in your Zoom account",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique", // Dedupe events based on the ID of the recording file
   props: {
     zoomAdmin,

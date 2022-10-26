@@ -1,7 +1,7 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
-import tzs from "../../zoom_tzs.mjs";
+import tzs from "../../common/zoom_tzs.mjs";
 import get from "lodash/get.js";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import { axios } from "@pipedream/platform";
 
 const { MEETING_TYPE_OPTIONS } = consts;
@@ -9,8 +9,8 @@ const { MEETING_TYPE_OPTIONS } = consts;
 export default {
   name: "Update a meeting",
   description: "Update the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
-  key: "zoom_admin-action-update-a-meeting",
-  version: "0.0.1",
+  key: "zoom_admin-update-meeting",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

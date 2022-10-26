@@ -5,7 +5,7 @@ export default {
   type: "source",
   name: "Account Created",
   description: "Emits an event each time a sub-account is created in your master account",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique", // Dedupe based on account ID
   props: {
     zoomAdmin,
