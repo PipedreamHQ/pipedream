@@ -1,5 +1,5 @@
 import base from "./base.mjs";
-import constants from "../constants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   ...base,

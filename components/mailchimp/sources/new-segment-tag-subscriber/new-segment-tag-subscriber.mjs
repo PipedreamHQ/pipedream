@@ -1,12 +1,12 @@
 import common from "../common/timer-based.mjs";
-import constants from "../constants.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "mailchimp-new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
   description: "Emit new event when a subscriber is added to a segment or tags within an audience list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

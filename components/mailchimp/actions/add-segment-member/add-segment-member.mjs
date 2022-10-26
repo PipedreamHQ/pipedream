@@ -4,7 +4,7 @@ export default {
   key: "mailchimp-add-segment-member",
   name: "Add Member To Segment",
   description: "Adds a new member to a static segment. [See docs here](https://mailchimp.com/developer/marketing/api/list-segment-members/add-member-to-segment/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailchimp,

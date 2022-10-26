@@ -1,12 +1,12 @@
 import common from "../common/timer-based.mjs";
-import constants from "../constants.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "mailchimp-new-file",
   name: "New File",
   description: "Emit new event when a new file is added to the File Manager of the connected Mailchimp account.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

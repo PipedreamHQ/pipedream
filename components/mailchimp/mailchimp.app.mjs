@@ -1,7 +1,7 @@
 import mailchimp from "@mailchimp/mailchimp_marketing";
 import { axios } from "@pipedream/platform";
 import retry from "async-retry";
-import constants from "./sources/constants.mjs";
+import constants from "./sources/common/constants.mjs";
 import rootConstants from "./common/constants.mjs";
 
 export default {
