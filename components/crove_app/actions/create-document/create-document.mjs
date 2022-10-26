@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-document",
   name: "Create Document",
   description: "Create a new document.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     croveApp,
