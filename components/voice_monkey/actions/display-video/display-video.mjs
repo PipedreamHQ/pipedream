@@ -6,7 +6,7 @@ export default {
   key: "voice_monkey-display-video",
   name: "Display Video",
   description: "This action will display a video on your device with a screen e.g. Echo Show. [See docs here](https://voicemonkey.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

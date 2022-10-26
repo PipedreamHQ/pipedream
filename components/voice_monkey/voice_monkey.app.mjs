@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import common from "./common/constants.mjs";
-import { objectFilterNull } from "./utils/functions.mjs";
+import { objectFilterNull } from "./common/functions.mjs";
 
 export default {
   type: "app",

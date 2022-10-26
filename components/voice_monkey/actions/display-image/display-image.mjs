@@ -6,7 +6,7 @@ export default {
   key: "voice_monkey-display-image",
   name: "Display Image",
   description: "This action will display an image on your device with a screen e.g. Echo Show. [See docs here](https://voicemonkey.io/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
