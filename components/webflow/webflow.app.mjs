@@ -12,10 +12,7 @@ export default {
       async options({ siteId }) {
         const domains = await this.getDomains(siteId);
 
-        return domains.map((domain) => ({
-          label: domain.name,
-          value: domain._id,
-        }));
+        return domains.map((domain) => domain.name);
       },
     },
     sites: {

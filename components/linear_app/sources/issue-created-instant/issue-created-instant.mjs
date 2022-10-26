@@ -7,7 +7,7 @@ export default {
   name: "New Created Issue (Instant)",
   description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.2.2",
+  version: "0.2.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -19,27 +19,36 @@ export default {
     getWebhookLabel() {
       return "Issue created";
     },
-    getActions() {
-      return [
-        constants.ACTION.CREATE,
-      ];
-    },
     getResourcesFn() {
       return this.linearApp.listIssues;
     },
-    async getLoadedProjectId(event) {
-      return event?._project?.id
-        || (await this.linearApp.getIssue(event?.id))?._project?.id;
+    getResourcesFnArgs() {
+      return {
+        sortBy: "createdAt",
+        filter: {
+          team: {
+            id: {
+              in: this.teamIds,
+            },
+          },
+          project: {
+            id: {
+              eq: this.projectId,
+            },
+          },
+        },
+      };
     },
     getMetadata(resource) {
       const {
         delivery,
+        title,
         data,
         createdAt,
       } = resource;
       return {
-        id: delivery,
-        summary: `Issue created: ${data.title}`,
+        id: delivery || resource.id,
+        summary: `Issue created: ${data?.title || title}`,
         ts: Date.parse(createdAt),
       };
     },

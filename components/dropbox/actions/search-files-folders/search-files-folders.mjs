@@ -1,13 +1,13 @@
 import dropbox from "../../dropbox.app.mjs";
 import isNil from "lodash/isNil.js";
 import get from "lodash/get.js";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 
 export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-folders",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     dropbox,

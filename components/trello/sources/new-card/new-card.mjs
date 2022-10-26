@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-new-card",
   name: "New Card (Instant)",
   description: "Emit new event for each new Trello card on a board.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {

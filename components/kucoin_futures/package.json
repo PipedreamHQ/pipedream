@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/kucoin_futures",
+  "version": "0.0.2",
+  "description": "Pipedream Kucoin Futures Components",
+  "main": "kucoin_futures.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kucoin_futures"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/kucoin_futures",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

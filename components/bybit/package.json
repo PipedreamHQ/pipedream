@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/bybit",
+  "version": "0.0.3",
+  "description": "Pipedream ByBit Components",
+  "main": "bybit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bybit"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/bybit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

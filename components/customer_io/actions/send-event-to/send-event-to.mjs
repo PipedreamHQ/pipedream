@@ -1,42 +1,37 @@
-// legacy_hash_id: a_JmiL6k
-import { axios } from "@pipedream/platform";
+import app from "../../customer_io.app.mjs";
 
 export default {
   key: "customer_io-send-event-to",
-  name: "POST /customers/{customer_id}/events",
-  description: "Sends an event to Customer.io.",
-  version: "0.1.2",
+  name: "Send Event To",
+  description: "Sends an event to Customer.io. [See the docs here](https://customer.io/docs/api/#operation/track)",
+  version: "0.2.0",
   type: "action",
   props: {
-    customer_io: {
-      type: "app",
-      app: "customer_io",
+    app,
+    customerId: {
+      propDefinition: [
+        app,
+        "customerId",
+      ],
     },
-    event_name: {
+    eventName: {
       type: "string",
+      label: "Event Name",
+      description: "The name of the event you want to track.",
     },
     data: {
       type: "object",
+      label: "Data",
+      description: "Custom attributes to define the event.",
       optional: true,
-    },
-    customer_id: {
-      type: "string",
     },
   },
   async run({ $ }) {
     const data = {
-      name: this.event_name,
+      name: this.eventName,
       data: this.data,
     };
-    const config = {
-      method: "post",
-      url: `https://track.customer.io/api/v1/customers/${this.customer_id}/events`,
-      auth: {
-        username: this.customer_io.$auth.site_id,
-        password: this.customer_io.$auth.api_key,
-      },
-      data,
-    };
-    return axios($, config);
+    await this.app.sendEventTo(this.customerId, data, $);
+    $.export("$summary", "Successfully sent event");
   },
 };

@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/deployhq",
+  "version": "0.0.2",
+  "description": "Pipedream DeployHQ Components",
+  "main": "dist/app/deployhq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deployhq"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/deployhq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

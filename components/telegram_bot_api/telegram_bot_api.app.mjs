@@ -294,6 +294,14 @@ export default {
       };
       return axios(this, config);
     },
+    async getWebhookInfo() {
+      const config = {
+        method: "GET",
+        url: `${await this._getBaseUrl()}/getWebhookInfo`,
+        headers: await this._getHeaders(),
+      };
+      return axios(this, config);
+    },
     /**
      * Send a text message
      *

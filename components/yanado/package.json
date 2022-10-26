@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/yanado",
+  "version": "0.0.1",
+  "description": "Pipedream Yanado Components",
+  "main": "yanado.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yanado"
+  ],
+  "homepage": "https://pipedream.com/apps/yanado",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

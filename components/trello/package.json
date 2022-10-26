@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/trello",
-  "version": "0.3.5",
+  "version": "0.3.8",
   "description": "Pipedream Trello Components",
   "main": "trello.app.js",
   "keywords": [
