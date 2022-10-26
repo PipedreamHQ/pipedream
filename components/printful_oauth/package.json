@@ -2,16 +2,21 @@
   "name": "@pipedream/printful_oauth",
   "version": "0.0.1",
   "description": "Pipedream Printful (OAuth) Components",
-  "main": "dist/app/printful_oauth.app.mjs",
+  "main": "printful_oauth.app.mjs",
   "keywords": [
     "pipedream",
     "printful_oauth"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/printful_oauth",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
   }
 }
