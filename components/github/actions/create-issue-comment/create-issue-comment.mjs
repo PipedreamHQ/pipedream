@@ -4,14 +4,11 @@ export default {
   key: "github-create-issue-comment",
   name: "Create Issue Comment",
   description: "Create a new comment in a issue. [See docs here](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     github,
     repoFullname: {
-      label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
-      type: "string",
       propDefinition: [
         github,
         "repoFullname",

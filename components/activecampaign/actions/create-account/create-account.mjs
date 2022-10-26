@@ -5,7 +5,7 @@ export default {
   name: "Create Account",
   description: "Create a new account. See the docs [here](https://developers.activecampaign.com/reference#create-an-account-new).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     activecampaign,
     name: {

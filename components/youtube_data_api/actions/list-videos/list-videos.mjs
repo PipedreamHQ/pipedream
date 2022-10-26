@@ -1,11 +1,13 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
 import consts from "../../consts.mjs";
+import common from "./common.mjs";
 
 export default {
+  ...common,
   key: "youtube_data_api-list-videos",
   name: "List Videos",
   description: "Returns a list of videos that match the API request parameters. [See the docs](https://developers.google.com/youtube/v3/docs/videos/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -16,6 +18,7 @@ export default {
       ],
       options: consts.LIST_VIDEOS_USE_CASES,
     },
+    ...common.props,
   },
   async additionalProps() {
     const dynamicProps = {};
@@ -80,38 +83,5 @@ export default {
         optional: true,
       },
     };
-  },
-  async run({ $ }) {
-    const {
-      useCase,
-      id,
-      myRating,
-      part,
-      hl,
-      maxHeight,
-      maxWidth,
-      maxResults,
-      videoCategoryId,
-      regionCode,
-    } = this;
-
-    const chart = useCase === "chart" ?
-      "mostPopular" :
-      undefined;
-
-    const videos = (await this.youtubeDataApi.listVideos({
-      part,
-      id,
-      chart,
-      myRating,
-      hl,
-      maxHeight,
-      maxWidth,
-      maxResults,
-      videoCategoryId,
-      regionCode,
-    })).data;
-    $.export("$summary", `Successfully fetched "${videos.items.length}" videos`);
-    return videos;
   },
 };

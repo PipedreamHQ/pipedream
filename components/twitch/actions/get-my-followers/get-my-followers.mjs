@@ -5,7 +5,7 @@ export default {
   name: "Get My Followers",
   key: "twitch-get-my-followers",
   description: "Retrieves a list of users who follow the authenticated user",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   async run() {
     // get the userID of the authenticated user

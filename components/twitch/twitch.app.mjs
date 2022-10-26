@@ -53,7 +53,7 @@ export default {
     _getParamsSerializer() {
       return (p) =>
         qs.stringify(p, {
-          arrayFormat: "repeat",
+          arrayFormat: "brackets",
         });
     },
     async _makeRequest(method, endpoint, params = {}) {
@@ -62,7 +62,9 @@ export default {
         url: `${this._getBaseUrl()}/${endpoint}`,
         headers: this._getHeaders(),
         params,
-        paramsSerializer: this._getParamsSerializer(params),
+        paramsSerializer: {
+          serializer: this._getParamsSerializer(params),
+        },
       };
       return await axios(config);
     },

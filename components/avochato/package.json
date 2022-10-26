@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/avochato",
+  "version": "0.0.1",
+  "description": "Pipedream Avochato Components",
+  "main": "dist/app/avochato.app.mjs",
+  "keywords": [
+    "pipedream",
+    "avochato"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/avochato",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2,11 +2,11 @@ import common from "../common/campaign.mjs";
 
 export default {
   ...common,
-  name: "Campaign Link Clicked (Instant)",
+  name: "New Campaign Link Clicked (Instant)",
   key: "activecampaign-campaign-link-clicked",
   description:
     "Emit new event when a link from a campaign is clicked (will only run once for each unique link).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

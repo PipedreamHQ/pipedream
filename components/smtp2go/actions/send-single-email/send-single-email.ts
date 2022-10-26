@@ -1,3 +1,4 @@
+import smtp2go from "../../app/smtp2go.app";
 import common from "../common";
 
 export default {
@@ -5,9 +6,10 @@ export default {
   key: "smtp2go-send-single-email",
   name: "Send Single Email",
   description: "Send a single email with SMTP2GO [(See docs here)](https://apidoc.smtp2go.com/documentation/#/POST%20/email/send)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
+    smtp2go,
     subject: {
       type: "string",
       label: "Subject",

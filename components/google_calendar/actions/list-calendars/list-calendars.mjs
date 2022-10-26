@@ -3,8 +3,8 @@ import googleCalendar from "../../google_calendar.app.mjs";
 export default {
   key: "google_calendar-list-calendar",
   name: "List calendars from user account",
-  description: "Retreive calendars from the user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
-  version: "0.1.0",
+  description: "Retrieve calendars from the user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
+  version: "0.1.1",
   type: "action",
   props: {
     googleCalendar,
