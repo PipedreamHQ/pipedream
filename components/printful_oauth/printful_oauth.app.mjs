@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "printful",
+  app: "printful_oauth",
   propDefinitions: {},
   methods: {
     _accessToken() {
@@ -22,22 +22,30 @@ export default {
         ...args,
       });
     },
-    // async createWebhook({ ...args }) {
-    //   return this._makeRequest({
-    //     path: "/webhooks",
-    //     method: "post",
-    //     ...args,
-    //   });
-    // },
-    // async removeWebhook(webhookId) {
-    //   return this._makeRequest({
-    //     path: `/webhooks/${webhookId}`,
-    //     method: "delete",
-    //   });
-    // },
+    async createWebhook({ ...args }) {
+      return this._makeRequest({
+        path: "/webhooks",
+        method: "post",
+        ...args,
+      });
+    },
+    async removeWebhook() {
+      return this._makeRequest({
+        path: "/webhooks",
+        method: "delete",
+      });
+    },
+    async getOrders({ ...args }) {
+      const response = await this._makeRequest({
+        path: "/orders",
+        ...args,
+      });
+
+      return response.result;
+    },
     async createOrder({ ...args }) {
       return this._makeRequest({
-        path: "/projects",
+        path: "/orders",
         method: "post",
         ...args,
       });
