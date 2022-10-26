@@ -2705,6 +2705,14 @@ importers:
   components/virustotal:
     specifiers: {}
 
+  components/visitor_queue:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      moment: 2.29.4
+
   components/vivifyscrum:
     specifiers: {}
 
