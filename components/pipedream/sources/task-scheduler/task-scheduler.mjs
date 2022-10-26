@@ -2,12 +2,12 @@ import pipedream from "../../pipedream.app.mjs";
 import { uuid } from "uuidv4";
 
 export default {
-  key: "pipedream-new-scheduled-tasks",
+  key: "pipedream-task-scheduler",
   name: "New Scheduled Tasks",
   type: "source",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,
