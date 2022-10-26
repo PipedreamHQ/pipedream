@@ -1,11 +1,11 @@
 import linkedin from "../../linkedin.app.mjs";
 
 export default {
-  key: "linkedin-create-text-share-user",
+  key: "linkedin-create-text-post-user",
   name: "Create a Simple Post (User)",
   description:
     "Create post on LinkedIn using text, URL or article. [See the docs](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api?tabs=http#create-ugc-posts) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     linkedin,
