@@ -3,8 +3,8 @@ import strava from "../../strava.app.mjs";
 export default {
   name: "Get Activity List",
   description: "Returns the activities of an athlete for a specific identifier. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-getLoggedInAthleteActivities)",
-  key: "strava-get-activity-list",
-  version: "0.0.1",
+  key: "strava-list-activities",
+  version: "0.0.2",
   type: "action",
   props: {
     strava,
