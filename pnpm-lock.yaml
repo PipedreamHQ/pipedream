@@ -757,6 +757,16 @@ importers:
   components/ethereum:
     specifiers: {}
 
+  components/eventbrite:
+    specifiers:
+      axios: ^1.1.3
+      lodash: ^4.17.21
+      timezones-list: ^3.0.1
+    dependencies:
+      axios: 1.1.3
+      lodash: 4.17.21
+      timezones-list: 3.0.1
+
   components/eversign:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -9854,6 +9864,16 @@ packages:
     dependencies:
       follow-redirects: 1.15.1_debug@3.2.7
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.1.3:
+    resolution: {integrity: sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==}
+    dependencies:
+      follow-redirects: 1.15.1
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19161,6 +19181,10 @@ packages:
   /timed-out/4.0.1:
     resolution: {integrity: sha512-G7r3AhovYtr5YKOWQkta8RKAPb+J9IsO4uVmzjl8AZwfhs8UcUwTiD6gcJYSgOtzyjvQKrKYn41syHbUWMkafA==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /timezones-list/3.0.1:
+    resolution: {integrity: sha512-yfOzyuVwzgD0LkldD3Epkr+JUdUIxEUL147Fa6ZgG/23KU28iOv3e3M7vQOCFMPyopAhDX7dqOLWttIP7tkTKg==}
     dev: false
 
   /tiny-warning/1.0.3:

@@ -1,11 +1,11 @@
 const eventbrite = require("../../eventbrite.app");
-const locales = require("../locales.js");
+const locales = require("../common-locales.js");
 
 module.exports = {
   key: "eventbrite-create-event",
   name: "Create Event",
   description: "Create a new Eventbrite event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     eventbrite,
