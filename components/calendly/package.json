@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/calendly",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Calendly Components",
   "main": "calendly.app.js",
   "keywords": [
