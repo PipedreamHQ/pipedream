@@ -1,10 +1,10 @@
 import common from "../common/common.mjs";
 
 export default {
-  key: "upkeep-purchase-order-status-change",
+  key: "upkeep-purchase-order-status-changed",
   name: "New Purchase Order Status Change Event",
   description: "Emit new event when a purchase order status is changed.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   ...common,
