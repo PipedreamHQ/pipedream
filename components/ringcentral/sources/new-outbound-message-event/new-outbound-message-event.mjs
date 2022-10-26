@@ -3,10 +3,10 @@ import messageTypes from "../common/message-types.mjs";
 
 export default {
   ...common,
-  key: "ringcentral-new-inbound-message-event",
-  name: "New Inbound Message Event (Instant)",
-  description: "Emit new event for each status change of inbound messages of a specific type",
-  version: "0.1.0",
+  key: "ringcentral-new-outbound-message-event",
+  name: "New Outbound Message Event (Instant)",
+  description: "Emit new event for each outbound message status update",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
@@ -41,7 +41,7 @@ export default {
         timestamp,
         uuid: id,
       } = data;
-      const summary = "New inbound message event";
+      const summary = "New outbound message event";
       const ts = Date.parse(timestamp);
       return {
         id,
