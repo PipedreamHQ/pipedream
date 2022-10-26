@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/eversign",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Eversign Components",
   "main": "eversign.app.js",
   "keywords": [

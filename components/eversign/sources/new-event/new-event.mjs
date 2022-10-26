@@ -1,13 +1,13 @@
 import crypto from "crypto";
 import app from "../../eversign.app.mjs";
-import options from "../../options.mjs";
+import options from "../../common-options.mjs";
 
 export default {
   key: "eversign-new-event",
   type: "source",
   name: "New Event",
   description: "Emit new event when a new event occurs in EverSign. To begin receiving events, navigate to your Developer dashboard, and enter the URL of this source/workflow as the Webhook URL. https://eversign.com/api/documentation/webhooks",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     app,
