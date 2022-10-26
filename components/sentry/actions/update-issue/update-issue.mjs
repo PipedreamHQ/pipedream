@@ -1,9 +1,9 @@
 import app from "../../sentry.app.mjs";
-import options from  "../../options.mjs";
+import options from  "../../common/options.mjs";
 
 export default {
   key: "sentry-update-issue",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   name: "Update Issue.",
   description: "Updates an individual issue's attributes. Only the attributes submitted are modified.[See the docs here](https://docs.sentry.io/api/events/update-an-issue/)",
