@@ -1,6 +1,6 @@
 import common from "../common.mjs";
 import utils from "../../common/utils.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 const { zohoCreator } = common.props;
 const { toSingleLineString } = utils;
@@ -18,7 +18,7 @@ export default {
   `),
   type: "source",
   name: "New or Updated Record",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

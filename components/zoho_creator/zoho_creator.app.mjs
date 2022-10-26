@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 import dateFormat from "dateformat";
 import retry from "async-retry";
-import constants from "./constants.mjs";
+import constants from "./common/constants.mjs";
 import get from "lodash.get";
 
 export default {
