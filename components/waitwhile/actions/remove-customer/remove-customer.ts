@@ -18,7 +18,6 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-
     try {
       const data = await this.waitwhile.removeCustomer(this.customerId);
       $.export("summary", "Successfully removed a customer");
