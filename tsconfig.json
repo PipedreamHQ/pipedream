@@ -965,6 +965,12 @@
     },
     {
       "path": "components/xata"
+    },
+    {
+      "path": "components/ipinfo_io"
+    },
+    {
+      "path": "components/plasmic"
     }
   ]
 }
