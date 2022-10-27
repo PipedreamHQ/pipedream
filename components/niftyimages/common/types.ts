@@ -6,16 +6,16 @@ export interface HttpRequestParams {
   data?: object;
 }
 
+export interface DataStoreField {
+  name: string;
+  type: string;
+  date_input_format?: string;
+  unique: boolean;
+}
+
 export interface AddRecordParams {
   $: Pipedream;
   data: {
-    channel_id: string;
-    message: string;
-    root_id?: string;
-    file_ids?: string[];
-    props?: object;
-  };
-  params?: {
-    set_online: boolean;
+
   };
 }
