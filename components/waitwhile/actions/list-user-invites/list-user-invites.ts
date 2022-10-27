@@ -30,7 +30,6 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
-
       ],
     },
   },
