@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   key: "discord-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -30,11 +31,24 @@ export default {
       threadID,
       username,
       includeSentViaPipedream,
-      embeds,
+      embeds: embedsProp,
     } = this;
+    const embeds = embedsProp;
 
     if (!message && !embeds) {
-      throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
+      throw new ConfigurationError("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
+    }
+
+    let content = message;
+    if (includeSentViaPipedream) {
+      if (embeds?.length) {
+        embeds.push({
+          "color": 16777215,
+          "description": this.getSentViaPipedreamText(),
+        });
+      } else {
+        content = this.appendPipedreamText(message ?? "");
+      }
     }
 
     try {
@@ -42,9 +56,7 @@ export default {
         avatar_url: avatarURL,
         username,
         embeds,
-        content: includeSentViaPipedream
-          ? this.appendPipedreamText(message ?? "")
-          : message,
+        content,
       }, {
         thread_id: threadID,
       });

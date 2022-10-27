@@ -962,6 +962,15 @@
     },
     {
       "path": "components/danny_twilio_test"
+    },
+    {
+      "path": "components/xata"
+    },
+    {
+      "path": "components/ipinfo_io"
+    },
+    {
+      "path": "components/plasmic"
     }
   ]
 }

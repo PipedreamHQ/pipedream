@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "twilio-new-phone-number",
   name: "New Phone Number",
-  description: "Emits an event when you add a new phone number to your account",
-  version: "0.0.3",
+  description: "Emit new event when you add a new phone number to your account",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
