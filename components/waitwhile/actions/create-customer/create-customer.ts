@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create Customer",
-  version: "0.0.3",
+  version: "0.0.1",
   key: "waitwhile-create-customer",
   description: "Create a customer. [See the doc here](https://developers.waitwhile.com/reference/postcustomers)",
   props: {
