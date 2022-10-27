@@ -124,7 +124,6 @@ export default defineApp({
     locationId: {
       label: "Location ID",
       type: "string",
-      optional: true,
       description: "Identifier of location",
       async options({ prevContext }) {
         const { prevEndAt } = prevContext;
