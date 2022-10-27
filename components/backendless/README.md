@@ -1,6 +1,7 @@
 # Overview
 
-Backendless provides a number of services that you can use to build applications, including:
+Backendless provides a number of services that you can use to build
+applications, including:
 
 - User management
 - Data storage

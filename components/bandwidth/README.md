@@ -1,6 +1,8 @@
 # Overview
 
-With the Bandwidth API, you can build a variety of applications and tools for managing your communication needs. Here are a few examples of what you can build:
+With the Bandwidth API, you can build a variety of applications and tools for
+managing your communication needs. Here are a few examples of what you can
+build:
 
 - A tool for monitoring your bandwidth usage
 - A tool for managing your contact lists
