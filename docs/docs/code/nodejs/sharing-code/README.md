@@ -87,7 +87,13 @@ From there you'll be able to view and select any of your published actions and u
 
 ## Updating published Node.js code step actions
 
-If you need to make a change and update the underlying code to your published Node.js code step, you can do so by incrementing the `version` field on the Node.js code step:
+If you need to make a change and update the underlying code to your published Node.js code step, you can do so by incrementing the `version` field on the Node.js code step.
+
+Every instance of your published action from a code step is editable. In any workflow where you've reused a published action, open the menu on the right side of the action and click **Edit action** button.
+
+This will open up the code editor for this action, even if this wasn't the original code step.
+
+Now increment the `version` field in the code:
 
 ```javascript{6}
 import { parseISO, format } from 'date-fns';
@@ -116,6 +122,24 @@ export default defineComponent({
   },
 })
 ```
+
+Finally use the **Publish to My Actions** button in the right hand side menu to publish this new version.
+
+::: details I'm not seeing an **Edit Action** button option in my step
+
+The **Edit Action** button is only available for actions that are published from Node.js code steps.
+
+Actions submitted to the public component registry can contain multiple files. At this time it's not possible to edit multi-file components direct in a code step.
+
+:::
+
+::: details Will publishing a new version of an action automatically update all other steps using it?
+
+No, a new version of an action doesn't automatically update all instances of the same action across your workflows.
+
+This gives you the control to gradually update. Learn how to [update steps to the newest action versions here](https://pipedream.com/docs/workflows/steps/actions/#updating-actions-to-the-latest-version).
+
+:::
 
 After publishing a new version, all other steps using this same action will have the option to [update to the latest version](/workflows/steps/actions/#updating-actions-to-the-latest-version).
 
