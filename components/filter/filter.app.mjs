@@ -17,10 +17,10 @@ export default {
   methods: {
     checkCondition(condition, operand1, operand2) {
       switch (condition) {
-      case constants.IN:
-        return this.checkIfIn(operand1, operand2);
-      case constants.NOT_IN:
-        return !this.checkIfIn(operand1, operand2);
+      case constants.CONTAINS:
+        return this.checkIfContains(operand1, operand2);
+      case constants.NOT_CONTAINS:
+        return !this.checkIfContains(operand1, operand2);
       case constants.TEXT_EQUALS:
         return this.checkIfTextEquals(operand1, operand2);
       case constants.TEXT_NOT_EQUALS:
@@ -63,7 +63,7 @@ export default {
         throw new Error("Condition operation not supported");
       }
     },
-    checkIfIn(operand1, operand2) {
+    checkIfContains(operand1, operand2) {
       operand1 = this.convertToString(operand1);
       operand2 = this.convertToString(operand2);
       return operand1.includes(operand2);

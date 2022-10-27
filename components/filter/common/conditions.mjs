@@ -1,6 +1,6 @@
 export const constants = {
-  IN: "IN",
-  NOT_IN: "NOT_IN",
+  CONTAINS: "CONTAINS",
+  NOT_CONTAINS: "NOT_CONTAINS",
   TEXT_EQUALS: "TEXT_EQUALS",
   TEXT_NOT_EQUALS: "TEXT_NOT_EQUALS",
   STARTS_WITH: "STARTS_WITH",
@@ -25,11 +25,11 @@ export const constants = {
 export const binaryConditions = [
   {
     label: "[Text] Contains",
-    value: constants.IN,
+    value: constants.CONTAINS,
   },
   {
     label: "[Text] Does not contain",
-    value: constants.NOT_IN,
+    value: constants.NOT_CONTAINS,
   },
   {
     label: "[Text] Matches exactly",
