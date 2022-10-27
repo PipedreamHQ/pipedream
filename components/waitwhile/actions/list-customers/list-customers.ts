@@ -66,7 +66,6 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-
     const params = {
       limit: this.limit,
       startAfter: this.startAfter,
