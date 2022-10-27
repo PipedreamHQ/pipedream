@@ -5,14 +5,13 @@ export default defineAction({
   name: "Resend User Invite",
   version: "0.0.1",
   key: "waitwhile-resend-user-invite",
-  description: "Resend a user invite",
+  description: "Resend a user invite. [See the doc here](https://developers.waitwhile.com/reference/postinvitesinviteidresend)",
   props: {
     waitwhile,
     inviteId: {
       propDefinition: [
         waitwhile,
         "inviteId",
-        
       ],
     },
   },
@@ -23,11 +22,10 @@ export default defineAction({
       const data = await this.waitwhile.resendUserInvite(this.inviteId);
       $.export("summary", "Successfully resent user invite");
       return data;
-    }catch(error){
+    } catch (error) {
       const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
       const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
-      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `);
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You might need a Waitwhile Paid Plan to use this action`);
     }
-    
   },
 });

@@ -5,7 +5,7 @@ export default defineAction({
   name: "Retrieve User Invite",
   version: "0.0.1",
   key: "waitwhile-retrieve-user-invite",
-  description: "Retrieve a user invite",
+  description: "Retrieve a user invite. [See the doc here](https://developers.waitwhile.com/reference/getinvitesinviteid)",
   props: {
     waitwhile,
     inviteId: {
@@ -20,13 +20,12 @@ export default defineAction({
   async run({ $ }) {
     try {
       const data = await this.waitwhile.retrieveUserInvite(this.inviteId);
-    $.export("summary", "Successfully retrieved user invite");
-    return data;
-    } catch(error){
+      $.export("summary", "Successfully retrieved user invite");
+      return data;
+    } catch (error) {
       const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
       const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
-      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `); 
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You might need a Waitwhile Paid Plan to use this action`);
     }
-    
   },
 });

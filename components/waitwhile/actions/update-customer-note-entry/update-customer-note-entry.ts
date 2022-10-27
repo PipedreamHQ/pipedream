@@ -5,14 +5,13 @@ export default defineAction({
   name: "Update Customer Note Entry",
   version: "0.0.1",
   key: "waitwhile-update-customer-note-entry",
-  description: "Update a customer note entry",
+  description: "Update a customer note entry. [See the doc here](https://developers.waitwhile.com/reference/postcustomerscustomeridnotesnoteid)",
   props: {
     waitwhile,
     customerId: {
       propDefinition: [
         waitwhile,
         "customerId",
-       
       ],
     },
     noteId: {
@@ -27,9 +26,9 @@ export default defineAction({
     content: {
       propDefinition: [
         waitwhile,
-        "content"
+        "content",
       ],
-    }
+    },
 
   },
   type: "action",
@@ -42,13 +41,12 @@ export default defineAction({
 
     try {
       const data = await this.waitwhile.updateCustomerNoteEntry(params);
-    $.export("summary", "Successfully updated customer note entry");
-    return data;
+      $.export("summary", "Successfully updated customer note entry");
+      return data;
     } catch (error) {
       const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
       const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
-      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `); 
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You might need a Waitwhile Paid Plan to use this action`);
     }
-    
   },
 });

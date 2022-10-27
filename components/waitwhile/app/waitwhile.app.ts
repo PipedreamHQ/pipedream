@@ -14,23 +14,28 @@ export default defineApp({
     content: {
       label: "Content",
       type: "string",
-      description: "Optional notes"
+      description: "Optional notes",
     },
     customerId: {
       label: "Customer ID",
       type: "string",
       description: "Identifier of customer, automatically derived from visitor contact information if not provided.",
-      async options({prevContext}){
-        const{prevEndAt} = prevContext
-        const {endAt, results} = await this.listCustomers({startAfter: prevEndAt});
+      async options({ prevContext }) {
+        const { prevEndAt } = prevContext;
+        const {
+          endAt,
+          results,
+        } = await this.listCustomers({
+          startAfter: prevEndAt,
+        });
         return {
           options: results.map((result) => ({
             label: result.name,
             value: result.id,
           })),
-          context : {
-            prevEndAt: endAt
-          }
+          context: {
+            prevEndAt: endAt,
+          },
         };
       },
     },
@@ -38,8 +43,8 @@ export default defineApp({
       label: "Customer Note ID",
       type: "string",
       description: "Identifier of customer-note",
-      async options({customerId}){
-        const notes = await this.listCustomerNoteEntries({customerId: customerId});
+      async options({ customerId }) {
+        const notes = await this.listCustomerNoteEntries(customerId);
         return {
           options: notes.map((note) => ({
             label: note.createdByName,
@@ -86,19 +91,24 @@ export default defineApp({
       label: "Invite ID",
       type: "string",
       description: "Unique identifier",
-      async options({prevContext}){
-        const{prevEndAt} = prevContext
-        const {endAt, results} = await this.listInvites({startAfter: prevEndAt});
+      async options({ prevContext }) {
+        const { prevEndAt } = prevContext;
+        const {
+          endAt,
+          results,
+        } = await this.listInvites({
+          startAfter: prevEndAt,
+        });
         return {
           options: results.map((result) => ({
             label: result.name,
             value: result.id,
           })),
-          context : {
-            prevEndAt: endAt
-          }
+          context: {
+            prevEndAt: endAt,
+          },
         };
-      }
+      },
     },
     lastName: {
       label: "Last Name",
@@ -116,17 +126,22 @@ export default defineApp({
       type: "string",
       optional: true,
       description: "Identifier of location",
-      async options({prevContext}){
-        const{prevEndAt} = prevContext
-        const {endAt, results} = await this.listLocations({startAfter: prevEndAt});
+      async options({ prevContext }) {
+        const { prevEndAt } = prevContext;
+        const {
+          endAt,
+          results,
+        } = await this.listLocations({
+          startAfter: prevEndAt,
+        });
         return {
           options: results.map((result) => ({
             label: result.name,
             value: result.id,
           })),
-          context : {
-            prevEndAt: endAt
-          }
+          context: {
+            prevEndAt: endAt,
+          },
         };
       },
     },
@@ -146,17 +161,22 @@ export default defineApp({
       type: "string",
       description: "Identifier of resource",
       optional: true,
-      async options({prevContext}){
-        const{prevEndAt} = prevContext
-        const {endAt, results} = await this.listResources({startAfter: prevEndAt});
+      async options({ prevContext }) {
+        const { prevEndAt } = prevContext;
+        const {
+          endAt,
+          results,
+        } = await this.listResources({
+          startAfter: prevEndAt,
+        });
         return {
           options: results.map((result) => ({
             label: result.name,
             value: result.id,
           })),
-          context : {
-            prevEndAt: endAt
-          }
+          context: {
+            prevEndAt: endAt,
+          },
         };
       },
     },
@@ -165,7 +185,7 @@ export default defineApp({
       type: "string",
       optional: true,
       description: "Removes specified tag to existing tags",
-      
+
     },
     startAfter: {
       label: "Start After",
@@ -189,33 +209,34 @@ export default defineApp({
       label: "To Time",
       type: "string",
       optional: true,
-      description: "Date in ISO-8601 format"
+      description: "Date in ISO-8601 format",
     },
     visitId: {
       label: "Visit ID",
       type: "string",
       optional: true,
       description: "Identifier of visit",
-      async options({prevContext}){
-        const{prevEndAt} = prevContext
-        const {endAt, results} = await this.listVisits({startAfter: prevEndAt});
+      async options({ prevContext }) {
+        const { prevEndAt } = prevContext;
+        const {
+          endAt,
+          results,
+        } = await this.listVisits({
+          startAfter: prevEndAt,
+        });
         return {
           options: results.map((result) => ({
             label: result.name,
             value: result.id,
           })),
-          context : {
-            prevEndAt: endAt
-          }
+          context: {
+            prevEndAt: endAt,
+          },
         };
       },
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(this.$auth);
-    },
     _authToken() {
       return this.$auth.api_key;
     },
@@ -225,70 +246,92 @@ export default defineApp({
       return sdk;
     },
     async createCustomers(params: Record<string, unknown>): Promise<any> {
-      return await this._client().postCustomers(params);
+      return await this._client()
+        .postCustomers(params);
     },
     async listCustomers(params: Record<string, unknown>): Promise<any> {
-      return await this._client().getCustomers(params);
+      return await this._client()
+        .getCustomers(params);
     },
     async exportCustomers(params: Record<string, unknown>): Promise<any> {
-      return await this._client().getCustomersExport(params);
+      return await this._client()
+        .getCustomersExport(params);
     },
     async searchCustomers(params: Record<string, unknown>): Promise<any> {
-      return await this._client().getCustomersSearch(params);
+      return await this._client()
+        .getCustomersSearch(params);
     },
     async retrieveCustomer(customerId: string): Promise<any> {
-      return await this._client().getCustomersCustomerid(customerId);
+      return await this._client()
+        .getCustomersCustomerid(customerId);
     },
     async updateCustomer(params: Record<string, unknown>): Promise<any> {
-      return await this._client().postCustomersCustomerid(params);
+      return await this._client()
+        .postCustomersCustomerid(params);
     },
     async removeCustomer(customerId: string): Promise<any> {
-      return await this._client().deleteCustomersCustomerid(customerId);
+      return await this._client()
+        .deleteCustomersCustomerid(customerId);
     },
     async listCustomerNoteEntries(customerId: string): Promise<any> {
-      return await this._client().getCustomersCustomeridNotes(customerId);
+      return await this._client()
+        .getCustomersCustomeridNotes(customerId);
     },
-    async addCustomerNoteEntry(options: Record<string, unknown>, params: Record<string, unknown> ): Promise<any> {
-      return await this._client().postCustomersCustomeridNotes(options, params);
+    async addCustomerNoteEntry(options: Record<string, unknown>, params: Record<string, unknown>): Promise<any> {
+      return await this._client()
+        .postCustomersCustomeridNotes(options, params);
     },
     async getCustomerNoteById(params: Record<string, unknown>): Promise<any> {
-      return await this._client().getCustomersCustomeridNotesCustomernoteid(params);
+      return await this._client()
+        .getCustomersCustomeridNotesCustomernoteid(params);
     },
     async importCustomers(params: Record<string, unknown>): Promise<any> {
-      return await this._client().postCustomersImport(params);
+      return await this._client()
+        .postCustomersImport(params);
     },
     async updateCustomerNoteEntry(params: Record<string, unknown>): Promise<any> {
-      return await this._client().postCustomersCustomeridNotesNoteid(params);
+      return await this._client()
+        .postCustomersCustomeridNotesNoteid(params);
     },
     async deleteCustomerNoteEntry(params: Record<string, unknown>): Promise<any> {
-      return await this._client().deleteCustomersCustomeridNotesNoteid(params);
+      return await this._client()
+        .deleteCustomersCustomeridNotesNoteid(params);
     },
     async listUserInvites(params: Record<string, unknown>): Promise<any> {
-      return await this._client().getInvites(params);
+      return await this._client()
+        .getInvites(params);
     },
     async createUserInvite(params: Record<string, unknown>): Promise<any> {
-      return await this._client().postInvites(params);
+      return await this._client()
+        .postInvites(params);
     },
     async retrieveUserInvite(inviteId: string): Promise<any> {
-      return await this._client().getInvitesInviteid(inviteId);
+      return await this._client()
+        .getInvitesInviteid(inviteId);
     },
     async removeUserInvite(inviteId: string): Promise<any> {
-      return await this._client().deleteInvitesInviteid(inviteId);
+      return await this._client()
+        .deleteInvitesInviteid(inviteId);
     },
     async resendUserInvite(inviteId: string): Promise<any> {
-      return await this._client().postInvitesInviteidResend(inviteId);
+      return await this._client()
+        .postInvitesInviteidResend(inviteId);
     },
     async listLocations(options: Record<string, unknown>): Promise<any> {
-      return await this._client().getLocations(options);
+      return await this._client()
+        .getLocations(options);
     },
     async listVisits(options: Record<string, unknown>): Promise<any> {
-      return await this._client().getVisits(options);
+      return await this._client()
+        .getVisits(options);
     },
     async listResources(options: Record<string, unknown>): Promise<any> {
-      return await this._client().getResources(options);
+      return await this._client()
+        .getResources(options);
     },
     async listInvites(options: Record<string, unknown>): Promise<any> {
-      return await this._client().getInvites(options);
-    }
+      return await this._client()
+        .getInvites(options);
+    },
   },
 });

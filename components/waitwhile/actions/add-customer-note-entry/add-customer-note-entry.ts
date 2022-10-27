@@ -3,33 +3,33 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Add Customer Note Entry",
-  version: "0.0.3",
+  version: "0.0.1",
   key: "waitwhile-add-customer-note-entry",
-  description: "Add a customer note entry",
+  description: "Add a customer note entry. [See the doc here](https://developers.waitwhile.com/reference/postcustomerscustomeridnotes)",
   props: {
     waitwhile,
     customerId: {
       propDefinition: [
         waitwhile,
-        "customerId"
+        "customerId",
       ],
     },
     locationId: {
       propDefinition: [
         waitwhile,
-        "locationId"
+        "locationId",
       ],
     },
     visitId: {
       propDefinition: [
         waitwhile,
-        "visitId"
+        "visitId",
       ],
     },
     content: {
       propDefinition: [
         waitwhile,
-        "content"
+        "content",
       ],
     },
 

@@ -3,9 +3,9 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "waitwhile-create-customer",
-  description: "Create a customer",
+  description: "Create a customer. [See the doc here](https://developers.waitwhile.com/reference/postcustomers)",
   props: {
     waitwhile,
     name: {
@@ -77,8 +77,6 @@ export default defineAction({
   type: "action",
   methods: {},
   async run({ $ }) {
-
-
     const params = {
       name: this.name,
       firstName: this.firstName,
@@ -92,10 +90,9 @@ export default defineAction({
       externalId: this.externalId,
     };
 
-
     const data = await this.waitwhile.createCustomers(params);
-    $.export("summary", "Successfully created a customer");
-    return data;
+    $.export("summary", `Successfully created a customer with ID: ${data.id}`);
 
+    return data;
   },
 });

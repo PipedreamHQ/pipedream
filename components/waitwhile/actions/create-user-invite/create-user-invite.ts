@@ -3,36 +3,36 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create User Invite",
-  version: "0.0.11",
+  version: "0.0.1",
   key: "waitwhile-create-user-invite",
-  description: "Create a user invite",
+  description: "Create a user invite. [See the doc here](https://developers.waitwhile.com/reference/postinvites)",
   props: {
     waitwhile,
     name: {
       propDefinition: [
-          waitwhile,
-          "name",
+        waitwhile,
+        "name",
       ],
-  },
-  email: {
+    },
+    email: {
       propDefinition: [
-          waitwhile,
-          "email",
+        waitwhile,
+        "email",
       ],
-  },
-  phone: {
+    },
+    phone: {
       propDefinition: [
-          waitwhile,
-          "phone",
+        waitwhile,
+        "phone",
       ],
-  },
-  defaultLocationId: {
+    },
+    defaultLocationId: {
       label: "Default Location ID",
       type: "string",
       optional: true,
       description: "Identifier of location",
-  },
-  locationIds: {
+    },
+    locationIds: {
       label: "Location IDs",
       type: "string[]",
       description: "Identifier of customer, automatically derived from visitor contact information if not provided.",
@@ -40,20 +40,20 @@ export default defineAction({
       propDefinition: [
         waitwhile,
         "locationId",
-    ],
-  },
-  roles: {
+      ],
+    },
+    roles: {
       label: "Roles",
       type: "string[]",
       optional: true,
       description: "User roles",
-  },
-  resourceId: {
+    },
+    resourceId: {
       propDefinition: [
-          waitwhile,
-          "resourceId",
+        waitwhile,
+        "resourceId",
       ],
-  },
+    },
   },
   type: "action",
   methods: {},
@@ -69,7 +69,7 @@ export default defineAction({
     };
 
     const data = await this.waitwhile.createUserInvite(params);
-    $.export("summary", "Successfully created a user invite");
+    $.export("summary", `Successfully created a user invite with ID: ${data.id}`);
     return data;
   },
 });

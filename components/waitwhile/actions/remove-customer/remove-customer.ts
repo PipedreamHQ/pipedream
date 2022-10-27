@@ -5,7 +5,7 @@ export default defineAction({
   name: "Remove Customer",
   version: "0.0.1",
   key: "waitwhile-remove-customer",
-  description: "Remove a customer",
+  description: "Remove a customer. [See the doc here](https://developers.waitwhile.com/reference/deletecustomerscustomerid)",
   props: {
     waitwhile,
     customerId: {
@@ -23,11 +23,10 @@ export default defineAction({
       const data = await this.waitwhile.removeCustomer(this.customerId);
       $.export("summary", "Successfully removed a customer");
       return data;
-    } catch(error){
-        const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
-        const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
-        throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You need a Paid Plan to use this API `);
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You might need a Waitwhile Paid Plan to use this action`);
     }
-   
   },
 });

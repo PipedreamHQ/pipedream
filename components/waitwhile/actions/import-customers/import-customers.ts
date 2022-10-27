@@ -5,7 +5,7 @@ export default defineAction({
   name: "Import Customers",
   version: "0.0.1",
   key: "waitwhile-import-customers",
-  description: "Import customers",
+  description: "Import customers. [See the doc here](https://developers.waitwhile.com/reference/postcustomersimport)",
   props: {
     waitwhile,
     type: {

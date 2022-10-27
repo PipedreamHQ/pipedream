@@ -5,14 +5,13 @@ export default defineAction({
   name: "Get Customer Note Id",
   version: "0.0.1",
   key: "waitwhile-get-customer-note-id",
-  description: "Get customer note by ID",
+  description: "Get customer note by ID. [See the doc here](https://developers.waitwhile.com/reference/getcustomerscustomeridnotescustomernoteid)",
   props: {
     waitwhile,
     customerId: {
       propDefinition: [
         waitwhile,
         "customerId",
-       
       ],
     },
     customerNoteId: {

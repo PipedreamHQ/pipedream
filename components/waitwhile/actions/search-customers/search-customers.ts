@@ -5,14 +5,13 @@ export default defineAction({
   name: "Search Customers",
   version: "0.0.1",
   key: "waitwhile-search-customers",
-  description: "Search for customers",
+  description: "Search for customers. [See the doc here](https://developers.waitwhile.com/reference/searchcustomers)",
   props: {
     waitwhile,
     locationId: {
       propDefinition: [
         waitwhile,
         "locationId",
-        
       ],
     },
     state: {

@@ -5,7 +5,7 @@ export default defineAction({
   name: "Update Customer",
   version: "0.0.1",
   key: "waitwhile-update-customer",
-  description: "Update a customer",
+  description: "Update a customer. [See the doc here](https://developers.waitwhile.com/reference/postcustomerscustomerid)",
   props: {
     waitwhile,
     customerId: {
@@ -44,7 +44,7 @@ export default defineAction({
         (c) => ({
           customerId: c.customerId,
         }),
-      ]
+      ],
     },
     email: {
       propDefinition: [
@@ -94,8 +94,7 @@ export default defineAction({
       locationIds: this.locationIds,
       addTag: this.addTag,
       removeTag: this.removeTag,
-      customerId: this.customerId
-
+      customerId: this.customerId,
     };
 
     const data = await this.waitwhile.updateCustomer(params);

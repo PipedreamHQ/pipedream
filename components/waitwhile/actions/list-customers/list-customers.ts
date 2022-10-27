@@ -3,9 +3,9 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List Customers",
-  version: "0.0.2",
+  version: "0.0.1",
   key: "waitwhile-list-customers",
-  description: "List of customers",
+  description: "List of customers. [See the doc here](https://developers.waitwhile.com/reference/listcustomers)",
   props: {
     waitwhile,
     limit: {

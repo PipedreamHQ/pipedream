@@ -5,19 +5,22 @@ export default defineAction({
   name: "Export Customers",
   version: "0.0.1",
   key: "waitwhile-export-customers",
-  description: "Export Customers to CSV or JSON format",
+  description: "Export Customers to CSV or JSON format. (See the doc here)(https://developers.waitwhile.com/reference/getcustomersexport)",
   props: {
     waitwhile,
     format: {
       label: "Format",
       type: "string",
+      options: [
+        "CSV",
+        "JSON",
+      ],
       description: "Export format, CSV or JSON",
     },
     locationId: {
       propDefinition: [
         waitwhile,
         "locationId",
-        
       ],
     },
     fromDate: {
@@ -65,8 +68,14 @@ export default defineAction({
       toTime: this.toTime,
     };
 
-    const data = await this.waitwhile.exportCustomers(params);
-    $.export("summary", "Successfully exported a customer");
-    return data;
+    try {
+      const data = await this.waitwhile.exportCustomers(params);
+      $.export("summary", "Successfully exported a customer");
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}. You might need a Waitwhile Paid Plan to use this action`);
+    }
   },
 });
