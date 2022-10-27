@@ -2580,8 +2580,10 @@ importers:
 
   components/twilio:
     specifiers:
+      phone: ^3.1.29
       twilio: ^3.54.2
     dependencies:
+      phone: 3.1.29
       twilio: 3.79.0
 
   components/twist:
@@ -16866,6 +16868,11 @@ packages:
     resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
     dependencies:
       split2: 4.1.0
+    dev: false
+
+  /phone/3.1.29:
+    resolution: {integrity: sha512-D80A7L4UyUnu5MMB4V4LAgwUvDMnFQYBNN87gJJoEyQL+TrRibSR17dHe9O7dY4EEoyc+QmmpZ1/YL5lHwAuDQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /picocolors/0.2.1:
