@@ -1,6 +1,8 @@
 # Overview
 
-I can build a Markdown document with a few paragraphs, followed by a list of examples, telling me what I can build using the AMcards API (<https://amcards.com/>).
+I can build a Markdown document with a few paragraphs, followed by a list of
+examples, telling me what I can build using the [AMcards
+API](https://amcards.com/>).
 
 Some things I can build using the AMcards API include:
 

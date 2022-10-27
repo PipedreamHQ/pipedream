@@ -6,4 +6,4 @@ Using the ApiFlash API, you can build:
 - A tool to automate web tasks
 - A bot to interact with websites on your behalf
 - A system to monitor website changes
-- ...and much more!
+- And much more!

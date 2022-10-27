@@ -1,6 +1,7 @@
 # Overview
 
-The AppVeyor API enables you to build, test and deploy your applications on the AppVeyor platform.
+The AppVeyor API enables you to build, test and deploy your applications on the
+AppVeyor platform.
 
 You can use the API to:
 
