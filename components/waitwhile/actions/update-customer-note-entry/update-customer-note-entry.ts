@@ -29,7 +29,6 @@ export default defineAction({
         "content",
       ],
     },
-
   },
   type: "action",
   methods: {},
