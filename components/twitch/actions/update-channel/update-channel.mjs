@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common.mjs";
 
 export default {
@@ -40,6 +41,10 @@ export default {
     },
   },
   async run() {
+    if (!this.title && !this.game && !this.language && !this.delay) {
+      throw new ConfigurationError('But at least one prop must be provided.')
+    }
+
     // get the userID of the authenticated user
     const userId = await this.getUserId();
     let params = {
