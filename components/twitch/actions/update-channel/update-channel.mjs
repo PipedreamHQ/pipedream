@@ -42,7 +42,7 @@ export default {
   },
   async run() {
     if (!this.title && !this.game && !this.language && !this.delay) {
-      throw new ConfigurationError('But at least one prop must be provided.')
+      throw new ConfigurationError('In order to continue you must configure at least one of the optional props.')
     }
 
     // get the userID of the authenticated user
