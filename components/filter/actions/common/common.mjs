@@ -1,51 +1,40 @@
 import filter from "../../filter.app.mjs";
-import conditions, { unaryConditions } from "../../common/conditions.mjs";
+import { binaryConditions } from "../../common/conditions.mjs";
 
 export default {
   props: {
     filter,
-    continueOrEnd: {
-      type: "string",
-      label: "Continue or end execution?",
-      description: "Specify whether you'd like to **continue** or **end** workflow execution when the below condition is met",
-      options: [
-        "Continue",
-        "End",
-      ],
-    },
     messageOnContinue: {
       type: "string",
       label: "Reason for continuing",
-      description: "Return a message indicating why workflow execution **continued**",
+      description: "The message that will be displayed when the workflow **continues**",
       optional: true,
     },
     messageOnEnd: {
       type: "string",
       label: "Reason for ending",
-      description: "Return a message indicating why workflow execution **ended**",
+      description: "The message that will be displayed when the workflow **ends**",
       optional: true,
     },
     initialValue: {
       type: "any",
       label: "Initial value",
-      description: "Enter a value to evaluate, or reference one from a previous step",
+      description: "The 1st of 2 values to compare",
     },
     condition: {
-      type: "string",
-      label: "Condition",
-      description: "Choose a condition",
-      default: conditions[0],
-      options: conditions,
-      reloadProps: true,
+      propDefinition: [
+        filter,
+        "condition",
+      ],
     },
   },
   async additionalProps() {
     const props = {};
-    if (!unaryConditions.includes(this.condition)) {
+    if (binaryConditions.map(({ value }) => value).includes(this.condition)) {
       props.secondValue = {
         type: "any",
         label: "Second value",
-        description: "Enter what you'd like to compare the first value against, or reference one from a previous step",
+        description: "The 2nd of 2 values to compare",
       };
     }
     return props;

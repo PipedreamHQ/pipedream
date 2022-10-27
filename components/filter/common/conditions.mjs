@@ -20,8 +20,6 @@ export const constants = {
   NOT_IN_ARRAY: "NOT_IN_ARRAY",
   KEY_EXISTS: "KEY_EXISTS",
   KEY_NOT_EXISTS: "KEY_NOT_EXISTS",
-  CONTINUE: "Continue",
-  END: "End",
 };
 
 export const binaryConditions = [
