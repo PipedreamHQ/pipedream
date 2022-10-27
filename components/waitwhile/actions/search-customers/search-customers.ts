@@ -44,14 +44,12 @@ export default defineAction({
       optional: true,
       description: "Page in results",
     },
-
     fromDate: {
       propDefinition: [
         waitwhile,
         "fromDate",
       ],
     },
-
     toDate: {
       propDefinition: [
         waitwhile,
@@ -70,7 +68,6 @@ export default defineAction({
         "toTime",
       ],
     },
-
   },
   type: "action",
   methods: {},
