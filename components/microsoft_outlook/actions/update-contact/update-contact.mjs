@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-update-contact",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Update Contact",
   description: "Add a contact to the root Contacts folder, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-contacts)",
   props: {

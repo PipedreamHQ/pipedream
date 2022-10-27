@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitch_developer_app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Twitch Developer App Components",
   "main": "dist/app/twitch_developer_app.app.mjs",
   "keywords": [
@@ -15,5 +15,10 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4",
+    "uuid": "^9.0.0"
   }
 }

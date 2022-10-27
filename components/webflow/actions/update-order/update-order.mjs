@@ -4,7 +4,7 @@ export default {
   key: "webflow-update-order",
   name: "Update Order",
   description: "Update an order. [See the docs here](https://developers.webflow.com/#update-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     webflow,

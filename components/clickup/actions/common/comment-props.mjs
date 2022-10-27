@@ -40,6 +40,7 @@ export default {
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
         }),
       ],
       optional: true,
@@ -65,6 +66,8 @@ export default {
           listId: c.listId,
           taskId: c.taskId,
           viewId: c.viewId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
     },

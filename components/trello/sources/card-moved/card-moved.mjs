@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   props: {
     ...common.props,

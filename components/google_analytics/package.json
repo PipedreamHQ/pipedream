@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/google_analytics",
+  "version": "0.0.1",
+  "description": "Pipedream Google_analytics Components",
+  "main": "google_analytics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_analytics"
+  ],
+  "homepage": "https://pipedream.com/apps/google_analytics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

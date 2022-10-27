@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -55,6 +55,8 @@ export default {
         "tasks",
         (c) => ({
           listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
       optional: true,
@@ -70,6 +72,11 @@ export default {
       status,
       parent,
     } = this;
+
+    const params = this.clickup.getParamsForCustomTaskIdCall(
+      this.useCustomTaskIds,
+      this.authorizedTeamId,
+    );
 
     const data = {
       name,
@@ -88,6 +95,7 @@ export default {
       $,
       taskId,
       data,
+      params,
     });
 
     $.export("$summary", "Successfully updated task");

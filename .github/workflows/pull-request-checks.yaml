@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
         name: Checkout repo
         with:
           # See https://github.com/actions/checkout#checkout-v2
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3.0.2
+    - uses: actions/checkout@v3.1.0
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -77,12 +77,12 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v3.5.0
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -116,8 +116,13 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
+      - name: Get Changed Files
+        id: changed_files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Check component keys
-        run: node scripts/findBadKeys.js
+        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
       - name: Check for duplicate component keys
         run: node scripts/findDuplicateKeys.js
 
@@ -126,8 +131,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -141,7 +146,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - uses: actions/setup-node@v3.5.0
+      - uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -160,8 +165,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
-      - uses: pnpm/action-setup@v2.0.1
+        uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -176,7 +181,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.5.0
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -249,8 +254,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
-      - uses: pnpm/action-setup@v2.0.1
+        uses: actions/checkout@v3.1.0
+      - uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.0.0
       - name: Get pnpm store directory
@@ -265,7 +270,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v3.5.0
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/

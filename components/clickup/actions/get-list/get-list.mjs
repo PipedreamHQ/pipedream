@@ -4,7 +4,7 @@ export default {
   key: "clickup-get-list",
   name: "Get List",
   description: "Get a list. See the docs [here](https://clickup.com/api) in **Lists / Get List** section.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: common.props,
   async run({ $ }) {
