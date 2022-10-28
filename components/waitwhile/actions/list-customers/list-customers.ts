@@ -77,8 +77,14 @@ export default defineAction({
       fromTime: this.fromTime,
       toTime: this.toTime,
     };
-    const data = await this.waitwhile.listCustomers(params);
-    $.export("summary", "Successfully retrieved customers");
-    return data;
+    try {
+      const data = await this.waitwhile.listCustomers(params);
+      $.export("summary", "Successfully retrieved customers");
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}`);
+    }
   },
 });

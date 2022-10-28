@@ -10,34 +10,40 @@ export default defineAction({
     waitwhile,
     customerId: {
       propDefinition: [
+        waitwhile,
         "customerId",
       ],
     },
     name: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "name",
       ],
     },
     firstName: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "firstName",
       ],
     },
     lastName: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "lastName",
       ],
     },
     phone: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "phone",
       ],
     },
     notes: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "customerNoteId",
@@ -47,12 +53,14 @@ export default defineAction({
       ],
     },
     email: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "email",
       ],
     },
     tags: {
+      optional: true,
       type: "string[]",
       description: "Optional tags associated with customer",
       propDefinition: [
@@ -68,12 +76,14 @@ export default defineAction({
       ],
     },
     addTag: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "addTag",
       ],
     },
     removeTag: {
+      optional: true,
       propDefinition: [
         waitwhile,
         "removeTag",
@@ -97,8 +107,15 @@ export default defineAction({
       customerId: this.customerId,
     };
 
-    const data = await this.waitwhile.updateCustomer(params);
-    $.export("summary", "Successfully updated a customer");
-    return data;
+    try {
+      const data = await this.waitwhile.updateCustomer(params);
+      $.export("summary", "Successfully updated a customer");
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}`);
+    }
+
   },
 });
