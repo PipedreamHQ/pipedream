@@ -1,5 +1,4 @@
 import twilio from "../twilio.app.mjs";
-import twilioClient from "twilio";
 
 export default {
   props: {
@@ -8,12 +7,6 @@ export default {
       propDefinition: [
         twilio,
         "incomingPhoneNumber",
-      ],
-    },
-    authToken: {
-      propDefinition: [
-        twilio,
-        "authToken",
       ],
     },
     http: {
@@ -25,42 +18,32 @@ export default {
   },
   hooks: {
     async activate() {
-      const createWebhookResp = await this.setWebhook(
-        this.incomingPhoneNumber,
-        this.http.endpoint,
-      );
+      const createWebhookResp = await this.twilio.setWebhookURL({
+        serviceType: this.getServiceType(),
+        phoneNumberSid: this.incomingPhoneNumber,
+        url: this.http.endpoint,
+      });
       console.log(createWebhookResp);
     },
     async deactivate() {
-      const deleteWebhookResp = await this.setWebhook(
-        this.incomingPhoneNumber,
-        "", // remove the webhook URL
-      );
+      // remove the webhook URL if url prop is not set
+      const deleteWebhookResp = await this.twilio.setWebhookURL({
+        serviceType: this.getServiceType(),
+        phoneNumberSid: this.incomingPhoneNumber,
+        url: "",
+      });
       console.log(deleteWebhookResp);
     },
   },
   methods: {
+    getServiceType() {
+      throw new Error("getServiceType() is not implemented!");
+    },
     getResponseBody() {
       return null;
     },
     isRelevant() {
       return true;
-    },
-    validateRequest(body, headers) {
-      const twilioSignature = headers["x-twilio-signature"];
-      if (!twilioSignature) {
-        console.log("No x-twilio-signature header in request. Exiting.");
-        return false;
-      }
-
-      /** See https://www.twilio.com/docs/usage/webhooks/webhooks-security */
-      return twilioClient.validateRequest(
-        this.authToken,
-        twilioSignature,
-        /** This must match the incoming URL exactly, which contains a / */
-        `${this.http.endpoint}/`,
-        body,
-      );
     },
     emitEvent(body, headers) {
       const meta = this.generateMeta(body, headers);
@@ -84,15 +67,29 @@ export default {
       });
     }
 
-    if (typeof body !== "object")
+    if (typeof body !== "object") {
       body = Object.fromEntries(new URLSearchParams(body));
+    }
 
     if (!this.isRelevant(body)) {
       console.log("Event not relevant. Skipping...");
       return;
     }
 
-    if (!this.validateRequest(body, headers)) {
+    const signature = headers["x-twilio-signature"];
+    if (!signature) {
+      console.log("No x-twilio-signature header in request. Exiting.");
+      return;
+    }
+
+    // The url must match the incoming URL exactly, which contains a `/` at the end
+    const isRequestValid = this.twilio.validateRequest({
+      signature,
+      url: `${this.http.endpoint}/`,
+      params: body,
+    });
+
+    if (!isRequestValid) {
       console.log("Event could not be validated. Skipping...");
       return;
     }
