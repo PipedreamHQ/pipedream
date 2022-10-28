@@ -1869,7 +1869,10 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/printful_oauth:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/productboard:
     specifiers:
