@@ -6,7 +6,7 @@ export default {
   key: "twilio-new-call",
   name: "New Call (Instant)",
   description: "Emit new event each time a call to the phone number is completed. Configures a webhook in Twilio, tied to a phone number.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
