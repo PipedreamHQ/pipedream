@@ -57,8 +57,7 @@ const textOptions = [
   },
 ];
 
-const binaryOptions = [
-  ...textOptions,
+const numberOptions = [
   {
     label: "[Number] Is greater than",
     value: constants.GREATER_THAN,
@@ -79,6 +78,9 @@ const binaryOptions = [
     label: "[Number] Is equal to",
     value: constants.EQUALS,
   },
+];
+
+const arrayOptions = [
   {
     label: "[Array] Is present in array",
     value: constants.IN_ARRAY,
@@ -87,6 +89,9 @@ const binaryOptions = [
     label: "[Array] Is not present in array",
     value: constants.NOT_IN_ARRAY,
   },
+];
+
+const objectOptions = [
   {
     label: "[Object] Key exists and is not null or undefined",
     value: constants.KEY_EXISTS,
@@ -97,7 +102,7 @@ const binaryOptions = [
   },
 ];
 
-const unaryOptions = [
+const booleanOptions = [
   {
     label: "[Boolean] Evaluates to True",
     value: constants.TRUE,
@@ -106,17 +111,38 @@ const unaryOptions = [
     label: "[Boolean] Evaluates to False",
     value: constants.FALSE,
   },
+];
+
+const nullOptions = [
   {
-    label: "[NULL] Is null or undefined",
+    label: "[Null] Is null or undefined",
     value: constants.IS_NULL,
   },
   {
-    label: "[NULL] Is not null or undefined",
+    label: "[Null] Is not null or undefined",
     value: constants.NOT_NULL,
   },
 ];
 
+const binaryOptions = [
+  ...textOptions,
+  ...numberOptions,
+  ...arrayOptions,
+  ...objectOptions,
+];
+
+const unaryOptions = [
+  ...booleanOptions,
+  ...nullOptions,
+];
+
 export const textConditions = textOptions.map(({ value }) => value);
+export const numberConditions = numberOptions.map(({ value }) => value);
+export const arrayConditions = arrayOptions.map(({ value }) => value);
+export const objectConditions = objectOptions.map(({ value }) => value);
+export const booleanConditions = booleanOptions.map(({ value }) => value);
+export const nullConditions = nullOptions.map(({ value }) => value);
+
 export const binaryConditions = binaryOptions.map(({ value }) => value);
 export const unaryConditions = unaryOptions.map(({ value }) => value);
 
