@@ -1,5 +1,6 @@
 import conditions, { constants } from "./common/conditions.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import valueTypes from "./common/value-types.mjs";
 
 export default {
   type: "app",
@@ -15,7 +16,7 @@ export default {
     },
   },
   methods: {
-    checkCondition(condition, operand1, operand2, caseSensitive) {
+    checkCondition(condition, operand1, operand2, caseSensitive, valueType) {
       switch (condition) {
       case constants.CONTAINS:
         return this.checkIfContains(operand1, operand2, caseSensitive);
@@ -52,9 +53,9 @@ export default {
       case constants.NOT_NULL:
         return !this.checkIfIsNull(operand1);
       case constants.IN_ARRAY:
-        return this.checkIfInArray(operand1, operand2);
+        return this.checkIfInArray(operand1, operand2, caseSensitive, valueType);
       case constants.NOT_IN_ARRAY:
-        return !this.checkIfInArray(operand1, operand2);
+        return !this.checkIfInArray(operand1, operand2, caseSensitive, valueType);
       case constants.KEY_EXISTS:
         return this.checkIfKeyExists(operand1, operand2);
       case constants.KEY_NOT_EXISTS:
@@ -119,8 +120,14 @@ export default {
         operand1 === "undefined"
       );
     },
-    checkIfInArray(operand1, operand2) {
+    checkIfInArray(operand1, operand2, caseSensitive, valueType) {
       operand2 = this.parse(operand2, "array");
+      if (valueType === valueTypes.TEXT) {
+        operand1 = this.convertToString(operand1, caseSensitive);
+      }
+      if (valueType === valueTypes.NUMBER) {
+        operand1 = this.convertToNumber(operand1);
+      }
       return operand2.includes(operand1);
     },
     checkIfKeyExists(operand1, operand2) {
@@ -128,6 +135,7 @@ export default {
       return operand1 in operand2 && !this.checkIfIsNull(operand2[operand1]);
     },
     convertToString(input, caseSensitive) {
+      input = String(input);
       if (!caseSensitive) {
         return input.toLowerCase();
       }

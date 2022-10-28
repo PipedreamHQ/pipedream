@@ -1,5 +1,7 @@
 import filter from "../../filter.app.mjs";
+import valueTypes from "../../common/value-types.mjs";
 import {
+  arrayConditions,
   binaryConditions,
   textConditions,
 } from "../../common/conditions.mjs";
@@ -40,10 +42,21 @@ export default {
         description: "The 2nd of 2 values to compare",
       };
     }
-    if (textConditions.includes(this.condition)) {
+    if (arrayConditions.includes(this.condition)) {
+      props.arrayType = {
+        type: "string",
+        label: "Initial value type",
+        description: "Type of the value to search for in the array",
+        options: Object.values(valueTypes),
+        default: valueTypes.TEXT,
+        reloadProps: true,
+      };
+    }
+    if (textConditions.includes(this.condition) ||
+      (arrayConditions.includes(this.condition) && this.arrayType === valueTypes.TEXT)) {
       props.caseSensitive = {
         type: "boolean",
-        label: "Case Sensitive",
+        label: "Case sensitive",
         description: "Whether the text evaluation should be case sensitive or not",
         optional: true,
         default: false,
@@ -57,6 +70,7 @@ export default {
       this.initialValue,
       this.secondValue,
       this.caseSensitive,
+      this.arrayType,
     );
     return this.consolidateResult($, result);
   },
