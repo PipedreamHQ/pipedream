@@ -56,9 +56,7 @@ export default {
     },
   },
   async run(event) {
-    console.log("Event received");
-    console.log("WARN: Transistor.fm does not assign webhook events. Be awared that, because of this, we can not check the reliability of this event.");
+    console.log("WARN: Transistor.fm does not assign webhook events. Be informed that, because of this, we can not check the reliability of this event.");
     this._emit(event.body.data);
-    console.log("Event emitted");
   },
 };
