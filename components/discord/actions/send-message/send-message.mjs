@@ -5,7 +5,7 @@ export default {
   key: "discord-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   async run({ $ }) {
     const {
@@ -31,6 +31,7 @@ export default {
         success: true,
       };
     } catch (err) {
+      console.log(err);
       const unsentMessage = this.getUserInputProps();
       $.export("unsent", unsentMessage);
       throw err;

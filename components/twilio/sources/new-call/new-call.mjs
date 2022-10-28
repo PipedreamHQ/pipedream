@@ -1,18 +1,18 @@
 import common from "../common-webhook.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "twilio-new-call",
   name: "New Call (Instant)",
-  description:
-    "Configures a webhook in Twilio, tied to a phone number, and emits an event each time a call to that number is completed",
-  version: "0.0.3",
+  description: "Emit new event each time a call to the phone number is completed. Configures a webhook in Twilio, tied to a phone number.",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async setWebhook(...args) {
-      return await this.twilio.setIncomingCallWebhookURL(...args);
+    getServiceType() {
+      return constants.SERVICE_TYPE.VOICE;
     },
     generateMeta(body, headers) {
       return {

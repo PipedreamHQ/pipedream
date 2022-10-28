@@ -1,21 +1,15 @@
-import twilioClient from "twilio";
+import twilio from "twilio";
 import {
   callToString,
   messageToString,
   recordingToString,
-} from "./utils.mjs";
+} from "./common/utils.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "twilio",
   propDefinitions: {
-    authToken: {
-      type: "string",
-      secret: true,
-      label: "Twilio Auth Token",
-      description:
-        "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
-    },
     body: {
       type: "string",
       label: "Message Body",
@@ -84,7 +78,7 @@ export default {
         const messages = await this.listMessages();
         return messages.map((message) => {
           return {
-            label: this.messageToString(message),
+            label: messageToString(message),
             value: message.sid,
           };
         });
@@ -116,7 +110,7 @@ export default {
         const recordings = await this.listRecordings();
         return recordings.map((recording) => {
           return {
-            label: this.recordingToString(recording),
+            label: recordingToString(recording),
             value: recording.sid,
           };});
       },
@@ -155,33 +149,34 @@ export default {
     },
   },
   methods: {
-    // Static methods
-    callToString,
-    messageToString,
-    recordingToString,
-
+    validateRequest({
+      signature, url, params,
+    } = {}) {
+      // See https://www.twilio.com/docs/usage/webhooks/webhooks-security
+      return twilio.validateRequest(
+        this.$auth.authToken,
+        signature,
+        url,
+        params,
+      );
+    },
     getClient() {
-      return twilioClient(this.$auth.Sid, this.$auth.Secret, {
-        accountSid: this.$auth.AccountSid,
-      });
+      return twilio(this.$auth.accountSid, this.$auth.authToken);
     },
-    async setWebhookURL(phoneNumberSid, params) {
+    setWebhookURL({
+      serviceType = constants.SERVICE_TYPE.SMS, phoneNumberSid, url,
+    } = {}) {
+      const opts = serviceType === constants.SERVICE_TYPE.SMS
+        ? {
+          smsMethod: constants.HTTP_METHOD.POST,
+          smsUrl: url,
+        }
+        : {
+          statusCallbackMethod: constants.HTTP_METHOD.POST,
+          statusCallback: url,
+        };
       const client = this.getClient();
-      return await client.incomingPhoneNumbers(phoneNumberSid).update(params);
-    },
-    async setIncomingSMSWebhookURL(phoneNumberSid, url) {
-      const params = {
-        smsMethod: "POST",
-        smsUrl: url,
-      };
-      return await this.setWebhookURL(phoneNumberSid, params);
-    },
-    async setIncomingCallWebhookURL(phoneNumberSid, url) {
-      const params = {
-        statusCallbackMethod: "POST",
-        statusCallback: url,
-      };
-      return await this.setWebhookURL(phoneNumberSid, params);
+      return client.incomingPhoneNumbers(phoneNumberSid).update(opts);
     },
     /**
      * Returns a IncomingPhoneNumber list resource representing an account's
@@ -192,9 +187,9 @@ export default {
      *
      * @returns the IncomingPhoneNumber list
      */
-    async listIncomingPhoneNumbers(params) {
+    listIncomingPhoneNumbers(params) {
       const client = this.getClient();
-      return await client.incomingPhoneNumbers.list(params);
+      return client.incomingPhoneNumbers.list(params);
     },
     /**
      * Returns a list of Recordings, each representing a recording generated
@@ -205,9 +200,9 @@ export default {
      *
      * @returns the list of recordings
      */
-    async listRecordings(params) {
+    listRecordings(params) {
       const client = this.getClient();
-      return await client.recordings.list(params);
+      return client.recordings.list(params);
     },
     /**
      * Returns a list of Transcriptions generated from all recordings in an
@@ -218,9 +213,9 @@ export default {
      *
      * @returns the list of transcriptions
      */
-    async listTranscriptions(params) {
+    listTranscriptions(params) {
       const client = this.getClient();
-      return await client.transcriptions.list(params);
+      return client.transcriptions.list(params);
     },
     /**
      * Returns a list of messages associated with your account. When getting the
@@ -232,9 +227,9 @@ export default {
      *
      * @returns the list of messages
      */
-    async listMessages(params) {
+    listMessages(params) {
       const client = this.getClient();
-      return await client.messages.list(params);
+      return client.messages.list(params);
     },
     /**
      * Returns a single message specified by the provided Message `sid`
@@ -244,9 +239,9 @@ export default {
      *
      * @returns the message
      */
-    async getMessage(sid) {
+    getMessage(sid) {
       const client = this.getClient();
-      return await client.messages(sid).fetch();
+      return client.messages(sid).fetch();
     },
     /**
      * Deletes a message record from your account. Once the record is deleted,
@@ -256,9 +251,9 @@ export default {
      * the Message resource to delete
      * @returns `true` on success
      */
-    async deleteMessage(sid) {
+    deleteMessage(sid) {
       const client = this.getClient();
-      return await client.messages(sid).remove();
+      return client.messages(sid).remove();
     },
     /**
      * Returns a list of media associated with your message
@@ -268,9 +263,9 @@ export default {
      * @param {Object} [params] - an object containing parameters to be fed to the
      * Twilio API call, as defined in [the API docs](https://bit.ly/3mc8apg)
      */
-    async listMessageMedia(messageId, params) {
+    listMessageMedia(messageId, params) {
       const client = this.getClient();
-      return await client.messages(messageId).media.list(params);
+      return client.messages(messageId).media.list(params);
     },
     /**
      * Return a list of phone calls made to and from an account
@@ -279,15 +274,15 @@ export default {
      * Twilio API call, as defined in [the API docs](https://bit.ly/3iiHIJ9)
      * @returns the list of calls
      */
-    async listCalls(params) {
+    listCalls(params) {
       const client = this.getClient();
-      return await client.calls.list(params);
+      return client.calls.list(params);
     },
     async listCallsOptions(params = {}) {
       const calls = await this.listCalls(params);
       return calls.map((call) => {
         return {
-          label: this.callToString(call),
+          label: callToString(call),
           value: call.sid,
         };
       });
@@ -298,9 +293,9 @@ export default {
      * @param {String} sid - The SID of the Call resource to fetch
      * @returns the Call
      */
-    async getCall(sid) {
+    getCall(sid) {
       const client = this.getClient();
-      return await client.calls(sid).fetch();
+      return client.calls(sid).fetch();
     },
     /**
      * This will delete a call record from the account. Once the record is
@@ -310,9 +305,9 @@ export default {
      * the Call resource to delete
      * @returns `true` on success
      */
-    async deleteCall(sid) {
+    deleteCall(sid) {
       const client = this.getClient();
-      return await client.calls(sid).remove();
+      return client.calls(sid).remove();
     },
     /**
      * Returns a recording specified by the provided Recording `sid`
@@ -322,9 +317,9 @@ export default {
      *
      * @returns the recording
      */
-    async getRecording(sid) {
+    getRecording(sid) {
       const client = this.getClient();
-      return await client.recordings(sid).fetch();
+      return client.recordings(sid).fetch();
     },
     /**
      * Returns a list of transcriptions available for the recording identified
@@ -335,9 +330,9 @@ export default {
      *
      * @returns the list of transcriptions
      */
-    async listRecordingTranscriptions(sid, params) {
+    listRecordingTranscriptions(sid, params) {
       const client = this.getClient();
-      return await client.recordings(sid).transcriptions.list(params);
+      return client.recordings(sid).transcriptions.list(params);
     },
   },
 };
