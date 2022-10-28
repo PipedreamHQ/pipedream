@@ -18,12 +18,18 @@ export default {
     },
   },
   async additionalProps() {
-    const template = await this.app.getTemplate({
+    const {
+      preview,
+      pages: [
+        page,
+      ] = [],
+    } = await this.app.getTemplate({
       templateId: this.templateId,
     });
-    const fields = template.pages[0].children.filter((child) =>
+
+    const fields = page?.children?.filter((child) =>
       constants.ALLOWED_FIELD_TYPES.includes(child.type) && !child.locked);
-    const props = fields.reduce((props, field) => ({
+    const props = fields?.reduce((props, field) => ({
       ...props,
       [field.name]: {
         type: "string",
@@ -36,7 +42,7 @@ export default {
       preview: {
         type: "string",
         label: "Template Preview Link (no input required)",
-        description: template.preview,
+        description: preview,
         optional: true,
       },
       ...props,
