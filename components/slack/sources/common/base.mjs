@@ -71,7 +71,27 @@ export default {
           limit: 1,
           inclusive: true,
         });
+
         return info;
+      });
+    },
+    async getMessage({
+      channel, event_ts,
+    }) {
+      return await this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
+        const response = await this.slack.sdk().conversations.replies({
+          channel,
+          ts: event_ts,
+          limit: 1,
+        });
+
+        if (response.messages.length) {
+          response.messages = [
+            response.messages[0],
+          ];
+        }
+
+        return response;
       });
     },
     processEvent(event) {

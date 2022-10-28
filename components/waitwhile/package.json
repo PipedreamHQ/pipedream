@@ -1,8 +1,9 @@
 {
   "name": "@pipedream/waitwhile",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Waitwhile Components",
   "main": "dist/app/waitwhile.app.mjs",
+  "types": "dist/app/waitwhile.app.d.ts",
   "keywords": [
     "pipedream",
     "waitwhile"
@@ -15,5 +16,18 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "api": "^4.5.2",
+    "axios": "^0.27.2",
+    "openapi-types": "^12.0.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.1.4",
+    "@types/node": "^17.0.36"
   }
 }
