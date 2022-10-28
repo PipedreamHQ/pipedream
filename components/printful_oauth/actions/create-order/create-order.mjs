@@ -43,12 +43,18 @@ export default {
     },
     stateCode: {
       label: "State Code",
-      description: "The state code",
+      description: "The state code. E.g. `SC`",
       type: "string",
     },
     countryCode: {
       label: "Country Code",
-      description: "The ZIP/postal code",
+      description: "The country code. E.g. `BR`",
+      type: "string",
+      reloadProps: true,
+    },
+    zip: {
+      label: "ZIP/Postal Code",
+      description: "The ZIP/postal code. E.g. `89221525`",
       type: "string",
       reloadProps: true,
     },
