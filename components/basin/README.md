@@ -1,6 +1,6 @@
 # Overview
 
-I can build the following using the Basin API:
+Use the Basin API to build the following apps:
 
 - A to-do list
 - A notes app
