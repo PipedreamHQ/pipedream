@@ -1,5 +1,5 @@
 import app from "../../transistor_fm.app.mjs";
-import options from "../../common/options.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   name: "New Event",
@@ -21,7 +21,7 @@ export default {
       type: "string",
       label: "Event Name",
       description: "The name of the event you want to subscribe to.",
-      options: options.EVENT_NAME_OPTIONS,
+      options: constants.EVENT_NAME_OPTIONS,
     },
   },
   hooks: {
