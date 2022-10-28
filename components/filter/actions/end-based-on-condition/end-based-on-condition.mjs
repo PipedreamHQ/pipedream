@@ -2,10 +2,10 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  name: "End on Condition",
+  name: "End execution if a condition is met",
   version: "0.0.1",
-  key: "filter-end-on-condition",
-  description: "End workflow execution based on a condition",
+  key: "filter-end-based-on-condition",
+  description: "End workflow execution if a condition is met",
   type: "action",
   methods: {
     consolidateResult($, result) {

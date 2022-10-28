@@ -56,23 +56,23 @@ export const binaryConditions = [
     value: constants.NOT_ENDS_WITH,
   },
   {
-    label: "[Number] Greater than",
+    label: "[Number] Is greater than",
     value: constants.GREATER_THAN,
   },
   {
-    label: "[Number] Greater than or equal to",
+    label: "[Number] Is greater than or equal to",
     value: constants.GREATER_THAN_EQUALS,
   },
   {
-    label: "[Number] Less than",
+    label: "[Number] Is less than",
     value: constants.LESS_THAN,
   },
   {
-    label: "[Number] Less than or equal to",
+    label: "[Number] Is less than or equal to",
     value: constants.LESS_THAN_EQUALS,
   },
   {
-    label: "[Number] Equal to",
+    label: "[Number] Is equal to",
     value: constants.EQUALS,
   },
   {
