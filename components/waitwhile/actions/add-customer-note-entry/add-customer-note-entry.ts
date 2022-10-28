@@ -47,8 +47,14 @@ export default defineAction({
       visitId: this.visitId,
     };
 
-    const data = await this.waitwhile.addCustomerNoteEntry(options, params);
-    $.export("summary", "Successfully added a customer note entry");
-    return data;
+    try {
+      const data = await this.waitwhile.addCustomerNoteEntry(options, params);
+      $.export("summary", "Successfully added a customer note entry");
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}`);
+    }
   },
 });

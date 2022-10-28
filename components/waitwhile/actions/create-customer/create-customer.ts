@@ -90,9 +90,15 @@ export default defineAction({
       externalId: this.externalId,
     };
 
-    const data = await this.waitwhile.createCustomers(params);
-    $.export("summary", `Successfully created a customer with ID: ${data.id}`);
+    try {
+      const data = await this.waitwhile.createCustomers(params);
+      $.export("summary", `Successfully created a customer with ID: ${data.id}`);
 
-    return data;
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}`);
+    }
   },
 });

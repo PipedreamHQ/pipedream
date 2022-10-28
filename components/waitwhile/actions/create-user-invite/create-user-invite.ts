@@ -68,8 +68,15 @@ export default defineAction({
       resourceId: this.resourceId,
     };
 
-    const data = await this.waitwhile.createUserInvite(params);
-    $.export("summary", `Successfully created a user invite with ID: ${data.id}`);
-    return data;
+    try {
+      const data = await this.waitwhile.createUserInvite(params);
+      $.export("summary", `Successfully created a user invite with ID: ${data.id}`);
+
+      return data;
+    } catch (error) {
+      const statusCode = error[Object.getOwnPropertySymbols(error)[1]].status;
+      const statusText = error[Object.getOwnPropertySymbols(error)[1]].statusText;
+      throw new Error(`Error status code: ${statusCode}. Error status response: ${statusText}`);
+    }
   },
 });
