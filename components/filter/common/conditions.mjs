@@ -22,7 +22,7 @@ export const constants = {
   KEY_NOT_EXISTS: "KEY_NOT_EXISTS",
 };
 
-export const binaryConditions = [
+const textOptions = [
   {
     label: "[Text] Contains",
     value: constants.CONTAINS,
@@ -55,6 +55,10 @@ export const binaryConditions = [
     label: "[Text] Does not end with",
     value: constants.NOT_ENDS_WITH,
   },
+];
+
+const binaryOptions = [
+  ...textOptions,
   {
     label: "[Number] Is greater than",
     value: constants.GREATER_THAN,
@@ -93,7 +97,7 @@ export const binaryConditions = [
   },
 ];
 
-export const unaryConditions = [
+const unaryOptions = [
   {
     label: "[Boolean] Evaluates to True",
     value: constants.TRUE,
@@ -112,7 +116,11 @@ export const unaryConditions = [
   },
 ];
 
+export const textConditions = textOptions.map(({ value }) => value);
+export const binaryConditions = binaryOptions.map(({ value }) => value);
+export const unaryConditions = unaryOptions.map(({ value }) => value);
+
 export default [
-  ...binaryConditions,
-  ...unaryConditions,
+  ...binaryOptions,
+  ...unaryOptions,
 ];
