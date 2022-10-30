@@ -971,6 +971,9 @@
     },
     {
       "path": "components/plasmic"
+    },
+    {
+      "path": "components/orbisx"
     }
   ]
 }
