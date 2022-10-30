@@ -2083,7 +2083,10 @@ importers:
     specifiers: {}
 
   components/sendblue:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/sender:
     specifiers: {}

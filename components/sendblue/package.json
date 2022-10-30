@@ -1,17 +1,22 @@
 {
   "name": "@pipedream/sendblue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sendblue Components",
-  "main": "dist/app/sendblue.app.mjs",
+  "main": "sendblue.app.mjs",
   "keywords": [
     "pipedream",
     "sendblue"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/sendblue",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
   }
 }
