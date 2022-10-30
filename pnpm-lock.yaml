@@ -1718,6 +1718,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/orbisx:
+    specifiers: {}
+
   components/outgrow:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2624,8 +2627,9 @@ importers:
       uuid: ^9.0.0
     dependencies:
       '@pipedream/platform': 1.1.1
-      '@pipedream/types': 0.1.4
       uuid: 9.0.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/twitter:
     specifiers:
