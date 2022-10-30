@@ -9,6 +9,12 @@ export default {
         "incomingPhoneNumber",
       ],
     },
+    authToken: {
+      propDefinition: [
+        twilio,
+        "authToken",
+      ],
+    },
     http: {
       label: "HTTP Responder",
       description: "Exposes a `respond()` method that lets the source issue HTTP responses",
@@ -87,6 +93,7 @@ export default {
       signature,
       url: `${this.http.endpoint}/`,
       params: body,
+      authToken: this.authToken,
     });
 
     if (!isRequestValid) {

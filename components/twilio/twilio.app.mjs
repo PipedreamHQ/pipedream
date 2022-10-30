@@ -10,6 +10,13 @@ export default {
   type: "app",
   app: "twilio",
   propDefinitions: {
+    authToken: {
+      type: "string",
+      secret: true,
+      label: "Twilio Auth Token",
+      description:
+        "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
+    },
     body: {
       type: "string",
       label: "Message Body",
@@ -150,18 +157,22 @@ export default {
   },
   methods: {
     validateRequest({
-      signature, url, params,
+      signature, url, params, authToken = this.$auth.authToken,
     } = {}) {
       // See https://www.twilio.com/docs/usage/webhooks/webhooks-security
       return twilio.validateRequest(
-        this.$auth.authToken,
+        authToken,
         signature,
         url,
         params,
       );
     },
     getClient() {
-      return twilio(this.$auth.accountSid, this.$auth.authToken);
+      // Uncomment this line when users are ready to migrate
+      // return twilio(this.$auth.accountSid, this.$auth.authToken);
+      return twilio(this.$auth.Sid, this.$auth.Secret, {
+        accountSid: this.$auth.AccountSid,
+      });
     },
     setWebhookURL({
       serviceType = constants.SERVICE_TYPE.SMS, phoneNumberSid, url,
