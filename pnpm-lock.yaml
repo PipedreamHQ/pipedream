@@ -2559,7 +2559,12 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/transistor_fm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      form-data: 4.0.0
 
   components/trello:
     specifiers:
