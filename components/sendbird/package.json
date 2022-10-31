@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendbird",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sendbird Components",
   "main": "sendbird.app.mjs",
   "keywords": [

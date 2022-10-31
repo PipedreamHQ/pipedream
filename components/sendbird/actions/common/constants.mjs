@@ -1,15 +1,15 @@
 export default {
   MESSAGE_TYPE_OPTS: [
     {
-      label: "Messages",
+      label: "Message",
       value: "MESG",
     },
     {
-      label: "Files",
+      label: "File",
       value: "FILE",
     },
     {
-      label: "Admin Messages",
+      label: "Admin Message",
       value: "ADMM",
     },
   ],
@@ -35,6 +35,16 @@ export default {
     {
       label: "Group Channels",
       value: "group_channels",
+    },
+  ],
+  MENTION_TYPE_OPTS: [
+    {
+      label: "Users",
+      value: "users",
+    },
+    {
+      label: "Channel",
+      value: "channel",
     },
   ],
 };

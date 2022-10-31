@@ -76,13 +76,17 @@ export default {
       label: "Sender Ids",
       description: "Restricts the search scope to only retrieve messages sent by one or more users with the specified IDs listed in a comma-separated string.",
       async options({ applicationId }) {
-        const { users } = await this.listUsers(applicationId);
-        return users.map((user) => ({
-          label: user.nickname,
-          value: user.user_id,
-        }));
+        return this.listUserOpts(applicationId);
       },
       optional: true,
+    },
+    userId: {
+      type: "string",
+      label: "User Id",
+      description: "Specifies the user ID of the sender.",
+      async options({ applicationId }) {
+        return this.listUserOpts(applicationId);
+      },
     },
     operatorFilter: {
       type: "string",
@@ -108,6 +112,45 @@ export default {
       type: "boolean",
       label: "With Sorted Meta Array",
       description: "Determines whether to include the `sorted_metaarray` property in the response.",
+      optional: true,
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Specifies the content of the message.",
+    },
+    sendPush: {
+      type: "boolean",
+      label: "Send Push",
+      description: "Determines whether to send a push notification for the message to the members of the channel (applicable to group channels only). Unlike text and file messages, a push notification for an admin message is not sent by default. (Default: true)",
+      optional: true,
+    },
+    mentionType: {
+      type: "string",
+      label: "Mention Type",
+      description: "Specifies the mentioning type which indicates the user scope who will get a notification for the message. Acceptable values are users and channel. If set to users, only the specified users with the mentioned_users property below will get notified. If set to channel, all users in the channel will get notified. (Default: users)",
+      options: constants.MENTION_TYPE_OPTS,
+      optional: true,
+    },
+    mentionedUserIds: {
+      type: "string",
+      label: "Mentioned User Ids",
+      description: "Specifies an array of one or more IDs of the users who will get a notification for the message.",
+      async options({ applicationId }) {
+        return this.listUserOpts(applicationId);
+      },
+      optional: true,
+    },
+    isSilent: {
+      type: "boolean",
+      label: "Is Silent",
+      description: "Determines whether to send a message without updating some of the channel properties. If a message is sent in a channel, with this property set to true, the channel's last_message is updated only for the sender while its unread_message_count remains unchanged for all channel members.",
+      optional: true,
+    },
+    dedupId: {
+      type: "string",
+      label: "Dedup Id",
+      description: "Specifies the unique message ID created by other system. In general, this property is used to prevent the same message data from getting inserted when migrating the messages of the other system to Sendbird server. If specified, the server performs a duplicate check using the property value.",
       optional: true,
     },
   },
@@ -137,16 +180,23 @@ export default {
           };
         }, {});
     },
-    async listUsers(applicationId) {
+    async listUserOpts(applicationId) {
+      if (!applicationId) {
+        return [];
+      }
       const apiInstance = new SendbirdPlatformSdk.UserApi();
       apiInstance.apiClient.basePath = this._getBasePath(applicationId);
       const apiToken = this._getApiToken();
-      return apiInstance.listUsers(
+      const { users } = await apiInstance.listUsers(
         apiToken,
         {
           limit: 100,
         },
       );
+      return users.map((user) => ({
+        label: user.nickname,
+        value: user.user_id,
+      }));
     },
     async listChannels(applicationId) {
       const apiInstance = new SendbirdPlatformSdk.OpenChannelApi();
@@ -163,6 +213,20 @@ export default {
         channelType,
         channelUrl,
         this.filterEmptyValues(opts),
+      );
+    },
+    async sendMessage(applicationId, channelType, channelUrl, opts) {
+      const apiInstance = new SendbirdPlatformSdk.MessageApi();
+      apiInstance.apiClient.basePath = this._getBasePath(applicationId);
+      const apiToken = this._getApiToken();
+      const data = {
+        sendMessageData: this.filterEmptyValues(opts),
+      };
+      return apiInstance.sendMessage(
+        apiToken,
+        channelType,
+        channelUrl,
+        data,
       );
     },
   },

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "sendbird-list-messages",
   name: "List messages",
-  description: "Retrieves a list of past messages of a specific channel.",
+  description: "Retrieves a list of past messages of a specific channel. [See the docs here](https://sendbird.com/docs/chat/v3/platform-api/message/messaging-basics/list-messages)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -117,13 +117,17 @@ export default {
       includingRemoved: this.includingRemoved,
       withSortedMetaArray: this.withSortedMetaArray,
     };
-    const messages = await this.app.listMessages(
-      this.applicationId,
-      this.channelType,
-      this.channelUrl,
-      opts,
-    );
-    $.export("$summary", `Successfully fetched messages ${messages}`);
-    return messages;
+    try {
+      const { messages } = await this.app.listMessages(
+        this.applicationId,
+        this.channelType,
+        this.channelUrl,
+        opts,
+      );
+      $.export("$summary", `Successfully fetched ${messages.length} messages`);
+      return messages;
+    } catch (ex) {
+      throw new ConfigurationError(ex?.body?.message);
+    }
   },
 };
