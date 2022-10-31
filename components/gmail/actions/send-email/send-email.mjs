@@ -99,7 +99,7 @@ export default {
     }
 
     const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to.join(", ")}`);
+    $.export("$summary", `Successfully sent email to ${this.to}`);
     return response;
   },
 };
