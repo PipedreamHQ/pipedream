@@ -8,7 +8,7 @@ export default defineAction({
   description:
     "Create or update a Data Store Record [See docs here](https://api.niftyimages.com/)",
   key: "niftyimages-add-data-store-record",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     niftyimages,
@@ -25,28 +25,31 @@ export default defineAction({
     const apiKey = this.dataStoreApiKey;
 
     const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(
-      apiKey
+      apiKey,
     );
     const newPropNames = [];
 
     fields.forEach((field) => {
-      const { name, type, date_input_format } = field;
-      newProps[name] = {
+      const {
+        name, type, date_input_format,
+      } = field;
+      const filteredName = name.replace(/ /g, "_");
+      newProps[filteredName] = {
         label: this.niftyimages.getFieldLabel(field),
         description: date_input_format
           ? `Must be a date in the \`${date_input_format}\` format`
           : undefined,
-        type: type === "NUMBER" ? "integer" : "string",
+        type: this.niftyimages.getFieldPropType(type),
       };
-      newPropNames.push(name);
+      newPropNames.push(filteredName);
     });
 
-    newProps['$fieldNames'] = {
-      label: 'Fields to Update',
-      description: 'Comma-separated list of the fields to be updated (defaults to all).',
-      type: 'string',
+    newProps["$fieldNames"] = {
+      label: "Fields to Update",
+      description: "Comma-separated list of the fields to be updated (defaults to all).",
+      type: "string",
       optional: true,
-      default: newPropNames
+      default: newPropNames.join(),
     };
 
     return newProps;
@@ -55,18 +58,19 @@ export default defineAction({
     const data = {};
     const $this = this as any;
 
-    const strNames: string = $this.newPropNames?.trim();
+    const strNames: string = $this.$fieldNames?.trim();
     if (!strNames) {
-      throw new ConfigurationError('Please check the `Fields to Update` prop.');
+      throw new ConfigurationError("Please check the `Fields to Update` prop.");
     }
 
-    strNames.split(',').forEach(fieldName => {
+    strNames.split(",").forEach((fieldName) => {
       data[fieldName] = $this[fieldName];
-    })
+    });
 
     const params = {
       $,
       data,
+      apiKey: $this.dataStoreApiKey,
     };
 
     const response = await $this.niftyimages.addRecord(params);

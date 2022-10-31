@@ -17,6 +17,16 @@ export default defineApp({
         ? " (unique)"
         : "");
     },
+    getFieldPropType(type: string) {
+      switch (type) {
+      case "NUMBER":
+        return "integer";
+      case "BOOLEAN":
+        return "boolean";
+      default:
+        return "string";
+      }
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
@@ -32,7 +42,7 @@ export default defineApp({
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
-          "ApiKey": apiKey || this.apiKey(),
+          "ApiKey": apiKey || this._apiKey(),
           "Content-Type": "application/json",
         },
         ...args,
