@@ -29,8 +29,10 @@ export default {
           drive: c.drive,
         }),
       ],
-      description:
-        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the drive's top-level folder.",
+      description: toSingleLineString(`
+        Select a folder in which to place the new folder.
+        If not specified, the folder will be placed directly in the drive's top-level folder.
+      `),
       optional: true,
     },
     name: {
@@ -46,7 +48,7 @@ export default {
       type: "boolean",
       label: "Create Only If Filename Is Unique?",
       description: toSingleLineString(`
-        If the folder already exists and is not in the trash, do not create. This option defaults to \`false\` for
+        If the folder already exists, **do not** create. This option defaults to \`false\` for
         backwards compatibility and to be consistent with default Google Drive behavior.
       `),
       optional: true,
