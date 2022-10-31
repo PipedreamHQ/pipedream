@@ -1,5 +1,6 @@
 import niftyimages from "../../app/niftyimages.app";
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import { DataStoreField } from "../../common/types";
 
 export default defineAction({
@@ -26,31 +27,51 @@ export default defineAction({
     const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(
       apiKey
     );
+    const newPropNames = [];
 
-    fields.forEach((field, index) => {
-      const { type, date_input_format } = field;
-      newProps[`field${index}`] = {
+    fields.forEach((field) => {
+      const { name, type, date_input_format } = field;
+      newProps[name] = {
         label: this.niftyimages.getFieldLabel(field),
         description: date_input_format
           ? `Must be a date in the \`${date_input_format}\` format`
           : undefined,
         type: type === "NUMBER" ? "integer" : "string",
       };
+      newPropNames.push(name);
     });
+
+    newProps['$fieldNames'] = {
+      label: 'Fields to Update',
+      description: 'Comma-separated list of the fields to be updated (defaults to all).',
+      type: 'string',
+      optional: true,
+      default: newPropNames
+    };
 
     return newProps;
   },
   async run({ $ }): Promise<object> {
     const data = {};
+    const $this = this as any;
+
+    const strNames: string = $this.newPropNames?.trim();
+    if (!strNames) {
+      throw new ConfigurationError('Please check the `Fields to Update` prop.');
+    }
+
+    strNames.split(',').forEach(fieldName => {
+      data[fieldName] = $this[fieldName];
+    })
 
     const params = {
       $,
       data,
     };
 
-    const response = {a:1};//await this.niftyimages.addRecord(params);
+    const response = await $this.niftyimages.addRecord(params);
 
-    $.export("$summary", "Created document successfully");
+    $.export("$summary", "Added record successfully");
 
     return response;
   },
