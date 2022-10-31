@@ -7,6 +7,23 @@ export default {
   type: "app",
   app: "discourse",
   propDefinitions: {
+    topicId: {
+      label: "Topic ID",
+      type: "string",
+      description: "The topic ID",
+      async options({ page }) {
+        const topics = await this.getTopics({
+          params: {
+            page,
+          },
+        });
+
+        return topics.map((topic) => ({
+          label: topic.title,
+          value: topic.id,
+        }));
+      },
+    },
     categories: {
       type: "string[]",
       label: "Categories",
@@ -231,6 +248,23 @@ export default {
         path: "/admin/users",
       });
       return data;
+    },
+    async getTopics({ ...args }) {
+      const response = await this._makeRequest({
+        path: "/latest.json",
+        ...args,
+      });
+
+      return response.data?.topic_list?.topics ?? [];
+    },
+    async createPost({ ...args }) {
+      const response = await this._makeRequest({
+        path: "/posts.json",
+        method: "post",
+        ...args,
+      });
+
+      return response.data;
     },
   },
 };
