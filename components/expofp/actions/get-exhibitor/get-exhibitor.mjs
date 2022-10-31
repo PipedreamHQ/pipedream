@@ -4,7 +4,7 @@ export default {
   name: "Get Exhibitor",
   version: "0.0.1",
   key: "expofp-get-exhibitor",
-  description: "Get an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/get-exhibitor-details/get-exhibitor-details)",
+  description: "Get details of an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/get-exhibitor-details/get-exhibitor-details)",
   type: "action",
   props: {
     expofp,
