@@ -1,4 +1,4 @@
-import common from "../common-polling.mjs";
+import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   name: "New Notification",
   description:
     "Emit new event for each new Trello notification for the authenticated user.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-new-activity",
   name: "New Activity (Instant)",
   description: "Emit new event for new activity on a board.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     ...common.props,

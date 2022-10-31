@@ -5,7 +5,7 @@ export default {
   name: "Get Clips",
   key: "twitch-get-clips",
   description: "Gets clip information by clip ID, user ID, or game ID",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

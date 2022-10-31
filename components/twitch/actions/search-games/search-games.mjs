@@ -7,7 +7,7 @@ export default {
   description: `Searches for games based on a specified query parameter. A game is
     returned if the query parameter is matched entirely or partially in the channel
     description or game name`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

@@ -1,12 +1,12 @@
-// Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-import twilio from "../../twilio.app.mjs";
 import { phone } from "phone";
+import twilio from "../../twilio.app.mjs";
+import { callToString } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call, passing text that Twilio will speak to the recipient of the call. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource) for more information",
-  version: "0.0.7",
+  version: "0.1.1",
   type: "action",
   props: {
     twilio,
@@ -46,7 +46,7 @@ export default {
     };
 
     const resp = await this.twilio.getClient().calls.create(data);
-    $.export("$summary", `Successfully made a new phone call, "${this.twilio.callToString(resp)}"`);
+    $.export("$summary", `Successfully made a new phone call, "${callToString(resp)}"`);
     return resp;
   },
 };

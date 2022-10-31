@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "twitch-update-channel",
   description: `Update information for the channel owned by the authenticated user.
   At least one parameter must be provided.`,
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -40,6 +41,10 @@ export default {
     },
   },
   async run() {
+    if (!this.title && !this.game && !this.language && !this.delay) {
+      throw new ConfigurationError("In order to continue you must configure at least one of the optional props.");
+    }
+
     // get the userID of the authenticated user
     const userId = await this.getUserId();
     let params = {
