@@ -4,7 +4,7 @@ export default {
   key: "webflow-publish-site",
   name: "Publish Site",
   description: "Get a site in a specific domain. [See the docs here](https://developers.webflow.com/#publish-site)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     webflow,
@@ -14,7 +14,7 @@ export default {
         "sites",
       ],
     },
-    domainIds: {
+    domains: {
       propDefinition: [
         webflow,
         "domains",
@@ -29,7 +29,7 @@ export default {
 
     const response = await webflow.publishSite({
       siteId: this.siteId,
-      domains: this.domainIds,
+      domains: this.domains,
     });
 
     $.export("$summary", "Successfully published site");

@@ -1,130 +1,70 @@
-import conditions from "./common/conditions.mjs";
+import conditions, { constants } from "./common/conditions.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import valueTypes from "./common/value-types.mjs";
 
 export default {
   type: "app",
   app: "filter",
   propDefinitions: {
-    reason: {
-      type: "string",
-      label: "Reason",
-      description: "The reason for continuing/ending the workflow. Please override this description",
-      optional: true,
-    },
-    valueType: {
-      type: "string",
-      label: "Value Type",
-      description: "Type of the value to evaluate",
-      options: Object.keys(conditions.types),
-    },
     condition: {
       type: "string",
       label: "Condition",
-      description: "The condition for evaluation",
-      async options({ valueType }) {
-        switch (valueType) {
-        case conditions.types.TEXT:
-          return conditions.textOptions;
-        case conditions.types.NUMBER:
-          return conditions.numberOptions;
-        case conditions.types.DATETIME:
-          return conditions.dateTimeOptions;
-        case conditions.types.BOOLEAN:
-          return conditions.booleanOptions;
-        case conditions.types.NULL:
-          return conditions.nullOptions;
-        case conditions.types.ARRAY:
-          return conditions.arrayOptions;
-        case conditions.types.OBJECT:
-          return conditions.objectOptions;
-        default:
-          throw new Error("Value Type not supported");
-        }
-      },
-    },
-    operand1: {
-      type: "any",
-      label: "Value to evaluate",
-      description: "Enter a value here or reference one from a previous step to evaluate",
-    },
-    operand2: {
-      type: "any",
-      label: "Value to compare against",
-      description: "Enter another value here or reference one from a previous step to compare the initial value against",
-    },
-    arrayType: {
-      type: "string",
-      label: "Value Sub Type for Array Comparison",
-      description: "Type of the value to search for in the array",
-      options: [
-        "string",
-        "integer",
-        "boolean",
-      ],
+      description: "Choose a condition",
+      options: conditions,
+      default: conditions[0].value,
       reloadProps: true,
-    },
-    caseSensitive: {
-      type: "boolean",
-      label: "Case Sensitive",
-      description: "Should the text comparison be case sensitive?",
-      default: false,
     },
   },
   methods: {
-    checkCondition(condition, operand1, operand2, caseSensitive) {
+    checkCondition(condition, operand1, operand2, caseSensitive, valueType) {
       switch (condition) {
-      case conditions.constants.IN:
-        return this.checkIfIn(operand1, operand2, caseSensitive);
-      case conditions.constants.NOT_IN:
-        return !this.checkIfIn(operand1, operand2, caseSensitive);
-      case conditions.constants.TEXT_EQUALS:
+      case constants.CONTAINS:
+        return this.checkIfContains(operand1, operand2, caseSensitive);
+      case constants.NOT_CONTAINS:
+        return !this.checkIfContains(operand1, operand2, caseSensitive);
+      case constants.TEXT_EQUALS:
         return this.checkIfTextEquals(operand1, operand2, caseSensitive);
-      case conditions.constants.TEXT_NOT_EQUALS:
+      case constants.TEXT_NOT_EQUALS:
         return !this.checkIfTextEquals(operand1, operand2, caseSensitive);
-      case conditions.constants.STARTS_WITH:
+      case constants.STARTS_WITH:
         return this.checkIfStartsWith(operand1, operand2, caseSensitive);
-      case conditions.constants.NOT_STARTS_WITH:
+      case constants.NOT_STARTS_WITH:
         return !this.checkIfStartsWith(operand1, operand2, caseSensitive);
-      case conditions.constants.ENDS_WITH:
+      case constants.ENDS_WITH:
         return this.checkIfEndsWith(operand1, operand2, caseSensitive);
-      case conditions.constants.NOT_ENDS_WITH:
+      case constants.NOT_ENDS_WITH:
         return !this.checkIfEndsWith(operand1, operand2, caseSensitive);
-      case conditions.constants.GREATER_THAN:
+      case constants.GREATER_THAN:
         return this.checkIfGreater(operand1, operand2);
-      case conditions.constants.GREATER_THAN_EQUALS:
+      case constants.GREATER_THAN_EQUALS:
         return this.checkIfGreaterEquals(operand1, operand2);
-      case conditions.constants.LESS_THAN:
+      case constants.LESS_THAN:
         return this.checkIfLess(operand1, operand2);
-      case conditions.constants.LESS_THAN_EQUALS:
+      case constants.LESS_THAN_EQUALS:
         return this.checkIfLessEquals(operand1, operand2);
-      case conditions.constants.EQUALS:
+      case constants.EQUALS:
         return this.checkIfEquals(operand1, operand2);
-      case conditions.constants.AFTER:
-        return this.checkIfAfter(operand1, operand2);
-      case conditions.constants.BEFORE:
-        return this.checkIfBefore(operand1, operand2);
-      case conditions.constants.DATE_EQUALS:
-        return this.checkIfDateEquals(operand1, operand2);
-      case conditions.constants.TRUE:
+      case constants.TRUE:
         return this.checkIfTrue(operand1, operand2);
-      case conditions.constants.FALSE:
+      case constants.FALSE:
         return !this.checkIfTrue(operand1, operand2);
-      case conditions.constants.IS_NULL:
+      case constants.IS_NULL:
         return this.checkIfIsNull(operand1);
-      case conditions.constants.NOT_NULL:
+      case constants.NOT_NULL:
         return !this.checkIfIsNull(operand1);
-      case conditions.constants.IN_ARRAY:
-        return this.checkIfInArray(operand1, operand2);
-      case conditions.constants.NOT_IN_ARRAY:
-        return !this.checkIfInArray(operand1, operand2);
-      case conditions.constants.KEY_EXISTS:
+      case constants.IN_ARRAY:
+        return this.checkIfInArray(operand1, operand2, caseSensitive, valueType);
+      case constants.NOT_IN_ARRAY:
+        return !this.checkIfInArray(operand1, operand2, caseSensitive, valueType);
+      case constants.KEY_EXISTS:
         return this.checkIfKeyExists(operand1, operand2);
-      case conditions.constants.KEY_NOT_EXISTS:
+      case constants.KEY_NOT_EXISTS:
         return !this.checkIfKeyExists(operand1, operand2);
       default:
         throw new Error("Condition operation not supported");
       }
     },
-    checkIfIn(operand1, operand2, caseSensitive) {
+    checkIfContains(operand1, operand2, caseSensitive) {
       operand1 = this.convertToString(operand1, caseSensitive);
       operand2 = this.convertToString(operand2, caseSensitive);
       return operand1.includes(operand2);
@@ -169,21 +109,6 @@ export default {
       operand2 = this.convertToNumber(operand2);
       return operand1 === operand2;
     },
-    checkIfAfter(operand1, operand2) {
-      operand1 = this.convertToDateTime(operand1);
-      operand2 = this.convertToDateTime(operand2);
-      return operand1 > operand2;
-    },
-    checkIfBefore(operand1, operand2) {
-      operand1 = this.convertToDateTime(operand1);
-      operand2 = this.convertToDateTime(operand2);
-      return operand1 < operand2;
-    },
-    checkIfDateEquals(operand1, operand2) {
-      operand1 = this.convertToDateTime(operand1);
-      operand2 = this.convertToDateTime(operand2);
-      return operand1.getTime() === operand2.getTime();
-    },
     checkIfTrue(operand1) {
       return operand1;
     },
@@ -195,13 +120,22 @@ export default {
         operand1 === "undefined"
       );
     },
-    checkIfInArray(operand1, operand2) {
+    checkIfInArray(operand1, operand2, caseSensitive, valueType) {
+      operand2 = this.parse(operand2, "array");
+      if (valueType === valueTypes.TEXT) {
+        operand1 = this.convertToString(operand1, caseSensitive);
+      }
+      if (valueType === valueTypes.NUMBER) {
+        operand1 = this.convertToNumber(operand1);
+      }
       return operand2.includes(operand1);
     },
     checkIfKeyExists(operand1, operand2) {
+      operand2 = this.parse(operand2, "object");
       return operand1 in operand2 && !this.checkIfIsNull(operand2[operand1]);
     },
-    convertToString(input, caseSensitive = true) {
+    convertToString(input, caseSensitive) {
+      input = String(input);
       if (!caseSensitive) {
         return input.toLowerCase();
       }
@@ -214,12 +148,26 @@ export default {
       }
       return input;
     },
-    convertToDateTime(input) {
-      input = new Date(input);
-      if (isNaN(input)) {
-        throw new Error("Input cannot be converted to datetime");
+    parse(input, type) {
+      if (type === "array" && Array.isArray(input)) {
+        return input;
       }
-      return input;
+      if (type === "object" && typeof input === "object" && !Array.isArray(input) && input !== null) {
+        return input;
+      }
+
+      try {
+        const parsed = JSON.parse(input);
+        if (type === "array" && !Array.isArray(parsed)) {
+          throw new Error("Unable to parse second value to array");
+        }
+        if (type === "object" && (typeof parsed !== "object" || Array.isArray(parsed))) {
+          throw new Error("Unable to parse second value to object");
+        }
+        return parsed;
+      } catch (e) {
+        throw new ConfigurationError(e);
+      }
     },
   },
 };

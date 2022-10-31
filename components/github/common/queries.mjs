@@ -32,6 +32,23 @@ const projectsQuery = `
   }
 `;
 
+const organizationStatusFieldsQuery = `
+  query ($repoOwner: String!, $project: Int!) {
+    organization(login: $repoOwner) {
+      projectV2(number: $project) {
+        field(name: "Status") {
+          ... on ProjectV2SingleSelectField {
+            options {
+              name
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const statusFieldsQuery = `
   query ($repoOwner: String!, $repoName: String!, $project: Int!) {
     repository(name: $repoName, owner: $repoOwner) {
@@ -64,6 +81,21 @@ const projectItemsQuery = `
   }
 `;
 
+const organizationProjectItemsQuery = `
+  query ($repoOwner: String!, $project: Int!, $historicalEventsNumber: Int!) {
+    organization(login: $repoOwner) {
+      projectV2(number: $project) {
+        items(last: $historicalEventsNumber) {
+          nodes {
+            id
+            type
+          }
+        }
+      }
+    }
+  }
+`;
+
 const projectItemQuery = `
   query ($nodeId: ID!) {
     node(id: $nodeId) {
@@ -73,6 +105,9 @@ const projectItemQuery = `
         content {
           ... on Issue {
             number
+            repository {
+              name
+            }
           }
         }
         fieldValueByName(name: "Status") {
@@ -90,6 +125,8 @@ export default {
   projectsQuery,
   organizationProjectsQuery,
   statusFieldsQuery,
+  organizationStatusFieldsQuery,
   projectItemsQuery,
+  organizationProjectItemsQuery,
   projectItemQuery,
 };

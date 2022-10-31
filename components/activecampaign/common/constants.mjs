@@ -27,7 +27,13 @@ const CURRENCY_OPTIONS =
     value: currency.toLowerCase(),
   }));
 
+const API = {
+  ACTIVECAMPAIGN: "activecampaign",
+  TRACKCMP: "trackcmp",
+};
+
 export default {
+  API,
   VERSION_PATH,
   UPDATED_TIMESTAMP,
   DEFAULT_LIMIT,
