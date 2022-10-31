@@ -18,24 +18,31 @@ export default defineAction({
       const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(apiKey);
 
       fields.forEach((field, index) => {
-        const { type, date_input_format } = field;
+        const {
+          type, date_input_format,
+        } = field;
         props[`field${index}`] = {
           label: this.niftyimages.getFieldLabel(field),
-          description: date_input_format ? `Must be a date in the \`|${date_input_format}\` format` : undefined,
-          type: (type === 'NUMBER') ? 'integer' : 'string',
+          description: date_input_format
+            ? `Must be a date in the \`|${date_input_format}\` format`
+            : undefined,
+          type: (type === "NUMBER")
+            ? "integer"
+            : "string",
         };
-      })
+      });
 
-      return props;  
-    }
+      return props;
+    },
   },
   props: {
     niftyimages,
     dataStoreApiKey: {
-      propDefinition: [
-        niftyimages,
-        "fieldsToUpdate",
-      ],
+      label: "Data Store API Key",
+      description:
+      "The API Key for the Data Store you want to create/update a record on.",
+      type: "string",
+      reloadProps: true,
     },
   },
   async run({ $ }): Promise<object> {

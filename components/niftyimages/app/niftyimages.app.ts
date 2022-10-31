@@ -9,19 +9,13 @@ import {
 export default defineApp({
   type: "app",
   app: "niftyimages",
-  propDefinitions: {
-    fieldsToUpdate: {
-      label: "Properties",
-      description:
-        "Select the properties to create or update on this Data Store Record.",
-      type: "string[]",
-      
-      reloadProps: true,
-    },
-  },
   methods: {
-    getFieldLabel({ name, unique }) {
-      return name + (unique ? " (unique)" : "");
+    getFieldLabel({
+      name, unique,
+    }) {
+      return name + (unique
+        ? " (unique)"
+        : "");
     },
     _apiKey() {
       return this.$auth.api_key;
@@ -38,7 +32,7 @@ export default defineApp({
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
-          ApiKey: apiKey || this.apiKey(),
+          "ApiKey": apiKey || this.apiKey(),
           "Content-Type": "application/json",
         },
         ...args,
@@ -47,7 +41,7 @@ export default defineApp({
     async getDataStoreFields(apiKey): Promise<DataStoreField[]> {
       return this._httpRequest({
         endpoint: "/Store",
-        apiKey
+        apiKey,
       });
     },
     async addRecord(args: AddRecordParams): Promise<object> {
