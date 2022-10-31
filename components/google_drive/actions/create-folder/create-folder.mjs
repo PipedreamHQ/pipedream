@@ -4,7 +4,10 @@ import {
   toSingleLineString,
 } from "../../utils.mjs";
 
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
+import {
+  MY_DRIVE_VALUE,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} from "../../constants.mjs";
 
 export default {
   key: "google_drive-create-folder",
@@ -57,17 +60,24 @@ export default {
   },
   async run({ $ }) {
     const {
+      drive,
       parentId,
       name,
       createIfUnique,
     } = this;
 
+    const driveId = await this.googleDrive.getDriveId(drive);
+
     if (createIfUnique) {
       let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name = '${name}' and trashed = false`;
       if (parentId) {
         q += ` and '${parentId}' in parents`;
+      } else if (drive === MY_DRIVE_VALUE) {
+        q += " and 'root' in parents";
+      } else {
+        q += ` and '${driveId}' in parents`;
       }
-      const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(this.drive, {
+      const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(drive, {
         q,
       }))).files;
 
@@ -77,7 +87,6 @@ export default {
       }
     }
 
-    const driveId = this.googleDrive.getDriveId(this.drive);
     const resp = await this.googleDrive.createFolder({
       name,
       parentId,
