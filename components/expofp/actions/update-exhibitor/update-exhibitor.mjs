@@ -144,6 +144,8 @@ export default {
       },
     });
 
+    $.export("$summary", `Successfully updated exhibitor with ID ${this.exhibitorId}`);
+
     return response;
   },
 };

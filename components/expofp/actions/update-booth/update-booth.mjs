@@ -36,6 +36,8 @@ export default {
       },
     });
 
+    $.export("$summary", `Successfully updasted booth with ID ${this.boothId}`);
+
     return response;
   },
 };
