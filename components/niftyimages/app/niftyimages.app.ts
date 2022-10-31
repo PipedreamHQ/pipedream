@@ -11,50 +11,46 @@ export default defineApp({
   app: "niftyimages",
   propDefinitions: {
     fieldsToUpdate: {
-      label: "Properties to /update",
+      label: "Properties",
+      description:
+        "Select the properties to create or update on this Data Store Record.",
       type: "string[]",
-      async options() {
-        const fields: DataStoreField[] = await this.getDataStoreFields();
-        return fields.map((field) => {
-          const label = field.name + (field.unique
-            ? " (unique property)"
-            : "");
-
-          return {
-            label,
-            value: JSON.stringify(field),
-          };
-        });
-      },
-      reloadProps: true
+      
+      reloadProps: true,
     },
   },
   methods: {
+    getFieldLabel({ name, unique }) {
+      return name + (unique ? " (unique)" : "");
+    },
+    _apiKey() {
+      return this.$auth.api_key;
+    },
     _baseUrl() {
       return "https://api.niftyimages.com/v1";
     },
     async _httpRequest({
       $ = this,
       endpoint,
+      apiKey,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
         url: this._baseUrl() + endpoint,
         headers: {
-          "ApiKey": this.$auth.api_key,
+          ApiKey: apiKey || this.apiKey(),
           "Content-Type": "application/json",
         },
         ...args,
       });
     },
-    async getDataStoreFields(): Promise<DataStoreField[]> {
+    async getDataStoreFields(apiKey): Promise<DataStoreField[]> {
       return this._httpRequest({
         endpoint: "/Store",
+        apiKey
       });
     },
-    async addRecord(
-      args: AddRecordParams,
-    ): Promise<object> {
+    async addRecord(args: AddRecordParams): Promise<object> {
       return this._httpRequest({
         endpoint: "/Store/AddRecord",
         method: "POST",

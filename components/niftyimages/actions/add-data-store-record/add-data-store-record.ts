@@ -1,5 +1,6 @@
 import niftyimages from "../../app/niftyimages.app";
 import { defineAction } from "@pipedream/types";
+import { DataStoreField } from "../../common/types";
 
 export default defineAction({
   name: "Add Data Store Record",
@@ -9,17 +10,28 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   methods: {
-    additionalProps() {
+    async additionalProps() {
       const props = {};
 
-      // build props from "fieldsToUpdate"
+      const apiKey = this.dataStoreApiKey;
+
+      const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(apiKey);
+
+      fields.forEach((field, index) => {
+        const { type, date_input_format } = field;
+        props[`field${index}`] = {
+          label: this.niftyimages.getFieldLabel(field),
+          description: date_input_format ? `Must be a date in the \`|${date_input_format}\` format` : undefined,
+          type: (type === 'NUMBER') ? 'integer' : 'string',
+        };
+      })
 
       return props;  
     }
   },
   props: {
     niftyimages,
-    fieldsToUpdate: {
+    dataStoreApiKey: {
       propDefinition: [
         niftyimages,
         "fieldsToUpdate",

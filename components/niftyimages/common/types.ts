@@ -4,6 +4,7 @@ export interface HttpRequestParams {
   endpoint: string;
   $?: Pipedream;
   data?: object;
+  apiKey?: string;
 }
 
 export interface DataStoreField {
