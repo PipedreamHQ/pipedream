@@ -78,7 +78,7 @@ export default {
       data,
       $,
     });
-    $.export("$summary", "Successfully created booking with ID");
+    $.export("$summary", `Successfully created booking with ID ${response.id}`);
     return response;
   },
 };
