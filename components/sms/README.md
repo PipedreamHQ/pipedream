@@ -10,9 +10,9 @@ Use Pipedream's SMS app to send a message from a workflow to the [verified phone
 
 To get started, go to <https://pipedream.com/alpha> and enable the SMS feature.
 
-Next, go to your [account settings](https://pipedream.com/settings) and enter and save an **SMS Number**:
+Next, go to your [account settings](https://pipedream.com/settings) and enter and save an **SMS Number** (only US numbers are supported):
 
-![Enter an SMS number (only US numbers are supported)](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings_uhsvqa.png)
+![Enter an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings_uhsvqa.png)
 
 ![Save an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings-save-phone-number_gfiwm9.png)
 
