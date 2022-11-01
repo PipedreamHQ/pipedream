@@ -96,7 +96,7 @@ export default {
         fileName: {
           type: "string",
           label: "File Name",
-          description: "the file name can be set to any string you want using the file name request property. If no file name is supplied, the name response property defaults to an empty string.",
+          description: "The file name can be set to any string you want using the file name request property. If no file name is supplied, the name response property defaults to an empty string.",
           optional: true,
         },
       };

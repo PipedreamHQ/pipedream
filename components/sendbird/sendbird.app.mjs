@@ -74,7 +74,7 @@ export default {
     senderIds: {
       type: "string[]",
       label: "Sender Ids",
-      description: "Restricts the search scope to only retrieve messages sent by one or more users with the specified IDs listed in a comma-separated string.",
+      description: "Restricts the search scope to only retrieve messages sent by one or more users.",
       async options({ applicationId }) {
         return this.listUserOpts(applicationId);
       },
