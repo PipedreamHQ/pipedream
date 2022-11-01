@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/sendbird",
+  "version": "0.0.1",
+  "description": "Pipedream Sendbird Components",
+  "main": "sendbird.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendbird"
+  ],
+  "homepage": "https://pipedream.com/apps/sendbird",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "sendbird-platform-sdk": "^0.0.14"
+  }
+}
