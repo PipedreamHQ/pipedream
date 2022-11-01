@@ -5,7 +5,7 @@ export default {
   key: "supportivekoala-create-image",
   name: "Create an Image",
   description: "Creates an image based on a template. [See the docs here](https://developers.supportivekoala.com/#create_image)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -31,7 +31,7 @@ export default {
       constants.ALLOWED_FIELD_TYPES.includes(child.type) && !child.locked);
     const props = fields?.reduce((props, field) => ({
       ...props,
-      [field.name]: {
+      [field.name + "templateId:" + this.templateId]: {
         type: "string",
         label: field.name,
         default: field.text || field.src,
@@ -57,10 +57,11 @@ export default {
     } = this;
 
     const params = Object.entries(fields).map((field) => {
-      const [
+      let [
         name,
         value,
       ] = field;
+      name = name.split("templateId")[0];
       return {
         name,
         value,
