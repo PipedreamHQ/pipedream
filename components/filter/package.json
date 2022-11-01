@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/filter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Filter Components",
   "main": "filter.app.mjs",
   "keywords": [
@@ -13,5 +13,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
 }

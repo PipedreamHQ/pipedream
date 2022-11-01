@@ -806,7 +806,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/filter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/firebase_admin_sdk:
     specifiers:
@@ -2561,7 +2564,12 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/transistor_fm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      form-data: 4.0.0
 
   components/trello:
     specifiers:

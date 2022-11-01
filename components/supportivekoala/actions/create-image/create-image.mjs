@@ -1,10 +1,11 @@
 import app from "../../supportivekoala.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "supportivekoala-create-image",
   name: "Create an Image",
   description: "Creates an image based on a template. [See the docs here](https://developers.supportivekoala.com/#create_image)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -17,16 +18,23 @@ export default {
     },
   },
   async additionalProps() {
-    const template = await this.app.getTemplate({
+    const {
+      preview,
+      pages: [
+        page,
+      ] = [],
+    } = await this.app.getTemplate({
       templateId: this.templateId,
     });
-    const fields = template.pages[0].children.filter((child) => child.type === "text" && !child.locked);
-    const props = fields.reduce((props, field) => ({
+
+    const fields = page?.children?.filter((child) =>
+      constants.ALLOWED_FIELD_TYPES.includes(child.type) && !child.locked);
+    const props = fields?.reduce((props, field) => ({
       ...props,
       [field.name]: {
         type: "string",
         label: field.name,
-        default: field.text,
+        default: field.text || field.src,
         optional: true,
       },
     }), {});
@@ -34,7 +42,7 @@ export default {
       preview: {
         type: "string",
         label: "Template Preview Link (no input required)",
-        description: template.preview,
+        description: preview,
         optional: true,
       },
       ...props,

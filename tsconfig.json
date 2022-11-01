@@ -974,6 +974,9 @@
     },
     {
       "path": "components/orbisx"
+    },
+    {
+      "path": "components/burst_sms"
     }
   ]
 }
