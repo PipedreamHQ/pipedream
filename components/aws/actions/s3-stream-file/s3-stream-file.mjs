@@ -35,10 +35,10 @@ export default {
         fileResponse.data.pipe(writeStream);
         writeStream.on("finish", resolve);
       }));
-      var stats = fs.statSync(tempLocalPath);
+      const { size } = fs.statSync(tempLocalPath);
       return {
         stream: fs.createReadStream(tempLocalPath),
-        contentLength: stats.size,
+        contentLength: size,
       };
     },
   },
