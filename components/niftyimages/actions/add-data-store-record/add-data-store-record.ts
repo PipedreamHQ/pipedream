@@ -1,7 +1,7 @@
 import niftyimages from "../../app/niftyimages.app";
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
-import { DataStoreField } from "../../common/types";
+import { AddRecordParams, DataStoreField } from "../../common/types";
 
 export default defineAction({
   name: "Add Data Store Record",
@@ -67,10 +67,10 @@ export default defineAction({
       data[fieldName] = $this[fieldName];
     });
 
-    const params = {
+    const params: AddRecordParams = {
       $,
-      data,
       apiKey: $this.dataStoreApiKey,
+      data,
     };
 
     const response = await $this.niftyimages.addRecord(params);

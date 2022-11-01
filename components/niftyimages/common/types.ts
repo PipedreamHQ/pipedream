@@ -16,11 +16,13 @@ export interface DataStoreField {
 
 export interface AddRecordParams {
   $: Pipedream;
-  data: {};
+  apiKey: string;
+  data: object;
 }
 
 export interface UpdateTimerTargetDateParams {
   $: Pipedream;
+  apiKey: string;
   data: {
     TimerImageUrl: string;
     TargetDate: string;

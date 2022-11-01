@@ -61,5 +61,12 @@ export default defineApp({
         ...args,
       });
     },
+    async updateTimerTargetDate(args: AddRecordParams): Promise<object> {
+      return this._httpRequest({
+        endpoint: "/Timer/Update",
+        method: "PUT",
+        ...args,
+      });
+    },
   },
 });

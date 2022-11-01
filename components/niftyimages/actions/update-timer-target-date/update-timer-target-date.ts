@@ -7,10 +7,16 @@ export default defineAction({
   description:
     "Create or update a Data Store Record [See docs here](https://api.niftyimages.com/)",
   key: "niftyimages-update-timer-target-date",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     niftyimages,
+    timerApiKey: {
+      label: "Timer API Key",
+      description:
+        "The API Key for the Timer you want to update.",
+      type: "string",
+    },
     timerImageUrl: {
       label: "Timer Image URL",
       description: "URL of the image to update.",
@@ -57,6 +63,7 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const params: UpdateTimerTargetDateParams = {
       $,
+      apiKey: this.timerApiKey,
       data: {
         TimerImageUrl: this.timerImageUrl,
         TargetDate: this.targetDate,
