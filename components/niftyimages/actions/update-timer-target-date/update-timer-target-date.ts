@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Create or update a Data Store Record [See docs here](https://api.niftyimages.com/)",
   key: "niftyimages-update-timer-target-date",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     niftyimages,
@@ -75,7 +75,7 @@ export default defineAction({
       },
     };
 
-    const response = await this.niftyimages.updateTimerTargetDate(params);
+    const response: object = await this.niftyimages.updateTimerTargetDate(params);
 
     $.export("$summary", "Updated timer target date successfully");
 

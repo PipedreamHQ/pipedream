@@ -1,7 +1,9 @@
 import niftyimages from "../../app/niftyimages.app";
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
-import { AddRecordParams, DataStoreField } from "../../common/types";
+import {
+  AddRecordParams, DataStoreField,
+} from "../../common/types";
 
 export default defineAction({
   name: "Add Data Store Record",
@@ -21,8 +23,8 @@ export default defineAction({
     },
   },
   async additionalProps() {
-    const newProps = {};
-    const apiKey = this.dataStoreApiKey;
+    const newProps: object = {};
+    const apiKey: string = this.dataStoreApiKey;
 
     const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(
       apiKey,
@@ -54,15 +56,23 @@ export default defineAction({
 
     return newProps;
   },
-  async run({ $ }): Promise<object> {
-    const data = {};
-    const $this = this as any;
+  async run({ $ }) {
+    // I had to explicitly cast the type here due to a current limitation
+    // in the action type combined with the additionalProps method
+    const $this = this as {
+      niftyimages: {
+        addRecord: (args: AddRecordParams) => Promise<object>;
+      };
+      $fieldNames?: string;
+      dataStoreApiKey: string;
+    };
 
     const strNames: string = $this.$fieldNames?.trim();
     if (!strNames) {
       throw new ConfigurationError("Please check the `Fields to Update` prop.");
     }
 
+    const data: object = {};
     strNames.split(",").forEach((fieldName) => {
       data[fieldName] = $this[fieldName];
     });
@@ -75,7 +85,7 @@ export default defineAction({
 
     const response = await $this.niftyimages.addRecord(params);
 
-    $.export("$summary", "Added record successfully");
+    $.export("$summary", "Updated record successfully");
 
     return response;
   },

@@ -4,6 +4,7 @@ import {
   AddRecordParams,
   DataStoreField,
   HttpRequestParams,
+  UpdateTimerTargetDateParams,
 } from "../common/types";
 
 export default defineApp({
@@ -12,7 +13,7 @@ export default defineApp({
   methods: {
     getFieldLabel({
       name, unique,
-    }) {
+    }: DataStoreField) {
       return name + (unique
         ? " (unique)"
         : "");
@@ -27,7 +28,7 @@ export default defineApp({
         return "string";
       }
     },
-    _apiKey() {
+    _apiKey(): string {
       return this.$auth.api_key;
     },
     _baseUrl() {
@@ -48,7 +49,7 @@ export default defineApp({
         ...args,
       });
     },
-    async getDataStoreFields(apiKey): Promise<DataStoreField[]> {
+    async getDataStoreFields(apiKey: string): Promise<DataStoreField[]> {
       return this._httpRequest({
         endpoint: "/Store",
         apiKey,
@@ -61,7 +62,7 @@ export default defineApp({
         ...args,
       });
     },
-    async updateTimerTargetDate(args: AddRecordParams): Promise<object> {
+    async updateTimerTargetDate(args: UpdateTimerTargetDateParams): Promise<object> {
       return this._httpRequest({
         endpoint: "/Timer/Update",
         method: "PUT",
