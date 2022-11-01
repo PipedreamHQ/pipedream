@@ -977,6 +977,9 @@
     },
     {
       "path": "components/burst_sms"
+    },
+    {
+      "path": "components/simplehash"
     }
   ]
 }

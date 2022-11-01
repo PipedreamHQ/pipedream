@@ -119,6 +119,12 @@ Pipedream will convert that to a JavaScript object, `event.body`, with the follo
 }
 ```
 
+### How Pipedream handles HTTP headers
+
+HTTP request headers will be available in the `steps.trigger.event.headers` steps export in your downstream steps.
+
+Pipedream will automatically lowercase header keys for consistency.
+
 #### Limits
 
 You can send any content, up to the [HTTP payload size limit](/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
@@ -605,4 +611,3 @@ Now you can add an additional trigger to the same workflow, opening up multiple 
 </div>
 
 <Footer />
-
