@@ -32,7 +32,7 @@ export default {
       data: {
         eventId: this.eventId,
         name: this.boothId,
-        description: this.description,
+        adminNotes: this.adminNotes,
       },
     });
 
