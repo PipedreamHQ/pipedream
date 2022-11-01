@@ -1263,7 +1263,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ipinfo_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/iqair_airvisual:
     specifiers: {}
@@ -1717,6 +1720,9 @@ importers:
       '@pipedream/platform': ^0.9.0
     dependencies:
       '@pipedream/platform': 0.9.0
+
+  components/orbisx:
+    specifiers: {}
 
   components/outgrow:
     specifiers:
