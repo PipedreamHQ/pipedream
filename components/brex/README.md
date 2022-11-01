@@ -1,6 +1,8 @@
 # Overview
 
-The Brex API enables developers to programmatically manage their Brex account and cardholders. With the API, developers can create and manage cardholders, retrieve transactions, and more.
+The Brex API enables developers to programmatically manage their Brex account
+and cardholders. With the API, developers can create and manage cardholders,
+retrieve transactions, and more.
 
 Here are some examples of what you can build with the Brex API:
 

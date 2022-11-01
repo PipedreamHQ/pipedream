@@ -1,8 +1,7 @@
 # Overview
 
-# What can I build with the Brex (Staging) API?
-
-The Brex (Staging) API allows developers to access Brex data and build applications on top of Brex.
+The Brex (Staging) API allows developers to access Brex data and build
+applications on top of Brex.
 
 With the Brex (Staging) API, you can:
 

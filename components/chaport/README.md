@@ -1,6 +1,9 @@
 # Overview
 
-Chaport is a powerful customer communication platform that enables businesses to easily connect with their customers. Chaport provides a robust set of APIs that allow businesses to build a wide range of customer communication experiences, from simple chatbots to complex customer support systems.
+Chaport is a powerful customer communication platform that enables businesses
+to easily connect with their customers. Chaport provides a robust set of APIs
+that allow businesses to build a wide range of customer communication
+experiences, from simple chatbots to complex customer support systems.
 
 Some examples of what you can build with the Chaport API include:
 

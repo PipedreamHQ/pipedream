@@ -1,6 +1,7 @@
 # Overview
 
-With the Brosix API, you can build instant messaging and collaboration applications for a variety of purposes, including:
+With the Brosix API, you can build instant messaging and collaboration
+applications for a variety of purposes, including:
 
 - Customer service and support
 - Internal company communication

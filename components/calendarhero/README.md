@@ -1,6 +1,7 @@
 # Overview
 
-You can use the CalendarHero API to build applications that manage events and calendars. With CalendarHero, you can:
+You can use the CalendarHero API to build applications that manage events and
+calendars. With CalendarHero, you can:
 
 - Create and manage events
 - Search for events
