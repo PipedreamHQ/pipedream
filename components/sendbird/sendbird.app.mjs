@@ -14,7 +14,7 @@ export default {
     applicationId: {
       type: "string",
       label: "Application Id",
-      description: "Specifies the unique ID of the Application, To find the application ID, sign in to [Sendbird Dashboard](https://dashboard.sendbird.com/auth/signin), go to **Settings > Application > General**, and then check Application ID.",
+      description: "Specifies the unique ID of the Application. To find the application ID, sign in to [Sendbird Dashboard](https://dashboard.sendbird.com/auth/signin), go to **Settings > Application > General**, and then check Application ID.",
     },
     channelUrl: {
       type: "string",
@@ -74,7 +74,7 @@ export default {
     senderIds: {
       type: "string[]",
       label: "Sender Ids",
-      description: "Restricts the search scope to only retrieve messages sent by one or more users with the specified IDs listed in a comma-separated string.",
+      description: "Restricts the search scope to only retrieve messages sent by one or more users.",
       async options({ applicationId }) {
         return this.listUserOpts(applicationId);
       },
