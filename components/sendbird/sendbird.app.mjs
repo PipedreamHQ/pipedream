@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import SendbirdPlatformSdk from "sendbird-platform-sdk";
 import constants from "./actions/common/constants.mjs";
 
@@ -20,11 +21,14 @@ export default {
       type: "string",
       label: "Channel URL",
       description: "Specifies the url of the channel.",
-      async options({ applicationId }) {
+      async options({
+        applicationId,
+        channelType,
+      }) {
         if (!applicationId) {
           return [];
         }
-        const { channels } = await this.listChannels(applicationId);
+        const { channels } = await this.listChannels(applicationId, channelType);
         return channels.map((channel) => ({
           label: channel.name,
           value: channel.channel_url,
@@ -133,7 +137,7 @@ export default {
       optional: true,
     },
     mentionedUserIds: {
-      type: "string",
+      type: "string[]",
       label: "Mentioned User Ids",
       description: "Specifies an array of one or more IDs of the users who will get a notification for the message.",
       async options({ applicationId }) {
@@ -198,11 +202,26 @@ export default {
         value: user.user_id,
       }));
     },
-    async listChannels(applicationId) {
+    async listChannels(applicationId, channelType) {
+      if (channelType === "open_channels") {
+        return this.listOpenChannels(applicationId);
+      }
+      if (channelType === "group_channels") {
+        return this.listGroupChannels(applicationId);
+      }
+      throw new ConfigurationError("ChannelType acceptable values are **open_channels** and **group_channels**");
+    },
+    async listOpenChannels(applicationId) {
       const apiInstance = new SendbirdPlatformSdk.OpenChannelApi();
       apiInstance.apiClient.basePath = this._getBasePath(applicationId);
       const apiToken = this._getApiToken();
       return apiInstance.ocListChannels(apiToken);
+    },
+    async listGroupChannels(applicationId) {
+      const apiInstance = new SendbirdPlatformSdk.GroupChannelApi();
+      apiInstance.apiClient.basePath = this._getBasePath(applicationId);
+      const apiToken = this._getApiToken();
+      return apiInstance.gcListChannels(apiToken);
     },
     async listMessages(applicationId, channelType, channelUrl, opts) {
       const apiInstance = new SendbirdPlatformSdk.MessageApi();

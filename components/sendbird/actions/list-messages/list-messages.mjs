@@ -15,19 +15,20 @@ export default {
         "applicationId",
       ],
     },
+    channelType: {
+      propDefinition: [
+        app,
+        "channelType",
+      ],
+    },
     channelUrl: {
       propDefinition: [
         app,
         "channelUrl",
         (c) => ({
           applicationId: c.applicationId,
+          channelType: c.channelType,
         }),
-      ],
-    },
-    channelType: {
-      propDefinition: [
-        app,
-        "channelType",
       ],
     },
     messageTs: {

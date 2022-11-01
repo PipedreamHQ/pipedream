@@ -15,19 +15,20 @@ export default {
         "applicationId",
       ],
     },
+    channelType: {
+      propDefinition: [
+        app,
+        "channelType",
+      ],
+    },
     channelUrl: {
       propDefinition: [
         app,
         "channelUrl",
         (c) => ({
           applicationId: c.applicationId,
+          channelType: c.channelType,
         }),
-      ],
-    },
-    channelType: {
-      propDefinition: [
-        app,
-        "channelType",
       ],
     },
     userId: {
@@ -118,7 +119,7 @@ export default {
       message_type: this.messageType,
       send_push: this.sendPush,
       mention_type: this.mentionType,
-      mentioned_user_ids: this.mentionedUserIds && this.mentionedUserIds.split(","),
+      mentioned_user_ids: this.mentionedUserIds,
       is_silent: this.isSilent,
       dedup_id: this.dedupId,
     };
