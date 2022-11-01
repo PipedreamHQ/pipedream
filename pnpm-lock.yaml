@@ -359,6 +359,9 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/burst_sms:
+    specifiers: {}
+
   components/buy_me_a_coffee:
     specifiers: {}
 
@@ -1718,6 +1721,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
 
+  components/orbisx:
+    specifiers: {}
+
   components/outgrow:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2241,6 +2247,12 @@ importers:
 
   components/simpletexting:
     specifiers: {}
+
+  components/siteleaf:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/slack:
     specifiers:
