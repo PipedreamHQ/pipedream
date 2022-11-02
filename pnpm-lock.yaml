@@ -775,7 +775,10 @@ importers:
       qs: 6.11.0
 
   components/expofp:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/f15five:
     specifiers: {}

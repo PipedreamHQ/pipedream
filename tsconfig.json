@@ -980,6 +980,9 @@
     },
     {
       "path": "components/simplehash"
+    },
+    {
+      "path": "components/hygraph"
     }
   ]
 }
