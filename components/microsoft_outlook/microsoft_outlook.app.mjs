@@ -69,7 +69,7 @@ export default {
     },
     end: {
       label: "End",
-      description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
+      description: "End date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
       type: "string",
     },
     givenName: {

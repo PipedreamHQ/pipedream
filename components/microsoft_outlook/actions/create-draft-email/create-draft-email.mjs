@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-create-draft-email",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Create Draft Email",
   description: "Create a draft email, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
