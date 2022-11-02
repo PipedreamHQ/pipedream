@@ -4,13 +4,16 @@ import {
   toSingleLineString,
 } from "../../utils.mjs";
 
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
+import {
+  MY_DRIVE_VALUE,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} from "../../constants.mjs";
 
 export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     googleDrive,
@@ -29,8 +32,10 @@ export default {
           drive: c.drive,
         }),
       ],
-      description:
-        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the drive's top-level folder.",
+      description: toSingleLineString(`
+        Select a folder in which to place the new folder.
+        If not specified, the folder will be placed directly in the drive's top-level folder.
+      `),
       optional: true,
     },
     name: {
@@ -42,42 +47,46 @@ export default {
       description: "The name of the new folder",
       optional: true,
     },
-    createIfExists: {
+    createIfUnique: {
       type: "boolean",
-      label: "Create If Exists?",
+      label: "Create Only If Filename Is Unique?",
       description: toSingleLineString(`
-        If the folder already exists and is not in the trash, should we create it? This option defaults to 'true' for
-        backwards compatibility and to be consistent with default Google Drive behavior. 
+        If the folder already exists, **do not** create. This option defaults to \`false\` for
+        backwards compatibility and to be consistent with default Google Drive behavior.
       `),
       optional: true,
-      default: true,
+      default: false,
     },
   },
   async run({ $ }) {
     const {
+      drive,
       parentId,
       name,
-      createIfExists,
+      createIfUnique,
     } = this;
-    let folder;
-    if (createIfExists == false) {//checking "false" because if this optional prop may not be given
-      const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(this.drive, {
-        q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${name}' and trashed=false`.trim(),
-      }))).files;
-      for (let f of folders) {
-        if (f.name == name) {
-          folder = f;
-          break;
-        }
-      }
-      if (folder) {
-        $.export("$summary", "Found existing folder, therefore not creating folder. Returning found folder.");
-        const folderDetails = await this.googleDrive.getFile(folder.id);
 
-        return folderDetails;
+    const driveId = await this.googleDrive.getDriveId(drive);
+
+    if (createIfUnique) {
+      let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name = '${name}' and trashed = false`;
+      if (parentId) {
+        q += ` and '${parentId}' in parents`;
+      } else if (drive === MY_DRIVE_VALUE) {
+        q += " and 'root' in parents";
+      } else {
+        q += ` and '${driveId}' in parents`;
+      }
+      const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(drive, {
+        q,
+      }))).files;
+
+      if (folders.length) {
+        $.export("$summary", "Found existing folder, therefore not creating folder. Returning found folder.");
+        return this.googleDrive.getFile(folders[0].id);
       }
     }
-    const driveId = this.googleDrive.getDriveId(this.drive);
+
     const resp = await this.googleDrive.createFolder({
       name,
       parentId,
