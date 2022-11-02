@@ -8,6 +8,21 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    campaignId: {
+      propDefinition: [
+        app,
+        "campaignId",
+      ],
+    },
   },
-  async run() {},
+  async run({ $: step }) {
+    const campaign = await this.app.getCampaign({
+      step,
+      campaignId: this.campaignId,
+    });
+
+    step.export("$summary", `Campaign with ID ${campaign.campaignId} has been found.`);
+
+    return campaign;
+  },
 };

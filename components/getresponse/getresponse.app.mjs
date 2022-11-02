@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -9,9 +10,12 @@ export default {
       type: "string",
       label: "Campaign ID",
       description: "The campaign ID",
-      async options({ page }) {
+      async options({
+        query, page,
+      }) {
         const campaigns = await this.getCampaigns({
           params: {
+            [constants.QUERY_PROP.NAME]: query,
             page: page + 1,
           },
         });
@@ -90,13 +94,21 @@ export default {
       try {
         return await axios(step, config);
       } catch (error) {
-        console.log("Error", error);
+        console.log("Request error", error);
         throw error.response?.data?.message || error;
       }
     },
     getCampaigns(args = {}) {
       return this.makeRequest({
         path: "/campaigns",
+        ...args,
+      });
+    },
+    getCampaign({
+      campaignId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/campaigns/${campaignId}`,
         ...args,
       });
     },
@@ -142,6 +154,75 @@ export default {
         path: "/newsletters",
         ...args,
       });
+    },
+    getNewsletters(args = {}) {
+      return this.makeRequest({
+        path: "/newsletters",
+        ...args,
+      });
+    },
+    getForms(args = {}) {
+      return this.makeRequest({
+        path: "/forms",
+        ...args,
+      });
+    },
+    getLandingPages(args = {}) {
+      return this.makeRequest({
+        path: "/landing-pages",
+        ...args,
+      });
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      max = constants.MAX_RESOURCES,
+    }) {
+      let page = 1;
+      let resourcesCount = 0;
+      let nextResources;
+      let response;
+      let totalPages = 1;
+
+      while (true) {
+        try {
+          response =
+            await resourceFn({
+              ...resourceFnArgs,
+              params: {
+                ...resourceFnArgs.params,
+                page,
+              },
+              responseType: "stream",
+            });
+          totalPages = parseInt(response.headers.totalpages);
+        } catch (error) {
+          console.log("resourceFn error", error);
+          return;
+        }
+
+        try {
+          nextResources = await utils.getDataFromStream(response);
+        } catch (error) {
+          console.log("getDataFromStream error", error);
+          return;
+        }
+
+        if (nextResources?.length < 1) {
+          return;
+        }
+
+        page += 1;
+
+        for (const resource of nextResources) {
+          resourcesCount += 1;
+          yield resource;
+        }
+
+        if (page > totalPages || resourcesCount >= max) {
+          return;
+        }
+      }
     },
   },
 };
