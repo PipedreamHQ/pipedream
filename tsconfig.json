@@ -986,6 +986,9 @@
     },
     {
       "path": "components/td_ameritrade"
+    },
+    {
+      "path": "components/covalent"
     }
   ]
 }
