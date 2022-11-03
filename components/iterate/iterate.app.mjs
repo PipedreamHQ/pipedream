@@ -49,18 +49,28 @@ export default {
     async getAnswers({
       surveyId, ...args
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/surveys/${surveyId}/responses`,
         ...args,
       });
+
+      return {
+        next: response?.links?.next,
+        resources: response?.results?.list ?? [],
+      };
     },
     async getResponses({
       surveyId, ...args
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/surveys/${surveyId}/response-groups`,
         ...args,
       });
+
+      return {
+        next: response?.links?.next,
+        resources: response?.results?.response_groups ?? [],
+      };
     },
   },
 };
