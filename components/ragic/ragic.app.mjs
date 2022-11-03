@@ -29,7 +29,7 @@ export default {
         const records = await this.listRecords({
           categoryId,
         });
-        return records.map((record) => this._formatRecordOptions({
+        return records.map((record) => this.formatRecordOptions({
           category: categoryName,
           record,
         }));
@@ -40,7 +40,7 @@ export default {
     _toArray(obj) {
       return Object.values(obj);
     },
-    _formatRecordOptions({
+    formatRecordOptions({
       category, record,
     }) {
       let label, value;
@@ -142,6 +142,15 @@ export default {
         path: `/${categoryId}`,
       });
       return this._toArray(records);
+    },
+    async getRecord({
+      categoryId, recordId, ...opts
+    }) {
+      const response = await this._makeRequest({
+        ...opts,
+        path: `/${categoryId}/${recordId}`,
+      });
+      return response[recordId];
     },
   },
 };
