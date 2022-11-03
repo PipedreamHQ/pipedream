@@ -323,7 +323,7 @@ export default {
   },
   methods: {
     _getBaseURL() {
-      return `https://${this.$auth.shop_id}.myshopify.com/admin/api/2020-10`;
+      return `https://${this.$auth.shop_id}.myshopify.com/admin/api/2022-07`;
     },
     _getAuthHeader() {
       return {
