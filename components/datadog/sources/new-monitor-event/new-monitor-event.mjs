@@ -3,7 +3,7 @@ import { payloadFormat } from "../common/payload-format.mjs";
 
 export default {
   key: "datadog-new-monitor-event",
-  name: "New Monitor Event (Instant) [Updated]",
+  name: "New Monitor Event (Instant)",
   description: "Emit new events captured by a Datadog monitor",
   dedupe: "unique",
   version: "0.1.1",
@@ -33,8 +33,8 @@ export default {
       );
 
       console.log(`Created webhook "${webhookName}"`);
-      this.db.set("webhookName", webhookName);
-      this.db.set("webhookSecretKey", webhookSecretKey);
+      this._setWebhookName(webhookName);
+      this._setWebhookSecretKey(webhookSecretKey);
 
       await Promise.all(
         this.monitors.map((monitorId) =>
@@ -42,12 +42,24 @@ export default {
       );
     },
     async deactivate() {
-      const webhookName = this.db.get("webhookName");
+      const webhookName = this._getWebhookName();
       await this.datadog.removeWebhookNotifications(webhookName);
       await this.datadog.deleteWebhook(webhookName);
     },
   },
   methods: {
+    _getWebhookName() {
+      return this.db.get("webhookName");
+    },
+    _setWebhookName(webhookName) {
+      this.db.set("webhookName", webhookName);
+    },
+    _getWebhookSecretKey() {
+      return this.db.get("webhookSecretKey");
+    },
+    _setWebhookSecretKey(webhookSecretKey) {
+      this.db.set("webhookSecretKey", webhookSecretKey);
+    },
     generateMeta(data) {
       const {
         id,
@@ -62,7 +74,7 @@ export default {
     },
   },
   async run(event) {
-    const webhookSecretKey = this.db.get("webhookSecretKey");
+    const webhookSecretKey = this._getWebhookSecretKey();
     if (!this.datadog.isValidSource(event, webhookSecretKey)) {
       console.log("Skipping event from unrecognized source");
       this.http.respond({
