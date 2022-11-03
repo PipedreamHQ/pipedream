@@ -7,7 +7,7 @@ export default {
     siteId: {
       type: "string",
       label: "Site Id",
-      description: "The site id perform your",
+      description: "The site to perform your action",
       async options({ page }) {
         const data = await this.listSites(page + 1);
         return data.map((item) => ({
@@ -19,7 +19,7 @@ export default {
     collectionPath: {
       type: "string",
       label: "Collection Path",
-      description: "The collection path to perform your action.",
+      description: "The collection to perform your action.",
       async options({
         siteId,
         page,
@@ -72,6 +72,15 @@ export default {
       return axios(ctx, this._getAxiosParams({
         method: "GET",
         path: `/sites/${siteId}/collections`,
+        params: {
+          page,
+        },
+      }));
+    },
+    async listDocuments(siteId, collectionPath, page, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "GET",
+        path: `/sites/${siteId}/collections/${collectionPath}/documents`,
         params: {
           page,
         },
