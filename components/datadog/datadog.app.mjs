@@ -165,6 +165,9 @@ export default {
         path: "/v1/integration/webhooks/configuration/webhooks",
         method: "post",
         data: {
+          custom_headers: JSON.stringify({
+            "x-webhook-secretkey": secretKey,
+          }),
           payload: JSON.stringify(payloadFormat),
           name,
           url,
@@ -194,7 +197,8 @@ export default {
       }
 
       const newMessage = `${message}\n${webhookTagPattern}`;
-      await this._editMonitor(monitorId, {
+      await this._editMonitor({
+        monitorId,
         data: {
           message: newMessage,
         },
