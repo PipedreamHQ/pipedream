@@ -1,6 +1,7 @@
 # Overview
 
-With the Chatfuel API, you can build a wide variety of applications and chatbots. Here are some examples:
+With the Chatfuel API, you can build a wide variety of applications and
+chatbots. Here are some examples:
 
 - A chatbot that helps customers order food from a restaurant
 - A chatbot that helps users book hotels

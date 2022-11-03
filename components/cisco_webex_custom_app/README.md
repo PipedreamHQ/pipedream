@@ -1,6 +1,8 @@
 # Overview
 
-With the Cisco Webex Custom App API, you can build a range of applications that take advantage of the power of Webex Teams. Here are just a few examples of what you can build:
+With the Cisco Webex Custom App API, you can build a range of applications that
+take advantage of the power of Webex Teams. Here are just a few examples of
+what you can build:
 
 1. A message bot that responds to certain keywords or phrases
 2. An app that automatically schedules meeting times for team members

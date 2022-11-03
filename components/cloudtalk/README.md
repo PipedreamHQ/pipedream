@@ -1,6 +1,7 @@
 # Overview
 
-CloudTalk provides a reliable and simple API for building VoIP applications. With CloudTalk you can:
+CloudTalk provides a reliable and simple API for building VoIP applications.
+With CloudTalk you can:
 
 - Make and receive phone calls
 - Play audio and video files

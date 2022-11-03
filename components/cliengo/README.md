@@ -1,8 +1,8 @@
 # Overview
 
-# Using the Cliengo API
-
-With the Cliengo API, you can easily build a chatbot for your business. Cliengo is a powerful chatbot platform that makes it easy to create and manage bots for your business.
+With the Cliengo API, you can easily build a chatbot for your business. Cliengo
+is a powerful chatbot platform that makes it easy to create and manage bots for
+your business.
 
 Here are some examples of what you can build with the Cliengo API:
 
