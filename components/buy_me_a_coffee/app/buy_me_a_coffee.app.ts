@@ -10,8 +10,7 @@ export default defineApp({
   propDefinitions: {},
   methods: {
     _getUrl(path: string): string {
-      //return `https://developers.buymeacoffee.com/api/v1${path}`;
-      return `https://feyzo.free.beeceptor.com${path}`;
+      return `https://developers.buymeacoffee.com/api/v1${path}`;
     },
     _getHeaders(headers: object = {}): object {
       return {
