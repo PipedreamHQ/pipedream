@@ -360,7 +360,12 @@ importers:
     specifiers: {}
 
   components/buy_me_a_coffee:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/bybit:
     specifiers: {}
@@ -1717,6 +1722,9 @@ importers:
       '@pipedream/platform': ^0.9.0
     dependencies:
       '@pipedream/platform': 0.9.0
+
+  components/orbisx:
+    specifiers: {}
 
   components/outgrow:
     specifiers:
