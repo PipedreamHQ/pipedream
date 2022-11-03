@@ -27,6 +27,27 @@ export default {
         }));
       },
     },
+    searchContactId: {
+      type: "string",
+      label: "Search Contact ID",
+      description: "The search contact ID",
+      async options({
+        query, page,
+      }) {
+        const searchContacts = await this.getSearchContacts({
+          params: {
+            [constants.QUERY_PROP.NAME]: query,
+            page: page + 1,
+          },
+        });
+        return searchContacts.map(({
+          searchContactId, name,
+        }) => ({
+          label: name,
+          value: searchContactId,
+        }));
+      },
+    },
     contactId: {
       type: "string",
       label: "Contact ID",
@@ -95,6 +116,7 @@ export default {
         return await axios(step, config);
       } catch (error) {
         console.log("Request error", error);
+        console.log("Context", JSON.stringify(error.response?.data?.context, null, 2));
         throw error.response?.data?.message || error;
       }
     },
@@ -170,6 +192,12 @@ export default {
     getLandingPages(args = {}) {
       return this.makeRequest({
         path: "/landing-pages",
+        ...args,
+      });
+    },
+    getSearchContacts(args = {}) {
+      return this.makeRequest({
+        path: "/search-contacts",
         ...args,
       });
     },

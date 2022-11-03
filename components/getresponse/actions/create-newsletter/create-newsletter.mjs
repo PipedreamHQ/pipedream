@@ -42,6 +42,33 @@ export default {
         "fromFieldId",
       ],
     },
+    selectedCampaigns: {
+      type: "string[]",
+      label: "Selected Campaigns",
+      description: "Specify which campaigns you will want the message be deliver to.",
+      propDefinition: [
+        app,
+        "campaignId",
+      ],
+    },
+    selectedContacts: {
+      type: "string[]",
+      label: "Selected Contacts",
+      description: "Specify which contacts you will want the message be deliver to.",
+      propDefinition: [
+        app,
+        "contactId",
+      ],
+    },
+    selectedSegments: {
+      type: "string[]",
+      label: "Selected Search Contacts",
+      description: "Specify which search contacts you will want the message be deliver to.",
+      propDefinition: [
+        app,
+        "searchContactId",
+      ],
+    },
     contentType: {
       type: "string",
       label: "Content Type",
@@ -75,6 +102,9 @@ export default {
       campaignId,
       subject,
       fromFieldId,
+      selectedCampaigns,
+      selectedContacts,
+      selectedSegments,
       name,
       type,
     } = this;
@@ -100,6 +130,11 @@ export default {
         },
         fromField: {
           fromFieldId,
+        },
+        sendSettings: {
+          selectedCampaigns,
+          selectedSegments,
+          selectedContacts,
         },
       },
     });
