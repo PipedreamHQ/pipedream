@@ -35,6 +35,11 @@ export default {
         }));
       },
     },
+    record: {
+      type: "object",
+      label: "Record",
+      description: "The record data",
+    },
   },
   methods: {
     _toArray(obj) {
@@ -43,48 +48,39 @@ export default {
     formatRecordOptions({
       category, record,
     }) {
-      let label, value;
+      let label;
       switch (category) {
       case "Accounts":
         label = record["Account Name"];
-        value = record["Account ID"];
         break;
       case "Contacts":
         label = record["Contact Name"];
-        value = record["Contact ID"];
         break;
       case "Leads":
         label = record["Full Name"];
-        value = record["Lead No."];
         break;
       case "Opportunities":
         label = record["Opportunity Name"];
-        value = record["Opportunity No."];
         break;
       case "Products (CRM)":
         label = record["Product Name"];
-        value = record["Product No."];
         break;
       case "Quotes":
         label = record["Quote Id"];
-        value = record["Quote Id"];
         break;
       case "Activities":
         label = record["Subject"];
-        value = record["Task ID"];
         break;
       case "Contracts":
         label = `${record["Account"]} - ${record["Contract Owner"]}`;
-        value = record["Contract Number"];
         break;
       case "Pricelist":
         label = `${record["Product Name"]} - ${record["Price"]}`;
-        value = record["Product Price No."];
         break;
       }
       return {
         label,
-        value,
+        value: record._ragicId,
       };
     },
     _accessToken() {
@@ -109,7 +105,7 @@ export default {
     async _makeRequest({
       $ = this, path = "/", ...opts
     }) {
-      return axios($, {
+      const response = await axios($, {
         ...opts,
         url: this._baseUrl() + path,
         headers: {
@@ -120,6 +116,10 @@ export default {
           ...opts.params,
         },
       });
+      if (response.status === "ERROR") {
+        throw new Error(`${response.status} - ${response.code} - ${response.msg}`);
+      }
+      return response;
     },
     async listCategories(opts = {}) {
       const response = await this._makeRequest({
@@ -151,6 +151,26 @@ export default {
         path: `/${categoryId}/${recordId}`,
       });
       return response[recordId];
+    },
+    async createRecord({
+      categoryId, record, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/${categoryId}`,
+        data: record,
+      });
+    },
+    async updateRecord({
+      categoryId, recordId, record, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path: `/${categoryId}/${recordId}`,
+        data: record,
+      });
     },
   },
 };
