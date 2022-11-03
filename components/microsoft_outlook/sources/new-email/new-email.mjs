@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email received",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   hooks: {
     ...common.hooks,
