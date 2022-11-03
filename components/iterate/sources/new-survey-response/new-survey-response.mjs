@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Survey Response",
   version: "0.0.1",
-  key: "iterate-new-survey-response",
+  key: "iterate-new-survey-response-received",
   description: "Emit new event when a survey is answered.",
   type: "source",
   dedupe: "unique",

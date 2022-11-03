@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Question Answer",
   version: "0.0.1",
-  key: "iterate-new-question-answer",
+  key: "iterate-new-question-answer-received",
   description: "Emit new event when a question is answered.",
   type: "source",
   dedupe: "unique",
