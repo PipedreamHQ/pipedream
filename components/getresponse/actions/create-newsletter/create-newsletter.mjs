@@ -59,15 +59,17 @@ export default {
         app,
         "contactId",
       ],
+      optional: true
     },
     selectedSegments: {
       type: "string[]",
-      label: "Selected Search Contacts",
-      description: "Specify which search contacts you will want the message be deliver to.",
+      label: "Selected Segments",
+      description: "Specify which segments you will want the message be deliver to.",
       propDefinition: [
         app,
         "searchContactId",
       ],
+      optional: true
     },
     contentType: {
       type: "string",
