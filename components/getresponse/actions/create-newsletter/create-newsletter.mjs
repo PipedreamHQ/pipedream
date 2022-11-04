@@ -63,7 +63,7 @@ export default {
     },
     selectedSegments: {
       type: "string[]",
-      label: "Selected Search Contacts",
+      label: "Selected Segments",
       description: "Specify which search contacts you will want the message be deliver to.",
       propDefinition: [
         app,
