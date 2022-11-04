@@ -59,6 +59,7 @@ export default {
         app,
         "contactId",
       ],
+      optional: true
     },
     selectedSegments: {
       type: "string[]",
