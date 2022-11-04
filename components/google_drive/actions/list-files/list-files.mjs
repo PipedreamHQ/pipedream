@@ -5,7 +5,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.0.6",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
