@@ -59,7 +59,7 @@ export default {
         app,
         "contactId",
       ],
-      optional: true
+      optional: true,
     },
     selectedSegments: {
       type: "string[]",
@@ -69,7 +69,7 @@ export default {
         app,
         "searchContactId",
       ],
-      optional: true
+      optional: true,
     },
     contentType: {
       type: "string",
