@@ -989,6 +989,9 @@
     },
     {
       "path": "components/covalent"
+    },
+    {
+      "path": "components/you_can_book_me"
     }
   ]
 }
