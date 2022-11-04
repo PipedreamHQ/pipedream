@@ -77,6 +77,15 @@ export default {
         },
       }));
     },
+    async listPages(siteId, page, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "GET",
+        path: `/sites/${siteId}/pages`,
+        params: {
+          page,
+        },
+      }));
+    },
     async listDocuments(siteId, collectionPath, page, ctx = this) {
       return axios(ctx, this._getAxiosParams({
         method: "GET",
