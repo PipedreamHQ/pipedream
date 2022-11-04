@@ -1,23 +1,15 @@
 import app from "../../siteleaf.app.mjs";
+import base from "../common/base.mjs";
 
 export default {
+  ...base,
   key: "siteleaf-new-document",
   type: "source",
   name: "New Document",
   description: "Emit new event when a new document is created",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
-    app,
-    db: "$.service.db",
-    timer: {
-      label: "Polling interval",
-      description: "How often to poll the Siteleaf API for new events",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    ...base.props,
     siteId: {
       propDefinition: [
         app,
@@ -35,15 +27,10 @@ export default {
     },
   },
   methods: {
-    _setEmittedEvents(emittedEvents) {
-      this.db.set("emittedEvents", emittedEvents);
-    },
-    _getEmittedEvents() {
-      return this.db.get("emittedEvents") || {};
-    },
+    ...base.methods,
     async fetchEvents() {
       let page = 1;
-      const emittedEvents = this._getEmittedEvents();
+      const emittedEvents = this.getEmittedEvents();
       while (true) {
         const data = await this.app.listDocuments(
           this.siteId,
@@ -52,7 +39,7 @@ export default {
         );
 
         if (data.length === 0) {
-          this._setEmittedEvents(emittedEvents);
+          this.setEmittedEvents(emittedEvents);
           return;
         }
 
@@ -69,8 +56,5 @@ export default {
         page++;
       }
     },
-  },
-  async run() {
-    await this.fetchEvents();
   },
 };
