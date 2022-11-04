@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/discourse",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Discourse Components",
   "main": "dist/app/discourse.app.mjs",
   "keywords": [
