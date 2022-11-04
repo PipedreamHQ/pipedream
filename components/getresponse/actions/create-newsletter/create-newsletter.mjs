@@ -69,6 +69,7 @@ export default {
         app,
         "searchContactId",
       ],
+      optional: true
     },
     contentType: {
       type: "string",
