@@ -36,7 +36,7 @@ export default {
     },
     filterText: {
       label: "Filter Text",
-      description: "Filter by filename that contains a specific text",
+      description: "Filter by file name that contains a specific text",
       type: "string",
       optional: true,
     },
