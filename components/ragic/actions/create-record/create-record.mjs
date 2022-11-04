@@ -10,10 +10,19 @@ export default {
   type: "action",
   props: {
     ragic,
+    sheet: {
+      propDefinition: [
+        ragic,
+        "sheet",
+      ],
+    },
     categoryId: {
       propDefinition: [
         ragic,
         "category",
+        (c) => ({
+          sheet: c.sheet,
+        }),
       ],
       withLabel: false,
     },
@@ -27,10 +36,12 @@ export default {
   },
   async run({ $ }) {
     const {
+      sheet,
       categoryId,
       record,
     } = this;
     const response = await this.ragic.createRecord({
+      sheet,
       categoryId,
       record,
     });

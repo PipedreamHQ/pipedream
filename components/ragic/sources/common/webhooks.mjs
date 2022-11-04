@@ -5,10 +5,19 @@ export default {
     ragic,
     http: "$.interface.http",
     db: "$.service.db",
+    sheet: {
+      propDefinition: [
+        ragic,
+        "sheet",
+      ],
+    },
     category: {
       propDefinition: [
         ragic,
         "category",
+        (c) => ({
+          sheet: c.sheet,
+        }),
       ],
     },
   },
@@ -20,6 +29,7 @@ export default {
 
       console.log("Fetching historical records...");
       const records = await this.ragic.listRecords({
+        sheet: this.sheet,
         categoryId: this.category.value,
       });
 
@@ -99,6 +109,7 @@ export default {
     for (const recordId of ids) {
       console.log(`Fetching information for recordId: ${recordId}`);
       const record = await this.ragic.getRecord({
+        sheet: this.sheet,
         categoryId,
         recordId,
       });

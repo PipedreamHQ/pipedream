@@ -4,13 +4,27 @@ export default {
   type: "app",
   app: "ragic",
   propDefinitions: {
+    sheet: {
+      type: "string",
+      label: "Sheet",
+      description: "Sheet name",
+      async options() {
+        const sheets = await this.listSheets();
+        return sheets.map((sheet) => ({
+          label: sheet.name,
+          value: sheet.id,
+        }));
+      },
+    },
     category: {
       type: "string",
       label: "Category",
       description: "Category",
       withLabel: true,
-      async options() {
-        const categories = await this.listCategories();
+      async options({ sheet }) {
+        const categories = await this.listCategories({
+          sheet,
+        });
         return categories.map((category) => ({
           label: category.name,
           value: category.id,
@@ -21,12 +35,15 @@ export default {
       type: "string",
       label: "Record ID",
       description: "Record ID",
-      async options({ category }) {
+      async options({
+        sheet, category,
+      }) {
         const {
           label: categoryName,
           value: categoryId,
         } = category;
         const records = await this.listRecords({
+          sheet,
           categoryId,
         });
         return records.map((record) => this.formatRecordOptions({
@@ -100,7 +117,7 @@ export default {
         domain,
         database,
       } = this.$auth;
-      return `https://${domain}.ragic.com/${database}/ragicsales`;
+      return `https://${domain}.ragic.com/${database}`;
     },
     async _makeRequest({
       $ = this, path = "/", ...opts
@@ -121,54 +138,73 @@ export default {
       }
       return response;
     },
-    async listCategories(opts = {}) {
+    async listSheets(opts = {}) {
       const response = await this._makeRequest({
         ...opts,
       });
-      const { children: { "/ragicsales": { children: categories } } } = response[this.$auth.database];
-      return Object.entries(categories).map(([
-        id,
-        value,
-      ]) => ({
-        ...value,
-        id,
-      }));
+      const { children: sheets } = response[this.$auth.database];
+      return Object.entries(sheets)
+        .map(([
+          id,
+          value,
+        ]) => ({
+          ...value,
+          id,
+        }))
+        .filter((sheet) => sheet.id !== "Report" && sheet.id !== "/ragic-setup");
+    },
+    async listCategories({
+      sheet, ...opts
+    }) {
+      const response = await this._makeRequest({
+        ...opts,
+        path: `${sheet}`,
+      });
+      const { children: categories } = response[this.$auth.database]["children"][sheet];
+      return Object.entries(categories)
+        .map(([
+          id,
+          value,
+        ]) => ({
+          ...value,
+          id,
+        }));
     },
     async listRecords({
-      categoryId, ...opts
+      sheet, categoryId, ...opts
     }) {
       const records = await this._makeRequest({
         ...opts,
-        path: `/${categoryId}`,
+        path: `${sheet}/${categoryId}`,
       });
       return this._toArray(records);
     },
     async getRecord({
-      categoryId, recordId, ...opts
+      sheet, categoryId, recordId, ...opts
     }) {
       const response = await this._makeRequest({
         ...opts,
-        path: `/${categoryId}/${recordId}`,
+        path: `${sheet}/${categoryId}/${recordId}`,
       });
       return response[recordId];
     },
     async createRecord({
-      categoryId, record, ...opts
+      sheet, categoryId, record, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `/${categoryId}`,
+        path: `${sheet}/${categoryId}`,
         data: record,
       });
     },
     async updateRecord({
-      categoryId, recordId, record, ...opts
+      sheet, categoryId, recordId, record, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `/${categoryId}/${recordId}`,
+        path: `${sheet}/${categoryId}/${recordId}`,
         data: record,
       });
     },
