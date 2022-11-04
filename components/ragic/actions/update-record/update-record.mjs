@@ -10,18 +10,18 @@ export default {
   type: "action",
   props: {
     ragic,
+    tab: {
+      propDefinition: [
+        ragic,
+        "tab",
+      ],
+    },
     sheet: {
       propDefinition: [
         ragic,
         "sheet",
-      ],
-    },
-    category: {
-      propDefinition: [
-        ragic,
-        "category",
         (c) => ({
-          sheet: c.sheet,
+          tab: c.tab,
         }),
       ],
     },
@@ -30,8 +30,8 @@ export default {
         ragic,
         "recordId",
         (c) => ({
+          tab: c.tab,
           sheet: c.sheet,
-          category: c.category,
         }),
       ],
     },
@@ -45,14 +45,14 @@ export default {
   },
   async run({ $ }) {
     const {
+      tab,
       sheet,
-      category,
       recordId,
       record,
     } = this;
     const response = await this.ragic.updateRecord({
-      sheet,
-      categoryId: category.value,
+      tab,
+      sheetId: sheet.value,
       recordId,
       record,
     });

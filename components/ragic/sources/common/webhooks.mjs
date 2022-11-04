@@ -5,18 +5,18 @@ export default {
     ragic,
     http: "$.interface.http",
     db: "$.service.db",
+    tab: {
+      propDefinition: [
+        ragic,
+        "tab",
+      ],
+    },
     sheet: {
       propDefinition: [
         ragic,
         "sheet",
-      ],
-    },
-    category: {
-      propDefinition: [
-        ragic,
-        "category",
         (c) => ({
-          sheet: c.sheet,
+          tab: c.tab,
         }),
       ],
     },
@@ -25,12 +25,12 @@ export default {
     async deploy() {
       const ids = [];
       const recordsToEmit = [];
-      const { category } = this;
+      const { sheet } = this;
 
       console.log("Fetching historical records...");
       const records = await this.ragic.listRecords({
-        sheet: this.sheet,
-        categoryId: this.category.value,
+        tab: this.tab,
+        sheetId: this.sheet.value,
       });
 
       for (const record of records) {
@@ -38,7 +38,7 @@ export default {
           label,
           value: id,
         } = this.ragic.formatRecordOptions({
-          category: category.label,
+          sheet: sheet.label,
           record,
         });
         ids.push(id);
@@ -94,7 +94,7 @@ export default {
     getMeta(id, label) {
       return {
         id,
-        summary: `${this.category.label} record: ${label}`,
+        summary: `${this.sheet.label} record: ${label}`,
         ts: new Date(),
       };
     },
@@ -102,15 +102,15 @@ export default {
   async run(event) {
     const { body: ids } = event;
     const {
-      label: category,
-      value: categoryId,
-    } = this.category;
+      label: sheet,
+      value: sheetId,
+    } = this.sheet;
 
     for (const recordId of ids) {
       console.log(`Fetching information for recordId: ${recordId}`);
       const record = await this.ragic.getRecord({
-        sheet: this.sheet,
-        categoryId,
+        tab: this.tab,
+        sheetId,
         recordId,
       });
 
@@ -126,7 +126,7 @@ export default {
       }
 
       const { label } = this.ragic.formatRecordOptions({
-        category,
+        sheet,
         record,
       });
 

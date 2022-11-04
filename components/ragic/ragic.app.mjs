@@ -4,30 +4,30 @@ export default {
   type: "app",
   app: "ragic",
   propDefinitions: {
-    sheet: {
+    tab: {
       type: "string",
-      label: "Sheet",
-      description: "Sheet name",
+      label: "Tab",
+      description: "Tab name",
       async options() {
-        const sheets = await this.listSheets();
-        return sheets.map((sheet) => ({
-          label: sheet.name,
-          value: sheet.id,
+        const tabs = await this.listTabs();
+        return tabs.map((tab) => ({
+          label: tab.name,
+          value: tab.id,
         }));
       },
     },
-    category: {
+    sheet: {
       type: "string",
-      label: "Category",
-      description: "Category",
+      label: "Sheet",
+      description: "Sheet",
       withLabel: true,
-      async options({ sheet }) {
-        const categories = await this.listCategories({
-          sheet,
+      async options({ tab }) {
+        const sheets = await this.listSheets({
+          tab,
         });
-        return categories.map((category) => ({
-          label: category.name,
-          value: category.id,
+        return sheets.map((sheet) => ({
+          label: sheet.name,
+          value: sheet.id,
         }));
       },
     },
@@ -36,18 +36,18 @@ export default {
       label: "Record ID",
       description: "Record ID",
       async options({
-        sheet, category,
+        tab, sheet,
       }) {
         const {
-          label: categoryName,
-          value: categoryId,
-        } = category;
+          label: sheetName,
+          value: sheetId,
+        } = sheet;
         const records = await this.listRecords({
-          sheet,
-          categoryId,
+          tab,
+          sheetId,
         });
         return records.map((record) => this.formatRecordOptions({
-          category: categoryName,
+          sheet: sheetName,
           record,
         }));
       },
@@ -63,10 +63,10 @@ export default {
       return Object.values(obj);
     },
     formatRecordOptions({
-      category, record,
+      sheet, record,
     }) {
       let label;
-      switch (category) {
+      switch (sheet) {
       case "Accounts":
         label = record["Account Name"];
         break;
@@ -138,12 +138,12 @@ export default {
       }
       return response;
     },
-    async listSheets(opts = {}) {
+    async listTabs(opts = {}) {
       const response = await this._makeRequest({
         ...opts,
       });
-      const { children: sheets } = response[this.$auth.database];
-      return Object.entries(sheets)
+      const { children: tabs } = response[this.$auth.database];
+      return Object.entries(tabs)
         .map(([
           id,
           value,
@@ -151,17 +151,17 @@ export default {
           ...value,
           id,
         }))
-        .filter((sheet) => sheet.id !== "Report" && sheet.id !== "/ragic-setup");
+        .filter((tab) => tab.id !== "Report" && tab.id !== "/ragic-setup");
     },
-    async listCategories({
-      sheet, ...opts
+    async listSheets({
+      tab, ...opts
     }) {
       const response = await this._makeRequest({
         ...opts,
-        path: `${sheet}`,
+        path: `${tab}`,
       });
-      const { children: categories } = response[this.$auth.database]["children"][sheet];
-      return Object.entries(categories)
+      const { children: sheets } = response[this.$auth.database]["children"][tab];
+      return Object.entries(sheets)
         .map(([
           id,
           value,
@@ -171,40 +171,40 @@ export default {
         }));
     },
     async listRecords({
-      sheet, categoryId, ...opts
+      tab, sheetId, ...opts
     }) {
       const records = await this._makeRequest({
         ...opts,
-        path: `${sheet}/${categoryId}`,
+        path: `${tab}/${sheetId}`,
       });
       return this._toArray(records);
     },
     async getRecord({
-      sheet, categoryId, recordId, ...opts
+      tab, sheetId, recordId, ...opts
     }) {
       const response = await this._makeRequest({
         ...opts,
-        path: `${sheet}/${categoryId}/${recordId}`,
+        path: `${tab}/${sheetId}/${recordId}`,
       });
       return response[recordId];
     },
     async createRecord({
-      sheet, categoryId, record, ...opts
+      tab, sheetId, record, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `${sheet}/${categoryId}`,
+        path: `${tab}/${sheetId}`,
         data: record,
       });
     },
     async updateRecord({
-      sheet, categoryId, recordId, record, ...opts
+      tab, sheetId, recordId, record, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: `${sheet}/${categoryId}/${recordId}`,
+        path: `${tab}/${sheetId}/${recordId}`,
         data: record,
       });
     },
