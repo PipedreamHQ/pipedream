@@ -359,6 +359,9 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/burst_sms:
+    specifiers: {}
+
   components/buy_me_a_coffee:
     specifiers: {}
 
@@ -366,7 +369,12 @@ importers:
     specifiers: {}
 
   components/cal_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      async-retry: ^1.3.3
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      async-retry: 1.3.3
 
   components/calendarhero:
     specifiers: {}
@@ -1276,6 +1284,12 @@ importers:
 
   components/isn:
     specifiers: {}
+
+  components/iterate:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/jellyreach:
     specifiers: {}

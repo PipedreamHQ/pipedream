@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-mention",
   name: "New Mention (Instant)",
-  version: "1.0.4",
+  version: "1.0.5",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
@@ -49,8 +49,42 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      // emit historical events
+      const messages = await this.getMatches({
+        query: this.keyword,
+        sort: "timestamp",
+      });
+      const filteredMessages = this.conversations?.length > 0
+        ? messages.filter((message) => this.conversations.includes(message.channel.id))
+        : messages;
+      await this.emitHistoricalEvents(filteredMessages.slice(-25).reverse());
+    },
+  },
   methods: {
     ...common.methods,
+    async getMatches(params) {
+      return (await this.slack.sdk().search.messages(params)).messages.matches || [];
+    },
+    async emitHistoricalEvents(messages) {
+      for (const message of messages) {
+        const event = await this.processEvent(message);
+        if (event) {
+          if (!event.client_msg_id) {
+            event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36)
+              .substr(2, 10)}`;
+          }
+
+          this.$emit(event, {
+            id: event.client_msg_id || event.pipedream_msg_id,
+            summary: this.getSummary(event),
+            ts: event.event_ts || Date.now(),
+          });
+        }
+      }
+    },
     getSummary() {
       return "New mention received";
     },
@@ -77,14 +111,14 @@ export default {
         for (const item of elements) {
           if (item.user_id) {
             const username = await this.getUserName(item.user_id);
-            if (username === this.word) {
+            if (username === this.keyword) {
               emitEvent = true;
               break;
             }
           }
         }
 
-      } else if (event.text.indexOf(this.word) !== -1) {
+      } else if (event.text.indexOf(this.keyword) !== -1) {
         emitEvent = true;
       }
       if (emitEvent) {
