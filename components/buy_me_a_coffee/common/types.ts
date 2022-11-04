@@ -5,12 +5,12 @@ export interface MakeRequestParams {
   path: string;
   headers?: object;
   otherConfig?: object;
-};
+}
 
 export interface ResourceFn {
   (params:object): Promise<any>;
-};
+}
 
 export interface ResourceGeneratorParams {
   resourceFn: ResourceFn;
-};
+}

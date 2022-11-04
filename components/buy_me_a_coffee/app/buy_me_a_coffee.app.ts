@@ -1,8 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import {
-  MakeRequestParams,
-} from "../common/types";
+import { MakeRequestParams } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -30,25 +28,19 @@ export default defineApp({
         ...otherConfig,
       });
     },
-    async getSupporters({
-      ...args
-    }: object = {}): Promise<any> {
+    async getSupporters({ ...args }: object = {}): Promise<any> {
       return this._makeRequest({
         path: "/supporters",
         ...args,
       });
     },
-    async getPurchases({
-      ...args
-    }: object = {}): Promise<any> {
+    async getPurchases({ ...args }: object = {}): Promise<any> {
       return this._makeRequest({
         path: "/extras",
         ...args,
       });
     },
-    async getMembers({
-      ...args
-    }: object = {}): Promise<any> {
+    async getMembers({ ...args }: object = {}): Promise<any> {
       return this._makeRequest({
         path: "/subscriptions",
         ...args,
