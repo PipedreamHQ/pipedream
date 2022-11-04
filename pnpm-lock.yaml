@@ -369,7 +369,12 @@ importers:
     specifiers: {}
 
   components/cal_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      async-retry: ^1.3.3
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      async-retry: 1.3.3
 
   components/calendarhero:
     specifiers: {}
@@ -1285,6 +1290,12 @@ importers:
 
   components/isn:
     specifiers: {}
+
+  components/iterate:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/jellyreach:
     specifiers: {}
@@ -2650,8 +2661,9 @@ importers:
       uuid: ^9.0.0
     dependencies:
       '@pipedream/platform': 1.1.1
-      '@pipedream/types': 0.1.4
       uuid: 9.0.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/twitter:
     specifiers:
