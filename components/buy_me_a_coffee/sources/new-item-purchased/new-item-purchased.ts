@@ -5,7 +5,7 @@ export default defineSource({
   ...common,
   key: "buy_me_a_coffee-new-item-purchased",
   name: "New Item Purchased",
-  description: "Emit new events when a new item was purchased.",
+  description: "Emit new events when a new item was purchased. [See the docs](https://developers.buymeacoffee.com/#/apireference?id=extra-purchases-v1extras)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
