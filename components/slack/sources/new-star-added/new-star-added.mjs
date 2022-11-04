@@ -40,7 +40,7 @@ export default {
     async processEvent(event) {
       if (this.eventTypes == null
         || this.eventTypes.length === 0
-        || this.eventTypes.includes(event.type)) {
+        || this.eventTypes.includes(event.item.type)) {
         return event;
       }
     },
