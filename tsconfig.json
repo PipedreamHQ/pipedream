@@ -992,6 +992,9 @@
     },
     {
       "path": "components/you_can_book_me"
+    },
+    {
+      "path": "components/mobile_text_alerts"
     }
   ]
 }
