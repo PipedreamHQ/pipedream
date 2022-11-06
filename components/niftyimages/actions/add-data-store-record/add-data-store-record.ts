@@ -83,7 +83,7 @@ export default defineAction({
       data,
     };
 
-    const response = await $this.niftyimages.addRecord(params);
+    const response: object = await $this.niftyimages.addRecord(params);
 
     $.export("$summary", "Updated record successfully");
 
