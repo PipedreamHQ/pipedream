@@ -8,7 +8,7 @@ export default {
   ...common,
   key: "slack-new-star-added",
   name: "New Star Added (Instant)",
-  version: "0.0.7",
+  version: "0.0.8",
   description: "Emit new event when a star is added to an item",
   type: "source",
   dedupe: "unique",
@@ -38,7 +38,9 @@ export default {
       return `New star added - ${events[type] ?? type}`;
     },
     async processEvent(event) {
-      if (this.eventTypes?.length === 0 || this.eventTypes.includes(event.item.type)) {
+      if (this.eventTypes == null
+        || this.eventTypes.length === 0
+        || this.eventTypes.includes(event.item.type)) {
         return event;
       }
     },

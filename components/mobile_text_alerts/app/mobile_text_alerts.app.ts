@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 
 export default defineApp({
   type: "app",
-  app: "cal_com",
+  app: "mobile_text_alerts",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

@@ -257,7 +257,7 @@ export default {
 
       return response.data?.topic_list?.topics ?? [];
     },
-    async createPost({ ...args }) {
+    async createPostOrTopic({ ...args }) {
       const response = await this._makeRequest({
         path: "/posts.json",
         method: "post",
