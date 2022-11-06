@@ -5,7 +5,7 @@ export default {
   name: "Create Document",
   description: "Create a new document. [See the docs here](https://learn.siteleaf.com/api/documents/#create-a-document)",
   key: "siteleaf-create-document",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -14,7 +14,7 @@ export default {
         app,
         "siteId",
       ],
-      description: "The site to watch for new documents",
+      description: "The site to create the document on",
     },
     collectionPath: {
       propDefinition: [
@@ -24,7 +24,7 @@ export default {
           siteId,
         }),
       ],
-      description: "The collection to watch for new documents",
+      description: "The collection to create the document on",
     },
     title: {
       type: "string",

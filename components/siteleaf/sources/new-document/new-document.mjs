@@ -26,35 +26,11 @@ export default {
       ],
     },
   },
-  methods: {
-    ...base.methods,
-    async fetchEvents() {
-      let page = 1;
-      const emittedEvents = this.getEmittedEvents();
-      while (true) {
-        const data = await this.app.listDocuments(
-          this.siteId,
-          this.collectionPath,
-          page,
-        );
-
-        if (data.length === 0) {
-          this.setEmittedEvents(emittedEvents);
-          return;
-        }
-
-        for (const item of data) {
-          if (!emittedEvents[item.id]) {
-            this.$emit(item, {
-              id: item.id,
-              summary: item.title,
-              ts: Date.now(),
-            });
-            emittedEvents[item.id] = 1;
-          }
-        }
-        page++;
-      }
-    },
+  async run() {
+    await this.fetchEvents(
+      this.app.listDocuments,
+      this.siteId,
+      this.collectionPath,
+    );
   },
 };

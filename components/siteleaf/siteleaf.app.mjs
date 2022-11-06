@@ -47,8 +47,8 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _getAxiosParams(opts = {}) {
-      const res = {
+    async _makeHttpRequest(opts = {}, ctx = this) {
+      const axiosOpts = {
         ...opts,
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
@@ -57,50 +57,50 @@ export default {
           password: this._getApiSecret(),
         },
       };
-      return res;
+      return axios(ctx, axiosOpts);
     },
     async listSites(page, ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return this._makeHttpRequest({
         method: "GET",
         path: "/sites",
         params: {
           page,
         },
-      }));
+      }, ctx);
     },
     async listCollections(siteId, page, ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return this._makeHttpRequest({
         method: "GET",
         path: `/sites/${siteId}/collections`,
         params: {
           page,
         },
-      }));
+      }, ctx);
     },
     async listPages(siteId, page, ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return this._makeHttpRequest({
         method: "GET",
         path: `/sites/${siteId}/pages`,
         params: {
           page,
         },
-      }));
+      }, ctx);
     },
     async listDocuments(siteId, collectionPath, page, ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return this._makeHttpRequest({
         method: "GET",
         path: `/sites/${siteId}/collections/${collectionPath}/documents`,
         params: {
           page,
         },
-      }));
+      }, ctx);
     },
     async createDocument(siteId, collectionPath, data, ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return this._makeHttpRequest({
         method: "POST",
         path: `/sites/${siteId}/collections/${collectionPath}/documents`,
         data,
-      }));
+      }, ctx);
     },
   },
 };

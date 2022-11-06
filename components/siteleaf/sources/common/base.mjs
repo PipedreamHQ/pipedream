@@ -21,11 +21,32 @@ export default {
     getEmittedEvents() {
       return this.db.get("emittedEvents") || {};
     },
-    fetchEvents() {
-      throw new Error("fetchEvents() not implemented");
+    async fetchEvents(fetchFunction, ...fetchFunctionParams) {
+      let page = 1;
+      const emittedEvents = this.getEmittedEvents();
+      while (true) {
+        const data = await fetchFunction(
+          ...fetchFunctionParams,
+          page,
+        );
+
+        if (data.length === 0) {
+          this.setEmittedEvents(emittedEvents);
+          return;
+        }
+
+        for (const item of data) {
+          if (!emittedEvents[item.id]) {
+            this.$emit(item, {
+              id: item.id,
+              summary: item.title || item.basename,
+              ts: Date.now(),
+            });
+            emittedEvents[item.id] = 1;
+          }
+        }
+        page++;
+      }
     },
-  },
-  async run() {
-    await this.fetchEvents();
   },
 };
