@@ -10,7 +10,10 @@ export default {
       type: "string",
       label: "Tenant ID",
       description:
-        "Id of the organization tenant to use on the Xero Accounting API.  See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+        "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      async options() {
+        return this.getTenantsOpts();
+      },
     },
   },
   methods: {
@@ -23,8 +26,8 @@ export default {
     getHeader(tenantId, modifiedSince = null) {
       const header = {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        "xero-tenant-id": tenantId,
       };
+      tenantId && (header["xero-tenant-id"] = tenantId);
       modifiedSince && (header["If-Modified-Since"] = modifiedSince);
       return header;
     },
@@ -54,6 +57,17 @@ export default {
         data,
       };
       return axios($ ?? this, config);
+    },
+    async getTenantsOpts() {
+      const { BASE_URL } = constants;
+      const tenants = await axios(this, {
+        url: `${BASE_URL}/connections`,
+        headers: this.getHeader(),
+      });
+      return tenants.map((tenant) => ({
+        label: tenant.tenantName,
+        value: tenant.tenantId,
+      }));
     },
     async createContact($, tenantId, data) {
       return this.makeRequest({

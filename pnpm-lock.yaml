@@ -1549,6 +1549,9 @@ importers:
   components/mixmax:
     specifiers: {}
 
+  components/mobile_text_alerts:
+    specifiers: {}
+
   components/monday:
     specifiers:
       lodash.flatmap: ^4.5.0
@@ -2965,6 +2968,12 @@ importers:
   components/xendit:
     specifiers: {}
 
+  components/xero_accounting_api:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/xperiencify:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2990,6 +2999,9 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/you_can_book_me:
+    specifiers: {}
 
   components/you_need_a_budget:
     specifiers:
