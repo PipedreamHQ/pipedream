@@ -5,7 +5,7 @@ export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -34,11 +34,24 @@ export default {
       description: "The paths of the fields you want included in the response. If not specified, the response includes a default set of fields specific to this method. For development you can use the special value `*` to return all fields, but you'll achieve greater performance by only selecting the fields you need.\n\n**eg:** `files(id,mimeType,name,webContentLink,webViewLink)`",
       optional: true,
     },
+    filterText: {
+      label: "Filter Text",
+      description: "Filter by file name that contains a specific text",
+      type: "string",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const opts = getListFilesOpts(this.drive);
+    const opts = getListFilesOpts(this.drive, {
+      q: "",
+    });
     if (this.folderId) {
       opts.q = `"${this.folderId}" in parents`;
+    }
+    if (this.filterText) {
+      opts.q += `${opts.q
+        ? " AND "
+        : ""}name contains '${this.filterText}'`;
     }
     if (this.fields) {
       opts.fields = this.fields;

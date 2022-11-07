@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-get-contact-by-email",
   name: "Get contact by email",
   description: "Retrieves contact data from the ActiveCampaign CRM by email address. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     activecampaign,
@@ -15,19 +15,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const { search } = this;
+    const { email } = this;
     const { contacts } = await this.activecampaign.listContacts({
       params: {
-        search,
+        email,
       },
     });
 
-    if (contacts.length) {
-      $.export("$summary", `Successfully got a contact with ID ${contacts[0].id}`);
+    const contact = contacts.shift();
+    if (contact) {
+      $.export("$summary", `Successfully got a contact with ID ${contact.id}`);
     } else {
       $.export("$summary", "Contact not found with specified email");
     }
-
-    return contacts[0];
+    return contact;
   },
 };

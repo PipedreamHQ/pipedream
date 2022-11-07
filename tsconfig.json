@@ -977,6 +977,24 @@
     },
     {
       "path": "components/burst_sms"
+    },
+    {
+      "path": "components/simplehash"
+    },
+    {
+      "path": "components/hygraph"
+    },
+    {
+      "path": "components/td_ameritrade"
+    },
+    {
+      "path": "components/covalent"
+    },
+    {
+      "path": "components/you_can_book_me"
+    },
+    {
+      "path": "components/mobile_text_alerts"
     }
   ]
 }

@@ -5,57 +5,150 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841235/docs/
 
 # Sharing code across workflows
 
+[Actions](/components#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step.
+
 Pipedream provides two ways to share code across workflows:
 
-- **Create an action**. [Actions](/components#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step. [Learn how to build your first action here](/components/quickstart/nodejs/actions/).
-- **Create your own npm package**. If you need to run the same Node.js code in multiple workflows, you can publish that code as an npm package. We'll walk you through that process below.
+- **Publish an action from a Node.js code step**. [Publish any Node.js code step as a reusable action](/code/nodejs/sharing-code/#publish-an-action-from-a-node-js-code-step) from the Pipedream dashboard.
 
-[[toc]]
+- **Create an action from code**. Develop your action code on your local filesystem and [publish to your Pipedream account using the Pipedream CLI](/components/quickstart/nodejs/actions/).
 
-## Publishing your own npm package
+## Publish an action from a Node.js code step
 
-### The short version
+<AlphaFeatureNotice />
 
-1. [Follow this guide](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) to publish your code as an npm package. You can see [the code for an example package here](https://github.com/dylburger/pd), `@dylburger/pd`.
-2. In any workflow, you can `import` code provided by your package.
+<VideoPlayer src="https://www.youtube.com/embed/s7SWG1gikbw" title="Reusing code steps as actions" />
 
-```javascript
-// import the random function from this example package
-import { random } from "@dylburger/pd";
-console.log(random());
+You can publish any of your Node.js code steps into a reusable action. This enables you to write a Node.js code step once, and reuse it across many workflows without rewriting it.
+
+To convert a Node.js code step into an publishable action, make sure to include the below properties in your Node.js step:
+- `version`
+- `name`
+- `key`
+- `type`
+
+```javascript{6-9}
+// Adding properties to a regular Node.js code step make it publishable
+import { parseISO, format } from 'date-fns';
+
+// Returns a formatted datetime string
+export default defineComponent({
+  name: 'Format Date',
+  version: '0.0.1',
+  key: 'format-date',
+  type: 'action',
+  props: {
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date to be formatted",
+    },
+    format: {
+      type: 'string',
+      label: "Format",
+      description: "Format to apply to the date. [See date-fns format](https://date-fns.org/v2.29.3/docs/format) as a reference."
+    }
+  },
+  async run({ $ }) {
+    const formatted = format(parseISO(this.date), this.format);
+    return formatted;
+  },
+})
+
 ```
 
-### Step by step
+Click **Test** to verify the step is working as expected. Only actions that have been successfully tested are to be published.
 
-This guide will walk you through how to create and publish an npm package. You can `import` the code from this package in any Pipedream workflow.
+Then open the menu in the top righthand corner of the code step and select **Publish to My Actions**:
 
-1. Open the [publishing guide](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) from npm. Follow steps 1 - 7.
-2. Create an `index.js` file within your package's directory with the following contents:
+![Publish a Node.js code step to My Actions](https://res.cloudinary.com/pipedreamin/image/upload/v1664805822/docs/components/CleanShot_2022-10-03_at_10.03.08_2x_lpbjjs.png)
 
-```javascript
-function random() {
-  return Math.random();
-}
+And now you've successfully saved a custom Node.js code step to your account. You'll be able to use this code step in any of your workflows.
 
-// Read https://www.sitepoint.com/understanding-module-exports-exports-node-js/
-// for more information on this syntax
-export default {
-  random,
-};
+::: details Why can't I use the `steps` variable in published Node.js code steps?
+
+The `steps` variable contains the _workflows_ step exports.
+
+When you publish a Node.js code step as an action, it becomes reusable across many workflows.
+
+This means that the step exports available vary depending on the workflow it's running on. 
+
+Defining props is a way to map inputs to actions and allow individual workflows to define which exports should be used.
+
+:::
+
+## Using your published actions
+
+To use your custom action, create a new step in your workflow and select **My Actions**.
+
+![Select My Actions in a new workflow step to access your actions](https://res.cloudinary.com/pipedreamin/image/upload/v1664806138/docs/components/CleanShot_2022-10-03_at_10.08.42_2x_qt1ht3.png)
+
+From there you'll be able to view and select any of your published actions and use them as steps.
+
+## Updating published Node.js code step actions
+
+If you need to make a change and update the underlying code to your published Node.js code step, you can do so by incrementing the `version` field on the Node.js code step.
+
+Every instance of your published action from a code step is editable. In any workflow where you've reused a published action, open the menu on the right side of the action and click **Edit action** button.
+
+This will open up the code editor for this action, even if this wasn't the original code step.
+
+Now increment the `version` field in the code:
+
+```javascript{6}
+import { parseISO, format } from 'date-fns';
+
+// The version field on a Node.js action is versioned
+export default defineComponent({
+  name: 'Format Date',
+  version: '0.0.2',
+  key: 'format-date',
+  type: 'action',
+  props: {
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date to be formatted",
+    },
+    format: {
+      type: 'string',
+      label: "Format",
+      description: "Format to apply to the date. [See date-fns format](https://date-fns.org/v2.29.3/docs/format) as a reference."
+    }
+  },
+  async run({ $ }) {
+    const formatted = format(parseISO(this.date), this.format);
+    return formatted;
+  },
+})
 ```
 
-The `random` function is just an example - you can keep this code or replace it with any function or code you'd like to use on Pipedream.
+Finally use the **Publish to My Actions** button in the right hand side menu to publish this new version.
 
-3. You'll need to publish a **public** package to use it on Pipedream. Make sure to [review your code for any sensitive information](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages#reviewing-package-contents-for-sensitive-or-unnecessary-information).
-4. Follow the instructions in the [Publishing scoped public packages section](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages#publishing-scoped-public-packages) of the npm guide to publish your package to npm's registry.
-5. In a Pipedream workflow, `import` the `random` function from the example, or run the other code provided by your package:
+::: details I'm not seeing an **Edit Action** button option in my step
 
-```javascript
-// import the random function
-import { random } from "@your-username/your-package";
-console.log(random());
-```
+The **Edit Action** button is only available for actions that are published from Node.js code steps.
 
-6. If you need to add more code to your package, add it to your `index.js` file, increment the `version` in your `package.json` file, and publish your package again.
+Actions submitted to the public component registry can contain multiple files. At this time it's not possible to edit multi-file components direct in a code step.
 
-<Footer />
+:::
+
+::: details Will publishing a new version of an action automatically update all other steps using it?
+
+No, a new version of an action doesn't automatically update all instances of the same action across your workflows.
+
+This gives you the control to gradually update. Learn how to [update steps to the newest action versions here](https://pipedream.com/docs/workflows/steps/actions/#updating-actions-to-the-latest-version).
+
+:::
+
+After publishing a new version, all other steps using this same action will have the option to [update to the latest version](/workflows/steps/actions/#updating-actions-to-the-latest-version).
+
+## Differences between publishing actions from workflow Node.js code steps and directly from code
+
+Publishing reusable actions from Node.js code steps allows you to quickly scaffold and publish Node.js code steps without leaving the Pipedream dashboard. The result is the same as publishing actions from code using the Pipedream CLI.
+
+However, there are some differences.
+
+1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/components/guidelines/#promoting-reusability).
+2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/components/guidelines/#contributing-to-the-pipedream-registry).
+3. Node.js code step actions have a slightly different structure than [action components](/components/api/#component-api).

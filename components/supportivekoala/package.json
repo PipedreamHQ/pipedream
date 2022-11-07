@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/supportivekoala",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Supportivekoala Components",
-  "main": "supportivekoala.app.js",
+  "main": "supportivekoala.app.mjs",
   "keywords": [
     "pipedream",
     "supportivekoala"

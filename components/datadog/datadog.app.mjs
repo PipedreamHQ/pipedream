@@ -63,10 +63,9 @@ export default {
       options: constants.metricTypes,
     },
     monitors: {
-      type: "string[]",
+      type: "integer[]",
       label: "Monitors",
       description: "The monitors to observe for notifications",
-      optional: true,
       async options({ page }) {
         const monitors = await this.listMonitors({
           query: {
@@ -165,6 +164,9 @@ export default {
         path: "/v1/integration/webhooks/configuration/webhooks",
         method: "post",
         data: {
+          custom_headers: JSON.stringify({
+            "x-webhook-secretkey": secretKey,
+          }),
           payload: JSON.stringify(payloadFormat),
           name,
           url,
@@ -194,7 +196,8 @@ export default {
       }
 
       const newMessage = `${message}\n${webhookTagPattern}`;
-      await this._editMonitor(monitorId, {
+      await this._editMonitor({
+        monitorId,
         data: {
           message: newMessage,
         },
@@ -229,6 +232,9 @@ export default {
         await this._editMonitor(monitorId, monitorChanges);
       }
     },
+    daysAgo(days) {
+      return new Date().setDate(new Date().getDate() - days);
+    },
     async listMonitors(args) {
       return this._makeRequest({
         path: "/v1/monitor",
@@ -257,6 +263,13 @@ export default {
       return this._makeRequest({
         path: "/v2/series",
         method: "post",
+        ...args,
+      });
+    },
+    async getEvents(args) {
+      return this._makeRequest({
+        path: "/v1/events",
+        method: "get",
         ...args,
       });
     },
