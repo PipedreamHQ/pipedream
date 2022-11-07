@@ -5,7 +5,7 @@ export default {
   name: "New Attendee Registered",
   version: "0.0.1",
   key: "heysummit-new-attendee-registered",
-  description: "Emit new event when a attendee is registered on a event.",
+  description: "Emit new event when an attendee is registered on a event.",
   type: "source",
   dedupe: "unique",
   methods: {

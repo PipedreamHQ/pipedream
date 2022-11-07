@@ -25,7 +25,7 @@ export default {
             value: event.id,
           })),
           context: {
-            nextPageToken: next,
+            nextPage: next,
           },
         };
       },
