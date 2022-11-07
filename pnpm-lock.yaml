@@ -363,7 +363,12 @@ importers:
     specifiers: {}
 
   components/buy_me_a_coffee:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/bybit:
     specifiers: {}
@@ -560,8 +565,10 @@ importers:
 
   components/datadog:
     specifiers:
+      '@pipedream/platform': ^1.1.1
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
   components/datumbox:
@@ -894,6 +901,12 @@ importers:
 
   components/getprospect:
     specifiers: {}
+
+  components/getresponse:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/getscreenshot:
     specifiers: {}
@@ -2673,8 +2686,9 @@ importers:
       uuid: ^9.0.0
     dependencies:
       '@pipedream/platform': 1.1.1
-      '@pipedream/types': 0.1.4
       uuid: 9.0.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/twitter:
     specifiers:

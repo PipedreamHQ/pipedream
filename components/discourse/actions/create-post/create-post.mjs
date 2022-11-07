@@ -2,17 +2,12 @@ import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "Create Post",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "discourse-create-post",
-  description: "Creates a post. [See docs here](https://openapi.discourse.io/#/Companies/post_companies)",
+  description: "Creates a post. [See docs here](https://docs.discourse.org/#tag/Posts/operation/createTopicPostPM)",
   type: "action",
   props: {
     discourse,
-    title: {
-      label: "Title",
-      description: "Title of the post",
-      type: "string",
-    },
     raw: {
       label: "Content",
       description: "Content of the post",
@@ -24,23 +19,14 @@ export default {
         "topicId",
       ],
     },
-    categoryid: {
-      type: "string",
-      description: "Category ID of the post",
-      propDefinition: [
-        discourse,
-        "categories",
-      ],
-    },
   },
   async run({ $ }) {
-    const response = await this.discourse.createPost({
+    // we use the same method to create post and topics
+    const response = await this.discourse.createPostOrTopic({
       $,
       data: {
-        title: this.title,
         raw: this.raw,
         topic_id: this.topicId,
-        category: this.category,
       },
     });
 
