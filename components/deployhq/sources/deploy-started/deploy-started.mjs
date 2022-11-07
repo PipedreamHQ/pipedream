@@ -4,12 +4,9 @@ export default {
   ...common,
   key: "deployhq-deploy-started",
   name: "New Deploy Started",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a deploy starts",
   type: "source",
-  props: {
-    http: "$.interface.http",
-  },
   async run(request) {
     const { payload } = this.validateRequest(request);
 
