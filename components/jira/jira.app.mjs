@@ -51,7 +51,7 @@ export default {
       },
     },
     labels: {
-      type: "string",
+      type: "string[]",
       label: "Labels",
       description: "Labels associated to the issue, such as \"bugfix\", \"blitz_test\".",
       optional: true,

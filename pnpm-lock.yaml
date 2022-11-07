@@ -1970,6 +1970,12 @@ importers:
   components/radar:
     specifiers: {}
 
+  components/ragic:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^0.10.0
