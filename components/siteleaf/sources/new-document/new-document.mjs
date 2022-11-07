@@ -6,7 +6,7 @@ export default {
   key: "siteleaf-new-document",
   type: "source",
   name: "New Document",
-  description: "Emit new event when a new document is created",
+  description: "Emit new event when a new document is created. [See the docs here](https://learn.siteleaf.com/api/documents/#list-documents)",
   version: "0.0.1",
   props: {
     ...base.props,

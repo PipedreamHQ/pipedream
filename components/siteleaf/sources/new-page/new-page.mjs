@@ -6,7 +6,7 @@ export default {
   key: "siteleaf-new-page",
   type: "source",
   name: "New Page",
-  description: "Emit new event when a new page is created",
+  description: "Emit new event when a new page is created. [See the docs here](https://learn.siteleaf.com/api/pages/#list-pages)",
   version: "0.0.1",
   props: {
     ...base.props,
