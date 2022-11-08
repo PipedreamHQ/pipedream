@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rebrandly",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Rebrandly Components",
   "main": "rebrandly.app.mjs",
   "keywords": [

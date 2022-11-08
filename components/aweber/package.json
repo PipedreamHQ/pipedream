@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aweber",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Aweber Components",
   "main": "aweber.app.mjs",
   "keywords": [

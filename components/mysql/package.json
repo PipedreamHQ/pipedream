@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mysql",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mysql Components",
   "main": "mysql.app.mjs",
   "keywords": [

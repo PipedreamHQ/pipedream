@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/inksprout",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Inksprout Components",
   "main": "inksprout.app.js",
   "keywords": [
