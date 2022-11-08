@@ -27,7 +27,7 @@ export default {
       description:
         "The PagerDuty API doesn't support webhook notifications for on-call rotations, so we must poll the API to check for these changes. Change this interval according to your needs.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

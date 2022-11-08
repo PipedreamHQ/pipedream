@@ -15,7 +15,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the URL.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     httpRequest: {

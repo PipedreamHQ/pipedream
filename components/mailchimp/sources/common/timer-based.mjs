@@ -7,7 +7,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // by default, run every 15 minutes.
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

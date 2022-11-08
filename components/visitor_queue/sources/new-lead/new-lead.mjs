@@ -16,7 +16,7 @@ export default {
       description: "Pipedream will poll the Visitor Queue API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     dataViews: {
@@ -51,10 +51,10 @@ export default {
       });
 
       for await (const record of records) {
-        if ( moment(record.last_visited_at).isAfter(lastTime))
+        if (moment(record.last_visited_at).isAfter(lastTime))
           this._setLastTime(record.last_visited_at);
 
-        this.$emit(record,  this.getDataToEmit(record));
+        this.$emit(record, this.getDataToEmit(record));
       }
     },
   },
@@ -73,7 +73,7 @@ export default {
         if (!lastTime || moment(lastTime).isAfter(lead.last_visited_at)) {
           this._setLastTime(lead.last_visited_at);
         }
-        this.$emit(lead,  this.getDataToEmit(lead));
+        this.$emit(lead, this.getDataToEmit(lead));
       }
     },
   },

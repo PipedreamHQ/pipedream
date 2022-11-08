@@ -31,7 +31,7 @@ export default {
       description: "Pipedream will poll the API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

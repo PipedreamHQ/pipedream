@@ -15,7 +15,7 @@ export default {
       description: "Pipedream will poll the Readwise API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     bookId: {

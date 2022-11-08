@@ -25,7 +25,7 @@ export default {
       description: "Pipedream will poll the Nocodb API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
@@ -47,8 +47,8 @@ export default {
       });
 
       for await (const record of records) {
-        if ( moment(record[timeField]).isAfter(lastTime)) this._setLastTime(record[timeField]);
-        this.$emit(record,  this.getDataToEmit(record));
+        if (moment(record[timeField]).isAfter(lastTime)) this._setLastTime(record[timeField]);
+        this.$emit(record, this.getDataToEmit(record));
       }
     },
   },
@@ -70,7 +70,7 @@ export default {
         if (!lastTime || moment(lastTime).isAfter(row[timeField])) {
           this._setLastTime(row[timeField]);
         }
-        this.$emit(row,  this.getDataToEmit(row));
+        this.$emit(row, this.getDataToEmit(row));
       }
     },
   },

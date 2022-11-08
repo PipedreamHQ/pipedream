@@ -15,7 +15,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the new answers",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

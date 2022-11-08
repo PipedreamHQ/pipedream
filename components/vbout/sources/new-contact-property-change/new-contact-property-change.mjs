@@ -14,7 +14,7 @@ export default {
       description: "Pipedream will poll the vbout API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     list: {
@@ -61,7 +61,7 @@ export default {
 
     if (lastObject !== JSON.stringify(contact)) {
       this._setLastObject(JSON.stringify(contact));
-      this.$emit(contact,  this.getDataToEmit(contact));
+      this.$emit(contact, this.getDataToEmit(contact));
     }
   },
 };

@@ -6,7 +6,7 @@ export default {
       description: "How often to poll Dev.to for new articles",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

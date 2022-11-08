@@ -11,7 +11,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60 * 24,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     period: {

@@ -8,7 +8,7 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Todoist API on this schedule",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     db: "$.service.db",

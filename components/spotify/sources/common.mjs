@@ -8,7 +8,7 @@ export default {
       description: "How often to poll the Spotify API for new events",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

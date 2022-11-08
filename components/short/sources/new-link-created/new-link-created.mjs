@@ -14,7 +14,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the links.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     domainId: {

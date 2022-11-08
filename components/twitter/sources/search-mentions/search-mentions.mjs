@@ -75,7 +75,7 @@ export default {
       description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
@@ -122,7 +122,7 @@ export default {
 
     // emit array of tweet objects
     if (tweets.length > 0) {
-      tweets.sort(function(a, b) {return a.id - b.id;});
+      tweets.sort(function (a, b) { return a.id - b.id; });
 
       tweets.forEach((tweet) => {
         this.$emit(tweet, {

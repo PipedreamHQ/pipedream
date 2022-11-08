@@ -7,11 +7,11 @@ module.exports = {
   description: 'Emits the weather report for a specific ZIP code on a schedule',
   props: {
     here,
-    zipCode: {propDefinition: [here, 'zipCode']},
+    zipCode: { propDefinition: [here, 'zipCode'] },
     timer: {
       type: '$.interface.timer',
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

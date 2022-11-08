@@ -33,7 +33,7 @@ export default {
       description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 60 * 60 * 23,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

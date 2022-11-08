@@ -14,7 +14,7 @@ export default {
       label: "Timer",
       description: "The timer to use to schedule the next poll.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     receiverName: {

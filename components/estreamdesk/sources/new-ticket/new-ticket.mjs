@@ -16,7 +16,7 @@ export default {
       description: "Pipedream will poll the eStreamDesk API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
@@ -26,7 +26,7 @@ export default {
       await this.processTickets({
         lastId,
       },
-      25);
+        25);
     },
   },
   methods: {

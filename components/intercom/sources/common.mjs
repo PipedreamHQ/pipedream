@@ -7,7 +7,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",

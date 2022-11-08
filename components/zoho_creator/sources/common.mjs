@@ -10,7 +10,7 @@ export default {
       label: "Polling interval",
       description: "How often to poll the Zoho Creator API for resources",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     appLinkName: {

@@ -10,12 +10,12 @@ module.exports = {
   props: {
     stack_exchange,
     db: '$.service.db',
-    siteId: {propDefinition: [stack_exchange, 'siteId']},
-    keywords: {propDefinition: [stack_exchange, 'keywords']},
+    siteId: { propDefinition: [stack_exchange, 'siteId'] },
+    keywords: { propDefinition: [stack_exchange, 'keywords'] },
     timer: {
       type: '$.interface.timer',
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
@@ -31,7 +31,7 @@ module.exports = {
       return Math.floor(Date.now() / 1000);
     },
     generateMeta(data) {
-      const {question_id: id, creation_date: ts, title} = data;
+      const { question_id: id, creation_date: ts, title } = data;
       const summary = `New question: ${title}`;
       return {
         id,

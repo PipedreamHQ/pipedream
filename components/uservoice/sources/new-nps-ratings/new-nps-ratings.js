@@ -15,7 +15,7 @@ module.exports = {
         "Pipedream will poll the UserVoice API for new NPS ratings on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     db: "$.service.db",

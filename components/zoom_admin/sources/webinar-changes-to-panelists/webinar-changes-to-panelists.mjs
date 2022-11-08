@@ -24,7 +24,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
@@ -117,7 +117,7 @@ export default {
           if (
             panelist.id in oldPanelists &&
             this.hash(JSON.stringify(panelist)) !==
-              this.hash(JSON.stringify(oldPanelists[panelist.id]))
+            this.hash(JSON.stringify(oldPanelists[panelist.id]))
           ) {
             eventType = "panelist.changed";
             this.$emit(

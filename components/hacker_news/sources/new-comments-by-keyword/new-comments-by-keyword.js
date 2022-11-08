@@ -14,7 +14,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     db: "$.service.db",

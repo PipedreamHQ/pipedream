@@ -7,7 +7,7 @@ export default {
       description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     include: {
@@ -60,7 +60,7 @@ export default {
   },
   async run(event) {
     const { timestamp: ts } = event;
-    const baseUri =  await this.docusign.getBaseUri({
+    const baseUri = await this.docusign.getBaseUri({
       accountId: this.account,
     });
     let done = false;

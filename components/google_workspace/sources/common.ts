@@ -13,7 +13,7 @@ export default {
       type: "$.interface.timer",
       description: "How often you want to check if the Webhook has already expired",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

@@ -9,7 +9,7 @@ export default {
       description: "Pipedream will poll the Pushshift.io API on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

@@ -15,7 +15,7 @@ export default {
       description: "Interval to poll the Google Drive API for new shared drives",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 30 minutes
+        intervalSeconds: 15 * 60, // 30 minutes
       },
     },
   },

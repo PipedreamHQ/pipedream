@@ -16,7 +16,7 @@ export default {
       label: "Timer",
       description: "When should the source check for a new event",
       default: {
-        intervalSeconds: 60 * 60 * 24,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     country_code: {

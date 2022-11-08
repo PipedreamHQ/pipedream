@@ -9,7 +9,7 @@ export default {
       type: "$.interface.timer",
       label: "timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },

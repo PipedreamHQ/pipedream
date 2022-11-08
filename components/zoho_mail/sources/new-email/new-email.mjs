@@ -15,7 +15,7 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Zoho API on this schedule",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     account: {
