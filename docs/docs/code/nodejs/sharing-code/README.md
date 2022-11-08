@@ -15,7 +15,7 @@ Pipedream provides two ways to share code across workflows:
 
 ## Publish an action from a Node.js code step
 
-<AlphaFeatureNotice feature="Enable Step Publishing" />
+<AlphaFeatureNotice />
 
 <VideoPlayer src="https://www.youtube.com/embed/s7SWG1gikbw" title="Reusing code steps as actions" />
 
