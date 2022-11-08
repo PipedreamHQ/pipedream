@@ -998,6 +998,9 @@
     },
     {
       "path": "components/snyk"
+    },
+    {
+      "path": "components/facebook_groups"
     }
   ]
 }
