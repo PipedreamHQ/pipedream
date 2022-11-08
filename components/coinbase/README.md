@@ -1,6 +1,7 @@
 # Overview
 
-The Coinbase API allows you to build a variety of different applications, including:
+The Coinbase API allows you to build a variety of different applications,
+including:
 
 - A cryptocurrency exchange
 - A digital wallet

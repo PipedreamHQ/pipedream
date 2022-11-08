@@ -1,6 +1,7 @@
 # Overview
 
- Crowd.dev is a powerful API that enables you to easily build applications that work with the Crowd.dev platform. With the Crowd.dev API you can:
+ Crowd.dev is a powerful API that enables you to easily build applications that
+ work with the Crowd.dev platform. With the Crowd.dev API you can:
 
 - Build applications that allow users to post and manage projects
 - Build applications that allow users to browse and search for projects

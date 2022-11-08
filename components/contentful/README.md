@@ -1,6 +1,8 @@
 # Overview
 
-Contentful is a content management API that enables developers to build applications that can be used to manage content. Contentful provides a set of tools that can be used to manage content, including:
+Contentful is a content management API that enables developers to build
+applications that can be used to manage content. Contentful provides a set of
+tools that can be used to manage content, including:
 
 - A content management system
 - A set of APIs for managing content
