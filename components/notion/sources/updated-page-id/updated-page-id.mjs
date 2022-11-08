@@ -7,7 +7,7 @@ export default {
   key: "notion-updated-page-id",
   name: "Updated Page ID", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a selected page is updated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

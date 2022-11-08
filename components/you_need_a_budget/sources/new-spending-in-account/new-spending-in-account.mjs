@@ -5,7 +5,7 @@ export default {
   key: "you_need_a_budget-spending-in-account",
   name: "New Spending In Account",
   description: "Emit new event for every spending in an account. [See the docs](https://api.youneedabudget.com/v1#/Transactions/getTransactionsByAccount)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

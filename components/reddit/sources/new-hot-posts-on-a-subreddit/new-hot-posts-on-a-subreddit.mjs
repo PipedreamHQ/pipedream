@@ -10,7 +10,7 @@ export default {
   name: "New hot posts on a subreddit",
   description:
     "Emit new event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   props: {
     ...common.props,

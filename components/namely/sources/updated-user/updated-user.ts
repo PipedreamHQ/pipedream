@@ -4,7 +4,7 @@ import base from "../common/base-user";
 export default defineSource({
   ...base,
   key: "namely-updated-user",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "New Updated User",
   type: "source",
   description: "Emit new event for each user updated.",

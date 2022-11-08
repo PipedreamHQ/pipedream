@@ -6,7 +6,7 @@ export default defineSource({
   key: "buy_me_a_coffee-new-supporter-added",
   name: "New Supporter Added",
   description: "Emit new events when a new supporter was added. [See the docs](https://developers.buymeacoffee.com/#/apireference?id=onetime-supporters-v1supporters)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

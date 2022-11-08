@@ -7,7 +7,7 @@ export default {
   key: "new_relic-new-deployment-event",
   name: "New Deployment",
   description: "Emit new event when a new deployment is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     application: {

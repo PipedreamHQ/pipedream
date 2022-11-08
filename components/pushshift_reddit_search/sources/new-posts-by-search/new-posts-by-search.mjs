@@ -6,7 +6,7 @@ export default {
   key: "pushshift_reddit_search-new-posts-by-search",
   name: "New Posts By Search",
   description: "Emit new event when a search of Reddit posts using the Pushshift.io API returns new results.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

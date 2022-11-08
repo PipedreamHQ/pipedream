@@ -6,7 +6,7 @@ export default {
   name: "New Column",
   description: "Emit new event when you add a new column to a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/show-columns.html)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
