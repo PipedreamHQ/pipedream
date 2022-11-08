@@ -5,7 +5,7 @@ import {
   create_destination,
   list_destinations,
   delete_destination,
-} from "./queries.mjs";
+} from "./common-queries.mjs";
 
 export default {
   ...base,
