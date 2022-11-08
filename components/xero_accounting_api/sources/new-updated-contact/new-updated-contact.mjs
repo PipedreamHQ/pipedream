@@ -4,17 +4,16 @@ import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 export default {
   key: "xero_accounting_api-new-updated-contact",
   name: "New or updated contact",
-  description:
-    "Emit new notifications when you create a new or update existing contact",
+  description: "Emit new notifications when you create a new or update existing contact",
   version: "0.0.2",
   type: "source",
   props: {
     xeroAccountingApi,
     tenantId: {
-      type: "string",
-      label: "Tenant ID",
-      description:
-        "Id of the organization tenant to use on the Xero Accounting API.  See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     timer: {
       label: "Polling interval",
@@ -43,11 +42,11 @@ export default {
       )
     )?.Contacts;
     contacts && contacts.reverse().forEach((contact) => {
-      const formatedDate = formatJsonDate(contact.UpdatedDateUTC);
-      this.xeroAccountingApi.setLastDateChecked(this.db, formatedDate);
+      const formattedDate = formatJsonDate(contact.UpdatedDateUTC);
+      this.xeroAccountingApi.setLastDateChecked(this.db, formattedDate);
       this.$emit(contact,
         {
-          id: `${contact.ContactID}D${formatedDate || ""}`,
+          id: `${contact.ContactID}D${formattedDate || ""}`,
           summary: contact.Name,
         });
     });
