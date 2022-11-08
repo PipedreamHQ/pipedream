@@ -18,6 +18,10 @@ const isCommonFile = ( subname ) => {
   return regex.test(subname);
 };
 
+module.exports.isAppFile = isAppFile;
+module.exports.isSourceFile = isSourceFile;
+module.exports.isCommonFile = isCommonFile;
+
 const getComponentKey = ( p )  => {
   const data = fs.readFileSync(p, "utf8");
   const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/);
