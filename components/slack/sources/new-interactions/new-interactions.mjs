@@ -31,7 +31,7 @@ export default {
       async eventNames() {
         const action_events = this.action_ids.reduce((carry, action_id) => {
           // if channels are provided, spread them
-          if (this.conversations.length > 0) {
+          if (this.conversations && this.conversations.length > 0) {
             return [
               ...carry,
               ...this.conversations.map(
@@ -40,7 +40,10 @@ export default {
             ];
           }
 
-          return `interaction_events:${action_id}`;
+          return [
+            ...carry,
+            `interaction_events:${action_id}`,
+          ];
         }, []);
 
         if (action_events.length > 0) return action_events;
