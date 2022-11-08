@@ -2,6 +2,7 @@ import {
   removeNullEntries,
   deleteKeys,
   isValidDate,
+  formatLineItems,
 } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
@@ -46,9 +47,10 @@ export default {
         }\``,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line items",
-      description: "The LineItems collection can contain any number of individual LineItem sub-elements. At least one is required to create a complete Invoice. [Refer to Tax Type](https://developer.xero.com/documentation/api/accounting/types#report-tax-types), [Refer to Line Items](https://developer.xero.com/documentation/api/accounting/invoices#creating-updating-and-deleting-line-items-when-updating-invoices)\n\n**Example:** `{\"Description\":\"Football\", \"Quantity\":\"20\", \"UnitAmount\":\"50000\", \"TaxType\":\"OUTPUT\" }`",
+      propDefinition: [
+        xeroAccountingApi,
+        "lineItems",
+      ],
     },
     date: {
       type: "string",
@@ -91,7 +93,7 @@ export default {
           "EmailAddress",
         ])
         : contact,
-      LineItems: lineItems,
+      LineItems: formatLineItems(lineItems),
       Date: isValidDate(date, "Date") && date,
       DueDate: isValidDate(dueDate, "DueDate") && dueDate,
       CurrencyCode: currencyCode,

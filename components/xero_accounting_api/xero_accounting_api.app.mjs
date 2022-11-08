@@ -15,6 +15,19 @@ export default {
         return this.getTenantsOpts();
       },
     },
+    invoiceId: {
+      type: "string",
+      label: "Invoice ID",
+      description: "Unique identification of the invoice",
+      async options({ tenantId }) {
+        return this.getInvoiceOpts(tenantId);
+      },
+    },
+    lineItems: {
+      type: "string[]",
+      label: "Line items",
+      description: "The LineItems collection can contain any number of individual LineItem sub-elements. At least one is required to create a complete Invoice. [Refer to Tax Type](https://developer.xero.com/documentation/api/accounting/types#report-tax-types), [Refer to Line Items](https://developer.xero.com/documentation/api/accounting/invoices#creating-updating-and-deleting-line-items-when-updating-invoices)\n\n**Example:** `[{\"Description\":\"Football\", \"Quantity\":\"20\", \"UnitAmount\":\"50000\", \"TaxType\":\"OUTPUT\" }]`",
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -68,6 +81,14 @@ export default {
         label: tenant.tenantName,
         value: tenant.tenantId,
       }));
+    },
+    async getInvoiceOpts(tenantId) {
+      const invoices = await this.getInvoice(this, tenantId);
+      console.log(invoices);
+      return invoices?.Invoices?.map((invoice) => ({
+        label: invoice.InvoiceNumber,
+        value: invoice.InvoiceID,
+      })) || [];
     },
     async createContact($, tenantId, data) {
       return this.makeRequest({

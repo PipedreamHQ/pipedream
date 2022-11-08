@@ -1,5 +1,8 @@
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
-import { removeNullEntries } from "../../common/util.mjs";
+import {
+  removeNullEntries,
+  formatLineItems,
+} from "../../common/util.mjs";
 
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
@@ -15,26 +18,31 @@ export default {
         "tenantId",
       ],
     },
-    invoiceID: {
-      type: "string",
-      label: "Invoice ID",
-      description: "ID of Invoice to be updated",
+    invoiceId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "invoiceId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
     },
     lineItems: {
-      type: "string[]",
-      label: "Line items",
-      description: "The LineItems collection can contain any number of individual LineItem sub-elements. At least one is required to create a complete Invoice. [Refer to Tax Type](https://developer.xero.com/documentation/api/accounting/types#report-tax-types), [Refer to Line Items](https://developer.xero.com/documentation/api/accounting/invoices#creating-updating-and-deleting-line-items-when-updating-invoices)\n\n**Example:** `{\"Description\":\"Football\", \"Quantity\":\"20\", \"UnitAmount\":\"50000\", \"TaxType\":\"OUTPUT\" }`",
+      propDefinition: [
+        xeroAccountingApi,
+        "lineItems",
+      ],
     },
   },
   async run({ $ }) {
     const {
       tenantId,
-      invoiceID,
+      invoiceId,
       lineItems,
     } = this;
     const data = removeNullEntries({
-      InvoiceID: invoiceID,
-      LineItems: lineItems,
+      InvoiceID: invoiceId,
+      LineItems: formatLineItems(lineItems),
     });
     const response = await this.xeroAccountingApi.createInvoice($, tenantId, data);
     response && $.export("$summary", "Line item created successfully");
