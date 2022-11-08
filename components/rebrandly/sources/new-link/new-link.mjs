@@ -2,7 +2,7 @@ import rebrandly from "../../rebrandly.app.mjs";
 
 export default {
   name: "New Link",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "rebrandly-new-link",
   description: "Emit new event on each new link created.",
   type: "source",

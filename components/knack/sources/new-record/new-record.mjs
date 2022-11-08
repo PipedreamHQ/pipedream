@@ -5,7 +5,7 @@ export default {
   name: "New Record",
   description: "Emit new event for each record created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     knack,

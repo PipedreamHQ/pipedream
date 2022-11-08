@@ -2,7 +2,7 @@ import surveymethods from "../../surveymethods.app.mjs";
 
 export default {
   name: "New Response",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "surveymethods-new-response",
   description: "Emit new event for each response.",
   type: "source",

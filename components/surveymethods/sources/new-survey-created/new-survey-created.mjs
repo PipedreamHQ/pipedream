@@ -2,7 +2,7 @@ import surveymethods from "../../surveymethods.app.mjs";
 
 export default {
   name: "New Survey Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "surveymethods-new-survey-created",
   description: "Emit new event on a survey is created.",
   type: "source",

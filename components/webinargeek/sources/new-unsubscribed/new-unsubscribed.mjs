@@ -2,7 +2,7 @@ import webinargeek from "../../webinargeek.app.mjs";
 
 export default {
   name: "New Unsubscribed",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-unsubscribed",
   description: "Emit new event on each new unsubscribed.",
   type: "source",

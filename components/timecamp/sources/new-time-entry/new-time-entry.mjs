@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 export default {
   name: "New Time Entry",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "timecamp-new-time-entry",
   description: "Emit new event on each created time entry.",
   type: "source",

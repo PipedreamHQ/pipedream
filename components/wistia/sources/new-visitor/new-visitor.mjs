@@ -2,7 +2,7 @@ import wistia from "../../wistia.app.mjs";
 
 export default {
   name: "New Visitor",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wistia-new-visitor",
   description: "Emit new event for each visitor.",
   type: "source",

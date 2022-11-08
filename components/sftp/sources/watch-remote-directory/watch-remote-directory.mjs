@@ -4,7 +4,7 @@ export default {
   key: "sftp-watch-remote-directory",
   name: "New Remote Directory Watcher",
   description: "Emit new events when files get created, changed or deleted from a remote directory. [See the docs](https://github.com/theophilusx/ssh2-sftp-client#orgfac43d1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

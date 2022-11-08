@@ -2,7 +2,7 @@ import webinargeek from "../../webinargeek.app.mjs";
 
 export default {
   name: "New Webinar Watched",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-webinar-watched",
   description: "Emit new event on each webinar is watched.",
   type: "source",

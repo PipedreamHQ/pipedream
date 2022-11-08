@@ -6,7 +6,7 @@ export default {
   name: "New or updated invoice",
   description:
     "Emit new notifications when you create a new or update existing invoice",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     xeroAccountingApi,

@@ -5,7 +5,7 @@ export default {
   name: "New Contact Property Change",
   key: "vbout-new-contact-property-change",
   description: "Emit new event for each new property changed in a specific contact. [See docs here](https://developers.vbout.com/docs#emailmarketing_getcontact)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     vbout,
     db: "$.service.db",

@@ -5,7 +5,7 @@ export default {
   name: "New Page",
   type: "source",
   description: "Emit new event for each new page published.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     db: "$.service.db",

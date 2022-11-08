@@ -2,7 +2,7 @@ import webinargeek from "../../webinargeek.app.mjs";
 
 export default {
   name: "New Replay Watched",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-replay-watched",
   description: "Emit new event on each replay is watched.",
   type: "source",

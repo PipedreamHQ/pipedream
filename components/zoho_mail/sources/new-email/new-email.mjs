@@ -4,7 +4,7 @@ export default {
   key: "zoho_mail-new-email",
   name: "New Email",
   description: "Emit new event each time a new email is received",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

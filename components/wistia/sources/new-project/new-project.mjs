@@ -2,7 +2,7 @@ import wistia from "../../wistia.app.mjs";
 
 export default {
   name: "New Project",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wistia-new-project",
   description: "Emit new event for each created project.",
   type: "source",

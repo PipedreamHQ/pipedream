@@ -5,7 +5,7 @@ export default {
   name: "New Measure",
   description: "Emit new event for each created measure. [See docs here](https://developer.withings.com/api-reference#operation/measure-getmeas)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     withings,

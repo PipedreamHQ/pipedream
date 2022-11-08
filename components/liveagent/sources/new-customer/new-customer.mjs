@@ -2,7 +2,7 @@ import liveagent from "../../liveagent.app.mjs";
 
 export default {
   name: "New Customer",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "liveagent-new-customer",
   description: "Emit new event on each new customer.",
   type: "source",

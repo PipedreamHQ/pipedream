@@ -5,7 +5,7 @@ export default {
   name: "Updated Customer", /* eslint-disable-line pipedream/source-name */
   type: "source",
   description: "Emit new event each time a customer's information is updated.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

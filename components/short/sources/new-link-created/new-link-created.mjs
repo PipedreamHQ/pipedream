@@ -4,7 +4,7 @@ export default {
   key: "short-new-link-created",
   name: "New event for each link created.",
   description: "Emit new event when a link is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

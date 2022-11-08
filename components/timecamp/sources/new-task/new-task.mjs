@@ -2,7 +2,7 @@ import timecamp from "../../timecamp.app.mjs";
 
 export default {
   name: "New Task",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "timecamp-new-task",
   description: "Emit new event on each created task.",
   type: "source",

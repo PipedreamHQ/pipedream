@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 export default {
   name: "New Create Product",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "squarespace-new-create-product",
   description: "Emit new event for each product created.",
   type: "source",

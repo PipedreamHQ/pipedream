@@ -4,7 +4,7 @@ export default {
   key: "readwise-new-highlights",
   name: "New Highlights",
   description: "Emit new Highlight",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

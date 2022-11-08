@@ -2,7 +2,7 @@ import opensea from "../../opensea.app.mjs";
 
 export default {
   name: "New Collection Events",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "opensea-new-collection-events",
   description:
     "Emit new filtered events. [See docs](https://docs.opensea.io/reference/retrieving-asset-events)",

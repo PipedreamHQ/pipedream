@@ -11,7 +11,7 @@ export default {
   name: "New Events",
   type: "source",
   description: "Emit new event for each new Shopify event.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     db: "$.service.db",

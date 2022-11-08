@@ -2,7 +2,7 @@ import webinargeek from "../../webinargeek.app.mjs";
 
 export default {
   name: "New Payment",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-payment",
   description: "Emit new event on each new payment.",
   type: "source",

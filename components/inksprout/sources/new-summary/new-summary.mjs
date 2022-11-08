@@ -4,7 +4,7 @@ export default {
   key: "inksprout-new-summary",
   name: "New event for each summary created. [See the docs](https://inksprout.co/docs/index.html#item-2-2).",
   description: "Emit new event when a summary is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

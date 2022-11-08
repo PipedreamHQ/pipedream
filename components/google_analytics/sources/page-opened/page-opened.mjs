@@ -2,7 +2,7 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-page-opened",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Page Opened",
   description: "Emit new event when a page is viewed",
   type: "source",

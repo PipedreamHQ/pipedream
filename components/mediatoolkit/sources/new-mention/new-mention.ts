@@ -3,7 +3,7 @@ import mediatoolkit from "../../app/mediatoolkit.app";
 
 export default defineSource({
   name: "New Mention",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "mediatoolkit-new-mention",
   description: "Emit new event on each new mention.",
   type: "source",

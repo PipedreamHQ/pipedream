@@ -3,7 +3,7 @@ const NUM_SAMPLE_RESULTS = 10;
 
 module.exports = {
   name: "New NPS Ratings",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "uservoice-new-nps-ratings",
   description: `Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to ${NUM_SAMPLE_RESULTS} sample NPS ratings users have previously submitted.`,
   dedupe: "unique",

@@ -2,7 +2,7 @@ import statuscake from "../../statuscake.app.mjs";
 
 export default {
   name: "New Uptime Alert",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "statuscake-new-uptime-alert",
   description: "Emit new event on each new uptime alert.",
   type: "source",

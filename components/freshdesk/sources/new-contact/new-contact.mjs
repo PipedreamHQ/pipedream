@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-new-contact",
   name: "New Contact",
   description: "Emit new notifications when a new contact is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     freshdesk,

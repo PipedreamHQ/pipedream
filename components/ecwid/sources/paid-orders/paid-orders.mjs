@@ -3,7 +3,7 @@ import { FULFILMENT_STATUS_LIST } from "../../commons/commons.mjs";
 
 export default {
   name: "New Ecwid Paid Orders",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "ecwid-paid-orders",
   description: "Search for new orders which are PAID and AWAITING_PROCESSING. Emits events for each order and" +
     " sets order fulfilment status to PROCESSING",

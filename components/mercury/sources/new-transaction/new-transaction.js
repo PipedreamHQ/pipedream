@@ -4,7 +4,7 @@ module.exports = {
   key: "mercury-new-transaction",
   name: "New Transaction",
   description: "Emits an event for each new transaction in an account.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     mercury,

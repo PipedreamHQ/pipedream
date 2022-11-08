@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 export default {
   name: "New Create Transaction",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "squarespace-new-create-transaction",
   description: "Emit new event for each transaction created.",
   type: "source",

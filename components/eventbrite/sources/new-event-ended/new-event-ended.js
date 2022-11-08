@@ -5,7 +5,7 @@ module.exports = {
   key: "eventbrite-new-event-ended",
   name: "New Event Ended",
   description: "Emits an event when an event has ended",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

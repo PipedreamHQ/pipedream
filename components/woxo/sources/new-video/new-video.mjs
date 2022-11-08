@@ -2,7 +2,7 @@ import woxo from "../../woxo.app.mjs";
 
 export default {
   name: "New Video",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "woxo-new-video",
   description: "Emit new event on each new video.",
   type: "source",

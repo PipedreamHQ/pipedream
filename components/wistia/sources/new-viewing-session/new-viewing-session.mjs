@@ -2,7 +2,7 @@ import wistia from "../../wistia.app.mjs";
 
 export default {
   name: "New Viewing Session",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wistia-new-viewing-session",
   description: "Emit new event for each new viewing session.",
   type: "source",

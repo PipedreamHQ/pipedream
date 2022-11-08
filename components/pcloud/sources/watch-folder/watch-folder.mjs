@@ -4,7 +4,7 @@ export default {
   key: "pcloud-watch-folder",
   name: "Watch Folder",
   description: "Emit new event when a file is created or modified in the specified folder.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

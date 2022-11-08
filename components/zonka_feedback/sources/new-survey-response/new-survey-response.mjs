@@ -4,7 +4,7 @@ export default {
   key: "zonka_feedback-new-survey-response",
   name: "New Survey Response",
   description: "Emit new event for each survey response. [See docs](https://apidocs.zonkafeedback.com/?version=latest#156e4f44-d620-4d70-87f9-9d24462c23a2)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

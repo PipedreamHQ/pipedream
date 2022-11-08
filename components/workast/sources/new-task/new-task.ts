@@ -5,7 +5,7 @@ export default defineSource({
   key: "workast-new-task",
   name: "New Task",
   description: "Emit new event for each new task",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -2,7 +2,7 @@ import webinargeek from "../../webinargeek.app.mjs";
 
 export default {
   name: "New Registration",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-registration",
   description: "Emit new event on each new registration.",
   type: "source",

@@ -5,7 +5,7 @@ export default {
   key: "ramp-new-transactions",
   name: "New Transactions",
   description: "Emit new transaction by retrieving all transactions of the business. [See Docs](https://docs.ramp.com/reference/rest/transactions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ const QUERY = "isNew:true AND (severity:Error OR severity:Fatal)";
 
 export default {
   name: "New Error",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "elmah_io-new-error",
   description: "Emit new event on each new error",
   type: "source",
