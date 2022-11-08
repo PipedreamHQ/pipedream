@@ -2,7 +2,7 @@
   "name": "@pipedream/klaviyo",
   "version": "0.0.1",
   "description": "Pipedream Klaviyo Components",
-  "main": "dist/app/klaviyo.app.mjs",
+  "main": "klaviyo.app.mjs",
   "keywords": [
     "pipedream",
     "klaviyo"
