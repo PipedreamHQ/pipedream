@@ -5,7 +5,7 @@ module.exports = {
   key: "eventbrite-new-attendee-checkin",
   name: "New Attendee Check-In (Instant)",
   description: "Emits an event when an attendee checks in to an event",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

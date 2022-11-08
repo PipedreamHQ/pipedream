@@ -5,7 +5,7 @@ module.exports = {
   key: "eventbrite-new-attendee-registered",
   name: "New Attendee Registered (Instant)",
   description: "Emits an event when an attendee registers for an event",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

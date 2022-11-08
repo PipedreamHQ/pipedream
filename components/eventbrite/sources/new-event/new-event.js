@@ -5,7 +5,7 @@ module.exports = {
   key: "eventbrite-new-event",
   name: "New Event (Instant)",
   description: "Emits an event when an event has been created",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
