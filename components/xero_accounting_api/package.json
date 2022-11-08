@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/xero_accounting_api",
+  "version": "0.0.1",
+  "description": "Pipedream Xero Accounting API Components",
+  "main": "xero_accounting_api.app.js",
+  "keywords": [
+    "pipedream",
+    "xero_accounting_api"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/xero_accounting_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
