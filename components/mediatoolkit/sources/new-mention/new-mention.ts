@@ -20,18 +20,18 @@ export default defineSource({
     organizationId: {
       propDefinition: [
         mediatoolkit,
-        "organizationId"
-      ]
+        "organizationId",
+      ],
     },
     groupId: {
       propDefinition: [
         mediatoolkit,
         "groupId",
         (c) => ({
-          organizationId: c.organizationId
-        })
-      ]
-    }
+          organizationId: c.organizationId,
+        }),
+      ],
+    },
   },
   methods: {
     emitEvent(data) {
@@ -50,7 +50,7 @@ export default defineSource({
   },
   hooks: {
     async deploy() {
-      this._setLastTimestamp(Math.round(new Date().getTime() / 1000))
+      this._setLastTimestamp(Math.round(new Date().getTime() / 1000));
 
       const mentions = await this.mediatoolkit.getMentions({
         organizationId: this.organizationId,
@@ -64,7 +64,7 @@ export default defineSource({
     },
   },
   async run() {
-    this._setLastTimestamp(Math.round(new Date().getTime() / 1000))
+    this._setLastTimestamp(Math.round(new Date().getTime() / 1000));
 
     const mentions = await this.mediatoolkit.getMentions({
       organizationId: this.organizationId,

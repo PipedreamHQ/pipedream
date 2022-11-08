@@ -20,7 +20,7 @@ module.exports = {
       this.db.set("lastEvent", lastEvent);
     },
   },
-  async run(event) {
+  async run() {
     const lastEvent = this._getLastEvent();
 
     const results = await this.getResults();

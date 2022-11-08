@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event when an event has been created",
   version: "0.0.1",
   dedupe: "unique",
+  type: "source",
   methods: {
     ...common.methods,
     getActions() {

@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event when an attendee checks in to an event",
   version: "0.0.1",
   dedupe: "unique",
+  type: "source",
   methods: {
     ...common.methods,
     getActions() {
@@ -21,7 +22,9 @@ module.exports = {
       };
     },
     generateMeta({ attendee }) {
-      const { id, profile, created } = attendee;
+      const {
+        id, profile, created,
+      } = attendee;
       return {
         id,
         summary: profile.name,

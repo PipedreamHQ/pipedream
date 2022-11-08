@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event when an event has ended",
   version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     timer: {
@@ -28,7 +29,7 @@ module.exports = {
       const eventStream = await this.resourceStream(
         this.eventbrite.listEvents.bind(this),
         "events",
-        params
+        params,
       );
       for await (const event of eventStream) {
         this.emitEvent(event);
@@ -37,7 +38,7 @@ module.exports = {
     activate() { },
     deactivate() { },
   },
-  async run(event) {
+  async run() {
     const params = {
       orgId: this.organization,
       params: {
@@ -47,7 +48,7 @@ module.exports = {
     const eventStream = await this.resourceStream(
       this.eventbrite.listEvents.bind(this),
       "events",
-      params
+      params,
     );
     for await (const newEvent of eventStream) {
       this.emitEvent(newEvent);

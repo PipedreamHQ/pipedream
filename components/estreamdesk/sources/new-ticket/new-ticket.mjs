@@ -26,7 +26,7 @@ export default {
       await this.processTickets({
         lastId,
       },
-        25);
+      25);
     },
   },
   methods: {
