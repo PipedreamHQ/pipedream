@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   name: "New Interactions",
   version: "0.0.1",
-  key: "new-interactions",
+  key: "slack-new-interactions",
   description: "Emit new events on each new interactions",
   type: "source",
   props: {
@@ -14,6 +14,7 @@ export default {
       description:
         "A list of specific `action_id`'s to subscribe for new interaction events.",
       optional: true,
+      default: [],
     },
     conversations: {
       propDefinition: [
@@ -24,6 +25,7 @@ export default {
       label: "Channels",
       description: "Select one or more channels to monitor for new messages.",
       optional: true,
+      default: [],
     },
     slackApphook: {
       type: "$.interface.apphook",
