@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/klaviyo",
+  "version": "0.0.1",
+  "description": "Pipedream Klaviyo Components",
+  "main": "dist/app/klaviyo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "klaviyo"
+  ],
+  "homepage": "https://pipedream.com/apps/klaviyo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "klaviyo-sdk": "^1.0.1"
+  }
+}
