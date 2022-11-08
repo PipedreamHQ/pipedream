@@ -140,5 +140,6 @@ for (const name of dirs) {
 checkPathVsKey();
 
 if (err) {
-  process.exit(1);
+  const core = require('@actions/core');
+  core.setFailed("There are errors in some components. See the messages above.");
 }

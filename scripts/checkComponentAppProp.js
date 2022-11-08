@@ -31,7 +31,6 @@ async function main() {
   const path = require("path");
   const rootDir = path.resolve(__dirname, "..");
 
-  let err;
   const changedFiles = [];
   if (process.argv[2])
     changedFiles.push(...process.argv[2].split(","));
@@ -48,8 +47,12 @@ async function main() {
     const { default: component } = await import(p)
     checkComponentKey(component, nameslug);
   }
+
+  if (err) {
+    const core = require('@actions/core');
+    core.setFailed("There are errors in some components. See the messages above.");
+  }
 }
 
-main().catch(() => {
-  process.exit(1);
-})
+let err;
+main();
