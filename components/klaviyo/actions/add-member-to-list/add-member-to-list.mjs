@@ -3,7 +3,7 @@ import klaviyo from "../../klaviyo.app.mjs";
 export default {
   key: "klaviyo-add-member-to-list",
   name: "Add Member To List",
-  description: "Add member to a specific list.",
+  description: "Add member to a specific list. [See the docs here](https://developers.klaviyo.com/en/v1-2/reference/add-members)",
   version: "0.0.1",
   type: "action",
   props: {
