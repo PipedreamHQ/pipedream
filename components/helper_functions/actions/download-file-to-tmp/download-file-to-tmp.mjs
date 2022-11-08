@@ -1,3 +1,4 @@
+import helper_functions from "../../helper_functions.app.mjs";
 import { axios } from "@pipedream/platform";
 import fs from "fs";
 import streamifier from "streamifier";
@@ -6,9 +7,10 @@ export default {
   key: "helper_functions-download-file-to-tmp",
   name: "Download File To Tmp",
   description: "Downloads a file to workflow /tmp folder",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
+    helper_functions,
     url: {
       type: "string",
       label: "Download File URL",

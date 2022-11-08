@@ -4,7 +4,7 @@ import discourse from "../../discourse.app.mjs";
 export default {
   name: "New Posts",
   key: "discourse-new-posts-added",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "source",
   description:
     "Emit new posts added to a topic in one of your chosen categories",

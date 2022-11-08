@@ -1,3 +1,4 @@
+import deployHq from "../deployhq.app.mjs";
 import { createVerify } from "crypto";
 
 export const STATUS_RUNNING = "running";
@@ -13,6 +14,10 @@ xdQa8iepUz4BwrrHmwIDAQAB
 -----END PUBLIC KEY-----`;
 
 export default {
+  props: {
+    deployHq,
+    http: "$.interface.http",
+  },
   methods: {
     validateRequest({ body }) {
       const { payload } = body;

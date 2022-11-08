@@ -359,14 +359,27 @@ importers:
   components/brosix:
     specifiers: {}
 
-  components/buy_me_a_coffee:
+  components/burst_sms:
     specifiers: {}
+
+  components/buy_me_a_coffee:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/bybit:
     specifiers: {}
 
   components/cal_com:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      async-retry: ^1.3.3
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      async-retry: 1.3.3
 
   components/calendarhero:
     specifiers: {}
@@ -514,6 +527,9 @@ importers:
   components/corrently:
     specifiers: {}
 
+  components/covalent:
+    specifiers: {}
+
   components/craftmypdf:
     specifiers: {}
 
@@ -549,8 +565,10 @@ importers:
 
   components/datadog:
     specifiers:
+      '@pipedream/platform': ^1.1.1
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
   components/datumbox:
@@ -772,7 +790,10 @@ importers:
       qs: 6.11.0
 
   components/expofp:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/f15five:
     specifiers: {}
@@ -880,6 +901,12 @@ importers:
 
   components/getprospect:
     specifiers: {}
+
+  components/getresponse:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/getscreenshot:
     specifiers: {}
@@ -1193,6 +1220,9 @@ importers:
   components/humanitix:
     specifiers: {}
 
+  components/hygraph:
+    specifiers: {}
+
   components/idealpostcodes:
     specifiers: {}
 
@@ -1263,13 +1293,22 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ipinfo_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/iqair_airvisual:
     specifiers: {}
 
   components/isn:
     specifiers: {}
+
+  components/iterate:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/jellyreach:
     specifiers: {}
@@ -1514,6 +1553,9 @@ importers:
     specifiers: {}
 
   components/mixmax:
+    specifiers: {}
+
+  components/mobile_text_alerts:
     specifiers: {}
 
   components/monday:
@@ -1937,6 +1979,12 @@ importers:
   components/radar:
     specifiers: {}
 
+  components/ragic:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2094,6 +2142,14 @@ importers:
   components/sellix:
     specifiers: {}
 
+  components/sendbird:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      sendbird-platform-sdk: ^0.0.14
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      sendbird-platform-sdk: 0.0.14_@babel+core@7.18.9
+
   components/sendblue:
     specifiers: {}
 
@@ -2242,6 +2298,9 @@ importers:
   components/signwell:
     specifiers: {}
 
+  components/simplehash:
+    specifiers: {}
+
   components/simplesat:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2250,6 +2309,12 @@ importers:
 
   components/simpletexting:
     specifiers: {}
+
+  components/siteleaf:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/slack:
     specifiers:
@@ -2448,6 +2513,9 @@ importers:
   components/tally:
     specifiers: {}
 
+  components/td_ameritrade:
+    specifiers: {}
+
   components/teamdeck:
     specifiers: {}
 
@@ -2633,8 +2701,9 @@ importers:
       uuid: ^9.0.0
     dependencies:
       '@pipedream/platform': 1.1.1
-      '@pipedream/types': 0.1.4
       uuid: 9.0.0
+    devDependencies:
+      '@pipedream/types': 0.1.4
 
   components/twitter:
     specifiers:
@@ -2911,6 +2980,12 @@ importers:
   components/xendit:
     specifiers: {}
 
+  components/xero_accounting_api:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/xperiencify:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2936,6 +3011,9 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/you_can_book_me:
+    specifiers: {}
 
   components/you_need_a_budget:
     specifiers:
@@ -12712,6 +12790,7 @@ packages:
 
   /formidable/1.2.6:
     resolution: {integrity: sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==}
+    deprecated: 'Please upgrade to latest, formidable@v2 or formidable@v3! Check these notes: https://bit.ly/2ZEqIau'
     dev: false
 
   /formidable/2.0.1:
@@ -18979,6 +19058,16 @@ packages:
     dependencies:
       lru-cache: 6.0.0
 
+  /sendbird-platform-sdk/0.0.14_@babel+core@7.18.9:
+    resolution: {integrity: sha512-nuVX2mwGBdMUys/c6MLOrjbTavfo34HDbrVjcjbL9UNeWXWK1hJ9/CUnxpnviCNzB9BCv4SEZhEQ2K6w4dZYoQ==}
+    dependencies:
+      '@babel/cli': 7.18.9_@babel+core@7.18.9
+      superagent: 5.3.1
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: false
+
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
@@ -19718,6 +19807,7 @@ packages:
   /superagent/5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
     dependencies:
       component-emitter: 1.3.0
       cookiejar: 2.1.3

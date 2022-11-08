@@ -50,8 +50,27 @@ The Add Single Row action for Google Sheets is a prebuilt component in Pipedream
 
 Components may be instantiated or added to workflows via Pipedream's UI. 
 
-- Sources may be instantiated and consumed via [UI](https://pipedream.com/sources/new), CLI or API
+- Sources may be instantiated and consumed via [UI](https://pipedream.com/sources/new), [CLI](/cli/reference/#pd-deploy) or API
 - Actions may be added to [workflows](https://pipedream.com/new)
+
+### Using Private Actions
+
+Private action components published from the [CLI](/cli/reference/#pd-publish) or from a Node.js Code Step are available for use across your workflows.
+
+To use a published action, add a new step to your workflow and click **My Actions**. Your privately published action components will appear in this list.
+
+![Use the "My Actions" section in a new step to include your private actions](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
+
+### Using Private Sources
+
+<AlphaFeatureNotice feature="Components Page - add a page for published components" />
+
+Private source components deployed from your account via the [CLI](/cli/reference/#pd-deploy) will automatically create a new Source in your account with the prop configuration you specified.
+
+You can also deploy new instances of a source from the [Components dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png). To deploy a new instance of a source, click the menu on the right hand side and select **Create source**.
+
+![Creating a source from the Component dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1666106571/docs/CleanShot_2022-10-18_at_11.22.02_ajjopm.gif)
+
 
 ## Developing Components
 
@@ -79,6 +98,35 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 ### Component API Reference
 
 After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api/) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
+
+
+## Managing Privately Published Components
+
+Components published to your account or organization are available in the [Components](https://pipedream.com/components) section of the dashboard.
+
+Your private components published from the CLI or from Node.js code steps are listed here.
+
+
+### Unpublishing Privately Published Components
+
+<AlphaFeatureNotice feature="Components Page - add a page for published components" />
+
+<VideoPlayer src="https://www.youtube.com/embed/3wmnFi7thUg" title="Unpublishing Privately Published Components" />
+
+To unpublish components belonging to your account or organization, open the menu on the right hand side of the component details and select **Unpublish Component**.
+
+A prompt will open to confirm the action, click **Confirm** to unpublish your action.
+
+
+![Unpublish a component from your account by opening the menu on the right hand side](https://res.cloudinary.com/pipedreamin/image/upload/v1666103082/docs/components/CleanShot_2022-10-18_at_10.22.45_vdhoq7.gif)
+
+
+::: danger
+
+Unpublishing a component is an permanent action, please be careful to you still have access to the source code.
+
+:::
+
 
 ## Sharing Components
 
