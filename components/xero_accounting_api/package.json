@@ -2,7 +2,7 @@
   "name": "@pipedream/xero_accounting_api",
   "version": "0.0.1",
   "description": "Pipedream Xero Accounting API Components",
-  "main": "xero_accounting_api.app.js",
+  "main": "xero_accounting_api.app.mjs",
   "keywords": [
     "pipedream",
     "xero_accounting_api"
