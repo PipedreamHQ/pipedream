@@ -4,9 +4,8 @@ import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 export default {
   key: "xero_accounting_api-create-update-contact",
   name: "Create or update contact ",
-  description:
-    "Creates a new contact or updates a contact if a contact already exists. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts)",
-  version: "0.0.1",
+  description: "Creates a new contact or updates a contact if a contact already exists. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts)",
+  version: "0.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -26,37 +25,37 @@ export default {
       ],
       reloadProps: true,
     },
-    Name: {
+    name: {
       type: "string",
       label: "Contact name",
-      description: "Full name of contact/organisation.",
+      description: "Full name of contact/organization.",
       optional: true,
     },
-    FirstName: {
+    firstName: {
       type: "string",
       label: "First name",
       description: "First name of contact person .",
       optional: true,
     },
-    LastName: {
+    lastName: {
       type: "string",
       label: "Last name",
       description: "Last name of contact person.",
       optional: true,
     },
-    EmailAddress: {
+    emailAddress: {
       type: "string",
       label: "Email address",
       description: "Email address of contact person.",
       optional: true,
     },
-    AccountNumber: {
+    accountNumber: {
       type: "string",
       label: "Account number",
       description: "User defined account number..",
       optional: true,
     },
-    ContactStatus: {
+    contactStatus: {
       type: "string",
       label: "Contact status",
       description:
@@ -72,39 +71,34 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.actionType === "UPDATE") {
-      props.ContactID = {
+      props.contactID = {
         type: "string",
         label: "Contact ID",
         description: "ID of the contact that requires update.",
-      };
-      props.Name = {
-        type: "string",
-        description: "Full name of contact/organisation.",
-        optional: true,
       };
     }
     return props;
   },
   async run({ $ }) {
     const {
-      ContactID,
+      contactID,
       tenantId,
-      Name,
-      FirstName,
-      LastName,
-      EmailAddress,
-      AccountNumber,
-      ContactStatus,
+      name,
+      firstName,
+      lastName,
+      emailAddress,
+      accountNumber,
+      contactStatus,
     } = this;
     const data = removeNullEntries({
-      Name,
-      FirstName,
-      LastName,
-      EmailAddress,
-      AccountNumber,
-      ContactStatus,
+      Name: name,
+      FirstName: firstName,
+      LastName: lastName,
+      EmailAddress: emailAddress,
+      AccountNumber: accountNumber,
+      ContactStatus: contactStatus,
     });
-    ContactID && (data.ContactID = ContactID);
+    contactID && (data.ContactID = contactID);
     const response = await this.xeroAccountingApi.createContact($, tenantId, data);
     response && $.export("$summary", "Contact created successfully");
     return response;
