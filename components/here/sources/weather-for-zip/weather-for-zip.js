@@ -1,21 +1,27 @@
-const here = require('../../here.app.js');
+const here = require("../../here.app.js");
 
 module.exports = {
-  name: 'Weather for ZIP Code',
-  version: '0.0.2',
-  key: 'here-weather-for-zip',
-  description: 'Emits the weather report for a specific ZIP code on a schedule',
+  name: "Weather for ZIP Code",
+  version: "0.0.3",
+  key: "here-weather-for-zip",
+  description: "Emits the weather report for a specific ZIP code on a schedule",
+  type: "source",
   props: {
     here,
-    zipCode: { propDefinition: [here, 'zipCode'] },
+    zipCode: {
+      propDefinition: [
+        here,
+        "zipCode",
+      ],
+    },
     timer: {
-      type: '$.interface.timer',
+      type: "$.interface.timer",
       default: {
         intervalSeconds: 15 * 60, // 15 minutes
       },
     },
   },
-  async run(event) {
+  async run() {
     const report = await this.here.returnReportForZIP(this.zipCode);
     this.$emit(report, {
       summary: `Weather report for ${this.zipCode} at ${report.feedCreation}`,
