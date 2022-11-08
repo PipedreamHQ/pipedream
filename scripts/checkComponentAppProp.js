@@ -14,7 +14,7 @@ function checkComponentKey(component, nameslug) {
     console.error(`[!] ${key} - missing app prop`);
     err = true;
   } else if (props.length > 1) {
-    console.error(`[!] ${key} - cannot import more than one app prop`);
+    console.error(`[!] ${key} - more than one app prop not expected`);
     err = true;
   } else {
     const appProp = props.reduce((prop) => prop);
