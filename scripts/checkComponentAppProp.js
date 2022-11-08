@@ -1,7 +1,7 @@
+const path = require("path");
 const {
-  isAppFile,
-  isSourceFile,
-  isCommonFile,
+  rootDir,
+  iterateComponentFiles,
 } = require("./findBadKeys.js");
 
 function checkComponentKey(component, nameslug) {
@@ -28,21 +28,9 @@ function checkComponentKey(component, nameslug) {
 }
 
 async function main() {
-  const path = require("path");
-  const rootDir = path.resolve(__dirname, "..");
-
-  const changedFiles = [];
-  if (process.argv[2])
-    changedFiles.push(...process.argv[2].split(","));
-  if (process.argv[3])
-    changedFiles.push(...process.argv[3].split(","));
-
-  for (const file of changedFiles) {
+  const iterator = iterateComponentFiles();
+  for (const file of iterator) {
     const p = path.join(rootDir, file);
-    if (!file.startsWith("components/"))
-      continue;
-    if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
-      continue;
     const nameslug = file.split("/")[1];
     const { default: component } = await import(p)
     checkComponentKey(component, nameslug);
