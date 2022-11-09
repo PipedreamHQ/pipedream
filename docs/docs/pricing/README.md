@@ -215,7 +215,7 @@ You can cancel your plan in your [Billing and Usage Settings](https://pipedream.
 
 If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](https://pipedream.com/support).
 
-### How do I change the billing email / company details tied to my invoice?
+### How do I change the billing email, VAT, or other company details tied to my invoice?
 
 You can update your billing information in your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1).
 
