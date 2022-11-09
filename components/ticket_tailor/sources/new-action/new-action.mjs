@@ -4,7 +4,7 @@ import crypto from "crypto";
 export default {
   type: "source",
   dedupe: "unique",
-  key: "ticket_tailor-new-event",
+  key: "ticket_tailor-new-action",
   name: "New Action (Instant)",
   description: "Emit new event when a new action occurs. You can use this source to handle one of the available options in Ticket Tailor. See how to configure the webhok [here](https://developers.tickettailor.com/#configuration)",
   version: "0.0.1",
