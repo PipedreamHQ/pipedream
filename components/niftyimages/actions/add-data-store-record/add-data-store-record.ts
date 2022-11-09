@@ -17,7 +17,9 @@ export default defineAction({
     dataStoreApiKey: {
       label: "Data Store API Key",
       description:
-        "The API Key for the Data Store you want to create/update a record on.",
+        `The API Key for the Data Store you want to create/update a record on.
+        \\
+        To find this, go to **Data Sources**, choose a Data Store, and click on **"Use Our API"**.`,
       type: "string",
       reloadProps: true,
     },

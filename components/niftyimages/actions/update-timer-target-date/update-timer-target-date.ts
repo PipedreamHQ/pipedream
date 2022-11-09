@@ -14,7 +14,9 @@ export default defineAction({
     timerApiKey: {
       label: "Timer API Key",
       description:
-        "The API Key for the Timer you want to update.",
+        `The API Key for the Timer you want to update.
+        \\
+        To find this, choose a timer image, click on **More Options**, scroll to **Target Date Automation** and click on **"Show API Key"**.`,
       type: "string",
     },
     timerImageUrl: {
