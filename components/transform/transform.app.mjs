@@ -7,7 +7,6 @@ export default {
     formId: {
       type: "string",
       label: "Form ID",
-      description: "The form",
       async options() {
         const { result } = await this.getFormIds();
         return result.map((form) => ({
