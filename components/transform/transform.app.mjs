@@ -59,5 +59,13 @@ export default {
         path,
       });
     },
+    async submitForm(opts = {}) {
+      const path = "/CreateNewFormInstance";
+      return this._makeRequest({
+        ...opts,
+        method: "POST",
+        path,
+      });
+    },
   },
 };
