@@ -5,7 +5,7 @@ module.exports = {
   key: "swapi-get-film",
   name: "Get Film",
   version: "0.0.12",
-  description: "Get a filme",
+  description: "Get a film",
   type: "action",
   props: {
     swapi,
