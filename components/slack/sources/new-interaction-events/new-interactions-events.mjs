@@ -29,11 +29,10 @@ export default {
       optional: true,
       default: [],
     },
+    // eslint-disable-next-line pipedream/props-description,pipedream/props-label
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
-      label: "NOT USED - internal prop",
-      description: "Controls which events this component subscribes to",
       /**
        * Subscribes to potentially 4 different events:
        * `interaction_events` - all interaction events on the authenticated account
