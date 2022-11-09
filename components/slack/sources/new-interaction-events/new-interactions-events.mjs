@@ -1,10 +1,11 @@
 import common from "../common/base.mjs";
 
 export default {
-  name: "New Interactions",
+  name: "New Interaction Events from Slack",
   version: "0.0.1",
-  key: "slack-new-interactions",
-  description: "Emit new events on each new interactions",
+  key: "slack-new-interaction-events",
+  description:
+    "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
   type: "source",
   props: {
     ...common.props,
@@ -12,7 +13,7 @@ export default {
       type: "string[]",
       label: "Action IDs",
       description:
-        "A list of specific `action_id`'s to subscribe for new interaction events.",
+        "Filter interaction events by specific `action_id`'s to subscribe for new interaction events. If none selected, all `action_ids` will emit new events.",
       optional: true,
       default: [],
     },
@@ -23,14 +24,26 @@ export default {
       ],
       type: "string[]",
       label: "Channels",
-      description: "Select one or more channels to monitor for new messages.",
+      description:
+        "Filter interaction events by one or more channels. If none selected, any interaction event in any channel will emit new events.",
       optional: true,
       default: [],
     },
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
+      label: "NOT USED - internal prop",
+      description: "Controls which events this component subscribes to",
+      /**
+       * Subscribes to potentially 4 different events:
+       * `interaction_events` - all interaction events on the authenticated account
+       * `interaction_events:${action_id}` - all interaction events with a specific given action_id
+       * `interaction_events:${channel_id}` - all interaction events within a specific channel
+       * `interaction_events:${channel_id}:${action_id}` - action_id within a specific channel
+       * @returns string[]
+       */
       async eventNames() {
+        // start with action_ids, since they can be the most specific
         const action_events = this.action_ids.reduce((carry, action_id) => {
           // if channels are provided, spread them
           if (this.conversations && this.conversations.length > 0) {
@@ -50,13 +63,14 @@ export default {
 
         if (action_events.length > 0) return action_events;
 
+        // if no action_ids are specified, move down to channels
         const channel_events = this.conversations.map(
           (channel) => `interaction_events:${channel}`,
         );
 
         if (channel_events.length > 0) return channel_events;
 
-        // if not specific events are
+        // if not specific action_ids or channels are specified, subscribe to all events
         return [
           "interaction_events",
         ];
