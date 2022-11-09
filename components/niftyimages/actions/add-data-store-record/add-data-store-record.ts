@@ -28,9 +28,12 @@ export default defineAction({
     const newProps: object = {};
     const apiKey: string = this.dataStoreApiKey;
 
-    const fields: DataStoreField[] = await this.niftyimages.getDataStoreFields(
-      apiKey,
-    );
+    let fields: DataStoreField[];
+    try {
+      fields = await this.niftyimages.getDataStoreFields(apiKey);
+    } catch (err) {
+      throw new ConfigurationError('Error fetching data - please check the **API Key**.');
+    }
     const newPropNames = [];
 
     fields.forEach((field) => {
