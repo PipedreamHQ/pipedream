@@ -1206,6 +1206,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/heysummit:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
