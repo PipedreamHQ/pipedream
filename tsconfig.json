@@ -995,6 +995,12 @@
     },
     {
       "path": "components/mobile_text_alerts"
+    },
+    {
+      "path": "components/snyk"
+    },
+    {
+      "path": "components/facebook_groups"
     }
   ]
 }

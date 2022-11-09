@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/facebook_groups",
+  "version": "0.0.1",
+  "description": "Pipedream Facebook Groups Components",
+  "main": "dist/app/facebook_groups.app.mjs",
+  "keywords": [
+    "pipedream",
+    "facebook_groups"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/facebook_groups",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
