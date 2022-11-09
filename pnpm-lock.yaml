@@ -363,7 +363,12 @@ importers:
     specifiers: {}
 
   components/buy_me_a_coffee:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/bybit:
     specifiers: {}
@@ -897,6 +902,12 @@ importers:
   components/getprospect:
     specifiers: {}
 
+  components/getresponse:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/getscreenshot:
     specifiers: {}
 
@@ -1186,6 +1197,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/heysummit:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1338,6 +1355,12 @@ importers:
 
   components/karbon:
     specifiers: {}
+
+  components/klaviyo:
+    specifiers:
+      klaviyo-sdk: ^1.0.1
+    dependencies:
+      klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
   components/knack:
     specifiers:
@@ -1536,6 +1559,9 @@ importers:
     specifiers: {}
 
   components/mixmax:
+    specifiers: {}
+
+  components/mobile_text_alerts:
     specifiers: {}
 
   components/monday:
@@ -1959,6 +1985,12 @@ importers:
   components/radar:
     specifiers: {}
 
+  components/ragic:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2283,6 +2315,12 @@ importers:
 
   components/simpletexting:
     specifiers: {}
+
+  components/siteleaf:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
 
   components/slack:
     specifiers:
@@ -2948,6 +2986,12 @@ importers:
   components/xendit:
     specifiers: {}
 
+  components/xero_accounting_api:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/xperiencify:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2973,6 +3017,9 @@ importers:
     dependencies:
       axios: 0.21.4
       lodash.get: 4.4.2
+
+  components/you_can_book_me:
+    specifiers: {}
 
   components/you_need_a_budget:
     specifiers:
@@ -5106,6 +5153,7 @@ packages:
   /@babel/parser/7.18.9:
     resolution: {integrity: sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==}
     engines: {node: '>=6.0.0'}
+    hasBin: true
     dependencies:
       '@babel/types': 7.18.9
 
@@ -10366,6 +10414,7 @@ packages:
   /browserslist/4.21.2:
     resolution: {integrity: sha512-MonuOgAtUB46uP5CezYbRaYKBNt2LxP0yX+Pmj4LkcDFGkn9Cbpi83d9sCjwQDErXsIJSzY5oKGDbgOlF/LPAA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001367
       electron-to-chromium: 1.4.194
@@ -12354,6 +12403,10 @@ packages:
       jest-message-util: 29.1.2
       jest-util: 29.1.2
     dev: true
+
+  /exponential-backoff/3.1.0:
+    resolution: {integrity: sha512-oBuz5SYz5zzyuHINoe9ooePwSu0xApKWgeNzok4hZ5YKXFh9zrQBEM15CXqoZkJJPuI2ArvqjPQd8UKJA753XA==}
+    dev: false
 
   /ext/1.7.0:
     resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
@@ -15362,6 +15415,7 @@ packages:
   /jsesc/2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
+    hasBin: true
 
   /json-2-csv/3.17.1:
     resolution: {integrity: sha512-i6QynVy42GGMgY8fYde0mp6nYteptvk8oJsphOLiT3CITzw7NBBAiRwHV35kDOBii/elDQe1HCWLqaBPJ3istQ==}
@@ -15448,6 +15502,7 @@ packages:
   /json5/2.2.1:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
     engines: {node: '>=6'}
+    hasBin: true
 
   /jsonc-eslint-parser/1.4.1:
     resolution: {integrity: sha512-hXBrvsR1rdjmB2kQmUjf1rEIa+TqHBGMge8pwi++C+Si1ad7EjZrJcpgwym+QGK/pqTx+K7keFAtLlVNdLRJOg==}
@@ -15601,6 +15656,17 @@ packages:
   /kind-of/6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
+
+  /klaviyo-sdk/1.0.1_@babel+core@7.18.9:
+    resolution: {integrity: sha512-7cYkissWJsMPmmOmalV9HYaJXrjJ4hJZTm6DjDmTTz6uXImqEy3gm+v5HPKkorbSQaKeQZGpInVFAcJ9T/NBag==}
+    dependencies:
+      '@babel/cli': 7.18.9_@babel+core@7.18.9
+      exponential-backoff: 3.1.0
+      superagent: 7.1.5
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: false
 
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
