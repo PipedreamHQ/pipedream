@@ -32,7 +32,7 @@ export default defineAction({
     try {
       fields = await this.niftyimages.getDataStoreFields(apiKey);
     } catch (err) {
-      throw new ConfigurationError('Error fetching data - please check the **API Key**.');
+      throw new ConfigurationError("Error fetching data - please check the **API Key**.");
     }
     const newPropNames = [];
 
@@ -51,13 +51,16 @@ export default defineAction({
       newPropNames.push(filteredName);
     });
 
-    newProps["$fieldNames"] = {
-      label: "Fields to Update",
-      description: "Comma-separated list of the fields to be updated (defaults to all).",
-      type: "string",
-      optional: true,
-      default: newPropNames.join(),
-    };
+    const fieldNames = newPropNames.join();
+    if (!this.$fieldNames) {
+      newProps["$fieldNames"] = {
+        label: "Fields to Update",
+        description: "Comma-separated list of the fields to be updated (defaults to all).",
+        type: "string",
+        optional: true,
+        default: fieldNames,
+      };
+    } else this.$fieldNames = fieldNames;
 
     return newProps;
   },
