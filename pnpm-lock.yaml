@@ -101,6 +101,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/airbrake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/aircall:
     specifiers: {}
 
@@ -796,6 +802,9 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/f15five:
+    specifiers: {}
+
+  components/facebook_groups:
     specifiers: {}
 
   components/facturadirecta:
@@ -2368,6 +2377,9 @@ importers:
       lodash-es: 4.17.21
       snowflake-sdk: 1.6.11_asn1.js@5.4.1
       uuid: 8.3.2
+
+  components/snyk:
+    specifiers: {}
 
   components/social_intents:
     specifiers: {}
