@@ -4,7 +4,7 @@ export default {
   name: "New Error Occurred",
   version: "0.0.1",
   key: "airbrake-new-error-occurred",
-  description: "Emit new event for each error occurred.",
+  description: "Emit new event for each error occurred. [See docs here](https://docs.airbrake.io/docs/devops-tools/api/#list-notices-v4)",
   type: "source",
   dedupe: "unique",
   props: {
