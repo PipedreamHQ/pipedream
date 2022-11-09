@@ -19,34 +19,24 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
-const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName) => {
-  const updatedArray = [];
-  const errors = [];
-  if (objectArray?.length) {
-    for (let i = 0; i < objectArray.length; i++) {
-      if (objectArray[i]) {
-        try {
-          const obj = JSON.parse(objectArray[i]);
-          Object.keys(obj).forEach((key) => {
-            if (!ALLOWED_KEYS.includes(key)) {
-              errors.push(
-                `${fieldName}[${i}] error: ${key} is not present or allowed in object`,
-              );
-            }
-          });
-          updatedArray.push(obj);
-        } catch (error) {
-          throw new ConfigurationError(`Object is malformed on [${i}]`);
-        }
-      }
+const formatLineItems = (lineItems) => {
+  if (!lineItems) {
+    return [];
+  }
+  if (typeof (lineItems) === "string") {
+    return JSON.parse(lineItems);
+  }
+  let parsedLineItems = [];
+  for (let lineItem of lineItems) {
+    if (!lineItem) {
+      continue;
     }
+    if (typeof (lineItem) === "string") {
+      lineItem = JSON.parse(lineItem);
+    }
+    parsedLineItems.push(lineItem);
   }
-  if (errors.length) {
-    throw new ConfigurationError(
-      errors.join(",") + `. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
-    );
-  }
-  return updatedArray;
+  return parsedLineItems;
 };
 
 const deleteKeys = (mainObject, keys = []) => {
@@ -120,7 +110,7 @@ const chainQueryString = (queryString) =>
 
 export {
   removeNullEntries,
-  formatArrayStrings,
+  formatLineItems,
   deleteKeys,
   isValidDate,
   formatQueryString,
