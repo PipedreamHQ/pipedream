@@ -1004,6 +1004,9 @@
     },
     {
       "path": "components/terminus_app"
+    },
+    {
+      "path": "components/cdr_platform"
     }
   ]
 }
