@@ -3,7 +3,7 @@ import app from "../../workbooks_crm.app.mjs";
 export default {
   key: "workbooks_crm-create-organisation",
   name: "Create Organisation",
-  description: "Creates an organisation. Organisations recorded on your database, e.g Customers, Suppliers, Partners, Competition.",
+  description: "Creates an organisation. Organisations are recorded on your database, e.g Customers, Suppliers, Partners, Competition.",
   type: "action",
   version: "0.0.1",
   props: {

@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "workbooks_crm-create-customer-order",
   name: "Create Customer Order",
-  description: "Creates an order from your customers for your goods or services. https://turing.workbooks.com/accounting/sales_orders/metadata.html",
+  description: "Creates an order from your customers for your goods or services.",
   type: "action",
   version: "0.0.1",
   props: {

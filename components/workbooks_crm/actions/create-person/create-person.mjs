@@ -3,7 +3,7 @@ import app from "../../workbooks_crm.app.mjs";
 export default {
   key: "workbooks_crm-create-person",
   name: "Create Person",
-  description: "Creates a person. People recorded in your database, e.g a contact, an employee. https://turing.workbooks.com/crm/people/metadata.html",
+  description: "Creates a person. People are recorded in your database, e.g a contact, an employee.",
   type: "action",
   version: "0.0.1",
   props: {
