@@ -6,7 +6,7 @@ export default {
   name: "Find or Create an Order",
   description: "Returns and order if exists otherwise creates a new one.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   props: {
     app,
     description: {

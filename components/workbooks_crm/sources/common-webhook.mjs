@@ -25,6 +25,9 @@ export default {
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");
     },
+    getResourceFnArgs() {
+      return {};
+    },
     getResourceName() {
       throw new Error("getResourceName is not implemented");
     },
@@ -50,6 +53,7 @@ export default {
     async deploy() {
       const resourcesStream = await this.app.getResourcesStream({
         resourceFn: this.getResourceFn(),
+        resourceFnArgs: this.getResourceFnArgs(),
       });
       await this.processStreamEvents(resourcesStream);
     },

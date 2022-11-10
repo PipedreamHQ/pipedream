@@ -3,11 +3,12 @@ const BASE_URL = "https://secure.workbooks.com";
 const MAX_RESOURCES = 300;
 const DEFAULT_LIMIT = 100;
 
-// All these IDs were found in:
+// The following IDs are harcoded
+// in the system and there is no endpoint to get them.
+// Therefore all these IDs were found in:
 // Configuration -> Automation -> Triggers
 // then click on one of the triggers and then click on the `i` icon to
-// show the ID of the trigger. All these IDs are harcoded
-// in the system and there is no endpoint to get them.
+// show the ID of the trigger.
 const TRIGGER_ID = {
   NEW_PERSON: 1,
   NEW_ORGANISATION: 3,

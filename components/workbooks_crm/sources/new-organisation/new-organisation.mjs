@@ -1,13 +1,13 @@
+import common from "../common-webhook.mjs";
 import constants from "../../common/constants.mjs";
-import common from "../common.mjs";
 
 export default {
   ...common,
   key: "workbooks_crm-new-organisation",
-  name: "New Organisation",
+  name: "New Organisation (Instant)",
   description: "Emit new event when a new organisation is created.",
   type: "source",
-  version: "0.0.14",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,

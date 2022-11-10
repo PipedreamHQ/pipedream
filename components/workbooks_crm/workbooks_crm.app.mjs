@@ -368,13 +368,13 @@ export default {
         },
       });
     },
-    getPostedCreditNotes(args = {}) {
+    getCreditNotes(args = {}) {
       return this.makeRequest({
         path: "/accounting/credit_notes.api",
         ...args,
       });
     },
-    getPostedInvoices(args = {}) {
+    getInvoices(args = {}) {
       return this.makeRequest({
         path: "/accounting/invoices.api",
         ...args,
@@ -385,7 +385,7 @@ export default {
       resourceFnArgs,
       max = constants.MAX_RESOURCES,
     }) {
-      let _start = 0;
+      let start = 0;
       let resourcesCount = 0;
       let nextResources;
       let total = 0;
@@ -396,9 +396,9 @@ export default {
             await resourceFn({
               ...resourceFnArgs,
               params: {
-                ...resourceFnArgs.params,
+                ...resourceFnArgs?.params,
                 _limit: constants.DEFAULT_LIMIT,
-                _start,
+                _start: start,
                 __skip_total_rows: true,
               },
             });
@@ -413,7 +413,7 @@ export default {
           return;
         }
 
-        _start += total;
+        start += total;
 
         for (const resource of nextResources) {
           resourcesCount += 1;
