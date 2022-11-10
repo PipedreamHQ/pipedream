@@ -9,6 +9,8 @@ Object.defineProperty(exports, "cloneSafe", { enumerable: true, get: function ()
 Object.defineProperty(exports, "jsonStringifySafe", { enumerable: true, get: function () { return utils_1.jsonStringifySafe; } });
 var errors_1 = require("./errors");
 Object.defineProperty(exports, "ConfigurationError", { enumerable: true, get: function () { return errors_1.ConfigurationError; } });
+var constants_1 = require("./constants");
+Object.defineProperty(exports, "DEFAULT_POLLING_SOURCE_TIMER_INTERVAL", { enumerable: true, get: function () { return constants_1.DEFAULT_POLLING_SOURCE_TIMER_INTERVAL; } });
 const SendPayload = t.union([
     t.string,
     t.object,
