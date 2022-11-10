@@ -16,7 +16,7 @@ export {
 
 export {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL
-} from './constants'
+} from "./constants"
 
 const SendPayload = t.union([
   t.string,
