@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@actions/core': ^1.10.0
       '@pipedream/platform': ^1.1.1
       '@pipedream/types': ^0.1.3
       '@sentry/node': ^7.7.0
@@ -33,6 +34,7 @@ importers:
       uuid: ^8.3.2
       vue: ^2.6.14
     dependencies:
+      '@actions/core': 1.10.0
       '@pipedream/platform': 1.1.1
       '@sentry/node': 7.7.0
       '@types/node': 17.0.45
@@ -798,6 +800,9 @@ importers:
   components/f15five:
     specifiers: {}
 
+  components/facebook_groups:
+    specifiers: {}
+
   components/facturadirecta:
     specifiers: {}
 
@@ -1197,6 +1202,12 @@ importers:
     dependencies:
       '@pipedreamhq/platform': 0.8.1
 
+  components/heysummit:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1349,6 +1360,12 @@ importers:
 
   components/karbon:
     specifiers: {}
+
+  components/klaviyo:
+    specifiers:
+      klaviyo-sdk: ^1.0.1
+    dependencies:
+      klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
   components/knack:
     specifiers:
@@ -2369,6 +2386,9 @@ importers:
       snowflake-sdk: 1.6.11_asn1.js@5.4.1
       uuid: 8.3.2
 
+  components/snyk:
+    specifiers: {}
+
   components/social_intents:
     specifiers: {}
 
@@ -2629,6 +2649,12 @@ importers:
   components/totango:
     specifiers:
       '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
+  components/transform:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.1.1
 
@@ -3183,6 +3209,19 @@ importers:
       dtslint: 4.2.1_typescript@4.7.4
 
 packages:
+
+  /@actions/core/1.10.0:
+    resolution: {integrity: sha512-2aZDDa3zrrZbP5ZYg159sNoLRb61nQ7awl5pSvIq5Qpj81vwDzdMRKzkWJGJuwVvWpvZKx7vspJALyvaaIQyug==}
+    dependencies:
+      '@actions/http-client': 2.0.1
+      uuid: 8.3.2
+    dev: false
+
+  /@actions/http-client/2.0.1:
+    resolution: {integrity: sha512-PIXiMVtz6VvyaRsGY268qvj57hXQEpsYogYOu2nrQhlf+XCGmZstmuZBbAybUl1nQGnvS1k1eEsQ69ZoD7xlSw==}
+    dependencies:
+      tunnel: 0.0.6
+    dev: false
 
   /@algolia/cache-browser-local-storage/4.14.0:
     resolution: {integrity: sha512-vSX0uPTgTuWdKOv0DbjFBl5AGlWDzYADtv5ChLBBKHTBhAKp4f9b38zDB0v89pCbcoAGZjtb6UTM+pUEVSTuSw==}
@@ -5144,6 +5183,7 @@ packages:
   /@babel/parser/7.18.9:
     resolution: {integrity: sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==}
     engines: {node: '>=6.0.0'}
+    hasBin: true
     dependencies:
       '@babel/types': 7.18.9
 
@@ -6060,22 +6100,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.136:
-    resolution: {integrity: sha512-3LWTJB2BNobOIRf80KIMPkQvMMF0exi7U/DzpE4V/hebC1tEoBKtOgjDw2+64Too4R+RZi2CF3+mwtC8kiIljg==}
+  /@definitelytyped/header-parser/0.0.138:
+    resolution: {integrity: sha512-dC93gtTkNQsQRKI2/tTMtMu2xyiuf1tT94kOw8tzoijTNxNwzU+KGcLLTRW93oPCg9OfRGPKUkZ3QVK23xfDKA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.136
+      '@definitelytyped/typescript-versions': 0.0.138
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.136:
-    resolution: {integrity: sha512-CG9Ww5rvGKkJCabY1sBci66EtNExAEWQbSdOVTEejU6Xql3V6itIJRaqjreF6wRDTvbaooidyVpOg+hZUBfm4Q==}
+  /@definitelytyped/typescript-versions/0.0.138:
+    resolution: {integrity: sha512-1pEKc6ojVmNVcTNZo3Wc7+SHorsIogq9oa3p8MH8Y3ylZGVcPbrsXZ7FxxAQCCO+hodpbC4divjVUn1GQaDC0A==}
     dev: true
 
-  /@definitelytyped/utils/0.0.136:
-    resolution: {integrity: sha512-rqlDDcdhbamYcIZMfNR9af9mBfUJ1uX67tV/acIHR+fMX5R60YfRLs1aOZVZElN0h6pvc4t+7BZTCnewPT8Eng==}
+  /@definitelytyped/utils/0.0.138:
+    resolution: {integrity: sha512-ZQBG91XPcz4hNVCo7Pt9gzkWLTdgdf3PTfST4vept0v6Scyx1uGL/99z+40TjPx5QdeymmwZW3gAvlXJJCyKzg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.136
+      '@definitelytyped/typescript-versions': 0.0.138
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10404,6 +10444,7 @@ packages:
   /browserslist/4.21.2:
     resolution: {integrity: sha512-MonuOgAtUB46uP5CezYbRaYKBNt2LxP0yX+Pmj4LkcDFGkn9Cbpi83d9sCjwQDErXsIJSzY5oKGDbgOlF/LPAA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001367
       electron-to-chromium: 1.4.194
@@ -11728,7 +11769,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.136
+      '@definitelytyped/header-parser': 0.0.138
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -11744,9 +11785,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.136
-      '@definitelytyped/typescript-versions': 0.0.136
-      '@definitelytyped/utils': 0.0.136
+      '@definitelytyped/header-parser': 0.0.138
+      '@definitelytyped/typescript-versions': 0.0.138
+      '@definitelytyped/utils': 0.0.138
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -12393,6 +12434,10 @@ packages:
       jest-message-util: 29.1.2
       jest-util: 29.1.2
     dev: true
+
+  /exponential-backoff/3.1.0:
+    resolution: {integrity: sha512-oBuz5SYz5zzyuHINoe9ooePwSu0xApKWgeNzok4hZ5YKXFh9zrQBEM15CXqoZkJJPuI2ArvqjPQd8UKJA753XA==}
+    dev: false
 
   /ext/1.7.0:
     resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
@@ -15401,6 +15446,7 @@ packages:
   /jsesc/2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
+    hasBin: true
 
   /json-2-csv/3.17.1:
     resolution: {integrity: sha512-i6QynVy42GGMgY8fYde0mp6nYteptvk8oJsphOLiT3CITzw7NBBAiRwHV35kDOBii/elDQe1HCWLqaBPJ3istQ==}
@@ -15487,6 +15533,7 @@ packages:
   /json5/2.2.1:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
     engines: {node: '>=6'}
+    hasBin: true
 
   /jsonc-eslint-parser/1.4.1:
     resolution: {integrity: sha512-hXBrvsR1rdjmB2kQmUjf1rEIa+TqHBGMge8pwi++C+Si1ad7EjZrJcpgwym+QGK/pqTx+K7keFAtLlVNdLRJOg==}
@@ -15640,6 +15687,17 @@ packages:
   /kind-of/6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
+
+  /klaviyo-sdk/1.0.1_@babel+core@7.18.9:
+    resolution: {integrity: sha512-7cYkissWJsMPmmOmalV9HYaJXrjJ4hJZTm6DjDmTTz6uXImqEy3gm+v5HPKkorbSQaKeQZGpInVFAcJ9T/NBag==}
+    dependencies:
+      '@babel/cli': 7.18.9_@babel+core@7.18.9
+      exponential-backoff: 3.1.0
+      superagent: 7.1.5
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: false
 
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
@@ -20746,6 +20804,7 @@ packages:
 
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
     dev: false
 
   /uuidv4/6.2.13:
