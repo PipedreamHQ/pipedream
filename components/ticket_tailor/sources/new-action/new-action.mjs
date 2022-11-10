@@ -6,7 +6,7 @@ export default {
   dedupe: "unique",
   key: "ticket_tailor-new-action",
   name: "New Action (Instant)",
-  description: "Emit new event when a new action occurs. You can use this source to handle one of the available options in Ticket Tailor. See how to configure the webhok [here](https://developers.tickettailor.com/#configuration)",
+  description: "Emit new event when a new action occurs. You can use this source to handle one of the available options in Ticket Tailor. See how to configure the webhook [here](https://developers.tickettailor.com/#configuration)",
   version: "0.0.1",
   props: {
     app,
@@ -27,8 +27,8 @@ export default {
       });
     },
     getSignature(event) {
-      const calendlySignature = event.headers["tickettailor-webhook-signature"];
-      return calendlySignature.split(",").reduce((acc, currentValue) => {
+      const signature = event.headers["tickettailor-webhook-signature"];
+      return signature.split(",").reduce((acc, currentValue) => {
         const [
           key,
           value,
@@ -38,7 +38,7 @@ export default {
       }, {});
     },
     checkHmac(bodyRaw, timestamp, hmac) {
-      if (!this.sharedSecret) {
+      if (!this.sharedSecret || this.sharedSecret === "") {
         console.log("No shared secret configured. Skipping HMAC check.");
         return;
       }
