@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/whatsapp_business",
+  "version": "0.0.1",
+  "description": "Pipedream WhatsApp Business Components",
+  "main": "dist/app/whatsapp_business.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whatsapp_business"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/whatsapp_business",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
