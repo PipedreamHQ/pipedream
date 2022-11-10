@@ -23,7 +23,7 @@ export default {
     isSubscribed(contact) {
       return contact.subscribed.email || contact.subscribed.mobile;
     },
-    isNewlyUnubscribed(contact, unsubscribedIds) {
+    isNewlyUnsubscribed(contact, unsubscribedIds) {
       return !this.isSubscribed(contact) && !unsubscribedIds.includes(contact.id);
     },
     isNewlySubscribed(contact, unsubscribedIds) {

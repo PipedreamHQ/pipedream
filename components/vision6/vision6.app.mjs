@@ -65,7 +65,7 @@ export default {
     mobileSubscribed: {
       type: "boolean",
       label: "Mobile Subscribed",
-      description: "True is the contact's mobile phone number is subscribed",
+      description: "True if the contact's mobile phone number is subscribed",
       optional: true,
     },
     isActive: {

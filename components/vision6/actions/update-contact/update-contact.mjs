@@ -4,7 +4,7 @@ import pickBy from "lodash.pickby";
 export default {
   key: "vision6-update-contact",
   name: "Update Contact",
-  description: "Create an existing contact. [See the docs here](https://api.vision6.com/#update-contacts)",
+  description: "Update an existing contact. [See the docs here](https://api.vision6.com/#update-contacts)",
   version: "0.0.1",
   type: "action",
   props: {

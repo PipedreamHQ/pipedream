@@ -33,10 +33,10 @@ export default {
         ["last_modified_time:in"]: this.formatSinceDate(since),
       });
       for (const contact of contacts) {
-        if (this.isNewlyDeactivated(contact)) {
+        if (this.isNewlyDeactivated(contact, inactiveIds)) {
           inactiveIds.push(contact.id);
           deactivatedContacts.push(contact);
-        } else if (this.isNewlyActivated(contact)) {
+        } else if (this.isNewlyActivated(contact, inactiveIds)) {
           inactiveIds = inactiveIds.filter((id) => id !== contact.id);
         }
       }
