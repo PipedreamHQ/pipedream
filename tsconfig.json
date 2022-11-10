@@ -1007,6 +1007,9 @@
     },
     {
       "path": "components/cdr_platform"
+    },
+    {
+      "path": "components/whatsapp_business"
     }
   ]
 }
