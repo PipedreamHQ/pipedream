@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/terminus_app",
+  "version": "0.0.1",
+  "description": "Pipedream Terminus App Components",
+  "main": "dist/app/terminus_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "terminus_app"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/terminus_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
