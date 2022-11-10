@@ -19,7 +19,9 @@ export default defineAction({
       description:
         `The API Key for the Data Store you want to create/update a record on.
         \\
-        To find this, go to **Data Sources**, choose a Data Store, and click on **"Use Our API"**.`,
+        To find this, go to **Data Sources**, choose a Data Store, and click on **"Use Our API"**.
+        \\
+        *Note that only a **Custom Store** can be updated.*`,
       type: "string",
       reloadProps: true,
     },
@@ -40,27 +42,23 @@ export default defineAction({
       const {
         name, type, date_input_format,
       } = field;
-      const filteredName = name.replace(/ /g, "_");
-      newProps[filteredName] = {
+      newProps[name] = {
         label: this.niftyimages.getFieldLabel(field),
         description: date_input_format
           ? `Must be a date in the \`${date_input_format}\` format`
           : undefined,
         type: this.niftyimages.getFieldPropType(type),
       };
-      newPropNames.push(filteredName);
+      newPropNames.push(name);
     });
 
-    const fieldNames = newPropNames.join();
-    if (!this.$fieldNames) {
-      newProps["$fieldNames"] = {
-        label: "Fields to Update",
-        description: "Comma-separated list of the fields to be updated (defaults to all).",
-        type: "string",
-        optional: true,
-        default: fieldNames,
-      };
-    } else this.$fieldNames = fieldNames;
+    newProps["$fieldNames"] = {
+      label: "Fields to Update",
+      description: "Comma-separated list of the fields to be updated (defaults to all).",
+      type: "string",
+      optional: true,
+      default: newPropNames.join(),
+    };
 
     return newProps;
   },
@@ -82,7 +80,8 @@ export default defineAction({
 
     const data: object = {};
     strNames.split(",").forEach((fieldName) => {
-      data[fieldName] = $this[fieldName];
+      let name = fieldName.trim();
+      data[name] = $this[name];
     });
 
     const params: AddRecordParams = {
