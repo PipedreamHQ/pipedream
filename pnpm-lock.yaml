@@ -2839,6 +2839,14 @@ importers:
   components/virustotal:
     specifiers: {}
 
+  components/vision6:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      lodash.pickby: ^4.6.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      lodash.pickby: 4.6.0
+
   components/visitor_queue:
     specifiers:
       '@pipedream/platform': ^1.1.1
