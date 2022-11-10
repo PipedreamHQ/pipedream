@@ -28,7 +28,7 @@ export default defineAction({
   },
   async additionalProps() {
     const newProps: object = {};
-    const apiKey: string = this.dataStoreApiKey;
+    const apiKey: string = this.dataStoreApiKey?.trim();
 
     let fields: DataStoreField[];
     try {
