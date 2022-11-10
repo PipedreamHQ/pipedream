@@ -80,7 +80,7 @@ export default defineAction({
 
     const data: object = {};
     strNames.split(",").forEach((fieldName) => {
-      let name = fieldName.trim();
+      const name = fieldName.trim();
       data[name] = $this[name];
     });
 
