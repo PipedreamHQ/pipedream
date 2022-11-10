@@ -2649,6 +2649,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/transform:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/transistor_fm:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -20800,6 +20806,7 @@ packages:
 
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
     dev: false
 
   /uuidv4/6.2.13:

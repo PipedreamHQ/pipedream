@@ -1001,6 +1001,9 @@
     },
     {
       "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/terminus_app"
     }
   ]
 }
