@@ -29,7 +29,7 @@ export default {
 
       this.$emit(data, {
         id: data.id,
-        summary: `New payment with id ${data.id}`,
+        summary: `New error with id ${data.id}`,
         ts: Date.parse(data.created_at),
       });
     },
