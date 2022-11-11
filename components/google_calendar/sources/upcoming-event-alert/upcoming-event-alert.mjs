@@ -1,6 +1,5 @@
-import pipedream from "../../../pipedream/pipedream.app.mjs";
+import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/task-scheduler.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
-import { uuid } from "uuidv4";
 
 const docLink = "https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source";
 
@@ -13,7 +12,7 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
-    pipedream,
+    pipedream: taskScheduler.props.pipedream,
     googleCalendar,
     db: "$.service.db",
     calendarId: {
@@ -41,66 +40,27 @@ export default {
     },
   },
   methods: {
-    // To schedule future emits, we emit to the selfChannel of the component
-    selfChannel() { return "self"; },
+    ...taskScheduler.methods,
     subtractMinutes(date, minutes) {
       return date.getTime() - minutes * 60000;
-    },
-    async selfSubscribe() {
-      // Subscribe the component to itself. We do this here because even in
-      // the activate hook, the component isn't available to take subscriptions.
-      // Scheduled tasks are sent to the self channel, which emits the message at
-      // the specified delivery_ts to this component.
-      if (!this.db.get("isSubscribedToSelf")) {
-        const componentId = process.env.PD_COMPONENT;
-        const selfChannel = this.selfChannel();
-        console.log(`Subscribing to ${selfChannel} channel for event source`);
-        await this.pipedream.subscribe(componentId, componentId, selfChannel);
-        this.db.set("isSubscribedToSelf", true);
-      }
     },
   },
   async run(event) {
     await this.selfSubscribe();
-    const selfChannel = this.selfChannel();
 
-    // INCOMING SCHEDULED EMIT
     if (event.$channel) {
-      // Delete the channel name and id from the incoming event,
-      // which were used only as metadata
-      const { $id: id } = event;
-      delete event.$channel;
-      delete event.$id;
-      this.$emit(event, {
-        summary: "New event",
-        id,
-        ts: +new Date(),
-      });
+      this.emitEvent(event);
       return;
     }
 
-    const id = uuid();
     const calendarEvent = await this.googleCalendar.getEvent({
       calendarId: this.calendarId,
       eventId: this.eventId,
     });
 
     const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
-    const later = this.subtractMinutes(startTime, this.time);
-    console.log(`Scheduled event to emit on: ${new Date(later)}`);
+    const later = new Date(this.subtractMinutes(startTime, this.time));
 
-    // SCHEDULE
-    this.$emit(
-      {
-        ...calendarEvent,
-        $channel: selfChannel,
-        $id: id,
-      },
-      {
-        name: selfChannel,
-        id,
-        delivery_ts: later,
-      },
-    );
+    this.emitScheduleEvent(calendarEvent, later);
   },
 };

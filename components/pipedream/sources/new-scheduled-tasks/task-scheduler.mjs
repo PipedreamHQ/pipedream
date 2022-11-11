@@ -108,7 +108,7 @@ export default {
           errors,
         };
       } else {
-        const id = this.emitScheduleEvent(event);
+        const id = this.emitScheduleEvent(event.body, event.body.timestamp);
         status = 200;
         body = {
           msg: "Successfully scheduled task",
@@ -121,14 +121,16 @@ export default {
         body,
       });
     },
-    emitScheduleEvent(event) {
+    emitScheduleEvent(event, timestamp) {
       const selfChannel = this.selfChannel();
-      const epoch = Date.parse(event.body.timestamp);
+      const epoch = Date.parse(timestamp);
       const $id = uuid();
+
+      console.log(`Scheduled event to emit on: ${new Date(epoch)}`);
 
       this.$emit(
         {
-          ...event.body,
+          ...event,
           $channel: selfChannel,
           $id,
         },
