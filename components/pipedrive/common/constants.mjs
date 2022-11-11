@@ -1,6 +1,8 @@
 const LAST_RESOURCE_PROPERTY = "lastResourceProperty";
-const DEFAULT_PAGE_LIMIT = 20;
-const DEFAULT_MAX_ITEMS = 100;
+const LAST_ADD_TIME = "lastAddTime";
+const WEBHOOK_ID = "webhookId";
+const DEFAULT_PAGE_LIMIT = 500; // max is 500 per page
+const DEFAULT_MAX_ITEMS = DEFAULT_PAGE_LIMIT * 4;
 
 const STATUS_OPTIONS = [
   "open",
@@ -176,7 +178,9 @@ export default {
   FIELD_OPTIONS,
   VISIBLE_TO_OPTIONS,
   INCLUDE_FIELDS_OPTIONS,
+  WEBHOOK_ID,
   LAST_RESOURCE_PROPERTY,
+  LAST_ADD_TIME,
   EVENT_OBJECT,
   EVENT_ACTION,
   API,

@@ -4,9 +4,9 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   key: "pipedrive-new-person",
-  name: "New Person",
-  description: "Triggers when a new person is created.",
-  version: "0.0.1",
+  name: "New Person (Instant)",
+  description: "Emit new event when a new person is created.",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -16,11 +16,11 @@ export default {
     },
     getResourceFnArgs() {
       return {
-        sort: "id DESC",
+        sort: "add_time DESC, id DESC",
       };
     },
     getResourceProperty() {
-      return "id";
+      return "add_time";
     },
     getEventObject() {
       return constants.EVENT_OBJECT.PERSON;

@@ -1,26 +1,27 @@
-import common from "../common/base.mjs";
+import common from "../common/webhook.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "pipedrive-new-deal",
-  name: "New Deal",
-  description: "Triggers when a new deal is created.",
-  version: "0.0.1",
+  name: "New Deal (Instant)",
+  description: "Emit new event when a new deal is created.",
+  // version: "0.0.2",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.pipedriveApp.getDeals;
+      return this.app.getDeals;
     },
     getResourceFnArgs() {
       return {
-        sort: "id DESC",
+        sort: "add_time DESC, id DESC",
       };
     },
     getResourceProperty() {
-      return "id";
+      return "add_time";
     },
     getEventObject() {
       return constants.EVENT_OBJECT.DEAL;

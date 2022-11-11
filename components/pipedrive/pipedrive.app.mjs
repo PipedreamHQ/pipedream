@@ -270,6 +270,19 @@ export default {
       ] = constants.API.PERSONS;
       return this.api(className).addPerson(opts);
     },
+    async addWebhook(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.WEBHOOKS;
+      return this.api(className).addWebhook(this.buildOpts(addProperty, opts));
+    },
+    async deleteWebhook(webhookId) {
+      const [
+        className,
+      ] = constants.API.WEBHOOKS;
+      return this.api(className).deleteWebhook(webhookId);
+    },
     async searchPersons(opts = {}) {
       const {
         term,
@@ -321,10 +334,8 @@ export default {
       resourceFnArgs,
       limit = constants.DEFAULT_PAGE_LIMIT,
       max,
-      lastResourceProperty,
-      done,
     }) {
-      let page = 0;
+      let start = 0;
       let resourcesCount = 0;
 
       while (true) {
@@ -332,39 +343,25 @@ export default {
           await resourceFn({
             ...resourceFnArgs,
             limit,
-            start: page * limit,
+            start,
           });
 
         if (!nextResponse) {
-          throw new Error("No response from the Pipedrive API.");
+          console.log("No response from the Pipedrive API.");
+          return;
         }
 
-        const {
-          data: nextResources,
-          additional_data: additionalData,
-        } = nextResponse;
+        const nextResources = nextResponse.data || [];
+        start = nextResponse.additional_data?.pagination?.next_start;
 
-        const { more_items_in_collection: moreItemsInCollection } = additionalData.pagination;
-
-        for (const resource of nextResources || []) {
-          const isDone = done && done({
-            lastResourceProperty,
-            resource,
-          });
-
-          if (isDone) {
-            return;
-          }
-
+        for (const resource of nextResources) {
           resourcesCount += 1;
           yield resource;
         }
 
-        if (!moreItemsInCollection || (max && resourcesCount >= max)) {
+        if (max && resourcesCount >= max) {
           return;
         }
-
-        page += 1;
       }
     },
   },

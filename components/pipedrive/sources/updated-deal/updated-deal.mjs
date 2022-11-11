@@ -1,12 +1,12 @@
-import common from "../common/base.mjs";
+import common from "../common/webhook.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "pipedrive-updated-deal",
-  name: "Updated Deal",
-  description: "Triggers when a deal is updated.",
-  version: "0.0.1",
+  name: "Updated Deal (Instant)",
+  description: "Emit new event when a deal is updated.",
+  version: "0.0.2",
   type: "source",
   dedupe: "greatest",
   methods: {
@@ -16,7 +16,7 @@ export default {
     },
     getResourceFnArgs() {
       return {
-        sort: "update_time DESC",
+        sort: "update_time DESC, id DESC",
       };
     },
     getResourceProperty() {

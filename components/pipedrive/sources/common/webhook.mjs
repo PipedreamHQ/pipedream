@@ -1,23 +1,17 @@
-import pipedriveApp from "../../pipedrive.app.mjs";
+import app from "../../pipedrive.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
-    pipedriveApp,
+    app,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      label: "Polling schedule",
-      description: "How often to poll the Pipedrive API",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    http: "$.interface.http",
   },
   hooks: {
     async deploy() {
       const stream =
-        await this.pipedriveApp.getResourcesStream({
+        await this.app.getResourcesStream({
           resourceFn: this.getResourceFn(),
           resourceFnArgs: this.getResourceFnArgs(),
           max: constants.DEFAULT_MAX_ITEMS,
@@ -25,13 +19,31 @@ export default {
 
       await this.processStreamEvents(stream);
     },
+    // async activate() {
+    //   const { data: { id: webhookId } } =
+    //     await this.app.addWebhook({
+    //       subscription_url: this.http.endpoint,
+    //       event_action: this.getEventAction(),
+    //       event_object: this.getEventObject(),
+    //     });
+    //   this.setWebhookId(webhookId);
+    // },
+    // async deactivate() {
+    //   await this.app.deleteWebhook(this.getWebhookId());
+    // },
   },
   methods: {
-    getLastResourceProperty() {
-      return this.db.get(constants.LAST_RESOURCE_PROPERTY);
+    setWebhookId(webhookId) {
+      this.db.set(constants.WEBHOOK_ID, webhookId);
     },
-    setLastResourceProperty(value) {
-      this.db.set(constants.LAST_RESOURCE_PROPERTY, value);
+    getWebhookId() {
+      return this.db.get(constants.WEBHOOK_ID);
+    },
+    getLastAddTime() {
+      return this.db.get(constants.LAST_ADD_TIME);
+    },
+    setLastAddTime(value) {
+      this.db.set(constants.LAST_ADD_TIME, value);
     },
     getResourceProperty() {
       throw new Error("getResourceProperty not implemented");
@@ -61,47 +73,37 @@ export default {
         ts: this.getTimestamp(resource),
       };
     },
-    done({
-      resource, lastResourceProperty,
-    }) {
-      const property = this.getResourceProperty();
-      return lastResourceProperty === String(resource[property]);
-    },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
       this.$emit(resource, meta);
     },
     async processStreamEvents(stream) {
-      let resources = [];
-      for await (const resource of stream) {
-        resources.push(resource);
-      }
+      const resources = utils.streamIterator(stream);
 
       if (resources.length === 0) {
         console.log("No new events detected. Skipping...");
         return;
       }
 
-      resources.reverse().forEach(this.processEvent);
-
       const [
         lastResource,
-      ] = resources.slice(-1);
+      ] = resources;
+
+      resources.reverse().forEach(this.processEvent);
 
       if (lastResource) {
-        this.setLastResourceProperty(lastResource[this.getResourceProperty()]);
+        this.setLastAddTime(lastResource[this.getResourceProperty()]);
       }
     },
   },
-  async run() {
-    const stream =
-      await this.pipedriveApp.getResourcesStream({
-        resourceFn: this.getResourceFn(),
-        resourceFnArgs: this.getResourceFnArgs(),
-        lastResourceProperty: this.getLastResourceProperty(),
-        done: this.done,
-      });
+  async run({ body }) {
+    console.log("body", JSON.stringify(body, null, 2));
+    // const stream =
+    //   await this.app.getResourcesStream({
+    //     resourceFn: this.getResourceFn(),
+    //     resourceFnArgs: this.getResourceFnArgs(),
+    //   });
 
-    await this.processStreamEvents(stream);
+    // await this.processStreamEvents(stream);
   },
 };
