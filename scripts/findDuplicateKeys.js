@@ -61,6 +61,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  process.exit(1);
-})
-
+  const core = require('@actions/core');
+  core.setFailed(err);
+});

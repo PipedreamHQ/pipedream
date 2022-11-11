@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-create-chat-invite-link",
   name: "Create Chat Invite Link",
   description: "Create an additional invite link for a chat, [See the docs](https://core.telegram.org/bots/api#createchatinvitelink) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     telegramBotApi,
