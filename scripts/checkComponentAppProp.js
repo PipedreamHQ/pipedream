@@ -4,30 +4,13 @@ const {
   iterateComponentFiles,
 } = require("./findBadKeys.js");
 
-function checkComponentKey(component, nameslug) {
-  const key = component.key;
+function checkComponentHasAppProp(component, appNameSlug) {
+  const matching = Object.values(component.props)
+    .filter((prop) => prop.type === "app" && prop.app === appNameSlug);
 
-  const props = Object.values(component.props)
-    .filter((prop) => prop.type === "app");
-
-  if (props.length === 0) {
-    console.error(`[!] ${key} - missing app prop`);
+  if (!matching.length) {
+    console.error(`[!] ${component.key} - missing app prop for ${appNameSlug}`);
     err = true;
-  } else if (props.length > 1) {
-    if (props.map((prop) => prop.app)
-      .filter((prop) => prop === nameslug)
-      .length === 0) {
-        console.error(`[!] ${key} - missing app prop for ${nameslug}`);
-        err = true;
-    }
-  } else {
-    const appProp = props.reduce((prop) => prop);
-    const appName = appProp.app;
-
-    if (appName !== nameslug) {
-      console.error(`[!] ${key} - importing wrong app: ${appName}`);
-      err = true;
-    }
   }
 }
 
@@ -35,9 +18,9 @@ async function main() {
   const iterator = iterateComponentFiles();
   for (const file of iterator) {
     const p = path.join(rootDir, file);
-    const nameslug = file.split("/")[1];
+    const appNameSlug = file.split("/")[1];
     const { default: component } = await import(p)
-    checkComponentKey(component, nameslug);
+    checkComponentHasAppProp(component, appNameSlug);
   }
 
   if (err) {
