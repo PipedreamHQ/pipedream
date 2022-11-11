@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream vk Components",
   "main": "dist/app/vk.app.mjs",
   "keywords": [
@@ -15,5 +15,10 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4",
+    "uuidv4": "^6.2.13"
   }
 }
