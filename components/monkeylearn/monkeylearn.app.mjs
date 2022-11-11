@@ -12,6 +12,17 @@ export default {
         return this.listClassifiersOptions(prevContext);
       },
     },
+    data: {
+      label: "Data",
+      type: "string[]",
+      description: "A list of up to 500 data elements to classify. Each element must be a string with the text.",
+    },
+    productionModel: {
+      label: "Production Model",
+      type: "boolean",
+      description: "Indicates if the extractions are performed by the production model. Only use this parameter on custom models. Note that you first need to deploy your model to production.",
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -56,12 +67,13 @@ export default {
         };
       }
     },
-    classifyText($, classifierId, data) {
+    classifyText($, classifierId, data, productionModel) {
       return axios(($ || this), this._getRequestParams({
         method: "POST",
         path: `/classifiers/${classifierId}/classify/`,
         data: {
           data,
+          production_model: productionModel,
         }
       }));
     },

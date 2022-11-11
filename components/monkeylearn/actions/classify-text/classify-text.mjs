@@ -16,20 +16,28 @@ export default {
       ],
     },
     data: {
-      label: "Data",
-      type: "string[]",
-      description: "A list of up to 500 data elements to classify. Each element must be a string with the text.",
-    }
+      propDefinition: [
+        app,
+        "data",
+      ],
+    },
+    productionModel: {
+      propDefinition: [
+        app,
+        "productionModel",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       classifierId,
       data,
+      productionModel,
     } = this;
     if (!data || !Array.isArray(data) || data.length === 0) {
       throw new ConfigurationError("Data array is required and must have at least one string to be classified.");
     }
-    const response = await this.app.classifyText($, classifierId, data);
+    const response = await this.app.classifyText($, classifierId, data, productionModel);
     $.export("$summary", "Successfully classified all elements");
     return response;
   },
