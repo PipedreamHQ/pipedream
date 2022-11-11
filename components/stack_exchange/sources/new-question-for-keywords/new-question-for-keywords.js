@@ -1,4 +1,5 @@
 const stack_exchange = require("../../stack_exchange.app");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 
 module.exports = {
   key: "stack_exchange-new-question-for-specific-keywords",
@@ -26,7 +27,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -3,7 +3,7 @@ import FeedParser from "feedparser";
 import { Item } from "feedparser";
 import hash from "object-hash";
 import { defineApp } from "@pipedream/types";
-import { ConfigurationError } from "@pipedream/platform";
+import { ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL} from "@pipedream/platform";
 import { ReadStream } from "fs";
 
 export default defineApp({
@@ -24,7 +24,7 @@ export default defineApp({
       type: "$.interface.timer",
       description: "How often you want to poll the feed for new items",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

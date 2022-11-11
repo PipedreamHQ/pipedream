@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.0",
+    "@pipedream/platform": "^1.2.0",
     "dayjs": "^1.11.3"
   },
   "devDependencies": {

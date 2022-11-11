@@ -1,5 +1,6 @@
 import freshdesk from "../../freshdesk.app.mjs";
 import moment from "moment";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-new-contact",
@@ -14,7 +15,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

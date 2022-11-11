@@ -1,5 +1,6 @@
 import nordigen from "../../nordigen.app.mjs";
 import axios from "axios";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "nordigen-new-transaction",
@@ -16,7 +17,7 @@ export default {
       label: "Timer",
       description: "When should the source check for a new event",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     country_code: {

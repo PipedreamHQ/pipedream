@@ -1,4 +1,5 @@
 import imap from "../../imap.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 /**
  * Creates an IMAP server connection and emits emails added to a mailbox after the last emitted
@@ -20,7 +21,7 @@ export default {
         "Pipedream will poll the IMAP server for new emails at this interval",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     mailbox: {

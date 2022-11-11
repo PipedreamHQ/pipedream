@@ -1,6 +1,7 @@
 import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
 import feedbin from "../feedbin.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -11,7 +12,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the Feedbin API",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

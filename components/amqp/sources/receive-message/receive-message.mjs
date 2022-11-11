@@ -1,4 +1,5 @@
 import amqp from "../../amqp.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "amqp-receive-message",
@@ -14,7 +15,7 @@ export default {
       label: "Timer",
       description: "The timer to use to schedule the next poll.",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     receiverName: {

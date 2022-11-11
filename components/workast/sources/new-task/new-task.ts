@@ -1,5 +1,6 @@
 import workast from "../../app/workast.app";
 import { defineSource } from "@pipedream/types";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default defineSource({
   key: "workast-new-task",
@@ -13,7 +14,7 @@ export default defineSource({
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     listId: {

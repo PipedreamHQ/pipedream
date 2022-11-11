@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "uuid": "^8.3.2"
   }
 }

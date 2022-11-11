@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^3.0.2",
+    "@pipedream/platform": "^1.2.0",
     "isomorphic-fetch": "^3.0.0"
   }
 }

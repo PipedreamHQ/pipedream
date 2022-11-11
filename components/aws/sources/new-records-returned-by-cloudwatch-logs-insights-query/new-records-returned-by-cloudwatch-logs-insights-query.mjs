@@ -1,4 +1,5 @@
 import common from "../../common/common-cloudwatch-logs.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -35,7 +36,7 @@ export default {
       description: "How often you want to query CloudWatch Logs Insights for results",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

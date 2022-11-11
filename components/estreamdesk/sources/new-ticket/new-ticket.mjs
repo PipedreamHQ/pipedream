@@ -1,4 +1,5 @@
 import estreamdesk from "../../estreamdesk.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   estreamdesk,
@@ -16,7 +17,7 @@ export default {
       description: "Pipedream will poll the eStreamDesk API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

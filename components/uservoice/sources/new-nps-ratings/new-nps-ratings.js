@@ -1,4 +1,6 @@
 const uservoice = require("../../uservoice.app.js");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
+
 const NUM_SAMPLE_RESULTS = 10;
 
 module.exports = {
@@ -16,7 +18,7 @@ module.exports = {
         "Pipedream will poll the UserVoice API for new NPS ratings on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

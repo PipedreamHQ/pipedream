@@ -1,5 +1,6 @@
 import yfs from "../../yahoo_fantasy_sports.app.mjs";
 import options from "../common/options.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "yahoo_fantasy_sports-new-football-league-transactions",
@@ -31,7 +32,7 @@ export default {
       description: "Pipedream will poll the API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

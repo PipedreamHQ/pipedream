@@ -1,5 +1,6 @@
 import moment from "moment";
 import visitor_queue from "../../visitor_queue.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "visitor_queue-new-lead",
@@ -16,7 +17,7 @@ export default {
       description: "Pipedream will poll the Visitor Queue API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     dataViews: {

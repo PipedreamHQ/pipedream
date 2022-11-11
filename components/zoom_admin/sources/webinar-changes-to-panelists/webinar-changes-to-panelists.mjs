@@ -2,6 +2,7 @@ import crypto from "crypto";
 import difference from "lodash/difference.js";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import { sanitizedArray } from "../../utils.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
@@ -24,7 +25,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

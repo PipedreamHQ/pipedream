@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "object-hash": "^3.0.0"
   }
 }

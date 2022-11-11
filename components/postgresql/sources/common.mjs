@@ -1,5 +1,6 @@
 import postgresql from "../postgresql.app.mjs";
 import format from "pg-format";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -8,7 +9,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",

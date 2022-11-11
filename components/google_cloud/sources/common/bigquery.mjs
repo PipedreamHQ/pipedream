@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { chunk } from "lodash-es";
 import googleCloud from "../../google_cloud.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -11,7 +12,7 @@ export default {
       description: "How often to run your query",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     eventSize: {

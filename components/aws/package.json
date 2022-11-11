@@ -25,6 +25,7 @@
     "@aws-sdk/client-ssm": "^3.58.0",
     "@aws-sdk/client-sts": "^3.58.0",
     "@pipedream/helper_functions": "^0.3.6",
+    "@pipedream/platform": "^1.2.0",
     "mailparser-mit": "^1.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

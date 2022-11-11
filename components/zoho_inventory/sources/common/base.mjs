@@ -1,5 +1,6 @@
 import zohoInventory from "../../zoho_inventory.app.mjs";
 import constants from "../../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -11,7 +12,7 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Zoho Inventory API on this schedule",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     organization: {

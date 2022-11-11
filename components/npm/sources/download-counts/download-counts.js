@@ -1,6 +1,7 @@
 const npm = require("../../npm.app.js");
-
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 const axios = require("axios");
+
 module.exports = {
   key: "npm-download-counts",
   name: "npm Download Counts",
@@ -12,7 +13,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     period: {

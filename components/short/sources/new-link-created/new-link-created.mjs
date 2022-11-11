@@ -1,4 +1,5 @@
 import shortApp from "../../short.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "short-new-link-created",
@@ -14,7 +15,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the links.",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     domainId: {

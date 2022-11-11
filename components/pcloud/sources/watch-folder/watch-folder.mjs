@@ -1,4 +1,5 @@
 import pcloud from "../../pcloud.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "pcloud-watch-folder",
@@ -15,7 +16,7 @@ export default {
       description: "Pipedream polls pCloud for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     folderId: {

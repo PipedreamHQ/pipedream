@@ -1,5 +1,6 @@
 import http from "../../http.app.mjs";
 import hash from "object-hash";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "http-watch-url",
@@ -15,7 +16,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the URL.",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     httpRequest: {

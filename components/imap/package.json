@@ -14,6 +14,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "imap": "^0.8.19",
     "mailparser": "^3.5.0",
     "stream": "^0.0.2",

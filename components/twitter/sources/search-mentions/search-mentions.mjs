@@ -1,5 +1,6 @@
 import twitter from "../../twitter.app.mjs";
 import moment from "moment";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "twitter-search-mentions",
@@ -75,7 +76,7 @@ export default {
       description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

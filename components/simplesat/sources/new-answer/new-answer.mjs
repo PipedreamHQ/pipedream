@@ -1,4 +1,5 @@
 import app from "../../simplesat.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   dedupe: "unique",
@@ -15,7 +16,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the new answers",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

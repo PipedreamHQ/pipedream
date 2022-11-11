@@ -1,7 +1,8 @@
 const Parser = require("rss-parser");
-const parser = new Parser();
-
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 const hacker_news = require("../../hacker_news.app.js");
+
+const parser = new Parser();
 
 module.exports = {
   key: "hacker_news-new-comments-by-keyword",
@@ -15,7 +16,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

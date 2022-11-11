@@ -1,5 +1,6 @@
 import shopify from "../../shopify.app.mjs";
 import Bottleneck from "bottleneck";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 // limiting requests to 2 per second per Shopify's API rate limit documentation
 // https://shopify.dev/concepts/about-apis/rate-limits
 const limiter = new Bottleneck({
@@ -18,7 +19,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,

@@ -1,5 +1,6 @@
 import { defineSource } from "@pipedream/types";
 import mediatoolkit from "../../app/mediatoolkit.app";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default defineSource({
   name: "New Mention",
@@ -14,7 +15,7 @@ export default defineSource({
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     organizationId: {

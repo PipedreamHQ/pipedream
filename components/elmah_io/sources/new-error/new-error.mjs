@@ -1,5 +1,6 @@
 import elmah_io from "../../elmah_io.app.mjs";
 import constants from "../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 const QUERY = "isNew:true AND (severity:Error OR severity:Fatal)";
 
@@ -15,7 +16,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

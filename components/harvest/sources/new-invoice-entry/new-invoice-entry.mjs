@@ -1,4 +1,5 @@
 import harvest from "../../harvest.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "harvest-new-invoice-entry",
@@ -13,7 +14,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

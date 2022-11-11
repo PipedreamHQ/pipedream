@@ -1,3 +1,4 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
@@ -16,7 +17,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the ActiveCampaign API",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
