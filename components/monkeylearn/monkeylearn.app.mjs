@@ -18,7 +18,6 @@ export default {
       return "https://api.monkeylearn.com/v3";
     },
     _getHeaders() {
-      console.log(Object.keys(this.$auth));
       return {
         "content-type": "application/json",
         "Authorization": `Token ${this.$auth.api_key}`,
