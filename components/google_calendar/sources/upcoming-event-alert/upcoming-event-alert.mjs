@@ -1,4 +1,4 @@
-import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/task-scheduler.mjs";
+import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
 
 const docLink = "https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source";
