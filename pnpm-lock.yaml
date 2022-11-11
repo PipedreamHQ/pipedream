@@ -103,6 +103,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/airbrake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/aircall:
     specifiers: {}
 
@@ -1675,7 +1681,12 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/niftyimages:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
 
   components/ninox:
     specifiers:
@@ -2586,7 +2597,10 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/ticket_tailor:
-    specifiers: {}
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
 
   components/ticktick:
     specifiers:
@@ -2838,6 +2852,14 @@ importers:
 
   components/virustotal:
     specifiers: {}
+
+  components/vision6:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      lodash.pickby: ^4.6.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      lodash.pickby: 4.6.0
 
   components/visitor_queue:
     specifiers:
@@ -11231,6 +11253,7 @@ packages:
 
   /crypto/1.0.1:
     resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
     dev: false
 
   /css-functions-list/3.1.0:
