@@ -14,8 +14,12 @@ function checkComponentKey(component, nameslug) {
     console.error(`[!] ${key} - missing app prop`);
     err = true;
   } else if (props.length > 1) {
-    console.error(`[!] ${key} - more than one app prop not expected`);
-    err = true;
+    if (props.map((prop) => prop.app)
+      .filter((prop) => prop === nameslug)
+      .length === 0) {
+        console.error(`[!] ${key} - missing app prop for ${nameslug}`);
+        err = true;
+    }
   } else {
     const appProp = props.reduce((prop) => prop);
     const appName = appProp.app;
