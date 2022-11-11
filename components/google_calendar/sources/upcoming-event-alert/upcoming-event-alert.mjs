@@ -1,5 +1,6 @@
 import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
+import { axios } from "@pipedream/platform";
 
 const docLink = "https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source";
 
@@ -15,6 +16,7 @@ export default {
     pipedream: taskScheduler.props.pipedream,
     googleCalendar,
     db: "$.service.db",
+    http: "$.interface.http",
     calendarId: {
       propDefinition: [
         googleCalendar,
@@ -39,28 +41,72 @@ export default {
       min: 0,
     },
   },
+  hooks: {
+    async activate() {
+      // workaround - self call run() because selfSubscribe() can't be run on activate or deploy
+      // see selfSubscribe() method in pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs
+      await axios(this, {
+        url: this.http.endpoint,
+        method: "POST",
+        data: {
+          schedule: true,
+        },
+      });
+    },
+    async deactivate() {
+      const id = this._getScheduledEventId();
+      if (id && await this.deleteEvent({
+        body: {
+          id,
+        },
+      })) {
+        console.log("Cancelled scheduled event");
+        this._setScheduledEventId();
+      }
+    },
+  },
   methods: {
     ...taskScheduler.methods,
+    _getScheduledEventId() {
+      return this.db.get("scheduledEventId");
+    },
+    _setScheduledEventId(id) {
+      this.db.set("scheduledEventId", id);
+    },
+    _hasDeployed() {
+      const result = this.db.get("hasDeployed");
+      this.db.set("hasDeployed", true);
+      return result;
+    },
     subtractMinutes(date, minutes) {
       return date.getTime() - minutes * 60000;
     },
   },
   async run(event) {
-    await this.selfSubscribe();
+    // self subscribe only on the first time
+    if (!this._hasDeployed()) {
+      await this.selfSubscribe();
+    }
 
-    if (event.$channel) {
-      this.emitEvent(event);
+    // incoming scheduled event
+    if (event.$channel === this.selfChannel()) {
+      this.emitEvent(event, `Upcoming ${event.summary} event`);
+      this._setScheduledEventId();
       return;
     }
 
-    const calendarEvent = await this.googleCalendar.getEvent({
-      calendarId: this.calendarId,
-      eventId: this.eventId,
-    });
+    // received schedule command
+    if (event.body?.schedule) {
+      const calendarEvent = await this.googleCalendar.getEvent({
+        calendarId: this.calendarId,
+        eventId: this.eventId,
+      });
 
-    const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
-    const later = new Date(this.subtractMinutes(startTime, this.time));
+      const startTime = new Date(calendarEvent.start.dateTime || calendarEvent.start.date);
+      const later = new Date(this.subtractMinutes(startTime, this.time));
 
-    this.emitScheduleEvent(calendarEvent, later);
+      const scheduledEventId = this.emitScheduleEvent(calendarEvent, later);
+      this._setScheduledEventId(scheduledEventId);
+    }
   },
 };
