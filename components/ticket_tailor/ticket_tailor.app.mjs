@@ -1,13 +1,11 @@
-import { defineApp } from "@pipedream/types";
-
-export default defineApp({
+export default {
   type: "app",
   app: "ticket_tailor",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
     authKeys() {
-      console.log(Object.keys(this.$auth));
+      console.log((this.$auth));
     },
   },
-});
+};
