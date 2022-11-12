@@ -5,12 +5,24 @@ export default {
   ...base,
   key: "notion-page-or-subpage-updated",
   name: "Page or Subpage Updated", /* eslint-disable-line pipedream/source-name */
-  description: "Emit new event when a root-level page or sub-page is updated.",
-  version: "0.0.1",
+  description: "Emit new event when a page or one of its sub-pages is updated.",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...base.props,
+    pageId: {
+      propDefinition: [
+        base.props.notion,
+        "pageId",
+      ],
+    },
+  },
   methods: {
     ...base.methods,
+    isRelevant(page) {
+      return (page.id == this.pageId) || (page.parent?.page_id == this.pageId);
+    },
     emitPage(page) {
       const meta = this.generateMeta(
         page,
@@ -43,7 +55,10 @@ export default {
           hasMore = false;
           break;
         }
-        this.emitPage(page);
+
+        if (this.isRelevant(page)) {
+          this.emitPage(page);
+        }
 
         if (this.isResultNew(page.last_edited_time, maxTimestamp)) {
           maxTimestamp = Date.parse(page.last_edited_time);

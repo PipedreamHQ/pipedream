@@ -251,6 +251,21 @@ export default {
       `),
       optional: true,
     },
+    commands: {
+      label: "Commands",
+      description: "List of commands. E.g. `[\"/hi\", \"/hello\"]`",
+      type: "string[]",
+      async options() {
+        const commands = await this.getMyCommands();
+
+        return commands.map(({
+          command, description,
+        }) => ({
+          label: `${command} - ${description}`,
+          value: `/${command}`,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -702,6 +717,9 @@ export default {
     */
     async createChatInviteLink(chatId, opts) {
       return this.sdk().createChatInviteLink(chatId, opts);
+    },
+    async getMyCommands() {
+      return this.sdk().getMyCommands();
     },
   },
 };

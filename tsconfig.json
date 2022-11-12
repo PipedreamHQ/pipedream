@@ -1004,6 +1004,18 @@
     },
     {
       "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/terminus_app"
+    },
+    {
+      "path": "components/cdr_platform"
+    },
+    {
+      "path": "components/whatsapp_business"
+    },
+    {
+      "path": "components/d7_networks"
     }
   ]
 }
