@@ -1,6 +1,8 @@
 import kanbanflow from "../../app/kanbanflow.app";
 import { defineAction } from "@pipedream/types";
-import { CreateTaskParams, Task } from "../../common/types";
+import {
+  CreateTaskParams, Task,
+} from "../../common/types";
 import { getFlagPropDescription } from "../../common/constants";
 
 export default defineAction({
@@ -27,14 +29,23 @@ export default defineAction({
       type: "string",
     },
     columnId: {
-      propDefinition: [kanbanflow, "columnId"],
+      propDefinition: [
+        kanbanflow,
+        "columnId",
+      ],
     },
     swimlaneId: {
-      propDefinition: [kanbanflow, "swimlaneId"],
+      propDefinition: [
+        kanbanflow,
+        "swimlaneId",
+      ],
       optional: true,
     },
     color: {
-      propDefinition: [kanbanflow, "color"],
+      propDefinition: [
+        kanbanflow,
+        "color",
+      ],
       label: "Color",
       optional: true,
     },
@@ -44,7 +55,10 @@ export default defineAction({
       optional: true,
     },
     responsibleUserId: {
-      propDefinition: [kanbanflow, "userId"],
+      propDefinition: [
+        kanbanflow,
+        "userId",
+      ],
       label: "Responsible User",
       optional: true,
     },
@@ -59,7 +73,10 @@ export default defineAction({
       type: "string[]",
     },
     collaborators: {
-      propDefinition: [kanbanflow, "userId"],
+      propDefinition: [
+        kanbanflow,
+        "userId",
+      ],
       label: "Collaborators",
       description: "Select one or more **Users** from the list.",
       type: "string[]",
@@ -98,7 +115,9 @@ export default defineAction({
         responsibleUserId,
         subtasks: subtasks && this.splitFlagPropValue(subtasks, "finished"),
         labels: labels && this.splitFlagPropValue(labels, "pinned"),
-        collaborators: collaborators?.map((userId: string) => ({ userId })),
+        collaborators: collaborators?.map((userId: string) => ({
+          userId,
+        })),
         ...additionalOptions,
       },
     };

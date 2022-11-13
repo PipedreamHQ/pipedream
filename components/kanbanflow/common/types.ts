@@ -29,7 +29,7 @@ export interface Column {
   name: string;
   uniqueId: string;
 }
-export interface Swimlane extends Column {}
+export type Swimlane = Column;
 
 export interface Color {
   name: string;
