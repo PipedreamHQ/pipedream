@@ -10,7 +10,7 @@ export default defineApp({
   propDefinitions: {
     columnId: {
       label: "Column",
-      description: getOptionsDescription('Column'),
+      description: getOptionsDescription("Column"),
       type: "string",
       async options() {
         return this.getBoardItems("columns");
@@ -18,15 +18,29 @@ export default defineApp({
     },
     swimlaneId: {
       label: "Swimlane",
-      description: getOptionsDescription('Swimlane'),
+      description: getOptionsDescription("Swimlane"),
       type: "string",
       async options() {
         return this.getBoardItems("swimlanes");
       },
     },
+    color: {
+      label: "Color",
+      description: `Select a **Color** from the list.
+        \\
+        Valid color values: yellow, white, red, green, blue, purple, orange, cyan, brown, or magenta.`,
+      type: "string",
+      async options() {
+        const board: Board = await this.getBoard();
+        return board.colors.map(({ name: label, value}) => ({
+          label,
+          value,
+        }));
+      },
+    },
     userId: {
-      label: "Responsible User",
-      description: getOptionsDescription('User'),
+      label: "User",
+      description: getOptionsDescription("User"),
       type: "string",
       async options() {
         const users: User[] = await this.getUsers();

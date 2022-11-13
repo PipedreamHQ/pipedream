@@ -14,9 +14,48 @@ export default defineAction({
   props: {
     kanbanflow,
     name: {
-      label: "Name",
-      description: "Task name.",
-      type: "string",
+      label: 'Name',
+      description: 'Task name.',
+      type: 'string',
+    },
+    columnId: {
+      propDefinition: [
+        kanbanflow,
+        'columnId'
+      ]
+    },
+    swimlaneId: {
+      propDefinition: [
+        kanbanflow,
+        'swimlaneId'
+      ],
+      optional: true,
+    },
+    responsibleUserId: {
+      propDefinition: [
+        kanbanflow,
+        'userId'
+      ],
+      label: 'Responsible User',
+      optional: true,
+    },
+    color: {
+      propDefinition: [
+        kanbanflow,
+        'color'
+      ],
+      label: 'Color',
+      optional: true,
+    },
+    collaborators: {
+      propDefinition: [
+        kanbanflow,
+        'userId'
+      ],
+      label: 'Collaborators',
+      description: 'Select one or more **Users** from the list.',
+      type: 'string[]',
+      optional: true,
     },
   },
   async run({ $ }): Promise<object> {

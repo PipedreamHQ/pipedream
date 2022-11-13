@@ -18,7 +18,7 @@ export interface Board {
   name: string;
   columns: Column[];
   swimlanes: Swimlane[];
-  colors: object[];
+  colors: Color[];
 }
 
 export interface Column {
@@ -26,6 +26,12 @@ export interface Column {
   uniqueId: string;
 }
 export interface Swimlane extends Column {}
+
+export interface Color {
+  name: string;
+  value: string;
+  description: string;
+}
 
 export interface User {
   _id: string;
