@@ -34,12 +34,12 @@ export default defineApp({
       type: "string",
       async options() {
         const board: Board = await this.getBoard();
-        return board.colors.map(({
+        return board.colors?.map(({
           name: label, value,
         }) => ({
           label,
           value,
-        }));
+        })) ?? [];
       },
     },
     userId: {
@@ -48,12 +48,12 @@ export default defineApp({
       type: "string",
       async options() {
         const users: User[] = await this.getUsers();
-        return users.map(({
+        return users?.map(({
           _id, fullName, email,
         }) => ({
           label: `${fullName} (${email})`,
           value: _id,
-        }));
+        })) ?? [];
       },
     },
   },
@@ -93,12 +93,12 @@ export default defineApp({
     },
     async getBoardItems(itemType: "columns" | "swimlanes") {
       const board: Board = await this.getBoard();
-      return board[itemType].map(({
+      return board[itemType]?.map(({
         name: label, uniqueId: value,
       }) => ({
         label,
         value,
-      }));
+      })) ?? [];
     },
     async createTask(args: CreateTaskParams): Promise<object> {
       return this._httpRequest({

@@ -5,5 +5,5 @@ export function getOptionsDescription(name: string) {
 }
 
 export function getFlagPropDescription(name: string, flagName: string) {
-  return `One or more ${name}s. If a ${name} is to be flagged as ${flagName}, suffix it with \`!${flagName}}\`.`;
+  return `One or more ${name}s. If a ${name} is to be flagged as ${flagName}, suffix it with \`!${flagName}\`.`;
 }

@@ -52,6 +52,7 @@ export default defineAction({
     description: {
       label: "Description",
       description: "Task description.",
+      type: "string",
       optional: true,
     },
     responsibleUserId: {
@@ -66,11 +67,13 @@ export default defineAction({
       label: "Subtasks",
       description: getFlagPropDescription("subtask", "finished"),
       type: "string[]",
+      optional: true,
     },
     labels: {
       label: "Labels",
       description: getFlagPropDescription("label", "pinned"),
       type: "string[]",
+      optional: true,
     },
     collaborators: {
       propDefinition: [
@@ -110,12 +113,12 @@ export default defineAction({
         name,
         columnId,
         swimlaneId,
-        color,
+        color: color?.toLowerCase(),
         description,
         responsibleUserId,
-        subtasks: subtasks && this.splitFlagPropValue(subtasks, "finished"),
-        labels: labels && this.splitFlagPropValue(labels, "pinned"),
-        collaborators: collaborators?.map((userId: string) => ({
+        subTasks: subtasks?.map((value) => this.splitFlagPropValue(value, "finished")),
+        labels: labels?.map((value) => this.splitFlagPropValue(value, "pinned")),
+        collaborators: collaborators?.filter((id: string) => id !== responsibleUserId).map((userId: string) => ({
           userId,
         })),
         ...additionalOptions,
