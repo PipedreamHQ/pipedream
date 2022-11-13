@@ -13,6 +13,17 @@ export interface CreateTaskParams {
   data: object;
 }
 
+export interface CreateHookParams {
+  name: string;
+  callbackUrl: string;
+  events: {
+    name: string;
+  }[];
+  filter?: {
+    changedProperties: string[];
+  };
+}
+
 export interface Task {
   taskId: string;
 }
@@ -41,4 +52,8 @@ export interface User {
   _id: string;
   fullName: string;
   email: string;
+}
+
+export interface Webhook {
+  webhookId: string;
 }

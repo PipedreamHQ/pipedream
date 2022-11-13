@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  Board, CreateTaskParams, HttpRequestParams, Task,
+  Board, CreateHookParams, CreateTaskParams, HttpRequestParams, Task,
 } from "../common/types";
 import { User } from "@sentry/node";
 import { getOptionsDescription } from "../common/constants";
@@ -107,5 +107,18 @@ export default defineApp({
         ...args,
       });
     },
+    async createHook(data: CreateHookParams) {
+      return this._httpRequest({
+        endpoint: '/webhooks',
+        method: "POST",
+        data
+      });
+    },
+    async deleteHook(id: string) {
+      return this._httpRequest({
+        endpoint: `/webhooks/${id}`,
+        method: "POST",
+      });
+    }
   },
 });
