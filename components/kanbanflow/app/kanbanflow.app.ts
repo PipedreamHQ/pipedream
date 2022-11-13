@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  Board, CreateTaskParams, HttpRequestParams,
+  Board, CreateTaskParams, HttpRequestParams, Task,
 } from "../common/types";
 import { User } from "@sentry/node";
 import { getOptionsDescription } from "../common/constants";
@@ -76,7 +76,7 @@ export default defineApp({
           apiToken: this.$auth.api_token,
         },
         headers: {
-          "Content-type": "application/jsom",
+          "Content-type": "application/json",
         },
         ...args,
       });
@@ -100,7 +100,7 @@ export default defineApp({
         value,
       })) ?? [];
     },
-    async createTask(args: CreateTaskParams): Promise<object> {
+    async createTask(args: CreateTaskParams): Promise<Task> {
       return this._httpRequest({
         endpoint: "/tasks",
         method: "POST",

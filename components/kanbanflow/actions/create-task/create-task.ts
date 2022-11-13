@@ -93,7 +93,7 @@ export default defineAction({
       optional: true,
     },
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<Task> {
     const {
       name,
       columnId,
