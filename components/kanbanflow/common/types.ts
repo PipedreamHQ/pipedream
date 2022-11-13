@@ -4,18 +4,31 @@ export interface HttpRequestParams {
   endpoint: string;
   $?: Pipedream;
   params?: object;
+  method?: string;
+  data?: object;
 }
 
-export interface VerifyEmailParams {
+export interface CreateTaskParams {
   $: Pipedream;
-  params: {
-    email: string;
-  };
+  data: object;
 }
 
-export interface VerifyEmailResponse {
+export interface Board {
+  _id: string;
+  name: string;
+  columns: Column[];
+  swimlanes: Swimlane[];
+  colors: object[];
+}
+
+export interface Column {
+  name: string;
+  uniqueId: string;
+}
+export interface Swimlane extends Column {}
+
+export interface User {
+  _id: string;
+  fullName: string;
   email: string;
-  reason: string;
-  result: string;
-  success: string; // API returns this as a string ("true" or "false"), not as a boolean
 }

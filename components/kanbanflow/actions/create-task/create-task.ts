@@ -1,34 +1,34 @@
-import quickemailverification from "../../app/quickemailverification.app";
+import kanbanflow from "../../app/kanbanflow.app";
 import { defineAction } from "@pipedream/types";
 import {
-  VerifyEmailParams, VerifyEmailResponse,
+  CreateTaskParams
 } from "../../common/types";
 
 export default defineAction({
   name: "Create Task",
   description:
-    "Verify an email address [See docs here](http://docs.quickemailverification.com/email-verification-api/verify-an-email-address)",
+    "Create a task (docs available on board settings)",
   key: "kanbanflow-create-task",
   version: "0.0.1",
   type: "action",
   props: {
-    quickemailverification,
-    email: {
-      label: "Email Address",
-      description: "An email address to be verified.",
+    kanbanflow,
+    name: {
+      label: "Name",
+      description: "Task name.",
       type: "string",
     },
   },
-  async run({ $ }): Promise<VerifyEmailResponse> {
-    const params: VerifyEmailParams = {
+  async run({ $ }): Promise<object> {
+    const params: CreateTaskParams = {
       $,
-      params: {
-        email: this.email,
-      },
-    };
-    const data: VerifyEmailResponse = await this.quickemailverification.verifyEmailAddress(params);
+      data: {
 
-    $.export("$summary", `Verified email ${data.email} (${data.result})`);
+      }
+    };
+    const data: object = await this.kanbanflow.createTask(params);
+
+    $.export("$summary", `Verified email`);
 
     return data;
   },
