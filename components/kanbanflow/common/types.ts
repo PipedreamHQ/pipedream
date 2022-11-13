@@ -13,6 +13,10 @@ export interface CreateTaskParams {
   data: object;
 }
 
+export interface Task {
+  taskId: string;
+}
+
 export interface Board {
   _id: string;
   name: string;
