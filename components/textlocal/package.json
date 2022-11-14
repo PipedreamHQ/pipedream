@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/textlocal",
+  "version": "0.0.1",
+  "description": "Pipedream Textlocal Components",
+  "main": "textlocal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textlocal"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/textlocal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/uservoice",
+  "version": "0.0.1",
+  "description": "Pipedream Uservoice Components",
+  "main": "uservoice.app.js",
+  "keywords": [
+    "pipedream",
+    "uservoice"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/uservoice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

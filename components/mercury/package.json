@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/mercury",
+  "version": "0.0.1",
+  "description": "Pipedream Mercury Components",
+  "main": "mercury.app.js",
+  "keywords": [
+    "pipedream",
+    "mercury"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/mercury",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}
