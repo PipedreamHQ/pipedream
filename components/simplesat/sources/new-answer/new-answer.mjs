@@ -1,4 +1,5 @@
 import app from "../../simplesat.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   dedupe: "unique",
@@ -6,7 +7,7 @@ export default {
   key: "simplesat-new-answer",
   name: "New Answer",
   description: "Emit new event when a new answer is created",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     app,
     db: "$.service.db",
@@ -15,7 +16,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the new answers",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

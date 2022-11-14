@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/radar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Radar Components",
   "main": "dist/app/radar.app.mjs",
   "keywords": [
