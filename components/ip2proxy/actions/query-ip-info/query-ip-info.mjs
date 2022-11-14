@@ -5,7 +5,7 @@ export default {
   name: "Query IP address",
   description: "Query IP address using IP2Proxy API. [See the docs here](https://www.ip2location.com/web-service/ip2proxy) for how to use this API.",
   key: "ip2proxy-query-ip-info",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ip2proxyApp,
