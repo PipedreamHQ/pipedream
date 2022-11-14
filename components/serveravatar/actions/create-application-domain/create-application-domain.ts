@@ -36,7 +36,7 @@ export default defineAction({
       server_id: this.serverId,
       application_id: this.applicationId,
       domain: this.domain,
-    }
+    };
     const result = await this.serverAvatarApp.createApplicationDomain($, newAppDomainData);
     $.export("$summary", `Domain "${result.applicationDomain.domain}" has been successfully added.`);
     return result;

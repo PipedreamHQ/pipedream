@@ -8,7 +8,7 @@ export default {
   name: "New or Updated Row",
   description: "Emit new event when you add or modify a new row in a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

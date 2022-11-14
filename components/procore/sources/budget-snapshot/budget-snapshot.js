@@ -7,6 +7,7 @@ module.exports = {
   description:
     "Emits an event each time a Budget Snapshot is created, updated, or deleted in a project.",
   version: "0.0.1",
+  type: "source",
   methods: {
     ...common.methods,
     getResourceName() {
@@ -24,13 +25,16 @@ module.exports = {
           this.project,
           resourceId,
           limit,
-          offset
+          offset,
         );
         snapshotRows = snapshotRows.concat(resource);
         total = resource.length;
         offset += limit;
       }
-      return { ...body, snapshotRows };
+      return {
+        ...body,
+        snapshotRows,
+      };
     },
     getMeta(body) {
       const {

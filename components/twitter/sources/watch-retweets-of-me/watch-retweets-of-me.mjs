@@ -4,7 +4,7 @@ export default {
   ...base,
   key: "twitter-watch-retweets-of-me",
   name: "Watch Retweets of Me",
-  version: "0.0.5",
+  version: "0.0.6",
   description: "Emit new event when recent Tweets authored by the authenticating user that have been retweeted by others",
   type: "source",
   props: {

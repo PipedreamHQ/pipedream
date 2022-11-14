@@ -8,7 +8,7 @@ export default {
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: "airtable-new-or-modified-records-in-view",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,

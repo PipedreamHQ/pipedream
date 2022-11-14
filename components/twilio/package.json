@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "phone": "^3.1.29",
     "twilio": "^3.54.2"
   },

@@ -5,7 +5,7 @@ export default {
   key: "splitwise-recently-occurred-activity",
   name: "Recently Occurred Activity",
   description: "Emit new event for every recent activity on the users account. [See docs here](https://dev.splitwise.com/#tag/notifications/paths/~1get_notifications/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

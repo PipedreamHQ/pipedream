@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendgrid",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Sendgrid Components",
   "main": "sendgrid.app.js",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^1.2.0",
     "@sendgrid/client": "^7.6.2",
     "@sendgrid/eventwebhook": "^7.4.5",
     "async-retry": "^1.3.1",

@@ -4,8 +4,9 @@ import confection from "../../confection.app.mjs";
 export default {
   key: "confection-new-event",
   name: "New Event",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   description:
     "Emit new event when a UUID receives a value for the configured **Event Name**. The latest value as well a history of all values ever received for that **Event Name** will be returned.",
   props: {

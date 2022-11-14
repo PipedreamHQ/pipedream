@@ -1,31 +1,39 @@
-const dayjs = require('dayjs');
-const makeEventSummary = require('../utils/makeEventSummary.js');
-const supersaas = require('../supersaas.app.js');
+const dayjs = require("dayjs");
+const makeEventSummary = require("../utils/makeEventSummary.js");
+const supersaas = require("../supersaas.app.js");
 
 module.exports = {
-  key: 'supersaas-changed-appointments',
-  name: 'New or changed appointments',
-  description: `Emits an event for every changed appointments from the selected schedules.`,
-  version: '0.0.1',
+  key: "supersaas-changed-appointments",
+  name: "New or changed appointments",
+  description: "Emits an event for every changed appointments from the selected schedules.",
+  version: "0.0.1",
+  type: "source",
   props: {
     supersaas,
-    schedules: { propDefinition: [supersaas, 'schedules'] },
+    schedules: {
+      propDefinition: [
+        supersaas,
+        "schedules",
+      ],
+    },
     db: "$.service.db",
-    http: '$.interface.http',
+    http: "$.interface.http",
   },
   hooks: {
     async activate() {
-      const { http, schedules } = this;
+      const {
+        http, schedules,
+      } = this;
 
-      this.db.set('activeHooks', await this.supersaas.createHooks(schedules.map(x => ({
-        event: 'C', // change_appointment
+      this.db.set("activeHooks", await this.supersaas.createHooks(schedules.map((x) => ({
+        event: "C", // change_appointment
         parent_id: Number(x),
         target_url: http.endpoint,
       }))));
     },
     async deactivate() {
-      await this.supersaas.destroyHooks(this.db.get('activeHooks') || []);
-      this.db.set('activeHooks', []);
+      await this.supersaas.destroyHooks(this.db.get("activeHooks") || []);
+      this.db.set("activeHooks", []);
     },
   },
   async run(ev) {
@@ -37,7 +45,7 @@ module.exports = {
       body: ev.body,
     };
 
-    console.log('Emitting:', outEv);
+    console.log("Emitting:", outEv);
     this.$emit(outEv, outEv.meta);
   },
 };

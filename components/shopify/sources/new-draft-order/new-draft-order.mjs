@@ -1,11 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "shopify-new-draft-order",
   name: "New Draft Order",
   type: "source",
   description: "Emit new event for each new draft order submitted to a store. [See docs here](https://shopify.dev/api/admin-graphql/2022-04/queries/draftOrders)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     shopify,
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

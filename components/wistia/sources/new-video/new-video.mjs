@@ -1,8 +1,9 @@
 import wistia from "../../wistia.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Video",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wistia-new-video",
   description: "Emit new event for each created video.",
   type: "source",
@@ -12,7 +13,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -7,6 +7,7 @@ module.exports = {
   description:
     "Emits an event each time a Purchase Order is created, updated, or deleted in a project.",
   version: "0.0.1",
+  type: "source",
   methods: {
     ...common.methods,
     getResourceName() {
@@ -17,12 +18,19 @@ module.exports = {
       const resource = await this.procore.getPurchaseOrder(
         this.company,
         this.project,
-        resourceId
+        resourceId,
       );
-      return { ...body, resource };
+      return {
+        ...body,
+        resource,
+      };
     },
-    getMeta({ id, event_type, timestamp, resource }) {
-      const { title, id: purchaseOrderId } = resource;
+    getMeta({
+      id, event_type, timestamp, resource,
+    }) {
+      const {
+        title, id: purchaseOrderId,
+      } = resource;
       const eventType = event_type;
       const summary = title
         ? `${eventType} ${title}`

@@ -1,10 +1,11 @@
 import twitter from "../../twitter.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "twitter-my-liked-tweets",
   name: "My Liked Tweets",
   description: "Emit new Tweets you like on Twitter",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     twitter,
@@ -13,7 +14,7 @@ export default {
       description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

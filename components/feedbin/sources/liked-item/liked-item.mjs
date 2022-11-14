@@ -7,7 +7,7 @@ export default {
   name: "New Liked Item",
   description: "Emit new event when a new item is liked. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/starred-entries.md#get-starred-entries)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

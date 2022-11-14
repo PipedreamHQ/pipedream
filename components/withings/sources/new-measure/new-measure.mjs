@@ -1,18 +1,19 @@
 import withings from "../../withings.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "withings-new-measure",
   name: "New Measure",
   description: "Emit new event for each created measure. [See docs here](https://developer.withings.com/api-reference#operation/measure-getmeas)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     withings,
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

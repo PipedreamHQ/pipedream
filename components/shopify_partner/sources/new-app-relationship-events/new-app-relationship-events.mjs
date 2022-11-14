@@ -7,7 +7,7 @@ export default {
   key: "shopify_partner-new-app-relationship-events",
   name: "New App Relationship Events",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {

@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/coinbase",
+  "version": "0.0.1",
+  "description": "Pipedream Coinbase Components",
+  "main": "coinbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "coinbase"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/coinbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

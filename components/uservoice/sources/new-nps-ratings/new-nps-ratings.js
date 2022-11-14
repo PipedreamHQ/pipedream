@@ -1,12 +1,15 @@
 const uservoice = require("../../uservoice.app.js");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
+
 const NUM_SAMPLE_RESULTS = 10;
 
 module.exports = {
   name: "New NPS Ratings",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "uservoice-new-nps-ratings",
   description: `Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to ${NUM_SAMPLE_RESULTS} sample NPS ratings users have previously submitted.`,
   dedupe: "unique",
+  type: "source",
   props: {
     uservoice,
     timer: {
@@ -15,7 +18,7 @@ module.exports = {
         "Pipedream will poll the UserVoice API for new NPS ratings on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",
@@ -32,8 +35,12 @@ module.exports = {
   methods: {
     emitWithMetadata(ratings) {
       for (const rating of ratings) {
-        const { id, rating: score, body, created_at } = rating;
-        const summary = body && body.length ? `${score} - ${body}` : `${score}`;
+        const {
+          id, rating: score, body, created_at,
+        } = rating;
+        const summary = body && body.length
+          ? `${score} - ${body}`
+          : `${score}`;
         this.$emit(rating, {
           summary,
           id,
@@ -45,7 +52,9 @@ module.exports = {
   async run() {
     let updated_after =
       this.db.get("updated_after") || new Date().toISOString();
-    const { npsRatings, maxUpdatedAt } = await this.uservoice.listNPSRatings({
+    const {
+      npsRatings, maxUpdatedAt,
+    } = await this.uservoice.listNPSRatings({
       updated_after,
     });
     this.emitWithMetadata(npsRatings);
