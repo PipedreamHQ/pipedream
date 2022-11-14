@@ -1,30 +1,43 @@
 const mercury = require("../../mercury.app.js");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 
 module.exports = {
   key: "mercury-new-transaction",
   name: "New Transaction",
   description: "Emits an event for each new transaction in an account.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   props: {
     mercury,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    account: { propDefinition: [mercury, "account"] },
+    account: {
+      propDefinition: [
+        mercury,
+        "account",
+      ],
+    },
   },
   methods: {
     getMeta(transaction) {
-      const { id, counterpartyName: summary, postedAt } = transaction;
+      const {
+        id, counterpartyName: summary, postedAt,
+      } = transaction;
       const ts = new Date(postedAt).getTime();
-      return { id, summary, ts };
+      return {
+        id,
+        summary,
+        ts,
+      };
     },
   },
-  async run(event) {
+  async run() {
     const lastRunTime = this.db.get("lastRunTime")
       ? new Date(this.db.get("lastRunTime"))
       : this.mercury.daysAgo(1);

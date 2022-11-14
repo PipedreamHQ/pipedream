@@ -596,6 +596,9 @@ importers:
       '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
+  components/dataset:
+    specifiers: {}
+
   components/datumbox:
     specifiers: {}
 
@@ -1552,7 +1555,7 @@ importers:
 
   components/mediatoolkit:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -1593,9 +1596,11 @@ importers:
   components/microsoft_teams:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.2
+      '@pipedream/platform': ^1.2.0
       isomorphic-fetch: ^3.0.0
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.2
+      '@pipedream/platform': 1.2.0
       isomorphic-fetch: 3.0.0
 
   components/miro_custom_app:
@@ -1609,11 +1614,13 @@ importers:
 
   components/monday:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       lodash.flatmap: ^4.5.0
       lodash.map: ^4.6.0
       lodash.uniqby: ^4.7.0
       monday-sdk-js: ^0.1.3
     dependencies:
+      '@pipedream/platform': 1.2.0
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
@@ -1627,8 +1634,10 @@ importers:
 
   components/mongodb:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       mongodb: ^4.6.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       mongodb: 4.8.0
 
   components/mozilla_observatory:
@@ -1645,15 +1654,17 @@ importers:
 
   components/mysql:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       mysql2-promise: ^0.1.4
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.2.0
       mysql2-promise: 0.1.4
       uuid: 8.3.2
 
   components/namely:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       '@pipedream/types': ^0.1.3
       dayjs: ^1.11.3
     dependencies:
@@ -1708,7 +1719,7 @@ importers:
 
   components/nicereply:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -1720,17 +1731,22 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/nightfall_ai:
+    specifiers: {}
+
   components/ninox:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/nocodb:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       moment: ^2.29.4
       nocodb-sdk: ^0.92.4
     dependencies:
+      '@pipedream/platform': 1.2.0
       moment: 2.29.4
       nocodb-sdk: 0.92.4
 
@@ -1742,8 +1758,10 @@ importers:
 
   components/nordigen:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
   components/notion:
@@ -1778,7 +1796,10 @@ importers:
     specifiers: {}
 
   components/npm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/nusii_proposals:
     specifiers: {}
@@ -1831,15 +1852,15 @@ importers:
 
   components/outgrow:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/pagerduty:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
 
   components/paperform:
     specifiers: {}
@@ -1864,10 +1885,12 @@ importers:
 
   components/pcloud:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       async-retry: ^1.3.1
       lodash: ^4.17.20
       pcloud-sdk-js: ^2.0.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       async-retry: 1.3.3
       lodash: 4.17.21
       pcloud-sdk-js: 2.0.0
@@ -1929,14 +1952,18 @@ importers:
 
   components/pipedrive:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       pipedrive: ^13.2.7
     dependencies:
+      '@pipedream/platform': 1.2.0
       pipedrive: 13.3.4
 
   components/pipefy:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       graphql-request: ^5.0.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       graphql-request: 5.0.0_graphql@16.5.0
 
   components/planning_center:
@@ -1947,7 +1974,7 @@ importers:
 
   components/pocket:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
