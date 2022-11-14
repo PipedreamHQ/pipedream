@@ -65,14 +65,14 @@ export type WebhookData = {
   task: {
     _id: string;
     name: string;
-  }
-}
+  };
+};
 export type WebhookDataTaskMoved = WebhookData & {
   oldColumn?: string;
   newColumn?: string;
   oldSwimlane?: string;
   newSwimlane?: string;
-}
+};
 
 export interface WebhookChangedProperty {
   newValue: string;

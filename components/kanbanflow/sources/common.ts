@@ -1,6 +1,8 @@
 import kanbanflow from "../app/kanbanflow.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
-import { CreateHookParams, Webhook, WebhookData } from "../common/types";
+import {
+  CreateHookParams, Webhook, WebhookData,
+} from "../common/types";
 
 export default {
   props: {
@@ -26,15 +28,19 @@ export default {
     },
     async processHookData(data: WebhookData) {
       return data;
-    }
+    },
   },
   hooks: {
     async activate() {
       const data: CreateHookParams = {
         name: `Pipedream: ${this.getHookName()}`,
         callbackUrl: this.http.endpoint,
-        events: [{ name: this.getHookType() }],
-        ...this.getHookFilter()
+        events: [
+          {
+            name: this.getHookType(),
+          },
+        ],
+        ...this.getHookFilter(),
       };
 
       const { webhookId }: Webhook = await this.kanbanflow.createHook(data);
@@ -51,7 +57,7 @@ export default {
     });
 
     const body = await this.processHookData(data.body) as WebhookData;
-    
+
     const id = body.task._id;
     const summary = this.getSummary(body);
     const ts = new Date(body.timestamp).valueOf();
@@ -61,7 +67,7 @@ export default {
         id,
         summary,
         ts,
-    });
+      });
     }
   },
 };

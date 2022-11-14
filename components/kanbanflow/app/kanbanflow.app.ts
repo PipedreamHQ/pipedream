@@ -109,9 +109,9 @@ export default defineApp({
     },
     async createHook(data: CreateHookParams) {
       return this._httpRequest({
-        endpoint: '/webhooks',
+        endpoint: "/webhooks",
         method: "POST",
-        data
+        data,
       });
     },
     async deleteHook(id: string) {
@@ -119,6 +119,6 @@ export default defineApp({
         endpoint: `/webhooks/${id}`,
         method: "DELETE",
       });
-    }
+    },
   },
 });

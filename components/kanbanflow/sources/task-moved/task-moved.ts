@@ -1,5 +1,7 @@
 import { defineSource } from "@pipedream/types";
-import { Board, WebhookData, WebhookDataTaskMoved } from "../../common/types";
+import {
+  Board, WebhookData, WebhookDataTaskMoved,
+} from "../../common/types";
 import common from "../common";
 
 export default defineSource({
@@ -14,7 +16,10 @@ export default defineSource({
     getHookFilter() {
       return {
         filter: {
-          changedProperties: ["columnId", "swimlaneId"],
+          changedProperties: [
+            "columnId",
+            "swimlaneId",
+          ],
         },
       };
     },
@@ -24,37 +29,43 @@ export default defineSource({
     getHookType() {
       return "taskChanged";
     },
-    getSummary({ task: { name }, userFullName }: WebhookData) {
+    getSummary({
+      task: { name }, userFullName,
+    }: WebhookData) {
       return `"${name}" moved by ${userFullName}`;
     },
     async processHookData(data: WebhookData) {
       const { changedProperties } = data;
 
-      const newData: WebhookDataTaskMoved = { ...data };
+      const newData: WebhookDataTaskMoved = {
+        ...data,
+      };
 
-      const { columns, swimlanes }: Board = await this.kanbanflow.getBoard();
+      const {
+        columns, swimlanes,
+      }: Board = await this.kanbanflow.getBoard();
 
       const columnChange = changedProperties.find(
-        ({ property }) => property === "columnId"
+        ({ property }) => property === "columnId",
       );
       if (columnChange) {
         newData.oldColumn = columns.find(
-          ({ uniqueId }) => uniqueId === columnChange.oldValue
+          ({ uniqueId }) => uniqueId === columnChange.oldValue,
         )?.name;
         newData.newColumn = columns.find(
-          ({ uniqueId }) => uniqueId === columnChange.newValue
+          ({ uniqueId }) => uniqueId === columnChange.newValue,
         )?.name;
       }
 
       const swimlaneChange = changedProperties.find(
-        ({ property }) => property === "swimlaneId"
+        ({ property }) => property === "swimlaneId",
       );
       if (swimlaneChange) {
         newData.oldSwimlane = swimlanes.find(
-          ({ uniqueId }) => uniqueId === swimlaneChange.oldValue
+          ({ uniqueId }) => uniqueId === swimlaneChange.oldValue,
         )?.name;
         newData.newSwimlane = swimlanes.find(
-          ({ uniqueId }) => uniqueId === swimlaneChange.newValue
+          ({ uniqueId }) => uniqueId === swimlaneChange.newValue,
         )?.name;
       }
 
