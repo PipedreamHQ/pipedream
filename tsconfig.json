@@ -1010,6 +1010,9 @@
     },
     {
       "path": "components/whatsapp_business"
+    },
+    {
+      "path": "components/d7_networks"
     }
   ]
 }

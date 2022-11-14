@@ -106,6 +106,12 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/airbrake:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.1.1
+
   components/aircall:
     specifiers: {}
 
