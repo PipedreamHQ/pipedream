@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter_developer_app-send-dm",
   name: "Send Direct Message (DM)",
   description: "Send a DM to a user.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     twitter,
