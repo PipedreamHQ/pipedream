@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-new-updated-contact",
   name: "New or updated contact",
   description: "Emit new notifications when you create a new or update existing contact",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     xeroAccountingApi,
