@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesblink",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SalesBlink Components",
   "main": "dist/app/salesblink.app.mjs",
   "keywords": [

@@ -1,11 +1,12 @@
 import { formatJsonDate } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "xero_accounting_api-new-updated-invoice",
   name: "New or updated invoice",
   description: "Emit new notifications when you create a new or update existing invoice",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     xeroAccountingApi,
@@ -20,7 +21,7 @@ export default {
       description: "Pipedream will poll Xero accounting API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

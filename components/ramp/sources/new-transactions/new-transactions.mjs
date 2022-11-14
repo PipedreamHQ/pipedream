@@ -1,11 +1,12 @@
 import ramp from "../../ramp.app.mjs";
 import common from "../common/common.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "ramp-new-transactions",
   name: "New Transactions",
   description: "Emit new transaction by retrieving all transactions of the business. [See Docs](https://docs.ramp.com/reference/rest/transactions)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,7 +20,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

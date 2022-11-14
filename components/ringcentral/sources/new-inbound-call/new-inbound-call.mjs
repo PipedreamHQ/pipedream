@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-new-inbound-call",
   name: "New Inbound Call (Instant)",
   description: "Emit new event on each incoming call",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,

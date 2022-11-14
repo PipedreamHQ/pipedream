@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/you_need_a_budget",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream You Need A Budget Components",
   "main": "you_need_a_budget.app.js",
   "keywords": [
@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "ynab": "^1.28.0"
   }
 }

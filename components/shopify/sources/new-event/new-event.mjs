@@ -1,5 +1,6 @@
 import shopify from "../../shopify.app.mjs";
 import Bottleneck from "bottleneck";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 // limiting requests to 2 per second per Shopify's API rate limit documentation
 // https://shopify.dev/concepts/about-apis/rate-limits
 const limiter = new Bottleneck({
@@ -11,14 +12,14 @@ export default {
   name: "New Events",
   type: "source",
   description: "Emit new event for each new Shopify event.",
-  version: "0.0.5",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,

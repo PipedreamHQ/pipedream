@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rd_station_crm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream RD Station CRM Components",
   "main": "rd_station_crm.app.js",
   "keywords": [

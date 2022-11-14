@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tmetric",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream TMetric Components",
   "main": "dist/app/tmetric.app.mjs",
   "keywords": [

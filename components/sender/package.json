@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sender",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sender Components",
   "main": "dist/app/sender.app.mjs",
   "keywords": [

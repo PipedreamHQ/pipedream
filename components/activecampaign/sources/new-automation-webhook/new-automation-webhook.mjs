@@ -1,3 +1,4 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import activecampaign from "../../activecampaign.app.mjs";
 import common from "../common/base.mjs";
 
@@ -6,7 +7,7 @@ export default {
   name: "New Automation Webhook",
   key: "activecampaign-new-automation-webhook",
   description: "Emit new event each time an automation sends out webhook data.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     automations: {

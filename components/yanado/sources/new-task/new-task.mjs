@@ -5,7 +5,7 @@ export default {
   name: "New Task",
   key: "yanado-new-task",
   description: "Emit new event for every new task in  a list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

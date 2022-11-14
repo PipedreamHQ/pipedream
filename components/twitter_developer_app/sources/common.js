@@ -1,4 +1,5 @@
 const twitter_developer_app = require("../twitter_developer_app.app");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 
 module.exports = {
   props: {
@@ -7,7 +8,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

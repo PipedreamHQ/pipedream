@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-subscription",
   name: "New Subscription",
   description: "Emit new event for each new subscription from authenticated user.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     youtubeDataApi,
