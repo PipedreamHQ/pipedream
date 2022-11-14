@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Task",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "timecamp-new-task",
   description: "Emit new event on each created task.",
   type: "source",

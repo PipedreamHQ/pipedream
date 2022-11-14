@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Viewing Session",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "wistia-new-viewing-session",
   description: "Emit new event for each new viewing session.",
   type: "source",

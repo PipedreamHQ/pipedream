@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Registration",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "webinargeek-new-registration",
   description: "Emit new event on each new registration.",
   type: "source",

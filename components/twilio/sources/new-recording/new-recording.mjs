@@ -5,7 +5,7 @@ export default {
   key: "twilio-new-recording",
   name: "New Recording",
   description: "Emit new event when a new call recording is created",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique",
   methods: {

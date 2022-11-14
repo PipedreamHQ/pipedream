@@ -5,7 +5,7 @@ export default {
   key: "vercel-new-deployment",
   name: "New Deployment",
   description: "Emit new event when a deployment is created",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

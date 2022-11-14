@@ -5,7 +5,7 @@ export default {
   key: "twitter-new-follower-of-me",
   name: "New Follower of Me",
   description: "Emit new event when a user follows you on Twitter",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   props: {
     ...common.props,

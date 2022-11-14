@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Time Entry",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "timecamp-new-time-entry",
   description: "Emit new event on each created time entry.",
   type: "source",
