@@ -12,6 +12,14 @@ export default {
         return this.listClassifiersOptions(prevContext);
       },
     },
+    extractorId: {
+      label: "Extractor Id",
+      type: "string",
+      description: "Unique identification of extractors, custom models, public models, and models shared in the teams.",
+      async options({ prevContext }) {
+        return this.listExtractorOptions(prevContext);
+      },
+    },
     data: {
       label: "Data",
       type: "string[]",
@@ -67,10 +75,46 @@ export default {
         };
       }
     },
+    async listExtractorOptions(prevContext) {
+      const page = (prevContext?.page || 0) + 1;
+      try {
+        const extractors = await axios(this, this._getRequestParams({
+          method: "GET",
+          path: "/extractors/",
+          params: {
+            page,
+          }
+        }));
+        return {
+          options: extractors.map((extractor) => ({
+            label: extractor.name,
+            value: extractor.id,
+          })),
+          context: {
+            page,
+          },
+        }
+      } catch {
+        return {
+          options: [],
+          context: prevContext,
+        };
+      }
+    },
     classifyText($, classifierId, data, productionModel) {
       return axios(($ || this), this._getRequestParams({
         method: "POST",
         path: `/classifiers/${classifierId}/classify/`,
+        data: {
+          data,
+          production_model: productionModel,
+        }
+      }));
+    },
+    extractText($, extractorId, data, productionModel) {
+      return axios(($ || this), this._getRequestParams({
+        method: "POST",
+        path: `/extractors/${extractorId}/extract/`,
         data: {
           data,
           production_model: productionModel,
