@@ -2011,9 +2011,9 @@ importers:
 
   components/pushshift_reddit_search:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/qstash:
     specifiers: {}
@@ -2047,9 +2047,9 @@ importers:
 
   components/raindrop:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/ramp:
     specifiers:
@@ -2070,24 +2070,29 @@ importers:
     specifiers: {}
 
   components/readwise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/realphonevalidation:
     specifiers: {}
 
   components/rebrandly:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/reddit:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       async-retry: ^1.3.3
       axios: ^0.27.2
       lodash: ^4.17.21
       qs: ^6.11.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       async-retry: 1.3.3
       axios: 0.27.2
       lodash: 4.17.21
@@ -2121,9 +2126,9 @@ importers:
 
   components/ringcentral:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/rise:
     specifiers:
@@ -2140,7 +2145,7 @@ importers:
   components/rss:
     specifiers:
       '@pipedream/helpers': ^1.3.9
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       '@types/axios': ^0.14.0
       '@types/feedparser': ^2.2.5
       '@types/node': ^17.0.36
@@ -2152,7 +2157,7 @@ importers:
       string-to-stream: ^3.0.1
     dependencies:
       '@pipedream/helpers': 1.3.12
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       axios: 0.27.2
       feedparser: 2.2.10
       object-hash: 3.0.0
@@ -2178,13 +2183,13 @@ importers:
 
   components/salesforce_rest_api:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
       handlebars: ^4.7.7
       lodash: ^4.17.21
       lodash-es: ^4.17.21
       salesforce-webhooks: ^1.1.11
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
       handlebars: 4.7.7
       lodash: 4.17.21
       lodash-es: 4.17.21
@@ -2224,7 +2229,7 @@ importers:
 
   components/sendgrid:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       '@sendgrid/client': ^7.6.2
       '@sendgrid/eventwebhook': ^7.4.5
       async-retry: ^1.3.1
@@ -2232,7 +2237,7 @@ importers:
       uuid: ^8.3.2
       validate.js: ^0.13.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       '@sendgrid/client': 7.7.0
       '@sendgrid/eventwebhook': 7.7.0
       async-retry: 1.3.3
@@ -2251,7 +2256,7 @@ importers:
 
   components/sendowl:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2284,8 +2289,10 @@ importers:
 
   components/sftp:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       ssh2-sftp-client: ^8.1.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       ssh2-sftp-client: 8.1.0
 
   components/sftp_password_based_auth:
@@ -2332,7 +2339,7 @@ importers:
 
   components/short:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       lodash: ^4.17.21
     dependencies:
       '@pipedream/platform': 1.2.0
@@ -2369,7 +2376,7 @@ importers:
 
   components/simplesat:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2429,13 +2436,13 @@ importers:
 
   components/snowflake:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
       snowflake-sdk: ^1.6.10
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       asn1.js: 5.4.1
       lodash-es: 4.17.21
       snowflake-sdk: 1.6.11_asn1.js@5.4.1
@@ -2452,7 +2459,7 @@ importers:
 
   components/splitwise:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2460,14 +2467,17 @@ importers:
     specifiers: {}
 
   components/spotify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/squarespace:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       dayjs: ^1.11.3
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       dayjs: 1.11.3
 
   components/ssh:
@@ -2478,10 +2488,12 @@ importers:
 
   components/stack_exchange:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
       he: ^1.2.0
       lodash: ^4.17.20
     dependencies:
+      '@pipedream/platform': 1.2.0
       axios: 0.21.4
       he: 1.2.0
       lodash: 4.17.21
@@ -2494,7 +2506,7 @@ importers:
 
   components/statuscake:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2534,7 +2546,7 @@ importers:
 
   components/supportbee:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2554,7 +2566,7 @@ importers:
 
   components/surveymethods:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2628,7 +2640,7 @@ importers:
 
   components/thanks_io:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       date-fns: ^2.29.1
     dependencies:
       '@pipedream/platform': 1.2.0

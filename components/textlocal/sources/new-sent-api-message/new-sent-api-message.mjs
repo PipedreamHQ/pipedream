@@ -5,7 +5,7 @@ export default {
   key: "textlocal-new-sent-api-message",
   name: "New Sent API Message",
   description: "Emit new message sent via Textlocal's API",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   hooks: {

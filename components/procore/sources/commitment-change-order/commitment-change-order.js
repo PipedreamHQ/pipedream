@@ -7,6 +7,7 @@ module.exports = {
   description:
     "Emits an event each time a Commitment Change Order is created, updated, or deleted in a project.",
   version: "0.0.1",
+  type: "source",
   methods: {
     ...common.methods,
     getResourceName() {
@@ -17,9 +18,12 @@ module.exports = {
       const resource = await this.procore.getChangeEvent(
         this.company,
         this.project,
-        resourceId
+        resourceId,
       );
-      return { ...body, resource };
+      return {
+        ...body,
+        resource,
+      };
     },
     getMeta(body) {
       const {

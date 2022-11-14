@@ -9,7 +9,7 @@ export default {
   name: "New comments on a post",
   description:
     "Emit new event each time a new comment is added to a subreddit.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,

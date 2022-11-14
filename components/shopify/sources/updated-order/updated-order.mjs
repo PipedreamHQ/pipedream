@@ -1,18 +1,19 @@
 import shopify from "../../shopify.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "shopify-updated-order",
   name: "Updated Order", /* eslint-disable-line pipedream/source-name */
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,

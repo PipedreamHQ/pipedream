@@ -1,1 +1,1 @@
-exports.urlPrefix = 'https://supersaas.com';
+exports.urlPrefix = "https://supersaas.com";

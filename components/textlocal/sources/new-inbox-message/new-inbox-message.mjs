@@ -6,7 +6,7 @@ export default {
   key: "textlocal-new-inbox-message",
   name: "New Inbox Message",
   description: "Emit new inbox message.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {

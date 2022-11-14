@@ -1,9 +1,10 @@
 import squarespace from "../../squarespace.app.mjs";
 import dayjs from "dayjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Update Transaction",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "squarespace-new-update-transaction",
   description: "Emit new event for each transaction updated.",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 5,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -6,7 +6,7 @@ export default {
   key: "thanks_io-new-recipient",
   name: "New Recipient",
   description: "Emit new event for each new recipient is added to a mailing list.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
