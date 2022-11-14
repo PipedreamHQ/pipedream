@@ -596,6 +596,9 @@ importers:
       '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
+  components/dataset:
+    specifiers: {}
+
   components/datumbox:
     specifiers: {}
 
@@ -1720,6 +1723,9 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/nightfall_ai:
+    specifiers: {}
+
   components/ninox:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2745,6 +2751,14 @@ importers:
       lodash.pick: 4.4.0
       lodash.pickby: 4.6.0
       mime: 3.0.0
+
+  components/trengo:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto-js: ^4.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
+      crypto-js: 4.1.1
 
   components/triggercmd:
     specifiers: {}
