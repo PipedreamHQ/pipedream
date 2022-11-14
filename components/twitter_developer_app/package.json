@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitter_developer_app",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Twitter_developer_app Components",
   "main": "twitter_developer_app.app.js",
   "keywords": [

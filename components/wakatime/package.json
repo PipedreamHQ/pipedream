@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wakatime",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream WakaTime Components",
   "main": "dist/app/wakatime.app.mjs",
   "keywords": [

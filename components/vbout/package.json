@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vbout",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream VBOUT Components",
   "main": "vbout.app.mjs",
   "keywords": [

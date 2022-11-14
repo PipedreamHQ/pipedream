@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/totango",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Totango Components",
   "main": "totango.app.mjs",
   "keywords": [

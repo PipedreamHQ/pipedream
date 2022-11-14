@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workast",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Workast Components",
   "main": "dist/app/workast.app.mjs",
   "keywords": [
