@@ -5,7 +5,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   ...common,
-  key: "pagerduty-new-on-call-rotation",
+  key: "pagerduty-new-oncall-rotation",
   name: "New On-Call Rotation",
   version: "0.0.3",
   description: "Emit new event each time a new user rotates onto an on-call rotation",
