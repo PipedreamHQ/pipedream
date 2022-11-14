@@ -7,9 +7,8 @@ const docLink = "https://pipedream.com/docs/examples/waiting-to-execute-next-ste
 export default {
   key: "google_calendar-upcoming-event-alert",
   name: "Upcoming Event Alert",
-  description: `Triggers based on a time interval before an upcoming event in the calendar.
-    This source uses Pipedream's Task Scheduler.
-    [See here](${docLink}) for more info and instructions to connect your Pipedream account.`,
+  description: `Triggers based on a time interval before an upcoming event in the calendar. This source uses Pipedream's Task Scheduler.
+    [See here](${docLink}) for more information and instructions for connecting your Pipedream account.`,
   version: "0.0.1",
   type: "source",
   props: {
@@ -35,9 +34,7 @@ export default {
     time: {
       type: "integer",
       label: "Minutes Before",
-      description: `Number of minutes to trigger before the calendar event.
-        \\
-        You may use a custom expression to express in another unit. E.g. \`{{ 60 * 2 }}\` is 2 hours.`,
+      description: "Number of minutes to trigger before the start of the calendar event.",
       min: 0,
     },
   },
