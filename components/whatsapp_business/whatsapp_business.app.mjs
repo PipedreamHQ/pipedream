@@ -1,6 +1,4 @@
-import { defineApp } from "@pipedream/types";
-
-export default defineApp({
+export default {
   type: "app",
   app: "whatsapp_business",
   propDefinitions: {},
@@ -10,4 +8,4 @@ export default defineApp({
       console.log(Object.keys(this.$auth));
     },
   },
-});
+};
