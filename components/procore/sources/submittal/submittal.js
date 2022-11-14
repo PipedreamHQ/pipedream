@@ -6,7 +6,7 @@ module.exports = {
   key: "procore-submittal",
   description:
     "Emits an event each time a Submittal is created, updated, or deleted in a project.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

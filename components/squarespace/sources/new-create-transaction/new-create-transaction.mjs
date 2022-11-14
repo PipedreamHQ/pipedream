@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Create Transaction",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "squarespace-new-create-transaction",
   description: "Emit new event for each transaction created.",
   type: "source",

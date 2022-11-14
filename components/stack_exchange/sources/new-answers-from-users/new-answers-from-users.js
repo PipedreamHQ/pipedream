@@ -5,7 +5,7 @@ module.exports = {
   key: "stack_exchange-new-answers-from-users",
   name: "New Answers from Specific Users",
   description: "Emits an event when a new answer is posted by one of the specified users",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {

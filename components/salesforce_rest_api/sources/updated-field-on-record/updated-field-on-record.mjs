@@ -15,7 +15,7 @@ export default {
   name: "New Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
   description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
-  version: "0.1.4",
+  version: "0.1.5",
   props: {
     ...common.props,
     objectType: {

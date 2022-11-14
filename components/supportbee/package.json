@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/supportbee",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SupportBee Components",
   "main": "supportbee.app.mjs",
   "keywords": [

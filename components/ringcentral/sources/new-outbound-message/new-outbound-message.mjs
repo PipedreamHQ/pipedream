@@ -6,7 +6,7 @@ export default {
   key: "ringcentral-new-outbound-message-event",
   name: "New Outbound Message Event (Instant)",
   description: "Emit new event for each outbound message status update",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,

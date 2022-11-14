@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/referralrock",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ReferralRock Components",
   "main": "dist/app/referralrock.app.mjs",
   "keywords": [

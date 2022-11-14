@@ -6,7 +6,7 @@ module.exports = {
   name: "New Question for Specific Keywords",
   description:
     "Emits an event when a new question is posted and related to a set of specific keywords",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {

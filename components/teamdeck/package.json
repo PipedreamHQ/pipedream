@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamdeck",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Teamdeck Components",
   "main": "dist/app/teamdeck.app.mjs",
   "keywords": [

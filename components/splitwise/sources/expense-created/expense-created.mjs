@@ -4,7 +4,7 @@ export default {
   key: "splitwise-expense-created",
   name: "Expense Created",
   description: "Emit new event for every expense created. [See docs here](https://dev.splitwise.com/#tag/expenses/paths/~1get_expense~1{id}/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

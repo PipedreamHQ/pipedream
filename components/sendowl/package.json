@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendowl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SendOwl Components",
   "main": "sendowl.app.mjs",
   "keywords": [

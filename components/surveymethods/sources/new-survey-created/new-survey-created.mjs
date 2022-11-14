@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Survey Created",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "surveymethods-new-survey-created",
   description: "Emit new event on a survey is created.",
   type: "source",

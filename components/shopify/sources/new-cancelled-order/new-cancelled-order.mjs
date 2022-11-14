@@ -6,7 +6,7 @@ export default {
   name: "New Cancelled Order",
   type: "source",
   description: "Emit new event each time a new order is cancelled.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     db: "$.service.db",
