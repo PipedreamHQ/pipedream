@@ -38,9 +38,13 @@ export default {
       await this.kanbanflow.deleteHook(id);
     },
   },
-  async run(data: SourceHttpRunOptions) {
+  async run({ body, method }: SourceHttpRunOptions) {
     this.http.respond({
       status: 200,
     });
+
+    if (method !== "HEAD") {
+      this.$emit(body);
+    }
   },
 };

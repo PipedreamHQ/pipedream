@@ -117,7 +117,7 @@ export default defineApp({
     async deleteHook(id: string) {
       return this._httpRequest({
         endpoint: `/webhooks/${id}`,
-        method: "POST",
+        method: "DELETE",
       });
     }
   },
