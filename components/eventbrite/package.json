@@ -1,16 +1,18 @@
 {
-  "name": "@pipedream/adalo",
-  "version": "0.0.4",
-  "description": "Pipedream Adalo Components",
-  "main": "adalo.app.mjs",
+  "name": "@pipedream/eventbrite",
+  "version": "0.0.1",
+  "description": "Pipedream Eventbrite Components",
+  "main": "eventbrite.app.js",
   "keywords": [
     "pipedream",
-    "adalo"
+    "eventbrite"
   ],
-  "homepage": "https://pipedream.com/apps/adalo",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/eventbrite",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
-  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
   },
