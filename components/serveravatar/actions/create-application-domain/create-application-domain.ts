@@ -5,7 +5,7 @@ export default defineAction({
   name: "Create Application Domain",
   description: "Add a new application domain for the application. [See the docs here](https://serveravatar.com/api-docs/endpoint/application-domain/create.html)",
   key: "serveravatar-create-application-domain",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     serverAvatarApp,

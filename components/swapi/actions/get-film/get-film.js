@@ -4,7 +4,7 @@ const axios = require("axios");
 module.exports = {
   key: "swapi-get-film",
   name: "Get Film",
-  version: "0.0.12",
+  version: "0.0.13",
   description: "Get a film",
   type: "action",
   props: {
