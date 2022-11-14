@@ -24,6 +24,9 @@ export default {
     getSummary() {
       throw new Error("Summary not defined for this source");
     },
+    async processHookData(data: WebhookData) {
+      return data;
+    }
   },
   hooks: {
     async activate() {
@@ -47,7 +50,7 @@ export default {
       status: 200,
     });
 
-    const body = data.body as WebhookData;
+    const body = await this.processHookData(data.body) as WebhookData;
     
     const id = body.task._id;
     const summary = this.getSummary(body);
