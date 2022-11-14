@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ongage",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Ongage Components",
   "main": "ongage.app.js",
   "keywords": [
