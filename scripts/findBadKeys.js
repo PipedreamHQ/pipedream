@@ -26,7 +26,7 @@ const getComponentKey = ( p )  => {
   return false;
 };
 
-const checkPathVsKey = () => {
+function* iterateComponentFiles() {
   let changedFiles = [];
   if (process.argv[2])
     changedFiles = process.argv[2].split(",");
@@ -41,6 +41,14 @@ const checkPathVsKey = () => {
       continue;
     if (isAppFile(p) || isCommonFile(p) || !isSourceFile(p))
       continue;
+    yield file;
+  }
+}
+
+const checkPathVsKey = () => {
+  const iterator = iterateComponentFiles();
+  for (const file of iterator) {
+    const p = path.join(rootDir, file);
     const componentKey = getComponentKey(p);
     if (!componentKey) {
       err = true;
@@ -136,5 +144,12 @@ for (const name of dirs) {
 checkPathVsKey();
 
 if (err) {
-  process.exit(1);
+  const core = require('@actions/core');
+  core.setFailed("There are errors in some components. See the messages above.");
 }
+
+module.exports.rootDir = rootDir;
+module.exports.isAppFile = isAppFile;
+module.exports.isSourceFile = isSourceFile;
+module.exports.isCommonFile = isCommonFile;
+module.exports.iterateComponentFiles = iterateComponentFiles;

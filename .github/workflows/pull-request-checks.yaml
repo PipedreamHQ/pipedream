@@ -123,6 +123,8 @@ jobs:
           format: 'csv'
       - name: Check component keys
         run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
+      - name: Check component app prop
+        run: node scripts/checkComponentAppProp.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
       - name: Check for duplicate component keys
         run: node scripts/findDuplicateKeys.js
 
