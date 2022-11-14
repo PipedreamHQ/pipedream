@@ -161,5 +161,63 @@ export default {
     createBlocks(pageContent) {
       return markdownToBlocks(pageContent);
     },
+    /**
+     * Formats the children of an existing block for creating/appending
+     * to a new page/block
+     */
+    async formatChildBlocks(block) {
+      const children = block.children;
+      if (!block.has_children) {
+        return [];
+      }
+
+      (await Promise.all(children.map((child) => this.formatChildBlocks(child))))
+        .forEach((c, i) => {
+          const child = children[i];
+          children[i] = {
+            object: "block",
+            type: child.type,
+            [child.type]: child[child.type],
+          };
+          if (c.length > 0) {
+            children[i][child.type].children = c;
+          }
+        });
+      return children;
+    },
+    createChild(block, children) {
+      let child = {
+        object: "block",
+      };
+      if (block.type === "child_page") {
+        child = {
+          ...child,
+          type: "link_to_page",
+          link_to_page: {
+            type: "page_id",
+            page_id: block.id,
+          },
+        };
+      } else if (block.type === "child_database") {
+        child = {
+          ...child,
+          type: "link_to_page",
+          link_to_page: {
+            type: "database_id",
+            database_id: block.id,
+          },
+        };
+      } else {
+        child = {
+          ...child,
+          type: block.type,
+          [block.type]: block[block.type],
+        };
+        if (children?.length > 0) {
+          child[block.type].children = children;
+        }
+      }
+      return child;
+    },
   },
 };
