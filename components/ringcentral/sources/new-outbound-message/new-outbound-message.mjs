@@ -3,7 +3,7 @@ import messageTypes from "../common/message-types.mjs";
 
 export default {
   ...common,
-  key: "ringcentral-new-outbound-message-event",
+  key: "ringcentral-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
   description: "Emit new event for each outbound message status update",
   version: "0.1.1",

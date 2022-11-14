@@ -2,7 +2,7 @@ const stack_exchange = require("../../stack_exchange.app");
 const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 
 module.exports = {
-  key: "stack_exchange-new-question-for-specific-keywords",
+  key: "stack_exchange-new-question-for-keywords",
   name: "New Question for Specific Keywords",
   description:
     "Emits an event when a new question is posted and related to a set of specific keywords",

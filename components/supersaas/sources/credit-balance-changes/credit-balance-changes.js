@@ -1,5 +1,5 @@
 const dayjs = require("dayjs");
-const makeEventSummary = require("../utils/makeEventSummary.js");
+const makeEventSummary = require("../../common/utils/makeEventSummary.js");
 const supersaas = require("../supersaas.app.js");
 
 module.exports = {

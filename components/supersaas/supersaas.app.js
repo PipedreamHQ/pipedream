@@ -1,4 +1,4 @@
-const envConf = require("./envConf.js");
+const envConf = require("./common/envConf.js");
 
 module.exports = {
   type: "app",
