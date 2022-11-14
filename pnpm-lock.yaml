@@ -2576,6 +2576,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/swapi:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/switchboard:
     specifiers: {}
 
