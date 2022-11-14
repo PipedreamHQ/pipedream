@@ -1,7 +1,7 @@
 const LAST_RESOURCE_PROPERTY = "lastResourceProperty";
-const LAST_ADD_TIME = "lastAddTime";
-const WEBHOOK_ID = "webhookId";
-const DEFAULT_PAGE_LIMIT = 500; // max is 500 per page
+const FILTER_ID = "filterId";
+const FIELD_ID = "fieldId";
+const DEFAULT_PAGE_LIMIT = 20; // max is 500 per page
 const DEFAULT_MAX_ITEMS = DEFAULT_PAGE_LIMIT * 4;
 
 const STATUS_OPTIONS = [
@@ -45,6 +45,15 @@ const EVENT_OBJECT = {
   PRODUCT: "product",
   STAGE: "stage",
   USER: "user",
+};
+
+const FILTER_TYPE = {
+  DEALS: "deals",
+  LEADS: "leads",
+  ORG: "org",
+  PEOPLE: "people",
+  PRODUCTS: "products",
+  ACTIVITY: "activity",
 };
 
 const EVENT_ACTION = {
@@ -142,6 +151,8 @@ const API = {
   ],
   FILTERS: [
     "FiltersApi",
+    "AddFilterRequest",
+    "UpdateFilterRequest",
   ],
   FILES: [
     "FilesApi",
@@ -173,17 +184,24 @@ const API = {
   ],
 };
 
+const FIELD = {
+  ADD_TIME: "add_time",
+  UPDATE_TIME: "update_time",
+};
+
 export default {
   STATUS_OPTIONS,
   FIELD_OPTIONS,
   VISIBLE_TO_OPTIONS,
   INCLUDE_FIELDS_OPTIONS,
-  WEBHOOK_ID,
   LAST_RESOURCE_PROPERTY,
-  LAST_ADD_TIME,
+  FILTER_ID,
+  FIELD_ID,
   EVENT_OBJECT,
   EVENT_ACTION,
   API,
   DEFAULT_PAGE_LIMIT,
   DEFAULT_MAX_ITEMS,
+  FIELD,
+  FILTER_TYPE,
 };

@@ -1,27 +1,30 @@
-import common from "../common/webhook.mjs";
+import common from "../common/base.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "pipedrive-new-deal",
-  name: "New Deal (Instant)",
+  name: "New Deal",
   description: "Emit new event when a new deal is created.",
-  // version: "0.0.2",
-  version: "0.0.9",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getFieldsFn() {
+      return this.app.getDealFields;
+    },
     getResourceFn() {
       return this.app.getDeals;
     },
     getResourceFnArgs() {
       return {
-        sort: "add_time DESC, id DESC",
+        filter_id: this.getFilterId(),
+        sort: `${this.getFieldKey()} DESC, id DESC`,
       };
     },
-    getResourceProperty() {
-      return "add_time";
+    getFieldKey() {
+      return constants.FIELD.ADD_TIME;
     },
     getEventObject() {
       return constants.EVENT_OBJECT.DEAL;
@@ -31,6 +34,18 @@ export default {
     },
     getTimestamp(resource) {
       return Date.parse(resource.add_time);
+    },
+    getFilterArgs({
+      fieldId, value = "3_months_ago",
+    } = {}) {
+      return {
+        type: constants.FILTER_TYPE.DEALS,
+        name: "Pipedream: Deals created later than specific value",
+        conditions: this.getConditions({
+          fieldId,
+          value,
+        }),
+      };
     },
   },
 };
