@@ -2645,7 +2645,7 @@ importers:
 
   components/tick:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2663,7 +2663,7 @@ importers:
 
   components/timecamp:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       dayjs: ^1.11.5
     dependencies:
       '@pipedream/platform': 1.2.0
@@ -2674,11 +2674,13 @@ importers:
 
   components/todoist:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       json-2-csv: ^3.15.1
       querystring: ^0.2.1
       tmp-promise: ^3.0.3
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.2.0
       json-2-csv: 3.17.1
       querystring: 0.2.1
       tmp-promise: 3.0.3
@@ -2712,7 +2714,7 @@ importers:
 
   components/totango:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2755,9 +2757,11 @@ importers:
 
   components/twilio:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       phone: ^3.1.29
       twilio: ^3.54.2
     dependencies:
+      '@pipedream/platform': 1.2.0
       phone: 3.1.29
       twilio: 3.79.0
 
@@ -2769,7 +2773,7 @@ importers:
 
   components/twitch:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
       axios: ^0.27.2
       crypto: ^1.0.1
       qs: ^6.10.5
@@ -2794,16 +2798,21 @@ importers:
 
   components/twitter:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
       moment: ^2.29.1
       querystring: ^0.2.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       axios: 0.21.4
       moment: 2.29.4
       querystring: 0.2.1
 
   components/twitter_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/typebot:
     specifiers: {}
@@ -2867,10 +2876,10 @@ importers:
 
   components/vbout:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       moment: 2.29.4
 
   components/vectera:
@@ -2884,7 +2893,7 @@ importers:
 
   components/vercel:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -2922,7 +2931,7 @@ importers:
 
   components/visitor_queue:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
       moment: ^2.29.4
     dependencies:
       '@pipedream/platform': 1.2.0
@@ -2985,7 +2994,7 @@ importers:
 
   components/webinargeek:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3017,15 +3026,15 @@ importers:
 
   components/wistia:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/withings:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/wix:
     specifiers: {}
@@ -3060,7 +3069,7 @@ importers:
 
   components/workast:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       '@pipedream/types': ^0.1.4
     dependencies:
       '@pipedream/platform': 1.2.0

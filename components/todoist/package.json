@@ -11,10 +11,11 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "json-2-csv": "^3.15.1",
     "querystring": "^0.2.1",
-    "uuid": "^8.3.2",
     "tmp-promise": "^3.0.3",
-    "json-2-csv": "^3.15.1"
+    "uuid": "^8.3.2"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

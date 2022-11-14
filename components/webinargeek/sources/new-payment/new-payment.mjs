@@ -1,8 +1,9 @@
 import webinargeek from "../../webinargeek.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Payment",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "webinargeek-new-payment",
   description: "Emit new event on each new payment.",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -1,11 +1,12 @@
 import twitter from "../../twitter.app.mjs";
 import moment from "moment";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "twitter-search-mentions",
   name: "Search Mentions",
   description: "Emit new Tweets that match your search criteria",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     db: "$.service.db",
@@ -75,7 +76,7 @@ export default {
       description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -122,7 +123,7 @@ export default {
 
     // emit array of tweet objects
     if (tweets.length > 0) {
-      tweets.sort(function(a, b) {return a.id - b.id;});
+      tweets.sort(function (a, b) { return a.id - b.id; });
 
       tweets.forEach((tweet) => {
         this.$emit(tweet, {

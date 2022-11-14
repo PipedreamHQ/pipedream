@@ -113,7 +113,7 @@ module.exports = {
         excludeOrganic
           ? undefined
           : "organic_metrics",
-      ].filter(i => i);
+      ].filter((i) => i);
       const params = {
         "ids": tweetIds,
         "expansions": [
