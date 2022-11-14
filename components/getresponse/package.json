@@ -1,17 +1,17 @@
 {
   "name": "@pipedream/getresponse",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Getresponse Components",
   "main": "getresponse.app.mjs",
   "keywords": [
-		"pipedream",
-		"getresponse"
+    "pipedream",
+    "getresponse"
   ],
   "homepage": "https://pipedream.com/apps/getresponse",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.0"
   },
   "publishConfig": {
     "access": "public"

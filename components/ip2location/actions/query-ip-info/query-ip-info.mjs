@@ -50,7 +50,7 @@ export default {
       wsPackage,
       addon,
     } = this;
-    var addon_formatted = '';
+    var addon_formatted = "";
     for (let i = 0; i < addon.length; i++) {
       addon_formatted += addon[i] + ",";
     }
