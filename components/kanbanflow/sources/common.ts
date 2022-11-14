@@ -1,6 +1,6 @@
 import kanbanflow from "../app/kanbanflow.app";
 import { SourceHttpRunOptions } from "@pipedream/types";
-import { CreateHookParams, Webhook } from "../common/types";
+import { CreateHookParams, Webhook, WebhookData } from "../common/types";
 
 export default {
   props: {
@@ -12,6 +12,9 @@ export default {
     },
   },
   methods: {
+    getHookFilter() {
+      // filter is optional - if not implemented, returns undefined
+    },
     getHookName() {
       throw new Error("Hook name not defined for this source");
     },
@@ -28,6 +31,7 @@ export default {
         name: `Pipedream: ${this.getHookName()}`,
         callbackUrl: this.http.endpoint,
         events: [{ name: this.getHookType() }],
+        ...this.getHookFilter()
       };
 
       const { webhookId }: Webhook = await this.kanbanflow.createHook(data);
@@ -38,13 +42,23 @@ export default {
       await this.kanbanflow.deleteHook(id);
     },
   },
-  async run({ body, method }: SourceHttpRunOptions) {
+  async run(data: SourceHttpRunOptions) {
     this.http.respond({
       status: 200,
     });
 
-    if (method !== "HEAD") {
-      this.$emit(body);
+    const body = data.body as WebhookData;
+    
+    const id = body.task._id;
+    const summary = this.getSummary(body);
+    const ts = new Date(body.timestamp).valueOf();
+
+    if (data.method !== "HEAD") {
+      this.$emit(body, {
+        id,
+        summary,
+        ts,
+    });
     }
   },
 };

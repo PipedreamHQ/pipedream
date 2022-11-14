@@ -57,3 +57,12 @@ export interface User {
 export interface Webhook {
   webhookId: string;
 }
+
+export type WebhookData = {
+  timestamp: string;
+  userFullName: string;
+  task: {
+    _id: string;
+    name: string;
+  }
+}
