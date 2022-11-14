@@ -4,14 +4,14 @@
   "description": "Pipedream Zoho_desk Components",
   "main": "zoho_desk.app.mjs",
   "keywords": [
-		"pipedream",
-		"zoho_desk"
+    "pipedream",
+    "zoho_desk"
   ],
   "homepage": "https://pipedream.com/apps/zoho_desk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.0"
   },
   "publishConfig": {
     "access": "public"

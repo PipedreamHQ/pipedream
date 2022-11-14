@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "ynab": "^1.28.0"
   }
 }
