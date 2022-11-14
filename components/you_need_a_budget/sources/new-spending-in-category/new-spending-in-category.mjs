@@ -2,10 +2,10 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "you_need_a_budget-spending-in-category",
+  key: "you_need_a_budget-new-spending-in-category",
   name: "New Spending In Category",
   description: "Emit new event for every spending in a category. [See the docs](https://api.youneedabudget.com/v1#/Transactions/getTransactionsByCategory)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -3080,7 +3080,7 @@ importers:
 
   components/woxo:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3092,25 +3092,25 @@ importers:
 
   components/xero_accounting_api:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/xperiencify:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/yahoo_fantasy_sports:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/yanado:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3127,13 +3127,15 @@ importers:
 
   components/you_need_a_budget:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       ynab: ^1.28.0
     dependencies:
+      '@pipedream/platform': 1.2.0
       ynab: 1.29.0
 
   components/youcanbook_me:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3174,28 +3176,31 @@ importers:
 
   components/zenler:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/zerotier:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/zoho_creator:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
       async-retry: ^1.3.3
       dateformat: ^5.0.2
       lodash.get: ^4.4.2
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
       async-retry: 1.3.3
       dateformat: 5.0.3
       lodash.get: 4.4.2
 
   components/zoho_crm:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
       crypto: ^1.0.1
       lodash.sortby: ^4.7.0
     dependencies:
@@ -3205,25 +3210,25 @@ importers:
 
   components/zoho_desk:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/zoho_inventory:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
   components/zoho_mail:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
 
   components/zoho_projects:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3232,7 +3237,7 @@ importers:
 
   components/zonka_feedback:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -3244,8 +3249,10 @@ importers:
 
   components/zoom_admin:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.2.0
       uuid: 8.3.2
 
   components/zulip:
