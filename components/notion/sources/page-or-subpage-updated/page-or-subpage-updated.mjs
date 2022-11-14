@@ -6,7 +6,7 @@ export default {
   key: "notion-page-or-subpage-updated",
   name: "Page or Subpage Updated", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page or one of its sub-pages is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
