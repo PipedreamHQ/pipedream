@@ -1,9 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  Board, CreateHookParams, CreateTaskParams, HttpRequestParams, Task,
+  Board, CreateHookParams, CreateTaskParams, HttpRequestParams, OptionsObject, Task, User, Webhook,
 } from "../common/types";
-import { User } from "@sentry/node";
 import { getOptionsDescription } from "../common/constants";
 
 export default defineApp({
@@ -14,7 +13,7 @@ export default defineApp({
       label: "Column",
       description: getOptionsDescription("Column"),
       type: "string",
-      async options() {
+      async options(): Promise<OptionsObject> {
         return this.getBoardItems("columns");
       },
     },
@@ -22,7 +21,7 @@ export default defineApp({
       label: "Swimlane",
       description: getOptionsDescription("Swimlane"),
       type: "string",
-      async options() {
+      async options(): Promise<OptionsObject> {
         return this.getBoardItems("swimlanes");
       },
     },
@@ -107,14 +106,14 @@ export default defineApp({
         ...args,
       });
     },
-    async createHook(data: CreateHookParams) {
+    async createHook(data: CreateHookParams): Promise<Webhook> {
       return this._httpRequest({
         endpoint: "/webhooks",
         method: "POST",
         data,
       });
     },
-    async deleteHook(id: string) {
+    async deleteHook(id: string): Promise<object> {
       return this._httpRequest({
         endpoint: `/webhooks/${id}`,
         method: "DELETE",

@@ -1,5 +1,10 @@
 import { Pipedream } from "@pipedream/types";
 
+export interface OptionsObject {
+  label: string;
+  value: string;
+}
+
 export interface HttpRequestParams {
   endpoint: string;
   $?: Pipedream;
