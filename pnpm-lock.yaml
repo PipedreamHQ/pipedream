@@ -528,10 +528,10 @@ importers:
 
   components/confection:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
       axios: ^0.23.0
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
       axios: 0.23.0
 
   components/congress_gov:
@@ -596,16 +596,19 @@ importers:
       '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
+  components/dataset:
+    specifiers: {}
+
   components/datumbox:
     specifiers: {}
 
   components/dear:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
       lodash-es: ^4.17.21
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
       lodash-es: 4.17.21
       uuid: 8.3.2
 
@@ -626,10 +629,10 @@ importers:
 
   components/demio:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.0
       dayjs: ^1.11.2
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.0
       dayjs: 1.11.3
 
   components/deployhq:
@@ -682,8 +685,10 @@ importers:
 
   components/discord_bot:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       '@pipedreamhq/platform': 0.8.1
 
   components/discord_webhook:
@@ -710,7 +715,7 @@ importers:
 
   components/docusign:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -747,14 +752,17 @@ importers:
     specifiers: {}
 
   components/ecwid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/edapp:
     specifiers: {}
 
   components/elmah_io:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
 
@@ -762,7 +770,10 @@ importers:
     specifiers: {}
 
   components/emailoctopus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/enedis:
     specifiers: {}
@@ -1719,6 +1730,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
+
+  components/nightfall_ai:
+    specifiers: {}
 
   components/ninox:
     specifiers:

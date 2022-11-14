@@ -4,8 +4,9 @@ import confection from "../../confection.app.mjs";
 export default {
   key: "confection-new-field-value",
   name: "New Field Value",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   description:
     "Emit new event when the UUID is significant enough to be classified as a lead. You define the field of significance and if a UUID gets a value for this field, it will trigger.",
   props: {
