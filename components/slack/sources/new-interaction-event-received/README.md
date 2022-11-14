@@ -2,17 +2,17 @@
 
 Slack messages can contain interactive elements like buttons, dropdowns, radio buttons, and more. This source subscribes to interactive events, like when a button is clicked in a message.
 
-![CleanShot 2022-11-10 at 10.17.17@2x.png](new-interaction-event-received%209ff85784a4e2447fa2d74f6d7d42a34e/CleanShot_2022-11-10_at_10.17.172x.png)
+![CleanShot 2022-11-10 at 10.17.17@2x.png](screenshots/CleanShot_2022-11-10_at_10.17.172x.png)
 
 Then this source will be triggered when you or another Slack user in your workspace clicks a button, selects an option or fills out a form.
 
-![CleanShot 2022-11-10 at 10.19.15@2x.png](new-interaction-event-received%209ff85784a4e2447fa2d74f6d7d42a34e/CleanShot_2022-11-10_at_10.19.152x.png)
+![CleanShot 2022-11-10 at 10.19.15@2x.png](screenshots/CleanShot_2022-11-10_at_10.19.152x.png)
 
 With this trigger, you can build workflows that perform some work with other APIs or services, and then reply back to the original message.
 
 # Getting Started
 
-[https://youtu.be/RZ3XQENkjeg](https://youtu.be/RZ3XQENkjeg)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RZ3XQENkjeg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 What this short video to learn how to use this in a workflow, or follow the guide below.
 
@@ -24,7 +24,7 @@ If you have already sent a message containing an element, skip to **************
 
 The easiest way is to send yourself a message using the ****************************Slack - Send Message Using Block Kit**************************** action:
 
-![CleanShot 2022-11-10 at 10.25.52@2x.png](new-interaction-event-received%209ff85784a4e2447fa2d74f6d7d42a34e/CleanShot_2022-11-10_at_10.25.522x.png)
+![CleanShot 2022-11-10 at 10.25.52@2x.png](screenshots/CleanShot_2022-11-10_at_10.25.522x.png)
 
 Then select a **************Channel************** you’d like to send the message to, and use the **************[Block Kit Builder](https://app.slack.com/block-kit-builder/)************** to build a message, or just copy the example button blocks below:
 
@@ -50,7 +50,7 @@ Then select a **************Channel************** you’d like to send the messa
 
 Your ******************Slack - Send Message Using Block Kit****************** should look like this:
 
-![CleanShot 2022-11-10 at 10.29.55@2x.png](new-interaction-event-received%209ff85784a4e2447fa2d74f6d7d42a34e/CleanShot_2022-11-10_at_10.29.552x.png)
+![CleanShot 2022-11-10 at 10.29.55@2x.png](screenshots/CleanShot_2022-11-10_at_10.29.552x.png)
 
 ## Configuring the source
 
