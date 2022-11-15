@@ -49,7 +49,6 @@ export default {
     }
     const resp = await this.app.sendTeamChatMessage({
       $,
-      channelId: this.channelId,
       data: {
         bot: true,
         threadId: this.threadId,

@@ -56,7 +56,6 @@ export default {
   async run ({ $ }) {
     const resp = await this.app.logVoiceCall({
       $,
-      channelId: this.channelId,
       data: {
         channel_id: this.channelId,
         phone: this.recepientPhoneNumber,
