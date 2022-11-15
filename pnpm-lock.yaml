@@ -562,7 +562,10 @@ importers:
     specifiers: {}
 
   components/curated:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/customer_io:
     specifiers:
@@ -595,6 +598,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       uuid: 8.3.2
+
+  components/dataset:
+    specifiers: {}
 
   components/datumbox:
     specifiers: {}
@@ -1719,6 +1725,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
+
+  components/nightfall_ai:
+    specifiers: {}
 
   components/ninox:
     specifiers:
