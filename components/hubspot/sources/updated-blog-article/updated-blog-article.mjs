@@ -2,7 +2,7 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-update-blog-article",
+  key: "hubspot-updated-blog-article",
   name: "Updated Blog Posts",
   description: "Emit new event for each updated blog post.",
   version: "0.0.4",

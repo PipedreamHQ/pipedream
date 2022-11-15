@@ -2,7 +2,7 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-social-media-message",
+  key: "hubspot-new-social-media-message",
   name: "New Social Media Message",
   description: `Emit new event when a message is posted from HubSpot to the specified
     social media channel`,
