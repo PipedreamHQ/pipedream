@@ -38,7 +38,7 @@ export default {
     data: {
       label: "Data",
       type: "string[]",
-      description: "A list of up to 500 data elements to classify. Each element must be a string with the text.",
+      description: "A list of up to 500 data elements. Each element must be a string with the text.",
     },
     dataObjectArray: {
       label: "Data Array",
