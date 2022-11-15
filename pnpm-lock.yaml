@@ -596,6 +596,9 @@ importers:
       '@pipedream/platform': 1.1.1
       uuid: 8.3.2
 
+  components/dataset:
+    specifiers: {}
+
   components/datumbox:
     specifiers: {}
 
@@ -1631,6 +1634,12 @@ importers:
     dependencies:
       mongodb: 4.8.0
 
+  components/monkeylearn:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/mozilla_observatory:
     specifiers: {}
 
@@ -1719,6 +1728,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
+
+  components/nightfall_ai:
+    specifiers: {}
 
   components/ninox:
     specifiers:
