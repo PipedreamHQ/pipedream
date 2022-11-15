@@ -2,7 +2,7 @@ import databox from "../../databox.app.mjs";
 
 export default {
   name: "Send Custom Data",
-  version: "0.0.1",
+  version: "0.0.9",
   key: "databox-send-custom-data",
   description: "Sends custom data. [See docs here](https://developers.databox.com/send-data/)",
   type: "action",
@@ -17,13 +17,14 @@ export default {
     value: {
       label: "Value",
       description: "The value to insert on metric",
-      type: "string",
+      type: "integer",
     },
   },
   async run({ $ }) {
     const response = await this.databox.sendCustomData({
       key: this.metricKey,
       value: this.value,
+      date: new Date(),
     });
 
     if (response.status !== "OK") {

@@ -13,7 +13,7 @@ export default {
 
         return metrics.map((metric) => ({
           label: metric.label,
-          value: metric.key,
+          value: metric.key.split("|")[1],
         }));
       },
     },
