@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -20,10 +21,29 @@ export default {
         return this.listExtractorOptions(prevContext);
       },
     },
+    inputDuplicatesStrategy: {
+      label: "Input Duplicates Strategy",
+      type: "string",
+      description: "Indicates what to do with duplicate texts in this request.",
+      options: constants.INPUT_DUPLICATES_STRATEGY_OPTS,
+      optional: true,
+    },
+    existingDuplicatesStrategy: {
+      label: "Existing Duplicates Strategy",
+      type: "string",
+      description: "Indicates what to do with texts of this request that already exist in the model.",
+      options: constants.EXISTING_DUPLICATES_STRATEGY_OPTS,
+      optional: true,
+    },
     data: {
       label: "Data",
       type: "string[]",
       description: "A list of up to 500 data elements to classify. Each element must be a string with the text.",
+    },
+    dataObjectArray: {
+      label: "Data Array",
+      type: "string[]",
+      description: "A list of **data objects**.\n\n**Example:** `[{ \"text\": \"first text\", \"tags\": [\"tag_id_1\", \"tag_name\"], \"markers\": [\"any_marker\", \"other_marker\"] }]`",
     },
     productionModel: {
       label: "Production Model",
@@ -109,6 +129,13 @@ export default {
           data,
           production_model: productionModel,
         }
+      }));
+    },
+    uploadClassifierTrainingData($, classifierId, data) {
+      return axios(($ || this), this._getRequestParams({
+        method: "POST",
+        path: `/classifiers/${classifierId}/data/`,
+        data,
       }));
     },
     extractText($, extractorId, data, productionModel) {
