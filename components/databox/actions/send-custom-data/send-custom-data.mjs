@@ -8,36 +8,29 @@ export default {
   type: "action",
   props: {
     databox,
-    propDefinition: [
-      databox,
-      "metricKey"
-    ],
-    description: {
-      label: "Description",
-      description: "The description of the company",
-      type: "string",
-      optional: true,
+    metricKey: {
+      propDefinition: [
+        databox,
+        "metricKey",
+      ],
     },
-    industry: {
-      label: "Industry",
-      description: "The industry of the company. E.g. `Brand Agency`",
+    value: {
+      label: "Value",
+      description: "The value to insert on metric",
       type: "string",
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.databox.createCompany({
-      $,
-      data: {
-        name: this.name,
-        description: this.description,
-        industry: this.industry,
-      },
+    const response = await this.databox.sendCustomData({
+      key: this.metricKey,
+      value: this.value,
     });
 
-    if (response) {
-      $.export("$summary", `Successfully created company with id ${response.id}`);
+    if (response.status !== "OK") {
+      throw new Error(response.message);
     }
+
+    $.export("$summary", `Successfully pushed data with id ${response.id}`);
 
     return response;
   },
