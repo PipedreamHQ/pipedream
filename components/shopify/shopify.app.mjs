@@ -322,14 +322,6 @@ export default {
     },
   },
   methods: {
-    _getBaseURL() {
-      return `https://${this.$auth.shop_id}.myshopify.com/admin/api/2020-10`;
-    },
-    _getAuthHeader() {
-      return {
-        "x-shopify-access-token": this.$auth.oauth_access_token,
-      };
-    },
     _monthAgo() {
       const now = new Date();
       const monthAgo = new Date(now.getTime());

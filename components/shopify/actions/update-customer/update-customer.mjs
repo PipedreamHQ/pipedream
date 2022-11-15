@@ -4,7 +4,7 @@ export default {
   key: "shopify-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[put]/admin/api/2022-01/customers/{customer_id}.json)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,
