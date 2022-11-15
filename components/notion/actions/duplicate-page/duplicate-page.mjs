@@ -37,16 +37,7 @@ export default {
     const block = await this.notion.retrieveBlock(this.pageId);
     const blockChildren = await this.notion.retrieveBlockChildren(block);
 
-    const children = [];
-    for (const block of blockChildren) {
-      if (!(Object.keys(block[block.type])?.length > 0)) {
-        continue;
-      }
-
-      const formattedChildBlocks = await this.formatChildBlocks(block);
-      const child = this.createChild(block, formattedChildBlocks);
-      children.push(child);
-    }
+    const children = await this.getFormattedBlocks(blockChildren);
 
     const page = {
       parent: {

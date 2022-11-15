@@ -61,16 +61,7 @@ export default {
       }
     }
 
-    const blocks = [];
-    for (const block of children) {
-      if (!(Object.keys(block[block.type])?.length > 0)) {
-        continue;
-      }
-
-      const formattedChildBlocks = await this.formatChildBlocks(block);
-      const child = this.createChild(block, formattedChildBlocks);
-      blocks.push(child);
-    }
+    const blocks = await this.getFormattedBlocks(children);
 
     // add blocks from markup
     if (this.markupContents?.length > 0) {

@@ -219,5 +219,18 @@ export default {
       }
       return child;
     },
+    async getFormattedBlocks(children) {
+      const blocks = [];
+      for (const block of children) {
+        if (!(Object.keys(block[block.type])?.length > 0)) {
+          continue;
+        }
+
+        const formattedChildBlocks = await this.formatChildBlocks(block);
+        const child = this.createChild(block, formattedChildBlocks);
+        blocks.push(child);
+      }
+      return blocks;
+    },
   },
 };
