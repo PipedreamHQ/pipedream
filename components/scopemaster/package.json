@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scopemaster",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ScopeMaster Components",
   "main": "dist/app/scopemaster.app.mjs",
   "keywords": [

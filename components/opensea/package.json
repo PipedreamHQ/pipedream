@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/opensea",
+  "version": "0.0.1",
+  "description": "Pipedream Opensea Components",
+  "main": "opensea.app.mjs",
+  "keywords": [
+    "pipedream",
+    "opensea"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/opensea",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

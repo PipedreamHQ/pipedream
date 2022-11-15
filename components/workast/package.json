@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workast",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Workast Components",
   "main": "dist/app/workast.app.mjs",
   "keywords": [
@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.0",
+    "@pipedream/platform": "^1.2.0",
     "@pipedream/types": "^0.1.4"
   }
 }

@@ -8,7 +8,7 @@ export default {
     "Emit new event when a node left a network. [See docs here](https://docs.zerotier.com/central/v1/#operation/getNetworkMemberList)",
   type: "source",
   dedupe: "unique",
-  version: "0.0.4",
+  version: "0.0.5",
   methods: {
     _setNodes(nodes) {
       return this.db.set("nodes", nodes);

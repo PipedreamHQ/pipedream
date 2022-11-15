@@ -2,12 +2,13 @@ import crypto from "crypto";
 import difference from "lodash/difference.js";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import { sanitizedArray } from "../../utils.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
@@ -24,7 +25,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -117,7 +118,7 @@ export default {
           if (
             panelist.id in oldPanelists &&
             this.hash(JSON.stringify(panelist)) !==
-              this.hash(JSON.stringify(oldPanelists[panelist.id]))
+            this.hash(JSON.stringify(oldPanelists[panelist.id]))
           ) {
             eventType = "panelist.changed";
             this.$emit(

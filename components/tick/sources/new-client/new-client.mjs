@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Client",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "tick-new-client",
   description: "Emit new event on each created client.",
   type: "source",
