@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/vision6",
+  "version": "0.0.1",
+  "description": "Pipedream Vision6 Components",
+  "main": "vision6.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vision6"
+  ],
+  "homepage": "https://pipedream.com/apps/vision6",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "lodash.pickby": "^4.6.0"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/simplehash",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SimpleHash Components",
   "main": "dist/app/simplehash.app.mjs",
   "keywords": [

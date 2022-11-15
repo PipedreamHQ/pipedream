@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Customer Reply",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "supportbee-new-customer-reply",
   description: "Emit new event on each new customer reply a ticket.",
   type: "source",

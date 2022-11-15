@@ -34,7 +34,7 @@ export default {
   name: "New Paid Order",
   type: "source",
   description: "Emit new event each time a new order is paid.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

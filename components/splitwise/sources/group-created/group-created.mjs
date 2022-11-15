@@ -4,7 +4,7 @@ export default {
   key: "splitwise-group-created",
   name: "Group Created",
   description: "Emit new event for every group created. [See docs here](https://dev.splitwise.com/#tag/groups/paths/~1get_groups/get)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: base.props,

@@ -1,10 +1,11 @@
 import shortApp from "../../short.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "short-new-link-created",
   name: "New event for each link created.",
   description: "Emit new event when a link is created.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,7 +15,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the links.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     domainId: {

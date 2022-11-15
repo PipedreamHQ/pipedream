@@ -1,10 +1,11 @@
 import zohoMail from "../../zoho_mail.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "zoho_mail-new-email",
   name: "New Email",
   description: "Emit new event each time a new email is received",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +16,7 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Zoho API on this schedule",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     account: {

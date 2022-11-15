@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-unpin-message",
   name: "Unpin a Message",
   description: "Unpins a message. [See the docs](https://core.telegram.org/bots/api#unpinchatmessage) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     telegramBotApi,

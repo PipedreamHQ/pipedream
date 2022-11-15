@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/propeller",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Propeller Components",
   "main": "dist/app/propeller.app.mjs",
   "keywords": [
