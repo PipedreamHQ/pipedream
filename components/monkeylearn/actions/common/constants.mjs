@@ -23,4 +23,4 @@ export default {
       value: "ignore",
     },
   ],
-}
+};

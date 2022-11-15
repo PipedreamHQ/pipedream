@@ -77,7 +77,7 @@ export default {
           path: "/classifiers/",
           params: {
             page,
-          }
+          },
         }));
         return {
           options: classifiers.map((classifier) => ({
@@ -87,7 +87,7 @@ export default {
           context: {
             page,
           },
-        }
+        };
       } catch {
         return {
           options: [],
@@ -103,7 +103,7 @@ export default {
           path: "/extractors/",
           params: {
             page,
-          }
+          },
         }));
         return {
           options: extractors.map((extractor) => ({
@@ -113,7 +113,7 @@ export default {
           context: {
             page,
           },
-        }
+        };
       } catch {
         return {
           options: [],
@@ -128,7 +128,7 @@ export default {
         data: {
           data,
           production_model: productionModel,
-        }
+        },
       }));
     },
     uploadClassifierTrainingData($, classifierId, data) {
@@ -145,7 +145,7 @@ export default {
         data: {
           data,
           production_model: productionModel,
-        }
+        },
       }));
     },
   },

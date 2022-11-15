@@ -50,7 +50,7 @@ export default {
       data,
       input_duplicates_strategy: inputDuplicatesStrategy,
       existing_duplicates_strategy: existingDuplicatesStrategy,
-    }
+    };
     const response = await this.app.uploadClassifierTrainingData($, classifierId, params);
     $.export("$summary", "Successfully uploaded training data");
     return response;
