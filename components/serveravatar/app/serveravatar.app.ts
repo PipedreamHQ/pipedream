@@ -32,7 +32,7 @@ export default defineApp({
     async listTeams() {
       const teamsResponse = await axios(this, this._getRequestParams({
         method: "GET",
-        path: "/teams"
+        path: "/teams",
       }));
       return teamsResponse.teams;
     },
@@ -68,7 +68,9 @@ export default defineApp({
       if (!serverId) {
         return [];
       }
-      const page = prevContext.page ? prevContext.page + 1 : 1;
+      const page = prevContext.page
+        ? prevContext.page + 1
+        : 1;
       const applications = await this.listApplications(serverId, page);
       const options = applications.data.map((application: any) => ({
         label: `${application.name} - ${application.framework}`,
@@ -79,7 +81,7 @@ export default defineApp({
         context: {
           page: applications.current_page,
         },
-      }
-    }
+      };
+    },
   },
 });

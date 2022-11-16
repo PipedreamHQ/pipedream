@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sportsdata",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SportsData Components",
   "main": "dist/app/sportsdata.app.mjs",
   "keywords": [
