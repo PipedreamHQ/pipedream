@@ -1,5 +1,5 @@
 import shopify from "../../shopify.app.mjs";
-import { toSingleLineString } from "../commons.mjs";
+import { toSingleLineString } from "../common/common.mjs";
 
 export default {
   key: "shopify-create-order",
@@ -8,7 +8,7 @@ export default {
     For full order object details [see the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)
     or [see examples](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
   `),
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,

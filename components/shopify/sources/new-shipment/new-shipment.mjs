@@ -6,7 +6,7 @@ export default {
   name: "New Shipment",
   type: "source",
   description: "Emit new event for each new fulfillment event for a store.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     db: "$.service.db",
