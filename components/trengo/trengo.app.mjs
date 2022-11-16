@@ -41,7 +41,7 @@ export default {
     callDirection: {
       type: "string",
       label: "Direction",
-      description: "he direction of the phone call.",
+      description: "The direction of the phone call.",
       options: [
         "INBOUND",
         "OUTBOUND",

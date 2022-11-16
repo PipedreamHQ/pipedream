@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-new-inbound-message",
   name: "New Inbound Message Event",
-  description: "Emit new events when an inbound message sent. [See the docs here](https://developers.trengo.com/docs/webhooks)",
+  description: "Emit new events when an inbound message received. [See the docs here](https://developers.trengo.com/docs/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
