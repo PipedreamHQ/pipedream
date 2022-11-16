@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Comment",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "supportbee-new-comment",
   description: "Emit new event on each new comment.",
   type: "source",

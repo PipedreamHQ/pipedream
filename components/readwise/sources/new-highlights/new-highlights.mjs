@@ -1,10 +1,11 @@
 import readwise from "../../readwise.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "readwise-new-highlights",
   name: "New Highlights",
   description: "Emit new Highlight",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +16,7 @@ export default {
       description: "Pipedream will poll the Readwise API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     bookId: {

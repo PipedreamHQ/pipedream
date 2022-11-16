@@ -1,18 +1,19 @@
 import shopify from "../../shopify.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "shopify-new-customer",
   name: "New Customer",
   type: "source",
   description: "Emit new event for each new customer added to a store.",
-  version: "0.0.5",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,

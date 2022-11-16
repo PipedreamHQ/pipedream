@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Favorited item",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "pocket-new-favorited-item",
   description: "Emit new event for each favorited item.",
   type: "source",

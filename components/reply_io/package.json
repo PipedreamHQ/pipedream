@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reply_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Reply.io Components",
   "main": "dist/app/reply_io.app.mjs",
   "keywords": [

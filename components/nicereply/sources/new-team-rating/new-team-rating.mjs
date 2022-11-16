@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Team Rating",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "nicereply-new-team-rating",
   description: "Emit new event on each new team rating.",
   type: "source",

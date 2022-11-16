@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Payment",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "sendowl-new-payment",
   description: "Emit new event for each payment.",
   type: "source",

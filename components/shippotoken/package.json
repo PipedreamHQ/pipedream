@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shippotoken",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ShippoToken Components",
   "main": "dist/app/shippotoken.app.mjs",
   "keywords": [

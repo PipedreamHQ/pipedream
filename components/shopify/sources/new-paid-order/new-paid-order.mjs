@@ -1,12 +1,6 @@
 import shopify from "../../shopify.app.mjs";
 import { dateToISOStringWithoutMs } from "../common/utils.mjs";
-
-/**
- * The component's run timer.
- * @constant {number}
- * @default 300 (5 minutes)
- */
-const DEFAULT_TIMER_INTERVAL_SECONDS = 60 * 5;
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 /**
  * The minimum time interval from Order Transaction to Order update where the
@@ -34,14 +28,14 @@ export default {
   name: "New Paid Order",
   type: "source",
   description: "Emit new event each time a new order is paid.",
-  version: "0.0.4",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: DEFAULT_TIMER_INTERVAL_SECONDS,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,
@@ -63,7 +57,7 @@ export default {
     _getAllowedTransactToOrderUpdateMs() {
       return Math.max(
         MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS,
-        2 * DEFAULT_TIMER_INTERVAL_SECONDS * 1000,
+        2 * DEFAULT_POLLING_SOURCE_TIMER_INTERVAL * 1000,
       );
     },
     /**

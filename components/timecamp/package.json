@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timecamp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream TimeCamp Components",
   "main": "timecamp.app.mjs",
   "keywords": [
@@ -15,7 +15,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.0",
+    "@pipedream/platform": "^1.2.0",
     "dayjs": "^1.11.5"
   }
 }
