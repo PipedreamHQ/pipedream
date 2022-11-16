@@ -69,7 +69,6 @@ export default defineSource({
         )?.name;
       }
 
-      delete newData.changedProperties;
       return newData;
     },
   },

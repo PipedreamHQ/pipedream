@@ -64,7 +64,7 @@ export interface Webhook {
 }
 
 export type WebhookData = {
-  changedProperties?: WebhookChangedProperty[];
+  changedProperties: WebhookChangedProperty[];
   timestamp: string;
   userFullName: string;
   task: {
