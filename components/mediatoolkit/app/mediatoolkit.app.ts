@@ -1,5 +1,5 @@
 import { defineApp } from "@pipedream/types";
-import { axios } from '@pipedream/platform'
+import { axios } from "@pipedream/platform";
 
 export default defineApp({
   type: "app",
@@ -10,13 +10,13 @@ export default defineApp({
       description: "The organization ID",
       type: "string",
       async options() {
-        const organizations = await this.getOrganizations()
+        const organizations = await this.getOrganizations();
 
-        return organizations.map(organization => ({
+        return organizations.map((organization) => ({
           label: organization.name,
-          value: organization.id
-        }))
-      }
+          value: organization.id,
+        }));
+      },
     },
     groupId: {
       label: "Group ID",
@@ -24,15 +24,15 @@ export default defineApp({
       type: "string",
       async options({ organizationId }) {
         const groups = await this.getGroups({
-          organizationId
-        })
+          organizationId,
+        });
 
-        return groups.map(group => ({
+        return groups.map((group) => ({
           label: group.name,
-          value: group.id
-        }))
-      }
-    }
+          value: group.id,
+        }));
+      },
+    },
   },
   methods: {
     _accessToken() {
@@ -56,26 +56,30 @@ export default defineApp({
     async getOrganizations(args = {}) {
       const response = await this._makeRequest({
         path: "/me/organizations",
-        ...args
-      })
+        ...args,
+      });
 
-      return response?.data?.organizations ?? []
+      return response?.data?.organizations ?? [];
     },
-    async getGroups({ organizationId, ...args }) {
+    async getGroups({
+      organizationId, ...args
+    }) {
       const response = await this._makeRequest({
         path: `/organizations/${organizationId}/groups`,
-        ...args
-      })
+        ...args,
+      });
 
-      return response?.data?.groups ?? []
+      return response?.data?.groups ?? [];
     },
-    async getMentions({ organizationId, groupId, ...args }) {
+    async getMentions({
+      organizationId, groupId, ...args
+    }) {
       const response = await this._makeRequest({
         path: `/organizations/${organizationId}/groups/${groupId}/mentions`,
-        ...args
-      })
+        ...args,
+      });
 
-      return response?.data?.response ?? []
-    }
+      return response?.data?.response ?? [];
+    },
   },
 });

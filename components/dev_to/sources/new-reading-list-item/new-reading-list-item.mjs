@@ -8,7 +8,7 @@ export default {
   description:
     "Emit new event for each new reading list item on your Dev.to account",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     devTo,

@@ -5,7 +5,7 @@ export default {
   key: "vision6-contact-subscribed",
   name: "Contact Subscribed",
   description: "Emit new event when a contact is subscribed",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -7,7 +7,7 @@ export default {
   name: "New Search",
   description: "Emit new event when a new search is created. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/saved-searches.md#get-saved-searches)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

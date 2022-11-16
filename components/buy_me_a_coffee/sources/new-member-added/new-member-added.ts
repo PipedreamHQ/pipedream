@@ -6,7 +6,7 @@ export default defineSource({
   key: "buy_me_a_coffee-new-member-added",
   name: "New Member Added",
   description: "Emit new events when a new member was added. [See the docs](https://developers.buymeacoffee.com/#/apireference?id=members-v1subscriptions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
