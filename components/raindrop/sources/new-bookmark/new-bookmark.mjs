@@ -1,5 +1,6 @@
 import raindrop from "../../raindrop.app.mjs";
 import constants from "../../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "raindrop-new-bookmark",
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     collectionId: {

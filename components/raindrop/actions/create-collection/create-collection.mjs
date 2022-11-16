@@ -71,7 +71,7 @@ export default {
     const response = await this.raindrop.postCollection($, body);
 
     $.export("$summary", `Successfully created collection with ID ${response.item._id}`);
-    console.log("Success!");
+
     return response;
   },
 };
