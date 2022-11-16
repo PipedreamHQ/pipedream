@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   CreateTaskParams, Task,
 } from "../../common/types";
-import { getFlagPropDescription } from "../../common/constants";
+import { getFlagPropDescription } from "../../common/utils";
 
 export default defineAction({
   name: "Create Task",

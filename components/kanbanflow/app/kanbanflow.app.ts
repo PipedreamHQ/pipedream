@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   Board, CreateHookParams, CreateTaskParams, HttpRequestParams, OptionsObject, Task, User, Webhook,
 } from "../common/types";
-import { getOptionsDescription } from "../common/constants";
+import { getOptionsDescription } from "../common/utils";
 
 export default defineApp({
   type: "app",
