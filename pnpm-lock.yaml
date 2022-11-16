@@ -1067,11 +1067,13 @@ importers:
   components/google_calendar:
     specifiers:
       '@googleapis/calendar': ^1.0.2
+      '@pipedream/platform': ^1.2.0
       lodash.get: ^4.4.2
       moment-timezone: ^0.5.33
       uuid: ^8.3.2
     dependencies:
       '@googleapis/calendar': 1.0.4
+      '@pipedream/platform': 1.2.0
       lodash.get: 4.4.2
       moment-timezone: 0.5.34
       uuid: 8.3.2
@@ -1986,9 +1988,11 @@ importers:
     specifiers:
       axios: ^0.21.1
       convert-array-to-csv: ^2.0.0
+      uuidv4: ^6.2.13
     dependencies:
       axios: 0.21.4
       convert-array-to-csv: 2.0.0
+      uuidv4: 6.2.13
 
   components/pipedrive:
     specifiers:
