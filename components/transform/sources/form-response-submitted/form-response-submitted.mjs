@@ -6,7 +6,7 @@ export default {
   name: "New Form Response Submitted",
   description: "Emit new event when a response for a form is submitted",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     transform,
