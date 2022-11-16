@@ -1019,6 +1019,9 @@
     },
     {
       "path": "components/nightfall_ai"
+    },
+    {
+      "path": "components/scrapeninja"
     }
   ]
 }
