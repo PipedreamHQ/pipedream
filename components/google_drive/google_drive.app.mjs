@@ -3,9 +3,12 @@ import drive from "@googleapis/drive";
 import { v4 as uuid } from "uuid";
 import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
-const mimeTypes = Object.keys(mimeDb);
 
-import {
+const mimeTypes = Object.keys(mimeDb);
+import googleMimeTypes from "./actions/google-mime-types.mjs";
+
+import constants from "./constants.mjs";
+const {
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
@@ -15,8 +18,7 @@ import {
   GOOGLE_DRIVE_GRANTEE_ANYONE,
   GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_UPLOAD_TYPES,
-} from "./constants.mjs";
-import googleMimeTypes from "./actions/google-mime-types.mjs";
+} = constants;
 
 import {
   isMyDrive,
@@ -116,7 +118,7 @@ export default {
     updateTypes: {
       type: "string[]",
       label: "Types of updates",
-      description: `The types of updates you want to watch for on these files. 
+      description: `The types of updates you want to watch for on these files.
         [See Google's docs]
         (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
@@ -134,7 +136,7 @@ export default {
       type: "string",
       label: "File URL",
       description: toSingleLineString(`
-        The URL of the file you want to upload to Google Drive. Must specify either **File URL** 
+        The URL of the file you want to upload to Google Drive. Must specify either **File URL**
         or **File Path**.
       `),
       optional: true,
@@ -184,10 +186,10 @@ export default {
       label: "Upload Type",
       description: `The type of upload request to the /upload URI. If you are uploading data
         (using an /upload URI), this field is required. If you are creating a metadata-only file,
-        this field is not required. 
+        this field is not required.
         media - Simple upload. Upload the media only, without any metadata.
         multipart - Multipart upload. Upload both the media and its metadata, in a single request.
-        resumable - Resumable upload. Upload the file in a resumable fashion, using a series of 
+        resumable - Resumable upload. Upload the file in a resumable fashion, using a series of
         at least two requests where the first request includes the metadata.`,
       options: GOOGLE_DRIVE_UPLOAD_TYPES,
     },
@@ -249,7 +251,7 @@ export default {
       label: "Keep Revision Forever",
       description: toSingleLineString(`
         Whether to set the 'keepForever' field in the new head revision. This is only applicable
-        to files with binary content in Google Drive. Only 200 revisions for the file can be kept 
+        to files with binary content in Google Drive. Only 200 revisions for the file can be kept
         forever. If the limit is reached, try deleting pinned revisions.
       `),
       optional: true,
