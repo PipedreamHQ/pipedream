@@ -6,7 +6,7 @@ export default {
   name: "Updated Order", /* eslint-disable-line pipedream/source-name */
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     db: "$.service.db",

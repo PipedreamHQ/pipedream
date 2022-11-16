@@ -4,7 +4,7 @@ export default {
   key: "shopify-search-products",
   name: "Search for Products",
   description: "Search for products by Title. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[get]/admin/api/2022-01/products.json)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     shopify,

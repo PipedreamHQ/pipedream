@@ -6,7 +6,7 @@ export default {
   name: "New Draft Order",
   type: "source",
   description: "Emit new event for each new draft order submitted to a store. [See docs here](https://shopify.dev/api/admin-graphql/2022-04/queries/draftOrders)",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     shopify,

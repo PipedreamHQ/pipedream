@@ -10,7 +10,7 @@ export default {
     You can fill in any number of rules by selecting more than one option in each prop.
     [See docs](https://shopify.dev/api/admin-rest/2021-10/resources/smartcollection#post-smart-collections)
   `),
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     shopify,

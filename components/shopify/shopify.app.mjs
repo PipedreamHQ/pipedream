@@ -3,7 +3,7 @@ import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
 import retry from "async-retry";
 import events from "./sources/common/events.mjs";
-import { toSingleLineString } from "./actions/commons.mjs";
+import { toSingleLineString } from "./actions/common/common.mjs";
 
 export default {
   type: "app",
