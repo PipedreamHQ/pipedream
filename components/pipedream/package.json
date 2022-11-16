@@ -2,7 +2,7 @@
   "name": "@pipedream/pipedream",
   "version": "0.3.6",
   "description": "Pipedream Pipedream Components",
-  "main": "pipedream.app.js",
+  "main": "pipedream.app.mjs",
   "keywords": [
     "pipedream",
     "pipedream"
@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
-    "convert-array-to-csv": "^2.0.0"
+    "convert-array-to-csv": "^2.0.0",
+    "uuidv4": "^6.2.13"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
