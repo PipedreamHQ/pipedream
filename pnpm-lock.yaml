@@ -153,9 +153,9 @@ importers:
 
   components/amara:
     specifiers:
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
 
   components/amazon_ses:
     specifiers:
@@ -196,9 +196,11 @@ importers:
 
   components/amqp:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       rhea-promise: ^2.1.0
       uuid: ^8.3.2
     dependencies:
+      '@pipedream/platform': 1.2.0
       rhea-promise: 2.1.0
       uuid: 8.3.2
 
@@ -225,8 +227,10 @@ importers:
 
   components/asana:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
   components/autoklose:
@@ -237,8 +241,10 @@ importers:
 
   components/aweber:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       '@pipedreamhq/platform': 0.8.1
 
   components/awork:
@@ -263,6 +269,7 @@ importers:
       '@aws-sdk/client-ssm': ^3.58.0
       '@aws-sdk/client-sts': ^3.58.0
       '@pipedream/helper_functions': ^0.3.6
+      '@pipedream/platform': ^1.2.0
       mailparser-mit: ^1.0.0
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.131.0
@@ -279,6 +286,7 @@ importers:
       '@aws-sdk/client-ssm': 3.131.0
       '@aws-sdk/client-sts': 3.131.0
       '@pipedream/helper_functions': 0.3.6
+      '@pipedream/platform': 1.2.0
       mailparser-mit: 1.0.0
 
   components/bandwidth:
@@ -375,7 +383,7 @@ importers:
 
   components/buy_me_a_coffee:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
       '@pipedream/types': ^0.1.4
     dependencies:
       '@pipedream/platform': 1.2.0
