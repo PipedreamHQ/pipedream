@@ -1,4 +1,5 @@
 import monday from "../../monday.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -9,7 +10,7 @@ export default {
       description: "Pipedream will poll the Monday API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

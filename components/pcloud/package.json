@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pcloud",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream pCloud Components",
   "main": "pcloud.app.mjs",
   "keywords": [
@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "async-retry": "^1.3.1",
     "lodash": "^4.17.20",
     "pcloud-sdk-js": "^2.0.0"

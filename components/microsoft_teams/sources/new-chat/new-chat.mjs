@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-chat",
   name: "New Chat",
   description: "Emit new event when a new chat is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
