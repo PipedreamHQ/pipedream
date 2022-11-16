@@ -5,7 +5,7 @@ module.exports = {
   name: "Get Backlinks One Per Domain",
   key: "ahrefs-get-backlinks-one-per-domain",
   description: "Get one backlink with the highest `ahrefs_rank` per referring domain for a target URL or domain (with details for the referring pages including anchor and page title).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ahrefs,

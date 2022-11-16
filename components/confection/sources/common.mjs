@@ -48,7 +48,7 @@ export default {
     },
   },
   async run(event) {
-    const intervalSeconds = event.interval_seconds || 15 * 60;
+    const intervalSeconds = event.interval_seconds || DEFAULT_POLLING_SOURCE_TIMER_INTERVAL;
     const timestamp = event.timestamp || Math.round(Date.now() / 1000);
     const lastTimestamp =
       this.getLastTimestamp() || timestamp - intervalSeconds;

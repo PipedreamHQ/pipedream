@@ -1,10 +1,11 @@
 import googleDrive from "../../google_drive.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +16,7 @@ export default {
       description: "Interval to poll the Google Drive API for new shared drives",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // 30 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

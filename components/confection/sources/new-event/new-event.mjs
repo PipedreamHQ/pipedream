@@ -4,7 +4,7 @@ import confection from "../../confection.app.mjs";
 export default {
   key: "confection-new-event",
   name: "New Event",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   description:
