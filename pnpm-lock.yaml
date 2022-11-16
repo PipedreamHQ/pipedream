@@ -2846,6 +2846,14 @@ importers:
       lodash.pickby: 4.6.0
       mime: 3.0.0
 
+  components/trengo:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      crypto-js: ^4.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
+      crypto-js: 4.1.1
+
   components/triggercmd:
     specifiers: {}
 
