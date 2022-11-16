@@ -452,6 +452,7 @@ export default {
       path,
       fileContent,
       commitMessage,
+      branch = null,
     }) {
       const data = {
         message: commitMessage,
@@ -465,6 +466,9 @@ export default {
         console.log('File exists, overwriting.');
         data.sha = fileExists.sha;
       };
+      if (branch) {
+        data.branch = branch;
+      }
       return this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
         method: "put",

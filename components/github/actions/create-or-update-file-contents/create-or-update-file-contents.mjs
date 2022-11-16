@@ -31,6 +31,13 @@ export default {
       type: "string",
       default: "Pipedream - {{steps.trigger.context.workflow_name}} ({{steps.trigger.context.workflow_id}})",
     },
+    branch: {
+      label: "Branch",
+      description:
+        "The branch name. Defaults to the repository’s default branch (usually `master`)",
+      type: "string",
+      optional: true,
+    },
   },
   async run({ $ }) {
 
@@ -39,9 +46,10 @@ export default {
       path: this.path,
       commitMessage: this.commitMessage,
       fileContent: this.fileContent,
+      branch: this.branch,
     });
 
-    $.export("$summary", `Successfully set contents of ${this.path}.`);
+    $.export("$summary", `Successfully set contents of ${this.path}${this.branch ? ` on branch ${this.branch}` : ""}.`);
 
     return response;
   },
