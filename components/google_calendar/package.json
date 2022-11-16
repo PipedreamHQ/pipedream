@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_calendar",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Google_calendar Components",
   "main": "google_calendar.app.mjs",
   "keywords": [
