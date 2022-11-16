@@ -47,15 +47,18 @@ export default {
     if (!this.recepientPhoneNumber && !this.ticketId) {
       throw new ConfigurationError("Either `Receipent Phone Number` or `Ticket ID` should be set!");
     }
-    if (this.whatsappTemplateParamsKeys.length != this.whatsappTemplateParamsValues.length) {
-      throw new ConfigurationError("Message param keys and values should have the same amount of items!");
-    }
     const params = [];
-    for (let i = 0; i < this.whatsappTemplateParamsKeys.length; i++) {
-      params.push({
-        key: this.whatsappTemplateParamsKeys[i],
-        value: this.whatsappTemplateParamsValues[i],
-      });
+    if (this.whatsappTemplateParamsKeys && this.whatsappTemplateParamsValues) {
+      if (this.whatsappTemplateParamsKeys.length != this.whatsappTemplateParamsValues.length) {
+        throw new ConfigurationError("Message param keys and values should have the same amount of items!");
+      } else {
+        for (let i = 0; i < this.whatsappTemplateParamsKeys.length; i++) {
+          params.push({
+            key: this.whatsappTemplateParamsKeys[i],
+            value: this.whatsappTemplateParamsValues[i],
+          });
+        }
+      }
     }
     const resp = await this.app.sendWhatsappMessageTemplate({
       $,
