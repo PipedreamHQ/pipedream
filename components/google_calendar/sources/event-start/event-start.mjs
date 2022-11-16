@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-event-start",
   name: "Event Start",
   description: "Emits a specified time before an event starts",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   methods: {

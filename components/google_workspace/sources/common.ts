@@ -1,6 +1,6 @@
 import admin from "@googleapis/admin";
 import { uuid } from "uuidv4";
-import { ConfigurationError } from "@pipedream/platform";
+import { ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleWorkspace from "../app/google_workspace.app";
 import constants from "../common/constants";
 
@@ -13,7 +13,7 @@ export default {
       type: "$.interface.timer",
       description: "How often you want to check if the Webhook has already expired",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
