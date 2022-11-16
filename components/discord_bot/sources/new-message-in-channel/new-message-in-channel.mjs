@@ -1,5 +1,6 @@
 import maxBy from "lodash.maxby";
 import common from "../common.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 const { discord } = common.props;
 
@@ -9,7 +10,7 @@ export default {
   name: "New Message in Channel",
   description: "Emit new event for each message posted to one or more channels",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -37,7 +38,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
