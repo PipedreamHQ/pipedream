@@ -1,11 +1,12 @@
 import vbout from "../../vbout.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
   name: "New Contact Property Change",
   key: "vbout-new-contact-property-change",
   description: "Emit new event for each new property changed in a specific contact. [See docs here](https://developers.vbout.com/docs#emailmarketing_getcontact)",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     vbout,
     db: "$.service.db",
@@ -14,7 +15,7 @@ export default {
       description: "Pipedream will poll the vbout API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     list: {
@@ -61,7 +62,7 @@ export default {
 
     if (lastObject !== JSON.stringify(contact)) {
       this._setLastObject(JSON.stringify(contact));
-      this.$emit(contact,  this.getDataToEmit(contact));
+      this.$emit(contact, this.getDataToEmit(contact));
     }
   },
 };

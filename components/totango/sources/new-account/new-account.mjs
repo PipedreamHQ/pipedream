@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Account",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "totango-new-account",
   description: "Emit new event for each created account",
   type: "source",

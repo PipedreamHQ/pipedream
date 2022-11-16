@@ -1,8 +1,9 @@
 import airbrake from "../../airbrake.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Error Occurred",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "airbrake-new-error-occurred",
   description: "Emit new event for each error occurred. [See docs here](https://docs.airbrake.io/docs/devops-tools/api/#list-notices-v4)",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     projectId: {

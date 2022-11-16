@@ -1,5 +1,6 @@
 import pocket from "../../pocket.app.mjs";
 import constants from "./constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -8,7 +9,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

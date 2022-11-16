@@ -1,5 +1,6 @@
 import esputnik from "../../esputnik.app.mjs";
 import constants from "../../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
       description: "Pipedream will poll the eSputnik API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     maxRequests: {

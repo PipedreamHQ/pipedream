@@ -1,12 +1,13 @@
 import { v4 as uuid } from "uuid";
 import googleCalendar from "../../google_calendar.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New or Updated Event (Instant)",
   description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -33,7 +34,7 @@ export default {
       description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 60 * 60 * 23,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

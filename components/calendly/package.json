@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/calendly",
-  "version": "0.3.4",
+  "version": "0.3.7",
   "description": "Pipedream Calendly Components",
   "main": "calendly.app.js",
   "keywords": [
@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "axios": "^0.21.1"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

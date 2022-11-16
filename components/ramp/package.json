@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/ramp",
+  "version": "0.0.2",
+  "description": "Pipedream Ramp Components",
+  "main": "ramp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ramp"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/ramp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

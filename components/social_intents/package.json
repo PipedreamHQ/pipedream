@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/social_intents",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Social Intents Components",
   "main": "dist/app/social_intents.app.mjs",
   "keywords": [

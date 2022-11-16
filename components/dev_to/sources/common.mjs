@@ -1,3 +1,5 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
 export default {
   props: {
     db: "$.service.db",
@@ -6,7 +8,7 @@ export default {
       description: "How often to poll Dev.to for new articles",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -1,5 +1,6 @@
 import zenler from "../zenler.app.mjs";
 import utils from "../common/utils.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the Zenler API",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

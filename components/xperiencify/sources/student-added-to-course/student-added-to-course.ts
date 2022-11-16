@@ -1,11 +1,12 @@
 import { defineSource } from "@pipedream/types";
 import xperiencify from "../../app/xperiencify.app";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default defineSource({
   name: "Student Added to Course",
   description: "Emit new event when a student enrolls into a course.",
   key: "xperiencify-student-added-to-course",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,7 +15,7 @@ export default defineSource({
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     courseId: {
