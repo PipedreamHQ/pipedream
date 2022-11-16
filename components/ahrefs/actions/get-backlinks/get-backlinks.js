@@ -5,7 +5,7 @@ module.exports = {
   name: "Get Backlinks",
   key: "ahrefs-get-backlinks",
   description: "Get the backlinks for a domain or URL with details for the referring pages (e.g., anchor and page title).",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ahrefs,

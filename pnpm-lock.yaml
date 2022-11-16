@@ -1122,13 +1122,13 @@ importers:
   components/google_drive:
     specifiers:
       '@googleapis/drive': ^2.3.0
-      '@pipedream/platform': ^0.9.0
+      '@pipedream/platform': ^1.2.0
       axios: ^0.21.1
       mime-db: ^1.51.0
       uuid: ^8.3.2
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 0.9.0
+      '@pipedream/platform': 1.2.0
       axios: 0.21.4
       mime-db: 1.52.0
       uuid: 8.3.2
@@ -1265,9 +1265,9 @@ importers:
 
   components/heysummit:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 1.1.1
+      '@pipedream/platform': 1.2.0
 
   components/html_css_to_image:
     specifiers:
@@ -2277,6 +2277,9 @@ importers:
   components/scopemaster:
     specifiers: {}
 
+  components/scrapeninja:
+    specifiers: {}
+
   components/segment:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2458,9 +2461,9 @@ importers:
 
   components/siteleaf:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 1.1.1
+      '@pipedream/platform': 1.2.0
 
   components/slack:
     specifiers:
@@ -2811,9 +2814,9 @@ importers:
 
   components/transform:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 1.1.1
+      '@pipedream/platform': 1.2.0
 
   components/transistor_fm:
     specifiers:
@@ -3014,10 +3017,10 @@ importers:
 
   components/vision6:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.0
       lodash.pickby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.1.1
+      '@pipedream/platform': 1.2.0
       lodash.pickby: 4.6.0
 
   components/visitor_queue:
@@ -6294,22 +6297,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.138:
-    resolution: {integrity: sha512-dC93gtTkNQsQRKI2/tTMtMu2xyiuf1tT94kOw8tzoijTNxNwzU+KGcLLTRW93oPCg9OfRGPKUkZ3QVK23xfDKA==}
+  /@definitelytyped/header-parser/0.0.139:
+    resolution: {integrity: sha512-AwFhZLziDc4HaeyInk6uar+zp9q/+HSQO4tAOkEDWiCLzqQOInSIakAs8OsuDOmjll+LU6C0MiDRHQWyFgWFtg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.138
+      '@definitelytyped/typescript-versions': 0.0.139
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.138:
-    resolution: {integrity: sha512-1pEKc6ojVmNVcTNZo3Wc7+SHorsIogq9oa3p8MH8Y3ylZGVcPbrsXZ7FxxAQCCO+hodpbC4divjVUn1GQaDC0A==}
+  /@definitelytyped/typescript-versions/0.0.139:
+    resolution: {integrity: sha512-9vhAc/3MhsMawbMMkhlPuvXOtqbxqC9kN88G9JAIujfrKGOnWWRzofo02fadDUMPZfoo4B54EEox9nepNCi5RQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.138:
-    resolution: {integrity: sha512-ZQBG91XPcz4hNVCo7Pt9gzkWLTdgdf3PTfST4vept0v6Scyx1uGL/99z+40TjPx5QdeymmwZW3gAvlXJJCyKzg==}
+  /@definitelytyped/utils/0.0.139:
+    resolution: {integrity: sha512-A1sgPeA6mXpCzjByleGeeah1coT6BPL948wINSSWXDoQ3MrAgHasxc/1R9F4yXDafCwhgOKBfXpT5lE1upZBNw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.138
+      '@definitelytyped/typescript-versions': 0.0.139
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -11974,7 +11977,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.138
+      '@definitelytyped/header-parser': 0.0.139
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -11990,9 +11993,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.138
-      '@definitelytyped/typescript-versions': 0.0.138
-      '@definitelytyped/utils': 0.0.138
+      '@definitelytyped/header-parser': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/utils': 0.0.139
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
