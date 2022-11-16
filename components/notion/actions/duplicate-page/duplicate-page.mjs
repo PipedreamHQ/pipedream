@@ -62,7 +62,7 @@ export default {
 
     const results = await this.notion.createPage(page);
     const pageName = this.notion.extractPageTitle(results);
-    $.export("$summary", `Successfully created the new page, "${pageName}"`);
+    $.export("$summary", `Successfully created the new page, "[${pageName}](${results.url})"`);
     return results;
   },
 };
