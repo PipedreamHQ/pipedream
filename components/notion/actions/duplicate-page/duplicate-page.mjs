@@ -7,7 +7,8 @@ export default {
   key: "notion-duplicate-page",
   name: "Duplicate Page",
   description: "Creates a new page copied from an existing page block. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.0.1",
+  //version: "0.0.1",
+  version: "0.0.18",
   type: "action",
   props: {
     notion,
@@ -52,7 +53,8 @@ export default {
     };
 
     const results = await this.notion.createPage(page);
-    $.export("$summary", `Successfully created page with id ${results.id}`);
+    const pageTitle = results?.properties?.title?.title[0]?.plain_text || results.id;
+    $.export("$summary", `Successfully created the new page, "${pageTitle}"`);
     return results;
   },
 };
