@@ -4,7 +4,7 @@ export default {
   key: "shopify-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/2022-01/customers.json)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     shopify,
