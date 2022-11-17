@@ -129,10 +129,10 @@ function getUnmodifiedComponents({ contents = [], uncommited } = {}) {
   return [
     // remove duplicates
     ...new Set(contents
-    .filter(({ contents }) =>
-      uncommited
-        ? includesVersion(contents)
-        : !includesVersion(contents))
+      .filter(({ contents }) =>
+        uncommited
+          ? includesVersion(contents)
+          : !includesVersion(contents))
       .map(({ filePath }) => filePath))
   ];
 }
@@ -339,17 +339,17 @@ async function run() {
   const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
   let counter = 1;
 
-  if (componentsThatDidNotModifyVersion.length || componentsDiffContents.length) {
+  if (totalErrors) {
     core.setFailed(`You need to increment the version of the ${totalErrors} component(s) below. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
   }
 
-    componentsThatDidNotModifyVersion.forEach((filePath) => {
+  componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.error(`${counter++}) You need to change the version of ${filePath}.`);
-    });
+  });
 
-    componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
+  componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
     console.error(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-    });
+  });
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));
