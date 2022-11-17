@@ -325,9 +325,7 @@ export default {
       const [
         className,
       ] = constants.API.LEADS;
-      const teste = this.api(className).getLeads(opts);
-      console.log("teste: ", teste);
-      return teste;
+      return this.api(className).getLeads(opts);
     },
     async getUsers(opts) {
       const [
