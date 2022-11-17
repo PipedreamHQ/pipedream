@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/typless",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Typless Components",
   "main": "dist/app/typless.app.mjs",
   "keywords": [

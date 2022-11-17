@@ -1,3 +1,5 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
 export default {
   props: {
     db: "$.service.db",
@@ -6,7 +8,7 @@ export default {
       description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

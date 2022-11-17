@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-videos-by-location",
   name: "New Videos by Location",
   description: "Emit new event for each new YouTube video tied to a location.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     youtubeDataApi,

@@ -5,8 +5,9 @@ module.exports = {
   key: "eventbrite-new-order",
   name: "New Order (Instant)",
   description: "Emits an event when an order has been placed",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   methods: {
     ...common.methods,
     getActions() {
@@ -21,7 +22,9 @@ module.exports = {
       };
     },
     generateMeta({ order }) {
-      const { id, created } = order;
+      const {
+        id, created,
+      } = order;
       return {
         id,
         summary: `New Order ID: ${id}`,

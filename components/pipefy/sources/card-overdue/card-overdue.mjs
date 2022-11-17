@@ -5,7 +5,7 @@ export default {
   name: "Card Overdue",
   key: "pipefy-card-overdue",
   description: "Emits an event each time a card becomes overdue in a Pipe.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   methods: {
     isCardRelevant({

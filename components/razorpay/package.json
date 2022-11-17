@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/razorpay",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Razorpay Components",
   "main": "dist/app/razorpay.app.mjs",
   "keywords": [

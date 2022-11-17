@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sales_simplify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sales Simplify Components",
   "main": "dist/app/sales_simplify.app.mjs",
   "keywords": [

@@ -3,7 +3,7 @@ import base from "../common/booking-base.mjs";
 export default {
   ...base,
   name: "New Cancelled Booking",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "youcanbook_me-new-cancelled-booking",
   description: "Emit new event when a booking is cancelled",
   type: "source",

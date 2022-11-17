@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rawg_video_games_database",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream RAWG Video Games Database Components",
   "main": "dist/app/rawg_video_games_database.app.mjs",
   "keywords": [

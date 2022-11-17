@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendle",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sendle Components",
   "main": "dist/app/sendle.app.mjs",
   "keywords": [

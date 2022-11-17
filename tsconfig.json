@@ -1013,6 +1013,18 @@
     },
     {
       "path": "components/d7_networks"
+    },
+    {
+      "path": "components/dataset"
+    },
+    {
+      "path": "components/nightfall_ai"
+    },
+    {
+      "path": "components/scrapeninja"
+    },
+    {
+      "path": "components/octopus_deploy"
     }
   ]
 }

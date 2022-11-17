@@ -1,4 +1,5 @@
 import app from "../../siteleaf.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   dedupe: "unique",
@@ -10,7 +11,7 @@ export default {
       description: "How often to poll the Siteleaf API for new events",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

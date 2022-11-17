@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitter",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Twitter Components",
   "main": "twitter.app.mjs",
   "keywords": [
@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
+    "@pipedream/platform": "^1.2.0",
     "axios": "^0.21.1",
     "moment": "^2.29.1",
     "querystring": "^0.2.0"

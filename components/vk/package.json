@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream vk Components",
   "main": "dist/app/vk.app.mjs",
   "keywords": [
