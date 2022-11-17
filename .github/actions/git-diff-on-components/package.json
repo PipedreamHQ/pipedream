@@ -1,6 +1,6 @@
 {
   "name": "git-diff-on-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Git diff on components",
   "main": "dist/index.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "@vercel/ncc": "^0.34.0",
     "dependency-tree": "^8.1.2",
     "lodash.difference": "^4.5.0",
-    "lodash.uniqwith": "^4.5.0"
+    "lodash.uniqwith": "^4.5.0",
+    "ncc": "^0.3.6"
   }
 }
