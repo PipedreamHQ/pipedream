@@ -16,6 +16,7 @@ export default {
     },
   },
   async run() {
+    console.log('Should fail when version is not bump up')
     return await this.slack.sdk().conversations.archive({
       channel: this.conversation,
     });
