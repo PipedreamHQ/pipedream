@@ -1,6 +1,7 @@
 # Overview
 
-With the Dynatrace API, you can build a range of integrations and applications to automate your Dynatrace environment.
+With the Dynatrace API, you can build a range of integrations and applications
+to automate your Dynatrace environment.
 
 Some examples of what you can build include:
 

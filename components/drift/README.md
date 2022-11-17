@@ -1,6 +1,8 @@
 # Overview
 
-The Drift API allows you to interact with all of the resources in Drift. This includes retrieving and updating conversations, retrieving and updating contacts, and more.
+The Drift API allows you to interact with all of the resources in Drift. This
+includes retrieving and updating conversations, retrieving and updating
+contacts, and more.
 
 With the Drift API, you can build applications to:
 
