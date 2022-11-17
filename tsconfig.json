@@ -1028,6 +1028,9 @@
     },
     {
       "path": "components/octopus_deploy"
+    },
+    {
+      "path": "components/kartra"
     }
   ]
 }
