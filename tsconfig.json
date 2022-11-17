@@ -1000,6 +1000,9 @@
       "path": "components/snyk"
     },
     {
+      "path": "components/kanbanflow"
+    },
+    {
       "path": "components/facebook_groups"
     },
     {
