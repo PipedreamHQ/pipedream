@@ -1,6 +1,7 @@
 # Overview
 
-The Etherscan API allows you to query various information on the Ethereum blockchain. Some of the things you can do with the API include:
+The Etherscan API allows you to query various information on the Ethereum
+blockchain. Some of the things you can do with the API include:
 
 - Get a list of all transactions for a given address
 - Get the balance for a given address

@@ -1,6 +1,8 @@
 # Overview
 
-With Flexie, you can easily create responsive, fluid layouts without having to worry about media queries or pixel measurements. You can also create complex animations and interactions using just a few lines of code.
+With Flexie, you can easily create responsive, fluid layouts without having to
+worry about media queries or pixel measurements. You can also create complex
+animations and interactions using just a few lines of code.
 
 Here are some examples of what you can build with Flexie:
 

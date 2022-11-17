@@ -1,6 +1,7 @@
 # Overview
 
-With the eSputnik API, you can build a variety of applications and integrations to automate your email marketing. Here are a few examples:
+With the eSputnik API, you can build a variety of applications and integrations
+to automate your email marketing. Here are a few examples:
 
 - Create and send automated email campaigns
 - Create and manage your email contact lists

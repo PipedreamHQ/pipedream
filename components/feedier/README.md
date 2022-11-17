@@ -1,6 +1,8 @@
 # Overview
 
-Using the Feedier API, you can build a variety of applications that allow users to collect feedback from customers and track the results. Here are a few examples:
+Using the Feedier API, you can build a variety of applications that allow users
+to collect feedback from customers and track the results. Here are a few
+examples:
 
 - A feedback form for website visitors
 - A customer satisfaction survey
