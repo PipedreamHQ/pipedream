@@ -1031,6 +1031,9 @@
     },
     {
       "path": "components/kartra"
+    },
+    {
+      "path": "components/clientary"
     }
   ]
 }
