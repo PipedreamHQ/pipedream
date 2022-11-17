@@ -6,4 +6,4 @@ With the Dev.to API, you can build applications that:
 - Build a Dev.to extension that helps other developers be more productive
 - Develop a bot that helps moderation on Dev.to
 - Get notified whenever a new article is published on a certain topic
-- ... and much more!
+- And much more!

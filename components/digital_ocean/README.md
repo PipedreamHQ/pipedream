@@ -1,6 +1,8 @@
 # Overview
 
-You can use the Digital Ocean API to manage Droplets (virtual private servers), resources within those Droplets, and other account-wide resources like domains and images.
+You can use the Digital Ocean API to manage Droplets (virtual private servers),
+resources within those Droplets, and other account-wide resources like domains
+and images.
 
 Examples of what you can build using the Digital Ocean API include:
 

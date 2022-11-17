@@ -1,6 +1,8 @@
 # Overview
 
-The Delay API allows you to build workflows that wait a specified amount of time before continuing. This can be useful for rate-limiting actions, or waiting for an external event to occur.
+The Delay API allows you to build workflows that wait a specified amount of
+time before continuing. This can be useful for rate-limiting actions, or
+waiting for an external event to occur.
 
 Here are some examples of what you can build using the Delay API:
 

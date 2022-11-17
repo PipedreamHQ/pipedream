@@ -1,6 +1,8 @@
 # Overview
 
-Discourse is a powerful platform for building online communities. With the Discourse API, you can extend Discourse's functionality to build all sorts of custom applications and integrations.
+Discourse is a powerful platform for building online communities. With the
+Discourse API, you can extend Discourse's functionality to build all sorts of
+custom applications and integrations.
 
 Here are some examples of what you can build with the Discourse API:
 
