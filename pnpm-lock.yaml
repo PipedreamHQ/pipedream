@@ -1419,6 +1419,14 @@ importers:
   components/junip:
     specifiers: {}
 
+  components/kanbanflow:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      '@pipedream/types': 0.1.4
+
   components/kanbanize:
     specifiers:
       '@pipedream/platform': ^0.10.0
