@@ -1,5 +1,6 @@
 import kanbanflow from "../../app/kanbanflow.app";
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import {
   CreateTaskParams, Task,
 } from "../../common/types";
@@ -86,10 +87,10 @@ export default defineAction({
       optional: true,
     },
     additionalOptions: {
-      type: "object",
+      type: "string",
       label: "Additional Options",
       description:
-        "Any additional parameters to pass in the request body. See the **API docs** > **Create task**  for more info.",
+        "A JSON-stringified object with any additional parameters to pass in the request body. See the **API docs** > **Create task**  for more info.",
       optional: true,
     },
   },
@@ -104,8 +105,16 @@ export default defineAction({
       subtasks,
       labels,
       collaborators,
-      additionalOptions,
     } = this;
+
+    let additionalOptions: object;
+    if (this.additionalOptions) {
+      try {
+        additionalOptions = JSON.parse(this.additionalOptions);
+      } catch (err) {
+        throw new ConfigurationError("Error when parsing the **additionalOptions** prop. Check if it is a valid JSON-stringified object.");
+      }
+    }
 
     const params: CreateTaskParams = {
       $,
