@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Attendee Registered",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "heysummit-new-attendee-registered",
   description: "Emit new event when an attendee is registered on a event.",
   type: "source",

@@ -9,7 +9,7 @@ export default {
       type: "string",
       label: "Country",
       description: "Country where your bank is located.",
-	  options: constants.COUNTRY_CODE_OPTS,
+      options: constants.COUNTRY_CODE_OPTS,
     },
     institution_id: {
       type: "string",
@@ -24,7 +24,7 @@ export default {
           };
         });
       },
-    }
+    },
   },
   methods: {
     _getHost() {
@@ -35,14 +35,14 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "accept": "application/json",
         "Content-Type": "application/json",
-      }
+      };
     },
     _getAxiosParams(opts) {
       return {
         ...opts,
         url: this._getHost() + opts.path,
-        headers: this._getHeaders()
-      }
+        headers: this._getHeaders(),
+      };
     },
     async _makeRequest(method, endpoint, data, params) {
       return axios({
@@ -51,11 +51,11 @@ export default {
         headers: this._getHeaders(),
         data,
         params,
-      })
+      });
     },
     async listInstitutions(countryCode) {
       const institutions = await this._makeRequest("GET", `/institutions/?country=${countryCode}`);
       return institutions.data;
-    }
+    },
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-chat-message",
   name: "New Chat Message",
   description: "Emit new event when a new message is received in a chat",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

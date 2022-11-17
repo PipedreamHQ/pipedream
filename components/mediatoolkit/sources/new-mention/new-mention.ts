@@ -1,9 +1,10 @@
 import { defineSource } from "@pipedream/types";
 import mediatoolkit from "../../app/mediatoolkit.app";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default defineSource({
   name: "New Mention",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "mediatoolkit-new-mention",
   description: "Emit new event on each new mention.",
   type: "source",
@@ -14,24 +15,24 @@ export default defineSource({
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     organizationId: {
       propDefinition: [
         mediatoolkit,
-        "organizationId"
-      ]
+        "organizationId",
+      ],
     },
     groupId: {
       propDefinition: [
         mediatoolkit,
         "groupId",
         (c) => ({
-          organizationId: c.organizationId
-        })
-      ]
-    }
+          organizationId: c.organizationId,
+        }),
+      ],
+    },
   },
   methods: {
     emitEvent(data) {
@@ -50,7 +51,7 @@ export default defineSource({
   },
   hooks: {
     async deploy() {
-      this._setLastTimestamp(Math.round(new Date().getTime() / 1000))
+      this._setLastTimestamp(Math.round(new Date().getTime() / 1000));
 
       const mentions = await this.mediatoolkit.getMentions({
         organizationId: this.organizationId,
@@ -64,7 +65,7 @@ export default defineSource({
     },
   },
   async run() {
-    this._setLastTimestamp(Math.round(new Date().getTime() / 1000))
+    this._setLastTimestamp(Math.round(new Date().getTime() / 1000));
 
     const mentions = await this.mediatoolkit.getMentions({
       organizationId: this.organizationId,

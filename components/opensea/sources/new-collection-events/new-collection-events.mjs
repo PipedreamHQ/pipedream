@@ -1,8 +1,9 @@
 import opensea from "../../opensea.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Collection Events",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "opensea-new-collection-events",
   description:
     "Emit new filtered events. [See docs](https://docs.opensea.io/reference/retrieving-asset-events)",
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     contractAddress: {

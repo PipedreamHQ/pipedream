@@ -1,13 +1,15 @@
 import differenceBy from "lodash.differenceby";
 import pagerduty from "../../pagerduty.app.mjs";
 import common from "../common.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   ...common,
-  key: "pagerduty-new-on-call-rotation",
+  key: "pagerduty-new-oncall-rotation",
   name: "New On-Call Rotation",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event each time a new user rotates onto an on-call rotation",
+  type: "source",
   props: {
     ...common.props,
     pagerduty,
@@ -27,7 +29,7 @@ export default {
       description:
         "The PagerDuty API doesn't support webhook notifications for on-call rotations, so we must poll the API to check for these changes. Change this interval according to your needs.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/opensea",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Opensea Components",
   "main": "opensea.app.mjs",
   "keywords": [

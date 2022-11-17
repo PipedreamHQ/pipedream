@@ -1,3 +1,5 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+
 export default {
   dedupe: "unique",
   props: {
@@ -7,7 +9,7 @@ export default {
       description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     include: {
@@ -60,7 +62,7 @@ export default {
   },
   async run(event) {
     const { timestamp: ts } = event;
-    const baseUri =  await this.docusign.getBaseUri({
+    const baseUri = await this.docusign.getBaseUri({
       accountId: this.account,
     });
     let done = false;
