@@ -10,6 +10,10 @@ export default {
     whatsapp,
   },
   async run({ $ }) {
-    $.export("$summary", "Success!");
+    const response = await this.whatsapp.listMessageTemplates({
+      $,
+    });
+    $.export("$summary", "Successfully retrieved templates");
+    return response;
   },
 };

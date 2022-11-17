@@ -51,6 +51,14 @@ export default {
         path,
       });
     },
+    async listMessageTemplates(opts = {}) {
+      const path = `/${this._businessAccountId()}/message_templates`;
+      const { data } = await this._makeRequest({
+        ...opts,
+        path,
+      });
+      return data;
+    },
     async sendMessage({
       $, phoneNumberId, to, body, ...opts
     }) {
