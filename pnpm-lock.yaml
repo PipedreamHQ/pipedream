@@ -1857,6 +1857,9 @@ importers:
   components/ocassion:
     specifiers: {}
 
+  components/octopus_deploy:
+    specifiers: {}
+
   components/oksign:
     specifiers: {}
 
@@ -2967,6 +2970,14 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/unisender:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      query-string: ^7.1.1
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      query-string: 7.1.1
 
   components/upkeep:
     specifiers:
