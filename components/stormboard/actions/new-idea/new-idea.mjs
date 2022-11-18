@@ -3,7 +3,7 @@ import options from "../common/options.mjs";
 
 export default {
   type: "action",
-  key: "stormboard_new-idea",
+  key: "stormboard-new-idea",
   version: "0.0.5",
   name: "New Idea",
   description: "Creates a new idea. [See the docs here](https://api.stormboard.com/docs)",
