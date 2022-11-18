@@ -476,6 +476,9 @@ importers:
       crypto: 1.0.1
       lodash: 4.17.21
 
+  components/clientary:
+    specifiers: {}
+
   components/cliniko:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
@@ -1431,6 +1434,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/karbon:
+    specifiers: {}
+
+  components/kartra:
     specifiers: {}
 
   components/klaviyo:
@@ -2972,14 +2978,6 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
-
-  components/unisender:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      query-string: ^7.1.1
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      query-string: 7.1.1
 
   components/upkeep:
     specifiers:
