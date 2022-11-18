@@ -1,8 +1,9 @@
 import analytics from "../../google_analytics.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_analytics-page-opened",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Page Opened",
   description: "Emit new event when a page is viewed",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     viewId: {

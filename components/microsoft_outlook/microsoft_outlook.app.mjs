@@ -23,7 +23,10 @@ export default {
       description: "Content type (default `text`)",
       type: "string",
       optional: true,
-      options: ["text", "html"],
+      options: [
+        "text",
+        "html",
+      ],
       default: "text",
     },
     content: {

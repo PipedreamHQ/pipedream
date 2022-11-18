@@ -4,7 +4,12 @@ module.exports = {
   props: {
     eventbrite,
     db: "$.service.db",
-    organization: { propDefinition: [eventbrite, "organization"] },
+    organization: {
+      propDefinition: [
+        eventbrite,
+        "organization",
+      ],
+    },
   },
   methods: {
     generateMeta() {
@@ -17,7 +22,9 @@ module.exports = {
     async *resourceStream(resourceFn, resource, params = null) {
       let hasMoreItems;
       do {
-        const { [resource]: items, pagination = {} } = await resourceFn(params);
+        const {
+          [resource]: items, pagination = {},
+        } = await resourceFn(params);
         for (const item of items) {
           yield item;
         }

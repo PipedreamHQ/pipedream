@@ -1,8 +1,9 @@
 import statuscake from "../../statuscake.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Uptime Alert",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "statuscake-new-uptime-alert",
   description: "Emit new event on each new uptime alert.",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     uptimeId: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_projects",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Zoho Projects Components",
   "main": "zoho_projects.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.0"
   }
 }

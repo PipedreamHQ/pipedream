@@ -5,7 +5,7 @@ export default {
   key: "todoist-new-section",
   name: "New Section",
   description: "Emit new event for each new section added. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "greatest",
   methods: {

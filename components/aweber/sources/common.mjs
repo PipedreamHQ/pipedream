@@ -1,6 +1,7 @@
 import aweberApp from "../aweber.app.mjs";
 import constants from "../common/constants.mjs";
 import utils from "../common/utils.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -11,7 +12,7 @@ export default {
       label: "Polling schedule",
       description: "How often to poll the AWeber API",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     accountId: {

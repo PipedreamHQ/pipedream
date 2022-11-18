@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uk_gov_vehecle_enquiry_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream UK gov Vehicle Enquiry API Components",
   "main": "dist/app/uk_gov_vehecle_enquiry_api.app.mjs",
   "keywords": [

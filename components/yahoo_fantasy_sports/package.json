@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yahoo_fantasy_sports",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Yahoo_fantasy_sports Components",
   "main": "yahoo_fantasy_sports.app.mjs",
   "keywords": [
@@ -15,6 +15,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.0"
   }
 }

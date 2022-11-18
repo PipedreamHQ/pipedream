@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/signwell",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SignWell  Components",
   "main": "dist/app/signwell.app.mjs",
   "keywords": [

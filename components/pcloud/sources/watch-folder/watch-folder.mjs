@@ -1,10 +1,11 @@
 import pcloud from "../../pcloud.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "pcloud-watch-folder",
   name: "Watch Folder",
   description: "Emit new event when a file is created or modified in the specified folder.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +16,7 @@ export default {
       description: "Pipedream polls pCloud for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     folderId: {

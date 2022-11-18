@@ -3,8 +3,9 @@ import common from "../common.mjs";
 export default {
   key: "confection-new-updated-leads",
   name: "New or Updated Leads",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   description:
     "Emit new event when any UUID is created or updated. To learn more about how Confection handles UUIDs, visit https://confection.io/main/demo/#uuid.",
   props: common.props,

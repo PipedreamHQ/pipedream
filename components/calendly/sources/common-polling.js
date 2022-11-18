@@ -1,4 +1,5 @@
 const calendly = require("../calendly.app.js");
+const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
 
 module.exports = {
   props: {
@@ -7,7 +8,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -20,7 +21,7 @@ module.exports = {
       this.db.set("lastEvent", lastEvent);
     },
   },
-  async run(event) {
+  async run() {
     const lastEvent = this._getLastEvent();
 
     const results = await this.getResults();

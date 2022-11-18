@@ -5,6 +5,11 @@ export default {
   type: "app",
   app: "pipedrive",
   propDefinitions: {
+    content: {
+      type: "string",
+      label: "Content",
+      description: "The content of the note in HTML format. Subject to sanitization on the back-end.",
+    },
     userId: {
       type: "integer",
       label: "User ID",
@@ -97,6 +102,24 @@ export default {
           },
         };
       },
+    },
+    pinnedToDealFlag: {
+      type: "boolean",
+      label: "Pinned To Deal Flag",
+      description: "If set, the results are filtered by note to deal pinning state (deal_id is also required)",
+      default: false,
+    },
+    pinnedToOrgFlag: {
+      type: "boolean",
+      label: "Pinned To Organization Flag",
+      description: "If set, the results are filtered by note to organization pinning state (org_id is also required)",
+      default: false,
+    },
+    pinnedToPersonFlag: {
+      type: "boolean",
+      label: "Pinned To Person Flag",
+      description: "If set, the results are filtered by note to person pinning state (person_id is also required)",
+      default: false,
     },
     probability: {
       type: "integer",
@@ -197,7 +220,7 @@ export default {
           limit: constants.DEFAULT_PAGE_LIMIT,
         });
 
-        const options = deals.map(({
+        const options = deals?.map(({
           id, title,
         }) => ({
           label: title,
@@ -257,6 +280,12 @@ export default {
       ] = constants.API.DEALS;
       return this.api(className).updateDeal(dealId, this.buildOpts(updateProperty, otherOpts));
     },
+    async addNote(opts = {}) {
+      const [
+        className,
+      ] = constants.API.NOTES;
+      return this.api(className).addNote(opts);
+    },
     async addOrganization(opts = {}) {
       const [
         className,
@@ -291,6 +320,12 @@ export default {
         className,
       ] = constants.API.PERSONS;
       return this.api(className).getPersons(opts);
+    },
+    async getLeads(opts) {
+      const [
+        className,
+      ] = constants.API.LEADS;
+      return this.api(className).getLeads(opts);
     },
     async getUsers(opts) {
       const [

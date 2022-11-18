@@ -1,5 +1,6 @@
 import moment from "moment";
 import vbout from "../../vbout.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
       description: "Pipedream will poll the vbout API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -40,7 +41,7 @@ export default {
           lastDatetime = this.getLastDate(itemDate);
           this._setLastTime(lastDatetime);
         }
-        this.$emit(item,  this.getDataToEmit(item));
+        this.$emit(item, this.getDataToEmit(item));
       }
     },
   },
@@ -64,7 +65,7 @@ export default {
         ) {
           lastDatetime = this.getLastDate(itemDate);
           this._setLastTime(lastDatetime);
-          this.$emit(row,  this.getDataToEmit(row));
+          this.$emit(row, this.getDataToEmit(row));
         }
       }
     },
