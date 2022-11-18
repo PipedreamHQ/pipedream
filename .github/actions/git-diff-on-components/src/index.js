@@ -344,11 +344,11 @@ async function run() {
   }
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
-    console.error(`${counter++}) You need to change the version of ${filePath}.`);
+    console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
-    console.error(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
+    console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 }
 
