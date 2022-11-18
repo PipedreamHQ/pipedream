@@ -1,11 +1,12 @@
 import asana from "../../asana.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   type: "source",
   key: "asana-new-workspace",
   name: "New Workspace Added",
   description: "Emit new event each time you add a new workspace/organization.",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     asana,
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

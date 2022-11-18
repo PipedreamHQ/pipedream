@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-conversation",
   name: "New Conversations",
   description: "Emit new event each time a new conversation is added.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

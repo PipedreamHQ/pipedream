@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-add-deal",
   name: "Add Deal",
   description: "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     pipedriveApp,

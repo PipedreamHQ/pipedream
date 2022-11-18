@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gitlab",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "description": "Pipedream Gitlab Components",
   "main": "gitlab.app.js",
   "keywords": [
@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@gitbeaker/node": "^35.5.0",
+    "@pipedream/platform": "^1.2.0",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"
   },

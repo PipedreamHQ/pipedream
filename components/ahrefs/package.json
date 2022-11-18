@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ahrefs",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Ahrefs Components",
   "main": "ahrefs.app.js",
   "keywords": [

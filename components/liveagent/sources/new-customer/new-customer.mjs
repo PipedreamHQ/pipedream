@@ -1,8 +1,9 @@
 import liveagent from "../../liveagent.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Customer",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "liveagent-new-customer",
   description: "Emit new event on each new customer.",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

@@ -1,12 +1,12 @@
-import common from "../common/base.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "pipedrive-new-person",
   name: "New Person",
   description: "Emit new event when a new person is created.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
