@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/clientary",
+  "version": "0.0.1",
+  "description": "Pipedream Clientary Components",
+  "main": "dist/app/clientary.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clientary"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/clientary",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

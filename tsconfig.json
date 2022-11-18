@@ -961,9 +961,6 @@
       "path": "components/facturadirecta"
     },
     {
-      "path": "components/danny_twilio_test"
-    },
-    {
       "path": "components/xata"
     },
     {
@@ -1028,6 +1025,12 @@
     },
     {
       "path": "components/octopus_deploy"
+    },
+    {
+      "path": "components/kartra"
+    },
+    {
+      "path": "components/clientary"
     }
   ]
 }
