@@ -162,6 +162,9 @@ export default {
       return markdownToBlocks(pageContent);
     },
     isSupportedVideoType(url) {
+      if (!url) {
+        return false;
+      }
       const supportedTypes = [
         ".mkv",
         ".flv",
