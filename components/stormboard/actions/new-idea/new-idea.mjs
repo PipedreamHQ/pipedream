@@ -4,7 +4,7 @@ import options from "../common/options.mjs";
 export default {
   type: "action",
   key: "stormboard-new-idea",
-  version: "0.0.5",
+  version: "0.0.1",
   name: "New Idea",
   description: "Creates a new idea. [See the docs here](https://api.stormboard.com/docs)",
   props: {
