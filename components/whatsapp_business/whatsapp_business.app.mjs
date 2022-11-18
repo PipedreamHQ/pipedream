@@ -58,6 +58,25 @@ export default {
     _baseUrl() {
       return `https://graph.facebook.com/${this._version()}`;
     },
+    _callFunction(paginate) {
+      const fn = paginate
+        ? this._paginate
+        : this._makeRequest;
+      return fn.bind(this);
+    },
+    async _paginate({ ...opts }) {
+      let next, data = [];
+      if (!opts.params) {
+        opts.params = {};
+      }
+      do {
+        const response = await this._makeRequest(opts);
+        data.push(...response.data);
+        next = response.paging.next;
+        opts.params.after = response.paging.cursors.after;
+      } while (next);
+      return data;
+    },
     async _makeRequest({
       $ = this, path, ...opts
     }) {
@@ -70,24 +89,33 @@ export default {
         },
       });
     },
-    async getPhoneNumberId(opts = {}) {
+    async getPhoneNumberId({
+      paginate = false, ...opts
+    }) {
       const path = `/${this._businessAccountId()}/phone_numbers`;
-      return this._makeRequest({
+      return this._callFunction(paginate)({
         ...opts,
         path,
       });
     },
     async defaultPhoneNumberId(opts = {}) {
-      const { data } = await this.getPhoneNumberId(opts);
+      const { data } = await this.getPhoneNumberId({
+        ...opts,
+        params: {
+          ...opts.params,
+          limit: 1,
+        },
+      });
       return data[0].id;
     },
-    async listMessageTemplates(opts = {}) {
+    async listMessageTemplates({
+      paginate = false, ...opts
+    }) {
       const path = `/${this._businessAccountId()}/message_templates`;
-      const { data } = await this._makeRequest({
+      return this._callFunction(paginate)({
         ...opts,
         path,
       });
-      return data;
     },
     async sendMessage({
       $, phoneNumberId, to, body, ...opts

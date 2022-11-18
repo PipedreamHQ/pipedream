@@ -12,6 +12,7 @@ export default {
   async run({ $ }) {
     const response = await this.whatsapp.listMessageTemplates({
       $,
+      paginate: true,
     });
     $.export("$summary", "Successfully retrieved templates");
     return response;
