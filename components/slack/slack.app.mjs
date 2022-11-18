@@ -115,7 +115,7 @@ export default {
     userGroup: {
       type: "string",
       label: "User Group",
-      description: "Select a user group",
+      description: "The encoded ID of the User Group.",
       async options() {
         const resp = await this.userGroups();
         return resp.map((c) => ({
