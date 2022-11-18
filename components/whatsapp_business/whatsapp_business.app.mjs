@@ -9,25 +9,47 @@ export default {
       label: "Phone Number ID",
       description: "Phone number ID that will be used to send the message. Leave blank for default.",
       optional: true,
-      async options() {
-        const { data: numbers } = await this.getPhoneNumberId();
-        return numbers.map(({
-          verified_name, display_phone_number, id,
-        }) => ({
-          label: `${verified_name}: +${display_phone_number}`,
-          value: id,
-        }));
+      async options({ prevContext }) {
+        let after;
+        const response = await this.getPhoneNumberId({
+          limit: 20,
+          after: prevContext?.after,
+        });
+        if (response.paging.next) after = response.paging.cursors.after;
+        return {
+          options: response.data.map(({
+            verified_name, display_phone_number, id,
+          }) => ({
+            label: `${verified_name}: +${display_phone_number}`,
+            value: id,
+          })),
+          context: {
+            after,
+          },
+        };
       },
     },
     messageTemplate: {
       type: "string",
       label: "Message Template",
       description: "Select the template you'd like to use.",
-      async options() {
-        const templates = await this.listMessageTemplates();
-        return templates
-          .filter(this._hasNoVariables)
-          .map(({ name }) => name);
+      async options({ prevContext }) {
+        let after;
+        const response = await this.listMessageTemplates({
+          params: {
+            limit: 20,
+            after: prevContext?.after,
+          },
+        });
+        if (response.paging.next) after = response.paging.cursors.after;
+        return {
+          options: response.data
+            .filter(this._hasNoVariables)
+            .map(({ name }) => name),
+          context: {
+            after,
+          },
+        };
       },
     },
     recipientPhoneNumber: {
