@@ -18,8 +18,28 @@ export default {
         }));
       },
     },
+    messageTemplate: {
+      type: "string",
+      label: "Message Template",
+      description: "Select the template you'd like to use",
+      async options() {
+        const templates = await this.listMessageTemplates();
+        return templates
+          .filter(this._hasNoVariables)
+          .map(({ name }) => name);
+      },
+    },
   },
   methods: {
+    _hasNoVariables(template) {
+      const regex = /{{\d+}}/g;
+      for (const component of template.components) {
+        if (component.text?.search(regex) !== -1) {
+          return false;
+        }
+      }
+      return true;
+    },
     _businessAccountId() {
       return this.$auth.business_account_id;
     },
@@ -77,6 +97,29 @@ export default {
           text: {
             preview_url: false,
             body,
+          },
+        },
+      });
+    },
+    async sendMessageUsingTemplate({
+      $, phoneNumberId, to, name, language, ...opts
+    }) {
+      const path = `/${phoneNumberId}/messages`;
+      return this._makeRequest({
+        ...opts,
+        $,
+        path,
+        method: "post",
+        data: {
+          ...opts.data,
+          to,
+          messaging_product: "whatsapp",
+          type: "template",
+          template: {
+            name,
+            language: {
+              code: language,
+            },
           },
         },
       });
