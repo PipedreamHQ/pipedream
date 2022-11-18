@@ -7,7 +7,8 @@ export default {
     phoneNumberId: {
       type: "string",
       label: "Phone Number ID",
-      description: "Phone number ID that will be used to send the message",
+      description: "Phone number ID that will be used to send the message. Leave blank for default.",
+      optional: true,
       async options() {
         const { data: numbers } = await this.getPhoneNumberId();
         return numbers.map(({
@@ -71,6 +72,10 @@ export default {
         path,
       });
     },
+    async defaultPhoneNumberId(opts = {}) {
+      const { data } = await this.getPhoneNumberId(opts);
+      return data[0].id;
+    },
     async listMessageTemplates(opts = {}) {
       const path = `/${this._businessAccountId()}/message_templates`;
       const { data } = await this._makeRequest({
@@ -82,7 +87,7 @@ export default {
     async sendMessage({
       $, phoneNumberId, to, body, ...opts
     }) {
-      const path = `/${phoneNumberId}/messages`;
+      const path = `/${phoneNumberId || await this.defaultPhoneNumberId()}/messages`;
       return this._makeRequest({
         ...opts,
         $,
@@ -104,7 +109,7 @@ export default {
     async sendMessageUsingTemplate({
       $, phoneNumberId, to, name, language, ...opts
     }) {
-      const path = `/${phoneNumberId}/messages`;
+      const path = `/${phoneNumberId || await this.defaultPhoneNumberId()}/messages`;
       return this._makeRequest({
         ...opts,
         $,
