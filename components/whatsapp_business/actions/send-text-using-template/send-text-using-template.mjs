@@ -15,16 +15,17 @@ export default {
       ],
     },
     recipientPhoneNumber: {
-      type: "string",
-      label: "Recipient Phone Number",
-      description: "Enter the recipient's phone number (for example, `15101234567`)",
+      propDefinition: [
+        whatsapp,
+        "recipientPhoneNumber",
+      ],
     },
     messageTemplate: {
       propDefinition: [
         whatsapp,
         "messageTemplate",
       ],
-      description: `${whatsapp.propDefinitions.messageTemplate.description}.
+      description: `${whatsapp.propDefinitions.messageTemplate.description}
         Currently, it will only work if the template has no variables.`,
     },
     language: {

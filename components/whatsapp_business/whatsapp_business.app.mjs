@@ -22,13 +22,18 @@ export default {
     messageTemplate: {
       type: "string",
       label: "Message Template",
-      description: "Select the template you'd like to use",
+      description: "Select the template you'd like to use.",
       async options() {
         const templates = await this.listMessageTemplates();
         return templates
           .filter(this._hasNoVariables)
           .map(({ name }) => name);
       },
+    },
+    recipientPhoneNumber: {
+      type: "string",
+      label: "Recipient Phone Number",
+      description: "Enter the recipient's phone number. For example, `15101234567`.",
     },
   },
   methods: {

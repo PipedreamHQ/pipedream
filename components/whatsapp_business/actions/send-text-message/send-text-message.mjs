@@ -15,14 +15,15 @@ export default {
       ],
     },
     recipientPhoneNumber: {
-      type: "string",
-      label: "Recipient Phone Number",
-      description: "Enter the recipient's 10 digit phone number (for example, `15101234567`)",
+      propDefinition: [
+        whatsapp,
+        "recipientPhoneNumber",
+      ],
     },
     messageBody: {
       type: "string",
       label: "Message Body",
-      description: "The content of the message",
+      description: "The text content of the message.",
     },
   },
   async run({ $ }) {
