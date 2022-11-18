@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/testmonitor",
+  "version": "0.0.1",
+  "description": "Pipedream Testmonitor Components",
+  "main": "testmonitor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "testmonitor"
+  ],
+  "homepage": "https://pipedream.com/apps/testmonitor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
