@@ -96,6 +96,34 @@ export default {
         };
       },
     },
+    users: {
+      type: "string[]",
+      label: "Users",
+      description: "Select users",
+      async options() {
+        const userNames = await this.userNames();
+        const users = [];
+        for (const key of Object.keys(userNames)) {
+          users.push({
+            label: userNames[key],
+            value: key,
+          });
+        }
+        return users;
+      },
+    },
+    userGroup: {
+      type: "string",
+      label: "User Group",
+      description: "The encoded ID of the User Group.",
+      async options() {
+        const resp = await this.userGroups();
+        return resp.map((c) => ({
+          label: c.name,
+          value: c.id,
+        }));
+      },
+    },
     reminder: {
       type: "string",
       label: "Reminder",
@@ -502,6 +530,18 @@ export default {
         };
       } else {
         console.log("Error getting users", resp.error);
+        throw (resp.error);
+      }
+    },
+    /**
+     * Returns a list of all users groups in the workspace.
+     */
+    async userGroups() {
+      const resp = await this.sdk().usergroups.list();
+      if (resp.ok) {
+        return resp.usergroups;
+      } else {
+        console.log("Error getting user groups", resp.error);
         throw (resp.error);
       }
     },
