@@ -1031,6 +1031,9 @@
     },
     {
       "path": "components/clientary"
+    },
+    {
+      "path": "components/faire"
     }
   ]
 }
