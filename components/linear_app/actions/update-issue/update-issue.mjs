@@ -62,7 +62,7 @@ export default {
         },
       });
 
-    const summary = response.summary
+    const summary = response.success
       ? `Updated issue ${response._issue.id}`
       : "Failed to update issue";
     $.export("$summary", summary);
