@@ -11,13 +11,22 @@ export default {
         ...options,
       };
     },
+    async getOwnUserInfo() {
+      const {
+        avatarUrl, displayName,
+      } = await this.client().viewer;
+      return {
+        avatarUrl,
+        displayName,
+      };
+    },
   },
   propDefinitions: {
     ...linearApp.propDefinitions,
-    createAsUser: {
+    useOwnUser: {
       type: "boolean",
       label: "Create As User",
-      description: `If **true**, perform this action as the application.
+      description: `If **true**, perform this action as the authenticated user.
         \\
         If **false**, you can specify the user that is performing this action.
         \\

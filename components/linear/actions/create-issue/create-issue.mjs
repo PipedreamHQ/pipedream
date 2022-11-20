@@ -14,15 +14,53 @@ export default {
   key: "linear-create-issue",
   description:
     "Create an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.3.7",
+  version: "0.3.11",
   props: {
     ...appProps,
-    createAsUser: {
+    useOwnUser: {
       propDefinition: [
         linearApp,
-        "createAsUser",
+        "useOwnUser",
       ],
     },
   },
   additionalProps,
+  async run({ $ }) {
+    const {
+      title,
+      description,
+      teamId,
+      assigneeId,
+      useOwnUser,
+      createAsUser,
+      displayIconUrl,
+    } = this;
+
+    const params = {
+      teamId,
+      title,
+      description,
+      assigneeId,
+      createAsUser,
+      displayIconUrl,
+    };
+
+    if (useOwnUser) {
+      const {
+        avatarUrl, displayName,
+      } = await this.linearApp.getOwnUserInfo();
+      params.createAsUser = displayName;
+      if (avatarUrl) params.displayIconUrl = avatarUrl;
+    }
+
+    const response =
+      await this.linearApp.createIssue(params);
+
+    const summary = response.success
+      ? `Created issue ${response._issue.id}`
+      : "Failed to create issue";
+    $.export("$summary", summary);
+
+    return response;
+  },
 };

@@ -1,6 +1,6 @@
 export default async function additionalProps() {
   const props = {
-    username: {
+    createAsUser: {
       type: "string",
       label: "Username",
       description: "The user that is performing this action.",
@@ -13,7 +13,7 @@ export default async function additionalProps() {
     },
   };
 
-  return this.createAsUser === false
+  return this.useOwnUser === false
     ? props
     : {};
 }

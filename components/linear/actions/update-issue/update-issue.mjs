@@ -17,12 +17,54 @@ export default {
   version: "0.0.6",
   props: {
     ...appProps,
-    createAsUser: {
+    useOwnUser: {
       propDefinition: [
         linearApp,
-        "createAsUser",
+        "useOwnUser",
       ],
     },
   },
   additionalProps,
+  async run({ $ }) {
+    const {
+      issueId,
+      title,
+      description,
+      teamId,
+      assigneeId,
+      useOwnUser,
+      createAsUser,
+      displayIconUrl,
+    } = this;
+
+    const params = {
+      issueId,
+      input: {
+        teamId,
+        title,
+        description,
+        assigneeId,
+        createAsUser,
+        displayIconUrl,
+      },
+    };
+
+    if (useOwnUser) {
+      const {
+        avatarUrl, displayName,
+      } = await this.linearApp.getOwnUserInfo();
+      params.createAsUser = displayName;
+      if (avatarUrl) params.displayIconUrl = avatarUrl;
+    }
+
+    const response =
+      await this.linearApp.updateIssue(params);
+
+    const summary = response.success
+      ? `Updated issue ${response._issue.id}`
+      : "Failed to update issue";
+    $.export("$summary", summary);
+
+    return response;
+  },
 };
