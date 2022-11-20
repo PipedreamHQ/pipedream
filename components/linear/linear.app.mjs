@@ -19,7 +19,9 @@ export default {
       label: "Create As User",
       description: `If **true**, perform this action as the application.
         \\
-        If **false**, you can specify the user that is performing this action.`,
+        If **false**, you can specify the user that is performing this action.
+        \\
+        See the [Linear docs](https://developers.linear.app/docs/oauth/oauth-actor-authorization) for more information.`,
       optional: true,
       default: true,
       reloadProps: true,
