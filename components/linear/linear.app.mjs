@@ -12,4 +12,17 @@ export default {
       };
     },
   },
+  propDefinitions: {
+    ...linearApp.propDefinitions,
+    createAsUser: {
+      type: "boolean",
+      label: "Create As User",
+      description: `If **true**, perform this action as the application.
+        \\
+        If **false**, you can specify the user that is performing this action.`,
+      optional: true,
+      default: true,
+      reloadProps: true,
+    },
+  },
 };
