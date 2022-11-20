@@ -10,6 +10,6 @@ export default {
   ...utils.getAppProps(updateIssue),
   key: "linear-update-issue",
   description: "Update an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.0.5",
+  version: "0.0.6",
 };
 
