@@ -44,8 +44,12 @@ export default {
         if (response.paging.next) after = response.paging.cursors.after;
         return {
           options: response.data
-            .filter(this._hasNoVariables)
-            .map(({ name }) => name),
+            .map(({
+              name, id, language,
+            }) => ({
+              label: `${name} - ${language}`,
+              value: id,
+            })),
           context: {
             after,
           },
@@ -59,15 +63,6 @@ export default {
     },
   },
   methods: {
-    _hasNoVariables(template) {
-      const regex = /{{\d+}}/g;
-      for (const component of template.components) {
-        if (component.text?.search(regex) !== -1) {
-          return false;
-        }
-      }
-      return true;
-    },
     _businessAccountId() {
       return this.$auth.business_account_id;
     },
@@ -129,6 +124,16 @@ export default {
         },
       });
       return data[0].id;
+    },
+    async getMessageTemplate({
+      $, templateId, ...opts
+    }) {
+      const path = `/${templateId}`;
+      return this._makeRequest({
+        ...opts,
+        $,
+        path,
+      });
     },
     async listMessageTemplates({
       paginate = false, ...opts

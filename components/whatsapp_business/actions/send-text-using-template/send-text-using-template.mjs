@@ -25,26 +25,43 @@ export default {
         whatsapp,
         "messageTemplate",
       ],
-      description: `${whatsapp.propDefinitions.messageTemplate.description}
-        Currently, it will only work if the template has no variables.`,
+      withLabel: true,
+      reloadProps: true,
     },
-    language: {
-      type: "string",
-      label: "Language",
-      description: "The language for the template that will be sent. Defaults to `en_US`.",
-      optional: true,
-      default: "en_US",
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    const allMatches = [];
+    const regex = /{{\d+}}/g;
+    const template = await this.whatsapp.getMessageTemplate({
+      templateId: this.messageTemplate.value,
+    });
+    for (const component of template.components) {
+      const matches = component.text?.match(regex);
+      for (const match of matches ?? []) {
+        allMatches.push({
+          variable: match,
+          description: component.text,
+        });
+      }
+    }
+    for (const match of allMatches) {
+      props[match.variable] = {
+        type: "string",
+        label: match.variable,
+        description: `Template text: **${match.description}**`,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const response = await this.whatsapp.sendMessageUsingTemplate({
       $,
       phoneNumberId: this.phoneNumberId,
       to: this.recipientPhoneNumber,
-      name: this.messageTemplate,
-      language: this.language,
+      name: this.messageTemplate.label,
     });
-    $.export("$summary", `Message sent using ${this.messageTemplate} template`);
+    $.export("$summary", `Message sent using ${this.messageTemplate.label} template`);
     return response;
   },
 };
