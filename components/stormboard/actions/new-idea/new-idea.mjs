@@ -26,7 +26,6 @@ export default {
       type: "string",
       label: "Data",
       description: "Text, video URL, image data, document data. Image and document data must be base64 format.",
-      optional: true,
     },
     name: {
       type: "string",
