@@ -48,8 +48,13 @@ export default {
     const mySignature = `v0=${sha256Hex}`;
     if (crypto.timingSafeEqual(Buffer.from(mySignature, "utf8"), Buffer.from(slackSignature, "utf8"))) {
       $.export("$summary", `Successfully verified the request with "${slackSignature}" signature`);
-      return true;
+      return {
+        success: true,
+      };
     }
-    return false;
+    $.export("$summary", "Slack signature mismatch with provided properties, it may be a configuration issue.");
+    return {
+      success: false,
+    };
   },
 };
