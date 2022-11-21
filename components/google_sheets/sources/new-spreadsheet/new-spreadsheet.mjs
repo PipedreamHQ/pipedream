@@ -6,7 +6,15 @@ export default {
   type: "source",
   name: "New Spreadsheet (Instant)",
   description: "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.0.12",
+  version: "0.0.13",
+  props: {
+    googleDrive: newFilesInstant.props.googleDrive,
+    db: newFilesInstant.props.db,
+    http: newFilesInstant.props.http,
+    drive: newFilesInstant.props.drive,
+    timer: newFilesInstant.props.timer,
+    folders: newFilesInstant.props.folders,
+  },
   hooks: {
     ...newFilesInstant.hooks,
     async deploy() {
