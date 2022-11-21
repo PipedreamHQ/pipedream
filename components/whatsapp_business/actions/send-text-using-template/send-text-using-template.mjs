@@ -1,11 +1,12 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
 
+const docLink = "https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages";
 const regex = /{{\d+}}/g;
 
 export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
-  description: "Send a text message using a pre-defined template. Variables can be sent only as text.",
+  description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
   version: "0.0.1",
   type: "action",
   props: {

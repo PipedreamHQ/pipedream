@@ -1,9 +1,11 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
 
+const docLink = "https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages";
+
 export default {
   key: "whatsapp_business-send-text-message",
   name: "Send Text Message",
-  description: "Sends a text message",
+  description: `Sends a text message. [See the docs.](${docLink})`,
   version: "0.0.1",
   type: "action",
   props: {
