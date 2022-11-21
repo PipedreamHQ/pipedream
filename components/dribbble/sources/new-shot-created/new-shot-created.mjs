@@ -2,7 +2,7 @@ import dribbble from "../../dribbble.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "dribble-new-shot-created",
+  key: "dribbble-new-shot-created",
   name: "New Shot Created",
   description: "Emit new events when new shots are created",
   version: "0.0.1",
