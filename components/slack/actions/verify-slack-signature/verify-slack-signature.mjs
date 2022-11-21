@@ -41,7 +41,6 @@ export default {
     const requestBodyStr = typeof (requestBody) === "string" ?
       requestBody :
       JSON.stringify(requestBody);
-    console.log(typeof (requestBody), requestBodyStr, requestBody);
     const sigBaseString = `v0:${slackRequestTimestamp}:${requestBodyStr}`;
     const sha256Hex = crypto.createHmac("sha256", slackSigningSecret)
       .update(sigBaseString, "utf8")
