@@ -6,7 +6,7 @@ export default {
   key: "notion-append-block",
   name: "Append Block to Parent",
   description: "Creates and appends blocks to the specified parent. [See the docs](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.2.3",
+  version: "0.2.5",
   type: "action",
   props: {
     notion,
@@ -42,7 +42,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const blocks = [];
     const children = [];
     // add blocks from blockObjects
     if (this.blockObjects?.length > 0) {
@@ -61,13 +60,8 @@ export default {
         children.push(...blockChildren);
       }
     }
-    blocks.push(...children
-      .filter((child) => Object.keys(child[child.type]).length > 0 && child.type !== "child_page")
-      .map((child) => ({
-        object: "block",
-        type: child.type,
-        [child.type]: child[child.type],
-      })));
+
+    const blocks = await this.getFormattedBlocks(children);
 
     // add blocks from markup
     if (this.markupContents?.length > 0) {
@@ -81,6 +75,7 @@ export default {
       $.export("$summary", "Nothing to append");
       return;
     }
+
     const { results } = await this.notion.appendBlock(this.pageId, blocks);
     $.export("$summary", `Appended ${results.length} block(s) successfully`);
     return results;

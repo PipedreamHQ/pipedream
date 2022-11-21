@@ -5,7 +5,7 @@ export default {
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emit new event each time a contact is updated.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   methods: {

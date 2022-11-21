@@ -5,7 +5,7 @@ export default {
   key: "vision6-new-contact",
   name: "New Contact",
   description: "Emit new event when a new contact is added",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

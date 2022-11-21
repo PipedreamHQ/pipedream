@@ -8,7 +8,7 @@ export default {
   name: "New or Modified Records",
   key: "airtable-new-or-modified-records",
   description: "Emit an event for each new or modified record in a table",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,

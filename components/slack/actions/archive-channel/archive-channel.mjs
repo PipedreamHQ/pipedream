@@ -4,7 +4,7 @@ export default {
   key: "slack-archive-channel",
   name: "Archive Channel",
   description: "Archive a channel. [See docs here](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     slack,

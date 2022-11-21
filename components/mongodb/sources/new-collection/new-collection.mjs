@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-collection",
   name: "New Collection",
   description: "Emit new an event when a new collection is added to a database",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
