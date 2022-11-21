@@ -1,12 +1,12 @@
-import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.mjs";
+import newFilesInstant from "../new-files-instant/new-files-instant.mjs";
 
 export default {
   ...newFilesInstant,
-  key: "google_sheets-new-spreadsheet",
+  key: "google_drive-new-spreadsheet",
   type: "source",
   name: "New Spreadsheet (Instant)",
   description: "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.0.13",
+  version: "0.0.1",
   props: {
     googleDrive: newFilesInstant.props.googleDrive,
     db: newFilesInstant.props.db,
