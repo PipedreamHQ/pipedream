@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-add-note",
   name: "Add Note",
   description: "Adds a new note. For info on [adding an note in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Notes#addNote)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     pipedriveApp,

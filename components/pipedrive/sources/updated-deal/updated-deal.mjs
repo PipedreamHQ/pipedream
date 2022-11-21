@@ -5,22 +5,26 @@ export default {
   ...common,
   key: "pipedrive-updated-deal",
   name: "Updated Deal",
-  description: "Triggers when a deal is updated.",
-  version: "0.0.3",
+  description: "Emit new event when a deal is updated.",
+  version: "0.0.4",
   type: "source",
   dedupe: "greatest",
   methods: {
     ...common.methods,
+    getFieldsFn() {
+      return this.app.getDealFields;
+    },
     getResourceFn() {
-      return this.pipedriveApp.getDeals;
+      return this.app.getDeals;
     },
     getResourceFnArgs() {
       return {
-        sort: "update_time DESC",
+        filter_id: this.getFilterId(),
+        sort: `${this.getFieldKey()} DESC, id DESC`,
       };
     },
-    getResourceProperty() {
-      return "update_time";
+    getFieldKey() {
+      return constants.FIELD.UPDATE_TIME;
     },
     getEventObject() {
       return constants.EVENT_OBJECT.DEAL;
@@ -33,6 +37,18 @@ export default {
     },
     getTimestamp(resource) {
       return Date.parse(resource.update_time);
+    },
+    getFilterArgs({
+      fieldId, value = "3_months_ago",
+    } = {}) {
+      return {
+        type: constants.FILTER_TYPE.DEALS,
+        name: "Pipedream: Deals updated later than specific value",
+        conditions: this.getConditions({
+          fieldId,
+          value,
+        }),
+      };
     },
   },
 };
