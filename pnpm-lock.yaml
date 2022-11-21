@@ -701,6 +701,12 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/dribbble:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/dropbox:
     specifiers:
       dropbox: ^8.2.0
@@ -796,6 +802,9 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/f15five:
+    specifiers: {}
+
+  components/facebook_groups:
     specifiers: {}
 
   components/facturadirecta:
@@ -2368,6 +2377,9 @@ importers:
       lodash-es: 4.17.21
       snowflake-sdk: 1.6.11_asn1.js@5.4.1
       uuid: 8.3.2
+
+  components/snyk:
+    specifiers: {}
 
   components/social_intents:
     specifiers: {}
@@ -6057,22 +6069,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.136:
-    resolution: {integrity: sha512-3LWTJB2BNobOIRf80KIMPkQvMMF0exi7U/DzpE4V/hebC1tEoBKtOgjDw2+64Too4R+RZi2CF3+mwtC8kiIljg==}
+  /@definitelytyped/header-parser/0.0.139:
+    resolution: {integrity: sha512-AwFhZLziDc4HaeyInk6uar+zp9q/+HSQO4tAOkEDWiCLzqQOInSIakAs8OsuDOmjll+LU6C0MiDRHQWyFgWFtg==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.136
+      '@definitelytyped/typescript-versions': 0.0.139
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.136:
-    resolution: {integrity: sha512-CG9Ww5rvGKkJCabY1sBci66EtNExAEWQbSdOVTEejU6Xql3V6itIJRaqjreF6wRDTvbaooidyVpOg+hZUBfm4Q==}
+  /@definitelytyped/typescript-versions/0.0.139:
+    resolution: {integrity: sha512-9vhAc/3MhsMawbMMkhlPuvXOtqbxqC9kN88G9JAIujfrKGOnWWRzofo02fadDUMPZfoo4B54EEox9nepNCi5RQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.136:
-    resolution: {integrity: sha512-rqlDDcdhbamYcIZMfNR9af9mBfUJ1uX67tV/acIHR+fMX5R60YfRLs1aOZVZElN0h6pvc4t+7BZTCnewPT8Eng==}
+  /@definitelytyped/utils/0.0.139:
+    resolution: {integrity: sha512-A1sgPeA6mXpCzjByleGeeah1coT6BPL948wINSSWXDoQ3MrAgHasxc/1R9F4yXDafCwhgOKBfXpT5lE1upZBNw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.136
+      '@definitelytyped/typescript-versions': 0.0.139
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -7381,6 +7393,17 @@ packages:
 
   /@pipedream/platform/1.1.1:
     resolution: {integrity: sha512-1frSYwee2eJbmZxsOfcOVjpxNpdswrY5JQsHmbUZeyk28gLKSfcFHDcmRdWdtI9B/6T44YIiDR5mMc0T6F+qsg==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.2.0:
+    resolution: {integrity: sha512-rxJh8d1rIA1o5qr1a0hwe79Ua7IVz/mbS5fudWMR3eV9fRgDBxMwKZqQWysmxP+jBT2KrSKcXrMeJpl2zY3u6Q==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
@@ -11724,7 +11747,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.136
+      '@definitelytyped/header-parser': 0.0.139
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -11740,9 +11763,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.136
-      '@definitelytyped/typescript-versions': 0.0.136
-      '@definitelytyped/utils': 0.0.136
+      '@definitelytyped/header-parser': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/utils': 0.0.139
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
