@@ -2610,6 +2610,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/stormboard:
+    specifiers: {}
+
   components/stormglass_io:
     specifiers: {}
 
@@ -2769,8 +2772,10 @@ importers:
 
   components/ticket_tailor:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       crypto: ^1.0.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       crypto: 1.0.1
 
   components/ticktick:

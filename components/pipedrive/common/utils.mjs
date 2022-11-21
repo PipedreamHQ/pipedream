@@ -7,4 +7,11 @@ export default {
       ? value
       : JSON.parse(value);
   },
+  async streamIterator(stream) {
+    const resources = [];
+    for await (const resource of stream) {
+      resources.push(resource);
+    }
+    return resources;
+  },
 };

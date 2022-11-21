@@ -239,8 +239,8 @@ export default {
   },
   methods: {
     setupToken() {
-      const api = pipedrive.ApiClient.instance;
-      api.authentications.oauth2.accessToken = this.$auth.oauth_access_token;
+      const client = pipedrive.ApiClient.instance;
+      client.authentications.oauth2.accessToken = this.$auth.oauth_access_token;
     },
     api(className) {
       this.setupToken();
@@ -255,21 +255,20 @@ export default {
         addProperty,
       ] = constants.API.ACTIVITIES;
       try {
-        const activityOpts = this.buildOpts(addProperty, opts);
-        return this.api(className).addActivity(activityOpts);
+        return this.api(className).addActivity(this.buildOpts(addProperty, opts));
       } catch (error) {
         console.error(error);
         throw new Error(error);
       }
     },
-    async addDeal(opts = {}) {
+    addDeal(opts = {}) {
       const [
         className,
         addProperty,
       ] = constants.API.DEALS;
       return this.api(className).addDeal(this.buildOpts(addProperty, opts));
     },
-    async updateDeal(opts = {}) {
+    updateDeal(opts = {}) {
       const {
         dealId,
         ...otherOpts
@@ -293,13 +292,13 @@ export default {
       ] = constants.API.ORGANIZATIONS;
       return this.api(className).addOrganization(this.buildOpts(addProperty, opts));
     },
-    async addPerson(opts = {}) {
+    addPerson(opts = {}) {
       const [
         className,
       ] = constants.API.PERSONS;
       return this.api(className).addPerson(opts);
     },
-    async searchPersons(opts = {}) {
+    searchPersons(opts = {}) {
       const {
         term,
         ...otherOpts
@@ -309,13 +308,37 @@ export default {
       ] = constants.API.PERSONS;
       return this.api(className).searchPersons(term, otherOpts);
     },
-    async getDeals(opts = {}) {
+    addFilter(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.FILTERS;
+      return this.api(className).addFilter(this.buildOpts(addProperty, opts));
+    },
+    updateFilter(opts = {}) {
+      const {
+        filterId,
+        ...otherOpts
+      } = opts;
+      const [
+        className,,
+        updateProperty,
+      ] = constants.API.FILTERS;
+      return this.api(className).updateFilter(filterId, this.buildOpts(updateProperty, otherOpts));
+    },
+    deleteFilter(filterId) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).deleteFilter(filterId);
+    },
+    getDeals(opts = {}) {
       const [
         className,
       ] = constants.API.DEALS;
       return this.api(className).getDeals(opts);
     },
-    async getPersons(opts = {}) {
+    getPersons(opts = {}) {
       const [
         className,
       ] = constants.API.PERSONS;
@@ -333,73 +356,69 @@ export default {
       ] = constants.API.USERS;
       return this.api(className).getUsers(opts);
     },
-    async getActivityTypes(opts) {
+    getActivityTypes(opts) {
       const [
         className,
       ] = constants.API.ACTIVITY_TYPES;
       return this.api(className).getActivityTypes(opts);
     },
-    async getOrganizations(opts = {}) {
+    getOrganizations(opts = {}) {
       const [
         className,
       ] = constants.API.ORGANIZATIONS;
       return this.api(className).getOrganizations(opts);
     },
-    async getStages(opts) {
+    getStages(opts) {
       const [
         className,
       ] = constants.API.STAGES;
       return this.api(className).getStages(opts);
     },
+    getDealFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.DEAL_FIELDS;
+      return this.api(className).getDealFields(opts);
+    },
+    getPersonFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSON_FIELDS;
+      return this.api(className).getPersonFields(opts);
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
       limit = constants.DEFAULT_PAGE_LIMIT,
-      max,
-      lastResourceProperty,
-      done,
+      max = constants.DEFAULT_MAX_ITEMS,
     }) {
-      let page = 0;
+      let start = 0;
       let resourcesCount = 0;
 
       while (true) {
-        const nextResponse =
+        const response =
           await resourceFn({
             ...resourceFnArgs,
             limit,
-            start: page * limit,
+            start,
           });
 
-        if (!nextResponse) {
-          throw new Error("No response from the Pipedrive API.");
+        const nextResources = response?.data || [];
+        start = response?.additional_data?.pagination?.next_start;
+
+        if (!nextResources.length) {
+          console.log("No more records to fetch.");
+          return;
         }
 
-        const {
-          data: nextResources,
-          additional_data: additionalData,
-        } = nextResponse;
-
-        const { more_items_in_collection: moreItemsInCollection } = additionalData.pagination;
-
-        for (const resource of nextResources || []) {
-          const isDone = done && done({
-            lastResourceProperty,
-            resource,
-          });
-
-          if (isDone) {
-            return;
-          }
-
+        for (const resource of nextResources) {
           resourcesCount += 1;
           yield resource;
         }
 
-        if (!moreItemsInCollection || (max && resourcesCount >= max)) {
+        if (!start || resourcesCount >= max) {
           return;
         }
-
-        page += 1;
       }
     },
   },
