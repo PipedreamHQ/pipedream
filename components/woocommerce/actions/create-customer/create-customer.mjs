@@ -41,7 +41,7 @@ export default {
       optional: true,
     },
     isPayingCustomer: {
-      type: "string",
+      type: "boolean",
       label: "Is Paying Customer",
       description: "Is the customer a paying customer?",
       optional: true,
