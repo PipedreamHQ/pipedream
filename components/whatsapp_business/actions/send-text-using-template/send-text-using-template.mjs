@@ -1,6 +1,6 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
 
-const docLink = "https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages";
+const docLink = "https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#message-templates";
 const regex = /{{\d+}}/g;
 
 export default {
