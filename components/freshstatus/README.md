@@ -1,6 +1,8 @@
 # Overview
 
-The Freshstatus API allows developers to integrate Freshstatus into their applications, enabling them to create, update, and manage their Freshstatus account data. With the Freshstatus API, developers can manage:
+The Freshstatus API allows developers to integrate Freshstatus into their
+applications, enabling them to create, update, and manage their Freshstatus
+account data. With the Freshstatus API, developers can manage:
 
 - Users
 - Organizations

@@ -1,6 +1,9 @@
 # Overview
 
-The Gender API is a simple, free API that allows you to determine the gender of a first name. This is perfect for any application or website where you need to know the gender of a person's name, such as for personalized content, targetted advertising, or for sorting results.
+The Gender API is a simple, free API that allows you to determine the gender of
+a first name. This is perfect for any application or website where you need to
+know the gender of a person's name, such as for personalized content, targetted
+advertising, or for sorting results.
 
 Here are some examples of what you can build with the Gender API:
 

@@ -2,7 +2,11 @@
 
 Fraud Detection for E-commerce
 
-The FraudLabs Pro API enables e-commerce businesses to detect fraudulent orders with ease. Businesses can simply send in an order’s information, and FraudLabs Pro will return a fraud score and report explaining the decision. This allows businesses to make informed decisions on whether to accept, flag, or reject an order.
+The FraudLabs Pro API enables e-commerce businesses to detect fraudulent orders
+with ease. Businesses can simply send in an order’s information, and FraudLabs
+Pro will return a fraud score and report explaining the decision. This allows
+businesses to make informed decisions on whether to accept, flag, or reject an
+order.
 
 FraudLabs Pro can help e-commerce businesses in the following ways:
 

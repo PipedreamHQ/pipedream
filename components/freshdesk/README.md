@@ -1,6 +1,7 @@
 # Overview
 
-With the Freshdesk API, you can create powerful customer support applications. Here are some examples of what you can build:
+With the Freshdesk API, you can create powerful customer support applications.
+Here are some examples of what you can build:
 
 - A ticketing system for tracking customer issues
 - A knowledge base for self-service customer support

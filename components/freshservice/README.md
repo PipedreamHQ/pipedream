@@ -1,6 +1,8 @@
 # Overview
 
-Freshservice is a powerful API that allows you to build a wide variety of applications and integrations. Here are just a few examples of what you can build:
+Freshservice is a powerful API that allows you to build a wide variety of
+applications and integrations. Here are just a few examples of what you can
+build:
 
 - A custom ticketing system
 - An integration with your company's CRM system

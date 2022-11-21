@@ -1,6 +1,8 @@
 # Overview
 
-Getform allows you to build powerful forms and surveys without code. You can use Getform to collect leads, orders, feedback, and more. Getform makes it easy to build forms and surveys that look great and work well.
+Getform allows you to build powerful forms and surveys without code. You can
+use Getform to collect leads, orders, feedback, and more. Getform makes it easy
+to build forms and surveys that look great and work well.
 
 Here are some examples of what you can build with Getform:
 
