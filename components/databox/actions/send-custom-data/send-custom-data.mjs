@@ -2,7 +2,7 @@ import databox from "../../databox.app.mjs";
 
 export default {
   name: "Send Custom Data",
-  version: "0.0.9",
+  version: "0.0.1",
   key: "databox-send-custom-data",
   description: "Sends custom data. [See docs here](https://developers.databox.com/send-data/)",
   type: "action",
