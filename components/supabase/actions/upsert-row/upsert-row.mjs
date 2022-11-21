@@ -9,19 +9,24 @@ export default {
   props: {
     supabase,
     table: {
-      type: "string",
-      label: "Table",
+      propDefinition: [
+        supabase,
+        "table",
+      ],
       description: "Name of the table to upsert row",
     },
     data: {
-      type: "object",
-      label: "Row Data",
-      description: "Enter the column names and values as key/value pairs",
+      propDefinition: [
+        supabase,
+        "data",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.supabase.upsertRow(this.table, this.data);
-    $.export("$summary", `Successfully upserted row into table ${this.table}`);
+    if (response) {
+      $.export("$summary", `Successfully upserted row into table ${this.table}`);
+    }
     return response;
   },
 };

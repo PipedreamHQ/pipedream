@@ -9,24 +9,29 @@ export default {
   props: {
     supabase,
     table: {
-      type: "string",
-      label: "Table",
-      description: "Name of the table to search",
+      propDefinition: [
+        supabase,
+        "table",
+      ],
     },
     column: {
-      type: "string",
-      label: "Column",
-      description: "Column name to search by",
+      propDefinition: [
+        supabase,
+        "column",
+      ],
     },
     value: {
-      type: "string",
-      label: "Value",
-      description: "Value of the column specified to search for",
+      propDefinition: [
+        supabase,
+        "value",
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.supabase.selectRow(this.table, this.column, this.value);
-    $.export("$summary", `Successfully retrieved rows from table ${this.table}`);
+    if (response) {
+      $.export("$summary", `Successfully retrieved ${response.length} rows from table ${this.table}`);
+    }
     return response;
   },
 };
