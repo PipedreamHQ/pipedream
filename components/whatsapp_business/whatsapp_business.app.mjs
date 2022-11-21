@@ -42,14 +42,16 @@ export default {
           },
         });
         if (response.paging.next) after = response.paging.cursors.after;
+        const options = response.data
+          .filter(this._hasTextVariablesOnly)
+          .map(({
+            name, id, language,
+          }) => ({
+            label: `${name} - ${language}`,
+            value: id,
+          }));
         return {
-          options: response.data
-            .map(({
-              name, id, language,
-            }) => ({
-              label: `${name} - ${language}`,
-              value: id,
-            })),
+          options,
           context: {
             after,
           },
@@ -63,6 +65,11 @@ export default {
     },
   },
   methods: {
+    _hasTextVariablesOnly(template) {
+      return !template.components.some(({
+        type, format,
+      }) => type === "HEADER" && format !== "TEXT");
+    },
     _businessAccountId() {
       return this.$auth.business_account_id;
     },
@@ -167,7 +174,7 @@ export default {
       });
     },
     async sendMessageUsingTemplate({
-      $, phoneNumberId, to, name, language, ...opts
+      $, phoneNumberId, to, name, language, components, ...opts
     }) {
       const path = `/${phoneNumberId || await this.defaultPhoneNumberId()}/messages`;
       return this._makeRequest({
@@ -185,6 +192,7 @@ export default {
             language: {
               code: language,
             },
+            components,
           },
         },
       });

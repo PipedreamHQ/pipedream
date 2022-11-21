@@ -1,9 +1,11 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
 
+const regex = /{{\d+}}/g;
+
 export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
-  description: "Send a text message using a pre-defined template",
+  description: "Send a text message using a pre-defined template. Variables can be sent only as text.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -31,37 +33,75 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    const allMatches = [];
-    const regex = /{{\d+}}/g;
     const template = await this.whatsapp.getMessageTemplate({
       templateId: this.messageTemplate.value,
     });
+
     for (const component of template.components) {
+      if (component.type === "HEADER" && component.format === "TEXT" && component.text.match(regex)) {
+        // only 1 header variable is possible
+        props["header_{{1}}"] = {
+          type: "string",
+          label: "Header {{1}}",
+          description: `Template header text: **${component.text}**`,
+        };
+        continue;
+      }
+
       const matches = component.text?.match(regex);
       for (const match of matches ?? []) {
-        allMatches.push({
-          variable: match,
-          description: component.text,
-        });
+        props[match] = {
+          type: "string",
+          label: match,
+          description: `Template text: **${component.text}**`,
+        };
       }
     }
-    for (const match of allMatches) {
-      props[match.variable] = {
-        type: "string",
-        label: match.variable,
-        description: `Template text: **${match.description}**`,
-      };
-    }
+
     return props;
   },
   async run({ $ }) {
+    const components = [];
+    const [
+      templateName,
+      language,
+    ] = this.messageTemplate.label.split(" - ");
+
+    const headerParameters = Object.keys(this)
+      .filter((key) => key === "header_{{1}}")
+      .map((key) => ({
+        type: "text",
+        text: this[key],
+      }));
+
+    if (headerParameters.length) {
+      components.push({
+        type: "header",
+        parameters: headerParameters,
+      });
+    }
+
+    const bodyParameters = Object.keys(this)
+      .filter((key) => key.match(regex) && key !== "header_{{1}}")
+      .map((key) => ({
+        type: "text",
+        text: this[key],
+      }));
+
+    components.push({
+      type: "body",
+      parameters: bodyParameters,
+    });
+
     const response = await this.whatsapp.sendMessageUsingTemplate({
       $,
       phoneNumberId: this.phoneNumberId,
       to: this.recipientPhoneNumber,
-      name: this.messageTemplate.label,
+      name: templateName,
+      language,
+      components,
     });
-    $.export("$summary", `Message sent using ${this.messageTemplate.label} template`);
+    $.export("$summary", `Message sent using ${templateName} template`);
     return response;
   },
 };
