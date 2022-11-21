@@ -61,9 +61,11 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     const {
       oauthSignerUri, token,
     } = signConfig;
+    const { baseURL } = config;
+    const url: string = buildURL(config.url, config.params, oauth1ParamsSerializer); // build url as axios will
     const requestData = {
       method: config.method || "get",
-      url: buildURL(config.url, config.params, oauth1ParamsSerializer), // build url as axios will
+      url: (baseURL ?? '') + url,
     };
     // the OAuth specification explicitly states that only form-encoded data should be included
     let hasContentType = false;
