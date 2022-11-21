@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   name: "New Interaction Events",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "slack-new-interaction-event-received",
   description:
     "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
