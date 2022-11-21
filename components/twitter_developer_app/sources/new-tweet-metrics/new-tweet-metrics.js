@@ -4,8 +4,10 @@ const common = require("../common");
 module.exports = {
   ...common,
   key: "twitter_developer_app-new-tweet-metrics",
+  description: "Emit new event on each new twitter metric",
+  type: "source",
   name: "New Tweet Metrics",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

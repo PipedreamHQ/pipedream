@@ -6,7 +6,7 @@ module.exports = {
   key: "twitter_developer_app-new-message",
   name: "New Message",
   description: "Emit new event each time the authenticated user receives a Direct Message",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     async deploy() {

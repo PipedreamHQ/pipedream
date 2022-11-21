@@ -1,18 +1,18 @@
 import shopify from "../../shopify.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "shopify-new-shipment",
   name: "New Shipment",
   type: "source",
   description: "Emit new event for each new fulfillment event for a store.",
-  version: "0.0.5",
-  dedupe: "unique",
+  version: "0.0.9",
   props: {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     shopify,

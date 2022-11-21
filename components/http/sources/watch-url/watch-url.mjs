@@ -1,11 +1,12 @@
 import http from "../../http.app.mjs";
 import hash from "object-hash";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "http-watch-url",
   name: "New event when the content of the URL changes.",
   description: "Emit new event when the content of the URL changes.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +16,7 @@ export default {
       label: "Watching timer",
       description: "How often to watch the URL.",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     httpRequest: {

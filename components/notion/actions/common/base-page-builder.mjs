@@ -161,5 +161,102 @@ export default {
     createBlocks(pageContent) {
       return markdownToBlocks(pageContent);
     },
+    isSupportedVideoType(url) {
+      if (!url) {
+        return false;
+      }
+      const supportedTypes = [
+        ".mkv",
+        ".flv",
+        ".gifv",
+        ".avi",
+        ".mov",
+        ".qt",
+        ".wmv",
+        ".asf",
+        ".amv",
+        ".mp4",
+        ".m4v",
+        ".mpeg",
+        ".mpv",
+        ".mpg",
+        ".f4v",
+      ];
+      const extension = url.split(".").pop();
+      return supportedTypes.includes(extension);
+    },
+    // creating a new file object is not currently supported by the API
+    // https://developers.notion.com/reference/file-object
+    isFile(block) {
+      return (block?.type === "file");
+    },
+    // returns false if the child block is a video of an unsupported type,
+    // an image file, or a column-list with less than 2 children
+    notValid(child, c) {
+      return (
+        (child.type === "video" && !this.isSupportedVideoType(child.video?.external?.url))
+        || (child.type === "image" && this.isFile(child.image))
+        || (child.type === "column_list" && c.length < 2));
+    },
+    childPageToLink(block) {
+      return {
+        object: "block",
+        type: "link_to_page",
+        link_to_page: {
+          type: "page_id",
+          page_id: block.id,
+        },
+      };
+    },
+    childDatabaseToLink(block) {
+      return {
+        object: "block",
+        type: "link_to_page",
+        link_to_page: {
+          type: "database_id",
+          database_id: block.id,
+        },
+      };
+    },
+    /**
+     * Formats the children of an existing block for creating/appending
+     * to a new page/block
+     */
+    async formatChildBlocks(block) {
+      const children = block.children;
+      if (!block.has_children) {
+        return [];
+      }
+
+      (await Promise.all(children.map((child) => this.formatChildBlocks(child))))
+        .forEach((c, i) => {
+          const child = children[i];
+          if (child.type === "child_page") {
+            // convert child pages to links
+            children[i] = this.childPageToLink(child);
+          } else if (child.type === "child_database") {
+            // convert child databases to links
+            children[i] = this.childDatabaseToLink(child);
+          } else {
+            if (this.notValid(child, c)) {
+              children[i] = undefined;
+            } else {
+              children[i] = {
+                object: "block",
+                type: child.type,
+                [child.type]: child[child.type],
+              };
+
+              if (c.length > 0) {
+                children[i][child.type].children = c;
+              } else if (Object.keys(children[i][child.type]).length === 0) {
+                // block has no children and no content
+                children[i] = undefined;
+              }
+            }
+          }
+        });
+      return children.filter((child) => child !== undefined);
+    },
   },
 };

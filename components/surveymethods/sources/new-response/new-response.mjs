@@ -1,8 +1,9 @@
 import surveymethods from "../../surveymethods.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Response",
-  version: "0.0.1",
+  version: "0.0.3",
   key: "surveymethods-new-response",
   description: "Emit new event for each response.",
   type: "source",
@@ -13,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       static: {
-        intervalSeconds: 15 * 60, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     surveyCode: {

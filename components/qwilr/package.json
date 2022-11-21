@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/qwilr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Qwilr Components",
   "main": "dist/app/qwilr.app.mjs",
   "keywords": [

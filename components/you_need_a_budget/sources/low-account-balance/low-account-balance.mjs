@@ -6,7 +6,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "Low Account Balance",
   description: "Emit new event when an account balance drops below a certain amount",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/scrapeninja",
+  "version": "0.0.1",
+  "description": "Pipedream ScrapeNinja Components",
+  "main": "dist/app/scrapeninja.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapeninja"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/scrapeninja",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

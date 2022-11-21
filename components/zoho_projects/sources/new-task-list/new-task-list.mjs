@@ -7,7 +7,7 @@ export default {
   name: "New Task List",
   description: "Emit new event when a task list is created. [See the docs here](https://www.zoho.com/projects/help/rest-api/tasklists-api.html#alink1)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     portalId: {

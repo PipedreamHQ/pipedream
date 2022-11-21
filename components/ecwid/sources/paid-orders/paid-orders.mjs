@@ -1,17 +1,18 @@
 import ecwid from "../../ecwid.app.mjs";
 import { FULFILMENT_STATUS_LIST } from "../../commons/commons.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Ecwid Paid Orders",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "ecwid-paid-orders",
   description: "Search for new orders which are PAID and AWAITING_PROCESSING. Emits events for each order and" +
-      " sets order fulfilment status to PROCESSING",
+    " sets order fulfilment status to PROCESSING",
   props: {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     history: {
@@ -23,7 +24,7 @@ export default {
     setFulfilmentStatus: {
       label: "Set order fulfilment status (Preferred)",
       description: "Upon receiving the order, fulfilment status will be set to user defined value so that " +
-          "the same order is not fetched again. If unchecked, it needs to be handled in the workflow",
+        "the same order is not fetched again. If unchecked, it needs to be handled in the workflow",
       type: "boolean",
       default: true,
     },
@@ -53,10 +54,10 @@ export default {
         );
         if (updateStatus.updateCount === 1)
           console.log("Updated Order Status of " + order.id +
-              " to " + this.newFulfilmentStatus);
+            " to " + this.newFulfilmentStatus);
         else
           console.error("Error Updating Order Status of "
-              + order.id + " to " + this.newFulfilmentStatus);
+            + order.id + " to " + this.newFulfilmentStatus);
       }
     }
   },

@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/trengo",
+  "version": "0.0.1",
+  "description": "Pipedream Trengo Components",
+  "main": "trengo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trengo"
+  ],
+  "homepage": "https://pipedream.com/apps/trengo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "crypto-js": "^4.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

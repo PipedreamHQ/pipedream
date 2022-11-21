@@ -1,4 +1,5 @@
 import todoist from "../todoist.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -8,7 +9,7 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Todoist API on this schedule",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

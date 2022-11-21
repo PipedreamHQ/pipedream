@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendblue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sendblue Components",
   "main": "dist/app/sendblue.app.mjs",
   "keywords": [

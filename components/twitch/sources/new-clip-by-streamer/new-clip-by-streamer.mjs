@@ -6,7 +6,7 @@ export default {
   name: "New Clip By Streamer",
   key: "twitch-new-clip-by-streamer",
   description: "Emit new event when there is a new clip for the specified streamer.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   props: {
     ...common.props,

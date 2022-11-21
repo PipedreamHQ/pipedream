@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/switchboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Switchboard Components",
   "main": "dist/app/switchboard.app.mjs",
   "keywords": [
