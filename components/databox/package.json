@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/databox",
+  "version": "0.0.1",
+  "description": "Pipedream Databox Components",
+  "main": "databox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "databox"
+  ],
+  "homepage": "https://pipedream.com/apps/databox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "databox": "^2.0.1"
+  }
+}
