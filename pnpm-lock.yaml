@@ -857,6 +857,9 @@ importers:
   components/facturadirecta:
     specifiers: {}
 
+  components/faire:
+    specifiers: {}
+
   components/faunadb:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2504,6 +2507,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/smartsheet:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
@@ -2695,6 +2704,9 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/syncro:
+    specifiers: {}
+
+  components/talenox:
     specifiers: {}
 
   components/talentlms:
