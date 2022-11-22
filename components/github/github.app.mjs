@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
+import { axios } from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -201,6 +202,16 @@ export default {
     _client() {
       return new CustomOctokit({
         auth: this._accessToken(),
+      });
+    },
+    async _makeRequest({ $ = this, path, ...args } = {}) {
+      return axios($, {
+        url: `${this._baseApiUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this._accessToken()}`,
+          Accept: "application/vnd.github+json",
+        },
+        ...args,
       });
     },
     async graphql(query, opts = {}) {
@@ -435,6 +446,34 @@ export default {
         ...data,
       });
       return cards;
+    },
+    async createOrUpdateFileContent({
+      repoFullname,
+      path,
+      fileContent,
+      commitMessage,
+      branch = null,
+    }) {
+      const data = {
+        message: commitMessage,
+        content: Buffer.from(fileContent).toString("base64"),
+      };
+      const fileExists = await this._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        validateStatus: () => true,
+      });
+      if (fileExists.sha) {
+        console.log('File exists, overwriting.');
+        data.sha = fileExists.sha;
+      };
+      if (branch) {
+        data.branch = branch;
+      }
+      return this._makeRequest({
+        path: `/repos/${repoFullname}/contents/${path}`,
+        method: "put",
+        data: data,
+      });
     },
   },
 };
