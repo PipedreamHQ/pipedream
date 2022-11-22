@@ -16,8 +16,10 @@ function cleanObject(o: { string: any; }) {
 // remove query params from url and put into config.params
 function removeSearchFromUrl(config: AxiosRequestConfig) {
   if (!config.url) return;
-  const { url, baseURL } = config;
-  const newUrl = new URL((baseURL ?? '') + url);
+  const {
+    url, baseURL,
+  } = config;
+  const newUrl = new URL((baseURL ?? "") + url);
   const queryString = newUrl.search.substr(1);
   if (queryString) {
     // https://stackoverflow.com/a/8649003/387413
@@ -62,11 +64,13 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     const {
       oauthSignerUri, token,
     } = signConfig;
-    const { baseURL, url } = config;
+    const {
+      baseURL, url,
+    } = config;
     const newUrl: string = buildURL(url, config.params, oauth1ParamsSerializer); // build url as axios will
     const requestData = {
       method: config.method || "get",
-      url: (baseURL ?? '') + newUrl,
+      url: (baseURL ?? "") + newUrl,
     };
     // the OAuth specification explicitly states that only form-encoded data should be included
     let hasContentType = false;
