@@ -40,7 +40,7 @@ export default {
 
       return {
         currentPage: page,
-        resources: data.filter((issue) => !!issue.published),
+        resources: data.filter((issue) => !issue.published),
       };
     },
   },
