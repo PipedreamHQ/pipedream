@@ -871,6 +871,9 @@ importers:
   components/facturadirecta:
     specifiers: {}
 
+  components/faire:
+    specifiers: {}
+
   components/faunadb:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2711,6 +2714,9 @@ importers:
   components/syncro:
     specifiers: {}
 
+  components/talenox:
+    specifiers: {}
+
   components/talentlms:
     specifiers: {}
 
@@ -2805,6 +2811,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       dayjs: 1.11.5
+
+  components/timekit:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/tmetric:
     specifiers: {}
