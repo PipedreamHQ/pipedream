@@ -10,8 +10,13 @@ module.exports = {
       async options() {
         const results = await this.getAccounts();
         const options = results.map((result) => {
-          const { name, id } = result;
-          return { label: name, value: id };
+          const {
+            name, id,
+          } = result;
+          return {
+            label: name,
+            value: id,
+          };
         });
         return options;
       },
@@ -23,7 +28,7 @@ module.exports = {
     },
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
       };
     },
@@ -48,7 +53,7 @@ module.exports = {
       return await this._makeRequest(
         "GET",
         `/account/${accountId}/transactions`,
-        params
+        params,
       );
     },
   },

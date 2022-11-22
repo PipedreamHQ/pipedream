@@ -1,11 +1,12 @@
 import estreamdesk from "../../estreamdesk.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   estreamdesk,
   key: "estreamdesk-new-ticket",
   name: "New Ticket",
   description: "Emit new event when a ticket is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -16,7 +17,7 @@ export default {
       description: "Pipedream will poll the eStreamDesk API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

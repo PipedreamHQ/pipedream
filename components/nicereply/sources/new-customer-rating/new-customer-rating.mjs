@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Customer Rating",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "nicereply-new-customer-rating",
   description: "Emit new event on each new customer rating.",
   type: "source",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mercury",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Mercury Components",
   "main": "mercury.app.js",
   "keywords": [

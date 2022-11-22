@@ -5,7 +5,7 @@ export default {
   key: "vision6-contact-unsubscribed",
   name: "Contact Unsubscribed",
   description: "Emit new event when a contact is unsubscribed",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -6,7 +6,7 @@ export default {
   name: "New Customer",
   type: "source",
   description: "Emit new event for each new customer added to a store.",
-  version: "0.0.7",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     db: "$.service.db",
