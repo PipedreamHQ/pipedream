@@ -56,15 +56,6 @@ export default {
         ...args,
       });
     },
-    deleteJob({
-      jobId, ...args
-    } = {}) {
-      return this.makeRequest({
-        method: "delete",
-        path: `/jobs/${jobId}`,
-        ...args,
-      });
-    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
@@ -86,7 +77,6 @@ export default {
             },
           });
 
-        console.log("nextResources", JSON.stringify(nextResources, null, 2));
         if (!nextResources.length) {
           console.log("No more records to fetch.");
           return;
