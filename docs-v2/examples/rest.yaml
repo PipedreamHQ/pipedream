@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: Pipedream REST API
+  description: The official Pipedream REST API for interacting with your sources, workflows, and more.
+  version: 1.0.0
+servers:
+  - url: http://api.pipedream.com/v1
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        total_count:
+          type: integer
+          description: Total number of records
+          example: 19
+        count:
+          type: integer
+          description: Number of records available in the current page
+          example: 10
+        start_cursor:
+          type: string
+          description: The corresponding cursor for the first record in the page
+          example: "ZGNfSzB1QWVl"
+        end_cursor:
+          type: string
+          description: The corresponding cursor for the last record in the page
+          example: "ZGNfSzB1QWVl"   
+    ConfiguredHTTPProp:
+      description: The props this deployed source is configured with
+      type: object
+      properties:
+        http:
+          type: object
+          properties:
+            endpoint_url:
+              type: string
+              example: https://myendpoint.m.pipedream.net
+              description: The HTTP endpoint that triggers this source
+    ConfigurableRSSProps:
+      description: The props this component can be configured with.
+      type: object
+      properties:
+        url:
+          type: object
+          properties:
+            name:
+              type: string
+              example: url
+            type:
+              type: string
+              example: string
+            label:
+              type: string
+              example: Feed URL
+            description:
+              type: string
+              example: Enter the URL for any public RSS feed.
+        timer:
+          type: object
+          properties:
+            name:
+              type: string
+              example: timer
+            type:
+              type: string
+              example: '$.interface.timer'
+            default:
+              type: object
+              properties:
+                intervalSeconds:
+                  type: integer
+                  example: 900
+
+
+    Source:
+      type: object
+      properties:
+        id:
+          type: string
+          example: dc_abc123
+          description: The ID of the deployed component (source), formatted `dc_******`.
+        component_id:
+          type: string
+          example: sc_def456
+          description: The ID of the saved component the source was created from, formated `sc_******`
+        configured_props: 
+          $ref: '#/components/schemas/ConfiguredHTTPProp'
+        active:
+          description: If the source is active or disabled.
+          type: boolean
+          example: true
+        created_at:
+          description: The timestamp of when the source was deployed. 
+          type: integer
+          example: 1587764467
+        updated_at:
+          description: The timestamp of when the source was last updated.
+          type: integer
+          example: 1587679599
+        name:
+          description: The name of the deployed source.
+          type: string
+          example: test
+        name_slug:
+          description: The name of the deployed source in machine format.
+          type: string
+          example: test-source
+    Component:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sc_abc123
+          description: The ID of the saved component, formatted `sc_******`.
+        code:
+          type: string
+          example: Component code here
+          description: The Node.js Component code.
+        code_hash:
+          type: string
+          example: 685c7a680d055eaf505b08d5d814feef9fabd516d5960837d2e0838d3e1c9ed1
+          description: A unique hash of the submitted component code
+        name:
+          type: string
+          example: rss
+          description: The unique name of this component
+        version:
+          type: string
+          example: "0.0.1"
+          description: The symver of this component.
+        configurable_props:
+          $ref: '#/components/schemas/ConfigurableRSSProps' 
+
+  parameters:
+    limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+      required: false
+      description: The number of items to return in the requested page of results.
+    after:
+      in: query
+      name: after
+      schema:
+        type: string 
+        example: "ZGNfSzB1QWVl"
+      required: false
+      description: |
+        A cursor, specifying you'd like to retrieve items after this cursor.
+
+        Cursor strings are returned with all paginated responses, within `page_info.start_cursor` or `page_info.end_cursor`.
+    before:
+      in: query
+      name: before
+      schema:
+        type: string 
+        example: "ZGNfSzB1QWVl"
+      required: false
+      description: |
+        A cursor, specifying you'd like to retrieve items before this cursor.
+
+        Cursor strings are returned with all paginated responses, within `page_info.start_cursor` or `page_info.end_cursor`.
+    org_id:
+      in: query
+      name: org_id
+      schema:
+        type: string
+        example: o_abc123
+      description: |
+        Some endpoints require you to specify the org ID you want the operation to take effect in. 
+        For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+
+        [Find your org's ID here](https://pipedream.com/docs/orgs/#finding-your-organization-s-id).
+      required: false
+    include:
+      in: query
+      name: include
+      schema:
+        type: string
+        example: comma,separated,fields,to,include
+      description: |
+        The fields in the API response you'd like to include (defaults to all fields). Pass as a string of comma-separated values.
+    exclude:
+      in: query
+      name: exclude
+      schema:
+        type: string
+        example: comma,separated,fields,to,exclude
+      description: |
+        The fields in the API response you'd like to exclude (defaults to none, excluding no fields). Pass as a string of comma-separated values.
+
+paths:
+  /users/me/sources:
+    get:
+      summary: List sources
+      operationId: sources.list
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/exclude'
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      description: List of sources on the current users Pipedream account.
+      responses:
+        '200':    # status code
+          description: A JSON array of sources
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page_info:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Source'

@@ -1,0 +1,37 @@
+---
+id: create-pets
+title: "Create a pet"
+description: "Create a pet"
+sidebar_label: "Create a pet"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"createPets","tags":["pets"],"responses":{"201":{"description":"Null response"},"default":{"description":"unexpected error","content":{"application/json":{"schema":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}}}}},"description":"Create a pet","method":"post","path":"/pets","servers":[{"url":"http://petstore.swagger.io/v1"}],"info":{"version":"1.0.0","title":"Swagger Petstore","license":{"name":"MIT"}},"postman":{"name":"Create a pet","description":{"type":"text/plain"},"url":{"path":["pets"],"host":["{{baseUrl}}"],"query":[],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"POST"}}
+sidebar_class_name: "post api-method"
+info_path: docs/api/petstore/swagger-petstore
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem"
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Create a pet
+
+
+
+Create a pet
+
+<div><ApiTabs><TabItem label={"201"} value={"201"}><div>
+
+Null response
+
+</div><div></div></TabItem><TabItem label={"default"} value={"default"}><div>
+
+unexpected error
+
+</div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"code"} required={false} schemaDescription={undefined} schemaName={"int32"} qualifierMessage={undefined} defaultValue={undefined}></SchemaItem><SchemaItem collapsible={false} name={"message"} required={false} schemaDescription={undefined} schemaName={"string"} qualifierMessage={undefined} defaultValue={undefined}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"code\": 0,\n  \"message\": \"string\"\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div>
+      
