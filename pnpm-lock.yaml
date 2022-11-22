@@ -596,6 +596,14 @@ importers:
     dependencies:
       xss: 1.0.13
 
+  components/databox:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      databox: ^2.0.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      databox: 2.0.1
+
   components/datadog:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2610,6 +2618,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/stormboard:
+    specifiers: {}
+
   components/stormglass_io:
     specifiers: {}
 
@@ -2769,8 +2780,10 @@ importers:
 
   components/ticket_tailor:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       crypto: ^1.0.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       crypto: 1.0.1
 
   components/ticktick:
@@ -11550,6 +11563,10 @@ packages:
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
     dev: true
+
+  /databox/2.0.1:
+    resolution: {integrity: sha512-Y34sg9deT/xh7nKGGu7ceDCUpMinbV7ucqu9a6D465bHnYz9vRbC7VDxtSCfmU8u/rN5f6bDnYnEoqr81gL/Pw==}
+    dev: false
 
   /datauri/4.1.0:
     resolution: {integrity: sha512-y17kh32+I82G+ED9MNWFkZiP/Cq/vO1hN9+tSZsT9C9qn3NrvcBnh7crSepg0AQPge1hXx2Ca44s1FRdv0gFWA==}
