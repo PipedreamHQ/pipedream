@@ -27,5 +27,49 @@ export default {
         },
       });
     },
+    async makeRequestOrPaginate({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate(opts);
+      }
+      const response = await this._makeRequest(opts);
+      return response?.data || response;
+    },
+    async paginate(opts = {}) {
+      const data = [];
+      let page = 1;
+      while (true) {
+        const response = await this._makeRequest({
+          ...opts,
+          params: {
+            ...opts.params,
+            page: page++,
+          },
+        });
+        data.push(...response.data);
+        if (!response.next_page_url) {
+          return data;
+        }
+      }
+    },
+    async getCurrentApp(opts = {}) {
+      return this.makeRequestOrPaginate({
+        path: "/app",
+        ...opts,
+      });
+    },
+    async listResources(opts = {}) {
+      return this.makeRequestOrPaginate({
+        path: "/resources",
+        ...opts,
+      });
+    },
+    async listBookings(opts = {}) {
+      return this.makeRequestOrPaginate({
+        path: "/bookings",
+        ...opts,
+      });
+    },
   },
 };
