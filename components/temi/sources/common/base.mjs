@@ -1,6 +1,6 @@
-import app from "../temi.app.mjs";
-import constants from "../common/constants.mjs";
-import utils from "../common/utils.mjs";
+import app from "../../temi.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -33,9 +33,6 @@ export default {
     },
     generateMeta() {
       throw new Error("generateMeta not implemented");
-    },
-    getFieldName() {
-      throw new Error("getFieldName not implemented");
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);
