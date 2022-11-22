@@ -16,9 +16,8 @@ function cleanObject(o) {
 function removeSearchFromUrl(config) {
     if (!config.url)
         return;
-    const { url, baseURL, } = config;
-    const newUrl = new URL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url);
-    const queryString = newUrl.search.substr(1);
+    const url = new URL(config.url);
+    const queryString = url.search.substr(1);
     if (queryString) {
         // https://stackoverflow.com/a/8649003/387413
         const urlParams = JSON.parse("{\"" + queryString.replace(/&/g, "\",\"").replace(/=/g, "\":\"") + "\"}", function (key, value) {
@@ -33,8 +32,8 @@ function removeSearchFromUrl(config) {
                 continue; // params object > url query params
             config.params[k] = urlParams[k];
         }
-        newUrl.search = "";
-        config.url = newUrl.toString(); // if ends with ? should be okay, but could be cleaner
+        url.search = "";
+        config.url = url.toString(); // if ends with ? should be okay, but could be cleaner
     }
 }
 // https://github.com/ttezel/twit/blob/master/lib/helpers.js#L11
@@ -60,11 +59,9 @@ async function default_1(step, config, signConfig) {
     // OAuth1 request
     if (signConfig) {
         const { oauthSignerUri, token, } = signConfig;
-        const { baseURL, url, } = config;
-        const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
         const requestData = {
             method: config.method || "get",
-            url: newUrl,
+            url: buildURL(config.url, config.params, oauth1ParamsSerializer),
         };
         // the OAuth specification explicitly states that only form-encoded data should be included
         let hasContentType = false;
