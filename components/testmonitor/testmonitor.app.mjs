@@ -28,20 +28,15 @@ export default {
         }));
       },
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The number of items to be retrieved per page. Default is 25",
-    },
     order: {
       type: "object",
       label: "Order",
       description: "Sort result set. Refer to [Using sorters](https://docs.testmonitor.com/#section/Requests/Sorting).",
     },
-    page: {
+    max: {
       type: "integer",
-      label: "Page",
-      description: "The current page number.",
+      label: "Max Results",
+      description: "Maximum number of results to return.",
     },
     projectId: {
       type: "integer",
@@ -152,9 +147,11 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {},
+      fn, params = {}, maxResults = null,
     }) {
+      let count = 0;
       let lastPage = false;
+
       do {
         const {
           data,
@@ -164,6 +161,9 @@ export default {
           yield d;
         }
 
+        if (maxResults && ++count === maxResults) {
+          return count;
+        }
         lastPage = !last_page;
       } while (lastPage);
     },

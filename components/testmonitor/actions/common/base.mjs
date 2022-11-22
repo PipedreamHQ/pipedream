@@ -3,17 +3,10 @@ import testmonitor from "../../testmonitor.app.mjs";
 export default {
   props: {
     testmonitor,
-    limit: {
+    max: {
       propDefinition: [
         testmonitor,
-        "limit",
-      ],
-      optional: true,
-    },
-    page: {
-      propDefinition: [
-        testmonitor,
-        "page",
+        "max",
       ],
       optional: true,
     },
@@ -48,11 +41,9 @@ export default {
   },
   methods: {
     async processEvent($) {
-      const getFunc = this.getFunction();
       const {
         projectId,
-        limit,
-        page,
+        max,
         query,
         order,
         filter,
@@ -62,8 +53,6 @@ export default {
       const params = {
         $,
         project_id: projectId,
-        limit,
-        page,
         query,
         with: withProp,
       };
@@ -86,15 +75,21 @@ export default {
         }
       }
 
-      return getFunc(params);
+      const items = this.testmonitor.paginate({
+        fn: this.getFunction(),
+        params,
+        maxResults: max,
+      });
+
+      const results = [];
+      for await (const item of items) {
+        results.push(item);
+      }
+      return results;
     },
   },
   async run({ $ }) {
     const response = await this.processEvent($);
-
-    if (response.error) {
-      throw new Error(response.error);
-    }
 
     $.export("$summary", this.getSummary(response));
     return response;
