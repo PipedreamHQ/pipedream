@@ -865,6 +865,9 @@ importers:
   components/facturadirecta:
     specifiers: {}
 
+  components/faire:
+    specifiers: {}
+
   components/faunadb:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2705,6 +2708,9 @@ importers:
   components/syncro:
     specifiers: {}
 
+  components/talenox:
+    specifiers: {}
+
   components/talentlms:
     specifiers: {}
 
@@ -2736,6 +2742,12 @@ importers:
       '@pipedream/platform': 0.9.0
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
+
+  components/temi:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/terminus_app:
     specifiers: {}
