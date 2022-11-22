@@ -1,38 +1,37 @@
+import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "testmonitor-find-test-result",
   name: "Find a Test Result",
-  description: "Retrieve a test result using its identifier. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/GetTestResult)",
+  description: "Retrieve a list of test results. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/GetTestResultCollection)",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
-    testResultId: {
+    projectId: {
       propDefinition: [
         common.props.testmonitor,
-        "testResultId",
-        (c) => ({
-          projectId: c.projectId,
-        }),
+        "projectId",
       ],
+    },
+    withProp: {
+      propDefinition: [
+        common.props.testmonitor,
+        "with",
+      ],
+      options: constants.TEST_RESULT_OPTIONS,
+      optional: true,
     },
   },
   methods: {
-    async processEvent($) {
-      const { testResultId } = this;
-      return this.testmonitor.getTestResult({
-        $,
-        testResultId,
-      });
+    ...common.methods,
+    getFunction() {
+      return this.testmonitor.getTestResults;
     },
-    getSummary({
-      data: {
-        id, code,
-      },
-    }) {
-      return `Test Result (${code ?? id}) successfully fetched!`;
+    getSummary() {
+      return "Test Results successfully fetched!";
     },
   },
 };

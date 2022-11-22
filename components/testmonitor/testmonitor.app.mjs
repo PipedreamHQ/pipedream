@@ -4,6 +4,11 @@ export default {
   type: "app",
   app: "testmonitor",
   propDefinitions: {
+    filter: {
+      type: "object",
+      label: "Filter",
+      description: "Filters for issues. Refer to [Using filters](https://docs.testmonitor.com/#section/Requests/Filtering) for more information. Refer to [Custom fields](https://docs.testmonitor.com/#tag/Custom-Fields) on how to filter on custom field values.",
+    },
     issueId: {
       type: "integer",
       label: "Issue ID",
@@ -23,6 +28,21 @@ export default {
         }));
       },
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of items to be retrieved per page. Default is 25",
+    },
+    order: {
+      type: "object",
+      label: "Order",
+      description: "Sort result set. Refer to [Using sorters](https://docs.testmonitor.com/#section/Requests/Sorting).",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The current page number.",
+    },
     projectId: {
       type: "integer",
       label: "Project ID",
@@ -38,6 +58,11 @@ export default {
           value,
         }));
       },
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The [search query](https://docs.testmonitor.com/#section/Requests/Searching).",
     },
     testResultId: {
       type: "integer",
@@ -57,6 +82,11 @@ export default {
           value,
         }));
       },
+    },
+    with: {
+      type: "string[]",
+      label: "With",
+      description: "Include object relations. Refer to [Using relations](https://docs.testmonitor.com/#section/Requests/Relations).",
     },
   },
   methods: {

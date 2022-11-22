@@ -1,29 +1,31 @@
+import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "testmonitor-find-project",
   name: "Find a Project",
-  description: "Retrieve a project using its identifier. [See the docs here](https://docs.testmonitor.com/#tag/Projects/operation/GetProject)",
+  description: "Retrieve a list of projects. [See the docs here](https://docs.testmonitor.com/#tag/Projects/operation/GetProjectCollection)",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
+    withProp: {
+      propDefinition: [
+        common.props.testmonitor,
+        "with",
+      ],
+      options: constants.PROJECT_OPTIONS,
+      optional: true,
+    },
   },
   methods: {
-    async processEvent($) {
-      const { projectId } = this;
-      return this.testmonitor.getProject({
-        $,
-        projectId,
-      });
+    ...common.methods,
+    getFunction() {
+      return this.testmonitor.getProjects;
     },
-    getSummary({
-      data: {
-        id, name,
-      },
-    }) {
-      return `Project (${name ?? id}) successfully fetched!`;
+    getSummary() {
+      return "Projects successfully fetched!";
     },
   },
 };

@@ -13,6 +13,9 @@ export default {
     getFunc() {
       return this.testmonitor.getTestResults;
     },
+    getOrderField() {
+      return "created_at";
+    },
     getDataToEmit({
       id, description, created_at,
     }) {

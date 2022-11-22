@@ -25,31 +25,22 @@ export default {
     _getLastDateTime() {
       return this.db.get("dateTime");
     },
-    _setDateTime(dateTime) {
+    _setLastDateTime(dateTime) {
       this.db.set("dateTime", dateTime);
     },
-    async processEvent({
-      params, dateTime, func,
-    }) {
-      const items = this.testmonitor.paginate({
-        fn: func,
-        params,
-      });
-
-      for await (const item of items) {
-        if (moment(item.created_at).isAfter(dateTime)) this._setDateTime(item.created_at);
-        dateTime = item.created_at;
-        this.$emit(item, this.getDataToEmit(item));
-      }
+    async processEvent(item) {
+      const meta = this.getDataToEmit(item);
+      this.$emit(item, meta);
     },
   },
   hooks: {
     async activate() {
       let dateTime = this._getLastDateTime();
       const func = this.getFunc();
+      const orderField = this.getOrderField();
       const params = {
         "project_id": this.projectId,
-        "order[code]": "desc",
+        [`order[${orderField}]`]: "desc",
         "limit": 20,
       };
 
@@ -59,29 +50,34 @@ export default {
 
       for (const item of data) {
         if (!dateTime || moment(item.created_at).isAfter(dateTime)) {
-          this._setDateTime(item.created_at);
+          this._setLastDateTime(item.created_at);
           dateTime = item.created_at;
         }
-        this.$emit(item, this.getDataToEmit(item));
+        this.processEvent(item);
       }
     },
   },
   async run() {
-    const dateTime = this._getLastDateTime();
+    let dateTime = this._getLastDateTime();
     const func = this.getFunc();
+    const orderField = this.getOrderField();
 
     const params = {
       "filter[created_at][start]": dateTime,
-      "filter[created_at][end]": new Date(),
       "project_id": this.projectId,
-      "order[code]": "desc",
+      [`order[${orderField}]`]: "desc",
     };
 
-    return this.processEvent({
+    const items = this.testmonitor.paginate({
+      fn: func,
       params,
-      dateTime,
-      func,
     });
+
+    for await (const item of items) {
+      if (moment(item.created_at).isAfter(dateTime)) this._setLastDateTime(item.created_at);
+      dateTime = item.created_at;
+      this.processEvent(item);
+    }
   },
 };
 

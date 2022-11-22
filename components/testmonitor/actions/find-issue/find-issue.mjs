@@ -1,38 +1,37 @@
+import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
 export default {
   ...common,
   key: "testmonitor-find-issue",
   name: "Find an Issue",
-  description: "Retrieve an issue using its identifier. [See the docs here](https://docs.testmonitor.com/#tag/Issues/operation/GetIssue)",
+  description: "Retrieve a list of issues. [See the docs here](https://docs.testmonitor.com/#tag/Issues/operation/GetIssueCollection)",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
-    issueId: {
+    projectId: {
       propDefinition: [
         common.props.testmonitor,
-        "issueId",
-        (c) => ({
-          projectId: c.projectId,
-        }),
+        "projectId",
       ],
+    },
+    withProp: {
+      propDefinition: [
+        common.props.testmonitor,
+        "with",
+      ],
+      options: constants.ISSUE_OPTIONS,
+      optional: true,
     },
   },
   methods: {
-    async processEvent($) {
-      const { issueId } = this;
-      return this.testmonitor.getIssue({
-        $,
-        issueId,
-      });
+    ...common.methods,
+    getFunction() {
+      return this.testmonitor.getIssues;
     },
-    getSummary({
-      data: {
-        id, name,
-      },
-    }) {
-      return `Issue (${name ?? id}) successfully fetched!`;
+    getSummary() {
+      return "Issues successfully fetched!";
     },
   },
 };
