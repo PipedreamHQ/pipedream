@@ -13,7 +13,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling schedule",
-      description: "How often to poll the Dribble API",
+      description: "How often to poll the Dribbble API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
