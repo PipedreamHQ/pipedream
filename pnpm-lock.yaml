@@ -865,6 +865,9 @@ importers:
   components/facturadirecta:
     specifiers: {}
 
+  components/faire:
+    specifiers: {}
+
   components/faunadb:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2705,6 +2708,9 @@ importers:
   components/syncro:
     specifiers: {}
 
+  components/talenox:
+    specifiers: {}
+
   components/talentlms:
     specifiers: {}
 
@@ -2743,8 +2749,10 @@ importers:
   components/testmonitor:
     specifiers:
       '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
     dependencies:
       '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/textit:
     specifiers:
