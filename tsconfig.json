@@ -1037,6 +1037,9 @@
     },
     {
       "path": "components/talenox"
+    },
+    {
+      "path": "components/azure_devops"
     }
   ]
 }
