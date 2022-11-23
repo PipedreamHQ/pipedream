@@ -1043,6 +1043,9 @@
     },
     {
       "path": "components/envoy"
+    },
+    {
+      "path": "components/rudderstack"
     }
   ]
 }
