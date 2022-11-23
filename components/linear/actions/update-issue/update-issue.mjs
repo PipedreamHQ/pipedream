@@ -1,6 +1,6 @@
 import updateIssue from "../../../linear_app/actions/update-issue/update-issue.mjs";
 import utils from "../../common/utils.mjs";
-import additionalProps from "../../common/additionalProps.mjs";
+import common from "../../common/createOrUpdateIssue.mjs";
 
 const appProps = utils.getAppProps(updateIssue).props;
 const { linearApp } = appProps;
@@ -10,6 +10,7 @@ const { linearApp } = appProps;
 
 export default {
   ...updateIssue,
+  ...common,
   key: "linear-update-issue",
   description:
     "Update an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
@@ -23,7 +24,6 @@ export default {
       ],
     },
   },
-  additionalProps,
   async run({ $ }) {
     const {
       issueId,
@@ -55,15 +55,17 @@ export default {
       params.createAsUser = displayName;
       if (avatarUrl) params.displayIconUrl = avatarUrl;
     }
+    try {
+      const response = await this.linearApp.updateIssue(params);
 
-    const response =
-      await this.linearApp.updateIssue(params);
+      const summary = response.success
+        ? `Updated issue ${response._issue.id}`
+        : "Failed to update issue";
+      $.export("$summary", summary);
 
-    const summary = response.success
-      ? `Updated issue ${response._issue.id}`
-      : "Failed to update issue";
-    $.export("$summary", summary);
-
-    return response;
+      return response;
+    } catch (err) {
+      this.checkOutdatedAuthError(err);
+    }
   },
 };

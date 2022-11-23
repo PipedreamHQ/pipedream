@@ -1,6 +1,6 @@
 import createIssue from "../../../linear_app/actions/create-issue/create-issue.mjs";
 import utils from "../../common/utils.mjs";
-import additionalProps from "../../common/additionalProps.mjs";
+import common from "../../common/createOrUpdateIssue.mjs";
 
 const appProps = utils.getAppProps(createIssue).props;
 const { linearApp } = appProps;
@@ -10,6 +10,7 @@ const { linearApp } = appProps;
 
 export default {
   ...createIssue,
+  ...common,
   key: "linear-create-issue",
   description:
     "Create an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
@@ -23,7 +24,6 @@ export default {
       ],
     },
   },
-  additionalProps,
   async run({ $ }) {
     const {
       title,
@@ -52,14 +52,17 @@ export default {
       if (avatarUrl) params.displayIconUrl = avatarUrl;
     }
 
-    const response =
-      await this.linearApp.createIssue(params);
+    try {
+      const response = await this.linearApp.createIssue(params);
 
-    const summary = response.success
-      ? `Created issue ${response._issue.id}`
-      : "Failed to create issue";
-    $.export("$summary", summary);
+      const summary = response.success
+        ? `Created issue ${response._issue.id}`
+        : "Failed to create issue";
+      $.export("$summary", summary);
 
-    return response;
+      return response;
+    } catch (err) {
+      this.checkOutdatedAuthError(err);
+    }
   },
 };
