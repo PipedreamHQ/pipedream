@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/azure_devops",
+  "version": "0.0.1",
+  "description": "Pipedream Azure DevOps Components",
+  "main": "dist/app/azure_devops.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_devops"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/azure_devops",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
