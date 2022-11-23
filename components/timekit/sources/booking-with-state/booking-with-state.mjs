@@ -1,10 +1,12 @@
 import timekit from "../../timekit.app.mjs";
 import crypto from "crypto";
 
+const docLink = "https://developers.timekit.io/reference/graphs";
+
 export default {
   key: "timekit-booking-with-state",
   name: "New Booking with State",
-  description: "Emit new event when a booking has a specific state",
+  description: `Emit new event when a booking has a specific state. [See the docs](${docLink}).`,
   version: "0.0.1",
   type: "source",
   props: {
