@@ -22,7 +22,7 @@ export default {
       label: "Message Data",
       description: "The data of the message that will be published",
       type: "string",
-    }
+    },
   },
   async run({ $ }) {
     const response = await this.ably.publishMessage({
@@ -30,14 +30,14 @@ export default {
       channelName: this.channelName,
       data: {
         name: this.eventName,
-        data: this.messageData
-      }
+        data: this.messageData,
+      },
     });
 
     if (response.messageId) {
       $.export("$summary", `Successfully published message with ID ${response.messageId}`);
     }
 
-    return response
+    return response;
   },
 };

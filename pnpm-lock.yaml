@@ -65,6 +65,12 @@ importers:
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
 
+  components/ably:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/abuselpdb:
     specifiers: {}
 
@@ -869,6 +875,9 @@ importers:
     specifiers: {}
 
   components/facturadirecta:
+    specifiers: {}
+
+  components/faire:
     specifiers: {}
 
   components/faunadb:
@@ -2709,6 +2718,9 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/syncro:
+    specifiers: {}
+
+  components/talenox:
     specifiers: {}
 
   components/talentlms:
@@ -6348,22 +6360,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.139:
-    resolution: {integrity: sha512-AwFhZLziDc4HaeyInk6uar+zp9q/+HSQO4tAOkEDWiCLzqQOInSIakAs8OsuDOmjll+LU6C0MiDRHQWyFgWFtg==}
+  /@definitelytyped/header-parser/0.0.140:
+    resolution: {integrity: sha512-bh5odviRpF3zHO9sz8OkxMIN8yqiZQSKzdgNLHLNtAEbme2p42fAzT1tEBkjmUHAJ/zntnBFyn7N/iCTcp5nmw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.140
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.139:
-    resolution: {integrity: sha512-9vhAc/3MhsMawbMMkhlPuvXOtqbxqC9kN88G9JAIujfrKGOnWWRzofo02fadDUMPZfoo4B54EEox9nepNCi5RQ==}
+  /@definitelytyped/typescript-versions/0.0.140:
+    resolution: {integrity: sha512-kWzD/k7IywjnVx8/RgCgBD0vZjzuyktrZ/JzwSBpaKZgq7RJZYlkGFhYaZNiRPfhz3A10k3KI/ILK9gcRZ7pkA==}
     dev: true
 
-  /@definitelytyped/utils/0.0.139:
-    resolution: {integrity: sha512-A1sgPeA6mXpCzjByleGeeah1coT6BPL948wINSSWXDoQ3MrAgHasxc/1R9F4yXDafCwhgOKBfXpT5lE1upZBNw==}
+  /@definitelytyped/utils/0.0.140:
+    resolution: {integrity: sha512-uqcZu8jeA+Ul05jxOvs7Sf0Bw2yL7P0YEGGxckmhL/DDx/7VJqE7ZnEGBY2lVgLEwqwQIXeoG7IUWDjBNCnntw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.140
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -12020,7 +12032,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.139
+      '@definitelytyped/header-parser': 0.0.140
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -12036,9 +12048,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.139
-      '@definitelytyped/typescript-versions': 0.0.139
-      '@definitelytyped/utils': 0.0.139
+      '@definitelytyped/header-parser': 0.0.140
+      '@definitelytyped/typescript-versions': 0.0.140
+      '@definitelytyped/utils': 0.0.140
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1

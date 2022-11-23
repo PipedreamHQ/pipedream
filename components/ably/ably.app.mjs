@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform"
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -21,17 +21,19 @@ export default {
         url: `${this._apiUrl()}${path}`,
         auth: {
           username: this._apiKeyInitial(),
-          password: this._apiKeyRemaining()
+          password: this._apiKeyRemaining(),
         },
         ...args,
       });
     },
-    async publishMessage({ channelName, ...args }) {
+    async publishMessage({
+      channelName, ...args
+    }) {
       return this._makeRequest({
         path: `/channels/${channelName}/messages`,
         method: "post",
-        ...args
-      })
-    }
+        ...args,
+      });
+    },
   },
 };

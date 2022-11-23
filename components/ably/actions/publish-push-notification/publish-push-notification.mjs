@@ -51,17 +51,17 @@ export default {
             data: this.notificationData,
             notification: {
               title: this.notificationTitle,
-              body: this.notificationBody
-            }
+              body: this.notificationBody,
+            },
           },
-        }
-      }
+        },
+      },
     });
 
     if (response.messageId) {
       $.export("$summary", `Successfully pushed notification with ID ${response.messageId}`);
     }
 
-    return response
+    return response;
   },
 };
