@@ -2818,6 +2818,12 @@ importers:
       '@pipedream/platform': 1.2.0
       dayjs: 1.11.5
 
+  components/timekit:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/tmetric:
     specifiers: {}
 
