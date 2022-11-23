@@ -1034,6 +1034,9 @@
     },
     {
       "path": "components/faire"
+    },
+    {
+      "path": "components/talenox"
     }
   ]
 }
