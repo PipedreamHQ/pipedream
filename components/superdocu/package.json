@@ -12,5 +12,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }
