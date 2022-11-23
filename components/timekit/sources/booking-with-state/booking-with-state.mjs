@@ -31,7 +31,7 @@ export default {
     secret: {
       type: "string",
       label: "Secret",
-      description: "Configured secret to verify webhook events. If left blank, no verification will be done.",
+      description: "Configured secret to verify webhook events. If left blank, no verification will be done. Navigate to API Settings > Keys and look for the last card on the page. The secret shown there is the key you'll use",
       secret: true,
       optional: true,
     },
