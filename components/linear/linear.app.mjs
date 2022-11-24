@@ -23,16 +23,30 @@ export default {
   },
   propDefinitions: {
     ...linearApp.propDefinitions,
-    useOwnUser: {
-      type: "boolean",
-      label: "Create As User",
-      description: `If **true**, perform this action as the authenticated user.
-        \\
-        If **false**, you can specify the user that is performing this action.
+    createAs: {
+      type: "string",
+      label: "Create As User/App",
+      description: `Select who will appear as creating the issue on its history.
         \\
         See the [Linear docs](https://developers.linear.app/docs/oauth/oauth-actor-authorization) for more information.`,
-      optional: true,
-      default: true,
+      async options() {
+        const { displayName } = await this.getOwnUserInfo();
+        return [
+          {
+            label: displayName,
+            value: "me",
+          },
+          {
+            label: "[Custom Username]",
+            value: "custom",
+          },
+          {
+            label: "Pipedream",
+            value: "app",
+          },
+        ];
+      },
+      default: "me",
       reloadProps: true,
     },
   },

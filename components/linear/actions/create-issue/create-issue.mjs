@@ -1,6 +1,6 @@
 import createIssue from "../../../linear_app/actions/create-issue/create-issue.mjs";
 import utils from "../../common/utils.mjs";
-import common from "../../common/createOrUpdateIssue.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 const appProps = utils.getAppProps(createIssue).props;
 const { linearApp } = appProps;
@@ -10,29 +10,53 @@ const { linearApp } = appProps;
 
 export default {
   ...createIssue,
-  ...common,
   key: "linear-create-issue",
   description:
     "Create an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   version: "0.4.0",
   props: {
     ...appProps,
-    useOwnUser: {
+    createAs: {
       propDefinition: [
         linearApp,
-        "useOwnUser",
+        "createAs",
       ],
     },
   },
+  methods: {
+    checkOutdatedAuthError(err) {
+      if (
+        err.message ===
+        "`createAsUser` used without OAuth `actor=application` mode"
+      ) {
+        throw new ConfigurationError(
+          "**Update required** - please reconnect your Linear app account.",
+        );
+      } else throw err;
+    },
+  },
+  async additionalProps() {
+    const props = {
+      customUsername: {
+        type: "string",
+        label: "Custom Username",
+        description: "The user that is performing this action.",
+      },
+      displayIconUrl: {
+        type: "string",
+        label: "Display Icon URL",
+        description:
+          "The URL of the avatar for the user performing this action.",
+      },
+    };
+
+    return this.createAs === "custom"
+      ? props
+      : {};
+  },
   async run({ $ }) {
     const {
-      title,
-      description,
-      teamId,
-      assigneeId,
-      useOwnUser,
-      createAsUser,
-      displayIconUrl,
+      title, description, teamId, assigneeId, createAs,
     } = this;
 
     const params = {
@@ -40,16 +64,24 @@ export default {
       title,
       description,
       assigneeId,
-      createAsUser,
-      displayIconUrl,
     };
 
-    if (useOwnUser) {
-      const {
-        avatarUrl, displayName,
-      } = await this.linearApp.getOwnUserInfo();
-      params.createAsUser = displayName;
-      if (avatarUrl) params.displayIconUrl = avatarUrl;
+    let {
+      customUsername, displayIconUrl,
+    } = this;
+
+    if (createAs !== "app") {
+      if (createAs === "me") {
+        const {
+          avatarUrl, displayName,
+        } =
+          await this.linearApp.getOwnUserInfo();
+        customUsername = displayName;
+        displayIconUrl = avatarUrl;
+      }
+
+      params.createAsUser = customUsername;
+      if (displayIconUrl) params.displayIconUrl = displayIconUrl;
     }
 
     try {
