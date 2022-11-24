@@ -1046,6 +1046,9 @@
     },
     {
       "path": "components/rudderstack"
+    },
+    {
+      "path": "components/rudderstack_transformation"
     }
   ]
 }
