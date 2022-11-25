@@ -28,7 +28,7 @@ export default {
       this.reminder;
     const resp = await this.app.updateItem({
       $,
-      appId: this.appId,
+      itemId: this.itemId,
       data: {
         fields,
         tags: this.tags,
