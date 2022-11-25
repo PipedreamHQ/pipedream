@@ -1,6 +1,7 @@
 # Overview
 
-With the Go API, you can build apps and services that perform the following tasks:
+With the Go API, you can build apps and services that perform the following
+tasks:
 
 - `create` and `manage` Pipedream workflows
 - `send` data into Pipedream pipelines

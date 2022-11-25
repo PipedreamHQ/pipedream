@@ -1,6 +1,7 @@
 # Overview
 
-GoHighLevel is a powerful API that enables you to quickly and easily build a wide variety of applications.
+GoHighLevel is a powerful API that enables you to quickly and easily build a
+wide variety of applications.
 
 Here are just a few examples of what you can build using GoHighLevel:
 

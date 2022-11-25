@@ -1,6 +1,8 @@
 # Overview
 
-Gitlab API allows developers to access the functionality of Gitlab. With the Gitlab API, developers can integrate Gitlab with other applications, create custom applications, or automate tasks.
+Gitlab API allows developers to access the functionality of Gitlab. With the
+Gitlab API, developers can integrate Gitlab with other applications, create
+custom applications, or automate tasks.
 
 Some examples of what you can build using the Gitlab API include:
 

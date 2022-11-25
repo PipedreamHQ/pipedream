@@ -1,6 +1,7 @@
 # Overview
 
-The GoCanvas API enables you to build applications that can create, edit, and view Canvas documents.
+The GoCanvas API enables you to build applications that can create, edit, and
+view Canvas documents.
 
 With the GoCanvas API, you can:
 

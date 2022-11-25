@@ -1,6 +1,7 @@
 # Overview
 
-You can use the Google Docs API to build a wide variety of applications, including:
+You can use the Google Docs API to build a wide variety of applications,
+including:
 
 - Word processors
 - Spreadsheets

@@ -1,6 +1,7 @@
 # Overview
 
-With the Ghost.org API, you can build a wide range of applications and integrations. Here are some examples:
+With the Ghost.org API, you can build a wide range of applications and
+integrations. Here are some examples:
 
 - A desktop or mobile app for managing your Ghost blog
 - A Ghost-powered website or custom CMS

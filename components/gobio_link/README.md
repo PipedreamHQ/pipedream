@@ -1,6 +1,6 @@
 # Overview
 
-##### Gobio.link lets you build amazing things
+[Gobio.link](https://gobio.link/) lets you build amazing things:
 
 - A to-do list
 - A messaging app
