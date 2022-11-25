@@ -2752,8 +2752,22 @@ importers:
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
 
+  components/temi:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/terminus_app:
     specifiers: {}
+
+  components/testmonitor:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/textit:
     specifiers:
@@ -2814,6 +2828,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       dayjs: 1.11.5
+
+  components/timekit:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/tmetric:
     specifiers: {}
@@ -3001,6 +3021,14 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/unisender:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      query-string: ^7.1.1
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      query-string: 7.1.1
 
   components/upkeep:
     specifiers:
