@@ -1,4 +1,7 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -28,8 +31,88 @@ export default {
         }));
       },
     },
+    teamMembers: {
+      type: "string[]",
+      label: "Team Members",
+      description: "Team members",
+      async options({ teamId }) {
+        if (!teamId) {
+          throw new ConfigurationError("**Team** prop configuration required");
+        }
+        const { members } = await this.listTeamMembers({
+          teamId,
+        });
+        return members.map((member) => ({
+          label: member.fullName,
+          value: member.email,
+        }));
+      },
+    },
+    stage: {
+      type: "string",
+      label: "Stage",
+      description: "Stage of the box",
+      async options({ pipelineId }) {
+        const results = await this.listStages({
+          pipelineId,
+        });
+        return Object.entries(results).map(([
+          key,
+          value,
+        ]) => ({
+          label: value.name,
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
+    customFieldToProp(field) {
+      if (field.type === "TEXT_INPUT") {
+        return {
+          type: "string",
+          label: field.name,
+          optional: true,
+        };
+      }
+      if (field.type === "DATE") {
+        return {
+          type: "integer",
+          label: field.name,
+          description: "Date in Unix milliseconds timestamp",
+          optional: true,
+        };
+      }
+      if (field.type === "TAG") {
+        return {
+          type: "string[]",
+          label: field.name,
+          options: field.tagSettings.tags.map((x) => ({
+            label: x.tag,
+            value: x.key,
+          })),
+          optional: true,
+        };
+      }
+      if (field.type === "DROPDOWN") {
+        return {
+          type: "string",
+          label: field.name,
+          options: field.dropdownSettings.items.map((x) => ({
+            label: x.name,
+            value: x.key,
+          })),
+          optional: true,
+        };
+      }
+      if (field.type === "CHECKBOX") {
+        return {
+          type: "boolean",
+          label: field.name,
+          optional: true,
+        };
+      }
+    },
     _getBaseUrl() {
       return "https://www.streak.com/api/";
     },
@@ -83,9 +166,25 @@ export default {
         ...args,
       });
     },
+    async listStages({
+      pipelineId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/pipelines/${pipelineId}/stages`,
+        ...args,
+      });
+    },
     async listTeams(args = {}) {
       return this._makeRequest({
         path: "v2/users/me/teams",
+        ...args,
+      });
+    },
+    async listTeamMembers({
+      teamId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v2/teams/${teamId}`,
         ...args,
       });
     },
@@ -119,6 +218,27 @@ export default {
       return this._makeRequest({
         path: `v1/boxes/${boxId}`,
         ...args,
+      });
+    },
+    async createBox({
+      pipelineId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v2/pipelines/${pipelineId}/boxes`,
+        method: "post",
+        ...args,
+      });
+    },
+    async updateFieldValue({
+      boxId, fieldId, value, ...args
+    }) {
+      return this._makeRequest({
+        ...args,
+        path: `v1/boxes/${boxId}/fields/${fieldId}`,
+        method: "post",
+        data: {
+          value,
+        },
       });
     },
   },
