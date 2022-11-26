@@ -286,6 +286,15 @@ export default {
         ...args,
       });
     },
+    async updateBox({
+      boxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/boxes/${boxId}`,
+        method: "post",
+        ...args,
+      });
+    },
     async updateFieldValue({
       boxId, fieldId, value, ...args
     }) {
