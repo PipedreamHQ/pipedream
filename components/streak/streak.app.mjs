@@ -19,6 +19,20 @@ export default {
         }));
       },
     },
+    pipelineFields: {
+      type: "string[]",
+      label: "Pipeline Custom Fields",
+      description: "Pipeline Custom Fields",
+      async options({ pipelineId }) {
+        const results = await this.listPipelineFields({
+          pipelineId,
+        });
+        return results.map((field) => ({
+          label: field.name,
+          value: field.key,
+        }));
+      },
+    },
     teamId: {
       type: "string",
       label: "Team",
@@ -28,6 +42,20 @@ export default {
         return results.map((team) => ({
           label: team.name,
           value: team.key,
+        }));
+      },
+    },
+    boxId: {
+      type: "string",
+      label: "Box",
+      description: "Select a box",
+      async options({ pipelineId }) {
+        const results = await this.listBoxes({
+          pipelineId,
+        });
+        return results.map((box) => ({
+          label: box.name,
+          value: box.key,
         }));
       },
     },
@@ -67,11 +95,12 @@ export default {
     },
   },
   methods: {
-    customFieldToProp(field) {
+    customFieldToProp(field, value) {
       if (field.type === "TEXT_INPUT") {
         return {
           type: "string",
           label: field.name,
+          default: value,
           optional: true,
         };
       }
@@ -80,6 +109,7 @@ export default {
           type: "integer",
           label: field.name,
           description: "Date in Unix milliseconds timestamp",
+          default: value,
           optional: true,
         };
       }
@@ -91,6 +121,7 @@ export default {
             label: x.tag,
             value: x.key,
           })),
+          default: value,
           optional: true,
         };
       }
@@ -102,6 +133,7 @@ export default {
             label: x.name,
             value: x.key,
           })),
+          default: value,
           optional: true,
         };
       }
@@ -109,6 +141,7 @@ export default {
         return {
           type: "boolean",
           label: field.name,
+          default: value,
           optional: true,
         };
       }
@@ -160,9 +193,33 @@ export default {
         ...args,
       });
     },
+    async getBox({
+      boxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/boxes/${boxId}`,
+        ...args,
+      });
+    },
     async listPipelines(args = {}) {
       return this._makeRequest({
         path: "v1/pipelines",
+        ...args,
+      });
+    },
+    async listPipelineFields({
+      pipelineId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/pipelines/${pipelineId}/fields`,
+        ...args,
+      });
+    },
+    async listBoxFields({
+      boxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v1/boxes/${boxId}/fields`,
         ...args,
       });
     },
