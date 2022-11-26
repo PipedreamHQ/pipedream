@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/streak",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Streak Components",
   "main": "streak.app.mjs",
   "keywords": [
