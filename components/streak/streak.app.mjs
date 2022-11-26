@@ -307,5 +307,14 @@ export default {
         },
       });
     },
+    async createTask({
+      boxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `v2/boxes/${boxId}/tasks`,
+        method: "post",
+        ...args,
+      });
+    },
   },
 };
