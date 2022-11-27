@@ -18,6 +18,10 @@ export default {
       type: "string",
       label: "Extension ID",
       description: "Extension ID of the message.",
+      propDefinition: [
+        ringcentral,
+        "extensionId",
+      ]
     },
     messageId: {
       type: "string",
