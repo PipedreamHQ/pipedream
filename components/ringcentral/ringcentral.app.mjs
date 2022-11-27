@@ -185,6 +185,13 @@ export default {
         ...args,
       });
     },
+    async getMessage(
+      accountId = "~", extensionId, messageId
+    ) {
+      return this.makeRequest({
+        path: `/account/${accountId}/extension/${extensionId}/message-store/${messageId}`,
+      });
+    },
     // Details about the different webhook parameters can be found in the
     // RingCentral API docs:
     // https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription
