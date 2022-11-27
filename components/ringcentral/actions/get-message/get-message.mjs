@@ -30,11 +30,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ringcentral.getMessage(
-      this.accountId,
-      this.extensionId,
-      this.messageId,
-    );
+    const response = await this.ringcentral.getMessage({
+      $,
+      accountId: this.accountId,
+      extensionId: this.extensionId,
+      messageId: this.messageId,
+    });
 
     $.export("$summary", `Successfully retrieved message with ID ${this.messageId}`);
 
