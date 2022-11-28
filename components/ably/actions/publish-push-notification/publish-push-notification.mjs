@@ -9,19 +9,25 @@ export default {
   props: {
     ably,
     channelName: {
-      label: "Channel Name",
+      propDefinition: [
+        ably,
+        "messageData",
+      ],
       description: "The name of channel that will be published",
-      type: "string",
     },
     eventName: {
-      label: "Event Name",
+      propDefinition: [
+        ably,
+        "messageData",
+      ],
       description: "The event name that will be published",
-      type: "string",
     },
     messageData: {
-      label: "Message Data",
+      propDefinition: [
+        ably,
+        "messageData",
+      ],
       description: "The data of the message that will be published",
-      type: "string",
     },
     notificationTitle: {
       label: "Notification Title",

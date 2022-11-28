@@ -3,7 +3,23 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "ably",
-  propDefinitions: {},
+  propDefinitions: {
+    channelName: {
+      label: "Channel Name",
+      description: "The channel name",
+      type: "string",
+    },
+    eventName: {
+      label: "Event Name",
+      description: "The event name",
+      type: "string",
+    },
+    messageData: {
+      label: "Message Data",
+      description: "The data of the message",
+      type: "string",
+    },
+  },
   methods: {
     _apiKeyInitial() {
       return this.$auth.api_key_initial;
