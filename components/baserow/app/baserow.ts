@@ -1,6 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
+  CreateRowParams,
   GetRowParams,
   HttpRequestParams, ListRowsParams, PaginatedResponse, Row,
 } from "../common/types";
@@ -51,6 +52,15 @@ export default defineApp({
       } while (nextRequest);
 
       return result;
+    },
+    async createRow({
+      tableId, ...args
+    }: CreateRowParams): Promise<Row> {
+      return this._httpRequest({
+        method: "POST",
+        url: `/database/rows/table/${tableId}/`,
+        ...args,
+      });
     },
     async getRow({
       rowId, tableId, ...args

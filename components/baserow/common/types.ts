@@ -15,6 +15,9 @@ export interface ListRowsParams {
 export interface GetRowParams extends ListRowsParams {
   rowId: number;
 }
+export interface CreateRowParams extends ListRowsParams {
+  data: object;
+}
 
 export interface Row {
   id: number;

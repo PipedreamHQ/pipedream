@@ -1,5 +1,4 @@
 import { defineAction } from "@pipedream/types";
-import baserow from "../../app/baserow";
 import { DOCS_LINK } from "../../common/constants";
 import {
   ListRowsParams, Row,
@@ -14,26 +13,14 @@ export default defineAction({
   key: "baserow-list-rows",
   version: "0.0.1",
   type: "action",
-  props: {
-    ...common.props,
-    userFieldNames: {
-      propDefinition: [
-        baserow,
-        "userFieldNames",
-      ],
-    },
-  },
   async run({ $ }) {
     const { tableId } = this;
+
     const params: ListRowsParams = {
       $,
       tableId,
       params: {
-        ...(this.userFieldNames
-          ? {
-            user_field_names: true,
-          }
-          : undefined),
+        user_field_names: true
       },
     };
 
