@@ -4,7 +4,7 @@ import {
   CreateRowParams,
   DeleteRowParams,
   GetRowParams,
-  HttpRequestParams, ListRowsParams, PaginatedResponse, Row,
+  HttpRequestParams, ListRowsParams, PaginatedResponse, Row, UpdateRowParams,
 } from "../common/types";
 
 export default defineApp({
@@ -88,8 +88,22 @@ export default defineApp({
         ...args,
       });
     },
+    async updateRow({
+      rowId, tableId, ...args
+    }: UpdateRowParams): Promise<Row> {
+      return this._httpRequest({
+        method: "PATCH",
+        url: `/database/rows/table/${tableId}/${rowId}/`,
+        ...args,
+      });
+    },
   },
   propDefinitions: {
+    rowData: {
+      label: "Row Data",
+      description: "The fields and values for this row.",
+      type: "object",
+    },
     rowId: {
       label: "Row ID",
       description:
@@ -101,13 +115,6 @@ export default defineApp({
       description:
         "The ID of the table to use. You can find your tables and their IDs on the [Baserow API Docs](https://baserow.io/api-docs).",
       type: "integer",
-    },
-    userFieldNames: {
-      label: "User Field Names",
-      description:
-        "If **true**, field names returned will be the actual names of the fields. Otherwise, all returned field names will be `field_` followed by the id of the field. For example `field_1` refers to the field with an id of 1.",
-      type: "boolean",
-      optional: true,
     },
   },
 });

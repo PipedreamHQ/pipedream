@@ -17,15 +17,19 @@ interface TableId {
   tableId: number;
 }
 
-export interface ListRowsParams extends RequestParams, TableId {
-  params?: object;
-}
-export interface GetRowParams extends ListRowsParams, RowId {}
-export interface CreateRowParams extends ListRowsParams {
+interface RowData {
   data: object;
 }
 
+interface RowParams {
+  params: object;
+}
+
+export interface CreateRowParams extends ListRowsParams, RowData {}
 export interface DeleteRowParams extends RequestParams, RowId, TableId {}
+export interface ListRowsParams extends RequestParams, TableId, RowParams {}
+export interface GetRowParams extends ListRowsParams, RowId {}
+export interface UpdateRowParams extends CreateRowParams, RowId {}
 
 export interface Row {
   id: number;

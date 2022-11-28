@@ -2,19 +2,25 @@ import { defineAction } from "@pipedream/types";
 import baserow from "../../app/baserow";
 import { DOCS_LINK } from "../../common/constants";
 import {
-  CreateRowParams, Row,
+  UpdateRowParams, Row,
 } from "../../common/types";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "Create Row",
-  description: `Create a row [See docs here](${DOCS_LINK})`,
-  key: "baserow-create-row",
+  name: "Update Row",
+  description: `Update a row [See docs here](${DOCS_LINK})`,
+  key: "baserow-update-row",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
+    rowId: {
+      propDefinition: [
+        baserow,
+        "rowId",
+      ],
+    },
     rowData: {
       propDefinition: [
         baserow,
@@ -24,11 +30,12 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      rowData, tableId,
+      rowData, rowId, tableId,
     } = this;
 
-    const params: CreateRowParams = {
+    const params: UpdateRowParams = {
       $,
+      rowId,
       tableId,
       params: {
         user_field_names: true,
@@ -36,9 +43,9 @@ export default defineAction({
       data: rowData,
     };
 
-    const response: Row = await this.baserow.createRow(params);
+    const response: Row = await this.baserow.updateRow(params);
 
-    $.export("$summary", `Created row ${response.id} successfully`);
+    $.export("$summary", `Updated row ${response.id} successfully`);
 
     return response;
   },
