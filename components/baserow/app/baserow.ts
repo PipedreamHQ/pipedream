@@ -1,7 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, ListRowsParams, PaginatedResponse,
+  GetRowParams,
+  HttpRequestParams, ListRowsParams, PaginatedResponse, Row,
 } from "../common/types";
 
 export default defineApp({
@@ -51,21 +52,42 @@ export default defineApp({
 
       return result;
     },
+    async getRow({
+      rowId, tableId, ...args
+    }: GetRowParams): Promise<Row> {
+      return this._httpRequest({
+        url: `/database/rows/table/${tableId}/${rowId}/`,
+        ...args,
+      });
+    },
     async listRows({
       tableId, ...args
-    }: ListRowsParams) {
+    }: ListRowsParams): Promise<Row[]> {
       return this._paginatedRequest({
         url: `/database/rows/table/${tableId}/`,
-        ...args
+        ...args,
       });
-    }
+    },
   },
   propDefinitions: {
+    rowId: {
+      label: "Row ID",
+      description:
+        "The id of the **row** on which to perform this action.",
+      type: "integer",
+    },
     tableId: {
       label: "Table ID",
       description:
         "The ID of the table to use. You can find your tables and their IDs on the [Baserow API Docs](https://baserow.io/api-docs).",
       type: "integer",
+    },
+    userFieldNames: {
+      label: "User Field Names",
+      description:
+        "If **true**, field names returned will be the actual names of the fields. Otherwise, all returned field names will be `field_` followed by the id of the field. For example `field_1` refers to the field with an id of 1.",
+      type: "boolean",
+      optional: true,
     },
   },
 });

@@ -1,21 +1,25 @@
 import { defineAction } from "@pipedream/types";
 import baserow from "../../app/baserow";
 import { DOCS_LINK } from "../../common/constants";
-import {
-  ListRowsParams, Row,
-} from "../../common/types";
+import { Row } from "../../common/types";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "List Rows",
+  name: "Get Row",
   description:
-    `List a table's rows [See docs here](${DOCS_LINK})`,
-  key: "baserow-list-rows",
+    `Get a single row [See docs here](${DOCS_LINK})`,
+  key: "baserow-get-row",
   version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
+    rowId: {
+      propDefinition: [
+        baserow,
+        "rowId",
+      ],
+    },
     userFieldNames: {
       propDefinition: [
         baserow,
@@ -24,10 +28,13 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const { tableId } = this;
-    const params: ListRowsParams = {
+    const {
+      tableId, rowId,
+    } = this;
+    const params  = {
       $,
       tableId,
+      rowId,
       params: {
         ...(this.userFieldNames
           ? {
@@ -37,9 +44,9 @@ export default defineAction({
       },
     };
 
-    const response: Row[] = await this.baserow.listRows(params);
+    const response: Row = await this.baserow.getRow(params);
 
-    $.export("$summary", `Listed ${response.length} rows successfully`);
+    $.export("$summary", `Obtained info for row ${rowId} successfully`);
 
     return response;
   },

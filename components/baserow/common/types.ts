@@ -10,7 +10,10 @@ export interface HttpRequestParams {
 export interface ListRowsParams {
   $: Pipedream;
   tableId: number;
-  params: object;
+  params?: object;
+}
+export interface GetRowParams extends ListRowsParams {
+  rowId: number;
 }
 
 export interface Row {
