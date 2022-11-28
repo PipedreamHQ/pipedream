@@ -3,7 +3,7 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-create-or-update-file-contents",
   name: "Create or update file contents",
-  description: "Create or update a file in a repository. This will replace an existing file. [See docs here](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
+  description: `Create or update a file in a repository. This will replace an existing file. [See docs here](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)`,
   version: "0.0.1",
   type: "action",
   props: {
@@ -11,7 +11,7 @@ export default {
     repoFullname: {
       propDefinition: [
         github,
-        "repoFullname",
+        "repoFullname"
       ],
     },
     path: {
@@ -49,9 +49,7 @@ export default {
       branch: this.branch,
     });
 
-    $.export("$summary", `Successfully set contents of ${this.path}${this.branch
-      ? ` on branch ${this.branch}`
-      : ""}.`);
+    $.export("$summary", `Successfully set contents of ${this.path}${this.branch ? ` on branch ${this.branch}` : ""}.`);
 
     return response;
   },
