@@ -1,6 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams, ListRowsParams, ListRowsResponse } from "../common/types";
+import {
+  HttpRequestParams, ListRowsParams, ListRowsResponse,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -14,7 +16,6 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
-      apiKey,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
@@ -25,7 +26,9 @@ export default defineApp({
         ...args,
       });
     },
-    async listRows({ tableId, params, ...args }: ListRowsParams): Promise<object[]> {
+    async listRows({
+      tableId, params, ...args
+    }: ListRowsParams): Promise<object[]> {
       params.size = 500;
       const result = [];
       let page = 1;

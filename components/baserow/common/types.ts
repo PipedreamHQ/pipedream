@@ -10,7 +10,7 @@ export interface HttpRequestParams {
 export interface ListRowsParams {
   $: Pipedream;
   tableId: number;
-  params: {
+  params?: {
     page: number;
     size: number;
   };
