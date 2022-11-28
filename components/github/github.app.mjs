@@ -204,9 +204,7 @@ export default {
         auth: this._accessToken(),
       });
     },
-    async _makeRequest({
-      $ = this, path, ...args
-    } = {}) {
+    async _makeRequest({ $ = this, path, ...args } = {}) {
       return axios($, {
         url: `${this._baseApiUrl()}${path}`,
         headers: {
@@ -465,9 +463,9 @@ export default {
         validateStatus: () => true,
       });
       if (fileExists.sha) {
-        console.log("File exists, overwriting.");
+        console.log('File exists, overwriting.');
         data.sha = fileExists.sha;
-      }
+      };
       if (branch) {
         data.branch = branch;
       }
