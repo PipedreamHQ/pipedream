@@ -30,14 +30,14 @@ export default {
     ...common.methods,
     getMeta(event) {
       return {
-        id: Date.now(),
+        id: event?.body?.task_id,
         ts: Date.now(),
-        summary: `New application created (ID:${event?.body?.task_id})`,
+        summary: `New task created (ID:${event?.body?.task_id})`,
       };
     },
     async getData(event) {
       return this.app.getTask({
-        appId: event?.body?.task_id,
+        taskId: event?.body?.task_id,
       });
     },
     getEvent() {
@@ -48,6 +48,21 @@ export default {
     },
     getRefId() {
       return  this.spaceId;
+    },
+    async loadHistoricalEvents() {
+      const tasks = await this.app.getTasks({
+        params: {
+          space: this.spaceId,
+        },
+      });
+      for (const task of tasks) {
+        this.$emit(
+          task,
+          this.getMeta({
+            body: task,
+          }),
+        );
+      }
     },
   },
 };

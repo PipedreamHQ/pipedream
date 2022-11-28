@@ -6,6 +6,7 @@ export default {
   description: "Emit new events when a new view created. [See the docs here](https://developers.podio.com/doc/views/get-views-27460)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   ...common,
   props: {
     ...common.props,
@@ -51,7 +52,7 @@ export default {
       };
     },
     getSummary(item) {
-      return `New workspace ${item.name} (ID:${item.view_id})`;
+      return `New view ${item.name} (ID:${item.view_id})`;
     },
     getItemId(item) {
       return item.view_id;

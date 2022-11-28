@@ -5,7 +5,7 @@ export default {
   key: "podio-create-task",
   version: "0.0.1",
   name: "Create Task",
-  description: "Creates a status to the given workspace. [See the docs](https://developers.podio.com/doc/tasks/create-task-22419)",
+  description: "Creates a task to the given workspace. [See the docs](https://developers.podio.com/doc/tasks/create-task-22419)",
   props: {
     app,
     text: {

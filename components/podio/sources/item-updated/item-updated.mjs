@@ -39,7 +39,7 @@ export default {
     ...common.methods,
     getMeta(event) {
       return {
-        id: Date.now(),
+        id: Date.now(), //can't use item_id because there may be multiple updates
         ts: Date.now(),
         summary: `Item updated (ID:${event?.body?.item_id})`,
       };
@@ -57,6 +57,19 @@ export default {
     },
     getRefId() {
       return  this.appId;
+    },
+    async loadHistoricalEvents() {
+      const { items } = await this.app.filterItems({
+        appId: this.appId,
+      });
+      for (const item of items) {
+        this.$emit(
+          item,
+          this.getMeta({
+            body: item,
+          }),
+        );
+      }
     },
   },
 };

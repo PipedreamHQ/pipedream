@@ -141,6 +141,12 @@ export default {
         ...args,
       });
     },
+    async getTasks(args = {}) {
+      return this._makeRequest({
+        path: "/task",
+        ...args,
+      });
+    },
     async getViews({
       appId, ...args
     } = {}) {

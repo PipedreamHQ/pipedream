@@ -6,6 +6,7 @@ export default {
   description: "Emit new events when a new organization created. [See the docs here](https://developers.podio.com/doc/organizations/get-organizations-22344)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   ...common,
   methods: {
     ...common.methods,

@@ -30,7 +30,7 @@ export default {
     ...common.methods,
     getMeta(event) {
       return {
-        id: Date.now(),
+        id: event?.body?.app_id,
         ts: Date.now(),
         summary: `New application created (ID:${event?.body?.app_id})`,
       };
@@ -48,6 +48,19 @@ export default {
     },
     getRefId() {
       return  this.spaceId;
+    },
+    async loadHistoricalEvents() {
+      const apps = await this.app.getApps({
+        spaceId: this.spaceId,
+      });
+      for (const app of apps) {
+        this.$emit(
+          app,
+          this.getMeta({
+            body: app,
+          }),
+        );
+      }
     },
   },
 };

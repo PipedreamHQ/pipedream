@@ -6,6 +6,7 @@ export default {
   description: "Emit new events when a new workspace created. [See the docs here](https://developers.podio.com/doc/spaces/get-list-of-organization-workspaces-238875316)",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   ...common,
   props: {
     ...common.props,

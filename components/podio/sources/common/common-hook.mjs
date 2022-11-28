@@ -31,6 +31,9 @@ export default {
     async getData() {
       throw new Error("getData() is not implemented!");
     },
+    async loadHistoricalEvents() {
+      return true;
+    },
   },
   hooks: {
     async activate() {
@@ -47,6 +50,9 @@ export default {
         hookId: resp.hook_id,
       });
       console.log(`Created webhook. (Hook ID: ${resp.hook_id}, endpoint: ${this.http.endpoint})`);
+    },
+    async deploy() {
+      await this.loadHistoricalEvents();
     },
     async deactivate() {
       await this.app.deleteWebhook({

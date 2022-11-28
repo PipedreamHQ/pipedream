@@ -30,7 +30,7 @@ export default {
       throw new Error("getItemId() is not implemented!");
     },
     _getLastID() {
-      return this.db.get("lastId") | 0;
+      return this.db.get("lastId") || 0;
     },
     _setLastID(lastId) {
       this.db.set("lastId", parseInt(lastId));
@@ -48,7 +48,7 @@ export default {
         this.$emit(
           item,
           {
-            id: new Date(),
+            id: this.getItemId(item),
             summary: this.getSummary(item),
             ts: new Date(),
           },

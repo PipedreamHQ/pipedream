@@ -58,9 +58,9 @@ export default {
     const { fields } = await this.app.getApp({
       appId: this.appId,
     });
-    for (let field of fields) {
+    for (const field of fields) {
       if (field.type != "calculation") {
-        let newProp = {
+        const newProp = {
           type: utils.getType(field),
           label: field.label,
           description: utils.getFieldDesc(field),
