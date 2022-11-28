@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/td_ameritrade",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream TD Ameritrade Components",
   "main": "dist/app/td_ameritrade.app.mjs",
   "keywords": [

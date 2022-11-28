@@ -1,11 +1,12 @@
 import moment from "moment";
 import visitor_queue from "../../visitor_queue.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "visitor_queue-new-lead",
   name: "New Lead",
   description: "Emit new event when a new Waiver sign is received. [See docs here](https://docs.visitorqueue.com/#4f021159-baae-e19d-bb7f-91a915e5b4ea)",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -16,7 +17,7 @@ export default {
       description: "Pipedream will poll the Visitor Queue API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     dataViews: {
@@ -51,10 +52,10 @@ export default {
       });
 
       for await (const record of records) {
-        if ( moment(record.last_visited_at).isAfter(lastTime))
+        if (moment(record.last_visited_at).isAfter(lastTime))
           this._setLastTime(record.last_visited_at);
 
-        this.$emit(record,  this.getDataToEmit(record));
+        this.$emit(record, this.getDataToEmit(record));
       }
     },
   },
@@ -73,7 +74,7 @@ export default {
         if (!lastTime || moment(lastTime).isAfter(lead.last_visited_at)) {
           this._setLastTime(lead.last_visited_at);
         }
-        this.$emit(lead,  this.getDataToEmit(lead));
+        this.$emit(lead, this.getDataToEmit(lead));
       }
     },
   },

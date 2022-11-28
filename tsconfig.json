@@ -961,9 +961,6 @@
       "path": "components/facturadirecta"
     },
     {
-      "path": "components/danny_twilio_test"
-    },
-    {
       "path": "components/xata"
     },
     {
@@ -1000,10 +997,58 @@
       "path": "components/snyk"
     },
     {
+      "path": "components/kanbanflow"
+    },
+    {
       "path": "components/facebook_groups"
     },
     {
       "path": "components/terminus_app"
+    },
+    {
+      "path": "components/cdr_platform"
+    },
+    {
+      "path": "components/whatsapp_business"
+    },
+    {
+      "path": "components/d7_networks"
+    },
+    {
+      "path": "components/dataset"
+    },
+    {
+      "path": "components/nightfall_ai"
+    },
+    {
+      "path": "components/scrapeninja"
+    },
+    {
+      "path": "components/octopus_deploy"
+    },
+    {
+      "path": "components/kartra"
+    },
+    {
+      "path": "components/clientary"
+    },
+    {
+      "path": "components/faire"
+    },
+    {
+      "path": "components/talenox"
+    },
+    {
+      "path": "components/azure_devops"
+    },
+    {
+      "path": "components/envoy"
+    },
+    {
+      "path": "components/rudderstack"
+    },
+    {
+      "path": "components/rudderstack_transformation"
     }
   ]
 }

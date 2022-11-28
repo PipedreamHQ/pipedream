@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/siteleaf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Siteleaf Components",
   "main": "siteleaf.app.js",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twelve_data",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Twelve Data Components",
   "main": "dist/app/twelve_data.app.mjs",
   "keywords": [

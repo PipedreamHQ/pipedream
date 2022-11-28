@@ -1,10 +1,11 @@
 import harvest from "../../harvest.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "harvest-new-timesheet-entry",
   name: "New Timesheet Entry",
   description: "Emit new notifications when a new timesheet entry is created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     harvest,
@@ -13,7 +14,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, //15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

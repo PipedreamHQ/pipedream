@@ -7,7 +7,7 @@ export default {
   name: "New Milestone",
   description: "Emit new event when a new milestone is created. [See the docs here](https://www.zoho.com/projects/help/rest-api/milestones-api.html#alink1)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
