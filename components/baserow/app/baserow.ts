@@ -2,6 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateRowParams,
+  DeleteRowParams,
   GetRowParams,
   HttpRequestParams, ListRowsParams, PaginatedResponse, Row,
 } from "../common/types";
@@ -59,6 +60,15 @@ export default defineApp({
       return this._httpRequest({
         method: "POST",
         url: `/database/rows/table/${tableId}/`,
+        ...args,
+      });
+    },
+    async deleteRow({
+      rowId, tableId, ...args
+    }: DeleteRowParams): Promise<Row> {
+      return this._httpRequest({
+        method: "DELETE",
+        url: `/database/rows/table/${tableId}/${rowId}/`,
         ...args,
       });
     },

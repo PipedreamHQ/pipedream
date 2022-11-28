@@ -7,17 +7,25 @@ export interface HttpRequestParams {
   params?: object;
 }
 
-export interface ListRowsParams {
+interface RequestParams {
   $: Pipedream;
-  tableId: number;
-  params?: object;
 }
-export interface GetRowParams extends ListRowsParams {
+interface RowId {
   rowId: number;
 }
+interface TableId {
+  tableId: number;
+}
+
+export interface ListRowsParams extends RequestParams, TableId {
+  params?: object;
+}
+export interface GetRowParams extends ListRowsParams, RowId {}
 export interface CreateRowParams extends ListRowsParams {
   data: object;
 }
+
+export interface DeleteRowParams extends RequestParams, RowId, TableId {}
 
 export interface Row {
   id: number;

@@ -16,7 +16,7 @@ export default defineAction({
     ...common.props,
     rowData: {
       label: "Row Data",
-      description: 'The fields and values to include in this row.',
+      description: "The fields and values to include in this row.",
       type: "object",
     },
   },
@@ -29,7 +29,7 @@ export default defineAction({
       $,
       tableId,
       params: {
-        user_field_names: true
+        user_field_names: true,
       },
       data: rowData,
     };

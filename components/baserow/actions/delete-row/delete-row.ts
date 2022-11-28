@@ -1,17 +1,15 @@
 import { defineAction } from "@pipedream/types";
 import baserow from "../../app/baserow";
 import { DOCS_LINK } from "../../common/constants";
-import {
-  GetRowParams, Row,
-} from "../../common/types";
+import { DeleteRowParams } from "../../common/types";
 import common from "../common";
 
 export default defineAction({
   ...common,
-  name: "Get Row",
+  name: "Delete Row",
   description:
-    `Get a single row [See docs here](${DOCS_LINK})`,
-  key: "baserow-get-row",
+    `Delete a row [See docs here](${DOCS_LINK})`,
+  key: "baserow-delete-row",
   version: "0.0.1",
   type: "action",
   props: {
@@ -28,18 +26,15 @@ export default defineAction({
       tableId, rowId,
     } = this;
 
-    const params: GetRowParams  = {
+    const params: DeleteRowParams  = {
       $,
       tableId,
       rowId,
-      params: {
-        user_field_names: true,
-      },
     };
 
-    const response: Row = await this.baserow.getRow(params);
+    const response = await this.baserow.deleteRow(params);
 
-    $.export("$summary", `Obtained info for row ${rowId} successfully`);
+    $.export("$summary", `Deleted row ${rowId} successfully`);
 
     return response;
   },

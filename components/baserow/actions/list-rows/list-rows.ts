@@ -20,7 +20,7 @@ export default defineAction({
       $,
       tableId,
       params: {
-        user_field_names: true
+        user_field_names: true,
       },
     };
 
