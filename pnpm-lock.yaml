@@ -576,7 +576,10 @@ importers:
     specifiers: {}
 
   components/curated:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/customer_io:
     specifiers:
