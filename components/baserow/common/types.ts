@@ -1,10 +1,10 @@
 import { Pipedream } from "@pipedream/types";
 
 export interface HttpRequestParams {
-  endpoint: string;
+  url: string;
   $?: Pipedream;
   data?: object;
-  apiKey?: string;
+  params?: object;
 }
 
 export interface ListRowsParams {
@@ -17,7 +17,7 @@ export interface Row {
   id: number;
 }
 
-export interface ListRowsResponse {
+export interface PaginatedResponse {
   next: string | null;
   results: Row[];
 }

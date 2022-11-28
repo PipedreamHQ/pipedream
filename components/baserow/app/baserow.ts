@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, ListRowsParams, ListRowsResponse,
+  HttpRequestParams, ListRowsParams, PaginatedResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -19,39 +19,46 @@ export default defineApp({
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
-        baseURL: this.baseUrl(),
+        baseURL: this._baseUrl(),
         headers: {
           Authorization: `Token ${this._apiKey()}`,
         },
         ...args,
       });
     },
-    async listRows({
-      tableId, params, ...args
-    }: ListRowsParams): Promise<object[]> {
+    async _paginatedRequest({
+      params, ...args
+    }: HttpRequestParams): Promise<object[]> {
       const requestParams = {
         ...params,
-        size: 500,
+        size: 200,
       };
       const result = [];
       let page = 1;
       let nextRequest = null;
 
       do {
-        const response: ListRowsResponse = await this._httpRequest({
-          url: `/database/rows/table/${tableId}/`,
+        const response: PaginatedResponse = await this._httpRequest({
           params: {
             ...requestParams,
             page: page++,
           },
           ...args,
         });
-        result.push(response.results);
+        result.push(...response.results);
         nextRequest = response.next;
       } while (nextRequest);
 
       return result;
     },
+    async listRows({
+      tableId, ...args
+    }: ListRowsParams) {
+      return this._paginatedRequest({
+        url: `/database/rows/table/${tableId}/`,
+        ...args
+      });
+    }
   },
   propDefinitions: {
     tableId: {
