@@ -124,6 +124,11 @@ export default {
 
         const oldRowCount = this._getRowCount(`${sheetId}${worksheetId}`);
         const worksheetLength = worksheetLengthsById[worksheetId];
+        if (oldRowCount === worksheetLength) {
+          // No new rows. Skip getting spreadsheet values, which would include the last row when the
+          // (A1 notation) range's upper bound is the worksheet length.
+          continue;
+        }
         const lowerBound = oldRowCount + 1;
         const upperBound = worksheetLength;
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
@@ -139,7 +144,7 @@ export default {
           `${sheetId}${worksheetId}`,
           // https://github.com/PipedreamHQ/pipedream/issues/2818
           newRowCount >= upperBound
-            ? upperBound - 1
+            ? upperBound
             : newRowCount,
         );
 
