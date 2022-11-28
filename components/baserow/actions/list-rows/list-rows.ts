@@ -15,6 +15,7 @@ export default defineAction({
     const params: ListRowsParams = {
       $,
       tableId,
+      params: {},
     };
 
     const response: object[] = await this.baserow.listRows(params);

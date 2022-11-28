@@ -29,7 +29,10 @@ export default defineApp({
     async listRows({
       tableId, params, ...args
     }: ListRowsParams): Promise<object[]> {
-      params.size = 500;
+      const requestParams = {
+        ...params,
+        size: 500,
+      };
       const result = [];
       let page = 1;
       let nextRequest = null;
@@ -38,7 +41,7 @@ export default defineApp({
         const response: ListRowsResponse = await this._httpRequest({
           url: `/database/rows/table/${tableId}/`,
           params: {
-            ...params,
+            ...requestParams,
             page: page++,
           },
           ...args,

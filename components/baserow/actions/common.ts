@@ -4,8 +4,8 @@ export default {
     baserow,
     tableId: {
       propDefinition: [
-        "tableId",
         baserow,
+        "tableId",
       ],
     },
   },
