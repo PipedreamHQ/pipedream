@@ -187,7 +187,7 @@ export default {
     },
     async getMessage({
       accountId = "~", extensionId, messageId, ...args
-    } = {}) {
+    }) {
       return this.makeRequest({
         path: `/account/${accountId}/extension/${extensionId}/message-store/${messageId}`,
         ...args,

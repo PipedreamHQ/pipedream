@@ -21,7 +21,7 @@ export default {
       propDefinition: [
         ringcentral,
         "extensionId",
-      ]
+      ],
     },
     messageId: {
       type: "string",
