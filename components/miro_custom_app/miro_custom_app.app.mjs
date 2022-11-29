@@ -70,7 +70,7 @@ export default {
       });
     },
     createShape({
-      boardId = "", ...args
+      boardId = boardId, ...args
     } = {}) {
       return this.makeRequest({
         method: "post",
