@@ -19,6 +19,12 @@ export default {
       ],
     },
   },
+  methods: {
+    ...common.methods,
+    getIfUpdate() {
+      return true;
+    },
+  },
   async run ({ $ }) {
     const fields = this.getFields();
     const reminder = this.reminder ?
@@ -35,7 +41,7 @@ export default {
         reminder,
       },
     });
-    $.export("$summary", `The item has been updated. (ID:${resp.item_id}, Title:${resp.title})`);
+    $.export("$summary", `The item has been updated. (Title:${resp.title})`);
     return resp;
   },
 };

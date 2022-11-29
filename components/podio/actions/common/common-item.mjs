@@ -52,6 +52,9 @@ export default {
       }
       return fields;
     },
+    getIfUpdate() {
+      return false;
+    },
   },
   async additionalProps() {
     const props = {};
@@ -63,8 +66,10 @@ export default {
         const newProp = {
           type: utils.getType(field),
           label: field.label,
-          description: utils.getFieldDesc(field),
-          optional: !field.config.required,
+          description: utils.getFieldDesc(field, this.getIfUpdate()),
+          optional: this.getIfUpdate() ?
+            true :
+            !field.config.required,
         };
         if (field.type == "category") {
           newProp.options = field.config.settings.options.map(( option ) => {

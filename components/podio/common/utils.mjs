@@ -21,8 +21,14 @@ export default {
     }
     return result;
   },
-  getFieldDesc(field) {
-    let description = field.config.description || "";
+  getFieldDesc(field, isUpdate) {
+    let description = "";
+    if (!isUpdate) {
+      description += field.config.required ?
+        "[REQUIRED] " :
+        "[OPTIONAL] ";
+    }
+    description += field.config.description || "";
     if (field.type != "number" && field.type != "text" && field.type != "category") {
       description += `\nA valid JSON object(type ${field.type}) should be given. Please see [this doc](https://developers.podio.com/doc/applications) to see field objects`;
     }
