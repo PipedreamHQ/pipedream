@@ -11,23 +11,9 @@ export default {
     channelName: {
       propDefinition: [
         ably,
-        "messageData",
+        "channelName",
       ],
       description: "The name of channel that will be published",
-    },
-    eventName: {
-      propDefinition: [
-        ably,
-        "messageData",
-      ],
-      description: "The event name that will be published",
-    },
-    messageData: {
-      propDefinition: [
-        ably,
-        "messageData",
-      ],
-      description: "The data of the message that will be published",
     },
     notificationTitle: {
       label: "Notification Title",
@@ -42,7 +28,7 @@ export default {
     notificationData: {
       label: "Notification Data",
       description: "The data of push notification",
-      type: "string",
+      type: "object",
     },
   },
   async run({ $ }) {
@@ -51,7 +37,7 @@ export default {
       channelName: this.channelName,
       data: {
         name: this.eventName,
-        data: this.messageData,
+        data: this.notificationData,
         extras: {
           push: {
             data: this.notificationData,
