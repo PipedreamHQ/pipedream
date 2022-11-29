@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/podio",
+  "version": "0.0.1",
+  "description": "Pipedream Podio Components",
+  "main": "podio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "podio"
+  ],
+  "homepage": "https://pipedream.com/apps/podio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

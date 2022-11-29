@@ -2071,6 +2071,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/podio:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/pointagram:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -7742,6 +7748,17 @@ packages:
 
   /@pipedream/platform/1.2.0:
     resolution: {integrity: sha512-rxJh8d1rIA1o5qr1a0hwe79Ua7IVz/mbS5fudWMR3eV9fRgDBxMwKZqQWysmxP+jBT2KrSKcXrMeJpl2zY3u6Q==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.2.1:
+    resolution: {integrity: sha512-/3P8NW4K7bleOF632+So6fW8xy6Sd/DtlNbabsKW9QBB/GoTc8oPIUH3odnv8X+ZnvrhgCElcBAQEg9vcHAzLA==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
