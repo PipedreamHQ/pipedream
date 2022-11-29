@@ -4,7 +4,7 @@ export default {
   key: "slack-join-channel",
   name: "Join Channel",
   description: "Join an existing channel. [See docs here](https://api.slack.com/methods/conversations.join)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     slack,
@@ -16,8 +16,12 @@ export default {
     },
   },
   async run() {
-    return await this.slack.sdk().conversations.join({
-      channel: this.conversation,
-    });
+    try {
+      return await this.slack.sdk().conversations.join({
+        channel: this.conversation,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   },
 };

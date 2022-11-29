@@ -442,12 +442,15 @@ export default {
     mySlackId() {
       return this.$auth.oauth_uid;
     },
+    getToken() {
+      return this.$auth.oauth_access_token;
+    },
     /**
      * Returns a Slack Web Client object authenticated with the user's access
      * token
      */
     sdk() {
-      return new WebClient(this.$auth.oauth_access_token);
+      return new WebClient(this.getToken());
     },
     /**
      * This method returns the list of OAuth scopes the current authenticated
