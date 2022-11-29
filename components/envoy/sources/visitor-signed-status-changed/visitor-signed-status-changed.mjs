@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import constants from "../common/constants.mjs";
 
 export default {
-  key: "envoy-visitor-signed-status",
+  key: "envoy-visitor-signed-status-changed",
   name: "New event when a visitor changes its signed status",
   description: "Emit new event for each visitor who signed in or out. [See the docs](https://developers.envoy.com/hub/reference/entries-2).",
   version: "0.0.1",
