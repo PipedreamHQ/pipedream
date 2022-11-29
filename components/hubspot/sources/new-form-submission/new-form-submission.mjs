@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -34,7 +34,20 @@ export default {
       };
     },
     isRelevant(result, submittedAfter) {
-      return result.submittedAt > submittedAfter;
+      const relevant = result.submittedAt > submittedAfter;
+      if (relevant) {
+        this.updateAfter(result.submittedAt);
+      }
+      return relevant;
+    },
+    updateAfter(submittedAt) {
+      const after = this._getAfter();
+      if (submittedAt > after) {
+        this._setAfter(submittedAt);
+      }
+    },
+    dayAgo() {
+      return new Date().setDate(new Date().getDate() - 1);
     },
     getParams() {
       return {
@@ -57,5 +70,17 @@ export default {
             )),
       );
     },
+  },
+  async run() {
+    const getAfter = this._getAfter();
+    const isFirstRun = getAfter.toString().length > 13;
+    const after = isFirstRun
+      ? this.dayAgo()
+      : getAfter;
+    if (isFirstRun) {
+      this._setAfter(after);
+    }
+    const params = this.getParams();
+    await this.processResults(after, params);
   },
 };

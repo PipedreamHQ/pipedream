@@ -1540,6 +1540,9 @@ importers:
   components/looker:
     specifiers: {}
 
+  components/loqate:
+    specifiers: {}
+
   components/lusha:
     specifiers:
       '@pipedream/platform': ^0.10.0
