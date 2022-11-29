@@ -7,18 +7,6 @@ export default {
   name: "Update an Item",
   description: "Updates an item. [See the docs](https://developers.podio.com/doc/items/update-item-22363)",
   ...common,
-  props: {
-    ...common.props,
-    itemId: {
-      propDefinition: [
-        common.props.app,
-        "itemId",
-        (configuredProps) => ({
-          appId: configuredProps.appId,
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
     getIfUpdate() {

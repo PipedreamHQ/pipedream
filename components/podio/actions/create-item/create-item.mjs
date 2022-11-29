@@ -1,5 +1,8 @@
 import common from "../common/common-item.mjs";
 
+const props = common.props;
+delete props.itemId;
+
 export default {
   type: "action",
   key: "podio-create-item",
@@ -7,6 +10,7 @@ export default {
   name: "Create an Item",
   description: "Adds a new item to the given app. [See the docs](https://developers.podio.com/doc/items/add-new-item-22362)",
   ...common,
+  props,
   async run ({ $ }) {
     const fields = this.getFields();
     const reminder = this.reminder ?

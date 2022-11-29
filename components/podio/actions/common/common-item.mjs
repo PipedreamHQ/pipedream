@@ -29,6 +29,15 @@ export default {
       ],
       reloadProps: true,
     },
+    itemId: {
+      propDefinition: [
+        app,
+        "itemId",
+        (configuredProps) => ({
+          appId: configuredProps.appId,
+        }),
+      ],
+    },
     tags: {
       type: "string[]",
       label: "Tags",
