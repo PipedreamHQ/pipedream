@@ -18,7 +18,33 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "miro_custom_app",
-  propDefinitions: {},
+  propDefinitions: {
+    boardId: {
+      type: "string",
+      label: "Board ID",
+      description: "The ID of a board",
+      async options({ prevContext }) {
+        const {
+          data,
+          offset,
+        } =
+          await this.listBoards({
+            limit: 20,
+            offset: prevContext.offset,
+          });
+        const options = data.map((board) => ({
+          label: board.name,
+          value: board.id,
+        }));
+        return {
+          options,
+          context: {
+            offset,
+          },
+        };
+      },
+    },
+  },
   methods: {
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
