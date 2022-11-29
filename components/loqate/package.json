@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/loqate",
+  "version": "0.0.1",
+  "description": "Pipedream Loqate Components",
+  "main": "dist/app/loqate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loqate"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/loqate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

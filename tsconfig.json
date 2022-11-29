@@ -1049,6 +1049,9 @@
     },
     {
       "path": "components/rudderstack_transformation"
+    },
+    {
+      "path": "components/loqate"
     }
   ]
 }

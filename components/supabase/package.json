@@ -1,19 +1,19 @@
 {
-  "name": "@pipedream/superdocu",
+  "name": "@pipedream/supabase",
   "version": "0.0.1",
-  "description": "Pipedream Superdocu Components",
-  "main": "superdocu.app.js",
+  "description": "Pipedream Supabase Components",
+  "main": "supabase.app.mjs",
   "keywords": [
     "pipedream",
-    "superdocu"
+    "supabase"
   ],
-  "homepage": "https://pipedream.com/apps/superdocu",
+  "homepage": "https://pipedream.com/apps/supabase",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "crypto": "^1.0.1"
+    "@supabase/supabase-js": "^2.1.0"
   }
 }
