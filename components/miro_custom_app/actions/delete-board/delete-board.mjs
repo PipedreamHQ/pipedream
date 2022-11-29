@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import app from "../../miro_custom_app.app.mjs";
 
 export default {
   name: "Delete Board",
@@ -7,27 +7,16 @@ export default {
   description: "Deletes a Miro board",
   type: "action",
   props: {
-    miro_custom_app: {
-      type: "app",
-      app: "miro_custom_app"
-    },
+    app,
     boardId: {
       type: "string",
       description: "Board ID",
       optional: false,
-    }
-  },
-  async run({ $ }) {
-    //See the API docs developers.miro.com
-      const config = {
-        method: "delete",
-        url: `https://api.miro.com/v2/boards/${this.boardId}`,
-        headers: {
-          "Authorization": `Bearer ${this.miro_custom_app.$auth.access_token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      //console.log(this.miro_custom_app.$auth)
-      return await axios($, config);
     },
-  };
+  },
+  async run({ $: step }) {
+    return this.app.deleteBoard({
+      step,
+    });
+  },
+};

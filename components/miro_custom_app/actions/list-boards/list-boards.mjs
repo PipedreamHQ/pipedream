@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import app from "../../miro_custom_app.app.mjs";
 
 export default {
   name: "List Boards",
@@ -7,22 +7,11 @@ export default {
   description: "Returns a user's Miro boards",
   type: "action",
   props: {
-    miro_custom_app: {
-      type: "app",
-      app: "miro_custom_app"
-    }
+    app,
   },
-  async run({ $ }) {
-    //See the API docs developers.miro.com
-      const config = {
-        method: "get",
-        url: "https://api.miro.com/v2/boards",
-        headers: {
-          "Authorization": `Bearer ${this.miro_custom_app.$auth.access_token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      //console.log(this.miro_custom_app.$auth)
-      return await axios($, config);
-    },
-  };
+  async run({ $: step }) {
+    return this.app.listBoards({
+      step,
+    });
+  },
+};
