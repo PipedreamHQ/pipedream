@@ -1,41 +1,37 @@
-// legacy_hash_id: a_xqiqPe
-import { axios } from "@pipedream/platform";
+import smugmug from "../../smugmug.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "smugmug-create-album",
   name: "Create Album",
-  description: "Creates an album.",
-  version: "2.0.0",
+  description: "Creates an album. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/album.html)",
+  //version: "2.0.1",
+  version: "2.0.13",
   type: "action",
   props: {
-    smugmug: {
-      type: "app",
-      app: "smugmug",
+    smugmug,
+    folder: {
+      propDefinition: [
+        smugmug,
+        "folder",
+      ],
     },
-    nickname_name: {
-      type: "string",
-      description: "Nickname of the user creating the album, part of the url.",
-    },
-    folder_name: {
-      type: "string",
-      description: "Name of folder where the album will be created. Case sensitive.",
-    },
-    NiceName: {
+    niceName: {
       type: "string",
       description: "The user-configurable component of the album's webUri. Use UrlName instead.",
       optional: true,
     },
-    UrlName: {
+    urlName: {
       type: "string",
       description: "The user-configurable component of the album's webUri.",
       optional: true,
     },
-    Title: {
+    title: {
       type: "string",
       description: "The human-readable title. Use Name instead.",
       optional: true,
     },
-    Name: {
+    name: {
       type: "string",
       description: "The human-readable title.",
       optional: true,
@@ -44,73 +40,65 @@ export default {
       type: "string",
       description: "Private is not supported on legacy accounts.\nIt can be Private, Unlisted, or Public.",
       optional: true,
-      options: [
-        "Public",
-        "Unlisted",
-        "Private",
-      ],
+      options: constants.PRIVACY_OPTIONS,
     },
-    PrintmarkUri: {
+    printmarkUri: {
       type: "string",
       description: "Uri of an image to use in print orders of your photos, usually, a team, company logo, your signature.",
       optional: true,
     },
-    WatermarkUri: {
+    watermarkUri: {
       type: "string",
       description: "Uri of an image to be applied on your photos as a watermark for protection.",
       optional: true,
     },
-    ThemeUri: {
+    themeUri: {
       type: "string",
       description: "Only applies to legacy accounts.",
       optional: true,
     },
-    TemplateUri: {
+    templateUri: {
       type: "string",
       description: "Uri of template, preset settings to be applied on the album.",
       optional: true,
     },
-    AllowDownloads: {
+    allowDownloads: {
       type: "boolean",
       description: "Allow downloads of this album?",
       optional: true,
     },
-    Backprinting: {
+    backprinting: {
       type: "string",
       description: "Text to appear in the back of print orders of your photos.",
       optional: true,
     },
-    BoutiquePackaging: {
+    boutiquePackaging: {
       type: "string",
       description: "Is this album available for Boutique Packaging in your customers orders?",
       optional: true,
-      options: [
-        "No",
-        "Yes",
-        "Inherit from User",
-      ],
+      options: constants.BOUTIQUE_PACKAGING_OPTIONS,
     },
-    CanRank: {
+    canRank: {
       type: "boolean",
       description: "Enable Canrank property of the album.",
       optional: true,
     },
-    Clean: {
+    clean: {
       type: "boolean",
       description: "Enable Clean property of the album.",
       optional: true,
     },
-    Comments: {
+    comments: {
       type: "boolean",
       description: "Allow other users leave comments in the album?",
       optional: true,
     },
-    Description: {
+    description: {
       type: "string",
       description: "The human-readable description",
       optional: true,
     },
-    DownloadPassword: {
+    downloadPassword: {
       type: "string",
       description: "The password used for protecting album download.",
       optional: true,
@@ -120,246 +108,216 @@ export default {
       description: "Display a photo's EXIF information.",
       optional: true,
     },
-    External: {
+    external: {
       type: "boolean",
       description: "An old setting that no longer has any function.",
       optional: true,
     },
-    FamilyEdit: {
+    familyEdit: {
       type: "boolean",
       description: "Enable FamilyEdit property of the album.",
       optional: true,
     },
-    Filenames: {
+    filenames: {
       type: "boolean",
       description: "Enable Filenames property of the album.",
       optional: true,
     },
-    FriendEdit: {
+    friendEdit: {
       type: "string",
       description: "Allow this album available for granting special privileges to friends and family with an Smugmug account?",
       optional: true,
     },
-    Geography: {
+    geography: {
       type: "boolean",
       description: "Enable Geography property of the album.",
       optional: true,
     },
-    Header: {
+    header: {
       type: "string",
       description: "Use a customer header for the album appearance?",
       optional: true,
-      options: [
-        "Custom",
-        "SmugMug",
-      ],
+      options: constants.HEADER_OPTIONS,
     },
-    HideOwner: {
+    hideOwner: {
       type: "boolean",
       description: "Hide owner information from the album?",
       optional: true,
     },
-    InterceptShipping: {
+    interceptShipping: {
       type: "string",
       description: "Personal Delivery.",
       optional: true,
     },
-    Keywords: {
+    keywords: {
       type: "string",
       description: "A semicolon-separated list of keywords.",
       optional: true,
     },
-    LargestSize: {
+    largestSize: {
       type: "string",
       description: "Largest display sizes for images in the album.",
       optional: true,
     },
-    PackagingBranding: {
+    packagingBranding: {
       type: "boolean",
       description: "Enable PackagingBranding property of the album.",
       optional: true,
     },
-    Password: {
+    password: {
       type: "string",
       description: "The password used for protecting album access.",
       optional: true,
     },
-    PasswordHint: {
+    passwordHint: {
       type: "string",
       description: "The hint for the album-access password.",
       optional: true,
     },
-    Printable: {
+    printable: {
       type: "string",
       description: "Allow images of this album to be available for printing?",
       optional: true,
     },
-    ProofDays: {
+    proofDays: {
       type: "string",
       description: "A proof-delay between 1 and 7 business days for customer orders.",
       optional: true,
     },
-    Protected: {
+    protected: {
       type: "boolean",
       description: "Enable right-click protection?",
       optional: true,
     },
-    Share: {
+    share: {
       type: "boolean",
       description: "Allow this album to be shared?",
       optional: true,
     },
-    Slideshow: {
+    slideshow: {
       type: "boolean",
       description: "Enable the slideshow content block on this album?",
       optional: true,
     },
-    SortDirection: {
+    sortDirection: {
       type: "string",
       description: "Specifies the direction in which to sort album images.",
       optional: true,
-      options: [
-        "Ascending",
-        "Descending",
-      ],
+      options: constants.SORT_DIRECTION_OPTIONS,
     },
-    SortMethod: {
+    sortMethod: {
       type: "string",
       description: "Album's image property to use for sorting?",
       optional: true,
-      options: [
-        "Position",
-        "Caption",
-        "Filename",
-        "Date Uploaded",
-        "Date Modified",
-        "Date Taken",
-      ],
+      options: constants.SORT_METHOD_OPTIONS,
     },
-    SquareThumbs: {
+    squareThumbs: {
       type: "boolean",
       description: "Enable thumbnails in album's images (only available in SmugMug style).",
       optional: true,
     },
-    UploadKey: {
+    uploadKey: {
       type: "string",
       description: "A key for your guests to upload images to the album.",
       optional: true,
     },
-    Watermark: {
+    watermark: {
       type: "boolean",
       description: "Automatically apply watermark to uploaded images?",
       optional: true,
     },
-    WorldSearchable: {
+    worldSearchable: {
       type: "string",
       description: "Allow this album to appear in external search results? Can be \"No\" or \"Inherit from User\".",
       optional: true,
-      options: [
-        "No",
-        "Inherit from User",
-      ],
+      options: constants.SEARCHABLE_OPTIONS,
     },
-    AutoRename: {
+    autoRename: {
       type: "boolean",
       description: "Auto-rename conflicting album NiceNames?",
       optional: true,
     },
-    SecurityType: {
+    securityType: {
       type: "string",
       description: "Access protection method for the folder.",
       optional: true,
     },
-    HighlightAlbumImageUri: {
+    highlightAlbumImageUri: {
       type: "string",
       description: "Uri of an image which can be used as a representative of the entire album.",
       optional: true,
     },
-    AlbumTemplateUri: {
+    albumTemplateUri: {
       type: "string",
       description: "Specify default album presets by providing an AlbumTemplateUri.",
       optional: true,
     },
-    SmugSearchable: {
+    smugSearchable: {
       type: "string",
       description: "Allow this album to appear in SmugMug search results? Can be \"No\" or \"Inherit from User\".",
       optional: true,
-      options: [
-        "No",
-        "Inherit from user",
-      ],
+      options: constants.SEARCHABLE_OPTIONS,
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://api.smugmug.com/api/v2/doc/reference/album.html
-
-    const config = {
-      method: "post",
-      url: `https://www.smugmug.com/api/v2/folder/user/${this.nickname_name}/${this.folder_name}!albums`,
-      headers: {
-        "Authorization": `Bearer ${this.smugmug.$auth.oauth_access_token}`,
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-      data: {
-        NiceName: this.NiceName,
-        UrlName: this.UrlName,
-        Title: this.Title,
-        Name: this.Name,
-        Privacy: this.privacy,
-        PrintmarkUri: this.PrintmarkUri,
-        WatermarkUri: this.WatermarkUri,
-        ThemeUri: this.ThemeUri,
-        TemplateUri: this.TemplateUri,
-        AllowDownloads: this.AllowDownloads,
-        Backprinting: this.Backprinting,
-        BoutiquePackaging: this.BoutiquePackaging,
-        CanRank: this.CanRank,
-        Clean: this.Clean,
-        Comments: this.Comments,
-        Description: this.Description,
-        DownloadPassword: this.DownloadPassword,
-        EXIF: this.EXIF,
-        External: this.External,
-        FamilyEdit: this.FamilyEdit,
-        Filenames: this.Filenames,
-        FriendEdit: this.FriendEdit,
-        Geography: this.Geography,
-        Header: this.Header,
-        HideOwner: this.HideOwner,
-        InterceptShipping: this.InterceptShipping,
-        Keywords: this.Keywords,
-        LargestSize: this.LargestSize,
-        PackagingBranding: this.PackagingBranding,
-        Password: this.Password,
-        PasswordHint: this.PasswordHint,
-        Printable: this.Printable,
-        ProofDays: this.ProofDays,
-        Protected: this.Protected,
-        Share: this.Share,
-        Slideshow: this.Slideshow,
-        SortDirection: this.SortDirection,
-        SortMethod: this.SortMethod,
-        SquareThumbs: this.SquareThumbs,
-        UploadKey: this.UploadKey,
-        Watermark: this.Watermark,
-        WorldSearchable: this.WorldSearchable,
-        AutoRename: this.AutoRename,
-        SecurityType: this.SecurityType,
-        HighlightAlbumImageUri: this.HighlightAlbumImageUri,
-        AlbumTemplateUri: this.AlbumTemplateUri,
-        SmugSearchable: this.SmugSearchable,
-      },
+    const data = {
+      Type: "album",
+      NiceName: this.niceName,
+      UrlName: this.urlName,
+      Title: this.title,
+      Name: this.name,
+      Privacy: this.privacy,
+      PrintmarkUri: this.printmarkUri,
+      WatermarkUri: this.watermarkUri,
+      ThemeUri: this.themeUri,
+      TemplateUri: this.templateUri,
+      AllowDownloads: this.allowDownloads,
+      Backprinting: this.backprinting,
+      BoutiquePackaging: this.boutiquePackaging,
+      CanRank: this.canRank,
+      Clean: this.clean,
+      Comments: this.comments,
+      Description: this.description,
+      DownloadPassword: this.downloadPassword,
+      EXIF: this.EXIF,
+      External: this.external,
+      FamilyEdit: this.familyEdit,
+      Filenames: this.filenames,
+      FriendEdit: this.friendEdit,
+      Geography: this.geography,
+      Header: this.header,
+      HideOwner: this.hideOwner,
+      InterceptShipping: this.interceptShipping,
+      Keywords: this.keywords,
+      LargestSize: this.largestSize,
+      PackagingBranding: this.packagingBranding,
+      Password: this.password,
+      PasswordHint: this.passwordHint,
+      Printable: this.printable,
+      ProofDays: this.proofDays,
+      Protected: this.protected,
+      Share: this.share,
+      Slideshow: this.slideshow,
+      SortDirection: this.sortDirection,
+      SortMethod: this.sortMethod,
+      SquareThumbs: this.squareThumbs,
+      UploadKey: this.uploadKey,
+      Watermark: this.watermark,
+      WorldSearchable: this.worldSearchable,
+      AutoRename: this.AatoRename,
+      SecurityType: this.securityType,
+      HighlightAlbumImageUri: this.highlightAlbumImageUri,
+      AlbumTemplateUri: this.albumTemplateUri,
+      SmugSearchable: this.smugSearchable,
     };
 
-    const signature = {
-      token: {
-        key: this.smugmug.$auth.oauth_access_token,
-        secret: this.smugmug.$auth.oauth_refresh_token,
-      },
-      oauthSignerUri: this.smugmug.$auth.oauth_signer_uri,
-    };
-
-    return await axios($, config, signature);
+    const response = await this.smugmug.createAlbum(this.folder, {
+      $,
+      data,
+    });
+    if (response) {
+      $.export("$summary", `Created album with key ${response.Response.Album.AlbumKey}`);
+    }
+    return response;
   },
 };
