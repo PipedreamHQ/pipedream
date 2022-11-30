@@ -1,17 +1,13 @@
-// legacy_hash_id: a_zNiOM3
-import { axios } from "@pipedream/platform";
+import smugmug from "../../smugmug.app.mjs";
 
 export default {
   key: "smugmug-update-albumimage",
   name: "Update AlbumImage",
-  description: "Updates an albumimage.In Smugmug, an alvbumimage represents the relationship between a particular album and a particular image in that album. This is useful because the same image may appear in multiple albums.",
+  description: "Updates an albumimage.In Smugmug, an alubumimage represents the relationship between a particular album and a particular image in that album. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/album-image.html)",
   version: "0.1.1",
   type: "action",
   props: {
-    smugmug: {
-      type: "app",
-      app: "smugmug",
-    },
+    smugmug,
     album_key: {
       type: "string",
     },
@@ -60,10 +56,10 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
+  async run() {
   //See the API docs here: https://api.smugmug.com/api/v2/doc/reference/album-image.html
 
-    const config = {
+    /*   const config = {
       method: "patch",
       url: `https://www.smugmug.com/api/v2/album/${this.album_key}/image/${this.image_key}`,
       headers: {
@@ -90,6 +86,6 @@ export default {
       oauthSignerUri: this.smugmug.$auth.oauth_signer_uri,
     };
 
-    return await axios($, config, signature);
+    return await axios($, config, signature); */
   },
 };

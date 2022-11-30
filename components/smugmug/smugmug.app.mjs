@@ -73,7 +73,7 @@ export default {
         return folders?.length > 0
           ? folders.map((folder) => ({
             label: folder.Name,
-            value: folder.NodeID,
+            value: folder.UrlName,
           }))
           : [];
       },
@@ -141,9 +141,9 @@ export default {
         ...args,
       });
     },
-    async createAlbum(node, args = {}) {
+    async createAlbum(nickname, folder, args = {}) {
       return this._makeRequest({
-        path: `/node/${node}!children`,
+        path: `/folder/user/${nickname}/${folder}!albums`,
         method: "POST",
         ...args,
       });
