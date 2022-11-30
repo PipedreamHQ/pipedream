@@ -26,6 +26,7 @@ export default {
       type: "string",
       label: "Email",
       description: "Visitor email address.",
+      optional: true,
     },
     expectedDepartureAt: {
       type: "string",
