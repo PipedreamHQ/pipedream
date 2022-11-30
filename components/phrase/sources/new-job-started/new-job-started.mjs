@@ -5,7 +5,7 @@ export default {
   name: "New Job Started (Instant)",
   version: "0.0.1",
   key: "phrase-new-job-started",
-  description: "Emit new event on each job is started.",
+  description: "Emit new event when each job is started.",
   type: "source",
   dedupe: "unique",
   hooks: {
