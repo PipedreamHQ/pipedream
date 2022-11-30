@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/yelp",
+  "version": "0.0.1",
+  "description": "Pipedream Yelp Components",
+  "main": "dist/app/yelp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yelp"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/yelp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
