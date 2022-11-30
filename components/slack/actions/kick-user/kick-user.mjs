@@ -22,13 +22,9 @@ export default {
     },
   },
   async run() {
-    try {
-      return await this.slack.sdk().conversations.kick({
-        channel: this.conversation,
-        user: this.user,
-      });
-    } catch (error) {
-      console.log(JSON.stringify(error.data, null, 2));
-    }
+    return await this.slack.sdk().conversations.kick({
+      channel: this.conversation,
+      user: this.user,
+    });
   },
 };

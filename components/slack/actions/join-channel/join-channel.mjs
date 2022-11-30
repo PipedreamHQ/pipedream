@@ -16,12 +16,8 @@ export default {
     },
   },
   async run() {
-    try {
-      return await this.slack.sdk().conversations.join({
-        channel: this.conversation,
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
+    return await this.slack.sdk().conversations.join({
+      channel: this.conversation,
+    });
   },
 };

@@ -23,13 +23,9 @@ export default {
 
   },
   async run() {
-    try {
-      return await this.slack.sdk().conversations.invite({
-        channel: this.conversation,
-        users: this.user,
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
+    return await this.slack.sdk().conversations.invite({
+      channel: this.conversation,
+      users: this.user,
+    });
   },
 };

@@ -336,6 +336,9 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
+  console.log("componentsThatDidNotModifyVersion", JSON.stringify(componentsThatDidNotModifyVersion, null, 2));
+  console.log("componentsDiffContents", JSON.stringify(componentsDiffContents, null, 2));
+
   const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
   let counter = 1;
 
