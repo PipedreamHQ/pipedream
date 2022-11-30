@@ -5,7 +5,7 @@ export default {
   name: "New Job Created (Instant)",
   version: "0.0.1",
   key: "phrase-new-job-created",
-  description: "Emit new event on each job is created.",
+  description: "Emit new event when each job is created.",
   type: "source",
   dedupe: "unique",
   hooks: {
