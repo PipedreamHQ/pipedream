@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-upload-file",
   description: "Upload a file (Bot). [See docs here](https://api.slack.com/methods/files.upload)",
-  version: "0.0.12",
+  version: "0.0.1",
 };
