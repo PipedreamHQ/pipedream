@@ -1052,6 +1052,9 @@
     },
     {
       "path": "components/loqate"
+    },
+    {
+      "path": "components/drata"
     }
   ]
 }
