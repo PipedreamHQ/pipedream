@@ -5,7 +5,7 @@ export default {
   name: "New Job Completed (Instant)",
   version: "0.0.1",
   key: "phrase-new-job-completed",
-  description: "Emit new event on each job is completed.",
+  description: "Emit new event when each job is completed.",
   type: "source",
   dedupe: "unique",
   hooks: {
