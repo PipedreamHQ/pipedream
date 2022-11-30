@@ -336,15 +336,8 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
-  console.log("componentsThatDidNotModifyVersion", JSON.stringify(componentsThatDidNotModifyVersion, null, 2));
-  console.log("componentsDiffContents", JSON.stringify(componentsDiffContents, null, 2));
-
   const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
   let counter = 1;
-
-  if (totalErrors) {
-    core.setFailed(`You need to increment the version of the ${totalErrors} component(s) below. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
-  }
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
@@ -353,6 +346,10 @@ async function run() {
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
     console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
+
+  if (totalErrors) {
+    core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
+  }
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));
