@@ -81,7 +81,13 @@ vs.
 import telegram
 ```
 
-We maintain a custom mapping for these cases, so that we can install the right package given your `import` statements. **If you try to install a package that doesn't work, please [reach out to our team](/code/python/import-mappings/) and we can add the custom mapping for you**.
+Use the built in [magic comment system to resolve these mismatches](/code/python/import-mappings/):
+
+```python
+# pipedream add-package python-telegram-bot
+
+import telegram
+```
 
 ## Making an HTTP request
 
