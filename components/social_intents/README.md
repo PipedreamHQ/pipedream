@@ -29,4 +29,4 @@ Some examples of things you can build using the Social Intents include:
 
 <br/>
 
-### Now you will received the events on your new created source!!! 🎉
+### Now you will receive the events on your new created source!!! 🎉
