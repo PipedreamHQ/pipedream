@@ -33,8 +33,11 @@ export default {
       type: "string",
       label: "Image Key",
       description: "Image Key of the image to retrieve",
-      async options({ page }) {
-        const uri = await this.getAuthenticatedUserUri();
+      async options({
+        page, albumKey,
+      }) {
+        const album = await this.getAlbum(albumKey);
+        const uri = album.Response.Uri;
         const count = constants.DEFAULT_PAGE_SIZE;
         const params = {
           Scope: uri,
@@ -48,7 +51,7 @@ export default {
         return images?.length > 0
           ? images.map((image) => ({
             label: image.FileName,
-            value: image.ImageKey,
+            value: image.Uri.split("/").pop(),
           }))
           : [];
       },
@@ -85,7 +88,8 @@ export default {
     },
     _headers() {
       return {
-        Accept: "application/json",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       };
     },
     _signature() {
@@ -101,11 +105,12 @@ export default {
       const {
         $ = this,
         path,
+        headers,
         ...otherArgs
       } = args;
       const config = {
         url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: headers || this._headers(),
         ...otherArgs,
       };
       const signature = this._signature();
@@ -118,10 +123,6 @@ export default {
     async getAuthenticatedUserNickname() {
       const user = await this.getAuthenticatedUser();
       return user?.Response?.User?.NickName;
-    },
-    async getAuthenticatedUserRefTag() {
-      const user = await this.getAuthenticatedUser();
-      return user?.Response?.User?.RefTag;
     },
     async getAuthenticatedUser(args = {}) {
       return this._makeRequest({
@@ -148,9 +149,9 @@ export default {
         ...args,
       });
     },
-    async getImage(imageKey, args = {}) {
+    async getImage(albumKey, imageKey, args = {}) {
       return this._makeRequest({
-        path: `/image/${imageKey}`,
+        path: `/album/${albumKey}/image/${imageKey}`,
         ...args,
       });
     },
@@ -170,6 +171,27 @@ export default {
       return this._makeRequest({
         path: `/folder/user/${nickname}!folders`,
         ...args,
+      });
+    },
+    async updateAlbumimage(albumKey, imageKey, args = {}) {
+      return this._makeRequest({
+        path: `/image/${imageKey}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    async uploadImage(filename, albumUri, data, $ = this) {
+      return this._makeRequest({
+        url: `https://upload.smugmug.com/${filename}`,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+          "X-Smug-AlbumUri": albumUri,
+          "X-Smug-Version": "v2",
+          "X-Smug-ResponseType": "JSON",
+        },
+        method: "POST",
+        data,
+        $,
       });
     },
   },

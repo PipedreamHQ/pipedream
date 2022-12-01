@@ -15,6 +15,11 @@ export default {
         "folder",
       ],
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The human-readable title.",
+    },
     niceName: {
       type: "string",
       label: "Nice Name",
@@ -25,11 +30,6 @@ export default {
       label: "URL Name",
       description: "The user-configurable component of the album's webUri.",
       optional: true,
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "The human-readable title.",
     },
     privacy: {
       type: "string",
