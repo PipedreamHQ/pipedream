@@ -11,9 +11,9 @@ Some examples of things you can build using the Social Intents include:
 
 # How to use webhooks
 
-### Create a new source of type **HTTP/WEBHOOK** on Pipedream and copy the endpoint URL
+### Copy the URL on your created source
 
-![image](https://user-images.githubusercontent.com/12402324/204533636-2ad0cad5-8d08-4289-a186-d47e473edd0f.png)
+![image](https://user-images.githubusercontent.com/12402324/205076906-fc11cab5-6268-47ae-8c80-3002369fb94d.png)
 
 <br/>
 
@@ -23,7 +23,7 @@ Some examples of things you can build using the Social Intents include:
 
 <br/>
 
-### Paste your URL on field **Webhook Target URL:**, click on button **OFF** and click **Save**
+### Paste your URL on field **Webhook Target URL**, click on button **OFF** and click **Save**
 
 ![image](https://user-images.githubusercontent.com/12402324/204534570-28f95218-9351-478d-9032-2687e6ac4f66.png)
 
