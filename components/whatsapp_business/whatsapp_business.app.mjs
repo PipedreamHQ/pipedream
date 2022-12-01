@@ -7,7 +7,7 @@ export default {
     phoneNumberId: {
       type: "string",
       label: "Phone Number ID",
-      description: "Phone number ID that will be used to send the message. Leave blank for default.",
+      description: "Phone number ID that will be used to send the message. Leave blank to use the default.",
       optional: true,
       async options({ prevContext }) {
         let after;
