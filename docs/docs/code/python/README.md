@@ -210,13 +210,13 @@ To share data created, retrieved, transformed or manipulated by a step to others
 ```python
 # This step is named "code" in the workflow
 
-def handler(pd: "pipedream):
+def handler(pd: "pipedream"):
   r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
   # Store the JSON contents into a variable called "pokemon"
   pokemon = r.json()
 
   # Expose the data to other steps in the "pokemon" key from this step
-  export('pokemon', pokemon)
+  pd.export('pokemon', pokemon)
 ```
 
 Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`
