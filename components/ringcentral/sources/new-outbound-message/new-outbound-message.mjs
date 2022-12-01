@@ -37,21 +37,20 @@ export default {
       };
     },
     async emitEvent(event) {
-      const { body } = event
+      const { body } = event;
 
-      for(const messageId of body.changes[0].newMessageIds){
+      for (const messageId of body.changes[0].newMessageIds) {
         const message = await this.ringcentral.getMessage({
-          $,
           accountId: body.accountId,
           extensionId: body.extensionId,
           messageId,
         });
-  
+
         this.$emit(message, {
           id: message.id,
           summary: `New outbound message received with ID ${message.id}`,
           ts: Date.parse(body.lastUpdated),
-        })
+        });
       }
     },
   },

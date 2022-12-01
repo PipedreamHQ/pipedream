@@ -149,15 +149,15 @@ export default {
       }
 
       if (this.emitEvent()) {
-        return this.emitEvent(event)
+        return this.emitEvent(event);
       }
 
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
     },
-    emitEvent(event) {
-      return false
-    }
+    emitEvent() {
+      return false;
+    },
   },
   async run(event) {
     const isValidEvent = this.validateEvent(event);
