@@ -1,6 +1,9 @@
 # Overview
 
-Growsurf API lets you run powerful referral programs. With referral programs, you can reward your users for referring new users to your product or service. You can use the API to create and manage your referral programs, track referrals, and pay out rewards.
+Growsurf API lets you run powerful referral programs. With referral programs,
+you can reward your users for referring new users to your product or service.
+You can use the API to create and manage your referral programs, track
+referrals, and pay out rewards.
 
 Here are some examples of what you can build with the Growsurf API:
 

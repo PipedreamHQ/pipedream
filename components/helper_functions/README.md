@@ -1,6 +1,7 @@
 # Overview
 
-Pipedream provides a set of helper functions that make it easy to manipulate and work with data in your workflow. You can use these helper functions to:
+Pipedream provides a set of helper functions that make it easy to manipulate
+and work with data in your workflow. You can use these helper functions to:
 
 - Perform mathematical operations on data
 - Format data

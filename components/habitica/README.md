@@ -1,6 +1,8 @@
 # Overview
 
-Habitica is a website and app that helps you form good habits and stick to them. You can use the Habitica API to help you build applications that help people form and stick to good habits.
+Habitica is a website and app that helps you form good habits and stick to
+them. You can use the Habitica API to help you build applications that help
+people form and stick to good habits.
 
 Here are some examples of what you can build using the Habitica API:
 

@@ -2,7 +2,9 @@
 
 What can you build with the Help Scout API?
 
-Help Scout is a customer service platform that enables companies to deliver great customer service. With the Help Scout API, you can extend the functionality of Help Scout in a variety of ways.
+Help Scout is a customer service platform that enables companies to deliver
+great customer service. With the Help Scout API, you can extend the
+functionality of Help Scout in a variety of ways.
 
 Here are a few examples of what you can build with the Help Scout API:
 
