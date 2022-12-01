@@ -762,6 +762,9 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/drata:
+    specifiers: {}
+
   components/dribbble:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3338,6 +3341,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/yelp:
+    specifiers: {}
 
   components/yotpo:
     specifiers:
