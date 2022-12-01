@@ -6,7 +6,7 @@ export default {
   key: "testmonitor-find-test-result",
   name: "Find a Test Result",
   description: "Retrieve a list of test results. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/GetTestResultCollection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
