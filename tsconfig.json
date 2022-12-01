@@ -1061,6 +1061,9 @@
     },
     {
       "path": "components/yelp"
+    },
+    {
+      "path": "components/mastodon"
     }
   ]
 }
