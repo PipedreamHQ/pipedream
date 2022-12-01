@@ -1037,6 +1037,30 @@
     },
     {
       "path": "components/talenox"
+    },
+    {
+      "path": "components/azure_devops"
+    },
+    {
+      "path": "components/envoy"
+    },
+    {
+      "path": "components/rudderstack"
+    },
+    {
+      "path": "components/rudderstack_transformation"
+    },
+    {
+      "path": "components/loqate"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/yelp"
     }
   ]
 }

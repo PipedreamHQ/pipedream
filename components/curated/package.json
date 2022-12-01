@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/curated",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Curated Components",
-  "main": "dist/app/curated.app.mjs",
+  "main": "curated.app.mjs",
   "keywords": [
     "pipedream",
     "curated"
@@ -15,5 +15,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
   }
 }
