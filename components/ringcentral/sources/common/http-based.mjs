@@ -28,7 +28,9 @@ export default {
             transportType: "WebHook",
             address: this.http.endpoint,
             verificationToken,
-            expiresIn: 630720000, // 20 years (max. allowed by the API)
+            // 10 years in seconds (max the API supports - https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription)
+            // years * days * hours * minutes * seconds
+            expiresIn: 10 * 365 * 24 * 60 * 60,
           },
         },
       });
