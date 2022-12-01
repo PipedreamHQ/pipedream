@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/phrase",
+  "version": "0.0.1",
+  "description": "Pipedream Phrase Components",
+  "main": "phrase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "phrase"
+  ],
+  "homepage": "https://pipedream.com/apps/phrase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0"
+  }
+}
