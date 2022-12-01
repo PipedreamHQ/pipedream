@@ -122,7 +122,7 @@ export default {
           page: currPage + 1,
         });
         entriesArray.push(...entriesResult.data);
-      } while (!entriesResult || entriesResult.meta.perPage > entriesResult.meta.total);
+      } while (!entriesResult || entriesResult.data.length >= entriesResult.meta.perPage);
       return entriesArray;
     },
     async listEntries(ctx = this, params) {
