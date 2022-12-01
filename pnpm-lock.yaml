@@ -2611,7 +2611,10 @@ importers:
     specifiers: {}
 
   components/social_intents:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/softr:
     specifiers: {}
