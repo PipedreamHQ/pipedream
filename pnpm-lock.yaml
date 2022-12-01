@@ -822,7 +822,10 @@ importers:
     specifiers: {}
 
   components/envoy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/esignatures_io:
     specifiers:
