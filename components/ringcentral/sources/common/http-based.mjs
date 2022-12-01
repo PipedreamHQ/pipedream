@@ -1,6 +1,6 @@
 import template from "lodash.template";
 import { v4 as uuid } from "uuid";
-import base  from "./base.mjs";
+import base from "./base.mjs";
 import notificationTypes from "./notification-types.mjs";
 
 export default {
@@ -148,9 +148,16 @@ export default {
         return;
       }
 
+      if (this.emitEvent()) {
+        return this.emitEvent(event)
+      }
+
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
     },
+    emitEvent(event) {
+      return false
+    }
   },
   async run(event) {
     const isValidEvent = this.validateEvent(event);
