@@ -81,7 +81,13 @@ vs.
 import telegram
 ```
 
-We maintain a custom mapping for these cases, so that we can install the right package given your `import` statements. **If you try to install a package that doesn't work, please [reach out to our team](/code/python/import-mappings/) and we can add the custom mapping for you**.
+Use the built in [magic comment system to resolve these mismatches](/code/python/import-mappings/):
+
+```python
+# pipedream add-package python-telegram-bot
+
+import telegram
+```
 
 ## Making an HTTP request
 
@@ -210,13 +216,13 @@ To share data created, retrieved, transformed or manipulated by a step to others
 ```python
 # This step is named "code" in the workflow
 
-def handler(pd: "pipedream):
+def handler(pd: "pipedream"):
   r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
   # Store the JSON contents into a variable called "pokemon"
   pokemon = r.json()
 
   # Expose the data to other steps in the "pokemon" key from this step
-  export('pokemon', pokemon)
+  pd.export('pokemon', pokemon)
 ```
 
 Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`

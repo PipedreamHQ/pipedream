@@ -7,7 +7,7 @@ export default {
   key: "notion-duplicate-page",
   name: "Duplicate Page",
   description: "Creates a new page copied from an existing page block. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,
@@ -36,9 +36,8 @@ export default {
   },
   async run({ $ }) {
     const block = await this.notion.retrieveBlock(this.pageId);
-
-    const blockChildren = await this.notion.retrieveBlockChildren(block);
-    const children = await this.getFormattedBlocks(blockChildren);
+    block.children = await this.notion.retrieveBlockChildren(block);
+    const formattedChildren = await this.formatChildBlocks(block);
 
     const pageBlock = await this.notion.retrievePage(this.pageId);
     const {
@@ -55,9 +54,13 @@ export default {
       properties: {
         title: utils.buildTextProperty(title),
       },
-      cover,
-      icon,
-      children,
+      cover: this.isFile(cover)
+        ? null
+        : cover,
+      icon: this.isFile(icon)
+        ? null
+        : icon,
+      children: formattedChildren,
     };
 
     const results = await this.notion.createPage(page);

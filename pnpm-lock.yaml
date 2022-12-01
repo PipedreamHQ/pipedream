@@ -65,6 +65,12 @@ importers:
       tsc-watch: 5.0.3_typescript@4.7.4
       typescript: 4.7.4
 
+  components/ably:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/abuselpdb:
     specifiers: {}
 
@@ -288,6 +294,9 @@ importers:
       '@pipedream/helper_functions': 0.3.6
       '@pipedream/platform': 1.2.0
       mailparser-mit: 1.0.0
+
+  components/azure_devops:
+    specifiers: {}
 
   components/bandwidth:
     specifiers:
@@ -573,7 +582,10 @@ importers:
     specifiers: {}
 
   components/curated:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/customer_io:
     specifiers:
@@ -595,6 +607,14 @@ importers:
       xss: ^1.0.11
     dependencies:
       xss: 1.0.13
+
+  components/databox:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+      databox: ^2.0.1
+    dependencies:
+      '@pipedream/platform': 1.1.1
+      databox: 2.0.1
 
   components/datadog:
     specifiers:
@@ -742,6 +762,15 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/drata:
+    specifiers: {}
+
+  components/dribbble:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/dropbox:
     specifiers:
       dropbox: ^8.2.0
@@ -791,6 +820,12 @@ importers:
 
   components/enormail:
     specifiers: {}
+
+  components/envoy:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/esignatures_io:
     specifiers:
@@ -855,6 +890,9 @@ importers:
     specifiers: {}
 
   components/facturadirecta:
+    specifiers: {}
+
+  components/faire:
     specifiers: {}
 
   components/faunadb:
@@ -1508,6 +1546,9 @@ importers:
   components/looker:
     specifiers: {}
 
+  components/loqate:
+    specifiers: {}
+
   components/lusha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1972,6 +2013,12 @@ importers:
   components/phone_com:
     specifiers: {}
 
+  components/phrase:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/picky_assist:
     specifiers: {}
 
@@ -2035,6 +2082,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/podio:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/pointagram:
     specifiers:
@@ -2259,6 +2312,12 @@ importers:
       '@types/feedparser': 2.2.5
       '@types/node': 17.0.45
       '@types/object-hash': 2.2.1
+
+  components/rudderstack:
+    specifiers: {}
+
+  components/rudderstack_transformation:
+    specifiers: {}
 
   components/sailpoint:
     specifiers: {}
@@ -2552,7 +2611,10 @@ importers:
     specifiers: {}
 
   components/social_intents:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/softr:
     specifiers: {}
@@ -2610,6 +2672,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/stormboard:
+    specifiers: {}
+
   components/stormglass_io:
     specifiers: {}
 
@@ -2635,8 +2700,17 @@ importers:
       lodash.pickby: 4.6.0
       stripe: 8.222.0
 
+  components/supabase:
+    specifiers:
+      '@supabase/supabase-js': ^2.1.0
+    dependencies:
+      '@supabase/supabase-js': 2.1.0
+
   components/superdocu:
-    specifiers: {}
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
 
   components/supersaas:
     specifiers:
@@ -2694,6 +2768,9 @@ importers:
   components/syncro:
     specifiers: {}
 
+  components/talenox:
+    specifiers: {}
+
   components/talentlms:
     specifiers: {}
 
@@ -2726,8 +2803,22 @@ importers:
       node-telegram-bot-api: 0.54.0
       uuid: 8.3.2
 
+  components/temi:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/terminus_app:
     specifiers: {}
+
+  components/testmonitor:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/textit:
     specifiers:
@@ -2769,8 +2860,10 @@ importers:
 
   components/ticket_tailor:
     specifiers:
+      '@pipedream/platform': ^1.2.0
       crypto: ^1.0.1
     dependencies:
+      '@pipedream/platform': 1.2.0
       crypto: 1.0.1
 
   components/ticktick:
@@ -2786,6 +2879,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       dayjs: 1.11.5
+
+  components/timekit:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/tmetric:
     specifiers: {}
@@ -3251,6 +3350,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/yelp:
+    specifiers: {}
 
   components/yotpo:
     specifiers:
@@ -6332,22 +6434,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.139:
-    resolution: {integrity: sha512-AwFhZLziDc4HaeyInk6uar+zp9q/+HSQO4tAOkEDWiCLzqQOInSIakAs8OsuDOmjll+LU6C0MiDRHQWyFgWFtg==}
+  /@definitelytyped/header-parser/0.0.141:
+    resolution: {integrity: sha512-u7f/NnXJJMML86BBGwLaQwhxfvuEogJdRTUA8g2vOZ9UhGzAyLSX3njTp7lni7C7PGYp2/vV2B+YLBwujQzJ8Q==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.141
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.139:
-    resolution: {integrity: sha512-9vhAc/3MhsMawbMMkhlPuvXOtqbxqC9kN88G9JAIujfrKGOnWWRzofo02fadDUMPZfoo4B54EEox9nepNCi5RQ==}
+  /@definitelytyped/typescript-versions/0.0.141:
+    resolution: {integrity: sha512-RHONSp0eGUccKcoiDJF25DVAUk6pNS79ie0/1T0fn/cDTrzhX14eo6Zcz7O9emqAI496pvsS7IhYctoFrZ/xzw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.139:
-    resolution: {integrity: sha512-A1sgPeA6mXpCzjByleGeeah1coT6BPL948wINSSWXDoQ3MrAgHasxc/1R9F4yXDafCwhgOKBfXpT5lE1upZBNw==}
+  /@definitelytyped/utils/0.0.141:
+    resolution: {integrity: sha512-4DneI5xY0KDSF0vNWiSwmDpxVR9E32oQPWFjv0PdEgGaZT1VS8E/LxSHVjwn2+MK3uuk4XK41S/R9IFvddu9Gw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.139
+      '@definitelytyped/typescript-versions': 0.0.141
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -7667,6 +7769,17 @@ packages:
 
   /@pipedream/platform/1.2.0:
     resolution: {integrity: sha512-rxJh8d1rIA1o5qr1a0hwe79Ua7IVz/mbS5fudWMR3eV9fRgDBxMwKZqQWysmxP+jBT2KrSKcXrMeJpl2zY3u6Q==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.2.1:
+    resolution: {integrity: sha512-/3P8NW4K7bleOF632+So6fW8xy6Sd/DtlNbabsKW9QBB/GoTc8oPIUH3odnv8X+ZnvrhgCElcBAQEg9vcHAzLA==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
@@ -9316,6 +9429,61 @@ packages:
       - encoding
     dev: false
 
+  /@supabase/functions-js/2.0.0:
+    resolution: {integrity: sha512-ozb7bds2yvf5k7NM2ZzUkxvsx4S4i2eRKFSJetdTADV91T65g4gCzEs9L3LUXSrghcGIkUaon03VPzOrFredqg==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/gotrue-js/2.3.0:
+    resolution: {integrity: sha512-e50w8LkfbxtI2SJxUbuQNM7pN+Yu3HYkvCLsidwBgivTdcoFOkhFodwLvWSVdeaxY1mH6Gm66RiKeUMn1+BAow==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/postgrest-js/1.1.0:
+    resolution: {integrity: sha512-qkY8TqIu5sJuae8gjeDPjEqPrefzcTraW9PNSVJQHq4TEv98ZmwaXGwBGz0bVL63bqrGA5hqREbQHkANUTXrvA==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/realtime-js/2.1.0:
+    resolution: {integrity: sha512-iplLCofTeYjnx9FIOsIwHLhMp0+7UVyiA4/sCeq40VdOgN9eTIhjEno9Tgh4dJARi4aaXoKfRX1DTxgZaOpPAw==}
+    dependencies:
+      '@types/phoenix': 1.5.4
+      websocket: 1.0.34
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@supabase/storage-js/2.0.0:
+    resolution: {integrity: sha512-7kXThdRt/xqnOOvZZxBqNkeX1CFNUWc0hYBJtNN/Uvt8ok9hD14foYmroWrHn046wEYFqUrB9U35JYsfTrvltA==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@supabase/supabase-js/2.1.0:
+    resolution: {integrity: sha512-hODrAUDSC6RV6EhwuSMyhaQCF32gij0EBTceuDR+8suJsg7XcyUG0fYgeYecWIvt0nz61xAMY6E+Ywb0tJaAng==}
+    dependencies:
+      '@supabase/functions-js': 2.0.0
+      '@supabase/gotrue-js': 2.3.0
+      '@supabase/postgrest-js': 1.1.0
+      '@supabase/realtime-js': 2.1.0
+      '@supabase/storage-js': 2.0.0
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@szmarczak/http-timer/4.0.6:
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
@@ -9598,6 +9766,10 @@ packages:
   /@types/parsimmon/1.10.6:
     resolution: {integrity: sha512-FwAQwMRbkhx0J6YELkwIpciVzCcgEqXEbIrIn3a2P5d3kGEHQ3wVhlN3YdVepYP+bZzCYO6OjmD4o9TGOZ40rA==}
     dev: true
+
+  /@types/phoenix/1.5.4:
+    resolution: {integrity: sha512-L5eZmzw89eXBKkiqVBcJfU1QGx9y+wurRIEgt0cuLH0hwNtVUxtx+6cu0R2STwWj468sjXyBYPYDtGclUd1kjQ==}
+    dev: false
 
   /@types/prettier/2.6.3:
     resolution: {integrity: sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg==}
@@ -10744,6 +10916,14 @@ packages:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
+  /bufferutil/4.0.7:
+    resolution: {integrity: sha512-kukuqc39WOHtdxtw4UScxF/WVnMFVSQVKhtx3AjZJzhd0RGZZldcrfSEbVsWWe6KNH253574cq5F+wpv0G9pJw==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.5.0
+    dev: false
+
   /buildcheck/0.0.3:
     resolution: {integrity: sha512-pziaA+p/wdVImfcbsZLNF32EiWyujlQLwolMqUQE8xpKNOH7KmZQaY8sXN7DGOEzPAElo9QTaeNRfGnf3iOJbA==}
     engines: {node: '>=10.0.0'}
@@ -11546,6 +11726,10 @@ packages:
       whatwg-url: 8.7.0
     dev: true
 
+  /databox/2.0.1:
+    resolution: {integrity: sha512-Y34sg9deT/xh7nKGGu7ceDCUpMinbV7ucqu9a6D465bHnYz9vRbC7VDxtSCfmU8u/rN5f6bDnYnEoqr81gL/Pw==}
+    dev: false
+
   /datauri/4.1.0:
     resolution: {integrity: sha512-y17kh32+I82G+ED9MNWFkZiP/Cq/vO1hN9+tSZsT9C9qn3NrvcBnh7crSepg0AQPge1hXx2Ca44s1FRdv0gFWA==}
     engines: {node: '>= 10'}
@@ -11570,6 +11754,17 @@ packages:
 
   /dayjs/1.11.5:
     resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
+    dev: false
+
+  /debug/2.6.9:
+    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.0.0
     dev: false
 
   /debug/3.1.0:
@@ -12000,7 +12195,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.139
+      '@definitelytyped/header-parser': 0.0.141
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -12016,9 +12211,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.139
-      '@definitelytyped/typescript-versions': 0.0.139
-      '@definitelytyped/utils': 0.0.139
+      '@definitelytyped/header-parser': 0.0.141
+      '@definitelytyped/typescript-versions': 0.0.141
+      '@definitelytyped/utils': 0.0.141
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -17182,6 +17377,11 @@ packages:
     engines: {node: '>= 6.13.0'}
     dev: false
 
+  /node-gyp-build/4.5.0:
+    resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
+    hasBin: true
+    dev: false
+
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: true
@@ -20983,6 +21183,14 @@ packages:
       querystring: 0.2.0
     dev: false
 
+  /utf-8-validate/5.0.10:
+    resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.5.0
+    dev: false
+
   /utf7/1.0.2:
     resolution: {integrity: sha512-qQrPtYLLLl12NF4DrM9CvfkxkYI97xOb5dsnGZHE3teFr0tWiEZ9UdgMPczv24vl708cYMpe6mGXGHrotIp3Bw==}
     dependencies:
@@ -21265,6 +21473,20 @@ packages:
   /websocket-extensions/0.1.4:
     resolution: {integrity: sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==}
     engines: {node: '>=0.8.0'}
+    dev: false
+
+  /websocket/1.0.34:
+    resolution: {integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      bufferutil: 4.0.7
+      debug: 2.6.9
+      es5-ext: 0.10.62
+      typedarray-to-buffer: 3.1.5
+      utf-8-validate: 5.0.10
+      yaeti: 0.0.6
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /whatwg-encoding/1.0.5:
@@ -21574,6 +21796,11 @@ packages:
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
+
+  /yaeti/0.0.6:
+    resolution: {integrity: sha512-MvQa//+KcZCUkBTIC9blM+CU9J2GzuTytsOUwf2lidtvkx/6gnEp1QvJv34t9vdjhFmha/mUiNDbN0D0mJWdug==}
+    engines: {node: '>=0.10.32'}
+    dev: false
 
   /yallist/2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
