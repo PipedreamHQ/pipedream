@@ -46,9 +46,6 @@ export default {
         this._setAfter(submittedAt);
       }
     },
-    dayAgo() {
-      return new Date().setDate(new Date().getDate() - 1);
-    },
     getParams() {
       return {
         limit: 50,
@@ -70,17 +67,5 @@ export default {
             )),
       );
     },
-  },
-  async run() {
-    const getAfter = this._getAfter();
-    const isFirstRun = getAfter.toString().length > 13;
-    const after = isFirstRun
-      ? this.dayAgo()
-      : getAfter;
-    if (isFirstRun) {
-      this._setAfter(after);
-    }
-    const params = this.getParams();
-    await this.processResults(after, params);
   },
 };

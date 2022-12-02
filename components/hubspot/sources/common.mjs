@@ -31,7 +31,7 @@ export default {
       return limiter.schedule(async () => await resourceFn(params));
     },
     _getAfter() {
-      return this.db.get("after") || new Date();
+      return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -95,8 +95,8 @@ export default {
       }
     },
     emitEvent(result) {
-      const meta = this.generateMeta(result);      
-      
+      const meta = this.generateMeta(result);
+
       this.$emit(result, meta);
 
       this._setAfter(meta.ts);
