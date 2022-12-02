@@ -55,6 +55,7 @@ export default {
         if (resultType) {
           results = results[resultType];
         }
+
         for (const result of results) {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
@@ -94,8 +95,11 @@ export default {
       }
     },
     emitEvent(result) {
-      const meta = this.generateMeta(result);
+      const meta = this.generateMeta(result);      
+      
       this.$emit(result, meta);
+
+      this._setAfter(meta.ts);
     },
     isRelevant() {
       return true;
@@ -119,6 +123,5 @@ export default {
     const after = this._getAfter();
     const params = this.getParams(after);
     await this.processResults(after, params);
-    this._setAfter(Date.now());
   },
 };
