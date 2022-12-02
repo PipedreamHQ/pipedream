@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/repairshopr",
+    "version": "0.0.1",
+    "description": "Pipedream Repairshopr Components",
+    "main": "repairshopr.app.js",
+    "keywords": [
+      "pipedream",
+      "repairshopr"
+    ],
+    "homepage": "https://pipedream.com/apps/repairshopr",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "publishConfig": {
+      "access": "public"
+    }
+  }
+  
