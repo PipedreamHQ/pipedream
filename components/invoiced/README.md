@@ -1,6 +1,7 @@
 # Overview
 
-Invoiced is a powerful API that allows you to easily create and manage invoices and payments. With Invoiced, you can:
+Invoiced is a powerful API that allows you to easily create and manage invoices
+and payments. With Invoiced, you can:
 
 - Create and manage invoices
 - Accept payments

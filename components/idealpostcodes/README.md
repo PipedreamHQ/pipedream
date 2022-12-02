@@ -1,6 +1,8 @@
 # Overview
 
-The IdealPostcodes API provides a simple, powerful interface for managing postcodes and addresses in your applications. With the IdealPostcodes API, you can:
+The IdealPostcodes API provides a simple, powerful interface for managing
+postcodes and addresses in your applications. With the IdealPostcodes API, you
+can:
 
 - Look up postcodes and addresses
 - Validate addresses

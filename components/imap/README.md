@@ -1,10 +1,13 @@
 # Overview
 
-The Internet Message Access Protocol (IMAP) is a mail protocol used for accessing email on a remote web server.
+The Internet Message Access Protocol (IMAP) is a mail protocol used for
+accessing email on a remote web server.
 
-IMAP provides a way to access email stored on a server, allowing you to read, write, and delete emails from your account.
+IMAP provides a way to access email stored on a server, allowing you to read,
+write, and delete emails from your account.
 
-IMAP is a popular protocol for accessing email, and is supported by most email providers.
+IMAP is a popular protocol for accessing email, and is supported by most email
+providers.
 
 Here are some things you can build using the IMAP API:
 

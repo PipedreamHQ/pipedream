@@ -1,6 +1,7 @@
 # Overview
 
-The InfluxDB Cloud API allows you to build a variety of applications that interact with InfluxDB. Some examples of what you can build include:
+The InfluxDB Cloud API allows you to build a variety of applications that
+interact with InfluxDB. Some examples of what you can build include:
 
 - A web interface for InfluxDB
 - A monitoring tool for InfluxDB
