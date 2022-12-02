@@ -1061,6 +1061,12 @@
     },
     {
       "path": "components/yelp"
+    },
+    {
+      "path": "components/mastodon"
+    },
+    {
+      "path": "components/mav"
     }
   ]
 }
