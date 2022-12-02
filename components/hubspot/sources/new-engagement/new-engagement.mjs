@@ -41,7 +41,5 @@ export default {
       createdAfter,
       20,
     );
-
-    this._setAfter(Date.now());
   },
 };

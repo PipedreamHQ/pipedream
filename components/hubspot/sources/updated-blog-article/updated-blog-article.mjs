@@ -8,13 +8,7 @@ export default {
   version: "0.0.5",
   dedupe: "unique",
   type: "source",
-  hooks: {
-    hooks: {
-      async activate() {
-        this._setAfter(Date.now());
-      },
-    },
-  },
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(blogpost) {
