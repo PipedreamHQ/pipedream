@@ -1067,6 +1067,9 @@
     },
     {
       "path": "components/mav"
+    },
+    {
+      "path": "components/n8n_io"
     }
   ]
 }
