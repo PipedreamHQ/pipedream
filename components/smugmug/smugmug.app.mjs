@@ -21,12 +21,10 @@ export default {
           params,
         });
         const albums = response?.Response?.Album;
-        return albums?.length > 0
-          ? albums.map((album) => ({
-            label: album.Name,
-            value: album.AlbumKey,
-          }))
-          : [];
+        return albums?.map((album) => ({
+          label: album.Name,
+          value: album.AlbumKey,
+        })) || [];
       },
     },
     image: {
@@ -48,12 +46,10 @@ export default {
           params,
         });
         const images = response?.Response?.Image;
-        return images?.length > 0
-          ? images.map((image) => ({
-            label: image.FileName,
-            value: image.Uri.split("/").pop(),
-          }))
-          : [];
+        return images?.map((image) => ({
+          label: image.FileName,
+          value: image.Uri.split("/").pop(),
+        })) || [];
       },
     },
     folder: {
@@ -73,12 +69,10 @@ export default {
           params,
         });
         const folders = response?.Response?.Folder;
-        return folders?.length > 0
-          ? folders.map((folder) => ({
-            label: folder.Name,
-            value: folder.UrlName,
-          }))
-          : [];
+        return folders?.map((folder) => ({
+          label: folder.Name,
+          value: folder.UrlName,
+        })) || [];
       },
     },
   },
@@ -173,7 +167,7 @@ export default {
         ...args,
       });
     },
-    async updateAlbumimage(albumKey, imageKey, args = {}) {
+    async updateAlbumimage(imageKey, args = {}) {
       return this._makeRequest({
         path: `/image/${imageKey}`,
         method: "PATCH",

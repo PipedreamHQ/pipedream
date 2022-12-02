@@ -79,7 +79,7 @@ export default {
       Title: this.title,
     };
 
-    const response = await this.smugmug.updateAlbumimage(this.album, this.image, {
+    const response = await this.smugmug.updateAlbumimage(this.image, {
       data,
       $,
     });
