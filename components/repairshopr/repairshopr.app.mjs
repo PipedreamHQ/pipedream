@@ -3,7 +3,71 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "repairshopr",
-  propDefinitions: {},
+  propDefinitions: {
+    businessName: {
+      type: "string",
+      label: "Business Name",
+      description: "The business name of the customer.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the customer.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the customer.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the customer.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the customer.",
+      optional: true,
+    },
+    mobile: {
+      type: "string",
+      label: "Mobile",
+      description: "The mobile number of the customer.",
+      optional: true,
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address of the customer.",
+      optional: true,
+    },
+    address2: {
+      type: "string",
+      label: "Address 2",
+      description: "The second address of the customer.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the customer.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the customer.",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip",
+      description: "The zip code of the customer.",
+      optional: true,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return `${this._getSubdomain()}/api/v1`;
@@ -38,23 +102,15 @@ export default {
         ctx,
       );
     },
+    async createLead(data, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: "/leads",
+          method: "POST",
+          data,
+        },
+        ctx,
+      );
+    },
   },
 };
-
-/*
-COPY THIS KEY
-We do not store API Tokens in plain text. You will not be able to
-see this message again. Please copy the token and store it.
-
-T9c1651f479258b728-0f1099961fd36d608dcab57111f0f915
-Owner
-Cassiano
-Created at
-Wed 11-30-22 04:17 AM
-Type
-Custom
-Expires at
- 01-13-23
-Partial Key
-T9c1651f479258b728-***
-*/
