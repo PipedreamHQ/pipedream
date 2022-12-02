@@ -3230,7 +3230,10 @@ importers:
     specifiers: {}
 
   components/whatsapp_business:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/wildberries:
     specifiers:
