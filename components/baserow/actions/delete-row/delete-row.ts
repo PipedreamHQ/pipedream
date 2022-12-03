@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import baserow from "../../app/baserow";
+import baserow from "../../app/baserow.app";
 import { DOCS_LINK } from "../../common/constants";
 import { DeleteRowParams } from "../../common/types";
 import common from "../common";
