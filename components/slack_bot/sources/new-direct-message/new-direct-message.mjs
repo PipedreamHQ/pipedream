@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack_bot-new-direct-message",
   name: "New Direct Message",
-  version: "0.0.16",
+  version: "0.0.1",
   description: "Emit new event when a message was posted in a direct message channel (Bot)",
   type: "source",
   dedupe: "unique",
