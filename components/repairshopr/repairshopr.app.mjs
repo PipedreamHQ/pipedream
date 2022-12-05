@@ -134,13 +134,14 @@ export default {
         ctx,
       );
     },
-    async listCustomers(page, ctx = this) {
+    async listCustomers(page, params = {}, ctx = this) {
       return this._makeHttpRequest(
         {
           path: "/customers",
           method: "GET",
           params: {
             page,
+            ...params,
           },
         },
         ctx,
