@@ -1,4 +1,5 @@
 import { WebClient } from "@slack/web-api";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -202,6 +203,56 @@ export default {
             types,
             cursor: conversationsResp.cursor,
             userNames,
+          },
+        };
+      },
+    },
+    channelId: {
+      type: "string",
+      label: "Channel ID",
+      description: "The channels's id.",
+      async options({
+        prevContext, types = [],
+      }) {
+        const {
+          channels,
+          response_metadata: { next_cursor: cursor },
+        } = await this.conversationsList({
+          types: types.join(),
+          cursor: prevContext.cursor,
+          limit: constants.LIMIT,
+          exclude_archived: true,
+        });
+
+        const resourcesInfo = await Promise.all(
+          channels.map(async ({
+            id: channelId,
+            is_im: isIm,
+            user,
+          }) => ({
+            channelId,
+            resource: isIm
+              ? await this.usersInfo({
+                user,
+              })
+              : await this.conversationsInfo({
+                channel: channelId,
+              }),
+          })),
+        );
+
+        const options =
+          resourcesInfo.map(({
+            channelId, resource,
+          }) => ({
+            value: channelId,
+            label: resource.channel?.name || `Direct Messaging with: @${resource.user?.name}`,
+          }));
+
+        return {
+          options,
+          context: {
+            cursor,
           },
         };
       },
@@ -480,14 +531,13 @@ export default {
      * page of conversations
      */
     async availableConversations(types, cursor) {
-      const params = {
+      const resp = await this.usersConversations({
         types,
         cursor,
-        limit: 200,
+        limit: constants.LIMIT,
         exclude_archived: true,
         user: this.$auth.oauth_uid,
-      };
-      const resp = await this.sdk().users.conversations(params);
+      });
       if (resp.ok) {
         return {
           cursor: resp.response_metadata.next_cursor,
@@ -523,7 +573,7 @@ export default {
      * page of users
      */
     async users(cursor) {
-      const resp = await this.sdk().users.list({
+      const resp = await this.usersList({
         cursor,
       });
       if (resp.ok) {
@@ -582,6 +632,102 @@ export default {
         console.log("Error getting teams", resp.error);
         throw (resp.error);
       }
+    },
+    /**
+     * List conversations the calling user may access.
+     * Bot Scopes: `channels:read` `groups:read` `im:read` `mpim:read`
+     * @param {*}       args arguments object
+     * @param {string}  args.cursor optional pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
+     * @param {boolean} args.exclude_archived Set to `true` to exclude archived channels
+     * from the list. Defaults to `false`
+     * @param {number}  args.limit optional pagination value. Defaults to `0`
+     * @param {string}  args.team_id optional encoded team id to list users in,
+     * required if org token is used
+     * @param {string}  args.types optional Mix and match channel types by providing a
+     * comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+     * Defaults to `public_channel`. E.g. `im,mpim`
+     * @param {string}  args.user optional Browse conversations by a specific user ID's membership.
+     * Non-public channels are restricted to those where the calling user shares membership.
+     * E.g `W0B2345D`
+     * @returns Promise
+     */
+    usersConversations(args = {}) {
+      return this.sdk().users.conversations(args);
+    },
+    /**
+     * Lists all users in a Slack team.
+     * Bot Scopes: `users:read`
+     * @param {*}       args arguments object
+     * @param {string}  args.cursor optional pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
+     * @param {boolean} args.include_locale Set this to `true` to receive the locale
+     * for users. Defaults to `false`
+     * @param {number}  args.limit optional pagination value. Defaults to `0`
+     * @param {string}  args.team_id optional encoded team id to list users in,
+     * required if org token is used
+     * @returns Promise
+     */
+    usersList(args = {}) {
+      return this.sdk().users.list(args);
+    },
+    /**
+     * Lists all channels in a Slack team.
+     * Bot Scopes: `channels:read` `groups:read` `im:read` `mpim:read`
+     * @param {*}       args arguments object
+     * @param {string}  args.cursor optional pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
+     * @param {boolean} args.exclude_archived optional Set to `true` to exclude archived channels
+     * from the list. Defaults to `false`
+     * @param {number}  args.limit optional pagination value. Defaults to `0`
+     * @param {string}  args.team_id optional encoded team id to list users in,
+     * required if org token is used
+     * @param {string}  args.types optional Mix and match channel types by providing a
+     * comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+     * Defaults to `public_channel`. E.g. `im,mpim`
+     * @returns Promise
+     */
+    conversationsList(args = {}) {
+      return this.sdk().conversations.list(args);
+    },
+    /**
+     * Fetches a conversation's history of messages and events.
+     * Bot Scopes: `channels:history` `groups:history` `im:history` `mpim:history`
+     * @param {*}       args arguments object
+     * @param {string}  args.channel Conversation ID to fetch history for. E.g. `C1234567890`
+     * @param {string}  args.cursor optional pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
+     * @param {boolean} args.include_all_metadata optional
+     * @param {boolean} args.inclusive optional
+     * @param {string}  args.latest optional
+     * @param {number}  args.limit optional
+     * @param {string}  args.oldest optional
+     * @returns Promise
+     */
+    conversationsHistory(args = {}) {
+      return this.sdk().conversations.history(args);
+    },
+    /**
+     * Retrieve information about a conversation.
+     * Bot Scopes: `channels:read` `groups:read` `im:read` `mpim:read`
+     * @param {*}       args arguments object
+     * @param {string}  args.channel Conversation ID to learn more about. E.g. `C1234567890`
+     * @param {boolean} args.include_locale optional Set this to `true` to receive the locale
+     * for users. Defaults to `false`
+     * @param {boolean} args.include_num_members optional Set to true to include the
+     * member count for the specified conversation. Defaults to `false`
+     * @returns Promise
+     */
+    conversationsInfo(args = {}) {
+      return this.sdk().conversations.info(args);
+    },
+    /**
+     * Retrieve information about a conversation.
+     * Bot Scopes: `users:read`
+     * @param {*}       args arguments object
+     * @param {string}  args.user User to get info on. E.g. `W1234567890`
+     * @param {boolean} args.include_locale optional Set this to true to receive the locale
+     * for this user. Defaults to `false`
+     * @returns Promise
+     */
+    usersInfo(args = {}) {
+      return this.sdk().users.info(args);
     },
   },
 };

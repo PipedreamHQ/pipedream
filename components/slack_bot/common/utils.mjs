@@ -1,5 +1,13 @@
 import app from "../slack_bot.app.mjs";
 
+async function streamIterator(stream) {
+  let resources = [];
+  for await (const resource of stream) {
+    resources.push(resource);
+  }
+  return resources;
+}
+
 function buildPropDefinitions({
   app = {}, props = {},
 }) {
@@ -72,5 +80,6 @@ function buildAppProps({
 }
 
 export default {
+  streamIterator,
   buildAppProps,
 };
