@@ -762,6 +762,9 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/drata:
+    specifiers: {}
+
   components/dribbble:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -819,7 +822,10 @@ importers:
     specifiers: {}
 
   components/envoy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/esignatures_io:
     specifiers:
@@ -2007,6 +2013,12 @@ importers:
   components/phone_com:
     specifiers: {}
 
+  components/phrase:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
+
   components/picky_assist:
     specifiers: {}
 
@@ -2578,8 +2590,12 @@ importers:
   components/smugmug:
     specifiers:
       '@pipedream/platform': ^1.1.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
     dependencies:
       '@pipedream/platform': 1.1.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/snapchat_marketing:
     specifiers: {}
@@ -2605,7 +2621,10 @@ importers:
     specifiers: {}
 
   components/social_intents:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/softr:
     specifiers: {}
@@ -2805,10 +2824,10 @@ importers:
 
   components/testmonitor:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.1
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.1
       moment: 2.29.4
 
   components/textit:
@@ -3221,7 +3240,10 @@ importers:
     specifiers: {}
 
   components/whatsapp_business:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.0
 
   components/wildberries:
     specifiers:
@@ -3338,6 +3360,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/yelp:
+    specifiers: {}
 
   components/yotpo:
     specifiers:
@@ -6419,22 +6444,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.140:
-    resolution: {integrity: sha512-bh5odviRpF3zHO9sz8OkxMIN8yqiZQSKzdgNLHLNtAEbme2p42fAzT1tEBkjmUHAJ/zntnBFyn7N/iCTcp5nmw==}
+  /@definitelytyped/header-parser/0.0.141:
+    resolution: {integrity: sha512-u7f/NnXJJMML86BBGwLaQwhxfvuEogJdRTUA8g2vOZ9UhGzAyLSX3njTp7lni7C7PGYp2/vV2B+YLBwujQzJ8Q==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.140
+      '@definitelytyped/typescript-versions': 0.0.141
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.140:
-    resolution: {integrity: sha512-kWzD/k7IywjnVx8/RgCgBD0vZjzuyktrZ/JzwSBpaKZgq7RJZYlkGFhYaZNiRPfhz3A10k3KI/ILK9gcRZ7pkA==}
+  /@definitelytyped/typescript-versions/0.0.141:
+    resolution: {integrity: sha512-RHONSp0eGUccKcoiDJF25DVAUk6pNS79ie0/1T0fn/cDTrzhX14eo6Zcz7O9emqAI496pvsS7IhYctoFrZ/xzw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.140:
-    resolution: {integrity: sha512-uqcZu8jeA+Ul05jxOvs7Sf0Bw2yL7P0YEGGxckmhL/DDx/7VJqE7ZnEGBY2lVgLEwqwQIXeoG7IUWDjBNCnntw==}
+  /@definitelytyped/utils/0.0.141:
+    resolution: {integrity: sha512-4DneI5xY0KDSF0vNWiSwmDpxVR9E32oQPWFjv0PdEgGaZT1VS8E/LxSHVjwn2+MK3uuk4XK41S/R9IFvddu9Gw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.140
+      '@definitelytyped/typescript-versions': 0.0.141
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -12180,7 +12205,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.140
+      '@definitelytyped/header-parser': 0.0.141
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -12196,9 +12221,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.140
-      '@definitelytyped/typescript-versions': 0.0.140
-      '@definitelytyped/utils': 0.0.140
+      '@definitelytyped/header-parser': 0.0.141
+      '@definitelytyped/typescript-versions': 0.0.141
+      '@definitelytyped/utils': 0.0.141
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -13320,6 +13345,10 @@ packages:
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
+
+  /fs/0.0.1-security:
+    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
+    dev: false
 
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}

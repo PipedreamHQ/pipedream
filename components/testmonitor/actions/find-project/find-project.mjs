@@ -6,7 +6,7 @@ export default {
   key: "testmonitor-find-project",
   name: "Find a Project",
   description: "Retrieve a list of projects. [See the docs here](https://docs.testmonitor.com/#tag/Projects/operation/GetProjectCollection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

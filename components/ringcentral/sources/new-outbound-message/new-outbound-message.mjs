@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "ringcentral-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
-  description: "Emit new event for each outbound message status update",
-  version: "0.1.1",
+  description: "Emit new event for each outbound message event. This only includes the event, not the actual message.",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,
@@ -27,7 +27,7 @@ export default {
     ...common.methods,
     getSupportedNotificationTypes() {
       return new Set([
-        "ringcentral-message-event-inbound",
+        "ringcentral-message-event-outbound",
       ]);
     },
     getPropValues() {

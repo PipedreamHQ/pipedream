@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   props: {

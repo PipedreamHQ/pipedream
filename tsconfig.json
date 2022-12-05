@@ -1058,6 +1058,18 @@
     },
     {
       "path": "components/drata"
+    },
+    {
+      "path": "components/yelp"
+    },
+    {
+      "path": "components/mastodon"
+    },
+    {
+      "path": "components/mav"
+    },
+    {
+      "path": "components/n8n_io"
     }
   ]
 }
