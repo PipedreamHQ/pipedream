@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import discord from "../../discord.app.mjs";
 
 export default {
   ...common,
@@ -7,24 +8,55 @@ export default {
   description: "Edit a message sent previously",
   version: "0.0.1",
   type: "action",
+  props: {
+    discord,
+    channel: {
+      type: "$.discord.channel",
+      appProp: "discord",
+    },
+    message: {
+      propDefinition: [
+        discord,
+        "message",
+      ],
+    },
+    includeSentViaPipedream: {
+      propDefinition: [
+        discord,
+        "includeSentViaPipedream",
+      ],
+    },
+    embeds: {
+      propDefinition: [
+        common.props.discord,
+        "embeds",
+      ],
+    },
+    fileUrl: {
+      propDefinition: [
+        common.props.discord,
+        "fileUrl",
+      ],
+    },
+    filePath: {
+      propDefinition: [
+        common.props.discord,
+        "filePath",
+      ],
+    },
+  },
   async run({ $ }) {
     const {
       message,
-      avatarURL,
-      threadID,
-      username,
       includeSentViaPipedream,
     } = this;
 
     try {
-      const resp = await this.discord.editMessage(this.channel, {
-        avatar_url: avatarURL,
-        username,
+      const resp = await this.discord.editMessage(this.channel, this.messageId, {
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message)
           : message,
       }, {
-        thread_id: threadID,
         wait: true,
       });
       $.export("$summary", "Message edited successfully");
