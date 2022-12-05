@@ -4,6 +4,20 @@ export default {
   type: "app",
   app: "jira",
   propDefinitions: {
+    cloudId: {
+      type: "string",
+      label: "Cloud ID",
+      description: "The cloud ID.",
+      useQuery: true,
+      async options() {
+        const clouds = await this.getClouds()
+
+        return clouds.map(cloud => ({
+          label: cloud.name,
+          value: cloud.id,
+        }))
+      },
+    },
     projectID: {
       type: "string",
       label: "Project ID",
@@ -214,24 +228,24 @@ export default {
         ...headers,
       };
     },
-    async _getUrl($, path) {
-      const cloudId = await this._getCloudId($);
-      return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3${path}`;
+    _getUrl(cloudId) {
+      return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
     },
     async _makeRequest({
       $,
       path,
       headers,
+      cloudId,
       ...otherConfig
     } = {}) {
       const config = {
-        url: await this._getUrl($, path),
+        url: `${this._getUrl(cloudId)}${path}`,
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
       return axios($ ?? this, config);
     },
-    async createHook(opts) {
+    async createHook({ cloudId, ...opts }) {
       const {
         url,
         events,
@@ -249,6 +263,7 @@ export default {
         webhookObj,
       ];
       const response = await this._makeRequest({
+        cloudId,
         method: "POST",
         path: "/webhook",
         data: requestBody,
@@ -260,7 +275,7 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    async deleteHook(opts) {
+    async deleteHook({cloudId, ...opts}) {
       const { hookId } = opts;
       const requestBody = {
         webhookIds: [
@@ -268,6 +283,7 @@ export default {
         ],
       };
       return await this._makeRequest({
+        cloudId,
         method: "DELETE",
         path: "/webhook",
         data: requestBody,
@@ -468,14 +484,24 @@ export default {
         ...args,
       });
     },
-    async getWebhook({ ...args } = {}) {
+    async getWebhook(args = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/webhook",
         ...args,
       });
     },
+    async getClouds(args = {}) {
+      return axios(this, {
+        url: "https://api.atlassian.com/oauth/token/accessible-resources",
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...args
+      });
+    },
     async *getResourcesStream({
+      cloudId,
       resourceFn,
       resourceFnArgs,
       resourceFiltererFn,
@@ -484,6 +510,7 @@ export default {
       const pageSize = 50;
       while (true) {
         const nextResources = await resourceFn({
+          cloudId,
           ...resourceFnArgs,
           params: {
             ...resourceFnArgs.params,

@@ -4,10 +4,16 @@ export default {
   key: "jira-list-issue-comments",
   name: "List Issue Comments",
   description: "Lists all comments for an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
@@ -36,6 +42,7 @@ export default {
   async run({ $ }) {
     const issueComments = [];
     const resourcesStream = await this.jira.getResourcesStream({
+      cloudId,
       resourceFn: this.jira.listIssueComments,
       resourceFnArgs: {
         $,

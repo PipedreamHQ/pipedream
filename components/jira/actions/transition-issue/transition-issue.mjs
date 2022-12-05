@@ -5,10 +5,16 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
@@ -71,6 +77,7 @@ export default {
     }
     await this.jira.transitionIssue({
       $,
+      cloudId,
       issueIdOrKey: this.issueIdOrKey,
       data: {
         transition,

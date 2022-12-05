@@ -4,10 +4,16 @@ export default {
   key: "jira-delete-project",
   name: "Delete Project",
   description: "Deletes a project, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-projects/#api-rest-api-3-project-projectidorkey-delete)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     projectID: {
       propDefinition: [
         jira,
@@ -24,6 +30,7 @@ export default {
   async run({ $ }) {
     await this.jira.deleteProject({
       $,
+      cloudId,
       projectIdOrKey: this.projectID,
       params: {
         enableUndo: this.enableUndo,

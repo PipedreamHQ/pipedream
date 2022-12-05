@@ -5,10 +5,16 @@ export default {
   key: "jira-update-comment",
   name: "Update Comment",
   description: "Updates a comment, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
@@ -70,6 +76,7 @@ export default {
     }
     const response = await this.jira.updateComment({
       $,
+      cloudId,
       issueIdOrKey: this.issueIdOrKey,
       commentId: this.commentId,
       params: {
