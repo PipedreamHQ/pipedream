@@ -67,6 +67,18 @@ export default {
       description: "The zip code of the customer.",
       optional: true,
     },
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The ID of the customer.",
+      async options({ page }) {
+        const { customers } = await this.listCustomers(page + 1);
+        return customers.map((customer) => ({
+          label: customer.business_name || `${customer.firstname} ${customer.lastname}`,
+          value: customer.id,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -108,6 +120,28 @@ export default {
           path: "/leads",
           method: "POST",
           data,
+        },
+        ctx,
+      );
+    },
+    async createTicket(data, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: "/tickets",
+          method: "POST",
+          data,
+        },
+        ctx,
+      );
+    },
+    async listCustomers(page, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: "/customers",
+          method: "GET",
+          params: {
+            page,
+          },
         },
         ctx,
       );
