@@ -1070,6 +1070,9 @@
     },
     {
       "path": "components/n8n_io"
+    },
+    {
+      "path": "components/ortto"
     }
   ]
 }
