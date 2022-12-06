@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   type: "source",
   props: {
@@ -27,8 +27,9 @@ export default {
         submittedAt: ts,
       } = result;
       const submitted = new Date(ts);
+      const id = pageUrl.split("/").pop();
       return {
-        id: `${pageUrl}${ts}`,
+        id: `${id}${ts}`,
         summary: `Form submitted at ${submitted.toLocaleDateString()} ${submitted.toLocaleTimeString()}`,
         ts,
       };
