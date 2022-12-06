@@ -23,12 +23,6 @@ export default {
     getLastTimestamp() {
       return this.db.get(constants.LAST_TIMESTAMP);
     },
-    setLastCursor(value) {
-      this.db.set(constants.LAST_CURSOR, value);
-    },
-    getLastCursor() {
-      return this.db.get(constants.LAST_CURSOR);
-    },
     getResourceName() {
       throw new Error("getResourceName is not implemented");
     },
