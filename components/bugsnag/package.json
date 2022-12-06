@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/bugsnag",
+  "version": "0.0.1",
+  "description": "Pipedream Bugsnag Components",
+  "main": "dist/app/bugsnag.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bugsnag"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/bugsnag",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1048,6 +1048,9 @@
       "path": "components/rudderstack"
     },
     {
+      "path": "components/baserow"
+    },
+    {
       "path": "components/rudderstack_transformation"
     },
     {
@@ -1070,6 +1073,21 @@
     },
     {
       "path": "components/n8n_io"
+    },
+    {
+      "path": "components/ortto"
+    },
+    {
+      "path": "components/bugsnag"
+    },
+    {
+      "path": "components/databricks"
+    },
+    {
+      "path": "components/mode"
+    },
+    {
+      "path": "components/levity"
     }
   ]
 }
