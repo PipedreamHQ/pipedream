@@ -1,15 +1,14 @@
-import {
-  formatArrayStrings, removeNullEntries,
-} from "../../common/util.mjs";
-import constant from "../../common/constants.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
+import {
+  removeNullEntries,
+  formatLineItems,
+} from "../../common/util.mjs";
 
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
   name: "Add Items to Existing Sales Invoice",
-  description:
-    "Adds line items to an existing sales invoice. [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices#post-invoices)",
-  version: "0.0.1",
+  description: "Adds line items to an existing sales invoice. [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices#post-invoices)",
+  version: "0.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -19,33 +18,31 @@ export default {
         "tenantId",
       ],
     },
-    InvoiceID: {
-      type: "string",
-      label: "Invoice ID",
-      description: "ID of Invoice to be updated",
+    invoiceId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "invoiceId",
+        (c) => ({
+          tenantId: c.tenantId,
+        }),
+      ],
     },
-    LineItems: {
-      type: "string[]",
-      label: "Line items",
-      description: `Provide multiple items using the example below. At least one is required to create a complete Invoice. 
-        Example:
-        \`{
-            "Description":"Football",
-            "Quantity":"20",
-            "UnitAmount":"50000",
-            "TaxType":"Refer to https://developer.xero.com/documentation/api/accounting/types#report-tax-types",
-        }\``,
+    lineItems: {
+      propDefinition: [
+        xeroAccountingApi,
+        "lineItems",
+      ],
     },
   },
   async run({ $ }) {
     const {
       tenantId,
-      InvoiceID,
-      LineItems,
+      invoiceId,
+      lineItems,
     } = this;
     const data = removeNullEntries({
-      InvoiceID,
-      LineItems: formatArrayStrings(LineItems, constant.ALLOWED_LINEITEMS_KEYS),
+      InvoiceID: invoiceId,
+      LineItems: formatLineItems(lineItems),
     });
     const response = await this.xeroAccountingApi.createInvoice($, tenantId, data);
     response && $.export("$summary", "Line item created successfully");

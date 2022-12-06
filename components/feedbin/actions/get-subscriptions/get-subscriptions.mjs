@@ -1,25 +1,19 @@
-// legacy_hash_id: a_74ibwM
-import { axios } from "@pipedream/platform";
+import feedbin from "../../feedbin.app.mjs";
 
 export default {
   key: "feedbin-get-subscriptions",
-  name: "Get subscriptions",
-  description: "GET /v2/subscriptions.json will return all subscriptions.",
-  version: "0.1.1",
+  name: "Get Subscriptions",
+  description: "Return all subscriptions. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/subscriptions.md#get-subscriptions).",
   type: "action",
+  version: "0.1.2",
   props: {
-    feedbin: {
-      type: "app",
-      app: "feedbin",
-    },
+    feedbin,
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://api.feedbin.com/v2/subscriptions.json",
-      auth: {
-        username: `${this.feedbin.$auth.email}`,
-        password: `${this.feedbin.$auth.password}`,
-      },
-    });
+    const subscriptions = await this.feedbin.getSubscriptions();
+
+    $.export("$summary", `Succesfully found ${subscriptions.length} subscription(s)`);
+
+    return subscriptions;
   },
 };

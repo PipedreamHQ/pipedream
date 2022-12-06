@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/yahoo_fantasy_sports",
-    "version": "0.3.3",
-    "description": "Pipedream Yahoo_fantasy_sports Components",
-    "main": "yahoo_fantasy_sports.app.js",
-    "keywords": [
-        "pipedream",
-        "yahoo_fantasy_sports"
-    ],
-    "homepage": "https://pipedream.com/apps/yahoo_fantasy_sports",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/yahoo_fantasy_sports",
+  "version": "0.3.6",
+  "description": "Pipedream Yahoo_fantasy_sports Components",
+  "main": "yahoo_fantasy_sports.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yahoo_fantasy_sports"
+  ],
+  "homepage": "https://pipedream.com/apps/yahoo_fantasy_sports",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
 }

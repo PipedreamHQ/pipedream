@@ -158,6 +158,7 @@ export default {
         method,
         headers,
         params,
+        data: opts.data,
       };
     },
     async _makeAsyncOptionsRequest({
@@ -278,6 +279,38 @@ export default {
 
       return axios(
         $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async createWebhookSubscription(events, url, organization, user, signatureKey) {
+      const data = {
+        url,
+        events,
+        organization,
+        scope: "user",
+        user,
+        signing_key: signatureKey,
+      };
+
+      const opts = {
+        path: "/webhook_subscriptions",
+        method: "post",
+        data,
+      };
+
+      return axios(
+        this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async deleteWebhookSubscription(uuid) {
+      const opts = {
+        path: `/webhook_subscriptions/${uuid}`,
+        method: "delete",
+      };
+
+      return axios(
+        this,
         this._makeRequestOpts(opts),
       );
     },

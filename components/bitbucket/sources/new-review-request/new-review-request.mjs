@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 const { bitbucket } = common.props;
 
 export default {
@@ -7,7 +8,7 @@ export default {
   name: "New Review Request (Instant)",
   key: "bitbucket-new-review-request",
   description: "Emit new event when a reviewer is added to a pull request.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     repositoryId: {
@@ -23,13 +24,37 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return `workspaces/${this.workspaceId}/${this.repositoryId}/hooks`;
+      return `workspaces/${this.workspaceId}/hooks`;
     },
     getWebhookEventTypes() {
       return [
         "pullrequest:created",
         "pullrequest:updated",
       ];
+    },
+    async loadHistoricalData() {
+      const activities = await this.bitbucket.getPullRequestActivities({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          page: 1,
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
+        },
+      });
+      const event = [];
+      activities.forEach((activity) => {
+        for (const reviewer of activity.update.reviewers) {
+          event.push({
+            main: activity,
+            sub: {
+              id: `${activity.pull_request.id}-${reviewer.display_name}`,
+              summary: `New reviewer ${reviewer.display_name} added in ${activity.pull_request.title}`,
+              ts: activity.update.date,
+            },
+          });
+        }
+      });
+      return event;
     },
     proccessEvent(event) {
       const {

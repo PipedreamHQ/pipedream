@@ -1,15 +1,14 @@
-import youtubeDataApi from "../youtube_data_api.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
-    youtubeDataApi,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
       description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },

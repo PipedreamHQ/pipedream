@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/filter",
+  "version": "0.0.2",
+  "description": "Pipedream Filter Components",
+  "main": "filter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "filter"
+  ],
+  "homepage": "https://pipedream.com/apps/filter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

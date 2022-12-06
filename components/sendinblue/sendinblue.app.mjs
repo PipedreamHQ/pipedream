@@ -209,6 +209,7 @@ export default {
       tags,
       cc,
       bcc,
+      params,
     ) {
       const emailData = {
         to,
@@ -232,6 +233,9 @@ export default {
       }
       if (textContent) {
         emailData.textContent = textContent;
+      }
+      if (params) {
+        emailData.params = params;
       }
       return axios(ctx, this._getRequestParams({
         method: "POST",

@@ -4,7 +4,7 @@ export default {
   key: "slack-leave-channel",
   name: "Leave Channel",
   description: "Leave an existing channel. [See docs here](https://api.slack.com/methods/conversations.leave)",
-  version: "0.0.4",
+  version: "0.0.8",
   type: "action",
   props: {
     slack,

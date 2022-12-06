@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/status_hero",
+  "version": "0.0.2",
+  "description": "Pipedream Status Hero Components",
+  "main": "status_hero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "status hero",
+    "status_hero"
+  ],
+  "homepage": "https://pipedream.com/apps/status-hero",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,8 @@
     "outDir": "dist",
     "composite": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "rootDir": ".",
+    "moduleResolution": "node"
   },
   "exclude": [
     "components"
@@ -400,6 +401,690 @@
     },
     {
       "path": "components/deepgram"
+    },
+    {
+      "path": "components/smiirl"
+    },
+    {
+      "path": "components/fedex"
+    },
+    {
+      "path": "components/infusionsoft"
+    },
+    {
+      "path": "components/expensify"
+    },
+    {
+      "path": "components/readwise"
+    },
+    {
+      "path": "components/smtp2go"
+    },
+    {
+      "path": "components/degreed"
+    },
+    {
+      "path": "components/conveyor"
+    },
+    {
+      "path": "components/namely"
+    },
+    {
+      "path": "components/propeller"
+    },
+    {
+      "path": "components/twitch_developer_app"
+    },
+    {
+      "path": "components/vectera"
+    },
+    {
+      "path": "components/triggercmd"
+    },
+    {
+      "path": "components/isn"
+    },
+    {
+      "path": "components/chaport"
+    },
+    {
+      "path": "components/dots_"
+    },
+    {
+      "path": "components/exact"
+    },
+    {
+      "path": "components/google_directory"
+    },
+    {
+      "path": "components/looker"
+    },
+    {
+      "path": "components/ethereum"
+    },
+    {
+      "path": "components/sendle"
+    },
+    {
+      "path": "components/google_workspace"
+    },
+    {
+      "path": "components/cartes"
+    },
+    {
+      "path": "components/dictionary_api"
+    },
+    {
+      "path": "components/foxy"
+    },
+    {
+      "path": "components/lob"
+    },
+    {
+      "path": "components/voice"
+    },
+    {
+      "path": "components/switchboard"
+    },
+    {
+      "path": "components/uptimerobot"
+    },
+    {
+      "path": "components/google_appsheet"
+    },
+    {
+      "path": "components/rewardful"
+    },
+    {
+      "path": "components/membervault"
+    },
+    {
+      "path": "components/alchemy"
+    },
+    {
+      "path": "components/mapbox"
+    },
+    {
+      "path": "components/mux"
+    },
+    {
+      "path": "components/radar"
+    },
+    {
+      "path": "components/guru"
+    },
+    {
+      "path": "components/circle"
+    },
+    {
+      "path": "components/godaddy"
+    },
+    {
+      "path": "components/paperform"
+    },
+    {
+      "path": "components/sender"
+    },
+    {
+      "path": "components/syncro"
+    },
+    {
+      "path": "components/teamdeck"
+    },
+    {
+      "path": "components/verifybee"
+    },
+    {
+      "path": "components/google_ads"
+    },
+    {
+      "path": "components/oksign"
+    },
+    {
+      "path": "components/cal_com"
+    },
+    {
+      "path": "components/niceboard"
+    },
+    {
+      "path": "components/getscreenshot"
+    },
+    {
+      "path": "components/helpwise"
+    },
+    {
+      "path": "components/showpad"
+    },
+    {
+      "path": "components/softr"
+    },
+    {
+      "path": "components/user_com"
+    },
+    {
+      "path": "components/tmetric"
+    },
+    {
+      "path": "components/pdfmonkey"
+    },
+    {
+      "path": "components/vivifyscrum"
+    },
+    {
+      "path": "components/workiom"
+    },
+    {
+      "path": "components/worksnaps"
+    },
+    {
+      "path": "components/vosfactures"
+    },
+    {
+      "path": "components/pointerpro"
+    },
+    {
+      "path": "components/darwinbox"
+    },
+    {
+      "path": "components/turbohire"
+    },
+    {
+      "path": "components/knowbe4"
+    },
+    {
+      "path": "components/salestown"
+    },
+    {
+      "path": "components/adafruit_io"
+    },
+    {
+      "path": "components/iqair_airvisual"
+    },
+    {
+      "path": "components/airnow"
+    },
+    {
+      "path": "components/waitwhile"
+    },
+    {
+      "path": "components/meetup"
+    },
+    {
+      "path": "components/vk"
+    },
+    {
+      "path": "components/apilio"
+    },
+    {
+      "path": "components/ambient_weather"
+    },
+    {
+      "path": "components/bart"
+    },
+    {
+      "path": "components/google_recaptcha"
+    },
+    {
+      "path": "components/amilia"
+    },
+    {
+      "path": "components/bitrix24"
+    },
+    {
+      "path": "components/ecwid"
+    },
+    {
+      "path": "components/shipcloud"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/growsurf"
+    },
+    {
+      "path": "components/productboard"
+    },
+    {
+      "path": "components/vercel_token_auth"
+    },
+    {
+      "path": "components/action_builder"
+    },
+    {
+      "path": "components/action_network"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/crisp"
+    },
+    {
+      "path": "components/gmail"
+    },
+    {
+      "path": "components/zoho_sheet"
+    },
+    {
+      "path": "components/sailpoint"
+    },
+    {
+      "path": "components/snapdocs"
+    },
+    {
+      "path": "components/wakatime"
+    },
+    {
+      "path": "components/congress_gov"
+    },
+    {
+      "path": "components/lodgify"
+    },
+    {
+      "path": "components/sailpoint_personal_token"
+    },
+    {
+      "path": "components/gmail_custom_oauth"
+    },
+    {
+      "path": "components/cloudlayer"
+    },
+    {
+      "path": "components/qstash"
+    },
+    {
+      "path": "components/twelve_data"
+    },
+    {
+      "path": "components/sms"
+    },
+    {
+      "path": "components/planning_center"
+    },
+    {
+      "path": "components/printful_oauth"
+    },
+    {
+      "path": "components/docupilot"
+    },
+    {
+      "path": "components/repuso"
+    },
+    {
+      "path": "components/deployhq"
+    },
+    {
+      "path": "components/bingx"
+    },
+    {
+      "path": "components/razorpay"
+    },
+    {
+      "path": "components/neverbounce"
+    },
+    {
+      "path": "components/verdict_as_a_service"
+    },
+    {
+      "path": "components/wix"
+    },
+    {
+      "path": "components/wishpond"
+    },
+    {
+      "path": "components/nusii_proposals"
+    },
+    {
+      "path": "components/callingly"
+    },
+    {
+      "path": "components/bybit"
+    },
+    {
+      "path": "components/aircall"
+    },
+    {
+      "path": "components/kucoin_futures"
+    },
+    {
+      "path": "components/deepl"
+    },
+    {
+      "path": "components/sendblue"
+    },
+    {
+      "path": "components/zuora"
+    },
+    {
+      "path": "components/habitica"
+    },
+    {
+      "path": "components/mailboxvalidator"
+    },
+    {
+      "path": "components/freshbooks"
+    },
+    {
+      "path": "components/slicktext"
+    },
+    {
+      "path": "components/expofp"
+    },
+    {
+      "path": "components/mattermost"
+    },
+    {
+      "path": "components/karbon"
+    },
+    {
+      "path": "components/dynatrace_api"
+    },
+    {
+      "path": "components/freshsales"
+    },
+    {
+      "path": "components/gender_api"
+    },
+    {
+      "path": "components/sms_magic"
+    },
+    {
+      "path": "components/mailcoach"
+    },
+    {
+      "path": "components/mozilla_observatory"
+    },
+    {
+      "path": "components/mx_toolbox"
+    },
+    {
+      "path": "components/nano_nets"
+    },
+    {
+      "path": "components/dispatch"
+    },
+    {
+      "path": "components/edapp"
+    },
+    {
+      "path": "components/miro_custom_app"
+    },
+    {
+      "path": "components/nozbe_teams"
+    },
+    {
+      "path": "components/coderpad"
+    },
+    {
+      "path": "components/elopage"
+    },
+    {
+      "path": "components/simpletexting"
+    },
+    {
+      "path": "components/pilvio"
+    },
+    {
+      "path": "components/webscraping_ai"
+    },
+    {
+      "path": "components/corrently"
+    },
+    {
+      "path": "components/logoraisr"
+    },
+    {
+      "path": "components/firmalyzer_iotvas"
+    },
+    {
+      "path": "components/rat_genome_database"
+    },
+    {
+      "path": "components/samcart"
+    },
+    {
+      "path": "components/zulip"
+    },
+    {
+      "path": "components/textmagic"
+    },
+    {
+      "path": "components/talentlms"
+    },
+    {
+      "path": "components/abuselpdb"
+    },
+    {
+      "path": "components/amcards"
+    },
+    {
+      "path": "components/api_void"
+    },
+    {
+      "path": "components/beaconstac"
+    },
+    {
+      "path": "components/data247"
+    },
+    {
+      "path": "components/chatrace"
+    },
+    {
+      "path": "components/amentum_aerospace"
+    },
+    {
+      "path": "components/patreon"
+    },
+    {
+      "path": "components/buy_me_a_coffee"
+    },
+    {
+      "path": "components/idealpostcodes"
+    },
+    {
+      "path": "components/datumbox"
+    },
+    {
+      "path": "components/commcare"
+    },
+    {
+      "path": "components/cdc_national_environmental_public_health_tracking"
+    },
+    {
+      "path": "components/enigma"
+    },
+    {
+      "path": "components/easyship"
+    },
+    {
+      "path": "components/avochato"
+    },
+    {
+      "path": "components/graphhopper"
+    },
+    {
+      "path": "components/humanitix"
+    },
+    {
+      "path": "components/dialmycalls"
+    },
+    {
+      "path": "components/enedis"
+    },
+    {
+      "path": "components/manifestly_checklists"
+    },
+    {
+      "path": "components/chatfuel_dashboard_api_"
+    },
+    {
+      "path": "components/cloudtalk"
+    },
+    {
+      "path": "components/bc_gov_news"
+    },
+    {
+      "path": "components/sportsdata"
+    },
+    {
+      "path": "components/labs64_netlicensing"
+    },
+    {
+      "path": "components/circl_hash_lookup"
+    },
+    {
+      "path": "components/appcues"
+    },
+    {
+      "path": "components/college_football_data"
+    },
+    {
+      "path": "components/listen_notes"
+    },
+    {
+      "path": "components/doppler_marketing_automation"
+    },
+    {
+      "path": "components/idealspot"
+    },
+    {
+      "path": "components/rawg_video_games_database"
+    },
+    {
+      "path": "components/neutrino"
+    },
+    {
+      "path": "components/uk_gov_vehecle_enquiry_api"
+    },
+    {
+      "path": "components/facturadirecta"
+    },
+    {
+      "path": "components/xata"
+    },
+    {
+      "path": "components/ipinfo_io"
+    },
+    {
+      "path": "components/plasmic"
+    },
+    {
+      "path": "components/orbisx"
+    },
+    {
+      "path": "components/burst_sms"
+    },
+    {
+      "path": "components/simplehash"
+    },
+    {
+      "path": "components/hygraph"
+    },
+    {
+      "path": "components/td_ameritrade"
+    },
+    {
+      "path": "components/covalent"
+    },
+    {
+      "path": "components/you_can_book_me"
+    },
+    {
+      "path": "components/mobile_text_alerts"
+    },
+    {
+      "path": "components/snyk"
+    },
+    {
+      "path": "components/kanbanflow"
+    },
+    {
+      "path": "components/facebook_groups"
+    },
+    {
+      "path": "components/terminus_app"
+    },
+    {
+      "path": "components/cdr_platform"
+    },
+    {
+      "path": "components/whatsapp_business"
+    },
+    {
+      "path": "components/d7_networks"
+    },
+    {
+      "path": "components/dataset"
+    },
+    {
+      "path": "components/nightfall_ai"
+    },
+    {
+      "path": "components/scrapeninja"
+    },
+    {
+      "path": "components/octopus_deploy"
+    },
+    {
+      "path": "components/kartra"
+    },
+    {
+      "path": "components/clientary"
+    },
+    {
+      "path": "components/faire"
+    },
+    {
+      "path": "components/talenox"
+    },
+    {
+      "path": "components/azure_devops"
+    },
+    {
+      "path": "components/envoy"
+    },
+    {
+      "path": "components/rudderstack"
+    },
+    {
+      "path": "components/rudderstack_transformation"
+    },
+    {
+      "path": "components/loqate"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/yelp"
+    },
+    {
+      "path": "components/mastodon"
+    },
+    {
+      "path": "components/mav"
+    },
+    {
+      "path": "components/n8n_io"
+    },
+    {
+      "path": "components/ortto"
+    },
+    {
+      "path": "components/bugsnag"
+    },
+    {
+      "path": "components/databricks"
+    },
+    {
+      "path": "components/mode"
+    },
+    {
+      "path": "components/levity"
     }
   ]
 }

@@ -10,16 +10,35 @@ const ALL_SOURCES = [
   "system",
 ];
 
+const FIELD_VALUE_PROP_NAME = "fieldValue";
+const ALLOW_CUSTOM_FIELD_TYPES = [
+  "text",
+  "textarea",
+  // "date",
+  // "datetime",
+  // "radio",
+  // "listbox",
+  // "dropdown",
+];
+
 const CURRENCY_OPTIONS =
   currencies.map((currency) => ({
     label: currency,
     value: currency.toLowerCase(),
   }));
 
+const API = {
+  ACTIVECAMPAIGN: "activecampaign",
+  TRACKCMP: "trackcmp",
+};
+
 export default {
+  API,
   VERSION_PATH,
   UPDATED_TIMESTAMP,
   DEFAULT_LIMIT,
   ALL_SOURCES,
   CURRENCY_OPTIONS,
+  ALLOW_CUSTOM_FIELD_TYPES,
+  FIELD_VALUE_PROP_NAME,
 };

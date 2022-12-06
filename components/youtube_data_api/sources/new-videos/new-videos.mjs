@@ -1,4 +1,5 @@
-import common from "../common.mjs";
+import youtubeDataApi from "../../youtube_data_api.app.mjs";
+import common from "./common.mjs";
 
 export default {
   ...common,
@@ -6,35 +7,16 @@ export default {
   key: "youtube_data_api-new-videos",
   name: "New Videos",
   description: "Emit new event for each new Youtube video the user posts.",
-  version: "0.0.5",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
-    ...common.props,
+    youtubeDataApi,
     maxResults: {
       propDefinition: [
-        common.props.youtubeDataApi,
+        youtubeDataApi,
         "maxResults",
       ],
     },
-  },
-  hooks: {
-    ...common.hooks,
-    deploy() {},
-  },
-  methods: {
-    ...common.methods,
-    getParams() {
-      return {
-        forMine: true,
-        maxResults: this.maxResults,
-      };
-    },
-  },
-  async run() {
-    const params = {
-      ...this._getBaseParams(),
-      ...this.getParams(),
-    };
-    await this.paginateVideos(params);
+    ...common.props,
   },
 };

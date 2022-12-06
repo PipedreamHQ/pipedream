@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pushshift_reddit_search",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Pipedream Pushshift Reddit Search Components",
   "main": "pushshift_reddit_search.app.mjs",
   "keywords": [
@@ -15,6 +15,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^1.2.0"
   }
 }

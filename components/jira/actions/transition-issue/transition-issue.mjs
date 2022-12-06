@@ -1,11 +1,11 @@
-import jira from "../../jira.app.mjs";
 import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
-  version: "0.1.3",
+  version: "0.1.6",
   type: "action",
   props: {
     jira,
@@ -23,7 +23,6 @@ export default {
           issueIdOrKey: configuredProps.issueIdOrKey,
         }),
       ],
-      description: "Details of a transition, e.g. `{\"id\": \"5\"}`",
     },
     fields: {
       propDefinition: [
@@ -57,7 +56,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const transition = utils.parseObject(this.transition);
+    const transition = {
+      id: this.transition,
+    };
     const fields = utils.parseObject(this.fields);
     const update = utils.parseObject(this.update);
     const historyMetadata = utils.parseObject(this.historyMetadata);

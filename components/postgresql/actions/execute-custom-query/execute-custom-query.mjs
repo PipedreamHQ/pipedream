@@ -4,7 +4,7 @@ export default {
   name: "Execute Custom Query",
   key: "postgresql-execute-custom-query",
   description: "Executes a custom query you provide. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "action",
   props: {
     postgresql,
@@ -43,11 +43,18 @@ export default {
       throw new Error("The number of values provided does not match the number of values in the query.");
     }
 
-    const res = await this.postgresql.executeQuery({
-      text: query,
-      values,
-    }, rejectUnauthorized);
-    $.export("$summary", "Successfully executed query");
-    return res;
+    try {
+      const res = await this.postgresql.executeQuery({
+        text: query,
+        values,
+      }, rejectUnauthorized);
+      $.export("$summary", "Successfully executed query");
+      return res;
+    } catch (error) {
+      throw new Error(`
+        Query not executed due to an error. ${error}.
+        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
+      `);
+    }
   },
 };

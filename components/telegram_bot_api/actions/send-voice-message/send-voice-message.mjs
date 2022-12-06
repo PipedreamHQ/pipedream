@@ -1,11 +1,11 @@
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
-import contentTypes from "../../content-types.mjs";
+import contentTypes from "../../common/content-types.mjs";
 
 export default {
   key: "telegram_bot_api-send-voice-message",
   name: "Send a Voice Message",
   description: "Sends a voice message. [See the docs](https://core.telegram.org/bots/api#sendvoice) for more information",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     telegramBotApi,

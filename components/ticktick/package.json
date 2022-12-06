@@ -1,19 +1,19 @@
 {
-    "name": "@pipedream/ticktick",
-    "version": "0.0.1",
-    "description": "Pipedream Ticktick Components",
-    "main": "ticktick.app.js",
-    "keywords": [
-        "pipedream",
-        "ticktick"
-    ],
-    "homepage": "https://pipedream.com/apps/ticktick",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedream/platform": "^0.10.0"
-    },
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/ticktick",
+  "version": "0.0.3",
+  "description": "Pipedream Ticktick Components",
+  "main": "ticktick.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ticktick"
+  ],
+  "homepage": "https://pipedream.com/apps/ticktick",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

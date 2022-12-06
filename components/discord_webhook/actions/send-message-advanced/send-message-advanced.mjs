@@ -5,7 +5,7 @@ export default {
   key: "discord_webhook-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     ...common.props,

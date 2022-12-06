@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/paytrace",
+  "version": "0.0.2",
+  "description": "Pipedream Paytrace Components",
+  "main": "paytrace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paytrace"
+  ],
+  "homepage": "https://pipedream.com/apps/paytrace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

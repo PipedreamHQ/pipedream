@@ -1,4 +1,4 @@
-import { v1 } from "@datadog/datadog-api-client@1.0.0-beta.8";
+import { axios } from "@pipedream/platform";
 import { v4 as uuid } from "uuid";
 import constants from "./actions/common/constants.mjs";
 
@@ -16,7 +16,9 @@ export default {
           hostList,
           totalReturned,
         } = await this.listHosts({
-          start,
+          query: {
+            start,
+          },
         });
         return {
           options: hostList.map((host) => host.name),
@@ -32,8 +34,10 @@ export default {
       description: "The name of the timeseries",
       async options({ host }) {
         const { metrics } = await this.listActiveMetrics({
-          from: 1,
-          host,
+          query: {
+            from: 1,
+            host,
+          },
         });
         return metrics;
       },
@@ -45,7 +49,9 @@ export default {
       optional: true,
       async options({ hostName }) {
         const { tags } = await this.listTags({
-          hostName,
+          query: {
+            hostName,
+          },
         });
         return tags;
       },
@@ -56,30 +62,46 @@ export default {
       description: "The type of the metric",
       options: constants.metricTypes,
     },
+    monitors: {
+      type: "integer[]",
+      label: "Monitors",
+      description: "The monitors to observe for notifications",
+      async options({ page }) {
+        const monitors = await this.listMonitors({
+          query: {
+            page,
+            pageSize: 1000,
+          },
+        });
+
+        return monitors.map((monitor) => ({
+          label: monitor.name,
+          value: monitor.id,
+        }));
+      },
+    },
   },
   methods: {
-    _v1Config() {
-      return v1.createConfiguration({
-        authMethods: {
-          apiKeyAuth: this.$auth.api_key,
-          appKeyAuth: this.$auth.application_key,
+    _apiKey() {
+      return this.$auth.api_key;
+    },
+    _applicationKey() {
+      return this.$auth.application_key;
+    },
+    _apiUrl() {
+      return "https://api.datadoghq.com/api";
+    },
+    async _makeRequest({
+      $ = this, path, ...args
+    }) {
+      return axios($ ?? this, {
+        url: `${this._apiUrl()}${path}`,
+        headers: {
+          "DD-API-KEY": this._apiKey(),
+          "DD-APPLICATION-KEY": this._applicationKey(),
         },
+        ...args,
       });
-    },
-    _webhooksApi() {
-      return new v1.WebhooksIntegrationApi(this._v1Config());
-    },
-    _monitorsApi() {
-      return new v1.MonitorsApi(this._v1Config());
-    },
-    _hostsApi() {
-      return new v1.HostsApi(this._v1Config());
-    },
-    _tagsApi() {
-      return new v1.TagsApi(this._v1Config());
-    },
-    _metricsApi() {
-      return new v1.MetricsApi(this._v1Config());
     },
     _webhookSecretKeyHeader() {
       return "x-webhook-secretkey";
@@ -92,29 +114,37 @@ export default {
       return headers[this._webhookSecretKeyHeader()] === secretKey;
     },
     async _getMonitor(monitorId) {
-      return this._monitorsApi().getMonitor({
-        monitorId,
+      return this._makeRequest({
+        path: `/v1/monitor/${monitorId}`,
       });
     },
-    async _editMonitor(monitorId, monitorChanges) {
-      await this._monitorsApi().updateMonitor({
-        monitorId,
-        body: monitorChanges,
+    async _editMonitor({
+      monitorId, ...args
+    }) {
+      if (!monitorId) return;
+
+      return this._makeRequest({
+        path: `/v1/monitor/${monitorId}`,
+        method: "put",
+        ...args,
       });
     },
-    async *_searchMonitors(query) {
+    async *_searchMonitors({ ...args }) {
       let page = 0;
       let pageCount;
       let perPage;
       do {
-        const params = {
-          page,
-          query,
-        };
         const {
           monitors,
           metadata,
-        } = await this._monitorsApi().searchMonitors(params);
+        } = await this._makeRequest({
+          path: "/v1/monitor/search",
+          query: {
+            ...args.query,
+            page,
+          },
+          ...args,
+        });
         for (const monitor of monitors) {
           yield monitor;
         }
@@ -123,37 +153,37 @@ export default {
         perPage = metadata.perPage;
       } while (pageCount === perPage);
     },
-    async listMonitors(page, pageSize) {
-      return this._monitorsApi().listMonitors({
-        page,
-        pageSize,
-      });
-    },
     async createWebhook(
       url,
       payloadFormat = null,
       secretKey = uuid(),
     ) {
       const name = `pd-${uuid()}`;
-      const customHeaders = {
-        [this._webhookSecretKeyHeader()]: secretKey,
-      };
-      await this._webhooksApi().createWebhooksIntegration({
-        body: {
-          customHeaders: JSON.stringify(customHeaders),
+
+      await this._makeRequest({
+        path: "/v1/integration/webhooks/configuration/webhooks",
+        method: "post",
+        data: {
+          custom_headers: JSON.stringify({
+            "x-webhook-secretkey": secretKey,
+          }),
           payload: JSON.stringify(payloadFormat),
           name,
           url,
         },
       });
+
       return {
         name,
         secretKey,
       };
     },
     async deleteWebhook(webhookName) {
-      await this._webhooksApi().deleteWebhooksIntegration({
-        webhookName,
+      if (!webhookName) return;
+
+      await this._makeRequest({
+        path: `/v1/integration/webhooks/configuration/webhooks/${webhookName}`,
+        method: "delete",
       });
     },
     async addWebhookNotification(webhookName, monitorId) {
@@ -161,14 +191,17 @@ export default {
       const webhookTagPattern = this._webhookTagPattern(webhookName);
       if (new RegExp(webhookTagPattern).test(message)) {
         // Monitor is already notifying this webhook
+        console.log("Monitor is already notifying this webhook");
         return;
       }
 
       const newMessage = `${message}\n${webhookTagPattern}`;
-      const monitorChanges = {
-        message: newMessage,
-      };
-      await this._editMonitor(monitorId, monitorChanges);
+      await this._editMonitor({
+        monitorId,
+        data: {
+          message: newMessage,
+        },
+      });
     },
     async removeWebhookNotifications(webhookName) {
       // Users could have manually added this webhook in other monitors, or
@@ -178,7 +211,11 @@ export default {
       const webhookTagPattern = new RegExp(
         `\n?${this._webhookTagPattern(webhookName)}`,
       );
-      const monitorSearchResults = this._searchMonitors(webhookName);
+      const monitorSearchResults = this._searchMonitors({
+        query: {
+          query: webhookName,
+        },
+      });
       for await (const monitorInfo of monitorSearchResults) {
         const { id: monitorId } = monitorInfo;
         const { message } = await this._getMonitor(monitorId);
@@ -195,18 +232,45 @@ export default {
         await this._editMonitor(monitorId, monitorChanges);
       }
     },
-    async listHosts(params) {
-      return this._hostsApi().listHosts(params);
+    daysAgo(days) {
+      return new Date().setDate(new Date().getDate() - days);
     },
-    async listTags(params) {
-      return this._tagsApi().getHostTags(params);
+    async listMonitors(args) {
+      return this._makeRequest({
+        path: "/v1/monitor",
+        ...args,
+      });
     },
-    async listActiveMetrics(params) {
-      return this._metricsApi().listActiveMetrics(params);
+    async listHosts(args) {
+      return this._makeRequest({
+        path: "/v1/hosts",
+        ...args,
+      });
     },
-    async postMetricData(params) {
-      return this._metricsApi().submitMetrics({
-        body: params,
+    async listTags(args) {
+      return this._makeRequest({
+        path: "/v1/tags/hosts",
+        ...args,
+      });
+    },
+    async listActiveMetrics(args) {
+      return this._makeRequest({
+        path: "/v1/metrics",
+        ...args,
+      });
+    },
+    async postMetricData(args) {
+      return this._makeRequest({
+        path: "/v2/series",
+        method: "post",
+        ...args,
+      });
+    },
+    async getEvents(args) {
+      return this._makeRequest({
+        path: "/v1/events",
+        method: "get",
+        ...args,
       });
     },
   },

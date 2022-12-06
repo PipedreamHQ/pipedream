@@ -1,8 +1,17 @@
 const axios = require("axios");
 const eventTypes = [
-  { label: "Create", value: "create" },
-  { label: "Update", value: "update" },
-  { label: "Delete", value: "delete" },
+  {
+    label: "Create",
+    value: "create",
+  },
+  {
+    label: "Update",
+    value: "update",
+  },
+  {
+    label: "Delete",
+    value: "delete",
+  },
 ];
 const resourceNames = [
   "Budget View Snapshots",
@@ -23,7 +32,7 @@ module.exports = {
       type: "integer",
       label: "Company",
       description: "Select the company to watch for changes in.",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const limit = 100;
         const { offset = 0 } = prevContext;
         const results = await this.listCompanies(limit, offset);
@@ -33,7 +42,10 @@ module.exports = {
         }));
         return {
           options,
-          context: { limit, offset: offset + limit },
+          context: {
+            limit,
+            offset: offset + limit,
+          },
         };
       },
     },
@@ -43,7 +55,9 @@ module.exports = {
       description:
         "Select the project to watch for changes in. Leave blank for company-level resources (eg. Projects).",
       optional: true,
-      async options({ page, prevContext, company }) {
+      async options({
+        prevContext, company,
+      }) {
         const limit = 100;
         const { offset = 0 } = prevContext;
         const results = await this.listProjects(company, limit, offset);
@@ -53,7 +67,11 @@ module.exports = {
         }));
         return {
           options,
-          context: { limit, offset: offset + limit, company },
+          context: {
+            limit,
+            offset: offset + limit,
+            company,
+          },
         };
       },
     },
@@ -89,7 +107,7 @@ module.exports = {
       endpoint,
       companyId = null,
       params = null,
-      data = null
+      data = null,
     ) {
       const config = {
         method,
@@ -114,7 +132,7 @@ module.exports = {
         "webhooks/hooks",
         companyId,
         null,
-        data
+        data,
       );
     },
     async createHookTrigger(
@@ -122,7 +140,7 @@ module.exports = {
       companyId,
       projectId,
       resourceName,
-      eventType
+      eventType,
     ) {
       const data = {
         api_version: "v1.0",
@@ -138,29 +156,37 @@ module.exports = {
         `webhooks/hooks/${hookId}/triggers`,
         companyId,
         null,
-        data
+        data,
       );
     },
     async deleteHook(id, companyId, projectId) {
       const params = projectId
-        ? { project_id: projectId }
-        : { company_id: companyId };
+        ? {
+          project_id: projectId,
+        }
+        : {
+          company_id: companyId,
+        };
       return await this._makeRequest(
         "DELETE",
         `webhooks/hooks/${id}`,
         companyId,
-        params
+        params,
       );
     },
     async deleteHookTrigger(hookId, triggerId, companyId, projectId) {
       const params = projectId
-        ? { project_id: projectId }
-        : { company_id: companyId };
+        ? {
+          project_id: projectId,
+        }
+        : {
+          company_id: companyId,
+        };
       return await this._makeRequest(
         "DELETE",
         `webhooks/hooks/${hookId}/triggers/${triggerId}`,
         companyId,
-        params
+        params,
       );
     },
     async listCompanies(perPage, page) {
@@ -181,13 +207,17 @@ module.exports = {
       projectId,
       budgetViewSnapshotId,
       perPage,
-      page
+      page,
     ) {
       return await this._makeRequest(
         "GET",
         `budget_view_snapshots/${budgetViewSnapshotId}/detail_rows`,
         companyId,
-        { project_id: projectId, per_page: perPage, page }
+        {
+          project_id: projectId,
+          per_page: perPage,
+          page,
+        },
       );
     },
     async getChangeEvent(companyId, projectId, changeEventId) {
@@ -195,7 +225,9 @@ module.exports = {
         "GET",
         `change_events/${changeEventId}`,
         companyId,
-        { project_id: projectId }
+        {
+          project_id: projectId,
+        },
       );
     },
     async getChangeOrderPackage(companyId, projectId, changeOrderPackageId) {
@@ -203,7 +235,9 @@ module.exports = {
         "GET",
         `change_order_packages/${changeOrderPackageId}`,
         companyId,
-        { project_id: projectId }
+        {
+          project_id: projectId,
+        },
       );
     },
     async getPrimeContract(companyId, projectId, primeContractId) {
@@ -211,7 +245,9 @@ module.exports = {
         "GET",
         `prime_contract/${primeContractId}`,
         companyId,
-        { project_id: projectId }
+        {
+          project_id: projectId,
+        },
       );
     },
     async getPurchaseOrder(companyId, projectId, poId) {
@@ -219,21 +255,23 @@ module.exports = {
         "GET",
         `purchase_order_contracts/${poId}`,
         companyId,
-        { project_id: projectId }
+        {
+          project_id: projectId,
+        },
       );
     },
     async getRFI(companyId, projectId, rfiId) {
       return await this._makeRequest(
         "GET",
         `projects/${projectId}/rfis/${rfiId}`,
-        companyId
+        companyId,
       );
     },
     async getSubmittal(companyId, projectId, submittalId) {
       return await this._makeRequest(
         "GET",
         `projects/${projectId}/submittals/${submittalId}`,
-        companyId
+        companyId,
       );
     },
   },

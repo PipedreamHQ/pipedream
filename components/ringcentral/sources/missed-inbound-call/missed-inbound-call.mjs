@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-missed-inbound-call",
   name: "New Missed Inbound Call (Instant)",
   description: "Emit new event each time an incoming call is missed",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,

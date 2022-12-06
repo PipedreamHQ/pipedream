@@ -1,15 +1,17 @@
 import linearApp from "../../linear_app.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
     linearApp,
-    teamId: {
+    teamIds: {
+      label: "Team IDs",
+      type: "string[]",
       propDefinition: [
         linearApp,
         "teamId",
       ],
-      optional: true,
     },
     projectId: {
       propDefinition: [
@@ -21,20 +23,11 @@ export default {
     db: "$.service.db",
   },
   methods: {
-    setWebhookId(id) {
-      this.db.set(constants.WEBHOOK_ID, id);
+    setWebhookId(teamId, id) {
+      this.db.set(`webhook-${teamId}`, id);
     },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
-    },
-    isRelevant(body) {
-      if (!this.getActions().includes(body?.action)) {
-        return false;
-      }
-      if (this.projectId) {
-        return body.data.projectId === this.projectId;
-      }
-      return true;
+    getWebhookId(teamId) {
+      return this.db.get(`webhook-${teamId}`);
     },
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
@@ -45,57 +38,53 @@ export default {
     getWebhookLabel() {
       throw new Error("getWebhookLabel is not implemented");
     },
-    getActions() {
-      throw new Error("getActions is not implemented");
-    },
     getMetadata() {
       throw new Error("getMetadata is not implemented");
     },
     getResourcesFn() {
       throw new Error("Get resource function not implemented");
     },
+    getResourcesFnArgs() {
+      throw new Error("Get resource function arguments not implemented");
+    },
+    getLoadedProjectId() {
+      throw new Error("Get loaded project ID not implemented");
+    },
   },
   hooks: {
     async deploy() {
       // Retrieve historical events
       console.log("Retrieving historical events...");
-      const events = this.linearApp.paginateResources({
+      const stream = this.linearApp.paginateResources({
         resourcesFn: this.getResourcesFn(),
+        resourcesFnArgs: this.getResourcesFnArgs(),
       });
-      for await (const event of events) {
-        const [
-          action,
-        ] = this.getActions();
-        const [
-          resourceType,
-        ] = this.getResourceTypes();
-        this.$emit(event, {
-          id: event.id,
-          ts: Date.parse(event.updatedAt),
-          summary: `New ${action} ${resourceType} event: ${event.id}`,
+      const resources = await utils.streamIterator(stream);
+
+      resources
+        .reverse()
+        .forEach((resource) => {
+          this.$emit(resource, this.getMetadata(resource));
         });
-      }
     },
     async activate() {
-      const params = {
-        resourceTypes: this.getResourceTypes(),
-        url: this.http.endpoint,
-        label: this.getWebhookLabel(),
-      };
-
-      if (this.teamId) {
-        params.teamId = this.teamId;
-      } else {
-        params.allPublicTeams = true;
+      for (const teamId of this.teamIds) {
+        const { _webhook: webhook } =
+          await this.linearApp.createWebhook({
+            teamId,
+            resourceTypes: this.getResourceTypes(),
+            url: this.http.endpoint,
+            label: this.getWebhookLabel(),
+          });
+        this.setWebhookId(teamId, webhook.id);
       }
-
-      const { _webhook: webhook } = await this.linearApp.createWebhook(params);
-      this.setWebhookId(webhook.id);
     },
     async deactivate() {
-      const webhookId = this.getWebhookId();
-      if (webhookId) {
-        await this.linearApp.deleteWebhook(webhookId);
+      for (const teamId of this.teamIds) {
+        const webhookId = this.getWebhookId(teamId);
+        if (webhookId) {
+          await this.linearApp.deleteWebhook(webhookId);
+        }
       }
     },
   },
@@ -118,9 +107,6 @@ export default {
       return;
     }
 
-    if (!this.isRelevant(body)) {
-      return;
-    }
     const meta = this.getMetadata(resource);
     this.$emit(body, meta);
   },

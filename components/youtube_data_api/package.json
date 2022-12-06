@@ -1,21 +1,22 @@
 {
-    "name": "@pipedream/youtube_data_api",
-    "version": "0.3.3",
-    "description": "Pipedream Youtube Components",
-    "main": "youtube_data_api.app.mjs",
-    "keywords": [
-        "pipedream",
-        "youtube_data_api"
-    ],
-    "homepage": "https://pipedream.com/apps/youtube_data_api",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@googleapis/youtube": "^4.1.1",
-        "got": "^11.8.3"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/youtube_data_api",
+  "version": "0.4.2",
+  "description": "Pipedream Youtube Components",
+  "main": "youtube_data_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "youtube_data_api"
+  ],
+  "homepage": "https://pipedream.com/apps/youtube_data_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@googleapis/youtube": "^6.0.0",
+    "got": "^12.5.1",
+    "util": "^0.12.4"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

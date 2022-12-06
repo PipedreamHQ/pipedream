@@ -1,4 +1,5 @@
 import Webflow from "webflow-api";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -11,10 +12,7 @@ export default {
       async options({ siteId }) {
         const domains = await this.getDomains(siteId);
 
-        return domains.map((domain) => ({
-          label: domain.name,
-          value: domain._id,
-        }));
+        return domains.map((domain) => domain.name);
       },
     },
     sites: {
@@ -155,7 +153,7 @@ export default {
       return apiClient.get(`/sites/${siteId}/orders`, {
         status: status,
         offset: page ?? 0,
-        limit: 100,
+        limit: constants.LIMIT,
       });
     },
     /**
@@ -243,7 +241,7 @@ export default {
       const response = await webflow.items({
         collectionId,
       }, {
-        limit: 100,
+        limit: constants.LIMIT,
         offset: page,
       });
 

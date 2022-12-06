@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/nicereply",
+  "version": "0.0.2",
+  "description": "Pipedream Nicereply Components",
+  "main": "nicereply.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nicereply"
+  ],
+  "homepage": "https://pipedream.com/apps/nicereply",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

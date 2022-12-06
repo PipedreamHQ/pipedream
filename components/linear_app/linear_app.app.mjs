@@ -203,25 +203,31 @@ export default {
         },
       };
     },
-    async *paginateResources({ resourcesFn }) {
-      const params = {
-        after: null,
-        first: constants.DEFAULT_LIMIT,
-      };
-      let hasNextPage = true;
+    async *paginateResources({
+      resourcesFn,
+      resourcesFnArgs,
+      max = constants.DEFAULT_MAX_RECORDS,
+    }) {
+      let counter = 0;
+      let hasNextPage;
+      let endCursor;
       do {
         const {
           nodes,
           pageInfo,
-        } = await resourcesFn(params);
-        for (const d of nodes) {
-          yield d;
+        } = await resourcesFn({
+          after: endCursor,
+          first: constants.DEFAULT_LIMIT,
+          ...resourcesFnArgs,
+        });
+        for (const node of nodes) {
+          counter += 1;
+          yield node;
         }
-        hasNextPage = pageInfo.hasNextPage;
-        if (hasNextPage) {
-          params.after = pageInfo.endCursor;
-        }
-      } while (hasNextPage);
+        ({
+          hasNextPage, endCursor,
+        } = pageInfo);
+      } while (hasNextPage && counter < max);
     },
   },
 };

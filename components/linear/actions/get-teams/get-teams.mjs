@@ -9,7 +9,9 @@ export default {
   ...getTeams,
   key: "linear-get-teams",
   description: "Get all the teams (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
+  version: "0.1.5",
   props: {
     linearApp,
   },
 };
+

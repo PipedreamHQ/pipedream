@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/transistor_fm",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Pipedream Transistor.fm Components",
-  "main": "dist/app/transistor_fm.app.mjs",
+  "main": "transistor_fm.app.mjs",
   "keywords": [
     "pipedream",
     "transistor_fm"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/transistor_fm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "form-data": "^4.0.0"
+  },
   "publishConfig": {
     "access": "public"
   }

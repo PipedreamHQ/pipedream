@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/expofp",
+  "version": "0.0.2",
+  "description": "Pipedream ExpoFP Components",
+  "main": "expofp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "expofp"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/expofp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

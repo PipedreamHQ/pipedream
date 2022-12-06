@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/refersion",
-    "version": "0.0.1",
-    "description": "Pipedream Refersion Components",
-    "main": "refersion.app.js",
-    "keywords": [
-      "pipedream",
-      "refersion"
-    ],
-    "homepage": "https://pipedream.com/apps/refersion",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/refersion",
+  "version": "0.0.3",
+  "description": "Pipedream Refersion Components",
+  "main": "refersion.app.js",
+  "keywords": [
+    "pipedream",
+    "refersion"
+  ],
+  "homepage": "https://pipedream.com/apps/refersion",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

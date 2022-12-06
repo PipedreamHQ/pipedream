@@ -1,58 +1,13 @@
-import activecampaign from "../../activecampaign.app.mjs";
+import common from "../common/base-contact.mjs";
 
 export default {
+  ...common,
   key: "activecampaign-create-contact",
   name: "Create Contact",
   description: "Create a new contact. See the docs [here](https://developers.activecampaign.com/reference#create-a-contact-new).",
   type: "action",
-  version: "0.0.2",
-  props: {
-    activecampaign,
-    email: {
-      propDefinition: [
-        activecampaign,
-        "contactEmail",
-      ],
-    },
-    firstName: {
-      propDefinition: [
-        activecampaign,
-        "contactFirstName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        activecampaign,
-        "contactLastName",
-      ],
-    },
-    phone: {
-      propDefinition: [
-        activecampaign,
-        "contactPhone",
-      ],
-    },
-    fieldValues: {
-      propDefinition: [
-        activecampaign,
-        "contactFieldValues",
-      ],
-    },
-  },
+  version: "0.0.4",
   async run({ $ }) {
-    let fieldValues;
-
-    if (Array.isArray(this.fieldValues)) {
-      fieldValues =
-        this.fieldValues.map(({
-          label: value,
-          value: field,
-        }) => ({
-          field,
-          value,
-        }));
-    }
-
     const response =
       await this.activecampaign.createContact({
         $,
@@ -62,7 +17,7 @@ export default {
             firstName: this.firstName,
             lastName: this.lastName,
             phone: this.phone,
-            fieldValues,
+            fieldValues: this.getFieldValues(),
           },
         },
       });

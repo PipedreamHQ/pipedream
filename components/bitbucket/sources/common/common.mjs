@@ -64,8 +64,21 @@ export default {
       const response = await this.createWebHook(path, events);
       this._setWebhookId(response.uuid);
     },
+    async loadHistoricalData() {
+      console.log("No historical data for this event");
+    },
   },
   hooks: {
+    async deploy() {
+      // Retrieve historical events
+      const events = await this.loadHistoricalData();
+      if (events) {
+        for (const event of events) {
+          this.$emit(event.main, event.sub);
+        }
+      }
+
+    },
     async activate() {
       const path = this.getPath();
       const events = this.getWebhookEventTypes();

@@ -1,5 +1,6 @@
 import postgresql from "../postgresql.app.mjs";
 import format from "pg-format";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -8,10 +9,17 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",
+    },
+    rejectUnauthorized: {
+      propDefinition: [
+        postgresql,
+        "rejectUnauthorized",
+      ],
+      optional: true,
     },
   },
   methods: {
@@ -48,19 +56,32 @@ export default {
      * @param {boolean} [useLastResult] - Determines whether to return only rows
      * created since lastResult
      */
-    async newRows(table, column, useLastResult = true) {
+    async newRows(schema, table, column, useLastResult = true) {
       const lastResult = useLastResult
         ? (this._getLastResult() || null)
         : null;
-      const rows = await this.postgresql.getRows(table, column, lastResult);
+      const rows = await this.postgresql.getRows(
+        table,
+        column,
+        lastResult,
+        this.rejectUnauthorized,
+        schema,
+      );
+      this.emitRows(rows, column);
+    },
+    async initialRows(schema, table, column, limit) {
+      const rows = await this.postgresql.getInitialRows(schema, table, column, limit);
+      this.emitRows(rows, column);
+    },
+    emitRows(rows, column) {
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);
       }
       this._setLastResult(rows, column);
     },
-    async isColumnUnique(table, column) {
-      const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I", column, table);
+    async isColumnUnique(schema, table, column) {
+      const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I.%I", column, schema, table);
       const hasDuplicates = await this.postgresql.executeQuery(query);
       const { duplicate_flag: duplicateFlag } = hasDuplicates[0];
       return !duplicateFlag;

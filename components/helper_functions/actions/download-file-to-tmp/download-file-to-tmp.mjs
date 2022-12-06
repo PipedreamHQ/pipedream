@@ -1,50 +1,49 @@
-// legacy_hash_id: a_67ilqM
-import streamifier from "streamifier";
-import fs from "fs";
-import axios from "axios";
 import helper_functions from "../../helper_functions.app.mjs";
+import { axios } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   key: "helper_functions-download-file-to-tmp",
-  name: "Download File To Tmp",
-  description: "Downloads a file to workflow /tmp folder",
-  version: "0.2.1",
+  name: "Download File To /tmp",
+  description: "Downloads a file to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
+  version: "0.3.0",
   type: "action",
   props: {
     helper_functions,
-    download_file_uri: {
+    url: {
       type: "string",
+      label: "Download File URL",
+      description: "Enter the URL of the file to download",
     },
-    target_download_filename: {
+    filename: {
       type: "string",
-      description: "File name to download",
+      label: "Target Filename",
+      description: "The filename that will be used to save in /tmp",
     },
   },
   async run({ $ }) {
-    const config = {
-      method: "GET",
-      url: `${this.download_file_uri}`,
+    const {
+      url, filename,
+    } = this;
+
+    const resp = await axios($, {
+      url,
       responseType: "arraybuffer",
-    };
+    });
 
-    const resp = await axios(config);
-
-    //Saves file to /tmp folder and exports file raw content, content in base64 format, buffer,  buffer's lengt, and filestream for use in later steps
-    const rawcontent = resp.data.toString("base64");
+    /**
+     * Saves file to /tmp folder and exports file's file name and file path,
+     */
+    const rawcontent = resp.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
-    const downloadedFilepath = `/tmp/${this.target_download_filename}`;
+    const downloadedFilepath = `/tmp/${filename}`;
     fs.writeFileSync(downloadedFilepath, buffer);
-    const filestream = streamifier.createReadStream(buffer);
-    $.export(
-      "filedata",
-      [
-        this.target_download_filename,
-        downloadedFilepath,
-        rawcontent,
-        buffer,
-        Buffer.byteLength(buffer),
-        filestream,
-      ],
-    );
+
+    const filedata = [
+      filename,
+      downloadedFilepath,
+    ];
+
+    return filedata;
   },
 };

@@ -162,7 +162,7 @@ export default {
         event,
         data: {
           url,
-          signatureSecret: token,
+          signature_secret: token,
         },
       };
       const requestParams = {

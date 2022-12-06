@@ -20,13 +20,18 @@ export default {
     },
     contentType: {
       label: "Content Type",
-      description: "Content type (default `HTML`)",
+      description: "Content type (default `text`)",
       type: "string",
       optional: true,
+      options: [
+        "text",
+        "html",
+      ],
+      default: "text",
     },
     content: {
       label: "Content",
-      description: "Content of the email in text format",
+      description: "Content of the email in text or html format",
       type: "string",
       optional: true,
     },
@@ -67,7 +72,7 @@ export default {
     },
     end: {
       label: "End",
-      description: "Start date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
+      description: "End date-time (yyyy-MM-ddThh:mm:ss) e.g. '2022-04-15T13:30:00'",
       type: "string",
     },
     givenName: {
@@ -196,7 +201,7 @@ export default {
         subject: self.subject,
         body: {
           content: self.content,
-          contentType: self.contentType ?? "HTML",
+          contentType: self.contentType,
         },
         toRecipients,
         attachments,
@@ -212,6 +217,13 @@ export default {
     async createCalendarEvent({ ...args } = {}) {
       return await this._makeRequest({
         method: "POST",
+        path: "/me/events",
+        ...args,
+      });
+    },
+    async listCalendarEvents({ ...args } = {}) {
+      return await this._makeRequest({
+        method: "GET",
         path: "/me/events",
         ...args,
       });
@@ -271,6 +283,13 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: `/me/messages/${messageId}`,
+        ...args,
+      });
+    },
+    async listMessages({ ...args } = {}) {
+      return await this._makeRequest({
+        method: "GET",
+        path: "/me/messages",
         ...args,
       });
     },

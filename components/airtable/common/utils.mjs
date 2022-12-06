@@ -74,7 +74,7 @@ function fieldToProp(field) {
     description: field.description,
     optional: true,
     options: field.options?.choices?.map((choice) => ({
-      label: choice.name,
+      label: choice.name || choice.id,
       value: choice.id,
     })),
   };

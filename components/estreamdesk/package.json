@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/estreamdesk",
+  "version": "0.0.2",
+  "description": "Pipedream eStreamDest Components",
+  "main": "estreamdesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "estreamdesk"
+  ],
+  "files": [
+    "estreamdesk"
+  ],
+  "homepage": "https://pipedream.com/apps/estreamdesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "xml2json-light": "^1.0.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -52,10 +52,12 @@ export default {
     async getRecords({
       collectionId, ...args
     } = {}) {
-      return await this._makeRequest({
+      const response = await this._makeRequest({
         path: `/collections/${collectionId}`,
         ...args,
       });
+
+      return response.records;
     },
     async createRecord({
       collectionId, ...args

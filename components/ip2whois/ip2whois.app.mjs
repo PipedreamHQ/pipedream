@@ -16,6 +16,8 @@ export default {
         url: "https://api.ip2whois.com/v2/",
         params: {
           key: `${this.$auth.api_key}`,
+          source: "pipedream",
+          source_version: "1.0.0",
           ...params,
         },
       };

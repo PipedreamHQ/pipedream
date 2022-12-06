@@ -1,20 +1,21 @@
 {
-    "name": "@pipedream/discord_bot",
-    "version": "0.3.3",
-    "description": "Pipedream Discord_bot Components",
-    "main": "discord_bot.app.js",
-    "keywords": [
-        "pipedream",
-        "discord_bot"
-    ],
-    "homepage": "https://pipedream.com/apps/discord_bot",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedreamhq/platform": "^0.8.1"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/discord_bot",
+  "version": "0.3.6",
+  "description": "Pipedream Discord_bot Components",
+  "main": "discord_bot.app.js",
+  "keywords": [
+    "pipedream",
+    "discord_bot"
+  ],
+  "homepage": "https://pipedream.com/apps/discord_bot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "@pipedreamhq/platform": "^0.8.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

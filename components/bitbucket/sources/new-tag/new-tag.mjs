@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 const { bitbucket } = common.props;
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -7,7 +8,7 @@ export default {
   name: "New Tag (Instant)",
   key: "bitbucket-new-tag",
   description: "Emit new event when a commit is tagged. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     repositoryId: {
@@ -32,6 +33,24 @@ export default {
     },
     isNewTag(change) {
       return change.created && change.new.type === "tag";
+    },
+    async loadHistoricalData() {
+      const tags = await this.bitbucket.getTags({
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        params: {
+          pagelen: constants.HISTORICAL_DATA_LENGTH,
+        },
+      });
+      const ts = new Date().getTime();
+      return tags.map((tag) => ({
+        main: tag,
+        sub: {
+          id: `${tag.name} - ${ts}`,
+          summary: `New tag ${tag.name} created`,
+          ts,
+        },
+      }));
     },
     proccessEvent(event) {
       const {

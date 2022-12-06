@@ -1,25 +1,62 @@
-// legacy_hash_id: a_2wipLx
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-create-table-record",
   name: "Create Table Record",
-  description: "Creates a new table record.",
-  version: "0.1.1",
+  description: "Creates a new table record. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createTableRecord/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [CreateTableRecord](https://api-docs.pipefy.com/reference/mutations/createTableRecord/) specification.",
+    table: {
+      propDefinition: [
+        pipefy,
+        "table",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+      reloadProps: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the new record",
+    },
+    assignees: {
+      propDefinition: [
+        pipefy,
+        "members",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
     },
   },
+  async additionalProps() {
+    const props = {};
+    const fields = await this.pipefy.listTableFields(this.table);
+    for (const field of fields) {
+      props[field.id] = {
+        type: "string",
+        label: field.label,
+        description: field.description,
+        optional: !field.required,
+      };
+      if (field.options.length > 0) {
+        props[field.id].options = field.options;
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/createTableRecord/
-
+  /*
   Example query:
 
   mutation createNewTableRecord{
@@ -29,18 +66,26 @@ export default {
         }
     }
   */
-
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
+    const fieldsAttributes = [];
+    const fields = await this.pipefy.listTableFields(this.table);
+    for (const field of fields) {
+      if (this[field.id]) {
+        fieldsAttributes.push({
+          field_id: field.id,
+          field_value: this[field.id],
+        });
+      }
     }
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    const variables = {
+      tableId: this.table,
+      assigneeIds: this.assignees,
+      title: this.title,
+      fieldsAttributes,
+    };
+
+    const response = await this.pipefy.createTableRecord(variables);
+    $.export("$summary", "Successfully created table record");
+    return response;
   },
 };

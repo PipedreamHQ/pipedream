@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.0.7",
+  version: "0.0.10",
   type: "source",
   props: {
     ...common.props,
@@ -27,6 +27,15 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = this.lists && this.lists.length > 0
+        ? await this.trello.getCardsInList(this.lists[0])
+        : await this.trello.getCards(this.board);
+      return {
+        sampleEvents: cards,
+        sortFilter: "dateLastActivity",
+      };
+    },
     _getListAfter() {
       return this.db.get("listAfter");
     },
@@ -62,9 +71,12 @@ export default {
       id, name,
     }) {
       const listAfter = this._getListAfter();
+      const summary = listAfter
+        ? `${name} - moved to ${listAfter}`
+        : name;
       return {
         id,
-        summary: `${name} - moved to ${listAfter}`,
+        summary,
         ts: Date.now(),
       };
     },

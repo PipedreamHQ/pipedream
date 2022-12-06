@@ -1,20 +1,20 @@
 {
-    "name": "@pipedream/pagerduty",
-    "version": "0.3.3",
-    "description": "Pipedream Pagerduty Components",
-    "main": "pagerduty.app.mjs",
-    "keywords": [
-        "pipedream",
-        "pagerduty"
-    ],
-    "homepage": "https://pipedream.com/apps/pagerduty",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "dependencies": {
-        "@pipedream/platform": "^0.9.0"
-    },
-    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@pipedream/pagerduty",
+  "version": "0.3.5",
+  "description": "Pipedream Pagerduty Components",
+  "main": "pagerduty.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pagerduty"
+  ],
+  "homepage": "https://pipedream.com/apps/pagerduty",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
 }

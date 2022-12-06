@@ -1,13 +1,15 @@
 {
   "name": "@pipedream/tomba",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Tomba  Components",
   "main": "dist/app/tomba.app.mjs",
   "keywords": [
     "pipedream",
     "tomba"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/tomba",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",

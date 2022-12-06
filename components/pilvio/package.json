@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/pilvio",
+  "version": "0.0.1",
+  "description": "Pipedream Pilvio Components",
+  "main": "dist/app/pilvio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pilvio"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/pilvio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

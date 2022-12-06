@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/edapp",
+  "version": "0.0.1",
+  "description": "Pipedream EdApp Components",
+  "main": "dist/app/edapp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "edapp"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/edapp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

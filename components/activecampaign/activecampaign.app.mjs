@@ -111,16 +111,6 @@ export default {
       description: "Phone number of the contact.",
       optional: true,
     },
-    contactFieldValues: {
-      type: "string[]",
-      label: "Contact's field values",
-      description: "Contact's custom field values `[{field, value}]`",
-      optional: true,
-      withLabel: true,
-      async options({ prevContext }) {
-        return this.listCustomFieldValuesOptions(prevContext);
-      },
-    },
     dealTitle: {
       type: "string",
       label: "Deal's title",
@@ -155,55 +145,192 @@ export default {
         return this.listPipelineOptions(prevContext);
       },
     },
+    status: {
+      type: "integer",
+      label: "Status",
+      description: "Deal's status. Valid values:\n* `0` - Open\n* `1` - Won\n* `2` - Lost",
+      options: [
+        {
+          label: "Open",
+          value: 0,
+        },
+        {
+          label: "Won",
+          value: 1,
+        },
+        {
+          label: "Lost",
+          value: 2,
+        },
+      ],
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Deal's custom field values [{customFieldId, fieldValue}]",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "List of tags available",
+      optional: true,
+      async options() {
+        return this.listTagOptions();
+      },
+    },
+    contactTags: {
+      type: "string[]",
+      label: "Contact Tags",
+      description: "List of contact tags available",
+      async options({ contactId }) {
+        const { contactTags } = await this.getContactTags({
+          contactId,
+        });
+        return contactTags.map(({ id }) => id);
+      },
+    },
   },
   methods: {
-    _getHeaders() {
-      return {
-        "Api-Token": this.$auth.api_key,
-      };
+    getUrl(url, path, api) {
+      return api === constants.API.TRACKCMP
+        ? `https://trackcmp.net${path}`
+        : url || `${this.$auth.base_url}${constants.VERSION_PATH}${path}`;
     },
-    async makeRequest(customConfig) {
-      const {
-        $,
-        url,
-        path,
-        method,
-        params,
-        data,
-        ...otherConfig
-      } = customConfig;
-
-      const BASE_URL = this.$auth.base_url;
-
+    getHeaders(api) {
+      return api === constants.API.TRACKCMP
+        ? {
+          "accept": "application/json",
+          "content-type": "application/x-www-form-urlencoded",
+        }
+        : {
+          "Api-Token": this.$auth.api_key,
+          "accept": "application/json",
+          "content-type": "application/json",
+        };
+    },
+    async makeRequest({
+      api = constants.API.ACTIVECAMPAIGN,
+      $ = this,
+      url,
+      path,
+      method,
+      params,
+      data,
+      ...args
+    } = {}) {
       const config = {
         method,
-        url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
-        headers: this._getHeaders(),
+        url: this.getUrl(url, path, api),
+        headers: this.getHeaders(api),
         params,
         data,
-        ...otherConfig,
+        ...args,
       };
-
-      return axios($ || this, config);
+      try {
+        return await axios($, config);
+      } catch (error) {
+        throw error.response?.data?.message || error;
+      }
     },
-    async createAccount({
-      $, data,
-    } = {}) {
+    async trackEvent(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKCMP,
         method: "POST",
-        path: "/accounts",
-        data,
+        path: "/event",
+        ...args,
       });
     },
-    async createContact({
-      $, data,
+    async addContactToAutomation(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contactAutomations",
+        ...args,
+      });
+    },
+    async createDeal(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/deals",
+        ...args,
+      });
+    },
+    async updateDeal({
+      dealId, ...args
     } = {}) {
       return this.makeRequest({
-        $,
+        method: "PUT",
+        path: `/deals/${dealId}`,
+        ...args,
+      });
+    },
+    async getDeal({
+      dealId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/deals/${dealId}`,
+        ...args,
+      });
+    },
+    async createNote(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/notes",
+        ...args,
+      });
+    },
+    async createAccount(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/accounts",
+        ...args,
+      });
+    },
+    async createContact(args = {}) {
+      return this.makeRequest({
         method: "POST",
         path: "/contacts",
-        data,
+        ...args,
+      });
+    },
+    async getContact({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    async getContactTags({
+      contactId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/contacts/${contactId}/contactTags`,
+        ...args,
+      });
+    },
+    async createContactTag(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contactTags",
+        ...args,
+      });
+    },
+    async removeContactTag({
+      contactTagId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/contactTags/${contactTagId}`,
+        ...args,
+      });
+    },
+    async createOrUpdateContact(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/contact/sync",
+        ...args,
       });
     },
     async createHook(events, url, sources, listid = null) {
@@ -233,63 +360,70 @@ export default {
         path: `/lists/${id}`,
       });
     },
-    async listPipelines({ params } = {}) {
+    async listPipelines(args = {}) {
       return this.makeRequest({
         path: "/dealGroups",
-        params,
+        ...args,
       });
     },
-    async listAutomations({ params } = {}) {
+    async listAutomations(args = {}) {
       return this.makeRequest({
         path: "/automations",
-        params,
+        ...args,
       });
     },
-    async listCampaigns({ params } = {}) {
+    async listCampaigns(args = {}) {
       return this.makeRequest({
         path: "/campaigns",
-        params,
+        ...args,
       });
     },
-    async listContacts({ params } = {}) {
+    async listContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts",
-        params,
+        ...args,
       });
     },
-    async listDeals({ params } = {}) {
+    async listDeals(args = {}) {
       return this.makeRequest({
         path: "/deals",
-        params,
+        ...args,
       });
     },
-    async listLists({ params } = {}) {
+    async listLists(args = {}) {
       return this.makeRequest({
         path: "/lists",
-        params,
+        ...args,
       });
     },
-    async listWebhookEvents() {
+    async listWebhookEvents(args = {}) {
       return this.makeRequest({
         path: "/webhook/events",
+        ...args,
       });
     },
-    async listAccounts({ params } = {}) {
+    async listAccounts(args = {}) {
       return this.makeRequest({
         path: "/accounts",
-        params,
+        ...args,
       });
     },
-    async listCalendarFeeds({ params } = {}) {
+    async listCalendarFeeds(args = {}) {
       return this.makeRequest({
         path: "/calendars",
-        params,
+        ...args,
       });
     },
-    async listCustomFieldValues({ params } = {}) {
+    async listContactCustomFields(args = {}) {
       return this.makeRequest({
-        path: "/accountCustomFieldData",
-        params,
+        path: "/fields",
+        ...args,
+      });
+    },
+    async listTags(args = {}) {
+      return this.makeRequest({
+        path: "/tags",
+        ...args,
       });
     },
     async listPipelineOptions(prevContext) {
@@ -306,23 +440,6 @@ export default {
         }) => ({
           label: title,
           value: id,
-        }),
-      });
-    },
-    async listCustomFieldValuesOptions(prevContext) {
-      return this.paginateResources({
-        requestFn: this.listCustomFieldValues,
-        requestArgs: {
-          params: {
-            offset: prevContext.offset || 0,
-          },
-        },
-        resourceName: "accountCustomFieldData",
-        mapper: ({
-          customFieldId, fieldValue,
-        }) => ({
-          label: fieldValue,
-          value: customFieldId,
         }),
       });
     },
@@ -411,16 +528,25 @@ export default {
         }),
       });
     },
+    async listTagOptions() {
+      return this.paginateResources({
+        requestFn: this.listTags,
+        resourceName: "tags",
+        mapper: ({
+          id, tag,
+        }) => ({
+          label: tag,
+          value: id,
+        }),
+      });
+    },
     async paginateResources({
-      requestFn, requestArgs, resourceName, mapper,
+      requestFn, requestArgs = {}, resourceName, mapper = (resource) => resource,
     }) {
       const limit = requestArgs.params?.limit ?? constants.DEFAULT_LIMIT;
       const offset = (requestArgs.params?.offset ?? 0) + limit;
 
-      const {
-        [resourceName]: resources,
-        meta,
-      } =
+      const { [resourceName]: resources } =
         await requestFn({
           ...requestArgs,
           params: {
@@ -433,7 +559,6 @@ export default {
         options: resources.map(mapper),
         context: {
           offset,
-          total: meta.total,
         },
       };
     },

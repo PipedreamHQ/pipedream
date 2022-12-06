@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-new-label-added-to-card",
   name: "New Label Added To Card (Instant)",
   description: "Emit new event for each label added to a card.",
-  version: "0.0.7",
+  version: "0.0.10",
   type: "source",
   props: {
     ...common.props,
@@ -34,8 +34,52 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      if (this.cards && this.cards.length > 0) {
+        await this.emitLabelsFromCardIds(this.cards);
+        return;
+      }
+      if (this.lists && this.lists.length > 0) {
+        for (const listId of this.lists) {
+          const cards = await this.trello.getCardsInList(listId);
+          await this.emitLabelsFromCards(cards);
+        }
+        return;
+      }
+      const cards = await this.trello.getCards(this.board);
+      await this.emitLabelsFromCards(cards);
+    },
+  },
   methods: {
     ...common.methods,
+    async emitLabelsFromCards(cards) {
+      for (const card of cards) {
+        const labelIds = card.idLabels;
+        for (const labelId of labelIds) {
+          const label = await this.trello.getLabel(labelId);
+          let summary = label.color;
+          summary += label.name
+            ? ` - ${label.name}`
+            : "";
+          summary += `; added to ${card.name}`;
+          this.$emit(card, {
+            id: `${labelId}${card.id}`,
+            summary,
+            ts: Date.now(),
+          });
+        }
+      }
+    },
+    async emitLabelsFromCardIds(cardIds) {
+      const cards = [];
+      for (const id of cardIds) {
+        const card = await this.trello.getCard(id);
+        cards.push(card);
+      }
+      await this.emitLabelsFromCards(cards);
+    },
     _getLabelName() {
       return this.db.get("labelName");
     },

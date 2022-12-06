@@ -243,6 +243,14 @@ pd publish my-action.js
 
 Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
 
+### `pd unpublish`
+
+Unpublish a component you've published to your account. If you publish a source or action that you no longer need, you can unpublish it by component `key`:
+
+```
+pd unpublish component <component-key>
+```
+
 ### `pd update`
 
 Updates the code, props, or metadata for an event source.

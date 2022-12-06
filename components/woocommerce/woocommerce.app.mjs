@@ -1,5 +1,5 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import querystring from "querystring";
+import querystring from "query-string";
 import constants from "./constants.mjs";
 
 export default {
@@ -128,7 +128,9 @@ export default {
       label: "Products",
       description: "Products to add to the the new order",
       async options({ page }) {
-        const products = await this.listProducts(page + 1);
+        const products = await this.listProducts({
+          page: page + 1,
+        });
         return products.map((product) => ({
           label: product.name,
           value: product.id,
@@ -186,9 +188,9 @@ export default {
       return this.postResource("webhooks", data);
     },
     async deleteWebhook(id) {
-      return this.deleteResource(`webhooks/${id}`);
+      return this.deleteResource(`webhooks/${id}?force=true`);
     },
-    async listCustomers(params) {
+    async listCustomers(params = null) {
       const q = querystring.stringify(params);
       return this.listResources(`customers?${q}`);
     },
@@ -198,14 +200,23 @@ export default {
     async listPaymentGateways() {
       return this.listResources("payment_gateways");
     },
-    async listProducts(page) {
-      return this.listResources(`products?page=${page}`);
+    async listProducts(params = null) {
+      const q = querystring.stringify(params);
+      return this.listResources(`products?${q}`);
+    },
+    async listCoupons(params = null) {
+      const q = querystring.stringify(params);
+      return this.listResources(`coupons?${q}`);
     },
     async listCategories(page) {
       return this.listResources(`products/categories?page=${page}`);
     },
     async getOrder(id) {
       return this.listResources(`orders/${id}`);
+    },
+    async listOrders(params = null) {
+      const q = querystring.stringify(params);
+      return this.listResources(`orders?${q}`);
     },
     async createOrder(data) {
       return this.postResource("orders", data);

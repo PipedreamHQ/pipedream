@@ -1,11 +1,11 @@
 import twilio from "../../twilio.app.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import { omitEmptyStringValues } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-list-calls",
   name: "List Calls",
   description: "Return a list of calls associated with your account. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#read-multiple-call-resources) for more information",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     twilio,

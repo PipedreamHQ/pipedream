@@ -1,16 +1,19 @@
 {
-    "name": "@pipedream/emailoctopus",
-    "version": "0.0.1",
-    "description": "Pipedream Emailoctopus Components",
-    "main": "emailoctopus.app.js",
-    "keywords": [
-      "pipedream",
-      "emailoctopus"
-    ],
-    "homepage": "https://pipedream.com/apps/emailoctopus",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/emailoctopus",
+  "version": "0.0.3",
+  "description": "Pipedream Emailoctopus Components",
+  "main": "emailoctopus.app.js",
+  "keywords": [
+    "pipedream",
+    "emailoctopus"
+  ],
+  "homepage": "https://pipedream.com/apps/emailoctopus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
   }
+}

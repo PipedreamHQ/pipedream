@@ -23,9 +23,10 @@ module.exports = {
   MAX_WORKFLOW_QUEUE_SIZE: "10,000",
   NODE_VERSION: "14",
   PYTHON_VERSION: "3.8",
+  GO_LANG_VERSION: "1.17.1",
   CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   SERVICE_DB_SIZE_LIMIT: "60KB",
   TMP_SIZE_LIMIT: "2GB",
   DELAY_MIN_MAX_TIME: "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "800"
+  PUBLIC_APPS: "1000"
 }

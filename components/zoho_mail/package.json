@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/zoho_mail",
+  "version": "0.0.4",
+  "description": "Pipedream Zoho Mail Components",
+  "main": "zoho_mail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_mail"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_mail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

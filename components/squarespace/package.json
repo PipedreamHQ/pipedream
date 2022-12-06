@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/squarespace",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Pipedream Squarespace Components",
   "main": "squarespace.app.js",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^1.2.0",
     "dayjs": "^1.11.3"
   }
 }

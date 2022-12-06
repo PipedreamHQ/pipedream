@@ -1,4 +1,5 @@
 import reddit from "../reddit.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -9,7 +10,7 @@ export default {
       description: "Pipedream polls Reddit for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -52,7 +53,7 @@ export default {
             : null;
           keys.pop();
         }
-      } while (!valid);
+      } while (!valid && before !== null);
       this._setBefore(before);
       this._setCache(cache);
       this._setKeys(keys);

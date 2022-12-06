@@ -3,7 +3,7 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-create-network",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Create A Network",
   description:
     "Create a new network on your ZeroTier account. [See docs here](https://docs.zerotier.com/central/v1/#operation/newNetwork)",

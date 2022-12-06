@@ -1,16 +1,16 @@
 {
-    "name": "@pipedream/rd_station_crm",
-    "version": "0.0.1",
-    "description": "Pipedream RD Station CRM Components",
-    "main": "rd_station_crm.app.js",
-    "keywords": [
-      "pipedream",
-      "rd_station_crm"
-    ],
-    "homepage": "https://pipedream.com/apps/rd_station_crm",
-    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
-    "publishConfig": {
-      "access": "public"
-    }
+  "name": "@pipedream/rd_station_crm",
+  "version": "0.0.3",
+  "description": "Pipedream RD Station CRM Components",
+  "main": "rd_station_crm.app.js",
+  "keywords": [
+    "pipedream",
+    "rd_station_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/rd_station_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
   }
+}

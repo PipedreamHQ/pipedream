@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.5",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   hooks: {},
@@ -41,7 +41,5 @@ export default {
       createdAfter,
       20,
     );
-
-    this._setAfter(Date.now());
   },
 };

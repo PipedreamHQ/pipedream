@@ -1,11 +1,11 @@
 {
   "name": "@pipedream/bandwidth",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Pipedream Bandwidth Components",
   "main": "index.js",
   "keywords": [
-      "pipedream",
-      "bandwidth"
+    "pipedream",
+    "bandwidth"
   ],
   "publishConfig": {
     "access": "public"

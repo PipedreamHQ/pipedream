@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/td_ameritrade",
+  "version": "0.0.2",
+  "description": "Pipedream TD Ameritrade Components",
+  "main": "dist/app/td_ameritrade.app.mjs",
+  "keywords": [
+    "pipedream",
+    "td_ameritrade"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/td_ameritrade",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

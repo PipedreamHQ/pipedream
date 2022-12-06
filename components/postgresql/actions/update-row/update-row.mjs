@@ -4,14 +4,23 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.2",
+  version: "0.0.6",
   type: "action",
   props: {
     postgresql,
+    schema: {
+      propDefinition: [
+        postgresql,
+        "schema",
+      ],
+    },
     table: {
       propDefinition: [
         postgresql,
         "table",
+        (c) => ({
+          schema: c.schema,
+        }),
       ],
     },
     column: {
@@ -20,6 +29,7 @@ export default {
         "column",
         (c) => ({
           table: c.table,
+          schema: c.schema,
         }),
       ],
       label: "Lookup Column",
@@ -32,6 +42,7 @@ export default {
         (c) => ({
           table: c.table,
           column: c.column,
+          schema: c.schema,
         }),
       ],
     },
@@ -50,23 +61,32 @@ export default {
   },
   async run({ $ }) {
     const {
+      schema,
       table,
       column,
       value,
       rowValues,
       rejectUnauthorized,
     } = this;
-    const res = await this.postgresql.updateRow(
-      table,
-      column,
-      value,
-      rowValues,
-      rejectUnauthorized,
-    );
-    const summary = res
-      ? "Row updated"
-      : "Row not found";
-    $.export("$summary", summary);
-    return res;
+    try {
+      const res = await this.postgresql.updateRow(
+        schema,
+        table,
+        column,
+        value,
+        rowValues,
+        rejectUnauthorized,
+      );
+      const summary = res
+        ? "Row updated"
+        : "Row not found";
+      $.export("$summary", summary);
+      return res;
+    } catch (error) {
+      throw new Error(`
+      Row not updated due to an error. ${error}.
+      This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
+    `);
+    }
   },
 };

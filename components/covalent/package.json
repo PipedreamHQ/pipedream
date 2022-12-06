@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/covalent",
+  "version": "0.0.1",
+  "description": "Pipedream Covalent Components",
+  "main": "dist/app/covalent.app.mjs",
+  "keywords": [
+    "pipedream",
+    "covalent"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/covalent",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

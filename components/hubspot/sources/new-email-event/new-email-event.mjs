@@ -1,12 +1,11 @@
 import common from "../common.mjs";
-import { monthAgo } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.4",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},
@@ -27,7 +26,7 @@ export default {
       };
     },
     getParams() {
-      const startTimestamp = Date.parse(monthAgo());
+      const startTimestamp = new Date();
       return {
         limit: 100,
         startTimestamp,

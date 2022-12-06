@@ -61,6 +61,39 @@ export default {
         }
       });
     },
+    async getLastMessage({
+      channel, event_ts,
+    }) {
+      return this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
+        const info = await this.slack.sdk().conversations.history({
+          channel,
+          latest: event_ts,
+          limit: 1,
+          inclusive: true,
+        });
+
+        return info;
+      });
+    },
+    async getMessage({
+      channel, event_ts,
+    }) {
+      return await this.maybeCached(`lastMessage:${channel}:${event_ts}`, async () => {
+        const response = await this.slack.sdk().conversations.replies({
+          channel,
+          ts: event_ts,
+          limit: 1,
+        });
+
+        if (response.messages.length) {
+          response.messages = [
+            response.messages[0],
+          ];
+        }
+
+        return response;
+      });
+    },
     processEvent(event) {
       return event;
     },
@@ -76,7 +109,7 @@ export default {
 
       this.$emit(event, {
         id: event.client_msg_id || event.pipedream_msg_id,
-        summary: this.getSummary(),
+        summary: this.getSummary(event),
         ts: event.event_ts || Date.now(),
       });
     }

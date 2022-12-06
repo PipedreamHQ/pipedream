@@ -7,7 +7,7 @@ export default {
   type: "source",
   description: "Emit new event for each new story that has a matching tag (e.g., javascript)",
   key: "dev_to-fresh-stories-by-tag",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     tag: {

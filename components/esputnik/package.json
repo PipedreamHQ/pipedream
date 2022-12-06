@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/esputnik",
+  "version": "0.0.3",
+  "description": "Pipedream eSputnik Components",
+  "main": "esputnik.app.mjs",
+  "keywords": [
+    "pipedream",
+    "esputnik"
+  ],
+  "homepage": "https://pipedream.com/apps/esputnik",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

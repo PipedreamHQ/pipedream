@@ -214,8 +214,7 @@ export default {
         url,
         ...requestConfig,
       };
-      const { data } = await axios(this, config);
-      return data;
+      return axios(this, config);
     },
     async createHook(opts) {
       const {
@@ -248,8 +247,7 @@ export default {
         data: requestData,
         ...requestConfig,
       };
-      const { data } = await axios(this, config);
-      return data;
+      return axios(this, config);
     },
     async deleteHook(channelId) {
       const url = this._watchActionsUrl();
@@ -305,7 +303,7 @@ export default {
         data: requestData,
         ...requestConfig,
       };
-      const { data } = await axios(this, config);
+      const data  = await axios(this, config);
       const watch = data.watch[0];
       console.log(watch);
       console.log(watch.details);

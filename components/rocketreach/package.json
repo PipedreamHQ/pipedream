@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rocketreach",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream RocketReach Components",
   "main": "rocketreach.app.mjs",
   "keywords": [

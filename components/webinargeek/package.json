@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/webinargeek",
+  "version": "0.0.3",
+  "description": "Pipedream WebinarGeek Components",
+  "main": "webinargeek.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webinargeek"
+  ],
+  "homepage": "https://pipedream.com/apps/webinargeek",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

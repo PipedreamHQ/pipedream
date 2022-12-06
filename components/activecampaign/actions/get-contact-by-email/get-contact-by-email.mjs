@@ -1,42 +1,33 @@
-// legacy_hash_id: a_m8ijkX
-import axiosModule from "axios";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   key: "activecampaign-get-contact-by-email",
-  name: "Activecampaign - Get contact by email",
-  description: "Retrieves contact data from the ActiveCampaign CRM by email address",
-  version: "0.2.2",
+  name: "Get contact by email",
+  description: "Retrieves contact data from the ActiveCampaign CRM by email address. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+  version: "0.3.1",
   type: "action",
   props: {
-    activecampaign: {
-      type: "app",
-      app: "activecampaign",
-    },
+    activecampaign,
     email: {
       type: "string",
+      label: "Email",
+      description: "Email address of the contact you want to get.",
     },
   },
-  async run() {
-
-    //
-    // Contributed to the pipedream community by https://taskforce.services
-    //
-    // Activecampaign - Provide incredible customer experiences by utilizing email marketing, marketing automation and other CRM tools
-    // http://tfs.link/activecampaign
-    //
-
-    let axios = axiosModule.default;
-
-    const config = {
-      method: "get",
-      url: `${this.activecampaign.$auth.base_url}/api/3/contacts?search=${this.email}`, // todo: api path
-      headers: {
-        "Api-Token": `${this.activecampaign.$auth.api_key}`,
+  async run({ $ }) {
+    const { email } = this;
+    const { contacts } = await this.activecampaign.listContacts({
+      params: {
+        email,
       },
-    };
-
-    return await axios(config).then((res) => {
-      return res.data.contacts || [];
     });
+
+    const contact = contacts.shift();
+    if (contact) {
+      $.export("$summary", `Successfully got a contact with ID ${contact.id}`);
+    } else {
+      $.export("$summary", "Contact not found with specified email");
+    }
+    return contact;
   },
 };

@@ -1,12 +1,11 @@
 import common from "../common.mjs";
-import { monthAgo } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-email-subscriptions-timeline",
   name: "New Email Subscriptions Timeline",
   description: "Emit new event when new email timeline subscription added for the portal.",
-  version: "0.0.1",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   hooks: {},
@@ -27,7 +26,7 @@ export default {
       return timeline.timestamp > createdAfter;
     },
     getParams() {
-      const startTimestamp = Date.parse(monthAgo());
+      const startTimestamp = new Date();
       return {
         startTimestamp,
       };

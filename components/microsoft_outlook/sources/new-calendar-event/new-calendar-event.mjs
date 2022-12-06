@@ -3,11 +3,12 @@ import common from "../common.mjs";
 export default {
   ...common,
   key: "microsoft_outlook-new-calendar-event",
-  name: "New Calendar Event",
+  name: "New Calendar Event (Instant)",
   description: "Emit new event when a new Calendar event is created",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "source",
   hooks: {
+    ...common.hooks,
     async activate() {
       await this.activate({
         changeType: "created",
@@ -18,6 +19,29 @@ export default {
       await this.deactivate();
     },
   },
+  methods: {
+    ...common.methods,
+    async getSampleEvents({ pageSize }) {
+      return this.microsoftOutlook.listCalendarEvents({
+        params: {
+          $top: pageSize,
+          $orderby: "createdDateTime desc",
+        },
+      });
+    },
+    emitEvent(item) {
+      this.$emit({
+        message: item,
+      }, this.generateMeta(item));
+    },
+    generateMeta(item) {
+      return {
+        id: item.id,
+        summary: `New calendar event (ID:${item.id})`,
+        ts: Date.parse(item.createdDateTime),
+      };
+    },
+  },
   async run(event) {
     await this.run({
       event,
@@ -25,16 +49,7 @@ export default {
         const item = await this.microsoftOutlook.getCalendarEvent({
           eventId: resourceId,
         });
-        this.$emit(
-          {
-            message: item,
-          },
-          {
-            id: item.id,
-            ts: Date.parse(item.createdDateTime),
-            summary: `New calendar event (ID:${item.id})`,
-          },
-        );
+        this.emitEvent(item);
       },
     });
   },

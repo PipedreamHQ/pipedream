@@ -1,10 +1,11 @@
 import harvest from "../../harvest.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "harvest-new-invoice-entry",
   name: "New Invoice Entry",
   description: "Emit new notifications when a new invoice is created",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   props: {
     harvest,
@@ -13,7 +14,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",
@@ -39,6 +40,7 @@ export default {
         {
           id: invoice.id,
           summary: `Invoice number: ${invoice.number}`,
+          ts: Date.parse(invoice.updated_at),
         });
     });
   },

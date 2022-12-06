@@ -3,7 +3,7 @@ import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
 import retry from "async-retry";
 import events from "./sources/common/events.mjs";
-import { toSingleLineString } from "./actions/commons.mjs";
+import { toSingleLineString } from "./actions/common/common.mjs";
 
 export default {
   type: "app",
@@ -322,14 +322,6 @@ export default {
     },
   },
   methods: {
-    _getBaseURL() {
-      return `https://${this.$auth.shop_id}.myshopify.com/admin/api/2020-10`;
-    },
-    _getAuthHeader() {
-      return {
-        "x-shopify-access-token": this.$auth.oauth_access_token,
-      };
-    },
     _monthAgo() {
       const now = new Date();
       const monthAgo = new Date(now.getTime());
@@ -765,6 +757,44 @@ export default {
           return;
         }
       }
+    },
+    /**
+     * Adds tags to a resource type.
+     * @param {string} resource Type of resource to query
+     * @param {string} id Resource ID
+     * @param {string} tagString List of tags to add
+     * @returns {object} Response from Shopify GraphQL API
+     */
+    async addTags(resource, id, tagString) {
+      const gid = `gid://shopify/${resource}/${id}`;
+
+      let tags = [
+        tagString,
+      ];
+      if (tags.includes(",")) {
+        tags = tagString.split(",").map((item) => item.trim());
+      }
+
+      const query = `
+        mutation tagsAdd($gid: ID!, $tags: [String!]!) {
+          tagsAdd(id: $gid, tags: $tags) {
+            node {
+              id
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+      `;
+
+      const variables = {
+        gid,
+        tags,
+      };
+
+      return await this._makeGraphQlRequest(query, variables);
     },
   },
 };

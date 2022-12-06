@@ -4,7 +4,7 @@ export default {
   key: "telegram_bot_api-delete-message",
   name: "Delete a Message",
   description: "Deletes a message. [See the docs](https://core.telegram.org/bots/api#deletemessage) for more information",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     telegramBotApi,

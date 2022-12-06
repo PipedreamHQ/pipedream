@@ -1,11 +1,11 @@
-import jira from "../../jira.app.mjs";
 import utils from "../../common/utils.mjs";
+import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.3",
+  version: "0.1.8",
   type: "action",
   props: {
     jira,
@@ -30,9 +30,10 @@ export default {
       description: "The title of the issue",
     },
     description: {
-      type: "object",
+      type: "string",
       label: "Description",
-      description: "Description object of the issue, Jira accepts `doc` type of descriptions, [See Atlassian Document Structure](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/)",
+      description: "Description of the issue",
+      optional: true,
     },
     parentKey: {
       type: "string",
@@ -53,6 +54,7 @@ export default {
         jira,
         "accountId",
       ],
+      optional: true,
     },
     labels: {
       propDefinition: [
@@ -71,6 +73,7 @@ export default {
         jira,
         "accountId",
       ],
+      optional: true,
     },
     priorityName: {
       type: "string",
@@ -119,6 +122,7 @@ export default {
         jira,
         "transition",
       ],
+      type: "string",
     },
     historyMetadata: {
       type: "object",
@@ -141,6 +145,7 @@ export default {
     },
   },
   async run({ $ }) {
+    const customFields = utils.parseObject(this.customFields);
     const fields = {
       summary: this.summary,
       issuetype: {
@@ -150,15 +155,32 @@ export default {
       project: {
         id: this.projectID,
       },
-      reporter: {
-        id: this.reporterId,
-      },
       labels: this.labels,
       duedate: this.duedate,
-      ...this.customFields,
+      ...customFields,
     };
-    const description = utils.parseObject(this.description);
-    fields.description = description;
+    if (this.reporterId) {
+      fields.reporter = {
+        id: this.reporterId,
+      };
+    }
+    if (this.description) {
+      fields.description = {
+        type: "doc",
+        version: 1,
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              {
+                text: this.description,
+                type: "text",
+              },
+            ],
+          },
+        ],
+      };
+    }
     if (this.parentKey) {
       fields.parent = {
         key: this.parentKey,
@@ -191,14 +213,14 @@ export default {
       };
     }
     const update = utils.parseObject(this.update);
-    const transition = utils.parseObject(this.transition);
+    const transition = this.transition;
     const historyMetadata = utils.parseObject(this.historyMetadata);
     const additionalProperties = utils.parseObject(this.additionalProperties);
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
-      //pass
+    } catch (err) {
+      console.log("Ignoring properties param, parsing failure: ", err);
     }
     const response = await this.jira.createIssue({
       $,
@@ -208,9 +230,9 @@ export default {
       data: {
         fields,
         update,
-        transition,
         historyMetadata,
         properties,
+        transition,
         ...additionalProperties,
       },
     });

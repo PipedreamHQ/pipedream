@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/appcues",
+  "version": "0.0.1",
+  "description": "Pipedream Appcues Components",
+  "main": "dist/app/appcues.app.mjs",
+  "keywords": [
+    "pipedream",
+    "appcues"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/appcues",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

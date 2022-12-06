@@ -6,7 +6,7 @@ export default {
   name: "New Mailing List",
   type: "source",
   description: "Emit new event when a new mailing list is added to the associated Mailgun account.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "greatest",
   props: {
     ...common.props,

@@ -1,4 +1,4 @@
-import "./env.mjs";
+import "./common/env.mjs";
 import TelegramBot from "node-telegram-bot-api";
 import { axios } from "@pipedream/platform";
 import {
@@ -10,9 +10,9 @@ import {
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
   TELEGRAM_BOT_API_UI_MEDIA_VOICE,
   TELEGRAM_BOT_API_FORMATTING_MODES,
-} from "./constants.mjs";
-import updateTypes from "./update-types.mjs";
-import { toSingleLineString } from "./utils.mjs";
+} from "./common/constants.mjs";
+import updateTypes from "./common/update-types.mjs";
+import { toSingleLineString } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -251,6 +251,21 @@ export default {
       `),
       optional: true,
     },
+    commands: {
+      label: "Commands",
+      description: "List of commands. E.g. `[\"/hi\", \"/hello\"]`",
+      type: "string[]",
+      async options() {
+        const commands = await this.getMyCommands();
+
+        return commands.map(({
+          command, description,
+        }) => ({
+          label: `${command} - ${description}`,
+          value: `/${command}`,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -273,14 +288,15 @@ export default {
         polling: false,
       });
     },
-    async createHook(url, allowedUpdates) {
+    async createHook(url, allowedUpdates, secret) {
       const config = {
         method: "POST",
         url: `${this._getBaseUrl()}/setWebhook`,
         headers: this._getHeaders(),
         data: {
-          url: `${url}/${this.$auth.token}`,
+          url,
           allowed_updates: allowedUpdates,
+          secret_token: secret,
         },
       };
       return axios(this, config);
@@ -289,6 +305,14 @@ export default {
       const config = {
         method: "GET",
         url: `${await this._getBaseUrl()}/deleteWebhook`,
+        headers: await this._getHeaders(),
+      };
+      return axios(this, config);
+    },
+    async getWebhookInfo() {
+      const config = {
+        method: "GET",
+        url: `${await this._getBaseUrl()}/getWebhookInfo`,
         headers: await this._getHeaders(),
       };
       return axios(this, config);
@@ -693,6 +717,9 @@ export default {
     */
     async createChatInviteLink(chatId, opts) {
       return this.sdk().createChatInviteLink(chatId, opts);
+    },
+    async getMyCommands() {
+      return this.sdk().getMyCommands();
     },
   },
 };

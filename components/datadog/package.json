@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/datadog",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "Pipedream Datadog Components",
   "main": "datadog.app.mjs",
   "keywords": [
@@ -10,8 +10,11 @@
   "homepage": "https://pipedream.com/apps/datadog",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@datadog/datadog-api-client": "^1.0.0-beta.8",
+    "@pipedream/platform": "^1.1.1",
     "uuid": "^8.3.2"
   }
 }

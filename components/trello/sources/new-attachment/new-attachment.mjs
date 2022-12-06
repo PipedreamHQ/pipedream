@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
   description: "Emit new event for new attachment on a board.",
-  version: "0.0.4",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,
@@ -16,8 +16,33 @@ export default {
       ],
     },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      const {
+        sampleEvents, sortField,
+      } = await this.getSampleEvents();
+      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
+        ? 1
+        : -1);
+      for (const action of sampleEvents.slice(-25)) {
+        this.$emit(action, {
+          id: action.id,
+          summary: action?.data?.attachment?.name,
+          ts: Date.parse(action.date),
+        });
+      }
+    },
+  },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const actions = await this.trello.getBoardActivity(this.board, "addAttachmentToCard");
+      return {
+        sampleEvents: actions,
+        sortField: "date",
+      };
+    },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
       return eventType === "addAttachmentToCard";

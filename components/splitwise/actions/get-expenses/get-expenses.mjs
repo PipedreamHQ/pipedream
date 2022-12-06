@@ -1,74 +1,61 @@
-// legacy_hash_id: a_A6iPdN
-import { axios } from "@pipedream/platform";
+import splitwise from "../../splitwise.app.mjs";
 
 export default {
   key: "splitwise-get-expenses",
-  name: "Get expenses",
-  description: "Return expenses involving the current user, in reverse chronological order",
-  version: "0.1.1",
+  name: "Get Expenses",
+  description: "Gets expenses involving the current user, in reverse chronological order. [See docs here](https://dev.splitwise.com/#tag/expenses/paths/~1get_expenses/get)",
+  version: "0.2.0",
   type: "action",
   props: {
-    splitwise: {
-      type: "app",
-      app: "splitwise",
-    },
-    group_id: {
-      type: "integer",
-      description: "Return expenses for specific group",
+    splitwise,
+    group: {
+      propDefinition: [
+        splitwise,
+        "group",
+      ],
       optional: true,
     },
-    friend_id: {
-      type: "integer",
-      description: "Return expenses for a specific friend that are not in any group",
+    friend: {
+      propDefinition: [
+        splitwise,
+        "friend",
+      ],
       optional: true,
     },
-    dated_after: {
-      type: "string",
-      description: "ISO 8601 Date time. Return expenses later than this date",
-      optional: true,
+    datedAfter: {
+      propDefinition: [
+        splitwise,
+        "datedAfter",
+      ],
     },
-    dated_before: {
-      type: "string",
-      description: "ISO 8601 Date time. Return expenses earlier than this date",
-      optional: true,
-    },
-    updated_after: {
-      type: "string",
-      description: "ISO 8601 Date time. Return expenses updated after this date",
-      optional: true,
-    },
-    updated_before: {
-      type: "string",
-      description: "ISO 8601 Date time. Return expenses updated before this date",
-      optional: true,
+    datedBefore: {
+      propDefinition: [
+        splitwise,
+        "datedBefore",
+      ],
     },
     limit: {
-      type: "integer",
-      description: "How many expenses to fetch. Defaults to 20; set to 0 to fetch all",
-      optional: true,
-    },
-    offset: {
-      type: "integer",
-      description: "Return expenses starting at limit * offset",
-      optional: true,
+      propDefinition: [
+        splitwise,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://secure.splitwise.com/api/v3.0/get_expenses",
-      headers: {
-        Authorization: `Bearer ${this.splitwise.$auth.oauth_access_token}`,
-      },
+    const expenses = await this.splitwise.getExpenses({
+      $,
       params: {
-        group_id: this.group_id,
-        friend_id: this.friend_id,
-        dated_after: this.dated_after,
-        dated_before: this.dated_before,
-        updated_after: this.updated_after,
-        updated_before: this.updated_before,
-        limit: this.limit,
-        offset: this.offset,
+        group_id: this.group,
+        friend_id: this.friend,
+        dated_after: this.datedAfter,
+        dated_before: this.datedBefore,
+        limit: this.limit ?? 0,
       },
     });
+    const suffix = expenses.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Successfully retrieved ${expenses.length} expense${suffix}`);
+    return expenses;
   },
 };

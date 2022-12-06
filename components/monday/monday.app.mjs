@@ -91,7 +91,7 @@ export default {
       description: "The update text",
     },
     itemId: {
-      type: "integer",
+      type: "string",
       label: "Item ID",
       description: "The item's unique identifier",
       optional: true,
@@ -102,7 +102,7 @@ export default {
       },
     },
     updateId: {
-      type: "integer",
+      type: "string",
       label: "Update ID",
       description: "The update's unique identifier",
       optional: true,
@@ -115,6 +115,22 @@ export default {
         });
       },
     },
+    column: {
+      type: "string",
+      label: "Column",
+      description: "Column to watch for changes",
+      async options({ boardId }) {
+        const columns = await this.listColumns({
+          boardId: +boardId,
+        });
+        return columns
+          .filter((column) => column.id !== "name")
+          .map((column) => ({
+            label: column.title,
+            value: column.id,
+          }));
+      },
+    },
   },
   methods: {
     async makeRequest({
@@ -123,6 +139,49 @@ export default {
       const monday = mondaySdk();
       monday.setToken(this.$auth.api_key);
       return monday.api(query, options);
+    },
+    async createWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.createWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async deleteWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.deleteWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItem(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getItem,
+        options: {
+          variables,
+        },
+      });
+      return data?.items[0];
+    },
+    async getBoard(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getBoard,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0];
+    },
+    async getUser(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getUser,
+        options: {
+          variables,
+        },
+      });
+      return data?.users[0];
     },
     async createBoard(variables) {
       return this.makeRequest({
@@ -200,6 +259,24 @@ export default {
           variables,
         },
       });
+    },
+    async listColumns(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listColumns,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0]?.columns;
+    },
+    async listUsers(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listUsers,
+        options: {
+          variables,
+        },
+      });
+      return data?.users;
     },
     async listBoardsOptions(variables) {
       const {

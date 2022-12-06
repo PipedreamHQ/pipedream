@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/smiirl",
+  "version": "0.0.2",
+  "description": "Pipedream Smiirl Components",
+  "main": "smiirl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smiirl"
+  ],
+  "homepage": "https://pipedream.com/apps/smiirl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@smiirl/smiirl-library-js": "^1.0.5"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

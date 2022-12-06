@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/visitor_queue",
+  "version": "0.0.2",
+  "description": "Pipedream Visitor Queue Components",
+  "main": "visitor_queue.app.mjs",
+  "keywords": [
+    "pipedream",
+    "visitor_queue"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/visitor-queue",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "moment": "^2.29.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

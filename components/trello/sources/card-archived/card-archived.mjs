@@ -1,11 +1,11 @@
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
   key: "trello-card-archived",
   name: "Card Archived (Instant)",
   description: "Emit new event for each card archived.",
-  version: "0.0.8",
+  version: "0.0.11",
   type: "source",
   props: {
     ...common.props,
@@ -27,6 +27,13 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getSampleEvents() {
+      const cards = await this.trello.getFilteredCards(this.board, "closed");
+      return {
+        sampleEvents: cards,
+        sortField: "dateLastActivity",
+      };
+    },
     isCorrectEventType(event) {
       const eventTranslationKey = event.body?.action?.display?.translationKey;
       return eventTranslationKey === "action_archived_card";

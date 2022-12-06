@@ -1,13 +1,13 @@
+import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   ...base,
   key: "notion-create-page",
   name: "Create Page",
   description: "Creates a page from a parent page. The only valid property is *title*. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.1.0",
+  version: "0.2.4",
   type: "action",
   props: {
     notion,
@@ -32,17 +32,15 @@ export default {
         "metaTypes",
       ],
     },
-    blockTypes: {
-      propDefinition: [
-        notion,
-        "blockTypes",
-      ],
+    pageContent: {
+      type: "string",
+      label: "Page Content",
+      description: "Content of the page. You can use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
     },
   },
   async additionalProps() {
     return this.buildAdditionalProps({
       meta: this.metaTypes,
-      blocks: this.blockTypes,
     });
   },
   methods: {
@@ -54,7 +52,7 @@ export default {
      */
     buildPage(parentPage) {
       const meta = this.buildPageMeta(parentPage);
-      const children = this.createBlocks();
+      const children = this.createBlocks(this.pageContent);
 
       const properties = {};
       if (this.title) {

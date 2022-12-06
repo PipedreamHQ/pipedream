@@ -2,9 +2,9 @@ import segmentApp from "../../segment.app.mjs";
 
 export default {
   key: "segment-group",
-  label: "Associate an identified user with a group",
+  name: "Associate an identified user with a group",
   description: "Group lets you associate an identified user with a group (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#group)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     segmentApp,

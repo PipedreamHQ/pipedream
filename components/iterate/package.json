@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/iterate",
+  "version": "0.0.3",
+  "description": "Pipedream Iterate Components",
+  "main": "iterate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "iterate"
+  ],
+  "homepage": "https://pipedream.com/apps/iterate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

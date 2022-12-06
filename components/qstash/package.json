@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/qstash",
+  "version": "0.0.2",
+  "description": "Pipedream qstash Components",
+  "main": "qstash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qstash"
+  ],
+  "homepage": "https://pipedream.com/apps/qstash",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

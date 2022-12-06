@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/types",
-    "version": "0.1.0",
+    "version": "0.1.4",
     "description": "Pipedream TypeScript types",
     "keywords": [
         "pipedream",
@@ -9,7 +9,10 @@
     ],
     "types": "dist/index.d.ts",
     "main": "dist/index.js",
-    "files": ["package.json", "dist/**/*"],
+    "files": [
+        "package.json",
+        "dist/**/*"
+    ],
     "prepublish": "test && tsc",
     "homepage": "https://github.com/PipedreamHQ/pipedream",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -22,8 +25,10 @@
     },
     "scripts": {
         "prebuild": "rm -rf dist",
-        "test": "npm run build && dtslint src",
-        "build": "tsc"
+        "prepublish": "rm -rf dist && tsc",
+        "build": "tsc",
+        "postbuild": "cp tsconfig.json dist",
+        "test": "npm run build && dtslint dist"
     },
     "dependencies": {
         "typescript": "^4.6.4"

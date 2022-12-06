@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/propeller",
+  "version": "0.0.3",
+  "description": "Pipedream Propeller Components",
+  "main": "dist/app/propeller.app.mjs",
+  "keywords": [
+    "pipedream",
+    "propeller"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/propeller",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/nordigen",
+  "version": "0.0.3",
+  "description": "Pipedream Nordigen Components",
+  "main": "nordigen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nordigen"
+  ],
+  "homepage": "https://pipedream.com/apps/nordigen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0",
+    "axios": "^0.21.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -119,6 +119,12 @@ Pipedream will convert that to a JavaScript object, `event.body`, with the follo
 }
 ```
 
+### How Pipedream handles HTTP headers
+
+HTTP request headers will be available in the `steps.trigger.event.headers` steps export in your downstream steps.
+
+Pipedream will automatically lowercase header keys for consistency.
+
 #### Limits
 
 You can send any content, up to the [HTTP payload size limit](/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
@@ -270,7 +276,17 @@ When you're processing HTTP requests, you often don't need to issue any special 
 
 #### Customizing the HTTP response
 
-If you need to issue a custom HTTP response from a workflow, **you can use the `$.respond()` function in a Code or Action step**.
+If you need to issue a custom HTTP response from a workflow, you can either:
+- Use the **Return HTTP response** action, available on the **HTTP / Webhook** app, or
+- **Use the `$.respond()` function in a Code or Action step**.
+
+#### Using the HTTP Response Action
+
+With this action, you do not need to write any custom code. You can customize the response status code, and optionally specify response headers and body.
+
+This action uses `$.respond()` and will always [respond immediately](#returning-a-response-immediately) when called in your workflow. A [response error](#errors-with-http-responses) will still occur if your workflow throws an Error before this action runs.
+
+#### Using custom code with `$.respond()`
 
 `$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 
@@ -447,10 +463,6 @@ By default, your cron job will be turned **Off**. **To enable it, select either 
 
 If you're running a cron job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a cron job at any time by pressing the **Run Now** button.
 
-### Future executions of your cron job
-
-You'll see the time your job is scheduled to run next under the **Next Job** section of the [Inspector](/workflows/events/inspect/).
-
 ### Job History
 
 You'll see the history of job executions under the **Job History** section of the [Inspector](/workflows/events/inspect/).
@@ -545,6 +557,16 @@ this.parsed = await simpleParser(f);
 
 Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/). Pipedream generates a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
+### Email attachments
+
+You can attach any files to your email, up to [the total email size limit](/limits/#email-triggers). 
+
+Attachments are stored in `steps.trigger.event.attachments`, which provides an array of attachment objects. Each attachment in that array exposes key properties:
+
+- `contentUrl`: a URL that hosts your attachment. You can [download this file to the `/tmp` directory](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) and process it in your workflow.
+- `content`: If the attachment contains text-based content, Pipedream renders the attachment in `content`, up to 10,000 bytes.
+- `contentTruncated`: `true` if the attachment contained text-based content larger than 10,000 bytes. If `true`, the data in `content` will be truncated, and you should fetch the full attachment from `contentUrl`.
+
 ### Appending metadata to the incoming email address with `+data`
 
 Pipedream provides a way to append metadata to incoming emails by adding a `+` sign to the incoming email key, followed by any arbitrary string:
@@ -589,4 +611,3 @@ Now you can add an additional trigger to the same workflow, opening up multiple 
 </div>
 
 <Footer />
-

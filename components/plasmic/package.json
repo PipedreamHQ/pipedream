@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/plasmic",
+  "version": "0.0.1",
+  "description": "Pipedream Plasmic Components",
+  "main": "dist/app/plasmic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "plasmic"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/plasmic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -8,7 +8,7 @@ export default {
   key: "reddit-new-links-on-a-subreddit",
   name: "New Links on a Subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.0.6",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -58,7 +58,7 @@ export default {
     async isBeforeValid(before) {
       // verify this link still exists on the subreddit
       const { data } = await this.reddit.getSubredditByName(before);
-      const isOnSubreddit = data?.children[0]?.data?.subreddit === this.subreddit;
+      const isOnSubreddit = data?.children[0]?.data?.subreddit === this.subreddit?.value;
       return isOnSubreddit;
     },
   },

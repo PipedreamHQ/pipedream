@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/zenkit",
+  "version": "0.0.2",
+  "description": "Pipedream Zenkit Components",
+  "main": "zenkit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zenkit"
+  ],
+  "homepage": "https://pipedream.com/apps/zenkit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

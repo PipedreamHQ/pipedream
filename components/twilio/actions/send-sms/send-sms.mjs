@@ -1,13 +1,13 @@
-// Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-import twilio from "../../twilio.app.mjs";
 import { phone } from "phone";
+import twilio from "../../twilio.app.mjs";
+import { messageToString } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-send-sms",
   name: "Send SMS",
   description: "Send a simple text-only SMS. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
   type: "action",
-  version: "0.0.6",
+  version: "0.1.1",
   props: {
     twilio,
     from: {
@@ -46,7 +46,7 @@ export default {
     };
 
     const resp = await this.twilio.getClient().messages.create(data);
-    $.export("$summary", `Successfully sent a new SMS, "${this.twilio.messageToString(resp)}"`);
+    $.export("$summary", `Successfully sent a new SMS, "${messageToString(resp)}"`);
     return resp;
   },
 };

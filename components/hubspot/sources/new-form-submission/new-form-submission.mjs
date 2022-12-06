@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.4",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   props: {
@@ -34,7 +34,17 @@ export default {
       };
     },
     isRelevant(result, submittedAfter) {
-      return result.submittedAt > submittedAfter;
+      const relevant = result.submittedAt > submittedAfter;
+      if (relevant) {
+        this.updateAfter(result.submittedAt);
+      }
+      return relevant;
+    },
+    updateAfter(submittedAt) {
+      const after = this._getAfter();
+      if (submittedAt > after) {
+        this._setAfter(submittedAt);
+      }
     },
     getParams() {
       return {

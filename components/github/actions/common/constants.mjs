@@ -1,0 +1,11 @@
+const PULL_REQUEST_STATES = [
+  "APPROVED",
+  "CHANGES_REQUESTED",
+  "COMMENTED",
+  "DISMISSED",
+  "PENDING",
+];
+
+export default {
+  PULL_REQUEST_STATES,
+};

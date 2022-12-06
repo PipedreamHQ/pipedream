@@ -153,6 +153,35 @@ export default {
         cursor = meta.next_cursor;
       } while (cursor);
     },
+    async createWebhook({
+      url,
+      eventType,
+    }) {
+      return this._makeRequest({
+        path: "integrations",
+        method: "post",
+        data: {
+          name: `pipedream-${url}`,
+          type: "http",
+          http: {
+            url,
+            method: "POST",
+            request_content_type: "application/json",
+            response_content_type: "application/json",
+            form: "{{context}}",
+            triggers: {
+              [eventType]: true,
+            },
+          },
+        },
+      });
+    },
+    async deleteWebhook({ id }) {
+      return this._makeRequest({
+        path: `integrations/${id}`,
+        method: "delete",
+      });
+    },
     async getEvents({
       $, params,
     }) {
@@ -216,6 +245,14 @@ export default {
         $,
         path: "tickets",
         params,
+      });
+    },
+    async retrieveTicket({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `tickets/${id}`,
       });
     },
   },

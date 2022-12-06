@@ -5,7 +5,7 @@ export default {
   key: "github-new-team",
   name: "New Team",
   description: "Emit new events when the user is added to a new team",
-  version: "0.1.0",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   async run() {

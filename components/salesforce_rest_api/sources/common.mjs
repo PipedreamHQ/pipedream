@@ -1,40 +1,26 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import salesforce from "../salesforce_rest_api.app.mjs";
 
 export default {
   dedupe: "unique",
   props: {
-    db: "$.service.db",
     salesforce,
+    db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     objectType: {
       type: "string",
       label: "Object Type",
       description: "The type of object for which to monitor events",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return {
-            options: [],
-          };
-        }
-
-        const { sobjects } = await this.salesforce.listSObjectTypes();
-        const options = sobjects
-          .filter(this.isValidSObject)
-          .map((sobject) => ({
-            label: sobject.label,
-            value: sobject.name,
-          }));
-        return {
-          options,
-        };
-      },
+      propDefinition: [
+        salesforce,
+        "objectType",
+      ],
     },
   },
   hooks: {
@@ -61,13 +47,6 @@ export default {
     },
     setNameField(nameField) {
       this.db.set("nameField", nameField);
-    },
-    isValidSObject(sobject) {
-      // Only the activity of those SObject types that have the `replicateable`
-      // flag set is published via the `getUpdated` API.
-      //
-      // See the API docs here: https://sforce.co/3gDy3uP
-      return sobject.replicateable;
     },
     processEvent() {
       throw new Error("processEvent is not implemented");

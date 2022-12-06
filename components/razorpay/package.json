@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/razorpay",
+  "version": "0.0.2",
+  "description": "Pipedream Razorpay Components",
+  "main": "dist/app/razorpay.app.mjs",
+  "keywords": [
+    "pipedream",
+    "razorpay"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/razorpay",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

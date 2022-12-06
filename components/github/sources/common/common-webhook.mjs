@@ -4,9 +4,6 @@ export default {
   props: {
     github,
     repoFullname: {
-      label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
-      type: "string",
       propDefinition: [
         github,
         "repoFullname",
@@ -25,8 +22,17 @@ export default {
     getWebhookEvents() {
       throw new Error("getWebhookEvents is not implemented");
     },
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
+    loadHistoricalEvents() {
+      return true;
+    },
   },
   hooks: {
+    async deploy() {
+      await this.loadHistoricalEvents();
+    },
     async activate() {
       const response = await this.github.createWebhook({
         repoFullname: this.repoFullname,
@@ -39,7 +45,6 @@ export default {
           events: this.getWebhookEvents(),
         },
       });
-
       this._setWebhookId(response.id);
     },
     async deactivate() {
