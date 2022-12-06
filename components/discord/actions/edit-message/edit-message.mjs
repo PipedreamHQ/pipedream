@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 import discord from "../../discord.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -14,11 +15,17 @@ export default {
       type: "$.discord.channel",
       appProp: "discord",
     },
+    messageId: {
+      label: "Message ID",
+      description: "The ID of the message you want to edit.",
+      type: "string",
+    },
     message: {
       propDefinition: [
         discord,
         "message",
       ],
+      optional: true,
     },
     includeSentViaPipedream: {
       propDefinition: [
@@ -32,30 +39,34 @@ export default {
         "embeds",
       ],
     },
-    fileUrl: {
-      propDefinition: [
-        common.props.discord,
-        "fileUrl",
-      ],
-    },
-    filePath: {
-      propDefinition: [
-        common.props.discord,
-        "filePath",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       message,
       includeSentViaPipedream,
+      embeds,
     } = this;
+
+    if (!message && !embeds) {
+      throw new ConfigurationError("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
+    }
+
+    let content = message;
+    if (includeSentViaPipedream) {
+      if (embeds?.length) {
+        embeds.push({
+          "color": 16777215,
+          "description": this.getSentViaPipedreamText(),
+        });
+      } else {
+        content = this.appendPipedreamText(message ?? "");
+      }
+    }
 
     try {
       const resp = await this.discord.editMessage(this.channel, this.messageId, {
-        content: includeSentViaPipedream
-          ? this.appendPipedreamText(message)
-          : message,
+        content,
+        embeds,
       }, {
         wait: true,
       });
