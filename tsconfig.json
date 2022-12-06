@@ -1082,6 +1082,9 @@
     },
     {
       "path": "components/mode"
+    },
+    {
+      "path": "components/levity"
     }
   ]
 }
