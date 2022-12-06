@@ -66,7 +66,7 @@ export default {
   methods: {
     ...common.methods,
     async getMatches(params) {
-      return (await this.slack.sdk().search.messages(params)).messages.matches || [];
+      return (await this.slack.searchMessages(params)).messages.matches || [];
     },
     async emitHistoricalEvents(messages) {
       for (const message of messages) {

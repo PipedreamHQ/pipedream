@@ -1,4 +1,5 @@
 import common from "../common/send-message.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -11,8 +12,13 @@ export default {
     ...common.props,
     conversation: {
       propDefinition: [
-        common.props.slack,
-        "publicChannel",
+        common.props.app,
+        "channelId",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+          ],
+        }),
       ],
     },
     text: {

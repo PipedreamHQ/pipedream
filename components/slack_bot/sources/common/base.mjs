@@ -23,6 +23,12 @@ export default {
     getLastTimestamp() {
       return this.db.get(constants.LAST_TIMESTAMP);
     },
+    setLastCursor(value) {
+      this.db.set(constants.LAST_CURSOR, value);
+    },
+    getLastCursor() {
+      return this.db.get(constants.LAST_CURSOR);
+    },
     getResourceName() {
       throw new Error("getResourceName is not implemented");
     },
@@ -46,11 +52,13 @@ export default {
         lastResource,
       ] = resources;
 
-      if (lastResource) {
+      if (lastResource?.ts) {
         this.setLastTimestamp(lastResource.ts);
       }
 
-      resources.reverse().forEach(this.processEvent);
+      resources
+        .reverse()
+        .forEach(this.processEvent);
     },
     async *getResourcesStream({
       resourcesName = constants.RESOURCE_NAME.MESSAGES,
