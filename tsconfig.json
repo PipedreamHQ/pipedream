@@ -1073,6 +1073,15 @@
     },
     {
       "path": "components/ortto"
+    },
+    {
+      "path": "components/bugsnag"
+    },
+    {
+      "path": "components/databricks"
+    },
+    {
+      "path": "components/mode"
     }
   ]
 }
