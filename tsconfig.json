@@ -1048,6 +1048,9 @@
       "path": "components/rudderstack"
     },
     {
+      "path": "components/baserow"
+    },
+    {
       "path": "components/rudderstack_transformation"
     },
     {
