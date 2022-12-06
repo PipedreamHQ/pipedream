@@ -4,7 +4,7 @@ export default {
   key: "crove_app-generate-template-pdf",
   name: "Generate Document PDF From Template",
   description: "Generate PDF of a document created from the template",
-  version: "0.0.1",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -14,6 +14,12 @@ export default {
         "template_id",
       ],
       reloadProps: true,
+    },
+    background_mode: {
+      type: "boolean",
+      label: "Background Mode",
+      description: "Whether to generate pdf in background mode or not.",
+      optional: true,
     },
   },
   async additionalProps() {
@@ -36,24 +42,13 @@ export default {
   },
   async run() {
 
-    var config = {
-      url: `${this.croveApp._getBaseUrl()}/documents/create/`,
-      method: "POST",
-      data: {
-        template_id: this.template_id,
-      },
-    };
-
-    let resp = await this.croveApp._makeRequest(config);
-
-    let documentId = resp.id;
-
+    
     config = {
       url: `${this.croveApp._getBaseUrl()}/templates/${this.template_id}/`,
       method: "GET",
     };
 
-    resp = await this.croveApp._makeRequest(config);
+    let resp = await this.croveApp._makeRequest(config);
 
     let symbolTable = resp.symbol_table;
     let response = {};
@@ -61,36 +56,17 @@ export default {
       response[k] = this[k];
     }
 
-    const apiUrl = `${this.croveApp._getBaseUrl()}/documents/${documentId}/update-response/`;
-
-    config = {
-      url: apiUrl,
+    var config = {
+      url: `${this.croveApp._getBaseUrl()}/helpers/generate-pdf-from-template/`,
       method: "POST",
       data: {
+        template_id: this.template_id,
         response: response,
+        background_mode: this.background_mode
       },
     };
 
-    resp =  await this.croveApp._makeRequest(config);
-
-    config = {
-      url: `${this.croveApp._getBaseUrl()}/documents/${ documentId }/submit-response/`,
-      method: "POST",
-    };
-
-    resp =  await this.croveApp._makeRequest(config);
-
-    config = {
-      url: `${this.croveApp._getBaseUrl()}/documents/${ documentId }/generate-pdf/`,
-      method: "POST",
-      data: {
-        background_mode: false,
-      },
-    };
-
-    resp =  await this.croveApp._makeRequest(config);
-
-    return resp;
+    return await this.croveApp._makeRequest(config);
 
   },
 };
