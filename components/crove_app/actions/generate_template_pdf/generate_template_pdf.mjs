@@ -42,13 +42,7 @@ export default {
   },
   async run() {
 
-    
-    config = {
-      url: `${this.croveApp._getBaseUrl()}/templates/${this.template_id}/`,
-      method: "GET",
-    };
-
-    let resp = await this.croveApp._makeRequest(config);
+    let resp = await this.croveApp.getTemplateDetails(this.template_id);
 
     let symbolTable = resp.symbol_table;
     let response = {};
@@ -56,17 +50,7 @@ export default {
       response[k] = this[k];
     }
 
-    var config = {
-      url: `${this.croveApp._getBaseUrl()}/helpers/generate-pdf-from-template/`,
-      method: "POST",
-      data: {
-        template_id: this.template_id,
-        response: response,
-        background_mode: this.background_mode
-      },
-    };
-
-    return await this.croveApp._makeRequest(config);
+    return await this.croveApp.generatePdfFromTemplate(this.template_id, response, this.background_mode);
 
   },
 };
