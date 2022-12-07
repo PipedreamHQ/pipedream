@@ -5,10 +5,10 @@ import utils from "../../common/utils.mjs";
 const { discord } = common.props;
 
 export default {
-  key: "discord_bot-create-user-dm",
-  name: "Create DM",
-  description: "Create a new DM channel with a user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "0.0.27",
+  key: "discord_bot-send-message",
+  name: "Send message",
+  description: "Sends a message to an user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
+  version: "0.0.1",
   type: "action",
   ...messageCommon,
   props: {
