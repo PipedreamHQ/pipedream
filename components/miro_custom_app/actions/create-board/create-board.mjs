@@ -2,7 +2,7 @@ import app from "../../miro_custom_app.app.mjs";
 
 export default {
   name: "Create Board",
-  version: "0.0.7",
+  version: "0.0.1",
   key: "create-board",
   description: "Creates a Miro board",
   type: "action",
@@ -10,6 +10,7 @@ export default {
     app,
     name: {
       type: "string",
+      label: "Board Name",
       description: "Board name",
       optional: false,
     },

@@ -46,7 +46,7 @@ export default {
       };
     },
     async makeRequest({
-      step = this, path = "", headers = {}, ...args
+      step = this, path, headers, ...args
     } = {}) {
 
       const config = {
@@ -70,7 +70,7 @@ export default {
       });
     },
     createShape({
-      boardId = boardId, ...args
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
         method: "post",
@@ -79,7 +79,7 @@ export default {
       });
     },
     createStickyNote({
-      boardId = "", ...args
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
         method: "post",
@@ -88,7 +88,7 @@ export default {
       });
     },
     deleteBoard({
-      boardId = "", ...args
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
         method: "delete",
@@ -97,7 +97,7 @@ export default {
       });
     },
     deleteItem({
-      boardId = "", itemId = "", ...args
+      boardId, itemId, ...args
     } = {}) {
       return this.makeRequest({
         method: "delete",
@@ -106,43 +106,37 @@ export default {
       });
     },
     getBoard({
-      boardId = "", ...args 
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
-        method: "get",
         path: `/boards/${boardId}`,
         ...args,
       });
     },
     getItems({
-      boardId = "", ...args 
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
-        method: "get",
         path: `/boards/${boardId}/items`,
         ...args,
       });
     },
     getSpecificItem({
-      boardId = "", itemId = "", ...args 
+      boardId, itemId, ...args
     } = {}) {
       return this.makeRequest({
-        method: "get",
         path: `/boards/${boardId}/items/${itemId}`,
         ...args,
       });
     },
-    listBoards({
-      boardId = "", ...args 
-    } = {}) {
+    listBoards(args = {}) {
       return this.makeRequest({
-        method: "get",
-        path: `/boards`,
+        path: "/boards",
         ...args,
       });
     },
     updateBoard({
-      boardId = "", ...args 
+      boardId, ...args
     } = {}) {
       return this.makeRequest({
         method: "patch",
@@ -151,7 +145,7 @@ export default {
       });
     },
     updateShape({
-      boardId = "", itemId = "", ...args 
+      boardId, itemId, ...args
     } = {}) {
       return this.makeRequest({
         method: "patch",
@@ -160,13 +154,13 @@ export default {
       });
     },
     updateStickyNote({
-      boardId = "", itemId = "", ...args 
+      boardId, itemId, ...args
     } = {}) {
       return this.makeRequest({
         method: "patch",
         path: `/boards/${boardId}/sticky_notes/${itemId}`,
         ...args,
       });
-    }
+    },
   },
 };
