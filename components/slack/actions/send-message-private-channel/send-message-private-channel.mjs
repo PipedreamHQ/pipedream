@@ -12,7 +12,7 @@ export default {
     ...common.props,
     conversation: {
       propDefinition: [
-        common.props.app,
+        common.props.slack,
         "channelId",
         () => ({
           types: [
