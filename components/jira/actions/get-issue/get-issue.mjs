@@ -65,7 +65,7 @@ export default {
     }
     const response = await this.jira.getIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         fields: this.fields,

@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.getTask({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       taskId: this.taskId,
     });
     $.export("$summary", `Task: '${response.title}' has been retrieved.`);

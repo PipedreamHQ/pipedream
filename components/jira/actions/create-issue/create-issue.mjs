@@ -243,7 +243,7 @@ export default {
     }
     const response = await this.jira.createIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       params: {
         updateHistory: this.updateHistory,
       },

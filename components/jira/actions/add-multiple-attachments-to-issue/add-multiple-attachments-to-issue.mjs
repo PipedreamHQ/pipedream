@@ -69,7 +69,7 @@ export default {
 
       const response = await this.jira.addAttachmentToIssue({
         $,
-        cloudId,
+        cloudId: this.cloudId,
         issueIdOrKey: this.issueIdOrKey,
         headers,
         data,

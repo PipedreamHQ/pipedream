@@ -79,7 +79,7 @@ export default {
     }
     const response = await this.jira.updateComment({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       commentId: this.commentId,
       params: {

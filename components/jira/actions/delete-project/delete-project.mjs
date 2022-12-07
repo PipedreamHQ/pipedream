@@ -33,7 +33,7 @@ export default {
   async run({ $ }) {
     await this.jira.deleteProject({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       projectIdOrKey: this.projectID,
       params: {
         enableUndo: this.enableUndo,

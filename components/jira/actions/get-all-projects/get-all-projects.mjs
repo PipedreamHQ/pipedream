@@ -44,7 +44,7 @@ export default {
     }
     const projects = [];
     const resourcesStream = await this.jira.getResourcesStream({
-      cloudId,
+      cloudId: this.cloudId,
       resourceFn: this.jira.getAllProjects,
       resourceFnArgs: {
         $,

@@ -75,7 +75,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.createVersion({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       data: {
         projectId: this.projectID,
         name: this.name,

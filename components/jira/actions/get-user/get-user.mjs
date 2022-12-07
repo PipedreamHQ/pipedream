@@ -34,7 +34,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.getUser({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       params: {
         accountId: this.accountId,
         expand: this.expand,

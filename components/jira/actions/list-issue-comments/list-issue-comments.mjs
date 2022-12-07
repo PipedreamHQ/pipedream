@@ -45,7 +45,7 @@ export default {
   async run({ $ }) {
     const issueComments = [];
     const resourcesStream = await this.jira.getResourcesStream({
-      cloudId,
+      cloudId: this.cloudId,
       resourceFn: this.jira.listIssueComments,
       resourceFnArgs: {
         $,

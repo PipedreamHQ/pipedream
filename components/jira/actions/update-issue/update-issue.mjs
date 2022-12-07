@@ -100,7 +100,7 @@ export default {
     }
     const response = await this.jira.updateIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         notifyUsers: this.notifyUsers,

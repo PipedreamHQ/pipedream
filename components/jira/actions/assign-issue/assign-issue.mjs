@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     await this.jira.assignIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       data: {
         accountId: this.accountId,
       },

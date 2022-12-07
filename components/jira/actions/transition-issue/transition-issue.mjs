@@ -81,7 +81,7 @@ export default {
     }
     await this.jira.transitionIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       data: {
         transition,

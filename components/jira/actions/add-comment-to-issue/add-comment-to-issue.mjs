@@ -68,7 +68,7 @@ export default {
     }
     const response = await this.jira.addCommentToIssue({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         expand: this.expand,

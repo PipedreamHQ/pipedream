@@ -58,7 +58,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.getTransitions({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         transitionId: this.transitionId,

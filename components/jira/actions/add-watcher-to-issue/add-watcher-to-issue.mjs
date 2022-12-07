@@ -36,7 +36,7 @@ export default {
   async run({ $ }) {
     await this.jira.addWatcher({
       $,
-      cloudId,
+      cloudId: this.cloudId,
       accountId: this.accountId,
       issueIdOrKey: this.issueIdOrKey,
     });
