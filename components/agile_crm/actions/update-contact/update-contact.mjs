@@ -2,7 +2,7 @@ import agileCrm from "../../agile_crm.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "agile_crm-cupdate-contact",
+  key: "agile_crm-update-contact",
   name: "Update Contact",
   description: "Update an existing contact in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#14-update-properties-of-a-contact-by-id-partial-update)",
   version: "0.0.2",
