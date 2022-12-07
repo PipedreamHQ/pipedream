@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-ticket",
   name: "New Tickets",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   hooks: {},
