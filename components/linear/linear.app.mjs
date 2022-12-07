@@ -25,10 +25,8 @@ export default {
     ...linearApp.propDefinitions,
     createAs: {
       type: "string",
-      label: "Create As User/App",
-      description: `Select who will appear as creating the issue on its history.
-        \\
-        See the [Linear docs](https://developers.linear.app/docs/oauth/oauth-actor-authorization) for more information.`,
+      label: "Create as",
+      description: "Specify to whom who you'd like to attribute the issue creation (the signed-in user vs a custom username). See the [Linear docs](https://developers.linear.app/docs/oauth/oauth-actor-authorization) for more information.",
       async options() {
         const { displayName } = await this.getOwnUserInfo();
         return [
@@ -37,7 +35,7 @@ export default {
             value: "me",
           },
           {
-            label: "[Custom Username]",
+            label: "Custom Username",
             value: "custom",
           },
           {
@@ -46,6 +44,7 @@ export default {
           },
         ];
       },
+      optional: true,
       default: "me",
       reloadProps: true,
     },
