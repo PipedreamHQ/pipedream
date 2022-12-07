@@ -1,5 +1,5 @@
 import agileCrm from "../../agile_crm.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "agile_crm-create-contact",
@@ -41,39 +41,10 @@ export default {
       ],
     },
     customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Please provide a JSON structure like this per row: `{\"name\": \"Field Name\", \"value\": \"Field Value\"}`",
-      optional: true,
-    },
-  },
-  methods: {
-    getAdditionalProperties(customFields) {
-      if (!customFields) {
-        return [];
-      }
-
-      if (!Array.isArray(customFields)) {
-        throw new ConfigurationError("Custom Fields property is not an array");
-      }
-
-      try {
-        return customFields.map(JSON.parse)
-          .map(({
-            name, value = "",
-          }, idx) => {
-            if (!name) {
-              throw `No "name" property specified in row ${idx + 1}`;
-            }
-            return {
-              type: "CUSTOM",
-              name,
-              value,
-            };
-          });
-      } catch (error) {
-        throw new ConfigurationError(`Custom Field row not set with the right JSON structure: ${error}`);
-      }
+      propDefinition: [
+        agileCrm,
+        "customFields",
+      ],
     },
   },
   async run({ $ }) {
@@ -112,7 +83,7 @@ export default {
           name: "phone",
           value: phone || "",
         },
-        ...this.getAdditionalProperties(customFields),
+        ...utils.getCustomFieldsProperties(customFields),
       ],
     };
 
