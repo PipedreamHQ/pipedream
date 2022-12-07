@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     transition: {
@@ -27,6 +30,7 @@ export default {
         "transition",
         (configuredProps) => ({
           issueIdOrKey: configuredProps.issueIdOrKey,
+          cloudId: configuredProps.cloudId
         }),
       ],
     },
@@ -72,7 +76,7 @@ export default {
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
+    } catch (err) {
       //pass
     }
     await this.jira.transitionIssue({

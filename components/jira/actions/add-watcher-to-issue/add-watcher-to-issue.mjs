@@ -18,12 +18,18 @@ export default {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     accountId: {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
   },

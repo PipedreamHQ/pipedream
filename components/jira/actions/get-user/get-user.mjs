@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     expand: {

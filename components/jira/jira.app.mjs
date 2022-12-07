@@ -24,11 +24,12 @@ export default {
       description: "The project ID.",
       useQuery: true,
       async options({
-        prevContext, query,
+        prevContext, query, cloudId
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -53,8 +54,9 @@ export default {
       type: "string",
       label: "Issue Type",
       description: "An ID identifying the type of issue, [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
-      async options({ projectID }) {
+      async options({ projectID, cloudId }) {
         const resp = await this.getIssueTypes({
+          cloudId,
           projectID,
         });
         // Because we select a project, we get issue types for only that and only one project
@@ -78,10 +80,11 @@ export default {
       type: "string",
       label: "Issue id or key",
       description: "The ID or key of the issue where the attachment will be added to.",
-      async options({ prevContext }) {
+      async options({ prevContext, cloudId }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getIssues({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -107,11 +110,12 @@ export default {
       description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
       useQuery: true,
       async options({
-        prevContext, query,
+        prevContext, query, cloudId
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getUsers({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -161,11 +165,12 @@ export default {
       description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put). Also you can go edit the workflow and choose the Text option instead of the Diagram option. You can see the transition ID in parenthesis.",
       optional: true,
       async options({
-        prevContext, issueIdOrKey,
+        prevContext, issueIdOrKey, cloudId,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getTransitions({
+          cloudId,
           issueIdOrKey,
           params: {
             startAt,

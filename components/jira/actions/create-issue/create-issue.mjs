@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         jira,
         "projectID",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     issueType: {
@@ -27,6 +30,7 @@ export default {
         "issueType",
         (configuredProps) => ({
           projectID: configuredProps.projectID,
+          cloudId: configuredProps.cloudId
         }),
       ],
     },
@@ -59,6 +63,9 @@ export default {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       optional: true,
     },
@@ -78,6 +85,9 @@ export default {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       optional: true,
     },
@@ -127,6 +137,9 @@ export default {
       propDefinition: [
         jira,
         "transition",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       type: "string",
     },

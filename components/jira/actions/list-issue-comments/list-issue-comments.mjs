@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     orderBy: {

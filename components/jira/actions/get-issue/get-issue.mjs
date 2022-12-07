@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     fields: {
@@ -57,7 +60,7 @@ export default {
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
+    } catch (err) {
       //pass
     }
     const response = await this.jira.getIssue({

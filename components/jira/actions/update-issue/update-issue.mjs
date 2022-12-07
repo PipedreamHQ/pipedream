@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     notifyUsers: {
@@ -45,6 +48,7 @@ export default {
         "transition",
         (c) => ({
           issueIdOrKey: c.issueIdOrKey,
+          cloudId: c.cloudId
         }),
       ],
     },
@@ -91,7 +95,7 @@ export default {
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
+    } catch (err) {
       //pass
     }
     const response = await this.jira.updateIssue({

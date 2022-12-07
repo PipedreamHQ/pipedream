@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         jira,
         "projectID",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     enableUndo: {
