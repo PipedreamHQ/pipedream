@@ -395,6 +395,9 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/bugsnag:
+    specifiers: {}
+
   components/burst_sms:
     specifiers: {}
 
@@ -623,6 +626,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       databox: 2.0.1
+
+  components/databricks:
+    specifiers: {}
 
   components/datadog:
     specifiers:
@@ -1515,6 +1521,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/levity:
+    specifiers: {}
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
@@ -1633,6 +1642,9 @@ importers:
   components/marketing_master_io:
     specifiers: {}
 
+  components/mastodon:
+    specifiers: {}
+
   components/mattermost:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1648,6 +1660,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       lodash-es: 4.17.21
+
+  components/mav:
+    specifiers: {}
 
   components/mediatoolkit:
     specifiers:
@@ -1708,6 +1723,9 @@ importers:
   components/mobile_text_alerts:
     specifiers: {}
 
+  components/mode:
+    specifiers: {}
+
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1763,6 +1781,9 @@ importers:
       '@pipedream/platform': 1.2.0
       mysql2-promise: 0.1.4
       uuid: 8.3.2
+
+  components/n8n_io:
+    specifiers: {}
 
   components/namely:
     specifiers:
@@ -1953,6 +1974,9 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/orbisx:
+    specifiers: {}
+
+  components/ortto:
     specifiers: {}
 
   components/outgrow:
@@ -2794,6 +2818,14 @@ importers:
 
   components/teamdeck:
     specifiers: {}
+
+  components/teamgate:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/teamwork:
     specifiers:
@@ -13303,10 +13335,6 @@ packages:
     resolution: {integrity: sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==}
     dev: false
 
-  /fp-ts/2.13.1:
-    resolution: {integrity: sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==}
-    dev: false
-
   /fraudlabspro-nodejs/2.1.0:
     resolution: {integrity: sha512-yqup43EVXMq7vF+ecQ7XBysB4s5/eQZDZf8gK3pGOAkQXsXsyWFAeZMBfj2sIBBiSDmyf9KcxvHkkC30DD5tXQ==}
     dev: false
@@ -14469,14 +14497,6 @@ packages:
       fp-ts: ^2.5.0
     dependencies:
       fp-ts: 2.12.2
-    dev: false
-
-  /io-ts/2.2.19_fp-ts@2.13.1:
-    resolution: {integrity: sha512-ED0GQwvKRr5C2jqOOJCkuJW2clnbzqFexQ8V7Qsb+VB36S1Mk/OKH7k0FjSe4mjKy9qBRA3OqgVGyFMUEKIubw==}
-    peerDependencies:
-      fp-ts: ^2.5.0
-    dependencies:
-      fp-ts: 2.13.1
     dev: false
 
   /ip/1.1.8:
