@@ -1,22 +1,22 @@
-import app from "../../miro_custom_app.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   name: "Delete Board",
   version: "0.0.1",
-  key: "delete-board",
-  description: "Deletes a Miro board",
+  key: "miro_custom_app-delete-board",
+  description: "Deletes a Miro board. [See the docs](https://developers.miro.com/reference/delete-board).",
   type: "action",
-  props: {
-    app,
-    boardId: {
-      type: "string",
-      description: "Board ID",
-      optional: false,
-    },
-  },
   async run({ $: step }) {
-    return this.app.deleteBoard({
+    const { boardId } = this;
+
+    await this.app.deleteBoard({
       step,
+      boardId: this.boardId,
     });
+
+    step.export("$summary", "Successfully deleted board");
+
+    return boardId;
   },
 };

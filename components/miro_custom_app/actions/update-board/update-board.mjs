@@ -1,36 +1,48 @@
-import app from "../../miro_custom_app.app.mjs";
+import common from "../common/base.mjs";
+
+const { app } = common.props;
 
 export default {
   name: "Update Board",
   version: "0.0.1",
-  key: "update-board",
-  description: "Updates a Miro board",
+  key: "miro_custom_app-update-board",
+  description: "Updates a Miro board. [See the docs](https://developers.miro.com/reference/update-board).",
   type: "action",
   props: {
-    app,
-    boardId: {
-      type: "string",
-      description: "Board ID",
-      optional: false,
-    },
-    boardName: {
-      type: "string",
-      description: "Board Name",
+    ...common.props,
+    name: {
+      propDefinition: [
+        app,
+        "name",
+      ],
       optional: true,
     },
-    boardDescription: {
-      type: "string",
-      description: "Board Description",
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
       optional: true,
     },
   },
   async run({ $: step }) {
-    return this.app.updateBoard({
+    const {
+      boardId,
+      name,
+      description,
+    } = this;
+
+    const response = await this.app.updateBoard({
       step,
+      boardId,
       data: {
-        boardName: this.boardName,
-        boardDescription: this.boardDescription,
+        name,
+        description,
       },
     });
+
+    step.export("$summary", `Successfully updated board with ID \`${response.id}\``);
+
+    return response;
   },
 };

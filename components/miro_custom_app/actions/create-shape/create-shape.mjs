@@ -1,37 +1,67 @@
-import app from "../../miro_custom_app.app.mjs";
+import common from "../common/base.mjs";
+
+const { app } = common.props;
 
 export default {
   name: "Create Shape",
-  version: "0.1.0",
-  key: "create-shape",
-  description: "Creates a shape on a Miro board",
+  version: "0.0.1",
+  key: "miro_custom_app-create-shape",
+  description: "Creates a shape on a Miro board. [See the docs](https://developers.miro.com/reference/create-shape-item).",
   type: "action",
   props: {
-    app,
-    boardId: {
+    ...common.props,
+    content: {
       propDefinition: [
         app,
-        "boardId",
+        "content",
       ],
     },
-    shapeType: {
-      type: "string",
-      description: "Shape type (rectangle, circle, star, etc.)",
-      optional: false,
+    shape: {
+      propDefinition: [
+        app,
+        "shape",
+      ],
     },
-    content: {
-      type: "string",
-      description: "Text content for shape",
-      optional: true,
+    x: {
+      propDefinition: [
+        app,
+        "x",
+      ],
+    },
+    y: {
+      propDefinition: [
+        app,
+        "y",
+      ],
     },
   },
   async run({ $: step }) {
-    return this.app.createShape({
+    const {
+      boardId,
+      shape,
+      content,
+      x,
+      y,
+    } = this;
+
+    const response = await this.app.createShape({
       step,
+      boardId,
       data: {
-        shape: this.shapeType,
-        content: this.content,
+        data: {
+          content,
+          shape,
+        },
+        position: {
+          origin: "center",
+          x,
+          y,
+        },
       },
     });
+
+    step.export("$summary", `Successfully created a shape with ID \`${response.id}\``);
+
+    return response;
   },
 };

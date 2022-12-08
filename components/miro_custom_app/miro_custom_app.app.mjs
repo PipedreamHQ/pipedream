@@ -5,22 +5,100 @@ export default {
   type: "app",
   app: "miro_custom_app",
   propDefinitions: {
+    name: {
+      type: "string",
+      label: "Board Name",
+      description: "Name for the board.",
+    },
+    description: {
+      type: "string",
+      label: "Board Description",
+      description: "Description for the board.",
+    },
+    content: {
+      type: "string",
+      label: "Content",
+      description: "The text you want to display on the shape.",
+    },
+    shape: {
+      type: "string",
+      label: "Shape Type",
+      description: "Defines the geometric shape of the item when it is rendered on the board.",
+      options: constants.ITEM_SHAPES_OPTIONS,
+    },
+    x: {
+      type: "integer",
+      label: "X Position",
+      description: "X-axis coordinate of the location of the item on the board. By default, all items have absolute positioning to the board, not the current viewport. The center point of the board has `x: 0` and `y: 0` coordinates.",
+      default: 0,
+    },
+    y: {
+      type: "integer",
+      label: "Y Position",
+      description: "Y-axis coordinate of the location of the item on the board. By default, all items have absolute positioning to the board, not the current viewport. The center point of the board has `x: 0` and `y: 0` coordinates.",
+      default: 0,
+    },
+    teamId: {
+      type: "string",
+      label: "Team ID",
+      description: "The `team_id` for which you want to retrieve the list of boards.",
+      optional: true,
+    },
     boardId: {
       type: "string",
       label: "Board ID",
       description: "The ID of a board",
-      async options({ prevContext }) {
+      async options({
+        teamId, prevContext,
+      }) {
         const {
           data,
           offset,
         } =
           await this.listBoards({
-            limit: 20,
-            offset: prevContext.offset,
+            params: {
+              team_id: teamId,
+              limit: constants.DEFAULT_LIMIT,
+              offset: prevContext.offset,
+            },
           });
-        const options = data.map((board) => ({
-          label: board.name,
-          value: board.id,
+        const options = data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            offset,
+          },
+        };
+      },
+    },
+    itemId: {
+      type: "string",
+      label: "Item ID",
+      description: "The ID of an item (Shape)",
+      async options({
+        boardId, prevContext,
+      }) {
+        const {
+          data,
+          offset,
+        } =
+          await this.listItems({
+            boardId,
+            params: {
+              limit: constants.DEFAULT_LIMIT,
+              offset: prevContext.offset,
+            },
+          });
+        const options = data.map(({
+          id: value, type, data,
+        }) => ({
+          label: data.content || data[type] || type,
+          value,
         }));
         return {
           options,
@@ -40,8 +118,9 @@ export default {
     },
     getHeaders(headers) {
       return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.access_token}`,
+        "accept": "application/json",
+        "authorization": `Bearer ${this.$auth.access_token}`,
+        "content-type": "application/json",
         ...headers,
       };
     },
@@ -113,7 +192,7 @@ export default {
         ...args,
       });
     },
-    getItems({
+    listItems({
       boardId, ...args
     } = {}) {
       return this.makeRequest({

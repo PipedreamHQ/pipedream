@@ -1,22 +1,20 @@
-import app from "../../miro_custom_app.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   name: "Get Board",
   version: "0.0.1",
-  key: "get-board",
-  description: "Returns a Miro board",
+  key: "miro_custom_app-get-board",
+  description: "Returns a Miro board. [See the docs](https://developers.miro.com/reference/get-specific-board).",
   type: "action",
-  props: {
-    app,
-    boardId: {
-      type: "string",
-      description: "Board ID",
-      optional: false,
-    },
-  },
   async run({ $: step }) {
-    return this.app.getBoard({
+    const response = await this.app.getBoard({
       step,
+      boardId: this.boardId,
     });
+
+    step.export("$summary", `Successfully got board with ID \`${response.id}\``);
+
+    return response;
   },
 };

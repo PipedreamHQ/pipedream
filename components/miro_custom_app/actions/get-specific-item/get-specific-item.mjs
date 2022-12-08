@@ -1,27 +1,39 @@
-import app from "../../miro_custom_app.app.mjs";
+import common from "../common/base.mjs";
+
+const { app } = common.props;
 
 export default {
   name: "Get Specific Item",
-  version: "0.0.2",
-  key: "get-specific-item",
-  description: "Returns a specific item on a Miro board",
+  version: "0.0.1",
+  key: "miro_custom_app-get-specific-item",
+  description: "Returns a specific item on a Miro board. [See the docs](https://developers.miro.com/reference/get-specific-item).",
   type: "action",
   props: {
-    app,
-    boardId: {
-      type: "string",
-      description: "Board ID",
-      optional: false,
-    },
+    ...common.props,
     itemId: {
-      type: "string",
-      description: "Item ID",
-      optional: false,
+      propDefinition: [
+        app,
+        "itemId",
+        ({ boardId }) => ({
+          boardId,
+        }),
+      ],
     },
   },
   async run({ $: step }) {
-    return this.app.getSpecificItem({
+    const {
+      boardId,
+      itemId,
+    } = this;
+
+    const response = await this.app.getSpecificItem({
       step,
+      boardId,
+      itemId,
     });
+
+    step.export("$summary", `Successfully got item with ID \`${response.id}\``);
+
+    return response;
   },
 };

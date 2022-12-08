@@ -3,24 +3,42 @@ import app from "../../miro_custom_app.app.mjs";
 export default {
   name: "Create Board",
   version: "0.0.1",
-  key: "create-board",
-  description: "Creates a Miro board",
+  key: "miro_custom_app-create-board",
+  description: "Creates a Miro board. [See the docs](https://developers.miro.com/reference/create-board).",
   type: "action",
   props: {
     app,
     name: {
-      type: "string",
-      label: "Board Name",
-      description: "Board name",
-      optional: false,
+      propDefinition: [
+        app,
+        "name",
+      ],
+      optional: true,
+    },
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
+      optional: true,
     },
   },
   async run({ $: step }) {
-    return this.app.createBoard({
+    const {
+      name,
+      description,
+    } = this;
+
+    const response = await this.app.createBoard({
       step,
       data: {
-        name: this.name,
+        name,
+        description,
       },
     });
+
+    step.export("$summary", `Successfully created a board with ID \`${response.id}\``);
+
+    return response;
   },
 };
