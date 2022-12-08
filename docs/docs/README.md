@@ -11,7 +11,7 @@ The Pipedream platform includes:
 
 - A [serverless runtime](/code/) and [workflow service](/workflows/)
 - Open source [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of integrated apps](https://pipedream.com/explore/)
-- One-click [OAuth and key-based authentication](/connected-accounts/) for hundreds of APIs (use tokens directly in code or with pre-built actions)
+- One-click [OAuth and key-based authentication](/connected-accounts/) for more than 1000 APIs (use tokens directly in code or with pre-built actions)
 
 Watch a demo or review our [quickstart guide](/quickstart/):
 
