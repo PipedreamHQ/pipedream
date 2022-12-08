@@ -11,23 +11,22 @@ export default {
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     projectID: {
       propDefinition: [
         jira,
         "projectID",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     enableUndo: {
       type: "boolean",
       label: "Enable undo",
       description: "Whether this project is placed in the Jira recycle bin where it will be available for restoration.",
-      optional: true,
     },
   },
   async run({ $ }) {
