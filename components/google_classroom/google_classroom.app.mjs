@@ -99,5 +99,10 @@ export default {
       const { data } = await classroom.courses.courseWork.get(params);
       return data;
     },
+    async listSubmissions(params = {}) {
+      const classroom = this._client();
+      const { data } = await classroom.courses.courseWork.studentSubmissions.list(params);
+      return data;
+    },
   },
 };

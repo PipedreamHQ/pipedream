@@ -29,15 +29,16 @@ export default {
   },
   hooks: {
     async deploy() {
-      const { courseWork } = await this.googleClassroom.listCoursework({
-        ...this.getParams(),
+      const results = await this.getHistoricalEvents({
         pageSize: 25,
       });
       let maxUpdatedTime = 0;
-      for (const assignment of courseWork.reverse()) {
-        this.emitIfRelevant(assignment);
+      for (const item of results.reverse()) {
+        if (this.isRelevant(item)) {
+          this.emitEvent(item);
+        }
 
-        const updated = Date.parse(assignment.updateTime);
+        const updated = Date.parse(item.updateTime);
         if (updated > maxUpdatedTime) {
           maxUpdatedTime = updated;
         }
@@ -52,46 +53,63 @@ export default {
     _setAfter(after) {
       this.db.set("after", after);
     },
-    isRelevant() {
-      return true;
+    isAfter(compareDate, after) {
+      return !after || Date.parse(compareDate) > after;
+    },
+    emitEvent(item) {
+      const meta = this.generateMeta(item);
+      this.$emit(item, meta);
+    },
+    async paginate(resourceFn, params, type, after = null) {
+      const results = [];
+      let done = false;
+      do {
+        const response = await resourceFn(params);
+        params.pageToken = response.nextPageToken;
+
+        if (response[type]) {
+          for (const item of response[type]) {
+            results.push(item);
+            if (Date.parse(item.updateTime) <= after) {
+              done = true;
+              break;
+            }
+          }
+        }
+      } while (params.pageToken && !done);
+      return results;
+    },
+    getHistoricalEvents() {
+      throw new Error("getHistoricalEvents is not implemented");
     },
     getParams() {
-      return {
-        courseId: this.course,
-        courseWorkStates: this.courseStates,
-      };
+      throw new Error("getParams is not implemented");
     },
-    emitIfRelevant(item, after) {
-      if (this.isRelevant(item, after)) {
-        const meta = this.generateMeta(item);
-        this.$emit(item, meta);
-      }
+    getResults() {
+      throw new Error("getResults is not implemented");
+    },
+    isRelevant() {
+      throw new Error("isRelevant is not implemented");
+    },
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
     },
   },
   async run() {
     const after = this._getAfter();
-    let maxUpdatedTime = after;
-    const params = this.getParams();
-    let done = false;
-    do {
-      const {
-        courseWork, nextPageToken,
-      } = await this.googleClassroom.listCoursework(params);
-      params.pageToken = nextPageToken;
 
-      for (const assignment of courseWork) {
-        this.emitIfRelevant(assignment, after);
+    const results = await this.getResults(after);
 
-        const updated = Date.parse(assignment.updateTime);
-        if (updated > maxUpdatedTime) {
-          maxUpdatedTime = updated;
-        }
-        if (updated <= after) {
-          done = true;
-          break;
-        }
+    let maxUpdateTime = after;
+    for (const item of results) {
+      if (this.isRelevant(item, after)) {
+        this.emitEvent(item);
       }
-    } while (params.pageToken && !done);
-    this._setAfter(maxUpdatedTime);
+      if (item.updateTime > maxUpdateTime) {
+        maxUpdateTime = item.updateTime;
+      }
+    }
+
+    this._setAfter(maxUpdateTime);
   },
 };

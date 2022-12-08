@@ -33,8 +33,24 @@ export default {
   },
   methods: {
     ...common.methods,
+    async getHistoricalEvents({ pageSize }) {
+      const { courseWork } = await this.googleClassroom.listCoursework({
+        ...this.getParams(),
+        pageSize,
+      });
+      return courseWork;
+    },
+    async getResults(after) {
+      return this.paginate(this.googleClassroom.listCoursework, this.getParams(), "courseWork", after);
+    },
+    getParams() {
+      return {
+        courseId: this.course,
+        courseWorkStates: this.courseStates,
+      };
+    },
     isRelevant(assignment, after = null) {
-      if (after && Date.parse(assignment.creationTime) <= after) {
+      if (!this.isAfter(assignment.creationTime, after)) {
         return false;
       }
       if (this.keywords?.length > 0) {
