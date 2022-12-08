@@ -191,6 +191,18 @@ export default {
         }));
       },
     },
+    teamId: {
+      label: "Team Id",
+      description: "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
+      type: "integer",
+      async options() {
+        const teams = await this.getTeams();
+        return teams.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseApiUrl() {
