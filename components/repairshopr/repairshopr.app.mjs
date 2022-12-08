@@ -160,5 +160,18 @@ export default {
         ctx,
       );
     },
+    async listInvoices(page, params = {}, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: "/invoices",
+          method: "GET",
+          params: {
+            page,
+            ...params,
+          },
+        },
+        ctx,
+      );
+    },
   },
 };
