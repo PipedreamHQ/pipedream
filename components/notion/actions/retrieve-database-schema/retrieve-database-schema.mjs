@@ -1,10 +1,10 @@
 import notion from "../../notion.app.mjs";
 
 export default {
-  key: "notion-retrieve-database",
-  name: "Retrieve Database",
-  description: "Retrieves a database. [See the docs](https://developers.notion.com/reference/retrieve-a-database)",
-  version: "0.0.2",
+  key: "notion-retrieve-database-schema",
+  name: "Retrieve Database Schema",
+  description: "Retrieves a database object. Database objects describe the property schema of a database in Notion. [See the docs](https://developers.notion.com/reference/retrieve-a-database)",
+  version: "0.0.3",
   type: "action",
   props: {
     notion,
