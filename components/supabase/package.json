@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/supabase",
+  "version": "0.0.1",
+  "description": "Pipedream Supabase Components",
+  "main": "supabase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "supabase"
+  ],
+  "homepage": "https://pipedream.com/apps/supabase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.1.0"
+  }
+}
