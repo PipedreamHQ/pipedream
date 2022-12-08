@@ -395,6 +395,9 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/bugsnag:
+    specifiers: {}
+
   components/burst_sms:
     specifiers: {}
 
@@ -624,6 +627,9 @@ importers:
       '@pipedream/platform': 1.1.1
       databox: 2.0.1
 
+  components/databricks:
+    specifiers: {}
+
   components/datadog:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -715,6 +721,9 @@ importers:
       do-wrapper: ^4.5.1
     dependencies:
       do-wrapper: 4.5.1
+
+  components/digitalocean_spaces:
+    specifiers: {}
 
   components/discord:
     specifiers: {}
@@ -1124,6 +1133,14 @@ importers:
       moment-timezone: 0.5.34
       uuid: 8.3.2
 
+  components/google_classroom:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      googleapis: ^109.0.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      googleapis: 109.0.1
+
   components/google_cloud:
     specifiers:
       '@google-cloud/bigquery': ^6.0.0
@@ -1515,6 +1532,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/levity:
+    specifiers: {}
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
@@ -1633,6 +1653,9 @@ importers:
   components/marketing_master_io:
     specifiers: {}
 
+  components/mastodon:
+    specifiers: {}
+
   components/mattermost:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -1648,6 +1671,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
       lodash-es: 4.17.21
+
+  components/mav:
+    specifiers: {}
 
   components/mediatoolkit:
     specifiers:
@@ -1708,6 +1734,9 @@ importers:
   components/mobile_text_alerts:
     specifiers: {}
 
+  components/mode:
+    specifiers: {}
+
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1763,6 +1792,9 @@ importers:
       '@pipedream/platform': 1.2.0
       mysql2-promise: 0.1.4
       uuid: 8.3.2
+
+  components/n8n_io:
+    specifiers: {}
 
   components/namely:
     specifiers:
@@ -1953,6 +1985,9 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/orbisx:
+    specifiers: {}
+
+  components/ortto:
     specifiers: {}
 
   components/outgrow:
@@ -7794,8 +7829,8 @@ packages:
     resolution: {integrity: sha512-/3P8NW4K7bleOF632+So6fW8xy6Sd/DtlNbabsKW9QBB/GoTc8oPIUH3odnv8X+ZnvrhgCElcBAQEg9vcHAzLA==}
     dependencies:
       axios: 0.21.4
-      fp-ts: 2.12.2
-      io-ts: 2.2.16_fp-ts@2.12.2
+      fp-ts: 2.13.1
+      io-ts: 2.2.19_fp-ts@2.13.1
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
@@ -13858,6 +13893,17 @@ packages:
 
   /googleapis/108.0.0:
     resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/109.0.1:
+    resolution: {integrity: sha512-x286OtNu0ngzxfGz2XgRs4aMhrwutRCkCE12dh2M1jIZOpOndB7ELFXEhmtxaJ7z3257flKIbiiCJZeBO+ze/Q==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.1.1
