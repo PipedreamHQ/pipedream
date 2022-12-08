@@ -19,6 +19,12 @@ export default {
     getLastEmmittedId() {
       return this.db.get("lastEmittedId");
     },
+    setLastEmittedDate(date) {
+      this.db.set("lastEmittedDate", date);
+    },
+    getLastEmittedDate() {
+      return this.db.get("lastEmittedDate");
+    },
     getData() {
       throw new Error("getData() not implemented");
     },
@@ -27,38 +33,42 @@ export default {
         sort: "created_at DESC",
       };
     },
+    getAgregatorProp() {
+      throw new Error("getAgregatorProp() not implemented");
+    },
+    getSummary() {
+      throw new Error("getSummary() not implemented");
+    },
   },
   async run() {
     const lastEmittedId = this.getLastEmmittedId();
     let page = 1;
-    const events = [];
+    const emmitedEvents = [];
 
     const fetchDataMethod = this.getData();
     loop1:
     while (true) {
-      const { customers } = await fetchDataMethod(page, this.getParams());
-      if (customers.length === 0) {
+      const res = await fetchDataMethod(page, this.getParams());
+      const events = res[this.getAgregatorProp()];
+      if (events.length === 0) {
         break;
       }
-      for (const customer of customers) {
-        if (customer.id === lastEmittedId) {
+      for (const event of events) {
+        if (event.id === lastEmittedId) {
           break loop1;
         }
-        events.unshift(customer);
+        emmitedEvents.unshift(event);
       }
       page++;
     }
 
-    for (const event of events) {
-      this.$emit(event, {
-        id: event.id,
-        summary: event.business_name || event.email || event.id,
-        ts: event.created_at || Date.now(),
-      });
+    for (const event of emmitedEvents) {
+      this.$emit(event, this.getSummary(event));
     }
 
-    if (events.length > 0) {
-      this.setLastEmmittedId(events[events.length - 1].id);
+    this.setLastEmittedDate(new Date());
+    if (emmitedEvents.length > 0) {
+      this.setLastEmmittedId(emmitedEvents[emmitedEvents.length - 1].id);
     }
   },
 };

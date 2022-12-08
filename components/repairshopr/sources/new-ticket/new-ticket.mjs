@@ -2,23 +2,28 @@ import common from "../common/source.mjs";
 
 export default {
   ...common,
-  key: "repairshopr-new-customer",
+  key: "repairshopr-new-ticket",
   type: "source",
-  name: "New Customer",
-  description: "Emit new event when a new customer is created.",
+  name: "New Ticket",
+  description: "Emit new event when a new ticket is created.",
   version: "0.0.1",
   methods: {
     ...common.methods,
     getData() {
-      return this.app.listCustomers;
+      return this.app.listTickets;
     },
     getAgregatorProp() {
-      return "customers";
+      return "tickets";
+    },
+    getParams() {
+      return {
+        created_after: new Date(this.getLastEmittedDate()),
+      };
     },
     getSummary(event) {
       return {
         id: event.id,
-        summary: event.business_name || event.email || event.id,
+        summary: event.subject || event.id,
         ts: event.created_at || Date.now(),
       };
     },

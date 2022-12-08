@@ -147,5 +147,18 @@ export default {
         ctx,
       );
     },
+    async listTickets(page, params = {}, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: "/tickets",
+          method: "GET",
+          params: {
+            page,
+            ...params,
+          },
+        },
+        ctx,
+      );
+    },
   },
 };
