@@ -2,7 +2,7 @@ import utils from "../../common/utils.mjs";
 import jira from "../../jira.app.mjs";
 
 export default {
-  key: "jira-update-issuee",
+  key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
   version: "0.2.3",
