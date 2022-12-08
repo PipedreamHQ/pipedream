@@ -280,7 +280,7 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    async deleteHook({ cloudId, ...opts }) {
+    async deleteHook({cloudId, ...opts}) {
       const { hookId } = opts;
       const requestBody = {
         webhookIds: [
@@ -467,13 +467,13 @@ export default {
     } = {}) {
       if (transition) {
         await this._makeRequest({
+          $: args.$,
           cloudId,
           method: "POST",
           path: `/issue/${issueIdOrKey}/transitions`,
           data: {
             transition,
           },
-          ...args,
         });
       }
       return await this._makeRequest({
