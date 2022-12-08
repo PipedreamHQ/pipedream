@@ -457,12 +457,14 @@ export default {
       });
     },
     async updateIssue({
+      cloudId,
       issueIdOrKey,
       transition,
       ...args
     } = {}) {
       if (transition) {
         await this._makeRequest({
+          cloudId,
           method: "POST",
           path: `/issue/${issueIdOrKey}/transitions`,
           data: {
