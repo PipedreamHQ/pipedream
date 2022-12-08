@@ -12,16 +12,16 @@ export default {
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     transition: {
@@ -30,9 +30,10 @@ export default {
         "transition",
         (configuredProps) => ({
           issueIdOrKey: configuredProps.issueIdOrKey,
-          cloudId: configuredProps.cloudId
+          cloudId: configuredProps.cloudId,
         }),
       ],
+      optional: false,
     },
     fields: {
       propDefinition: [
