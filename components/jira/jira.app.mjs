@@ -280,7 +280,7 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    async deleteHook({cloudId, ...opts}) {
+    async deleteHook({ cloudId, ...opts }) {
       const { hookId } = opts;
       const requestBody = {
         webhookIds: [
@@ -473,9 +473,11 @@ export default {
           data: {
             transition,
           },
+          ...args,
         });
       }
       return await this._makeRequest({
+        cloudId,
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,
         ...args,
