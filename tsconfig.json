@@ -1088,6 +1088,9 @@
     },
     {
       "path": "components/levity"
+    },
+    {
+      "path": "components/digitalocean_spaces"
     }
   ]
 }
