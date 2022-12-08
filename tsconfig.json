@@ -1091,6 +1091,9 @@
     },
     {
       "path": "components/digitalocean_spaces"
+    },
+    {
+      "path": "components/kakao"
     }
   ]
 }
