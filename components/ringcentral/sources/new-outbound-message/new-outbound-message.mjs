@@ -37,7 +37,7 @@ export default {
       };
     },
     async emitEvent(event) {
-      const { body } = event;
+      const { body: { body } } = event;
 
       for (const messageId of body.changes[0].newMessageIds) {
         const message = await this.ringcentral.getMessage({
