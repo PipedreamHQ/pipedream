@@ -317,16 +317,19 @@ export default {
       });
     },
     async addAttachmentToIssue({
+      cloudId,
       issueIdOrKey,
       ...args
     } = {}) {
       return this._makeRequest({
+        cloudId,
         method: "POST",
         path: `/issue/${issueIdOrKey}/attachments`,
         ...args,
       });
     },
     async addCommentToIssue({
+      cloudId,
       issueIdOrKey,
       ...args
     } = {}) {
