@@ -13,6 +13,7 @@ export default {
         todoist,
         "project",
       ],
+      optional: false,
     },
   },
   async run ({ $ }) {

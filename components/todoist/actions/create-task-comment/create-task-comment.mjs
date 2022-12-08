@@ -30,6 +30,8 @@ export default {
         todoist,
         "content",
       ],
+      label: "Comment",
+      optional: false,
     },
   },
   async run ({ $ }) {

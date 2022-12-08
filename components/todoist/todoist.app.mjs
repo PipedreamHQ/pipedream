@@ -254,7 +254,7 @@ export default {
     /**
      * Make a request to Todoist's sync API.
      * @params {Object} opts - An object representing the configuration options for this method
-     * @params {String} [opts.path=/sync/v8/sync] - The path for the sync request
+     * @params {String} [opts.path=/sync/v9/sync] - The path for the sync request
      * @params {String} opts.payload - The data to send in the API request at the POST body.
      * This data will converted to `application/x-www-form-urlencoded`
      * @returns {Object} When the request succeeds, an HTTP 200 response with
@@ -766,7 +766,7 @@ export default {
       } = opts;
       return (await this._makeSyncRequest({
         $,
-        path: "/sync/v8/completed/get_all",
+        path: "/sync/v9/completed/get_all",
         method: "POST",
         payload: params,
       })).items;
