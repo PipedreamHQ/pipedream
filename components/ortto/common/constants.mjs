@@ -1,0 +1,19 @@
+const VERSION_PATH = "/v1";
+const FILE_PROP_NAMES = [
+  "attachment",
+  "uploaddoc",
+  "upload_file",
+];
+const CONTENT_TYPE_KEY_HEADER = "Content-Type";
+const MULTIPART_FORM_DATA_VALUE_HEADER = "multipart/form-data";
+const MULTIPART_FORM_DATA_HEADERS = {
+  [CONTENT_TYPE_KEY_HEADER]: MULTIPART_FORM_DATA_VALUE_HEADER,
+};
+
+export default {
+  VERSION_PATH,
+  FILE_PROP_NAMES,
+  CONTENT_TYPE_KEY_HEADER,
+  MULTIPART_FORM_DATA_VALUE_HEADER,
+  MULTIPART_FORM_DATA_HEADERS,
+};

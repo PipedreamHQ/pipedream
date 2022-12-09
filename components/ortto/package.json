@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/ortto",
-  "version": "0.0.1",
-  "description": "Pipedream Ortto  Components",
-  "main": "dist/app/ortto.app.mjs",
+  "version": "0.0.2",
+  "description": "Pipedream Ortto Components",
+  "main": "ortto.app.mjs",
   "keywords": [
     "pipedream",
     "ortto"
