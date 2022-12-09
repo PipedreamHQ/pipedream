@@ -3,7 +3,9 @@ import FeedParser from "feedparser";
 import { Item } from "feedparser";
 import hash from "object-hash";
 import { defineApp } from "@pipedream/types";
-import { ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL} from "@pipedream/platform";
+import {
+  ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import { ReadStream } from "fs";
 
 export default defineApp({
@@ -31,18 +33,22 @@ export default defineApp({
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
     itemTs(item = {} as (Item | any)): number {
-      if (item.pubdate) {
-        return +new Date(item.pubdate);
-      } else if (item.date_published) {
-        return +new Date(item.date_published);
+      const {
+        pubdate, pubDate, date_published,
+      } = item;
+      const itemPubDate = pubdate ?? pubDate ?? date_published;
+      if (itemPubDate) {
+        return +new Date(itemPubDate);
       }
       return +new Date();
     },
     itemKey(item = {} as (Item | any)): string {
-      if (item.pubdate && item.guid) {
-        return `${item.pubdate}-${item.guid}`;
-      } else if (item.date_published && item.id) {
-        return `${item.date_published}-${item.id}`;
+      const {
+        id, guid, link, title,
+      } = item;
+      const itemId = id ?? guid ?? link ?? title;
+      if (itemId) {
+        return itemId;
       }
       return hash(item);
     },
@@ -121,10 +127,13 @@ export default defineApp({
     async fetchAndParseFeed(u: string) {
       const url = this.validateAndFixFeedURL(u);
       const response = await this.fetchFeed(url);
+      console.log(response);
       if (this.isJSONFeed(response)) {
         return await this.parseJSONFeed(response.data);
       } else {
-        return await this.parseFeed(response.data);
+        const feed = this.parseFeed(response.data);
+        console.log(feed);
+        return await feed;
       }
     },
     validateAndFixFeedURL(u: string) {
