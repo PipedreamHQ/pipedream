@@ -1,6 +1,8 @@
 # Overview
 
-Loomio is a tool that helps groups make better decisions together. With Loomio, you can easily and efficiently hold discussions, make decisions, and take action as a group.
+Loomio is a tool that helps groups make better decisions together. With Loomio,
+you can easily and efficiently hold discussions, make decisions, and take
+action as a group.
 
 Here are some examples of what you can build using the Loomio API:
 

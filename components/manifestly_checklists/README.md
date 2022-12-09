@@ -1,8 +1,11 @@
 # Overview
 
-With Manifestly, you can easily create, edit, and track checklist items for any process or activity. Manifestly provides a simple, yet powerful, interface for managing checklist items that can be used for any type of activity.
+With Manifestly, you can easily create, edit, and track checklist items for any
+process or activity. Manifestly provides a simple, yet powerful, interface for
+managing checklist items that can be used for any type of activity.
 
-Here are a few examples of what you can build using the Manifestly Checklists API:
+Here are a few examples of what you can build using the Manifestly Checklists
+API:
 
 - A simple to-do list
 - A shopping list

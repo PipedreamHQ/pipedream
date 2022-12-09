@@ -1,6 +1,8 @@
 # Overview
 
-LoyaltyLion is a platform that enables businesses to create and manage loyalty programs. With the LoyaltyLion API, businesses can create and manage loyalty programs, as well as track and analyze customer behavior.
+LoyaltyLion is a platform that enables businesses to create and manage loyalty
+programs. With the LoyaltyLion API, businesses can create and manage loyalty
+programs, as well as track and analyze customer behavior.
 
 Some examples of what you can build with the LoyaltyLion API include:
 

@@ -1,6 +1,7 @@
 # Overview
 
-Loggly provides an API that lets you send data to Loggly. This data can be used to build a variety of things, including:
+Loggly provides an API that lets you send data to Loggly. This data can be used
+to build a variety of things, including:
 
 - A dashboard of your logs
 - A system to monitor your logs

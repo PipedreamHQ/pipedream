@@ -1,6 +1,7 @@
 # Overview
 
-With the Mandrill API, you can integrate Mandrill into your own applications to send emails, track results, manage subscribers, and more.
+With the Mandrill API, you can integrate Mandrill into your own applications to
+send emails, track results, manage subscribers, and more.
 
 Here are some examples of what you can build with the Mandrill API:
 
