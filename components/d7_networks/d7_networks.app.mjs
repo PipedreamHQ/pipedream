@@ -33,5 +33,12 @@ export default {
         throw error;
       }
     },
+    sendSMS(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: `/messages/${constants.API_VERSION}/send`,
+        ...args,
+      });
+    },
   },
 };

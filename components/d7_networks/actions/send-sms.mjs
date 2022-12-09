@@ -3,8 +3,8 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Send SMS",
-  version: "0.0.2",
-  key: "d7_networks-send-sms",
+  version: "0.0.1",
+  key: "d7-networks-send-sms",
   description: "Sending sms via D7 networks! [See the docs](https://d7networks.com/docs/Messages/Send_Message/)",
   type: "action",
   props: {
@@ -28,12 +28,7 @@ export default {
       type: "string",
       label: "Channel",
       description: "Messaging Channel (`SMS`, `WhatsApp`, `Viber`, `Telegram`, etc)",
-      options: [
-        "SMS",
-        "WhatsApp",
-        "Viber",
-        "Telegram",
-      ],
+      options:Object.values(constants.MESSAGING_CHANNEL),
       optional: true,
     },
     reportUrl: {
@@ -47,11 +42,7 @@ export default {
       type: "string",
       label: "Data Encoding",
       description: "Set as `text` for normal GSM 03.38 characters (English, normal characters). Set as `unicode` for non GSM 03.38 characters (Arabic, Chinese, Hebrew, Greek like regional languages and Unicode characters). Set as `auto` so we will find the data_coding based on your content.",
-      options: [
-        "text",
-        "unicode",
-        "auto",
-      ],
+      options: Object.values(constants.DATA_ENCODING),
       default: "text",
       optional: true,
     },
@@ -59,24 +50,9 @@ export default {
       type: "string",
       label: "Message Type",
       description: "Set as `text` for normal GSM 03.38 characters (English, normal characters). Set as `unicode` for non GSM 03.38 characters (Arabic, Chinese, Hebrew, Greek like regional languages and Unicode characters). Set as `auto` so we will find the data_coding based on your content.",
-      options: [
-        "text",
-        "audio",
-        "sms",
-        "multimedia",
-        "image",
-      ],
+      options: Object.values(constants.MESSAGE_TYPE),
       default: "text",
       optional: true,
-    },
-  },
-  methods: {
-    sendSMS(args = {}) {
-      return this.app.makeRequest({
-        method: "post",
-        path: `/messages/${constants.API_VERSION}/send`,
-        ...args,
-      });
     },
   },
   async run({ $: step }) {
@@ -90,7 +66,7 @@ export default {
       msgType,
     } = this;
 
-    const response = await this.sendSMS({
+    const response = await this.app.sendSMS({
       step,
       data: {
         messages: [
