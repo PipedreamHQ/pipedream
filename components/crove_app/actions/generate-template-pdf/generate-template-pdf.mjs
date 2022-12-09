@@ -23,12 +23,7 @@ export default {
     },
   },
   async additionalProps() {
-    let templateId = this.template_id;
-    let config = {
-      url: `${this.croveApp._getBaseUrl()}/templates/${templateId}/`,
-      method: "GET",
-    };
-    let resp = await this.croveApp._makeRequest(config);
+    let resp = await this.croveApp.getTemplateDetails(this.template_id);
     let symbolTable = resp.symbol_table;
     let props = {};
     for (var k in symbolTable) {
