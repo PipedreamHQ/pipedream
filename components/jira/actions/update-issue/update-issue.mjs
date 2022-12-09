@@ -12,16 +12,16 @@ export default {
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     notifyUsers: {
@@ -48,7 +48,7 @@ export default {
         "transition",
         (c) => ({
           issueIdOrKey: c.issueIdOrKey,
-          cloudId: c.cloudId
+          cloudId: c.cloudId,
         }),
       ],
     },
@@ -87,7 +87,7 @@ export default {
   async run({ $ }) {
     const update = utils.parseObject(this.update);
     const fields = utils.parseObject(this.fields);
-    const transition = {
+    const transition = this.transition && {
       id: this.transition,
     };
     const historyMetadata = utils.parseObject(this.historyMetadata);
