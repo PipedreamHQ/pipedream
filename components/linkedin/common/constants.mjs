@@ -1,4 +1,4 @@
-const VERSION_PATH = "v2";
+const VERSION_PATH = "rest";
 const BASE_URL = "https://api.linkedin.com/";
 
 const VISIBILITIES = [

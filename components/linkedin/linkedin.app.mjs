@@ -52,7 +52,8 @@ export default {
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        "X-Restli-Protocol-Version": "2.0.0",
+        "Content-Type": "application/json",
+        "Linkedin-Version": "202206",
       };
     },
     async _makeRequest({
@@ -142,7 +143,7 @@ export default {
       return this._makeRequest({
         $,
         method: "DELETE",
-        path: `/shares/${postId}`,
+        path: `/posts/${postId}`,
       });
     },
   },
