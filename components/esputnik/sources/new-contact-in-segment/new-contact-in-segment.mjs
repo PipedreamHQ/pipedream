@@ -5,7 +5,7 @@ export default {
   key: "esputnik-new-contact-in-segment",
   name: "New Contact in Segment",
   description: "Emit new event when a new contact is added in the specified segment",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/temi",
+  "version": "0.0.1",
+  "description": "Pipedream Temi Components",
+  "main": "temi.app.mjs",
+  "keywords": [
+		"pipedream",
+		"temi"
+  ],
+  "homepage": "https://pipedream.com/apps/temi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

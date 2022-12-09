@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New NPS Rating",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "nicereply-new-nps-rating",
   description: "Emit new event on each new NPS rating.",
   type: "source",

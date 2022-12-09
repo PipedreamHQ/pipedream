@@ -5,7 +5,7 @@ module.exports = {
   key: "calendly-invitee-canceled",
   name: "Invitee Canceled (Instant)",
   description: "Emits an event when an invitee cancels a scheduled event",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {

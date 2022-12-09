@@ -1,11 +1,12 @@
 import freshdesk from "../../freshdesk.app.mjs";
 import moment from "moment";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-new-contact",
   name: "New Contact",
   description: "Emit new notifications when a new contact is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     freshdesk,
@@ -14,7 +15,7 @@ export default {
       description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

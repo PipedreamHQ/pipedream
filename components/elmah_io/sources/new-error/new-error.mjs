@@ -1,11 +1,12 @@
 import elmah_io from "../../elmah_io.app.mjs";
 import constants from "../common/constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 const QUERY = "isNew:true AND (severity:Error OR severity:Fatal)";
 
 export default {
   name: "New Error",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "elmah_io-new-error",
   description: "Emit new event on each new error",
   type: "source",
@@ -15,7 +16,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",

@@ -961,9 +961,6 @@
       "path": "components/facturadirecta"
     },
     {
-      "path": "components/danny_twilio_test"
-    },
-    {
       "path": "components/xata"
     },
     {
@@ -1000,6 +997,9 @@
       "path": "components/snyk"
     },
     {
+      "path": "components/kanbanflow"
+    },
+    {
       "path": "components/facebook_groups"
     },
     {
@@ -1019,6 +1019,90 @@
     },
     {
       "path": "components/nightfall_ai"
+    },
+    {
+      "path": "components/scrapeninja"
+    },
+    {
+      "path": "components/octopus_deploy"
+    },
+    {
+      "path": "components/kartra"
+    },
+    {
+      "path": "components/clientary"
+    },
+    {
+      "path": "components/faire"
+    },
+    {
+      "path": "components/talenox"
+    },
+    {
+      "path": "components/azure_devops"
+    },
+    {
+      "path": "components/envoy"
+    },
+    {
+      "path": "components/rudderstack"
+    },
+    {
+      "path": "components/baserow"
+    },
+    {
+      "path": "components/rudderstack_transformation"
+    },
+    {
+      "path": "components/loqate"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/drata"
+    },
+    {
+      "path": "components/yelp"
+    },
+    {
+      "path": "components/mastodon"
+    },
+    {
+      "path": "components/mav"
+    },
+    {
+      "path": "components/n8n_io"
+    },
+    {
+      "path": "components/ortto"
+    },
+    {
+      "path": "components/bugsnag"
+    },
+    {
+      "path": "components/databricks"
+    },
+    {
+      "path": "components/mode"
+    },
+    {
+      "path": "components/levity"
+    },
+    {
+      "path": "components/digitalocean_spaces"
+    },
+    {
+      "path": "components/kakao"
+    },
+    {
+      "path": "components/builder_io"
+    },
+    {
+      "path": "components/smartrmail"
+    },
+    {
+      "path": "components/rapid7_insight_platform"
     }
   ]
 }

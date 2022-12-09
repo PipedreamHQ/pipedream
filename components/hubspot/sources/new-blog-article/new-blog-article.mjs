@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-blog-article",
   name: "New Blog Posts",
   description: "Emit new event for each new blog post.",
-  version: "0.0.6",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},

@@ -1,5 +1,6 @@
 import hubspot from "../hubspot.app.mjs";
 import Bottleneck from "bottleneck";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -8,7 +9,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -30,7 +31,7 @@ export default {
       return limiter.schedule(async () => await resourceFn(params));
     },
     _getAfter() {
-      return this.db.get("after") || new Date();
+      return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -54,6 +55,7 @@ export default {
         if (resultType) {
           results = results[resultType];
         }
+
         for (const result of results) {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
@@ -94,7 +96,10 @@ export default {
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
+
       this.$emit(result, meta);
+
+      this._setAfter(meta.ts);
     },
     isRelevant() {
       return true;
@@ -118,6 +123,5 @@ export default {
     const after = this._getAfter();
     const params = this.getParams(after);
     await this.processResults(after, params);
-    this._setAfter(Date.now());
   },
 };

@@ -10,7 +10,7 @@ conform to these guidelines, but they will not be eligible to be listed in the
 curated registry (e.g., they may be hosted in a Github repo). If you develop a
 component that does not adhere to these guidelines, but you believe there is
 value to the broader community, please [reach out in our community
-forum](https://pipedream.com/community/c/dev/11). 
+forum](https://pipedream.com/community/c/dev/11).
 
 [[toc]]
 
@@ -363,7 +363,7 @@ If users are required to enter sensitive data, always use
 
 App files contain components that declare the app and include prop definitions
 and methods that may be reused across components. App files should adhere to the
-following naming convention:  `[app_name_slug].app.js`. If an app file does not
+following naming convention: `[app_name_slug].app.js`. If an app file does not
 exist for your app, please [reach
 out](https://pipedream.com/community/c/dev/11).
 
@@ -406,11 +406,7 @@ export default {
      * @returns {Array} Array of most recent Tweets liked by the specified user
      */
     async getLikedTweets(opts = {}) {
-      const {
-        screenName,
-        count = 200,
-        tweetMode = "extended",
-      } = opts;
+      const { screenName, count = 200, tweetMode = "extended" } = opts;
       const { data } = await this._makeRequest({
         url: "https://api.twitter.com/1.1/favorites/list.json",
         params: {
@@ -486,7 +482,7 @@ user understand what they need to do. Use Markdown as appropriate
 to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
-- Refer to other props using **bold** by surrounding with double asterisks (*)
+- Refer to other props using **bold** by surrounding with double asterisks (\*)
 - Use Markdown links with descriptive text rather than displaying a full URL.
 - If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using expressions, so they'll need to know how to structure the input data.
 
@@ -726,6 +722,11 @@ number of records to return.
 #### Use `$.summary` to summarize what happened
 
 [Describe what happened](/components/api/#returning-data-from-steps) when an action succeeds by following these guidelines:
+
 - Use plain language and provide helpful and contextually relevant information (especially the count of items)
 - Whenever possible, use names and titles instead of IDs
 - Basic structure: _Successfully [action performed (like added, removed, updated)] “[relevant destination]”_
+
+#### Don't export data you know will be large
+
+Browsers can crash when users load large exports (many MBs of data). When you know the content being returned is likely to be large – e.g. files — don't export the full content. Consider writing the data to the `/tmp` directory and exporting a reference to the file.
