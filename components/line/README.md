@@ -1,6 +1,8 @@
 # Overview
 
-The Line API allows developers to create all sorts of applications that interact with Line's messaging platform. Here are some examples of what you can build:
+The Line API allows developers to create all sorts of applications that
+interact with Line's messaging platform. Here are some examples of what you can
+build:
 
 - A bot that responds to messages from users
 - A bot that helps users buy tickets or make reservations

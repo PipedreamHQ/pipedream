@@ -1,6 +1,8 @@
 # Overview
 
-The Keen API lets you easily build custom analytics tools and applications. With Keen, you can collect data from anywhere, analyze it in minutes, and visualize it in beautiful charts and dashboards.
+The Keen API lets you easily build custom analytics tools and applications.
+With Keen, you can collect data from anywhere, analyze it in minutes, and
+visualize it in beautiful charts and dashboards.
 
 Some examples of what you can build with the Keen API:
 

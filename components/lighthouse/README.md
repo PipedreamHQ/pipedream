@@ -1,6 +1,8 @@
 # Overview
 
-Lighthouse is a great tool for building web applications. With its easy-to-use API, you can quickly and easily create web applications that are both powerful and user friendly.
+Lighthouse is a great tool for building web applications. With its easy-to-use
+API, you can quickly and easily create web applications that are both powerful
+and user friendly.
 
 Some examples of what you can build using the Lighthouse API include:
 

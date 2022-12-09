@@ -1,6 +1,7 @@
 # Overview
 
-Kanbanize is a tool that helps you visualized and manage your work. With Kanbanize, you can build a variety of things, including:
+Kanbanize is a tool that helps you visualized and manage your work. With
+Kanbanize, you can build a variety of things, including:
 
 - A board to help you manage your work
 - A workspace to help you collaborate with others

@@ -1,6 +1,7 @@
 # Overview
 
-With the lemlist API you can easily create campaigns with personalized emails and track the results.
+With the lemlist API you can easily create campaigns with personalized emails
+and track the results.
 
 Some things you can build with the lemlist API:
 

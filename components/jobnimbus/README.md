@@ -1,8 +1,9 @@
 # Overview
 
-1. Jobnimbus API can be used to create custom applications for managing job information.
+Jobnimbus API can be used to create custom applications for managing job
+information.
 
-2. Some examples of what you can build using the Jobnimbus API include:
+Some examples of what you can build using the Jobnimbus API include:
 
 - A custom job board
 - A job search engine
