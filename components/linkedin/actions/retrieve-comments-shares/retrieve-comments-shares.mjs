@@ -32,9 +32,8 @@ export default {
       count: this.count,
     };
 
-    const response = await this.linkedin.getComments({
+    const response = await this.linkedin.getComments(this.entityUrn, {
       $,
-      urn: this.entityUrn,
       params,
     });
 

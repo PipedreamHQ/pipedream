@@ -87,40 +87,15 @@ export default {
       optional: true,
     },
     pivot: {
-      type: "string",
-      label: "Pivot",
-      description: "Pivot of results, by which each report data point is grouped. The following enum values are supported:\n* COMPANY - Group results by advertiser's company.\n* ACCOUNT - Group results by account.\n* SHARE - Group results by sponsored share.\n* CAMPAIGN - Group results by campaign.\n* CREATIVE - Group results by creative.\n* CAMPAIGN_GROUP - Group results by campaign group.\n* CONVERSION - Group results by conversion.\n* CONVERSATION_NODE - The element row in the conversation will be the information for each individual node of the conversation tree.\n* CONVERSATION_NODE_OPTION_INDEX - Used `actionClicks` are deaggregated and reported at the Node Button level. The second value of the `pivot_values` will be the index of the button in the node.\n* SERVING_LOCATION - Group results by serving location, onsite or offsite.\n* CARD_INDEX - Group results by the index of where a card appears in a carousel ad creative. Metrics are based on the index of the card at the time when the user's action (impression, click, etc.) happened on the creative (Carousel creatives only).\n* MEMBER_COMPANY_SIZE - Group results by member company size.\n* MEMBER_INDUSTRY - Group results by member industry.\n* MEMBER_SENIORITY - Group results by member seniority.\n* MEMBER_JOB_TITLE - Group results by member job title.\n* MEMBER_JOB_FUNCTION - Group results by member job function.\n* MEMBER_COUNTRY_V2 - Group results by member country.\n* MEMBER_REGION_V2 - Group results by member region.\n* MEMBER_COMPANY - Group results by member company.",
-      options: [
-        "COMPANY",
-        "ACCOUNT",
-        "SHARE",
-        "CAMPAIGN",
-        "CREATIVE",
-        "CAMPAIGN_GROUP",
-        "CONVERSION",
-        "CONVERSATION_NODE",
-        "CONVERSATION_NODE_OPTION_INDEX",
-        "SERVING_LOCATION",
-        "CARD_INDEX",
-        "MEMBER_COMPANY_SIZE",
-        "MEMBER_INDUSTRY",
-        "MEMBER_SENIORITY",
-        "MEMBER_JOB_TITLE",
-        "MEMBER_JOB_FUNCTION",
-        "MEMBER_COUNTRY_V2",
-        "MEMBER_REGION_V2",
-        "MEMBER_COMPANY",
+      propDefinition: [
+        linkedin,
+        "pivot",
       ],
     },
     timeGranularity: {
-      type: "string",
-      label: "Time Granularity",
-      description: "Time granularity of results. Valid enum values:\n* ALL - Results grouped into a single result across the entire time range of the report.\n* DAILY - Results grouped by day.\n* MONTHLY - Results grouped by month.\n* YEARLY - Results grouped by year.",
-      options: [
-        "ALL",
-        "DAILY",
-        "MONTHLY",
-        "YEARLY",
+      propDefinition: [
+        linkedin,
+        "timeGranularity",
       ],
     },
     projection: {
@@ -211,9 +186,8 @@ export default {
 
     const querystring = ` ${dateRangeQueryString}${campaignTypeQsparam}${sharesQsparam}${sharesQsparam}${campaignsQsparam}${creativesQsparam}${accountsQsparam}${campaignGroupsQsparam}${companiesQsparam}`;
 
-    const response = await this.linkedin.queryAnaltyics({
+    const response = await this.linkedin.queryAnaltyics(querystring, {
       $,
-      querystring,
     });
 
     $.export("$summary", "Successfully retrieved analytics information");

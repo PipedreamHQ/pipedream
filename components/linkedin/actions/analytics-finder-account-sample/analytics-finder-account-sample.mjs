@@ -9,36 +9,31 @@ export default {
   props: {
     linkedin,
     startYear: {
-      type: "string",
-      label: "Start Year",
-      description: "The inclusive start year range of the analytics.\nThis action query is set to 1st January, as day and month of the start range of the analytics.",
+      propDefinition: [
+        linkedin,
+        "startYear",
+      ],
     },
     timeGranularity: {
-      type: "string",
-      label: "Time Granularity",
-      description: "Time granularity of results. Valid enum values:\n\n* ALL - Results grouped into a single result across the entire time range of the report.\n* DAILY - Results grouped by day.\n* MONTHLY - Results grouped by month.\n* YEARLY - Results grouped by year.",
-      options: [
-        "ALL",
-        "DAILY",
-        "MONTHLY",
-        "YEARLY",
+      propDefinition: [
+        linkedin,
+        "timeGranularity",
       ],
     },
     adAccountId: {
       type: "string",
       label: "Ad Account Id",
-      description: "Sponsored ad account id match results by.",
+      description: "Sponsored ad account id to match results by.",
     },
   },
   async run({ $ }) {
   // Note: This action is based on the LinkedIn Analytics Finder sample request.
   // It was modified to use an sponsored account to match results by.
 
-    const response = await this.linkedin.getAccountAnalyticsSample({
+    const querystring = `&pivot=ACCOUNT&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=${this.startYear}&timeGranularity=${this.timeGranularity}&accounts[0]=urn:li:sponsoredAccount:${this.adAccountId}`;
+
+    const response = await this.linkedin.queryAnalytics(querystring, {
       $,
-      startYear: this.startYear,
-      timeGranularity: this.timeGranularity,
-      adAccountId: this.adAccountId,
     });
 
     $.export("$summary", "Successfully retrieved analytics");

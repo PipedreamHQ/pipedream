@@ -18,7 +18,7 @@ export default {
         const { elements } = await this.getOrganizations(page);
 
         const responseArray = [];
-        for (let item of elements) {
+        for (const item of elements) {
           const orgId = item.organization.split(":")[3];
           const orgData = await this.getOrganization(orgId);
 
@@ -47,13 +47,30 @@ export default {
       label: "Post ID",
       description: "Id of the post that will be deleted",
     },
+    startYear: {
+      type: "string",
+      label: "Start Year",
+      description: "The inclusive start year range of analytics.\nThis action query is set to 1st January, as the day and month of the start range of the analytics.",
+    },
+    timeGranularity: {
+      type: "string",
+      label: "Time Granularity",
+      description: "Time granularity of results. Valid enum values:\n\n* ALL - Results grouped into a single result across the entire time range of the report.\n* DAILY - Results grouped by day.\n* MONTHLY - Results grouped by month.\n* YEARLY - Results grouped by year.",
+      options: constants.TIME_GRANULARITY_OPTIONS,
+    },
+    pivot: {
+      type: "string",
+      label: "Pivot",
+      description: "Pivot of results, by which each report data point is grouped. The following enum values are supported:\n* COMPANY - Group results by advertiser's company.\n* ACCOUNT - Group results by account.\n* SHARE - Group results by sponsored share.\n* CAMPAIGN - Group results by campaign.\n* CREATIVE - Group results by creative.\n* CAMPAIGN_GROUP - Group results by campaign group.\n* CONVERSION - Group results by conversion.\n* CONVERSATION_NODE - The element row in the conversation will be the information for each individual node of the conversation tree.\n* CONVERSATION_NODE_OPTION_INDEX - Used `actionClicks` are deaggregated and reported at the Node Button level. The second value of the `pivot_values` will be the index of the button in the node.\n* SERVING_LOCATION - Group results by serving location, onsite or offsite.\n* CARD_INDEX - Group results by the index of where a card appears in a carousel ad creative. Metrics are based on the index of the card at the time when the user's action (impression, click, etc.) happened on the creative (Carousel creatives only).\n* MEMBER_COMPANY_SIZE - Group results by member company size.\n* MEMBER_INDUSTRY - Group results by member industry.\n* MEMBER_SENIORITY - Group results by member seniority.\n* MEMBER_JOB_TITLE - Group results by member job title.\n* MEMBER_JOB_FUNCTION - Group results by member job function.\n* MEMBER_COUNTRY_V2 - Group results by member country.\n* MEMBER_REGION_V2 - Group results by member region.\n* MEMBER_COMPANY - Group results by member company.",
+      options: constants.PIVOT_OPTIONS,
+    },
   },
   methods: {
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
-        "Linkedin-Version": "202206",
+        "Linkedin-Version": constants.VERSION_HEADER,
       };
     },
     async _makeRequest({
@@ -137,126 +154,80 @@ export default {
         path: `/organizations/${organizationId}`,
       });
     },
-    async deletePost({
-      $, postId,
-    }) {
+    async deletePost(postId, args = {}) {
       return this._makeRequest({
-        $,
         method: "DELETE",
         path: `/posts/${postId}`,
+        ...args,
       });
     },
-    async getAccountAnalyticsSample({
-      $, startYear, timeGranularity, adAccountId,
-    }) {
+    async createComment(urnToComment, args = {}) {
       return this._makeRequest({
-        $,
-        path: `/adAnalyticsV2?q=analytics&pivot=ACCOUNT&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=${startYear}&timeGranularity=${timeGranularity}&accounts[0]=urn:li:sponsoredAccount:${adAccountId}`,
-      });
-    },
-    async getCampaignAnalyticsSample({
-      $, startYear, timeGranularity, campaignId,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `/adAnalyticsV2?q=analytics&pivot=CAMPAIGN&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=${startYear}&timeGranularity=${timeGranularity}&campaigns[0]=urn:li:sponsoredCampaign:${campaignId}`,
-      });
-    },
-    async createComment({
-      $, urnToComment, data = {},
-    }) {
-      return this._makeRequest({
-        $,
         method: "POST",
         path: `/socialActions/${urnToComment}/comments`,
-        data,
+        ...args,
       });
     },
-    async createLikeOnShare({
-      $, parentUrn, data = {},
-    }) {
+    async createLikeOnShare(parentUrn, args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: `/socialActions/${parentUrn}/likes`,
-        data,
+        ...args,
       });
     },
-    async getAdAccount({
-      $, adAccountId,
-    }) {
+    async getAdAccount(adAccountId, args = {}) {
       return this._makeRequest({
-        $,
         path: `/adAccounts/${adAccountId}`,
+        ...args,
       });
     },
-    async getCurrentMemberProfile({ $ }) {
+    async getCurrentMemberProfile(args = {}) {
       return this._makeRequest({
-        $,
         path: "/me",
+        ...args,
       });
     },
-    async getMemberProfile({
-      $, personId,
-    }) {
+    async getMemberProfile(personId, args = {}) {
       return this._makeRequest({
-        $,
         path: `people/(id:${personId})`,
+        ...args,
       });
     },
-    async getMultipleMemberProfiles({
-      $, params = {},
-    }) {
+    async getMultipleMemberProfiles(args = {}) {
       return this._makeRequest({
-        $,
         path: "/people",
-        params,
+        ...args,
       });
     },
-    async getAccessControl({
-      $, params = {},
-    }) {
+    async getAccessControl(args = {}) {
       return this._makeRequest({
-        $,
         path: "/organizationAcls",
-        params,
+        ...args,
       });
     },
-    async createShare({
-      $, data = {},
-    }) {
+    async createShare(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/shares",
-        data,
+        ...args,
       });
     },
-    async queryAnaltyics({
-      $, querystring, params = {},
-    } ) {
+    async queryAnaltyics(query, args = {} ) {
       return this._makeRequest({
-        $,
-        path: `/adAnalytics?q=analytics${querystring}`,
-        params,
+        path: `/adAnalytics?q=analytics${query}`,
+        ...args,
       });
     },
-    async getComments({
-      $, urn, params = {},
-    }) {
+    async getComments(urn, args = {}) {
       return this._makeRequest({
-        $,
         path: `/socialActions/${urn}/comments`,
-        params,
+        ...args,
       });
     },
-    async searchOrganizations({
-      $, querystring, params = {},
-    }) {
+    async searchOrganizations(query, args = {}) {
       return this._makeRequest({
-        $,
-        path: `/organizations?q=${querystring}`,
-        params,
+        path: `/organizations?q=analytics${query}`,
+        ...args,
       });
     },
   },

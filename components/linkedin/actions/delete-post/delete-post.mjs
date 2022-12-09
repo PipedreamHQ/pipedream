@@ -16,9 +16,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.linkedin.deletePost({
+    const response = await this.linkedin.deletePost(this.postId, {
       $,
-      postId: this.postId,
     });
     $.export("$summary", "Successfully deleted post");
     return response;

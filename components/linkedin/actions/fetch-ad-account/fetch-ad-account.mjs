@@ -15,9 +15,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.linkedin.getAdAccount({
+    const response = await this.linkedin.getAdAccount(this.adAccountId, {
       $,
-      adAccountId: this.adAccountId,
     });
 
     $.export("$summary", "Successfully retrieved Ad Account");

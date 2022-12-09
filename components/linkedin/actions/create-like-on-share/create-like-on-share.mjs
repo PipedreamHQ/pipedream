@@ -16,7 +16,7 @@ export default {
     actor: {
       type: "string",
       label: "Actor",
-      description: "Entity which performing the like. Must be a person or an organization URN.",
+      description: "Entity performing the like. Must be a person or an organization URN.",
     },
     object: {
       type: "string",
@@ -30,9 +30,8 @@ export default {
       object: this.object,
     };
 
-    const response = await this.linkedin.createLikeOnShare({
+    const response = await this.linkedin.createLikeOnShare(this.parentUrn, {
       $,
-      parentUrn: this.parentUrn,
       data,
     });
 

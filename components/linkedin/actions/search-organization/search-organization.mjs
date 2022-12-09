@@ -42,9 +42,8 @@ export default {
     };
     const querystring = `${this.search_by}&${this.search_by}=${this.search_term}`;
 
-    const response = await this.linkedin.searchOrganizations({
+    const response = await this.linkedin.searchOrganizations(querystring, {
       $,
-      querystring,
       params,
     });
 

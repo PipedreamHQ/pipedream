@@ -47,9 +47,8 @@ export default {
       parentComment: this.parentComment,
     };
 
-    const response = await this.linkedin.createComment({
+    const response = await this.linkedin.createComment(this.urnToComment, {
       $,
-      urnToComment: this.urnToComment,
       data,
     });
 

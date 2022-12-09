@@ -15,9 +15,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.linkedin.getMemberProfile({
+    const response = await this.linkedin.getMemberProfile(this.personId, {
       $,
-      personId: this.personId,
     });
 
     $.export("$summary", "Successfully retrieved member profile");
