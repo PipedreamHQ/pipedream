@@ -4,7 +4,7 @@ info:
   description: The official Pipedream REST API for interacting with your sources, workflows, and more.
   version: 1.0.0
 servers:
-  - url: http://api.pipedream.com/v1
+  - url: https://api.pipedream.com/v1
 
 components:
   securitySchemes:
@@ -77,8 +77,6 @@ components:
                 intervalSeconds:
                   type: integer
                   example: 900
-
-
     Source:
       type: object
       properties:
@@ -112,6 +110,62 @@ components:
           description: The name of the deployed source in machine format.
           type: string
           example: test-source
+    EventSummary:
+      type: object
+      properties:
+        id: 
+          type: string
+          description: The cursor ID for pagination
+          example: 1669735530052-0
+        indexed_at_ms:
+          description: The timestamp of when the event was indexed.
+          type: integer
+          example: 1587679599
+        metadata:
+          type: object
+          properties:
+            emitter_id:
+              type: string
+              description: The ID of the source emitting the event.
+              example: dc_abc123
+            emit_id:
+              type: string
+              description: The emit ID
+              example: 2IE8l8gs4KYU9fofq2NPBCPYIdY
+            name:
+              type: string
+              description: The name of the channel emitted to, if any.
+              example: custom-channel-name
+            summary:
+              type: string
+              description: The short summary description of the event.
+              example: "New Tweet by @pipedream"
+            id:
+              type: string
+              description: The ID of the event
+              example: "t3_abc123"
+            ts:
+              type: integer
+              description: The timestamp of the event emission
+              example: 1669733256
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sub_abc123
+          description: The ID of the subscription
+        emitter_id:
+          type: string
+          example: dc_abc123
+          description: The workflow or source emitting events
+        listener_id:
+          type: string
+          example: p_abc123
+          description: The workflow listening to incoming events from the emitter workflow or source
+        event_name:
+          type: string
+          description: The name of the channel this event was emitted on. By default this is an empty string.
     Component:
       type: object
       properties:
@@ -137,7 +191,6 @@ components:
           description: The symver of this component.
         configurable_props:
           $ref: '#/components/schemas/ConfigurableRSSProps' 
-
   parameters:
     limit:
       in: query
@@ -230,3 +283,277 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Source'
+  /sources/{id}/event_summaries:
+    get:
+      summary: List source events
+      operationId: sources.event_summaries.list
+      parameters:
+        - $ref: '#/components/parameters/limit'
+          description: The number of items to return in the results. Limited to 100 for sources.
+        - in: query
+          name: expand
+          schema:
+            type: string
+            example: expand
+            pattern: 'event'
+          description: |
+            The event data for events larger than 1KB may get truncated in the response. 
+            
+            If you're processing larger events, and need to see the full event data, pass `?expand=event`.
+          allowEmptyValue: true
+
+        - in: path
+          name: id
+          required: true
+          description: |
+            The source ID you'd like to fetch metadata for.
+
+            *Note:* the `dc_` in the ID is short for `deployed_component` which is a synonym for a deployed source.
+          schema:
+            type: string
+            pattern: '^sc_\w{5,}$'
+            example: sc_JDi8EB
+
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      description: Retrieve up to the last 100 events emitted by a source.
+      responses:
+        '200':    # status code
+          description: A JSON array of source event summaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page_info:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EventSummary'
+  /sources/{id}/events:
+    delete:
+      summary: Delete source events
+      operationId: source.event.delete
+      description: |
+        Deletes all events, or a specific set of events, tied to a source.
+
+        By default, making a DELETE request to this endpoint deletes all events associated with a source. To delete a specific event, or a range of events, you can use the start_id and end_id parameters.
+
+        These IDs can be retrieved by using the `GET /sources/{id}/event_summaries endpoint`, and are tied to the timestamp at which the event was emitted — e.g. `1589486981597-0`. They are therefore naturally ordered by time.
+
+        *Please note* deletion requests are asynchronous. All deletion requests will always return a `202 Accepted`.
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      parameters:
+        - name: key
+          in: path
+          description: |
+            The deployed source component ID
+          schema:
+            type: string
+            pattern: '^dc_\w{5,}$'
+        - name: start_id
+          in: query
+          description: |
+            The event ID from which you'd like to start deleting events.
+
+            If start_id is passed without end_id, the request will delete all events starting with and including this event ID.
+          example: 1589486981597-0
+          schema:
+            type: string
+        - name: end_id
+          in: query
+          description: |
+            The event ID from which you'd like to end the range of deletion.
+
+            If end_id is passed without start_id, the request will delete all events up to and including this event ID.
+          example: 1589486981597-0
+          schema:
+            type: string
+      responses:
+        '202':
+          description: |
+            Deletion happens asynchronously, so you'll receive a 202 Accepted HTTP status code in response to any deletion requests.
+  /sources:
+    post:
+      summary: Create a source
+      operationId: sources.create
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      description: |
+        Deploy a new source executing the given code.
+      parameters:
+        - in: body
+          name: emitter_id
+          schema:
+            type: string
+            example: p_abc123
+            optional: true
+            description: |
+              The ID of the workflow or source emitting events. Events from this source / workflow trigger the receiving source / workflow.
+
+              emitter_id also accepts glob patterns that allow you to subscribe to all workflows or sources:
+
+              * `p_*`: Listen to events from all workflows
+              * `dc_*`: Listen to events from all event sources
+
+              [See the component endpoints](The ID of the workflow or source emitting events.
+        - in: body
+          name: event_name
+          schema:
+            type: string
+            example: custom_channel
+            optional: true
+            description: |
+              Only pass event_name when you're listening for events on a custom channel, with the name of the custom channel:
+
+              See the this.$emit docs for more information on how to emit events on custom channels.
+
+              Pipedream also exposes channels for logs and errors:
+
+              * `$errors`: Any errors thrown by workflows or sources are emitted to this stream
+              * `$logs`: Any logs produced by event sources are emitted to this stream
+        - in: body
+          name: listener_id
+          schema:
+            type: string
+            example: p_abc123
+            optional: true
+            description: |
+              The ID of the component or workflow you'd like to receive events.
+
+              See the [component endpoints for information](https://pipedream.com/docs/api/rest/#components) on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string p_2gCPml in https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit.
+
+  /components/{key|id}:
+    get:
+      summary: Get a Component
+      operationId: component.get
+      security:
+        - BearerAuth: []
+      tags:
+        - Components
+      description: |
+        Retrieve a component saved or published in your account using its saved component ID or key.
+
+        This endpoint returns the component's metadata and configurable props.
+      parameters:
+        - name: key
+          in: path
+          description: |
+            The component key (identified by the key property within the component's source code) you'd like to fetch metadata for.
+          schema:
+            type: string
+            pattern: '^[\w|-]+$'
+          example: my-component
+        - name: id
+          in: path
+          description: |
+            The saved component ID you'd like to fetch metadata for.
+          schema:
+            type: string
+            pattern: '^sc_\w{5,}$'
+          example: sc_JDi8EB
+      responses:
+        '200':    # status code
+          description: A single Component
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Component'
+  /components/registry/{key}:
+    get:
+      summary: Get a component from the global registry
+      operationId: component.registry.get
+      security:
+        - BearerAuth: []
+      tags:
+        - Components
+      description: |
+        Pipedream operates a global registry of all public components (for example, for apps like Github, Google Calendar, and more). 
+
+        This endpoint returns the same data as the endpoint for retrieving metadata on a component you own, but allows you to fetch data for any globally-published component.
+      parameters:
+        - name: key
+          in: path
+          description: |
+            The component key (identified by the key property within the component's source code) you'd like to fetch metadata for.
+          schema:
+            type: string
+            pattern: '^[\w|-]+$'
+          example: app-component-name
+      responses:
+        '200':    # status code
+          description: A single Component
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Component'
+  /orgs/{org_id}/subscriptions:
+    get:
+      summary: List all subscriptions in an organization
+      description: |
+        Retrieve all the [subscriptions](https://pipedream.com/docs/api/rest/#subscriptions) configured for a specific organization.
+      operationId: organization.subscriptions.list
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      parameters:
+        - name: org_id
+          in: path
+          description: |
+            [Switch to your org's context](https://pipedream.com/docs/orgs/#switching-context) and [find your org's ID](https://pipedream.com/docs/orgs/#finding-your-organization-s-id).
+          example: 
+          schema:
+            type: string
+            pattern: '^org_\w{5,}$' 
+      responses:
+        "200":
+          description: A list of subscriptions within the organization
+          content:
+            application/json:
+              $ref: '#/components/schemas/Subscription'
+  /orgs/{org_id}/sources:
+    get:
+      summary: List all sources in an organization
+      description: |
+        Retrieve all the [subscriptions](https://pipedream.com/docs/api/rest/#subscriptions) configured for a specific organization.
+      operationId: organization.subscriptions.list
+      security:
+        - BearerAuth: []
+      tags:
+        - Sources
+      parameters:
+        - name: org_id
+          in: path
+          description: |
+            [Switch to your org's context](https://pipedream.com/docs/orgs/#switching-context) and [find your org's ID](https://pipedream.com/docs/orgs/#finding-your-organization-s-id).
+          example: 
+          schema:
+            type: string
+            pattern: '^org_\w{5,}$' 
+      responses:
+        "200":
+          description: A list of sources within the organization
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page_info:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    $ref: '#/components/schemas/Source'
