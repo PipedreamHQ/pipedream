@@ -87,6 +87,7 @@ export default defineApp({
         feedparser.on("readable", function (this: FeedParser) {
           let item: any = this.read();
           while (item) {
+            console.log(`Item: ${JSON.stringify(item, null, 2)}`);
             for (const k in item) {
               if (item[`rss:${k}`]) {
                 delete item[`rss:${k}`];
@@ -127,13 +128,10 @@ export default defineApp({
     async fetchAndParseFeed(u: string) {
       const url = this.validateAndFixFeedURL(u);
       const response = await this.fetchFeed(url);
-      console.log(response);
       if (this.isJSONFeed(response)) {
         return await this.parseJSONFeed(response.data);
       } else {
-        const feed = this.parseFeed(response.data);
-        console.log(feed);
-        return await feed;
+        return await this.parseFeed(response.data);
       }
     },
     validateAndFixFeedURL(u: string) {
