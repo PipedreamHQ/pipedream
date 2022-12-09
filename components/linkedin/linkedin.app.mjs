@@ -146,5 +146,118 @@ export default {
         path: `/posts/${postId}`,
       });
     },
+    async getAccountAnalyticsSample({
+      $, startYear, timeGranularity, adAccountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/adAnalyticsV2?q=analytics&pivot=ACCOUNT&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=${startYear}&timeGranularity=${timeGranularity}&accounts[0]=urn:li:sponsoredAccount:${adAccountId}`,
+      });
+    },
+    async getCampaignAnalyticsSample({
+      $, startYear, timeGranularity, campaignId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/adAnalyticsV2?q=analytics&pivot=CAMPAIGN&dateRange.start.day=1&dateRange.start.month=1&dateRange.start.year=${startYear}&timeGranularity=${timeGranularity}&campaigns[0]=urn:li:sponsoredCampaign:${campaignId}`,
+      });
+    },
+    async createComment({
+      $, urnToComment, data = {},
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `/socialActions/${urnToComment}/comments`,
+        data,
+      });
+    },
+    async createLikeOnShare({
+      $, parentUrn, data = {},
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: `/socialActions/${parentUrn}/likes`,
+        data,
+      });
+    },
+    async getAdAccount({
+      $, adAccountId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/adAccounts/${adAccountId}`,
+      });
+    },
+    async getCurrentMemberProfile({ $ }) {
+      return this._makeRequest({
+        $,
+        path: "/me",
+      });
+    },
+    async getMemberProfile({
+      $, personId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `people/(id:${personId})`,
+      });
+    },
+    async getMultipleMemberProfiles({
+      $, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/people",
+        params,
+      });
+    },
+    async getAccessControl({
+      $, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/organizationAcls",
+        params,
+      });
+    },
+    async createShare({
+      $, data = {},
+    }) {
+      return this._makeRequest({
+        $,
+        method: "POST",
+        path: "/shares",
+        data,
+      });
+    },
+    async queryAnaltyics({
+      $, querystring, params = {},
+    } ) {
+      return this._makeRequest({
+        $,
+        path: `/adAnalytics?q=analytics${querystring}`,
+        params,
+      });
+    },
+    async getComments({
+      $, urn, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/socialActions/${urn}/comments`,
+        params,
+      });
+    },
+    async searchOrganizations({
+      $, querystring, params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/organizations?q=${querystring}`,
+        params,
+      });
+    },
   },
 };
