@@ -5,24 +5,33 @@ function getCustomFieldsProperties(customFields) {
     return [];
   }
 
-  if (!Array.isArray(customFields)) {
-    throw new ConfigurationError("Custom Fields property is not an array");
-  }
-
   try {
-    return customFields.map(JSON.parse)
-      .map(({
-        name, value = "",
-      }, idx) => {
-        if (!name) {
-          throw `No "name" property specified in row ${idx + 1}`;
-        }
-        return {
-          type: "CUSTOM",
-          name,
-          value,
-        };
-      });
+    if (typeof(customFields) === "string") {
+      customFields = JSON.parse(customFields);
+    }
+
+    const customFieldsArray =
+      Array.isArray(customFields)
+        ? customFields.map((customField) =>
+          typeof(customField) === "string"
+            ? JSON.parse(customField)
+            : customField)
+        : [
+          customFields,
+        ];
+
+    return customFieldsArray.map(({
+      name, value = "",
+    }, idx) => {
+      if (!name) {
+        throw `No "name" property specified in row ${idx + 1}`;
+      }
+      return {
+        type: "CUSTOM",
+        name,
+        value,
+      };
+    });
   } catch (error) {
     throw new ConfigurationError(`Custom Field row not set with the right JSON structure: ${error}`);
   }
