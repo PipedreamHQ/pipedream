@@ -104,7 +104,7 @@ export default {
       taskId: task,
       content,
       description,
-      label_ids: labels,
+      labels,
       priority,
       due_string: dueString,
       due_date: dueDate,
