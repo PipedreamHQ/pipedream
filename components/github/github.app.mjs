@@ -191,6 +191,18 @@ export default {
         }));
       },
     },
+    teamId: {
+      label: "Team Id",
+      description: "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
+      type: "integer",
+      async options() {
+        const teams = await this.getTeams();
+        return teams.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseApiUrl() {
@@ -204,7 +216,11 @@ export default {
         auth: this._accessToken(),
       });
     },
-    async _makeRequest({ $ = this, path, ...args } = {}) {
+    async _makeRequest({
+      $ = this,
+      path,
+      ...args
+    } = {}) {
       return axios($, {
         url: `${this._baseApiUrl()}${path}`,
         headers: {
@@ -285,8 +301,7 @@ export default {
     }) {
       const response = await this.graphql(repoName
         ? queries.projectsQuery
-        : queries.organizationProjectsQuery,
-      {
+        : queries.organizationProjectsQuery, {
         repoOwner,
         repoName,
         cursor,
@@ -303,8 +318,7 @@ export default {
     }) {
       const response = await this.graphql(repoName ?
         queries.statusFieldsQuery :
-        queries.organizationStatusFieldsQuery,
-      {
+        queries.organizationStatusFieldsQuery, {
         repoOwner,
         repoName,
         project,
@@ -349,6 +363,11 @@ export default {
       repoFullname, data,
     }) {
       const response = await this._client().request(`POST /repos/${repoFullname}/issues`, data);
+
+      return response.data;
+    },
+    async createRepository({ data }) {
+      const response = await this._client().request("POST /user/repos", data);
 
       return response.data;
     },
@@ -463,9 +482,9 @@ export default {
         validateStatus: () => true,
       });
       if (fileExists.sha) {
-        console.log('File exists, overwriting.');
+        console.log("File exists, overwriting.");
         data.sha = fileExists.sha;
-      };
+      }
       if (branch) {
         data.branch = branch;
       }
