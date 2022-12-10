@@ -132,7 +132,7 @@ export default {
       section_id: section,
       parent_id: parent,
       order,
-      label_ids: labels,
+      labels,
       priority,
       due_string: dueString,
       due_date: dueDate,
