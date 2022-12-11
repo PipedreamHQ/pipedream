@@ -14,7 +14,7 @@ export default defineAction({
   name: "Search Businesses",
   description: `Search businesses matching given criteria [See docs here](${DOCS_LINK})`,
   key: "yelp-search-businesses",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     yelp,
@@ -122,13 +122,18 @@ export default defineAction({
     const response: SearchBusinessesResponse = await this.yelp.searchBusinesses(
       params
     );
-    const { result, total } = response;
+    const {
+      result: { length },
+      total,
+    } = response;
 
     $.export(
       "$summary",
-      `Listed ${result.length === total ? "all " : ""}${
-        response.result.length
-      } businesses successfully`
+      length
+        ? `Listed ${
+            length === total ? "all " : ""
+          }${length} businesses successfully`
+        : "No businesses found with the given criteria"
     );
 
     return response;
