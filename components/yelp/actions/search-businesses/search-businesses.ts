@@ -120,17 +120,13 @@ export default defineAction({
     );
     const {
       result: { length },
-      total,
     } = response;
 
-    $.export(
-      "$summary",
-      length
-        ? `Listed ${
-            length === total ? "all " : ""
-          }${length} businesses successfully`
-        : "No businesses found with the given criteria"
-    );
+    const summary = length
+      ? `Listed ${length} business${length === 1 ? "" : "es"}`
+      : "No businesses found with the given criteria";
+
+    $.export("$summary", summary);
 
     return response;
   },

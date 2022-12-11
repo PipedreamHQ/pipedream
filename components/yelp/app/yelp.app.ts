@@ -4,7 +4,10 @@ import {
   Business,
   HttpRequestParams,
   PaginatedResponse,
+  SearchBusinessesByPhoneParams,
+  SearchBusinessesByPhoneResponse,
   SearchBusinessesParams,
+  SearchBusinessesResponse,
 } from "../common/types";
 
 export default defineApp({
@@ -61,12 +64,22 @@ export default defineApp({
 
       return {
         result,
-        total
+        total,
       };
     },
-    async searchBusinesses(args: SearchBusinessesParams): Promise<Business[]> {
+    async searchBusinesses(
+      args: SearchBusinessesParams
+    ): Promise<SearchBusinessesResponse> {
       return this._paginatedRequest({
         url: "/businesses/search",
+        ...args,
+      });
+    },
+    async searchBusinessesByPhoneNumber(
+      args: SearchBusinessesByPhoneParams
+    ): Promise<SearchBusinessesByPhoneResponse> {
+      return this._httpRequest({
+        url: "/businesses/search/phone",
         ...args,
       });
     },
