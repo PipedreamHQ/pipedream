@@ -5,14 +5,11 @@ import {
   SearchBusinessesResponse,
 } from "../../common/types";
 import { ConfigurationError } from "@pipedream/platform";
-import { ATTRIBUTE_OPTIONS, PRICE_OPTIONS } from "../../common/constants";
-
-const DOCS_LINK =
-  "https://docs.developer.yelp.com/reference/v3_business_search";
+import { ATTRIBUTE_OPTIONS, DOCS, PRICE_OPTIONS } from "../../common/constants";
 
 export default defineAction({
   name: "Search Businesses",
-  description: `Search businesses matching given criteria [See docs here](${DOCS_LINK})`,
+  description: `Search businesses matching given criteria [See docs here](${DOCS.searchBusinesses})`,
   key: "yelp-search-businesses",
   version: "0.0.1",
   type: "action",
@@ -59,7 +56,7 @@ export default defineAction({
     },
     categories: {
       label: "Categories",
-      description: `Categories to filter the search results with. [See the list of supported categories.](https://docs.developer.yelp.com/docs/resources-categories) The category alias should be used (e.g. "discgolf", not "Disc Golf").`,
+      description: `Categories to filter the search results with. [See the list of supported categories.](${DOCS.categories}) The category alias should be used (e.g. "discgolf", not "Disc Golf").`,
       type: "string[]",
       optional: true,
     },
@@ -80,8 +77,7 @@ export default defineAction({
     },
     additionalOptions: {
       label: "Additional Options",
-      description:
-        "Additional parameters to pass in the request, such as `open_now`. [See the docs for all the parameters.](https://docs.developer.yelp.com/reference/v3_business_search)",
+      description: `Additional parameters to pass in the request, such as \`open_now\`. [See the docs for all the parameters.](${DOCS.searchBusinesses})`,
       type: "object",
       optional: true,
     },
