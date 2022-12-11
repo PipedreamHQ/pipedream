@@ -29,6 +29,15 @@ export interface SearchBusinessesByPhoneParams {
   };
 }
 
+export interface GetBusinessDetailsParams {
+  $: Pipedream;
+  businessIdOrAlias: string;
+  params: {
+    device_platform: string;
+    locale: string;
+  };
+}
+
 export interface SearchBusinessesResponse {
   result: Business[];
   total: number;

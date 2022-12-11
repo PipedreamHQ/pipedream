@@ -7,7 +7,7 @@ export default defineAction({
   name: "Search Businesses By Phone Number",
   description: `Search businesses by phone number [See docs here](${DOCS.searchByPhone})`,
   key: "yelp-search-businesses-by-phone-number",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     yelp,
@@ -18,10 +18,7 @@ export default defineAction({
       type: "string",
     },
     locale: {
-      label: "Locale",
-      description: `Locale code in the format of *{language code}_{country code}* (e.g. \`en_US\`). [See the list of supported locales.](${DOCS.locales})`,
-      type: "string",
-      optional: true,
+      propDefinition: [yelp, "locale"],
     },
   },
   async run({ $ }) {

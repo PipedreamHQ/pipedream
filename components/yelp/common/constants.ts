@@ -52,9 +52,25 @@ export const ATTRIBUTE_OPTIONS = [
   },
 ]
 
+export const DEVICE_OPTIONS = [
+  {
+    label: "Android",
+    value: "android"
+  },
+  {
+    label: "iOS",
+    value: "ios"
+  },
+  {
+    label: "Mobile (Generic)",
+    value: "mobile-generic"
+  },
+]
+
 export const DOCS = {
   categories: 'https://docs.developer.yelp.com/docs/resources-categories',
   locales: 'https://docs.developer.yelp.com/docs/resources-supported-locales',
+  getBusinessDetails: 'https://docs.developer.yelp.com/reference/v3_business_info',
   searchBusinesses: "https://docs.developer.yelp.com/reference/v3_business_search",
   searchByPhone: "https://docs.developer.yelp.com/reference/v3_business_phone_search"
 }

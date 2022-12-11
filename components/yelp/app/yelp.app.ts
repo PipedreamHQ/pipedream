@@ -2,6 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   Business,
+  GetBusinessDetailsParams,
   HttpRequestParams,
   PaginatedResponse,
   SearchBusinessesByPhoneParams,
@@ -9,6 +10,7 @@ import {
   SearchBusinessesParams,
   SearchBusinessesResponse,
 } from "../common/types";
+import { DOCS } from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -83,5 +85,21 @@ export default defineApp({
         ...args,
       });
     },
+    async getBusinessDetails(
+      { businessIdOrAlias, ...args }: GetBusinessDetailsParams
+    ): Promise<Business> {
+      return this._httpRequest({
+        url: `/businesses/${businessIdOrAlias}`,
+        ...args,
+      });
+    },
   },
+  propDefinitions: {
+    locale: {
+      label: "Locale",
+      description: `Locale code in the format of *{language code}_{country code}* (e.g. \`en_US\`). [See the list of supported locales.](${DOCS.locales})`,
+      type: "string",
+      optional: true,
+    },
+  }
 });
