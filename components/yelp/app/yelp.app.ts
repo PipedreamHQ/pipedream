@@ -36,8 +36,12 @@ export default defineApp({
         ...args,
       });
     },
-    async _paginatedRequest({ params, ...args }: SearchBusinessesParams) {
-      let { maxResults, ...requestParams } = params;
+    async _paginatedRequest({
+      params, ...args
+    }: SearchBusinessesParams) {
+      const {
+        maxResults, ...requestParams
+      } = params;
 
       const result: Business[] = [];
       let offset = 0;
@@ -45,7 +49,7 @@ export default defineApp({
       let total: number;
 
       do {
-        let limit = Math.min(50, remainingResults);
+        const limit = Math.min(50, remainingResults);
 
         const response: PaginatedResponse = await this._httpRequest({
           params: {
@@ -72,7 +76,7 @@ export default defineApp({
       };
     },
     async searchBusinesses(
-      args: SearchBusinessesParams
+      args: SearchBusinessesParams,
     ): Promise<SearchBusinessesResponse> {
       return this._paginatedRequest({
         url: "/businesses/search",
@@ -80,7 +84,7 @@ export default defineApp({
       });
     },
     async searchBusinessesByPhoneNumber(
-      args: SearchBusinessesByPhoneParams
+      args: SearchBusinessesByPhoneParams,
     ): Promise<SearchBusinessesByPhoneResponse> {
       return this._httpRequest({
         url: "/businesses/search/phone",
@@ -88,7 +92,9 @@ export default defineApp({
       });
     },
     async getBusinessDetails(
-      { businessIdOrAlias, ...args }: GetBusinessDetailsParams
+      {
+        businessIdOrAlias, ...args
+      }: GetBusinessDetailsParams,
     ): Promise<Business> {
       return this._httpRequest({
         url: `/businesses/${businessIdOrAlias}`,
@@ -96,7 +102,9 @@ export default defineApp({
       });
     },
     async listBusinessReviews(
-      { businessIdOrAlias, ...args }: ListBusinessReviewsParams
+      {
+        businessIdOrAlias, ...args
+      }: ListBusinessReviewsParams,
     ): Promise<ListBusinessReviewsResponse> {
       return this._httpRequest({
         url: `/businesses/${businessIdOrAlias}/reviews`,
@@ -117,5 +125,5 @@ export default defineApp({
       type: "string",
       optional: true,
     },
-  }
+  },
 });

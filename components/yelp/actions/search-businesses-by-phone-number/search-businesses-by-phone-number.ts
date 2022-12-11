@@ -18,11 +18,16 @@ export default defineAction({
       type: "string",
     },
     locale: {
-      propDefinition: [yelp, "locale"],
+      propDefinition: [
+        yelp,
+        "locale",
+      ],
     },
   },
   async run({ $ }) {
-    const { locale, phone } = this;
+    const {
+      locale, phone,
+    } = this;
 
     const params = {
       $,
@@ -38,14 +43,14 @@ export default defineAction({
 
     let summary: string;
     switch (length) {
-      case 0:
-        summary = "No businesses found with the given phone number";
-        break;
-      case 1:
-        summary = `Found business "${businesses[0].name}"`;
-        break;
-      default:
-        summary = `Found ${length} businesses`;
+    case 0:
+      summary = "No businesses found with the given phone number";
+      break;
+    case 1:
+      summary = `Found business "${businesses[0].name}"`;
+      break;
+    default:
+      summary = `Found ${length} businesses`;
     }
 
     $.export("$summary", summary);

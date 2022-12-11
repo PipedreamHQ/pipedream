@@ -5,7 +5,9 @@ import {
   SearchBusinessesResponse,
 } from "../../common/types";
 import { ConfigurationError } from "@pipedream/platform";
-import { ATTRIBUTE_OPTIONS, DOCS, PRICE_OPTIONS } from "../../common/constants";
+import {
+  ATTRIBUTE_OPTIONS, DOCS, PRICE_OPTIONS,
+} from "../../common/constants";
 
 export default defineAction({
   name: "Search Businesses",
@@ -41,7 +43,7 @@ export default defineAction({
     },
     term: {
       label: "Search Term",
-      description: `Search term, e.g. "food" or "restaurants". The term may also be the business's name, such as "Starbucks". If term is not included, the action will default to searching across businesses from a small number of popular categories.`,
+      description: "Search term, e.g. \"food\" or \"restaurants\". The term may also be the business's name, such as \"Starbucks\". If term is not included, the action will default to searching across businesses from a small number of popular categories.",
       type: "string",
       optional: true,
     },
@@ -96,7 +98,7 @@ export default defineAction({
     } = this;
     if (!(location || (latitude && longitude))) {
       throw new ConfigurationError(
-        "Either `location`, or `latitude` and `longitude`, must be provided."
+        "Either `location`, or `latitude` and `longitude`, must be provided.",
       );
     }
 
@@ -116,14 +118,14 @@ export default defineAction({
     };
 
     const response: SearchBusinessesResponse = await this.yelp.searchBusinesses(
-      params
+      params,
     );
-    const {
-      result: { length },
-    } = response;
+    const { result: { length } } = response;
 
     const summary = length
-      ? `Listed ${length} business${length === 1 ? "" : "es"}`
+      ? `Listed ${length} business${length === 1
+        ? ""
+        : "es"}`
       : "No businesses found with the given criteria";
 
     $.export("$summary", summary);
