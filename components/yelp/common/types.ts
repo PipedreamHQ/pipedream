@@ -33,8 +33,17 @@ export interface GetBusinessDetailsParams {
   $: Pipedream;
   businessIdOrAlias: string;
   params: {
-    device_platform: string;
-    locale: string;
+    device_platform?: string;
+    locale?: string;
+  };
+}
+
+export interface ListBusinessReviewsParams {
+  $: Pipedream;
+  businessIdOrAlias: string;
+  params: {
+    locale?: string;
+    sort_by?: string;
   };
 }
 
@@ -45,6 +54,16 @@ export interface SearchBusinessesResponse {
 
 export interface SearchBusinessesByPhoneResponse {
   businesses: Business[];
+}
+
+export interface ListBusinessReviewsResponse {
+  total: number;
+  reviews: Review[];
+  possible_languages: string[];
+}
+
+export interface Review {
+  id: string;
 }
 
 export interface Business {

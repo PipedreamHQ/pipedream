@@ -1,7 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import yelp from "../../app/yelp.app";
 import { DEVICE_OPTIONS, DOCS } from "../../common/constants";
-import { Business } from "../../common/types";
+import { Business, GetBusinessDetailsParams } from "../../common/types";
 
 export default defineAction({
   name: "Get Business Details",
@@ -12,10 +12,7 @@ export default defineAction({
   props: {
     yelp,
     businessIdOrAlias: {
-      label: "Business ID or Alias",
-      description:
-        "A unique identifier for a Yelp Business. Can be either a 22-character Yelp Business ID, or a Yelp Business Alias.",
-      type: "string",
+      propDefinition: [yelp, "businessIdOrAlias"],
     },
     devicePlatform: {
       label: "Device Platform",
@@ -29,13 +26,13 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const { businessIdOrAlias, devicePlatform, locale } = this;
+    const { businessIdOrAlias, devicePlatform: device_platform, locale } = this;
 
-    const params = {
+    const params: GetBusinessDetailsParams = {
       $,
       businessIdOrAlias,
       params: {
-        devicePlatform,
+        device_platform,
         locale,
       },
     };

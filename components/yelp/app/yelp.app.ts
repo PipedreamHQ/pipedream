@@ -4,6 +4,8 @@ import {
   Business,
   GetBusinessDetailsParams,
   HttpRequestParams,
+  ListBusinessReviewsParams,
+  ListBusinessReviewsResponse,
   PaginatedResponse,
   SearchBusinessesByPhoneParams,
   SearchBusinessesByPhoneResponse,
@@ -93,8 +95,22 @@ export default defineApp({
         ...args,
       });
     },
+    async listBusinessReviews(
+      { businessIdOrAlias, ...args }: ListBusinessReviewsParams
+    ): Promise<ListBusinessReviewsResponse> {
+      return this._httpRequest({
+        url: `/businesses/${businessIdOrAlias}/reviews`,
+        ...args,
+      });
+    },
   },
   propDefinitions: {
+    businessIdOrAlias: {
+      label: "Business ID or Alias",
+      description:
+        "A unique identifier for a Yelp Business. Can be either a 22-character Yelp Business ID, or a Yelp Business Alias.",
+      type: "string",
+    },
     locale: {
       label: "Locale",
       description: `Locale code in the format of *{language code}_{country code}* (e.g. \`en_US\`). [See the list of supported locales.](${DOCS.locales})`,
