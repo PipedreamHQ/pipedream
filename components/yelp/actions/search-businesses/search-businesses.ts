@@ -2,10 +2,10 @@ import { defineAction } from "@pipedream/types";
 import yelp from "../../app/yelp.app";
 import {
   SearchBusinessesParams,
-  Business,
   SearchBusinessesResponse,
 } from "../../common/types";
 import { ConfigurationError } from "@pipedream/platform";
+import { ATTRIBUTE_OPTIONS, PRICE_OPTIONS } from "../../common/constants";
 
 const DOCS_LINK =
   "https://docs.developer.yelp.com/reference/v3_business_search";
@@ -44,8 +44,8 @@ export default defineAction({
     },
     term: {
       label: "Search Term",
-      type: "string",
       description: `Search term, e.g. "food" or "restaurants". The term may also be the business's name, such as "Starbucks". If term is not included, the action will default to searching across businesses from a small number of popular categories.`,
+      type: "string",
       optional: true,
     },
     maxResults: {
@@ -57,22 +57,46 @@ export default defineAction({
       default: 200,
       optional: true,
     },
+    categories: {
+      label: "Categories",
+      description: `Categories to filter the search results with. [See the list of supported categories.](https://docs.developer.yelp.com/docs/resources-categories) The category alias should be used (e.g. "discgolf", not "Disc Golf").`,
+      type: "string[]",
+      optional: true,
+    },
+    price: {
+      label: "Price",
+      description: "Pricing levels to filter the search result with.",
+      type: "integer[]",
+      optional: true,
+      options: PRICE_OPTIONS,
+    },
+    attributes: {
+      label: "Attributes",
+      description:
+        "Additional filters to return specific search results. If multiple attributes are used, only businesses that satisfy all the attributes will be returned.",
+      type: "string[]",
+      optional: true,
+      options: ATTRIBUTE_OPTIONS,
+    },
     additionalOptions: {
-      type: "object",
       label: "Additional Options",
       description:
-        "Additional filters to use in the request. [See the docs for more info.](https://docs.developer.yelp.com/reference/v3_business_search)",
+        "Additional parameters to pass in the request, such as `open_now`. [See the docs for all the parameters.](https://docs.developer.yelp.com/reference/v3_business_search)",
+      type: "object",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
+      additionalOptions,
+      attributes,
+      categories,
       location,
       latitude,
       longitude,
-      term,
       maxResults,
-      additionalOptions,
+      price,
+      term,
     } = this;
     if (!(location || (latitude && longitude))) {
       throw new ConfigurationError(
@@ -83,11 +107,14 @@ export default defineAction({
     const params: SearchBusinessesParams = {
       $,
       params: {
+        attributes: attributes?.join(),
+        categories: categories?.join(),
         location,
         latitude,
         longitude,
         term,
         maxResults,
+        price: price?.join(),
         ...additionalOptions,
       },
     };
