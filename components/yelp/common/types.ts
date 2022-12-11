@@ -7,8 +7,20 @@ export interface HttpRequestParams {
   params?: object;
 }
 
-interface RequestParams {
+export interface SearchBusinessesParams {
   $: Pipedream;
+  params: {
+    location: string;
+    latitude: string;
+    longitude: string;
+    term: string;
+    maxResults: number;
+  };
+}
+
+export interface SearchBusinessesResponse {
+  result: Business[];
+  total: number;
 }
 
 export interface Business {
@@ -16,6 +28,6 @@ export interface Business {
 }
 
 export interface PaginatedResponse {
-  businesses: Business[]
+  businesses: Business[];
   total: string;
 }

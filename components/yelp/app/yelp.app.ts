@@ -4,6 +4,7 @@ import {
   Business,
   HttpRequestParams,
   PaginatedResponse,
+  SearchBusinessesParams,
 } from "../common/types";
 
 export default defineApp({
@@ -11,7 +12,7 @@ export default defineApp({
   app: "yelp",
   methods: {
     _apiKey(): string {
-      return this.yelp.$auth.api_key;
+      return this.$auth.api_key;
     },
     _baseUrl() {
       return "https://api.yelp.com/v3";
@@ -28,35 +29,42 @@ export default defineApp({
         ...args,
       });
     },
-    async _paginatedRequest({
-      params,
-      ...args
-    }: HttpRequestParams) {
-      const PER_PAGE = 1000;
+    async _paginatedRequest({ params, ...args }: SearchBusinessesParams) {
+      let { maxResults, ...requestParams } = params;
 
-      const requestParams = {
-        ...params,
-        limit: PER_PAGE,
-      };
       const result: Business[] = [];
-      let page = 0;
-      let cont = false;
+      let offset = 0;
+      let remainingResults = maxResults;
+      let total: number;
 
       do {
+        let limit = Math.min(50, remainingResults);
+
         const response: PaginatedResponse = await this._httpRequest({
           params: {
             ...requestParams,
-            offset: PER_PAGE * page++,
+            limit,
+            offset,
           },
           ...args,
         });
         result.push(...response.businesses);
-        cont = Number(response.total) > PER_PAGE * page;
-      } while (cont);
 
-      return result;
+        if (offset === 0) {
+          total = Number(response.total);
+          remainingResults = Math.min(total, maxResults);
+        }
+
+        remainingResults -= limit;
+        offset += limit;
+      } while (remainingResults > 0);
+
+      return {
+        result,
+        total
+      };
     },
-    async searchBusinesses(args): Promise<Business[]> {
+    async searchBusinesses(args: SearchBusinessesParams): Promise<Business[]> {
       return this._paginatedRequest({
         url: "/businesses/search",
         ...args,
