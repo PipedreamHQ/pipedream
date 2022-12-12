@@ -5,7 +5,7 @@ export default {
   key: "streak-box-changed-stage",
   name: "Box Changed Stage (Instant)",
   description: "Emit new event when a box's stage is updated in a pipeline.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

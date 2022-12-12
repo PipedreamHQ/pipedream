@@ -6,8 +6,8 @@ import converter from "json-2-csv";
 export default {
   key: "todoist-export-tasks",
   name: "Export Tasks",
-  description: "Export project task names as comma separated file. Returns path to new file. [See Docs](https://developer.todoist.com/rest/v1/#get-active-tasks)",
-  version: "0.0.1",
+  description: "Export project task names as comma separated file. Returns path to new file. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
@@ -29,7 +29,9 @@ export default {
     });
     const csv = await converter.json2csvAsync(tasks);
 
-    const { path } = await file();
+    const { path } = await file({
+      postfix: ".csv",
+    });
     await fs.promises.appendFile(path, Buffer.from(csv));
 
     $.export("$summary", `Successfully exported ${tasks.length} task${tasks.length === 1
