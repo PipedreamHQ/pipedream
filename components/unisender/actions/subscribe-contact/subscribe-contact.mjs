@@ -26,18 +26,21 @@ export default {
         common.props.unisender,
         "name",
       ],
+      optional: true,
     },
     phone: {
       propDefinition: [
         common.props.unisender,
         "phone",
       ],
+      optional: true,
     },
     tags: {
       propDefinition: [
         common.props.unisender,
         "tags",
       ],
+      optional: true,
     },
   },
   methods: {
@@ -56,7 +59,7 @@ export default {
           "fields[email]": email,
           "fields[Name]": name,
           "fields[phone]": phone,
-          "tags": tags.join(","),
+          "tags": tags?.join(","),
           "double_optin": 3,
           "overwrite": 0,
         },
