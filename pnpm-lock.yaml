@@ -112,6 +112,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/aimtell:
+    specifiers: {}
+
   components/airbrake:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -396,6 +399,9 @@ importers:
     specifiers: {}
 
   components/bugsnag:
+    specifiers: {}
+
+  components/builder_io:
     specifiers: {}
 
   components/burst_sms:
@@ -721,6 +727,9 @@ importers:
       do-wrapper: ^4.5.1
     dependencies:
       do-wrapper: 4.5.1
+
+  components/digitalocean_spaces:
+    specifiers: {}
 
   components/discord:
     specifiers: {}
@@ -1469,6 +1478,9 @@ importers:
       query-string: 7.1.1
 
   components/junip:
+    specifiers: {}
+
+  components/kakao:
     specifiers: {}
 
   components/kanbanflow:
@@ -2233,6 +2245,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/rapid7_insight_platform:
+    specifiers: {}
+
   components/rat_genome_database:
     specifiers: {}
 
@@ -2598,6 +2613,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/smartrmail:
+    specifiers: {}
+
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
@@ -2744,12 +2762,6 @@ importers:
       '@supabase/supabase-js': ^2.1.0
     dependencies:
       '@supabase/supabase-js': 2.1.0
-
-  components/superdocu:
-    specifiers:
-      crypto: ^1.0.1
-    dependencies:
-      crypto: 1.0.1
 
   components/supersaas:
     specifiers:
@@ -10578,7 +10590,7 @@ packages:
   /axios/0.27.2_debug@3.2.7:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@3.2.7
+      follow-redirects: 1.15.1_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -13220,18 +13232,8 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: false
-
-  /follow-redirects/1.15.2_debug@3.2.7:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+  /follow-redirects/1.15.1_debug@3.2.7:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -13240,6 +13242,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
