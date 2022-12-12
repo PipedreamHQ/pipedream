@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/ortto",
+  "version": "0.0.1",
+  "description": "Pipedream Ortto  Components",
+  "main": "dist/app/ortto.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ortto"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/ortto",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
