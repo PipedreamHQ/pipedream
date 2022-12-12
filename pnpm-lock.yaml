@@ -2007,7 +2007,10 @@ importers:
     specifiers: {}
 
   components/patreon:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/payhere:
     specifiers:

@@ -2,16 +2,18 @@
   "name": "@pipedream/patreon",
   "version": "0.0.1",
   "description": "Pipedream Patreon Components",
-  "main": "dist/app/patreon.app.mjs",
+  "main": "patreon.app.mjs",
   "keywords": [
     "pipedream",
     "patreon"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/patreon",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
   }
 }
