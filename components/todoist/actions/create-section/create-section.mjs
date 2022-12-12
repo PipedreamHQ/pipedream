@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-section",
   name: "Create Section",
-  description: "Creates a section. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-section)",
-  version: "0.0.1",
+  description: "Creates a section. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-section)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

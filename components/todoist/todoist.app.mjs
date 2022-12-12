@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
-import querystring from "querystring";
-import resourceTypes from "./resource-types.mjs";
-import colors from "./colors.mjs";
+import querystring from "query-string";
+import resourceTypes from "./common/resource-types.mjs";
+import colors from "./common/colors.mjs";
 import { v4 as uuid } from "uuid";
 
 export default {
@@ -18,7 +18,7 @@ export default {
       },
     },
     selectProjects: {
-      type: "integer[]",
+      type: "string[]",
       label: "Select Projects",
       description:
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
@@ -31,7 +31,7 @@ export default {
       },
     },
     project: {
-      type: "integer",
+      type: "string",
       label: "Project",
       description: "Select a project to filter results by",
       optional: true,
@@ -43,7 +43,7 @@ export default {
       },
     },
     section: {
-      type: "integer",
+      type: "string",
       label: "Section",
       description: "Select a section to filter results by",
       optional: true,
@@ -59,7 +59,7 @@ export default {
       },
     },
     label: {
-      type: "integer",
+      type: "string",
       label: "Label",
       description: "Select a label to filter results by",
       optional: true,
@@ -71,7 +71,7 @@ export default {
       },
     },
     task: {
-      type: "integer",
+      type: "string",
       label: "Task",
       description: "Select a task to filter results by",
       async options({
@@ -89,7 +89,7 @@ export default {
       },
     },
     completedTask: {
-      type: "integer",
+      type: "string",
       label: "Completed Task",
       description: "Select the task to reopen",
       async options({
@@ -119,7 +119,7 @@ export default {
       },
     },
     assignee: {
-      type: "integer",
+      type: "string",
       label: "Assignee",
       description: "The responsible user (if set, and only for shared tasks)",
       async options({ project }) {
@@ -131,7 +131,7 @@ export default {
       optional: true,
     },
     filter: {
-      type: "integer",
+      type: "string",
       label: "Filter",
       description: "Select the filter to update",
       async options() {
@@ -147,7 +147,7 @@ export default {
       description: "Enter the new name",
     },
     commentId: {
-      type: "integer",
+      type: "string",
       label: "Comment ID",
       description: "Select a comment",
       async options({
@@ -254,7 +254,7 @@ export default {
     /**
      * Make a request to Todoist's sync API.
      * @params {Object} opts - An object representing the configuration options for this method
-     * @params {String} [opts.path=/sync/v8/sync] - The path for the sync request
+     * @params {String} [opts.path=/sync/v9/sync] - The path for the sync request
      * @params {String} opts.payload - The data to send in the API request at the POST body.
      * This data will converted to `application/x-www-form-urlencoded`
      * @returns {Object} When the request succeeds, an HTTP 200 response with
@@ -263,7 +263,7 @@ export default {
     async _makeSyncRequest(opts) {
       const {
         $,
-        path = "/sync/v8/sync",
+        path = "/sync/v9/sync",
       } = opts;
       delete opts.path;
       delete opts.$;
@@ -293,7 +293,7 @@ export default {
       } = opts;
       delete opts.path;
       delete opts.$;
-      opts.url = `https://api.todoist.com/rest/v1${path[0] === "/"
+      opts.url = `https://api.todoist.com/rest/v2${path[0] === "/"
         ? ""
         : "/"}${path}`;
       opts.headers = {
@@ -328,7 +328,7 @@ export default {
     isProjectInList(projectId, selectedProjectIds) {
       return (
         selectedProjectIds.length === 0 ||
-        selectedProjectIds.includes(projectId)
+        selectedProjectIds.map((pId) => pId.toString()).includes(projectId)
       );
     },
     /**
@@ -342,7 +342,7 @@ export default {
     }) {
       return this._makeSyncRequest({
         $,
-        path: "/sync/v8/sync",
+        path: "/sync/v9/sync",
         method: "POST",
         payload: opts,
       });
@@ -766,7 +766,7 @@ export default {
       } = opts;
       return (await this._makeSyncRequest({
         $,
-        path: "/sync/v8/completed/get_all",
+        path: "/sync/v9/completed/get_all",
         method: "POST",
         payload: params,
       })).items;

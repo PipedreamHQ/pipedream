@@ -5,8 +5,8 @@ import converter from "json-2-csv";
 export default {
   key: "todoist-import-tasks",
   name: "Import Tasks",
-  description: "Import tasks into a selected project. [See Docs](https://developer.todoist.com/sync/v8/#add-an-item)",
-  version: "0.0.1",
+  description: "Import tasks into a selected project. [See Docs](https://developer.todoist.com/sync/v9/#add-an-item)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
