@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-comment",
   name: "Update Comment",
-  description: "Updates a comment. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-comment)",
-  version: "0.0.1",
+  description: "Updates a comment. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-comment)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
@@ -14,6 +14,7 @@ export default {
         "project",
       ],
       description: "Project containing the comment to update",
+      optional: false,
     },
     task: {
       propDefinition: [

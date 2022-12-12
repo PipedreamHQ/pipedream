@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-project",
   name: "Update Project",
-  description: "Updates a project. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-project)",
-  version: "0.0.1",
+  description: "Updates a project. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-project)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

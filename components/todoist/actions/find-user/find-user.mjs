@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-find-user",
   name: "Find User",
-  description: "Searches by email for a user who is connected/shared with your account. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
-  version: "0.0.1",
+  description: "Searches by email for a user who is connected/shared with your account. [See the docs here](https://developer.todoist.com/sync/v9/#read-resources)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
