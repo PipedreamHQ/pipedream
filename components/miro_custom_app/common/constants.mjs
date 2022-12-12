@@ -2,6 +2,18 @@ const BASE_URL = "https://api.miro.com";
 const VERSION_PATH = "/v2";
 const DEFAULT_LIMIT = 50;
 
+const ITEM_TYPE = {
+  APP_CARD: "app_card",
+  CARD: "card",
+  DOCUMENT: "document",
+  EMBED: "embed",
+  FRAME: "frame",
+  IMAGE: "image",
+  SHAPE: "shape",
+  STICKY_NOTE: "sticky_note",
+  TEXT: "text",
+};
+
 const SHAPE = {
   SQUARE: "square",
   RECTANGLE: "rectangle",
@@ -27,6 +39,8 @@ const SHAPE = {
   RIGHT_BRACE: "right_brace",
 };
 
+const ITEM_TYPES_OPTIONS = Object.values(ITEM_TYPE);
+
 const ITEM_SHAPES_OPTIONS =
   Object.values(SHAPE)
     .filter((value) => value !== SHAPE.SQUARE);
@@ -42,4 +56,6 @@ export default {
   DEFAULT_LIMIT,
   ITEM_SHAPES_OPTIONS,
   STICKY_NOTE_SHAPES_OPTIONS,
+  ITEM_TYPES_OPTIONS,
+  ITEM_TYPE,
 };

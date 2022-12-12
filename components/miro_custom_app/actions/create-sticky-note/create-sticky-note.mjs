@@ -52,13 +52,15 @@ export default {
       step,
       boardId,
       data: {
-        content,
-        shape,
-      },
-      position: {
-        origin: "center",
-        x,
-        y,
+        data: {
+          content,
+          shape,
+        },
+        position: {
+          origin: "center",
+          x,
+          y,
+        },
       },
     });
 

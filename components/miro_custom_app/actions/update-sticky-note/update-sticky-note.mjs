@@ -17,6 +17,7 @@ export default {
         "itemId",
         ({ boardId }) => ({
           boardId,
+          type: constants.ITEM_TYPE.STICKY_NOTE,
         }),
       ],
     },
@@ -63,13 +64,15 @@ export default {
       boardId,
       itemId,
       data: {
-        content,
-        shape,
-      },
-      position: {
-        origin: "center",
-        x,
-        y,
+        data: {
+          content,
+          shape,
+        },
+        position: {
+          origin: "center",
+          x,
+          y,
+        },
       },
     });
 

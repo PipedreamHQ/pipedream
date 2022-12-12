@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import constants from "../../common/constants.mjs";
 
 const { app } = common.props;
 
@@ -16,6 +17,7 @@ export default {
         "itemId",
         ({ boardId }) => ({
           boardId,
+          type: constants.ITEM_TYPE.SHAPE,
         }),
       ],
     },

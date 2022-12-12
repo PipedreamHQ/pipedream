@@ -15,17 +15,7 @@ export default {
       label: "Item Type",
       description: "If you want to get a list of items of a specific type, specify an item type. For example, if you want to retrieve the list of card items, set type to `card`",
       optional: true,
-      options: [
-        "app_card",
-        "card",
-        "document",
-        "embed",
-        "frame",
-        "image",
-        "shape",
-        "sticky_note",
-        "text",
-      ],
+      options: constants.ITEM_TYPES_OPTIONS,
     },
   },
   async run({ $: step }) {

@@ -81,7 +81,7 @@ export default {
       label: "Item ID",
       description: "The ID of an item (Shape)",
       async options({
-        boardId, prevContext,
+        boardId, type, prevContext,
       }) {
         const {
           data,
@@ -92,6 +92,7 @@ export default {
             params: {
               limit: constants.DEFAULT_LIMIT,
               offset: prevContext.offset,
+              type,
             },
           });
         const options = data.map(({
