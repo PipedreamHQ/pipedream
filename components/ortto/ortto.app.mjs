@@ -5,19 +5,23 @@ export default {
   type: "app",
   app: "ortto",
   propDefinitions: {
-    commonProperty: {
+    orgCustomFieldId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Organization Custom Field ID",
+      description: "Organization custom field ID",
+      async options() {
+        const response = await this.listPeople();
+        console.log("res", JSON.stringify(response, null, 2));
+        return [];
+      },
     },
   },
   methods: {
     getBaseUrl() {
-      console.log("auth!!!", JSON.stringify(this.$auth, null, 2));
-      return `${this.$auth.region}${constants.VERSION_PATH}`;
+      return `https://${this.$auth.region}${constants.VERSION_PATH}`;
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getUrl(path) {
+      return `${this.getBaseUrl()}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -42,6 +46,20 @@ export default {
         console.log("Error", error);
         throw error;
       }
+    },
+    listOrgCustomFields(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/organizations/custom-field/get",
+        ...args,
+      });
+    },
+    listPeople(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/person/get",
+        ...args,
+      });
     },
     createActivity(args = {}) {
       return this.makeRequest({
