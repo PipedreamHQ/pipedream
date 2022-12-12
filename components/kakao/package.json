@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/kakao",
+  "version": "0.0.1",
+  "description": "Pipedream Kakao Components",
+  "main": "dist/app/kakao.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kakao"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/kakao",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

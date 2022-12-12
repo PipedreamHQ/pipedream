@@ -1091,6 +1091,21 @@
     },
     {
       "path": "components/digitalocean_spaces"
+    },
+    {
+      "path": "components/kakao"
+    },
+    {
+      "path": "components/builder_io"
+    },
+    {
+      "path": "components/smartrmail"
+    },
+    {
+      "path": "components/rapid7_insight_platform"
+    },
+    {
+      "path": "components/aimtell"
     }
   ]
 }

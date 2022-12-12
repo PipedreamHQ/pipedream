@@ -5,7 +5,7 @@ export default {
   key: "streak-new-email-on-box",
   name: "New Email on Box (Instant)",
   description: "Emit new event when an email is added to a box in a pipeline.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
