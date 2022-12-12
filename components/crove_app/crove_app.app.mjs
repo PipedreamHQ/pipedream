@@ -66,7 +66,6 @@ export default {
         url: `${this._getBaseUrl()}/templates/${templateId}/`,
         method: "GET",
       };
-  
       return await this._makeRequest(config);
     },
     async generatePdfFromTemplate(templateId, response, backgroundMode) {
@@ -76,10 +75,10 @@ export default {
         data: {
           template_id: templateId,
           response: response,
-          background_mode: backgroundMode
+          background_mode: backgroundMode,
         },
       };
       return await this._makeRequest(config);
-    }
+    },
   },
 };

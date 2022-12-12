@@ -45,7 +45,11 @@ export default {
       response[k] = this[k];
     }
 
-    return await this.croveApp.generatePdfFromTemplate(this.template_id, response, this.background_mode);
+    return await this.croveApp.generatePdfFromTemplate(
+      this.template_id,
+      response,
+      this.background_mode,
+    );
 
   },
 };
