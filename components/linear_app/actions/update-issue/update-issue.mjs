@@ -5,7 +5,7 @@ export default {
   name: "Update Issue",
   description: "Update an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     linearApp,
     issueId: {
@@ -62,7 +62,7 @@ export default {
         },
       });
 
-    const summary = response.summary
+    const summary = response.success
       ? `Updated issue ${response._issue.id}`
       : "Failed to update issue";
     $.export("$summary", summary);

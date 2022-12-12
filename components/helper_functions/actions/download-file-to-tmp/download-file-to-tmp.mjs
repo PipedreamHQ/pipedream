@@ -1,19 +1,19 @@
 import helper_functions from "../../helper_functions.app.mjs";
 import { axios } from "@pipedream/platform";
 import fs from "fs";
-import streamifier from "streamifier";
 
 export default {
   key: "helper_functions-download-file-to-tmp",
-  name: "Download File To Tmp",
-  description: "Downloads a file to workflow /tmp folder",
-  version: "0.2.3",
+  name: "Download File To /tmp",
+  description: "Downloads a file to [your workflow's /tmp directory](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory)",
+  version: "0.3.0",
   type: "action",
   props: {
     helper_functions,
     url: {
       type: "string",
       label: "Download File URL",
+      description: "Enter the URL of the file to download",
     },
     filename: {
       type: "string",
@@ -23,8 +23,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      url,
-      filename,
+      url, filename,
     } = this;
 
     const resp = await axios($, {
@@ -33,31 +32,18 @@ export default {
     });
 
     /**
-     * Saves file to /tmp folder and exports file's:
-     *
-     * filename,
-     * complete file path,
-     * content in base64 format,
-     * buffer,
-     * buffer's length,
-     * and filestream.
+     * Saves file to /tmp folder and exports file's file name and file path,
      */
     const rawcontent = resp.toString("base64");
     const buffer = Buffer.from(rawcontent, "base64");
     const downloadedFilepath = `/tmp/${filename}`;
     fs.writeFileSync(downloadedFilepath, buffer);
-    const filestream = streamifier.createReadStream(buffer);
 
     const filedata = [
       filename,
       downloadedFilepath,
-      rawcontent,
-      buffer,
-      Buffer.byteLength(buffer),
-      filestream,
     ];
 
-    $.export("filedata", filedata);
     return filedata;
   },
 };

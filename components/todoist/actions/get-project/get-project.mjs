@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-get-project",
   name: "Get Project",
-  description: "Returns info about a project. [See the docs here](https://developer.todoist.com/rest/v1/#get-a-project)",
-  version: "0.0.1",
+  description: "Returns info about a project. [See the docs here](https://developer.todoist.com/rest/v2/#get-a-project)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,

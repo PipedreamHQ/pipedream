@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-label",
   name: "Update Label",
-  description: "Updates a label. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-label)",
-  version: "0.0.1",
+  description: "Updates a label. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-personal-label)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
