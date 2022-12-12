@@ -27,7 +27,7 @@ export default {
       };
     },
     processEvent(body) {
-      if (body.status == "scheduled") {
+      if (body.status === "waits_schedule") {
         const meta = this.getMeta(body);
         this.$emit(body, meta);
       }
