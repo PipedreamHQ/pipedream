@@ -26,7 +26,7 @@ export default {
     let resp = await this.croveApp.getTemplateDetails(this.template_id);
     let symbolTable = resp.symbol_table;
     let props = {};
-    for (var k in symbolTable) {
+    for (const k in symbolTable) {
       props[k] = {
         type: "string",
         label: symbolTable[k].name,
