@@ -1730,7 +1730,10 @@ importers:
     specifiers: {}
 
   components/mixmax:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/mobile_text_alerts:
     specifiers: {}
