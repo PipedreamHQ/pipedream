@@ -41,7 +41,7 @@ export default {
 
     let symbolTable = resp.symbol_table;
     let response = {};
-    for (var k in symbolTable) {
+    for (const k in symbolTable) {
       response[k] = this[k];
     }
 
