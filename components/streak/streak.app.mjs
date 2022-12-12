@@ -49,14 +49,18 @@ export default {
       type: "string",
       label: "Box",
       description: "Select a box",
-      async options({ pipelineId }) {
+      async options({
+        pipelineId, previousBoxId,
+      }) {
         const results = await this.listBoxes({
           pipelineId,
         });
-        return results.map((box) => ({
-          label: box.name,
-          value: box.key,
-        }));
+        return results
+          .filter((box) => box.key !== previousBoxId)
+          .map((box) => ({
+            label: box.name,
+            value: box.key,
+          }));
       },
     },
     teamMembers: {

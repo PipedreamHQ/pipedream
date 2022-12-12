@@ -31,6 +31,7 @@ export default {
         "boxId",
         (c) => ({
           pipelineId: c.pipelineId,
+          previousBoxId: c.boxId,
         }),
       ],
       type: "string[]",
