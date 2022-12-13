@@ -10,5 +10,5 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-send-email",
-  version: "0.0.6",
+  version: "0.0.7",
 };
