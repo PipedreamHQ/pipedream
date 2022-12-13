@@ -20,5 +20,14 @@ export default {
         auth,
       });
     },
+    async updateSignature(signature, email) {
+      return this._client().users.settings.sendAs.patch({
+        userId: "me",
+        sendAsEmail: email,
+        requestBody: {
+          signature,
+        },
+      });
+    },
   },
 };

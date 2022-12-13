@@ -61,5 +61,24 @@ export default {
           throw new Error(`Error! ${error.response.data.errors[0].message}`);
         });
     },
+    async getTemplateDetails(templateId) {
+      var config = {
+        url: `${this._getBaseUrl()}/templates/${templateId}/`,
+        method: "GET",
+      };
+      return await this._makeRequest(config);
+    },
+    async generatePdfFromTemplate(templateId, response, backgroundMode) {
+      var config = {
+        url: `${this._getBaseUrl()}/helpers/generate-pdf-from-template/`,
+        method: "POST",
+        data: {
+          template_id: templateId,
+          response: response,
+          background_mode: backgroundMode,
+        },
+      };
+      return await this._makeRequest(config);
+    },
   },
 };

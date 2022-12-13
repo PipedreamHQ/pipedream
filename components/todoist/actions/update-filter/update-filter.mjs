@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-filter",
   name: "Update Filter",
-  description: "Updates a filter. [See the docs here](https://developer.todoist.com/sync/v8/#update-a-filter)",
-  version: "0.0.1",
+  description: "Updates a filter. [See the docs here](https://developer.todoist.com/sync/v9/#update-a-filter)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
