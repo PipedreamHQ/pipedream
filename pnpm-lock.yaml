@@ -2301,6 +2301,12 @@ importers:
   components/render:
     specifiers: {}
 
+  components/repairshopr:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/reply_io:
     specifiers: {}
 
