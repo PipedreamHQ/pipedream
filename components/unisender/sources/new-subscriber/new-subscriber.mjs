@@ -5,7 +5,7 @@ export default {
   name: "New Subscriber (Instant)",
   key: "unisender-new-subscriber",
   description: "Emit new event when a new subscription is created.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
