@@ -5,7 +5,7 @@ export default {
   key: "streak-box-changed-pipeline",
   name: "Box Changed Pipeline (Instant)",
   description: "Emit new event when a box changes pipelines.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
