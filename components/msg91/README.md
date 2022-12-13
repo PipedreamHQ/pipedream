@@ -1,6 +1,7 @@
 # Overview
 
-With MSG91, you can build a variety of features into your app or website, including:
+With MSG91, you can build a variety of features into your app or website,
+including:
 
 - Sending and receiving SMS messages
 - Setting up phone number verification

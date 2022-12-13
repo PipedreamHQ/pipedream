@@ -1,6 +1,9 @@
 # Overview
 
-NextDNS provides an API that developers can use to programmatically manage DNS records for their domains. This provides a way to automate tasks such as adding new records when a website is created, or removing old records when a website is taken down.
+NextDNS provides an API that developers can use to programmatically manage DNS
+records for their domains. This provides a way to automate tasks such as adding
+new records when a website is created, or removing old records when a website
+is taken down.
 
 Here are some examples of what you can build using the NextDNS API:
 

@@ -1,6 +1,7 @@
 # Overview
 
-With the Neutrino API, you can build many different types of applications and services, including:
+With the Neutrino API, you can build many different types of applications and
+services, including:
 
 - Location-based applications
 - Geolocation services
