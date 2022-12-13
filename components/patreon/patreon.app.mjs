@@ -1,4 +1,5 @@
-import { axios } from "@pipedream/platform";
+import axios from "axios"; // url encoding in @pipedream/platform is not working for page param
+import urlApi from "url";
 
 export default {
   type: "app",
@@ -8,23 +9,53 @@ export default {
       type: "string",
       label: "Campaign",
       description: "Patreon Campaign",
-      async options() {
-        const campaigns = await this.listCampaigns();
-        return campaigns.data.map((campaign) => campaign.id);
+      async options({ prevContext }) {
+        const opts = {};
+        if (prevContext?.nextCursor) {
+          opts.params = {
+            "page[cursor]": prevContext.nextCursor,
+          };
+        }
+        const {
+          meta,
+          data: campaigns,
+        } = await this.listCampaigns(opts);
+        return {
+          options: campaigns.map((campaign) => campaign.id),
+          context: {
+            nextCursor: meta.pagination.cursors?.next,
+          },
+        };
       },
     },
   },
   methods: {
+    _baseUrl() {
+      return "https://www.patreon.com/api/oauth2/v2";
+    },
     async _makeRequest({
-      $ = this, path, ...opts
+      path, ...opts
     }) {
-      return axios($, {
-        url: "https://www.patreon.com/api/oauth2/v2" + path,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        ...opts,
-      });
+      try {
+        let url = new urlApi.URL(this._baseUrl() + path);
+        let {
+          params = {},
+          ...otherOpts
+        } = opts;
+        Object.entries(params).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
+        const response = await axios({
+          url,
+          headers: {
+            "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          ...otherOpts,
+        });
+        return response.data;
+      } catch (error) {
+        const message = JSON.stringify(error.response.data.errors);
+        throw new Error(message);
+      }
     },
     async listCampaigns(opts = {}) {
       return this._makeRequest({

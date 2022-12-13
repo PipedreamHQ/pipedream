@@ -2008,9 +2008,11 @@ importers:
 
   components/patreon:
     specifiers:
-      '@pipedream/platform': ^1.2.1
+      axios: ^1.2.1
+      url: ^0.11.0
     dependencies:
-      '@pipedream/platform': 1.2.1
+      axios: 1.2.1
+      url: 0.11.0
 
   components/payhere:
     specifiers:
@@ -2839,14 +2841,6 @@ importers:
 
   components/teamdeck:
     specifiers: {}
-
-  components/teamgate:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      moment: ^2.29.4
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      moment: 2.29.4
 
   components/teamwork:
     specifiers:
@@ -10612,6 +10606,16 @@ packages:
     dependencies:
       follow-redirects: 1.15.1_debug@3.2.7
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
