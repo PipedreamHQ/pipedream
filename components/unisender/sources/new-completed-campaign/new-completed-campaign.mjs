@@ -5,7 +5,7 @@ export default {
   name: "New Completed Campaign (Instant)",
   key: "unisender-new-completed-campaign",
   description: "Emit new event when all messages have been sent and analysis of the results is completed.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -5,7 +5,7 @@ export default {
   name: "New Unsubscriber (Instant)",
   key: "unisender-new-unsubscriber",
   description: "Emit new event when a email unsubscribes from a list.",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

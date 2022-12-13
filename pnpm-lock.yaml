@@ -1139,6 +1139,14 @@ importers:
       moment-timezone: 0.5.34
       uuid: 8.3.2
 
+  components/google_classroom:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      googleapis: ^109.0.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      googleapis: 109.0.1
+
   components/google_cloud:
     specifiers:
       '@google-cloud/bigquery': ^6.0.0
@@ -13913,6 +13921,17 @@ packages:
 
   /googleapis/108.0.0:
     resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/109.0.1:
+    resolution: {integrity: sha512-x286OtNu0ngzxfGz2XgRs4aMhrwutRCkCE12dh2M1jIZOpOndB7ELFXEhmtxaJ7z3257flKIbiiCJZeBO+ze/Q==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.1.1
