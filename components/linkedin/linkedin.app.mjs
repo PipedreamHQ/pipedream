@@ -30,6 +30,44 @@ export default {
         return responseArray;
       },
     },
+    adAccountId: {
+      type: "string",
+      label: "Ad Account Id",
+      description: "Sponsored ad account id to match results by",
+      async options({ page }) {
+        const count = 10;
+        const params = {
+          count,
+          start: count * page,
+        };
+        const { elements } = await this.searchAdAccounts({
+          params,
+        });
+        return elements?.map((element) => ({
+          label: element.name,
+          id: element.id,
+        }));
+      },
+    },
+    campaignId: {
+      type: "string",
+      label: "Campaign Id",
+      description: "Sponsored campaign account id to match results by",
+      async options({ page }) {
+        const count = 10;
+        const params = {
+          count,
+          start: count * page,
+        };
+        const { elements } = await this.searchCampaigns({
+          params,
+        });
+        return elements?.map((element) => ({
+          label: element.name,
+          id: element.id,
+        }));
+      },
+    },
     type: {
       type: "string",
       label: "Type",
@@ -44,8 +82,8 @@ export default {
     },
     postId: {
       type: "string",
-      label: "Post ID",
-      description: "Id of the post that will be deleted",
+      label: "Post Id",
+      description: "URN of the post that will be deleted",
     },
     startYear: {
       type: "string",
@@ -64,12 +102,34 @@ export default {
       description: "Pivot of results, by which each report data point is grouped. The following enum values are supported:\n* COMPANY - Group results by advertiser's company.\n* ACCOUNT - Group results by account.\n* SHARE - Group results by sponsored share.\n* CAMPAIGN - Group results by campaign.\n* CREATIVE - Group results by creative.\n* CAMPAIGN_GROUP - Group results by campaign group.\n* CONVERSION - Group results by conversion.\n* CONVERSATION_NODE - The element row in the conversation will be the information for each individual node of the conversation tree.\n* CONVERSATION_NODE_OPTION_INDEX - Used `actionClicks` are deaggregated and reported at the Node Button level. The second value of the `pivot_values` will be the index of the button in the node.\n* SERVING_LOCATION - Group results by serving location, onsite or offsite.\n* CARD_INDEX - Group results by the index of where a card appears in a carousel ad creative. Metrics are based on the index of the card at the time when the user's action (impression, click, etc.) happened on the creative (Carousel creatives only).\n* MEMBER_COMPANY_SIZE - Group results by member company size.\n* MEMBER_INDUSTRY - Group results by member industry.\n* MEMBER_SENIORITY - Group results by member seniority.\n* MEMBER_JOB_TITLE - Group results by member job title.\n* MEMBER_JOB_FUNCTION - Group results by member job function.\n* MEMBER_COUNTRY_V2 - Group results by member country.\n* MEMBER_REGION_V2 - Group results by member region.\n* MEMBER_COMPANY - Group results by member company.",
       options: constants.PIVOT_OPTIONS,
     },
+    role: {
+      type: "string",
+      label: "Role",
+      description: "Limit results to specific roles, such as ADMINISTRATOR or DIRECT_SPONSORED_CONTENT_POSTER.",
+      optional: true,
+      options: constants.ORGANIZATION_ROLES,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "Limit results to specific role states, such as APPROVED or REQUESTED.",
+      optional: true,
+      options: constants.ROLE_STATES,
+    },
+    max: {
+      type: "integer",
+      label: "Max",
+      description: "Maximum number of results to return",
+      optional: true,
+      default: 50,
+    },
   },
   methods: {
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
         "Linkedin-Version": constants.VERSION_HEADER,
       };
     },
@@ -87,59 +147,23 @@ export default {
       return axios($ || this, config);
     },
     async createPost({
-      $,
-      orgId = null,
-      type,
-      text,
-      originalUrl,
-      thumbnail,
-      title,
-      visibility,
+      data, ...args
     }) {
-      const data = {
-        author: `urn:li:${orgId
+      data = {
+        ...data,
+        author: `urn:li:${data?.author
           ? "organization"
-          : "person"}:${
-          orgId || this.$auth.oauth_uid
-        }`,
+          : "person"}:${data.author || this.$auth.oauth_uid}`,
         lifecycleState: "PUBLISHED",
-        specificContent: {
-          "com.linkedin.ugc.ShareContent": {
-            shareCommentary: {
-              text,
-            },
-            shareMediaCategory: type,
-          },
-        },
-        visibility: {
-          "com.linkedin.ugc.MemberNetworkVisibility": visibility,
+        distribution: {
+          feedDistribution: "MAIN_FEED",
         },
       };
-      if (type === "ARTICLE") {
-        data.specificContent["com.linkedin.ugc.ShareContent"].media = [
-          {
-            description: {
-              text: "description test",
-            },
-            originalUrl: originalUrl,
-            status: "READY",
-            thumbnails: [
-              {
-                url: thumbnail,
-              },
-            ],
-            title: {
-              text: title,
-            },
-          },
-        ];
-      }
-
       return this._makeRequest({
-        $,
         method: "POST",
-        path: "/ugcPosts",
+        path: "/posts",
         data,
+        ...args,
       });
     },
     async getOrganizations(page) {
@@ -189,7 +213,7 @@ export default {
     },
     async getMemberProfile(personId, args = {}) {
       return this._makeRequest({
-        path: `people/(id:${personId})`,
+        path: `/people/(id:${personId})`,
         ...args,
       });
     },
@@ -227,6 +251,18 @@ export default {
     async searchOrganizations(query, args = {}) {
       return this._makeRequest({
         path: `/organizations?q=analytics${query}`,
+        ...args,
+      });
+    },
+    async searchAdAccounts(args = {}) {
+      return this._makeRequest({
+        path: "/adAccounts?q=search",
+        ...args,
+      });
+    },
+    async searchCampaigns(args = {}) {
+      return this._makeRequest({
+        path: "/adCampaigns?q=search",
         ...args,
       });
     },

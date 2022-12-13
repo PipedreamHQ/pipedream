@@ -22,33 +22,38 @@ export default {
       label: "Search Term",
       description: "Keyword to search for",
     },
-    start: {
-      type: "string",
-      label: "Start",
-      description: "The index of the first item you want results for.",
-      optional: true,
-    },
-    count: {
-      type: "string",
-      label: "Count",
-      description: "The number of items you want included on each page of results. Note that there may be less remaining items than the value you specify here.",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
+    const count = 50;
+    const results = [];
+
     const params = {
-      start: this.start,
-      count: this.count,
+      start: 0,
+      count,
     };
     const querystring = `${this.search_by}&${this.search_by}=${this.search_term}`;
 
-    const response = await this.linkedin.searchOrganizations(querystring, {
-      $,
-      params,
-    });
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.searchOrganizations(querystring, {
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
 
     $.export("$summary", "Successfully searched organizations");
 
-    return response;
+    return results;
   },
 };

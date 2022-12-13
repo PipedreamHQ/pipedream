@@ -36,7 +36,7 @@ export default {
       params,
     });
 
-    $.export("$summary", "Successfully retrieved member profiles");
+    $.export("$summary", `Successfully retrieved ${this.peopleIds.length} member profile(s)`);
 
     return response;
   },

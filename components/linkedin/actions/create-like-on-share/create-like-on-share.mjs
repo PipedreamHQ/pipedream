@@ -30,12 +30,12 @@ export default {
       object: this.object,
     };
 
-    const response = await this.linkedin.createLikeOnShare(this.parentUrn, {
+    const response = await this.linkedin.createLikeOnShare(encodeURIComponent(this.parentUrn), {
       $,
       data,
     });
 
-    $.export("$summary", "Successfully retrieved analytics");
+    $.export("$summary", "Successfully created like on share");
 
     return response;
   },

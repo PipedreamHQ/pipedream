@@ -21,9 +21,10 @@ export default {
       ],
     },
     adAccountId: {
-      type: "string",
-      label: "Ad Account Id",
-      description: "Sponsored ad account id to match results by.",
+      propDefinition: [
+        linkedin,
+        "adAccountId",
+      ],
     },
   },
   async run({ $ }) {

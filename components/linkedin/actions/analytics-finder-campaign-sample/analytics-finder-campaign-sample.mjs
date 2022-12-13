@@ -21,9 +21,10 @@ export default {
       ],
     },
     campaignId: {
-      type: "string",
-      label: "Campaign Id",
-      description: "Sponsored campaign id to match results by.",
+      propDefinition: [
+        linkedin,
+        "campaignId",
+      ],
     },
   },
   async run({ $ }) {

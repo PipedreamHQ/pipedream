@@ -9,13 +9,15 @@ export default {
   props: {
     linkedin,
     adAccountId: {
-      type: "string",
-      label: "Ad Account Id",
+      propDefinition: [
+        linkedin,
+        "adAccountId",
+      ],
       description: "ID of the adAccount to fetch.",
     },
   },
   async run({ $ }) {
-    const response = await this.linkedin.getAdAccount(this.adAccountId, {
+    const response = await this.linkedin.getAdAccount(encodeURIComponent(this.adAccountId), {
       $,
     });
 
