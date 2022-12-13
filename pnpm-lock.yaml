@@ -1731,7 +1731,7 @@ importers:
 
   components/mixmax:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
 
