@@ -8,23 +8,48 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  hooks: {
+    ...base.hooks,
+    async deploy() {
+      console.log("Fetching historical events...");
+      const response = await this.patreon.listPosts({
+        campaign: this.campaign,
+        params: {
+          "page[count]": 25,
+          "sort": "-created",
+          "fields[post]": [
+            "title",
+            "content",
+            "published_at",
+            "is_paid",
+            "is_public",
+            "tiers",
+            "url",
+          ],
+        },
+      });
+      for (const post of response.data) {
+        this.emitPostEvent(post);
+      }
+    },
+  },
   methods: {
     ...base.methods,
     getTriggerType() {
       return "posts:publish";
     },
+    emitPostEvent(post) {
+      this.emitEvent({
+        event: post,
+        id: post.id,
+        summary: `New post: ${post.attributes.title}`,
+        ts: Date.parse(post.attributes.published_at),
+      });
+    },
   },
   async run(event) {
-    const id = event.body.data.id;
-    const post = event.body.data.attributes.title;
-    const ts = Date.parse(event.body.data.attributes.published_at);
-
     console.log("Emitting event...");
-
-    this.$emit(event.body, {
-      id,
-      summary: `New post: ${post}`,
-      ts,
-    });
+    const post = event.body.data;
+    this.emitPostEvent(post);
   },
 };

@@ -16,7 +16,6 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
     async activate() {
       const secret = uuidv4();
       const response = await this.patreon.createWebhook({
@@ -59,6 +58,15 @@ export default {
     },
     _setWebhookId(id) {
       this.db.set("webhookId", id);
+    },
+    emitEvent({
+      event, id, summary, ts,
+    }) {
+      this.$emit(event, {
+        id,
+        summary,
+        ts,
+      });
     },
   },
 };

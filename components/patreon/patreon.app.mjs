@@ -68,6 +68,14 @@ export default {
         ...opts,
       });
     },
+    async listPosts({
+      campaign, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/campaigns/${campaign}/posts`,
+        ...opts,
+      });
+    },
     async createWebhook(data = {}) {
       return this._makeRequest({
         path: "/webhooks",
