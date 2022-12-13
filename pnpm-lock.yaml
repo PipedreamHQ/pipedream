@@ -2763,6 +2763,12 @@ importers:
     dependencies:
       '@supabase/supabase-js': 2.1.0
 
+  components/superdocu:
+    specifiers:
+      crypto: ^1.0.1
+    dependencies:
+      crypto: 1.0.1
+
   components/supersaas:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
