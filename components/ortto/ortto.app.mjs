@@ -75,5 +75,51 @@ export default {
         ...args,
       });
     },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      resourcesName = "contacts",
+      maxResources = constants.MAX_RESOURCES,
+    }) {
+      let offset;
+      let resourcesCount = 0;
+
+      while (true) {
+        const {
+          [resourcesName]: nextResources,
+          next_offset: nextOffset,
+          has_more: hasMore,
+        } =
+          await resourceFn({
+            ...resourceFnArgs,
+            params: {
+              ...resourceFnArgs.params,
+              offset,
+            },
+          });
+
+        if (!nextResources?.length) {
+          return;
+        }
+
+        if (nextOffset) {
+          offset = nextOffset;
+        }
+
+        for (const resource of nextResources) {
+          if (resourcesCount >= maxResources) {
+            return;
+          }
+
+          yield resource;
+
+          resourcesCount += 1;
+        }
+
+        if (!hasMore || (resourcesCount >= maxResources)) {
+          return;
+        }
+      }
+    },
   },
 };

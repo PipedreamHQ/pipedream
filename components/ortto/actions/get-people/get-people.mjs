@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import app from "../../ortto.app.mjs";
 
 export default {
@@ -9,5 +10,19 @@ export default {
   props: {
     app,
   },
-  async run() {},
+  async run({ $: step }) {
+    const stream = this.app.getResourcesStream({
+      resourceFn: this.app.listPeople,
+      resourceFnArgs: {
+        step,
+      },
+      resourcesName: "contacts",
+    });
+
+    const contacts = await utils.streamIterator(stream);
+
+    step.export("$summary", `Successfully fetched ${utils.summaryEnd(contacts.length, "contact")}`);
+
+    return contacts;
+  },
 };
