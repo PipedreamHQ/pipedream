@@ -5,7 +5,7 @@ export default {
   key: "unisender-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "This method unsubscribes the contact email or phone number from one or several lists.  [See the docs here](https://www.unisender.com/ru/support/api/contacts/unsubscribe/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
