@@ -106,7 +106,7 @@ export default {
           userNames: userNamesOrPromise,
         } = prevContext;
         if (types == null) {
-          const { response_metadata: scopes } = await this.authTest();
+          const { response_metadata: { scopes } } = await this.authTest();
           types = [
             "public_channel",
           ];
