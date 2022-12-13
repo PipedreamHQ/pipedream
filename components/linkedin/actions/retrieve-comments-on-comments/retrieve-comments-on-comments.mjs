@@ -2,7 +2,7 @@ import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-retrieve-comments-on-comments",
-  name: "Retrieves comments on comments",
+  name: "Retrieves Comments on Comments",
   description: "Retrieves comments on comments, given the parent comment urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-comments)",
   version: "0.1.2",
   type: "action",
@@ -31,7 +31,7 @@ export default {
 
     let done = false;
     do {
-      const { elements } = await this.linkedin.getComments(this.commentUrn, {
+      const { elements } = await this.linkedin.getComments(encodeURIComponent(this.commentUrn), {
         $,
         params,
       });

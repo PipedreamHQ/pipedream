@@ -37,7 +37,7 @@ export default {
       start: 0,
       count,
     };
-    const querystring = `${this.search_by}&${this.search_by}=${this.search_term}`;
+    const querystring = `${this.searchBy}&${this.searchBy}=${this.searchTerm}`;
 
     let done = false;
     do {

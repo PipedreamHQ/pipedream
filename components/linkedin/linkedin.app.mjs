@@ -229,13 +229,6 @@ export default {
         ...args,
       });
     },
-    async createShare(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/shares",
-        ...args,
-      });
-    },
     async queryAnaltyics(query, args = {} ) {
       return this._makeRequest({
         path: `/adAnalytics?q=analytics${query}`,
@@ -250,7 +243,7 @@ export default {
     },
     async searchOrganizations(query, args = {}) {
       return this._makeRequest({
-        path: `/organizations?q=analytics${query}`,
+        path: `/organizations?q=${query}`,
         ...args,
       });
     },

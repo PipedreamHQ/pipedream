@@ -11,7 +11,7 @@ export default {
     entityUrn: {
       type: "string",
       label: "Entity Urn",
-      description: "Urn of the entity to retreive likes on.",
+      description: "Urn of the entity to retreive comments on.",
     },
     max: {
       propDefinition: [
@@ -31,7 +31,7 @@ export default {
 
     let done = false;
     do {
-      const { elements } = await this.linkedin.getComments(this.entityUrn, {
+      const { elements } = await this.linkedin.getComments(encodeURIComponent(this.entityUrn), {
         $,
         params,
       });

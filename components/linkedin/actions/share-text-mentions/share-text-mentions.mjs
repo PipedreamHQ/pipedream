@@ -8,10 +8,12 @@ export default {
   type: "action",
   props: {
     linkedin,
-    shareOwner: {
-      type: "string",
-      label: "Share Owner",
-      description: "Owner of the share, in URN format.",
+    organizationId: {
+      propDefinition: [
+        linkedin,
+        "organizationId",
+      ],
+      optional: true,
     },
     shareText: {
       type: "string",
@@ -21,23 +23,24 @@ export default {
     annotations: {
       type: "any",
       label: "Annotations",
-      description: "Annotations of the shared text, which are mentions or tags of other Linkedin entities such as organizations or members, see the full schema in [Share Text and Mentions](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api#share-text-and-mentions)",
+      description: "Annotations of the shared text, which are mentions or tags of other Linkedin entities such as organizations or members, see the full schema in [Share Text and Mentions](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#mentions-and-hashtags-using-posts-commentary)",
       optional: true,
+    },
+    visibility: {
+      propDefinition: [
+        linkedin,
+        "visibility",
+      ],
     },
   },
   async run({ $ }) {
     const data = {
-      text: {
-        text: this.shareText,
-        annotations: this.annotations,
-      },
-      distribution: {
-        "linkedInDistributionTarget": {},
-      },
-      owner: this.shareOwner,
+      author: this.organizationId,
+      commentary: `${this.shareText}${this.annotations}`,
+      visibility: this.visibility,
     };
 
-    const response = await this.linkedin.createShare({
+    const response = await this.linkedin.createPost({
       $,
       data,
     });
