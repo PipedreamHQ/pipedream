@@ -138,6 +138,7 @@ export default {
     },
     processEvent(event) {
       const { body } = event;
+
       if (!body) {
         console.log("Empty event payload. Skipping...");
         return;
@@ -148,16 +149,13 @@ export default {
         return;
       }
 
-      if (this.emitEvent()) {
+      if (this.emitEvent) {
         return this.emitEvent(event);
       }
 
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
-    },
-    emitEvent() {
-      return false;
-    },
+    }
   },
   async run(event) {
     const isValidEvent = this.validateEvent(event);
