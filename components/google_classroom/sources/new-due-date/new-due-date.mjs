@@ -5,7 +5,7 @@ export default {
   key: "google_classroom-new-due-date",
   name: "New Due Date",
   description: "Emit new event when an assignment's due date is created or updated'.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

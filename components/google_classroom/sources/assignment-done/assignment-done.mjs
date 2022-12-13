@@ -5,7 +5,7 @@ export default {
   key: "google_classroom-assignment-done",
   name: "Assignment Done",
   description: "Emit new event when an assignment in a course is marked as done.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
