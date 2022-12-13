@@ -10,18 +10,23 @@ export default {
       label: "Campaign",
       description: "Patreon Campaign",
       async options({ prevContext }) {
-        const opts = {};
+        const params = {
+          "fields[campaign]": "creation_name",
+        };
         if (prevContext?.nextCursor) {
-          opts.params = {
-            "page[cursor]": prevContext.nextCursor,
-          };
+          params["page[cursor]"] = prevContext.nextCursor;
         }
         const {
           meta,
           data: campaigns,
-        } = await this.listCampaigns(opts);
+        } = await this.listCampaigns({
+          params,
+        });
         return {
-          options: campaigns.map((campaign) => campaign.id),
+          options: campaigns.map((campaign) => ({
+            label: campaign.creation_name || campaign.id,
+            value: campaign.id,
+          })),
           context: {
             nextCursor: meta.pagination.cursors?.next,
           },
