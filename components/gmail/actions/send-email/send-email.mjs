@@ -63,6 +63,18 @@ export default {
       description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
       optional: true,
     },
+    inReplyTo: {
+      type: "string",
+      label: "In Reply To",
+      description: "Specify the message-id this email is replying to.",
+      optional: true,
+    },
+    references: {
+      type: "string",
+      label: "References",
+      description: "Specify the list of message-id in the thread the email is replying to (space-separated string).",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -79,6 +91,8 @@ export default {
       bcc: this.bcc,
       replyTo: this.replyTo,
       subject: this.subject,
+      inReplyTo: this.inReplyTo,
+      references: this.references,
     };
 
     if (this.attachments) {
