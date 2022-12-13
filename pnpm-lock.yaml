@@ -2841,12 +2841,7 @@ importers:
     specifiers: {}
 
   components/teamgate:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      moment: ^2.29.4
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      moment: 2.29.4
+    specifiers: {}
 
   components/teamwork:
     specifiers:
