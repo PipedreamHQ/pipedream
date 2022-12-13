@@ -5,7 +5,7 @@ export default {
   key: "google_classroom-new-assignment",
   name: "New Assignment",
   description: "Emit new event when an assignment is added to a course.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
