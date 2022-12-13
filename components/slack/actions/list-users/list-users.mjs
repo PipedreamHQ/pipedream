@@ -8,7 +8,7 @@ export default {
   type: "action",
   props: {
     slack,
-    team_id: {
+    teamId: {
       propDefinition: [
         slack,
         "team",
@@ -17,6 +17,8 @@ export default {
     },
   },
   async run() {
-    return await this.slack.sdk().users.list();
+    return this.slack.usersList({
+      team_id: this.teamId,
+    });
   },
 };

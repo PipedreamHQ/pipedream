@@ -41,14 +41,14 @@ function buildPropDefinitions({
 }
 
 function getPropsOnly({
-  component, omitProps = [], appLabel,
+  component, omitProps = [], appLabel, addedProps = {},
 } = {}) {
   const {
     // eslint-disable-next-line no-unused-vars
     [appLabel]: appProp,
     ...props
   } = component.props;
-  return Object.entries(props)
+  const builtProps = Object.entries(props)
     .reduce((reduction, [
       key,
       value,
@@ -61,10 +61,14 @@ function getPropsOnly({
         [key]: value,
       };
     }, {});
+  return {
+    ...builtProps,
+    ...addedProps,
+  };
 }
 
 function buildAppProps({
-  component, omitProps = [], appLabel = "slack",
+  component, omitProps = [], appLabel = "slack", addedProps,
 } = {}) {
   return {
     [appLabel]: app,
@@ -74,6 +78,7 @@ function buildAppProps({
         component,
         omitProps,
         appLabel,
+        addedProps,
       }),
     }),
   };

@@ -20,7 +20,6 @@ export default {
         "user",
       ],
     },
-
   },
   async run() {
     return await this.slack.sdk().conversations.invite({

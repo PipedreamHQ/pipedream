@@ -23,7 +23,7 @@ export default {
         return {
           options: conversationsResp.conversations.map((c) => ({
             label: `@${userNames[c.user]}`,
-            value: c.id,
+            value: c.user || c.id,
           })),
           context: {
             userNames,
@@ -160,9 +160,9 @@ export default {
     channelId: {
       type: "string",
       label: "Channel ID",
-      description: "The channels's id.",
+      description: "Select the channel's id.",
       async options({
-        prevContext, types = [],
+        prevContext, types = [], channelsFilter = (channel) => channel, excludeArchived = true,
       }) {
         const {
           channels,
@@ -171,24 +171,26 @@ export default {
           types: types.join(),
           cursor: prevContext.cursor,
           limit: constants.LIMIT,
-          exclude_archived: true,
+          exclude_archived: excludeArchived,
         });
 
         const resourcesInfo = await Promise.all(
-          channels.map(async ({
-            id: channelId,
-            is_im: isIm,
-            user,
-          }) => ({
-            channelId,
-            resource: isIm
-              ? await this.usersInfo({
-                user,
-              })
-              : await this.conversationsInfo({
-                channel: channelId,
-              }),
-          })),
+          channels
+            .filter(channelsFilter)
+            .map(async ({
+              id: channelId,
+              is_im: isIm,
+              user,
+            }) => ({
+              channelId,
+              resource: isIm
+                ? await this.usersInfo({
+                  user,
+                })
+                : await this.conversationsInfo({
+                  channel: channelId,
+                }),
+            })),
         );
 
         const options =
@@ -196,7 +198,7 @@ export default {
             channelId, resource,
           }) => ({
             value: channelId,
-            label: resource.channel?.name || `Direct Messaging with: @${resource.user?.name}`,
+            label: this.getChannelLabel(resource),
           }));
 
         return {
@@ -443,6 +445,18 @@ export default {
     },
   },
   methods: {
+    getChannelLabel(resource) {
+      if (resource.user) {
+        return `Direct Messaging with: @${resource.user.name}`;
+      }
+
+      const {
+        is_private: isPrivate,
+        name,
+      } = resource.channel;
+
+      return `${isPrivate && "Private" || "Public"} channel #${name}`;
+    },
     mySlackId() {
       return this.$auth.oauth_uid;
     },
