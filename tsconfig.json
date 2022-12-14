@@ -1106,6 +1106,9 @@
     },
     {
       "path": "components/aimtell"
+    },
+    {
+      "path": "components/route4me"
     }
   ]
 }
