@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/awork",
+  "name": "@pipedream/openai",
   "version": "0.0.1",
-  "description": "Pipedream Awork Components",
-  "main": "awork.app.mjs",
+  "description": "Pipedream OpenAI Components",
+  "main": "openai.app.mjs",
   "keywords": [
     "pipedream",
-    "awork"
+    "openai"
   ],
-  "homepage": "https://pipedream.com/apps/awork",
+  "homepage": "https://pipedream.com/apps/openai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
