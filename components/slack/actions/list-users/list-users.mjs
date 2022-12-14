@@ -4,11 +4,11 @@ export default {
   key: "slack-list-users",
   name: "List Users",
   description: "Return a list of all users in a workspace. [See docs here](https://api.slack.com/methods/users.list)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     slack,
-    team_id: {
+    teamId: {
       propDefinition: [
         slack,
         "team",
@@ -17,6 +17,8 @@ export default {
     },
   },
   async run() {
-    return await this.slack.sdk().users.list();
+    return this.slack.usersList({
+      team_id: this.teamId,
+    });
   },
 };

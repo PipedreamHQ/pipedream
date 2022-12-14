@@ -4,7 +4,7 @@ export default {
   key: "slack-list-reminders",
   name: "List Reminders",
   description: "List all reminders for a given user. [See docs here](https://api.slack.com/methods/reminders.list)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     slack,
