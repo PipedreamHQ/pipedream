@@ -1984,6 +1984,12 @@ importers:
       node-fetch: 2.6.7
       ongage: 1.1.7_node-fetch@2.6.7
 
+  components/openai:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/opensea:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2343,6 +2349,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/route4me:
+    specifiers: {}
 
   components/rss:
     specifiers:
