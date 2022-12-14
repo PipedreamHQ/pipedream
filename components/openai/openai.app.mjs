@@ -1,4 +1,4 @@
-import {axios} from "@pipedream/platform"
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -9,11 +9,11 @@ export default {
       description: "ID of the model to use",
       type: "string",
       async options() {
-        const { data: models } = await this.getModels()
+        const { data: models } = await this.getModels();
 
-        return models.map(model => model.id)
-      }
-    }
+        return models.map((model) => model.id);
+      },
+    },
   },
   methods: {
     _apiKey() {
@@ -36,22 +36,22 @@ export default {
     async getModels(args = {}) {
       return this._makeRequest({
         path: "/models",
-        ...args
-      })
+        ...args,
+      });
     },
     async sendPrompt(args = {}) {
       return this._makeRequest({
         path: "/completions",
         method: "post",
-        ...args
-      })
+        ...args,
+      });
     },
     async createImage(args = {}) {
       return this._makeRequest({
         path: "/images/generations",
         method: "post",
-        ...args
-      })
-    }
+        ...args,
+      });
+    },
   },
 };

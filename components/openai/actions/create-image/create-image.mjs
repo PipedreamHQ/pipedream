@@ -1,5 +1,5 @@
 import openai from "../../openai.app.mjs";
-import constants from "../common/constants.mjs"
+import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
@@ -25,14 +25,14 @@ export default {
       description: "The size of the generated images.",
       type: "string",
       optional: true,
-      options: constants.IMAGE_SIZES
+      options: constants.IMAGE_SIZES,
     },
     responseFormat: {
       label: "Response Format",
       description: "The format in which the generated images are returned.",
       type: "string",
       optional: true,
-      options: constants.RESPONSE_FORMATS
+      options: constants.RESPONSE_FORMATS,
     },
   },
   async run({ $ }) {
@@ -42,7 +42,7 @@ export default {
         prompt: this.prompt,
         n: this.n,
         size: this.size,
-        response_format: this.responseFormat
+        response_format: this.responseFormat,
       },
     });
 

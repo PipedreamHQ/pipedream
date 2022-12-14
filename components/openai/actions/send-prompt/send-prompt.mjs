@@ -11,8 +11,8 @@ export default {
     modelId: {
       propDefinition: [
         openai,
-        "modelId"
-      ]
+        "modelId",
+      ],
     },
     prompt: {
       label: "Prompt",
