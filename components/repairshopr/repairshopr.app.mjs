@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return `${this._getSubdomain()}/api/v1`;
+      return `https://${this._getSubdomain()}.repairshopr.com/api/v1`;
     },
     _getApiKey() {
       return this.$auth.api_key;
