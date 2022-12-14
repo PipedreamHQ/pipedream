@@ -4,14 +4,23 @@ export default {
   key: "jira-get-issue",
   name: "Get Issue",
   description: "Gets the details for an issue. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     fields: {
@@ -51,11 +60,12 @@ export default {
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
+    } catch (err) {
       //pass
     }
     const response = await this.jira.getIssue({
       $,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         fields: this.fields,
