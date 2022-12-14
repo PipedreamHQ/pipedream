@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-add-or-update-contact",
   name: "Add or Update Contact",
   description: "Adds or updates a contact. [See the docs here](https://docs.sendgrid.com/api-reference/contacts/add-or-update-a-contact)",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
