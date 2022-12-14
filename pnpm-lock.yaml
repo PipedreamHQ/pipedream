@@ -2344,6 +2344,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/route4me:
+    specifiers: {}
+
   components/rss:
     specifiers:
       '@pipedream/helpers': ^1.3.9
@@ -2853,6 +2856,14 @@ importers:
 
   components/teamdeck:
     specifiers: {}
+
+  components/teamgate:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 0.10.0
+      moment: 2.29.4
 
   components/teamwork:
     specifiers:
