@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-comment",
   name: "Delete Comment",
-  description: "Deletes a comment. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-comment)",
-  version: "0.0.1",
+  description: "Deletes a comment. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-comment)",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
@@ -14,6 +14,7 @@ export default {
         "project",
       ],
       description: "Project containing the comment to delete",
+      optional: false,
     },
     task: {
       propDefinition: [
