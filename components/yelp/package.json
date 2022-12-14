@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/yelp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Yelp Components",
   "main": "dist/app/yelp.app.mjs",
   "keywords": [
