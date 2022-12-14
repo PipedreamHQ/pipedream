@@ -88,8 +88,8 @@ export default {
   async run({ $ }) {
     const data = {
       business_name: this.businessName,
-      firstname: this.firstName,
-      lastname: this.lastName,
+      first_name: this.firstName,
+      last_name: this.lastName,
       email: this.email,
       phone: this.phone,
       mobile: this.mobile,
