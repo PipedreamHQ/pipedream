@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/route4me",
+  "version": "0.0.1",
+  "description": "Pipedream Route4Me Components",
+  "main": "dist/app/route4me.app.mjs",
+  "keywords": [
+    "pipedream",
+    "route4me"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/route4me",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

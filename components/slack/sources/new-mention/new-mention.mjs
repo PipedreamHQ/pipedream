@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-mention",
   name: "New Mention (Instant)",
-  version: "1.0.6",
+  version: "1.0.7",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
@@ -66,7 +66,7 @@ export default {
   methods: {
     ...common.methods,
     async getMatches(params) {
-      return (await this.slack.sdk().search.messages(params)).messages.matches || [];
+      return (await this.slack.searchMessages(params)).messages.matches || [];
     },
     async emitHistoricalEvents(messages) {
       for (const message of messages) {

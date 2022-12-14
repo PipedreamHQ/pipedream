@@ -1,11 +1,17 @@
-import discord from "../discord_bot.app.mjs";
+import common from "../../common.mjs";
+import utils from "../../common/utils.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description */
+const { discord } = common.props;
+
 export default {
+  key: "discord_bot-send-message",
+  name: "Send message",
+  description: "Send message to an user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
+  version: "0.0.1",
   type: "action",
   props: {
     discord,
+    ...common.props,
     message: {
       propDefinition: [
         discord,
@@ -43,8 +49,18 @@ export default {
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to this workflow at the end of your Discord message.",
     },
+    userId: {
+      propDefinition: [
+        discord,
+        "userId",
+        (c) => ({
+          guildId: c.guildId,
+        }),
+      ],
+    },
   },
   methods: {
+    ...common.methods,
     getUserInputProps(omit = [
       "discord",
     ]) {
@@ -71,5 +87,31 @@ export default {
       const link = `https://${linkText}`;
       return `Sent via [${linkText}](<${link}>)`;
     },
+  },
+  async run({ $ }) {
+    const createDMChannelResponse = await this.discord.createDm({
+      $,
+      recipientId: this.userId,
+    });
+    if (createDMChannelResponse.id) {
+      const createMessageResponse = await this.discord.createMessage({
+        $,
+        channelId: createDMChannelResponse.id,
+        data: {
+          embeds: utils.parseObject(this.embeds),
+          avatarURL: this.avatarURL,
+          threadID: this.threadID,
+          username: this.username,
+          content: this.includeSentViaPipedream
+            ? this.appendPipedreamText(this.message)
+            : this.message,
+        },
+      });
+      $.export("$summary", "Message has been sent successfully");
+      return createMessageResponse;
+    } else {
+      $.export("$summary", "Could not create or retrieve DM channel!");
+      throw new Error("Create DM Channel call was not successful!");
+    }
   },
 };
