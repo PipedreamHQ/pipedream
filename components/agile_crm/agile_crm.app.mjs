@@ -162,6 +162,12 @@ export default {
       label: "Message",
       description: "Message for the new ticket",
     },
+    customFields: {
+      type: "string[]",
+      label: "Custom Fields",
+      description: "Please provide a JSON structure like this per row: `{\"name\": \"Field Name\", \"value\": \"Field Value\"}`",
+      optional: true,
+    },
   },
   methods: {
     _username() {

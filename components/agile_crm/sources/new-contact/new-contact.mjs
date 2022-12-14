@@ -5,7 +5,7 @@ export default {
   key: "agile_crm-new-contact",
   name: "New Contact",
   description: "Emit new event when a new contact is created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
