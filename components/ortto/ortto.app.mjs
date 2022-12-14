@@ -5,14 +5,47 @@ export default {
   type: "app",
   app: "ortto",
   propDefinitions: {
-    orgCustomFieldId: {
+    email: {
       type: "string",
-      label: "Organization Custom Field ID",
-      description: "Organization custom field ID",
-      async options() {
-        const response = await this.listPeople();
-        console.log("res", JSON.stringify(response, null, 2));
-        return [];
+      label: "Person's Email",
+      description: "A string whose value is this person’s email address.",
+      async options({ prevContext }) {
+        const {
+          contacts,
+          next_offset: offset,
+        } = await this.listPeople({
+          data: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: prevContext.offset,
+            fields: [
+              constants.FIELD.EMAIL,
+              constants.FIELD.FIRST_NAME,
+              constants.FIELD.LAST_NAME,
+            ],
+          },
+        });
+        const options =
+          contacts.map(({ fields }) => {
+            const {
+              [constants.FIELD.EMAIL]: email,
+              [constants.FIELD.FIRST_NAME]: firstName,
+              [constants.FIELD.LAST_NAME]: lastName,
+            } = fields;
+            const name = [
+              firstName,
+              lastName,
+            ].join(" ").trim();
+            return {
+              label: name || email,
+              value: email,
+            };
+          });
+        return {
+          options,
+          context: {
+            offset,
+          },
+        };
       },
     },
   },
@@ -47,13 +80,6 @@ export default {
         throw error;
       }
     },
-    listOrgCustomFields(args = {}) {
-      return this.makeRequest({
-        method: "post",
-        path: "/organizations/custom-field/get",
-        ...args,
-      });
-    },
     listPeople(args = {}) {
       return this.makeRequest({
         method: "post",
@@ -61,17 +87,24 @@ export default {
         ...args,
       });
     },
+    listPeopleSubscriptions(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/person/subscriptions",
+        ...args,
+      });
+    },
+    mergePeople(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/person/merge",
+        ...args,
+      });
+    },
     createActivity(args = {}) {
       return this.makeRequest({
         method: "post",
         path: "/activities/create",
-        ...args,
-      });
-    },
-    createCustomActivityDefinition(args = {}) {
-      return this.makeRequest({
-        method: "post",
-        path: "/definitions/activity/create",
         ...args,
       });
     },
@@ -92,8 +125,8 @@ export default {
         } =
           await resourceFn({
             ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
+            data: {
+              ...resourceFnArgs.data,
               offset,
             },
           });
