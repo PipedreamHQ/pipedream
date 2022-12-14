@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs"
 
 export default {
   name: "Create Image",
-  version: "0.0.3",
+  version: "0.0.1",
   key: "openai-create-image",
   description: "Creates an image given a prompt. [See docs here](https://beta.openai.com/docs/api-reference/images/create)",
   type: "action",
