@@ -1,22 +1,22 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-delete-list",
   name: "Delete List",
   description: "Allows you to delete a specific contact list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/delete-a-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
-    id: {
+    listId: {
       propDefinition: [
         common.props.sendgrid,
         "listIds",
       ],
       type: "string",
-      label: "Id",
-      description: "Unique Id of the List to be deleted",
+      label: "Contact List",
+      description: "Select the list from which you'd like to remove the contact, or reference a list ID manually",
     },
     deleteContacts: {
       propDefinition: [
@@ -29,8 +29,8 @@ export default {
   },
   async run({ $ }) {
     this.deleteContacts = !!this.deleteContacts;
-    const resp = await this.sendgrid.deleteList(this.id, this.deleteContacts);
-    $.export("$summary", `Successfully deleted list ${this.list}.`);
+    const resp = await this.sendgrid.deleteList(this.listId, this.deleteContacts);
+    $.export("$summary", `Successfully deleted list ${this.listId}.`);
     return resp;
   },
 };
