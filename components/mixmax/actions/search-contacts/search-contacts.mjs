@@ -13,7 +13,6 @@ export default {
       type: "string",
       label: "Q",
       description: "The string to search.",
-      optional: true,
     },
     includeSalesforceContacts: {
       type: "boolean",

@@ -143,15 +143,15 @@ export default {
         params: {
           sort,
           sortAscending,
-          search: search.toString(),
+          search: search?.toString(),
           includeShared,
-          expand: expand.toString(),
+          expand: expand?.toString(),
           withAnalytics,
           dates,
           timezoneOffset,
           since,
           until,
-          fields: fields.toString(),
+          fields: fields?.toString(),
         },
       });
 

@@ -41,10 +41,9 @@ export default {
       optional: true,
     },
     contactId: {
-      propDefinition: [
-        common.props.mixmax,
-        "contactId",
-      ],
+      type: "string",
+      label: "ContactId",
+      description: "Google ID that this contact is associated with, if a contact exists in Google Contacts for this same email address.",
       optional: true,
     },
     salesforceId: {

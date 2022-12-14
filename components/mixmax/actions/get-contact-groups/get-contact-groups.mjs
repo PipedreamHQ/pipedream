@@ -23,6 +23,7 @@ export default {
         "fields",
       ],
       options: FIELDS.GROUPS,
+      optional: true,
     },
   },
   methods: {
@@ -33,7 +34,7 @@ export default {
       } = this;
 
       const items = this.mixmax.paginate({
-        fn: this.mixmax.listContacts,
+        fn: this.mixmax.listGroups,
         maxResults: limit,
         params: {
           fields: fields.toString(),

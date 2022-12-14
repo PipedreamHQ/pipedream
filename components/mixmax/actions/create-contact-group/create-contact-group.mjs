@@ -19,6 +19,7 @@ export default {
         common.props.mixmax,
         "contactId",
       ],
+      withLabel: true,
       type: "string[]",
       optional: true,
     },
@@ -33,7 +34,9 @@ export default {
       return this.mixmax.createContactGroup({
         data: {
           name,
-          contacts,
+          contacts: contacts.map(({ label }) => ({
+            email: label,
+          })),
         },
       });
     },
