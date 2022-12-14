@@ -4,7 +4,7 @@ export default {
   key: "slack-update-user-groups-users",
   name: "Update User Groups Users",
   description: "Update the list of users for a User Group. [See docs here](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
