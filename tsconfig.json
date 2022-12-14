@@ -1103,6 +1103,12 @@
     },
     {
       "path": "components/rapid7_insight_platform"
+    },
+    {
+      "path": "components/aimtell"
+    },
+    {
+      "path": "components/route4me"
     }
   ]
 }

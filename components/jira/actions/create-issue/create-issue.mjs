@@ -5,14 +5,23 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     projectID: {
       propDefinition: [
         jira,
         "projectID",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     issueType: {
@@ -21,6 +30,7 @@ export default {
         "issueType",
         (configuredProps) => ({
           projectID: configuredProps.projectID,
+          cloudId: configuredProps.cloudId
         }),
       ],
     },
@@ -53,6 +63,9 @@ export default {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       optional: true,
     },
@@ -72,6 +85,9 @@ export default {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       optional: true,
     },
@@ -121,6 +137,9 @@ export default {
       propDefinition: [
         jira,
         "transition",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
       type: "string",
     },
@@ -224,6 +243,7 @@ export default {
     }
     const response = await this.jira.createIssue({
       $,
+      cloudId: this.cloudId,
       params: {
         updateHistory: this.updateHistory,
       },
