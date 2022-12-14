@@ -753,7 +753,10 @@ importers:
       do-wrapper: 4.5.1
 
   components/digitalocean_spaces:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/discord:
     specifiers: {}

@@ -2,16 +2,18 @@
   "name": "@pipedream/digitalocean_spaces",
   "version": "0.0.1",
   "description": "Pipedream DigitalOcean Spaces Components",
-  "main": "dist/app/digitalocean_spaces.app.mjs",
+  "main": "digitalocean_spaces.app.mjs",
   "keywords": [
     "pipedream",
     "digitalocean_spaces"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/digitalocean_spaces",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
   }
 }
