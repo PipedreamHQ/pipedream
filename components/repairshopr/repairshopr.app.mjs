@@ -74,7 +74,7 @@ export default {
       async options({ page }) {
         const { customers } = await this.listCustomers(page + 1);
         return customers.map((customer) => ({
-          label: customer.business_name || `${customer.firstname} ${customer.lastname}`,
+          label: customer.business_name || `${customer.first_name} ${customer.last_name}`,
           value: customer.id,
         }));
       },
