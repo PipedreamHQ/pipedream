@@ -14,7 +14,8 @@ export default {
     },
     comment_urn: {
       type: "string",
-      description: "To resolve nested comments for a given parent comment, provide a parent `commentUrn` as the target in the request URL. A `commentUrn` is a composite URN constructed using a comment ID and `activityUrn`.",
+      label: "Comment URN",
+      description: "A URL encoded of the Comment URN. For example, if the Comment URN is `urn:li:comment:(activity:7009159277454012416,7009166969752993792)`, the value is `urn%3Ali%3Acomment%3A%28activity%3A7009159277454012416%2C7009166969752993792%29`. You can get Comment URN on the Comment URL",
     },
     start: {
       type: "integer",
@@ -37,7 +38,8 @@ export default {
     return await axios($, {
       url: `https://api.linkedin.com/v2/socialActions/${this.comment_urn}/comments`,
       headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.linkedin.$auth.oauth_access_token}`,
+        "X-Restli-Protocol-Version": "2.0.0",
       },
       params: {
         start: this.start,
