@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-mention",
   name: "New Mention (Instant)",
-  version: "1.0.7",
+  version: "1.0.8",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
@@ -89,11 +89,26 @@ export default {
       return "New mention received";
     },
     async processEvent(event) {
-      if (event.type !== "message") {
-        console.log(`Ignoring event with unexpected type "${event.type}"`);
+      const {
+        type: msgType,
+        subtype,
+        bot_id: botId,
+        text,
+        blocks: [
+          {
+            elements: [
+              { elements = [] } = {},
+            ] = [],
+          } = {},
+        ] = [],
+      } = event;
+
+      if (msgType !== "message") {
+        console.log(`Ignoring event with unexpected type "${msgType}"`);
         return;
       }
-      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
+
+      if (subtype !== null && subtype !== "bot_message" && subtype !== "file_share") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
@@ -101,12 +116,12 @@ export default {
         console.log("Ignoring message with subtype.");
         return;
       }
-      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+
+      if ((this.ignoreBot) && (subtype === "bot_message" || botId)) {
         return;
       }
-      let emitEvent = false;
-      const elements = event.blocks[0]?.elements[0]?.elements;
 
+      let emitEvent = false;
       if (this.isUsername && elements) {
         for (const item of elements) {
           if (item.user_id) {
@@ -118,9 +133,10 @@ export default {
           }
         }
 
-      } else if (event.text.indexOf(this.keyword) !== -1) {
+      } else if (text.indexOf(this.keyword) !== -1) {
         emitEvent = true;
       }
+
       if (emitEvent) {
         return event;
       }
