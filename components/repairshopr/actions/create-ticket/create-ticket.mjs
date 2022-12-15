@@ -31,7 +31,6 @@ export default {
       type: "string",
       label: "Subject",
       description: "The subject of the ticket.",
-      optional: true,
     },
     dueDate: {
       type: "string",
@@ -56,7 +55,6 @@ export default {
       label: "Problem Type",
       description: "The problem type of the ticket.",
       options: enums.TICKET_PROBLEM_TYPE,
-      optional: true,
     },
     status: {
       type: "string",

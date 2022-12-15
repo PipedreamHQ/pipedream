@@ -74,7 +74,7 @@ export default {
       async options({ page }) {
         const { customers } = await this.listCustomers(page + 1);
         return customers.map((customer) => ({
-          label: customer.business_name || `${customer.firstname} ${customer.lastname}`,
+          label: customer.business_name || `${customer.first_name} ${customer.last_name}`,
           value: customer.id,
         }));
       },
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return `${this._getSubdomain()}/api/v1`;
+      return `https://${this._getSubdomain()}.repairshopr.com/api/v1`;
     },
     _getApiKey() {
       return this.$auth.api_key;
