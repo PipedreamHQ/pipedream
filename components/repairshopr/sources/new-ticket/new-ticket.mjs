@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Ticket",
   description: "Emit new event when a new ticket is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getData() {
@@ -17,7 +17,7 @@ export default {
     },
     getParams() {
       return {
-        created_after: new Date(this.getLastEmittedDate()),
+        created_after: this.getLastEmittedDate(),
       };
     },
     getSummary(event) {
