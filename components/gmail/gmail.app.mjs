@@ -41,34 +41,6 @@ export default {
       },
     },
 
-    repliableMessageId: {
-      type: "string",
-      label: "In Reply To",
-      description: "Specify the message-id this email is replying to.",
-      optional: true,
-      async options({ prevContext }) {
-        const {
-          messages,
-          nextPageToken,
-        } = await this.listMessages({
-          pageToken: prevContext?.nextPageToken,
-        });
-
-        const options = await Promise.all(messages.map(async (message) => {
-          return await this.getMessageRepliableId({
-            id: message.id,
-          });
-        }));
-
-        return {
-          options,
-          context: {
-            nextPageToken,
-          },
-        };
-      },
-    },
-
     label: {
       type: "string",
       label: "Label",
@@ -162,10 +134,6 @@ export default {
         id,
       });
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
-      console.log("message", message);
-      console.log("payload", message.payload);
-      console.log("headers", message.payload.headers);
-      console.log("---------------------------------");
       return subject;
     },
     async getMessages(ids = []) {
@@ -204,7 +172,6 @@ export default {
         .replace(/=+$/, "");
     },
     async sendEmail({ ...opts }) {
-      console.log("opts", opts);
       const {
         threadId,
         ...options
