@@ -299,7 +299,10 @@ importers:
       mailparser-mit: 1.0.0
 
   components/azure_devops:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/bandwidth:
     specifiers:
@@ -377,6 +380,9 @@ importers:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
 
+  components/brandmentions:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -450,6 +456,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/cflow:
     specifiers: {}
 
   components/chaport:
