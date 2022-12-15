@@ -8,6 +8,12 @@ export default {
       customResponse: true,
     },
     db: "$.service.db",
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     jqlFilter: {
       propDefinition: [
         jira,
@@ -92,6 +98,7 @@ export default {
         url: this.http.endpoint,
         events: this.getEvents(),
         jqlFilter: this.jqlFilter,
+        cloudId: this.cloudId,
         //fieldIdsFilter: this.fieldIdsFilter,
       });
       this._setHookID(hookId);
@@ -100,6 +107,7 @@ export default {
     async deactivate() {
       await this.jira.deleteHook({
         hookId: this._getHookID(),
+        cloudId: this.cloudId,
       });
     },
   },

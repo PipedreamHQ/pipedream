@@ -2621,6 +2621,12 @@ importers:
     dependencies:
       '@slack/web-api': 5.15.0
 
+  components/slack_bot:
+    specifiers:
+      '@slack/web-api': ^5.15.0
+    dependencies:
+      '@slack/web-api': 5.15.0
+
   components/slicktext:
     specifiers: {}
 

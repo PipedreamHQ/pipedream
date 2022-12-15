@@ -1109,6 +1109,12 @@
     },
     {
       "path": "components/route4me"
+    },
+    {
+      "path": "components/brandmentions"
+    },
+    {
+      "path": "components/cflow"
     }
   ]
 }
