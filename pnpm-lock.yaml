@@ -377,6 +377,9 @@ importers:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
 
+  components/brandmentions:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -450,6 +453,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/cflow:
     specifiers: {}
 
   components/chaport:
@@ -2012,7 +2018,10 @@ importers:
     specifiers: {}
 
   components/ortto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/outgrow:
     specifiers:
