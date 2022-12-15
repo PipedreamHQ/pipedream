@@ -1559,6 +1559,12 @@ importers:
     dependencies:
       '@linear/sdk': 1.22.0
 
+  components/linkedin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/linqs_cc:
     specifiers: {}
 
