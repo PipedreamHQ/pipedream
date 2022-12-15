@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.7",
+  version: "0.0.12",
   type: "action",
   props: {
     gmail,
@@ -100,7 +100,7 @@ export default {
         opts.references = inReplyTo;
         opts.threadId = repliedMessage.threadId;
       } catch (err) {
-        throw new Error(`\`${this.inReplyTo}\` is not a valid message ID!`);
+        opts.threadId = this.inReplyTo;
       }
     }
 
