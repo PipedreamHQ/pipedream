@@ -18,7 +18,9 @@ export default {
         base.props.gmail,
         "message",
       ],
-      description: "Specify the message-id this email is replying to.",
+      label: "In Reply To",
+      description: "Specify the `message-id` this email is replying to.",
+      optional: true,
     },
   },
 };
