@@ -340,6 +340,9 @@ export default {
       label: "Icon (emoji)",
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
       optional: true,
+      async options() {
+        return await this.getCustomEmojis()
+      }
     },
     content: {
       label: "File Path",
@@ -746,6 +749,11 @@ export default {
         method: "reactions.list",
         ...args,
       });
+    },
+    async getCustomEmojis(cursor) {
+      const resp = await this.sdk().emoji.list();
+
+      return Object.keys(resp.emoji)
     },
   },
 };
