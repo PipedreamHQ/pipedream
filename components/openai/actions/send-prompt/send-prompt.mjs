@@ -22,14 +22,14 @@ export default {
     },
     suffix: {
       label: "Suffix",
-      description: "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays. Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.",
+      description: "The suffix that comes after a completion of inserted text.",
       type: "string",
       optional: true,
     },
     maxTokens: {
       label: "Max Tokens",
       description: "The maximum number of [tokens](https://beta.openai.com/tokenizer) to generate in the completion.",
-      type: "string",
+      type: "integer",
       optional: true,
     },
     temperature: {
@@ -82,12 +82,22 @@ export default {
         model: this.modelId,
         prompt: this.prompt,
         max_tokens: this.maxTokens,
-        temperature: this.temperature,
-        top_p: this.topP,
-        n: this.n,
+        temperature: this.temperature
+          ? +this.temperature
+          : this.temperature,
+        top_p: this.topP
+          ? +this.topP
+          : this.topP,
+        n: this.n
+          ? +this.n
+          : this.n,
         stop: this.stop,
-        presence_penalty: this.presencePenalty,
-        frequency_penalty: this.frequencyPenalty,
+        presence_penalty: this.presencePenalty
+          ? +this.presencePenalty
+          : this.presencePenalty,
+        frequency_penalty: this.frequencyPenalty
+          ? +this.frequencyPenalty
+          : this.frequencyPenalty,
         best_of: this.bestOf,
       },
     });
