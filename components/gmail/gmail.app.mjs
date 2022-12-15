@@ -40,6 +40,35 @@ export default {
         };
       },
     },
+
+    repliableMessageId: {
+      type: "string",
+      label: "In Reply To",
+      description: "Specify the message-id this email is replying to.",
+      optional: true,
+      async options({ prevContext }) {
+        const {
+          messages,
+          nextPageToken,
+        } = await this.listMessages({
+          pageToken: prevContext?.nextPageToken,
+        });
+
+        const options = await Promise.all(messages.map(async (message) => {
+          return await this.getMessageRepliableId({
+            id: message.id,
+          });
+        }));
+
+        return {
+          options,
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
+
     label: {
       type: "string",
       label: "Label",
@@ -133,6 +162,10 @@ export default {
         id,
       });
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
+      console.log("message", message);
+      console.log("payload", message.payload);
+      console.log("headers", message.payload.headers);
+      console.log("---------------------------------");
       return subject;
     },
     async getMessages(ids = []) {
@@ -171,14 +204,24 @@ export default {
         .replace(/=+$/, "");
     },
     async sendEmail({ ...opts }) {
-      const mailComposer = new MailComposer(opts);
+      console.log("opts", opts);
+      const {
+        threadId,
+        ...options
+      } = opts;
+      const mailComposer = new MailComposer(options);
       const mail = mailComposer.compile();
       mail.keepBcc = true;
       const message = await mail.build();
-      const rawMessage = this.encodeMessage(message);
+      //Some headers are seperated with a new-line
+      const messageFixed = message.toString("utf8")
+        .replace(/:\r\n/g, ":")
+        .replace(/:\n/g, ":");
+      const rawMessage = this.encodeMessage(messageFixed);
       const response = await this._client().users.messages.send({
         userId: constants.USER_ID,
         requestBody: {
+          threadId: threadId,
           raw: rawMessage,
         },
       });

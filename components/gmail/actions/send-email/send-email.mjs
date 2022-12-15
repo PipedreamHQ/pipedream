@@ -66,13 +66,7 @@ export default {
     inReplyTo: {
       type: "string",
       label: "In Reply To",
-      description: "Specify the message-id this email is replying to.",
-      optional: true,
-    },
-    references: {
-      type: "string",
-      label: "References",
-      description: "Specify the list of message-id in the thread the email is replying to (space-separated string).",
+      description: "Specify the message-id this email is replying to. To use this prop with async options please use `Gmail(Developer App)` `Send Email` component.",
       optional: true,
     },
   },
@@ -91,9 +85,24 @@ export default {
       bcc: this.bcc,
       replyTo: this.replyTo,
       subject: this.subject,
-      inReplyTo: this.inReplyTo,
-      references: this.references,
     };
+
+    if (this.inReplyTo) {
+      try {
+        const repliedMessage = await this.gmail.getMessage({
+          id: this.inReplyTo,
+        });
+        const { value: subject } = repliedMessage.payload.headers.find(({ name }) => name === "Subject");
+        //sometimes coming as 'Message-ID' and sometimes 'Message-Id'
+        const { value: inReplyTo } = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "message-id");
+        opts.subject = `Re: ${subject}`;
+        opts.inReplyTo = inReplyTo;
+        opts.references = inReplyTo;
+        opts.threadId = repliedMessage.threadId;
+      } catch (err) {
+        throw new Error(`\`${this.inReplyTo}\` is not a valid message ID!`);
+      }
+    }
 
     if (this.attachments) {
       opts.attachments = Object.entries(this.attachments)
