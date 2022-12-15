@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Ticket",
   description: "Emit new event when a new ticket is created.",
-  version: "0.0.2",
+  version: "0.0.1",
   methods: {
     ...common.methods,
     getData() {
