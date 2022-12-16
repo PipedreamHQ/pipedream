@@ -1,3 +1,8 @@
+import {
+  S3Client,
+  ListObjectsV2Command,
+} from "@aws-sdk/client-s3";
+
 export default {
   type: "app",
   app: "digitalocean_spaces",
@@ -13,6 +18,12 @@ export default {
           secretAccessKey: this.$auth.secret,
         },
       });
+    },
+    _clientS3() {
+      return this.getAWSClient(S3Client);
+    },
+    async listFiles(params) {
+      return this._clientS3().send(new ListObjectsV2Command(params));
     },
   },
 };
