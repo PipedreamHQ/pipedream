@@ -9,16 +9,10 @@ export default {
   props: {
     drip,
     email: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 373319f73 (fix pnpm)
       propDefinition: [
         drip,
         "email",
       ],
-<<<<<<< HEAD
-=======
       type: "string",
       label: "Email",
       description: "The subscriber's email address.",
@@ -38,9 +32,6 @@ export default {
           value,
         }));
       },
->>>>>>> 582b9e089 (Drip)
-=======
->>>>>>> 373319f73 (fix pnpm)
     },
     visitorUuid: {
       type: "string",
