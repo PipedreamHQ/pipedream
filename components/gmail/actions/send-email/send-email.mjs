@@ -66,7 +66,7 @@ export default {
     inReplyTo: {
       type: "string",
       label: "In Reply To",
-      description: "Specify the `message-id` this email is replying to. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
+      description: "Add that it must be the `message-id` of the first message sent in the thread. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
       optional: true,
     },
   },

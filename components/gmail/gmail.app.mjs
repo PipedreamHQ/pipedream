@@ -185,14 +185,22 @@ export default {
         .replace(/:\r\n/g, ":")
         .replace(/:\n/g, ":");
       const rawMessage = this.encodeMessage(messageFixed);
-      const response = await this._client().users.messages.send({
-        userId: constants.USER_ID,
-        requestBody: {
-          threadId: threadId,
-          raw: rawMessage,
-        },
-      });
-      return response.data;
+      try {
+        const response = await this._client().users.messages.send({
+          userId: constants.USER_ID,
+          requestBody: {
+            threadId: threadId,
+            raw: rawMessage,
+          },
+        });
+        return response.data;
+      } catch (err) {
+        if (err.code == 404) {
+          throw new Error("Unable to find email thread. `In Reply To` must be the `message-id` of the first message of the thread.");
+        } else {
+          throw err;
+        }
+      }
     },
     async addLabelToEmail({
       message, label,
