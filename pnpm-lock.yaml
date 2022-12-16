@@ -2065,7 +2065,12 @@ importers:
     specifiers: {}
 
   components/patreon:
-    specifiers: {}
+    specifiers:
+      axios: ^1.2.1
+      url: ^0.11.0
+    dependencies:
+      axios: 1.2.1
+      url: 0.11.0
 
   components/payhere:
     specifiers:
@@ -10677,6 +10682,16 @@ packages:
     dependencies:
       follow-redirects: 1.15.1_debug@3.2.7
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
