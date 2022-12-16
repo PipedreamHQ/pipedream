@@ -3,7 +3,29 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "drip",
-  propDefinitions: {},
+  propDefinitions: {
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The subscriber's email address.",
+      optional: true,
+      withLabel: true,
+      async options({ page }) {
+        const { subscribers } = await this.listSubscribers({
+          params: {
+            page,
+          },
+        });
+
+        return subscribers.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     _apiUrl() {
       return "https://api.getdrip.com/v2";
