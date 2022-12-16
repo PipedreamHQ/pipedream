@@ -1,7 +1,7 @@
 import app from "../../ortto.app.mjs";
 
 export default {
-  key: "ortto-new-event",
+  key: "ortto-new-event-triggered",
   name: "New Event (Instant)",
   description: "Emit new event when new type of event is triggered. [See the docs](https://help.ortto.com/user/latest/data-sources/configuring-a-new-data-source/other-integrations/webhook.html#create-your-webhook).",
   type: "source",
