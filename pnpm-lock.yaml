@@ -443,6 +443,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/callhub:
+    specifiers: {}
+
   components/callingly:
     specifiers: {}
 
@@ -462,6 +465,9 @@ importers:
     specifiers: {}
 
   components/chaport:
+    specifiers: {}
+
+  components/chartmogul:
     specifiers: {}
 
   components/chatbot:
@@ -499,6 +505,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clickmeeting:
+    specifiers: {}
+
+  components/clicktime:
     specifiers: {}
 
   components/clickup:
@@ -2903,14 +2912,6 @@ importers:
 
   components/teamdeck:
     specifiers: {}
-
-  components/teamgate:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      moment: ^2.29.4
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      moment: 2.29.4
 
   components/teamwork:
     specifiers:
