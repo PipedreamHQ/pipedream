@@ -1,11 +1,25 @@
 import {
   S3Client,
   ListObjectsV2Command,
+  DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 
 export default {
   type: "app",
   app: "digitalocean_spaces",
+  propDefinitions: {
+    files: {
+      type: "string[]",
+      label: "Files",
+      description: "The list of files to be deleted",
+      async options({ bucket }) {
+        const response = await this.listFiles({
+          Bucket: bucket,
+        });
+        return response.Contents.map((file) => file.Key);
+      },
+    },
+  },
   methods: {
     getAWSClient(clientType) {
       this.region = this.$auth.region; // sets this so it is accessible by app and methods
@@ -24,6 +38,9 @@ export default {
     },
     async listFiles(params) {
       return this._clientS3().send(new ListObjectsV2Command(params));
+    },
+    async deleteFiles(params) {
+      return this._clientS3().send(new DeleteObjectsCommand(params));
     },
   },
 };
