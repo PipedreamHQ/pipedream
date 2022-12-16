@@ -613,6 +613,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/customer_guru:
+    specifiers: {}
+
   components/customer_io:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -805,6 +808,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/drip:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/dropbox:
     specifiers:
@@ -2884,6 +2893,9 @@ importers:
     specifiers: {}
 
   components/tally:
+    specifiers: {}
+
+  components/taxjar:
     specifiers: {}
 
   components/td_ameritrade:
