@@ -377,6 +377,9 @@ importers:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
 
+  components/brandmentions:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -450,6 +453,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/cflow:
     specifiers: {}
 
   components/chaport:
@@ -603,6 +609,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/customer_guru:
+    specifiers: {}
 
   components/customer_io:
     specifiers:
@@ -796,6 +805,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/drip:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
 
   components/dropbox:
     specifiers:
@@ -2867,6 +2882,9 @@ importers:
     specifiers: {}
 
   components/tally:
+    specifiers: {}
+
+  components/taxjar:
     specifiers: {}
 
   components/td_ameritrade:
