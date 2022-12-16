@@ -11,3 +11,4 @@ using the Shopify API include:
   management
 - Integration tools: tools that helps integrate Shopify with other systems,
   such as accounting, inventory, and shipping
+
