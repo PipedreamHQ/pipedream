@@ -613,6 +613,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/customer_guru:
+    specifiers: {}
+
   components/customer_io:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -805,6 +808,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/drip:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/dropbox:
     specifiers:
@@ -1024,6 +1033,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
+
+  components/gatherup:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      dayjs: ^1.11.7
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      dayjs: 1.11.7
 
   components/gender_api:
     specifiers: {}
@@ -2039,7 +2056,12 @@ importers:
     specifiers: {}
 
   components/patreon:
-    specifiers: {}
+    specifiers:
+      axios: ^1.2.1
+      url: ^0.11.0
+    dependencies:
+      axios: 1.2.1
+      url: 0.11.0
 
   components/payhere:
     specifiers:
@@ -2876,6 +2898,9 @@ importers:
     specifiers: {}
 
   components/tally:
+    specifiers: {}
+
+  components/taxjar:
     specifiers: {}
 
   components/td_ameritrade:
@@ -10652,6 +10677,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha512-XqYMR2dfdGMW+hd0IUZ2PwK+fGeFkOxZJ0wY+JaQAHzt1Zx8LcvpiZD2NiGkEG8qx0CfkAOr5xt76d1e8vG90g==}
     dependencies:
@@ -11861,6 +11896,10 @@ packages:
 
   /dayjs/1.11.5:
     resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/2.6.9:

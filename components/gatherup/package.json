@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/slack",
-  "version": "0.4.13",
-  "description": "Pipedream Slack Components",
-  "main": "slack.app.mjs",
+  "name": "@pipedream/gatherup",
+  "version": "0.0.1",
+  "description": "Pipedream Gatherup Components",
+  "main": "gatherup.app.mjs",
   "keywords": [
     "pipedream",
-    "slack"
+    "gatherup"
   ],
-  "homepage": "https://pipedream.com/apps/slack",
+  "homepage": "https://pipedream.com/apps/gatherup",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
@@ -15,6 +15,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@slack/web-api": "^5.15.0"
+    "@pipedream/platform": "^1.2.1",
+    "dayjs": "^1.11.7"
   }
 }
