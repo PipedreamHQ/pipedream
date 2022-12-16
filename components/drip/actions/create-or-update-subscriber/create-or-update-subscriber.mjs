@@ -9,10 +9,32 @@ export default {
   props: {
     drip,
     email: {
+<<<<<<< HEAD
       propDefinition: [
         drip,
         "email",
       ],
+=======
+      type: "string",
+      label: "Email",
+      description: "The subscriber's email address.",
+      optional: true,
+      withLabel: true,
+      async options({ page }) {
+        const { subscribers } = await this.drip.listSubscribers({
+          params: {
+            page,
+          },
+        });
+
+        return subscribers.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+>>>>>>> 582b9e089 (Drip)
     },
     visitorUuid: {
       type: "string",

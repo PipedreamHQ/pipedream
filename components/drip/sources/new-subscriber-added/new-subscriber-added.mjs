@@ -2,8 +2,8 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  key: "drip-new-subscriber",
-  name: "New Subscriber (Instant)",
+  key: "drip-new-subscriber-added",
+  name: "New Subscriber Added (Instant)",
   description: "Emit new event when a new subscriber is created",
   version: "0.0.1",
   dedupe: "unique",
