@@ -1121,6 +1121,12 @@
     },
     {
       "path": "components/customer_guru"
+    },
+    {
+      "path": "components/clicktime"
+    },
+    {
+      "path": "components/callhub"
     }
   ]
 }

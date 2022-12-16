@@ -299,7 +299,10 @@ importers:
       mailparser-mit: 1.0.0
 
   components/azure_devops:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/bandwidth:
     specifiers:
@@ -440,6 +443,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/callhub:
+    specifiers: {}
+
   components/callingly:
     specifiers: {}
 
@@ -459,6 +465,9 @@ importers:
     specifiers: {}
 
   components/chaport:
+    specifiers: {}
+
+  components/chartmogul:
     specifiers: {}
 
   components/chatbot:
@@ -496,6 +505,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clickmeeting:
+    specifiers: {}
+
+  components/clicktime:
     specifiers: {}
 
   components/clickup:
@@ -1030,6 +1042,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
+
+  components/gatherup:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      dayjs: ^1.11.7
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      dayjs: 1.11.7
 
   components/gender_api:
     specifiers: {}
@@ -11870,6 +11890,10 @@ packages:
 
   /dayjs/1.11.5:
     resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/2.6.9:
