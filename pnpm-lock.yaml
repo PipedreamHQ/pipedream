@@ -1559,6 +1559,12 @@ importers:
     dependencies:
       '@linear/sdk': 1.22.0
 
+  components/linkedin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/linqs_cc:
     specifiers: {}
 
@@ -1983,6 +1989,12 @@ importers:
       axios: 0.21.4
       node-fetch: 2.6.7
       ongage: 1.1.7_node-fetch@2.6.7
+
+  components/openai:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/opensea:
     specifiers:
