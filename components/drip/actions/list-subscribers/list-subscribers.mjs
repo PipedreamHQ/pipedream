@@ -3,7 +3,7 @@ import drip from "../../drip.app.mjs";
 export default {
   key: "drip-list-subscribers",
   name: "List Subscribers",
-  version: "0.0.2",
+  version: "0.0.1",
   description: "List all subscribers. [See the docs here](https://developer.drip.com/#list-all-subscribers)",
   type: "action",
   props: {
