@@ -1115,6 +1115,12 @@
     },
     {
       "path": "components/cflow"
+    },
+    {
+      "path": "components/taxjar"
+    },
+    {
+      "path": "components/customer_guru"
     }
   ]
 }
