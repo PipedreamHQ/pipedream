@@ -1,53 +1,59 @@
-// legacy_hash_id: a_NqiqxJ
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-get-member-organization-access-control",
   name: "Get Member's Organization Access Control Information",
-  description: "Gets the organization access control information of the current authenticated member.",
-  version: "0.1.1",
+  description: "Gets the organization access control information of the current authenticated member. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-a-members-organization-access-control-information)",
+  version: "0.1.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
+    linkedin,
     role: {
-      type: "string",
-      description: "Limit results to specific roles, such as ADMINISTRATOR or DIRECT_SPONSORED_CONTENT_POSTER.",
-      optional: true,
+      propDefinition: [
+        linkedin,
+        "role",
+      ],
     },
     state: {
-      type: "string",
-      description: "Limit results to specific role states, such as APPROVED or REQUESTED.",
-      optional: true,
+      propDefinition: [
+        linkedin,
+        "state",
+      ],
     },
-    start: {
-      type: "integer",
-      description: "The index of the first item you want results for.",
-      optional: true,
-    },
-    count: {
-      type: "integer",
-      description: "The number of items you want included on each page of results.  Note that there may be less remaining items than the value you specify here.",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
-  // See the API docs here: https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-a-members-organization-access-control-information
+    const count = 50;
+    const results = [];
 
-    return await axios($, {
-      url: "https://api.linkedin.com/v2/organizationAcls",
-      headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-      },
-      params: {
-        q: "roleAssignee",
-        role: this.role,
-        state: this.state,
-        start: this.start,
-        count: this.count,
-      },
-    });
+    const params = {
+      q: "roleAssignee",
+      role: this.role,
+      state: this.state,
+      start: 0,
+      count,
+    };
+
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.getAccessControl({
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
+
+    $.export("$summary", "Successfully retrieved access control information");
+
+    return results;
   },
 };
