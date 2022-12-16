@@ -24,7 +24,18 @@ const eventsOptions = [
   },
 ];
 
-export {
+const SUBTYPE = {
+  NULL: null,
+  BOT_MESSAGE: "bot_message",
+  FILE_SHARE: "file_share",
+  PD_HISTORY_MESSAGE: "pd_history_message",
+};
+
+const ALLOWED_SUBTYPES = Object.values(SUBTYPE);
+
+export default {
   events,
   eventsOptions,
+  SUBTYPE,
+  ALLOWED_SUBTYPES,
 };

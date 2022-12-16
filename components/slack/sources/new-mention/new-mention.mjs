@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -70,7 +71,10 @@ export default {
     },
     async emitHistoricalEvents(messages) {
       for (const message of messages) {
-        const event = await this.processEvent(message);
+        const event = await this.processEvent({
+          ...message,
+          subtype: message.subtype || constants.SUBTYPE.PD_HISTORY_MESSAGE,
+        });
         if (event) {
           if (!event.client_msg_id) {
             event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36)
@@ -94,30 +98,31 @@ export default {
         subtype,
         bot_id: botId,
         text,
-        blocks: [
-          {
-            elements: [
-              { elements = [] } = {},
-            ] = [],
-          } = {},
-        ] = [],
+        blocks = [],
       } = event;
+      const [
+        {
+          elements: [
+            { elements = [] } = {},
+          ] = [],
+        } = {},
+      ] = blocks;
 
       if (msgType !== "message") {
         console.log(`Ignoring event with unexpected type "${msgType}"`);
         return;
       }
 
-      if (subtype !== null && subtype !== "bot_message" && subtype !== "file_share") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
       // events, feel free to change this code!!
-        console.log("Ignoring message with subtype.");
+      if (!constants.ALLOWED_SUBTYPES.includes(subtype)) {
+        console.log(`Ignoring message with subtype. "${subtype}"`);
         return;
       }
 
-      if ((this.ignoreBot) && (subtype === "bot_message" || botId)) {
+      if ((this.ignoreBot) && (subtype === constants.SUBTYPE.BOT_MESSAGE || botId)) {
         return;
       }
 
@@ -132,8 +137,9 @@ export default {
             }
           }
         }
-
       } else if (text.indexOf(this.keyword) !== -1) {
+        emitEvent = true;
+      } else if (subtype === constants.SUBTYPE.PD_HISTORY_MESSAGE) {
         emitEvent = true;
       }
 
