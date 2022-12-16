@@ -808,9 +808,9 @@ importers:
 
   components/drip:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.2.1
 
   components/dropbox:
     specifiers:
@@ -2891,9 +2891,6 @@ importers:
     specifiers: {}
 
   components/teamdeck:
-    specifiers: {}
-
-  components/teamgate:
     specifiers: {}
 
   components/teamwork:
