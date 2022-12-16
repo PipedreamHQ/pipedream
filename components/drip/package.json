@@ -12,10 +12,14 @@
   "license": "MIT",
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@pipedream/platform": "^1.2.1"
 =======
     "@pipedream/platform": "^0.10.0"
 >>>>>>> 582b9e089 (Drip)
+=======
+    "@pipedream/platform": "^1.2.1"
+>>>>>>> 373319f73 (fix pnpm)
   },
   "publishConfig": {
     "access": "public"
