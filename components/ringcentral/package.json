@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ringcentral",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Ringcentral Components",
   "main": "ringcentral.app.mjs",
   "keywords": [

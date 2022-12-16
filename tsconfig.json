@@ -1109,6 +1109,18 @@
     },
     {
       "path": "components/route4me"
+    },
+    {
+      "path": "components/brandmentions"
+    },
+    {
+      "path": "components/cflow"
+    },
+    {
+      "path": "components/taxjar"
+    },
+    {
+      "path": "components/customer_guru"
     }
   ]
 }
