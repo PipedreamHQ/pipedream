@@ -1,0 +1,275 @@
+import drip from "../../drip.app.mjs";
+
+export default {
+  key: "drip-create-or-update-subscriber",
+  name: "Create Or Update Subscriber",
+  version: "0.0.1",
+  description: "Creates a new subscriber. If the email already exists, it will update the existing subscriber. [See the docs here](https://developer.drip.com/?javascript#create-or-update-a-subscriber)",
+  type: "action",
+  props: {
+    drip,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The subscriber's email address.",
+      optional: true,
+      withLabel: true,
+      async options({ page }) {
+        const { subscribers } = await this.drip.listSubscribers({
+          params: {
+            page,
+          },
+        });
+
+        return subscribers.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    visitorUuid: {
+      type: "string",
+      label: "Visitor UUID",
+      description: "The `uuid` for a subscriber's visitor record. Either `email` or `visitor_uuid` must be included.",
+      optional: true,
+    },
+    newEmail: {
+      type: "string",
+      label: "New Email",
+      description: "A new email address for the subscriber. If provided and a subscriber with the `email` above does not exist, this address will be used to create a new subscriber.",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The subscriber's first name.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The subscriber's last name.",
+      optional: true,
+    },
+    address1: {
+      type: "string",
+      label: "Address 1",
+      description: "The subscriber's mailing address.",
+      optional: true,
+    },
+    address2: {
+      type: "string",
+      label: "Address 2",
+      description: "An additional field for the subscriber's mailing address.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city, town, or village in which the subscriber resides.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The region in which the subscriber resides. Typically a province, a state, or a prefecture.",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "ZIP",
+      description: "The postal code in which the subscriber resides, also known as zip, postcode, Eircode, etc.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country in which the subscriber resides.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The subscriber's primary phone number.",
+      optional: true,
+    },
+    smsNumber: {
+      type: "string",
+      label: "SMS Number",
+      description: "The subscriber's mobile phone number in E.164 formatting. E.g. \"+16125551212\". Only US-based numbers are supported at this time.",
+      optional: true,
+    },
+    smsConsent: {
+      type: "boolean",
+      label: "SMS Consent",
+      description: "`true` if the person has granted consent to receive marketing and other communication via SMS; `false` otherwise. Default: false. If you're unsure whether or not you have gained legal SMS consent, check out our [*TCPA requirements article*](https://my.drip.com/docs/manual/sms/compliance-manage-sms-compliance).",
+      optional: true,
+    },
+    userId: {
+      type: "string",
+      label: "User Id",
+      description: "A unique identifier for the user in your database, such as a primary key.",
+      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The subscriber's time zone (in Olson format). Defaults to `Etc/UTC`",
+      optional: true,
+    },
+    lifetimeValue: {
+      type: "string",
+      label: "Lifetime Value",
+      description: "The lifetime value of the subscriber (in cents).",
+      optional: true,
+    },
+    ipAddress: {
+      type: "string",
+      label: "IP Address",
+      description: "The subscriber's ip address E.g. \"111.111.111.11\"",
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "An Object containing custom field data. E.g. { \"shirt_size\": \"Medium\" }",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "An Array containing one or more tags. E.g. [\"Customer\", \"SEO\"].",
+      optional: true,
+    },
+    removeTags: {
+      type: "string[]",
+      label: "Remove Tags",
+      description: "An Array containing one or more tags to be removed from the subscriber. E.g. [\"Customer\", \"SEO\"].",
+      optional: true,
+    },
+    prospect: {
+      type: "boolean",
+      label: "Prospect",
+      description: "A Boolean specifiying whether we should attach a lead score to the subscriber (when lead scoring is enabled). Defaults to `true`. *Note:* This flag used to be called `potential_lead`, which we will continue to accept for backwards compatibility.",
+      optional: true,
+    },
+    baseLeadScore: {
+      type: "integer",
+      label: "Base Lead Score",
+      description: "An Integer specifying the starting value for lead score calculation for this subscriber. Defaults to `30`.",
+      optional: true,
+    },
+    euConsent: {
+      type: "string",
+      label: "EU Consent",
+      description: "A String specifying whether the subscriber `granted` or `denied` *GDPR* consent.",
+      optional: true,
+      options: [
+        "granted",
+        "denied",
+      ],
+    },
+    euConsentMessage: {
+      type: "string",
+      label: "EU Consent Message",
+      description: "A String containing the message the subscriber granted or denied their consent to.",
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "A String specifying the subscriber's status: either `active` or `unsubscribed`.",
+      optional: true,
+      options: [
+        "active",
+        "unsubscribed",
+      ],
+    },
+    initialStatus: {
+      type: "string",
+      label: "Initial Status",
+      description: "A String specifying the subscriber's known status: either `active` or `unsubscribed`. To be used if subscriber's status is unchanged.",
+      optional: true,
+      options: [
+        "active",
+        "unsubscribed",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const {
+      email,
+      visitorUuid,
+      newEmail,
+      firstName,
+      lastName,
+      address1,
+      address2,
+      city,
+      state,
+      zip,
+      country,
+      phone,
+      smsNumber,
+      smsConsent,
+      userId,
+      timezone,
+      lifetimeValue,
+      ipAddress,
+      customFields,
+      tags,
+      removeTags,
+      prospect,
+      baseLeadScore,
+      euConsent,
+      euConsentMessage,
+      status,
+      initialStatus,
+    } = this;
+
+    const response = await this.drip.createOrUpdateSubscriber({
+      $,
+      data: {
+        subscribers: [
+          {
+            email: email && email.label
+              ? email.label
+              : email,
+            id: email?.value,
+            visitor_uuid: visitorUuid,
+            new_email: newEmail,
+            first_name: firstName,
+            last_name: lastName,
+            address1,
+            address2,
+            city,
+            state,
+            zip,
+            country,
+            phone,
+            sms_number: smsNumber,
+            sms_consent: smsConsent,
+            user_id: userId,
+            time_zone: timezone,
+            lifetime_value: lifetimeValue,
+            ip_address: ipAddress,
+            custom_fields: customFields,
+            tags,
+            remove_tags: removeTags,
+            prospect,
+            base_lead_score: baseLeadScore,
+            eu_consent: euConsent,
+            eu_consent_message: euConsentMessage,
+            status,
+            initial_status: initialStatus,
+          },
+        ],
+      },
+    });
+
+    $.export("$summary", "Subscriber Successfully created/updated");
+    return response;
+  },
+};
