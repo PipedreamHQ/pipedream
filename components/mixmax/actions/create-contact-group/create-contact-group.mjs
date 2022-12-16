@@ -34,7 +34,7 @@ export default {
       return this.mixmax.createContactGroup({
         data: {
           name,
-          contacts: contacts.map(({ label }) => ({
+          contacts: contacts?.map(({ label }) => ({
             email: label,
           })),
         },

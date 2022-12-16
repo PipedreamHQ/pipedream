@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/base.mjs";
 import FIELDS from "../common/fields.mjs";
 
@@ -84,6 +85,7 @@ export default {
         "fields",
       ],
       options: FIELDS.CONTACT,
+      optional: true,
     },
   },
   async additionalProps() {
@@ -133,9 +135,13 @@ export default {
       } = this;
 
       const search = [];
-      if (email) search.push(`email:${email.toString()}`);
+      if (email?.length) search.push(`email:${email.toString()}`);
       if (name) search.push(`name:${name}`);
-      if (groups) search.push(`groups:${groups.toString()}`);
+      if (groups?.length) search.push(`groups:${groups.toString()}`);
+
+      if (includeShared === true && !search.length) {
+        throw new ConfigurationError("Either `email` or `name` or `groups` if using `includeShared=true`");
+      }
 
       const items = this.mixmax.paginate({
         fn: this.mixmax.listContacts,

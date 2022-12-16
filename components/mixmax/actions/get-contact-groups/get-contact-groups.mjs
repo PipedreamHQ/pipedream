@@ -37,7 +37,7 @@ export default {
         fn: this.mixmax.listGroups,
         maxResults: limit,
         params: {
-          fields: fields.toString(),
+          fields: fields?.toString(),
           expand: "count",
         },
       });
