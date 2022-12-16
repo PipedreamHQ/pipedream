@@ -43,17 +43,23 @@ export default {
     }) {
       try {
         let url = new urlApi.URL(this._baseUrl() + path);
+        const headers = {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        };
+
         let {
           params = {},
           ...otherOpts
         } = opts;
-        Object.entries(params).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
+
+        if (Object.keys(params).length) {
+          Object.entries(params).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
+          headers["Content-Type"] = "application/x-www-form-urlencoded";
+        }
+
         const response = await axios({
           url,
-          headers: {
-            "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          headers,
           ...otherOpts,
         });
         return response.data;
