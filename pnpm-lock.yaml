@@ -467,9 +467,6 @@ importers:
   components/chaport:
     specifiers: {}
 
-  components/chartmogul:
-    specifiers: {}
-
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
