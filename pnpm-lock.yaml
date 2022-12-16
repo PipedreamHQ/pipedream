@@ -1025,6 +1025,14 @@ importers:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
 
+  components/gatherup:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      dayjs: ^1.11.7
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      dayjs: 1.11.7
+
   components/gender_api:
     specifiers: {}
 
@@ -11861,6 +11869,10 @@ packages:
 
   /dayjs/1.11.5:
     resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/2.6.9:
