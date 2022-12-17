@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-project-comments",
   name: "List Project Comments",
   description: "Returns a list of comments for a project. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-comments)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,
