@@ -19,7 +19,7 @@ export default {
       type: "string",
     },
     listID: {
-      type: "any",
+      type: "string[]",
     },
   },
   async run({ $ }) {
