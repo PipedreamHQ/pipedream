@@ -5,7 +5,7 @@ export default {
   key: "sendinblue-add-new-contact",
   name: "Add a new contact",
   description: "Add a new contact and list",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     sendinblue: {
