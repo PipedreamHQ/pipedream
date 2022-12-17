@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/crowdin",
+  "version": "0.0.1",
+  "description": "Pipedream Crowdin Components",
+  "main": "dist/app/crowdin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crowdin"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/crowdin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
