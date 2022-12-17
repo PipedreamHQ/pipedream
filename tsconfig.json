@@ -1127,6 +1127,9 @@
     },
     {
       "path": "components/callhub"
+    },
+    {
+      "path": "components/crowdin"
     }
   ]
 }
