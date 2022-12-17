@@ -63,11 +63,8 @@ export default {
     labels: {
       propDefinition: [
         todoist,
-        "label",
+        "labelString",
       ],
-      type: "string[]",
-      description: "Labels associated with the task",
-      optional: true,
     },
     priority: {
       propDefinition: [
