@@ -554,6 +554,14 @@ importers:
   components/cloudlayer:
     specifiers: {}
 
+  components/cloudmersive:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+
   components/cloudtalk:
     specifiers: {}
 
@@ -611,6 +619,9 @@ importers:
     specifiers: {}
 
   components/crove_app:
+    specifiers: {}
+
+  components/crowdin:
     specifiers: {}
 
   components/curated:
