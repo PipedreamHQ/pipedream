@@ -1,6 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import FormData from "form-data";
 import {
+  ConvertToPDFParams,
   HttpRequestParams, ScreenshotWebsiteParams, ValidateEmailAddressParams,
 } from "../common/types";
 
@@ -40,6 +42,17 @@ export default defineApp({
       return this._httpRequest({
         method: "POST",
         url: "/convert/web/url/to/screenshot",
+        ...args,
+      });
+    },
+    async convertToPDF({
+      file, ...args
+    }: ConvertToPDFParams) {
+      const data = new FormData();
+      data.append("InputFile", file);
+      return this._httpRequest({
+        method: "POST",
+        url: "/convert/docx/to/pdf",
         ...args,
       });
     },

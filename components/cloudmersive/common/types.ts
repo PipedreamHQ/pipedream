@@ -22,3 +22,7 @@ export interface ScreenshotWebsiteParams extends PdAxiosRequest {
     ScreenshotHeight?: number;
   }
 }
+
+export interface ConvertToPDFParams extends PdAxiosRequest {
+  file: string;
+}
