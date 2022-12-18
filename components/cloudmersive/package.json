@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/cloudmersive",
+  "version": "0.0.1",
+  "description": "Pipedream Cloudmersive Components",
+  "main": "dist/app/cloudmersive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudmersive"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cloudmersive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}
