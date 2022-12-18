@@ -1,24 +1,32 @@
 import { defineAction } from "@pipedream/types";
 import cloudmersive from "../../app/cloudmersive.app";
 import { DOCS } from "../../common/constants";
+import { ValidateEmailAddressParams } from "../../common/types";
 
 export default defineAction({
-  name: "Get Business Details",
-  description: `Get details about a business [See docs here](${DOCS.validateEmailAddress})`,
+  name: "Validate Email Address",
+  description: `Valida an email address [See docs here](${DOCS.validateEmailAddress})`,
   key: "cloudmersive-validate-email-address",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudmersive,
+    email: {
+      type: "string",
+      label: "Email Address",
+      description: "The email address to validate.",
+    },
   },
   async run({ $ }) {
-    const params = {
+    const { email } = this;
+    const params: ValidateEmailAddressParams = {
       $,
+      email,
     };
 
     const response = await this.cloudmersive.validateEmailAddress(params);
 
-    $.export("$summary", response);
+    $.export("$summary", `Validated email "${email}"`);
 
     return response;
   },

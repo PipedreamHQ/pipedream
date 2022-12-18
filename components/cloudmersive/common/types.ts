@@ -1,8 +1,15 @@
 import { Pipedream } from "@pipedream/types";
 
-export interface HttpRequestParams {
+interface PdAxiosRequest {
+  $: Pipedream;
+}
+
+export interface HttpRequestParams extends PdAxiosRequest {
   url: string;
-  $?: Pipedream;
-  data?: object;
+  data?: object | string;
   params?: object;
+}
+
+export interface ValidateEmailAddressParams extends PdAxiosRequest {
+  email: string;
 }

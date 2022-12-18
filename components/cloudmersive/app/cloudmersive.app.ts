@@ -1,10 +1,12 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import {
+  HttpRequestParams, ValidateEmailAddressParams,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
-  app: "yelp",
+  app: "cloudmersive",
   methods: {
     _apiKey(): string {
       return this.$auth.api_key;
@@ -21,6 +23,16 @@ export default defineApp({
         headers: {
           Apikey: this._apiKey(),
         },
+        ...args,
+      });
+    },
+    async validateEmailAddress({
+      email, ...args
+    }: ValidateEmailAddressParams) {
+      return this._httpRequest({
+        method: "POST",
+        url: "/validate/email/address/full",
+        data: email,
         ...args,
       });
     },
