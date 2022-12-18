@@ -7,7 +7,7 @@ export default defineAction({
   name: "Validate Email Address",
   description: `Valida an email address [See docs here](${DOCS.validateEmailAddress})`,
   key: "cloudmersive-validate-email-address",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     cloudmersive,

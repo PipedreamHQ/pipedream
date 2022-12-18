@@ -1,7 +1,7 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  HttpRequestParams, ValidateEmailAddressParams,
+  HttpRequestParams, ScreenshotWebsiteParams, ValidateEmailAddressParams,
 } from "../common/types";
 
 export default defineApp({
@@ -33,6 +33,13 @@ export default defineApp({
         method: "POST",
         url: "/validate/email/address/full",
         data: email,
+        ...args,
+      });
+    },
+    async screenshotWebsite(args: ScreenshotWebsiteParams) {
+      return this._httpRequest({
+        method: "POST",
+        url: "/convert/web/url/to/screenshot",
         ...args,
       });
     },

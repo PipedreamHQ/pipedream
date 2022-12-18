@@ -13,3 +13,12 @@ export interface HttpRequestParams extends PdAxiosRequest {
 export interface ValidateEmailAddressParams extends PdAxiosRequest {
   email: string;
 }
+
+export interface ScreenshotWebsiteParams extends PdAxiosRequest {
+  data: {
+    Url: string;
+    ExtraLoadingWait?: number;
+    ScreenshotWidth?: number;
+    ScreenshotHeight?: number;
+  }
+}
