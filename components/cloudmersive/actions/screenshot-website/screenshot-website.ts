@@ -1,9 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import cloudmersive from "../../app/cloudmersive.app";
 import { DOCS } from "../../common/constants";
-import {
-  ScreenshotWebsiteParams,
-} from "../../common/types";
+import { ScreenshotWebsiteParams } from "../../common/types";
 
 export default defineAction({
   name: "Screenshot Website",

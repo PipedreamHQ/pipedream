@@ -1,7 +1,9 @@
+import fs from "fs";
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import cloudmersive from "../../app/cloudmersive.app";
 import { DOCS } from "../../common/constants";
-import { ConvertToPDFParams, ValidateEmailAddressParams } from "../../common/types";
+import { ConvertToPDFParams } from "../../common/types";
 
 export default defineAction({
   name: "Convert to PDF",
@@ -11,14 +13,24 @@ export default defineAction({
   type: "action",
   props: {
     cloudmersive,
-    file: {
+    filePath: {
       type: "string",
-      label: "File",
-      description: "Input file (docx) to perform the operation on.",
+      label: "File Path",
+      description:
+        `Path to the input .docx file, such as \`/tmp/file.docx\`. [See the docs on working with files](${DOCS.pdFilesTutorial})`,
     },
   },
   async run({ $ }) {
-    const { file } = this;
+    const { filePath } = this;
+    let file: Buffer;
+    try {
+      file = await fs.promises.readFile(filePath);
+    } catch (err) {
+      throw new ConfigurationError(
+        `**Error when reading file** - check the file path and try again.
+        ${err}`,
+      );
+    }
     const params: ConvertToPDFParams = {
       $,
       file,
@@ -26,7 +38,7 @@ export default defineAction({
 
     const response = await this.cloudmersive.convertToPDF(params);
 
-    $.export("$summary", 'Converted file successfully');
+    $.export("$summary", `Converted file "${filePath}"`);
 
     return response;
   },

@@ -8,6 +8,7 @@ export interface HttpRequestParams extends PdAxiosRequest {
   url: string;
   data?: object | string;
   params?: object;
+  headers?: object;
 }
 
 export interface ValidateEmailAddressParams extends PdAxiosRequest {
@@ -20,9 +21,9 @@ export interface ScreenshotWebsiteParams extends PdAxiosRequest {
     ExtraLoadingWait?: number;
     ScreenshotWidth?: number;
     ScreenshotHeight?: number;
-  }
+  };
 }
 
 export interface ConvertToPDFParams extends PdAxiosRequest {
-  file: string;
+  file: Buffer;
 }

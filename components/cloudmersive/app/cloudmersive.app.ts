@@ -18,11 +18,13 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
+      headers,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
+          ...headers,
           Apikey: this._apiKey(),
         },
         ...args,
@@ -53,6 +55,7 @@ export default defineApp({
       return this._httpRequest({
         method: "POST",
         url: "/convert/docx/to/pdf",
+        headers: data.getHeaders(),
         data,
         ...args,
       });
