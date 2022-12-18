@@ -53,6 +53,7 @@ export default defineApp({
       return this._httpRequest({
         method: "POST",
         url: "/convert/docx/to/pdf",
+        data,
         ...args,
       });
     },
