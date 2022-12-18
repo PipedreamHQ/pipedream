@@ -32,7 +32,7 @@ export default defineApp({
     },
     async validateEmailAddress({
       email, ...args
-    }: ValidateEmailAddressParams) {
+    }: ValidateEmailAddressParams): Promise<object> {
       return this._httpRequest({
         method: "POST",
         url: "/validate/email/address/full",
@@ -40,7 +40,7 @@ export default defineApp({
         ...args,
       });
     },
-    async screenshotWebsite(args: ScreenshotWebsiteParams) {
+    async screenshotWebsite(args: ScreenshotWebsiteParams): Promise<Buffer> {
       return this._httpRequest({
         method: "POST",
         url: "/convert/web/url/to/screenshot",
@@ -49,7 +49,7 @@ export default defineApp({
     },
     async convertToPDF({
       file, ...args
-    }: ConvertToPDFParams) {
+    }: ConvertToPDFParams): Promise<Buffer> {
       const data = new FormData();
       data.append("InputFile", file);
       return this._httpRequest({
