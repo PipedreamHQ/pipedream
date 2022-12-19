@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/snappy",
+  "version": "0.0.1",
+  "description": "Pipedream Snappy Components",
+  "main": "snappy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snappy"
+  ],
+  "homepage": "https://pipedream.com/apps/snappy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}
