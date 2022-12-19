@@ -1,20 +1,24 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-get-a-block",
   name: "Get a Block",
   description: "Gets a specific block. [See the docs here](https://docs.sendgrid.com/api-reference/blocks-api/retrieve-a-specific-block)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
     email: {
       propDefinition: [
         common.props.sendgrid,
-        "email",
+        "blockedEmails",
       ],
+      type: "string",
+      label: "Email",
+      description: "The email address of the specific block",
+      optional: false,
     },
   },
   async run({ $ }) {
