@@ -1,4 +1,4 @@
-import sendgrid from "../sendgrid.app.mjs";
+import sendgrid from "../../sendgrid.app.mjs";
 
 export default {
   props: {
