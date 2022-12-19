@@ -756,9 +756,11 @@ importers:
     specifiers:
       '@aws-sdk/client-s3': ^3.231.0
       '@pipedream/helper_functions': ^0.3.8
+      '@pipedream/platform': ^1.2.1
     dependencies:
       '@aws-sdk/client-s3': 3.231.0
       '@pipedream/helper_functions': 0.3.8
+      '@pipedream/platform': 1.2.1
 
   components/discord:
     specifiers: {}

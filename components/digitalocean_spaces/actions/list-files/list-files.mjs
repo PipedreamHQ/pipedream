@@ -10,10 +10,10 @@ export default {
   props: {
     ...common.props,
     prefix: {
-      type: "string",
-      label: "Prefix",
-      description: "Limits the response to keys that begin with the specified prefix",
-      optional: true,
+      propDefinition: [
+        common.props.aws,
+        "prefix",
+      ],
     },
   },
   async run({ $ }) {

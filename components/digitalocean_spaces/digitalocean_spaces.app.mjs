@@ -19,6 +19,12 @@ export default {
         return response.Contents.map((file) => file.Key);
       },
     },
+    prefix: {
+      type: "string",
+      label: "Prefix",
+      description: "Limits the response to keys that begin with the specified prefix",
+      optional: true,
+    },
   },
   methods: {
     getAWSClient(clientType) {
