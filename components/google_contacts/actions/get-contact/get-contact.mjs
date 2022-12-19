@@ -5,7 +5,7 @@ export default {
   key: "google_contacts-get-contact",
   name: "Get Contact",
   description: "Get information about a contact. [See the docs here](https://developers.google.com/people/api/rest/v1/people/get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

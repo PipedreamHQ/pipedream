@@ -109,5 +109,9 @@ export default {
       const { data } = await client.people.deleteContact(params);
       return data;
     },
+    async createContact(client, params) {
+      const { data } = await client.people.createContact(params);
+      return data;
+    },
   },
 };
