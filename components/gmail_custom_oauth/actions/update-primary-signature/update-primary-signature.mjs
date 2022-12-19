@@ -1,6 +1,5 @@
 import gmail from "../../gmail_custom_oauth.app.mjs";
 
-
 export default {
   key: "gmail_custom_oauth-update-primary-signature",
   name: "Update Signature for Primary Email Address",
