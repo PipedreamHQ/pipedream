@@ -13,10 +13,10 @@ export default {
       label: "Files",
       description: "The list of files to be deleted",
       async options({ bucket }) {
-        const response = await this.listFiles({
+        const files = await this.listFiles({
           Bucket: bucket,
         });
-        return response.Contents.map((file) => file.Key);
+        return files.map((file) => file.Key);
       },
     },
     prefix: {
@@ -43,7 +43,14 @@ export default {
       return this.getAWSClient(S3Client);
     },
     async listFiles(params) {
-      return this._clientS3().send(new ListObjectsV2Command(params));
+      const files = [];
+      do {
+        const response = await this._clientS3().send(new ListObjectsV2Command(params));
+        files.push(...response.Contents);
+        params.ContinuationToken = response.NextContinuationToken;
+        console.log(params.ContinuationToken);
+      } while (params.ContinuationToken);
+      return files;
     },
     async deleteFiles(params) {
       return this._clientS3().send(new DeleteObjectsCommand(params));

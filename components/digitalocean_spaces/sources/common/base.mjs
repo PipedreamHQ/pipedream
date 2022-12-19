@@ -43,7 +43,7 @@ export default {
     },
   },
   async run() {
-    const { Contents: files } = await this.aws.listFiles({
+    const files = await this.aws.listFiles({
       Bucket: this.bucket,
       Prefix: this.prefix,
     });

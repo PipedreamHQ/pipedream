@@ -9,7 +9,7 @@ export default {
   type: "source",
   hooks: {
     async deploy() {
-      const { Contents: files } = await this.aws.listFiles({
+      const files = await this.aws.listFiles({
         Bucket: this.bucket,
         Prefix: this.prefix,
       });

@@ -17,14 +17,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.listFiles({
+    const files = await this.aws.listFiles({
       Bucket: this.bucket,
       Prefix: this.prefix,
     });
-    const suffix = response.KeyCount === 1
+    const suffix = files.length === 1
       ? ""
       : "s";
-    $.export("$summary", `Successfully retrieved ${response.KeyCount} file${suffix}`);
-    return response;
+    $.export("$summary", `Successfully retrieved ${files.length} file${suffix}`);
+    return files;
   },
 };
