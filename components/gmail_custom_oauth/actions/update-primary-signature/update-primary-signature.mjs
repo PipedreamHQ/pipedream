@@ -1,5 +1,4 @@
 import gmail from "../../gmail_custom_oauth.app.mjs";
-import base from "../update-org-signature/update-org-signature.mjs";
 
 const docLink = "https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update";
 
@@ -11,15 +10,25 @@ export default {
   type: "action",
   props: {
     gmail,
-    signature: base.props.signature,
+    signature: {
+      type: "string",
+      label: "Signature",
+      description: "The new signature.",
+    },
+  },
+  methods: {
+    async createOpts() {
+      const { email } = await this.gmail.userInfo();
+      return {
+        signature: this.signature,
+        email,
+      };
+    },
   },
   async run({ $ }) {
-    const email = (await this.gmail.userInfo()).email;
-    const response = await this.gmail.updateSignature({
-      signature: this.signature,
-      email,
-    });
-    $.export("$summary", `Successfully updated signature for ${email}`);
+    const opts = await this.createOpts();
+    const response = await this.gmail.updateSignature(opts);
+    $.export("$summary", `Successfully updated signature for ${opts.email}`);
     return response;
   },
 };
