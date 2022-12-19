@@ -613,6 +613,9 @@ importers:
   components/crove_app:
     specifiers: {}
 
+  components/crowdin:
+    specifiers: {}
+
   components/curated:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1131,11 +1134,13 @@ importers:
     specifiers:
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
+      googleapis: ^109.0.1
       html-to-text: ^8.2.1
       nodemailer: ^6.7.8
     dependencies:
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
+      googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.7.8
 
