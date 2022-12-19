@@ -1,14 +1,13 @@
 import googleCloud from "../../../google_cloud/google_cloud.app.mjs";
 import base from "../update-primary-signature/update-primary-signature.mjs";
 
-
 export default {
   ...base,
   key: "gmail_custom_oauth-update-org-signature",
   name: "Update Signature for Email in Organization",
-  description: "Update the signature for a specific email address in an organization.
-    A Google Cloud service account with delegated domain-wide authority is required for this action. [See docs here](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update)",
-  version: "0.0.1",
+  description: `Update the signature for a specific email address in an organization.
+    A Google Cloud service account with delegated domain-wide authority is required for this action. [See docs here](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update)`,
+  version: "0.0.2",
   type: "action",
   props: {
     gmail: base.props.gmail,
