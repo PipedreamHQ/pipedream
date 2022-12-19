@@ -4,7 +4,7 @@ export default {
   key: "todoist-delete-section",
   name: "Delete Section",
   description: "Deletes a section. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-section)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,
