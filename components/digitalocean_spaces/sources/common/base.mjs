@@ -23,6 +23,9 @@ export default {
   },
   methods: {
     ...pipedreamS3.methods,
+    getKey(file) {
+      return file.Key;
+    },
     getKeyTimestamp(file) {
       return `${file.Key}-${file.LastModified}`;
     },
