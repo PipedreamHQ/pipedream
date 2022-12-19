@@ -6,7 +6,7 @@ export default {
   key: "hubspot-create-contact",
   name: "Create Contact",
   description: "Create a contact in Hubspot. [See the docs here](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   methods: {
     ...common.methods,
