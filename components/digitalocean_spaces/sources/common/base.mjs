@@ -21,12 +21,30 @@ export default {
       ],
     },
   },
+  methods: {
+    ...pipedreamS3.methods,
+    getKeyTimestamp(file) {
+      return `${file.Key}-${file.LastModified}`;
+    },
+    updateFileList() {
+      throw new Error("updateFileList not implemented");
+    },
+    emitEvents() {
+      throw new Error("emitEvents not implemented");
+    },
+    getFileList() {
+      return this.db.get("fileList") || [];
+    },
+    setFileList(fileList) {
+      this.db.set("fileList", fileList);
+    },
+  },
   async run() {
-    const files = await this.aws.listFiles({
+    const { Contents: files } = await this.aws.listFiles({
       Bucket: this.bucket,
       Prefix: this.prefix,
     });
-    console.log(files);
-    return files;
+    const events = await this.updateFileList(files);
+    await this.emitEvents(events);
   },
 };
