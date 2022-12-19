@@ -6,7 +6,7 @@ export default {
   name: "New Social Media Message",
   description: `Emit new event when a message is posted from HubSpot to the specified
     social media channel`,
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
