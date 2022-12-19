@@ -3495,7 +3495,12 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/yelp:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/yotpo:
     specifiers:
