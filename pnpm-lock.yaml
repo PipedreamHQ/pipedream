@@ -554,6 +554,16 @@ importers:
   components/cloudlayer:
     specifiers: {}
 
+  components/cloudmersive:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+      form-data: 4.0.0
+
   components/cloudtalk:
     specifiers: {}
 

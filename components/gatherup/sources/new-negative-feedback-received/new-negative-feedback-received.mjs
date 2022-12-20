@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Negative Feedback Received",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "gatherup-new-negative-feedback-received",
   description: "Emit new event on each new negative feedback received.",
   type: "source",
