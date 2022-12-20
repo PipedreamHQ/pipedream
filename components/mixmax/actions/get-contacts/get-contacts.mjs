@@ -43,6 +43,7 @@ export default {
         common.props.mixmax,
         "groups",
       ],
+      withLabel: true,
       optional: true,
     },
     includeShared: {
@@ -137,7 +138,7 @@ export default {
       const search = [];
       if (email?.length) search.push(`email:${email.toString()}`);
       if (name) search.push(`name:${name}`);
-      if (groups?.length) search.push(`groups:${groups.toString()}`);
+      if (groups?.length) search.push(`group:${groups.map((group) => `"${group.label}"`).toString()}`);
 
       if (includeShared === true && !search.length) {
         throw new ConfigurationError("Either `email` or `name` or `groups` if using `includeShared=true`");
