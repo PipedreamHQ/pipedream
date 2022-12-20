@@ -1115,6 +1115,21 @@
     },
     {
       "path": "components/cflow"
+    },
+    {
+      "path": "components/taxjar"
+    },
+    {
+      "path": "components/customer_guru"
+    },
+    {
+      "path": "components/clicktime"
+    },
+    {
+      "path": "components/callhub"
+    },
+    {
+      "path": "components/crowdin"
     }
   ]
 }

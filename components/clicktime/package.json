@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/clicktime",
+  "version": "0.0.1",
+  "description": "Pipedream ClickTime Components",
+  "main": "dist/app/clicktime.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clicktime"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/clicktime",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

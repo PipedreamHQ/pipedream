@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-delete-bounces",
   name: "Delete Bounces",
   description: "Allows you to delete all emails on your bounces list. [See the docs here](https://docs.sendgrid.com/api-reference/bounces-api/delete-bounces)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -19,9 +19,8 @@ export default {
     emails: {
       propDefinition: [
         common.props.sendgrid,
-        "emails",
+        "bouncedEmails",
       ],
-      description: "A string array of emails to delete from your bounce list at the same time. This can not be used with the `deleteAll` parameter. Example:  `[\"email1@example.com\",\"email2@example.com\"]`",
     },
   },
   async run({ $ }) {
