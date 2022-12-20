@@ -3,11 +3,11 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "shopify-updated-order",
-  name: "Updated Order (Instant)", /* eslint-disable-line pipedream/source-name */
+  key: "shopify-new-updated-order",
+  name: "New Updated Order (Instant)",
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.9",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
