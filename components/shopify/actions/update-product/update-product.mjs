@@ -4,7 +4,7 @@ export default {
   key: "shopify-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[put]/admin/api/2022-01/products/{product_id}.json)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

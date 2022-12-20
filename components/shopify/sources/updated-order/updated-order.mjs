@@ -1,51 +1,26 @@
-import shopify from "../../shopify.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
+  ...common,
   key: "shopify-updated-order",
-  name: "Updated Order", /* eslint-disable-line pipedream/source-name */
+  name: "Updated Order (Instant)", /* eslint-disable-line pipedream/source-name */
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
-  props: {
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    shopify,
-  },
   methods: {
-    _getLastUpdatedDate() {
-      return this.db.get("last_updated_at") || null;
+    ...common.methods,
+    getTopic() {
+      return constants.EVENT_TOPIC.ORDERS_UPDATED;
     },
-    _setLastUpdatedDate(date) {
-      this.db.set("last_updated_at", date);
+    generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
+      return {
+        id: ts,
+        summary: `Order Updated ${resource.id}.`,
+        ts,
+      };
     },
-  },
-  async run() {
-    const lastUpdatedAt = this._getLastUpdatedDate();
-    let results = await this.shopify.getOrders(
-      "any",
-      true,
-      null,
-      lastUpdatedAt,
-    );
-
-    for (const order of results) {
-      const id = `${order.id}-${order.updated_at}`;
-      this.$emit(order, {
-        id,
-        summary: `Order updated: ${order.name}`,
-        ts: Date.parse(order.updated_at),
-      });
-    }
-
-    if (results[results.length - 1]) {
-      this._setLastUpdatedDate(results[results.length - 1].updated_at);
-    }
   },
 };
