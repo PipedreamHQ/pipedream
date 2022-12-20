@@ -1,8 +1,12 @@
 # Overview
 
-The OpenAI API is a powerful tool that provides access to a range of high-powered machine learning models. With the OpenAI API, developers can create products, services, and tools that enable humanizing AI experiences, and build applications that extend the power of human language.
+The OpenAI API is a powerful tool that provides access to a range of
+high-powered machine learning models. With the OpenAI API, developers can
+create products, services, and tools that enable humanizing AI experiences, and
+build applications that extend the power of human language.
 
-Using the OpenAI API, developers can create language-driven applications such as:
+Using the OpenAI API, developers can create language-driven applications such
+as:
 
 - Natural language understanding and sentiment analysis
 - Text-based search

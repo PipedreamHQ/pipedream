@@ -1,6 +1,10 @@
 # Overview
 
-Nozbe Teams API is an API that enables developers to create and manage team workspaces without having to write a single line of code. With this API, an organization can easily create and manage team workspaces to improve collaboration and productivity. This includes setting up projects for teams, assigning tasks and organizing workloads among teams.
+Nozbe Teams API is an API that enables developers to create and manage team
+workspaces without having to write a single line of code. With this API, an
+organization can easily create and manage team workspaces to improve
+collaboration and productivity. This includes setting up projects for teams,
+assigning tasks and organizing workloads among teams.
 
 The Nozbe Teams API offers a number of advantages for businesses, such as:
 

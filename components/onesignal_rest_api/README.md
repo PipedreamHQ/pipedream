@@ -1,6 +1,9 @@
 # Overview
 
-With the OneSignal (REST API) API, you can create powerful tools to connect with your users and build an engaged audience. The API enables you to create, read, update, and delete push notifications, set up segmentation, and deliver messages to players.
+With the OneSignal (REST API) API, you can create powerful tools to connect
+with your users and build an engaged audience. The API enables you to create,
+read, update, and delete push notifications, set up segmentation, and deliver
+messages to players.
 
 The API also enables you to:
 
@@ -9,7 +12,8 @@ The API also enables you to:
 - Automate message sending using scheduled notifications
 - Personalize messages using data gathered on each user
 
-These are just some of the resources available to you when you use OneSignal API:
+These are just some of the resources available to you when you use OneSignal
+API:
 
 - Create targeted notifications for user-specific behaviors
 - Trigger personalized messages via segmentation

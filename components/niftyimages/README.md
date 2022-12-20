@@ -1,6 +1,10 @@
 # Overview
 
-NiftyImages is an easy-to-use API for building custom images, GIFs, and videos for all your online needs. You can create, manage, and personalize your media for any platform, from emails and advertising campaigns to webpages and emails. With just a few lines of code, you can create stunning and unique visuals for your project or product.
+NiftyImages is an easy-to-use API for building custom images, GIFs, and videos
+for all your online needs. You can create, manage, and personalize your media
+for any platform, from emails and advertising campaigns to webpages and emails.
+With just a few lines of code, you can create stunning and unique visuals for
+your project or product.
 
 Here are some examples of what you can build using the NiftyImages API:
 
