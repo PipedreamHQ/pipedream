@@ -24,10 +24,10 @@ export default {
       return this.topic;
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.created_at);
+      const ts = Date.now();
       return {
         id: resource.id,
-        summary: `New Event Emitted at ${resource.created_at}.`,
+        summary: `New Event Emitted at ${new Date(ts)}.`,
         ts,
       };
     },
