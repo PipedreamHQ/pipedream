@@ -23,10 +23,10 @@ export default {
     getTopic() {
       return this.topic;
     },
-    generateMeta(resource) {
+    generateMeta() {
       const ts = Date.now();
       return {
-        id: resource.id,
+        id: ts,
         summary: `New Event Emitted at ${new Date(ts)}.`,
         ts,
       };
