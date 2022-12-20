@@ -1129,6 +1129,9 @@
       "path": "components/callhub"
     },
     {
+      "path": "components/cloudmersive"
+    },
+    {
       "path": "components/crowdin"
     }
   ]
