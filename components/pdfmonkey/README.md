@@ -1,6 +1,9 @@
 # Overview
 
-PDFMonkey is an API that enables users to build powerful applications that generate and manipulate PDF files. The API allows developers to generate and manipulate documents such as modifying texts, adding images, creating form fields and content, as well as signing and securing documents.
+PDFMonkey is an API that enables users to build powerful applications that
+generate and manipulate PDF files. The API allows developers to generate and
+manipulate documents such as modifying texts, adding images, creating form
+fields and content, as well as signing and securing documents.
 
 Below are some of the great products you can build using the PDFMonkey API:
 

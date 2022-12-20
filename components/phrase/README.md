@@ -1,6 +1,7 @@
 # Overview
 
-Using the Phrase API, you can build a range of applications for local and international businesses. With the Phrase API, you can do things like:
+Using the Phrase API, you can build a range of applications for local and
+international businesses. With the Phrase API, you can do things like:
 
 - Create powerful multilingual websites, apps and content
 - Speed up the development of new software, websites and apps

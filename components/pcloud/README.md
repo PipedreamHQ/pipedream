@@ -1,6 +1,8 @@
 # Overview
 
-The pCloud API allows you to build a variety of products and applications that integrate with the pCloud service. With the pCloud API, you can get access to a wide range of features, including:
+The pCloud API allows you to build a variety of products and applications that
+integrate with the pCloud service. With the pCloud API, you can get access to a
+wide range of features, including:
 
 - Storage for cloud-based file sharing
 - Automated synchronization of content

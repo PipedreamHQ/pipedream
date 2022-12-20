@@ -1,6 +1,11 @@
 # Overview
 
-Picky Assist is a powerful, intuitive API that can help you build great digital experiences, ranging from e-commerce websites to customer relationship management software. With Picky Assist, you can quickly and easily customize and add new features to your existing web applications and programs, allowing you to maximize your use of technology and provide an improved online experience for your customers and users.
+Picky Assist is a powerful, intuitive API that can help you build great digital
+experiences, ranging from e-commerce websites to customer relationship
+management software. With Picky Assist, you can quickly and easily customize
+and add new features to your existing web applications and programs, allowing
+you to maximize your use of technology and provide an improved online
+experience for your customers and users.
 
 Here are just some of the things you can build with the Picky Assist API:
 

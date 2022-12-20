@@ -1,6 +1,8 @@
 # Overview
 
-Using the Paymo API, you can build a range of applications that help your business run smoother, faster, and more cost-effectively. With the Paymo API, you can:
+Using the Paymo API, you can build a range of applications that help your
+business run smoother, faster, and more cost-effectively. With the Paymo API,
+you can:
 
 - Create custom time tracking and reporting systems
 - Integrate Payment solutions with other platforms
