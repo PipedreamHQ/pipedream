@@ -4,7 +4,7 @@ export default {
   key: "todoist-create-filter",
   name: "Create Filter",
   description: "Creates a filter. [See the docs here](https://developer.todoist.com/sync/v9/#add-a-filter)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,

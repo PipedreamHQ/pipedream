@@ -1144,11 +1144,13 @@ importers:
     specifiers:
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
+      googleapis: ^109.0.1
       html-to-text: ^8.2.1
       nodemailer: ^6.7.8
     dependencies:
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
+      googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.7.8
 
@@ -3503,7 +3505,12 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/yelp:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/yotpo:
     specifiers:
