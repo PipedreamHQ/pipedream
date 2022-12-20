@@ -38,7 +38,7 @@ export default {
         surveyId: this.surveyId,
       });
 
-      resources.slice(10).forEach(this.emitEvent);
+      resources.slice(-10).forEach(this.emitEvent);
     },
   },
   async run() {

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Issue Published",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "curated-new-issue-published",
   description: "Emit new event when a issue is published.",
   type: "source",
