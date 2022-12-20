@@ -5,7 +5,7 @@ export default {
   key: "hubspot-line-item-updated",
   name: "Line Item Updated",
   description: "Emit new event each time a line item is updated.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   hooks: {},
