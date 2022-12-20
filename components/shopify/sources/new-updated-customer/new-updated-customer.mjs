@@ -3,22 +3,22 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...common,
-  key: "shopify-new-paid-order",
-  name: "New Paid Order (Instant)",
+  key: "shopify-new-updated-customer",
+  name: "New Updated Customer (Instant)",
   type: "source",
-  description: "Emit new event each time a new order is paid.",
-  version: "0.0.8",
+  description: "Emit new event each time a customer's information is updated.",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.ORDERS_PAID;
+      return constants.EVENT_TOPIC.CUSTOMERS_UPDATE;
     },
     generateMeta(resource) {
       const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
-        summary: `Order Paid ${resource.id}.`,
+        summary: `Customer Updated ${resource.id}.`,
         ts,
       };
     },
