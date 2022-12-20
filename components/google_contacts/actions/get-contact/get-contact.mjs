@@ -30,7 +30,7 @@ export default {
       });
     },
     emitSummary($) {
-      $.export("$summary", "Successfully retrieved contact");
+      $.export("$summary", `Successfully retrieved contact with ID ${this.resourceName.split("/").pop()}`);
     },
   },
 };

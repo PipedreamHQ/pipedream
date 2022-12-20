@@ -50,7 +50,7 @@ export default {
       });
     },
     emitSummary($) {
-      $.export("$summary", "Successfully updated contact");
+      $.export("$summary", `Successfully updated contact with ID ${this.resourceName.split("/").pop()}`);
     },
   },
 };

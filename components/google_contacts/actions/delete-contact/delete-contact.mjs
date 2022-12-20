@@ -23,7 +23,7 @@ export default {
       });
     },
     emitSummary($) {
-      $.export("$summary", "Successfully deleted contact");
+      $.export("$summary", `Successfully deleted contact with ID ${this.resourceName.split("/").pop()}`);
     },
   },
 };
