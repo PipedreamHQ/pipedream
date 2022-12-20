@@ -55,3 +55,11 @@ If you've successfully authenticated your Discord Bot to Pipedream, but the inco
 At the time of writing, Discord only requires bots in 100 or more servers to apply for this access.
 
 You can request for this approval in the **Discord Developer Portal**.
+
+# Troubleshooting
+
+Make sure your bot has the required priviledges:
+
+![Bot priviledges image](bot_priviledges.png "Bot priviledges")
+
+If you have issues with this integration, please join our public Slack and ask for help.
