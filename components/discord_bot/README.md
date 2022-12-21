@@ -60,6 +60,6 @@ You can request for this approval in the **Discord Developer Portal**.
 
 Make sure your bot has the required privileges:
 
-![Bot priviledges image](bot_priviledges.png "Bot privileges")
+![Example of bot priviledges](bot_priviledges.png)
 
 If you have issues with this integration, please join our public Slack and ask for help.
