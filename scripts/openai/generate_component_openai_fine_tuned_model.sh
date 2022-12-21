@@ -19,5 +19,5 @@ for file in "${files[@]}"; do
   node generate_app_file_prompts.js "$file"
 done
 
-cat app_file_prop_defs.txt app_file_methods.txt test_request_prompts.txt > training_data.txt
-rm app_file_prop_defs.txt app_file_methods.txt test_request_prompts.txt
+cat app_file_prop_defs.jsonl app_file_methods.jsonl test_request_prompts.jsonl > training_data.jsonl
+rm app_file_prop_defs.jsonl app_file_methods.jsonl test_request_prompts.jsonl

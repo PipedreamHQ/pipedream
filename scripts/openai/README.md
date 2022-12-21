@@ -24,5 +24,3 @@ export OPENAI_API_KEY="<OpenAI API key>"
 openai tools fine_tunes.prepare_data -f training_data.txt
 openai api fine_tunes.create -t "training_data_prepared.jsonl" -m davinci
 ```
-
-In initial tests, it took $78 to train this model. The cost of training will increase as we increase the number of training prompts.
