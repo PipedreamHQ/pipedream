@@ -31,6 +31,11 @@ export default {
     _getLastDateSynced() {
       return this.db.get("lastDateSynced");
     },
+    parseDate(date) {
+      return new Date(typeof date === "string"
+        ? date
+        : date * 1000);
+    },
   },
   hooks: {
     async deploy() {
@@ -55,15 +60,12 @@ export default {
     });
 
     resources
-      .filter((resource) => resource.created_at * 1000 > lastDateSynced)
+      .filter((resource) => this.parseDate(resource.created_at).getTime() * 1000 > lastDateSynced)
       .reverse()
       .forEach(this.emitEvent);
 
     if (resources.length) {
-      const createdAt = new Date(typeof resources[0].created_at === "string"
-        ? resources[0].created_at
-        : resources[0].created_at * 1000);
-      this._setLastDateSynced(createdAt.getTime());
+      this._setLastDateSynced(this.parseDate(resources[0].created_at).getTime());
     }
   },
 };
