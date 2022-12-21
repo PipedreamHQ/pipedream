@@ -142,7 +142,7 @@ export default {
       const { accounts } = await this.listAccounts();
       return accounts[0].id;
     },
-    listAccounts() {
+    async listAccounts() {
       return this._makeRequest({
         path: "accounts",
       });
