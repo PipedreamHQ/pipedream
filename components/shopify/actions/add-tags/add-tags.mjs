@@ -2,7 +2,7 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   name: "Add Tags",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "shopify-add-tags",
   description: "Add tags. [See the docs](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
   props: {

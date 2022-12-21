@@ -56,8 +56,8 @@ export default {
                 limit: 20,
               },
             });
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const options = members.reduce((reduction, member) => {
@@ -132,8 +132,8 @@ export default {
           channels = await this.getChannels({
             guildId,
           });
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Channel options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
         return utils.getChannelOptions({
           channels,
@@ -194,8 +194,8 @@ export default {
             guildId,
           });
           return utils.getCategoryChannelOptions(channels);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Category options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
       },
     },
@@ -210,8 +210,8 @@ export default {
             guildId,
           });
           return utils.getRolePermissionOptions(roles);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Role options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
       },
     },
@@ -241,8 +241,8 @@ export default {
               },
             }),
           ]);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Member options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const [
@@ -309,8 +309,8 @@ export default {
             },
           });
         }
-        catch {
-          throw new ConfigurationError("A Channel ID is required to retrieve Message options.");
+        catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const options = utils.getMessageOptions(messages);
