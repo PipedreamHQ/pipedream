@@ -7,7 +7,7 @@ export default {
   name: "New Lead Created",
   description: "Emit new event when a new lead is created. [See the docs](https://docs.leadfeeder.com/api/#get-leads)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
