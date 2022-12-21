@@ -5,7 +5,7 @@ export default {
   name: "New Waiting Ticket Created",
   version: "0.0.1",
   key: "snappy-new-waiting-ticket-created",
-  description: "Emit new event on each new waiting ticket is created.",
+  description: "Emit new event when a waiting ticket is created.",
   type: "source",
   dedupe: "unique",
   props: {
