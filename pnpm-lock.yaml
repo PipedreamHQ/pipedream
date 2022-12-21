@@ -2768,6 +2768,12 @@ importers:
   components/snapdocs:
     specifiers: {}
 
+  components/snappy:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/snowflake:
     specifiers:
       '@pipedream/platform': ^1.2.0
