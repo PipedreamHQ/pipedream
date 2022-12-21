@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-add-or-update-contact",
   name: "Add or Update Contact",
   description: "Adds or updates a contact. [See the docs here](https://docs.sendgrid.com/api-reference/contacts/add-or-update-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-labels",
   name: "List Labels",
   description: "Returns a list of all labels. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-personal-labels)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,

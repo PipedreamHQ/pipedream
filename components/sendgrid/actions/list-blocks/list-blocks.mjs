@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-list-blocks",
   name: "List Blocks",
   description: "Allows you to list all email addresses that are currently on your blocks list. [See the docs here](https://docs.sendgrid.com/api-reference/blocks-api/retrieve-all-blocks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

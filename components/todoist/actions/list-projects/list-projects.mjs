@@ -4,7 +4,7 @@ export default {
   key: "todoist-list-projects",
   name: "List Projects",
   description: "Returns a list of all projects. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-projects)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail_custom_oauth",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "Pipedream Gmail (Consumer) Components",
   "main": "gmail_custom_oauth.app.mjs",
   "keywords": [
@@ -16,6 +16,7 @@
   "dependencies": {
     "@googleapis/gmail": "^0.3.4",
     "@pipedream/platform": "^1.1.1",
+    "googleapis": "^109.0.1",
     "html-to-text": "^8.2.1",
     "nodemailer": "^6.7.8"
   }
