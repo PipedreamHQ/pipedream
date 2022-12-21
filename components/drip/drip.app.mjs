@@ -4,6 +4,25 @@ export default {
   type: "app",
   app: "drip",
   propDefinitions: {
+    workflowId: {
+      type: "string",
+      label: "Workflow Id",
+      description: "The workflows's id.",
+      async options({ page }) {
+        const { workflows } = await this.listWorkflows({
+          params: {
+            page,
+          },
+        });
+
+        return workflows.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     email: {
       type: "string",
       label: "Email",
@@ -54,6 +73,23 @@ export default {
         $,
         path: `${accountId}/workflows/${workflowId}/activate`,
         method: "POST",
+      });
+    },
+    async startSomeoneOnWorkflow({
+      $, workflowId, email,
+    }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        $,
+        path: `${accountId}/workflows/${workflowId}/subscribers`,
+        method: "POST",
+        data: {
+          subscribers: [
+            {
+              email,
+            },
+          ],
+        },
       });
     },
     async createOrUpdateSubscriber({

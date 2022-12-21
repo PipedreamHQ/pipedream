@@ -9,23 +9,10 @@ export default {
   props: {
     drip,
     workflowId: {
-      type: "string",
-      label: "Workflow Id",
-      description: "The workflows's id.",
-      async options({ page }) {
-        const { workflows } = await this.drip.listWorkflows({
-          params: {
-            page,
-          },
-        });
-
-        return workflows.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
+      propDefinition: [
+        drip,
+        "workflowId",
+      ],
     },
   },
   async run({ $ }) {
