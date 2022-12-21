@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-list-global-suppressions",
   name: "List Global Suppressions",
   description: "Allows you to get a list of all email address that are globally suppressed. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/retrieve-all-global-suppressions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -64,7 +64,7 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const resp = await this.sendgrid.listGlobalSupressions(
+    const resp = await this.sendgrid.listGlobalSuppressions(
       this.startTime,
       this.endTime,
       this.numberOfSuppressions,

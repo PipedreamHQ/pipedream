@@ -6,7 +6,7 @@ export default {
   name: "New Article",
   type: "source",
   description: "Emit new event for each new article in a blog.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     db: "$.service.db",

@@ -8,7 +8,7 @@ export default {
   name: "Post Reaction with Emoji",
   description: "Post a reaction for a message with an emoji. [See the docs here](https://discord.com/developers/docs/resources/channel#create-reaction)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     messageId: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/heysummit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream HeySummit Components",
   "main": "heysummit.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/curated",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Curated Components",
   "main": "curated.app.mjs",
   "keywords": [
