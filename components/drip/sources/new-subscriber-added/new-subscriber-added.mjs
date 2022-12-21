@@ -5,7 +5,7 @@ export default {
   key: "drip-new-subscriber-added",
   name: "New Subscriber Added (Instant)",
   description: "Emit new event when a new subscriber is created",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
