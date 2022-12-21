@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -30,8 +31,8 @@ export default {
           await this.getLeads({
             accountId,
             params: {
-              // start_date:,
-              // end_date:,
+              start_date: utils.getFormatDate(30),
+              end_date: utils.getFormatDate(),
               [constants.PARAM.PAGE_NUMBER]: page + 1,
               [constants.PARAM.PAGE_SIZE]: constants.DEFAULT_LIMIT,
             },
@@ -66,9 +67,12 @@ export default {
         url: this.getUrl(path),
         ...args,
       };
+      console.log("conf!!!", config);
 
       try {
-        return await axios(step, config);
+        const response = await axios(step, config);
+        console.log("res!!!", response);
+        return response;
       } catch (error) {
         console.log("Error", error);
         throw error;
@@ -107,34 +111,33 @@ export default {
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
-      max,
+      max = constants.MAX_RESOURCES,
     }) {
+      let page = 1;
       let resourcesCount = 0;
 
       while (true) {
-        const nextResponse = await resourceFn({
+        const { data: nextResources } = await resourceFn({
           ...resourceFnArgs,
           params: {
+            [constants.PARAM.PAGE_SIZE]: constants.DEFAULT_LIMIT,
+            [constants.PARAM.PAGE_NUMBER]: page,
             ...resourceFnArgs.params,
           },
         });
 
-        if (!nextResponse) {
+        if (!nextResources?.length) {
           return;
         }
-
-        let nextResources = nextResponse.objects;
-
-        // if (nextResponse.meta.next) {
-        //   lastUrl = nextResponse.meta.next;
-        // }
 
         for (const resource of nextResources) {
           yield resource;
           resourcesCount += 1;
         }
 
-        if (!nextResponse?.meta.next || (max && resourcesCount >= max)) {
+        page += 1;
+
+        if (resourcesCount >= max) {
           return;
         }
       }
