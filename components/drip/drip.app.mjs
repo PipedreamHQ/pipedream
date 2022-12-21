@@ -23,6 +23,26 @@ export default {
         }));
       },
     },
+    campaign: {
+      type: "string",
+      label: "Campaign",
+      description: "Email campaign",
+      optional: true,
+      async options({ page }) {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            page,
+          },
+        });
+
+        return campaigns.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     email: {
       type: "string",
       label: "Email",
@@ -134,6 +154,12 @@ export default {
         ...opts,
       });
     },
+    async listSubscribersInCampaign({ campaign }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        path: `${accountId}/campaigns/${campaign}/subscribers`,
+      });
+    },
     async listTags({ ...opts }) {
       const accountId = await this.getAccountId();
       return this._makeRequest({
@@ -145,6 +171,13 @@ export default {
       const accountId = await this.getAccountId();
       return this._makeRequest({
         path: `${accountId}/workflows`,
+        ...opts,
+      });
+    },
+    async listCampaigns({ ...opts }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        path: `${accountId}/campaigns`,
         ...opts,
       });
     },
