@@ -5,7 +5,7 @@ export default {
   name: "New Wall Post Created",
   version: "0.0.1",
   key: "snappy-new-wall-post-created",
-  description: "Emit new event on each new wall post created.",
+  description: "Emit new event on each wall post created.",
   type: "source",
   dedupe: "unique",
   methods: {
