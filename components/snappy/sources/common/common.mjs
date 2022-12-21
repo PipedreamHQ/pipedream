@@ -34,7 +34,7 @@ export default {
     parseDate(date) {
       return new Date(typeof date === "string"
         ? date
-        : date * 1000);
+        : date * 1000).getTime();
     },
   },
   hooks: {
@@ -60,12 +60,12 @@ export default {
     });
 
     resources
-      .filter((resource) => this.parseDate(resource.created_at).getTime() * 1000 > lastDateSynced)
+      .filter((resource) => this.parseDate(resource.created_at) > lastDateSynced)
       .reverse()
       .forEach(this.emitEvent);
 
     if (resources.length) {
-      this._setLastDateSynced(this.parseDate(resources[0].created_at).getTime());
+      this._setLastDateSynced(this.parseDate(resources[0].created_at));
     }
   },
 };
