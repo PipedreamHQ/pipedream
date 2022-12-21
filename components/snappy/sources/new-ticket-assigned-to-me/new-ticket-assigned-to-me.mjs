@@ -5,7 +5,7 @@ export default {
   name: "New Ticket Assigned To Me",
   version: "0.0.1",
   key: "snappy-new-ticket-assigned-to-me",
-  description: "Emit new event on each new ticket is assigned to me.",
+  description: "Emit new event when a new ticket is assigned to me.",
   type: "source",
   dedupe: "unique",
   props: {
