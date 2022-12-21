@@ -5,7 +5,7 @@ export default {
   name: "New Ticket Create",
   version: "0.0.1",
   key: "snappy-new-ticket-created",
-  description: "Emit new event on each new ticket created.",
+  description: "Emit new event on each ticket created.",
   type: "source",
   dedupe: "unique",
   props: {
