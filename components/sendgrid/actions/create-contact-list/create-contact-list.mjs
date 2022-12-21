@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-create-contact-list",
   name: "Create Contact List",
   description: "Allows you to create a new contact list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/create-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

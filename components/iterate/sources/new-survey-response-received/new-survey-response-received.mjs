@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Survey Response",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "iterate-new-survey-response-received",
   description: "Emit new event when a survey is answered.",
   type: "source",

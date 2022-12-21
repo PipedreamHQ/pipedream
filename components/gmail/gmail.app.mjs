@@ -40,6 +40,7 @@ export default {
         };
       },
     },
+
     label: {
       type: "string",
       label: "Label",
@@ -171,18 +172,35 @@ export default {
         .replace(/=+$/, "");
     },
     async sendEmail({ ...opts }) {
-      const mailComposer = new MailComposer(opts);
+      const {
+        threadId,
+        ...options
+      } = opts;
+      const mailComposer = new MailComposer(options);
       const mail = mailComposer.compile();
       mail.keepBcc = true;
       const message = await mail.build();
-      const rawMessage = this.encodeMessage(message);
-      const response = await this._client().users.messages.send({
-        userId: constants.USER_ID,
-        requestBody: {
-          raw: rawMessage,
-        },
-      });
-      return response.data;
+      //Some headers are seperated with a new-line
+      const messageFixed = message.toString("utf8")
+        .replace(/:\r\n/g, ":")
+        .replace(/:\n/g, ":");
+      const rawMessage = this.encodeMessage(messageFixed);
+      try {
+        const response = await this._client().users.messages.send({
+          userId: constants.USER_ID,
+          requestBody: {
+            threadId: threadId,
+            raw: rawMessage,
+          },
+        });
+        return response.data;
+      } catch (err) {
+        if (err.code == 404) {
+          throw new Error("Unable to find email thread. `In Reply To` must be the `message-id` of the first message of the thread.");
+        } else {
+          throw err;
+        }
+      }
     },
     async addLabelToEmail({
       message, label,

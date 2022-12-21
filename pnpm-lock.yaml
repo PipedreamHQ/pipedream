@@ -299,7 +299,10 @@ importers:
       mailparser-mit: 1.0.0
 
   components/azure_devops:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/bandwidth:
     specifiers:
@@ -377,6 +380,9 @@ importers:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
 
+  components/brandmentions:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -437,6 +443,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/callhub:
+    specifiers: {}
+
   components/callingly:
     specifiers: {}
 
@@ -450,6 +459,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/cflow:
     specifiers: {}
 
   components/chaport:
@@ -490,6 +502,9 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/clickmeeting:
+    specifiers: {}
+
+  components/clicktime:
     specifiers: {}
 
   components/clickup:
@@ -538,6 +553,16 @@ importers:
 
   components/cloudlayer:
     specifiers: {}
+
+  components/cloudmersive:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+      form-data: 4.0.0
 
   components/cloudtalk:
     specifiers: {}
@@ -598,11 +623,17 @@ importers:
   components/crove_app:
     specifiers: {}
 
+  components/crowdin:
+    specifiers: {}
+
   components/curated:
     specifiers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/customer_guru:
+    specifiers: {}
 
   components/customer_io:
     specifiers:
@@ -611,7 +642,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/d7_networks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/darwinbox:
     specifiers: {}
@@ -793,6 +827,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/drip:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/dropbox:
     specifiers:
@@ -1013,6 +1053,14 @@ importers:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
 
+  components/gatherup:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      dayjs: ^1.11.7
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      dayjs: 1.11.7
+
   components/gender_api:
     specifiers: {}
 
@@ -1096,11 +1144,13 @@ importers:
     specifiers:
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
+      googleapis: ^109.0.1
       html-to-text: ^8.2.1
       nodemailer: ^6.7.8
     dependencies:
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
+      googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.7.8
 
@@ -1138,6 +1188,14 @@ importers:
       lodash.get: 4.4.2
       moment-timezone: 0.5.34
       uuid: 8.3.2
+
+  components/google_classroom:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      googleapis: ^109.0.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      googleapis: 109.0.1
 
   components/google_cloud:
     specifiers:
@@ -1547,6 +1605,12 @@ importers:
       '@linear/sdk': ^1.22.0
     dependencies:
       '@linear/sdk': 1.22.0
+
+  components/linkedin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/linqs_cc:
     specifiers: {}
@@ -1973,6 +2037,12 @@ importers:
       node-fetch: 2.6.7
       ongage: 1.1.7_node-fetch@2.6.7
 
+  components/openai:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/opensea:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2007,7 +2077,12 @@ importers:
     specifiers: {}
 
   components/patreon:
-    specifiers: {}
+    specifiers:
+      axios: ^1.2.1
+      url: ^0.11.0
+    dependencies:
+      axios: 1.2.1
+      url: 0.11.0
 
   components/payhere:
     specifiers:
@@ -2301,6 +2376,12 @@ importers:
   components/render:
     specifiers: {}
 
+  components/repairshopr:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/reply_io:
     specifiers: {}
 
@@ -2332,6 +2413,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/route4me:
+    specifiers: {}
 
   components/rss:
     specifiers:
@@ -2601,6 +2685,12 @@ importers:
     dependencies:
       '@slack/web-api': 5.15.0
 
+  components/slack_bot:
+    specifiers:
+      '@slack/web-api': ^5.15.0
+    dependencies:
+      '@slack/web-api': 5.15.0
+
   components/slicktext:
     specifiers: {}
 
@@ -2829,6 +2919,9 @@ importers:
     specifiers: {}
 
   components/tally:
+    specifiers: {}
+
+  components/taxjar:
     specifiers: {}
 
   components/td_ameritrade:
@@ -3127,6 +3220,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/unisender:
+    specifiers:
+      '@pipedream/platform': ^0.10.0
+    dependencies:
+      '@pipedream/platform': 0.10.0
+
   components/upkeep:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -3406,7 +3505,12 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/yelp:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/yotpo:
     specifiers:
@@ -7836,8 +7940,8 @@ packages:
     resolution: {integrity: sha512-/3P8NW4K7bleOF632+So6fW8xy6Sd/DtlNbabsKW9QBB/GoTc8oPIUH3odnv8X+ZnvrhgCElcBAQEg9vcHAzLA==}
     dependencies:
       axios: 0.21.4
-      fp-ts: 2.13.1
-      io-ts: 2.2.19_fp-ts@2.13.1
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
@@ -10599,6 +10703,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.2.1:
+    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha512-XqYMR2dfdGMW+hd0IUZ2PwK+fGeFkOxZJ0wY+JaQAHzt1Zx8LcvpiZD2NiGkEG8qx0CfkAOr5xt76d1e8vG90g==}
     dependencies:
@@ -11808,6 +11922,10 @@ packages:
 
   /dayjs/1.11.5:
     resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/2.6.9:
@@ -13342,10 +13460,6 @@ packages:
     resolution: {integrity: sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==}
     dev: false
 
-  /fp-ts/2.13.1:
-    resolution: {integrity: sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==}
-    dev: false
-
   /fraudlabspro-nodejs/2.1.0:
     resolution: {integrity: sha512-yqup43EVXMq7vF+ecQ7XBysB4s5/eQZDZf8gK3pGOAkQXsXsyWFAeZMBfj2sIBBiSDmyf9KcxvHkkC30DD5tXQ==}
     dev: false
@@ -13905,6 +14019,17 @@ packages:
 
   /googleapis/108.0.0:
     resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.1.1
+      googleapis-common: 6.0.3
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/109.0.1:
+    resolution: {integrity: sha512-x286OtNu0ngzxfGz2XgRs4aMhrwutRCkCE12dh2M1jIZOpOndB7ELFXEhmtxaJ7z3257flKIbiiCJZeBO+ze/Q==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.1.1
@@ -14508,14 +14633,6 @@ packages:
       fp-ts: ^2.5.0
     dependencies:
       fp-ts: 2.12.2
-    dev: false
-
-  /io-ts/2.2.19_fp-ts@2.13.1:
-    resolution: {integrity: sha512-ED0GQwvKRr5C2jqOOJCkuJW2clnbzqFexQ8V7Qsb+VB36S1Mk/OKH7k0FjSe4mjKy9qBRA3OqgVGyFMUEKIubw==}
-    peerDependencies:
-      fp-ts: ^2.5.0
-    dependencies:
-      fp-ts: 2.13.1
     dev: false
 
   /ip/1.1.8:
@@ -17196,6 +17313,7 @@ packages:
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
+    hasBin: true
 
   /mnemonist/0.38.3:
     resolution: {integrity: sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==}
