@@ -1129,7 +1129,25 @@
       "path": "components/callhub"
     },
     {
+      "path": "components/cloudmersive"
+    },
+    {
       "path": "components/crowdin"
+    },
+    {
+      "path": "components/esendex"
+    },
+    {
+      "path": "components/keen_io"
+    },
+    {
+      "path": "components/clubworx"
+    },
+    {
+      "path": "components/ryver"
+    },
+    {
+      "path": "components/revamp_crm"
     }
   ]
 }

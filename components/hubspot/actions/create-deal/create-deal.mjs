@@ -6,7 +6,7 @@ export default {
   key: "hubspot-create-deal",
   name: "Create Deal",
   description: "Create a deal in Hubspot. [See the docs here](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=POST-/crm/v3/objects/deals)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   methods: {
     ...common.methods,
