@@ -61,8 +61,6 @@ export default {
       throw new Error(`Failed to create column: ${errorMessage}`);
     }
 
-    console.log( data);
-
     const { id } = data.create_column;
 
     $.export("$summary", `Successfully created a new column with ID: ${id}`);
