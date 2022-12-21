@@ -467,6 +467,12 @@ importers:
   components/chaport:
     specifiers: {}
 
+  components/chartmogul:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -565,6 +571,9 @@ importers:
       form-data: 4.0.0
 
   components/cloudtalk:
+    specifiers: {}
+
+  components/clubworx:
     specifiers: {}
 
   components/coderpad:
@@ -896,6 +905,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/esendex:
+    specifiers: {}
 
   components/esignatures_io:
     specifiers:
@@ -1566,6 +1578,9 @@ importers:
     specifiers: {}
 
   components/kartra:
+    specifiers: {}
+
+  components/keen_io:
     specifiers: {}
 
   components/klaviyo:
@@ -2403,6 +2418,9 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/revamp_crm:
+    specifiers: {}
+
   components/rewardful:
     specifiers: {}
 
@@ -2458,6 +2476,9 @@ importers:
     specifiers: {}
 
   components/rudderstack_transformation:
+    specifiers: {}
+
+  components/ryver:
     specifiers: {}
 
   components/sailpoint:
