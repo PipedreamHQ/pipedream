@@ -377,6 +377,9 @@ importers:
       '@pipedream/platform': 0.10.0
       path: 0.12.7
 
+  components/brandmentions:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -450,6 +453,9 @@ importers:
     specifiers: {}
 
   components/cdr_platform:
+    specifiers: {}
+
+  components/cflow:
     specifiers: {}
 
   components/chaport:
@@ -2243,6 +2249,12 @@ importers:
       '@pipedream/platform': 1.1.1
     devDependencies:
       '@pipedream/types': 0.1.4
+
+  components/quipu:
+    specifiers:
+      '@pipedream/platform': ^1.2.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/qwilr:
     specifiers: {}
