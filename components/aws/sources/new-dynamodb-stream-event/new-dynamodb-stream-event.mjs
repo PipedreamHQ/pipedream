@@ -39,7 +39,7 @@ export default {
       const { StreamDescription: streamDescription } = await this.listShards({
         StreamArn: this.stream,
       });
-      const shardId = streamDescription.Shards[0].ShardId;
+      const shardId = streamDescription.Shards[streamDescription.Shards.length - 1].ShardId;
       const { ShardIterator: shardIterator } = await this.getShardIterator({
         ShardId: shardId,
         StreamArn: this.stream,
