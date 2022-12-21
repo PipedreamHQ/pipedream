@@ -567,6 +567,9 @@ importers:
   components/cloudtalk:
     specifiers: {}
 
+  components/clubworx:
+    specifiers: {}
+
   components/coderpad:
     specifiers: {}
 
@@ -889,6 +892,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/esendex:
+    specifiers: {}
 
   components/esignatures_io:
     specifiers:
@@ -1561,6 +1567,9 @@ importers:
   components/kartra:
     specifiers: {}
 
+  components/keen_io:
+    specifiers: {}
+
   components/klaviyo:
     specifiers:
       klaviyo-sdk: ^1.0.1
@@ -2230,6 +2239,14 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.7.4
 
+  components/practitest:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+
   components/pretix:
     specifiers: {}
 
@@ -2393,6 +2410,9 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/revamp_crm:
+    specifiers: {}
+
   components/rewardful:
     specifiers: {}
 
@@ -2448,6 +2468,9 @@ importers:
     specifiers: {}
 
   components/rudderstack_transformation:
+    specifiers: {}
+
+  components/ryver:
     specifiers: {}
 
   components/sailpoint:
