@@ -1,5 +1,7 @@
 # Overview
 
+![Cloudinary logo](./cloudinary-logo.png)
+
 Cloudinary is a powerful image and video management API that can be used to
 deliver images and videos for a number of different use cases, including:
 
