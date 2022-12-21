@@ -2,7 +2,7 @@ import base from "../common/base.mjs";
 
 export default {
   ...base,
-  key: "drip-tag-applied",
+  key: "drip-new-tag-applied",
   name: "New Tag Applied (Instant)",
   description: "Emit new event when a tag is applied to a subscriber",
   version: "0.0.1",
