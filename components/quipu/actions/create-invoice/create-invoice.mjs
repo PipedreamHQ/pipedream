@@ -3,7 +3,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quipu-create-invoice",
-  name: "Creating an invoice",
+  name: "Create Invoice",
   description: "Creates a new invoice. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-an-invoice).",
   version: "0.0.1",
   type: "action",
