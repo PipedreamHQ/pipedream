@@ -57,11 +57,14 @@ export default {
     _getBaseUrl() {
       return "https://getquipu.com";
     },
+    _accessToken() {
+      return `Bearer ${this.$auth.oauth_access_token}`;
+    },
     _getHeaders() {
       return {
         "accept": "application/vnd.quipu.v1+json",
         "content-type": "application/vnd.quipu.v1+json",
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": this._accessToken(),
       };
     },
     _getRequestParams(opts = {}) {
