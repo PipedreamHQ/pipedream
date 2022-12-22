@@ -100,7 +100,6 @@ export default {
         items = JSON.parse(items);
       }
       if (!Array.isArray(items)) {
-        console.log(items);
         throw new ConfigurationError("Items must to be an array.");
       }
       relationships.items = {
