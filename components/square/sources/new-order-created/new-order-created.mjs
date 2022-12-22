@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -8,10 +9,42 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    ...base.props,
+    location: {
+      propDefinition: [
+        base.props.square,
+        "location",
+      ],
+    },
+  },
   hooks: {
     ...base.hooks,
     async deploy() {
-      console.log("Retrieving at most last 25...");
+      console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
+      const response = await this.square.listOrders({
+        params: {
+          limit: constants.MAX_HISTORICAL_EVENTS,
+        },
+        data: {
+          query: {
+            sort: {
+              sort_field: "CREATED_AT",
+              sort_order: "DESC",
+            },
+          },
+          location_ids: [
+            this.location,
+          ],
+        },
+      });
+      response?.objects?.slice(-constants.MAX_HISTORICAL_EVENTS)
+        .reverse()
+        .forEach((object) => this.$emit(object, {
+          id: object.id,
+          summary: `Invoice created: ${object.id}`,
+          ts: object.created_at,
+        }));
     },
   },
   methods: {
@@ -26,6 +59,9 @@ export default {
     },
     getTimestamp(event) {
       return new Date(event.data.object.order_created.created_at);
+    },
+    isRelevant(event) {
+      return event.data.object.order_created.location_id === this.location;
     },
   },
 };

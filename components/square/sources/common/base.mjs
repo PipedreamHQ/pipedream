@@ -49,6 +49,9 @@ export default {
     getTimestamp() {
       throw new Error("getTimestamp not implemented");
     },
+    isRelevant() {
+      return true;
+    },
     getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -77,6 +80,11 @@ export default {
 
     if (!this.validateSignature(bodyRaw, headers["x-square-hmacsha256-signature"])) {
       console.log("Signature validation failed. Skipping event...");
+      return;
+    }
+
+    if (!this.isRelevant()) {
+      console.log("Event is not relevant. Skipping...");
       return;
     }
 

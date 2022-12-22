@@ -17,12 +17,6 @@ export default {
       ],
     },
   },
-  hooks: {
-    ...base.hooks,
-    async deploy() {
-      console.log("Retrieving at most last 25...");
-    },
-  },
   methods: {
     ...base.methods,
     getEventTypes() {

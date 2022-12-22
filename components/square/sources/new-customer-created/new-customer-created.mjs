@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,7 +12,18 @@ export default {
   hooks: {
     ...base.hooks,
     async deploy() {
-      console.log("Retrieving at most last 25...");
+      console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
+      const response = await this.square.listCustomers({
+        params: {
+          sort_order: "DESC",
+          limit: constants.MAX_HISTORICAL_EVENTS,
+        },
+      });
+      response?.objects?.forEach((object) => this.$emit(object, {
+        id: object.id,
+        summary: `Customer created: ${object.id}`,
+        ts: object.created_at,
+      }));
     },
   },
   methods: {
@@ -24,8 +36,8 @@ export default {
     getSummary(event) {
       return `Customer created: ${event.data.id}`;
     },
-  },
-  getTimestamp(event) {
-    return new Date(event.data.object.customer_created.created_at);
+    getTimestamp(event) {
+      return new Date(event.data.object.customer_created.created_at);
+    },
   },
 };

@@ -1,4 +1,5 @@
 import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,7 +12,21 @@ export default {
   hooks: {
     ...base.hooks,
     async deploy() {
-      console.log("Retrieving at most last 25...");
+      console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
+      const response = await this.square.listCatalogItems({
+        paginate: true,
+        params: {
+          types: "ITEM",
+          limit: constants.MAX_LIMIT,
+        },
+      });
+      response?.objects?.slice(-constants.MAX_HISTORICAL_EVENTS)
+        .reverse()
+        .forEach((object) => this.$emit(object, {
+          id: object.id,
+          summary: `Catalog item updated: ${object.id}`,
+          ts: object.created_at,
+        }));
     },
   },
   methods: {
