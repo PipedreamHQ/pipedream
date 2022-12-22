@@ -3,7 +3,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quipu-create-ticket",
-  name: "Creating a ticket",
+  name: "Create Ticket",
   description: "Creates a new ticket. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-a-ticket).",
   version: "0.0.1",
   type: "action",
