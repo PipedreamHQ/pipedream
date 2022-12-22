@@ -41,5 +41,31 @@ export default {
     async getRecords(params) {
       return this._clientDynamodbStreams().send(new GetRecordsCommand(params));
     },
+    async isStreamEnabled(streamArn) {
+      const { StreamDescription: streamDescription } = await this.listShards({
+        StreamArn: streamArn,
+      });
+      const openShards = streamDescription.Shards.filter((shard) =>
+        !shard.SequenceNumberRange?.EndingSequenceNumber);
+      return openShards.length > 0;
+    },
+    async listEnabledStreams(params) {
+      const enabledStreams = [];
+
+      const {
+        Streams,
+        LastEvaluatedStreamArn,
+      } = await this.listStreams(params);
+
+      for (const stream of Streams) {
+        if (await this.isStreamEnabled(stream.StreamArn)) {
+          enabledStreams.push(stream);
+        }
+      }
+      return {
+        streams: enabledStreams,
+        lastEvaluatedStreamArn: LastEvaluatedStreamArn,
+      };
+    },
   },
 };

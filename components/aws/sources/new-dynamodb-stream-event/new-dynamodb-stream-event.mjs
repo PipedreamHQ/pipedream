@@ -16,19 +16,19 @@ export default {
       description: "ARN of the Stream to watch for new events",
       async options({ prevContext }) {
         const {
-          Streams,
-          LastEvaluatedStreamArn,
-        } = await this.listStreams({
+          streams,
+          lastEvaluatedStreamArn,
+        } = await this.listEnabledStreams({
           ExclusiveStartStreamArn: prevContext.lastEvaluatedStreamArn,
         });
-        const options = Streams.map((stream) => ({
-          label: stream.TableName,
+        const options = streams.map((stream) => ({
+          label: `${stream.TableName} - Created ${stream.StreamLabel}`,
           value: stream.StreamArn,
         }));
         return {
           options,
           context: {
-            lastEvaluatedStreamArn: LastEvaluatedStreamArn,
+            lastEvaluatedStreamArn,
           },
         };
       },
@@ -67,6 +67,10 @@ export default {
     },
   },
   async run() {
+    if (!(await this.isStreamEnabled(this.stream))) {
+      throw new Error("Stream is no longer enabled.");
+    }
+
     const shardIterator = this._getShardIterator();
 
     const {
