@@ -100,7 +100,7 @@ export default {
       "bank_account_swift_bic": this.bankAccountSwift,
     };
     const contact = await this.app.createContact($, attributes);
-    $.export("$summary", `Successfully created contact "${contact.id}"`);
+    $.export("$summary", `Successfully created contact with ID "${contact.id}"`);
     return contact;
   },
 };
