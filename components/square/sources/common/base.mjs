@@ -11,12 +11,11 @@ export default {
   },
   hooks: {
     async activate() {
-      let name = "Pipedream Webhook for: ";
       const eventTypes = this.getEventTypes();
+
+      let name = "Pipedream Custom Webhook";
       if (eventTypes.length === 1) {
-        name += eventTypes[0];
-      } else {
-        name += eventTypes.join(", ");
+        name = `Pipedream Webhook for: ${eventTypes}`;
       }
 
       const response = await this.square.createWebhook({
