@@ -70,6 +70,15 @@ export default {
         }));
       },
     },
+    labelString: {
+      type: "string[]",
+      label: "Labels",
+      description: "Select labels to add to the task.",
+      optional: true,
+      async options() {
+        return (await this.getLabels({})).map((label) => label.name);
+      },
+    },
     task: {
       type: "string",
       label: "Task",

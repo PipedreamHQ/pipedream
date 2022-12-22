@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/taxjar",
+  "version": "0.0.1",
+  "description": "Pipedream TaxJar Components",
+  "main": "dist/app/taxjar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "taxjar"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/taxjar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

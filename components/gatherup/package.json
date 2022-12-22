@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/gatherup",
+  "version": "0.0.2",
+  "description": "Pipedream Gatherup Components",
+  "main": "gatherup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gatherup"
+  ],
+  "homepage": "https://pipedream.com/apps/gatherup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "dayjs": "^1.11.7"
+  }
+}

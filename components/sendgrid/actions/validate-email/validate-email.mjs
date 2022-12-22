@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-validate-email",
   name: "Validate Email",
   description: "Validates an email address. This action requires a Sendgrid's Pro or Premier plan. [See the docs here](https://docs.sendgrid.com/api-reference/e-mail-address-validation/validate-an-email)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -15,7 +15,6 @@ export default {
         common.props.sendgrid,
         "email",
       ],
-      description: "The email that you want to validate",
     },
     source: {
       type: "string",
@@ -25,6 +24,10 @@ export default {
     },
   },
   async run({ $ }) {
+    const account = await this.sendgrid.getAccountInformation();
+    if (account.type === "free") {
+      throw new Error("This action is only eligible for SendGrid Email API Pro and Premier plans.");
+    }
     const constraints = {
       email: {
         email: true,

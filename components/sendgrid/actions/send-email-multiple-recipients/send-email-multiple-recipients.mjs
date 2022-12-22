@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -14,6 +14,13 @@ export default {
       type: "string",
       label: "Personalizations",
       description: "An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{to:[{email:\"email@email.com\",name:\"Example\"}],subject:\"Mail Personalization Sample\"}]`",
+      optional: true,
+    },
+    toEmails: {
+      type: "string[]",
+      label: "Recipient Emails",
+      description: "The intended recipients' email addresses. Will be ignored if `personalizations` prop is used.",
+      optional: true,
     },
     fromEmail: {
       propDefinition: [
@@ -26,6 +33,19 @@ export default {
         common.props.sendgrid,
         "fromName",
       ],
+    },
+    dynamicTemplateData: {
+      type: "object",
+      label: "Dynamic Template Data",
+      description: "Dynamic template data is available using Handlebars syntax in Dynamic Transactional Templates. This field should be used in combination with a Dynamic Transactional Template, which can be identified by a template_id starting with d-. This field is a collection of key/value pairs following the pattern `\"variable_name\":\"value to insert\"`",
+      optional: true,
+    },
+    templateId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "templateId",
+      ],
+      optional: true,
     },
     replyToEmail: {
       propDefinition: [
@@ -51,6 +71,7 @@ export default {
         common.props.sendgrid,
         "content",
       ],
+      optional: true,
     },
     attachments: {
       propDefinition: [
@@ -108,15 +129,30 @@ export default {
     },
   },
   async run({ $ }) {
+    const personalizations = this.personalizations || [];
+    if (personalizations.length == 0) {
+      for (const toEmail of this.toEmails) {
+        const personalization = {
+          to: [
+            {
+              email: toEmail,
+            },
+          ],
+        };
+        personalizations.push(personalization);
+      }
+    }
+    if (this.dynamicTemplateData) {
+      for (const personalization of personalizations) {
+        personalization.dynamic_template_data = this.dynamicTemplateData;
+      }
+    }
     //Performs validation on parameters.
     validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
     //Defines contraints for required parameters
     const constraints = {
       personalizations: {
-        arrayValidator: {
-          value: this.personalizations,
-          key: "personalizations",
-        },
+        type: "array",
       },
       fromEmail: {
         email: true,
@@ -180,13 +216,14 @@ export default {
         replyTo.name = this.replyToName;
       }
     }
+
     //Prepares and sends the request configuration
     const config = this.omitEmptyStringValues({
-      personalizations: this.getArrayObject(this.personalizations),
+      personalizations: this.getArrayObject(personalizations),
       from,
       reply_to: replyTo,
       subject: this.subject,
-      content: [
+      content: this.content && [
         {
           type: "text/html",
           value: this.content,
@@ -201,6 +238,7 @@ export default {
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
+      template_id: this.templateId,
     });
     const resp = await this.sendgrid.sendEmail(config);
     $.export("$summary", "Email successfully sent");

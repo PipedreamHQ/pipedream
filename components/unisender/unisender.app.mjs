@@ -78,7 +78,6 @@ export default {
         params: this._getParams(params),
         ...opts,
       };
-      console.log("config: ", config);
 
       return axios($, config);
     },

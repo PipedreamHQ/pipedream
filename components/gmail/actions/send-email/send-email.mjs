@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     gmail,
@@ -63,6 +63,12 @@ export default {
       description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
       optional: true,
     },
+    inReplyTo: {
+      type: "string",
+      label: "In Reply To",
+      description: "Specify the `message-id` this email is replying to. Must be from the first message sent in the thread. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -80,6 +86,23 @@ export default {
       replyTo: this.replyTo,
       subject: this.subject,
     };
+
+    if (this.inReplyTo) {
+      try {
+        const repliedMessage = await this.gmail.getMessage({
+          id: this.inReplyTo,
+        });
+        const { value: subject } = repliedMessage.payload.headers.find(({ name }) => name === "Subject");
+        //sometimes coming as 'Message-ID' and sometimes 'Message-Id'
+        const { value: inReplyTo } = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "message-id");
+        opts.subject = `Re: ${subject}`;
+        opts.inReplyTo = inReplyTo;
+        opts.references = inReplyTo;
+        opts.threadId = repliedMessage.threadId;
+      } catch (err) {
+        opts.threadId = this.inReplyTo;
+      }
+    }
 
     if (this.attachments) {
       opts.attachments = Object.entries(this.attachments)

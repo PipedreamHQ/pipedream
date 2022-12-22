@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-new-row-added-shared-drive",
   name: "New Row Added (Shared Drive, Instant)",
   description: "Emit new events each time a row or rows are added to the bottom of a spreadsheet in a shared drive",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {

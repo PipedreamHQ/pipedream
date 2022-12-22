@@ -207,6 +207,14 @@ export default {
         },
       });
     },
+    async createColumn(variables) {
+      return this.makeRequest({
+        query: mutations.createColumn,
+        options: {
+          variables,
+        },
+      });
+    },
     async createUpdate(variables) {
       return this.makeRequest({
         query: mutations.createUpdate,

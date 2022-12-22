@@ -1106,6 +1106,48 @@
     },
     {
       "path": "components/aimtell"
+    },
+    {
+      "path": "components/route4me"
+    },
+    {
+      "path": "components/brandmentions"
+    },
+    {
+      "path": "components/cflow"
+    },
+    {
+      "path": "components/taxjar"
+    },
+    {
+      "path": "components/customer_guru"
+    },
+    {
+      "path": "components/clicktime"
+    },
+    {
+      "path": "components/callhub"
+    },
+    {
+      "path": "components/cloudmersive"
+    },
+    {
+      "path": "components/crowdin"
+    },
+    {
+      "path": "components/esendex"
+    },
+    {
+      "path": "components/keen_io"
+    },
+    {
+      "path": "components/clubworx"
+    },
+    {
+      "path": "components/ryver"
+    },
+    {
+      "path": "components/revamp_crm"
     }
   ]
 }
