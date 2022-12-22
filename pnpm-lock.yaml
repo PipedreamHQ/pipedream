@@ -567,6 +567,9 @@ importers:
   components/cloudtalk:
     specifiers: {}
 
+  components/clubworx:
+    specifiers: {}
+
   components/coderpad:
     specifiers: {}
 
@@ -896,6 +899,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/esendex:
+    specifiers: {}
 
   components/esignatures_io:
     specifiers:
@@ -1566,6 +1572,9 @@ importers:
     specifiers: {}
 
   components/kartra:
+    specifiers: {}
+
+  components/keen_io:
     specifiers: {}
 
   components/klaviyo:
@@ -2403,6 +2412,9 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/revamp_crm:
+    specifiers: {}
+
   components/rewardful:
     specifiers: {}
 
@@ -2458,6 +2470,9 @@ importers:
     specifiers: {}
 
   components/rudderstack_transformation:
+    specifiers: {}
+
+  components/ryver:
     specifiers: {}
 
   components/sailpoint:
@@ -2945,14 +2960,6 @@ importers:
 
   components/teamdeck:
     specifiers: {}
-
-  components/teamgate:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      moment: ^2.29.4
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      moment: 2.29.4
 
   components/teamwork:
     specifiers:
