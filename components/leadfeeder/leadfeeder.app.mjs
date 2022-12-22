@@ -47,14 +47,16 @@ export default {
     },
   },
   methods: {
+    _apiToken() {
+      return this.$auth.api_token;
+    },
     getUrl(path) {
       return `${constants.BASE_URL}${path}`;
     },
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Authorization": `Token token=${this.$auth.api_token}`,
-        // "User-Agent": "Pipedream",
+        "Authorization": `Token token=${this._apiToken()}`,
         ...headers,
       };
     },
@@ -67,12 +69,9 @@ export default {
         url: this.getUrl(path),
         ...args,
       };
-      console.log("conf!!!", config);
 
       try {
-        const response = await axios(step, config);
-        console.log("res!!!", response);
-        return response;
+        return await axios(step, config);
       } catch (error) {
         console.log("Error", error);
         throw error;
