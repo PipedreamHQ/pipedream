@@ -35,7 +35,7 @@ export default {
       custom: custom.map((item) => JSON.parse(item)),
     });
 
-    $.export("$summary", "Custom Attributes Successfully added");
+    $.export("$summary", `Custom Attributes Successfully added with ID ${response.entries[0].id}`);
     return response;
   },
 };

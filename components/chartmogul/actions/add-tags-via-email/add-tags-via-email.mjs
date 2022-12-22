@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-add-tags-via-email",
   name: "Add Tags To Customer Via Email",
-  version: "0.0.3",
+  version: "0.0.1",
   description: "Adds tags to customers that have the specified email address. [See the docs here](https://dev.chartmogul.com/reference/add-tags-to-customers-with-email)",
   type: "action",
   props: {
