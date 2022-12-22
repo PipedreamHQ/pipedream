@@ -40,7 +40,7 @@ export default {
       $,
       info: "custom",
       customerId,
-      custom: custom.map((item) => JSON.parse(item)),
+      custom: custom && custom.map((item) => JSON.parse(item)),
       source,
     });
 

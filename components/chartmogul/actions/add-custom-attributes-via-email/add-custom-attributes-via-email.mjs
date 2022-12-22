@@ -32,7 +32,7 @@ export default {
       $,
       info: "custom",
       email: customerEmail,
-      custom: custom.map((item) => JSON.parse(item)),
+      custom: custom && custom.map((item) => JSON.parse(item)),
     });
 
     $.export("$summary", `Custom Attributes Successfully added with ID ${response.entries[0].id}`);
