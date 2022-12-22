@@ -93,7 +93,7 @@ export default {
       };
     }
     const ticket = await this.app.createTicket($, attributes, relationships);
-    $.export("$summary", `Successfully created ticket "${ticket.id}"`);
+    $.export("$summary", `Successfully created ticket with ID "${ticket.id}"`);
     return ticket;
   },
 };
