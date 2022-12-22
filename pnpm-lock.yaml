@@ -2967,6 +2967,12 @@ importers:
   components/teamdeck:
     specifiers: {}
 
+  components/teamgate:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/teamwork:
     specifiers:
       '@pipedream/platform': ^1.1.1
