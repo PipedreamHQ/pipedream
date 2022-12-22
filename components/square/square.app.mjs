@@ -54,10 +54,41 @@ export default {
         method: "delete",
       });
     },
-    async listWebhookEventTypes() {
+    async listWebhookEventTypes({
+      paginate = false, ...opts
+    } = {}) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listWebhookEventTypes,
+          ...opts,
+        });
+      }
       return this._makeRequest({
         path: "/webhooks/event-types",
+        ...opts,
       });
+    },
+    async paginate({
+      fn, ...opts
+    }) {
+      const objects = [];
+      let cursor;
+
+      do {
+        const response = await fn.call(this, ({
+          ...opts,
+          params: {
+            ...opts.params,
+            cursor,
+          },
+        }));
+        objects.push(...response.objects);
+        cursor = response.cursor;
+      } while (cursor);
+
+      return {
+        objects,
+      };
     },
   },
 };
