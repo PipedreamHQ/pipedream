@@ -137,12 +137,12 @@ export default {
       free_trial_started_at: freeTrialStartedAt,
       attributes: {
         tags,
-        custom: custom.map((item) => JSON.parse(item)),
+        custom: custom && custom.map((item) => JSON.parse(item)),
       },
       source,
     });
 
-    $.export("$summary", "Customer Successfully created");
+    $.export("$summary", `Customer Successfully created with ID ${response.id}`);
     return response;
   },
 };

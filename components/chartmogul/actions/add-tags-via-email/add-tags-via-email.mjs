@@ -35,7 +35,7 @@ export default {
       tags,
     });
 
-    $.export("$summary", "Tags Successfully added");
+    $.export("$summary", `Tags Successfully added with ID ${response.entries[0].id}`);
     return response;
   },
 };
