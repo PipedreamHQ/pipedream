@@ -107,7 +107,7 @@ export default {
       };
     }
     const invoice = await this.app.createInvoice($, attributes, relationships);
-    $.export("$summary", `Successfully created invoice "${invoice.id}"`);
+    $.export("$summary", `Successfully created invoice with ID "${invoice.id}"`);
     return invoice;
   },
 };
