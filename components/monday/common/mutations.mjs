@@ -110,4 +110,23 @@ export default {
       }
     }
   `,
+  createColumn: `
+    mutation createColumn (
+      $boardId: Int!
+      $title: String!
+      $columnType: ColumnType!
+      $defaults: JSON
+      $description: String
+    ) {
+      create_column(
+        board_id: $boardId
+        title: $title
+        column_type: $columnType
+        defaults: $defaults
+        description: $description
+      ) {
+        id
+      }
+    }
+  `,
 };
