@@ -15,7 +15,7 @@ export default {
     },
     taxId: {
       type: "string",
-      label: "Tax Id (CIF/NIF)",
+      label: "Tax ID (CIF/NIF)",
       description: "Contact tax id, (CIF/NIF).",
     },
     zipCode: {
