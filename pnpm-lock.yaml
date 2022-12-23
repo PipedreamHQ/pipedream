@@ -2746,6 +2746,12 @@ importers:
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
 
+  components/smoove:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/sms:
     specifiers: {}
 
