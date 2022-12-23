@@ -5,7 +5,7 @@ export default {
   key: "drip-new-subscriber-added",
   name: "New Subscriber Added (Instant)",
   description: "Emit new event when a new subscriber is created",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -37,12 +37,14 @@ export default {
   },
   async run({ body }) {
     if (this.campaign) {
+      const campaignId = this.campaign.value || this.campaign;
+      const campaign = this.campaign.label || this.campaign;
       const { subscribers } = await this.drip.listSubscribersInCampaign({
-        campaign: this.campaign.value,
+        campaign: campaignId,
       });
       const email = body.data.subscriber.email;
       if (!subscribers.find((subscriber) => subscriber.email === email)) {
-        console.log(`${email} not in ${this.campaign.label} campaign. Skipping...`);
+        console.log(`${email} not in ${campaign} campaign. Skipping...`);
         return;
       }
     }
