@@ -15,10 +15,9 @@ export default defineApp({
       label: "Client ID",
       description: "Client ID",
       async options({ page }) {
-        page++;
         return await utils.getAsyncOptions({
           resourceFn: this.getRequestMethod("getClients"),
-          page,
+          page: page + 1,
           resourceKey: "clients",
           labelKey: "name",
           valueKey: "id",
@@ -30,10 +29,9 @@ export default defineApp({
       label: "Project ID",
       description: "Project ID",
       async options({ page }) {
-        page++;
         return await utils.getAsyncOptions({
           resourceFn: this.getRequestMethod("getProjects"),
-          page,
+          page: page + 1,
           resourceKey: "projects",
           labelKey: "name",
           valueKey: "id",
@@ -45,10 +43,9 @@ export default defineApp({
       label: "Invoice ID",
       description: "Invoice ID",
       async options({ page }) {
-        page++;
         return await utils.getAsyncOptions({
           resourceFn: this.getRequestMethod("getInvoices"),
-          page,
+          page: page + 1,
           resourceKey: "invoices",
           labelKey: "number",
           valueKey: "id",
