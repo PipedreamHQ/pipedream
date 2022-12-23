@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-team-member",
   name: "New Team Member",
   description: "Emit new event when a new member is added to a team",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
