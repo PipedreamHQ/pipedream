@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { v4 } from "uuid";
 
 export default {
   type: "app",
@@ -16,7 +17,7 @@ export default {
     location: {
       type: "string",
       label: "Location",
-      description: "",
+      description: "The source of orders and fulfillments for a physical or virtual business",
       async options() {
         const { locations } = await this.listLocations();
         return locations.map((location) => ({
@@ -24,6 +25,58 @@ export default {
           value: location.id,
         }));
       },
+    },
+    customer: {
+      type: "string",
+      label: "Customer",
+      description: "The ID of the customer",
+      async options() {
+        const { customers } = await this.listCustomers();
+        return customers.map((customer) => ({
+          label: this._getCustomerLabel(customer),
+          value: customer.id,
+        }));
+      },
+    },
+    order: {
+      type: "string",
+      label: "Order",
+      description: "The ID of the order ",
+      async options({ location }) {
+        const { orders } = await this.listOrders({
+          data: {
+            location_ids: [
+              location,
+            ],
+          },
+        });
+        return orders.map((order) => ({
+          label: `Order total: ${order.total_money.amount / 100} ${order.total_money.currency}`,
+          value: order.id,
+        }));
+      },
+    },
+    invoice: {
+      type: "string",
+      label: "Invoice",
+      description: "The ID of the invoice",
+      async options({ location }) {
+        const { invoices } = await this.listInvoices({
+          params: {
+            location_id: location,
+          },
+        });
+        return invoices.map((invoice) => ({
+          label: `${invoice.invoice_number} - order: ${invoice.order_id}`,
+          value: invoice.id,
+        }));
+      },
+    },
+    referenceId: {
+      type: "string",
+      label: "Reference ID",
+      description: "An optional second ID used to associate the customer profile with an entity in another system",
+      optional: true,
     },
   },
   methods: {
@@ -33,9 +86,22 @@ export default {
     _auth() {
       return this.$auth.oauth_access_token;
     },
+    _getCustomerLabel(customer) {
+      const name = `${customer.given_name} ${customer.family_name}`.trim();
+      const email = customer.email_address;
+      const company = customer.company_name;
+      const phone = customer.phone_number;
+      return name || email || company || phone;
+    },
     async _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, generateIdempotencyKey = false, ...opts
     }) {
+      if (generateIdempotencyKey) {
+        opts.data = {
+          ...opts.data,
+          idempotency_key: v4(),
+        };
+      }
       return axios($, {
         ...opts,
         url: this._baseUrl() + path,
@@ -109,6 +175,13 @@ export default {
         ...opts,
       });
     },
+    async createCustomer(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        method: "post",
+        ...opts,
+      });
+    },
     async listCustomers({
       paginate = false, ...opts
     } = {}) {
@@ -123,6 +196,21 @@ export default {
         ...opts,
       });
     },
+    async getInvoice({
+      invoice, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/invoices/${invoice}`,
+        ...opts,
+      });
+    },
+    async createInvoice(opts = {}) {
+      return this._makeRequest({
+        path: "/invoices",
+        method: "post",
+        ...opts,
+      });
+    },
     async listInvoices({
       paginate = false, ...opts
     } = {}) {
@@ -134,6 +222,22 @@ export default {
       }
       return this._makeRequest({
         path: "/invoices",
+        ...opts,
+      });
+    },
+    async publishInvoice({
+      invoice, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/invoices/${invoice}/publish`,
+        method: "post",
+        ...opts,
+      });
+    },
+    async createOrder(opts = {}) {
+      return this._makeRequest({
+        path: "/orders",
+        method: "post",
         ...opts,
       });
     },
