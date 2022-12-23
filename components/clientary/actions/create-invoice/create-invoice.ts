@@ -40,10 +40,12 @@ export default defineAction({
   },
   async run({ $ }) {
     let invoiceItemsAttributes;
-    try {
-      invoiceItemsAttributes = JSON.parse(this.invoiceItemsAttributes);
-    } catch (err) {
-      throw new ConfigurationError("`Estimate Items Attributes` must be a valid JSON Array string");
+    if (this.invoiceItemsAttributes) {
+      try {
+        invoiceItemsAttributes = JSON.parse(this.invoiceItemsAttributes);
+      } catch (err) {
+        throw new ConfigurationError("`Estimate Items Attributes` must be a valid JSON Array string");
+      }
     }
     const response = await this.app.getRequestMethod("createInvoice")({
       $,

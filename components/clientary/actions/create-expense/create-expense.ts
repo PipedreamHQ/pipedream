@@ -42,14 +42,6 @@ export default defineAction({
       description: "Project ID related to the expense",
       optional: true,
     },
-    invoice: {
-      propDefinition: [
-        app,
-        "invoiceId",
-      ],
-      description: "Project ID related to the expense",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const response = await this.app.getRequestMethod("createExpense")({
@@ -59,7 +51,6 @@ export default defineAction({
         description: this.description,
         client_id: this.client,
         project_id: this.project,
-        invoice_id: this.invoice,
         incurred_on: this.incurredOn,
       },
     });
