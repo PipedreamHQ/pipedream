@@ -8,11 +8,14 @@ export default {
   type: "action",
   props: {
     teamgate,
-    deals: {
+    dealId: {
       propDefinition: [
         teamgate,
         "deals",
       ],
+      type: "integer",
+      label: "Deal Id",
+      description: "The deal id which will be updated",
     },
     name: {
       propDefinition: [
@@ -21,24 +24,12 @@ export default {
       ],
       description: "Name of the Deal. E.g. `\"Example Ltd\"`.",
     },
-    buyerType: {
-      type: "string",
-      label: "Buyer Type",
-      description: "The type of entity that will interact.",
-      options: [
-        "company",
-        "person",
-      ],
-      reloadProps: true,
-    },
     buyerId: {
       propDefinition: [
         teamgate,
-        "buyerId",
-        (c) => ({
-          buyerType: c.buyerType,
-        }),
+        "personId",
       ],
+      label: "Buyer Id",
     },
     pipeline: {
       propDefinition: [
@@ -56,49 +47,45 @@ export default {
       ],
     },
     cartDiscountValue: {
-      type: "string",
-      label: "Cart Discount Value",
-      description: "The discount on all cart.",
+      propDefinition: [
+        teamgate,
+        "cartDiscountValue",
+      ],
       optional: true,
     },
     cartDiscountType: {
-      type: "string",
-      label: "Cart Discount Type",
-      description: "The type of the discount.",
-      optional: true,
-      options: [
-        "fixed",
-        "perc",
+      propDefinition: [
+        teamgate,
+        "cartDiscountType",
       ],
+      optional: true,
     },
     cartItems: {
-      type: "string[]",
-      label: "Cart Items",
-      description: "The object items. Example: `{\"id\":20,\"price\":{\"currency\": \"EUR\",\"value\": \"10000.0000\"},\"discount\":{\"type\":\"percentage\",\"value\": \"20.0000\"},\"quantity\": 2}`",
+      propDefinition: [
+        teamgate,
+        "cartItems",
+      ],
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "Deal`s status",
-      optional: true,
-      options: [
-        "active",
-        "won",
-        "lost",
-        "postponed",
+      propDefinition: [
+        teamgate,
+        "status",
       ],
+      optional: true,
     },
     priceValue: {
-      type: "string",
-      label: "Price Value",
-      description: "The deal`s price",
+      propDefinition: [
+        teamgate,
+        "priceValue",
+      ],
       optional: true,
     },
     priceCurrency: {
-      type: "string",
-      label: "Price Currency",
-      description: "The deal`s currency",
+      propDefinition: [
+        teamgate,
+        "priceCurrency",
+      ],
       optional: true,
     },
     starred: {
@@ -160,21 +147,24 @@ export default {
       optional: true,
     },
     estimatedClosureDate: {
-      type: "string",
-      label: "Estimated Closure Date",
-      description: "Example: `2017-03-10T11:45:59+02:00`",
+      propDefinition: [
+        teamgate,
+        "estimatedClosureDate",
+      ],
       optional: true,
     },
     actualClosureDate: {
-      type: "string",
-      label: "Actual Closure Date",
-      description: "Example: `2017-03-10T11:45:59+02:00`",
+      propDefinition: [
+        teamgate,
+        "actualClosureDate",
+      ],
       optional: true,
     },
     createdDate: {
-      type: "string",
-      label: "Created Date",
-      description: "Example: `2017-03-10T11:45:59+02:00`",
+      propDefinition: [
+        teamgate,
+        "createdDate",
+      ],
       optional: true,
     },
     customFields: {
@@ -187,9 +177,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      deals,
+      dealId,
       name,
-      buyerType,
       buyerId,
       stage,
       cartDiscountValue,
@@ -214,7 +203,6 @@ export default {
 
     const data = {
       name,
-      buyerType,
       buyerId,
       stage,
       cart: {
@@ -222,7 +210,7 @@ export default {
           "value": cartDiscountValue,
           "type": cartDiscountType,
         },
-        items: cartItems ?? cartItems.map((item) => (JSON.parse(item))),
+        items: cartItems && cartItems.map((item) => (JSON.parse(item))),
       },
       status,
       priceValue,
@@ -243,9 +231,9 @@ export default {
 
     const response = await this.teamgate.updateDeal({
       $,
+      dealId,
       data,
-    },
-    deals);
+    });
 
     $.export("$summary", "Deal Successfully updated!");
     return response;

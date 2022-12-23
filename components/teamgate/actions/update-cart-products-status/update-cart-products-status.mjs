@@ -13,6 +13,8 @@ export default {
         teamgate,
         "deals",
       ],
+      type: "integer",
+      description: "The deal to update",
     },
     isActive: {
       propDefinition: [

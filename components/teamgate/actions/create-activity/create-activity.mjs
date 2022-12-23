@@ -56,7 +56,7 @@ export default {
       ...data
     } = this;
 
-    if (Object.entries(reminders).length) {
+    if (reminders && Object.entries(reminders).length) {
       const remindersArray = [];
       for (const [
         key,

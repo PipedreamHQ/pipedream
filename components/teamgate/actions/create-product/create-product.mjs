@@ -16,46 +16,52 @@ export default {
       description: "The product's name.",
     },
     sku: {
-      type: "string",
-      label: "SKU",
-      description: "Unique identification code.",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The description of the product.",
-      optional: true,
-    },
-    categoryId: {
       propDefinition: [
         teamgate,
-        "productCategoryId",
+        "sku",
+      ],
+      optional: true,
+    },
+    productDescription: {
+      propDefinition: [
+        teamgate,
+        "productDescription",
+      ],
+      optional: true,
+    },
+    category: {
+      propDefinition: [
+        teamgate,
+        "productCategory",
       ],
       optional: true,
     },
     isActive: {
-      type: "boolean",
-      label: "Is Active",
-      description: "Set product availability.",
+      propDefinition: [
+        teamgate,
+        "isActive",
+      ],
       optional: true,
     },
     costValue: {
-      type: "string",
-      label: "Cost Value",
-      description: "The product cost.",
+      propDefinition: [
+        teamgate,
+        "costValue",
+      ],
       optional: true,
     },
     costCurrency: {
-      type: "string",
-      label: "Cost Currency",
-      description: "The product currency.",
+      propDefinition: [
+        teamgate,
+        "costCurrency",
+      ],
       optional: true,
     },
     prices: {
-      type: "string[]",
-      label: "Prices",
-      description: "The product prices. Example for string value: `{\"value\":\"1600\", \"currency\":\"USD\"}` [Object format](https://developers.teamgate.com/#ec82024b-42a3-48eb-a048-f36f477724f6)",
+      propDefinition: [
+        teamgate,
+        "prices",
+      ],
       optional: true,
     },
     customFields: {
@@ -70,8 +76,8 @@ export default {
     const {
       name,
       sku,
-      description,
-      categoryId,
+      productDescription,
+      category,
       isActive,
       costValue,
       costCurrency,
@@ -82,14 +88,14 @@ export default {
     const data = {
       name,
       sku,
-      description,
-      categoryId,
+      description: productDescription,
+      category,
       isActive,
       cost: {
         value: costValue,
         currency: costCurrency,
       },
-      prices: prices.map((item) => (JSON.parse(item))),
+      prices: prices && prices.map((item) => (JSON.parse(item))),
       customFields,
     };
 

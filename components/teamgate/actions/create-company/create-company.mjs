@@ -99,15 +99,17 @@ export default {
       optional: true,
     },
     industry: {
-      type: "string",
-      label: "Industry",
-      description: "If the industry does not exist it will be created.",
+      propDefinition: [
+        teamgate,
+        "industry",
+      ],
       optional: true,
     },
     industryDescription: {
-      type: "string",
-      label: "Industry Description",
-      description: "Will be set only if will be created new industry.",
+      propDefinition: [
+        teamgate,
+        "industryDescription",
+      ],
       optional: true,
     },
     code: {
@@ -130,27 +132,31 @@ export default {
       optional: true,
     },
     emails: {
-      type: "string[]",
-      label: "Emails",
-      description: "A list of the company's emails. Example for string value: `{\"value\":\"john@example.net\",\"type\":\"work\"}` [Object format](https://developers.teamgate.com/#c3d764d8-af9b-46e6-be97-cc8d0264a376)",
+      propDefinition: [
+        teamgate,
+        "emails",
+      ],
       optional: true,
     },
     phones: {
-      type: "string[]",
-      label: "Phones",
-      description: "A list of the company's phones. Example for string value: `{\"value\":\"+44 123 456 7890\",\"type\":\"mobile\"}` [Object format](https://developers.teamgate.com/#6a9c4d1a-c72a-4409-8041-afe30c64314c)",
+      propDefinition: [
+        teamgate,
+        "phones",
+      ],
       optional: true,
     },
     urls: {
-      type: "string[]",
-      label: "URLS",
-      description: "A list of the company's urls. Example for string value: `{\"value\":\"https://facebook.com/example\",\"type\":\"facebook\"}` [Object format](https://developers.teamgate.com/#c4d7bd78-8b18-4b2e-9505-82f66f786455)",
+      propDefinition: [
+        teamgate,
+        "urls",
+      ],
       optional: true,
     },
     address: {
-      type: "string[]",
-      label: "Address",
-      description: "A list of address objects. Example for string value: `{\"value\":{\"city\":\"Chicago\",\"countryIso\":\"USA\"}}` [Object format](https://developers.teamgate.com/#f1511aad-d3dc-4118-98d6-bed247321ea3)",
+      propDefinition: [
+        teamgate,
+        "address",
+      ],
       optional: true,
     },
     customFields: {
@@ -207,10 +213,10 @@ export default {
       code,
       vatCode,
       tags,
-      emails: emails.map((item) => (JSON.parse(item))),
-      phones: phones.map((item) => (JSON.parse(item))),
-      urls: urls.map((item) => (JSON.parse(item))),
-      addresses: address.map((item) => (JSON.parse(item))),
+      emails: emails && emails.map((item) => (JSON.parse(item))),
+      phones: phones && phones.map((item) => (JSON.parse(item))),
+      urls: urls && urls.map((item) => (JSON.parse(item))),
+      addresses: address && address.map((item) => (JSON.parse(item))),
       customFields,
     };
 

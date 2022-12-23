@@ -56,7 +56,7 @@ export default {
       params: {
         fields,
         ...filters,
-        order: Object.keys(order).map((key) => (`${key}:${order[key]}`))
+        order: order && Object.keys(order).map((key) => (`${key}:${order[key]}`))
           .toString(),
         embed,
         operator: globalOperator,
