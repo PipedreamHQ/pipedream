@@ -4,6 +4,45 @@ export default {
   type: "app",
   app: "drip",
   propDefinitions: {
+    workflowId: {
+      type: "string",
+      label: "Workflow Id",
+      description: "The workflows's id.",
+      async options({ page }) {
+        const { workflows } = await this.listWorkflows({
+          params: {
+            page,
+          },
+        });
+
+        return workflows.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    campaign: {
+      type: "string",
+      label: "Campaign",
+      description: "Email campaign",
+      optional: true,
+      async options({ page }) {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            page,
+          },
+        });
+
+        return campaigns.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     email: {
       type: "string",
       label: "Email",
@@ -56,6 +95,23 @@ export default {
         method: "POST",
       });
     },
+    async startSomeoneOnWorkflow({
+      $, workflowId, email,
+    }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        $,
+        path: `${accountId}/workflows/${workflowId}/subscribers`,
+        method: "POST",
+        data: {
+          subscribers: [
+            {
+              email,
+            },
+          ],
+        },
+      });
+    },
     async createOrUpdateSubscriber({
       $, ...opts
     }) {
@@ -86,7 +142,7 @@ export default {
       const { accounts } = await this.listAccounts();
       return accounts[0].id;
     },
-    listAccounts() {
+    async listAccounts() {
       return this._makeRequest({
         path: "accounts",
       });
@@ -96,6 +152,12 @@ export default {
       return this._makeRequest({
         path: `${accountId}/subscribers`,
         ...opts,
+      });
+    },
+    async listSubscribersInCampaign({ campaign }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        path: `${accountId}/campaigns/${campaign}/subscribers`,
       });
     },
     async listTags({ ...opts }) {
@@ -109,6 +171,13 @@ export default {
       const accountId = await this.getAccountId();
       return this._makeRequest({
         path: `${accountId}/workflows`,
+        ...opts,
+      });
+    },
+    async listCampaigns({ ...opts }) {
+      const accountId = await this.getAccountId();
+      return this._makeRequest({
+        path: `${accountId}/campaigns`,
         ...opts,
       });
     },
