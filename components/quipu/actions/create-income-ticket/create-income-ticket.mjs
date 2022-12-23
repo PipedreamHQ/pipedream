@@ -2,9 +2,9 @@ import app from "../../quipu.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "quipu-create-ticket",
-  name: "Create Ticket",
-  description: "Creates a new ticket. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-a-ticket).",
+  key: "quipu-create-income-ticket",
+  name: "Create Income Ticket",
+  description: "Creates a new income ticket. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-a-ticket).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -85,7 +85,6 @@ export default {
         items = JSON.parse(items);
       }
       if (!Array.isArray(items)) {
-        console.log(items);
         throw new ConfigurationError("Items must to be an array.");
       }
       relationships.items = {

@@ -116,11 +116,12 @@ export default {
       }));
       return response.data;
     },
-    async createTicket(ctx = this, attributes) {
+    async createTicket(ctx = this, attributes, relationships) {
       const data = {
         data: {
           type: "tickets",
           attributes,
+          relationships,
         },
       };
       const response = await axios(ctx, this._getRequestParams({

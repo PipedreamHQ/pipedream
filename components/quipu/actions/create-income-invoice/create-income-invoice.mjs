@@ -2,9 +2,9 @@ import app from "../../quipu.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "quipu-create-invoice",
-  name: "Create Invoice",
-  description: "Creates a new invoice. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-an-invoice).",
+  key: "quipu-create-income-invoice",
+  name: "Create Income Invoice",
+  description: "Creates a new income invoice. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-an-invoice).",
   version: "0.0.1",
   type: "action",
   props: {
