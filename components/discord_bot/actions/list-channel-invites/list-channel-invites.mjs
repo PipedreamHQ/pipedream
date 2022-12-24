@@ -9,7 +9,7 @@ export default {
   name: "List Channel Invites",
   description: "Return a list of invitees for the channel. Only usable for guild channels.",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     channelId: {
