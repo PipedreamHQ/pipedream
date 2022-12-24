@@ -20,6 +20,12 @@ export default {
       description: "Task content",
       optional: true,
     },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The project ID under which to create this task. Defaults to the inbox.",
+      optional: true,
+    },
     startDate: {
       type: "string",
       label: "Start date",
