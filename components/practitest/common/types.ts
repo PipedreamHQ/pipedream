@@ -21,7 +21,7 @@ export interface CreateRequirementParams extends PdAxiosRequest {
     version?: string;
     priority?: string;
     "custom-fields"?: Record<string, string>;
-    "parent-id": PractiTestEntity["id"];
+    "parent-id"?: PractiTestEntity["id"];
     tags?: string[];
   };
   traceability?: {
@@ -55,3 +55,5 @@ export interface User extends PractiTestEntity {
     "display-name": string;
   };
 }
+
+export interface Requirement extends PractiTestEntity {}
