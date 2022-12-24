@@ -22,7 +22,7 @@ export default {
     },
     apiPath: {
       label: "API Path",
-      description: "Ex. api/v1/market/getAllContracts",
+      description: "Ex. /api/v1/market/getAllContracts",
       type: "string",
     },
     params: {
