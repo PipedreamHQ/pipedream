@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { v4 } from "uuid";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -30,46 +31,84 @@ export default {
       type: "string",
       label: "Customer",
       description: "The ID of the customer",
-      async options() {
-        const { customers } = await this.listCustomers();
-        return customers.map((customer) => ({
-          label: this._getCustomerLabel(customer),
-          value: customer.id,
-        }));
+      async options({ prevContext }) {
+        const {
+          customers,
+          cursor,
+        } = await this.listCustomers({
+          params: {
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+            cursor: prevContext?.nextCursor,
+          },
+        });
+        return {
+          options: customers?.map((customer) => ({
+            label: this._getCustomerLabel(customer),
+            value: customer.id,
+          })),
+          context: {
+            nextCursor: cursor,
+          },
+        };
       },
     },
     order: {
       type: "string",
       label: "Order",
       description: "The ID of the order ",
-      async options({ location }) {
-        const { orders } = await this.listOrders({
+      async options({
+        prevContext, location,
+      }) {
+        const {
+          orders,
+          cursor,
+        } = await this.listOrders({
           data: {
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+            cursor: prevContext?.nextCursor,
             location_ids: [
               location,
             ],
           },
         });
-        return orders.map((order) => ({
-          label: `Order total: ${order.total_money.amount / 100} ${order.total_money.currency}`,
-          value: order.id,
-        }));
+        return {
+          options: orders?.map((order) => ({
+            label: `Order total: ${order.total_money.amount / 100} ${order.total_money.currency}`,
+            value: order.id,
+          })),
+          context: {
+            nextCursor: cursor,
+          },
+        };
       },
     },
     invoice: {
       type: "string",
       label: "Invoice",
       description: "The ID of the invoice",
-      async options({ location }) {
-        const { invoices } = await this.listInvoices({
+      async options({
+        prevContext, location,
+      }) {
+        const {
+          invoices,
+          cursor,
+        } = await this.listInvoices({
           params: {
             location_id: location,
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+            cursor: prevContext?.nextCursor,
           },
         });
-        return invoices.map((invoice) => ({
-          label: `${invoice.invoice_number} - order: ${invoice.order_id}`,
-          value: invoice.id,
-        }));
+
+        return {
+          options: invoices?.map((invoice) => ({
+            label: `${invoice.invoice_number} - order: ${invoice.order_id}`,
+            value: invoice.id,
+          })),
+          context: {
+            nextCursor: cursor,
+          },
+        };
       },
     },
     referenceId: {
