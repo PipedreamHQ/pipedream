@@ -19,20 +19,24 @@ export default {
   async run({ $ }) {
     const { externalId } = this;
 
-    const items = this.chartmogul.paginate({
-      $,
-      fn: this.chartmogul.listCustomers,
-      params: {
-        external_id: externalId,
-      },
-    });
+    try {
+      const items = this.chartmogul.paginate({
+        $,
+        fn: this.chartmogul.listCustomers,
+        params: {
+          external_id: externalId,
+        },
+      });
 
-    const response = [];
-    for await (const item of items) {
-      response.push(item);
+      const response = [];
+      for await (const item of items) {
+        response.push(item);
+      }
+
+      $.export("$summary", "Customers Successfully fetched");
+      return response.reverse();
+    } catch (e) {
+      return;
     }
-
-    $.export("$summary", "Customers Successfully fetched");
-    return response.reverse();
   },
 };
