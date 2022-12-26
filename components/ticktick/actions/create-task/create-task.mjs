@@ -43,6 +43,7 @@ export default {
     const data = removeNullEntries({
       title: this.title,
       content: this.content,
+      projectId: this.projectId,
       startDate: this.startDate,
       dueDate: this.dueDate,
     });
