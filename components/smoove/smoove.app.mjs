@@ -101,12 +101,7 @@ export default {
         ...args,
       };
 
-      try {
-        return await axios(step, config);
-      } catch (error) {
-        console.log("Error", error);
-        throw error;
-      }
+      return axios(step, config);
     },
     getContacts(args = {}) {
       return this.makeRequest({
@@ -142,15 +137,24 @@ export default {
     }) {
       let page = 1;
       let resourcesCount = 0;
+      let nextResources;
 
       while (true) {
-        const nextResources = await resourceFn({
-          ...resourceFnArgs,
-          params: {
-            ...resourceFnArgs.params,
-            page,
-          },
-        });
+        try {
+          nextResources = await resourceFn({
+            ...resourceFnArgs,
+            params: {
+              ...resourceFnArgs.params,
+              page,
+            },
+          });
+        } catch (error) {
+          if (error.response.status === 404) {
+            console.log("No more resources");
+            return;
+          }
+          throw error;
+        }
 
         if (!nextResources?.length) {
           return;

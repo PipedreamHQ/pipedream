@@ -14,7 +14,11 @@ export default {
       return this.app.getLandingPages;
     },
     getResourceFnArgs() {
-      return {};
+      return {
+        params: {
+          type: "All",
+        },
+      };
     },
     generateMeta(resource) {
       return {

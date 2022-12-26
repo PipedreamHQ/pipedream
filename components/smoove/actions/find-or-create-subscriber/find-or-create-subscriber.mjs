@@ -74,13 +74,21 @@ export default {
     },
   },
   methods: {
-    existContact({
+    async existContact({
       contactId, ...args
     } = {}) {
-      return this.app.makeRequest({
-        path: `/Contact/${contactId}/Exists`,
-        ...args,
-      });
+      try {
+        await this.app.makeRequest({
+          path: `/Contacts/${contactId}/Exists`,
+          ...args,
+        });
+        return true;
+      } catch (error) {
+        if (error.response.status === 404) {
+          return false;
+        }
+        throw error;
+      }
     },
   },
   async run({ $: step }) {
@@ -96,13 +104,14 @@ export default {
       canReceiveSmsMessages,
     } = this;
 
-    const contactExists = await this.existContact({
-      step,
-      contactId: email,
-      params: {
-        by: "Email",
-      },
-    });
+    const contactExists =
+      await this.existContact({
+        step,
+        contactId: encodeURIComponent(email),
+        params: {
+          by: "Email",
+        },
+      });
 
     if (!contactExists) {
       const response = await this.app.createUpdateContact({
