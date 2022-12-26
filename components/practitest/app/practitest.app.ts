@@ -33,7 +33,9 @@ export default defineApp({
         ...args,
       });
     },
-    async createRequirement({ projectId, ...args }: CreateRequirementParams) {
+    async createRequirement({
+      projectId, ...args
+    }: CreateRequirementParams) {
       return this._httpRequest({
         method: "POST",
         url: `projects/${projectId}/requirements.json`,
@@ -66,7 +68,9 @@ export default defineApp({
         "Choose a **Project** from the list, or provide a custom *Project ID*.",
       async options() {
         const projects: Project[] = await this.getProjects();
-        return projects.map(({ attributes: { name: label }, id: value }) => ({
+        return projects.map(({
+          attributes: { name: label }, id: value,
+        }) => ({
           label,
           value,
         }));
@@ -80,10 +84,12 @@ export default defineApp({
       async options() {
         const user: User[] = await this.getUsers();
         return user.map(
-          ({ attributes: { "display-name": label }, id: value }) => ({
+          ({
+            attributes: { "display-name": label }, id: value,
+          }) => ({
             label,
             value,
-          })
+          }),
         );
       },
     },

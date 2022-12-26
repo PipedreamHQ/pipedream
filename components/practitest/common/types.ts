@@ -1,4 +1,6 @@
-import { JSONValue, Pipedream } from "@pipedream/types";
+import {
+  Pipedream,
+} from "@pipedream/types";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -56,4 +58,4 @@ export interface User extends PractiTestEntity {
   };
 }
 
-export interface Requirement extends PractiTestEntity {}
+export type Requirement = PractiTestEntity;

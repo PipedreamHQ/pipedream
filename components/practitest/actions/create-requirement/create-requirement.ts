@@ -1,7 +1,9 @@
 import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { DOCS } from "../../common/constants";
-import { CreateRequirementParams, Requirement } from "../../common/types";
+import {
+  CreateRequirementParams, Requirement,
+} from "../../common/types";
 
 export default defineAction({
   name: "Create Requirement",
@@ -12,14 +14,20 @@ export default defineAction({
   props: {
     practitest,
     projectId: {
-      propDefinition: [practitest, "project"],
+      propDefinition: [
+        practitest,
+        "project",
+      ],
     },
     name: {
       type: "string",
       label: "Name",
     },
     authorId: {
-      propDefinition: [practitest, "user"],
+      propDefinition: [
+        practitest,
+        "user",
+      ],
       label: "Author",
     },
     description: {
@@ -28,7 +36,10 @@ export default defineAction({
       optional: true,
     },
     assignedToId: {
-      propDefinition: [practitest, "user"],
+      propDefinition: [
+        practitest,
+        "user",
+      ],
       label: "Assigned To",
       optional: true,
     },
