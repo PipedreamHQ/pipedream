@@ -1,17 +1,19 @@
 {
   "name": "@pipedream/mastodon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Mastodon Components",
-  "main": "dist/app/mastodon.app.mjs",
+  "main": "mastodon.app.mjs",
   "keywords": [
     "pipedream",
     "mastodon"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mastodon",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
   }
 }
