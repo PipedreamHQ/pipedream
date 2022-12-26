@@ -2,6 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateRequirementParams,
+  CreateRunParams,
   GetProjectsResponse,
   GetUsersResponse,
   HttpRequestParams,
@@ -47,6 +48,20 @@ export default defineApp({
         },
       });
     },
+    async createRun({
+      projectId, ...args
+    }: CreateRunParams) {
+      return this._httpRequest({
+        method: "POST",
+        url: `projects/${projectId}/runs.json`,
+        data: {
+          data: {
+            type: "run",
+            ...args,
+          },
+        },
+      });
+    },
     async getProjects(): Promise<Project[]> {
       const { data }: GetProjectsResponse = await this._httpRequest({
         url: "/projects.json",
@@ -80,7 +95,7 @@ export default defineApp({
       type: "string",
       label: "User",
       description:
-        "Choose an **User** from the list, or provide a custom *User ID*.",
+        "Choose a **User** from the list, or provide a custom *User ID*.",
       async options() {
         const user: User[] = await this.getUsers();
         return user.map(

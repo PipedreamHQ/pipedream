@@ -1,6 +1,4 @@
-import {
-  Pipedream,
-} from "@pipedream/types";
+import { Pipedream } from "@pipedream/types";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -13,8 +11,11 @@ export interface HttpRequestParams extends PdAxiosRequest {
   data?: object;
 }
 
-export interface CreateRequirementParams extends PdAxiosRequest {
+interface ProjectRequest extends PdAxiosRequest {
   projectId: string;
+}
+
+export interface CreateRequirementParams extends ProjectRequest {
   attributes: {
     name: string;
     "author-id": User["id"];
@@ -31,6 +32,10 @@ export interface CreateRequirementParams extends PdAxiosRequest {
   };
 }
 
+export interface CreateRunParams extends ProjectRequest {
+
+}
+
 interface PractiTestResponse {
   data: object | object[];
 }
@@ -40,6 +45,10 @@ export interface GetProjectsResponse extends PractiTestResponse {
 }
 export interface GetUsersResponse extends PractiTestResponse {
   data: User[];
+}
+
+export interface CreateRequirementResponse extends PractiTestResponse {
+  data: Requirement;
 }
 
 interface PractiTestEntity {
@@ -58,4 +67,5 @@ export interface User extends PractiTestEntity {
   };
 }
 
-export type Requirement = PractiTestEntity;
+export interface Requirement extends PractiTestEntity {}
+export interface Run extends PractiTestEntity {}

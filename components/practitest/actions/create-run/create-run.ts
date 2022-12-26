@@ -2,13 +2,13 @@ import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { DOCS } from "../../common/constants";
 import {
-  CreateRequirementParams, CreateRequirementResponse, Requirement,
+  CreateRunParams, Run,
 } from "../../common/types";
 
 export default defineAction({
-  name: "Create Requirement",
-  description: `Create a requirement [See docs here](${DOCS.createRequirement})`,
-  key: "practitest-create-requirement",
+  name: "Create Run",
+  description: `Create a run [See docs here](${DOCS.createRun})`,
+  key: "practitest-create-run",
   version: "0.0.1",
   type: "action",
   props: {
@@ -48,11 +48,6 @@ export default defineAction({
       label: "Version",
       optional: true,
     },
-    priority: {
-      type: "string",
-      label: "Priority",
-      optional: true,
-    },
     customFields: {
       type: "object",
       label: "Custom Fields",
@@ -62,14 +57,14 @@ export default defineAction({
     parentId: {
       type: "string",
       label: "Parent ID",
-      description: "A parent's requirement ID",
+      description: "A parent's run ID",
       optional: true,
     },
     testIds: {
       type: "integer[]",
       label: "Test IDs",
       description:
-        "An array of test-ids to add to the traceability of the new requirement",
+        "An array of test-ids to add to the traceability of the new run",
       optional: true,
     },
     tags: {
@@ -78,46 +73,20 @@ export default defineAction({
       optional: true,
     },
   },
-  async run({ $ }): Promise<CreateRequirementResponse> {
+  async run({ $ }): Promise<Run> {
     const {
       projectId,
-      name,
-      authorId,
-      description,
-      assignedToId,
-      version,
-      priority,
-      customFields,
-      parentId,
-      testIds,
-      tags,
     } = this;
 
-    const params: CreateRequirementParams = {
+    const params: CreateRunParams = {
       $,
       projectId,
-      attributes: {
-        name,
-        "author-id": authorId,
-        description,
-        "assigned-to-id": assignedToId,
-        version,
-        priority,
-        "custom-fields": customFields,
-        "parent-id": parentId,
-        tags,
-      },
     };
-    if (testIds) {
-      params.traceability = {
-        "test-ids": testIds,
-      };
-    }
 
-    const response: CreateRequirementResponse = await this.practitest.createRequirement(params);
+    const data: Run = await this.practitest.createRun(params);
 
-    $.export("$summary", `Successfully created requirement (id ${response.data.id})`);
+    $.export("$summary", `Successfully created run (id ${data.id})`);
 
-    return response;
+    return data;
   },
 });
