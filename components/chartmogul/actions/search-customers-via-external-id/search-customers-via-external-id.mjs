@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import chartmogul from "../../chartmogul.app.mjs";
 
 export default {
@@ -35,8 +36,8 @@ export default {
 
       $.export("$summary", "Customers Successfully fetched");
       return response.reverse();
-    } catch (e) {
-      return;
+    } catch ({ response }) {
+      throw new ConfigurationError(response.data.message);
     }
   },
 };
