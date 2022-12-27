@@ -11,7 +11,10 @@ export default {
     statusId: {
       propDefinition: [
         mastodon,
-        "statusId",
+        "userStatusId",
+        () => ({
+          pinned: true,
+        }),
       ],
     },
   },

@@ -1,5 +1,9 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_PAGE_SIZE = 20;
+import {
+  API_V1,
+  API_V2,
+  DEFAULT_PAGE_SIZE,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -35,6 +39,89 @@ export default {
       type: "string",
       label: "Status ID",
       description: "The ID of the Status in the database",
+    },
+    userStatusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The ID of the Status in the database",
+      async options({
+        prevContext, pinned = null,
+      }) {
+        const params = {
+          limit: DEFAULT_PAGE_SIZE,
+        };
+        if (pinned !== null) {
+          params.pinned = pinned;
+        }
+        if (prevContext.maxId) {
+          params.max_id = prevContext.maxId;
+        }
+        const statuses = await this.listStatuses({
+          params,
+        });
+        const options = statuses?.map((status) => ({
+          value: status.id,
+          label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
+        })) || [];
+        return {
+          options,
+          context: {
+            maxId: statuses[statuses.length - 1]?.id,
+          },
+        };
+      },
+    },
+    bookmarkedStatusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The ID of the Status in the database",
+      async options({ prevContext }) {
+        const params = {
+          limit: DEFAULT_PAGE_SIZE,
+        };
+        if (prevContext.maxId) {
+          params.max_id = prevContext.maxId;
+        }
+        const statuses = await this.listBookmarkedStatuses({
+          params,
+        });
+        const options = statuses?.map((status) => ({
+          value: status.id,
+          label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
+        })) || [];
+        return {
+          options,
+          context: {
+            maxId: statuses[statuses.length - 1]?.id,
+          },
+        };
+      },
+    },
+    favoriteStatusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The ID of the Status in the database",
+      async options({ prevContext }) {
+        const params = {
+          limit: DEFAULT_PAGE_SIZE,
+        };
+        if (prevContext.maxId) {
+          params.max_id = prevContext.maxId;
+        }
+        const statuses = await this.listFavoriteStatuses({
+          params,
+        });
+        const options = statuses?.map((status) => ({
+          value: status.id,
+          label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
+        })) || [];
+        return {
+          options,
+          context: {
+            maxId: statuses[statuses.length - 1]?.id,
+          },
+        };
+      },
     },
     local: {
       type: "boolean",
@@ -108,15 +195,21 @@ export default {
       }; console.log(config);
       return axios($, config);
     },
+    async verifyAccountCredentials(args = {}) {
+      return this._makeRequest({
+        path: `${API_V1}/accounts/verify_credentials`,
+        ...args,
+      });
+    },
     async listLists(args = {}) {
       return this._makeRequest({
-        path: "/v1/lists",
+        path: `${API_V1}/lists`,
         ...args,
       });
     },
     async viewHomeTimeline(args = {}) {
       return this._makeRequest({
-        path: "/v1/timelines/home",
+        path: `${API_V1}/timelines/home`,
         ...args,
       });
     },
@@ -124,13 +217,13 @@ export default {
       listId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/timelines/list/${listId}`,
+        path: `${API_V1}/timelines/list/${listId}`,
         ...args,
       });
     },
     async viewPublicTimeline(args = {}) {
       return this._makeRequest({
-        path: "/v1/timelines/public",
+        path: `${API_V1}/timelines/public`,
         ...args,
       });
     },
@@ -138,13 +231,13 @@ export default {
       hashtag, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/timelines/tag/${hashtag}`,
+        path: `${API_V1}/timelines/tag/${hashtag}`,
         ...args,
       });
     },
     async search(args = {}) {
       return this._makeRequest({
-        path: "/v2/search",
+        path: `${API_V2}/search`,
         ...args,
       });
     },
@@ -152,13 +245,13 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}`,
+        path: `${API_V1}/statuses/${statusId}`,
         ...args,
       });
     },
     async postStatus(args = {}) {
       return this._makeRequest({
-        path: "/v1/statuses",
+        path: `${API_V1}/statuses`,
         method: "POST",
         ...args,
       });
@@ -167,7 +260,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}`,
+        path: `${API_V1}/statuses/${statusId}`,
         method: "DELETE",
         ...args,
       });
@@ -176,7 +269,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/favourite`,
+        path: `${API_V1}/statuses/${statusId}/favourite`,
         method: "POST",
         ...args,
       });
@@ -185,7 +278,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/unfavourite`,
+        path: `${API_V1}/statuses/${statusId}/unfavourite`,
         method: "POST",
         ...args,
       });
@@ -194,7 +287,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/reblog`,
+        path: `${API_V1}/statuses/${statusId}/reblog`,
         method: "POST",
         ...args,
       });
@@ -203,7 +296,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/unreblog`,
+        path: `${API_V1}/statuses/${statusId}/unreblog`,
         method: "POST",
         ...args,
       });
@@ -212,7 +305,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/bookmark`,
+        path: `${API_V1}/statuses/${statusId}/bookmark`,
         method: "POST",
         ...args,
       });
@@ -221,7 +314,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/unbookmark`,
+        path: `${API_V1}/statuses/${statusId}/unbookmark`,
         method: "POST",
         ...args,
       });
@@ -230,7 +323,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/mute`,
+        path: `${API_V1}/statuses/${statusId}/mute`,
         method: "POST",
         ...args,
       });
@@ -239,7 +332,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/unmute`,
+        path: `${API_V1}/statuses/${statusId}/unmute`,
         method: "POST",
         ...args,
       });
@@ -248,7 +341,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/pin`,
+        path: `${API_V1}/statuses/${statusId}/pin`,
         method: "POST",
         ...args,
       });
@@ -257,7 +350,7 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}/unpin`,
+        path: `${API_V1}/statuses/${statusId}/unpin`,
         method: "POST",
         ...args,
       });
@@ -266,8 +359,27 @@ export default {
       statusId, ...args
     }) {
       return this._makeRequest({
-        path: `/v1/statuses/${statusId}`,
+        path: `${API_V1}/statuses/${statusId}`,
         method: "PUT",
+        ...args,
+      });
+    },
+    async listStatuses(args = {}) {
+      const { id } = await this.verifyAccountCredentials();
+      return this._makeRequest({
+        path: `${API_V1}/accounts/${id}/statuses`,
+        ...args,
+      });
+    },
+    async listBookmarkedStatuses(args = {}) {
+      return this._makeRequest({
+        path: `${API_V1}/bookmarks`,
+        ...args,
+      });
+    },
+    async listFavoriteStatuses(args = {}) {
+      return this._makeRequest({
+        path: `${API_V1}/favourites`,
         ...args,
       });
     },

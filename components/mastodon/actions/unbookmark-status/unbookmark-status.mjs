@@ -11,7 +11,7 @@ export default {
     statusId: {
       propDefinition: [
         mastodon,
-        "statusId",
+        "bookmarkedStatusId",
       ],
     },
   },
