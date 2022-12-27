@@ -10,7 +10,7 @@ Pipedream is the fastest way to automate any process that connects APIs. Build a
 The Pipedream platform includes:
 
 - A [serverless runtime](/code/) and [workflow service](/workflows/)
-- Open source [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of integrated apps](https://pipedream.com/explore/)
+- Open source [triggers](/workflows/steps/triggers/) and [actions](/workflows/steps/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
 - One-click [OAuth and key-based authentication](/connected-accounts/) for more than 1000 APIs (use tokens directly in code or with pre-built actions)
 
 Watch a demo or review our [quickstart guide](/quickstart/):
