@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/leadfeeder",
+  "version": "0.0.1",
+  "description": "Pipedream Leadfeeder Components",
+  "main": "leadfeeder.app.mjs",
+  "keywords": [
+		"pipedream",
+		"leadfeeder"
+  ],
+  "homepage": "https://pipedream.com/apps/leadfeeder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
