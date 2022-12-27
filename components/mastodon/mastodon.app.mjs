@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import standardAxios from "axios";
 import {
   API_V1,
   API_V2,
@@ -76,23 +77,20 @@ export default {
       label: "Status ID",
       description: "The ID of the Status in the database",
       async options({ prevContext }) {
-        const params = {
-          limit: DEFAULT_PAGE_SIZE,
-        };
-        if (prevContext.maxId) {
-          params.max_id = prevContext.maxId;
+        const args = {};
+        if (prevContext.link) {
+          args.url = this.getPrevLink(prevContext.link);
         }
-        const statuses = await this.listBookmarkedStatuses({
-          params,
-        });
-        const options = statuses?.map((status) => ({
-          value: status.id,
-          label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
-        })) || [];
+        const {
+          data: statuses, headers,
+        } = await this.listBookmarkedStatuses(args);
         return {
-          options,
+          options: statuses?.map((status) => ({
+            value: status.id,
+            label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
+          })) || [],
           context: {
-            maxId: statuses[statuses.length - 1]?.id,
+            link: headers?.link,
           },
         };
       },
@@ -102,23 +100,20 @@ export default {
       label: "Status ID",
       description: "The ID of the Status in the database",
       async options({ prevContext }) {
-        const params = {
-          limit: DEFAULT_PAGE_SIZE,
-        };
-        if (prevContext.maxId) {
-          params.max_id = prevContext.maxId;
+        const args = {};
+        if (prevContext.link) {
+          args.url = this.getPrevLink(prevContext.link);
         }
-        const statuses = await this.listFavoriteStatuses({
-          params,
-        });
-        const options = statuses?.map((status) => ({
-          value: status.id,
-          label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
-        })) || [];
+        const {
+          data: statuses, headers,
+        } = await this.listFavoriteStatuses(args);
         return {
-          options,
+          options: statuses?.map((status) => ({
+            value: status.id,
+            label: status.content.replace(/<[^>]*>/g, "").slice(0, 30),
+          })) || [],
           context: {
-            maxId: statuses[statuses.length - 1]?.id,
+            link: headers?.link,
           },
         };
       },
@@ -192,8 +187,30 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
-      }; console.log(config);
+      };
       return axios($, config);
+    },
+    async _makeStandardAxiosRequest({
+      path, url, params, ...args
+    }) {
+      const config = {
+        url,
+        headers: this._headers(),
+        ...args,
+      };
+      if (!url) {
+        config.url = `${this._baseUrl()}${path}`;
+        config.params = params;
+      }
+      return standardAxios(config);
+    },
+    getPrevLink(link) {
+      const links = link.split(",");
+      const prevLink = links.filter((l) => l.includes("rel=\"prev\""))[0];
+      return prevLink.substring(
+        prevLink.indexOf("<") + 1,
+        prevLink.lastIndexOf(">"),
+      );
     },
     async verifyAccountCredentials(args = {}) {
       return this._makeRequest({
@@ -372,14 +389,30 @@ export default {
       });
     },
     async listBookmarkedStatuses(args = {}) {
-      return this._makeRequest({
+      return this._makeStandardAxiosRequest({
         path: `${API_V1}/bookmarks`,
         ...args,
       });
     },
     async listFavoriteStatuses(args = {}) {
-      return this._makeRequest({
+      return this._makeStandardAxiosRequest({
         path: `${API_V1}/favourites`,
+        ...args,
+      });
+    },
+    async listFavoritedBy({
+      statusId, ...args
+    }) {
+      return this._makeRequest({
+        path: `${API_V1}/statuses/${statusId}/favourited_by`,
+        ...args,
+      });
+    },
+    async listBoostedBy({
+      statusId, ...args
+    }) {
+      return this._makRequest({
+        path: `${API_V1}/statuses/${statusId}/reblogged_by`,
         ...args,
       });
     },
@@ -391,7 +424,7 @@ export default {
         limit: DEFAULT_PAGE_SIZE,
       };
       do {
-        const response = await resourceFn(args); console.log(response);
+        const response = await resourceFn(args);
         const results = resourceType
           ? response[resourceType]
           : response;
