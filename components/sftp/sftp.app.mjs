@@ -1,26 +1,48 @@
-import Client from "ssh2-sftp-client";
+import SFTPClient from "ssh2-sftp-client";
 
 export default {
   type: "app",
   app: "sftp",
-  propDefinitions: {},
   methods: {
-    async connect() {
+    getOptions() {
       const {
         host,
+        port,
         username,
         privateKey,
       } = this.$auth;
-
-      const config = {
+      return {
         host,
+        port,
         username,
         privateKey,
       };
+    },
+    async connect() {
+      const client = new SFTPClient();
+      try {
+        await client.connect(this.getOptions());
+      } catch (error) {
+        console.log("Connection error", error);
+        throw error;
+      }
+      return client;
+    },
+    async execCmd({
+      cmd, args = [],
+    }) {
+      const client = await this.connect();
 
-      const sftp = new Client();
-      await sftp.connect(config);
-      return sftp;
+      try {
+        return await client[cmd](...args);
+
+      } catch (error) {
+        console.log("PUT error", error);
+        throw error;
+
+      } finally {
+        await client.end();
+      }
     },
   },
 };

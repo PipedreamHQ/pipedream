@@ -1,44 +1,52 @@
-// legacy_hash_id: a_8Ki7G7
-import Client from "ssh2-sftp-client";
+import app from "../../sftp.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "sftp-upload-file",
   name: "Upload String as File",
   description: "Uploads a UTF-8 string as a file on an SFTP server",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    sftp: {
-      type: "app",
-      app: "sftp",
-    },
+    app,
     data: {
       type: "string",
+      label: "Data",
       description: "A UTF-8 string to upload as a file on the remote server.",
     },
-    remotePath: {
+    remoteFilePath: {
       type: "string",
-      label: "Remote Path",
+      label: "Remote File Path",
       description: "The path to the remote file to be created on the server.",
     },
   },
-  async run({ $ }) {
+  methods: {
+    put({
+      input, remoteFilePath,
+    } = {}) {
+      return this.app.execCmd({
+        cmd: constants.CMD.PUT,
+        args: [
+          input,
+          remoteFilePath,
+        ],
+      });
+    },
+  },
+  async run({ $: step }) {
     const {
-      host,
-      username,
-      privateKey,
-    } = this.sftp.$auth;
+      data,
+      remoteFilePath,
+    } = this;
 
-    const config = {
-      host,
-      username,
-      privateKey,
-    };
+    const response =
+      await this.put({
+        input: Buffer.from(data),
+        remoteFilePath,
+      });
 
-    const sftp = new Client();
+    step.export("$summary", "File uploaded successfully");
 
-    await sftp.connect(config);
-    $.export("putResponse", await sftp.put(Buffer.from(this.data), this.remotePath));
-    await sftp.end();
+    return response;
   },
 };
