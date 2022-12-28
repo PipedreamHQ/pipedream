@@ -8,7 +8,7 @@ export default {
   name: "Find Channel",
   description: "Find an existing channel by name. [See the docs here](https://discord.com/developers/docs/resources/guild#get-guild-channels)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     channelName: {
