@@ -16,6 +16,7 @@ export default {
         port,
         username,
         privateKey,
+        debug: console.log,
       };
     },
     async connect() {
