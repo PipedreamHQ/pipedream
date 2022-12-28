@@ -38,7 +38,7 @@ export default {
         return await client[cmd](...args);
 
       } catch (error) {
-        console.log("PUT error", error);
+        console.log("CMD error", error);
         throw error;
 
       } finally {
