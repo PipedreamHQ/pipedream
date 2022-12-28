@@ -30,7 +30,7 @@ export default {
     lineItems: {
       type: "object",
       label: "Line Items",
-      description: "The line items included in the order. Please insert an array of `OrderLineItem`s as a custom expression. Must be a valid JSON. [See docs here](https://developer.squareup.com/reference/square/objects/OrderLineItem)",
+      description: "The line items included in the order. Please insert an array of `OrderLineItem`s as a custom expression. For example: `{{ [{\"quantity\": \"1\", \"name\": \"Item 1\", \"base_price_money\":  {amount: 1, currency: \"USD\"} }, {\"quantity\": \"2\", \"name\": \"Item 2\", \"base_price_money\": {amount: 2, currency: \"USD\"} }] }}`. [See docs here](https://developer.squareup.com/reference/square/objects/OrderLineItem)",
       optional: true,
     },
   },
