@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "mastodon-new-status-boosted",
   name: "New Status Boosted",
-  description: "Emit new event when the specified status is boosted",
+  description: "Emit new event when the specified status is boosted. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#reblogged_by)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

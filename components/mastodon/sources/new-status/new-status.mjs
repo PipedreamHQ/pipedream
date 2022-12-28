@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "mastodon-new-status",
   name: "New Status",
-  description: "Emit new event when a new status is posted to your Profile",
+  description: "Emit new event when a new status is posted to your Profile. [See the docs here](https://docs.joinmastodon.org/methods/accounts/#statuses)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -1,4 +1,5 @@
 import mastodon from "../../mastodon.app.mjs";
+import { SEARCH_TYPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "mastodon-perform-search",
@@ -17,11 +18,7 @@ export default {
       type: "string",
       label: "Type",
       description: "Specify whether to search for only `accounts`, `hashtags`, `statuses`",
-      options: [
-        "accounts",
-        "hashtags",
-        "statuses",
-      ],
+      options: SEARCH_TYPE_OPTIONS,
     },
     resolve: {
       type: "boolean",

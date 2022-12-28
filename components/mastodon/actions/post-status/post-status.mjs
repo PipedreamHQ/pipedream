@@ -1,4 +1,5 @@
 import mastodon from "../../mastodon.app.mjs";
+import { VISIBILITY_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "mastodon-post-status",
@@ -36,12 +37,7 @@ export default {
       type: "string",
       label: "Visibility",
       description: "Sets the visibility of the posted status to `public`, `unlisted`, `private`, or `direct`",
-      options: [
-        "public",
-        "unlisted",
-        "private",
-        "direct",
-      ],
+      options: VISIBILITY_OPTIONS,
       optional: true,
     },
     scheduledAt: {
