@@ -33,7 +33,6 @@ export default {
       type: "object",
       label: "Data",
       description: "It should contain your application's specific data, which should be in the same format as you defined for the `Transaction Type`",
-      optional: true,
     },
   },
   async run({ $ }) {
