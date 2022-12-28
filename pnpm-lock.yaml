@@ -1612,7 +1612,10 @@ importers:
     specifiers: {}
 
   components/laposta:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/leadfeeder:
     specifiers:
@@ -2828,6 +2831,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/spondyr:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/sportsdata:
     specifiers: {}
 
@@ -2988,6 +2997,14 @@ importers:
 
   components/teamdeck:
     specifiers: {}
+
+  components/teamgate:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      moment: 2.29.4
 
   components/teamwork:
     specifiers:
