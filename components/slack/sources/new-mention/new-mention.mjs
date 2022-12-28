@@ -117,7 +117,7 @@ export default {
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
       // events, feel free to change this code!!
-      if (!constants.ALLOWED_SUBTYPES.includes(subtype)) {
+      if (subtype && !constants.ALLOWED_SUBTYPES.includes(subtype)) {
         console.log(`Ignoring message with subtype. "${subtype}"`);
         return;
       }
