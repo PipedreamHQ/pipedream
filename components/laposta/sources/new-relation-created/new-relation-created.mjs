@@ -5,7 +5,7 @@ export default {
   name: "New Relation Created (Instant)",
   version: "0.0.1",
   key: "laposta-new-relation-created",
-  description: "Emit new event on each created relation.",
+  description: "Emit new event on each created relation. [See docs here (Go to `Add webhook`)](http://api.laposta.nl/doc/)",
   type: "source",
   dedupe: "unique",
   methods: {
