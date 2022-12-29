@@ -1,9 +1,7 @@
 import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { DOCS } from "../../common/constants";
-import {
-  CreateRunParams, Run,
-} from "../../common/types";
+import { CreateRunParams, Run } from "../../common/types";
 
 export default defineAction({
   name: "Create Run",
@@ -14,73 +12,83 @@ export default defineAction({
   props: {
     practitest,
     projectId: {
-      propDefinition: [
-        practitest,
-        "project",
-      ],
+      propDefinition: [practitest, "project"],
     },
-    name: {
-      type: "string",
-      label: "Name",
+    instanceId: {
+      type: "integer",
+      label: "Instance ID",
     },
-    authorId: {
-      propDefinition: [
-        practitest,
-        "user",
-      ],
-      label: "Author",
-    },
-    description: {
-      type: "string",
-      label: "Description",
+    exitCode: {
+      type: "integer",
+      label: "Exit Code",
+      description: "0 for passed, otherwise failed",
       optional: true,
     },
-    assignedToId: {
-      propDefinition: [
-        practitest,
-        "user",
-      ],
-      label: "Assigned To",
+    runDuration: {
+      type: "string",
+      label: "Run Duration",
+      description:
+        "(HH:MM:SS), to update the run duration of a specific instance	",
+      optional: true,
+    },
+    automatedExecutionOutput: {
+      type: "string",
+      label: "Automated Execution Output",
+      description:
+        "Text output string that will be shown in 'Execution output' field (up to 255 characters)",
       optional: true,
     },
     version: {
-      type: "string",
-      label: "Version",
-      optional: true,
+      propDefinition: [practitest, "version"],
     },
     customFields: {
-      type: "object",
-      label: "Custom Fields",
-      description: "A hash of custom-fields with their value",
-      optional: true,
+      propDefinition: [practitest, "customFields"],
     },
-    parentId: {
-      type: "string",
-      label: "Parent ID",
-      description: "A parent's run ID",
-      optional: true,
-    },
-    testIds: {
-      type: "integer[]",
-      label: "Test IDs",
-      description:
-        "An array of test-ids to add to the traceability of the new run",
-      optional: true,
-    },
-    tags: {
+    steps: {
       type: "string[]",
-      label: "Tags",
+      label: "Steps",
+      description: `An array of JSON-stringified steps objects. [See the docs for a detailed description and examples.](${DOCS.createRun})`,
+      optional: true,
+    },
+    files: {
+      type: "string[]",
+      label: "Files",
+      description: `An array of JSON-stringified file objects. The files' content should be encoded as base64. [See the docs for a detailed description and examples.](${DOCS.createRun})`,
       optional: true,
     },
   },
   async run({ $ }): Promise<Run> {
     const {
       projectId,
+      instanceId,
+      exitCode,
+      runDuration,
+      automatedExecutionOutput,
+      version,
+      customFields,
+      steps,
+      files,
     } = this;
+
+    // parse steps and files as json strings
 
     const params: CreateRunParams = {
       $,
       projectId,
+      attributes: {
+        "instance-id": instanceId,
+        "exit-code": exitCode,
+        "run-duration": runDuration,
+        "automated-execution-output": automatedExecutionOutput,
+        version,
+        "custom-fields": customFields,
+      },
+      steps: {
+        data: steps,
+      },
+      files: {
+        data: files,
+      },
     };
 
     const data: Run = await this.practitest.createRun(params);

@@ -76,6 +76,17 @@ export default defineApp({
     },
   },
   propDefinitions: {
+    version: {
+      type: "string",
+      label: "Version",
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "A hash of custom-fields with their value",
+      optional: true,
+    },
     project: {
       type: "string",
       label: "Project",

@@ -1,5 +1,7 @@
 import { Pipedream } from "@pipedream/types";
 
+type PdObjectProp = Record<string, string>;
+
 interface PdAxiosRequest {
   $: Pipedream;
 }
@@ -23,7 +25,7 @@ export interface CreateRequirementParams extends ProjectRequest {
     description?: string;
     version?: string;
     priority?: string;
-    "custom-fields"?: Record<string, string>;
+    "custom-fields"?: PdObjectProp;
     "parent-id"?: PractiTestEntity["id"];
     tags?: string[];
   };
@@ -33,7 +35,20 @@ export interface CreateRequirementParams extends ProjectRequest {
 }
 
 export interface CreateRunParams extends ProjectRequest {
-
+  attributes: {
+    "instance-id": number;
+    "exit-code"?: number;
+    "run-duration"?: string;
+    "automated-execution-output"?: string;
+    version?: string;
+    "custom-fields"?: PdObjectProp;
+  };
+  steps: {
+    data: PdObjectProp[];
+  };
+  files: {
+    data: PdObjectProp[];
+  };
 }
 
 interface PractiTestResponse {

@@ -44,9 +44,10 @@ export default defineAction({
       optional: true,
     },
     version: {
-      type: "string",
-      label: "Version",
-      optional: true,
+      propDefinition: [
+        practitest,
+        "version"
+      ]
     },
     priority: {
       type: "string",
@@ -54,10 +55,10 @@ export default defineAction({
       optional: true,
     },
     customFields: {
-      type: "object",
-      label: "Custom Fields",
-      description: "A hash of custom-fields with their value",
-      optional: true,
+      propDefinition: [
+        practitest,
+        "customFields"
+      ]
     },
     parentId: {
       type: "string",
