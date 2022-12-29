@@ -469,6 +469,12 @@ importers:
   components/chaport:
     specifiers: {}
 
+  components/chartmogul:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -520,7 +526,12 @@ importers:
       lodash: 4.17.21
 
   components/clientary:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/cliniko:
     specifiers:
@@ -1601,7 +1612,10 @@ importers:
     specifiers: {}
 
   components/laposta:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/leadfeeder:
     specifiers:
@@ -2822,6 +2836,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/spondyr:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/sportsdata:
     specifiers: {}
 
@@ -2982,6 +3002,14 @@ importers:
 
   components/teamdeck:
     specifiers: {}
+
+  components/teamgate:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      moment: 2.29.4
 
   components/teamwork:
     specifiers:
@@ -9091,7 +9119,7 @@ packages:
   /@pipedream/helper_functions/0.3.7:
     resolution: {integrity: sha512-pWU8IkdqmOrdtElc1N9WUVtY+GuuOFDuGJjfC+kF81+bGmGYV7hL4bd1jLFy8Ka5zs+FO48FEAPQeQDJ/b34kQ==}
     dependencies:
-      '@pipedream/platform': 1.1.1
+      '@pipedream/platform': 1.2.1
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:

@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/teamgate",
+  "version": "0.0.1",
+  "description": "Pipedream Teamgate Components",
+  "main": "teamgate.app.js",
+  "keywords": [
+    "pipedream",
+    "teamgate"
+  ],
+  "homepage": "https://pipedream.com/apps/teamgate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "moment": "^2.29.4"
+  }
+}
