@@ -9,6 +9,13 @@ export default {
   type: "action",
   props: {
     app,
+    privateKey: {
+      type: "string",
+      label: "Private Key",
+      description: "Supported keys are `ecdsa`, `ed25519`, and `rsa`",
+      secret: true,
+      optional: true,
+    },
     data: {
       type: "string",
       label: "Data",
@@ -25,6 +32,7 @@ export default {
       input, remoteFilePath,
     } = {}) {
       return this.app.execCmd({
+        privateKey: this.privateKey,
         cmd: constants.CMD.PUT,
         args: [
           input,
