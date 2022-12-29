@@ -91,7 +91,7 @@ export interface User extends PractiTestEntity {
 export interface Instance extends PractiTestEntity {
   attributes: {
     name: string;
-  }
+  };
 }
 
 export type Requirement = PractiTestEntity;

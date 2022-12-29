@@ -2,24 +2,31 @@ import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/constants";
-import { CreateRunParams, CreateRunResponse } from "../../common/types";
+import {
+  CreateRunParams, CreateRunResponse,
+} from "../../common/types";
 
 export default defineAction({
   name: "Create Run",
   description: `Create a run [See docs here](${DOCS.createRun})`,
   key: "practitest-create-run",
-  version: "0.0.7",
+  version: "0.0.1",
   type: "action",
   props: {
     practitest,
     projectId: {
-      propDefinition: [practitest, "project"],
+      propDefinition: [
+        practitest,
+        "project",
+      ],
     },
     instanceId: {
       propDefinition: [
         practitest,
         "instance",
-        (c) => ({ projectId: c.projectId }),
+        (c) => ({
+          projectId: c.projectId,
+        }),
       ],
     },
     exitCode: {
@@ -43,10 +50,16 @@ export default defineAction({
       optional: true,
     },
     version: {
-      propDefinition: [practitest, "version"],
+      propDefinition: [
+        practitest,
+        "version",
+      ],
     },
     customFields: {
-      propDefinition: [practitest, "customFields"],
+      propDefinition: [
+        practitest,
+        "customFields",
+      ],
     },
     steps: {
       type: "string[]",
@@ -87,7 +100,10 @@ export default defineAction({
       },
     };
 
-    ["steps", "files"].forEach((prop) => {
+    [
+      "steps",
+      "files",
+    ].forEach((prop) => {
       const value: string[] = this[prop];
       if (value) {
         try {
@@ -96,7 +112,7 @@ export default defineAction({
           };
         } catch (err) {
           throw new ConfigurationError(
-            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object`
+            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object`,
           );
         }
       }
