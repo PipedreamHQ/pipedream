@@ -38,7 +38,7 @@ export default defineSource({
       );
     },
     async getAndProcessData() {
-      const issues = await this.practitest.getIssues();
+      const issues = await this.practitest.getIssues(this.projectId);
       issues.sort(this.sortByTimestamp).forEach(this.emitEvent);
     },
     emitEvent(data: Issue) {
