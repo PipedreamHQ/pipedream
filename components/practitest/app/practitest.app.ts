@@ -5,9 +5,11 @@ import {
   CreateRequirementResponse,
   CreateRunParams,
   CreateRunResponse,
+  GetInstancesResponse,
   GetProjectsResponse,
   GetUsersResponse,
   HttpRequestParams,
+  Instance,
   Project,
   User,
 } from "../common/types";
@@ -58,7 +60,7 @@ export default defineApp({
         url: `projects/${projectId}/runs.json`,
         data: {
           data: {
-            type: "run",
+            type: "instances",
             ...args,
           },
         },
@@ -73,6 +75,12 @@ export default defineApp({
     async getUsers(): Promise<User[]> {
       const { data }: GetUsersResponse = await this._httpRequest({
         url: "/users.json",
+      });
+      return data;
+    },
+    async getInstances(projectId: number): Promise<Instance[]> {
+      const { data }: GetInstancesResponse = await this._httpRequest({
+        url: `/projects/${projectId}/instances.json`,
       });
       return data;
     },
@@ -114,6 +122,23 @@ export default defineApp({
         return user.map(
           ({
             attributes: { "display-name": label }, id: value,
+          }) => ({
+            label,
+            value,
+          }),
+        );
+      },
+    },
+    instance: {
+      type: "string",
+      label: "Instance",
+      description:
+        "Choose an **Instance** from the list, or provide a custom *Instance ID*.",
+      async options({ projectId }) {
+        const instance: Instance[] = await this.getInstances(projectId);
+        return instance.map(
+          ({
+            attributes: { "name": label }, id: value,
           }) => ({
             label,
             value,

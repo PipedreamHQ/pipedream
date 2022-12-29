@@ -43,10 +43,10 @@ export interface CreateRunParams extends ProjectRequest {
     version?: string;
     "custom-fields"?: PdObjectProp;
   };
-  steps: {
+  steps?: {
     data: PdObjectProp[];
   };
-  files: {
+  files?: {
     data: PdObjectProp[];
   };
 }
@@ -60,6 +60,9 @@ export interface GetProjectsResponse extends PractiTestResponse {
 }
 export interface GetUsersResponse extends PractiTestResponse {
   data: User[];
+}
+export interface GetInstancesResponse extends PractiTestResponse {
+  data: Instance[];
 }
 
 export interface CreateRequirementResponse extends PractiTestResponse {
@@ -83,6 +86,12 @@ export interface User extends PractiTestEntity {
   attributes: {
     "display-name": string;
   };
+}
+
+export interface Instance extends PractiTestEntity {
+  attributes: {
+    name: string;
+  }
 }
 
 export type Requirement = PractiTestEntity;

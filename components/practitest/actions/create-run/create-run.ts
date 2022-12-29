@@ -1,27 +1,26 @@
 import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/constants";
-import {
-  CreateRunParams, CreateRunResponse,
-} from "../../common/types";
+import { CreateRunParams, CreateRunResponse } from "../../common/types";
 
 export default defineAction({
   name: "Create Run",
   description: `Create a run [See docs here](${DOCS.createRun})`,
   key: "practitest-create-run",
-  version: "0.0.1",
+  version: "0.0.7",
   type: "action",
   props: {
     practitest,
     projectId: {
-      propDefinition: [
-        practitest,
-        "project",
-      ],
+      propDefinition: [practitest, "project"],
     },
     instanceId: {
-      type: "integer",
-      label: "Instance ID",
+      propDefinition: [
+        practitest,
+        "instance",
+        (c) => ({ projectId: c.projectId }),
+      ],
     },
     exitCode: {
       type: "integer",
@@ -44,16 +43,10 @@ export default defineAction({
       optional: true,
     },
     version: {
-      propDefinition: [
-        practitest,
-        "version",
-      ],
+      propDefinition: [practitest, "version"],
     },
     customFields: {
-      propDefinition: [
-        practitest,
-        "customFields",
-      ],
+      propDefinition: [practitest, "customFields"],
     },
     steps: {
       type: "string[]",
@@ -77,8 +70,6 @@ export default defineAction({
       automatedExecutionOutput,
       version,
       customFields,
-      steps,
-      files,
     } = this;
 
     // parse steps and files as json strings
@@ -94,13 +85,22 @@ export default defineAction({
         version,
         "custom-fields": customFields,
       },
-      steps: {
-        data: steps,
-      },
-      files: {
-        data: files,
-      },
     };
+
+    ["steps", "files"].forEach((prop) => {
+      const value: string[] = this[prop];
+      if (value) {
+        try {
+          params[prop] = {
+            data: value.map((str) => JSON.parse(str)),
+          };
+        } catch (err) {
+          throw new ConfigurationError(
+            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object`
+          );
+        }
+      }
+    });
 
     const response: CreateRunResponse = await this.practitest.createRun(params);
 
