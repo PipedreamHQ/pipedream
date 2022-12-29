@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/servicem8",
+  "version": "0.0.3",
+  "description": "Pipedream ServiceM8  Components",
+  "main": "servicem8.app.mjs",
+  "keywords": [
+    "pipedream",
+    "servicem8"
+  ],
+  "homepage": "https://pipedream.com/apps/servicem8",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
