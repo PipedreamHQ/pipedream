@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "sftp",
   methods: {
-    getOptions(_privateKey) {
+    getOptions() {
       const {
         host,
         port,
@@ -15,14 +15,14 @@ export default {
         host,
         port,
         username,
-        privateKey: _privateKey || privateKey,
+        privateKey,
         debug: console.log,
       };
     },
-    async connect(privateKey) {
+    async connect() {
       const client = new SFTPClient();
       try {
-        await client.connect(this.getOptions(privateKey));
+        await client.connect(this.getOptions());
       } catch (error) {
         console.log("Connection error", error);
         throw error;
@@ -30,9 +30,9 @@ export default {
       return client;
     },
     async execCmd({
-      privateKey, cmd, args = [],
+      cmd, args = [],
     }) {
-      const client = await this.connect(privateKey);
+      const client = await this.connect();
 
       try {
         return await client[cmd](...args);

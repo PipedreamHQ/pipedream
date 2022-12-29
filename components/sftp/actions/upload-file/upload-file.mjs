@@ -19,20 +19,12 @@ export default {
       label: "Remote File Path",
       description: "The path to the remote file to be created on the server.",
     },
-    privateKey: {
-      type: "string",
-      label: "Private Key",
-      description: "Supported keys are `ecdsa`, `ed25519`, and `rsa`",
-      secret: true,
-      optional: true,
-    },
   },
   methods: {
     put({
       input, remoteFilePath,
     } = {}) {
       return this.app.execCmd({
-        privateKey: this.privateKey,
         cmd: constants.CMD.PUT,
         args: [
           input,
