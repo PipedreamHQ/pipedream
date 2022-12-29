@@ -871,6 +871,9 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/easy_projects:
+    specifiers: {}
+
   components/easyship:
     specifiers: {}
 
@@ -2617,6 +2620,12 @@ importers:
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.45
+
+  components/servicem8:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/seventodos:
     specifiers:
