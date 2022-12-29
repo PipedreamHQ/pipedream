@@ -1,7 +1,9 @@
 import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { DOCS } from "../../common/constants";
-import { CreateRunParams, Run } from "../../common/types";
+import {
+  CreateRunParams, CreateRunResponse,
+} from "../../common/types";
 
 export default defineAction({
   name: "Create Run",
@@ -12,7 +14,10 @@ export default defineAction({
   props: {
     practitest,
     projectId: {
-      propDefinition: [practitest, "project"],
+      propDefinition: [
+        practitest,
+        "project",
+      ],
     },
     instanceId: {
       type: "integer",
@@ -39,10 +44,16 @@ export default defineAction({
       optional: true,
     },
     version: {
-      propDefinition: [practitest, "version"],
+      propDefinition: [
+        practitest,
+        "version",
+      ],
     },
     customFields: {
-      propDefinition: [practitest, "customFields"],
+      propDefinition: [
+        practitest,
+        "customFields",
+      ],
     },
     steps: {
       type: "string[]",
@@ -57,7 +68,7 @@ export default defineAction({
       optional: true,
     },
   },
-  async run({ $ }): Promise<Run> {
+  async run({ $ }): Promise<CreateRunResponse> {
     const {
       projectId,
       instanceId,
@@ -91,10 +102,10 @@ export default defineAction({
       },
     };
 
-    const data: Run = await this.practitest.createRun(params);
+    const response: CreateRunResponse = await this.practitest.createRun(params);
 
-    $.export("$summary", `Successfully created run (id ${data.id})`);
+    $.export("$summary", `Successfully created run (id ${response.data.id})`);
 
-    return data;
+    return response;
   },
 });

@@ -2,7 +2,9 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreateRequirementParams,
+  CreateRequirementResponse,
   CreateRunParams,
+  CreateRunResponse,
   GetProjectsResponse,
   GetUsersResponse,
   HttpRequestParams,
@@ -36,7 +38,7 @@ export default defineApp({
     },
     async createRequirement({
       projectId, ...args
-    }: CreateRequirementParams) {
+    }: CreateRequirementParams): Promise<CreateRequirementResponse> {
       return this._httpRequest({
         method: "POST",
         url: `projects/${projectId}/requirements.json`,
@@ -50,7 +52,7 @@ export default defineApp({
     },
     async createRun({
       projectId, ...args
-    }: CreateRunParams) {
+    }: CreateRunParams): Promise<CreateRunResponse> {
       return this._httpRequest({
         method: "POST",
         url: `projects/${projectId}/runs.json`,

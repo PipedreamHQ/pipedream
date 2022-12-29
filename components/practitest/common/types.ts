@@ -65,6 +65,9 @@ export interface GetUsersResponse extends PractiTestResponse {
 export interface CreateRequirementResponse extends PractiTestResponse {
   data: Requirement;
 }
+export interface CreateRunResponse extends PractiTestResponse {
+  data: Run;
+}
 
 interface PractiTestEntity {
   id: string;
@@ -82,5 +85,5 @@ export interface User extends PractiTestEntity {
   };
 }
 
-export interface Requirement extends PractiTestEntity {}
-export interface Run extends PractiTestEntity {}
+export type Requirement = PractiTestEntity;
+export type Run = PractiTestEntity;

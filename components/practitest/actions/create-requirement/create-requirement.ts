@@ -2,7 +2,7 @@ import practitest from "../../app/practitest.app";
 import { defineAction } from "@pipedream/types";
 import { DOCS } from "../../common/constants";
 import {
-  CreateRequirementParams, CreateRequirementResponse, Requirement,
+  CreateRequirementParams, CreateRequirementResponse,
 } from "../../common/types";
 
 export default defineAction({
@@ -46,8 +46,8 @@ export default defineAction({
     version: {
       propDefinition: [
         practitest,
-        "version"
-      ]
+        "version",
+      ],
     },
     priority: {
       type: "string",
@@ -57,8 +57,8 @@ export default defineAction({
     customFields: {
       propDefinition: [
         practitest,
-        "customFields"
-      ]
+        "customFields",
+      ],
     },
     parentId: {
       type: "string",
