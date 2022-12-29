@@ -1148,6 +1148,9 @@
     },
     {
       "path": "components/revamp_crm"
+    },
+    {
+      "path": "components/easy_projects"
     }
   ]
 }
