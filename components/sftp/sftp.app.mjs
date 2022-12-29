@@ -19,10 +19,10 @@ export default {
         debug: console.log,
       };
     },
-    async connect() {
+    async connect(privateKey) {
       const client = new SFTPClient();
       try {
-        await client.connect(this.getOptions());
+        await client.connect(this.getOptions(privateKey));
       } catch (error) {
         console.log("Connection error", error);
         throw error;

@@ -9,13 +9,6 @@ export default {
   type: "action",
   props: {
     app,
-    privateKey: {
-      type: "string",
-      label: "Private Key",
-      description: "Supported keys are `ecdsa`, `ed25519`, and `rsa`",
-      secret: true,
-      optional: true,
-    },
     data: {
       type: "string",
       label: "Data",
@@ -25,6 +18,13 @@ export default {
       type: "string",
       label: "Remote File Path",
       description: "The path to the remote file to be created on the server.",
+    },
+    privateKey: {
+      type: "string",
+      label: "Private Key",
+      description: "Supported keys are `ecdsa`, `ed25519`, and `rsa`",
+      secret: true,
+      optional: true,
     },
   },
   methods: {
