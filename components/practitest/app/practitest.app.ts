@@ -6,10 +6,12 @@ import {
   CreateRunParams,
   CreateRunResponse,
   GetInstancesResponse,
+  GetIssuesResponse,
   GetProjectsResponse,
   GetUsersResponse,
   HttpRequestParams,
   Instance,
+  Issue,
   Project,
   User,
 } from "../common/types";
@@ -84,6 +86,12 @@ export default defineApp({
       });
       return data;
     },
+    async getIssues(projectId: number): Promise<Issue[]> {
+      const { data }: GetIssuesResponse = await this._httpRequest({
+        url: `/projects/${projectId}/issues.json`,
+      });
+      return data;
+    },
   },
   propDefinitions: {
     version: {
@@ -134,7 +142,7 @@ export default defineApp({
       label: "Instance",
       description:
         "Choose an **Instance** from the list, or provide a custom *Instance ID*.",
-      async options({ projectId }) {
+      async options({ projectId }: { projectId: number; }) {
         const instance: Instance[] = await this.getInstances(projectId);
         return instance.map(
           ({

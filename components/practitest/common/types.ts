@@ -64,6 +64,9 @@ export interface GetUsersResponse extends PractiTestResponse {
 export interface GetInstancesResponse extends PractiTestResponse {
   data: Instance[];
 }
+export interface GetIssuesResponse extends PractiTestResponse {
+  data: Issue[];
+}
 
 export interface CreateRequirementResponse extends PractiTestResponse {
   data: Requirement;
@@ -91,6 +94,13 @@ export interface User extends PractiTestEntity {
 export interface Instance extends PractiTestEntity {
   attributes: {
     name: string;
+  };
+}
+
+export interface Issue extends PractiTestEntity {
+  attributes: {
+    title: string;
+    "created-at": string;
   };
 }
 

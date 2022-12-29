@@ -24,7 +24,7 @@ export default defineAction({
       propDefinition: [
         practitest,
         "instance",
-        (c) => ({
+        (c: { projectId: number; }) => ({
           projectId: c.projectId,
         }),
       ],
