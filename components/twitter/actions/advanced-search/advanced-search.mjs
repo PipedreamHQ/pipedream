@@ -4,7 +4,7 @@ export default {
   key: "twitter-advanced-search",
   name: "Advanced Search",
   description: "Return Tweets that matches your search criteria. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     db: "$.service.db",
