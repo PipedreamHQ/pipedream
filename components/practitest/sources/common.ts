@@ -1,5 +1,4 @@
 import practitest from "../app/practitest.app";
-import { defineSource } from "@pipedream/types";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { PractiTestEntity } from "../common/types";
 
@@ -44,7 +43,9 @@ export default {
       data.sort(this.sortByTimestamp).forEach(this.emitEvent);
     },
     emitEvent(data: PractiTestEntity) {
-      const { id, attributes } = data;
+      const {
+        id, attributes,
+      } = data;
 
       this.$emit(data, {
         id,
