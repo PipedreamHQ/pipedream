@@ -78,41 +78,41 @@ export interface CreateRunResponse extends PractiTestResponse {
   data: Run;
 }
 
-interface PractiTestEntity {
+export interface PractiTestEntity {
   id: string;
-  attributes: Record<string, string>;
+  attributes: {
+    "created-at": string;
+  };
 }
 
-export interface Project extends PractiTestEntity {
+export type Project = PractiTestEntity & {
   attributes: {
     name: string;
   };
-}
-export interface User extends PractiTestEntity {
+};
+export type User = PractiTestEntity & {
   attributes: {
     "display-name": string;
   };
-}
+};
 
-export interface Instance extends PractiTestEntity {
+export type Instance = PractiTestEntity & {
   attributes: {
     name: string;
   };
-}
+};
 
-export interface Issue extends PractiTestEntity {
+export type Issue = PractiTestEntity & {
   attributes: {
     title: string;
-    "created-at": string;
   };
-}
+};
 
-export interface Test extends PractiTestEntity {
+export type Test = PractiTestEntity & {
   attributes: {
     name: string;
-    "created-at": string;
   };
-}
+};
 
 export type Requirement = PractiTestEntity;
 export type Run = PractiTestEntity;
