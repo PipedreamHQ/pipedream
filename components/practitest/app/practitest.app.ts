@@ -8,11 +8,13 @@ import {
   GetInstancesResponse,
   GetIssuesResponse,
   GetProjectsResponse,
+  GetTestsResponse,
   GetUsersResponse,
   HttpRequestParams,
   Instance,
   Issue,
   Project,
+  Test,
   User,
 } from "../common/types";
 
@@ -89,6 +91,12 @@ export default defineApp({
     async getIssues(projectId: number): Promise<Issue[]> {
       const { data }: GetIssuesResponse = await this._httpRequest({
         url: `/projects/${projectId}/issues.json`,
+      });
+      return data;
+    },
+    async getTests(projectId: number): Promise<Test[]> {
+      const { data }: GetTestsResponse = await this._httpRequest({
+        url: `/projects/${projectId}/tests.json`,
       });
       return data;
     },
