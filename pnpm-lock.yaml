@@ -1757,7 +1757,12 @@ importers:
     specifiers: {}
 
   components/mastodon:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      axios: ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      axios: 1.2.1
 
   components/mattermost:
     specifiers:
@@ -2761,6 +2766,12 @@ importers:
       '@smiirl/smiirl-library-js': ^1.0.5
     dependencies:
       '@smiirl/smiirl-library-js': 1.0.5
+
+  components/smoove:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/sms:
     specifiers: {}
