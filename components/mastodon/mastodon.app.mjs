@@ -39,7 +39,7 @@ export default {
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The ID of the Status in the database",
+      description: "The ID of the Status in the database. The Status ID can be extracted from the link that copied from `Copy link to post` button on the status with the pattern `https://mastodon-domain/@username/[Status ID]`",
     },
     userStatusId: {
       type: "string",
@@ -411,7 +411,7 @@ export default {
     async listBoostedBy({
       statusId, ...args
     }) {
-      return this._makRequest({
+      return this._makeRequest({
         path: `${API_V1}/statuses/${statusId}/reblogged_by`,
         ...args,
       });
