@@ -80,12 +80,21 @@ export default {
     async listProducts({
       category, ...opts
     }) {
+      let items;
       const { results } = await this.listProductCategories({
         ...opts,
         paginate: true,
       });
 
-      const items = results.filter((result) => result.id == category)[0]?.items;
+      if (category) {
+        items = results.filter((result) => result.id == category)[0]?.items;
+      } else {
+        items = results.reduce((acc, category) => ([
+          ...acc,
+          ...category.items,
+        ]), []);
+      }
+
       return {
         results: items || [],
       };
