@@ -1757,7 +1757,12 @@ importers:
     specifiers: {}
 
   components/mastodon:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      axios: ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      axios: 1.2.1
 
   components/mattermost:
     specifiers:
