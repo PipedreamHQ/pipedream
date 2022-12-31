@@ -1,4 +1,5 @@
 import { defineSource } from "@pipedream/types";
+import { DOCS } from "../../common/constants";
 import { Issue } from "../../common/types";
 import common from "../common";
 
@@ -6,7 +7,7 @@ export default defineSource({
   ...common,
   key: "practitest-issue-created",
   name: "Issue Created",
-  description: "Emit new event for each new issue",
+  description: `Emit new event for each new issue [See docs here](${DOCS.issueCreated})`,
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
