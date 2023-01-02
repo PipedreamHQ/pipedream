@@ -1,6 +1,7 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import utils from "./common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -265,6 +266,11 @@ export default {
       label: "Max records",
       description: "Max number of records in the whole pagination (eg. `60`)",
       optional: true,
+    },
+    nick: {
+      type: "string",
+      label: "Nickname",
+      description: "Value to set user's nickname to.",
     },
     limit: {
       type: "integer",
@@ -562,6 +568,16 @@ export default {
         $,
         method: "post",
         path: `/guilds/${guildId}/channels`,
+        data,
+      });
+    },
+    changeNickname({
+      $, guildId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/@me`,
         data,
       });
     },

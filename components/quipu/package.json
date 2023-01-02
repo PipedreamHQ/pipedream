@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/quipu",
+  "version": "0.0.1",
+  "description": "Pipedream Quipu Components",
+  "main": "quipu.app.js",
+  "keywords": [
+    "pipedream",
+    "quipu"
+  ],
+  "homepage": "https://pipedream.com/apps/quipu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

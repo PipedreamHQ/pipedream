@@ -4,7 +4,7 @@ export default {
   key: "twitter-like-tweet",
   name: "Like Tweet",
   description: "Like the tweet specified specified in the ID parameter. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twitter,

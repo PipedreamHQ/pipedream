@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/smoove",
+  "version": "0.0.1",
+  "description": "Pipedream Smoove Components",
+  "main": "smoove.app.mjs",
+  "keywords": [
+		"pipedream",
+		"smoove"
+  ],
+  "homepage": "https://pipedream.com/apps/smoove",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
