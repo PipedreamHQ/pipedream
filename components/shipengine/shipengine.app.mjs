@@ -55,7 +55,22 @@ export default {
             page: page + 1,
           },
         });
-        return labels.map(mapper) || [];
+        return labels.map(mapper);
+      },
+    },
+    shipmentId: {
+      type: "string",
+      label: "Shipment ID",
+      description: "The ID of the shipment. E.g. `se-28529731`",
+      async options({
+        page, mapper = ({ shipment_id: value }) => value,
+      }) {
+        const { shipments } = await this.listShipments({
+          params: {
+            page: page + 1,
+          },
+        });
+        return shipments.map(mapper);
       },
     },
   },

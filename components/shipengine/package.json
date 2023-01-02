@@ -4,14 +4,14 @@
   "description": "Pipedream Shipengine Components",
   "main": "shipengine.app.mjs",
   "keywords": [
-		"pipedream",
-		"shipengine"
+    "pipedream",
+    "shipengine"
   ],
   "homepage": "https://pipedream.com/apps/shipengine",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "dependencies": {
-    "@pipedream/platform": "^1.1.1"
+    "@pipedream/platform": "^1.2.1"
   },
   "publishConfig": {
     "access": "public"

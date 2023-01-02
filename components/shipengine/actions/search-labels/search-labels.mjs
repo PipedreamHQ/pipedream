@@ -14,12 +14,7 @@ export default {
       type: "string",
       label: "Label Status",
       description: "The status of the label. E.g. `processing`",
-      options: [
-        "processing",
-        "completed",
-        "error",
-        "voided",
-      ],
+      options: constants.LABEL_STATUSES,
     },
     carrierId: {
       propDefinition: [
@@ -48,9 +43,10 @@ export default {
       ],
     },
     shipmentId: {
-      type: "string",
-      label: "Shipment ID",
-      description: "The ID of the shipment. E.g. `se-28529731`",
+      propDefinition: [
+        app,
+        "shipmentId",
+      ],
     },
   },
   async run({ $: step }) {
