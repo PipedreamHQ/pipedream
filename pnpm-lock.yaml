@@ -2055,9 +2055,6 @@ importers:
   components/nusii_proposals:
     specifiers: {}
 
-  components/ocassion:
-    specifiers: {}
-
   components/octopus_deploy:
     specifiers: {}
 
