@@ -108,7 +108,7 @@ export default {
       communication_disabled_until: comunicationDisabledUntil,
     });
 
-    $.export("$summary", `Member with Id ${userId} Successfully modified!`);
+    $.export("$summary", `Member with Id ${userId} successfully modified!`);
     return response;
   },
 };
