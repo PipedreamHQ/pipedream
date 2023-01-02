@@ -126,7 +126,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _getCustomerLabel(customer) {
-      const name = `${customer.given_name} ${customer.family_name}`.trim();
+      const name = `${customer.given_name || ""} ${customer.family_name || ""}`.trim();
       const email = customer.email_address;
       const company = customer.company_name;
       const phone = customer.phone_number;
