@@ -83,7 +83,7 @@ export default {
       return;
     }
 
-    if (!this.isRelevant()) {
+    if (!this.isRelevant(body)) {
       console.log("Event is not relevant. Skipping...");
       return;
     }

@@ -39,7 +39,7 @@ export default {
       return `Booking created: ${event.data.id}`;
     },
     getTimestamp(event) {
-      return new Date(event.data.object.booking_created.created_at);
+      return new Date(event.data.object.booking.created_at);
     },
   },
 };

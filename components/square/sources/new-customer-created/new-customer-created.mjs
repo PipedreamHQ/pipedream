@@ -37,7 +37,7 @@ export default {
       return `Customer created: ${event.data.id}`;
     },
     getTimestamp(event) {
-      return new Date(event.data.object.customer_created.created_at);
+      return new Date(event.data.object.customer.created_at);
     },
   },
 };
