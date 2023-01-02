@@ -71,6 +71,6 @@ export default {
     }
 
     this.httpRespond(200);
-    this.emitEvents(event.body.events);
+    this.emitEvents(event.body?.events);
   },
 };
