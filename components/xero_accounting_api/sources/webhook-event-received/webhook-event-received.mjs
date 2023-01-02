@@ -7,7 +7,6 @@ export default {
   description: "Emit new event for each incoming webhook notification. To create a Xero Webhook, please follow [the instructions here](https://developer.xero.com/documentation/guides/webhooks/creating-webhooks/).",
   version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   props: {
     xeroAccountingApi,
     http: {
