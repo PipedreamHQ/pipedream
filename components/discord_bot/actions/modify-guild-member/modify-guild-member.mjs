@@ -80,7 +80,7 @@ export default {
     comunicationDisabledUntil: {
       type: "string",
       label: "Comunication Disabled Until",
-      description: "When the user's [timeout](https://support.discord.com/hc/en-us/articles/4413305239191-Time-Out-FAQ) will expire and the user will be able to communicate in the guild again (up to 28 days in the future), set to null to remove timeout. Will throw a 403 error if the user has the ADMINISTRATOR permission or is the owner of the guild",
+      description: "When the user's [timeout](https://support.discord.com/hc/en-us/articles/4413305239191-Time-Out-FAQ) will expire and the user will be able to communicate in the guild again (up to 28 days in the future), set to null to remove timeout. Will throw a 403 error if the user has the ADMINISTRATOR permission or is the owner of the guild. E.g. `2025-01-01T13:28:38+00:00`, `2030-01-01`",
       optional: true,
     },
   },
