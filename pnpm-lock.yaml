@@ -2836,6 +2836,12 @@ importers:
   components/softr:
     specifiers: {}
 
+  components/solve_crm:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/splitwise:
     specifiers:
       '@pipedream/platform': ^1.2.0
