@@ -11,7 +11,7 @@ const {
 } = constants.CHANNEL_TYPES;
 
 const NOT_ALLOWED_CHANNELS =
-  Object.keys(OTHER_CHANNELS).map((key) => OTHER_CHANNELS[key]);
+  Object.values(OTHER_CHANNELS);
 
 export default {
   ...common,
