@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.0.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
