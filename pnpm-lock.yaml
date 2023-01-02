@@ -2188,7 +2188,10 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/picky_assist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/pikaso:
     specifiers:
