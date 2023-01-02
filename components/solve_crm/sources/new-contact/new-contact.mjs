@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "solve_crm-new-contact",
   name: "New Contact (Instant)",
-  version: "0.0.1",
   description: "Emit new event for each new contact created. [See the docs here](https://solve360.com/api/webhook-management/)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

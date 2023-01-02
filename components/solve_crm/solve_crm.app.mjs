@@ -80,5 +80,12 @@ export default {
         ...args,
       });
     },
+    async createContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        method: "POST",
+        ...args,
+      });
+    },
   },
 };

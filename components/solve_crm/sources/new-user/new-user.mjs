@@ -5,8 +5,8 @@ const DEFAULT_LIMIT = 100;
 export default {
   key: "solve_crm-new-user",
   name: "New User",
-  version: "0.0.1",
   description: "Emit new event for each new user created. [See the docs here](https://solve360.com/api/contacts/)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
