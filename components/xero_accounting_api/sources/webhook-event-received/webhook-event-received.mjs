@@ -42,6 +42,7 @@ export default {
         return false;
       }
 
+      console.log("Verifying signature...");
       const sig = crypto.createHmac("sha256", this.webhookKey)
         .update(event.bodyRaw)
         .digest("base64");
@@ -66,7 +67,7 @@ export default {
   },
   async run(event) {
     if (!this.validateEvent(event)) {
-      console.log("Signature verification failed. Ignoring event...");
+      console.log("Invalid signature. Ignoring event...");
       this.httpRespond(401);
     }
 
