@@ -5,7 +5,7 @@ export default {
   key: "twitter-follow-user",
   name: "Follow User",
   description: "Follow a user specified by ID or screen name parameter. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twitter,
