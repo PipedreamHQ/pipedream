@@ -94,11 +94,9 @@ export default {
       resource_url: url,
       data,
     } = body;
-    const response = data
-      ? data
-      : await this.app.makeRequest({
-        url,
-      });
+    const response = data || await this.app.makeRequest({
+      url,
+    });
     await this.processEvents(response);
   },
 };

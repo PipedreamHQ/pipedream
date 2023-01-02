@@ -3,8 +3,8 @@ import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
-  key: "shipengine-new-shipping-label",
-  name: "New Shipping Label",
+  key: "shipengine-shipping-label-created",
+  name: "New Shipping Label Created (Instant)",
   description: "Emit new event when a new label is shipped. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/create_webhook).",
   type: "source",
   version: "0.0.1",
