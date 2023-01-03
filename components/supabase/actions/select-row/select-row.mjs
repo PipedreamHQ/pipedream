@@ -1,10 +1,11 @@
 import supabase from "../../supabase.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "supabase-select-row",
   name: "Select Row",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Selects row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/select)",
   props: {
     supabase,
@@ -19,18 +20,45 @@ export default {
         supabase,
         "column",
       ],
+      optional: true,
+    },
+    filter: {
+      propDefinition: [
+        supabase,
+        "filter",
+      ],
+      optional: true,
     },
     value: {
       propDefinition: [
         supabase,
         "value",
       ],
+      optional: true,
+    },
+    max: {
+      type: "integer",
+      label: "Max",
+      description: "Maximum number of rows to return",
+      default: 20,
     },
   },
   async run({ $ }) {
-    const response = await this.supabase.selectRow(this.table, this.column, this.value);
+    const {
+      table,
+      column,
+      filter,
+      value,
+      max,
+    } = this;
+
+    if ((column || filter || value) && !(column && filter && value)) {
+      throw new ConfigurationError("If `column`, `filter`, or `value` is used, all three must be entered");
+    }
+
+    const response = await this.supabase.selectRow(table, column, filter, value, max);
     if (response) {
-      $.export("$summary", `Successfully retrieved ${response.length} rows from table ${this.table}`);
+      $.export("$summary", `Successfully retrieved ${response.length} rows from table ${table}`);
     }
     return response;
   },

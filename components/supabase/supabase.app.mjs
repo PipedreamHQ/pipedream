@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -24,18 +25,88 @@ export default {
       label: "Row Data",
       description: "Enter the column names and values as key/value pairs",
     },
+    filter: {
+      type: "integer",
+      label: "Filter",
+      description: "Filter type for the query",
+      options: constants.FILTER_OPTIONS,
+    },
   },
   methods: {
     async _client() {
       return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
     },
-    async selectRow(table, column, value) {
+    async selectRow(table, column, filter, value, max) {
       const client = await this._client();
-      const { data } = await client
+      const filterMethod = filter
+        ? this[constants.FILTER_METHODS[filter]]
+        : null;
+      const { data } = filter
+        ? await filterMethod(client, table, column, value, max)
+        : await this.getMaxRows(client, table, max);
+      return data;
+    },
+    async getMaxRows(client, table, max) {
+      return client
         .from(table)
         .select()
-        .eq(column, value);
-      return data;
+        .limit(max);
+    },
+    async equalTo(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .eq(column, value)
+        .limit(max);
+    },
+    async notEqualTo(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .neq(column, value)
+        .limit(max);
+    },
+    async greaterThan(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .gt(column, value)
+        .limit(max);
+    },
+    async greaterThanOrEqualTo(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .gte(column, value)
+        .limit(max);
+    },
+    async lessThan(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .lt(column, value)
+        .limit(max);
+    },
+    async lessThanOrEqualTo(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .lte(column, value)
+        .limit(max);
+    },
+    async patternMatch(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .like(column, `%${value}%`)
+        .limit(max);
+    },
+    async patternMatchCaseInsensitive(client, table, column, value, max) {
+      return client
+        .from(table)
+        .select()
+        .ilike(column, `%${value}%`)
+        .limit(max);
     },
     async insertRow(table, rowData = {}) {
       const client = await this._client();
