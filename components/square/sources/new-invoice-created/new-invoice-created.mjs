@@ -49,7 +49,7 @@ export default {
       return `Invoice created: ${event.data.id}`;
     },
     getTimestamp(event) {
-      return new Date(event.data.object.invoice_created.created_at);
+      return new Date(event.data.object.invoice.created_at);
     },
     isRelevant(event) {
       return event.location_id === this.location;
