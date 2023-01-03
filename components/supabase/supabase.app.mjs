@@ -47,14 +47,13 @@ export default {
           ? true
           : false,
         max: opts.max,
-      }; console.log(args);
+      };
       const filterMethod = opts.filter
         ? this[constants.FILTER_METHODS[opts.filter]]
         : null;
       const response = opts.filter
         ? await filterMethod(client, args)
         : await this.getMaxRows(client, args);
-      console.log(response);
       return response.data;
     },
     async getMaxRows(client, {
