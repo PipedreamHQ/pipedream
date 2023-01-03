@@ -37,6 +37,10 @@ export default {
         title: "Pipedream New Tagged Contact",
       };
     },
+    isRelevant(body) {
+      const category = body.changes.categories[0].id;
+      return category == this.category;
+    },
     generateMeta(body) {
       const ts = new Date(body.occured);
       return {

@@ -63,9 +63,15 @@ export default {
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
+    isRelevant() {
+      return true;
+    },
   },
   async run(event) {
     const { body } = event;
+    if (!this.isRelevant(body)) {
+      return;
+    }
     const meta = this.generateMeta(body);
     this.$emit(body, meta);
   },
