@@ -51,13 +51,11 @@ export default {
         section_id: section,
       },
     });
-    let result = tasks.filter((task) => (task.content).includes(name));
+    let result = name ? tasks.filter((task) => (task.content.includes(name))) : tasks;
     let summary = `${result.length} task${result.length == 1
       ? ""
       : "s"} found`;
     $.export("$summary", summary);
-    return result.length > 0
-      ? result
-      : undefined;
+    return result;
   },
 };
