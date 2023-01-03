@@ -2,7 +2,7 @@ import app from "../../shipengine.app.mjs";
 
 export default {
   key: "shipengine-validate-address",
-  name: "Validate an Address",
+  name: "Validate An Address",
   description: "Address validation ensures accurate addresses and can lead to reduced shipping costs by preventing address correction surcharges. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/validate_address).",
   type: "action",
   version: "0.0.1",
@@ -20,10 +20,25 @@ export default {
       description: "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
       optional: true,
     },
+    cityLocality: {
+      type: "string",
+      label: "City Or Locality",
+      description: "The name of the city or locality.",
+    },
+    stateProvince: {
+      type: "string",
+      label: "State Or Province",
+      description: "The state or province. For some countries (including the U.S.) only abbreviations are allowed. Other countries allow the full name or abbreviation.",
+    },
+    countryCode: {
+      type: "string",
+      label: "Country Code",
+      description: "The two-letter [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1).",
+    },
     addressLine1: {
       type: "string",
       label: "Address Line 1",
-      description: "The first line of the street address. For some addresses, this may be the only line. Other addresses may require 2 or 3 lines.",
+      description: "The first line of the street address. For some addresses, this may be the only line. Other addresses may have two or three lines.",
     },
     addressLine2: {
       type: "string",
@@ -36,21 +51,6 @@ export default {
       label: "Address Line 3",
       description: "The third line of the street address.",
       optional: true,
-    },
-    cityLocality: {
-      type: "string",
-      label: "City Or Locality",
-      description: "The name of the city or locality.",
-    },
-    stateProvince: {
-      type: "string",
-      label: "State Or Province",
-      description: "The state or province. For some countries (including the U.S.) only abbreviations are allowed. Other countries allow the full name or abbreviation.",
-    },
-    coutryCode: {
-      type: "string",
-      label: "Country Code",
-      description: "The two-letter [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1).",
     },
   },
   methods: {
@@ -66,12 +66,12 @@ export default {
     const {
       name,
       phone,
+      cityLocality,
+      stateProvince,
+      countryCode,
       addressLine1,
       addressLine2,
       addressLine3,
-      cityLocality,
-      stateProvince,
-      coutryCode,
     } = this;
 
     const response = await this.validateAddress({
@@ -85,7 +85,7 @@ export default {
           address_line3: addressLine3,
           city_locality: cityLocality,
           state_province: stateProvince,
-          country_code: coutryCode,
+          country_code: countryCode,
         },
       ],
     });
