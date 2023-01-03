@@ -2188,7 +2188,10 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/picky_assist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/pikaso:
     specifiers:
@@ -2857,6 +2860,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/square:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/squarespace:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2966,6 +2975,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/swagup:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/swapi:
     specifiers:
