@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/servicem8",
-  "version": "0.0.3",
-  "description": "Pipedream ServiceM8  Components",
+  "version": "0.0.1",
+  "description": "Pipedream ServiceM8 Components",
   "main": "servicem8.app.mjs",
   "keywords": [
     "pipedream",
