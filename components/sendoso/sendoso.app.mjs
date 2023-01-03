@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "discord_bot",
+  app: "sendoso",
   propDefinitions: {
     groupId: {
       type: "integer",
