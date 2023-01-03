@@ -4,7 +4,7 @@ export default {
   key: "twitter-get-user",
   name: "Get User",
   description: "Return information about the user specified by ID or screen name parameter. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twitter,
