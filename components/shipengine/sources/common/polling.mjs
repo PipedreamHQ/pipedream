@@ -1,8 +1,20 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import common from "./base.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
+  prop: {
+    ...common.props,
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling schedule",
+      description: "How often to poll the ShipeEngine API",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
+  },
   hooks: {
     async deploy() {
       await this.processEvents();
