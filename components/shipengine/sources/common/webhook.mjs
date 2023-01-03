@@ -1,12 +1,15 @@
-import app from "../../shipengine.app.mjs";
+import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
+  ...common,
   props: {
-    app,
-    http: "$.interface.http",
-    db: "$.service.db",
+    ...common.props,
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
   hooks: {
     async deploy() {
@@ -47,56 +50,29 @@ export default {
       }
     },
   },
-  methods: {
-    setWebhookId(value) {
-      this.db.set(constants.WEBHOOK_ID, value);
-    },
-    getWebhookId() {
-      return this.db.get(constants.WEBHOOK_ID);
-    },
-    generateMeta() {
-      throw new Error("generateMeta is not implemented");
-    },
-    getResourcesFn() {
-      return false;
-    },
-    getResourcesFnArgs() {
-      throw new Error("getResourcesFnArgs not implemented");
-    },
-    getResourcesName() {
-      throw new Error("getResourcesName not implemented");
-    },
-    getEvent() {
-      throw new Error("getEvent not implemented");
-    },
-    processEvents() {
-      throw new Error("processEvents not implemented");
-    },
-    createWebhook(args = {}) {
-      return this.app.makeRequest({
-        method: "post",
-        path: "/environment/webhooks",
-        ...args,
-      });
-    },
-    deleteWebhook({
-      webhookId, ...args
-    } = {}) {
-      return this.app.makeRequest({
-        method: "delete",
-        path: `/environment/webhooks/${webhookId}`,
-        ...args,
-      });
-    },
-  },
-  async run({ body }) {
+  async run({
+    body, headers,
+  }) {
+    const userAgent = headers["user-agent"];
+
+    if (userAgent !== constants.USER_AGENT) {
+      console.log("Invalid user-agent");
+      return;
+    }
+
     const {
       resource_url: url,
       data,
     } = body;
+
+    this.http.respond({
+      status: 200,
+    });
+
     const response = data || await this.app.makeRequest({
       url,
     });
+
     await this.processEvents(response);
   },
 };

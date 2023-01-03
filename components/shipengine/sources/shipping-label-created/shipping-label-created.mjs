@@ -1,10 +1,9 @@
-import common from "../common/webhook.mjs";
-import utils from "../../common/utils.mjs";
+import common from "../common/polling.mjs";
 
 export default {
   ...common,
   key: "shipengine-shipping-label-created",
-  name: "New Shipping Label Created (Instant)",
+  name: "New Shipping Label Created",
   description: "Emit new event when a new label is shipped. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/create_webhook).",
   type: "source",
   version: "0.0.1",
@@ -12,18 +11,18 @@ export default {
   methods: {
     ...common.methods,
     getResourcesFn() {
-      return this.app.listShipments;
+      return this.app.listLabels;
     },
     getResourcesFnArgs(url) {
       return {
         url,
+        params: {
+          created_at_start: this.getLastCreatedAtStart(),
+        },
       };
     },
     getResourcesName() {
-      return "shipments";
-    },
-    getEvent() {
-      return "batch";
+      return "labels";
     },
     generateMeta(resource) {
       return {
@@ -31,22 +30,6 @@ export default {
         ts: Date.parse(resource.created_at),
         summary: `New Shipping Label ${resource.shipment_id}`,
       };
-    },
-    async processEvents(response) {
-      const { batch_shipments_url: batchShipments } = response;
-
-      const stream = this.app.getResourcesStream({
-        resourcesFn: this.getResourcesFn(),
-        resourcesFnArgs: this.getResourcesFnArgs(batchShipments.href),
-        resourcesName: this.getResourcesName(),
-      });
-
-      const resources = await utils.streamIterator(stream);
-
-      resources
-        .reverse()
-        .forEach((resource) =>
-          this.$emit(resource, this.generateMeta(resource)));
     },
   },
 };
