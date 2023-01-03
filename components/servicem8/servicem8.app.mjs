@@ -35,7 +35,7 @@ export default {
       return this._makeRequest({
         $,
         path: "webhook_subscriptions",
-        method: "PUT",
+        method: "POST",
         params,
       });
     },
