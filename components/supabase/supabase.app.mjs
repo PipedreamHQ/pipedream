@@ -36,76 +36,132 @@ export default {
     async _client() {
       return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
     },
-    async selectRow(table, column, filter, value, max) {
+    async selectRow(opts) {
       const client = await this._client();
-      const filterMethod = filter
-        ? this[constants.FILTER_METHODS[filter]]
+      const args = {
+        table: opts.table,
+        column: opts.column,
+        value: opts.value,
+        orderBy: opts.orderBy,
+        ascending: opts.sortOrder === "ascending"
+          ? true
+          : false,
+        max: opts.max,
+      }; console.log(args);
+      const filterMethod = opts.filter
+        ? this[constants.FILTER_METHODS[opts.filter]]
         : null;
-      const { data } = filter
-        ? await filterMethod(client, table, column, value, max)
-        : await this.getMaxRows(client, table, max);
-      return data;
+      const response = opts.filter
+        ? await filterMethod(client, args)
+        : await this.getMaxRows(client, args);
+      console.log(response);
+      return response.data;
     },
-    async getMaxRows(client, table, max) {
+    async getMaxRows(client, {
+      table, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async equalTo(client, table, column, value, max) {
+    async equalTo(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .eq(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async notEqualTo(client, table, column, value, max) {
+    async notEqualTo(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .neq(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async greaterThan(client, table, column, value, max) {
+    async greaterThan(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .gt(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async greaterThanOrEqualTo(client, table, column, value, max) {
+    async greaterThanOrEqualTo(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .gte(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async lessThan(client, table, column, value, max) {
+    async lessThan(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .lt(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async lessThanOrEqualTo(client, table, column, value, max) {
+    async lessThanOrEqualTo(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .lte(column, value)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async patternMatch(client, table, column, value, max) {
+    async patternMatch(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .like(column, `%${value}%`)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
-    async patternMatchCaseInsensitive(client, table, column, value, max) {
+    async patternMatchCaseInsensitive(client, {
+      table, column, value, orderBy, ascending, max,
+    }) {
       return client
         .from(table)
         .select()
         .ilike(column, `%${value}%`)
+        .order(orderBy, {
+          ascending,
+        })
         .limit(max);
     },
     async insertRow(table, rowData = {}) {

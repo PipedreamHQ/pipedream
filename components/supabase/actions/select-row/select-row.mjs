@@ -36,6 +36,25 @@ export default {
       ],
       optional: true,
     },
+    orderBy: {
+      propDefinition: [
+        supabase,
+        "column",
+      ],
+      label: "Order By",
+      description: "Column name to order by",
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "Sort ascending or descending",
+      options: [
+        "ascending",
+        "descending",
+      ],
+      optional: true,
+      default: "ascending",
+    },
     max: {
       type: "integer",
       label: "Max",
@@ -49,6 +68,8 @@ export default {
       column,
       filter,
       value,
+      orderBy,
+      sortOrder,
       max,
     } = this;
 
@@ -56,7 +77,15 @@ export default {
       throw new ConfigurationError("If `column`, `filter`, or `value` is used, all three must be entered");
     }
 
-    const response = await this.supabase.selectRow(table, column, filter, value, max);
+    const response = await this.supabase.selectRow({
+      table,
+      column,
+      filter,
+      value,
+      orderBy,
+      sortOrder,
+      max,
+    });
     if (response) {
       $.export("$summary", `Successfully retrieved ${response.length} rows from table ${table}`);
     }
