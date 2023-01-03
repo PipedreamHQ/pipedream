@@ -1144,6 +1144,18 @@ export default {
         config,
       });
     },
+    async uploadMedia({
+      $, ...args
+    }) {
+      return this._makeRequest({
+        $,
+        config: {
+          url: "https://upload.twitter.com/1.1/media/upload.json",
+          method: "POST",
+          ...args,
+        },
+      });
+    },
     webhooks: {},
   },
 };
