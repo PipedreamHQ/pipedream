@@ -13,7 +13,6 @@ export default {
       label: "Name Match",
       description: "Returns tasks that contain the specified string in their name.",
       optional: true,
-      default: "",
     },
     label: {
       propDefinition: [
