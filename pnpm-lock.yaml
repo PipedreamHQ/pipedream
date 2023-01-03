@@ -2602,12 +2602,6 @@ importers:
   components/sendle:
     specifiers: {}
 
-  components/sendoso:
-    specifiers:
-      '@pipedream/platform': ^1.2.1
-    dependencies:
-      '@pipedream/platform': 1.2.1
-
   components/sendowl:
     specifiers:
       '@pipedream/platform': ^1.2.0
