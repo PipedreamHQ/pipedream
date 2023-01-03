@@ -2,8 +2,8 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "solve_crm-new-tagged-contact",
-  name: "New Tagged Contact (Instant)",
+  key: "solve_crm-new-contact-tagged",
+  name: "New Contact Tagged (Instant)",
   description: "Emit new event when the specified tag is added to a contact. [See the docs here](https://solve360.com/api/webhook-management/)",
   version: "0.0.1",
   type: "source",

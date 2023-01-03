@@ -2,16 +2,16 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "solve_crm-new-contact",
-  name: "New Contact (Instant)",
-  description: "Emit new event for each new contact created. [See the docs here](https://solve360.com/api/webhook-management/)",
+  key: "solve_crm-new-company-created",
+  name: "New Company Created (Instant)",
+  description: "Emit new event for each new company created. [See the docs here](https://solve360.com/api/webhook-management/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getHistoricalEvents(limit) {
-      return this.solveCrm.listContacts({
+      return this.solveCrm.listCompanies({
         params: {
           limit,
           sortdir: "DESC",
@@ -22,15 +22,15 @@ export default {
     getEventParams() {
       return {
         event: "items.create",
-        constrainttype: "contact",
-        title: "Pipedream New Contact",
+        constrainttype: "company",
+        title: "Pipedream New Company",
       };
     },
     generateMeta(body) {
       const ts = new Date(body.occured);
       return {
         id: body.objectid,
-        summary: `New contact with ID ${body.objectid}`,
+        summary: `New company with ID ${body.objectid}`,
         ts: ts.getTime(),
       };
     },

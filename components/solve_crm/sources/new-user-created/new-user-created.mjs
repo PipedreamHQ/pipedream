@@ -3,8 +3,8 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 const DEFAULT_LIMIT = 100;
 
 export default {
-  key: "solve_crm-new-user",
-  name: "New User",
+  key: "solve_crm-new-user-created",
+  name: "New User Created",
   description: "Emit new event for each new user created. [See the docs here](https://solve360.com/api/contacts/)",
   version: "0.0.1",
   type: "source",

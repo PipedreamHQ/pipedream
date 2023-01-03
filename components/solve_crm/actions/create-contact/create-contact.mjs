@@ -83,7 +83,7 @@ export default {
     const response = await this.solveCrm.createContact({
       data,
     }, $);
-    $.export("$summary", `Sucessfully created contact with ID ${response.item.id}`);
+    $.export("$summary", `Successfully created contact with ID ${response.item.id}`);
     return response;
   },
 };
