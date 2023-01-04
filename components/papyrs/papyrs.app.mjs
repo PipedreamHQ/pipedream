@@ -30,6 +30,11 @@ export default {
       options: options.CREATE_PARAGRAPH_HEADING_FORMAT,
       optional: true,
     },
+    value: {
+      type: "string",
+      label: "Value",
+      description: "The value of the widget.",
+    },
   },
   methods: {
     _getBaseUrl(subsite = "home") {

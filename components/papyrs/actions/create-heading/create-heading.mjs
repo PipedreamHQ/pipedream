@@ -22,9 +22,10 @@ export default {
       ],
     },
     value: {
-      type: "string",
-      label: "Value",
-      description: "The value of the heading.",
+      propDefinition: [
+        app,
+        "value",
+      ],
     },
     format: {
       propDefinition: [
