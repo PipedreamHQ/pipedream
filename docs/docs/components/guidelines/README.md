@@ -18,7 +18,7 @@ forum](https://pipedream.com/community/c/dev/11).
 
 [Pipedream](https://pipedream.com) is a low code integration platform that makes
 it easy to connect APIs remarkably fast. Users can select from thousands of
-customizable, open source components for hundreds of apps and orchestrate their
+customizable, source-available components for hundreds of apps and orchestrate their
 execution in workflows. Developers can
 [contribute](https://pipedream.com/contributing) to these open source components
 on [Github](https://github.com/pipedreamhq/pipedream) by:
