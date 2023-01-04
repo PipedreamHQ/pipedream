@@ -5,7 +5,7 @@ export default {
   name: "Create Text Box",
   description: "Create Text Box. [See the docs here](https://papyrs.com/docs/api)",
   key: "papyrs-create-text-box",
-  version: "0.0.11",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
