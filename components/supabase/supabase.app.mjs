@@ -26,7 +26,7 @@ export default {
       description: "Enter the column names and values as key/value pairs",
     },
     filter: {
-      type: "integer",
+      type: "string",
       label: "Filter",
       description: "Filter type for the query",
       options: constants.FILTER_OPTIONS,
@@ -36,29 +36,26 @@ export default {
     async _client() {
       return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
     },
-    async selectRow(opts) {
+    async selectRow(args) {
       const client = await this._client();
-      const args = {
-        table: opts.table,
-        column: opts.column,
-        value: opts.value,
-        orderBy: opts.orderBy,
-        ascending: opts.sortOrder === "ascending"
-          ? true
-          : false,
-        max: opts.max,
-      };
-      const filterMethod = opts.filter
-        ? this[constants.FILTER_METHODS[opts.filter]]
-        : null;
-      const response = opts.filter
-        ? await filterMethod(client, args)
-        : await this.getMaxRows(client, args);
-      return response.data;
+      const {
+        table,
+        column,
+        filter,
+        value,
+        orderBy,
+        ascending = args.sortOrder === "ascending",
+        max,
+      } = args;
+      const query = this.baseFilter(client, table, orderBy, ascending, max);
+      if (filter) {
+        const filterMethod = this[filter];
+        filterMethod(query, column, value);
+      }
+      const { data } = await query;
+      return data;
     },
-    async getMaxRows(client, {
-      table, orderBy, ascending, max,
-    }) {
+    baseFilter(client, table, orderBy, ascending, max) {
       return client
         .from(table)
         .select()
@@ -67,101 +64,37 @@ export default {
         })
         .limit(max);
     },
-    async equalTo(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .eq(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    equalTo(obj, column, value) {
+      return obj
+        .eq(column, value);
     },
-    async notEqualTo(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .neq(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    notEqualTo(obj, column, value) {
+      return obj
+        .neq(column, value);
     },
-    async greaterThan(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .gt(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    greaterThan(obj, column, value) {
+      return obj
+        .gt(column, value);
     },
-    async greaterThanOrEqualTo(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .gte(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    greaterThanOrEqualTo(obj, column, value) {
+      return obj
+        .gte(column, value);
     },
-    async lessThan(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .lt(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    lessThan(obj, column, value) {
+      return obj
+        .lt(column, value);
     },
-    async lessThanOrEqualTo(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .lte(column, value)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    lessThanOrEqualTo(obj, column, value) {
+      return obj
+        .lte(column, value);
     },
-    async patternMatch(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .like(column, `%${value}%`)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    patternMatch(obj, column, value) {
+      return obj
+        .like(column, `%${value}%`);
     },
-    async patternMatchCaseInsensitive(client, {
-      table, column, value, orderBy, ascending, max,
-    }) {
-      return client
-        .from(table)
-        .select()
-        .ilike(column, `%${value}%`)
-        .order(orderBy, {
-          ascending,
-        })
-        .limit(max);
+    patternMatchCaseInsensitive(obj, column, value) {
+      return obj
+        .ilike(column, `%${value}%`);
     },
     async insertRow(table, rowData = {}) {
       const client = await this._client();

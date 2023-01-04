@@ -1,50 +1,38 @@
 const FILTER_OPTIONS = [
   {
     label: "Equal",
-    value: 1,
+    value: "equalTo",
   },
   {
     label: "Not Equal",
-    value: 2,
+    value: "notEqualTo",
   },
   {
     label: "Greater Than",
-    value: 3,
+    value: "greaterThan",
   },
   {
     label: "Greater Than or Equal To",
-    value: 4,
+    value: "greaterThanOrEqualTo",
   },
   {
     label: "Less Than",
-    value: 5,
+    value: "lessThan",
   },
   {
     label: "Less Than or Equal To",
-    value: 6,
+    value: "lessThanOrEqualTo",
   },
   {
     label: "Contains (Case Sensitive)",
-    value: 7,
+    value: "patternMatch",
   },
   {
     label: "Contains (Case Insensitive)",
-    value: 8,
+    value: "patternMatchCaseInsensitive",
   },
 ];
 
-const FILTER_METHODS = {
-  1: "equalTo",
-  2: "notEqualTo",
-  3: "greaterThan",
-  4: "greaterThanOrEqualTo",
-  5: "lessThan",
-  6: "lessThanOrEqualTo",
-  7: "patternMatch",
-  8: "patternMatchCaseInsensitive",
-};
-
 export default {
   FILTER_OPTIONS,
-  FILTER_METHODS,
 };
