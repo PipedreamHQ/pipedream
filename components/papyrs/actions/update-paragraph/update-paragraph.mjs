@@ -1,4 +1,5 @@
 import app from "../../papyrs.app.mjs";
+import options from "../../common/enums.mjs";
 
 export default {
   name: "Update Paragraph",
@@ -47,12 +48,20 @@ export default {
         "format",
       ],
     },
+    styleClass: {
+      type: "string",
+      label: "Style Class",
+      description: "The style class of the paragraph.",
+      options: options.CREATE_PARAGRAPH_STYLE_CLASS,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const data = {
       widget: {
         val: this.value,
         format: this.format,
+        styleclass: this.styleClass,
       },
     };
     const res = await this.app.updateParagraph(
