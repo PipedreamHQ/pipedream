@@ -9,7 +9,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling schedule",
-      description: "How often to poll the ShipeEngine API",
+      description: "How often to poll the ShipEngine API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
