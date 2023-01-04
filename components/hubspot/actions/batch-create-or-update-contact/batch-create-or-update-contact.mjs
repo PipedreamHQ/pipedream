@@ -10,7 +10,7 @@ export default {
     hubspot,
     contacts: {
       label: "Contacts Array",
-      description: "Provide a list of contacts to be created or updated. If the provided contact has the prop ID, this action will attempt to update it.\n\n**Expected format for create:** `[{ \"company\": \"Biglytics\", \"email\": \"bcooper@biglytics.net\", \"firstname\": \"Bryan\", \"lastname\": \"Cooper\", \"phone\": \"(877) 929-0687\", \"website\": \"biglytics.net\" }]` \n\n**Expected format for update:** `[{ \"id\": \"101\", \"company\": \"Biglytics\", \"email\": \"bcooper@biglytics.net\", \"firstname\": \"Bryan\", \"lastname\": \"Cooper\", \"phone\": \"(877) 929-0687\", \"website\": \"biglytics.net\" }]`",
+      description: "Provide a **list of contacts** to be created or updated. If the provided contact has the prop ID, this action will attempt to update it.\n\n**Expected format for create:** `{ \"company\": \"Biglytics\", \"email\": \"bcooper@biglytics.net\", \"firstname\": \"Bryan\", \"lastname\": \"Cooper\", \"phone\": \"(877) 929-0687\", \"website\": \"biglytics.net\" }` \n\n**Expected format for update:** `{ \"id\": \"101\", \"company\": \"Biglytics\", \"email\": \"bcooper@biglytics.net\", \"firstname\": \"Bryan\", \"lastname\": \"Cooper\", \"phone\": \"(877) 929-0687\", \"website\": \"biglytics.net\" }`",
       type: "string[]",
     },
   },
