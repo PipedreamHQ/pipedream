@@ -7,7 +7,7 @@ export default {
   name: "Search Labels",
   description: "By default, all labels are returned, 25 at a time, starting with the most recently created ones. You can combine multiple filter options to narrow-down the results. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/list_labels).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     labelStatus: {
