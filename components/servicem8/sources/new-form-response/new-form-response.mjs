@@ -5,7 +5,7 @@ export default {
   name: "New Form Response (Instant)",
   key: "servicem8-new-form-response",
   description: "Emit new event when a new Form Response is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
