@@ -29,19 +29,17 @@ export default {
     const contacts = this.parseContactArray(this.contacts);
 
     const insertProperties = contacts.filter((contact) => (!Object.prototype.hasOwnProperty.call(contact, "id")))
-      .map((properties) => ({ properties }));
+      .map((properties) => ({
+        properties,
+      }));
 
     const updateProperties = contacts.filter((contact) => (Object.prototype.hasOwnProperty.call(contact, "id")))
-      .map((contact) => {
-        const contactWrapper = {
-          id: contact.id,
-          properties: {
-            ...contact,
-          },
-        };
-        delete contactWrapper.properties.id;
-        return contactWrapper;
-      });
+      .map(({
+        id, ...properties
+      }) => ({
+        id: id,
+        properties,
+      }));
 
     let response = {};
     response.created = await this.hubspot.batchCreateContacts({
