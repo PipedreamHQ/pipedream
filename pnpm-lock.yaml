@@ -1038,6 +1038,12 @@ importers:
   components/firmalyzer_iotvas:
     specifiers: {}
 
+  components/forms_on_fire:
+    specifiers: {}
+
+  components/formsite:
+    specifiers: {}
+
   components/formstack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1092,6 +1098,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
       dayjs: 1.11.7
+
+  components/geckoboard:
+    specifiers: {}
 
   components/gender_api:
     specifiers: {}
@@ -1614,6 +1623,9 @@ importers:
   components/kucoin_futures:
     specifiers: {}
 
+  components/kyvio:
+    specifiers: {}
+
   components/labs64_netlicensing:
     specifiers: {}
 
@@ -2073,6 +2085,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/oneuptime:
+    specifiers: {}
+
   components/onfleet:
     specifiers: {}
 
@@ -2475,6 +2490,12 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/roll:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/route4me:
     specifiers: {}
 
@@ -2601,12 +2622,6 @@ importers:
 
   components/sendle:
     specifiers: {}
-
-  components/sendoso:
-    specifiers:
-      '@pipedream/platform': ^1.2.1
-    dependencies:
-      '@pipedream/platform': 1.2.1
 
   components/sendowl:
     specifiers:
