@@ -11,15 +11,229 @@ To support these goals, **Pipedream offers a [generous free tier](#developer-tie
 
 Read more about our plans and pricing options below.
 
-[[toc]]
+## For Individuals
 
-## Developer Tier
+<table>
+  <tr>
+    <td>
+    </td>
+    <th>Free</th>
+    <th>Professional</th>
+    <th>Advanced</th>
+  </tr>
+  <tr>
+    <td class="font-semibold">Description</td>
+    <td>For hobbyists and side projects</td>
+    <td>For early projects and low code automations</td>
+    <td>For professional developers</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Pricing</td>
+    <td>{{$site.themeConfig.limits.monthly_subscription_price.FREE}}/mo (Free, no credit card required)
+    </td>
+    <td>{{$site.themeConfig.limits.annual_subscription_price.PRO}} or {{$site.themeConfig.limits.monthly_subscription_price.PRO}} paid monthly
+    </td>
+    <td>{{$site.themeConfig.limits.annual_subscription_price.ADVANCED}} or {{$site.themeConfig.limits.monthly_subscription_price.ADVANCED}} paid monthly
+    </td>
+  <tr>
+    <td class="font-semibold">Workflows</td>
+    <td>{{$site.themeConfig.limits.workflows.FREE}} workflows</td>
+    <td>{{$site.themeConfig.limits.workflows.PRO}} workflows</td>
+    <td>{{$site.themeConfig.limits.workflows.ADVANCED}} workflows</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Sources</td>
+    <td>{{$site.themeConfig.limits.sources.FREE}} sources</td>
+    <td>{{$site.themeConfig.limits.sources.PRO}} sources</td>
+    <td>{{$site.themeConfig.limits.sources.ADVANCED}} sources</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Data Stores</td>
+    <td>{{$site.themeConfig.limits.data_stores.FREE}} data stores</td>
+    <td>{{$site.themeConfig.limits.data_stores.PRO}} data stores</td>
+    <td>{{$site.themeConfig.limits.data_stores.ADVANCED}} data stores</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Keys per Data Store</td>
+    <td>{{$site.themeConfig.limits.data_stores_keys.FREE}} keys</td>
+    <td>{{$site.themeConfig.limits.data_stores_keys.PRO}} keys</td>
+    <td>{{$site.themeConfig.limits.data_stores_keys.ADVANCED}} keys</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Minimum Polling Intervals</td>
+    <td>{{$site.themeConfig.limits.polling_intervals.FREE}}</td>
+    <td>{{$site.themeConfig.limits.polling_intervals.PRO}} </td>
+    <td>{{$site.themeConfig.limits.polling_intervals.ADVANCED}}</td>
+  </tr> 
+  <tr>
+    <td class="font-semibold">Connected Accounts</td>
+    <td>{{$site.themeConfig.limits.connected_accounts.FREE}} connected accounts</td>
+    <td>{{$site.themeConfig.limits.connected_accounts.PRO}} connected accounts</td>
+    <td>{{$site.themeConfig.limits.connected_accounts.ADVANCED}} connected accounts</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Base Invocations</td>
+    <td>{{$site.themeConfig.limits.base_invocations.FREE}} base invocations per month</td>
+    <td>{{$site.themeConfig.limits.base_invocations.PRO}} base invocations per month</td>
+    <td>{{$site.themeConfig.limits.base_invocations.ADVANCED}} base invocations per month</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Additional Invocations</td>
+    <td>{{$site.themeConfig.limits.invocation_overage_pricing.FREE}} per invocation</td>
+    <td>{{$site.themeConfig.limits.invocation_overage_pricing.PRO}} per invocation</td>
+    <td>{{$site.themeConfig.limits.invocation_overage_pricing.ADVANCED}} per invocation</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workflow Event History Limits</td>
+    <td>{{$site.themeConfig.limits.event_histories.FREE}} events</td>
+    <td>{{$site.themeConfig.limits.event_histories.PRO}} events</td>
+    <td>{{$site.themeConfig.limits.event_histories.ADVANCED}} events</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workflow Queue Size Limits</td>
+    <td>{{$site.themeConfig.limits.workflow_queue_size.FREE}} events</td>
+    <td>{{$site.themeConfig.limits.workflow_queue_size.PRO}} events</td>
+    <td>{{$site.themeConfig.limits.workflow_queue_size.ADVANCED}} events</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Compute Time Per Invocation Limits</td>
+    <td>{{$site.themeConfig.limits.compute_time_per_invocation.FREE}}</td>
+    <td>{{$site.themeConfig.limits.compute_time_per_invocation.PRO}}</td>
+    <td>{{$site.themeConfig.limits.compute_time_per_invocation.ADVANCED}}</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workspaces</td>
+    <td>{{$site.themeConfig.limits.workspaces.FREE}} workspaces</td>
+    <td>{{$site.themeConfig.limits.workspaces.PRO}} workspaces</td>
+    <td>{{$site.themeConfig.limits.workspaces.ADVANCED}} workspaces</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Github Repositories Supported</td>
+    <td>{{$site.themeConfig.limits.git_integration.FREE}} repositories</td>
+    <td>{{$site.themeConfig.limits.git_integration.PRO}} repositories</td>
+    <td>{{$site.themeConfig.limits.git_integration.ADVANCED}} repositories</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Dedicated Support</td>
+    <td>{{$site.themeConfig.limits.support.FREE}}</td>
+    <td>{{$site.themeConfig.limits.support.PRO}}</td>
+    <td>{{$site.themeConfig.limits.support.ADVANCED}}</td>
+  </tr>
+</table>
 
-**The Developer tier is free**. You can run any number of sources and workflows, as long as they operate under [Pipedream platform limits](/limits/).
+## For Teams
 
-**To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
+<table>
+  <tr>
+    <td>
+    </td>
+    <th>Business</th>
+    <th>Enterprise</th>
+  </tr>
+  <tr>
+    <td class="font-semibold">Description</td>
+    <td>For hobbyists and side projects</td>
+    <td>For early projects and low code automations</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Pricing</td>
+    <td>{{$site.themeConfig.limits.annual_subscription_price.BUSINESS}} or {{$site.themeConfig.limits.monthly_subscription_price.BUSINESS}} paid monthly
+    </td>
+    <td>{{$site.themeConfig.limits.annual_subscription_price.ENTERPRISE}} or {{$site.themeConfig.limits.monthly_subscription_price.ENTERPRISE}} paid monthly
+    </td>
+  <tr>
+    <td class="font-semibold">Workflows</td>
+    <td>{{$site.themeConfig.limits.workflows.BUSINESS}} workflows</td>
+    <td>{{$site.themeConfig.limits.workflows.ENTERPRISE}} workflows</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Sources</td>
+    <td>{{$site.themeConfig.limits.sources.BUSINESS}} sources</td>
+    <td>{{$site.themeConfig.limits.sources.ENTERPRISE}} sources</td>
+  </tr>
+   <tr>
+    <td class="font-semibold">Minimum Polling Intervals</td>
+    <td>{{$site.themeConfig.limits.polling_intervals.BUSINESS}}</td>
+    <td>{{$site.themeConfig.limits.polling_intervals.ENTERPRISE}} </td>
+  </tr> 
+  <tr>
+    <td class="font-semibold">Connected Accounts</td>
+    <td>{{$site.themeConfig.limits.connected_accounts.BUSINESS}} connected accounts</td>
+    <td>{{$site.themeConfig.limits.connected_accounts.ENTERPRISE}} connected accounts</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Base Invocations</td>
+    <td>{{$site.themeConfig.limits.base_invocations.BUSINESS}} base invocations per month</td>
+    <td>{{$site.themeConfig.limits.base_invocations.ENTERPRISE}} base invocations per month</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Additional Invocations</td>
+    <td>{{$site.themeConfig.limits.invocation_overage_pricing.BUSINESS}} per invocation</td>
+    <td>{{$site.themeConfig.limits.invocation_overage_pricing.ENTERPRISE}} per invocation</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workflow Event History Limits</td>
+    <td>{{$site.themeConfig.limits.event_histories.BUSINESS}} events</td>
+    <td>{{$site.themeConfig.limits.event_histories.ENTERPRISE}} events</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workflow Queue Size Limits</td>
+    <td>{{$site.themeConfig.limits.workflow_queue_size.BUSINESS}} events</td>
+    <td>{{$site.themeConfig.limits.workflow_queue_size.ENTERPRISE}} events</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Compute Time Per Invocation Limits</td>
+    <td>{{$site.themeConfig.limits.compute_time_per_invocation.BUSINESS}}</td>
+    <td>{{$site.themeConfig.limits.compute_time_per_invocation.ENTERPRISE}}</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Workspaces</td>
+    <td>{{$site.themeConfig.limits.workspaces.BUSINESS}} workspaces</td>
+    <td>{{$site.themeConfig.limits.workspaces.ENTERPRISE}} workspaces</td>  
+  </tr>
+  <tr>
+    <td class="font-semibold">Github Repositories Supported</td>
+    <td>{{$site.themeConfig.limits.git_integration.BUSINESS}} repositories</td>
+    <td>{{$site.themeConfig.limits.git_integration.ENTERPRISE}} repositories</td>
+  </tr>
+  <tr>
+    <td class="font-semibold">Dedicated Support</td>
+    <td>{{$site.themeConfig.limits.support.BUSINESS}}</td>
+    <td>{{$site.themeConfig.limits.support.ENTERPRISE}}</td>
+  </tr>
+</table>
 
-### Developer Tier Support options
+## Free Tier
+
+You can run up to 10 workflows and sources for up to 100 invocations per day for free, as long as they operate under [Pipedream platform limits](/limits/).
+
+**To increase run any number of invocations, to up to 25 workflows and 25 sources for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
+
+### Free Tier Data Stores Limitations
+
+Free Tier accounts are limited to two Data Stores, with up to 1,000 keys in each Data Store.
+
+### Free Tier Projects
+
+Free Tier accounts are limited to creating one project, and the project can be synced with a personal Github Repository.
+
+However, Free Tier projects cannot be synced with a Github Organization Repository. Syncing Organization Repositories requires an Advanced plan and above.
+
+### Free Tier Connected Accounts
+
+Free Tier accounts can connect up to 5 different service accounts like Twitter, Discord, Google Sheets, or any of the thousands of available connections.
+
+### Free Tier Workflow Limitations
+
+Free Tier account workflows are limited to using a maximum of 300 seconds of compute time per invocation.
+
+Any paid plan will increase this limit to 750 seconds.
+
+Additionally, the event history for Free Tier workflows is limited to only the past 100 events.
+
+Upgrading to a paid tier will increase this event history tracking substantially.
+
+### Free Tier Support options
 
 Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
@@ -28,10 +242,11 @@ Users on the Developer Tier have access to community support, on [our forum](htt
 The Professional Tier includes all the features of the Developer Tier. It also comes with the following benefits:
 
 - **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
-- Your event history per workflow increases from {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}} to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}}.
-- You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
+- Your event history per workflow increases from {{$site.themeConfig.limits.event_histories.FREE}} to 
+{{$site.themeConfig.limits.event_histories.PRO}}.
+- You can increase the [max time per execution](/limits/#time-per-execution) to {{$site.themeConfig.limits.compute_time_per_invocation.PRO}} (up from {{$site.themeConfig.limits.compute_time_per_invocation.FREE}} on the Free Tier).
 - You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
-- When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
+- When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.limits.workflow_queue_size.PRO}} (free users are capped at a queue size of {{$site.themeConfig.limits.workflow_queue_size.FREE}}).
 
 ### Upgrading to the Professional Tier
 
