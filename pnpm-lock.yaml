@@ -2635,6 +2635,12 @@ importers:
     devDependencies:
       '@types/node': 17.0.45
 
+  components/servicem8:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/seventodos:
     specifiers:
       axios: ^0.27.2
