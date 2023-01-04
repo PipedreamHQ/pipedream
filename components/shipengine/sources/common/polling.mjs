@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
-  prop: {
+  props: {
     ...common.props,
     timer: {
       type: "$.interface.timer",
