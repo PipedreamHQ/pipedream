@@ -2493,12 +2493,6 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
-  components/roll:
-    specifiers:
-      '@pipedream/platform': ^1.2.1
-    dependencies:
-      '@pipedream/platform': 1.2.1
-
   components/route4me:
     specifiers: {}
 
