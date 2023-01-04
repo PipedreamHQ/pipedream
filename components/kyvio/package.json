@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/kyvio",
+  "version": "0.0.1",
+  "description": "Pipedream Kyvio Components",
+  "main": "dist/app/kyvio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kyvio"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/kyvio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

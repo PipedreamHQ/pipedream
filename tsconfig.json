@@ -1151,6 +1151,21 @@
     },
     {
       "path": "components/call_fire"
+    },
+    {
+      "path": "components/formsite"
+    },
+    {
+      "path": "components/geckoboard"
+    },
+    {
+      "path": "components/forms_on_fire"
+    },
+    {
+      "path": "components/oneuptime"
+    },
+    {
+      "path": "components/kyvio"
     }
   ]
 }
