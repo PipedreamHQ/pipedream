@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/solve_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Solve CRM Components",
+  "main": "solve_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "solve_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/solve_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

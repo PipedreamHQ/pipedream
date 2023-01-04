@@ -11,7 +11,7 @@ const {
 } = constants.CHANNEL_TYPES;
 
 const NOT_ALLOWED_CHANNELS =
-  Object.keys(OTHER_CHANNELS).map((key) => OTHER_CHANNELS[key]);
+  Object.values(OTHER_CHANNELS);
 
 export default {
   ...common,
@@ -108,7 +108,7 @@ export default {
       communication_disabled_until: comunicationDisabledUntil,
     });
 
-    $.export("$summary", `Member with Id ${userId} Successfully modified!`);
+    $.export("$summary", `Member with Id ${userId} successfully modified!`);
     return response;
   },
 };

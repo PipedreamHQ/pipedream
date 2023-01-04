@@ -4,7 +4,7 @@ export default {
   key: "twitter-add-user-to-list",
   name: "Add User To List",
   description: "Add a member to a list. The authenticated user must own the list to be able to add members to it. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twitter,
