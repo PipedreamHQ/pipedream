@@ -1611,6 +1611,9 @@ importers:
     dependencies:
       klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
+  components/klipfolio:
+    specifiers: {}
+
   components/knack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2489,12 +2492,6 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
-
-  components/roll:
-    specifiers:
-      '@pipedream/platform': ^1.2.1
-    dependencies:
-      '@pipedream/platform': 1.2.1
 
   components/route4me:
     specifiers: {}
@@ -11441,7 +11438,7 @@ packages:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@3.9.10
       typescript: 3.9.10
     transitivePeerDependencies:
@@ -17139,7 +17136,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -17171,7 +17168,7 @@ packages:
       jest-util: 29.1.2
       natural-compare: 1.4.0
       pretty-format: 29.1.2
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
