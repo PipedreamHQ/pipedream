@@ -491,7 +491,7 @@ Examples:
 - The async option to select an Airtable Base is self-explanatory so includes no
   description:
 
-  ![image-20210326151557417](./images/image-20210326151557417.png)
+  ![image-20210326151557417](https://res.cloudinary.com/pipedreamin/image/upload/v1672810770/ixb3aozdijmz0zfqxmvy.png)
 
 - The “Search Term” prop for Twitter includes a description that helps the user
   understand what values they can enter, with specific values highlighted using
