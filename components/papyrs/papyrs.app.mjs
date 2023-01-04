@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import options from "./common/enums.mjs";
 
 export default {
   type: "app",
@@ -21,6 +22,13 @@ export default {
           value: page.id,
         }));
       },
+    },
+    format: {
+      type: "string",
+      label: "Format",
+      description: "The format of the text box. Defaults to `html`.",
+      options: options.CREATE_PARAGRAPH_HEADING_FORMAT,
+      optional: true,
     },
   },
   methods: {
@@ -62,10 +70,21 @@ export default {
         ctx,
       );
     },
-    async createTextBox(data, pageId, subsite, ctx = this) {
+    async createParagraph(data, pageId, subsite, ctx = this) {
       return this._makeHttpRequest(
         {
           path: `/page/${pageId}/paragraph/create/`,
+          method: "POST",
+          data,
+          subsite,
+        },
+        ctx,
+      );
+    },
+    async createHeading(data, pageId, subsite, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: `/page/${pageId}/heading/create/`,
           method: "POST",
           data,
           subsite,

@@ -1,10 +1,10 @@
 import app from "../../papyrs.app.mjs";
-import options from "../common/enums.mjs";
+import options from "../../common/enums.mjs";
 
 export default {
-  name: "Create Text Box",
-  description: "Create Text Box. [See the docs here](https://papyrs.com/docs/api)",
-  key: "papyrs-create-text-box",
+  name: "Create Paragraph",
+  description: "Create a new Paragraph in a page. [See the docs here](https://about.papyrs.com/@docs/API#Create-Text-box/Heading)",
+  key: "papyrs-create-paragraph",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,20 +24,19 @@ export default {
     value: {
       type: "string",
       label: "Value",
-      description: "The value of the text box.",
+      description: "The value of the paragraph.",
     },
     format: {
-      type: "string",
-      label: "Format",
-      description: "The format of the text box. Defaults to `html`.",
-      options: options.CREATE_TEXT_BOX_FORMAT,
-      optional: true,
+      propDefinition: [
+        app,
+        "format",
+      ],
     },
     styleClass: {
       type: "string",
       label: "Style Class",
-      description: "The style class of the text box.",
-      options: options.CREATE_TEXT_BOX_STYLE_CLASS,
+      description: "The style class of the paragraph.",
+      options: options.CREATE_PARAGRAPH_STYLE_CLASS,
       optional: true,
     },
   },
@@ -49,14 +48,13 @@ export default {
         styleclass: this.styleClass,
       },
     };
-    const res = await this.app.createTextBox(
+    const res = await this.app.createParagraph(
       data,
       this.page,
       this.subsite,
       $,
     );
-    console.log(res);
-    $.export("$summary", "Text Box successfully created");
+    $.export("$summary", "Pargraph successfully created");
     return res;
   },
 };
