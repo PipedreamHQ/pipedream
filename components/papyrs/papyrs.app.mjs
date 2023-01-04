@@ -152,5 +152,16 @@ export default {
         ctx,
       );
     },
+    async updateParagraph(data, widgetId, pageId, subsite, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: `/page/${pageId}/paragraph/update/${widgetId}/`,
+          method: "POST",
+          data,
+          subsite,
+        },
+        ctx,
+      );
+    },
   },
 };

@@ -6,18 +6,19 @@ Never used Pipedream v1? You can skip this migration guide and read on about [St
 
 We are excited to announce that we have launched a new version (v2) of Pipedream to all new and existing users! :fire: :rocket: :chart_with_upwards_trend:
 
-We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance.  In addition, we are introducing powerful new features including:
+We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance. In addition, we are introducing powerful new features including:
 
-* **Edit & test** your workflows in separate editing mode without impacting live workflows
-* **Support for multiple languages** including [Node.js](/code/nodejs), [Python](/code/python), [Bash](/code/bash) and [Go](/code/go)
-* **Granular testing** including the ability to test individual steps and more
-* **Multiple triggers** are now supported per workflow
-* **Improved** forms for easier configuration and streamlined building
+- **Edit & test** your workflows in separate editing mode without impacting live workflows
+- **Support for multiple languages** including [Node.js](/code/nodejs), [Python](/code/python), [Bash](/code/bash) and [Go](/code/go)
+- **Granular testing** including the ability to test individual steps and more
+- **Multiple triggers** are now supported per workflow
+- **Improved** forms for easier configuration and streamlined building
 
 _Get Started_
-* Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faqs) :point_left:
-* Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
-* As a reminder, all integration components are open-source and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/components/guidelines/) or improve existing ones.
+
+- Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faqs) :point_left:
+- Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
+- As a reminder, all integration components are source-available and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/components/guidelines/) or improve existing ones.
 
 Watch a demo:
 
@@ -76,7 +77,6 @@ In the **Test Trigger** portion of your trigger, you can select a past event see
   <img src="./images/testing-individual-events.gif" alt="Test your workflow with a specific event">
 </div>
 
-
 ### Deploying Changes
 
 After you're happy with your changes, **deploy** them to your production workflow. Just click the **Deploy** button in the top right hand corner of the screen.
@@ -103,14 +103,14 @@ In v2, the new scaffolding is wrapped with a new `defineComponent` function:
 defineComponent({
   async run({ steps, $ }) {
     // your code can be entered here
-  }
+  },
 });
 ```
 
 1. The `event` from the trigger step is still available, but exposed in `steps.trigger.event` instead.
 2. The `$` variable has been passed into the `run` function where your code is executed.
 
-You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.exit` and `$.respond` respectively. 
+You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.exit` and `$.respond` respectively.
 
 These changes unify workflow development to the [Component API](/components/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
 
@@ -128,18 +128,18 @@ async (event, steps) {
 Now, in v2 workflows you can `import` your packages in the top of the step, just like a normal Node.js module:
 
 ```javascript
-import axios from 'axios';
+import axios from "axios";
 
 defineComponent({
   async run({ steps, $ }) {
     // your code can be entered here
-  }
+  },
 });
 ```
 
 Allowing all of the scaffolding to be edited opens up the ability to [pass props](/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
 
-### Step Exports 
+### Step Exports
 
 In v1, you could assign arbitrary properties to `this` within a Node.js step and the properties would be available as step exports:
 
@@ -157,16 +157,17 @@ In v2 you use $.export to export data, instead::
 // this step's name is get_customer_data
 defineComponent({
   async run({ steps, $ }) {
-    $.export('name', 'Dylan');
+    $.export("name", "Dylan");
     // downstream steps can use steps.get_customer_data.name to retrieve 'Dylan'
-  }
+  },
 });
 ```
+
 ::: tip
 Using `return` to export data is the same from v1 to v2. You can still `return` data, and it will be available to other steps with `steps.[stepName].$return_value.
 :::
 
-### Exiting a workflow early 
+### Exiting a workflow early
 
 In v1, the `$end` function can be called to exit a flow early:
 
@@ -182,9 +183,9 @@ In v2, this same function is available, but under `$.flow.exit`:
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    return $.flow.exit('Exiting the workflow early');
-    console.log('I will never run');
-  }
+    return $.flow.exit("Exiting the workflow early");
+    console.log("I will never run");
+  },
 });
 ```
 
@@ -204,15 +205,14 @@ In v2, you can add your own custom props without leaving the code editor.
 export default defineComponent({
   props: {
     firstName: {
-      type: 'string',
-      label: 'Your first name',
-    }
+      type: "string",
+      label: "Your first name",
+    },
   },
   async run({ steps, $ }) {
     console.log(this.firstName);
-  }
+  },
 });
-
 ```
 
 In the example, you added a firstName string prop. The value assigned to this prop in the workflow builder.
@@ -228,14 +228,14 @@ In the v2 builder, you can connect apps with your code using [props](/components
 Above the `run` function, define an app prop that your Node.js step integrates with:
 
 ```javascript
-import { axios } from "@pipedream/platform"
+import { axios } from "@pipedream/platform";
 
 export default defineComponent({
   props: {
     slack: {
       type: "app",
       app: "slack",
-    }
+    },
   },
   async run({ steps, $ }) {
     return await axios($, {
@@ -243,15 +243,14 @@ export default defineComponent({
       headers: {
         Authorization: `Bearer ${this.slack.$auth.oauth_access_token}`,
       },
-    })
+    });
   },
-})
+});
 ```
 
 After testing the step, you'll see the Slack app will appear in the **Configuration** section on the left hand side. In this section you can choose which Slack account you'd like to use in the step.
 
 <img src="./images/app-props-example.png" alt="Example of adding an app connection to a v2 Node.js step">
-
 
 ### HTTP Response
 
@@ -265,12 +264,12 @@ export default defineComponent({
     $.respond({
       status: 200,
       headers: {},
-      body: { 
-        message: "hello world!"
-      }
+      body: {
+        message: "hello world!",
+      },
     });
   },
-})
+});
 ```
 
 Please note, you'll also need to configure the HTTP trigger step to also allow custom responses. Use the dropdown in the **HTTP Response** section of the HTTP trigger to select the **Return a custom response from your workflow** option:
@@ -315,17 +314,17 @@ To replay past events against your deploy v2 workflows, open the event's menu an
 
 ### What are the benefits of the new (v2) workflow builder?
 
-* **Edit & test** your workflows in separate editing mode without impacting live workflows
-* **Support for multiple languages** including Node, Python, Golang & bash
-* **Granular testing** including the ability to test individual steps and more
-* **Multiple triggers** are now supported per workflow
-* **Improved** forms for easier configuration and streamlined building
+- **Edit & test** your workflows in separate editing mode without impacting live workflows
+- **Support for multiple languages** including Node, Python, Golang & bash
+- **Granular testing** including the ability to test individual steps and more
+- **Multiple triggers** are now supported per workflow
+- **Improved** forms for easier configuration and streamlined building
 
 ### What are the limitations of the new (v2) workflow builder?
 
-* `$checkpoint` has been removed from v2 workflows, but [Data Stores](/code/nodejs/using-data-stores/) provides a similar API.
-* Sharing workflows is not supported
-* Making workflows public is not supported
+- `$checkpoint` has been removed from v2 workflows, but [Data Stores](/code/nodejs/using-data-stores/) provides a similar API.
+- Sharing workflows is not supported
+- Making workflows public is not supported
 
 ### Are v2 workflows backwards compatible?
 
@@ -360,5 +359,3 @@ if you'd like to default to the v2 builder when creating new workflows, you can 
 There is currently no deprecation date for v1 workflows. We will continue to support of v1 workflows until we have feature parity with v2.
 
 When this date becomes clear we will provide assistance to automatically and assist migrate v1 to v2 workflows for you.
-
-
