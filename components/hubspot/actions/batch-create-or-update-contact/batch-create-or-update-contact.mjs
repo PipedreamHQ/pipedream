@@ -29,13 +29,7 @@ export default {
     const contacts = this.parseContactArray(this.contacts);
 
     const insertProperties = contacts.filter((contact) => (!Object.prototype.hasOwnProperty.call(contact, "id")))
-      .map((contact) => {
-        return {
-          properties: {
-            ...contact,
-          },
-        };
-      });
+      .map((properties) => ({ properties }));
 
     const updateProperties = contacts.filter((contact) => (Object.prototype.hasOwnProperty.call(contact, "id")))
       .map((contact) => {
