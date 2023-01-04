@@ -2684,6 +2684,12 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.4
 
+  components/shipengine:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/shippotoken:
     specifiers: {}
 
