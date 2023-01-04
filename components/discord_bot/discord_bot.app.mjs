@@ -591,6 +591,16 @@ export default {
         data,
       });
     },
+    modifyGuildMember({
+      $, guildId, userId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/${userId}`,
+        data,
+      });
+    },
     async deleteChannel({
       $, channelId,
     }) {

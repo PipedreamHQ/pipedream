@@ -1038,6 +1038,12 @@ importers:
   components/firmalyzer_iotvas:
     specifiers: {}
 
+  components/forms_on_fire:
+    specifiers: {}
+
+  components/formsite:
+    specifiers: {}
+
   components/formstack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1092,6 +1098,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
       dayjs: 1.11.7
+
+  components/geckoboard:
+    specifiers: {}
 
   components/gender_api:
     specifiers: {}
@@ -1602,6 +1611,9 @@ importers:
     dependencies:
       klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
+  components/klipfolio:
+    specifiers: {}
+
   components/knack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1612,6 +1624,9 @@ importers:
     specifiers: {}
 
   components/kucoin_futures:
+    specifiers: {}
+
+  components/kyvio:
     specifiers: {}
 
   components/labs64_netlicensing:
@@ -2072,6 +2087,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/oneuptime:
+    specifiers: {}
 
   components/onfleet:
     specifiers: {}
@@ -2629,6 +2647,12 @@ importers:
     devDependencies:
       '@types/node': 17.0.45
 
+  components/servicem8:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/seventodos:
     specifiers:
       axios: ^0.27.2
@@ -2657,6 +2681,12 @@ importers:
       '@pipedream/platform': 1.1.0
     devDependencies:
       '@pipedream/types': 0.1.4
+
+  components/shipengine:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/shippotoken:
     specifiers: {}
