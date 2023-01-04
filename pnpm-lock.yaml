@@ -2602,6 +2602,12 @@ importers:
   components/sendle:
     specifiers: {}
 
+  components/sendoso:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/sendowl:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2628,6 +2634,12 @@ importers:
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.45
+
+  components/servicem8:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/seventodos:
     specifiers:
@@ -2838,6 +2850,12 @@ importers:
 
   components/softr:
     specifiers: {}
+
+  components/solve_crm:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/splitwise:
     specifiers:
