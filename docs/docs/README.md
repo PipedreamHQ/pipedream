@@ -21,7 +21,7 @@ Watch a demo or review our [quickstart guide](/quickstart/):
 
 To get started, [sign up for a free account](https://pipedream.com/auth/signup) (no credit card required) and follow our [quickstart guide](/quickstart/) to create your first workflow.
 
-![build, test,deploy](./images/getting-started5.png)
+![build, test,deploy](https://res.cloudinary.com/pipedreamin/image/upload/v1672810771/mjckfcgsoxs4vccutdbj.png)
 
 Once you understand the basics of workflow development, learn how to get more out of Pipedream:
 
