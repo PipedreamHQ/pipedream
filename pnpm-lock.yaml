@@ -1611,6 +1611,9 @@ importers:
     dependencies:
       klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
+  components/klipfolio:
+    specifiers: {}
+
   components/knack:
     specifiers:
       '@pipedream/platform': ^1.2.0

@@ -1166,6 +1166,9 @@
     },
     {
       "path": "components/kyvio"
+    },
+    {
+      "path": "components/klipfolio"
     }
   ]
 }

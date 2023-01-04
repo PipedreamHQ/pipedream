@@ -5,7 +5,7 @@ export default {
   name: "Validate An Address",
   description: "Address validation ensures accurate addresses and can lead to reduced shipping costs by preventing address correction surcharges. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/validate_address).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     name: {
