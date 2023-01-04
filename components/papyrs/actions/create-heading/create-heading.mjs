@@ -63,7 +63,6 @@ export default {
       this.subsite,
       $,
     );
-    console.log(res);
     $.export("$summary", "Heading successfully created");
     return res;
   },

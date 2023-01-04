@@ -8,7 +8,7 @@ export default {
     subsite: {
       type: "string",
       label: "Subsite",
-      description: "The subsite to use for this action. If you don't fill this in, the default subsite will be used.",
+      description: "The subsite to use for this action. Use `home` for the default subsite.",
       optional: true,
     },
     page: {
@@ -34,6 +34,23 @@ export default {
       type: "string",
       label: "Value",
       description: "The value of the widget.",
+    },
+    widget: {
+      type: "string",
+      label: "Widget",
+      description: "The widget to use for this action.",
+      async options({
+        pageId,
+        subsite,
+        className,
+      }) {
+        const page = await this.getPage(pageId, subsite);
+        const widgets = this._getAllWidgetsFromPage(page.json, className);
+        return widgets.map((widget) => ({
+          label: widget.text,
+          value: widget.id,
+        }));
+      },
     },
   },
   methods: {
@@ -65,10 +82,37 @@ export default {
       };
       return axios(ctx, axiosOpts);
     },
+    _getAllWidgetsFromPage(json, className) {
+      const widgets = [];
+      const helper = (json) => {
+        if (Array.isArray(json)) {
+          for (const item of json) {
+            helper(item);
+          }
+        } else {
+          if (json.classname === className) {
+            widgets.push(json);
+          }
+        }
+      };
+
+      helper(json);
+      return widgets;
+    },
     async getAllPages(subsite, ctx = this) {
       return this._makeHttpRequest(
         {
           path: "/pages/all/",
+          method: "GET",
+          subsite,
+        },
+        ctx,
+      );
+    },
+    async getPage(pageId, subsite, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: `/pages/get/${pageId}/`,
           method: "GET",
           subsite,
         },
@@ -90,6 +134,17 @@ export default {
       return this._makeHttpRequest(
         {
           path: `/page/${pageId}/heading/create/`,
+          method: "POST",
+          data,
+          subsite,
+        },
+        ctx,
+      );
+    },
+    async updateHeading(data, widgetId, pageId, subsite, ctx = this) {
+      return this._makeHttpRequest(
+        {
+          path: `/page/${pageId}/heading/update/${widgetId}/`,
           method: "POST",
           data,
           subsite,
