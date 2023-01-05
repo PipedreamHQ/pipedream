@@ -73,7 +73,7 @@ export default defineAction({
     const response = await this.app.createLead({
       $,
       data: {
-        dup: true,
+        dup: "update",
         email: this.email,
         first_name: this.firstName,
         last_name: this.lastName,
