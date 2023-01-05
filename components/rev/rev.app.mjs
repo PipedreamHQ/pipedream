@@ -33,6 +33,31 @@ export default {
         },
       });
     },
+    async placeOrder(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/orders",
+        method: "post",
+        data: {
+          ...opts.data,
+        },
+      });
+    },
+    async getOrders({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          ...opts,
+          fn: this.getOrders,
+          dataType: "orders",
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/orders",
+      });
+    },
     async paginate({
       fn, dataType, ...opts
     }) {
