@@ -2976,8 +2976,10 @@ importers:
 
   components/supabase:
     specifiers:
+      '@pipedream/platform': ^1.2.1
       '@supabase/supabase-js': ^2.1.0
     dependencies:
+      '@pipedream/platform': 1.2.1
       '@supabase/supabase-js': 2.1.0
 
   components/superdocu:
