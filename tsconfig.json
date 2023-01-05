@@ -1169,6 +1169,9 @@
     },
     {
       "path": "components/klipfolio"
+    },
+    {
+      "path": "components/bill"
     }
   ]
 }
