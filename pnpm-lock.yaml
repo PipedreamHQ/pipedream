@@ -349,6 +349,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bill:
+    specifiers: {}
+
   components/bingx:
     specifiers: {}
 
@@ -1104,6 +1107,12 @@ importers:
 
   components/gender_api:
     specifiers: {}
+
+  components/getform:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/getprospect:
     specifiers: {}
@@ -2865,6 +2874,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/softledger:
+    specifiers: {}
 
   components/softr:
     specifiers: {}
