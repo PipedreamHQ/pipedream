@@ -1172,6 +1172,9 @@
     },
     {
       "path": "components/bill"
+    },
+    {
+      "path": "components/softledger"
     }
   ]
 }
