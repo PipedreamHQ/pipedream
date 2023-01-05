@@ -6,7 +6,7 @@ export default {
   name: "New Tracking Event (Instant)",
   description: "Emit new event when a new event is tracked. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/create_webhook).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

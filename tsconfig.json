@@ -1169,6 +1169,12 @@
     },
     {
       "path": "components/klipfolio"
+    },
+    {
+      "path": "components/bill"
+    },
+    {
+      "path": "components/softledger"
     }
   ]
 }
