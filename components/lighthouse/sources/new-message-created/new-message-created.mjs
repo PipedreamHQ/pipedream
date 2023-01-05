@@ -32,7 +32,7 @@ export default {
         projectId: this.projectId,
       });
 
-      return messages;
+      return messages ?? [];
     },
     resourceKey() {
       return "message";

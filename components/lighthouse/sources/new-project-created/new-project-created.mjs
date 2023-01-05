@@ -23,7 +23,7 @@ export default {
         projectId: this.projectId,
       });
 
-      return projects;
+      return projects ?? [];
     },
     resourceKey() {
       return "project";

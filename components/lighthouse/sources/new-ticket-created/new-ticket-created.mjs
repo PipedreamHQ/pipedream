@@ -32,7 +32,7 @@ export default {
         projectId: this.projectId,
       });
 
-      return tickets;
+      return tickets ?? [];
     },
     resourceKey() {
       return "ticket";

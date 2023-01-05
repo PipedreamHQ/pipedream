@@ -32,7 +32,7 @@ export default {
         projectId: this.projectId,
       });
 
-      return milestones;
+      return milestones ?? [];
     },
     resourceKey() {
       return "milestone";
