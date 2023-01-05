@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-task",
   name: "New Calendar Task",
   description: "Emit new event for each new task added.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   type: "source",
   hooks: {},
