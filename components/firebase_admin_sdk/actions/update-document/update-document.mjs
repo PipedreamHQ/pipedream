@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "firebase_admin_sdk-update-documents",
+  key: "firebase_admin_sdk-update-document",
   name: "Update Documents",
   description: "Updates a Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/DocumentReference.html#update)",
   version: "0.0.2",
