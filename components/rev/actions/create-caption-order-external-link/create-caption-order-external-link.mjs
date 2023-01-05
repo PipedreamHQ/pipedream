@@ -89,6 +89,7 @@ export default {
             {
               video_length_seconds: this.videoLength,
               external_link: this.externalLink,
+              speakers: this.speakers,
             },
           ],
           subtitle_languages: this.languages,
