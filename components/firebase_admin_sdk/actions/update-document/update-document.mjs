@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-update-documents",
   name: "Update Documents",
   description: "Updates a Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/DocumentReference.html#update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         common.props.firebase,
         "collection",
+        (c) => ({
+          region: c.databaseRegion,
+        }),
       ],
     },
     document: {
@@ -21,6 +24,7 @@ export default {
         "document",
         (c) => ({
           collection: c.collection,
+          region: c.databaseRegion,
         }),
       ],
     },
