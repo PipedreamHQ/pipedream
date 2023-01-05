@@ -146,7 +146,7 @@ export default {
       expire_after_days: expireAfterDays,
     });
 
-    $.export("$summary", `Gift send Successfully with Tracking Code: ${response.tracking_code}!`);
+    $.export("$summary", `Gift sent successfully with Tracking Code: ${response.tracking_code}!`);
     return response;
   },
 };
