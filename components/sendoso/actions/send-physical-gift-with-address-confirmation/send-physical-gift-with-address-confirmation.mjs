@@ -101,9 +101,11 @@ export default {
       optional: true,
     },
     expireAfterDays: {
-      type: "boolean",
+      type: "integer",
       label: "Expire After Days",
       description: "Sets the number of days the AC form will be valid. Valid values are 2 - 7 inclusive.",
+      min: 2,
+      max: 7,
       optional: true,
     },
   },

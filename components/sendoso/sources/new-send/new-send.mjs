@@ -4,7 +4,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   type: "source",
-  name: "New Send",
+  name: "New Send Created",
   key: "sendoso-new-send",
   description: "Emit new event when a new send is created. [See docs here](https://sendoso.docs.apiary.io/#reference/send-management/get-all-sent-giftsitems/get-sent-gifts)",
   version: "0.0.1",
