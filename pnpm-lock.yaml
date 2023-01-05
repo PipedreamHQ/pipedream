@@ -2197,7 +2197,12 @@ importers:
     specifiers: {}
 
   components/persistiq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/phaxio:
     specifiers:
