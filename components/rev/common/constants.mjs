@@ -57,4 +57,19 @@ export default {
       value: "EbuStl",
     },
   ],
+  OUTPUT_FORMATS: [
+    "MS Word",
+    "JSON",
+    "Text",
+    "Pdf",
+  ],
+  ACCENTS: [
+    "AmericanNeutral",
+    "AmericanSouthern",
+    "Asian",
+    "Australian",
+    "British",
+    "Indian",
+    "Other",
+  ],
 };
