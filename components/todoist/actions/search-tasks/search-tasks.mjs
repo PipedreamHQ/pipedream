@@ -17,8 +17,11 @@ export default {
     label: {
       propDefinition: [
         todoist,
-        "label",
+        "labelString",
       ],
+      type: "string",
+      label: "Label",
+      description: "Select a label to filter results by"
     },
     project: {
       propDefinition: [
@@ -43,11 +46,10 @@ export default {
       project,
       section,
     } = this;
-    const label_name = label ? (await this.todoist.getLabels({id: label})).name : "";
     const tasks = await this.todoist.getActiveTasks({
       $,
       params: {
-        label: label_name,
+        label,
         project_id: project,
         section_id: section,
       },
