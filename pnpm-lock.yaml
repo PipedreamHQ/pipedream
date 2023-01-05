@@ -349,6 +349,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bill:
+    specifiers: {}
+
   components/bingx:
     specifiers: {}
 
@@ -2493,12 +2496,6 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
-  components/roll:
-    specifiers:
-      '@pipedream/platform': ^1.2.1
-    dependencies:
-      '@pipedream/platform': 1.2.1
-
   components/route4me:
     specifiers: {}
 
@@ -2871,6 +2868,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/softledger:
+    specifiers: {}
 
   components/softr:
     specifiers: {}
