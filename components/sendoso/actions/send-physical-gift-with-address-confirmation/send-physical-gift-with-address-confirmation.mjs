@@ -81,7 +81,7 @@ export default {
     addressConfirmationVia: {
       type: "string",
       label: "Address Confirmation Via",
-      description: "How the recipient will be asked to confirm their address Options are `email`, which sends recipient an email, or `link` which provides a link in the response and sends a link to the sender's email address.",
+      description: "How the recipient will be asked to confirm their address. Options are `email`, which sends recipient an email, or `link` which provides a link in the response and sends a link to the sender's email address.",
       optional: true,
       options: [
         "email",
