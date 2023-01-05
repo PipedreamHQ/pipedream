@@ -24,7 +24,7 @@ importers:
       husky: ^7.0.4
       jest: ^27.5.1
       lint-staged: ^12.3.4
-      pnpm: ^7.0.1
+      pnpm: ^7.22.0
       putout: '>=20'
       renamer: ^4.0.0
       ts-jest: ^27.1.4
@@ -57,7 +57,7 @@ importers:
       husky: 7.0.4
       jest: 27.5.1
       lint-staged: 12.5.0
-      pnpm: 7.5.2
+      pnpm: 7.22.0
       putout: 26.24.0
       renamer: 4.0.0
       ts-jest: 27.1.5_jm6546ohpm4h5jsgaz4ra4shga
@@ -348,6 +348,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.1
+
+  components/bill:
+    specifiers: {}
 
   components/bingx:
     specifiers: {}
@@ -2865,6 +2868,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/softledger:
+    specifiers: {}
 
   components/softr:
     specifiers: {}
@@ -11438,7 +11444,7 @@ packages:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@3.9.10
       typescript: 3.9.10
     transitivePeerDependencies:
@@ -19713,9 +19719,10 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.5.2:
-    resolution: {integrity: sha512-tTLvMnu1zIAWrD87Q/Dgw0+d71Brhlm+aM62KkDr/EPNZyA7dBIsu7tS9pNfRSvwgVF7V1Dhc8jJLAsTNTXnDQ==}
+  /pnpm/7.22.0:
+    resolution: {integrity: sha512-dkhne1O1ktNz/Cn/GZU5wnjhP/aNEfmJGW5UdILyDnptgw84jauOf2Mk5jTe3gp4OZWZN1szcBrjyOZ7Uxxilw==}
     engines: {node: '>=14.6'}
+    hasBin: true
     dev: true
 
   /pop-iterate/1.0.1:
