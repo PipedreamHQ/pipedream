@@ -349,6 +349,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bill:
+    specifiers: {}
+
   components/bingx:
     specifiers: {}
 
@@ -2143,6 +2146,12 @@ importers:
   components/paperform:
     specifiers: {}
 
+  components/papyrs:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/patreon:
     specifiers:
       axios: ^1.2.1
@@ -2865,6 +2874,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/softledger:
+    specifiers: {}
 
   components/softr:
     specifiers: {}
