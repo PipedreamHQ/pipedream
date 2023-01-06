@@ -16,7 +16,7 @@ export default {
     },
     usage_point_id: {
       label: "Usage point id",
-      description: "Usage point id known by the user. You can use your own usage point or the virtual one: '10284856584123'.",
+      description: "Usage point id known by the user. Use '12655648759651' if don't have one.",
       type: "string",
     },
   },
