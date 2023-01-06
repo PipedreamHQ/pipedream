@@ -37,7 +37,7 @@ export default {
   },
   async run({ $ }) {
     try {
-      await this.firebase.initializeApp();
+      await this.firebase.initializeApp(this.databaseRegion);
       const response = await this.getResponse();
       this.emitSummary($);
       return response;
