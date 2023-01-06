@@ -5,7 +5,7 @@ export default {
   key: "firebase_admin_sdk-list-documents",
   name: "List Documents",
   description: "Lists documents in a collection. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#listDocuments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         common.props.firebase,
         "collection",
+        (c) => ({
+          region: c.databaseRegion,
+        }),
       ],
     },
     maxResults: {
