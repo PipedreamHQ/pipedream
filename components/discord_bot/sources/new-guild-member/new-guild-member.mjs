@@ -1,5 +1,5 @@
-import common from "../common.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "New Guild Member",
   description: "Emit new event for every member added to a guild",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.8",
   props: {
     ...common.props,
     db: "$.service.db",

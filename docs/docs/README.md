@@ -5,12 +5,12 @@ next: false
 
 # Introduction to Pipedream
 
-Pipedream is the fastest way to automate any process that connects APIs. Build and run workflows with code-level control when you need it, and no code when you don't. 
+Pipedream is the fastest way to automate any process that connects APIs. Build and run workflows with code-level control when you need it, and no code when you don't.
 
 The Pipedream platform includes:
 
 - A [serverless runtime](/code/) and [workflow service](/workflows/)
-- Open source [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of integrated apps](https://pipedream.com/explore/)
+- Source-available [triggers](/workflows/steps/triggers/) and [actions](/workflows/steps/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
 - One-click [OAuth and key-based authentication](/connected-accounts/) for more than 1000 APIs (use tokens directly in code or with pre-built actions)
 
 Watch a demo or review our [quickstart guide](/quickstart/):
@@ -21,12 +21,12 @@ Watch a demo or review our [quickstart guide](/quickstart/):
 
 To get started, [sign up for a free account](https://pipedream.com/auth/signup) (no credit card required) and follow our [quickstart guide](/quickstart/) to create your first workflow.
 
-![build, test,deploy](./images/getting-started5.png)
+![build, test,deploy](https://res.cloudinary.com/pipedreamin/image/upload/v1672810771/mjckfcgsoxs4vccutdbj.png)
 
 Once you understand the basics of workflow development, learn how to get more out of Pipedream:
 
-- [Use code in workflows](/code/) 
-- [Develop custom actions](/components/quickstart/nodejs/actions/) 
+- [Use code in workflows](/code/)
+- [Develop custom actions](/components/quickstart/nodejs/actions/)
 - [Develop custom triggers](/components/quickstart/nodejs/sources/)
 
 ## Use Cases
@@ -35,7 +35,7 @@ Pipedream supports use cases from prototype to production and is trusted by 200k
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
-The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
+The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart.
 
 Our [community](https://pipedream.com/community) uses Pipedream for a wide variety of use cases including:
 
@@ -49,15 +49,15 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 - Webhook inspection and routing
 - Prototyping and demos
 
-## Open Source
+## Source-available
 
-Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/components/guidelines/#process) via GitHub.
+Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/components/guidelines/#process) via GitHub.
 
 ## Contributing
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
+- [Contributing](/components/guidelines/) components to our [registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)

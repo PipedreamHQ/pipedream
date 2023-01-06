@@ -6,7 +6,7 @@ export default {
   name: "Find User",
   description: "Find an existing user by name. [See the docs here](https://discord.com/developers/docs/resources/guild#search-guild-members)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.5",
   props: {
     ...common.props,
     query: {

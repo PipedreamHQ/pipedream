@@ -5,7 +5,7 @@ export default {
   key: "hubspot-product-updated",
   name: "Product Updated",
   description: "Emit new event each time a product is updated.",
-  version: "0.0.5",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   hooks: {},

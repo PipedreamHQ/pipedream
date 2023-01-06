@@ -322,6 +322,9 @@ export default {
     },
   },
   methods: {
+    getShopId() {
+      return this.$auth.shop_id;
+    },
     _monthAgo() {
       const now = new Date();
       const monthAgo = new Date(now.getTime());
@@ -522,7 +525,7 @@ export default {
     },
     getShopifyInstance() {
       return new Shopify({
-        shopName: this.$auth.shop_id,
+        shopName: this.getShopId(),
         accessToken: this.$auth.oauth_access_token,
         autoLimit: true,
       });
@@ -705,6 +708,12 @@ export default {
     },
     async updateInventoryLevel(params) {
       return this.resourceAction("inventoryLevel", "set", params);
+    },
+    createWebhook(params) {
+      return this.resourceAction("webhook", "create", params);
+    },
+    deleteWebhook(webhookId) {
+      return this.resourceAction("webhook", "delete", webhookId);
     },
     async *queryOrders(opts = {}) {
       const {

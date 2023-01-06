@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/formsite",
+  "version": "0.0.1",
+  "description": "Pipedream Formsite Components",
+  "main": "dist/app/formsite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formsite"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/formsite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

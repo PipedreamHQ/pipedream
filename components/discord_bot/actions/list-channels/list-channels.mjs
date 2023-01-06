@@ -6,7 +6,7 @@ export default {
   name: "List Channels",
   description: "Return a list of channels. [See the docs here](https://discord.com/developers/docs/resources/guild#get-guild-channels)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.5",
   async run({ $ }) {
     return this.discord.getGuildChannels({
       $,

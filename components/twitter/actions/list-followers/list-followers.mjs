@@ -5,7 +5,7 @@ export default {
   key: "twitter-list-followers",
   name: "List Followers",
   description: "Return a collection of user objects for users following the specified user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

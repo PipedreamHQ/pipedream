@@ -31,13 +31,12 @@ export default {
     async deploy() {
       const { resources } = await this.getResources();
 
-      resources.slice(10).reverse()
+      resources.slice(-10).reverse()
         .forEach(this.emitEvent);
     },
   },
   async run() {
     const lastDateSynced = this._getLastDateSynced() ?? dayjs().format("YYYY-MM-DD");
-    this._setLastDateSynced(dayjs().format("YYYY-MM-DD"));
 
     let page = 1;
 
@@ -53,17 +52,15 @@ export default {
 
       resources.reverse().forEach(this.emitEvent);
 
-      if (resources.length) {
-        this._setLastDateSynced(resources[0].feedbackId);
-      }
-
       if (
         resources.length < perPage
       ) {
-        return;
+        break;
       }
 
       page++;
     }
+
+    this._setLastDateSynced(dayjs().format("YYYY-MM-DD"));
   },
 };

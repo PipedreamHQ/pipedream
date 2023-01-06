@@ -319,9 +319,6 @@
       "path": "components/grist"
     },
     {
-      "path": "components/ocassion"
-    },
-    {
       "path": "components/vbout"
     },
     {
@@ -1129,7 +1126,55 @@
       "path": "components/callhub"
     },
     {
+      "path": "components/cloudmersive"
+    },
+    {
       "path": "components/crowdin"
+    },
+    {
+      "path": "components/esendex"
+    },
+    {
+      "path": "components/keen_io"
+    },
+    {
+      "path": "components/clubworx"
+    },
+    {
+      "path": "components/ryver"
+    },
+    {
+      "path": "components/revamp_crm"
+    },
+    {
+      "path": "components/easy_projects"
+    },
+    {
+      "path": "components/call_fire"
+    },
+    {
+      "path": "components/formsite"
+    },
+    {
+      "path": "components/geckoboard"
+    },
+    {
+      "path": "components/forms_on_fire"
+    },
+    {
+      "path": "components/oneuptime"
+    },
+    {
+      "path": "components/kyvio"
+    },
+    {
+      "path": "components/klipfolio"
+    },
+    {
+      "path": "components/bill"
+    },
+    {
+      "path": "components/softledger"
     }
   ]
 }

@@ -1,5 +1,5 @@
-import common from "../common.mjs";
 import constants from "../../constants.mjs";
+import common from "../common.mjs";
 
 const { discord } = common.props;
 
@@ -18,7 +18,7 @@ export default {
   name: "Modify Channel",
   description: "Update a channel's settings. [See the docs here](https://discord.com/developers/docs/resources/channel#modify-channel)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.6",
   props: {
     ...common.props,
     channelId: {

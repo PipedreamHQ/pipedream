@@ -366,6 +366,13 @@ export default {
 
       return response.data;
     },
+    async createBranch({
+      repoFullname, data,
+    }) {
+      const response = await this._client().request(`POST /repos/${repoFullname}/git/refs`, data);
+
+      return response.data;
+    },
     async createRepository({ data }) {
       const response = await this._client().request("POST /user/repos", data);
 

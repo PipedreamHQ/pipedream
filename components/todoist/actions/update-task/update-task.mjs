@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-task",
   name: "Update Task",
   description: "Updates a task. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-task)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     todoist,
@@ -41,11 +41,8 @@ export default {
     labels: {
       propDefinition: [
         todoist,
-        "label",
+        "labelString",
       ],
-      type: "string[]",
-      description: "Labels associated with the task",
-      optional: true,
     },
     priority: {
       propDefinition: [
@@ -104,7 +101,7 @@ export default {
       taskId: task,
       content,
       description,
-      label_ids: labels,
+      labels,
       priority,
       due_string: dueString,
       due_date: dueDate,
