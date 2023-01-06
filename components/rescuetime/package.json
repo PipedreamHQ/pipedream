@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/rescuetime",
+  "version": "0.0.1",
+  "description": "Pipedream RescueTime Components",
+  "main": "rescuetime.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rescuetime"
+  ],
+  "homepage": "https://pipedream.com/apps/rescuetime",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

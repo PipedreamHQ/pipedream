@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "rescuetime",
-  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://www.rescuetime.com/api/oauth";
