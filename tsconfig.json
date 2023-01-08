@@ -1177,6 +1177,9 @@
       "path": "components/softledger"
     },
     {
+      "path": "components/occasion"
+    },
+    {
       "path": "components/mobilemonkey"
     }
   ]
