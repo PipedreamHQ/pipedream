@@ -4,11 +4,8 @@ interface PdAxiosRequest {
   $: Pipedream;
 }
 
-export interface HttpRequestParams extends PdAxiosRequest {
-  endpoint: string;
-  method?: string;
-  params?: object;
-  data?: object;
+export interface RavenToolsRequestParams extends PdAxiosRequest {
+  method: string;
 }
 
 export type Domain = string;

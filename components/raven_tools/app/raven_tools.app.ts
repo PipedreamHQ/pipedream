@@ -1,6 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { HttpRequestParams } from "../common/types";
+import { Domain, RavenToolsRequestParams } from "../common/types";
 
 export default defineApp({
   type: "app",
@@ -11,18 +11,20 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
-      params,
-      ...args
-    }: HttpRequestParams): Promise<object> {
+      method,
+    }: RavenToolsRequestParams): Promise<object> {
       return axios($, {
-        baseURL: this._baseUrl(),
+        url: this._baseUrl(),
         params: {
-          ...params,
           key: this.$auth.api_key,
-          method: "profile_info",
+          method,
           format: "json",
         },
-        ...args,
+      });
+    },
+    async listDomains(): Promise<Domain[]> {
+      return this._httpRequest({
+        method: "domains",
       });
     },
   },
