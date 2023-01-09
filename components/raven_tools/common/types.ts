@@ -5,7 +5,7 @@ interface PdAxiosRequest {
 }
 
 export interface RavenToolsRequestParams extends PdAxiosRequest {
-  method: string;
+  params: object;
 }
 
 export type Domain = string;

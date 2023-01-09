@@ -1,4 +1,5 @@
 import { defineSource } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/constants";
 import common from "../common";
 import { Domain, Keyword } from "../../common/types";
@@ -17,7 +18,7 @@ export default defineSource({
       label: "Domain",
       description: "The domain to watch for new keywords.",
       async options(): Promise<Domain[]> {
-        return this.raven_tools.listDomains();
+        return this.app.listDomains();
       },
     },
   },
@@ -28,9 +29,13 @@ export default defineSource({
     },
     async getResources(): Promise<Keyword[]> {
       const { domain } = this;
-      if (!domain) return [];
+      if (!domain) {
+        throw new ConfigurationError(
+          "**Error:** prop `domain` must be configured"
+        );
+      }
 
-      return this.raven_tools.listKeywords(domain);
+      return this.app.listKeywords(domain);
     },
   },
 });

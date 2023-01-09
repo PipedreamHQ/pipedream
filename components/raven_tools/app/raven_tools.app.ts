@@ -11,26 +11,30 @@ export default defineApp({
     },
     async _httpRequest({
       $ = this,
-      method,
+      params,
     }: RavenToolsRequestParams): Promise<object> {
       return axios($, {
         url: this._baseUrl(),
         params: {
           key: this.$auth.api_key,
-          method,
           format: "json",
+          ...params,
         },
       });
     },
     async listDomains(): Promise<Domain[]> {
       return this._httpRequest({
-        method: "domains",
+        params: {
+          method: "domains",
+        },
       });
     },
     async listKeywords(domain: Domain): Promise<Keyword[]> {
       return this._httpRequest({
-        domain,
-        method: "keywords",
+        params: {
+          domain,
+          method: "keywords",
+        },
       });
     },
   },

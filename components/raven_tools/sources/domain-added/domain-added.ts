@@ -16,7 +16,7 @@ export default defineSource({
       return "Domain";
     },
     async getResources(): Promise<Domain[]> {
-      return this.raven_tools.listDomains();
+      return this.app.listDomains();
     },
   },
 });
