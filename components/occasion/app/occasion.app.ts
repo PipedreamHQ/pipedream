@@ -4,7 +4,7 @@ import { HttpRequestParams, OccasionResponse, Order } from "../common/types";
 
 export default defineApp({
   type: "app",
-  app: "practitest",
+  app: "occasion",
   methods: {
     _getAuth(): Record<string, string> {
       return {
