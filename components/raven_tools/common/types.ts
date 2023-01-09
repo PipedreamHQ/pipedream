@@ -9,3 +9,5 @@ export interface RavenToolsRequestParams extends PdAxiosRequest {
 }
 
 export type Domain = string;
+export type Keyword = string;
+export type RavenToolsEntity = Domain | Keyword;
