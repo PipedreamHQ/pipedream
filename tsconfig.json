@@ -1175,6 +1175,9 @@
     },
     {
       "path": "components/softledger"
+    },
+    {
+      "path": "components/mobilemonkey"
     }
   ]
 }

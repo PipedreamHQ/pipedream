@@ -2158,6 +2158,12 @@ importers:
   components/paperform:
     specifiers: {}
 
+  components/papyrs:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/patreon:
     specifiers:
       axios: ^1.2.1
@@ -2639,6 +2645,12 @@ importers:
 
   components/sendle:
     specifiers: {}
+
+  components/sendoso:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/sendowl:
     specifiers:
