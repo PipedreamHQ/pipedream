@@ -22,7 +22,7 @@ export default {
     generateMeta(report) {
       return {
         id: report.id,
-        summary: "New Daily Summary Report",
+        summary: `New Daily Summary Report created with ID ${report.id}`,
         ts: Date.now(),
       };
     },

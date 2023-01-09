@@ -27,7 +27,7 @@ export default {
     },
     // The Daily Summary Feed API returns an array of JSON objects representing
     // rollup information for each day logged by the user in the previous two weeks
-    async getDailySummaryFeed(args = {}) {
+    getDailySummaryFeed(args = {}) {
       return this._makeRequest({
         path: "/daily_summary_feed",
         ...args,
