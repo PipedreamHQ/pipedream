@@ -4,7 +4,7 @@ export default {
   key: "intuiface-send-message",
   name: "Send Message",
   description: "Send messages to any connected Intuiface Player running an experience that embeds the [Web Triggers Interface Asset](https://support.intuiface.com/hc/en-us/articles/360007431151-Web-Triggers-Overview). [See the docs](https://my.intuiface.com/api-doc/#/default/sendMessage).",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
