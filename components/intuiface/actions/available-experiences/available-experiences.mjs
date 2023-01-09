@@ -2,7 +2,7 @@ import app from "../../intuiface.app.mjs";
 
 export default {
   key: "intuiface-available-experiences",
-  name: "Available Experiences",
+  name: "List Available Experiences",
   description: "Get a list of available experiences that can receive a message. [See the docs](https://my.intuiface.com/api-doc/#/default/getExperiences).",
   version: "0.0.1",
   type: "action",
