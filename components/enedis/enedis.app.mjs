@@ -14,15 +14,15 @@ export default {
       description: "End date of the period in RFC-3339 format (YYYY-MM-DD) e.g. '2022-11-01'. The returned datas will not include the end date.",
       type: "string",
     },
-    usage_point_id: {
+    usagePointId: {
       label: "Usage point id",
       description: "Usage point id known by the user. Use '12655648759651' if don't have one.",
       type: "string",
     },
   },
   methods: {
-    _getUrl(path) {
-      return `https://ext.hml.api.enedis.fr${path}`;
+    _getBaseUrl() {
+      return `https://ext.hml.api.enedis.fr`;
     },
     _getHeaders() {
       return {
@@ -32,87 +32,76 @@ export default {
 		"User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
 	},
-    prepareParam(self) {
-      return {
-        "usage_point_id": self.usage_point_id,
-      };
-    },
-    prepareAllParams(self) {
-      return {
-        "usage_point_id": self.usage_point_id,
-        "start": self.start,
-        "end": self.end,
-      };
-    },
     async _makeRequest({
       $,
       path,
 	  params
     } = {}) {
       const config = {
-        url: this._getUrl(path),
+        baseURL: this._getBaseUrl(),
+        url: path,
         headers: this._getHeaders(),
         params,
       };
       return axios($ ?? this, config);
     },
-    async consumptionLoadCurve(params) {
+    async getConsumptionLoadCurve(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_clc/v5/consumption_load_curve",
 		params
       });
     },
-    async productionLoadCurve(params) {
+    async getProductionLoadCurve(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_plc/v5/production_load_curve",
 		params
       });
     },
-    async dailyConsumptionMaxPower(params) {
+    async getDailyConsumptionMaxPower(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dcmp/v5/daily_consumption_max_power",
 		params
       });
     },
-    async dailyConsumption(params) {
+    async getDailyConsumption(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dc/v5/daily_consumption",
 		params
       });
     },
-    async dailyProduction(params) {
+    async getDailyProduction(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dp/v5/daily_production",
 		params
       });
     },
-    async identity(params) {
+    async getIdentity(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_i/v5/identity",
 		params
       });
     },
-    async contact(params) {
+    async getContact(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_cd/v5/contact_data",
 		params
       });
     },
-    async contracts(params) {
+    async getContracts(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_upc/v5/usage_points/contracts",
 		params
       });
     },
-    async address(params) {
+    async getAddress(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_upa/v5/usage_points/addresses",

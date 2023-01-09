@@ -1,23 +1,28 @@
 import enedis from "../../enedis.app.mjs";
+import common from "../common.mjs";
 
 export default {
   type: "action",
   key: "enedis-get-contact",
   version: "0.0.1",
-  name: "Get contact",
+  name: "Get Contact",
   description: "Returns the contact informations of a client.",
+  ...common,
   props: {
     enedis,
-    usage_point_id: {
+    usagePointId: {
       propDefinition: [
         enedis,
-        "usage_point_id",
+        "usagePointId",
       ],
     },
   },
+  methods: {
+	...common.methods,
+  },
   async run({ $ }) {
-    return await this.enedis.contact(
-	  this.enedis.prepareParam(this)
+    return this.enedis.getContact(
+	  this.prepareParam()
 	);
   },
 };
