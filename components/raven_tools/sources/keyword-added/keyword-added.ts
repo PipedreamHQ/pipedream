@@ -14,12 +14,11 @@ export default defineSource({
   props: {
     ...common.props,
     domain: {
-      type: "string",
-      label: "Domain",
+      propDefinition: [
+        common.props.app,
+        "domain"
+      ],
       description: "The domain to watch for new keywords.",
-      async options(): Promise<Domain[]> {
-        return this.app.listDomains();
-      },
     },
   },
   methods: {

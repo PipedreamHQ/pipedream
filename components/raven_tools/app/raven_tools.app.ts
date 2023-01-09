@@ -1,10 +1,26 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
-import { Domain, Keyword, RavenToolsRequestParams } from "../common/types";
+import {
+  AddKeywordParams,
+  Domain,
+  Keyword,
+  RavenToolsRequestParams,
+  RavenToolsResponse,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "raven_tools",
+  propDefinitions: {
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "Select a domain from the list.",
+      async options(): Promise<Domain[]> {
+        return this.listDomains();
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.raventools.com/api";
@@ -34,6 +50,18 @@ export default defineApp({
         params: {
           domain,
           method: "keywords",
+        },
+      });
+    },
+    async addKeyword({
+      params,
+      ...args
+    }: AddKeywordParams): Promise<RavenToolsResponse> {
+      return this._httpRequest({
+        ...args,
+        params: {
+          ...params,
+          method: "add_keyword",
         },
       });
     },
