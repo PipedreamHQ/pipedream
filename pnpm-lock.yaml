@@ -24,7 +24,7 @@ importers:
       husky: ^7.0.4
       jest: ^27.5.1
       lint-staged: ^12.3.4
-      pnpm: ^7.0.1
+      pnpm: ^7.22.0
       putout: '>=20'
       renamer: ^4.0.0
       ts-jest: ^27.1.4
@@ -57,7 +57,7 @@ importers:
       husky: 7.0.4
       jest: 27.5.1
       lint-staged: 12.5.0
-      pnpm: 7.5.2
+      pnpm: 7.22.0
       putout: 26.24.0
       renamer: 4.0.0
       ts-jest: 27.1.5_jm6546ohpm4h5jsgaz4ra4shga
@@ -348,6 +348,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.1
+
+  components/bill:
+    specifiers: {}
 
   components/bingx:
     specifiers: {}
@@ -1105,6 +1108,12 @@ importers:
   components/gender_api:
     specifiers: {}
 
+  components/getform:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/getprospect:
     specifiers: {}
 
@@ -1653,6 +1662,12 @@ importers:
   components/levity:
     specifiers: {}
 
+  components/lighthouse:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/linear:
     specifiers:
       '@linear/sdk': ^1.22.0
@@ -1864,6 +1879,9 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/mobile_text_alerts:
+    specifiers: {}
+
+  components/mobilemonkey:
     specifiers: {}
 
   components/mode:
@@ -2143,6 +2161,12 @@ importers:
   components/paperform:
     specifiers: {}
 
+  components/papyrs:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/patreon:
     specifiers:
       axios: ^1.2.1
@@ -2188,7 +2212,12 @@ importers:
     specifiers: {}
 
   components/persistiq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/phaxio:
     specifiers:
@@ -2477,6 +2506,12 @@ importers:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
 
+  components/rescuetime:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/revamp_crm:
     specifiers: {}
 
@@ -2627,6 +2662,12 @@ importers:
 
   components/sendle:
     specifiers: {}
+
+  components/sendoso:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/sendowl:
     specifiers:
@@ -2874,6 +2915,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
 
+  components/softledger:
+    specifiers: {}
+
   components/softr:
     specifiers: {}
 
@@ -2978,8 +3022,10 @@ importers:
 
   components/supabase:
     specifiers:
+      '@pipedream/platform': ^1.2.1
       '@supabase/supabase-js': ^2.1.0
     dependencies:
+      '@pipedream/platform': 1.2.1
       '@supabase/supabase-js': 2.1.0
 
   components/superdocu:
@@ -11446,7 +11492,7 @@ packages:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@3.9.10
       typescript: 3.9.10
     transitivePeerDependencies:
@@ -11467,7 +11513,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@4.7.4
       typescript: 4.7.4
     transitivePeerDependencies:
@@ -17153,7 +17199,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -17185,7 +17231,7 @@ packages:
       jest-util: 29.1.2
       natural-compare: 1.4.0
       pretty-format: 29.1.2
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -19751,9 +19797,10 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.5.2:
-    resolution: {integrity: sha512-tTLvMnu1zIAWrD87Q/Dgw0+d71Brhlm+aM62KkDr/EPNZyA7dBIsu7tS9pNfRSvwgVF7V1Dhc8jJLAsTNTXnDQ==}
+  /pnpm/7.22.0:
+    resolution: {integrity: sha512-dkhne1O1ktNz/Cn/GZU5wnjhP/aNEfmJGW5UdILyDnptgw84jauOf2Mk5jTe3gp4OZWZN1szcBrjyOZ7Uxxilw==}
     engines: {node: '>=14.6'}
+    hasBin: true
     dev: true
 
   /pop-iterate/1.0.1:

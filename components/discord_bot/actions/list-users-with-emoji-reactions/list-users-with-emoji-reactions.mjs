@@ -11,7 +11,7 @@ export default {
   name: "List Users that Reacted with Emoji",
   description: "Return a list of users that reacted with a specified emoji.",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     ...common.props,
     messageId: {

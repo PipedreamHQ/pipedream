@@ -5,7 +5,7 @@ export default {
   name: "New Job Queued (Instant)",
   key: "servicem8-job-queued",
   description: "Emit new event when a job is queued. By creating this trigger, any other `Job` triggers will stop working as ServiceM8 will replace any previous ones.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

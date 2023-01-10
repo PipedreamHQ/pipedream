@@ -1,4 +1,4 @@
-import firebase from "../firebase_admin_sdk.app.mjs";
+import firebase from "../../firebase_admin_sdk.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
@@ -12,6 +12,12 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the API on this schedule",
     },
+    databaseRegion: {
+      propDefinition: [
+        firebase,
+        "databaseRegion",
+      ],
+    },
   },
   methods: {
     processEvent() {
@@ -20,7 +26,7 @@ export default {
   },
   async run(event) {
     try {
-      await this.firebase.initializeApp();
+      await this.firebase.initializeApp(this.databaseRegion);
       await this.processEvent(event);
     } catch (err) {
       console.log("CHECK HERE FOR ERROR: ", err.response);

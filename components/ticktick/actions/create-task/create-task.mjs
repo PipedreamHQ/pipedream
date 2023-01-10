@@ -5,7 +5,7 @@ export default {
   key: "ticktick-create-task",
   name: "Create a Task",
   description: "Create a Task.[See doc](https://developer.ticktick.com/api#/openapi?id=create-a-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ticktick,
@@ -18,6 +18,12 @@ export default {
       type: "string",
       label: "Content",
       description: "Task content",
+      optional: true,
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The project ID under which to create this task. Defaults to the inbox.",
       optional: true,
     },
     startDate: {
@@ -37,6 +43,7 @@ export default {
     const data = removeNullEntries({
       title: this.title,
       content: this.content,
+      projectId: this.projectId,
       startDate: this.startDate,
       dueDate: this.dueDate,
     });

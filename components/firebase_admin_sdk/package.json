@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/firebase_admin_sdk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Firebase Admin SDK Components",
   "main": "firebase_admin_sdk.app.mjs",
   "keywords": [

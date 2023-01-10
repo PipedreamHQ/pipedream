@@ -4,7 +4,7 @@ export default {
   key: "hubspot-add-contact-to-list",
   name: "Add Contact to List",
   description: "Adds a contact to a specific static list. [See the docs here](https://legacydocs.hubspot.com/docs/methods/lists/add_contact_to_list)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     hubspot,
