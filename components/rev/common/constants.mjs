@@ -1,4 +1,19 @@
 export default {
+  MAX_PAGE_SIZE: 100,
+  ORDER_TYPES: [
+    "caption",
+    "transcription",
+    "automated_transcription",
+  ],
+  ORDER_STATUSES: [
+    "Complete",
+    "In Progress",
+  ],
+  ORDER_PRIORITIES: [
+    "Low",
+    "Normal",
+    "High",
+  ],
   FILE_FORMATS: [
     {
       label: "SubRip - A simple subtitle text format first used by the SubRip program.",

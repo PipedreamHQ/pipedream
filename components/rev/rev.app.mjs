@@ -137,7 +137,7 @@ export default {
       const data = [];
       opts.params = {
         ...opts.params,
-        pageSize: 100,
+        pageSize: constants.MAX_PAGE_SIZE,
         page: 0,
       };
 
