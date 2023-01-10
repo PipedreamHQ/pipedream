@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
-    "plivo": "^4.36.0"
+    "plivo": "^4.36.0",
+    "uuid": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"
