@@ -39,6 +39,35 @@ export default {
       options: constants.ORDER_PRIORITIES,
     },
   },
+  hooks: {
+    async deploy() {
+      let page = 0;
+      let allOrders = [];
+
+      while (true) {
+        const {
+          orders,
+          results_per_page: resultsPerPage,
+        } = await this.rev.getOrders({
+          params: {
+            page,
+            pageSize: constants.MAX_PAGE_SIZE,
+          },
+        });
+
+        allOrders.push(...orders);
+
+        if (orders.length < resultsPerPage) {
+          break;
+        }
+
+        page++;
+      }
+
+      this._setPage(page);
+      this.emitEvents(allOrders.slice(-25));
+    },
+  },
   methods: {
     _getPage() {
       return this.db.get("page") || 0;
@@ -58,6 +87,15 @@ export default {
     filterByPriorities({ priority }) {
       return this.orderPriorities?.includes(priority) ?? true;
     },
+    emitEvents(orders) {
+      for (const order of orders) {
+        this.$emit(order, {
+          id: `${order.order_number}-${order.status}`,
+          summary: `New order with ID: ${order.order_number}`,
+          ts: new Date(),
+        });
+      }
+    },
   },
   async run() {
     let page = this._getPage();
@@ -76,16 +114,11 @@ export default {
       this._setPage(++page);
     }
 
-    orders
+    const filteredOrders = orders
       .filter(this.filterByTypes)
       .filter(this.filterByStatus)
-      .filter(this.filterByPriorities)
-      .forEach((order) => {
-        this.$emit(order, {
-          id: `${order.order_number}-${order.status}`,
-          summary: `New order with ID: ${order.order_number}`,
-          ts: new Date(),
-        });
-      });
+      .filter(this.filterByPriorities);
+
+    this.emitEvents(filteredOrders);
   },
 };
