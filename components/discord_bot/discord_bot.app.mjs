@@ -58,6 +58,10 @@ export default {
               },
             });
         } catch (e) {
+          if (e.response.data.code === 50001) {
+            throw new ConfigurationError("Your Discord Bot appears to be missing the \"Server Members Intent\" privilege. Please access Discord applications here (https://discord.com/developers/applications) and update your Bot's permissions, then refresh the fields here to continue.");
+          }
+
           throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
