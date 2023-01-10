@@ -26,7 +26,7 @@ export default {
       }, {
         thread_id: threadID,
       });
-      $.export("$summary", "Message sent successfully");
+      $.export("$summary", "Message sent successfullyyy");
       return resp || {
         success: true,
       };
