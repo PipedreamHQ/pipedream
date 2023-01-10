@@ -11,6 +11,35 @@ on:
       - master
 
 jobs:
+  increase_version:
+    name: Increase components versions that was dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+        name: Checkout repo
+        with:
+          # See https://github.com/actions/checkout#checkout-v2
+          # This will be slow. The intent is to fetch all commits
+          # since the merge-base (the commit where we branched off)
+          # so we can check the git diff against all changed files.
+          # By default, the checkout action only returns the last commit,
+          # There's no native way to do this in the checkout action, so
+          # we have to fetch the entire history. See
+          # https://github.com/actions/checkout/issues/266#issuecomment-638346893
+          fetch-depth: 0
+      - uses: jitterbit/get-changed-files@v1
+        id: changed_files
+        name: Get changed files
+        with:
+          format: json
+      - name: Check git diff for version changes
+        uses: ./.github/actions/increase-version-on-components
+        with:
+          all_files: ${{ steps.changed_files.outputs.all }}
+          base_commit: ${{ github.event.pull_request.base.sha }}
+          head_commit: ${{ github.event.pull_request.head.sha }}
+
   check_version:
     name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
