@@ -13,9 +13,17 @@ export default {
         Authorization: `Rev ${this.$auth.client_api_key}:${this.$auth.user_api_key}`,
       };
     },
+    activateSandbox(d) {
+      if (d != null) {
+        d.sandbox_mode = true;
+      }
+    },
     async _makeRequest({
       $ = this, path, ...opts
     }) {
+      this.activateSandbox(opts.params);
+      this.activateSandbox(opts.data);
+
       return axios($, {
         ...opts,
         url: this._baseUrl() + path,
