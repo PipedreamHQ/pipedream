@@ -1,19 +1,19 @@
 {
   "name": "@pipedream/regfox",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream RegFox Components",
-  "main": "dist/app/regfox.app.mjs",
+  "main": "regfox.app.mjs",
   "keywords": [
     "pipedream",
     "regfox"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/regfox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
   }
 }
