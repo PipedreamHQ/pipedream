@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/recurly",
+  "version": "0.0.1",
+  "description": "Pipedream Recurly Components",
+  "main": "recurly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recurly"
+  ],
+  "homepage": "https://pipedream.com/apps/recurly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "recurly": "^3.24.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
