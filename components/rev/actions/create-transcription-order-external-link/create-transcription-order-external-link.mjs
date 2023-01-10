@@ -10,34 +10,34 @@ export default {
   props: {
     rev,
     externalLink: {
-      type: "string",
-      label: "External Link",
-      description: "A link to a web page where the media is embedded, but not a link to the media file.",
+      propDefinition: [
+        rev,
+        "externalLink",
+      ],
     },
     audioLength: {
-      type: "integer",
-      label: "Audio Seconds Length",
-      description: "Required, except for Youtube URLs.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "audioLength",
+      ],
     },
     reference: {
-      type: "string",
-      label: "Reference ID",
-      description: "A reference number for the order, like the order ID tracked by another system.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "reference",
+      ],
     },
     speakers: {
-      type: "string[]",
-      label: "Speakers",
-      description: "List of speaker names.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "speakers",
+      ],
     },
     accents: {
-      type: "string[]",
-      label: "Accents",
-      description: "List speaker accents.",
-      options: constants.ACCENTS,
-      optional: true,
+      propDefinition: [
+        rev,
+        "accents",
+      ],
     },
     timestamps: {
       type: "boolean",
@@ -53,32 +53,22 @@ export default {
       optional: true,
     },
     rush: {
-      type: "boolean",
-      label: "Rush",
-      description: "Should the order be rushed? Rush will deliver your files up to 5x faster. Requesting Rush adds $1.25 per audio minute to the cost of your orders.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "rush",
+      ],
     },
     notificationUrl: {
-      type: "string",
-      label: "Notification URL",
-      description: "The url for notifications. Can be a Pipedream Webhook.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "notificationUrl",
+      ],
     },
     notificationLevel: {
-      type: "string",
-      label: "Notification Level",
-      description: "Specifies which notifications are sent.",
-      options: [
-        {
-          label: "A notification is sent whenever the order is in a new status or has a new comment.",
-          value: "Detailed",
-        },
-        {
-          label: "[Default] A notification is sent only when the order is complete.",
-          value: "FinalOnly",
-        },
+      propDefinition: [
+        rev,
+        "notificationLevel",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {

@@ -10,27 +10,28 @@ export default {
   props: {
     rev,
     externalLink: {
-      type: "string",
-      label: "External Link",
-      description: "A link to a web page where the media is embedded, but not a link to the media file.",
+      propDefinition: [
+        rev,
+        "externalLink",
+      ],
     },
     videoLength: {
-      type: "integer",
-      label: "Video Seconds Length",
-      description: "Required, except for Youtube URLs.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "videoLength",
+      ],
     },
     reference: {
-      type: "string",
-      label: "Reference ID",
-      description: "A reference number for the order, like the order ID tracked by another system.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "reference",
+      ],
     },
     speakers: {
-      type: "string[]",
-      label: "Speakers",
-      description: "List of speaker names.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "speakers",
+      ],
     },
     languages: {
       type: "string[]",
@@ -45,39 +46,29 @@ export default {
       options: constants.FILE_FORMATS,
       optional: true,
     },
-    rush: {
-      type: "boolean",
-      label: "Rush",
-      description: "Should the order be rushed? Rush will deliver your files up to 5x faster. Requesting Rush adds $1.25 per audio minute to the cost of your orders.",
-      optional: true,
-    },
     burnedInCaptions: {
       type: "boolean",
       label: "Burned-in Captions",
       description: "Should burned-in captions be generated? Requesting burned-in captions adds $0.30 per audio minute to the cost of your orders. Burned-in captions will be available to download via the API for 7 days after they are generated.",
       optional: true,
     },
+    rush: {
+      propDefinition: [
+        rev,
+        "rush",
+      ],
+    },
     notificationUrl: {
-      type: "string",
-      label: "Notification URL",
-      description: "The url for notifications. Can be a Pipedream Webhook.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "notificationUrl",
+      ],
     },
     notificationLevel: {
-      type: "string",
-      label: "Notification Level",
-      description: "Specifies which notifications are sent.",
-      options: [
-        {
-          label: "A notification is sent whenever the order is in a new status or has a new comment.",
-          value: "Detailed",
-        },
-        {
-          label: "[Default] A notification is sent only when the order is complete.",
-          value: "FinalOnly",
-        },
+      propDefinition: [
+        rev,
+        "notificationLevel",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {

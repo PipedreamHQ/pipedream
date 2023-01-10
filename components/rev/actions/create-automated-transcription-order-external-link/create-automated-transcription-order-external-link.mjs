@@ -9,43 +9,34 @@ export default {
   props: {
     rev,
     externalLink: {
-      type: "string",
-      label: "External Link",
-      description: "A link to a web page where the media is embedded, but not a link to the media file.",
+      propDefinition: [
+        rev,
+        "externalLink",
+      ],
     },
     audioLength: {
-      type: "integer",
-      label: "Audio Seconds Length",
-      description: "Required, except for Youtube URLs.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "audioLength",
+      ],
     },
     reference: {
-      type: "string",
-      label: "Reference ID",
-      description: "A reference number for the order, like the order ID tracked by another system.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "reference",
+      ],
     },
     notificationUrl: {
-      type: "string",
-      label: "Notification URL",
-      description: "The url for notifications. Can be a Pipedream Webhook.",
-      optional: true,
+      propDefinition: [
+        rev,
+        "notificationUrl",
+      ],
     },
     notificationLevel: {
-      type: "string",
-      label: "Notification Level",
-      description: "Specifies which notifications are sent.",
-      options: [
-        {
-          label: "A notification is sent whenever the order is in a new status or has a new comment.",
-          value: "Detailed",
-        },
-        {
-          label: "[Default] A notification is sent only when the order is complete.",
-          value: "FinalOnly",
-        },
+      propDefinition: [
+        rev,
+        "notificationLevel",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
