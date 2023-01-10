@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   ...common,
   key: "reply_io-new-prospect-finished",
-  name: "New Prospect Finished",
+  name: "New Prospect Finished (Instant)",
   description: "Emit new event when a prospect finishes the sequence. [See the docs here](https://apidocs.reply.io/#84947c50-24b8-411c-bb71-d6cddf49fc16)",
   version: "0.0.1",
   type: "source",

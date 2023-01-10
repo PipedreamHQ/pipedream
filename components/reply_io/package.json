@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reply_io",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Reply.io Components",
   "main": "reply_io.app.mjs",
   "keywords": [
@@ -12,5 +12,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "lodash-es": "^4.17.21"
   }
 }

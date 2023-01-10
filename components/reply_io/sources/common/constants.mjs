@@ -29,6 +29,9 @@ const FINISH_REASONS = [
   },
 ];
 
+const DEFAULT_PAGE_SIZE = 25;
+
 export default {
   FINISH_REASONS,
+  DEFAULT_PAGE_SIZE,
 };
