@@ -1178,6 +1178,9 @@
     },
     {
       "path": "components/mobilemonkey"
+    },
+    {
+      "path": "components/pirate_weather"
     }
   ]
 }
