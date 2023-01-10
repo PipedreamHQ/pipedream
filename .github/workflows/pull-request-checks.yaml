@@ -8,7 +8,7 @@ name: Pull Request Checks
 on:
   pull_request:
     branches:
-      - testing-scripts
+      - master
 
 jobs:
   check_version:
