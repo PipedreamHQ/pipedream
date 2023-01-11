@@ -81,17 +81,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
-    getUserInputProps(omit = [
-      "discord",
-    ]) {
-      return Object.keys(this)
-        .filter((key) => typeof this[key] !== "function" && !omit.includes(key))
-        .reduce((props, key) => {
-          props[key] = this[key];
-          return props;
-        }, {});
-    },
     appendPipedreamText(message) {
       let content = message;
       if (typeof content !== "string") {
