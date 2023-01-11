@@ -22,7 +22,7 @@ export default defineAction({
     name: {
       type: "string",
       label: "Name",
-      version: "Name of the requirement",
+      description: "Name of the requirement",
     },
     authorId: {
       propDefinition: [
@@ -34,7 +34,7 @@ export default defineAction({
     description: {
       type: "string",
       label: "Description",
-      version: "Description of the requirement",
+      description: "Description of the requirement",
       optional: true,
     },
     assignedToId: {
