@@ -1190,6 +1190,9 @@
     },
     {
       "path": "components/supernotes"
+    },
+    {
+      "path": "components/gatekeeper"
     }
   ]
 }
