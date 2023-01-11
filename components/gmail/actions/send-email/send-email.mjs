@@ -73,7 +73,7 @@ export default {
     mimeType: {
       type: "string",
       label: "Mime Type",
-      description: "Mime Type of attachments",
+      description: "Mime Type of attachments. Setting the mime-type will override using the filename extension to determine attachment's content type.",
       optional: true,
       options() {
         return Object.values(mime._types);
