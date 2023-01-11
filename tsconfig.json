@@ -1181,6 +1181,9 @@
     },
     {
       "path": "components/pirate_weather"
+    },
+    {
+      "path": "components/hubspot_developer_app"
     }
   ]
 }
