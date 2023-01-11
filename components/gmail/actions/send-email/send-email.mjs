@@ -1,12 +1,13 @@
 /* eslint-disable pipedream/props-description */
 import gmail from "../../gmail.app.mjs";
 import constants from "../../common/constants.mjs";
+import mime from "mime";
 
 export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     gmail,
@@ -69,6 +70,15 @@ export default {
       description: "Specify the `message-id` this email is replying to. Must be from the first message sent in the thread. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
       optional: true,
     },
+    mimeType: {
+      type: "string",
+      label: "Mime Type",
+      description: "Mime Type of attachments",
+      optional: true,
+      options() {
+        return Object.values(mime._types);
+      },
+    },
   },
   async run({ $ }) {
     const {
@@ -109,10 +119,16 @@ export default {
         .map(([
           filename,
           path,
-        ]) => ({
-          filename,
-          path,
-        }));
+        ]) => {
+          const attachment = {
+            filename,
+            path,
+          };
+          if (this.mimeType) {
+            attachment.contentType = this.mimeType;
+          }
+          return attachment;
+        });
     }
 
     if (this.bodyType === constants.BODY_TYPES.HTML) {
