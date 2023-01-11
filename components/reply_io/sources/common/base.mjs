@@ -34,10 +34,15 @@ export default {
     isRelevant() {
       return true;
     },
+    convertCamelCase(text) {
+      const result = text.replace(/([A-Z])/g, " $1");
+      return result.charAt(0).toUpperCase() + result.slice(1);
+    },
     generateMeta(event) {
+      const eventType = this.convertCamelCase(event.type);
       return {
         id: event.id,
-        summary: `New ${event.type}`,
+        summary: `New ${eventType}`,
         ts: Date.parse(event.date),
       };
     },

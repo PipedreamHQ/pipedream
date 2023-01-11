@@ -85,11 +85,15 @@ export default {
       "title",
       "phone",
     ]));
-    await this.reply.createContactAndPushToCampaign({
-      data,
-      $,
-    });
-    $.export("$summary", `Successfully pushed contact to campaign with ID ${this.campaignId}`);
+    try {
+      await this.reply.createContactAndPushToCampaign({
+        data,
+        $,
+      });
+      $.export("$summary", `Successfully pushed contact to campaign with ID ${this.campaignId}`);
+    } catch (e) {
+      throw new Error(e.response.data);
+    }
     // nothing to return;
   },
 };

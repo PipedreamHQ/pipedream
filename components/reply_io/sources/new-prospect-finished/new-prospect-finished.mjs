@@ -26,7 +26,7 @@ export default {
       if (!reasons || reasons.length === 0) {
         return true;
       }
-      return reasons.includes(body.finish_reason);
+      return reasons.includes(body.finish_reason.toString());
     },
     getEventType() {
       return "contact_finished";
