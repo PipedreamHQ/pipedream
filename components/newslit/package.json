@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/newslit",
+  "version": "0.0.1",
+  "description": "Pipedream Newslit Components",
+  "main": "dist/app/newslit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "newslit"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/newslit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
