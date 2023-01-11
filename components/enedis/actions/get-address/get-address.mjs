@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-address",
   version: "0.0.1",
   name: "Get Address",
-  description: "Returns the address of a client.",
+  description: "Returns the address of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-adresse/)",
   ...common,
   props: {
     enedis,
@@ -21,8 +21,10 @@ export default {
 	...common.methods,
   },
   async run({ $ }) {
-    return this.enedis.getAddress(
+    const response = this.enedis.getAddress(
 	  this.prepareParam()
 	);
+    $.export("$summary", "The client address was successfully fetched!");
+    return response;
   },
 };

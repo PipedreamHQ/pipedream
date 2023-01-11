@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-production-load-curve",
   version: "0.0.1",
   name: "Get Production Load Curve",
-  description: "Returns the daily average power produced in W, on a given interval (by default 30 minutes).",
+  description: "Returns the daily average power produced in W, on a given interval (by default 30 minutes). [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-production-30-minutes/)",
   ...common,
   props: {
     enedis,

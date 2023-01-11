@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-contact",
   version: "0.0.1",
   name: "Get Contact",
-  description: "Returns the contact informations of a client.",
+  description: "Returns the contact informations of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-contact/)",
   ...common,
   props: {
     enedis,
@@ -21,8 +21,10 @@ export default {
 	...common.methods,
   },
   async run({ $ }) {
-    return this.enedis.getContact(
+    const response = this.enedis.getContact(
 	  this.prepareParam()
 	);
+    $.export("$summary", "The contact informations was successfully fetched!");
+    return response;
   },
 };

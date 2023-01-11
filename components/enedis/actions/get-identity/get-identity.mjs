@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-identity",
   version: "0.0.1",
   name: "Get Identity",
-  description: "Returns the identity of a client.",
+  description: "Returns the identity of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-identite/)",
   ...common,
   props: {
     enedis,
@@ -21,8 +21,10 @@ export default {
 	...common.methods,
   },
   async run({ $ }) {
-    return this.enedis.getIdentity(
+    const response = this.enedis.getIdentity(
 	  this.prepareParam()
 	);
+    $.export("$summary", "The client identity was successfully fetched!");
+    return response;
   },
 };

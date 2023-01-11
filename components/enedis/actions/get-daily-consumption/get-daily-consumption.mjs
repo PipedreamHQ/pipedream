@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-daily-consumption",
   version: "0.0.1",
   name: "Get Daily Consumption",
-  description: "Returns the daily consumption in Wh.",
+  description: "Returns the daily consumption in Wh. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-consommation-quotidienne/)",
   ...common,
   props: {
     enedis,

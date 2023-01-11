@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-daily-production",
   version: "0.0.1",
   name: "Get Daily Production",
-  description: "Returns the daily production in Wh.",
+  description: "Returns the daily production in Wh. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-production-quotidienne/)",
   ...common,
   props: {
     enedis,

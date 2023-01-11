@@ -6,7 +6,7 @@ export default {
   key: "enedis-get-contracts",
   version: "0.0.1",
   name: "Get Contracts",
-  description: "Returns the contract informations of a client.",
+  description: "Returns the contract informations of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-contrats/)",
   ...common,
   props: {
     enedis,
@@ -21,8 +21,10 @@ export default {
 	...common.methods,
   },
   async run({ $ }) {
-    return this.enedis.getContracts(
+    const response = this.enedis.getContracts(
 	  this.prepareParam()
 	);
+    $.export("$summary", "The contracts informations were successfully fetched!");
+    return response;
   },
 };
