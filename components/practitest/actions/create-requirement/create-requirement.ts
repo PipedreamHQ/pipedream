@@ -22,6 +22,7 @@ export default defineAction({
     name: {
       type: "string",
       label: "Name",
+      version: "Name of the requirement",
     },
     authorId: {
       propDefinition: [
@@ -33,6 +34,7 @@ export default defineAction({
     description: {
       type: "string",
       label: "Description",
+      version: "Description of the requirement",
       optional: true,
     },
     assignedToId: {
@@ -48,10 +50,12 @@ export default defineAction({
         practitest,
         "version",
       ],
+      description: "String of the requirement's version",
     },
     priority: {
       type: "string",
       label: "Priority",
+      description: "String of the requirement's priority",
       optional: true,
     },
     customFields: {
@@ -76,6 +80,7 @@ export default defineAction({
     tags: {
       type: "string[]",
       label: "Tags",
+      description: "An array of tags for the requirement",
       optional: true,
     },
   },

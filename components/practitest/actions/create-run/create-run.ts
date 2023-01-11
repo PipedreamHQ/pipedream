@@ -54,6 +54,7 @@ export default defineAction({
         practitest,
         "version",
       ],
+      description: "String of the run version",
     },
     customFields: {
       propDefinition: [
