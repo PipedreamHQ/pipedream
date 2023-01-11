@@ -1183,11 +1183,13 @@ importers:
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
       html-to-text: ^8.2.1
+      mime: ^3.0.0
       nodemailer: ^6.7.8
     dependencies:
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
       html-to-text: 8.2.1
+      mime: 3.0.0
       nodemailer: 6.7.8
 
   components/gmail_custom_oauth:
@@ -1461,6 +1463,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       bottleneck: 2.19.5
+
+  components/hubspot_developer_app:
+    specifiers: {}
 
   components/humanitix:
     specifiers: {}
@@ -2288,6 +2293,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       graphql-request: 5.0.0_graphql@16.5.0
+
+  components/pirate_weather:
+    specifiers: {}
 
   components/planning_center:
     specifiers: {}
@@ -18623,6 +18631,7 @@ packages:
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
+    hasBin: true
     dev: false
 
   /mime/2.6.0:
