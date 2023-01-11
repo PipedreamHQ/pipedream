@@ -1184,6 +1184,12 @@
     },
     {
       "path": "components/hubspot_developer_app"
+    },
+    {
+      "path": "components/newslit"
+    },
+    {
+      "path": "components/supernotes"
     }
   ]
 }

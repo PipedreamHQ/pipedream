@@ -1,48 +1,32 @@
-import { axios } from "@pipedream/platform";
-import { Client } from "recurly";
-import constants from "./common/constants.mjs";
+import recurly from "recurly";
 
 export default {
   type: "app",
   app: "recurly",
-  propDefinitions: {
-    commonProperty: {
-      type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
-    },
-  },
   methods: {
-    getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
-    },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
-    },
-    getHeaders(headers) {
-      return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
-        ...headers,
-      };
-    },
     client() {
-      return new Client(this.$auth.api_key);
+      return new recurly.Client(this.$auth.api_key);
+    },
+    async pagerToPromise(pager) {
+      const resources = [];
+      for await (const resource of pager.each()) {
+        resources.push(resource);
+      }
+      return resources;
     },
     async makeRequest({
-      step = this, path, headers, url, ...args
+      method, ...args
     } = {}) {
-
-      const config = {
-        headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
-        ...args,
-      };
+      const pagerOrPromise = this.client()[method](args);
 
       try {
-        return await axios(step, config);
+        if (!pagerOrPromise.then) {
+          return this.pagerToPromise(pagerOrPromise);
+        }
+
+        return await pagerOrPromise;
       } catch (error) {
-        console.log("Error", error);
+        console.log("Error:", error.params, error);
         throw error;
       }
     },

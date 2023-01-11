@@ -1,21 +1,7 @@
-const BASE_URL = "https://api.changeit.com";
-const VERSION_PATH = "";
-const FILE_PROP_NAMES = [
-  "attachment",
-  "uploaddoc",
-  "upload_file",
-];
-const CONTENT_TYPE_KEY_HEADER = "Content-Type";
-const MULTIPART_FORM_DATA_VALUE_HEADER = "multipart/form-data";
-const MULTIPART_FORM_DATA_HEADERS = {
-  [CONTENT_TYPE_KEY_HEADER]: MULTIPART_FORM_DATA_VALUE_HEADER,
-};
+const DEFAULT_LIMIT = 100;
+const LAST_CREATED_AT = "lastCreatedAt";
 
 export default {
-  BASE_URL,
-  VERSION_PATH,
-  FILE_PROP_NAMES,
-  CONTENT_TYPE_KEY_HEADER,
-  MULTIPART_FORM_DATA_VALUE_HEADER,
-  MULTIPART_FORM_DATA_HEADERS,
+  LAST_CREATED_AT,
+  DEFAULT_LIMIT,
 };

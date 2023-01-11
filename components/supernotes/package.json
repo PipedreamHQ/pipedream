@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/supernotes",
+  "version": "0.0.1",
+  "description": "Pipedream Supernotes Components",
+  "main": "dist/app/supernotes.app.mjs",
+  "keywords": [
+    "pipedream",
+    "supernotes"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/supernotes",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
