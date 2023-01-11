@@ -4,7 +4,7 @@ export default {
   key: "supabase-upsert-row",
   name: "Upsert Row",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Updates a row in a database or inserts new row if not found. [See the docs here](https://supabase.com/docs/reference/javascript/upsert)",
   props: {
     supabase,

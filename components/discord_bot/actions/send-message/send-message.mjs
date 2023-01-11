@@ -7,7 +7,7 @@ export default {
   key: "discord_bot-send-message",
   name: "Send message",
   description: "Send message to an user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     discord,

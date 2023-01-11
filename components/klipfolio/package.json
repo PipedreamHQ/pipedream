@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/klipfolio",
+  "version": "0.0.1",
+  "description": "Pipedream Klipfolio Components",
+  "main": "dist/app/klipfolio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "klipfolio"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/klipfolio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
