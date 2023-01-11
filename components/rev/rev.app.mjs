@@ -94,9 +94,6 @@ export default {
     async _makeRequest({
       $ = this, path, ...opts
     }) {
-      // this.activateSandbox(opts.params);
-      // this.activateSandbox(opts.data);
-
       return axios($, {
         ...opts,
         url: this._baseUrl() + path,
