@@ -92,7 +92,7 @@ export default {
       });
       $.export("$summary", `Successfully pushed contact to campaign with ID ${this.campaignId}`);
     } catch (e) {
-      throw new Error(e.response.data);
+      console.log(e.response.data);
     }
     // nothing to return;
   },
