@@ -40,10 +40,10 @@ const docsNav = [
           "/code/nodejs/rerun/",
           "/environment-variables/",
           "/code/nodejs/async/",
-          "/code/nodejs/sharing-code/"
+          "/code/nodejs/sharing-code/",
         ],
       },
-      { 
+      {
         title: "Python",
         type: "group",
         children: [
@@ -52,7 +52,7 @@ const docsNav = [
           "/code/python/using-data-stores/",
           "/code/python/rerun/",
           "/code/python/import-mappings/",
-        ]
+        ],
       },
       "/code/go/",
       {
@@ -78,12 +78,13 @@ const docsNav = [
       "/apps/zoom/",
     ],
   },
-  ['/troubleshooting/', 'Troubleshooting'],
-  ['/user-settings/', 'Settings'],
+  ["/troubleshooting/", "Troubleshooting"],
+  ["/user-settings/", "Settings"],
   {
     title: "Organizations",
     children: ["/orgs/", "/orgs/sso/okta/"],
   },
+  "/workspaces/",
 ];
 
 const referenceNav = [
@@ -96,17 +97,13 @@ const referenceNav = [
       "/components/api/",
       "/components/guidelines/",
       "/pipedream-axios/",
-      "/components/typescript/"
+      "/components/typescript/",
     ],
   },
   {
     title: "CLI",
     type: "group",
-    children: [
-      "/cli/install/", 
-      "/cli/login/", 
-      "/cli/reference/"
-    ],
+    children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
   },
   {
     title: "API",
@@ -129,9 +126,9 @@ const referenceNav = [
       "/abuse/",
       "/privacy-and-security/pgp-key/",
       "/subprocessors/",
-    ]
+    ],
   },
-  "/workflows/events/cold-starts/"
+  "/workflows/events/cold-starts/",
 ];
 
 const pricingNav = ["/pricing/"];

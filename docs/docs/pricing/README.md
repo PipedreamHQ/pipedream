@@ -31,9 +31,14 @@ Read more about our plans and pricing options below.
     <td class="font-semibold">Pricing</td>
     <td>{{$site.themeConfig.limits.monthly_subscription_price.FREE}}/mo (Free, no credit card required)
     </td>
-    <td>{{$site.themeConfig.limits.annual_subscription_price.PRO}} or {{$site.themeConfig.limits.monthly_subscription_price.PRO}} paid monthly
+    <td>
+    <!-- {{$site.themeConfig.limits.annual_subscription_price.PRO}} or -->
+    {{$site.themeConfig.limits.monthly_subscription_price.PRO}} paid monthly
     </td>
-    <td>{{$site.themeConfig.limits.annual_subscription_price.ADVANCED}} or {{$site.themeConfig.limits.monthly_subscription_price.ADVANCED}} paid monthly
+    <td>
+    <!--
+    {{$site.themeConfig.limits.annual_subscription_price.ADVANCED}} or -->
+    {{$site.themeConfig.limits.monthly_subscription_price.ADVANCED}} paid monthly
     </td>
   <tr>
     <td class="font-semibold">Workflows</td>
@@ -137,9 +142,13 @@ Read more about our plans and pricing options below.
   </tr>
   <tr>
     <td class="font-semibold">Pricing</td>
-    <td>{{$site.themeConfig.limits.annual_subscription_price.BUSINESS}} or {{$site.themeConfig.limits.monthly_subscription_price.BUSINESS}} paid monthly
+    <td>
+    <!--{{ $site.themeConfig.limits.annual_subscription_price.BUSINESS }} or --> 
+    {{$site.themeConfig.limits.monthly_subscription_price.BUSINESS}} paid monthly
     </td>
-    <td>{{$site.themeConfig.limits.annual_subscription_price.ENTERPRISE}} or {{$site.themeConfig.limits.monthly_subscription_price.ENTERPRISE}} paid monthly
+    <td>
+    <!-- {{$site.themeConfig.limits.annual_subscription_price.ENTERPRISE}} or -->
+    {{$site.themeConfig.limits.monthly_subscription_price.ENTERPRISE}} paid monthly
     </td>
   <tr>
     <td class="font-semibold">Workflows</td>
@@ -372,17 +381,15 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
 
+### Data Store Keys
+
+A Data Store key represents a single record in a Data Store.
+
+In the example below, there are two records in the Data Store, and therefore there are two keys total.
+
+![Example of a Data Store with two keys](https://res.cloudinary.com/pipedreamin/image/upload/v1673537163/docs/CleanShot_2023-01-12_at_10.25.25_z6yg8t.png)
+
 ## FAQ
-
-### What are invocations?
-
-Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event.
-
-Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
-
-Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
-
-If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
 ### How does workflow memory affect billable invocations?
 
