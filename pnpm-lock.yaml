@@ -2347,6 +2347,14 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.7.4
 
+  components/practitest:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+
   components/pretix:
     specifiers: {}
 
