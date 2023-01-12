@@ -1,11 +1,11 @@
 /* eslint-disable pipedream/props-description */
-import gmail from "../../gmail.app.mjs";
+import gmail from "../../gmail_custom_oauth.app.mjs";
 
 export default {
-  key: "gmail-send-email",
-  name: "Send Email",
-  description: "Send an email from your Google Workspace email account",
-  version: "0.0.8",
+  key: "gmail-create-draft",
+  name: "Create Draft",
+  description: "Create a draft from your Google Workspace email account",
+  version: "0.0.1",
   type: "action",
   props: {
     gmail,
@@ -72,8 +72,8 @@ export default {
   },
   async run({ $ }) {
     const opts = await this.gmail.getOptionsToSendEmail($, this);
-    const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to}`);
+    const response = await this.gmail.createDraft(opts);
+    $.export("$summary", `Successfully create a draft to ${this.to}`);
     return response;
   },
 };
