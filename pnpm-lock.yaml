@@ -2430,6 +2430,12 @@ importers:
   components/qstash:
     specifiers: {}
 
+  components/qualaroo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/quickbooks:
     specifiers:
       '@pipedream/platform': ^1.0.0
