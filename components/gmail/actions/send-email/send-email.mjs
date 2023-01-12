@@ -69,6 +69,12 @@ export default {
         "inReplyTo",
       ],
     },
+    mimeType: {
+      propDefinition: [
+        gmail,
+        "mimeType",
+      ],
+    },
   },
   async run({ $ }) {
     const opts = await this.gmail.getOptionsToSendEmail($, this);

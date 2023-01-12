@@ -6,6 +6,7 @@ import {
   ConfigurationError,
 } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import mime from "mime";
 
 export default {
   type: "app",
@@ -147,6 +148,15 @@ export default {
       label: "In Reply To",
       description: "Specify the `message-id` this email is replying to. Must be from the first message sent in the thread. To use this prop with `async options` please use `Gmail (Developer App)` `Send Email` component.",
       optional: true,
+    },
+    mimeType: {
+      type: "string",
+      label: "Mime Type",
+      description: "Mime Type of attachments. Setting the mime-type will override using the filename extension to determine attachment's content type.",
+      optional: true,
+      options() {
+        return Object.values(mime._types);
+      },
     },
   },
   methods: {
