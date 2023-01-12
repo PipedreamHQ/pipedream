@@ -1,5 +1,4 @@
 import base from "../common/base.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -12,33 +11,7 @@ export default {
   hooks: {
     ...base.hooks,
     async deploy() {
-      let lastId;
-      const allRegistrants = [];
-
-      while (true) {
-        const response = await this.regfox.listRegistrants({
-          params: {
-            startingAfter: lastId,
-            limit: constants.MAX_LIMIT,
-          },
-        });
-
-        allRegistrants.push(...response.data);
-        lastId = allRegistrants[allRegistrants.length - 1]?.id;
-
-        if (!response.hasMore) {
-          break;
-        }
-      }
-
-      allRegistrants
-        .slice(constants.DEPLOY_LIMIT)
-        .forEach((registrant) => this.emitEvent({
-          event: registrant,
-          id: registrant.id,
-          name: registrant.orderNumber,
-          ts: registrant.dateCreated,
-        }));
+      await this.listHistoricalEvents(this.regfox.listRegistrants);
     },
   },
   methods: {

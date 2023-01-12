@@ -1,5 +1,4 @@
 import base from "../common/base.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -12,33 +11,7 @@ export default {
   hooks: {
     ...base.hooks,
     async deploy() {
-      let lastId;
-      const allDeposits = [];
-
-      while (true) {
-        const response = await this.regfox.listTransactions({
-          params: {
-            startingAfter: lastId,
-            limit: constants.MAX_LIMIT,
-          },
-        });
-
-        allDeposits.push(...response.data);
-        lastId = allDeposits[allDeposits.length - 1]?.id;
-
-        if (!response.hasMore) {
-          break;
-        }
-      }
-
-      allDeposits
-        .slice(constants.DEPLOY_LIMIT)
-        .forEach((deposit) => this.emitEvent({
-          event: deposit,
-          id: deposit.id,
-          name: deposit.orderNumber,
-          ts: deposit.dateCreated,
-        }));
+      await this.listHistoricalEvents(this.regfox.listTransactions);
     },
   },
   methods: {
