@@ -75,7 +75,7 @@ export default {
       optional: true,
     },
     accounts: {
-      type: "any",
+      type: "string[]",
       label: "Accounts",
       description: "An [Array of Account URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context). Required unless another facet is provided.",
       optional: true,
