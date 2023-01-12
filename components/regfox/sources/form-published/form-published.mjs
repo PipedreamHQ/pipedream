@@ -1,5 +1,5 @@
 import base from "../common/base.mjs";
-// import constants from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,7 +11,35 @@ export default {
   dedupe: "unique",
   hooks: {
     ...base.hooks,
-    async deploy() {},
+    async deploy() {
+      let lastId;
+      const allForms = [];
+
+      while (true) {
+        const response = await this.regfox.listForms({
+          params: {
+            startingAfter: lastId,
+            limit: constants.MAX_LIMIT,
+          },
+        });
+
+        allForms.push(...response.data);
+        lastId = allForms[allForms.length - 1]?.id;
+
+        if (!response.hasMore) {
+          break;
+        }
+      }
+
+      allForms
+        .slice(constants.DEPLOY_LIMIT)
+        .forEach((form) => this.emitEvent({
+          event: form,
+          id: form.id,
+          name: form.name,
+          ts: form.dateCreated,
+        }));
+    },
   },
   methods: {
     ...base.methods,
@@ -20,12 +48,22 @@ export default {
         "publish",
       ];
     },
-    processEvent(event) {
+    emitEvent({
+      event, id, name, ts,
+    }) {
       console.log("Emitting form published event...");
       this.$emit(event, {
+        id,
+        summary: `New form published: ${name}`,
+        ts: new Date(ts),
+      });
+    },
+    processEvent(event) {
+      this.emitEvent({
+        event,
         id: event.formId,
-        summary: `New form published: ${event.data.name}`,
-        ts: new Date(event.datePublished),
+        name: event.data.name,
+        ts: event.datePublished,
       });
     },
   },

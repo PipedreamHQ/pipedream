@@ -1,5 +1,5 @@
 import base from "../common/base.mjs";
-// import constants from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...base,
@@ -11,7 +11,35 @@ export default {
   dedupe: "unique",
   hooks: {
     ...base.hooks,
-    async deploy() {},
+    async deploy() {
+      let lastId;
+      const allRegistrants = [];
+
+      while (true) {
+        const response = await this.regfox.listRegistrants({
+          params: {
+            startingAfter: lastId,
+            limit: constants.MAX_LIMIT,
+          },
+        });
+
+        allRegistrants.push(...response.data);
+        lastId = allRegistrants[allRegistrants.length - 1]?.id;
+
+        if (!response.hasMore) {
+          break;
+        }
+      }
+
+      allRegistrants
+        .slice(constants.DEPLOY_LIMIT)
+        .forEach((registrant) => this.emitEvent({
+          event: registrant,
+          id: registrant.id,
+          name: registrant.orderNumber,
+          ts: registrant.dateCreated,
+        }));
+    },
   },
   methods: {
     ...base.methods,
@@ -20,12 +48,22 @@ export default {
         "registration",
       ];
     },
-    processEvent(event) {
+    emitEvent({
+      event, id, name, ts,
+    }) {
       console.log("Emitting registration event...");
       this.$emit(event, {
+        id,
+        summary: `New registration: ${name}`,
+        ts: new Date(ts),
+      });
+    },
+    processEvent(event) {
+      this.emitEvent({
+        event,
         id: event.id,
-        summary: `New registration: ${event.data.orderNumber}`,
-        ts: new Date(event.registrationTimestamp),
+        name: event.data.orderNumber,
+        ts: event.registrationTimestamp,
       });
     },
   },

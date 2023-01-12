@@ -84,6 +84,34 @@ export default {
         ...opts,
       });
     },
+    async listRegistrants({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listRegistrants,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        path: "/search/registrants",
+        ...opts,
+      });
+    },
+    async listTransactions({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listTransactions,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        path: "/search/transactions",
+        ...opts,
+      });
+    },
     async paginate({
       fn, ...opts
     }) {
