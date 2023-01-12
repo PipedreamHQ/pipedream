@@ -61,15 +61,15 @@ In a new step, select the **Send any HTTP Request** to start a new HTTP Request 
 
 ![Starting a new HTTP request action in a workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1672947285/docs/CleanShot_2023-01-05_at_14.34.25_wi8rcc.png)
 
-Then, within the new HTTP request, open the **Authorization Type** dropdown to select a **Connected Account**:
+Then, within the new HTTP request, open the **Authorization Type** dropdown to select a **Select an app**:
 
 ![Opening the HTTP Request Authorization Type dropdown](https://res.cloudinary.com/pipedreamin/image/upload/v1673535917/docs/CleanShot_2023-01-12_at_10.05.02_vmttbf.png)
 
-Finally, click **Select App** to select an account to connect to the HTTP request. Once you select an account, the HTTP request will be authenticated with that account.
+This will open a new prompt to select an app to connect with. Once you select an app, the HTTP request will be updated with the correct headers to authenticate with that app's API.
 
 ![Select an account](https://res.cloudinary.com/pipedreamin/image/upload/v1673536044/docs/CleanShot_2023-01-12_at_10.07.06_rejzyy.gif)
 
-Pipedream will autmatically include your account's authentication keys in the request in the headers, as well as update the URL to match the selected service.
+Once you connect the selected app account Pipedream will autmatically include your account's authentication keys in the request in the headers, as well as update the URL to match the selected service.
 
 Now you can modify the request path, method, body or query params to perform an action on the endpoint with your authenticated account.
 
