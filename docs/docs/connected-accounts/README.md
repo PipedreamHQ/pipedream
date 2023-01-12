@@ -29,7 +29,7 @@ export default defineComponent({
 
 Or skip using code and use any connected account with an HTTP request step.
 
-![Connecting to Slack using the HTTP request builder](https://res.cloudinary.com/pipedreamin/image/upload/v1672946817/docs/CleanShot_2023-01-05_at_14.25.25_u67s6d.gif)
+![Connecting to Slack using the HTTP request builder](https://res.cloudinary.com/pipedreamin/image/upload/v1673535786/docs/CleanShot_2023-01-12_at_10.02.47_xkv0ac.gif)
 
 
 [[toc]]
@@ -63,11 +63,11 @@ In a new step, select the **Send any HTTP Request** to start a new HTTP Request 
 
 Then, within the new HTTP request, open the **Authorization Type** dropdown to select a **Connected Account**:
 
-![Opening the HTTP Request Authorization Type dropdown](https://res.cloudinary.com/pipedreamin/image/upload/v1672947714/docs/CleanShot_2023-01-05_at_14.41.37_wa0hin.png)
+![Opening the HTTP Request Authorization Type dropdown](https://res.cloudinary.com/pipedreamin/image/upload/v1673535917/docs/CleanShot_2023-01-12_at_10.05.02_vmttbf.png)
 
 Finally, click **Select App** to select an account to connect to the HTTP request. Once you select an account, the HTTP request will be authenticated with that account.
 
-![Select an account](https://res.cloudinary.com/pipedreamin/image/upload/v1672947931/docs/CleanShot_2023-01-05_at_14.45.07_fsdh5e.gif)
+![Select an account](https://res.cloudinary.com/pipedreamin/image/upload/v1673536044/docs/CleanShot_2023-01-12_at_10.07.06_rejzyy.gif)
 
 Pipedream will autmatically include your account's authentication keys in the request in the headers, as well as update the URL to match the selected service.
 
