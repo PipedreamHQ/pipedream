@@ -539,6 +539,12 @@ importers:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
 
+  components/clinchpad:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/cliniko:
     specifiers:
       '@pipedreamhq/platform': ^0.8.1
@@ -1093,6 +1099,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
+
+  components/gatekeeper:
+    specifiers: {}
 
   components/gatherup:
     specifiers:
@@ -1999,6 +2008,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.0
+
+  components/newslit:
+    specifiers: {}
 
   components/nextdns:
     specifiers: {}
@@ -3056,6 +3068,9 @@ importers:
       crypto: ^1.0.1
     dependencies:
       crypto: 1.0.1
+
+  components/supernotes:
+    specifiers: {}
 
   components/supersaas:
     specifiers:
