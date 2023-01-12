@@ -5,7 +5,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     gmail,
