@@ -2547,6 +2547,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
 
+  components/rev:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/revamp_crm:
     specifiers: {}
 
