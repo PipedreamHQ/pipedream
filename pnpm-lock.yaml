@@ -1189,14 +1189,20 @@ importers:
 
   components/gmail:
     specifiers:
+      '@google-cloud/local-auth': ^2.1.0
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
+      google-auth-library: ^8.7.0
+      googleapis: ^105.0.0
       html-to-text: ^8.2.1
       mime: ^3.0.0
       nodemailer: ^6.7.8
     dependencies:
+      '@google-cloud/local-auth': 2.1.1
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
+      google-auth-library: 8.7.0
+      googleapis: 105.0.0
       html-to-text: 8.2.1
       mime: 3.0.0
       nodemailer: 6.7.8
@@ -8226,7 +8232,7 @@ packages:
       duplexify: 4.1.2
       ent: 2.2.0
       extend: 3.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       retry-request: 5.0.1
       teeny-request: 8.0.0
     transitivePeerDependencies:
@@ -8260,6 +8266,19 @@ packages:
     dev: false
     optional: true
 
+  /@google-cloud/local-auth/2.1.1:
+    resolution: {integrity: sha512-tOJ73TSyPxelUEVN2AdHVzFG857U5i3wZHMUGgm6wRtz9WN4O3D761eYORB9jXfIggA3+v5BUw+VIE5wAKHhkg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      arrify: 2.0.1
+      google-auth-library: 8.7.0
+      open: 7.4.2
+      server-destroy: 1.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@google-cloud/logging/10.1.1:
     resolution: {integrity: sha512-PPtlrE+fWhJssDMcgclfzjWlRypMQxHRqPRZAFvexHcYytpAJ+ppBmczi/30LtC7fyrj9K8wvifNPI+1DSUJ4Q==}
     engines: {node: '>=12.0.0'}
@@ -8273,7 +8292,7 @@ packages:
       eventid: 2.0.1
       extend: 3.0.2
       gcp-metadata: 4.3.1
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       google-gax: 3.1.3
       on-finished: 2.4.1
       pumpify: 2.0.1
@@ -8339,7 +8358,7 @@ packages:
       '@types/long': 4.0.2
       arrify: 2.0.1
       extend: 3.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       google-gax: 3.1.3
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
@@ -8398,7 +8417,7 @@ packages:
       ent: 2.2.0
       extend: 3.0.2
       gaxios: 5.0.1
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       mime: 3.0.0
       mime-types: 2.1.35
       p-limit: 3.1.0
@@ -15365,6 +15384,24 @@ packages:
       - supports-color
     dev: false
 
+  /google-auth-library/8.7.0:
+    resolution: {integrity: sha512-1M0NG5VDIvJZEnstHbRdckLZESoJwguinwN8Dhae0j2ZKIQFIV63zxm6Fo6nM4xkgqUr2bbMtV5Dgo+Hy6oo0Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.4
+      gaxios: 5.0.2
+      gcp-metadata: 5.0.0
+      gtoken: 6.1.0
+      jws: 4.0.0
+      lru-cache: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /google-gax/2.30.5:
     resolution: {integrity: sha512-Jey13YrAN2hfpozHzbtrwEfEHdStJh1GwaQ2+Akh1k0Tv/EuNVSuBtHZoKSBm5wBMvNsxTsEIZ/152NrYyZgxQ==}
     engines: {node: '>=10'}
@@ -15398,7 +15435,7 @@ packages:
       abort-controller: 3.0.0
       duplexify: 4.1.2
       fast-text-encoding: 1.0.4
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       is-stream-ended: 0.1.4
       node-fetch: 2.6.7
       object-hash: 3.0.0
@@ -15446,10 +15483,21 @@ packages:
     dependencies:
       extend: 3.0.2
       gaxios: 5.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 9.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/105.0.0:
+    resolution: {integrity: sha512-wH/jU/6QpqwsjTKj4vfKZz97ne7xT7BBbKwzQEwnbsG8iH9Seyw19P+AuLJcxNNrmgblwLqfr3LORg4Okat1BQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.7.0
+      googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -15459,7 +15507,7 @@ packages:
     resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
@@ -16149,6 +16197,7 @@ packages:
   /is-docker/2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
+    hasBin: true
     dev: false
 
   /is-extglob/2.1.1:
@@ -21228,6 +21277,10 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
+    dev: false
+
+  /server-destroy/1.0.1:
+    resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
     dev: false
 
   /set-blocking/2.0.0:
