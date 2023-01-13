@@ -2394,6 +2394,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/product_hunt:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      graphql-request: ^5.1.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      graphql-request: 5.1.0_graphql@16.5.0
+
   components/productboard:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -8511,10 +8519,20 @@ packages:
       - supports-color
     dev: false
 
-  /@graphql-typed-document-node/core/3.1.1:
+  /@graphql-typed-document-node/core/3.1.1_graphql@15.8.0:
     resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 15.8.0
+    dev: false
+
+  /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.5.0
     dev: false
 
   /@grpc/grpc-js/1.6.7:
@@ -9017,7 +9035,7 @@ packages:
     resolution: {integrity: sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
+      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       graphql: 15.8.0
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
@@ -15613,7 +15631,21 @@ packages:
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      cross-fetch: 3.1.5
+      extract-files: 9.0.0
+      form-data: 3.0.1
+      graphql: 16.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /graphql-request/5.1.0_graphql@16.5.0:
+    resolution: {integrity: sha512-0OeRVYigVwIiXhNmqnPDt+JhMzsjinxHE7TVy3Lm6jUzav0guVcL0lfSbi6jVTRAxcbwgyr6yrZioSHxf9gHzw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1
