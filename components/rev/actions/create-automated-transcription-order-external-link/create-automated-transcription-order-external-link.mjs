@@ -50,10 +50,10 @@ export default {
               external_link: this.externalLink,
             },
           ],
-          notification: {
-            url: this.notificationUrl,
-            level: this.notificationLevel,
-          },
+        },
+        notification: {
+          url: this.notificationUrl,
+          level: this.notificationLevel,
         },
       },
     });

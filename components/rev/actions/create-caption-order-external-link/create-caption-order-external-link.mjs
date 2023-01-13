@@ -87,10 +87,10 @@ export default {
           output_file_formats: this.formats,
           rush: this.rush,
           burned_in_captions: this.burnedInCaptions,
-          notification: {
-            url: this.notificationUrl,
-            level: this.notificationLevel,
-          },
+        },
+        notification: {
+          url: this.notificationUrl,
+          level: this.notificationLevel,
         },
       },
     });

@@ -87,10 +87,10 @@ export default {
           timestamps: this.timestamps,
           rush: this.rush,
           output_file_formats: this.outputFormat,
-          notification: {
-            url: this.notificationUrl,
-            level: this.notificationLevel,
-          },
+        },
+        notification: {
+          url: this.notificationUrl,
+          level: this.notificationLevel,
         },
       },
     });
