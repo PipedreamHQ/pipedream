@@ -94,6 +94,14 @@ export default {
     async _makeRequest({
       $ = this, path, ...opts
     }) {
+      /**
+       * Activates sandbox mode to be able to make orders for free (test mode).
+       * In production these two lines below should be commented.
+       *
+       * this.activateSandbox(opts.params);
+       * this.activateSandbox(opts.data);
+       */
+
       return axios($, {
         ...opts,
         url: this._baseUrl() + path,
