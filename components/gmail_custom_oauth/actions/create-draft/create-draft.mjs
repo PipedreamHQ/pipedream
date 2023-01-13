@@ -79,7 +79,7 @@ export default {
   async run({ $ }) {
     const opts = await this.gmail.getOptionsToSendEmail($, this);
     const response = await this.gmail.createDraft(opts);
-    $.export("$summary", `Successfully create a draft to ${this.to}`);
+    $.export("$summary", "Successfully created a draft message");
     return response;
   },
 };
