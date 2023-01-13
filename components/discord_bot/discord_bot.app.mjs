@@ -2,6 +2,8 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import utils from "./common/utils.mjs";
+import FormData from "form-data";
+import fs from "fs";
 
 export default {
   type: "app",
@@ -58,6 +60,10 @@ export default {
               },
             });
         } catch (e) {
+          if (e.response.data.code === 50001) {
+            throw new ConfigurationError("Your Discord Bot appears to be missing the \"Server Members Intent\" privilege. Please access Discord applications here (https://discord.com/developers/applications) and update your Bot's permissions, then refresh the fields here to continue.");
+          }
+
           throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
@@ -247,7 +253,7 @@ export default {
         }
 
         const [
-          ,, members,
+          , , members,
         ] = responses;
 
         const lastMemberId = utils.getLastId(members);
@@ -630,6 +636,41 @@ export default {
         path: `/channels/${channelId}/messages`,
         method: "post",
         data,
+      });
+    },
+    async sendMessageWithFile({
+      $, content, username, threadID, filePath, channelId, embeds, avatarURL,
+    }) {
+      const file = fs.createReadStream(filePath);
+      const filename = filePath.split("/").pop();
+      const data = new FormData();
+      data.append("payload_json", JSON.stringify({
+        content,
+        username,
+        threadID,
+        embeds,
+        avatarURL,
+        attachments: [
+          {
+            id: 0,
+            filename,
+          },
+        ],
+      }));
+      data.append("files[0]", file, {
+        header: [
+          `Content-Disposition: form-data; name="files[0]"; filename="${filename}"`,
+          `Content-Type: ${utils.getUploadContentType(filename)}`,
+        ],
+      });
+      return await this._makeRequest({
+        $,
+        path: `/channels/${channelId}/messages`,
+        method: "POST",
+        data,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        },
       });
     },
   },
