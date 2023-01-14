@@ -24,7 +24,7 @@ importers:
       husky: ^7.0.4
       jest: ^27.5.1
       lint-staged: ^12.3.4
-      pnpm: ^7.0.1
+      pnpm: ^7.22.0
       putout: '>=20'
       renamer: ^4.0.0
       ts-jest: ^27.1.4
@@ -57,7 +57,7 @@ importers:
       husky: 7.0.4
       jest: 27.5.1
       lint-staged: 12.5.0
-      pnpm: 7.5.2
+      pnpm: 7.22.0
       putout: 26.24.0
       renamer: 4.0.0
       ts-jest: 27.1.5_jm6546ohpm4h5jsgaz4ra4shga
@@ -349,6 +349,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/bill:
+    specifiers: {}
+
   components/bingx:
     specifiers: {}
 
@@ -535,6 +538,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
+
+  components/clinchpad:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/cliniko:
     specifiers:
@@ -1038,6 +1047,12 @@ importers:
   components/firmalyzer_iotvas:
     specifiers: {}
 
+  components/forms_on_fire:
+    specifiers: {}
+
+  components/formsite:
+    specifiers: {}
+
   components/formstack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1085,6 +1100,9 @@ importers:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
 
+  components/gatekeeper:
+    specifiers: {}
+
   components/gatherup:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1093,8 +1111,17 @@ importers:
       '@pipedream/platform': 1.2.1
       dayjs: 1.11.7
 
+  components/geckoboard:
+    specifiers: {}
+
   components/gender_api:
     specifiers: {}
+
+  components/getform:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/getprospect:
     specifiers: {}
@@ -1162,14 +1189,22 @@ importers:
 
   components/gmail:
     specifiers:
+      '@google-cloud/local-auth': ^2.1.0
       '@googleapis/gmail': ^0.3.4
       '@pipedream/platform': ^1.1.1
+      google-auth-library: ^8.7.0
+      googleapis: ^105.0.0
       html-to-text: ^8.2.1
+      mime: ^3.0.0
       nodemailer: ^6.7.8
     dependencies:
+      '@google-cloud/local-auth': 2.1.1
       '@googleapis/gmail': 0.3.4
       '@pipedream/platform': 1.1.1
+      google-auth-library: 8.7.0
+      googleapis: 105.0.0
       html-to-text: 8.2.1
+      mime: 3.0.0
       nodemailer: 6.7.8
 
   components/gmail_custom_oauth:
@@ -1444,6 +1479,9 @@ importers:
       '@pipedream/platform': 1.2.0
       bottleneck: 2.19.5
 
+  components/hubspot_developer_app:
+    specifiers: {}
+
   components/humanitix:
     specifiers: {}
 
@@ -1602,6 +1640,9 @@ importers:
     dependencies:
       klaviyo-sdk: 1.0.1_@babel+core@7.18.9
 
+  components/klipfolio:
+    specifiers: {}
+
   components/knack:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -1612,6 +1653,9 @@ importers:
     specifiers: {}
 
   components/kucoin_futures:
+    specifiers: {}
+
+  components/kyvio:
     specifiers: {}
 
   components/labs64_netlicensing:
@@ -1637,6 +1681,12 @@ importers:
 
   components/levity:
     specifiers: {}
+
+  components/lighthouse:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/linear:
     specifiers:
@@ -1851,6 +1901,9 @@ importers:
   components/mobile_text_alerts:
     specifiers: {}
 
+  components/mobilemonkey:
+    specifiers: {}
+
   components/mode:
     specifiers: {}
 
@@ -1961,6 +2014,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.0
+
+  components/newslit:
+    specifiers: {}
 
   components/nextdns:
     specifiers: {}
@@ -2073,6 +2129,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/oneuptime:
+    specifiers: {}
+
   components/onfleet:
     specifiers: {}
 
@@ -2125,6 +2184,12 @@ importers:
   components/paperform:
     specifiers: {}
 
+  components/papyrs:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/patreon:
     specifiers:
       axios: ^1.2.1
@@ -2170,7 +2235,12 @@ importers:
     specifiers: {}
 
   components/persistiq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/phaxio:
     specifiers:
@@ -2242,11 +2312,24 @@ importers:
       '@pipedream/platform': 1.2.0
       graphql-request: 5.0.0_graphql@16.5.0
 
+  components/pirate_weather:
+    specifiers: {}
+
   components/planning_center:
     specifiers: {}
 
   components/plasmic:
     specifiers: {}
+
+  components/plivo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      plivo: ^4.36.0
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      plivo: 4.36.0
+      uuid: 9.0.0
 
   components/pocket:
     specifiers:
@@ -2281,6 +2364,14 @@ importers:
       typescript: 4.7.4
     devDependencies:
       dtslint: 4.2.1_typescript@4.7.4
+
+  components/practitest:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/pretix:
     specifiers: {}
@@ -2441,7 +2532,12 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/reply_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      lodash-es: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      lodash-es: 4.17.21
 
   components/repuso:
     specifiers:
@@ -2450,6 +2546,18 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
       '@pipedream/types': 0.1.4
+
+  components/rescuetime:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
+  components/rev:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/revamp_crm:
     specifiers: {}
@@ -2602,6 +2710,12 @@ importers:
   components/sendle:
     specifiers: {}
 
+  components/sendoso:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/sendowl:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2628,6 +2742,12 @@ importers:
       '@pipedream/platform': 0.10.0
     devDependencies:
       '@types/node': 17.0.45
+
+  components/servicem8:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/seventodos:
     specifiers:
@@ -2657,6 +2777,12 @@ importers:
       '@pipedream/platform': 1.1.0
     devDependencies:
       '@pipedream/types': 0.1.4
+
+  components/shipengine:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/shippotoken:
     specifiers: {}
@@ -2836,8 +2962,17 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
 
+  components/softledger:
+    specifiers: {}
+
   components/softr:
     specifiers: {}
+
+  components/solve_crm:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/splitwise:
     specifiers:
@@ -2859,6 +2994,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/square:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/squarespace:
     specifiers:
@@ -2928,8 +3069,10 @@ importers:
 
   components/supabase:
     specifiers:
+      '@pipedream/platform': ^1.2.1
       '@supabase/supabase-js': ^2.1.0
     dependencies:
+      '@pipedream/platform': 1.2.1
       '@supabase/supabase-js': 2.1.0
 
   components/superdocu:
@@ -2937,6 +3080,9 @@ importers:
       crypto: ^1.0.1
     dependencies:
       crypto: 1.0.1
+
+  components/supernotes:
+    specifiers: {}
 
   components/supersaas:
     specifiers:
@@ -8086,7 +8232,7 @@ packages:
       duplexify: 4.1.2
       ent: 2.2.0
       extend: 3.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       retry-request: 5.0.1
       teeny-request: 8.0.0
     transitivePeerDependencies:
@@ -8120,6 +8266,19 @@ packages:
     dev: false
     optional: true
 
+  /@google-cloud/local-auth/2.1.1:
+    resolution: {integrity: sha512-tOJ73TSyPxelUEVN2AdHVzFG857U5i3wZHMUGgm6wRtz9WN4O3D761eYORB9jXfIggA3+v5BUw+VIE5wAKHhkg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      arrify: 2.0.1
+      google-auth-library: 8.7.0
+      open: 7.4.2
+      server-destroy: 1.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@google-cloud/logging/10.1.1:
     resolution: {integrity: sha512-PPtlrE+fWhJssDMcgclfzjWlRypMQxHRqPRZAFvexHcYytpAJ+ppBmczi/30LtC7fyrj9K8wvifNPI+1DSUJ4Q==}
     engines: {node: '>=12.0.0'}
@@ -8133,7 +8292,7 @@ packages:
       eventid: 2.0.1
       extend: 3.0.2
       gcp-metadata: 4.3.1
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       google-gax: 3.1.3
       on-finished: 2.4.1
       pumpify: 2.0.1
@@ -8199,7 +8358,7 @@ packages:
       '@types/long': 4.0.2
       arrify: 2.0.1
       extend: 3.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       google-gax: 3.1.3
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
@@ -8258,7 +8417,7 @@ packages:
       ent: 2.2.0
       extend: 3.0.2
       gaxios: 5.0.1
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       mime: 3.0.0
       mime-types: 2.1.35
       p-limit: 3.1.0
@@ -11396,7 +11555,7 @@ packages:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@3.9.10
       typescript: 3.9.10
     transitivePeerDependencies:
@@ -11417,7 +11576,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.7
+      semver: 7.3.8
       tsutils: 3.21.0_typescript@4.7.4
       typescript: 4.7.4
     transitivePeerDependencies:
@@ -11979,7 +12138,7 @@ packages:
   /axios/0.27.2_debug@3.2.7:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1_debug@3.2.7
+      follow-redirects: 1.15.2_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -12174,6 +12333,10 @@ packages:
   /balanced-match/2.0.0:
     resolution: {integrity: sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==}
     dev: true
+
+  /base-64/0.1.0:
+    resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
+    dev: false
 
   /base-64/1.0.0:
     resolution: {integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==}
@@ -12372,6 +12535,11 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.5.0
+    dev: false
+
+  /build-url/1.3.3:
+    resolution: {integrity: sha512-uSC8d+d4SlbXTu/9nBhwEKi33CE0KQgCvfy8QwyrrO5vCuXr9hN021ZBh8ip5vxPbMOrZiPwgqcupuhezxiP3g==}
+    deprecated: This package is no longer maintained
     dev: false
 
   /buildcheck/0.0.3:
@@ -14642,18 +14810,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.1_debug@3.2.7:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /follow-redirects/1.15.2:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -14662,6 +14818,18 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.15.2_debug@3.2.7:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /follow-redirects/1.5.10:
@@ -15216,6 +15384,24 @@ packages:
       - supports-color
     dev: false
 
+  /google-auth-library/8.7.0:
+    resolution: {integrity: sha512-1M0NG5VDIvJZEnstHbRdckLZESoJwguinwN8Dhae0j2ZKIQFIV63zxm6Fo6nM4xkgqUr2bbMtV5Dgo+Hy6oo0Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.4
+      gaxios: 5.0.2
+      gcp-metadata: 5.0.0
+      gtoken: 6.1.0
+      jws: 4.0.0
+      lru-cache: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /google-gax/2.30.5:
     resolution: {integrity: sha512-Jey13YrAN2hfpozHzbtrwEfEHdStJh1GwaQ2+Akh1k0Tv/EuNVSuBtHZoKSBm5wBMvNsxTsEIZ/152NrYyZgxQ==}
     engines: {node: '>=10'}
@@ -15249,7 +15435,7 @@ packages:
       abort-controller: 3.0.0
       duplexify: 4.1.2
       fast-text-encoding: 1.0.4
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       is-stream-ended: 0.1.4
       node-fetch: 2.6.7
       object-hash: 3.0.0
@@ -15297,10 +15483,21 @@ packages:
     dependencies:
       extend: 3.0.2
       gaxios: 5.0.2
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 9.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/105.0.0:
+    resolution: {integrity: sha512-wH/jU/6QpqwsjTKj4vfKZz97ne7xT7BBbKwzQEwnbsG8iH9Seyw19P+AuLJcxNNrmgblwLqfr3LORg4Okat1BQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.7.0
+      googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -15310,7 +15507,7 @@ packages:
     resolution: {integrity: sha512-wQuBzCObtjpfg3CksOfUlX3yT8clw/vJFdGSfs9cpn84WSxNK3U5sxYxEH3mPM+d+SrA8znKM9G8sOuwQceGIA==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      google-auth-library: 8.1.1
+      google-auth-library: 8.7.0
       googleapis-common: 6.0.3
     transitivePeerDependencies:
       - encoding
@@ -16000,6 +16197,7 @@ packages:
   /is-docker/2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
+    hasBin: true
     dev: false
 
   /is-extglob/2.1.1:
@@ -17094,7 +17292,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -17126,7 +17324,7 @@ packages:
       jest-util: 29.1.2
       natural-compare: 1.4.0
       pretty-format: 29.1.2
-      semver: 7.3.7
+      semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -18516,6 +18714,7 @@ packages:
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
+    hasBin: true
     dev: false
 
   /mime/2.6.0:
@@ -19666,14 +19865,36 @@ packages:
       semver-compare: 1.0.0
     dev: true
 
+  /plivo/4.36.0:
+    resolution: {integrity: sha512-jhd61SkiMXkWDZc+NFNqD5yheyQSl2dpdcLzpOx2u/ddUV1PX+nGwZ+gEp1wZ2B4V/l/qwVk8QHcXRN+VtT+Gg==}
+    dependencies:
+      '@types/node': 14.18.22
+      axios: 0.21.4
+      base-64: 0.1.0
+      build-url: 1.3.3
+      form-data: 4.0.0
+      https-proxy-agent: 5.0.1
+      jsonwebtoken: 8.5.1
+      lodash: 4.17.21
+      querystring: 0.2.1
+      uri-parser: 1.0.1
+      utf8: 2.1.2
+      xml2js: 0.4.23
+      xmlbuilder: 9.0.7
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.5.2:
-    resolution: {integrity: sha512-tTLvMnu1zIAWrD87Q/Dgw0+d71Brhlm+aM62KkDr/EPNZyA7dBIsu7tS9pNfRSvwgVF7V1Dhc8jJLAsTNTXnDQ==}
+  /pnpm/7.22.0:
+    resolution: {integrity: sha512-dkhne1O1ktNz/Cn/GZU5wnjhP/aNEfmJGW5UdILyDnptgw84jauOf2Mk5jTe3gp4OZWZN1szcBrjyOZ7Uxxilw==}
     engines: {node: '>=14.6'}
+    hasBin: true
     dev: true
 
   /pop-iterate/1.0.1:
@@ -21056,6 +21277,10 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
+    dev: false
+
+  /server-destroy/1.0.1:
+    resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
     dev: false
 
   /set-blocking/2.0.0:
@@ -22664,6 +22889,10 @@ packages:
     dependencies:
       punycode: 2.1.1
 
+  /uri-parser/1.0.1:
+    resolution: {integrity: sha512-TRjjM2M83RD9jIIYttNj7ghUQTKSov+WXZbQIMM8DxY1R1QdJEGWNKKMYCxyeOw1p9re2nQ85usM6dPTVtox1g==}
+    dev: false
+
   /url-exist/3.0.0:
     resolution: {integrity: sha512-hRO5udC8UhWKLh/weeTSMujDHmVBDS9KpLY7FGVilrLBKlHBwx6Gpe0fIkkYRkMaGuYHVqpdkNa0sO4wJfYEnA==}
     engines: {node: '>=14.8'}
@@ -22729,6 +22958,10 @@ packages:
     resolution: {integrity: sha512-qQrPtYLLLl12NF4DrM9CvfkxkYI97xOb5dsnGZHE3teFr0tWiEZ9UdgMPczv24vl708cYMpe6mGXGHrotIp3Bw==}
     dependencies:
       semver: 5.3.0
+    dev: false
+
+  /utf8/2.1.2:
+    resolution: {integrity: sha512-QXo+O/QkLP/x1nyi54uQiG0XrODxdysuQvE5dtVqv7F5K2Qb6FsN+qbr6KhF5wQ20tfcV3VQp0/2x1e1MRSPWg==}
     dev: false
 
   /util-deprecate/1.0.2:
