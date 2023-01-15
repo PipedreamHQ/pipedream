@@ -88,6 +88,13 @@ export default {
         ...args,
       });
     },
+    async listAllEvents(args) {
+      return this._makeRequest({
+        path: "/list-events",
+        method: "post",
+        ...args,
+      });
+    },
     async updateBooth(args) {
       return this._makeRequest({
         path: "/update-booth",

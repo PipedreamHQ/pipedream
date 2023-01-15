@@ -1,4 +1,4 @@
-import expofp from "../../expofp.app.mjs";
+import expofp from "../expofp.app.mjs";
 
 // Shared for 'add exhibitor' and 'update exhibitor'
 export default {
