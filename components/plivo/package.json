@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/plivo",
+  "version": "0.0.1",
+  "description": "Pipedream Plivo Components",
+  "main": "plivo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "plivo"
+  ],
+  "homepage": "https://pipedream.com/apps/plivo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "plivo": "^4.36.0",
+    "uuid": "^9.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1144,6 +1144,9 @@
       "path": "components/ryver"
     },
     {
+      "path": "components/practitest"
+    },
+    {
       "path": "components/revamp_crm"
     },
     {
@@ -1181,6 +1184,21 @@
     },
     {
       "path": "components/mobilemonkey"
+    },
+    {
+      "path": "components/pirate_weather"
+    },
+    {
+      "path": "components/hubspot_developer_app"
+    },
+    {
+      "path": "components/newslit"
+    },
+    {
+      "path": "components/supernotes"
+    },
+    {
+      "path": "components/gatekeeper"
     }
   ]
 }
