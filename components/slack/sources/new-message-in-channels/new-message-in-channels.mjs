@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -53,7 +54,7 @@ export default {
         console.log(`Ignoring event with unexpected type "${event.type}"`);
         return;
       }
-      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share" && event.subtype != "message_replied") {
+      if (event.subtype && !constants.ALLOWED_MESSAGE_IN_CHANNEL_SUBTYPES.includes(event.subtype)) {
         // This source is designed to just emit an event for each new message received.
         // Due to inconsistencies with the shape of message_changed and message_deleted
         // events, we are ignoring them for now. If you want to handle these types of
