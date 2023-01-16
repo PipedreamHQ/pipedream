@@ -2475,6 +2475,14 @@ importers:
   components/rat_genome_database:
     specifiers: {}
 
+  components/raven_tools:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+
   components/rawg_video_games_database:
     specifiers: {}
 
