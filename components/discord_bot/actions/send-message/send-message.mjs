@@ -8,7 +8,7 @@ const { discord } = common.props;
 export default {
   key: "discord_bot-send-message",
   name: "Send message",
-  description: "Send message to an user or channel. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
+  description: "Send message to a user or channel. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
   version: "0.0.7",
   type: "action",
   props: {
@@ -106,7 +106,7 @@ export default {
   },
   async run({ $ }) {
     if ((this.userId && this.channelId) || (!this.userId && !this.channelId)) {
-      throw new ConfigurationError("You must select either an user or a channel.");
+      throw new ConfigurationError("You must select either a user or a channel.");
     }
     let channelId = this.channelId;
     if (this.userId) {
