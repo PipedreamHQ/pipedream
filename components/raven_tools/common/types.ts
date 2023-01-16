@@ -19,5 +19,5 @@ export type RavenToolsResponse =
   | undefined;
 
 export interface AddKeywordParams extends RavenToolsRequestParams {
-  params: { domain: Domain; keyword: Keyword };
+  params: { domain: Domain; keyword: Keyword; };
 }

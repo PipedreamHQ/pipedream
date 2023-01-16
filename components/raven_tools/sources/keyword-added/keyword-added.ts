@@ -2,7 +2,9 @@ import { defineSource } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/constants";
 import common from "../common";
-import { Domain, Keyword } from "../../common/types";
+import {
+  Keyword,
+} from "../../common/types";
 
 export default defineSource({
   ...common,
@@ -16,7 +18,7 @@ export default defineSource({
     domain: {
       propDefinition: [
         common.props.app,
-        "domain"
+        "domain",
       ],
       description: "The domain to watch for new keywords.",
     },
@@ -30,7 +32,7 @@ export default defineSource({
       const { domain } = this;
       if (!domain) {
         throw new ConfigurationError(
-          "**Error:** prop `domain` must be configured"
+          "**Error:** prop `domain` must be configured",
         );
       }
 
