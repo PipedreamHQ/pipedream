@@ -1,13 +1,14 @@
 import app from "../../app/raven_tools.app";
 import { defineAction } from "@pipedream/types";
-import { DOCS } from "../../common/docLinks";
 import {
   AddKeywordParams, RavenToolsResponse,
 } from "../../common/types";
 
+const DOCS = "https://api.raventools.com/docs/#add_keyword";
+
 export default defineAction({
   name: "Add Keyword",
-  description: `Add a keyword to a domain [See docs here](${DOCS.addKeyword})`,
+  description: `Add a keyword to a domain [See docs here](${DOCS})`,
   key: "raven_tools-add-keyword",
   version: "0.0.1",
   type: "action",

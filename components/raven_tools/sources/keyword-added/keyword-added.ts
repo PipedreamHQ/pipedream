@@ -1,13 +1,14 @@
 import { defineSource } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
-import { DOCS } from "../../common/docLinks";
 import common from "../common";
+
+const DOCS = "https://api.raventools.com/docs/#keywords";
 
 export default defineSource({
   ...common,
   key: "raven_tools-keyword-added",
   name: "New Keyword Added",
-  description: `Emit new event for each keyword added to a domain [See docs here](${DOCS.keywordAdded})`,
+  description: `Emit new event for each keyword added to a domain [See docs here](${DOCS})`,
   version: "0.0.1",
   type: "source",
   props: {
