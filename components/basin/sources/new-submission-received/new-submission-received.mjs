@@ -5,7 +5,7 @@ export default {
   name: "New Submission Received",
   version: "0.0.1",
   key: "basin-new-submission-received",
-  description: "Emit new event on each new submission received.",
+  description: "Emit new event on each new form submission received.",
   type: "source",
   dedupe: "unique",
   props: {
