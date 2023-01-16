@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.6",
+  version: "1.0.7",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -53,7 +53,7 @@ export default {
         console.log(`Ignoring event with unexpected type "${event.type}"`);
         return;
       }
-      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
+      if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share" && event.subtype != "message_replied") {
         // This source is designed to just emit an event for each new message received.
         // Due to inconsistencies with the shape of message_changed and message_deleted
         // events, we are ignoring them for now. If you want to handle these types of
