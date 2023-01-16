@@ -141,17 +141,15 @@ export default {
       return this.client().webhookDelete(id);
     },
     async createIssue(input) {
-      return this.client().issueCreate(input);
+      return this.client().createIssue(input);
     },
     async updateIssue({
       issueId, input,
     }) {
-      return this.client().issueUpdate(issueId, input);
+      return this.client().updateIssue(issueId, input);
     },
-    async searchIssues({
-      query, variables,
-    }) {
-      return this.client().issueSearch(query, variables);
+    async searchIssues(variables) {
+      return this.client().issues(variables);
     },
     async getIssue(id) {
       return this.client().issue(id);
