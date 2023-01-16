@@ -329,6 +329,12 @@ importers:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
 
+  components/basin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/bc_gov_news:
     specifiers: {}
 
