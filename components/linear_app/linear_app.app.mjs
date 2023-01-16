@@ -135,23 +135,21 @@ export default {
       return new LinearClient(this.getClientOptions(options));
     },
     async createWebhook(input) {
-      return this.client().webhookCreate(input);
+      return this.client().createWebhook(input);
     },
     async deleteWebhook(id) {
-      return this.client().webhookDelete(id);
+      return this.client().deleteWebhook(id);
     },
     async createIssue(input) {
-      return this.client().issueCreate(input);
+      return this.client().createIssue(input);
     },
     async updateIssue({
       issueId, input,
     }) {
-      return this.client().issueUpdate(issueId, input);
+      return this.client().updateIssue(issueId, input);
     },
-    async searchIssues({
-      query, variables,
-    }) {
-      return this.client().issueSearch(query, variables);
+    async searchIssues(variables) {
+      return this.client().issues(variables);
     },
     async getIssue(id) {
       return this.client().issue(id);
