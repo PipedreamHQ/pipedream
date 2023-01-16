@@ -37,7 +37,7 @@ export default {
     async deploy() {
       const { submissions } = await this.basin.getSubmissions();
 
-      submissions.slice(-10).reverse()
+      submissions.slice(0, 10).reverse()
         .forEach(this.emitEvent);
     },
   },
