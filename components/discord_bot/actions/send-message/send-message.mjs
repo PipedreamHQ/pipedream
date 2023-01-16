@@ -59,7 +59,7 @@ export default {
           guildId: c.guildId,
         }),
       ],
-      description: "Select either an user or a channel",
+      description: "Select either a user or a channel",
       optional: true,
     },
     channelId: {
