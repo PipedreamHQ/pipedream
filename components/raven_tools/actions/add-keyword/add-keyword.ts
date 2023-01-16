@@ -1,6 +1,6 @@
 import app from "../../app/raven_tools.app";
 import { defineAction } from "@pipedream/types";
-import { DOCS } from "../../common/constants";
+import { DOCS } from "../../common/docLinks";
 import {
   AddKeywordParams, RavenToolsResponse,
 } from "../../common/types";

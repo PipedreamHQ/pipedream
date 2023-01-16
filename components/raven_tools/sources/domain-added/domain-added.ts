@@ -1,5 +1,5 @@
 import { defineSource } from "@pipedream/types";
-import { DOCS } from "../../common/constants";
+import { DOCS } from "../../common/docLinks";
 import common from "../common";
 import { Domain } from "../../common/types";
 
