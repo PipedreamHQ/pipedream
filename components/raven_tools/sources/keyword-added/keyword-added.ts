@@ -2,9 +2,7 @@ import { defineSource } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/docLinks";
 import common from "../common";
-import {
-  Keyword,
-} from "../../common/types";
+import { Keyword } from "../../common/types";
 
 export default defineSource({
   ...common,

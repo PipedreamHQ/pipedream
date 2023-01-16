@@ -39,15 +39,15 @@ export default defineAction({
     };
     const data: RavenToolsResponse = await this.app.addKeyword(params);
 
-    if (data?.response === "success") {
-      $.export("$summary", `Successfully added keyword "${keyword}"`);
-      return data;
-    } else {
+    if (data?.response !== "success") {
       throw new Error(
         `Something went wrong. RavenTools response: ${
           data && JSON.stringify(data)
         }`,
       );
     }
+
+    $.export("$summary", `Successfully added keyword "${keyword}"`);
+    return data;
   },
 });
