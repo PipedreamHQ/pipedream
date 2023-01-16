@@ -1,7 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../app/raven_tools.app";
-import { Domain } from "../common/types";
-import { RavenToolsEntity } from "../common/types";
 
 export default {
   props: {
@@ -23,24 +21,24 @@ export default {
     getEntityName(): string {
       return "Entity";
     },
-    async getResources(): Promise<RavenToolsEntity[]> {
+    async getResources(): Promise<string[]> {
       throw new Error("getResources not implemented in component");
     },
-    getSavedEntities(): RavenToolsEntity[] {
+    getSavedEntities(): string[] {
       return this.db.get("savedData");
     },
-    setSavedEntities(data: RavenToolsEntity[]) {
+    setSavedEntities(data: string[]) {
       this.db.set("savedData", data);
     },
     async getAndProcessData() {
-      const data: RavenToolsEntity[] = await this.getResources();
+      const data: string[] = await this.getResources();
       if (data) {
-        const savedEntities: RavenToolsEntity[] = this.getSavedEntities() ?? [];
+        const savedEntities: string[] = this.getSavedEntities() ?? [];
         data.filter((d) => !savedEntities.includes(d)).forEach(this.emitEvent);
         this.setSavedEntities(data);
       }
     },
-    emitEvent(data: Domain) {
+    emitEvent(data: string) {
       const ts = Date.now();
       this.$emit(data, {
         id: ts + data,

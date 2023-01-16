@@ -2,7 +2,6 @@ import { defineSource } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import { DOCS } from "../../common/docLinks";
 import common from "../common";
-import { Keyword } from "../../common/types";
 
 export default defineSource({
   ...common,
@@ -26,7 +25,7 @@ export default defineSource({
     getEntityName() {
       return "Keyword";
     },
-    async getResources(): Promise<Keyword[]> {
+    async getResources(): Promise<string[]> {
       const { domain } = this;
       if (!domain) {
         throw new ConfigurationError(

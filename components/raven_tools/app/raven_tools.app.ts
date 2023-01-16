@@ -2,8 +2,6 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   AddKeywordParams,
-  Domain,
-  Keyword,
   RavenToolsRequestParams,
   RavenToolsResponse,
 } from "../common/types";
@@ -16,7 +14,7 @@ export default defineApp({
       type: "string",
       label: "Domain",
       description: "Select a domain from the list.",
-      async options(): Promise<Domain[]> {
+      async options(): Promise<string[]> {
         return this.listDomains();
       },
     },
@@ -38,14 +36,14 @@ export default defineApp({
         },
       });
     },
-    async listDomains(): Promise<Domain[]> {
+    async listDomains(): Promise<string[]> {
       return this._httpRequest({
         params: {
           method: "domains",
         },
       });
     },
-    async listKeywords(domain: Domain): Promise<Keyword[]> {
+    async listKeywords(domain: string): Promise<string[]> {
       return this._httpRequest({
         params: {
           domain,

@@ -1,7 +1,6 @@
 import { defineSource } from "@pipedream/types";
 import { DOCS } from "../../common/docLinks";
 import common from "../common";
-import { Domain } from "../../common/types";
 
 export default defineSource({
   ...common,
@@ -15,7 +14,7 @@ export default defineSource({
     getEntityName() {
       return "Domain";
     },
-    async getResources(): Promise<Domain[]> {
+    async getResources(): Promise<string[]> {
       return this.app.listDomains();
     },
   },
