@@ -40,12 +40,12 @@ export default {
       label: "Folder",
       description: "The id of a folder",
       async options({ spaceId }) {
-        if (!spaceId) {
-          throw new ConfigurationError("Please select a **Space** first");
+        const folders = [];
+        if (spaceId) {
+          folders.push(...await this.getFolders({
+            spaceId,
+          }));
         }
-        const folders = await this.getFolders({
-          spaceId,
-        });
         return folders.map((folder) => ({
           label: folder.name,
           value: folder.id,
