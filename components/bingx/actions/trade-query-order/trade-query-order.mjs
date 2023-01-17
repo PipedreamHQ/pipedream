@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade QueryOrder",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "bingx-trade-query-order",
   description: "Query Order Details [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_8-query-order-details).",
   props: {
@@ -17,6 +17,9 @@ export default {
       propDefinition: [
         bingx,
         "orderId",
+        (c) => ({
+          symbol: c.symbol,
+        }),
       ],
     },
   },
@@ -29,7 +32,7 @@ export default {
       "symbol": this.symbol,
       "orderId": this.orderId,
     };
-    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `Query Order ${this.orderId} for ${this.symbol}`);
     return returnValue;
   },

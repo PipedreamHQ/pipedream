@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade OneClickClosePosition",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "bingx-trade-oneclick-close-position",
   description: "One-Click Close Position [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_2-one-click-close-position).",
   props: {

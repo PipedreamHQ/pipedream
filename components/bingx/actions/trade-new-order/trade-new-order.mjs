@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade NewOrder",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "bingx-trade-new-order",
   description: "Place a New Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_1-place-a-new-order).",
   props: {

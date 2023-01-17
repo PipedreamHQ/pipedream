@@ -95,6 +95,25 @@ export default {
       description: "Order ID",
       type: "string",
       optional: false,
+      async options({
+        symbol, prevContext,
+      }) {
+        const params = {
+          lastOrderId: prevContext.lastOrderId || 0,
+          length: 20,
+        };
+        if (symbol) {
+          params.symbol = symbol;
+        }
+        const { orders } = (await this.listOrders(params)).data;
+        const options = orders?.map((order) => order.orderId) || [];
+        return {
+          options,
+          context: {
+            lastOrderId: options[options.length - 1]?.orderId,
+          },
+        };
+      },
     },
     marginMode: {
       label: "Margin Mode",
@@ -140,7 +159,7 @@ export default {
     },
     async _makeRequest({
       $ = this, path, ...args
-    }) {
+    }) { console.log(args);
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         headers: {
@@ -168,6 +187,11 @@ export default {
       const API_PATH = "/api/v1/market/getAllContracts";
       const parameters = {};
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
+    },
+    async listOrders(parameters) {
+      const API_METHOD = "POST";
+      const API_PATH = "/api/v1/user/historyOrders";
+      return this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     convertToFloat(value) {
       if (!isNaN(value)) {

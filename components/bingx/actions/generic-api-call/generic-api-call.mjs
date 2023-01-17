@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Generic API Call",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bingx-generic-api-call",
   description: "Make any API call for Bingx Futures as per the documentation." +
         "See docs [here](https://bingx-api.github.io/docs/swap/)",
