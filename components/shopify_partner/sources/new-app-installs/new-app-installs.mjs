@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.13",
+  version: "0.0.14",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -40,7 +40,7 @@ export default {
     } = this;
 
     const variables = {
-      appId,
+      appId: `gid://partners/App/${appId}`,
       ...(occurredAtMin || {}),
       ...(occurredAtMax || {}),
     };
