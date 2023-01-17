@@ -22,6 +22,13 @@ export default {
         ...args,
       });
     },
+    async createEvent(args = {}) {
+      return this._makeRequest({
+        path: "/applications/me/events",
+        method: "post",
+        ...args,
+      });
+    },
     async getEvents(args = {}) {
       return this._makeRequest({
         path: "/applications/me/events",
