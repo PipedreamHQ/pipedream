@@ -5,7 +5,7 @@ export default {
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
   description: "Emit new event for each new comment added to a card.",
-  version: "0.0.10",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -36,7 +36,6 @@ export default {
         ? 1
         : -1);
       for (const action of sampleEvents.slice(-25)) {
-        this._setComment(action?.data?.text);
         this.emitEvent(action);
       }
     },
@@ -50,44 +49,43 @@ export default {
       const actions = [];
       for (const card of cards) {
         const activities = await this.trello.getCardActivity(card, "commentCard");
-        actions.push(...activities);
+
+        for (const activity of activities) {
+          actions.push(await this.getResult(activity));
+        }
       }
       return {
         sampleEvents: actions,
         sortField: "date",
       };
     },
-    _getComment() {
-      return this.db.get("comment");
-    },
-    _setComment(comment) {
-      this.db.set("comment", comment);
-    },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
       return eventType === "commentCard";
     },
     async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const comment = event.body?.action?.data?.text;
-      /** Record comment to use in generateMeta() */
-      this._setComment(comment);
-      return this.trello.getCard(cardId);
+      const card = await this.trello.getCard(event?.body?.action?.data?.card?.id ??
+        event?.data?.card?.id);
+      const member = await this.trello.getMember(event?.body?.action?.idMemberCreator ??
+        event.idMemberCreator);
+
+      return {
+        member,
+        card,
+        event: event?.body ?? event,
+      };
     },
-    isRelevant({ result: card }) {
+    isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
       );
     },
-    generateMeta({
-      id, dateLastActivity,
-    }) {
-      const comment = this._getComment();
+    generateMeta({ event }) {
       return {
-        id: `${id}${dateLastActivity}`,
-        summary: comment,
-        ts: Date.parse(dateLastActivity),
+        id: event?.action?.id ?? event?.id,
+        summary: event?.action?.data?.text ?? event?.data?.text,
+        ts: Date.parse(event?.date),
       };
     },
   },

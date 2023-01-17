@@ -11,10 +11,11 @@ To use the Discord Bot integration, you'll need to create a Discord bot and add 
 1. Create a new [Discord Developer Application](https://discord.com/developers/applications)
 2. Within your new application, create a Bot
 3. Define the permissions you'd like the bot to have access to
-4. Open the OAuth URL generator tool under the **OAuth2** menu
-5. Select the `bot` auth scope
-6. Copy and paste the URL into a new window
-7. Accept the permissions to install the bot on your server
+4. If your bot will need to list other members of a guild, make sure to enable the **Server Members Intent** toggle on the Bot configuration page
+5. Open the OAuth URL generator tool under the **OAuth2** menu
+6. Select the `bot` auth scope
+7. Copy and paste the URL into a new window
+8. Accept the permissions to install the bot on your server
 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IaKs8oA1-5g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
