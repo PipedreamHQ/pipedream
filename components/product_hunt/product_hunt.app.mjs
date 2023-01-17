@@ -18,6 +18,11 @@ export default {
       },
       optional: true,
     },
+    username: {
+      type: "string",
+      label: "Username",
+      description: "The username (without the @ sign) of the user to watch for upvotes",
+    },
   },
   methods: {
     _baseUrl() {

@@ -1,5 +1,6 @@
 import productHunt from "../../product_hunt.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "product_hunt-new-product-trending",
@@ -18,9 +19,11 @@ export default {
       },
     },
     username: {
-      type: "string",
-      label: "Username",
-      description: "The username of the user to watch for trending posts",
+      propDefinition: [
+        productHunt,
+        "username",
+      ],
+      description: "The username (without the @ sign) of the user to watch for trending posts",
     },
   },
   methods: {
@@ -33,9 +36,18 @@ export default {
     },
   },
   async run() {
+    if (this.username.startsWith("@")) {
+      throw new ConfigurationError("Username should not include the @ symbol");
+    }
+
     const { user } = await this.productHunt.listUserPosts({
       username: this.username,
     });
+
+    if (!user) {
+      throw new Error(`User with username ${this.username} does not exist`);
+    }
+
     const posts = user.madePosts.edges?.filter((post) => post.node.votesCount > 99);
     for (const post of posts.reverse()) {
       const { node } = post;
