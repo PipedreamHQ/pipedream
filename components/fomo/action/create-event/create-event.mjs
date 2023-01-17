@@ -4,7 +4,7 @@ export default {
   name: "Create Event",
   version: "0.0.1",
   key: "fomo-create-event",
-  description: "Creates a event. [See docs here](https://docs.fomo.com/reference/create)",
+  description: "Creates an event. [See docs here](https://docs.fomo.com/reference/create)",
   type: "action",
   props: {
     fomo,
