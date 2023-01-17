@@ -12,11 +12,12 @@ export default {
       },
     },
   },
-  hooks: {
-    async deploy() { },
-    async activate() { },
-    async deactivate() { },
+  methods: {
+    getOffset() {
+      return this.db.get("offset") ?? 0;
+    },
+    setOffset(offset) {
+      this.db.set("offset", offset);
+    },
   },
-  methods: {},
-  async run() { },
 };
