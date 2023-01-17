@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/roll",
+  "version": "0.0.1",
+  "description": "Pipedream Roll Components",
+  "main": "roll.app.js",
+  "keywords": [
+    "pipedream",
+    "roll"
+  ],
+  "homepage": "https://pipedream.com/apps/roll",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}
