@@ -2603,6 +2603,14 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/roll:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      moment: ^2.29.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      moment: 2.29.4
+
   components/route4me:
     specifiers: {}
 
