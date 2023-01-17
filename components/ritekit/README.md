@@ -1,6 +1,10 @@
 # Overview
 
-RiteKit can help you harness the power of social media through its powerful API. With RiteKit's API, you can easily build a variety of solutions that help you better understand and engage with audiences across multiple social networks. Here are just some of the things you can easily create using the Ritekit API:
+RiteKit can help you harness the power of social media through its powerful
+API. With RiteKit's API, you can easily build a variety of solutions that help
+you better understand and engage with audiences across multiple social
+networks. Here are just some of the things you can easily create using the
+Ritekit API:
 
 - Monitor brand mentions and sentiment across multiple channels
 - Gather customer insights on social media trends

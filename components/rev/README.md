@@ -1,6 +1,8 @@
 # Overview
 
-With Rev's API, you can build integrations that access the full range of professional services our platform offers. This includes text, audio, and video transcription, translation, and captioning - Faster, and at scale.
+With Rev's API, you can build integrations that access the full range of
+professional services our platform offers. This includes text, audio, and video
+transcription, translation, and captioning - Faster, and at scale.
 
 Here are some examples of what you can create with the Rev API:
 

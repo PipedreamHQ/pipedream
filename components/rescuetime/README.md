@@ -1,8 +1,10 @@
 # Overview
 
-What can you build with the RescueTime API?
-
-The RescueTime API can help you obtain actionable insights from your digital usage data. With it, you can develop projects that measure and compare daily activity, measure time spent on specific tasks, and identify and track productivity trends. With this powerful API, you have the ability to optimize your productivity and understand how to best manage your digital life.
+The RescueTime API can help you obtain actionable insights from your digital
+usage data. With it, you can develop projects that measure and compare daily
+activity, measure time spent on specific tasks, and identify and track
+productivity trends. With this powerful API, you have the ability to optimize
+your productivity and understand how to best manage your digital life.
 
 Here are some ways you can use the RescueTime API:
 

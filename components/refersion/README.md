@@ -1,8 +1,9 @@
 # Overview
 
-What You Can Build Using Refersion API
-
-The Refersion API gives you the power to build secure and feature-rich applications that extend the functionality of the Refersion platform. With the Refersion API, you can create applications that target referral and affiliate marketing campaigns, product promotions, and other marketing initiatives.
+The Refersion API gives you the power to build secure and feature-rich
+applications that extend the functionality of the Refersion platform. With the
+Refersion API, you can create applications that target referral and affiliate
+marketing campaigns, product promotions, and other marketing initiatives.
 
 You can use the Refersion API to:
 

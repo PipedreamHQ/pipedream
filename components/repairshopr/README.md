@@ -1,6 +1,9 @@
 # Overview
 
-With the RepairShopr API, you can build powerful applications revolving around your business. Whether you're looking for data to display on an internal dashboard, or an intuitive customer-facing kiosk, the API opens up limitless possibilities.
+With the RepairShopr API, you can build powerful applications revolving around
+your business. Whether you're looking for data to display on an internal
+dashboard, or an intuitive customer-facing kiosk, the API opens up limitless
+possibilities.
 
 Here are just a few examples of things you can build using the RepairShopr API:
 

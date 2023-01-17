@@ -1,6 +1,7 @@
 # Overview
 
-Using the Rocket Chat API, you can build a variety of communication and collaboration applications. Here are some examples of things you can build:
+Using the Rocket Chat API, you can build a variety of communication and
+collaboration applications. Here are some examples of things you can build:
 
 - Real-time Chat and Messaging Applications
 - Video and Voice Calling Applications

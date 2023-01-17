@@ -1,6 +1,9 @@
 # Overview
 
-With the RSS API you have the power to create powerful tools and applications. RSS is a great way to reliably subscribe to, track and build around your favorite content sources. Here are **some examples** of things you can create using the RSS API:
+With the RSS API you have the power to create powerful tools and applications.
+RSS is a great way to reliably subscribe to, track and build around your
+favorite content sources. Here are **some examples** of things you can create
+using the RSS API:
 
 - A personal news website to syndicate articles from multiple sources.
 - A custom feed reader to deliver timely notifications of updates and news.

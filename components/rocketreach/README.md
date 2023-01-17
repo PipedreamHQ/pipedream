@@ -1,6 +1,8 @@
 # Overview
 
-The RocketReach API provides access to comprehensive yet reliable data about people and organizations. With this API, you can build applications that can retrieve contact information, corporate hierarchy, and professional profiles.
+The RocketReach API provides access to comprehensive yet reliable data about
+people and organizations. With this API, you can build applications that can
+retrieve contact information, corporate hierarchy, and professional profiles.
 
 Here are some examples of what can be built using the RocketReach API:
 
