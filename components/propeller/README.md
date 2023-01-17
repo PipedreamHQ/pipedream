@@ -1,8 +1,14 @@
 # Overview
 
-Welcome to the Propeller API, the world's most comprehensive platform for retail development! With Propeller, you have the capability to build powerful and innovative solutions that meet the specific needs of your online business. With Propeller's robust suite of APIs, you can create everything from ecommerce sites and marketplaces, to mobile applications and progressive web applications.
+Welcome to the Propeller API, the world's most comprehensive platform for
+retail development! With Propeller, you have the capability to build powerful
+and innovative solutions that meet the specific needs of your online business.
+With Propeller's robust suite of APIs, you can create everything from ecommerce
+sites and marketplaces, to mobile applications and progressive web
+applications.
 
-Propeller's APIs are designed to provide access to platform functionality and data in an easy-to-use and consistent manner. With Propeller, you can create:
+Propeller's APIs are designed to provide access to platform functionality and
+data in an easy-to-use and consistent manner. With Propeller, you can create:
 
 - Ecommerce sites
 - Marketplaces

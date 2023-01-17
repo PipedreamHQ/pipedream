@@ -1,6 +1,9 @@
 # Overview
 
-The Raindrop API provides users with powerful tools to create sophisticated web and mobile applications. With Raindrop, users have the ability to build and deploy a wide range of applications, feature-rich applications that can meet the needs and requirements of any business.
+The Raindrop API provides users with powerful tools to create sophisticated web
+and mobile applications. With Raindrop, users have the ability to build and
+deploy a wide range of applications, feature-rich applications that can meet
+the needs and requirements of any business.
 
 Here are just some of the many things you can build with the Raindrop API:
 

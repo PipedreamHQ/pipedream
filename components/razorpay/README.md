@@ -1,8 +1,10 @@
 # Overview
 
-# What you can build using the Razorpay API
-
-The Razorpay API provides a wealth of possibilities for developers to build payment solutions for a vast range of use-cases. With the API, you can implement payment functionalities for Mobile and Web applications, simplify digital payments and allow customers to securely store digital wallets on your platform. Here are some of the things you can do using Razorpay's API:
+The Razorpay API provides a wealth of possibilities for developers to build
+payment solutions for a vast range of use-cases. With the API, you can
+implement payment functionalities for Mobile and Web applications, simplify
+digital payments and allow customers to securely store digital wallets on your
+platform. Here are some of the things you can do using Razorpay's API:
 
 - Create an online store with a modern checkout process
 - Enable customers to pay online with a QR code

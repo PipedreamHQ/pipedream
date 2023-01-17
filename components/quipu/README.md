@@ -1,8 +1,9 @@
 # Overview
 
-Welcome to the Quipu API! With the Quipu API you can create powerful, feature-rich and fully-adaptable invoicing applications for your business.
+With the Quipu API you can create powerful, feature-rich and fully-adaptable
+invoicing applications for your business.
 
-With the Quipu API you can create:
+Examples of you can create with the Quipu API:
 
 - Invoice generators
 - Invoice tracking systems
@@ -18,6 +19,9 @@ With the Quipu API you can create:
 - Automated document conversion solutions
 - Automated payment solutions
 
-The Quipu API is used by small and large businesses of all kinds, anywhere in the world. Whether you're a freelancer, online merchant, or a large enterprise, Quipu API has the tools to get the job done quickly and efficiently.
+The Quipu API is used by small and large businesses of all kinds, anywhere in
+the world. Whether you're a freelancer, online merchant, or a large enterprise,
+Quipu API has the tools to get the job done quickly and efficiently.
 
-So think no more, let Quipu API do the work for you and save you time and money!
+So think no more, let Quipu API do the work for you and save you time and
+money!

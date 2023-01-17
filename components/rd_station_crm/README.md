@@ -1,8 +1,11 @@
 # Overview
 
-What can you do with RD Station CRM API?
-
-The RD Station CRM API allows companies to access and manage their customer relationships and use their data to better understand and engage their customers. With the RD Station CRM API you can create, read, update and delete customer information from within your own application. This can enable a range of innovative solutions tailored to optimize customer relationships and increase sales opportunities.
+The RD Station CRM API allows companies to access and manage their customer
+relationships and use their data to better understand and engage their
+customers. With the RD Station CRM API you can create, read, update and delete
+customer information from within your own application. This can enable a range
+of innovative solutions tailored to optimize customer relationships and
+increase sales opportunities.
 
 Here are some examples of what you can do, using the RD Station CRM API:
 

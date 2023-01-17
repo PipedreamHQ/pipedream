@@ -1,6 +1,9 @@
 # Overview
 
-Python API on Pipedream offers developers to build or automate a variety of tasks from their web and cloud apps. With the Python API, users are able to create comprehensive and flexible scripts, compose and manage environment variables, and configure resources to perform a range of functions.
+Python API on Pipedream offers developers to build or automate a variety of
+tasks from their web and cloud apps. With the Python API, users are able to
+create comprehensive and flexible scripts, compose and manage environment
+variables, and configure resources to perform a range of functions.
 
 By using Pipedream, you can easily:
 
