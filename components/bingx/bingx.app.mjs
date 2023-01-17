@@ -159,7 +159,7 @@ export default {
     },
     async _makeRequest({
       $ = this, path, ...args
-    }) { console.log(args);
+    }) {
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         headers: {
