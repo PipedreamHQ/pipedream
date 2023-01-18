@@ -1144,6 +1144,9 @@
       "path": "components/ryver"
     },
     {
+      "path": "components/practitest"
+    },
+    {
       "path": "components/revamp_crm"
     },
     {
@@ -1175,6 +1178,9 @@
     },
     {
       "path": "components/softledger"
+    },
+    {
+      "path": "components/raven_tools"
     },
     {
       "path": "components/mobilemonkey"

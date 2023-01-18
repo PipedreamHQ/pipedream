@@ -329,6 +329,12 @@ importers:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
 
+  components/basin:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/bc_gov_news:
     specifiers: {}
 
@@ -538,6 +544,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
       '@pipedream/types': 0.1.4
+
+  components/clinchpad:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/cliniko:
     specifiers:
@@ -1684,15 +1696,15 @@ importers:
 
   components/linear:
     specifiers:
-      '@linear/sdk': ^1.22.0
+      '@linear/sdk': ^2.0.0
     dependencies:
-      '@linear/sdk': 1.22.0
+      '@linear/sdk': 2.0.0
 
   components/linear_app:
     specifiers:
-      '@linear/sdk': ^1.22.0
+      '@linear/sdk': ^2.0.0
     dependencies:
-      '@linear/sdk': 1.22.0
+      '@linear/sdk': 2.0.0
 
   components/linkedin:
     specifiers:
@@ -2359,6 +2371,14 @@ importers:
     devDependencies:
       dtslint: 4.2.1_typescript@4.7.4
 
+  components/practitest:
+    specifiers:
+      '@pipedream/platform': ^1.1.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
+
   components/pretix:
     specifiers: {}
 
@@ -2410,6 +2430,12 @@ importers:
   components/qstash:
     specifiers: {}
 
+  components/qualaroo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/quickbooks:
     specifiers:
       '@pipedream/platform': ^1.0.0
@@ -2460,6 +2486,14 @@ importers:
 
   components/rat_genome_database:
     specifiers: {}
+
+  components/raven_tools:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      '@pipedream/types': ^0.1.4
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      '@pipedream/types': 0.1.4
 
   components/rawg_video_games_database:
     specifiers: {}
@@ -2518,7 +2552,12 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/reply_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      lodash-es: ^4.17.21
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      lodash-es: 4.17.21
 
   components/repuso:
     specifiers:
@@ -2529,6 +2568,12 @@ importers:
       '@pipedream/types': 0.1.4
 
   components/rescuetime:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
+  components/rev:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
@@ -8486,10 +8531,20 @@ packages:
       - supports-color
     dev: false
 
-  /@graphql-typed-document-node/core/3.1.1:
+  /@graphql-typed-document-node/core/3.1.1_graphql@15.8.0:
     resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 15.8.0
+    dev: false
+
+  /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
+    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      graphql: 16.5.0
     dev: false
 
   /@grpc/grpc-js/1.6.7:
@@ -8988,11 +9043,11 @@ packages:
     resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
     dev: false
 
-  /@linear/sdk/1.22.0:
-    resolution: {integrity: sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==}
+  /@linear/sdk/2.0.0:
+    resolution: {integrity: sha512-IYBjjgT4br6LfJVW1xztC9X3UVM+a+IqaE4kYw1z9nadw9osdlEZGdovPDC+CBTx5p88XSTKGAls5HAJEa2ZMg==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
+      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       graphql: 15.8.0
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
@@ -15588,7 +15643,7 @@ packages:
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1

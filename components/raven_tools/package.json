@@ -1,0 +1,23 @@
+{
+  "name": "@pipedream/raven_tools",
+  "version": "0.0.1",
+  "description": "Pipedream Raven Tools Components",
+  "main": "dist/app/raven_tools.app.mjs",
+  "keywords": [
+    "pipedream",
+    "raven_tools"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/raven_tools",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

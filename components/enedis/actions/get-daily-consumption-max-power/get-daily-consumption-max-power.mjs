@@ -1,0 +1,42 @@
+import enedis from "../../enedis.app.mjs";
+import common from "../common.mjs";
+
+export default {
+  type: "action",
+  key: "enedis-get-daily-consumption-max-power",
+  version: "0.0.1",
+  name: "Get Daily Consumption Max Power",
+  description: "Returns the daily maximal power consumed in VA. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-puissance-maximum-de-consommation/)",
+  ...common,
+  props: {
+    enedis,
+    start: {
+      propDefinition: [
+        enedis,
+        "start",
+      ],
+    },
+    end: {
+      propDefinition: [
+        enedis,
+        "end",
+      ],
+    },
+    usagePointId: {
+      propDefinition: [
+        enedis,
+        "usagePointId",
+      ],
+    },
+  },
+  methods: {
+	...common.methods,
+  },
+  async run({ $ }) {
+    const response = await this.enedis.getDailyConsumptionMaxPower(
+	  this.prepareAllParams()
+	);
+	$.export("$summary", `${response.meter_reading.interval_reading.length} value${response.meter_reading.interval_reading.length != 1 ? "s" : ""} has been retrieved.`);
+    return response.meter_reading;
+  },
+};
