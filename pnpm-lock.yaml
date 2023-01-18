@@ -2403,6 +2403,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/product_hunt:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      graphql-request: ^5.1.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      graphql-request: 5.1.0_graphql@16.5.0
+
   components/productboard:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -15643,6 +15651,20 @@ packages:
 
   /graphql-request/5.0.0_graphql@16.5.0:
     resolution: {integrity: sha512-SpVEnIo2J5k2+Zf76cUkdvIRaq5FMZvGQYnA4lUWYbc99m+fHh4CZYRRO/Ff4tCLQ613fzCm3SiDT64ubW5Gyw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      cross-fetch: 3.1.5
+      extract-files: 9.0.0
+      form-data: 3.0.1
+      graphql: 16.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /graphql-request/5.1.0_graphql@16.5.0:
+    resolution: {integrity: sha512-0OeRVYigVwIiXhNmqnPDt+JhMzsjinxHE7TVy3Lm6jUzav0guVcL0lfSbi6jVTRAxcbwgyr6yrZioSHxf9gHzw==}
     peerDependencies:
       graphql: 14 - 16
     dependencies:
