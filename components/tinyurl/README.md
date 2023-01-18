@@ -1,8 +1,11 @@
 # Overview
 
-What is the TinyURL API?
-
-The TinyURL API allows users to generate and manage TinyURLs for their websites, webpages, and other web-based resources. This API allows developers to create TinyURLs from URLs as well as manage existing TinyURLs and access analytics data on the clicks received by each TinyURL. It also allows users to brand their own customized URLs using additional features like custom slugs, password protection and expiration.
+The TinyURL API allows users to generate and manage TinyURLs for their
+websites, webpages, and other web-based resources. This API allows developers
+to create TinyURLs from URLs as well as manage existing TinyURLs and access
+analytics data on the clicks received by each TinyURL. It also allows users to
+brand their own customized URLs using additional features like custom slugs,
+password protection and expiration.
 
 Using the TinyURL API, developers can:
 
