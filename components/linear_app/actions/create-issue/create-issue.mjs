@@ -5,7 +5,7 @@ export default {
   key: "linear_app-create-issue",
   name: "Create Issue",
   description: "Create an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  version: "0.3.6",
+  version: "0.3.7",
   props: {
     linearApp,
     teamId: {
