@@ -1,8 +1,9 @@
 # Overview
 
-What can you do with ShipStation API?
-
-ShipStation API provides an easy way for developers to access and integrate shipping data into their applications. Using Shipstation API, developers can easily add shipping capabilities to their applications and build applications in the following areas:
+ShipStation API provides an easy way for developers to access and integrate
+shipping data into their applications. Using Shipstation API, developers can
+easily add shipping capabilities to their applications and build applications
+in the following areas:
 
 - Shipping rate and label generation
 - Automating fulfillment processes
@@ -18,7 +19,9 @@ ShipStation API provides an easy way for developers to access and integrate ship
 - Shipping data analytics
 - Analyzing order data for customer and marketing insights
 
-ShipStation APIs easily integrate into existing applications and provide a great way to add shipping capabilities to your app. With ShipStation API, developers can build the following applications:
+ShipStation APIs easily integrate into existing applications and provide a
+great way to add shipping capabilities to your app. With ShipStation API,
+developers can build the following applications:
 
 - Shopping Cart Integrations
 - Shipping Label Generator
