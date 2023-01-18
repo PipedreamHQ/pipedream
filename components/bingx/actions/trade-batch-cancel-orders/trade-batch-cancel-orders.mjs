@@ -22,9 +22,6 @@ export default {
           symbol: c.symbol,
         }),
       ],
-      label: "Order Ids",
-      description: "Array of Order IDs to cancel",
-      type: "string[]",
     },
   },
   async run({ $ }) {
