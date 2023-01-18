@@ -6,7 +6,7 @@ export default {
   key: "snowflake-insert-row",
   name: "Insert Row",
   description: "Insert a row into a table",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     snowflake,
     tableName: {

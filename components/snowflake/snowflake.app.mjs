@@ -8,6 +8,7 @@ export default {
     tableName: {
       type: "string",
       label: "Table Name",
+      description: "The name of the Snowflake table you want to run the query on",
       async options() {
         const options = await this.listTables();
         return options.map((i) => i.name);
@@ -34,7 +35,10 @@ export default {
         return this.connection;
       }
 
-      this.connection = snowflake.createConnection(this.$auth);
+      this.connection = snowflake.createConnection({
+        ...this.$auth,
+        application: "PIPEDREAM_PIPEDEAM",
+      });
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
     },

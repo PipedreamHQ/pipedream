@@ -7,7 +7,7 @@ export default {
   key: "snowflake-query-results",
   name: "New Query Results",
   description: "Emit new event with the results of an arbitrary query",
-  version: "0.0.3",
+  version: "0.1.0",
   props: {
     ...common.props,
     sqlQuery: {
