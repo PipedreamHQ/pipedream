@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-daily-consumption",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Daily Consumption",
   description: "Returns the daily consumption in Wh. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-consommation-quotidienne/)",
   ...common,

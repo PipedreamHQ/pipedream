@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-consumption-load-curve",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Consumption Load Curve",
   description: "Returns the daily average power consumed in W, on a given interval (by default 30 minutes). [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-consommation-30-minutes/)",
   ...common,
