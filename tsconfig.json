@@ -1196,6 +1196,9 @@
     },
     {
       "path": "components/gatekeeper"
+    },
+    {
+      "path": "components/braze"
     }
   ]
 }
