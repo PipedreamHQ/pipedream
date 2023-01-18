@@ -1,10 +1,10 @@
-const eventbrite = require("../../eventbrite.app");
+import eventbrite from "../../eventbrite.app.mjs";
 
-module.exports = {
+export default {
   key: "eventbrite-get-event-summary",
   name: "Get Event Summary",
   description: "Get event summary for a specified event.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     eventbrite,
@@ -15,8 +15,9 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    const { summary } = await this.eventbrite.getEvent(this.eventId);
+  async run({ $ }) {
+    const { summary } = await this.eventbrite.getEvent($, this.eventId);
+    $.export("$summary", "Successfully fetched summary");
     return summary;
   },
 };

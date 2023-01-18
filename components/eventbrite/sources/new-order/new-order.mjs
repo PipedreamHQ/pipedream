@@ -1,11 +1,11 @@
-const common = require("../common/webhook.js");
+const common = require("../common/webhook.mjs");
 
-module.exports = {
+export default {
   ...common,
   key: "eventbrite-new-order",
   name: "New Order (Instant)",
-  description: "Emits an event when an order has been placed",
-  version: "0.0.2",
+  description: "Emit new event when an order has been placed",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   methods: {

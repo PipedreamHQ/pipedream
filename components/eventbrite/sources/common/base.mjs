@@ -1,6 +1,6 @@
-const eventbrite = require("../../eventbrite.app.js");
+import eventbrite from "../../eventbrite.app.mjs";
 
-module.exports = {
+export default {
   props: {
     eventbrite,
     db: "$.service.db",

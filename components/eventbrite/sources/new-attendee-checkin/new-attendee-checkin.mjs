@@ -1,11 +1,11 @@
-const common = require("../common/webhook.js");
+const common = require("../common/webhook.mjs");
 
-module.exports = {
+export default {
   ...common,
   key: "eventbrite-new-attendee-checkin",
   name: "New Attendee Check-In (Instant)",
-  description: "Emits an event when an attendee checks in to an event",
-  version: "0.0.2",
+  description: "Emit new event when an attendee checks in to an event",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   methods: {

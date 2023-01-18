@@ -1,14 +1,14 @@
-const axios = require("axios");
-/* timezone-list: https://www.npmjs.com/package/timezones-list */
-const timezones = require("timezones-list");
+import { axios } from "@pipedream/platform";
+import timezones from "timezones-list";
 
-module.exports = {
+export default {
   type: "app",
   app: "eventbrite",
   propDefinitions: {
     organization: {
       type: "string",
       label: "Organization",
+      description: "Select an organization",
       async options({ prevContext }) {
         const {
           prevHasMore: hasMore = false,
@@ -85,9 +85,10 @@ module.exports = {
     async _makeRequest(
       method,
       endpoint,
-      params = null,
-      data = null,
+      params = undefined,
+      data = undefined,
       url = `${this._getBaseUrl()}${endpoint}`,
+      ctx = this,
     ) {
       const config = {
         method,
@@ -96,7 +97,7 @@ module.exports = {
         params,
         data,
       };
-      return (await axios(config)).data;
+      return (await axios(ctx, config));
     },
     async createHook(orgId, data) {
       return await this._makeRequest(
@@ -125,27 +126,36 @@ module.exports = {
       );
     },
     async getResource(url) {
-      return await this._makeRequest("GET", null, null, null, url);
-    },
-    async getEvent(eventId, params = null) {
-      return await this._makeRequest("GET", `events/${eventId}/`, params);
+      return await this._makeRequest("GET", undefined, undefined, undefined, url);
     },
     async getOrderAttendees(orderId) {
       return await this._makeRequest("GET", `orders/${orderId}/attendees/`);
     },
-    async getEventAttendees(eventId, params = null) {
+    async getEvent($, eventId, params = null) {
+      return await this._makeRequest(
+        "GET",
+        `events/${eventId}/`,
+        params,
+        undefined,
+        $,
+      );
+    },
+    async getEventAttendees($, eventId, params = null) {
       return await this._makeRequest(
         "GET",
         `events/${eventId}/attendees/`,
         params,
+        undefined,
+        $,
       );
     },
-    async createEvent(orgId, data) {
+    async createEvent($, orgId, data) {
       return await this._makeRequest(
         "POST",
         `organizations/${orgId}/events/`,
-        null,
+        undefined,
         data,
+        $,
       );
     },
   },

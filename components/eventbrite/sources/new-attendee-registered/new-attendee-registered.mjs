@@ -1,11 +1,11 @@
-const common = require("../common/webhook.js");
+import common from "../common/webhook.mjs";
 
 module.exports = {
   ...common,
   key: "eventbrite-new-attendee-registered",
   name: "New Attendee Registered (Instant)",
-  description: "Emits an event when an attendee registers for an event",
-  version: "0.0.2",
+  description: "Emit new event when an attendee registers for an event",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   methods: {

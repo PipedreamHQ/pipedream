@@ -1,10 +1,10 @@
-const eventbrite = require("../../eventbrite.app");
+import eventbrite from "../../eventbrite.app.mjs";
 
-module.exports = {
+export default {
   key: "eventbrite-get-event-attendees",
   name: "Get Event Attendees",
   description: "Get event attendees for a specified event.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     eventbrite,
@@ -16,13 +16,13 @@ module.exports = {
     },
   },
   methods: {
-    async *attendeeStream(params = {}) {
+    async *attendeeStream($, params = {}) {
       let hasMoreItems;
       do {
         const {
           attendees,
           pagination = {},
-        } = await this.eventbrite.getEventAttendees(this.eventId, params);
+        } = await this.eventbrite.getEventAttendees($, this.eventId, params);
         for (const attendee of attendees) {
           yield attendee;
         }
@@ -32,12 +32,13 @@ module.exports = {
       } while (hasMoreItems);
     },
   },
-  async run() {
-    const attendeeStream = await this.attendeeStream();
+  async run({ $ }) {
+    const attendeeStream = await this.attendeeStream($);
     const attendees = [];
     for await (const attendee of attendeeStream) {
       attendees.push(attendee);
     }
+    $.export("$summary", `Successfully fetched ${attendees.length} attendees`);
     return attendees;
   },
 };
