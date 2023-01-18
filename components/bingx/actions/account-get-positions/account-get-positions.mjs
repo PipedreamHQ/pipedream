@@ -1,7 +1,7 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Account GetPositions",
+  name: "BingX Account Get Positions",
   version: "0.0.3",
   key: "bingx-account-get-positions",
   description: "Perpetual Swap Positions [reference](https://bingx-api.github.io/docs/swap/account-api.html#_2-perpetual-swap-positions).",
@@ -15,7 +15,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/api/v1/user/getPositions";

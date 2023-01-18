@@ -1,7 +1,7 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Trade QueryOrder",
+  name: "BingX Trade Query Order",
   version: "0.0.3",
   key: "bingx-trade-query-order",
   description: "Query Order Details [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_8-query-order-details).",
@@ -21,7 +21,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "POST";
     const API_PATH = "/api/v1/user/queryOrderStatus";

@@ -1,7 +1,7 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Account GetBalance",
+  name: "BingX Account Get Balance",
   version: "0.0.4",
   key: "bingx-account-get-balance",
   description: "Get Perpetual Swap Account Asset Information [reference](https://bingx-api.github.io/docs/swap/account-api.html#_1-get-perpetual-swap-account-asset-information).",
@@ -22,7 +22,7 @@ export default {
     const parameters = {
       "currency": this.currency,
     };
-    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     if (returnValue.code) {
       throw new Error(returnValue.msg);
     } else {

@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 import { KLINE_DESC_MAPPING } from "../../common.mjs";
 
 export default {
-  name: "BingX Market GetHistoryKlines",
+  name: "BingX Market Get History Klines",
   version: "0.0.3",
   key: "bingx-market-get-kline-history",
   description: "K-Line Data History [reference](https://bingx-api.github.io/docs/swap/market-api.html#_8-k-line-data-history).",
@@ -34,7 +34,6 @@ export default {
     },
   },
   type: "action",
-  methods: {},
   async run({ $ }) {
     const API_METHOD = "GET";
     const API_PATH = "/api/v1/market/getHistoryKlines";
@@ -44,7 +43,7 @@ export default {
       "startTs": this.startTime,
       "endTs": this.endTime,
     };
-    let returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+    const returnValue = await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     $.export("$summary", `K-Line Data History for Trading Pair ${this.symbol}`);
     return returnValue;
   },
