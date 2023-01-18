@@ -92,7 +92,7 @@ export default {
       let query = "";
       query += makeQuery(new Date(this.dateRangeStart), "start");
       if (this.dateRangeEnd) {
-        query += `&${this.makeQuery(new Date(this.dateRangeEnd), "end")}`;
+        query += `&${makeQuery(new Date(this.dateRangeEnd), "end")}`;
       }
       return query;
     },
