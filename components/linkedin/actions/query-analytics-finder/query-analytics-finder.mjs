@@ -14,7 +14,7 @@ export default {
   key: "linkedin-query-analytics-finder",
   name: "Query Analytics Finder",
   description: "Queries the Analytics Finder to get analytics for the specified entity i.e company, account, campaign. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
-  version: "0.1.4",
+  version: "0.2.0",
   type: "action",
   props: {
     linkedin,
