@@ -17,7 +17,7 @@ export default {
     orderIds: {
       propDefinition: [
         bingx,
-        "orderId",
+        "pendingOrderIds",
         (c) => ({
           symbol: c.symbol,
         }),

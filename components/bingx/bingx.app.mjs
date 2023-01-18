@@ -94,6 +94,11 @@ export default {
       label: "Order ID",
       description: "Order ID",
       type: "string",
+    },
+    pendingOrderIds: {
+      label: "Order Ids",
+      description: "Array of Order IDs to cancel",
+      type: "string[]",
       optional: false,
       async options({
         symbol, prevContext,
@@ -105,7 +110,7 @@ export default {
         if (symbol) {
           params.symbol = symbol;
         }
-        const { orders } = (await this.listOrders(params)).data;
+        const { orders } = (await this.listPendingOrders(params)).data;
         const options = orders?.map((order) => order.orderId) || [];
         return {
           options,
@@ -188,9 +193,9 @@ export default {
       const parameters = {};
       return await this.makeRequest(API_METHOD, API_PATH, parameters);
     },
-    async listOrders(parameters) {
+    async listPendingOrders(parameters) {
       const API_METHOD = "POST";
-      const API_PATH = "/api/v1/user/historyOrders";
+      const API_PATH = "/api/v1/user/pendingOrders";
       return this.makeRequest(API_METHOD, API_PATH, parameters);
     },
     convertToFloat(value) {

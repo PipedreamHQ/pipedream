@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         bingx,
         "orderId",
-        (c) => ({
-          symbol: c.symbol,
-        }),
       ],
     },
   },

@@ -5,8 +5,7 @@ export default {
   name: "BingX Market GetHistoryKlines",
   version: "0.0.3",
   key: "bingx-market-get-kline-history",
-  description: "K-Line Data History " +
-        "[reference](https://bingx-api.github.io/docs/swap/market-api.html#_8-k-line-data-history).",
+  description: "K-Line Data History [reference](https://bingx-api.github.io/docs/swap/market-api.html#_8-k-line-data-history).",
   props: {
     bingx,
     symbol: {
