@@ -7,7 +7,6 @@
     "pipedream",
     "enedis"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/enedis",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
