@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-contracts",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Contracts",
   description: "Returns the contract informations of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-contrats/)",
   ...common,
@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getContracts(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The contracts informations were successfully fetched!");
     return response;
   },

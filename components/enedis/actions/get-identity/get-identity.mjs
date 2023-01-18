@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-identity",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Identity",
   description: "Returns the identity of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-identite/)",
   ...common,
@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getIdentity(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The client identity was successfully fetched!");
     return response;
   },

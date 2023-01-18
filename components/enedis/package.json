@@ -1,17 +1,19 @@
 {
   "name": "@pipedream/enedis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Enedis Data-Connect Components",
-  "main": "dist/app/enedis.app.mjs",
+  "main": "enedis.app.mjs",
   "keywords": [
     "pipedream",
     "enedis"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/enedis",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
   }
 }
