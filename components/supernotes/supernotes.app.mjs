@@ -39,16 +39,12 @@ export default {
         "api-key": `${this.$auth.api_key}`,
       };
     },
-    createSimpleCard({
-      $ = this,
-      data,
+    _makeRequest({
+      $, config,
     }) {
-      return axios($, {
-        url: this._getBaseUrl("/v1/cards/simple"),
-        data,
-        headers: this._getHeaders(),
-        method: "POST",
-      });
+      config.headers = this._getHeaders();
+      config.url = this._getBaseUrl(config.path);
+      return axios($ ?? this, config);
     },
   },
 };

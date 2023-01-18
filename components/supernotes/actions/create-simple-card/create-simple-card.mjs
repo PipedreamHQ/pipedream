@@ -33,6 +33,21 @@ export default {
       ],
     },
   },
+  methods: {
+    createSimpleCard({
+      $ = this,
+      data,
+    }) {
+      return this.app._makeRequest({
+        $,
+        config: {
+          path: "/v1/cards/simple",
+          data,
+          method: "POST",
+        },
+      });
+    },
+  },
   async run({ $ }) {
     const {
       name,
@@ -41,7 +56,7 @@ export default {
       tags,
     } = this;
 
-    const response = await this.app.createSimpleCard({
+    const response = await this.createSimpleCard({
       $,
       data: {
         name,
