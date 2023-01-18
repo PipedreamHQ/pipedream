@@ -85,8 +85,8 @@ export default {
     async _makeRequest(
       method,
       endpoint,
-      params = undefined,
-      data = undefined,
+      params,
+      data,
       url = `${this._getBaseUrl()}${endpoint}`,
       ctx = this,
     ) {
