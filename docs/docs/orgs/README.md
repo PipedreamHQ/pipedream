@@ -1,5 +1,13 @@
 # Managing your Organization
 
+::: info
+
+Improvements are coming. Soon Organizations are transitioning to Workspaces.
+
+If you have an exisiting Organization in Pipedream, you'll soon be migrated to the new and improved version called **Workspaces**.
+
+:::
+
 Organizations ("orgs") provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
 
 [[toc]]
