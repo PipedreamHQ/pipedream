@@ -1,6 +1,10 @@
 # Overview
 
-Using ServiceM8 API, you can build powerful, business-critical apps that benefit your ServiceM8 customers. The API allows you to quickly connect with the ServiceM8 platform to build apps, generate reports, and integrate with third-party services. Here are some examples of what can be built using the ServiceM8 API:
+Using ServiceM8 API, you can build powerful, business-critical apps that
+benefit your ServiceM8 customers. The API allows you to quickly connect with
+the ServiceM8 platform to build apps, generate reports, and integrate with
+third-party services. Here are some examples of what can be built using the
+ServiceM8 API:
 
 - Automated job scheduling and management.
 - Connect with other systems such as Xero, MYOB, and Salesforce.

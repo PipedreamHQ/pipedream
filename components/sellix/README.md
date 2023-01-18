@@ -1,8 +1,12 @@
 # Overview
 
-Welcome to the Sellix API! With this powerful platform, you can create your own e-commerce store with fully customizable features. No technical expertise required. The Sellix API is designed for business owners and developers alike to build robust stores with powerful functionality and features.
+With this powerful platform, you can create your own e-commerce store with
+fully customizable features. No technical expertise required. The Sellix API is
+designed for business owners and developers alike to build robust stores with
+powerful functionality and features.
 
-The Sellix API allows you to create a wide range of e-commerce stores with features such as:
+The Sellix API allows you to create a wide range of e-commerce stores with
+features such as:
 
 - Hosted checkout pages
 - Customizable product pages
@@ -14,7 +18,9 @@ The Sellix API allows you to create a wide range of e-commerce stores with featu
 - Robust reporting tools
 - Mobile optimized experiences
 
-These are just some examples of what you can build with the Sellix API. With the ability to further customize your store, you can create a unique, feature-rich experience for your customers.
+These are just some examples of what you can build with the Sellix API. With
+the ability to further customize your store, you can create a unique,
+feature-rich experience for your customers.
 
 Here are some examples of stores made using the Sellix API:
 

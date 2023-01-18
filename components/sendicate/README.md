@@ -1,6 +1,7 @@
 # Overview
 
-Using the Sendicate API you can create a wide range of email campaigns to engage with your customers or potential customers. Through the API you can:
+Using the Sendicate API you can create a wide range of email campaigns to
+engage with your customers or potential customers. Through the API you can:
 
 - Create, send and track multi-channel email campaigns
 - Build advanced segmentation for your campaigns

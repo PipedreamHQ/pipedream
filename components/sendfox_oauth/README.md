@@ -1,6 +1,9 @@
 # Overview
 
-With SendFox's API, you can easily create powerful integrations that are tailored to fit the needs of your project. Whether you're looking to manage customer relationships, send automated transactional emails, or create marketing automation workflows, the SendFox API has you covered.
+With SendFox's API, you can easily create powerful integrations that are
+tailored to fit the needs of your project. Whether you're looking to manage
+customer relationships, send automated transactional emails, or create
+marketing automation workflows, the SendFox API has you covered.
 
 Here are some examples of what you can build with the SendFox API:
 
