@@ -46,63 +46,63 @@ export default {
       return axios($ ?? this, config);
     },
     async getConsumptionLoadCurve(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/metering_data_clc/v5/consumption_load_curve",
         params,
       });
     },
     async getProductionLoadCurve(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/metering_data_plc/v5/production_load_curve",
         params,
       });
     },
     async getDailyConsumptionMaxPower(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/metering_data_dcmp/v5/daily_consumption_max_power",
         params,
       });
     },
     async getDailyConsumption(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/metering_data_dc/v5/daily_consumption",
         params,
       });
     },
     async getDailyProduction(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/metering_data_dp/v5/daily_production",
         params,
       });
     },
     async getIdentity(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/customers_i/v5/identity",
         params,
       });
     },
     async getContact(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/customers_cd/v5/contact_data",
         params,
       });
     },
     async getContracts(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/customers_upc/v5/usage_points/contracts",
         params,
       });
     },
     async getAddress(params) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "GET",
         path: "/customers_upa/v5/usage_points/addresses",
         params,
