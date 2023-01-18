@@ -923,7 +923,10 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/enedis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/enigma:
     specifiers: {}
@@ -2432,6 +2435,12 @@ importers:
 
   components/qstash:
     specifiers: {}
+
+  components/qualaroo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/quickbooks:
     specifiers:
