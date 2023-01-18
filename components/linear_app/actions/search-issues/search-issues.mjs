@@ -6,7 +6,7 @@ export default {
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.1.4",
+  version: "0.1.5",
   props: {
     linearApp,
     query: {
@@ -56,6 +56,9 @@ export default {
   methods: {
     buildFilter() {
       return {
+        title: {
+          containsIgnoreCase: this.query,
+        },
         team: {
           id: {
             eq: this.teamId,
@@ -81,7 +84,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      query,
       orderBy,
       includeArchived,
     } = this;
@@ -96,14 +98,11 @@ export default {
         nodes,
         pageInfo,
       } = await this.linearApp.searchIssues({
-        query,
-        variables: {
-          filter,
-          orderBy,
-          after,
-          includeArchived,
-          first: constants.DEFAULT_LIMIT,
-        },
+        filter,
+        orderBy,
+        after,
+        includeArchived,
+        first: constants.DEFAULT_LIMIT,
       });
 
       issues.push(...nodes);

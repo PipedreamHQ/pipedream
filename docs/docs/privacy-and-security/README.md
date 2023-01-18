@@ -9,7 +9,7 @@ Pipedream is committed to the privacy and security of your data. Below, we outli
 
 It is also your responsibility as a customer to ensure you're securing your workflows' code and data. See our [security best practices](/privacy-and-security/best-practices/) for more information.
 
-Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type I report upon request. Please reach out to <span style="font-weight: bold">support@pipedream.com</span> to request that report.
+Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please reach out to <span style="font-weight: bold">support@pipedream.com</span>).
 
 If you have any questions related to data privacy, please email <span style="font-weight: bold">privacy@pipedream.com</span>. If you have any security-related questions, or if you'd like to report a suspected vulnerability, please email <span style="font-weight: bold">security@pipedream.com</span>.
 
@@ -29,7 +29,7 @@ If you suspect Pipedream resources are being used for illegal purposes, or other
 
 ### SOC 2
 
-Pipedream undergoes regular third-party audits. We have demonstrated SOC 2 compliance and can provide a SOC 2 Type I report upon request. Please reach out to <span style="font-weight: bold">support@pipedream.com</span> to request that report.
+Pipedream undergoes regular third-party audits. We have demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request. Please reach out to <span style="font-weight: bold">support@pipedream.com</span> to request that report.
 
 We use [Drata](https://drata.com) to continuosly monitor our infrastructure's compliance with standards like SOC 2, and you can visit our [Security Report](https://app.drata.com/security-report/b45c2f79-1968-496b-8a10-321115b55845/27f61ebf-57e1-4917-9536-780faed1f236) to see a list of policies and processes we implement and track within Drata.
 

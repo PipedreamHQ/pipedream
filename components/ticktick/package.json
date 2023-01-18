@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ticktick",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Ticktick Components",
   "main": "ticktick.app.mjs",
   "keywords": [

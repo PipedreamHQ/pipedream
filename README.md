@@ -9,7 +9,7 @@
 
 Pipedream is an integration platform for developers.
 
-Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic.
+Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic. Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please email support@pipedream.com).
 
 <p align="center">
   <br />
@@ -22,7 +22,7 @@ This repo contains:
 - [The code for all pre-built integration components](https://github.com/PipedreamHQ/pipedream/tree/master/components)
 - [The product roadmap](https://github.com/PipedreamHQ/pipedream/issues)
 - [The Pipedream docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs)
-- And other open-source code related to Pipedream. 
+- And other source code related to Pipedream.
 
 This `README` explains the key features of the platform and how to get started.
 
@@ -98,12 +98,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-    }
+    },
   },
   async run() {
-    return `hello ${this.name}!`
+    return `hello ${this.name}!`;
   },
-}
+};
 ```
 
 You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
@@ -143,7 +143,7 @@ You can import any package from the languages' package managers by declaring the
 
 ```javascript
 // Node.js
-import axios from 'axios'
+import axios from "axios";
 ```
 
 ```python
@@ -162,24 +162,24 @@ import (
 You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel:
 
 ```javascript
-import { WebClient } from '@slack/web-api'
+import { WebClient } from "@slack/web-api";
 
 export default defineComponent({
   props: {
     // This creates a connection called "slack" that connects a Slack account.
     slack: {
-      type: 'app',
-      app: 'slack'
-    }
+      type: "app",
+      app: "slack",
+    },
   },
   async run({ steps, $ }) {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
 
     return await web.chat.postMessage({
       text: "Hello, world!",
       channel: "#general",
-    })
-  }
+    });
+  },
 });
 ```
 

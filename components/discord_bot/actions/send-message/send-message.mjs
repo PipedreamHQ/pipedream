@@ -1,13 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../../common.mjs";
 import utils from "../../common/utils.mjs";
+import constants from "../../constants.mjs";
 
 const { discord } = common.props;
 
 export default {
   key: "discord_bot-send-message",
   name: "Send message",
-  description: "Send message to an user. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
-  version: "0.0.3",
+  description: "Send message to a user or a channel. [See the docs here](https://discord.com/developers/docs/resources/user#create-dm) and [here](https://discord.com/developers/docs/resources/channel#create-message)",
+  version: "0.0.7",
   type: "action",
   props: {
     discord,
@@ -57,6 +59,20 @@ export default {
           guildId: c.guildId,
         }),
       ],
+      description: "Select either a user or a channel",
+      optional: true,
+    },
+    channelId: {
+      propDefinition: [
+        discord,
+        "channelId",
+        ({ guildId }) => ({
+          guildId,
+          notAllowedChannels: constants.NOT_ALLOWED_CHANNELS,
+        }),
+      ],
+      description: "Select either a channel or an user",
+      optional: true,
     },
   },
   methods: {
@@ -89,14 +105,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const createDMChannelResponse = await this.discord.createDm({
-      $,
-      recipientId: this.userId,
-    });
-    if (createDMChannelResponse.id) {
+    if ((this.userId && this.channelId) || (!this.userId && !this.channelId)) {
+      throw new ConfigurationError("You must select either a user or a channel.");
+    }
+    let channelId = this.channelId;
+    if (this.userId) {
+      const createDMChannelResponse = await this.discord.createDm({
+        $,
+        recipientId: this.userId,
+      });
+      channelId = createDMChannelResponse.id;
+    }
+    if (channelId) {
       const createMessageResponse = await this.discord.createMessage({
         $,
-        channelId: createDMChannelResponse.id,
+        channelId,
         data: {
           embeds: utils.parseObject(this.embeds),
           avatarURL: this.avatarURL,
