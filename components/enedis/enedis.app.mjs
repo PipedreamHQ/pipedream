@@ -22,20 +22,20 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return `https://ext.hml.api.enedis.fr`;
+      return "https://ext.hml.api.enedis.fr";
     },
     _getHeaders() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Accept": "application/json",
         "Content-Type": "application/json",
-		"User-Agent": "@PipedreamHQ/pipedream v0.1",
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
-	},
+    },
     async _makeRequest({
       $,
       path,
-	  params
+      params,
     } = {}) {
       const config = {
         baseURL: this._getBaseUrl(),
@@ -49,63 +49,63 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_clc/v5/consumption_load_curve",
-		params
+        params,
       });
     },
     async getProductionLoadCurve(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_plc/v5/production_load_curve",
-		params
+        params,
       });
     },
     async getDailyConsumptionMaxPower(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dcmp/v5/daily_consumption_max_power",
-		params
+        params,
       });
     },
     async getDailyConsumption(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dc/v5/daily_consumption",
-		params
+        params,
       });
     },
     async getDailyProduction(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/metering_data_dp/v5/daily_production",
-		params
+        params,
       });
     },
     async getIdentity(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_i/v5/identity",
-		params
+        params,
       });
     },
     async getContact(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_cd/v5/contact_data",
-		params
+        params,
       });
     },
     async getContracts(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_upc/v5/usage_points/contracts",
-		params
+        params,
       });
     },
     async getAddress(params) {
       return await this._makeRequest({
         method: "GET",
         path: "/customers_upa/v5/usage_points/addresses",
-		params
+        params,
       });
     },
   },

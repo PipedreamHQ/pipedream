@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getContracts(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The contracts informations were successfully fetched!");
     return response;
   },

@@ -30,13 +30,15 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = await this.enedis.getDailyConsumptionMaxPower(
-	  this.prepareAllParams()
-	);
-	$.export("$summary", `${response.meter_reading.interval_reading.length} value${response.meter_reading.interval_reading.length != 1 ? "s" : ""} has been retrieved.`);
+      this.prepareAllParams(),
+    );
+    $.export("$summary", `${response.meter_reading.interval_reading.length} value${response.meter_reading.interval_reading.length != 1
+      ? "s"
+      : ""} has been retrieved.`);
     return response.meter_reading;
   },
 };

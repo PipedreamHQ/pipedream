@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getIdentity(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The client identity was successfully fetched!");
     return response;
   },

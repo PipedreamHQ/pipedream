@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getAddress(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The client address was successfully fetched!");
     return response;
   },

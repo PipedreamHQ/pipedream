@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getContact(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The contact informations was successfully fetched!");
     return response;
   },
