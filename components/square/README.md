@@ -1,8 +1,7 @@
 # Overview
 
-What is the Square API
-
-The Square API, provided by Square Inc., is a powerful tool for creating integrations with in-store, online, and mobile payments.
+The Square API, provided by Square Inc., is a powerful tool for creating
+integrations with in-store, online, and mobile payments.
 
 The Square API allows apps to access functions such as:
 
@@ -13,9 +12,12 @@ The Square API allows apps to access functions such as:
 - Point of sale
 - Ordering & Delivery
 
-It provides developers with the capability to build powerful, secure, and easy to use applications that integrate with Square’s suite of products and services. In addition, the API allows developers to quickly build, customize, and iterate on their Square integrations.
+It provides developers with the capability to build powerful, secure, and easy
+to use applications that integrate with Square’s suite of products and
+services. In addition, the API allows developers to quickly build, customize,
+and iterate on their Square integrations.
 
-Examples of What You Can Built Using the Square API
+Examples of what you can build using the Square API:
 
 - Mobile apps and websites for accepting payments
 - ECommerce sites

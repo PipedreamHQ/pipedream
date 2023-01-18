@@ -1,8 +1,9 @@
 # Overview
 
- What Can I Build Using the Sumo Logic API?
-
-The Sumo Logic API is a powerful and easy to use tool that can be used to enhance your data experience. You can use it to build custom solutions for your data needs or integrate it into existing solutions for greater flexibility and control.
+The Sumo Logic API is a powerful and easy to use tool that can be used to
+enhance your data experience. You can use it to build custom solutions for your
+data needs or integrate it into existing solutions for greater flexibility and
+control.
 
 Some of the most common things you can build using the Sumo Logic API include:
 

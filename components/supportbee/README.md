@@ -1,6 +1,8 @@
 # Overview
 
-Using the SupportBee API, you can build software solutions to supercharge your customer service. Here are some examples of what you can create with the SupportBee API:
+Using the SupportBee API, you can build software solutions to supercharge your
+customer service. Here are some examples of what you can create with the
+SupportBee API:
 
 - Integrate support tickets with external systems and databases
 - Automate customer service workflows

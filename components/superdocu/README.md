@@ -1,6 +1,12 @@
 # Overview
 
-Superdocu is an innovative document and workflow management API designed to make creating, editing, and maintaining digital documents easier than ever. With its comprehensive set of tools, developers can create customized applications for a wide range of document-related needs. Whether it's automating document generation for an e-commerce platform or streamlining document collaboration for an enterprise company, Superdocu's robust API makes the task easy.
+Superdocu is an innovative document and workflow management API designed to
+make creating, editing, and maintaining digital documents easier than ever.
+With its comprehensive set of tools, developers can create customized
+applications for a wide range of document-related needs. Whether it's
+automating document generation for an e-commerce platform or streamlining
+document collaboration for an enterprise company, Superdocu's robust API makes
+the task easy.
 
 Below are some of the applications you can build with the Superdocu API:
 

@@ -1,8 +1,14 @@
 # Overview
 
-Supabase is an open-source database, authentication system, and hosting platform that allows you to quickly and easily build powerful web-based applications. Supabase’s API provides developers with the ability to quickly create, manage, and control data on their projects.
+Supabase is an open-source database, authentication system, and hosting
+platform that allows you to quickly and easily build powerful web-based
+applications. Supabase’s API provides developers with the ability to quickly
+create, manage, and control data on their projects.
 
-When combined with other libraries, such as React or Redux, developers can create fast, secure, and reliable websites. With Supabase’s API, developers can connect, query, and manage data on their web projects via a simple and intuitive interface.
+When combined with other libraries, such as React or Redux, developers can
+create fast, secure, and reliable websites. With Supabase’s API, developers can
+connect, query, and manage data on their web projects via a simple and
+intuitive interface.
 
 Here is a list of some of the things you can build using the Supabase API:
 
