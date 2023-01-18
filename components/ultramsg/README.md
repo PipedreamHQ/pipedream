@@ -1,6 +1,10 @@
 # Overview
 
-Using UltraMsg API, you can build powerful messaging applications quickly and easily. This API allows developers to quickly implement communication solutions such as chat, messaging, voice & video calls, presence, notifications, and data publishing/subscribing. With the UltraMsg API, it's easier than ever to add robust features to your app.
+Using UltraMsg API, you can build powerful messaging applications quickly and
+easily. This API allows developers to quickly implement communication solutions
+such as chat, messaging, voice & video calls, presence, notifications, and data
+publishing/subscribing. With the UltraMsg API, it's easier than ever to add
+robust features to your app.
 
 These are some of the features you can achieve with UltraMsg API:
 
