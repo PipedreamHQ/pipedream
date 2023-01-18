@@ -239,12 +239,16 @@ export default {
   },
   methods: {
     setupToken() {
-      const client = pipedrive.ApiClient.instance;
-      client.authentications.oauth2.accessToken = this.$auth.oauth_access_token;
+      const client = new pipedrive.ApiClient();
+      const oauth2 = client.authentications.oauth2;
+      oauth2.accessToken = this.$auth.oauth_access_token;
+      oauth2.refreshToken = this.$auth.oauth_refresh_token;
+      oauth2.clientId = this.$auth.oauth_client_id;
+      return client;
     },
     api(className) {
-      this.setupToken();
-      return new pipedrive[className]();
+      const client = this.setupToken();
+      return new pipedrive[className](client);
     },
     buildOpts(property, opts) {
       return pipedrive[property].constructFromObject(opts);
