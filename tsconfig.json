@@ -1199,6 +1199,9 @@
     },
     {
       "path": "components/braze"
+    },
+    {
+      "path": "components/salesmate"
     }
   ]
 }
