@@ -88,15 +88,12 @@ export default {
   },
   methods: {
     createDateRangeQuery() {
-      let query = "";
-      query += this.createDateQuery(new Date(this.dateRangeStart), "start");
-      if (this.dateRangeEnd) {
-        query += `&${this.createDateQuery(new Date(this.dateRangeEnd), "end")}`;
+      const start = new Date(this.dateRangeStart);
+      if (!this.dateRangeEnd) {
+        return `dateRange=(start:(day:${start.getDate() + 1},month:${start.getMonth() + 1},year:${start.getFullYear()}))`;
       }
-      return query;
-    },
-    createDateQuery(date, startOrEnd) {
-      return `dateRange=(${startOrEnd}:(day:${date.getDate() + 1},month:${date.getMonth() + 1},year:${date.getFullYear()}))`;
+      const end = new Date(this.dateRangeEnd);
+      return `dateRange=(start:(day:${start.getDate() + 1},month:${start.getMonth() + 1},year:${start.getFullYear()}),end:(day:${end.getDate() + 1},month:${end.getMonth() + 1},year:${end.getFullYear()}))`;
     },
     createListQuery(name, value) {
       return `${name}=List(${value.map(encodeURIComponent).join(",")})`;
