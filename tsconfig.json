@@ -1202,6 +1202,9 @@
     },
     {
       "path": "components/salesmate"
+    },
+    {
+      "path": "components/grafbase"
     }
   ]
 }
