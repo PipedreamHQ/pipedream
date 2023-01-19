@@ -8,12 +8,19 @@ export default {
   description:
     "Adds an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/add-exhibitor/add-exhibitor)",
   type: "action",
-  props: {
-    ...common.props,
+  methods: {
+    ...common.methods,
+    async addExhibitor(args) {
+      return this.expofp._makeRequest({
+        path: "/add-exhibitor",
+        method: "post",
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
     const { eventId } = this;
-    const response = await this.expofp.addExhibitor({
+    const response = await this.addExhibitor({
       $,
       data: {
         ...this.getCommonParams(),

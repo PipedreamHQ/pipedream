@@ -8,6 +8,15 @@ export default {
   key: "expofp-update-exhibitor",
   description: "Updates an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/update-exhibitor/update-exhibitor)",
   type: "action",
+  methods: {
+    async updateExhibitor(args) {
+      return this.expofp._makeRequest({
+        path: "/update-exhibitor",
+        method: "post",
+        ...args,
+      });
+    },
+  },
   props: {
     ...common.props,
     exhibitorId: {
@@ -21,7 +30,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.expofp.updateExhibitor({
+    const response = await this.updateExhibitor({
       $,
       data: {
         ...this.getCommonParams(),

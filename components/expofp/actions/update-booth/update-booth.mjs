@@ -6,6 +6,15 @@ export default {
   key: "expofp-update-booth",
   description: "Updates a booth. [See docs here](https://expofp.docs.apiary.io/#reference/0/update-booth/update-booth)",
   type: "action",
+  methods: {
+    async updateBooth(args) {
+      return this.expofp._makeRequest({
+        path: "/update-booth",
+        method: "post",
+        ...args,
+      });
+    },
+  },
   props: {
     expofp,
     eventId: {
@@ -27,7 +36,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.expofp.updateBooth({
+    const response = await this.updateBooth({
       $,
       data: {
         eventId: this.eventId,

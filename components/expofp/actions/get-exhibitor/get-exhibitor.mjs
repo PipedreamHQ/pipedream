@@ -6,6 +6,15 @@ export default {
   key: "expofp-get-exhibitor",
   description: "Get details of an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/get-exhibitor-details/get-exhibitor-details)",
   type: "action",
+  methods: {
+    async getExhibitor(args) {
+      return this.expofp._makeRequest({
+        path: "/get-exhibitor",
+        method: "post",
+        ...args,
+      });
+    },
+  },
   props: {
     expofp,
     eventId: {
@@ -25,7 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.expofp.getExhibitor({
+    const response = await this.getExhibitor({
       $,
       data: {
         id: this.exhibitorId,
