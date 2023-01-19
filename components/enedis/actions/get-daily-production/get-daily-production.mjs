@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-daily-production",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Daily Production",
   description: "Returns the daily production in Wh. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-production-quotidienne/)",
   ...common,
@@ -30,13 +30,15 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = await this.enedis.getDailyProduction(
-	  this.prepareAllParams()
-	);
-	$.export("$summary", `${response.meter_reading.interval_reading.length} value${response.meter_reading.interval_reading.length != 1 ? "s" : ""} has been retrieved.`);
+      this.prepareAllParams(),
+    );
+    $.export("$summary", `${response.meter_reading.interval_reading.length} value${response.meter_reading.interval_reading.length != 1
+      ? "s"
+      : ""} has been retrieved.`);
     return response.meter_reading;
   },
 };

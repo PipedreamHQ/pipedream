@@ -907,9 +907,6 @@
       "path": "components/dialmycalls"
     },
     {
-      "path": "components/enedis"
-    },
-    {
       "path": "components/manifestly_checklists"
     },
     {
@@ -1199,6 +1196,12 @@
     },
     {
       "path": "components/gatekeeper"
+    },
+    {
+      "path": "components/braze"
+    },
+    {
+      "path": "components/salesmate"
     }
   ]
 }
