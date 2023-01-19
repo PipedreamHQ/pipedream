@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   key: "eventbrite-create-event",
   name: "Create Event",
-  description: "Create a new Eventbrite event",
+  description: "Create a new Eventbrite event. [see docs here](https://www.eventbrite.com/platform/api#/reference/event/create/create-an-event)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -237,7 +237,8 @@ export default {
       },
     };
     data = JSON.parse(JSON.stringify(data));
+    const event = await this.eventbrite.createEvent($, this.organization, data);
     $.export("$summary", "Successfully created an event");
-    return await this.eventbrite.createEvent($, this.organization, data);
+    return event;
   },
 };

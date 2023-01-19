@@ -82,80 +82,105 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(
+    _makeRequest({
+      $ = this,
       method,
       endpoint,
-      params,
-      data,
       url = `${this._getBaseUrl()}${endpoint}`,
-      ctx = this,
-    ) {
+      ...args
+    }) {
       const config = {
         method,
         url,
         headers: this._getHeaders(),
-        params,
-        data,
+        ...args,
       };
-      return (await axios(ctx, config));
+      return axios($, config);
     },
-    async createHook(orgId, data) {
-      return await this._makeRequest(
-        "POST",
-        `organizations/${orgId}/webhooks/`,
-        null,
-        data,
+    createHook(orgId, data) {
+      return this._makeRequest(
+        {
+          method: "POST",
+          endpoint: `organizations/${orgId}/webhooks/`,
+          data,
+        },
       );
     },
-    async deleteHook(hookId) {
-      return await this._makeRequest("DELETE", `webhooks/${hookId}/`);
+    deleteHook(hookId) {
+      return this._makeRequest(
+        {
+          method: "DELETE",
+          endpoint: `webhooks/${hookId}/`,
+        },
+      );
     },
-    async listMyOrganizations(params) {
-      return await this._makeRequest("GET", "users/me/organizations", params);
+    listMyOrganizations(params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: "users/me/organizations",
+          params,
+        },
+      );
     },
-    async listEvents(
+    listEvents(
       {
         orgId,
         params,
       },
     ) {
-      return await this._makeRequest(
-        "GET",
-        `organizations/${orgId}/events/`,
-        params,
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `organizations/${orgId}/events/`,
+          params,
+        },
       );
     },
-    async getResource(url) {
-      return await this._makeRequest("GET", undefined, undefined, undefined, url);
-    },
-    async getOrderAttendees(orderId) {
-      return await this._makeRequest("GET", `orders/${orderId}/attendees/`);
-    },
-    async getEvent($, eventId, params = null) {
-      return await this._makeRequest(
-        "GET",
-        `events/${eventId}/`,
-        params,
-        undefined,
-        $,
+    getResource(url) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          url,
+        },
       );
     },
-    async getEventAttendees($, eventId, params = null) {
-      return await this._makeRequest(
-        "GET",
-        `events/${eventId}/attendees/`,
-        params,
-        undefined,
-        $,
+    getOrderAttendees(orderId) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `orders/${orderId}/attendees/`,
+        },
       );
     },
-    async createEvent($, orgId, data) {
-      return await this._makeRequest(
-        "POST",
-        `organizations/${orgId}/events/`,
-        undefined,
-        data,
-        $,
+    getEvent($, eventId, params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `events/${eventId}/`,
+          params,
+          $,
+        },
+      );
+    },
+    getEventAttendees($, eventId, params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `events/${eventId}/attendees/`,
+          params,
+          $,
+        },
+      );
+    },
+    createEvent($, orgId, data) {
+      return this._makeRequest(
+        {
+          method: "POST",
+          endpoint: `organizations/${orgId}/events/`,
+          data,
+          $,
+        },
       );
     },
   },
