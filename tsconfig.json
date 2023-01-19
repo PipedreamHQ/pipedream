@@ -1196,6 +1196,12 @@
     },
     {
       "path": "components/gatekeeper"
+    },
+    {
+      "path": "components/braze"
+    },
+    {
+      "path": "components/salesmate"
     }
   ]
 }
