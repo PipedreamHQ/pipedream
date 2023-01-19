@@ -1,66 +1,129 @@
-import todoist from "../../todoist.app.mjs";
+import linkedin from "../../linkedin.app.mjs";
+import axios from "axios"; // @pipedream/platform axios sends a bad request
+import constants from "../../common/constants.mjs";
+
+const FACETS = [
+  "campaignType",
+  "shares",
+  "campaigns",
+  "creatives",
+  "campaignGroups",
+  "accounts",
+  "companies",
+];
 
 export default {
-  key: "todoist-search-tasks",
-  name: "Search Tasks",
-  description: "Search tasks by name, label, project and/or section. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.1",
+  key: "linkedin-query-analytics-finder",
+  name: "Query Analytics Finder",
+  description: "Queries the Analytics Finder to get analytics for the specified entity i.e company, account, campaign. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/ads-reporting#analytics-finder)",
+  version: "0.2.0",
   type: "action",
   props: {
-    todoist,
-    name: {
+    linkedin,
+    pivot: {
+      propDefinition: [
+        linkedin,
+        "pivot",
+      ],
+    },
+    timeGranularity: {
+      propDefinition: [
+        linkedin,
+        "timeGranularity",
+      ],
+    },
+    dateRangeStart: {
       type: "string",
-      label: "Name Match",
-      description: "Returns tasks that contain the specified string in their name",
+      label: "Date Range Start",
+      description: "Represents the inclusive start time range of the analytics. If unset, it indicates an open range up to the end time. Should be in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, e.g. 2022-12-27.",
+    },
+    dateRangeEnd: {
+      type: "string",
+      label: "Date Range End",
+      description: "Represents the inclusive end time range of the analytics. Must be after start time if it's present. If unset, it indicates an open range from start time to everything after. Should be in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, e.g. 2022-12-27.",
       optional: true,
     },
-    label: {
-      propDefinition: [
-        todoist,
-        "labelString",
-      ],
-      type: "string",
-      label: "Label",
-      description: "Select a label to filter results by",
+    campaignType: {
+      type: "string[]",
+      label: "Campaign Type",
+      description: "An [Array of Campaign Type Values](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context). Required unless another facet is provided. Supported types are [TEXT_AD, SPONSORED_UPDATES, SPONSORED_INMAILS, DYNAMIC]. Requires at least one other facet.",
+      optional: true,
     },
-    project: {
-      propDefinition: [
-        todoist,
-        "project",
-      ],
+    shares: {
+      type: "string[]",
+      label: "Shares",
+      description: "An [Array of Share URN](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/share-api). Required unless another facet is provided.",
+      optional: true,
     },
-    section: {
-      propDefinition: [
-        todoist,
-        "section",
-        (c) => ({
-          project: c.project,
-        }),
-      ],
+    campaigns: {
+      type: "string[]",
+      label: "Campaigns",
+      description: "An [Array of Sponsored Campaign URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adcampaigns?context=linkedin/marketing/context). Required unless another facet is provided.",
+      optional: true,
+    },
+    creatives: {
+      type: "string[]",
+      label: "Creatives",
+      description: "An [Array of Sponsored Creative URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adcreatives?context=linkedin/marketing/context). Required unless another facet is provided.",
+      optional: true,
+    },
+    campaignGroups: {
+      type: "string[]",
+      label: "Campaign Groups",
+      description: "An [Array of Campaign Group URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adcampaigngroups?context=linkedin/marketing/context). Required unless another facet is provided.",
+      optional: true,
+    },
+    accounts: {
+      type: "string[]",
+      label: "Accounts",
+      description: "An [Array of Account URN](https://docs.microsoft.com/en-us/linkedin/shared/references/v2/ads/adaccounts?context=linkedin/marketing/context). Required unless another facet is provided.",
+      optional: true,
+    },
+    companies: {
+      type: "string[]",
+      label: "Companies",
+      description: "An [Array of Organization URN](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-lookup-api). Required unless another facet is provided.",
+      optional: true,
     },
   },
-  async run ({ $ }) {
-    const {
-      name,
-      label,
-      project,
-      section,
-    } = this;
-    const tasks = await this.todoist.getActiveTasks({
-      $,
-      params: {
-        label,
-        project_id: project,
-        section_id: section,
-      },
-    });
-    let result = name
-      ? tasks.filter((task) => task.content.includes(name))
-      : tasks;
-    let summary = `${result.length} task${result.length == 1
-      ? ""
-      : "s"} found`;
-    $.export("$summary", summary);
-    return result;
+  methods: {
+    createDateRangeQuery() {
+      let query = "";
+      query += this.createDateQuery(new Date(this.dateRangeStart), "start");
+      if (this.dateRangeEnd) {
+        query += `&${this.createDateQuery(new Date(this.dateRangeEnd), "end")}`;
+      }
+      return query;
+    },
+    createDateQuery(date, startOrEnd) {
+      return `dateRange=(${startOrEnd}:(day:${date.getDate() + 1},month:${date.getMonth() + 1},year:${date.getFullYear()}))`;
+    },
+    createListQuery(name, value) {
+      return `${name}=List(${value.map(encodeURIComponent).join(",")})`;
+    },
+  },
+  async run({ $ }) {
+    const PATH = "/adAnalytics";
+    let query = `?q=analytics&pivot=${this.pivot}&timeGranularity=${this.timeGranularity}&${this.createDateRangeQuery()}`;
+
+    for (const facet of FACETS) {
+      if (this[facet]) {
+        query += `&${this.createListQuery(facet, this[facet])}`;
+      }
+    }
+
+    const url = `${constants.BASE_URL}${constants.VERSION_PATH}${PATH}${query}`;
+    const headers = this.linkedin._getHeaders();
+
+    try {
+      const { data } = await axios({
+        url,
+        headers,
+      });
+      $.export("$summary", "Successfully retrieved analytics information");
+      return data;
+    } catch (e) {
+      throw new Error(JSON.stringify(e.response.data));
+    }
   },
 };
