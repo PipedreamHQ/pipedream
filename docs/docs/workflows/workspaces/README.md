@@ -5,7 +5,7 @@ When registering a Pipedream account, you're prompted to create a workspace. Wor
 Workspaces are a container for your projects and workflows, and can be shared with your team members.
 
 <div class="flex justify-center">
-  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1674062859/docs/CleanShot_2023-01-18_at_12.27.13_itqa7f.png" alt="How workspaces are organized" />
+  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1674143831/docs/New_Project_5_zep4ii.png" alt="How workspaces are organized" />
 </div>
 
 ## Projects
