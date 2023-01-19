@@ -88,15 +88,15 @@ export default {
   },
   methods: {
     createDateRangeQuery() {
-      function makeQuery(date, startOrEnd) {
-        return `dateRange=(${startOrEnd}:(day:${date.getDate() + 1},month:${date.getMonth() + 1},year:${date.getFullYear()}))`;
-      }
       let query = "";
-      query += makeQuery(new Date(this.dateRangeStart), "start");
+      query += this.createDateQuery(new Date(this.dateRangeStart), "start");
       if (this.dateRangeEnd) {
-        query += `&${makeQuery(new Date(this.dateRangeEnd), "end")}`;
+        query += `&${this.createDateQuery(new Date(this.dateRangeEnd), "end")}`;
       }
       return query;
+    },
+    createDateQuery(date, startOrEnd) {
+      return `dateRange=(${startOrEnd}:(day:${date.getDate() + 1},month:${date.getMonth() + 1},year:${date.getFullYear()}))`;
     },
     createListQuery(name, value) {
       return `${name}=List(${value.map(encodeURIComponent).join(",")})`;
