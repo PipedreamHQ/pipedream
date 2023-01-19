@@ -19,14 +19,8 @@ export default {
     emitEvent(event) {
       throw new Error("emitEvent is not implemented", event);
     },
-    deploy(event) {
-      throw new Error("deploy is not implemented", event);
-    },
   },
   hooks: {
-    async deploy() {
-      await this.deploy();
-    },
     async activate() {
       const { response } = await this.accelo.createWebhook({
         data: {
@@ -43,6 +37,6 @@ export default {
     },
   },
   async run(event) {
-    this.emitEvent(event.body);
+    await this.emitEvent(event.body);
   },
 };

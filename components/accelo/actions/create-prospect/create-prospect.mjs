@@ -13,7 +13,6 @@ export default {
         accelo,
         "prospectTypeId",
       ],
-      optional: true,
     },
     affiliationId: {
       propDefinition: [

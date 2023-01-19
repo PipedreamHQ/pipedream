@@ -8,11 +8,8 @@ export default {
   description: "Emit new event on each new request created.",
   type: "source",
   dedupe: "unique",
-  methods: {
-    ...common.methods,
-    getWebhookEventType() {
-      return "create_request";
-    },
+  hooks: {
+    ...common.hooks,
     async deploy() {
       const { response: requests } = await this.accelo.getRequests({
         params: {
@@ -21,8 +18,15 @@ export default {
         },
       });
 
-      requests.slice(0, 10).reverse()
-        .forEach(this.emitEvent);
+      for (const request of requests.slice(0, 10).reverse()) {
+        await this.emitEvent(request);
+      }
+    },
+  },
+  methods: {
+    ...common.methods,
+    getWebhookEventType() {
+      return "create_request";
     },
     async emitEvent(data) {
       const request = await this.accelo.getRequest({

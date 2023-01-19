@@ -18,7 +18,6 @@ export default {
       label: "First Name",
       description: "The contact's first name",
       type: "string",
-      optional: true,
     },
     middlename: {
       label: "Middle Name",
@@ -27,10 +26,9 @@ export default {
       optional: true,
     },
     surname: {
-      label: "Sur Name",
-      description: "The contact's sur name",
+      label: "Surname",
+      description: "The contact's surname",
       type: "string",
-      optional: true,
     },
     username: {
       label: "Username",

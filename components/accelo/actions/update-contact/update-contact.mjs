@@ -27,8 +27,8 @@ export default {
       optional: true,
     },
     surname: {
-      label: "Sur Name",
-      description: "The contact's sur name",
+      label: "Surname",
+      description: "The contact's surname",
       type: "string",
       optional: true,
     },

@@ -8,11 +8,8 @@ export default {
   description: "Emit new event on each new task assigned.",
   type: "source",
   dedupe: "unique",
-  methods: {
-    ...common.methods,
-    getWebhookEventType() {
-      return "assign_task";
-    },
+  hooks: {
+    ...common.hooks,
     async deploy() {
       const { response: tasks } = await this.accelo.getTasks({
         params: {
@@ -21,8 +18,15 @@ export default {
         },
       });
 
-      tasks.slice(0, 10).reverse()
-        .forEach(this.emitEvent);
+      for (const task of tasks.slice(0, 10).reverse()) {
+        await this.emitEvent(task);
+      }
+    },
+  },
+  methods: {
+    ...common.methods,
+    getWebhookEventType() {
+      return "assign_task";
     },
     async emitEvent(data) {
       const task = await this.accelo.getTask({
