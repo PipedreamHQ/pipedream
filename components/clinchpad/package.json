@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/clinchpad",
+  "version": "0.0.1",
+  "description": "Pipedream Clinchpad Components",
+  "main": "clinchpad.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clinchpad"
+  ],
+  "homepage": "https://pipedream.com/apps/clinchpad",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}
