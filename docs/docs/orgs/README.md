@@ -1,6 +1,6 @@
 # Managing your Organization
 
-::: info
+::: tip
 
 Improvements are coming. Soon Organizations are transitioning to Workspaces.
 
