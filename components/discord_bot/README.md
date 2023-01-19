@@ -2,7 +2,7 @@
 
 The Pipedream Discord app enables you to build event-driven workflows that interact with the Discord API. When you authorize the Pipedream app's access to your guilds, you can use [Pipedream workflows](/workflows/) to perform common Discord [actions](#workflow-actions), or [write your own code](/code/) against the Discord API.
 
-## Getting Started
+# Getting Started
 
 To use the Discord Bot integration, you'll need to create a Discord bot and add that bot to your server(s). Watch the 4 minute video below for a short tutorial:
 
@@ -31,7 +31,7 @@ However the Discord integration will perform actions with the official Pipedream
 
 Using the Discord Bot integration will use a custom bot instead, with it's own name and photo.
 
-### New Messages in Channel
+## New Messages in Channel
 
 [**Create this source here**](https://pipedream.com/new?h=eyJuIjoiTmV3IE1lc3NhZ2UgaW4gQ2hhbm5lbCBmcm9tIERpc2NvcmQgQm90IEFQSSIsInYiOjIsInQiOlsiZGlzY29yZF9ib3QtbmV3LW1lc3NhZ2UtaW4tY2hhbm5lbCJdLCJzIjpbXSwiYyI6e319).
 
@@ -49,7 +49,7 @@ By default, this event source is configured to emit an event for every new messa
 
 In this example, the source would emit a single event: an array of 5 messages.
 
-#### Message content is empty or missing
+## Message content is empty or missing
 
 If you've successfully authenticated your Discord Bot to Pipedream, but the incoming message data including `content`, `embeds` and `attachments` are empty; then your bot needs to [apply for access to this messaging data](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-FAQ).
 
