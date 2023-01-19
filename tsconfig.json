@@ -1205,6 +1205,42 @@
     },
     {
       "path": "components/grafbase"
+    },
+    {
+      "path": "components/getswift"
+    },
+    {
+      "path": "components/opsgenie"
+    },
+    {
+      "path": "components/plecto"
+    },
+    {
+      "path": "components/lahar"
+    },
+    {
+      "path": "components/questionpro"
+    },
+    {
+      "path": "components/float"
+    },
+    {
+      "path": "components/givingfuel"
+    },
+    {
+      "path": "components/formdesk"
+    },
+    {
+      "path": "components/hub_planner"
+    },
+    {
+      "path": "components/pobuca_connect"
+    },
+    {
+      "path": "components/processplan"
+    },
+    {
+      "path": "components/leadboxer"
     }
   ]
 }
