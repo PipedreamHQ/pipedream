@@ -1,4 +1,6 @@
 import linkedin from "../../linkedin.app.mjs";
+import axios from "axios"; // @pipedream/platform axios sends a bad request
+import constants from "../../common/constants.mjs";
 
 const FACETS = [
   "campaignType",
@@ -97,11 +99,12 @@ export default {
       return query;
     },
     createListQuery(name, value) {
-      return `${name}=List(${value.join(",")})`;
+      return `${name}=List(${value.map(encodeURIComponent).join(",")})`;
     },
   },
   async run({ $ }) {
-    let query = `&pivot=${this.pivot}&timeGranularity=${this.timeGranularity}&${this.createDateRangeQuery()}`;
+    const PATH = "/adAnalytics";
+    let query = `?q=analytics&pivot=${this.pivot}&timeGranularity=${this.timeGranularity}&${this.createDateRangeQuery()}`;
 
     for (const facet of FACETS) {
       if (this[facet]) {
@@ -109,12 +112,18 @@ export default {
       }
     }
 
-    const response = await this.linkedin.queryAnaltyics(query, {
-      $,
-    });
+    const url = `${constants.BASE_URL}${constants.VERSION_PATH}${PATH}${query}`;
+    const headers = this.linkedin._getHeaders();
 
-    $.export("$summary", "Successfully retrieved analytics information");
-
-    return response;
+    try {
+      const { data } = await axios({
+        url,
+        headers,
+      });
+      $.export("$summary", "Successfully retrieved analytics information");
+      return data;
+    } catch (e) {
+      throw new Error(JSON.stringify(e.response.data));
+    }
   },
 };
