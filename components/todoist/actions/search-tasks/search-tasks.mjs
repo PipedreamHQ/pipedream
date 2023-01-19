@@ -4,7 +4,7 @@ export default {
   key: "todoist-search-tasks",
   name: "Search Tasks",
   description: "Search tasks by name, label, project and/or section. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
@@ -39,7 +39,7 @@ export default {
       ],
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const {
       name,
       label,
