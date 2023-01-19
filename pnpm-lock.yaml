@@ -359,7 +359,10 @@ importers:
     specifiers: {}
 
   components/bingx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
 
   components/bitbucket:
     specifiers:
