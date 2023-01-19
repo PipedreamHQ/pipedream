@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/add-or-update-exhibitor.mjs";
 
 export default {
   ...common,
