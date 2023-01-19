@@ -1094,6 +1094,9 @@ importers:
       '@pipedream/platform': 1.1.1
       crypto-js: 4.1.1
 
+  components/gatekeeper:
+    specifiers: {}
+
   components/gatherup:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1688,8 +1691,10 @@ importers:
   components/linkedin:
     specifiers:
       '@pipedream/platform': ^1.2.1
+      axios: ^1.2.3
     dependencies:
       '@pipedream/platform': 1.2.1
+      axios: 1.2.3
 
   components/linqs_cc:
     specifiers: {}
@@ -1999,6 +2004,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.0
+
+  components/newslit:
+    specifiers: {}
 
   components/nextdns:
     specifiers: {}
@@ -3043,6 +3051,9 @@ importers:
       crypto: ^1.0.1
     dependencies:
       crypto: 1.0.1
+
+  components/supernotes:
+    specifiers: {}
 
   components/supersaas:
     specifiers:
@@ -11070,7 +11081,7 @@ packages:
   /@types/axios/0.14.0:
     resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     dependencies:
-      axios: 0.27.2
+      axios: 1.2.3
     transitivePeerDependencies:
       - debug
     dev: true
@@ -12081,11 +12092,12 @@ packages:
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
   /axios/0.27.2_debug@3.2.7:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1_debug@3.2.7
+      follow-redirects: 1.15.2_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -12100,6 +12112,15 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: false
+
+  /axios/1.2.3:
+    resolution: {integrity: sha512-pdDkMYJeuXLZ6Xj/Q5J3Phpe+jbGdsSzlQaFVkMQzRUL05+6+tetX8TV3p4HrU4kzuO9bt+io/yGQxuyxA/xcw==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
 
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha512-XqYMR2dfdGMW+hd0IUZ2PwK+fGeFkOxZJ0wY+JaQAHzt1Zx8LcvpiZD2NiGkEG8qx0CfkAOr5xt76d1e8vG90g==}
@@ -14756,17 +14777,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-
-  /follow-redirects/1.15.1_debug@3.2.7:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
     dev: false
 
   /follow-redirects/1.15.2:
@@ -14777,6 +14787,17 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+
+  /follow-redirects/1.15.2_debug@3.2.7:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /follow-redirects/1.5.10:
@@ -20043,7 +20064,6 @@ packages:
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: false
 
   /ps-tree/1.2.0:
     resolution: {integrity: sha512-0VnamPPYHl4uaU/nSFeZZpR21QAWRz+sRv4iW9+v/GS/J5U5iZB5BNN6J0RMoOvdx2gWM2+ZFMIm58q24e4UYA==}
