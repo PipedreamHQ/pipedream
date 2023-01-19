@@ -10,13 +10,13 @@ Workspaces are a container for your projects and workflows, and can be shared wi
 
 ## Projects
 
-A workspaces can contain one or more _projects_. Projects are a way to organize your workflows into specific groupings or categories.
+A workspace can contain one or more _projects_. Projects are a way to organize your workflows into specific groupings or categories.
 
-::: details How limit workspace members from viewing or developing workflows in certain projects?
+::: details How do I limit workspace members from viewing or developing workflows in certain projects?
 
 Members of a given workspace can see all projects in the workspace. 
 
-If you need to limit certain project's visibility, to only some members, then those members belong in a different workspace.
+If you need to limit certain project's visibility to only some members, then those members belong in a different workspace.
 
 :::
 
@@ -28,7 +28,7 @@ Then click **Create project** to start a new project.
 
 Enter in your desired name for the project in the prompt, then click **Create**.
 
-That's it, you now have a dedicated new project created within your workspace. Now you can create workflows within this project, or move workflows into it, or create folders for further organization.
+That's it, you now have a dedicated new project created within your workspace. Now you can create workflows within this project, or move workflows into it or create folders for further organization.
 
 ### Creating folders and workflows in projects
 
@@ -52,7 +52,9 @@ A folders can also contain sub-folders, which allows you to create a filing syst
 
 To move workflows into folders, simply drag and drop the workflow into the folder.
 
-Moving workflows 
+You can move a workflows or folders up a level by dragging and dropping the workflow to the folder icon at the top of the list.
+
+
 
 ### Importing workflows into workspaces
 
@@ -61,3 +63,9 @@ Moving workflows
 This only applies to Pipedream accounts that created workflows before the workspaces feature was released.
 
 :::
+
+To import a workflow from the general **Workflows** area of your dashboard into a project, first open up the specific project you'd like to import the workflow into.
+
+Then at the top right of the project's page, click the **Import** button.
+
+You'll be prompted to select a workflow from your **Workflows** area to import.
