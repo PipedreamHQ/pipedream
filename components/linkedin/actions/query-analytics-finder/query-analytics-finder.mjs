@@ -35,12 +35,12 @@ export default {
     dateRangeStart: {
       type: "string",
       label: "Date Range Start",
-      description: "Represents the inclusive start time range of the analytics. If unset, it indicates an open range up to the end time.",
+      description: "Represents the inclusive start time range of the analytics. If unset, it indicates an open range up to the end time. Should be in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, e.g. 2022-12-27.",
     },
     dateRangeEnd: {
       type: "string",
       label: "Date Range End",
-      description: "Represents the inclusive end time range of the analytics. Must be after start time if it's present. If unset, it indicates an open range from start time to everything after.",
+      description: "Represents the inclusive end time range of the analytics. Must be after start time if it's present. If unset, it indicates an open range from start time to everything after. Should be in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, e.g. 2022-12-27.",
       optional: true,
     },
     campaignType: {
