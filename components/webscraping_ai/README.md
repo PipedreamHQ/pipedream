@@ -1,6 +1,8 @@
 # Overview
 
-WebScraping.AI is an API designed to make it easy to access and extract online content from websites. Using the WebScraping.AI API, you can quickly and easily build a range of automated data retrieval applications, such as:
+WebScraping.AI is an API designed to make it easy to access and extract online
+content from websites. Using the WebScraping.AI API, you can quickly and easily
+build a range of automated data retrieval applications, such as:
 
 - Web data scraping for lead generation
 - Automated web scraping to build market intelligence systems

@@ -1,6 +1,9 @@
 # Overview
 
-The WebMerge API allows you to create automated documents and business applications without the need to code. It's flexible, powerful, and easy to use. You can use the WebMerge API to build a variety of applications to streamline your day-to-day workflows.
+The WebMerge API allows you to create automated documents and business
+applications without the need to code. It's flexible, powerful, and easy to
+use. You can use the WebMerge API to build a variety of applications to
+streamline your day-to-day workflows.
 
 Here are some examples of what you can build using the WebMerge API:
 

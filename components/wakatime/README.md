@@ -1,6 +1,10 @@
 # Overview
 
-The WakaTime API enables developers to easily track, analyze, and display real-time coding activity and metrics. With the WakaTime API, you can build apps that help you measure and improve programming productivity. Here are a few examples of the type of applications and features you can create with the WakaTime API:
+The WakaTime API enables developers to easily track, analyze, and display
+real-time coding activity and metrics. With the WakaTime API, you can build
+apps that help you measure and improve programming productivity. Here are a few
+examples of the type of applications and features you can create with the
+WakaTime API:
 
 - Dashboards to visualize coding activity
 - Reports about programming languages and tools used

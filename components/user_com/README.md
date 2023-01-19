@@ -1,8 +1,10 @@
 # Overview
 
-## What You Can Build with the User.com API
-
-The User.com API enables developers to build automated integrations with their User.com CRM platform. It allows you to control the user data and use it in the most efficient way for your product. With the User.com API you can build innovative solutions for customer success, customer retention, and customer engagement.
+The User.com API enables developers to build automated integrations with their
+User.com CRM platform. It allows you to control the user data and use it in the
+most efficient way for your product. With the User.com API you can build
+innovative solutions for customer success, customer retention, and customer
+engagement.
 
 Here are some examples of what you can build using the User.com API:
 

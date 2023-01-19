@@ -1,6 +1,10 @@
 # Overview
 
-WebinarJam is an online event platform that provides users with powerful APIs to create engaging virtual events. With the WebinarJam API, users can easily build innovative and powerful virtual experiences that drive audience engagement and increase conversions. Here are some of the many things users can build using the WebinarJam API:
+WebinarJam is an online event platform that provides users with powerful APIs
+to create engaging virtual events. With the WebinarJam API, users can easily
+build innovative and powerful virtual experiences that drive audience
+engagement and increase conversions. Here are some of the many things users can
+build using the WebinarJam API:
 
 - Create an online webinar, with advanced features and customizations
 - Automate email signups and notifications
