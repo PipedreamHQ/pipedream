@@ -4,7 +4,7 @@
 
 Improvements are coming. Soon Organizations are transitioning to Workspaces.
 
-If you have an exisiting Organization in Pipedream, you'll soon be migrated to the new and improved version called **Workspaces**.
+If you have an exisiting Organization in Pipedream, you'll soon be migrated to the new and improved version called [**Workspaces**](/workspaces/).
 
 :::
 

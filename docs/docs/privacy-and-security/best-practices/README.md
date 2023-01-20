@@ -25,7 +25,7 @@ When you connect to APIs in a workflow, or deliver data to third-party destinati
 
 You can add many public-facing triggers to your workflows. For example, when you add an HTTP trigger to your workflow, anyone with the associated trigger URL can invoke it. You should protect your workflow with an authentication mechanism like [Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication), JWT, or others.
 
-See [this workflow](https://pipedream.com/@dylburger/protect-an-http-endpoint-with-basic-auth-p_pWCYAez/edit) for a Basic Auth example. This reads the username and password encoded in the `Authorization` header and compares it to the expected values, returning a `401 Unauthorized` error if auth fails.
+See [this workflow](https://pipedream.com/new?h=tch_OaJfNv) for a shared API key example. This reads the header `x-api-key` and compares it to the [environment variable](/environment-variable/) called `YOUR_WEBHOOK_API_KEY`. If the `x-api-key` header does not match this variable, it returns a `401 Unauthorized` error and exits the workflow early.
 
 This pattern is typical for protecting workflows: add the authentication logic in a step at the top of your workflow, ending early if auth fails. If auth succeeds, Pipedream runs the remaining steps of your workflow.
 

@@ -6,13 +6,15 @@ A workspace is a collection of **projects**, **folders** and **workflows**. You 
 
 You can be a member of one or more workspaces.
 
+[[toc]]
+
 ## Creating a new workspace
 
 To create another workspace, open the dropdown menu in the top left of the Pipedream dashboard.
 
 Then select **Create new workspace**.
 
-You'll be prompted to name the workspace, but don't worry you can [change the name later](/workspaces/#renaming-a-workspace).
+You'll be prompted to name the workspace. You can [change the name later](/workspaces/#renaming-a-workspace).
 
 ::: tip
 

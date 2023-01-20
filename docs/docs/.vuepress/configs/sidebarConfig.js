@@ -21,6 +21,7 @@ const docsNav = [
       "/migrate-from-v1/",
     ],
   },
+  "/projects/",
   "/sources/",
   "/connected-accounts/",
   ["/data-stores/", "Data Stores"],
@@ -80,13 +81,10 @@ const docsNav = [
     ],
   },
   ["/troubleshooting/", "Troubleshooting"],
-  {
-    title: "Settings",
-    children: ["/user-settings/", "/workspace-settings/"],
-  },
+  ["/user-settings/", "Settings"],
   {
     title: "Organizations",
-    children: ["/orgs/", "/orgs/sso/okta/"],
+    children: ["/orgs/", "/workspaces/", "/orgs/sso/okta/"],
   },
 ];
 
