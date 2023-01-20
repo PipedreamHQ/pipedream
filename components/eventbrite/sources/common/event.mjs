@@ -1,6 +1,6 @@
-const common = require("./webhook.js");
+import common from "./webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   methods: {
     ...common.methods,

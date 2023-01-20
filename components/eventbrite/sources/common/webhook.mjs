@@ -1,7 +1,7 @@
-const common = require("./base.js");
-const get = require("lodash/get");
+import common from "./base.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,

@@ -1,11 +1,11 @@
-const eventbrite = require("../../eventbrite.app");
-const locales = require("../locales.js");
+import eventbrite from "../../eventbrite.app.mjs";
+import constants from "../common/constants.mjs";
 
-module.exports = {
+export default {
   key: "eventbrite-create-event",
   name: "Create Event",
-  description: "Create a new Eventbrite event",
-  version: "0.0.1",
+  description: "Create a new Eventbrite event. [see docs here](https://www.eventbrite.com/platform/api#/reference/event/create/create-an-event)",
+  version: "0.0.2",
   type: "action",
   props: {
     eventbrite,
@@ -186,11 +186,11 @@ module.exports = {
       type: "string",
       label: "Locale",
       description: "Indicates event language on Event's listing page. Language options from Eventbrite documentation: https://www.eventbrite.com/platform/api#/reference/event/retrieve/create-an-event",
-      options: locales,
+      options: constants.LOCALE,
       default: "en_US",
     },
   },
-  async run() {
+  async run({ $ }) {
     /* convert start and end time to UTC in case time was entered with timezone offset */
     const startTime = (new Date(this.startTime)).toISOString()
       .split(".")[0] + "Z";
@@ -237,6 +237,8 @@ module.exports = {
       },
     };
     data = JSON.parse(JSON.stringify(data));
-    return await this.eventbrite.createEvent(this.organization, data);
+    const event = await this.eventbrite.createEvent($, this.organization, data);
+    $.export("$summary", "Successfully created an event");
+    return event;
   },
 };

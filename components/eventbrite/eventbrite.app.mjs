@@ -1,14 +1,14 @@
-const axios = require("axios");
-/* timezone-list: https://www.npmjs.com/package/timezones-list */
-const timezones = require("timezones-list");
+import { axios } from "@pipedream/platform";
+import timezones from "timezones-list";
 
-module.exports = {
+export default {
   type: "app",
   app: "eventbrite",
   propDefinitions: {
     organization: {
       type: "string",
       label: "Organization",
+      description: "Select an organization",
       async options({ prevContext }) {
         const {
           prevHasMore: hasMore = false,
@@ -82,70 +82,105 @@ module.exports = {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(
+    _makeRequest({
+      $ = this,
       method,
       endpoint,
-      params = null,
-      data = null,
       url = `${this._getBaseUrl()}${endpoint}`,
-    ) {
+      ...args
+    }) {
       const config = {
         method,
         url,
         headers: this._getHeaders(),
-        params,
-        data,
+        ...args,
       };
-      return (await axios(config)).data;
+      return axios($, config);
     },
-    async createHook(orgId, data) {
-      return await this._makeRequest(
-        "POST",
-        `organizations/${orgId}/webhooks/`,
-        null,
-        data,
+    createHook(orgId, data) {
+      return this._makeRequest(
+        {
+          method: "POST",
+          endpoint: `organizations/${orgId}/webhooks/`,
+          data,
+        },
       );
     },
-    async deleteHook(hookId) {
-      return await this._makeRequest("DELETE", `webhooks/${hookId}/`);
+    deleteHook(hookId) {
+      return this._makeRequest(
+        {
+          method: "DELETE",
+          endpoint: `webhooks/${hookId}/`,
+        },
+      );
     },
-    async listMyOrganizations(params) {
-      return await this._makeRequest("GET", "users/me/organizations", params);
+    listMyOrganizations(params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: "users/me/organizations",
+          params,
+        },
+      );
     },
-    async listEvents(
+    listEvents(
       {
         orgId,
         params,
       },
     ) {
-      return await this._makeRequest(
-        "GET",
-        `organizations/${orgId}/events/`,
-        params,
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `organizations/${orgId}/events/`,
+          params,
+        },
       );
     },
-    async getResource(url) {
-      return await this._makeRequest("GET", null, null, null, url);
-    },
-    async getEvent(eventId, params = null) {
-      return await this._makeRequest("GET", `events/${eventId}/`, params);
-    },
-    async getOrderAttendees(orderId) {
-      return await this._makeRequest("GET", `orders/${orderId}/attendees/`);
-    },
-    async getEventAttendees(eventId, params = null) {
-      return await this._makeRequest(
-        "GET",
-        `events/${eventId}/attendees/`,
-        params,
+    getResource(url) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          url,
+        },
       );
     },
-    async createEvent(orgId, data) {
-      return await this._makeRequest(
-        "POST",
-        `organizations/${orgId}/events/`,
-        null,
-        data,
+    getOrderAttendees(orderId) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `orders/${orderId}/attendees/`,
+        },
+      );
+    },
+    getEvent($, eventId, params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `events/${eventId}/`,
+          params,
+          $,
+        },
+      );
+    },
+    getEventAttendees($, eventId, params) {
+      return this._makeRequest(
+        {
+          method: "GET",
+          endpoint: `events/${eventId}/attendees/`,
+          params,
+          $,
+        },
+      );
+    },
+    createEvent($, orgId, data) {
+      return this._makeRequest(
+        {
+          method: "POST",
+          endpoint: `organizations/${orgId}/events/`,
+          data,
+          $,
+        },
       );
     },
   },

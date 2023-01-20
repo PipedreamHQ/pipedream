@@ -971,9 +971,11 @@ importers:
 
   components/eventbrite:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.2.1
+      lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.2.1
+      lodash: 4.17.21
 
   components/eversign:
     specifiers:
