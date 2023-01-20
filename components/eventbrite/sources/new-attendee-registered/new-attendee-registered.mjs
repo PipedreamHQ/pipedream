@@ -1,6 +1,6 @@
 import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "eventbrite-new-attendee-registered",
   name: "New Attendee Registered (Instant)",
