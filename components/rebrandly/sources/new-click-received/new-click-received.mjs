@@ -51,8 +51,16 @@ export default {
         },
       });
       const clickedLinks = this.getClickedLinks(links);
+
+      const [
+        lastClickedLink,
+      ] = clickedLinks;
+
+      if (lastClickedLink?.lastClickAt) {
+        this._setLastClickAt(Date.parse(lastClickedLink.lastClickAt));
+      }
+
       clickedLinks.reverse().forEach(this.emitEvent);
-      this._setLastClickAt(Date.parse(clickedLinks[0]?.lastClickAt));
     },
   },
   async run() {
