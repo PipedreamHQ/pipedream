@@ -1,8 +1,8 @@
 import bingx from "../../bingx.app.mjs";
 
 export default {
-  name: "BingX Custom CalculateLeveragedPosition",
-  version: "0.0.2",
+  name: "BingX Custom Calculate Leveraged Position",
+  version: "0.0.3",
   key: "bingx-custom-calculate-leveraged-position",
   description: "Calculate leveraged position based on entry, stop price and account balance",
   props: {
@@ -59,7 +59,7 @@ export default {
       const parameters = {
         "currency": this.currency,
       };
-      return await this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
+      return this.bingx.makeRequest(API_METHOD, API_PATH, parameters);
     },
     async getLatestPrice() {
       const API_METHOD = "GET";
