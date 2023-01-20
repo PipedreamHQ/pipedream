@@ -1241,6 +1241,12 @@
     },
     {
       "path": "components/leadboxer"
+    },
+    {
+      "path": "components/reversecontact"
+    },
+    {
+      "path": "components/gupshup"
     }
   ]
 }

@@ -1,12 +1,12 @@
-const common = require("../common/event.js");
-const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform");
+import common from "../common/event.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
-module.exports = {
+export default {
   ...common,
   key: "eventbrite-new-event-ended",
   name: "New Event Ended",
-  description: "Emits an event when an event has ended",
-  version: "0.0.2",
+  description: "Emit new event when an event has ended",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
