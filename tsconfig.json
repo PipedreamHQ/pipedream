@@ -1247,6 +1247,21 @@
     },
     {
       "path": "components/gupshup"
+    },
+    {
+      "path": "components/follow_up_boss"
+    },
+    {
+      "path": "components/lexoffice"
+    },
+    {
+      "path": "components/remarkety"
+    },
+    {
+      "path": "components/lessaccounting"
+    },
+    {
+      "path": "components/onepagecrm"
     }
   ]
 }
