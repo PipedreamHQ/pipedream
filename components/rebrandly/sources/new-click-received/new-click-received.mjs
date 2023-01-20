@@ -2,10 +2,10 @@ import rebrandly from "../../rebrandly.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  name: "New Click",
+  name: "New Click Received",
   version: "0.0.1",
-  key: "rebrandly-new-click",
-  description: "Emit new event on each new link created.",
+  key: "rebrandly-new-click-received",
+  description: "Emit new event on each new click received by a link.",
   type: "source",
   dedupe: "unique",
   props: {
