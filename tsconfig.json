@@ -1244,6 +1244,9 @@
     },
     {
       "path": "components/reversecontact"
+    },
+    {
+      "path": "components/gupshup"
     }
   ]
 }
