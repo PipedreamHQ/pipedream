@@ -394,6 +394,9 @@ importers:
   components/brandmentions:
     specifiers: {}
 
+  components/braze:
+    specifiers: {}
+
   components/brex:
     specifiers:
       axios: ^0.25.0
@@ -2495,10 +2498,8 @@ importers:
   components/range:
     specifiers:
       '@pipedream/platform': ^1.2.1
-      range-sdk: ^1.4.2
     dependencies:
       '@pipedream/platform': 1.2.1
-      range-sdk: 1.4.2
 
   components/rapid7_insight_platform:
     specifiers: {}
@@ -2686,6 +2687,9 @@ importers:
       lodash: 4.17.21
       lodash-es: 4.17.21
       salesforce-webhooks: 1.1.11_handlebars@4.7.7
+
+  components/salesmate:
+    specifiers: {}
 
   components/salestown:
     specifiers: {}
@@ -20513,10 +20517,6 @@ packages:
     dependencies:
       discontinuous-range: 1.0.0
       ret: 0.1.15
-    dev: false
-
-  /range-sdk/1.4.2:
-    resolution: {integrity: sha512-HKpD3Q7Dagscv+ZThX4B2udOF4otKCqiS9sMYU+A55Kb1tjXDLUyDG8zOTXabk3jmPUYSijSfsV/y6JZvbD0ww==}
     dev: false
 
   /raw-body/2.5.1:
