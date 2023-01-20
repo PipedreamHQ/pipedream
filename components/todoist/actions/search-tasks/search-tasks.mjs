@@ -4,7 +4,7 @@ export default {
   key: "todoist-search-tasks",
   name: "Search Tasks",
   description: "Search tasks by name, label, project and/or section. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     todoist,
@@ -21,7 +21,7 @@ export default {
       ],
       type: "string",
       label: "Label",
-      description: "Select a label to filter results by"
+      description: "Select a label to filter results by",
     },
     project: {
       propDefinition: [
@@ -39,7 +39,7 @@ export default {
       ],
     },
   },
-  async run ({ $ }) {
+  async run({ $ }) {
     const {
       name,
       label,
@@ -54,7 +54,9 @@ export default {
         section_id: section,
       },
     });
-    let result = name ? tasks.filter((task) => task.content.includes(name)) : tasks;
+    let result = name
+      ? tasks.filter((task) => task.content.includes(name))
+      : tasks;
     let summary = `${result.length} task${result.length == 1
       ? ""
       : "s"} found`;
