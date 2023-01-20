@@ -8,6 +8,12 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      await this.commonDeploy();
+    },
+  },
   props: {
     ...common.props,
     column: {
