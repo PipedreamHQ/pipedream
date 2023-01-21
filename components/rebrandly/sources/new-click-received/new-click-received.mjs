@@ -39,7 +39,7 @@ export default {
       this.db.set("lastClickAt", lastClickAt);
     },
     _getLastClickAt() {
-      return this.db.get("lastClickAt");
+      return this.db.get("lastClickAt") || 0;
     },
   },
   hooks: {
