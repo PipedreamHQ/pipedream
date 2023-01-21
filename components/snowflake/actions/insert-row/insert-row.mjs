@@ -37,7 +37,9 @@ export default {
       throw new ConfigurationError("`Columns` length is different than `Values` length");
     }
 
-    const response = await this.snowflake.insertRow(this.tableName, this.columns, this.values);
+    const response = await this.snowflake.insertRows(this.tableName, this.columns, [
+      this.values,
+    ]);
     $.export("$summary", `Sucessfully inserted row to ${this.tableName} table`);
     return response;
   },

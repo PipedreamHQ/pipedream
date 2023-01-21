@@ -26,7 +26,13 @@ export default {
     values: {
       type: "string[]",
       label: "Values",
-      description: "Insert values for the selected columns respectively. For string values, wrap them in **single quotes**. Example: `'This is a string'`",
+      description: "Insert values for the selected columns, in order. For string values, wrap them in **single quotes**. Example: `'This is a string'`",
+    },
+    emitIndividualEvents: {
+      type: "boolean",
+      label: "Emit individual events",
+      description: "Set to `true` to emit individual records as Pipedream events, triggering Pipedream workflows on each record. Set to `false` to emit all records in batch.",
+      default: true,
     },
   },
   methods: {
@@ -55,18 +61,6 @@ export default {
       }
       return rows;
     },
-    async *collectRowsPaginated(statement, pageSize = 1) {
-      const rowStream = await this.getRows(statement);
-      let rows = [];
-      for await (const row of rowStream) {
-        rows.push(row);
-        if (rows.length === pageSize) {
-          yield rows;
-          rows = [];
-        }
-      }
-      yield rows;
-    },
     async listTables() {
       const sqlText = "SHOW TABLES";
       return this.collectRows({
@@ -84,14 +78,11 @@ export default {
       };
       return this.collectRows(statement);
     },
-    async insertRow(tableName, columns, values) {
-      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${values.join(",")});`;
-      const binds = [
-        tableName,
-      ];
+    async insertRows(tableName, columns, rows) {
+      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
       const statement = {
         sqlText,
-        binds,
+        binds: rows,
       };
       return this.collectRows(statement);
     },
