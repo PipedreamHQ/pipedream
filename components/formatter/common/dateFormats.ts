@@ -1,10 +1,34 @@
 interface DateFormat {
   label: string;
   value: string;
-  parseFn?: (s: string) => Date;
+  inputFn?: (s: string) => Date;
+  outputFn?: (a: ReturnType<typeof getDateAttributes>) => string;
 }
 
-const DEFAULT_PARSE_FUNCTION: DateFormat["parseFn"] = (str) => new Date(str);
+const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) => new Date(str);
+
+function getDateAttributes(dateObj: Date) {
+  const year = dateObj.getUTCFullYear();
+  const month = dateObj.getUTCMonth();
+  const dayOfMonth = dateObj.getUTCDate();
+  const dayOfWeek = dateObj.getUTCDay();
+  const hours = dateObj.getUTCHours();
+  const minutes = dateObj.getUTCMinutes();
+  const seconds = dateObj.getUTCSeconds();
+  const isoString = dateObj.toISOString();
+
+  return {
+    dateObj,
+    year,
+    month,
+    dayOfMonth,
+    dayOfWeek,
+    hours,
+    minutes,
+    seconds,
+    isoString,
+  };
+}
 
 const DATE_FORMATS: DateFormat[] = [
   {
@@ -26,54 +50,74 @@ const DATE_FORMATS: DateFormat[] = [
   {
     label: "2006-01-22T23:04:05-0000",
     value: "YYYY-MM-DDTHH:mm:ssZ",
+    outputFn({ isoString }) {
+      return isoString.replace(/T|(\.[0-9]{3})/g, "");
+    },
   },
   {
     label: "2006-01-22 23:04:05 -0000",
     value: "YYYY-MM-DD HH:mm:ss Z",
+    outputFn({ isoString }) {
+      return isoString.replace(/\.[0-9]{3}/g, " ");
+    },
   },
   {
     label: "2006-01-22",
     value: "YYYY-MM-DD",
+    outputFn({ dayOfMonth, month, year }) {
+      return `${year}-${month}-${dayOfMonth}`;
+    },
   },
   {
     label: "01-22-2006",
     value: "MM-DD-YYYY",
+    outputFn({ dayOfMonth, month, year }) {
+      return `${month}-${dayOfMonth}-${year}`;
+    },
   },
   {
     label: "01/22/2006",
     value: "MM/DD/YYYY",
+    outputFn({ dayOfMonth, month, year }) {
+      return `${month}/${dayOfMonth}/${year}`;
+    },
   },
   {
     label: "01/22/06",
     value: "MM/DD/YY",
+    outputFn({ dayOfMonth, month, year }) {
+      return `${month}-${dayOfMonth}-${year.toString().slice(-2)}`;
+    },
   },
   {
     label: "22-01-2006",
     value: "DD-MM-YYYY",
-    parseFn: (str) => {
+    inputFn: (str) => {
       const [day, month, year] = str.split("-");
-      const date = new Date(Number(year), Number(month) - 1, Number(day));
+      const date = new Date(
+        Date.UTC(Number(year), Number(month) - 1, Number(day))
+      );
       return date;
     },
   },
   {
     label: "22/01/2006",
     value: "DD/MM/YYYY",
-    parseFn: (str) => {
+    inputFn: (str) => {
       const [day, month, year] = str.split("/");
-      const date = new Date(Number(year), Number(month) - 1, Number(day));
+      const date = new Date(
+        Date.UTC(Number(year), Number(month) - 1, Number(day))
+      );
       return date;
     },
   },
   {
     label: "22/01/06",
     value: "DD/MM/YY",
-    parseFn: (str) => {
+    inputFn: (str) => {
       const [day, month, year] = str.split("/");
       const date = new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day) + 2000
+        Date.UTC(Number(year), Number(month) - 1, Number(day) + 2000)
       );
       return date;
     },
@@ -81,20 +125,28 @@ const DATE_FORMATS: DateFormat[] = [
   {
     label: "1137971045 (Unix time in seconds)",
     value: "S",
-    parseFn: (str) => new Date(Number(str) * 1000),
+    inputFn: (str) => new Date(Number(str) * 1000),
   },
   {
     label: "1137971045000 (Unix time in milliseconds)",
     value: "MS",
-    parseFn: (str) => new Date(Number(str)),
+    inputFn: (str) => new Date(Number(str)),
   },
 ];
 
-const mapData: [DateFormat["value"], Required<DateFormat>["parseFn"]][] =
-  DATE_FORMATS.map(({ value, parseFn }) => [
+const mapData: [
+  DateFormat["value"],
+  Pick<Required<DateFormat>, "inputFn" | "outputFn">
+][] = DATE_FORMATS.map(({ value, inputFn, outputFn }) => {
+  if (!inputFn) inputFn = DEFAULT_INPUT_FUNCTION;
+  return [
     value,
-    parseFn ?? DEFAULT_PARSE_FUNCTION,
-  ]);
+    {
+      inputFn,
+      outputFn,
+    },
+  ];
+});
 
 export const DATE_FORMAT_PARSE_MAP = new Map(mapData);
 
