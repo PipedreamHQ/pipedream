@@ -6,7 +6,9 @@ Snowflake offers a cloud database and related tools to help developers create ro
 
 ### 1. Create a user, role and warehouse in Snowflake
 
-Snowflake recommends you create a new user, role, and warehouse when you integrate a third-party tool like Pipedream. This way, you can control permissions via the user / role, and separate Pipedream compute and costs with the warehouse. **We recommend you [create a read-only account](https://docs.snowflake.com/en/user-guide/organizations-manage-accounts.html) if you only need to query Snowflake**.
+Snowflake recommends you create a new user, role, and warehouse when you integrate a third-party tool like Pipedream. This way, you can control permissions via the user / role, and separate Pipedream compute and costs with the warehouse. You can do this [directly in the Snowflake UI](https://docs.snowflake.com/en/user-guide/ui-snowsight-admin.html).
+
+**We recommend you [create a read-only account](https://docs.snowflake.com/en/user-guide/organizations-manage-accounts.html) if you only need to query Snowflake**. If you need to insert data into Snowflake, add permissions on the appropriate objects after you create your user.
 
 ### 2. Enter those details in Pipedream
 
