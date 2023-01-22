@@ -23,15 +23,11 @@ export default {
         return fields.map((field) => field.name);
       },
     },
-    values: {
-      type: "string[]",
-      label: "Values",
-      description: "Insert values for the selected columns, in order. For string values, wrap them in **single quotes**. Example: `'This is a string'`",
-    },
     emitIndividualEvents: {
       type: "boolean",
       label: "Emit individual events",
-      description: "Set to `true` to emit individual records as Pipedream events, triggering Pipedream workflows on each record. Set to `false` to emit all records in batch.",
+      description: "Defaults to `true`, triggering workflows on each record in the result set. Set to `false` to emit records in batch (advanced)",
+      optional: true,
       default: true,
     },
   },
