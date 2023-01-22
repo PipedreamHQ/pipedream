@@ -7,45 +7,20 @@ export default {
     snowflake,
     db: "$.service.db",
     timer: {
+      description: "Watch for new rows on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    eventSize: {
-      type: "integer",
-      label: "Event Size",
-      description: "The number of rows to include in a single event (by default, emits 1 event per row)",
-      default: 1,
-      min: 1,
-    },
   },
   methods: {
     async processCollection(statement, timestamp) {
-      let lastResultId;
-      let totalRowCount = 0;
-      const rowCollectionStream = this.snowflake.collectRowsPaginated(statement, this.eventSize);
-      for await (const rows of rowCollectionStream) {
-        const rowCount = rows.length;
-        if (rowCount <= 0) {
-          break;
-        }
-
-        lastResultId = rows[rowCount - 1][this.uniqueKey];
-        totalRowCount += rowCount;
-        const meta = this.generateMetaForCollection({
-          lastResultId,
-          rowCount,
-          timestamp,
-        });
-        this.$emit({
-          rows,
-        }, meta);
-      }
-      return {
-        lastResultId,
-        rowCount: totalRowCount,
-      };
+      const rowStream = await this.snowflake.getRows(statement);
+      this.$emit({
+        rows: rowStream,
+        timestamp,
+      });
     },
     async processSingle(statement, timestamp) {
       let lastResultId;
@@ -83,7 +58,7 @@ export default {
   async run(event) {
     const { timestamp } = event;
     const statement = this.getStatement(event);
-    return this.eventSize === 1
+    return this.emitIndividualEvents === true
       ? this.processSingle(statement, timestamp)
       : this.processCollection(statement, timestamp);
   },
