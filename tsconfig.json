@@ -1262,6 +1262,9 @@
     },
     {
       "path": "components/onepagecrm"
+    },
+    {
+      "path": "components/schedule_it"
     }
   ]
 }
