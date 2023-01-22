@@ -201,8 +201,8 @@ const DATE_FORMATS: DateFormat[] = [
     },
   },
   {
-    label: "1137971045 (Unix time in seconds)",
-    value: "S",
+    label: "1137971045",
+    value: "Unix time (seconds)",
     inputFn(str) {
       return new Date(Number(str) * 1000);
     },
@@ -211,8 +211,8 @@ const DATE_FORMATS: DateFormat[] = [
     },
   },
   {
-    label: "1137971045000 (Unix time in milliseconds)",
-    value: "MS",
+    label: "1137971045000",
+    value: "Unix time (milliseconds)",
     inputFn(str) {
       return new Date(Number(str));
     },
