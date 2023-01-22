@@ -17,11 +17,17 @@ export default {
     columns: {
       type: "string[]",
       label: "Columns",
-      description: "Select the columns to insert data",
+      description: "Select the columns you want to insert data into",
       async options({ tableName }) {
         const fields = await this.listFieldsForTable(tableName);
         return fields.map((field) => field.name);
       },
+    },
+    values: {
+      type: "string",
+      label: "Row Values",
+      description:
+        "**Provide an array of arrays**. Each nested array should represent a row, with each element of the nested array representing a value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays [exported by a previous step](https://pipedream.com/docs/workflows/steps/#step-exports) (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
     },
     emitIndividualEvents: {
       type: "boolean",
