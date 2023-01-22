@@ -74,11 +74,21 @@ export default {
       };
       return this.collectRows(statement);
     },
-    async insertRows(tableName, columns, rows) {
+    async insertRow(tableName, values) {
+      const columns = Object.keys(values);
+      const binds = Object.values(values);
       const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
       const statement = {
         sqlText,
-        binds: rows,
+        binds,
+      };
+      return this.collectRows(statement);
+    },
+    async insertRows(tableName, columns, binds) {
+      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
+      const statement = {
+        sqlText,
+        binds,
       };
       return this.collectRows(statement);
     },
