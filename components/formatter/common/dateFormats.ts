@@ -1,11 +1,12 @@
-interface DateFormat {
+export interface DateFormat {
   label: string;
   value: string;
   inputFn?: (s: string) => Date;
   outputFn: (d: Date) => string | number;
 }
 
-const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) => new Date(str);
+export const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) =>
+  new Date(str);
 
 // https://tc39.es/ecma402/#table-datetimeformat-components
 
@@ -144,9 +145,13 @@ const DATE_FORMATS: DateFormat[] = [
     label: "22-01-2006",
     value: "DD-MM-YYYY",
     inputFn(str) {
-      const [day, month, year] = str.split("-");
+      const [
+        day,
+        month,
+        year,
+      ] = str.split("-");
       const date = new Date(
-        Date.UTC(Number(year), Number(month) - 1, Number(day))
+        Date.UTC(Number(year), Number(month) - 1, Number(day)),
       );
       return date;
     },
@@ -159,9 +164,13 @@ const DATE_FORMATS: DateFormat[] = [
     label: "22/01/2006",
     value: "DD/MM/YYYY",
     inputFn(str) {
-      const [day, month, year] = str.split("/");
+      const [
+        day,
+        month,
+        year,
+      ] = str.split("/");
       const date = new Date(
-        Date.UTC(Number(year), Number(month) - 1, Number(day))
+        Date.UTC(Number(year), Number(month) - 1, Number(day)),
       );
       return date;
     },
@@ -173,9 +182,13 @@ const DATE_FORMATS: DateFormat[] = [
     label: "22/01/06",
     value: "DD/MM/YY",
     inputFn(str) {
-      const [day, month, year] = str.split("/");
+      const [
+        day,
+        month,
+        year,
+      ] = str.split("/");
       const date = new Date(
-        Date.UTC(Number(year), Number(month) - 1, Number(day) + 2000)
+        Date.UTC(Number(year), Number(month) - 1, Number(day) + 2000),
       );
       return date;
     },
@@ -211,9 +224,10 @@ const DATE_FORMATS: DateFormat[] = [
 
 const mapData: [
   DateFormat["value"],
-  Pick<Required<DateFormat>, "inputFn" | "outputFn">
-][] = DATE_FORMATS.map(({ value, inputFn, outputFn }) => {
-  if (!inputFn) inputFn = DEFAULT_INPUT_FUNCTION;
+  Pick<DateFormat, "inputFn" | "outputFn">
+][] = DATE_FORMATS.map(({
+  value, inputFn, outputFn,
+}) => {
   return [
     value,
     {
@@ -225,7 +239,9 @@ const mapData: [
 
 export const DATE_FORMAT_PARSE_MAP = new Map(mapData);
 
-export const DATE_FORMAT_OPTIONS = DATE_FORMATS.map(({ label, value }) => ({
+export const DATE_FORMAT_OPTIONS = DATE_FORMATS.map(({
+  label, value,
+}) => ({
   label,
   value,
 }));
