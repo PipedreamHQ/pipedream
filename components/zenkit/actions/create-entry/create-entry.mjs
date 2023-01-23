@@ -5,7 +5,7 @@ export default {
   key: "zenkit-create-entry",
   name: "Create Entry",
   description: "Create an entry/item in a list on Zenkit. [See the docs](https://base.zenkit.com/docs/api/entries/post-api-v1-lists-listid-entries)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

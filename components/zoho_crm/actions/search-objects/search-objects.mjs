@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-search-objects",
   name: "Search Objects",
   description: "Retrieves the records that match your search criteria.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     zoho_crm: {

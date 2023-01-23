@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-list-activities",
   name: "List Activities",
   description: "Returns a list of channel activity events that match the request criteria. [See the docs](https://developers.google.com/youtube/v3/docs/channels/list) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

@@ -5,7 +5,7 @@ export default {
   key: "zoho_inventory-new-order",
   name: "New Sales Order",
   description: "Emit new event each time a new sales order is created in Zoho Inventory",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

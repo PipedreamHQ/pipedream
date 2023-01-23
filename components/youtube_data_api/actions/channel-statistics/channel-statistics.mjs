@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-channel-statistics",
   name: "Channel Statistics",
   description: "Returns statistics from my YouTube Channel or by id. [See the docs](https://developers.google.com/youtube/v3/docs/channels/list) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

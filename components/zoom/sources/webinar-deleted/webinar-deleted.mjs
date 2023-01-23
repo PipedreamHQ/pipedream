@@ -5,7 +5,7 @@ export default {
   key: "zoom-webinar-deleted",
   name: "Webinar Deleted",
   description: "Emit new event each time a webinar is deleted where you're the host",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {

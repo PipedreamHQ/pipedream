@@ -5,7 +5,7 @@ export default {
   key: "zenkit-new-entry",
   name: "New Entry (Instant)",
   description: "Emit new event when a new item/entry is created in Zenkit",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

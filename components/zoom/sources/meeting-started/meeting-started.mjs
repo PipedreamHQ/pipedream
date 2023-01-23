@@ -5,7 +5,7 @@ export default {
   key: "zoom-meeting-started",
   name: "Meeting Started (Instant)",
   description: "Emit new event each time a meeting starts where you're the host",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "zenkit-get-user",
   name: "Get User",
   description: "Retrieve a user from a workspace on Zenkit. [See the docs](https://base.zenkit.com/docs/api/workspaces/get-api-v1-workspaces-workspaceid-users)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

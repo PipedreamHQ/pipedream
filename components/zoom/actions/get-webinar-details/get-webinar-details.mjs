@@ -5,7 +5,7 @@ export default {
   key: "zoom-get-webinar-details",
   name: "Get Webinar Details",
   description: "Gets details of a scheduled webinar.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoom: {

@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-make-an-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Zoho CRM API.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     zoho_crm: {

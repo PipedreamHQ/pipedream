@@ -5,7 +5,7 @@ export default {
   key: "zoom-create-meeting",
   name: "Create Meeting",
   description: "Creates a meeting for a user. A maximum of 100 meetings can be created for a user in a day.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoom: {
