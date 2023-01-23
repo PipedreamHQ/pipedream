@@ -4,7 +4,7 @@ export default {
   key: "sendinblue-add-or-update-contact",
   name: "Add or Update a contact",
   description: "Add or Update a contact",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sendinBlueApp,
