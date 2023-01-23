@@ -49,11 +49,11 @@ export default {
       });
 
       console.log(`Webhook ID: ${response.id} created succesfully`);
-      this.setWebhookId(response.id);
-      this.setSigningSecret(response.signingSecret);
+      this._setWebhookId(response.id);
+      this._setSigningSecret(response.signingSecret);
     },
     async deactivate() {
-      const id = this.getWebhookId();
+      const id = this._getWebhookId();
       await this.regfox.deleteWebhook(id);
       console.log(`Webhook ${id} deleted successfully`);
     },
