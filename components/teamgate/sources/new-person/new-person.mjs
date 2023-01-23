@@ -6,7 +6,7 @@ export default {
   name: "New Person",
   key: "teamgate-new-person",
   description: "Emit new event when a new person is created. [See docs here](https://developers.teamgate.com/#7eb019a9-9168-4056-a507-75bd32c105e0)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

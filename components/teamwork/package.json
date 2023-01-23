@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamwork",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream TeamWork Components",
   "main": "teamwork.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/teamwork",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

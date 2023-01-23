@@ -3,7 +3,7 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-create-company",
   name: "Create Company",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Create a new company. [See the docs here](https://developers.teamgate.com/#2b3a0450-e365-4f89-b02c-e817d997f627)",
   type: "action",
   props: {

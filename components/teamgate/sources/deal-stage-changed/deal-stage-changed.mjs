@@ -6,7 +6,7 @@ export default {
   name: "New Deal Stage Change",
   key: "teamgate-deal-stage-changed",
   description: "Emit new event when a deal stage is changed. [See docs here](https://developers.teamgate.com/#b692423c-78f3-449b-bb8b-ad73a240f833)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     dealId: {
