@@ -6,7 +6,7 @@ export default {
   key: "new_relic-new-alert",
   name: "New Alert",
   description: "Emit new event when a new alert is created.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     product: {

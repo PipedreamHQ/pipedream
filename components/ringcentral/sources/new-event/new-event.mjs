@@ -7,7 +7,7 @@ export default {
   key: "ringcentral-new-event",
   name: "New Event (Instant)",
   description: "Emit new event for each notification from RingCentral of a specified type",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,

@@ -5,7 +5,7 @@ export default {
   key: "solve_crm-new-contact-tagged",
   name: "New Contact Tagged (Instant)",
   description: "Emit new event when the specified tag is added to a contact. [See the docs here](https://solve360.com/api/webhook-management/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

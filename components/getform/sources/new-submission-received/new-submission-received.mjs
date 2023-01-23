@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Submission Received",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "getform-new-submission-received",
   description: "Emit new event on each new feedback received.",
   type: "source",

@@ -5,7 +5,7 @@ export default {
   key: "hubspot-company-updated",
   name: "Company Updated",
   description: "Emit new event each time a company is updated.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},

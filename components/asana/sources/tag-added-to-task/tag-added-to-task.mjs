@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Tag Added To Task (Instant)",
   description: "Emit new event for each new tag added to a task.",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,

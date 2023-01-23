@@ -5,7 +5,7 @@ export default {
   key: "mixmax-update-contact",
   name: "Update Contact",
   description: "Update a specific contact. [See the docs here](https://developer.mixmax.com/reference/contactsid-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

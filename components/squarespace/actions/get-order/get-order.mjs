@@ -4,7 +4,7 @@ export default {
   key: "squarespace-get-order",
   name: "Get Order",
   description: "Get a specific order. [See docs here](https://developers.squarespace.com/commerce-apis/retrieve-specific-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     squarespace,

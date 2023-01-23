@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/listen_notes",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Listen Notes Components",
   "main": "dist/app/listen_notes.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/listen_notes",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

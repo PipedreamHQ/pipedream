@@ -7,7 +7,7 @@ export default {
   key: "simplesat-new-answer",
   name: "New Answer",
   description: "Emit new event when a new answer is created",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     app,
     db: "$.service.db",

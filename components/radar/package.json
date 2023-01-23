@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/radar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Radar Components",
   "main": "dist/app/radar.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/radar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

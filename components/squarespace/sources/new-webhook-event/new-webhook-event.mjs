@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   ...base,
   name: "New Webhook Event",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "squarespace-new-webhook-event",
   description: "Emit new event on each webhook event.",
   type: "source",

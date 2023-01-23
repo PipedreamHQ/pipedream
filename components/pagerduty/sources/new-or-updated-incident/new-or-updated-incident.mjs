@@ -5,7 +5,8 @@ export default {
   ...commonWebhook,
   key: "pagerduty-new-or-updated-incident",
   name: "New or Updated Incident",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   description: "Emit new event each time an incident is created or updated",
   methods: {
     ...commonWebhook.methods,

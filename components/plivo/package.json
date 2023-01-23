@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/plivo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Plivo Components",
   "main": "plivo.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/plivo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
     "plivo": "^4.36.0",

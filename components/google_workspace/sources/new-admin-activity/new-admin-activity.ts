@@ -6,7 +6,7 @@ export default defineSource({
   key: "google_workspace-new-admin-activity",
   name: "New Admin Activity",
   description: "Emit new admin activities",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

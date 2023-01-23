@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Account Get Positions",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-account-get-positions",
   description: "Perpetual Swap Positions [reference](https://bingx-api.github.io/docs/swap/account-api.html#_2-perpetual-swap-positions).",
   props: {

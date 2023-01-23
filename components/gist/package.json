@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gist",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Gist Components",
   "main": "dist/app/gist.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/gist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

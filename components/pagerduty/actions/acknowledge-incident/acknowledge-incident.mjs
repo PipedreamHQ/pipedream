@@ -6,7 +6,7 @@ export default {
   name: "Acknowledge Incident",
   description: "Acknowledge an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0Mg-update-an-incident)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     pagerduty,
     incidentId: {

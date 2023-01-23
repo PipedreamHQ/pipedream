@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Project Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "lighthouse-new-project-created",
   description: "Emit new event for each new project created.",
   type: "source",

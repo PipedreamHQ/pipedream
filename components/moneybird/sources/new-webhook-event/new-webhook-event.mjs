@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "New Webhook event",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "moneybird-new-webhook-event",
   description: "Emit new event on each webhook event. [See docs here](https://developer.moneybird.com/webhooks/)",
   type: "source",

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Order (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "printful_oauth-new-order",
   description: "Emit new event on each created order.",
   type: "source",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/close",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Close Components",
   "main": "close.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   ],
   "homepage": "https://pipedream.com/apps/close",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2"
   },

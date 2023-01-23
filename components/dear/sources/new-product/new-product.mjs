@@ -11,7 +11,7 @@ export default {
   key: "dear-new-product",
   type: "source",
   description: "Emit new event when a product is created",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...base.props,

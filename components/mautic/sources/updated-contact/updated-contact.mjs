@@ -7,7 +7,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "Updated Contact",
   description: "Emit new event when a contact is updated. [See the docs](https://developer.mautic.org/#webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...base.methods,
