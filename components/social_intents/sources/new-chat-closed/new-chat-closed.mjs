@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Chat Closed",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "social_intents-new-chat-closed",
   description: "Emit new event for each closed chat.",
   type: "source",

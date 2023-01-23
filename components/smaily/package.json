@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smaily",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Smaily Components",
   "main": "dist/app/smaily.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/smaily",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

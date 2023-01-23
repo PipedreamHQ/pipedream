@@ -5,7 +5,7 @@ export default {
   name: "Create Order",
   description: "Creates a new order that can include information about products for purchase. [See docs here](https://developer.squareup.com/reference/square/orders-api/create-order).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     square,
     location: {
