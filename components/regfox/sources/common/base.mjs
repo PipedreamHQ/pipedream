@@ -8,6 +8,35 @@ export default {
     db: "$.service.db",
   },
   hooks: {
+    async deploy() {
+      let lastId;
+      const data = [];
+
+      while (true) {
+        const response = await this.listingFunction()({
+          params: {
+            startingAfter: lastId,
+            limit: constants.MAX_LIMIT,
+          },
+        });
+
+        data.push(...response.data);
+        lastId = data[data.length - 1]?.id;
+
+        if (!response.hasMore) {
+          break;
+        }
+      }
+
+      data
+        .slice(constants.DEPLOY_LIMIT)
+        .forEach((event) => this.emitEvent({
+          event,
+          id: event.id,
+          name: event.name,
+          ts: event.dateCreated,
+        }));
+    },
     async activate() {
       console.log("Creating webhook...");
 
@@ -44,35 +73,6 @@ export default {
     },
     eventTypes() {
       throw new Error("eventTypes is not implemented");
-    },
-    async listHistoricalEvents(fn) {
-      let lastId;
-      const data = [];
-
-      while (true) {
-        const response = await fn({
-          params: {
-            startingAfter: lastId,
-            limit: constants.MAX_LIMIT,
-          },
-        });
-
-        data.push(...response.data);
-        lastId = data[data.length - 1]?.id;
-
-        if (!response.hasMore) {
-          break;
-        }
-      }
-
-      data
-        .slice(constants.DEPLOY_LIMIT)
-        .forEach((event) => this.emitEvent({
-          event,
-          id: event.id,
-          name: event.name,
-          ts: event.dateCreated,
-        }));
     },
   },
   async run(event) {
