@@ -6,7 +6,7 @@ export default {
   key: "mautic-new-contact",
   name: "New Contact",
   description: "Emit new event when a contact is created. [See the docs](https://developer.mautic.org/#webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...base.methods,
