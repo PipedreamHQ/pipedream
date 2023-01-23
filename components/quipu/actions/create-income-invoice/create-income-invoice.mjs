@@ -5,7 +5,7 @@ export default {
   key: "quipu-create-income-invoice",
   name: "Create Income Invoice",
   description: "Creates a new income invoice. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-an-invoice).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
