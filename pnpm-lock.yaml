@@ -971,9 +971,11 @@ importers:
 
   components/eventbrite:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.2.1
+      lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.2.1
+      lodash: 4.17.21
 
   components/eversign:
     specifiers:
@@ -1060,6 +1062,15 @@ importers:
       google-auth-library: 7.14.1
 
   components/firmalyzer_iotvas:
+    specifiers: {}
+
+  components/float:
+    specifiers: {}
+
+  components/follow_up_boss:
+    specifiers: {}
+
+  components/formdesk:
     specifiers: {}
 
   components/forms_on_fire:
@@ -1150,6 +1161,9 @@ importers:
   components/getscreenshot:
     specifiers: {}
 
+  components/getswift:
+    specifiers: {}
+
   components/ghost_org_admin_api:
     specifiers:
       '@pipedream/platform': ^1.0.0
@@ -1200,6 +1214,9 @@ importers:
       uuid: 8.3.2
 
   components/givebutter:
+    specifiers: {}
+
+  components/givingfuel:
     specifiers: {}
 
   components/gmail:
@@ -1402,6 +1419,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/grafbase:
+    specifiers: {}
+
   components/graphhopper:
     specifiers: {}
 
@@ -1416,6 +1436,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/gupshup:
+    specifiers: {}
 
   components/guru:
     specifiers: {}
@@ -1485,6 +1508,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       object-hash: 3.0.0
+
+  components/hub_planner:
+    specifiers: {}
 
   components/hubspot:
     specifiers:
@@ -1676,11 +1702,17 @@ importers:
   components/labs64_netlicensing:
     specifiers: {}
 
+  components/lahar:
+    specifiers: {}
+
   components/laposta:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/leadboxer:
+    specifiers: {}
 
   components/leadfeeder:
     specifiers:
@@ -1694,7 +1726,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/lessaccounting:
+    specifiers: {}
+
   components/levity:
+    specifiers: {}
+
+  components/lexoffice:
     specifiers: {}
 
   components/lighthouse:
@@ -2137,6 +2175,9 @@ importers:
   components/oncehub:
     specifiers: {}
 
+  components/onepagecrm:
+    specifiers: {}
+
   components/onesaas:
     specifiers: {}
 
@@ -2179,6 +2220,9 @@ importers:
       '@pipedream/platform': ^0.9.0
     dependencies:
       '@pipedream/platform': 0.9.0
+
+  components/opsgenie:
+    specifiers: {}
 
   components/orbisx:
     specifiers: {}
@@ -2338,6 +2382,9 @@ importers:
   components/plasmic:
     specifiers: {}
 
+  components/plecto:
+    specifiers: {}
+
   components/plivo:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2347,6 +2394,9 @@ importers:
       '@pipedream/platform': 1.2.1
       plivo: 4.36.0
       uuid: 9.0.0
+
+  components/pobuca_connect:
+    specifiers: {}
 
   components/pocket:
     specifiers:
@@ -2405,6 +2455,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/processplan:
+    specifiers: {}
+
   components/procore:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -2454,6 +2507,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/questionpro:
+    specifiers: {}
 
   components/quickbooks:
     specifiers:
@@ -2538,6 +2594,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/recurly:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      recurly: ^3.24.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      recurly: 3.24.0
+
   components/reddit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2559,6 +2623,9 @@ importers:
     specifiers: {}
 
   components/regfox:
+    specifiers: {}
+
+  components/remarkety:
     specifiers: {}
 
   components/render:
@@ -2599,6 +2666,9 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/revamp_crm:
+    specifiers: {}
+
+  components/reversecontact:
     specifiers: {}
 
   components/rewardful:
@@ -2694,6 +2764,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/schedule_it:
     specifiers: {}
 
   components/scopemaster:
@@ -8061,22 +8134,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.142:
-    resolution: {integrity: sha512-D5lnRKqe62ep7Sbqu83hMaKJW1pAK5vVrhCyRrMp2Pg+ouE5U2X/yVZIeWyDeJyKqifoP5sOYi6zcSC/4QehNw==}
+  /@definitelytyped/header-parser/0.0.143:
+    resolution: {integrity: sha512-UqE7UrnGnsS0+4/cdHi+D6olJ0GkXpDzrd9CcZA/bX8HDWHTkKABvoJkIcoSX80s4yJS8tmwKR1Zjzc/owxoeQ==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.142
+      '@definitelytyped/typescript-versions': 0.0.143
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.142:
-    resolution: {integrity: sha512-4WFGCg6WyKPPbIcMd1llRxXwhkKFMiv0pGPsMcOwXqrI+apK7pYDR8sVvgkRJHpdgAudOnHOK9UbAlaGzkuPbw==}
+  /@definitelytyped/typescript-versions/0.0.143:
+    resolution: {integrity: sha512-ME7KYlSRaDLjpm/TGfhgljiDWJlucWcRKp26lP7NAA3b4wOm8I6GO9Bw/ESYciM2trkwQzjQUNRRdsPGS6lUcQ==}
     dev: true
 
-  /@definitelytyped/utils/0.0.142:
-    resolution: {integrity: sha512-XIDhvqAwfK2NMEfMC96ldD1SnUif9KVnLrCvcYpaEu6BSQIvSSZXL7/ktRwn8tlYqRMVQWn4wNXSJ0goMjm+Cw==}
+  /@definitelytyped/utils/0.0.143:
+    resolution: {integrity: sha512-qdKtMmZo4se7aw5Zwp6L5Fl2pkI4Z9fL8LpgEQ0GNkJRHhwKFUCNO8QWH94NBqbvDGVajKVetIZ7fcyVVCK8iA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.142
+      '@definitelytyped/typescript-versions': 0.0.143
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -12191,7 +12264,7 @@ packages:
   /axios/0.27.2_debug@3.2.7:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@3.2.7
+      follow-redirects: 1.15.1_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -13884,7 +13957,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.142
+      '@definitelytyped/header-parser': 0.0.143
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -13900,9 +13973,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.142
-      '@definitelytyped/typescript-versions': 0.0.142
-      '@definitelytyped/utils': 0.0.142
+      '@definitelytyped/header-parser': 0.0.143
+      '@definitelytyped/typescript-versions': 0.0.143
+      '@definitelytyped/utils': 0.0.143
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -14873,6 +14946,30 @@ packages:
         optional: true
     dev: false
 
+  /follow-redirects/1.15.1_debug@3.2.7:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.2_debug@3.2.7:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
+    dev: false
+
   /follow-redirects/1.15.2:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -14881,30 +14978,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-
-  /follow-redirects/1.15.2_debug@3.2.7:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
-  /follow-redirects/1.15.2_debug@3.2.7:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
@@ -20630,6 +20703,10 @@ packages:
       picomatch: 2.3.1
     dev: false
     optional: true
+
+  /recurly/3.24.0:
+    resolution: {integrity: sha512-dQa+dO+qLEGx6p6ozxAuAwKkTRne1gvrmpY/ZRBde8spCYDBinOlih5xSsr+D7aliwU+iF2V6hvqGmdnpG28/w==}
+    dev: false
 
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
