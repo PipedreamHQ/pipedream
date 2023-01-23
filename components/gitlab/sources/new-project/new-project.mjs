@@ -5,7 +5,7 @@ export default {
   key: "gitlab-new-project",
   name: "New Project",
   description: "Emit new event when a project (i.e. repository) is created",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "greatest",
   type: "source",
   props: {
