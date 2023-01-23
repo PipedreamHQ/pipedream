@@ -4,7 +4,7 @@ export default {
   key: "seventodos-create-task",
   name: "Create a task",
   description: "Create a task. [See the docs](https://www.7todos.com/app/api).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sevenTodosApp,

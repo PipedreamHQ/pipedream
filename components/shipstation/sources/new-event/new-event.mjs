@@ -5,7 +5,7 @@ export default {
   key: "shipstation-new-event",
   name: "New Event (Instant)",
   description: "Emit new event for each new webhook event received. [See docs here](https://www.shipstation.com/docs/api/webhooks/subscribe/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...base.methods,

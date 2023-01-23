@@ -8,7 +8,7 @@ export default defineAction({
   description:
     "Create a shipment [See docs here](https://developers.shipcloud.io/reference/#creating-a-shipment)",
   key: "shipcloud-create-shipment",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shipcloud,
