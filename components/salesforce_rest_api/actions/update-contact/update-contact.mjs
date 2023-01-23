@@ -13,7 +13,7 @@ export default {
     See [Contact SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_contact.htm)
     and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
   `),
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     salesforce,

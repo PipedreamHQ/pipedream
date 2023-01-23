@@ -6,7 +6,7 @@ export default {
   name: "Updated Feature",
   description: "Emit new event when a feature is updated",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

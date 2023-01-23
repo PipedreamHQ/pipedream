@@ -4,7 +4,7 @@ export default {
   key: "fullstory-segment-treshold-alert",
   name: "New Segment Treshold Alert Event",
   description: "Emit new events when segment treshold alerts occur. [See the docs here](https://developer.fullstory.com/segment-threshold-alert)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

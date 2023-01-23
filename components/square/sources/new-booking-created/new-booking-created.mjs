@@ -7,7 +7,7 @@ export default {
   name: "New Booking Created",
   description: "Emit new event for every new booking created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...base.hooks,

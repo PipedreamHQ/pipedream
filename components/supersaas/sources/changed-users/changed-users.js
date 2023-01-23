@@ -6,7 +6,7 @@ module.exports = {
   key: "supersaas-changed-users",
   name: "New or changed users",
   description: "Emits an event for every new and changed user.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     supersaas,

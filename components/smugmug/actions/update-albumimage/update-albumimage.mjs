@@ -4,7 +4,7 @@ export default {
   key: "smugmug-update-albumimage",
   name: "Update Album Image",
   description: "Updates an album image. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/album-image.html)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     smugmug,

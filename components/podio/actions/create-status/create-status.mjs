@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "podio-create-status",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Status",
   description: "Creates a status to the given workspace. [See the docs](https://developers.podio.com/doc/status/add-new-status-message-22336)",
   props: {

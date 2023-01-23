@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smiirl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Smiirl Components",
   "main": "smiirl.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/smiirl",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@smiirl/smiirl-library-js": "^1.0.5"
   },

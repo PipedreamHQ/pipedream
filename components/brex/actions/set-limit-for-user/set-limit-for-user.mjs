@@ -6,7 +6,7 @@ export default {
   name: "Set Limit for User",
   description: "Sets the monthly limit for a user. [See the docs here](https://developer.brex.com/openapi/team_api/#operation/setUserLimit).",
   key: "brex-set-limit-for-user",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     brexApp,

@@ -7,7 +7,7 @@ export default {
   key: "timekit-booking-with-state",
   name: "New Booking with State",
   description: `Emit new event when a booking has a specific state. [See the docs](${docLink}).`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     timekit,

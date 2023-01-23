@@ -4,7 +4,7 @@ export default {
   key: "helper_functions-random-item-from-list",
   name: "Random Item from List",
   description: "Returns a randomly selected value from a user-defined list of options.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     helperFunctions,

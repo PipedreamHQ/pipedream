@@ -39,5 +39,5 @@ export default {
   }),
   key: "slack_bot-list-replies",
   description: "Retrieve a thread of messages posted to a conversation (Bot). [See docs here](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

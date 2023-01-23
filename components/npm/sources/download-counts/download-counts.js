@@ -6,7 +6,7 @@ module.exports = {
   key: "npm-download-counts",
   name: "npm Download Counts",
   description: "Emit an event with the latest count of downloads for an npm package",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     db: "$.service.db",

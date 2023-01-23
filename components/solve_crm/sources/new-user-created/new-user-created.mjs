@@ -6,7 +6,7 @@ export default {
   key: "solve_crm-new-user-created",
   name: "New User Created",
   description: "Emit new event for each new user created. [See the docs here](https://solve360.com/api/contacts/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

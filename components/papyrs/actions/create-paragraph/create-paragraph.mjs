@@ -5,7 +5,7 @@ export default {
   name: "Create Paragraph",
   description: "Create a new Paragraph in a page. [See the docs here](https://about.papyrs.com/@docs/API#Create-Text-box/Heading)",
   key: "papyrs-create-paragraph",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

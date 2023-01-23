@@ -6,7 +6,7 @@ export default {
   name: "New Deal Note (Instant)",
   key: "activecampaign-new-deal-note",
   description: "Emit new event each time a new note is added to a deal.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

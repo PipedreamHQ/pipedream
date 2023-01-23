@@ -2,7 +2,7 @@ import openai from "../../openai.app.mjs";
 
 export default {
   name: "Send Prompt",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-send-prompt",
   description: "Creates a completion for the provided prompt and parameters. [See docs here](https://beta.openai.com/docs/api-reference/completions/create)",
   type: "action",

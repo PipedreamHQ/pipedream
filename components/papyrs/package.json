@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/papyrs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Papyrs Components",
   "main": "papyrs.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/papyrs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

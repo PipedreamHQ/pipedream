@@ -5,7 +5,7 @@ export default {
   name: "Update count",
   description: "Update count or push a number. [See the docs here](https://www.npmjs.com/package/@smiirl/smiirl-library-js).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     smiirl,
     number: {

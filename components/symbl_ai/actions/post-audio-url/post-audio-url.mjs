@@ -6,7 +6,7 @@ export default {
   key: "symbl_ai-post-audio-url",
   name: "Submit Audio URL",
   description: "Submit an Audio file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/audio/post-audio-url).",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     symblAIApp,

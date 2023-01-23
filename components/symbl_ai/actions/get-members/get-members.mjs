@@ -4,7 +4,7 @@ export default {
   key: "symbl_ai-get-members",
   name: "Get Members",
   description: "Get a list of all the members from the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/members/).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     symblAIApp,

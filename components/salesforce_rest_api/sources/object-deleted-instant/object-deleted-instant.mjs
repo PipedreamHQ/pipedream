@@ -8,7 +8,7 @@ export default {
   name: "New Deleted Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-object-deleted-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is deleted",
-  version: "0.1.2",
+  version: "0.1.3",
   methods: {
     ...common.methods,
     generateMeta(data) {

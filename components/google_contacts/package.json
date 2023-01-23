@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_contacts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Gooogle Contacts Components",
   "main": "google_contacts.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_contacts",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "googleapis": "^96.0.0"

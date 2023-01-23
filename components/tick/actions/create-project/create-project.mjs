@@ -2,7 +2,7 @@ import tick from "../../tick.app.mjs";
 
 export default {
   name: "Create Project",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "tick-create-project",
   description: "Creates a project. [See docs here](https://github.com/tick/tick-api/blob/master/sections/projects.md#create-project)",
   type: "action",

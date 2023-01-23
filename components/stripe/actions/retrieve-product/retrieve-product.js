@@ -4,7 +4,7 @@ module.exports = {
   name: "Retrieve Product",
   description: "Retrieve a product by ID. [See the docs](https://stripe.com/docs/api/products/retrieve)",
   key: "stripe-retrieve-product",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     stripe,

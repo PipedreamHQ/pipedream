@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default defineSource({
   name: "New Mention",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "mediatoolkit-new-mention",
   description: "Emit new event on each new mention.",
   type: "source",

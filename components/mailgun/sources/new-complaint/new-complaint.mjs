@@ -6,7 +6,7 @@ export default {
   name: "New Complaint (Instant)",
   type: "source",
   description: "Emit new event when the email recipient clicked on the spam complaint button within their email client. Feedback loops enable the notification to be received by Mailgun.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

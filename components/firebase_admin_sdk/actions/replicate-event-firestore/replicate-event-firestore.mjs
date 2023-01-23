@@ -5,7 +5,8 @@ import lodash from "lodash";
 export default {
   key: "firebase_admin_sdk-replicate-event-firestore",
   name: "Save Event to Firestore",
-  version: "0.4.2",
+  description: "Saven an event to Firestore",
+  version: "0.4.3",
   type: "action",
   props: {
     firebase_admin_sdk: {

@@ -5,7 +5,7 @@ export default {
   key: "qualaroo-survey-created",
   name: "New Survey Created",
   description: "Emit new event when a survey is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-retrieve-invoice-item",
   name: "Retrieve Invoice Line Item",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Retrieve a single line item on an invoice. [See the " +
     "docs](https://stripe.com/docs/api/invoiceitems/retrieve) for more information",
   props: {

@@ -3,7 +3,7 @@ import app from "../../alpaca.app.mjs";
 export default {
   type: "action",
   key: "alpaca-list-positions",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "List Positions",
   description: "Retrieves a list of the account’s open positions, [See the docs](https://alpaca.markets/docs/api-references/trading-api/positions/#get-open-positions)",
   props: {

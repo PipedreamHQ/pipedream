@@ -6,7 +6,7 @@ export default {
   name: "New Event",
   description: "Emit new event for each new event created in Sympla.",
   key: "sympla-new-event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

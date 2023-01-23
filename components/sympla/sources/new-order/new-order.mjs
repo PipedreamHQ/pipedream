@@ -6,7 +6,7 @@ export default {
   name: "New Order",
   description: "Emit new event for each new order in an event.",
   key: "sympla-new-order",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

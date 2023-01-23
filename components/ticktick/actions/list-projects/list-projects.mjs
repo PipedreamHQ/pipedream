@@ -4,7 +4,7 @@ export default {
   key: "ticktick-list-projects",
   name: "List Projects",
   description: "List all projects in a TickTick account",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ticktick,

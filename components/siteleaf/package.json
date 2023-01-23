@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/siteleaf",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Siteleaf Components",
   "main": "siteleaf.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/siteleaf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

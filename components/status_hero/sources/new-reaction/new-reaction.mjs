@@ -5,7 +5,7 @@ export default {
   key: "status_hero-new-reaction",
   name: "New Reaction Event",
   description: "Emit new events when new reaction for a status update (check-in) occurs. [See the docs here](https://api.statushero.com/#reactions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   ...common,
   props: {

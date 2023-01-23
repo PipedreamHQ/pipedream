@@ -4,7 +4,7 @@ export default {
   key: "podio-item-updated",
   name: "New Item Updated Event",
   description: "Emit new events when an item is updated. [See the docs here](https://developers.podio.com/doc/hooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ongage",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Ongage Components",
   "main": "ongage.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ongage",
   "author": "Jonathon Hill <jonathon@compwright.com> (https://compwright.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
