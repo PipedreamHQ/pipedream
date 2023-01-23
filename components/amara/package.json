@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amara",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Pipedream Amara Components",
   "main": "amara.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/amara",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

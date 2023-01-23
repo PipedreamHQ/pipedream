@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/splitwise",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Splitwise Components",
   "main": "splitwise.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/splitwise",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

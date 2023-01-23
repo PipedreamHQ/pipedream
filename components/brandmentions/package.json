@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brandmentions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream BrandMentions Components",
   "main": "dist/app/brandmentions.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/brandmentions",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

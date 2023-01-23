@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woodpecker_co",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Woodpecker.co Components",
   "main": "woodpecker_co.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/woodpecker-co",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "woodpecker-api": "^1.1.0"
   },

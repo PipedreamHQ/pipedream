@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brex",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Brex Components",
   "main": "brex.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/brex",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

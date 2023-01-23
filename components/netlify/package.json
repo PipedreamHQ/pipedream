@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/netlify",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Netlify Components",
   "main": "netlify.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/netlify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "jwt-simple": "^0.5.6",

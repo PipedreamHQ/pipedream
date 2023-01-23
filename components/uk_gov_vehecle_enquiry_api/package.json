@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/uk_gov_vehecle_enquiry_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream UK gov Vehicle Enquiry API Components",
   "main": "dist/app/uk_gov_vehecle_enquiry_api.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/uk_gov_vehecle_enquiry_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

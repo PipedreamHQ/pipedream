@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/f15five",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream 15Five Components",
   "main": "dist/app/f15five.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/f15five",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

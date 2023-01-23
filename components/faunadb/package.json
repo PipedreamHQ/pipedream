@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/faunadb",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Faunadb Components",
   "main": "faunadb.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/faunadb",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "faunadb": "^4.5.4",

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ramp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Ramp Components",
   "main": "ramp.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ramp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
