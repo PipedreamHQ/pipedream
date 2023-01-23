@@ -5,7 +5,7 @@ export default {
   key: "vision6-contact-activated",
   name: "Contact Activated",
   description: "Emit new event when a contact is activated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

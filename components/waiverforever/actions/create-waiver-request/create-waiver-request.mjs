@@ -4,7 +4,7 @@ export default {
   key: "waiverforever-create-waiver-request",
   name: "Create Waiver Request",
   description: "Create waiver request. [See the docs here](https://docs.waiverforever.com/?javascript--nodejs#create-waiver-request)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     waiverforever,

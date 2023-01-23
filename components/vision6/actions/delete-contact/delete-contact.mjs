@@ -4,7 +4,7 @@ export default {
   key: "vision6-delete-contact",
   name: "Delete Contact",
   description: "Delete a contact. [See the docs here](https://api.vision6.com/#delete-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vision6,

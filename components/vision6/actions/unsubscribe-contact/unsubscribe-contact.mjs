@@ -4,7 +4,7 @@ export default {
   key: "vision6-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "Unsubscribe an existing contact. [See the docs here](https://api.vision6.com/#update-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vision6,

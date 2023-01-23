@@ -4,7 +4,7 @@ export default {
   key: "vision6-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See the docs here](https://api.vision6.com/#create-a-single-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vision6,

@@ -6,7 +6,7 @@ export default {
   key: "vbout-create-social-media-message",
   name: "Create Social Media Message",
   description: "This action creates a new post on social media. [See the docs here](https://developers.vbout.com/docs#socialmedia_addpost)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
