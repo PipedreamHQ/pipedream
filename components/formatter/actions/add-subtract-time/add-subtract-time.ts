@@ -3,7 +3,6 @@ import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DateFormat,
-  DATE_FORMAT_OPTIONS,
   DATE_FORMAT_PARSE_MAP,
   DEFAULT_INPUT_FUNCTION,
 } from "../../common/dateFormats";
@@ -17,23 +16,25 @@ export default defineAction({
   props: {
     app,
     inputDate: {
-      label: "Input Date",
-      description:
-        "A valid date string, in the format defined in `From Format`. If the format is not set, Pipedream will attempt to infer it from the input.",
-      type: "string",
+      propDefinition: [
+        app,
+        "inputDate",
+      ],
     },
     fromFormat: {
-      label: "From Format",
-      description: "The format of the provided date.",
-      type: "string",
-      options: DATE_FORMAT_OPTIONS,
-      optional: true,
+      propDefinition: [
+        app,
+        "fromFormat",
+      ],
     },
     operation: {
       label: "Operation",
       description: "Whether to add or subtract time.",
       type: "string",
-      options: ["Add", "Subtract"],
+      options: [
+        "Add",
+        "Subtract",
+      ],
     },
     duration: {
       label: "Duration",
@@ -60,7 +61,10 @@ export default defineAction({
         d: days,
         w: weeks,
         y: years,
-      }).forEach(([identifier, multiplier]) => {
+      }).forEach(([
+        identifier,
+        multiplier,
+      ]) => {
         const substr = str.match(new RegExp(`[0-9]+\\s*${identifier}`))?.[0];
         if (substr) {
           const value = Number(substr.match(/[0-9]+/));
@@ -72,7 +76,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string | number> {
-    const { inputDate, fromFormat, operation, duration } = this;
+    const {
+      inputDate, fromFormat, operation, duration,
+    } = this;
 
     let inputFn: DateFormat["inputFn"], dateObj: Date;
 
@@ -90,7 +96,7 @@ export default defineAction({
           fromFormat
             ? `expecting specified format \`${fromFormat}\``
             : "- try selecting a format in the **From Format** prop."
-        }`
+        }`,
       );
     }
 
@@ -103,7 +109,9 @@ export default defineAction({
 
     $.export(
       "$summary",
-      `Successfully ${operation === "Subtract" ? "subtracted" : "added"} time`
+      `Successfully ${operation === "Subtract"
+        ? "subtracted"
+        : "added"} time`,
     );
     return output;
   },
