@@ -3,7 +3,7 @@ import common from "../common/add-or-update-exhibitor.mjs";
 export default {
   ...common,
   name: "Add Exhibitor",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "expofp-add-exhibitor",
   description:
     "Adds an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/add-exhibitor/add-exhibitor)",

@@ -6,7 +6,7 @@ export default {
   key: "reply_io-new-contact-added",
   name: "New Contact Added",
   description: "Emit new event when a new contact is added. [See the docs here](https://apidocs.reply.io/#0a39db6f-af24-494f-88d6-caefd76b40f9)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-finalize-invoice",
   name: "Finalize Draft Invoice",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Finalize a draft invoice. [See the " +
     "docs](https://stripe.com/docs/api/invoices/finalize) for more information",
   props: {

@@ -7,7 +7,7 @@ export default {
   name: "Catalog Item Updated",
   description: "Emit new event for every updated catalog item",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...base.hooks,

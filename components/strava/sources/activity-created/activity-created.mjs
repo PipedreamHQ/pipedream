@@ -4,7 +4,7 @@ export default {
   key: "strava-activity-created",
   name: "New Activity Created Event",
   description: "Emit new event when a new activity is created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     strava,

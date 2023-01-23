@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rapid7_insight_platform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Rapid7 Insight Platform Components",
   "main": "dist/app/rapid7_insight_platform.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rapid7_insight_platform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

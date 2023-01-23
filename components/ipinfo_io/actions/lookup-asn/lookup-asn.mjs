@@ -2,7 +2,7 @@ import ipinfo_io from "../../ipinfo_io.app.mjs";
 
 export default {
   name: "Lookup ASN",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "ipinfo_io-lookup-asn",
   description: "Lookup an ASN. [See docs here](https://ipinfo.io/developers/asn)",
   type: "action",

@@ -5,7 +5,7 @@ export default {
   key: "streak-task-completed",
   name: "Task Completed (Instant)",
   description: "Emit new event when a task is completed in a pipeline.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

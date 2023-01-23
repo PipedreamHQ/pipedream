@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Ticket Create",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "snappy-new-ticket-created",
   description: "Emit new event on each ticket created.",
   type: "source",

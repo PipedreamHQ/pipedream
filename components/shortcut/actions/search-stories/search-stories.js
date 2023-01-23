@@ -4,7 +4,7 @@ module.exports = {
   key: "shortcut-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your Shortcut account.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shortcut,

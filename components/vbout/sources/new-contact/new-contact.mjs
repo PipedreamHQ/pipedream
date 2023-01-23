@@ -6,7 +6,7 @@ export default {
   name: "New Contact",
   key: "vbout-new-contact",
   description: "Emit new event for each new contact. [See docs here](https://developers.vbout.com/docs#emailmarketing_getcontacts)",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

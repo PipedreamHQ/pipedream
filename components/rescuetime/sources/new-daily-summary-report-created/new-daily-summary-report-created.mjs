@@ -5,7 +5,7 @@ export default {
   key: "rescuetime-new-daily-summary-report-created",
   name: "New Daily Summary Report Created",
   description: "Emit new event each time a new daily summary report is available. [See the docs here](https://www.rescuetime.com/rtx/developers#daily-summary-feed-reference)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

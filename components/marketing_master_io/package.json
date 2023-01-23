@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/marketing_master_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Marketing Master IO Components",
   "main": "dist/app/marketing_master_io.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/marketing_master_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

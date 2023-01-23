@@ -5,7 +5,7 @@ export default {
   key: "qualaroo-survey-response-received",
   name: "New Survey Response Received",
   description: "Emit new event when a survey response is received.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

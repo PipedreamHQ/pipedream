@@ -5,7 +5,7 @@ export default {
   name: "Submit Transcription Job",
   description: "Submits a job passing a media URL. [See the docs](https://www.temi.com/api/reference/v1#submit-job).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     mediaUrl: {

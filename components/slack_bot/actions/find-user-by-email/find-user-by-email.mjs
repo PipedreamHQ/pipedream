@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-find-user-by-email",
   description: "Find a user by matching against their email (Bot). [See docs here](https://api.slack.com/methods/users.lookupByEmail)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

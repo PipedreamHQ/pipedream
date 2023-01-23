@@ -6,7 +6,7 @@ export default {
   key: "streak-create-task",
   name: "Create Task",
   description: `Create a new task in a box. [See the docs](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     streak,

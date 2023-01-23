@@ -6,7 +6,7 @@ export default {
   name: "New Bounce (Instant)",
   type: "source",
   description: "Emit new event when the email recipient could not be reached.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

@@ -5,7 +5,7 @@ export default {
   name: "Find Lead",
   description: "Retrieves a specific lead. [See the docs](https://docs.leadfeeder.com/api/#get-a-specific-lead).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     accountId: {

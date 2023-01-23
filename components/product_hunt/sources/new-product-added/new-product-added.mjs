@@ -5,7 +5,7 @@ export default {
   key: "product_hunt-new-product-added",
   name: "New Product Added",
   description: "Emit new event when any new product is posted.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "thanks_io-new-delivery",
   name: "New Delivery",
   description: "Emit new event for each new order delivered.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   hooks: {

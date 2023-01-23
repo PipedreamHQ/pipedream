@@ -8,7 +8,7 @@ export default {
   key: "mautic-search-contacts",
   name: "Search Contacts",
   description: "Gets a list of contacts by a search term. [See docs](https://developer.mautic.org/#list-contacts)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     mautic,

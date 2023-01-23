@@ -7,7 +7,7 @@ export default {
   name: "New Lead Converted To Person",
   key: "teamgate-lead-converted-to-person",
   description: "Emit new event when a lead is converted to person.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

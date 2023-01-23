@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Wall Post Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "snappy-new-wall-post-created",
   description: "Emit new event on each wall post created.",
   type: "source",

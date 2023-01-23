@@ -5,7 +5,7 @@ export default {
   name: "New Zapier Step Triggered (Instant)",
   description: "Emit new event when a zapier step is triggered. [See the docs](https://docs.typebot.io/api/subscribe-to-webhook-block)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     app,

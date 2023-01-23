@@ -10,7 +10,7 @@ export default defineAction({
   description:
     "Create a pickup task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-a-pickup-task)",
   key: "tookan-create-pickup-task",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

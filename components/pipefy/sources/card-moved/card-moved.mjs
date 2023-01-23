@@ -5,7 +5,7 @@ export default {
   name: "Card Moved (Instant)",
   key: "pipefy-card-moved",
   description: "Emits an event each time a card is moved in a Pipe.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     ...common.methods,

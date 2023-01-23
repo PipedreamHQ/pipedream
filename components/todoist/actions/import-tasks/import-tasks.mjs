@@ -6,7 +6,7 @@ export default {
   key: "todoist-import-tasks",
   name: "Import Tasks",
   description: "Import tasks into a selected project. [See Docs](https://developer.todoist.com/sync/v9/#add-an-item)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     todoist,

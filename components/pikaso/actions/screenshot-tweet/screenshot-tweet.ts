@@ -5,7 +5,7 @@ export default defineAction({
   name: "Screenshot Tweet",
   description: "With the Pikaso API you can automate creating screenshots from tweets. [See the docs](https://pikaso.me/api) for more information",
   key: "pikaso-screenshot-tweet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

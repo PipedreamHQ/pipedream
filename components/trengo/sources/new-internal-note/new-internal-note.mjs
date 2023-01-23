@@ -4,7 +4,7 @@ export default {
   key: "trengo-new-internal-note",
   name: "New Internal Note Event",
   description: "Emit new events when a internal note added. [See the docs here](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

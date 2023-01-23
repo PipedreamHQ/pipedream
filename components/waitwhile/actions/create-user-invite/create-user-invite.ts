@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create User Invite",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "waitwhile-create-user-invite",
   description: "Create a user invite. [See the doc here](https://developers.waitwhile.com/reference/postinvites)",
   props: {

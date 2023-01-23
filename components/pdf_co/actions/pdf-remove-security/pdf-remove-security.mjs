@@ -4,7 +4,7 @@ export default {
   name: "Remove PDF security",
   description: "Remove PDF security. [See docs here](https://apidocs.pdf.co/32-pdf-password-and-security)",
   key: "pdf_co-pdf-remove-security",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

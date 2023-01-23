@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-cancel-or-reverse-payout",
   name: "Cancel Or Reverse a Payout",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Cancel or reverse a [payout](https://stripe.com/docs/payouts). " +
     "A payout can be canceled only if it has not yet been paid out. A payout can be reversed " +
     "only if it has already been paid out. Funds will be refunded to your available balance. [See" +

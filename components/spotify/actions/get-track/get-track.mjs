@@ -6,7 +6,7 @@ export default {
   name: "Get a Track",
   description: "Get a track by its name or ID. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/search)",
   key: "spotify-get-a-track",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     spotify,

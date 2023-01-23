@@ -5,7 +5,7 @@ module.exports = {
   key: "stack_exchange-new-answers-for-questions",
   name: "New Answers for Specific Questions",
   description: "Emits an event when a new answer is posted in one of the specified questions",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {

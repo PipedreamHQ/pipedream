@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sentry",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Sentry Components",
   "main": "sentry.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/sentry",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "parse-link-header": "^1.0.1",

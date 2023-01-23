@@ -4,7 +4,7 @@ export default {
   key: "threads-delete-thread",
   name: "Delete a Thread",
   description: "Delete a thread",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     threads,

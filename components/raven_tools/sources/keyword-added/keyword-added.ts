@@ -9,7 +9,7 @@ export default defineSource({
   key: "raven_tools-keyword-added",
   name: "New Keyword Added",
   description: `Emit new event for each keyword added to a domain [See docs here](${DOCS})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

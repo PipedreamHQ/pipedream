@@ -4,7 +4,7 @@ export default {
   key: "pipefy-update-card-field",
   name: "Update Card Field",
   description: "Updates a Card Field in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateCardField/)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipefy,
