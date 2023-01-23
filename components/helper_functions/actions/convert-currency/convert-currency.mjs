@@ -5,7 +5,8 @@ import helper_functions from "../../helper_functions.app.mjs";
 export default {
   key: "helper_functions-convert-currency",
   name: "Convert Currency via exchangerate.host",
-  version: "0.1.1",
+  description: "Convert a currency via exchangerate",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,

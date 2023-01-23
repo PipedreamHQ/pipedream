@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-invite-user-to-channel",
   description: "Invite a user to an existing channel (Bot). [See docs here](https://api.slack.com/methods/conversations.invite)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

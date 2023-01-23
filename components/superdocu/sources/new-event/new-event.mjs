@@ -6,7 +6,7 @@ export default {
   key: "superdocu-new-event",
   name: "New Event",
   description: "Emit new events from Superdocu. You can configure your webhook [here](https://www.superdocu.com/en/c/settings/api)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     secret: {

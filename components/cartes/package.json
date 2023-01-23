@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cartes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Cartes Components",
   "main": "dist/app/cartes.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/cartes",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

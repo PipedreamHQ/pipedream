@@ -6,7 +6,7 @@ export default {
   key: "mixmax-get-contact-groups",
   name: "Get Contact Groups",
   description: "Contact groups that you have access to (either that you have created, or that have been shared with you). [See the docs here](https://developer.mixmax.com/reference/contactgroups)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

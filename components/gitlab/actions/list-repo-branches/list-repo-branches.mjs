@@ -4,7 +4,7 @@ export default {
   key: "gitlab-list-repo-branches",
   name: "List Repo Branches",
   description: "Get a list of repository branches from a project. [See docs](https://docs.gitlab.com/ee/api/branches.html#list-repository-branches)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     gitlab,

@@ -5,7 +5,7 @@ export default {
   key: "helper_functions-base64-decode-string",
   name: "Base64 Decode String",
   description: "Accepts a base64-encoded string, returns a decoded UTF-8 string",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,

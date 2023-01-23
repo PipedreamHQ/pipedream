@@ -4,7 +4,7 @@ export default {
   key: "podio-new-organization-created",
   name: "New Organization created",
   description: "Emit new events when a new organization created. [See the docs here](https://developers.podio.com/doc/organizations/get-organizations-22344)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

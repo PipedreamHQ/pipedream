@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Survey",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   key: "survey_monkey-new-survey",
   description: "Emit new created survey",

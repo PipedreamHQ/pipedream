@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/api2pdf",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Api2pdf Components",
   "main": "dist/app/api2pdf.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/api2pdf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -7,7 +7,7 @@ export default {
   key: "segment-webhook-destination",
   name: "Webhook Destination (Instant)",
   description: "Send events to a webhook",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     segmentApp,

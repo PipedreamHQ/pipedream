@@ -7,7 +7,7 @@ export default {
   name: "New List Created",
   description: "Emit new event when a new list is created. [See the docs](https://rest.smoove.io/#!/Lists/Lists_Get).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

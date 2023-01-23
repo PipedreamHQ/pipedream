@@ -6,7 +6,7 @@ export default {
   name: "New Recurring Lead",
   description: "Emit new event when a lead is recurred. [See the docs](https://docs.leadfeeder.com/api/#get-all-visits-of-a-lead)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

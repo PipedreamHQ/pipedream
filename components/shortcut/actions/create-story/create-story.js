@@ -8,7 +8,7 @@ module.exports = {
   key: "shortcut-create-story",
   name: "Create Story",
   description: "Creates a new story in your Shortcut account. See [Create Story](https://shortcut.com/api/rest/v3#Create-Story) in Shortcut Rest API, V3 reference for endpoint documentation.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shortcut,

@@ -4,7 +4,7 @@ export default {
   key: "pipefy-update-card",
   name: "Update Card",
   description: "Updates an existing card. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateCard/)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipefy,

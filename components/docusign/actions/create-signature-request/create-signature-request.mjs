@@ -4,7 +4,7 @@ import common from "./common.mjs";
 export default {
   ...common,
   key: "docusign-create-signature-request",
-  version: "0.1.0",
+  version: "0.1.1",
   name: "Create Signature Request",
   description: "Creates a signature request from a template [See the docs here](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create)",
   type: "action",

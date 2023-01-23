@@ -6,7 +6,7 @@ export default {
   name: "Custom Webhook Events",
   description: "Receive notifications for custom webhook events. [See docs here](https://developer.squareup.com/docs/webhooks/v2webhook-events-tech-ref).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...base.props,

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Tagged item",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "pocket-new-tagged-item",
   description: "Emit new event for each tagged item.",
   type: "source",

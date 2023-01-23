@@ -5,7 +5,7 @@ export default {
   name: "Create List",
   description: "Creates a new list. [See the docs](https://rest.smoove.io/#!/Lists/Lists_Post).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     name: {

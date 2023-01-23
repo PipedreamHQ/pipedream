@@ -8,7 +8,7 @@ export default defineSource({
   key: "raven_tools-domain-added",
   name: "New Domain Added",
   description: `Emit new event when a domain is added [See docs here](${DOCS})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

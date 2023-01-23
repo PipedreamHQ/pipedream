@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-create-payout",
   name: "Create a Payout",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Send funds to your own bank account. Your Stripe balance must be able to cover " +
     "the payout amount, or you'll receive an 'Insufficient Funds' error. [See the " +
     "docs](https://stripe.com/docs/api/payouts/create) for more information",

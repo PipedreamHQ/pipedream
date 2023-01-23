@@ -8,7 +8,7 @@ export default defineSource({
   key: "practitest-issue-created",
   name: "Issue Created",
   description: `Emit new event for each new issue [See docs here](${DOCS.issueCreated})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

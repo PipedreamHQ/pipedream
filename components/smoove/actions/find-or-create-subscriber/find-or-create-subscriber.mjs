@@ -5,7 +5,7 @@ export default {
   name: "Find Or Create Subscriber",
   description: "Checks if a contact exists in your account otherwise will create a contact. [See the docs](https://rest.smoove.io/#!/Contacts/Contacts_Exists).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     email: {

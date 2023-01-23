@@ -10,7 +10,7 @@ export default defineAction({
   name: "Create Run",
   description: `Create a run [See docs here](${DOCS.createRun})`,
   key: "practitest-create-run",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     practitest,
@@ -49,7 +49,7 @@ export default defineAction({
         "Text output string that will be shown in 'Execution output' field (up to 255 characters)",
       optional: true,
     },
-    version: {
+   ..NaN version: {
       propDefinition: [
         practitest,
         "version",

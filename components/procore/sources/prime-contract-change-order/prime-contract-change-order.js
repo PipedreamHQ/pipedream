@@ -6,7 +6,7 @@ module.exports = {
   key: "procore-prime-contract-change-order",
   description:
     "Emits an event each time a Prime Contract Change Order is created, updated, or deleted in a project.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   methods: {
     ...common.methods,

@@ -9,7 +9,7 @@ export default defineSource({
   name: "Task Moved",
   description: "Emit new event when a **task is moved**",
   key: "kanbanflow-task-moved",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

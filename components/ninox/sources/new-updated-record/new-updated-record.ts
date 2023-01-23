@@ -4,7 +4,7 @@ import { defineSource } from "@pipedream/types";
 export default defineSource({
   ...common,
   name: "New Updated Record",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "ninox-new-updated-record",
   description: "Emit new event on each updated record.",
   type: "source",

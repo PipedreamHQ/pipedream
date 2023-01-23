@@ -6,7 +6,7 @@ export default {
   name: "New Call Recording",
   description: "Emit new events when a call recording is created",
   type: "source",
-  version: "0.1.5",
+  version: "0.1.6",
   props: {
     ...common.props,
     extensionId: {

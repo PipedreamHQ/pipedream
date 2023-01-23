@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/serveravatar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Server Avatar Components",
   "main": "dist/app/serveravatar.app.mjs",
   "types": "dist/app/serveravatar.app.d.ts",
@@ -13,7 +13,6 @@
   ],
   "homepage": "https://pipedream.com/apps/serveravatar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"

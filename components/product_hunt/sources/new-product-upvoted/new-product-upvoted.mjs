@@ -6,7 +6,7 @@ export default {
   key: "product_hunt-new-product-upvoted",
   name: "New Product Upvoted",
   description: "Emit new event when a user upvotes a product.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

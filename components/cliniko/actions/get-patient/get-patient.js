@@ -4,7 +4,7 @@ module.exports = {
   name: "Get Patient",
   key: "cliniko-get-patient",
   description: "Get the details of a patient by patient ID.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cliniko,

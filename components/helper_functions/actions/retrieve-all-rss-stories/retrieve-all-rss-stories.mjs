@@ -6,7 +6,7 @@ export default {
   key: "helper_functions-retrieve-all-rss-stories",
   name: "Retrieve all RSS Stories",
   description: "Retrieve all stories from one or more RSS feeds.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,
@@ -20,7 +20,7 @@ export default {
 
     let stories = [];
 
-    for (url of this.rss_feeds) {
+    for (const url of this.rss_feeds) {
       let feed = await parser.parseURL(url);
       console.log(feed.title);
 

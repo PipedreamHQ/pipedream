@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ip2location",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Ip2location Components",
   "main": "ip2location.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ip2location",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.9.0"
   },
