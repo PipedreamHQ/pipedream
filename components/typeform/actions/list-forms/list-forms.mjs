@@ -5,7 +5,7 @@ export default {
   name: "List Forms",
   description: "Retrieves a list of forms. [See the docs here](https://developer.typeform.com/create/reference/retrieve-forms/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     search: {

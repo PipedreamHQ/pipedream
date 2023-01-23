@@ -5,7 +5,7 @@ export default {
   name: "Get Followers",
   key: "twitch-get-followers",
   description: "Retrieves a list of users who follow the specified user",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

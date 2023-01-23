@@ -7,7 +7,7 @@ export default {
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,

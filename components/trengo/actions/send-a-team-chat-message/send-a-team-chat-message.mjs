@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "trengo-send-a-team-chat-message",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Send A Team Chat Message",
   description: "Send a message as a bot in the Team Chat, [See the docs](https://developers.trengo.com/reference/sending-a-bot-message)",
   props: {

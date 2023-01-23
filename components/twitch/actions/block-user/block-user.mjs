@@ -5,7 +5,7 @@ export default {
   name: "Block User",
   key: "twitch-block-user",
   description: "Blocks a user; that is, adds a specified target user to your blocks list",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

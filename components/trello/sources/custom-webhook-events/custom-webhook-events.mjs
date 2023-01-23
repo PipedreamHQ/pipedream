@@ -5,7 +5,7 @@ export default {
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
   description: "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   props: {
     ...common.props,

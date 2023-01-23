@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Message (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   key: "twist-new-message-instant",
   description: "Emit new event for any new message in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",

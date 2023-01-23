@@ -5,7 +5,7 @@ export default {
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
   description: "Emit new event for each new comment added to a card.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
