@@ -7,7 +7,7 @@ export default defineSource({
   name: "Task Created",
   description: "Emit new event when a **new task is created**",
   key: "kanbanflow-task-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

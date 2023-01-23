@@ -5,23 +5,23 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     jira,
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     body: {

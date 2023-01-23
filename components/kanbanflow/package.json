@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/kanbanflow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream KanbanFlow Components",
   "main": "dist/app/kanbanflow.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/kanbanflow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
