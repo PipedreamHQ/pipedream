@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/inksprout",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Inksprout Components",
   "main": "inksprout.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/inksprout",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

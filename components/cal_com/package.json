@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cal_com",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Cal.com Components",
   "main": "cal_com.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/cal_com",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

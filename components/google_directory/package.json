@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_directory",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Google Directory Components",
   "main": "dist/app/google_directory.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_directory",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

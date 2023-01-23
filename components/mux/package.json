@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mux",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mux Components",
   "main": "dist/app/mux.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/mux",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

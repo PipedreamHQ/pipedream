@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ambient_weather",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Ambient Weather Components",
   "main": "dist/app/ambient_weather.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ambient_weather",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
