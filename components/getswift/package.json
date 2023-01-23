@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/getswift",
+  "version": "0.0.1",
+  "description": "Pipedream Getswift Components",
+  "main": "dist/app/getswift.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getswift"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/getswift",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

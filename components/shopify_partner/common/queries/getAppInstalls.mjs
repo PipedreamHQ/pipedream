@@ -24,7 +24,6 @@ export default gql`
           hasPreviousPage
         }
         edges {
-          id
           cursor
           node {
             occurredAt

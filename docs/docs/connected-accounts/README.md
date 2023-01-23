@@ -9,7 +9,8 @@ For example, you can connect to Slack from Pipedream (via their OAuth integratio
 ```javascript
 import { WebClient } from '@slack/web-api';
 
-defineComponent({
+// Sends a message to a Slack Channel
+export default defineComponent({
   props: {
     slack: {
       type: 'app',
@@ -25,6 +26,11 @@ defineComponent({
   })
 });
 ```
+
+Or skip using code and use any connected account with an HTTP request step.
+
+![Connecting to Slack using the HTTP request builder](https://res.cloudinary.com/pipedreamin/image/upload/v1673535786/docs/CleanShot_2023-01-12_at_10.02.47_xkv0ac.gif)
+
 
 [[toc]]
 
@@ -47,9 +53,30 @@ Depending on the integration, this will either:
 
 If you've already connected an account for this app, you'll also see a list of existing accounts to select from.
 
+### From the HTTP Request action
+
+Craft a custom HTTP request in a workflow with a connected account _without code_.
+
+In a new step, select the **Send any HTTP Request** to start a new HTTP Request action.
+
+![Starting a new HTTP request action in a workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1672947285/docs/CleanShot_2023-01-05_at_14.34.25_wi8rcc.png)
+
+Then, within the new HTTP request, open the **Authorization Type** dropdown to select a **Select an app**:
+
+![Opening the HTTP Request Authorization Type dropdown](https://res.cloudinary.com/pipedreamin/image/upload/v1673535917/docs/CleanShot_2023-01-12_at_10.05.02_vmttbf.png)
+
+This will open a new prompt to select an app to connect with. Once you select an app, the HTTP request will be updated with the correct headers to authenticate with that app's API.
+
+![Select an account](https://res.cloudinary.com/pipedreamin/image/upload/v1673536044/docs/CleanShot_2023-01-12_at_10.07.06_rejzyy.gif)
+
+Once you connect the selected app account Pipedream will autmatically include your account's authentication keys in the request in the headers, as well as update the URL to match the selected service.
+
+Now you can modify the request path, method, body or query params to perform an action on the endpoint with your authenticated account.
+
 ### From a code step
 
 You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/code/nodejs/auth/).
+
 
 ## Managing Connected Accounts from Apps
 
