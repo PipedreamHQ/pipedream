@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-get-bank-statements-report",
   name: "Bank Statements Report",
   description: "Gets bank statements for the specified bank account.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

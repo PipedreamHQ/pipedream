@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-create-credit-note",
   name: "Create Credit Note",
   description: "Creates a new credit note.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

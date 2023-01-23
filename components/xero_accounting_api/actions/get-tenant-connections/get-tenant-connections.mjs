@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-get-tenant-connections",
   name: "Get Tenant Connections",
   description: "Gets the tenants connections the user is authorized to access",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

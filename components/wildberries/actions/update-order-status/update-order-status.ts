@@ -5,7 +5,7 @@ export default defineAction({
   name: "Update Order Status",
   description: "Update a order status. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/put_api_v2_orders)",
   key: "wildberries-update-order-status",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

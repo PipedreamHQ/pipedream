@@ -6,7 +6,7 @@ export default {
   key: "woocommerce-search-customers",
   name: "Search Customers",
   description: "Finds a customer by searching. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-customers)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     woocommerce,

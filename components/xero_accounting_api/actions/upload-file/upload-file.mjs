@@ -7,7 +7,7 @@ export default {
   key: "xero_accounting_api-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified document.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     xero_accounting_api: {

@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-create-update-contact",
   name: "Create or update contact ",
   description: "Creates a new contact or updates a contact if a contact already exists. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     xeroAccountingApi,

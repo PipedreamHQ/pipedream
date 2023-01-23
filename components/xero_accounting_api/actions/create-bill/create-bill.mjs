@@ -10,7 +10,7 @@ export default {
   key: "xero_accounting_api-create-bill",
   name: "Create Bill",
   description: "Creates a new bill (Accounts Payable)[See the docs here](https://developer.xero.com/documentation/api/accounting/invoices)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     xeroAccountingApi,

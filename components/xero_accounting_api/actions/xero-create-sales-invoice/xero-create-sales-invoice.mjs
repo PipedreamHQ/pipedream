@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-xero-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice.",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     xero_accounting_api: {

@@ -5,7 +5,7 @@ export default {
   key: "woodpecker_co-followup-after-autoreply",
   name: "New Follow-up After Autoreply (Instant)",
   description: "Emit new event when you get an autoreply and you set a date to resume follow-ups [see the docs here](https://woodpecker.co/help/webhooks-events-notification/#h_232afd5aae)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

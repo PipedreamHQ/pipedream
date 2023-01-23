@@ -4,7 +4,7 @@ export default {
   key: "woodpecker_co-stop-follow-ups",
   name: "Stop Follow-Ups",
   description: "This action updates a prospect to stop receiving follow-ups. [See the docs here](https://woodpecker.co/help/api-managing-prospects/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     woodpecker,

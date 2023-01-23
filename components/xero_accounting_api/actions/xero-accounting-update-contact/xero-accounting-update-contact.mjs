@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-xero-accounting-update-contact",
   name: "Update Contact",
   description: "Updates a contact given its identifier.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

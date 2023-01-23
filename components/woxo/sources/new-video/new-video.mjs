@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Video",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "woxo-new-video",
   description: "Emit new event on each new video.",
   type: "source",

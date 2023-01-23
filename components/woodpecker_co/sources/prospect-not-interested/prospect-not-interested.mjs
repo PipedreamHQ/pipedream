@@ -5,7 +5,7 @@ export default {
   key: "woodpecker_co-prospect-not-interested",
   name: "New Prospect Not Interested (Instant)",
   description: "Emit new event when prospect's interest level changes to 'Not Interested' [see the docs here](https://woodpecker.co/help/webhooks-events-notification/#h_8c08a8d67c)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

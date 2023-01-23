@@ -5,7 +5,7 @@ export default {
   key: "woodpecker_co-prospect-invalid",
   name: "New Prospect Invalid (Instant)",
   description: "Emit new event when prospect's email address is marked as 'Invalid' [see the docs here](https://woodpecker.co/help/webhooks-events-notification/#h_45a07f6ec4)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

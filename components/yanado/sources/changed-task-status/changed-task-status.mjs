@@ -5,7 +5,7 @@ export default {
   name: "Changed Task Status",
   key: "yanado-changed-task-status",
   description: "Emit new event when a task status changes",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,
