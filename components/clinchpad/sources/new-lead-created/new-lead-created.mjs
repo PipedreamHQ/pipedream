@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Lead Created ",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "clinchpad-new-lead-created",
   description: "Emit new event for each new created lead.",
   type: "source",

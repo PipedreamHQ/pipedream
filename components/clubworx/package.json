@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clubworx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Clubworx Components",
   "main": "dist/app/clubworx.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/clubworx",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
