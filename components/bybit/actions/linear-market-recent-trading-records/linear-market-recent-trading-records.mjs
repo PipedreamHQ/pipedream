@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Market Recent Trading Records",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bybit-linear-market-recent-trading-records",
   description: "Get recent trades.[reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-latestsymbolinfo)",
   props: {

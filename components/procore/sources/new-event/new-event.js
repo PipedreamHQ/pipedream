@@ -6,7 +6,7 @@ module.exports = {
   name: "New Event (Instant)",
   key: "procore-new-event",
   description: "Emits an event for each webhook notification.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,

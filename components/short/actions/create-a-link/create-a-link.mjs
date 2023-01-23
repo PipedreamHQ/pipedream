@@ -6,7 +6,7 @@ export default {
   key: "short-create-a-link",
   name: "Create a Short Link",
   description: "Create a Short Link. [See the docs](https://developers.short.io/reference/linkspost).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shortApp,

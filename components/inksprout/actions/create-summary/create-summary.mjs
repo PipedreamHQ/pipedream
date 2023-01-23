@@ -5,7 +5,7 @@ export default {
   key: "inksprout-create-summary",
   name: "Create Summary",
   description: "Create summary by either url or raw text. [See the docs](https://inksprout.co/docs/index.html#item-2-2).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

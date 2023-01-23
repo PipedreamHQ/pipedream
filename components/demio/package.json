@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/demio",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Demio Components",
   "main": "demio.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/demio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

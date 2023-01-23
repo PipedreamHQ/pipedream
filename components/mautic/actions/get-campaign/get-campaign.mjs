@@ -4,7 +4,7 @@ export default {
   key: "mautic-get-campaign",
   name: "Get Campaign",
   description: "Gets an individual campaign by ID. [See docs](https://developer.mautic.org/#get-campaign)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     mautic,

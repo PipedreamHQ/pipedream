@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/digicert",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream DigiCert Components",
   "main": "dist/app/digicert.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/digicert",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

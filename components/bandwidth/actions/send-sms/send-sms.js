@@ -5,7 +5,7 @@ module.exports = {
   name: "Send SMS",
   description: "Send an SMS message using Bandwidth's Messaging API",
   type: "action",
-  version: "1.0.0",
+  version: "1.0.1",
   props: {
     bandwidth,
     messageTo: {

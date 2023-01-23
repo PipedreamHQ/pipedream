@@ -5,7 +5,7 @@ export default {
   key: "frontapp-send-new-message",
   name: "Send New Message",
   description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     frontApp,

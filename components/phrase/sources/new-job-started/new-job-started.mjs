@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Job Started (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "phrase-new-job-started",
   description: "Emit new event when each job is started.",
   type: "source",

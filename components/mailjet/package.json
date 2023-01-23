@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailjet",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Pipedream Mailjet Components",
   "main": "mailjet.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/mailjet",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "node-mailjet": "^3.3.13"

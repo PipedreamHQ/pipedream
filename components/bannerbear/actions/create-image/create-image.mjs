@@ -5,7 +5,7 @@ export default {
   key: "bannerbear-create-image",
   name: "Create an Image",
   description: "Create an image using template and modifications. [See the docs](https://developers.bannerbear.com/#post-v2-images)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     bannerbear,

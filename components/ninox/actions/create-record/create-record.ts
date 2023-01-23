@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Create Record",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "ninox-create-record",
   description: "Creates a record. [See docs here](https://docs.ninox.com/en/api/private-cloud-apis#create-update-multiple-records-with-post)",
   type: "action",

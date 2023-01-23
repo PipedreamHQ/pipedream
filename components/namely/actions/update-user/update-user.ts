@@ -4,7 +4,7 @@ import namely from "../../app/namely.app";
 
 export default defineAction({
   key: "namely-update-user",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Update User",
   description: "Updates a user. [See docs here](https://developers.namely.com/docs/namely-api/2bfe77e091d74-update-a-profile)",
   type: "action",

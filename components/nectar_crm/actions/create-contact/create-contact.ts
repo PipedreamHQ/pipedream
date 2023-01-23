@@ -6,7 +6,7 @@ export default defineAction({
   key: "nectar_crm-create-contact",
   name: "Create Contact",
   description: "Created a new contact. [See docs here](https://nectarcrm.docs.apiary.io/#reference/0/contatos/criar)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     nectar_crm,

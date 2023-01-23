@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/reddit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Reddit Components",
   "main": "reddit.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/reddit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

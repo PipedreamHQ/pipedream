@@ -7,7 +7,7 @@ export default {
   key: "ragic-record-updated-instant",
   name: "New Updated Record (Instant)",
   description: `Emit new event when a record is updated. [Instructions on creating webhooks here](${docLink}).`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...base.methods,

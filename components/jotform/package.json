@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jotform",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Jotform Components",
   "main": "jotform.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/jotform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "query-string": "^7.1.1"

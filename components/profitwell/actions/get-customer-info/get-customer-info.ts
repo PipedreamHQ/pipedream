@@ -8,7 +8,7 @@ export default defineAction({
   description:
     "Get data for a customer [See docs here](https://profitwellapiv2.docs.apiary.io/#/reference/customers/retrieving-a-customer-by-id)",
   key: "profitwell-get-customer-info",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     profitwell,

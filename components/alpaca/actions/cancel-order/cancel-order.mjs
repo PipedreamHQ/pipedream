@@ -3,7 +3,7 @@ import app from "../../alpaca.app.mjs";
 export default {
   type: "action",
   key: "alpaca-cancel-order",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Cancel Order",
   description: "Attempts to cancel an open order. If the order is no longer cancelable (example: status=`filled`), the server will reject the request, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#cancel-an-order)",
   props: {

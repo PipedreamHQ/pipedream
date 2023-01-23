@@ -5,7 +5,7 @@ export default {
   key: "helper_functions-delay",
   name: "Delay by N milliseconds",
   description: "Delays the execution of your workflow for the specified number of milliseconds",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,
