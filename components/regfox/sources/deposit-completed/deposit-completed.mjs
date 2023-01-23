@@ -1,5 +1,5 @@
 import base from "../common/base-timer.mjs";
-import baseComponent from "../deposit-completed-instant/deposit-completed-instant.mjs";
+import baseComponent from "../deposit-completed-instant/common-deposit-completed-instant.mjs";
 
 export default {
   ...base,

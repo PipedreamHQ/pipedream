@@ -1,5 +1,5 @@
 import base from "../common/base-timer.mjs";
-import baseComponent from "../registrant-applied-instant/registrant-applied-instant.mjs";
+import baseComponent from "../registrant-applied-instant/common-registrant-applied-instant.mjs";
 
 export default {
   ...base,

@@ -1,5 +1,5 @@
 import base from "../common/base-timer.mjs";
-import baseComponent from "../form-published-instant/form-published-instant.mjs";
+import baseComponent from "../form-published-instant/common-form-published-instant.mjs";
 
 export default {
   ...base,
