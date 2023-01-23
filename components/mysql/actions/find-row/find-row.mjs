@@ -5,7 +5,7 @@ export default {
   name: "Find Row",
   description: "Finds a row in a table via a lookup column. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {
