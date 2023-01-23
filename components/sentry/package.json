@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sentry",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Sentry Components",
   "main": "sentry.app.js",
   "keywords": [
