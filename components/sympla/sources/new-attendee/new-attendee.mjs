@@ -6,7 +6,7 @@ export default {
   name: "New Attendee",
   description: "Emit new event for each new attendee in an event.",
   key: "sympla-new-attendee",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ module.exports = {
   key: "stripe-create-usage-record",
   name: "Create a Usage Record",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "With metered billing, you charge your customers based on their consumption of " +
     "your service during the billing cycle, instead of explicitly setting quantities. Use this " +
     " action to create a usage record for metered billing. [See the " +

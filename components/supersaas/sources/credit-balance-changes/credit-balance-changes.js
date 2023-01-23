@@ -6,7 +6,7 @@ module.exports = {
   key: "supersaas-credit-balance-changes",
   name: "Credit balance changes",
   description: "Emits an event for every user credit balance changes for the selected schedules.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     supersaas,

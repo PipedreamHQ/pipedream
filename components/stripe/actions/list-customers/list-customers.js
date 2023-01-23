@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Find or list customers. [See the " +
     "docs](https://stripe.com/docs/api/customers/list) for more information",
   props: {

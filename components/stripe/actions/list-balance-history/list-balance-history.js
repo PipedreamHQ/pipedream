@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Returns the last 100 transactions that have contributed to the Stripe account " +
     "balance (e.g., charges, transfers, and so forth). The transactions are returned in " +
     "sorted order, with the most recent transactions appearing first. [See the " +

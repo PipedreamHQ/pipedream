@@ -5,7 +5,7 @@ export default {
   key: "status_hero-new-check-in",
   name: "New Check In Event",
   description: "Emit new events when new status update (check-in) occurs. [See the docs here](https://api.statushero.com/#statuses)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   ...common,
   props: {
