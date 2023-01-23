@@ -6,7 +6,7 @@ export default defineSource({
   key: "persistiq-new-prospect-created",
   name: "New Prospect Created",
   description: "Emit new events when a new prospect was created. [See the docs](https://apidocs.persistiq.com/#list-leads)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

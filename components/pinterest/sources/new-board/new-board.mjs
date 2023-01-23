@@ -5,7 +5,7 @@ export default {
   key: "pinterest-new-board",
   name: "New Board Event",
   description: "Emit new events when new boards are created. [See the docs](https://developers.pinterest.com/docs/api/v5/#operation/boards/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   ...common,
   props: {

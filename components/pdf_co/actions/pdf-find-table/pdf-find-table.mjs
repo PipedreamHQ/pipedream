@@ -4,7 +4,7 @@ export default {
   name: "PDF Find Table",
   description: "AI powered document analysis can scan your document for tables and return the array of tables on pages with coordinates and information about columns detected in these tables. [See docs here](https://apidocs.pdf.co/07-1-pdf-find-table)",
   key: "pdf_co-pdf-find-table",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
