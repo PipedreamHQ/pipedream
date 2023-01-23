@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/monkeylearn",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream MonkeyLearn Components",
   "main": "monkeylearn.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/monkeylearn",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

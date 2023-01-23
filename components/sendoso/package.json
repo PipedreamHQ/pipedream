@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendoso",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sendoso Components",
   "main": "sendoso.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/sendoso",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

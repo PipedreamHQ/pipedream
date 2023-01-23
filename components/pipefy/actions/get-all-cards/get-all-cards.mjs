@@ -4,7 +4,7 @@ export default {
   key: "pipefy-get-all-cards",
   name: "Get All Cards",
   description: "Fetches all cards in a pipe. [See the docs here](https://api-docs.pipefy.com/reference/queries/#allCards)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipefy,

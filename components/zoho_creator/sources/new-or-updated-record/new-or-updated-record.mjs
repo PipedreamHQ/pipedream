@@ -18,7 +18,7 @@ export default {
   `),
   type: "source",
   name: "New or Updated Record",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

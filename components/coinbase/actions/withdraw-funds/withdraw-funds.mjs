@@ -5,7 +5,7 @@ export default {
   key: "coinbase-withdraw-funds",
   name: "Withdraw Funds",
   description: "Withdraw funds",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     coinbase: {

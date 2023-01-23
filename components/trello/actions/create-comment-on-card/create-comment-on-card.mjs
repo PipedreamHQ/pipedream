@@ -5,7 +5,7 @@ export default {
   key: "trello-create-comment-on-card",
   name: "Create Comment on Card",
   description: "Creates a new comment on a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

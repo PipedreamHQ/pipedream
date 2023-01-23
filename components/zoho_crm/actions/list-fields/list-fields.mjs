@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-list-fields",
   name: "List Fields",
   description: "Gets the field metadata for the specified module",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     zoho_crm: {

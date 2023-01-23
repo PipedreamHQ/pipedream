@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zuora",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Zuora Billing Components",
   "main": "dist/app/zuora.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zuora",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -2,7 +2,7 @@ import rebrandly from "../../rebrandly.app.mjs";
 
 export default {
   name: "Update Link",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "rebrandly-update-link",
   description: "Updates a link. [See docs here](https://developers.rebrandly.com/docs/update-a-link)",
   type: "action",

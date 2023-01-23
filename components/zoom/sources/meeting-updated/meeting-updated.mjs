@@ -5,7 +5,7 @@ export default {
   key: "zoom-meeting-updated",
   name: "Meeting Updated (Instant)",
   description: "Emit new event each time a meeting is updated where you're the host",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique", // dedupe on the meeting ID + timestamp
   props: {

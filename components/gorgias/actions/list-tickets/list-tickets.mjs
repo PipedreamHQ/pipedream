@@ -4,7 +4,7 @@ export default {
   key: "gorgias-list-tickets",
   name: "List Tickets",
   description: "List all tickets. [See the docs](https://developers.gorgias.com/reference/get_api-tickets)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gorgias,

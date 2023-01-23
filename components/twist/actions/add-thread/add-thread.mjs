@@ -5,7 +5,7 @@ export default {
   key: "twist-add-thread",
   name: "Add Thread",
   description: "Adds a new thread to a channel.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     twist: {

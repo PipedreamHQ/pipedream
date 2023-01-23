@@ -5,7 +5,7 @@ export default {
   key: "pushshift_reddit_search-search-reddit-comments",
   name: "Search Reddit Comments",
   description: "Search Reddit comments using the Pushshift.io API. [See the docs here](https://github.com/pushshift/api)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pushshift,

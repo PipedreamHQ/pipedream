@@ -6,7 +6,7 @@ export default {
   name: "Create Project",
   description: "Creates a project. [See the docs here](https://www.zoho.com/projects/help/rest-api/projects-api.html#alink5)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     zohoProjects,
     portalId: {

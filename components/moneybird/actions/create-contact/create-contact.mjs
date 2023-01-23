@@ -4,7 +4,7 @@ export default {
   key: "moneybird-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See docs here](https://developer.moneybird.com/api/contacts/#post_contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     moneybird,

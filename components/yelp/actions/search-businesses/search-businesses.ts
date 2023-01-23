@@ -13,7 +13,7 @@ export default defineAction({
   name: "Search Businesses",
   description: `Search businesses matching given criteria [See docs here](${DOCS.searchBusinesses})`,
   key: "yelp-search-businesses",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     yelp,

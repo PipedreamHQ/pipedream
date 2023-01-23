@@ -3,7 +3,7 @@ import { methods } from "../../common.mjs";
 
 export default {
   name: "Verify Webhook",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "qstash-verify-webhook",
   description: "Verify an incoming QStash webhook to an endpoint. Only to be used with the **Publish Endpoint** action.",
   props: {

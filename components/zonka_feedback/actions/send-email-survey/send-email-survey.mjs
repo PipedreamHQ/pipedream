@@ -4,7 +4,7 @@ export default {
   key: "zonka_feedback-send-email-survey",
   name: "Send Email Survey",
   description: "Send a survey by email. [See docs](https://apidocs.zonkafeedback.com/?version=latest#97c28279-79ce-47e8-ac73-a3077f37631e)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zonkaFeedback,

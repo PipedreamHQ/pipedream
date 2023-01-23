@@ -5,7 +5,7 @@ export default {
   key: "zoom-list-past-meeting-participants",
   name: "List Past Meeting Participants",
   description: "Retrieve information on participants from a past meeting.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoom: {

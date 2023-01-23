@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-list-refunds",
   name: "List Refunds",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Find or list refunds. [See the docs](https://stripe.com/docs/api/refunds/list) " +
     "for more information",
   props: {

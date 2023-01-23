@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "Meeting Started",
   description: "Emits an event each time a meeting starts in your Zoom account",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoomAdmin,

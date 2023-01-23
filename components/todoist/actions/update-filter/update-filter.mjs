@@ -4,7 +4,7 @@ export default {
   key: "todoist-update-filter",
   name: "Update Filter",
   description: "Updates a filter. [See the docs here](https://developer.todoist.com/sync/v9/#update-a-filter)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     todoist,

@@ -10,7 +10,7 @@ export default defineAction({
   name: "Create Task",
   description: "Create a task (docs available on board settings)",
   key: "kanbanflow-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     splitFlagPropValue(value: string, splitKey: string): object {

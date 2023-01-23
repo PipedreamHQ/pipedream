@@ -4,7 +4,7 @@ export default {
   key: "esputnik-send-event",
   name: "Send Event",
   description: "Send an event in eSputnik. [See the docs here](https://esputnik.com/api/methods.html#/v1/event-POST)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     esputnik,

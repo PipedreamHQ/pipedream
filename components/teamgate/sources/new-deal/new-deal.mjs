@@ -6,7 +6,7 @@ export default {
   name: "New Deal",
   key: "teamgate-new-deal",
   description: "Emit new event when a new deal is created. [See docs here](https://developers.teamgate.com/#8f23eadd-e356-4b45-bdbe-b1122da6f762)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

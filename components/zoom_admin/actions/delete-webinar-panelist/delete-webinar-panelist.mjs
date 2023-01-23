@@ -6,7 +6,7 @@ export default {
   name: "Delete webinar panelist",
   description: "Remove a panelist from a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarpanelistdelete)",
   key: "zoom_admin-action-remove-webinar-panelist",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,

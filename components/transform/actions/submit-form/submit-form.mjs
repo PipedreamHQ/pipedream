@@ -7,7 +7,7 @@ export default {
   name: "Submit Form",
   description: `Submit a form via JSON. [See the docs](${docLink}). For a better user experience use the [Alpha TransForm Mobile App](https://www.alphasoftware.com/transform-tutorial-part2).`,
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     transform,
     formId: {

@@ -5,7 +5,7 @@ export default {
   key: "waiverforever-new-waiver-signed",
   name: "New Waiver Signed (Instant)",
   description: "Emit new event when a new Waiver sign is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   hooks: {

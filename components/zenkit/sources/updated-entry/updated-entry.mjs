@@ -5,7 +5,7 @@ export default {
   key: "zenkit-updated-entry",
   name: "Updated Entry (Instant)",
   description: "Emit new event when an entry is updated in Zenkit",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

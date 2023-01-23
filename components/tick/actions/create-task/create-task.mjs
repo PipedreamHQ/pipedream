@@ -2,7 +2,7 @@ import tick from "../../tick.app.mjs";
 
 export default {
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "tick-create-task",
   description: "Creates a task. [See docs here](https://github.com/tick/tick-api/blob/master/sections/tasks.md#create-task)",
   type: "action",

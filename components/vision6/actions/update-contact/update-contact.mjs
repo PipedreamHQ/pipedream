@@ -5,7 +5,7 @@ export default {
   key: "vision6-update-contact",
   name: "Update Contact",
   description: "Update an existing contact. [See the docs here](https://api.vision6.com/#update-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vision6,

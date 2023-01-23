@@ -5,7 +5,7 @@ export default {
   key: "zoho_crm-list-objects",
   name: "List Objects",
   description: "Gets the list of available records from a module.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     zoho_crm: {

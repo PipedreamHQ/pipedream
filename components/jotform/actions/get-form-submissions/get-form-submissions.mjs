@@ -5,7 +5,7 @@ export default {
   key: "jotform-get-form-submissions",
   name: "Get Form Submissions",
   description: "Gets a list of form responses [See the docs here](https://api.jotform.com/docs/#form-id-submissions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/trello",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Pipedream Trello Components",
   "main": "trello.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/trello",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "crypto": "^1.0.1",

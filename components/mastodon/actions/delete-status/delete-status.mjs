@@ -4,7 +4,7 @@ export default {
   key: "mastodon-delete-status",
   name: "Delete Status",
   description: "Delete one of your own statuses. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mastodon,

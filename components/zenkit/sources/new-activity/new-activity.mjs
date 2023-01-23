@@ -5,7 +5,7 @@ export default {
   key: "zenkit-new-activity",
   name: "New Activity (Instant)",
   description: "Emit new event when there is new activity in Zenkit",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

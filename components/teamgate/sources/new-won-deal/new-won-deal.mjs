@@ -7,7 +7,7 @@ export default {
   name: "New Won Deal",
   key: "teamgate-new-won-deal",
   description: "Emit new event when a deal is won. [See docs here](https://developers.teamgate.com/#8f23eadd-e356-4b45-bdbe-b1122da6f762)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
   },

@@ -5,7 +5,7 @@ export default {
   key: "woodpecker_co-prospect-maybe-later",
   name: "New Prospect Maybe Later (Instant)",
   description: "Emit new event when prospect's interest level changes to 'Maybe later' [see the docs here](https://woodpecker.co/help/webhooks-events-notification/#h_75d0017396)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

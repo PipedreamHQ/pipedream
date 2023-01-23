@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-list-channels",
   description: "Return a list of all channels in a workspace (Bot). [See docs here](https://api.slack.com/methods/conversations.list)",
-  version: "0.0.1",
+  version: "0.0.2",
 };

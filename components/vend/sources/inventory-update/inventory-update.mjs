@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "New Inventory Update",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "vend-inventory-update",
   description: "Emit new event for each update on inventory. [See docs here](https://docs.vendhq.com/reference/post-webhooks)",
   type: "source",

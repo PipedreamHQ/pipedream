@@ -5,7 +5,7 @@ export default {
   key: "zoom-add-meeting-registrant",
   name: "Add Meeting Registrant",
   description: "Registers a participant for a meeting.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoom: {

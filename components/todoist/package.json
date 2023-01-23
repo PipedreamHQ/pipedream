@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/todoist",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Todoist Components",
   "main": "todoist.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/todoist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
     "json-2-csv": "^3.15.1",

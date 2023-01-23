@@ -5,7 +5,7 @@ export default {
   key: "envoy-visitor-invited",
   name: "New event when a visitor is invited",
   description: "Emit new event for each invitations to a person or a group of people to visit a location. [See the docs](https://developers.envoy.com/hub/reference/invites-2).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "zoho_inventory-create-order",
   name: "Create Sales Order",
   description: "Create a new sales order in Zoho Inventory. [See the docs here](https://www.zoho.com/inventory/api/v1/salesorders/#create-a-sales-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zohoInventory,

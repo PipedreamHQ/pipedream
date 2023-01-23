@@ -5,7 +5,7 @@ export default {
   name: "New Planned Campaign (Instant)",
   key: "unisender-new-planned-campaign",
   description: "Emit new event when a new campaign is scheduled to be launched.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

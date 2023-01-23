@@ -12,7 +12,7 @@ export default {
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
         "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.0.4",
+  version: "1.0.5",
   type: "action",
   props: {
     verifalia,

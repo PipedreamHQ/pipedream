@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api_custom_app-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emit new event for each new Youtube video added to a Playlist.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

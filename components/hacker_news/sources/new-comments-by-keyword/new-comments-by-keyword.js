@@ -9,7 +9,7 @@ module.exports = {
   name: "New Comments by Keyword",
   description: "Emit new comments that mention a specific keyword",
   app: "hacker_news",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     hacker_news,

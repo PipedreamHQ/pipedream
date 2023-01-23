@@ -5,7 +5,7 @@ export default {
   key: "zenkit-add-entry-comment",
   name: "Add Entry Comment",
   description: "Add a comment to an entry/item within a list/collection on Zenkit. [See the docs](https://base.zenkit.com/docs/api/activity/post-api-v1-users-me-lists-listallid-entries-listentryallid-activities)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

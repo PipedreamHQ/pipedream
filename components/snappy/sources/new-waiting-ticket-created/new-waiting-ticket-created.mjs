@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Waiting Ticket Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "snappy-new-waiting-ticket-created",
   description: "Emit new event when a waiting ticket is created.",
   type: "source",

@@ -5,7 +5,7 @@ export default {
   name: "Add Or Update Subscriber",
   description: "Adds a new contact to your account or update an existing contact. [See the docs](https://rest.smoove.io/#!/Contacts/Contacts_Post).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     email: {

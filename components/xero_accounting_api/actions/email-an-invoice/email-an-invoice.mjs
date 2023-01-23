@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-email-an-invoice",
   name: "Email an Invoice",
   description: "Triggers the email of a sales invoice out of Xero.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

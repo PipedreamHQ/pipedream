@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Send Message",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "picky_assist-send-message",
   description: "Sends a message. [See docs here](https://help.pickyassist.com/api-documentation-v2/push-api/sending-single-message-push)",
   type: "action",

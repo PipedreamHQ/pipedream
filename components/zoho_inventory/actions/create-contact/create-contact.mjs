@@ -4,7 +4,7 @@ export default {
   key: "zoho_inventory-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Zoho Inventory. [See the docs here](https://www.zoho.com/inventory/api/v1/contacts/#create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zohoInventory,

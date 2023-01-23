@@ -5,7 +5,7 @@ export default {
   key: "woodpecker_co-email-sent",
   name: "New Email Sent (Instant)",
   description: "Emit new event when an email is sent [see the docs here](https://woodpecker.co/help/webhooks-events-notification/#h_fa177002b0)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Payment",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "webinargeek-new-payment",
   description: "Emit new event on each new payment.",
   type: "source",

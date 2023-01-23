@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment file from Zoho CRM, saves it in the temporary file system and exports the file path for use in a future step.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     // eslint-disable-next-line pipedream/props-label

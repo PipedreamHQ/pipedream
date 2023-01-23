@@ -5,7 +5,7 @@ export default {
   key: "sifter-new-issue",
   name: "New Issue Event",
   description: "Emit new events when a new issue is created. [See the docs here](https://sifterapp.com/developer/documentation/issues/#listing)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   ...common,
   props: {

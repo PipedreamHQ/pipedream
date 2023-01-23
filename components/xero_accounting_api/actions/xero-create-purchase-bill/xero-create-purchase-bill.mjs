@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-xero-create-purchase-bill",
   name: "Create Purchase Bill",
   description: "Creates a new purchase bill.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

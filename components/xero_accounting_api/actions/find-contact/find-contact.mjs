@@ -8,7 +8,7 @@ export default {
   key: "xero_accounting_api-find-contact",
   name: "Find contact.  Optionally, create one if none are found",
   description: "Finds a contact by name or account number. Optionally, create one if none are found. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     xeroAccountingApi,

@@ -4,7 +4,7 @@ export default {
   key: "repairshopr-create-lead",
   name: "Create Lead",
   description: "Create a new lead. [See the docs here](https://api-docs.repairshopr.com/#/Lead/post_leads)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

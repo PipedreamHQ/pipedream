@@ -4,7 +4,7 @@ export default {
   key: "fullstory-note-created",
   name: "New Note Created Event",
   description: "Emit new events when new note created. [See the docs here](https://developer.fullstory.com/note-created)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

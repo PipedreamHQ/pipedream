@@ -6,7 +6,7 @@ export default {
   name: "New Activity Status Change",
   key: "teamgate-activity-status-changed",
   description: "Emit new event when a activity status is changed. [See docs here](https://developers.teamgate.com/#5b576f18-5b18-4fb0-9cbf-8d02343420d5)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     activityId: {
