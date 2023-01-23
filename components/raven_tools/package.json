@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/raven_tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Raven Tools Components",
   "main": "dist/app/raven_tools.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/raven_tools",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

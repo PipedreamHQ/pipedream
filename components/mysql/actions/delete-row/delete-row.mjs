@@ -5,7 +5,7 @@ export default {
   name: "Delete Row",
   description: "Delete an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/delete.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     mysql,
     table: {

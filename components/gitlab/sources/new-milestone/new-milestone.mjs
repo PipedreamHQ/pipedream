@@ -5,7 +5,7 @@ export default {
   key: "gitlab-new-milestone",
   name: "New Milestone",
   description: "Emit new event when a milestone is created in a project",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "greatest",
   type: "source",
   props: {

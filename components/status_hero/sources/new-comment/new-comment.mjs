@@ -5,7 +5,7 @@ export default {
   key: "status_hero-new-comment",
   name: "New Comment Event",
   description: "Emit new events when new comments are created on statuses. [See the docs here](https://api.statushero.com/#comments)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   ...common,
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "reply_io-new-link-clicked",
   name: "New Link Clicked",
   description: "Emit new event when a link is clicked in a campaign. [See the docs here](https://apidocs.reply.io/#f01ce84b-1971-4f97-bb6c-acc6e3196d3b)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

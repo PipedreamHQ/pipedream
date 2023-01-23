@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-retrieve-refund",
   name: "Retrieve a Refund",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Retrieves the details of an existing refund. [See the " +
     "docs](https://stripe.com/docs/api/refunds/retrieve) for more information",
   props: {

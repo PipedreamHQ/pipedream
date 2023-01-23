@@ -2,7 +2,7 @@ import snappy from "../../snappy.app.mjs";
 
 export default {
   name: "Create Wall Post",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "snappy-create-wall-post",
   description: "Creates a wall post. [See docs here](https://github.com/BeSnappy/api-docs#posting-to-team-wall)",
   type: "action",

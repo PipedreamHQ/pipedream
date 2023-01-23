@@ -2,7 +2,7 @@ import social_intents from "../../social_intents.app.mjs";
 
 export default {
   name: "New Event Emitted",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "social_intents-new-event-emitted",
   description: "Emit new event when any type of event is emitted.",
   type: "source",

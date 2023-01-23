@@ -8,7 +8,7 @@ export default defineAction({
   description:
     "Retrieve details of a Contact [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/getContactUsingGET)",
   key: "infusionsoft-get-contact",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     infusionsoft,

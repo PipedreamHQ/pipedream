@@ -6,7 +6,7 @@ export default {
   key: "streak-update-box-field-value",
   name: "Update Box Field Value",
   description: `Update the values of the fields for a box. [See the docs](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     streak,

@@ -5,7 +5,7 @@ export default {
   name: "Lookup Responses",
   description: "Search for responses with the `query` property. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     formId: {

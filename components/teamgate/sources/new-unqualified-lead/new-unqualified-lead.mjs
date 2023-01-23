@@ -7,7 +7,7 @@ export default {
   name: "New Unqualified Lead",
   key: "teamgate-new-unqualified-lead",
   description: "Emit new event when a lead is unqualified. [See docs here](https://developers.teamgate.com/#4a60be88-9991-41d2-8949-7a0f47319c80)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
   },

@@ -7,7 +7,7 @@ export default {
   name: "New Subscriber Created",
   description: "Emit new event when a new subscriber is created. [See the docs](https://rest.smoove.io/#!/Contacts/Contacts_Get).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

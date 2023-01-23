@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Job Completed (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "phrase-new-job-completed",
   description: "Emit new event when each job is completed.",
   type: "source",

@@ -7,7 +7,7 @@ export default defineSource({
   name: "New Outgoing Raid (Instant)",
   key: "twitch_developer_app-new-outgoing-raid",
   description: "Emit new event when a specific broadcaster raids another broadcaster.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,

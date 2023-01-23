@@ -4,23 +4,23 @@ export default {
   key: "jira-get-issue",
   name: "Get Issue",
   description: "Gets the details for an issue. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     jira,
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     fields: {

@@ -9,7 +9,7 @@ export default defineAction({
   description:
     "Validate an email address [See docs here](https://www.mailboxvalidator.com/api-single-validation)",
   key: "mailboxvalidator-validate-email",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailboxvalidator,

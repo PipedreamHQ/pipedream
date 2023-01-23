@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Market Symbols",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bybit-generic-market-symbols",
   description: "Get symbol info.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-querysymbol)",
   props: {

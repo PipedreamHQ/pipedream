@@ -5,7 +5,7 @@ export default {
   key: "twist-add-comment",
   name: "Add Comment",
   description: "Adds a new comment to a thread.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     twist: {

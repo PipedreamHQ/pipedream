@@ -7,7 +7,7 @@ module.exports = {
   description: "Emit new event on each new twitter metric",
   type: "source",
   name: "New Tweet Metrics",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

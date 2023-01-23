@@ -10,7 +10,7 @@ export default defineAction({
   description:
     "Create a field workforce task [See docs here](https://tookanapi.docs.apiary.io/#reference/task/create-task/create-a-field-workforce-task)",
   key: "tookan-create-field-workforce-task",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

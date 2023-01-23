@@ -5,7 +5,7 @@ export default {
   key: "openweather_api-get-current-weather-by-zip",
   name: "Get Current Weather by ZIP code",
   description: "Retrieves the current weather for a given (ZIP, country)",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     openweather_api: {

@@ -4,7 +4,7 @@ export default {
   key: "solve_crm-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See the docs here](https://solve360.com/api/contacts/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     solveCrm,

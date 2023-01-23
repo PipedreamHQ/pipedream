@@ -5,7 +5,7 @@ export default {
   key: "sftp-upload-file",
   name: "Upload String as File",
   description: "Uploads a UTF-8 string as a file on an SFTP server",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     sftp: {

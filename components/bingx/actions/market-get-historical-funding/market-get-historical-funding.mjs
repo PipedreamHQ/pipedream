@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Market Get History Funding",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-market-get-historical-funding",
   description: "Funding Rate History [reference](https://bingx-api.github.io/docs/swap/market-api.html#_6-funding-rate-history).",
   props: {

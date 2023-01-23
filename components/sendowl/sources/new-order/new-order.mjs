@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Order",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "sendowl-new-order",
   description: "Emit new event for each order.",
   type: "source",

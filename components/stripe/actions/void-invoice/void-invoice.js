@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-void-invoice",
   name: "Void Invoice",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Void an invoice. [See the docs](https://stripe.com/docs/api/invoices/void) for " +
     "more information",
   props: {

@@ -6,7 +6,7 @@ export default {
   key: "rev-order-submitted",
   name: "Order Submitted",
   description: "Emit new event when an order is submitted. [See docs here.](https://www.rev.com/api/ordersget)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "mongodb-search-documents",
   name: "Search Documents",
   description: "Search for specific documents or return all documents. [See the docs here](https://docs.mongodb.com/manual/reference/method/db.collection.find/)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     mongodbApp,

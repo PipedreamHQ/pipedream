@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/exact",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Exact Components",
   "main": "dist/app/exact.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/exact",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

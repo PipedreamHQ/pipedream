@@ -6,7 +6,7 @@ export default {
   key: "stormboard-new-action",
   name: "New Action (Instant)",
   description: "Emit new event when a new action occurs. See how to configure the webhook [here](https://stormboard.com/users/webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     http: "$.interface.http",

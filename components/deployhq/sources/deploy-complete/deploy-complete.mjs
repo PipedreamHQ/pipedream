@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "deployhq-deploy-complete",
   name: "New Deploy Complete",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a deploy is completed",
   type: "source",
   async run(request) {

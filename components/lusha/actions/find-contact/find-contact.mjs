@@ -4,7 +4,7 @@ export default {
   key: "lusha-find-contact",
   name: "Find Contact",
   description: "Search for a contact. [See docs here](https://www.lusha.com/docs/#person-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,

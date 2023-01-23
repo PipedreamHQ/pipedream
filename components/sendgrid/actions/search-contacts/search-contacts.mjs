@@ -7,7 +7,7 @@ export default {
   key: "sendgrid-search-contacts",
   name: "Search Contacts",
   description: "Searches contacts with a SGQL query. [See the docs here](https://docs.sendgrid.com/api-reference/contacts/search-contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ export default {
   name: "New Product",
   key: "teamgate-new-product",
   description: "Emit new event when a new product is created. [See docs here](https://developers.teamgate.com/#95a7d362-2789-4608-9ea4-b3c72f1a6406)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ export default {
   name: "New Contact",
   key: "mixmax-new-contact",
   description: "Emit new event when a new contact is created. [See docs here](https://developer.mixmax.com/reference/contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

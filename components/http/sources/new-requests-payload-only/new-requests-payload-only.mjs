@@ -7,7 +7,7 @@ export default {
   name: "New Requests (Payload Only)",
   // eslint-disable-next-line
   description: "Get a URL and emit the HTTP body as an event on every request",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     // eslint-disable-next-line

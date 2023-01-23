@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imap",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream IMAP Components",
   "main": "imap.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/imap",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Ticket Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "lighthouse-new-ticket-created",
   description: "Emit new event for each new ticket created.",
   type: "source",

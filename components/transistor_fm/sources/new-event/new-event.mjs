@@ -5,7 +5,7 @@ export default {
   name: "New Event",
   description: "Emit new event when the desired event happens",
   key: "transistor_fm-new-event",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     app,
