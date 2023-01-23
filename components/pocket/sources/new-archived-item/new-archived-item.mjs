@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Archived item",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "pocket-new-archived-item",
   description: "Emit new event for each archived item.",
   type: "source",

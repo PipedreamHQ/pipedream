@@ -9,7 +9,7 @@ export default defineAction({
   name: "Create Requirement",
   description: `Create a requirement [See docs here](${DOCS.createRequirement})`,
   key: "practitest-create-requirement",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     practitest,
@@ -45,7 +45,7 @@ export default defineAction({
       label: "Assigned To",
       optional: true,
     },
-    version: {
+   ..NaN version: {
       propDefinition: [
         practitest,
         "version",

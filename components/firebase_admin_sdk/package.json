@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/firebase_admin_sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Firebase Admin SDK Components",
   "main": "firebase_admin_sdk.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/firebase_admin_sdk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@firebase/app-compat": "^0.1.25",
     "@firebase/app-types": "^0.7.0",

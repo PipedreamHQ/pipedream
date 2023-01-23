@@ -6,7 +6,7 @@ export default {
   name: "New Delivery (Instant)",
   type: "source",
   description: "Emit new event when an email is sent and accepted by the recipient email server.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

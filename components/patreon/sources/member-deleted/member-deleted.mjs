@@ -5,7 +5,7 @@ export default {
   key: "patreon-member-deleted",
   name: "Member Deleted",
   description: "Emit new event for each deleted member",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

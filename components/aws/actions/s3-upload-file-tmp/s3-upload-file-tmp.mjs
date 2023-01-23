@@ -10,7 +10,7 @@ export default {
     Accepts a file path starting from /tmp, then uploads as a file to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     aws: common.props.aws,

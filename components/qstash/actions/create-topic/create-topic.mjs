@@ -2,7 +2,7 @@ import qstash from "../../qstash.app.mjs";
 
 export default {
   name: "Create Topic",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "qstash-create-topic",
   description: "Create a new QStash topic that emits to multiple endpoints.",
   props: {

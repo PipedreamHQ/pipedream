@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-update-event",
   name: "Update Event",
   description: "Update an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleCalendar,

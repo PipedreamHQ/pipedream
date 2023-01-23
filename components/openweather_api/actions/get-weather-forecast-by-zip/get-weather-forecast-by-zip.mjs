@@ -5,7 +5,7 @@ export default {
   key: "openweather_api-get-weather-forecast-by-zip",
   name: "Get Weather Forecast by ZIP code",
   description: "Retrieves the 5-day weather forecast for a given (ZIP, country)",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     openweather_api: {

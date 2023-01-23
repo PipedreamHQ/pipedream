@@ -4,7 +4,7 @@ export default {
   key: "pipefy-update-table-record",
   name: "Update Table Record",
   description: "Updates a table record. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateTable/)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipefy,

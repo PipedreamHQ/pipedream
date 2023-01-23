@@ -2,7 +2,7 @@ import printful_oauth from "../../printful_oauth.app.mjs";
 
 export default {
   name: "Create Order",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "printful_oauth-create-order",
   description: "Creates an order. [See docs here](https://developers.printful.com/docs/#operation/createOrder)",
   type: "action",

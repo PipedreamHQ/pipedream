@@ -5,7 +5,7 @@ export default {
   name: "Card Late",
   key: "pipefy-card-late",
   description: "Emits an event each time a card becomes late in a Pipe.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     isCardRelevant({ node }) {

@@ -5,7 +5,7 @@ export default {
   name: "Update Paragraph",
   description: "Update Paragraph. [See the docs here](https://about.papyrs.com/@docs/API#Update-Text-box/Heading)",
   key: "papyrs-update-paragraph",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

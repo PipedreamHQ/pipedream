@@ -5,7 +5,7 @@ export default {
   key: "helper_functions-get-coutry-name-by-code-iso",
   name: "Country name, given code (2-letter)",
   description: "Return the country name (in English) when given the 2-letter country code",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,
@@ -264,7 +264,7 @@ export default {
       "ZW": "Zimbabwe",
     };
 
-    if (isoCountries.hasOwnProperty(countryCode)) {
+    if (isoCountries[countryCode]) {
       return isoCountries[countryCode];
     } else {
       return countryCode;

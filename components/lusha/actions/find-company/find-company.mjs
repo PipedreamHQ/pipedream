@@ -4,7 +4,7 @@ export default {
   key: "lusha-find-company",
   name: "Find Company",
   description: "Search for a company. [See docs here](https://www.lusha.com/docs/#company-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rewardful",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Rewardful Components",
   "main": "dist/app/rewardful.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/rewardful",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

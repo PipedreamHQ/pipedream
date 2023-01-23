@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Customer",
   description: "Emit new event when a new customer is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getData() {

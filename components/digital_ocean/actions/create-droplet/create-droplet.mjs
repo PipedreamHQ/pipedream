@@ -4,7 +4,7 @@ export default {
   key: "digital_ocean-create-droplet",
   name: "Create Droplet",
   description: "Creates a droplet. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_droplet)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     digitalOceanApp,
