@@ -1,4 +1,5 @@
-import base from "../common/base.mjs";
+import base from "../common/base-timer.mjs";
+import baseComponent from "../deposit-completed-instant/deposit-completed-instant.mjs";
 
 export default {
   ...base,
@@ -8,36 +9,8 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  hooks: {
-    ...base.hooks,
-    async deploy() {
-      await this.listHistoricalEvents(this.regfox.listTransactions);
-    },
-  },
   methods: {
     ...base.methods,
-    eventTypes() {
-      return [
-        "subscription",
-      ];
-    },
-    emitEvent({
-      event, id, name, ts,
-    }) {
-      console.log("Emitting deposit completed event...");
-      this.$emit(event, {
-        id,
-        summary: `New form published: ${name}`,
-        ts: new Date(ts),
-      });
-    },
-    processEvent(event) {
-      this.emitEvent({
-        event,
-        id: event.eventId,
-        name: event.data.orderNumber,
-        ts: event.data.subscription.dateUpdated,
-      });
-    },
+    ...baseComponent.methods,
   },
 };

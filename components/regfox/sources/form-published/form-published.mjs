@@ -1,4 +1,5 @@
-import base from "../common/base.mjs";
+import base from "../common/base-timer.mjs";
+import baseComponent from "../form-published-instant/form-published-instant.mjs";
 
 export default {
   ...base,
@@ -8,36 +9,8 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  hooks: {
-    ...base.hooks,
-    async deploy() {
-      await this.listHistoricalEvents(this.regfox.listForms);
-    },
-  },
   methods: {
     ...base.methods,
-    eventTypes() {
-      return [
-        "publish",
-      ];
-    },
-    emitEvent({
-      event, id, name, ts,
-    }) {
-      console.log("Emitting form published event...");
-      this.$emit(event, {
-        id,
-        summary: `New form published: ${name}`,
-        ts: new Date(ts),
-      });
-    },
-    processEvent(event) {
-      this.emitEvent({
-        event,
-        id: event.formId,
-        name: event.data.name,
-        ts: event.datePublished,
-      });
-    },
+    ...baseComponent.methods,
   },
 };

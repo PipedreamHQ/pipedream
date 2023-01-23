@@ -1,4 +1,5 @@
-import base from "../common/base.mjs";
+import base from "../common/base-timer.mjs";
+import baseComponent from "../registrant-applied-instant/registrant-applied-instant.mjs";
 
 export default {
   ...base,
@@ -8,36 +9,8 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  hooks: {
-    ...base.hooks,
-    async deploy() {
-      await this.listHistoricalEvents(this.regfox.listRegistrants);
-    },
-  },
   methods: {
     ...base.methods,
-    eventTypes() {
-      return [
-        "registration",
-      ];
-    },
-    emitEvent({
-      event, id, name, ts,
-    }) {
-      console.log("Emitting registration event...");
-      this.$emit(event, {
-        id,
-        summary: `New registration: ${name}`,
-        ts: new Date(ts),
-      });
-    },
-    processEvent(event) {
-      this.emitEvent({
-        event,
-        id: event.id,
-        name: event.data.orderNumber,
-        ts: event.registrationTimestamp,
-      });
-    },
+    ...baseComponent.methods,
   },
 };
