@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "trengo-send-a-whatsapp-message-template",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Send A WhatsApp Message Template",
   description: "Sends a WhatsApp message template, [See the docs](https://developers.trengo.com/reference/start-a-conversation)",
   props: {

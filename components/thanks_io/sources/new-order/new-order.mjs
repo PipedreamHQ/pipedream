@@ -5,7 +5,7 @@ export default {
   key: "thanks_io-new-order",
   name: "New Order",
   description: "Emit new event for each new order placed.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

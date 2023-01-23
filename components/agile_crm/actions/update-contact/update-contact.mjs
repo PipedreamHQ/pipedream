@@ -5,7 +5,7 @@ export default {
   key: "agile_crm-update-contact",
   name: "Update Contact",
   description: "Update an existing contact in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#14-update-properties-of-a-contact-by-id-partial-update)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     agileCrm,

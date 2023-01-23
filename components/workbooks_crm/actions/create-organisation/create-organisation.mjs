@@ -5,7 +5,7 @@ export default {
   name: "Create Organisation",
   description: "Creates an organisation. Organisations are recorded on your database, e.g Customers, Suppliers, Partners, Competition.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     assignedTo: {

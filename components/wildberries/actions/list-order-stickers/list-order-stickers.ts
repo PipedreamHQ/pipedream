@@ -6,7 +6,7 @@ export default defineAction({
   name: "List Order Stickers",
   description: "List order stickers. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/post_api_v2_orders_stickers)",
   key: "wildberries-list-order-stickers",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

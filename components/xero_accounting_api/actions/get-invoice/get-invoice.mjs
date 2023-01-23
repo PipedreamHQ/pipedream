@@ -5,7 +5,7 @@ export default {
   key: "xero_accounting_api-get-invoice",
   name: "Get Invoice",
   description: "Gets details of an invoice.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

@@ -6,7 +6,7 @@ export default defineSource({
   name: "Student Added to Course",
   description: "Emit new event when a student enrolls into a course.",
   key: "xperiencify-student-added-to-course",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

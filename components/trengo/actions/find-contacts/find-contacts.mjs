@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "trengo-find-contacts",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Find Contacts",
   description: "Finds contacts with the given term. [See the docs](https://developers.trengo.com/reference/as)",
   props: {

@@ -8,7 +8,7 @@ export default {
   name: "Update Form Title",
   description: "Updates an existing form's title. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     formId: {

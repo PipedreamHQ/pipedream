@@ -5,7 +5,7 @@ export default {
   key: "google_contacts-create-contact",
   name: "Create Contact",
   description: "Creates a contact. [See the docs here](https://developers.google.com/people/api/rest/v1/people/createContact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

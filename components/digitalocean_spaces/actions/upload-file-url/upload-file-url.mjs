@@ -8,7 +8,7 @@ export default {
   key: "digitalocean_spaces-upload-file-url",
   name: "Upload File URL",
   description: "Accepts a download link and a filename, downloads it, then uploads to DigitalOcean Spaces. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     url: base.props.url,

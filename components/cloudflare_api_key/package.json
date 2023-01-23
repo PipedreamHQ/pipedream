@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudflare_api_key",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Cloudflare Components",
   "main": "cloudflare_api_key.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/cloudflare_api_key",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

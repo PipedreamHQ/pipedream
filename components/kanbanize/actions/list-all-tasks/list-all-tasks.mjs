@@ -5,7 +5,7 @@ export default {
   key: "kanbanize-list-all-tasks",
   name: "List Tasks",
   description: "Get All Tasks. [See the docs here](https://kanbanize.com/api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     kanbanizeApp,

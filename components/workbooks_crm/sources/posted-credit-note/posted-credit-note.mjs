@@ -7,7 +7,7 @@ export default {
   name: "New Posted Credit Note (Instant)",
   description: "Emit new event when a new credit note is posted.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

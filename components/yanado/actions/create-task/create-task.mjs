@@ -4,7 +4,7 @@ export default {
   key: "yanado-create-task",
   name: "Create Task",
   description: "Create a new task. [See the docs](https://api.yanado.com/docs/?javascript#create-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     yanado,

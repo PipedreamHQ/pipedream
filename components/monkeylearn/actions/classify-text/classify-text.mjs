@@ -5,7 +5,7 @@ export default {
   key: "monkeylearn-classify-text",
   name: "Classify Text",
   description: "Classifies texts with a given classifier. [See the docs here](https://monkeylearn.com/api/v3/#classify)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

@@ -9,7 +9,7 @@ export default {
     "viewing. Open tracking must be enabled in the Mailgun control panel, and the CNAME record " +
     "must be pointing to mailgun.org. See more at the Mailgun User's Manual [Tracking Messages]" +
     "(https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) section",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

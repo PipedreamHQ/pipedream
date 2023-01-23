@@ -6,7 +6,7 @@ export default {
   key: "helper_functions-prettify-json",
   name: "Pretty Print JSON",
   description: "Pretty print a JavaScript object or value",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,

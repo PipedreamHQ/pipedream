@@ -2,7 +2,7 @@ import laposta from "../../laposta.app.mjs";
 
 export default {
   name: "Update Relation",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "laposta-update-relation",
   description: "Updates a relation. [See docs here (Go to `Change relationship`)](http://api.laposta.nl/doc/)",
   type: "action",

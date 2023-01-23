@@ -5,7 +5,7 @@ export default {
   key: "pinterest-new-pin",
   name: "New Pin Event",
   description: "Emit new events when new pins are created on a board or board section. [See the docs here](https://developers.pinterest.com/docs/api/v5/#operation/boards/list_pins) and [here](https://developers.pinterest.com/docs/api/v5/#operation/board_sections/list_pins)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   ...common,
   props: {

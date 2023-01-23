@@ -7,7 +7,7 @@ export default {
   key: "teamwork-task-deleted",
   name: "New Task Deleted",
   description: "Emit new event when a new task is deleted",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     _getEventName() {

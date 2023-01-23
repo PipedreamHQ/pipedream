@@ -5,7 +5,7 @@ export default {
   key: "intercom-tag-added-to-user",
   name: "Tag Added To User",
   description: "Emit new event each time a new tag is added to a user.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

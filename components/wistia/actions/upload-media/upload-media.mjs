@@ -2,7 +2,7 @@ import wistia from "../../wistia.app.mjs";
 
 export default {
   name: "Upload Media",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wistia-upload-media",
   description: "Upload a media. [See docs here](https://wistia.com/support/developers/upload-api)",
   type: "action",

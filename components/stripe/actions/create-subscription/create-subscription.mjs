@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-subscription",
   name: "Create Subscription",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Create a subscription. [See docs here](https://stripe.com/docs/api/subscriptions/create)",
   props: {
     stripe,

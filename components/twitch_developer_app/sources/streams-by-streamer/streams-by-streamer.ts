@@ -7,7 +7,7 @@ export default defineSource({
   name: "New Streams By Streamer (Instant)",
   key: "twitch_developer_app-streams-by-streamer",
   description: "Emit new event when a live stream starts from the streamers you specify.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,

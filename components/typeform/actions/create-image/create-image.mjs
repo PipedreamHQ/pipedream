@@ -5,7 +5,7 @@ export default {
   name: "Create an Image",
   description: "Adds an image in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/create-image/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     fileName: {

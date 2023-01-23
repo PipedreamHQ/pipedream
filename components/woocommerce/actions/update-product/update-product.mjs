@@ -4,7 +4,7 @@ export default {
   key: "woocommerce-update-product",
   name: "Update Product",
   description: "Updates a product. [See the docs](https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     woocommerce,

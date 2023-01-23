@@ -6,7 +6,7 @@ export default {
   name: "Create Customer Order",
   description: "Creates an order from your customers for your goods or services.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     assignedTo: {

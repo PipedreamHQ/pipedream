@@ -5,7 +5,7 @@ export default {
   key: "wisepops-new-phone-collected",
   name: "New Phone Collected (Instant)",
   description: "Emit new event when a new phone is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   hooks: {

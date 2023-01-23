@@ -7,7 +7,7 @@ export default {
   name: "New Order Created",
   description: "Emit new event for every new order created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...base.props,

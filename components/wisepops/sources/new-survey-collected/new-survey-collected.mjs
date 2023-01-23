@@ -5,7 +5,7 @@ export default {
   key: "wisepops-new-survey-collected",
   name: "New Survey Collected (Instant)",
   description: "Emit new event when a new survey is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   hooks: {

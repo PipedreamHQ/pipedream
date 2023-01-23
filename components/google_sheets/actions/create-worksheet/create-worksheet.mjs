@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-create-worksheet",
   name: "Create Worksheet",
   description: "Create a blank worksheet with a title",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleSheets,

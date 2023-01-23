@@ -5,7 +5,7 @@ export default {
   key: "vbout-create-email-list",
   name: "Create Email List",
   description: "This action creates a new list. [See the docs here](https://developers.vbout.com/docs/1_0/#emailmarketing_addlist)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

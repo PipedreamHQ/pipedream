@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Project",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "wistia-new-project",
   description: "Emit new event for each created project.",
   type: "source",

@@ -4,7 +4,7 @@ export default {
   key: "mautic-list-available-contact-fields",
   name: "List Available Contact Fields",
   description: "Gets a list of available contact fields including custom ones. [See docs](https://developer.mautic.org/#list-available-fields)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     mautic,

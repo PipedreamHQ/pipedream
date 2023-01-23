@@ -6,7 +6,7 @@ delete props.itemId;
 export default {
   type: "action",
   key: "podio-create-item",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create an Item",
   description: "Adds a new item to the given app. [See the docs](https://developers.podio.com/doc/items/add-new-item-22362)",
   ...common,

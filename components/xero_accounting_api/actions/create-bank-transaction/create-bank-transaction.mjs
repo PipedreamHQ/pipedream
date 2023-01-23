@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "xero_accounting_api-create-bank-transaction",
   name: "Create Bank Transaction",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     xero_accounting_api: {

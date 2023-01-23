@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Cancellation",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "gumroad-new-cancellation",
   description: "Emit new event on a sale is cancelled.",
   type: "source",

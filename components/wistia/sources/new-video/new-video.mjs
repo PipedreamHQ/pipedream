@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Video",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "wistia-new-video",
   description: "Emit new event for each created video.",
   type: "source",

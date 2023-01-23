@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/circl_hash_lookup",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream CIRCL Hash Lookup Components",
   "main": "dist/app/circl_hash_lookup.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/circl_hash_lookup",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

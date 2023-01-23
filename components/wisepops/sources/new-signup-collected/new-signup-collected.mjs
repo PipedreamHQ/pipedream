@@ -5,7 +5,7 @@ export default {
   key: "wisepops-new-signup-collected",
   name: "New Sign-Up Collected (Instant)",
   description: "Emit new event when a new sign-up is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   hooks: {

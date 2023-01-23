@@ -5,7 +5,7 @@ export default {
   name: "Create Person",
   description: "Creates a person. People are recorded in your database, e.g a contact, an employee.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     assignedTo: {

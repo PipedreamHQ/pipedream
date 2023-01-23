@@ -6,7 +6,7 @@ export default {
   name: "New Activity (Instant)",
   key: "lemlist-new-activity",
   description: "Emit new event for each new activity. [See docs here](https://developer.lemlist.com/#add-a-hook)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

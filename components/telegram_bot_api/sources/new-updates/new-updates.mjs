@@ -5,7 +5,7 @@ export default {
   key: "telegram_bot_api-new-updates",
   name: "New Updates (Instant)",
   description: "Emit new event for each new Telegram event.",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {

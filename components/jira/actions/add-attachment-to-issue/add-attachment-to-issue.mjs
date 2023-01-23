@@ -8,23 +8,23 @@ export default {
   key: "jira-add-attachment-to-issue",
   name: "Add Attachment To Issue",
   description: "Adds an attachment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.2.7",
+  version: "0.2.8",
   type: "action",
   props: {
     jira,
     cloudId: {
       propDefinition: [
         jira,
-        "cloudId"
-      ]
+        "cloudId",
+      ],
     },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
         (c) => ({
-          cloudId: c.cloudId
-        })
+          cloudId: c.cloudId,
+        }),
       ],
     },
     filename: {

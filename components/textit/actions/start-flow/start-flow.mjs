@@ -2,7 +2,7 @@ import textit from "../../textit.app.mjs";
 
 export default {
   name: "Start Flow",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "textit-start-flow",
   description: "Starts a flow. [See docs here](https://textit.in/api/v2/flow_starts)",
   type: "action",

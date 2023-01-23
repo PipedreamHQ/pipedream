@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Response",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "surveymethods-new-response",
   description: "Emit new event for each response.",
   type: "source",

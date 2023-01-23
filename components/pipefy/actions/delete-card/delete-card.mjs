@@ -4,7 +4,7 @@ export default {
   key: "pipefy-delete-card",
   name: "Delete Card",
   description: "Deletes a card. [See the docs here](https://api-docs.pipefy.com/reference/mutations/deleteCard/)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipefy,

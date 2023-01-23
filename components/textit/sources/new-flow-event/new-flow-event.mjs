@@ -2,7 +2,7 @@ import textit from "../../textit.app.mjs";
 
 export default {
   name: "New Flow Event",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "textit-new-flow-event",
   description: "Emit new event for each new flow event",
   type: "source",

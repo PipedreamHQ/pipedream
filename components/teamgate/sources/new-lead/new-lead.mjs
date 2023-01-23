@@ -6,7 +6,7 @@ export default {
   name: "New Lead",
   key: "teamgate-new-lead",
   description: "Emit new event when a new lead is created. [See docs here](https://developers.teamgate.com/#4a60be88-9991-41d2-8949-7a0f47319c80)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Get Customer Note Id",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "waitwhile-get-customer-note-id",
   description: "Get customer note by ID. [See the doc here](https://developers.waitwhile.com/reference/getcustomerscustomeridnotescustomernoteid)",
   props: {

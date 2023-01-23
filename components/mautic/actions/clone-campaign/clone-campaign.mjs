@@ -4,7 +4,7 @@ export default {
   key: "mautic-clone-campaign",
   name: "Clone Campaign",
   description: "Clones an existing campaign. [See docs](https://developer.mautic.org/#clone-a-campaign)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     mautic,
