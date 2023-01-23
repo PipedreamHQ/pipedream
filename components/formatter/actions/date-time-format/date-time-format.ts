@@ -1,63 +1,30 @@
-import app from "../../app/formatter.app";
 import { defineAction } from "@pipedream/types";
-import { ConfigurationError } from "@pipedream/platform";
-import {
-  DateFormat,
-  DATE_FORMAT_OPTIONS,
-  DATE_FORMAT_PARSE_MAP,
-  DEFAULT_INPUT_FUNCTION,
-} from "../../common/dateFormats";
+import { DATE_FORMAT_PARSE_MAP } from "../../common/date-time/dateFormats";
+import commonDateTime from "../../common/date-time/common-date-time";
+import app from "../../app/formatter.app";
 
 export default defineAction({
+  ...commonDateTime,
   name: "[Date/Time] Format",
   description: "Format a date string to another date string",
   key: "expofp-date-time-format",
   version: "0.0.1",
   type: "action",
   props: {
-    app,
-    inputDate: {
-      propDefinition: [
-        app,
-        "inputDate",
-      ],
-    },
-    fromFormat: {
-      propDefinition: [
-        app,
-        "fromFormat",
-      ],
-    },
+    ...commonDateTime.props,
     toFormat: {
+      propDefinition: [
+        app,
+        "dateFormat",
+      ],
       label: "To Format",
       description: "The format to convert the date to.",
-      type: "string",
-      options: DATE_FORMAT_OPTIONS,
     },
   },
   async run({ $ }): Promise<string | number> {
-    const {
-      inputDate, fromFormat, toFormat,
-    }: Record<string, string> = this;
-    let inputFn: DateFormat["inputFn"], dateObj: Date;
+    const { toFormat } = this;
 
-    try {
-      inputFn =
-        DATE_FORMAT_PARSE_MAP.get(fromFormat)?.inputFn ??
-        DEFAULT_INPUT_FUNCTION;
-
-      dateObj = inputFn(inputDate);
-
-      if (isNaN(dateObj.getFullYear())) throw new Error("Invalid date");
-    } catch (err) {
-      throw new ConfigurationError(
-        `**Error** parsing input \`${inputDate}\` ${
-          fromFormat
-            ? `expecting specified format \`${fromFormat}\``
-            : "- try selecting a format in the **From Format** prop."
-        }`,
-      );
-    }
+    const dateObj = this.getDateFromInput();
 
     const { outputFn } = DATE_FORMAT_PARSE_MAP.get(toFormat);
     const output = outputFn(dateObj);

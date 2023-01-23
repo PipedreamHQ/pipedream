@@ -1,40 +1,25 @@
-import app from "../../app/formatter.app";
 import { defineAction } from "@pipedream/types";
-import { ConfigurationError } from "@pipedream/platform";
-import {
-  DateFormat,
-  DATE_FORMAT_PARSE_MAP,
-  DEFAULT_INPUT_FUNCTION,
-} from "../../common/dateFormats";
+import commonDateTime from "../../common/date-time/common-date-time";
+
+const OPERATION_OPTIONS = {
+  ADD: "Add",
+  SUBTRACT: "Subtract",
+};
 
 export default defineAction({
+  ...commonDateTime,
   name: "[Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
   key: "expofp-add-subtract-time",
   version: "0.0.1",
   type: "action",
   props: {
-    app,
-    inputDate: {
-      propDefinition: [
-        app,
-        "inputDate",
-      ],
-    },
-    fromFormat: {
-      propDefinition: [
-        app,
-        "fromFormat",
-      ],
-    },
+    ...commonDateTime.props,
     operation: {
       label: "Operation",
       description: "Whether to add or subtract time.",
       type: "string",
-      options: [
-        "Add",
-        "Subtract",
-      ],
+      options: Object.values(OPERATION_OPTIONS),
     },
     duration: {
       label: "Duration",
@@ -44,6 +29,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...commonDateTime.methods,
     getOperationMilliseconds(str: string) {
       let result = 0;
 
@@ -75,43 +61,27 @@ export default defineAction({
       return result;
     },
   },
-  async run({ $ }): Promise<string | number> {
+  async run({ $ }): Promise<string> {
     const {
-      inputDate, fromFormat, operation, duration,
+      operation, duration,
     } = this;
 
-    let inputFn: DateFormat["inputFn"], dateObj: Date;
-
-    try {
-      inputFn =
-        DATE_FORMAT_PARSE_MAP.get(fromFormat)?.inputFn ??
-        DEFAULT_INPUT_FUNCTION;
-
-      dateObj = inputFn(inputDate);
-
-      if (isNaN(dateObj.getFullYear())) throw new Error("Invalid date");
-    } catch (err) {
-      throw new ConfigurationError(
-        `**Error** parsing input \`${inputDate}\` ${
-          fromFormat
-            ? `expecting specified format \`${fromFormat}\``
-            : "- try selecting a format in the **From Format** prop."
-        }`,
-      );
-    }
+    const dateObj = this.getDateFromInput();
 
     const value = dateObj.valueOf();
     let amount = this.getOperationMilliseconds(duration);
-    if (operation === "Subtract") amount *= -1;
+    if (operation === OPERATION_OPTIONS.SUBTRACT) amount *= -1;
 
     const result = value + amount;
     const output = new Date(result).toISOString();
 
     $.export(
       "$summary",
-      `Successfully ${operation === "Subtract"
-        ? "subtracted"
-        : "added"} time`,
+      `Successfully ${
+        operation === OPERATION_OPTIONS.SUBTRACT
+          ? "subtracted"
+          : "added"
+      } time`,
     );
     return output;
   },
