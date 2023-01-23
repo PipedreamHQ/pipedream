@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -95,42 +96,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      name,
-      status,
-      invoiceFirstName,
-      invoiceLastName,
-      phone,
-      mobile,
-      email,
-      website,
-      address,
-      address2,
-      cityOrTown,
-      stateOrRegion,
-      zipOrPostcode,
-      country,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
-    const response = await this.roll.addSchema({
-      $,
-      mutation: `addCompany(
-            CompanyName: "${name}",
-            CompanyStatus: "${status}",
-            CompanyInvoiceFirstName: "${invoiceFirstName}",
-            CompanyInvoiceLastName: "${invoiceLastName}",
-            CompanyPhone: "${phone}",
-            CompanyMobile: "${mobile}",
-            CompanyEmail: "${email}",
-            CompanyWebsite: "${website}",
-            CompanyAddress: "${address}",
-            CompanyAddress2: "${address2}",
-            CompanyCityOrTown: "${cityOrTown}",
-            CompanyStateOrRegion: "${stateOrRegion}",
-            CompanyZipOrPostcode: "${zipOrPostcode}",
-            CompanyCountry: "${country}",
-        ){
-            CompanyId
-        }`,
+    const response = await this.roll.makeRequest({
+      variables: _.pickBy(variables),
+      query: "addCompany",
     });
 
     $.export("$summary", `Company successfully created with Id ${response.data.addCompany.CompanyId}!`);

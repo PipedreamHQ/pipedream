@@ -29,8 +29,8 @@ export default {
     getFieldResponse() {
       return "time";
     },
-    getFn() {
-      return this.roll.listTimes;
+    getQuery() {
+      return "listTimes";
     },
     getDataToEmit({
       TimeId,

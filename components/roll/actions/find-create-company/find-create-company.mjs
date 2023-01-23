@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -29,51 +30,44 @@ export default {
   },
   async run({ $ }) {
     const {
-      name,
-      email,
-      status,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
     let companyLength = 0;
     let offset = 0;
     const limit = 50;
-    let response = [];
-    let filter = "";
+    let responseArray = [];
 
     do {
-      filter = "(\n";
-      if (name) filter += `CompanyName: "${name}"\n`;
-      if (email) filter += `CompanyEmail: "${email}"\n`;
-      if (status) filter += `CompanyStatus: "${status}"\n`;
-      filter += `limit: ${limit}
-      offset: ${offset}
-    )`;
-
-      const { data: { company } } = await this.roll.listCompanies({
-        $,
-        filter,
+      const { company } = await this.roll.makeRequest({
+        variables: {
+          ..._.pickBy(variables),
+          limit,
+          offset,
+        },
+        query: "listCompanies",
       });
+
       companyLength = company.length;
-      response.push(...company);
+      responseArray.push(...company);
       offset += limit;
     } while (companyLength);
 
     let summary = "Companies successfully fetched!";
 
-    if (!response.length) {
-      response = await this.roll.addSchema({
-        $,
-        mutation: `addCompany
-          ${filter}
-        {
-          CompanyId
-        }`,
+    if (!responseArray.length) {
+      responseArray = await this.roll.makeRequest({
+        variables: _.pickBy(variables),
+        query: "addCompany",
       });
-      const { data: { addCompany: { CompanyId } } } = response;
+
+      const { addCompany: { CompanyId } } = responseArray;
       summary = `Company successfully created with Id ${CompanyId}!`;
     }
 
     $.export("$summary", summary);
-    return response;
+    return responseArray;
   },
 };

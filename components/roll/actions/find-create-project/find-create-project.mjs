@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -138,86 +139,42 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyId,
-      title,
-      description,
-      projectType,
-      projectLeadSourceId,
-      status,
-      subStatusId,
-      color,
-      value,
-      jobNumber,
-      poNum,
-      projectAtRisk,
-      projectIsRetainer,
-      projectRetainerFrequency,
-      projectRetainerStartDate,
-      completedDate,
-      dueDate,
-      startDate,
-      endDate,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
     let projectLength = 0;
     let offset = 0;
     const limit = 50;
-    let response = [];
-    let filter = "";
-
+    let responseArray = [];
     do {
-
-      filter = "(\n";
-      if (companyId) filter += `CompanyId: ${companyId}\n`;
-      if (title) filter += `ProjectTitle: "${title}"\n`;
-      if (description) filter += `ProjectDescription: "${description}"\n`;
-      if (projectType && projectType.length) filter += `ProjectType: "${projectType}"\n`;
-      if (projectLeadSourceId) filter += `ProjectLeadSourceId: ${projectLeadSourceId}\n`;
-      if (status) filter += `ProjectStatus: "${status.label}"\n`;
-      if (subStatusId) filter += `ProjectSubStatusId: "${subStatusId.value}"\n`;
-      if (color) filter += `ProjectColor: "${color}"\n`;
-      if (value) filter += `ProjectValue: ${parseFloat(value)}\n`;
-      if (jobNumber) filter += `ProjectJobNumber: "${jobNumber}"\n`;
-      if (poNum) filter += `PONum: "${poNum}"\n`;
-      if (projectAtRisk) filter += `ProjectAtRisk: ${+projectAtRisk}\n`;
-      if (projectIsRetainer) filter += `ProjectIsRetainer: "${projectIsRetainer}"\n`;
-      if (projectRetainerFrequency) filter += `ProjectRetainerFrequency: ${projectRetainerFrequency}\n
-    ProjectRetainerPeriod: "Months"\n`;
-      if (projectRetainerStartDate) filter += `ProjectRetainerStartDate: "${projectRetainerStartDate}"\n`;
-      if (completedDate) filter += `CompletedDate: "${completedDate}"\n`;
-      if (dueDate) filter += `DueDate: "${dueDate}"\n`;
-      if (startDate) filter += `ProjectStartDate: "${startDate}"\n`;
-      if (endDate) filter += `ProjectEndDate: "${endDate}"\n`;
-      filter += `limit: ${limit}
-    offset: ${offset}
-  )`;
-
-      const { data: { project } } = await this.roll.listProjects({
-        $,
-        filter,
+      const { project } = await this.roll.makeRequest({
+        variables: {
+          ..._.pickBy(variables),
+          limit,
+          offset,
+        },
+        query: "listProjects",
       });
 
       projectLength = project.length;
-      response.push(...project);
+      responseArray.push(...project);
       offset += limit;
     } while (projectLength);
 
     let summary = "Projects successfully fetched!";
 
-    if (!response.length) {
-      response = await this.roll.addSchema({
-        $,
-        mutation: `addProject
-          ${filter}
-        {
-          ProjectId
-        }`,
+    if (!responseArray.length) {
+      responseArray = await this.roll.makeRequest({
+        variables: _.pickBy(variables),
+        query: "addProject",
       });
-      const { data: { addProject: { ProjectId } } } = response;
+      const { addProject: { ProjectId } } = responseArray;
       summary = `Project successfully created with Id ${ProjectId}!`;
     }
 
     $.export("$summary", summary);
-    return response;
+    return responseArray;
   },
 };

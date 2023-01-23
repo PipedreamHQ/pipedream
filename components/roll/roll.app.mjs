@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import { GraphQLClient } from "graphql-request";
+import "graphql/language/index.js";
+import queries from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -9,7 +11,9 @@ export default {
       label: "Company Id",
       description: "The company's id.",
       async options() {
-        const { data: { company } } = await this.listCompanies({});
+        const { company } = await this.roll.makeRequest({
+          query: "listCompanies",
+        });
 
         return company.map(({
           CompanyId: value, CompanyName: label,
@@ -24,7 +28,9 @@ export default {
       label: "Employee",
       description: "The project's employee.",
       async options() {
-        const { data: { employee } } = await this.listEmployees();
+        const { employee } = await this.roll.makeRequest({
+          query: "listEmployees",
+        });
 
         return employee.map(({
           EmployeeId: value, EmployeeName: label,
@@ -39,7 +45,12 @@ export default {
       label: "Payment Id",
       description: "The project's id.",
       async options({ projectId }) {
-        const { data: { payment } } = await this.listPayments(projectId);
+        const { payment } = await this.roll.makeRequest({
+          variables: {
+            projectId,
+          },
+          query: "listPayments",
+        });
 
         return payment.map(({
           PaymentId: value, Description: label,
@@ -54,7 +65,9 @@ export default {
       label: "Lead Source Id",
       description: "The project's lead source Id.",
       async options() {
-        const { data: { projectLeadSource } } = await this.listLeadSources();
+        const { projectLeadSource } = await this.roll.makeRequest({
+          query: "listLeadSources",
+        });
 
         return projectLeadSource.filter((item) => item.ProjectLeadSourceStatus === "Active").map(({
           ProjectLeadSourceId: value, ProjectLeadSource: label,
@@ -69,7 +82,9 @@ export default {
       label: "Project Id",
       description: "The project's id.",
       async options() {
-        const { data: { project } } = await this.listProjects({});
+        const { project } = await this.roll.makeRequest({
+          query: "listProjects",
+        });
 
         return project.map(({
           ProjectId: value, ProjectTitle: label,
@@ -85,8 +100,11 @@ export default {
       withLabel: true,
       description: "The project's status.",
       async options({ parentId = 0 }) {
-        const { data: { status } } = await this.listStatuses({
-          parentId,
+        const { status } = await this.roll.makeRequest({
+          variables: {
+            parentId,
+          },
+          query: "listPayments",
         });
 
         return status.filter((item) => item.Status === "Active").map(({
@@ -102,7 +120,9 @@ export default {
       label: "Type",
       description: "The project's types.",
       async options() {
-        const { data: { projectType } } = await this.listTypes();
+        const { projectType } = await this.roll.makeRequest({
+          query: "listTypes",
+        });
 
         return projectType.map(({
           ProjectTypeId: value, ProjectType: label,
@@ -117,7 +137,9 @@ export default {
       label: "Rate Id",
       description: "The rate's id.",
       async options() {
-        const { data: { rate } } = await this.listRates();
+        const { rate } = await this.roll.makeRequest({
+          query: "listRates",
+        });
 
         return rate.map(({
           RateId: value, RateTitle: label,
@@ -154,213 +176,41 @@ export default {
         "Authorization": `Bearer ${this.$auth.api_access_token}`,
       };
     },
-    async _makeRequest({
-      $ = this, query, ...opts
+    async query({
+      query,
+      mutation,
+      variables,
     }) {
-
-      const config = {
-        url: this._apiUrl(),
+      const client = new GraphQLClient(this._apiUrl(), {
         headers: this._getHeaders(),
-        method: "POST",
-        data: {
-          query,
-        },
-        ...opts,
-      };
+      });
 
-      return axios($, config);
+      return await client.request(query || mutation, variables);
     },
-    addSchema({
-      $, mutation,
+    makeRequest({
+      variables = {}, query,
     }) {
-      return this._makeRequest({
-        $,
-        query: `mutation {
-          ${mutation}
-        }`,
-      });
-    },
-    listChecklists(projectId) {
-      return this._makeRequest({
-        query: `query {
-            checklist (ProjectId: ${projectId}) {
-              ChecklistId
-            }
-          }`,
-      });
-    },
-    listCompanies({
-      $, filter,
-    }) {
-      return this._makeRequest({
-        $,
-        query: `query {
-            company ${filter || ""} {
-              CompanyId
-              CompanyName
-              CompanyStatus
-              CompanyInvoiceFirstName
-              CompanyInvoiceLastName
-              CompanyPhone
-              CompanyPhoneArea
-              CompanyPhoneCountry
-              CompanyMobile
-              CompanyEmail
-              CompanyWebsite
-              CompanyAddress
-              CompanyAddress2
-              CompanyCityOrTown
-              CompanyStateOrRegion
-              CompanyZipOrPostcode
-              CompanyCountry
-            }
-          }`,
-      });
-    },
-    listEmployees() {
-      return this._makeRequest({
-        query: `query {
-            employee {
-              EmployeeId
-              EmployeeName
-              EmployeeEmail
-              CustomerId
-            }
-          }`,
-      });
-    },
-    listLeadSources() {
-      return this._makeRequest({
-        query: `query {
-            projectLeadSource {
-              ProjectLeadSourceId
-              ProjectLeadSource
-              ProjectLeadSourceStatus
-            }
-          }`,
-      });
-    },
-    listPayments(projectId) {
-      return this._makeRequest({
-        query: `query {
-          payment(ProjectId: ${projectId}) {
-            PaymentId
-            Description
-          }
-        }`,
-      });
-    },
-    listProjects({
-      $, filter,
-    }) {
-      return this._makeRequest({
-        $,
-        query: `query {
-          project ${filter || ""}{
-            ProjectId
-            CompanyId
-            ProjectTitle
-            ProjectDescription
-            ProjectType
-            ProjectLeadSourceId
-            ProjectStatus
-            ProjectSubStatusId
-            ProjectValue
-            ProjectJobNumber
-            PONum
-            ProjectAtRisk
-            ProjectIsRetainer
-            ProjectRetainerFrequency
-            ProjectRetainerPeriod
-            ProjectColor
-            ProjectRetainerStartDate
-            CompletedDate
-            DueDate
-            ProjectStartDate
-            ProjectEndDate
-            CostOrChargeout
-            ProjectOrder
-            Created
-            LastUpdated
-          }
-        }`,
-      });
-    },
-    listRates() {
-      return this._makeRequest({
-        query: `query {
-            rate {
-              RateId
-              RateTitle
-            }
-          }`,
-      });
-    },
-    listStatuses({ parentId }) {
-      return this._makeRequest({
-        query: `query {
-            status(ParentId: ${parentId}) {
-              Id,
-              Slug,
-              Status
-            }
-          }`,
-      });
-    },
-    listTimes({
-      $, filter,
-    }) {
-      return this._makeRequest({
-        $,
-        query: `query {
-          time ${filter || ""}{
-            TimeId
-            EmployeeId
-            ProjectId
-            PaymentId
-            TaskId
-            RateId
-            RateValue
-            TimeText
-            TimeInSeconds
-            LoggedForDate
-            TimeStatus
-            Created
-            LastUpdated
-          }
-        }`,
-      });
-    },
-    listTypes() {
-      return this._makeRequest({
-        query: `query {
-            projectType {
-              ProjectTypeId
-              ProjectType
-              ProjectTypeIdStatus
-            }
-          }`,
+      return this.query({
+        mutation: queries[query],
+        variables,
       });
     },
     async listTasks({
       projectId, filter,
     }) {
-      filter = `(${filter}`;
-
       if (projectId) {
-        const { data: { checklist } } = await this.listChecklists(projectId);
-        filter += `ChecklistId: ${checklist[0].ChecklistId}`;
+        const { checklist } = await this.roll.makeRequest({
+          variables: {
+            projectId,
+          },
+          query: "listChecklists",
+        });
+        filter.checklistId = checklist[0].ChecklistId;
       }
 
-      filter += ")";
-
-      return this._makeRequest({
-        query: `query {
-            task ${filter} {
-              TaskId
-              TaskText
-            }
-          }`,
+      return await this.roll.makeRequest({
+        variables: filter,
+        query: "listTasks",
       });
     },
   },

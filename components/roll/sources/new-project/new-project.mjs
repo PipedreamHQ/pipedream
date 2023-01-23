@@ -29,8 +29,8 @@ export default {
     getFieldResponse() {
       return "project";
     },
-    getFn() {
-      return this.roll.listProjects;
+    getQuery() {
+      return "listProjects";
     },
     getDataToEmit({
       ProjectId,

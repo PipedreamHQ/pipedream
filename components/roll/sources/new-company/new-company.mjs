@@ -29,8 +29,8 @@ export default {
     getFieldResponse() {
       return "company";
     },
-    getFn() {
-      return this.roll.listCompanies;
+    getQuery() {
+      return "listCompanies";
     },
     getDataToEmit({ CompanyId }) {
       return {

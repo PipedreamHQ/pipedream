@@ -32,18 +32,19 @@ export default {
       let next = true;
       const items = [];
       let lastId = this._getLastId();
-      const fn = this.getFn();
+      const query = this.getQuery();
       const fieldResponse = this.getFieldResponse();
       const fieldId = this.getFieldId();
       do {
-        const { data } = await fn({
-          filter: `(
-            order: "-CompanyId"
-            limit: ${limit}
-            ${paginate
-    ? "offset: " + offset
-    : ""}
-        )`,
+        const data = await this.roll.makeRequest({
+          variables: {
+            order: "-CompanyId",
+            limit,
+            offset: paginate
+              ? offset
+              : 0,
+          },
+          query,
         });
 
         const dataArray = data[fieldResponse];

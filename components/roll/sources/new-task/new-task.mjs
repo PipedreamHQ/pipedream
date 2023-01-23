@@ -29,8 +29,8 @@ export default {
     getFieldResponse() {
       return "task";
     },
-    getFn() {
-      return this.roll.listTasks;
+    getQuery() {
+      return "listTasks";
     },
     getDataToEmit({
       TaskId,

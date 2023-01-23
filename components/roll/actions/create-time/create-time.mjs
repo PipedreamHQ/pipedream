@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -86,34 +87,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      employee,
-      projectId,
-      paymentId,
-      taskId,
-      rateId,
-      rateValue,
-      timeText,
-      timeInSeconds,
-      loggedForDate,
-      timeStatus,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
-    const response = await this.roll.addSchema({
-      $,
-      mutation: `addTime(
-        EmployeeId: ${employee}
-        ProjectId: ${projectId}
-        PaymentId: ${paymentId}
-        TaskId: ${taskId}
-        RateId: ${rateId}
-        RateValue: ${parseFloat(rateValue)}
-        TimeText: "${timeText}"
-        TimeInSeconds: ${timeInSeconds}
-        LoggedForDate: "${loggedForDate}"
-        TimeStatus: "${timeStatus}"
-        ){
-          TimeId
-        }`,
+    const response = await this.roll.makeRequest({
+      variables: _.pickBy(variables),
+      query: "addTime",
     });
 
     $.export("$summary", `Time successfully created with Id ${response.data.addTime.TimeId}!`);

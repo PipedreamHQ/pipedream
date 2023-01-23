@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -102,42 +103,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyId,
-      title,
-      description,
-      status,
-      subStatusId,
-      color,
-      jobNumber,
-      projectAtRisk,
-      projectType,
-      projectLeadSourceId,
-      value,
-      dueDate,
-      startDate,
-      lastDate,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
-    const response = await this.roll.addSchema({
-      $,
-      mutation: `addProject(
-          CompanyId: ${companyId}
-          ProjectTitle: "${title}"
-          ProjectDescription: "${description}"
-          ProjectStatus: "${status.label}"
-          ProjectSubStatusId: "${subStatusId.value}"
-          ProjectColor: "${color}"
-          ProjectJobNumber: "${jobNumber}"
-          ProjectAtRisk: ${+projectAtRisk}
-          ProjectType: "${projectType}"
-          ProjectLeadSourceId: ${projectLeadSourceId}
-          ProjectValue: ${parseFloat(value)}
-          DueDate: "${dueDate}"
-          ProjectStartDate: "${startDate}"
-          ProjectEndDate: "${lastDate}"
-        ){
-          ProjectId
-        }`,
+    const response = await this.roll.makeRequest({
+      variables: _.pickBy(variables),
+      query: "addProject",
     });
 
     $.export("$summary", `Project successfully created with Id ${response.data.addProject.ProjectId}!`);

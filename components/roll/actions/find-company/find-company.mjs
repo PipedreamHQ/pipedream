@@ -1,3 +1,4 @@
+import _ from "lodash";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -36,10 +37,9 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyId,
-      name,
-      email,
-      status,
+      // eslint-disable-next-line no-unused-vars
+      roll,
+      ...variables
     } = this;
 
     let companyLength = 0;
@@ -48,22 +48,18 @@ export default {
     const responseArray = [];
 
     do {
-      let filter = "(\n";
-      if (companyId) filter += `CompanyId: ${companyId}\n`;
-      if (name) filter += `CompanyName: "${name}"\n`;
-      if (email) filter += `CompanyEmail: "${email}"\n`;
-      if (status) filter += `CompanyStatus: "${status}"\n`;
-      filter += `limit: ${limit}
-        offset: ${offset}
-      )`;
-
-      const { data: { company } } = await this.roll.listCompanies({
-        $,
-        filter,
+      const { company } = await this.roll.makeRequest({
+        variables: {
+          ..._.pickBy(variables),
+          limit,
+          offset,
+        },
+        query: "listCompanies",
       });
+
+      offset += limit;
       companyLength = company.length;
       responseArray.push(...company);
-      offset += limit;
     } while (companyLength);
 
     $.export("$summary", "Companies successfully fetched!");
