@@ -7,7 +7,7 @@ export default {
   key: "helper_functions-retrieve-new-rss-stories",
   name: "Retrieve New RSS Stories",
   description: "Gets new stories from a specified RSS feed that have not already been processed.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     helper_functions,
@@ -23,7 +23,7 @@ export default {
     const previouslyPostedStories = get(this, "$checkpoint", []);
     let newStories = [];
 
-    for (url of this.rss_feeds) {
+    for (const url of this.rss_feeds) {
       let feed = await parser.parseURL(url);
       console.log(feed.title);
 

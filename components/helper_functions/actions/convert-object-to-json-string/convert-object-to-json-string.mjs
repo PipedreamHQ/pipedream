@@ -5,7 +5,7 @@ export default {
   key: "helper_functions-convert-object-to-json-string",
   name: "Convert JavaScript Object to JSON String",
   description: "Accepts a JavaScript object, returns that object converted to a JSON string",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,
