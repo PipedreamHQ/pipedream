@@ -4,7 +4,7 @@ export default {
   name: "Publish Message",
   version: "0.0.1",
   key: "ably-publish-message",
-  description: "Publish a message in a channel. [See docs here](https://ably.com/docs/realtime/messages#message-publish)",
+  description: "Publish a message in a channel.  [See docs here](https://ably.com/docs/realtime/messages#message-publish)",
   type: "action",
   props: {
     ably,
