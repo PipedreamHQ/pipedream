@@ -11,7 +11,7 @@ export default {
     Create a Lambda function from source code. This action creates a zip file and deploys it to AWS Lambda.
     [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/classes/createfunctioncommand.html)
   `),
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     aws: common.props.aws,

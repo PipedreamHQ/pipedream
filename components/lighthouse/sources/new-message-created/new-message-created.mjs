@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Message Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "lighthouse-new-message-created",
   description: "Emit new event for each new message created.",
   type: "source",

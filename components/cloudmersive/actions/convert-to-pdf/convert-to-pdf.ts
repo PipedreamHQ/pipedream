@@ -9,7 +9,7 @@ export default defineAction({
   name: "Convert to PDF",
   description: `Convert Office Word Documents (docx) to PDF [See docs here](${DOCS.convertToPDF})`,
   key: "cloudmersive-convert-to-pdf",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudmersive,

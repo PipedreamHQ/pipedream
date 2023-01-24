@@ -6,7 +6,7 @@ export default {
   key: "mailgun-list-mailinglist-members",
   name: "Get Mailing List Members",
   description: "List all mailing list members. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,

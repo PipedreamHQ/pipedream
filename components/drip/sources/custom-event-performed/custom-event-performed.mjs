@@ -5,7 +5,7 @@ export default {
   key: "drip-custom-event-performed",
   name: "New Custom Event Performed (Instant)",
   description: "Emit new event when a custom event is performed for a subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

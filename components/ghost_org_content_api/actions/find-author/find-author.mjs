@@ -7,7 +7,7 @@ export default {
   name: "Find author",
   description: "Find an author. [See the docs here](https://ghost.org/docs/content-api/#authors).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ghostContentApi,
     name: {

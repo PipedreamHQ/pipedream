@@ -6,7 +6,7 @@ export default {
   name: "Create Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     mysql,
     table: {

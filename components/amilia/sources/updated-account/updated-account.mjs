@@ -7,7 +7,7 @@ export default {
   name: "Updated Account",
   description: "Emit new event for every updated (client) account in the organization",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   hooks: {
     ...base.hooks,
     deploy() {

@@ -4,7 +4,7 @@ export default {
   key: "google_docs-create-document-from-text",
   name: "Create New Document from Text",
   description: "Create a new document from plain text. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleDocs,

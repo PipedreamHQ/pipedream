@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-create-ticket",
   name: "Create a Ticket",
   description: "Create a ticket. [See docs here](https://developers.freshdesk.com/api/#tickets)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,

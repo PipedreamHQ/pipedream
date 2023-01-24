@@ -2,7 +2,7 @@ import awork from "../../awork.app.mjs";
 
 export default {
   name: "Create Project",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "awork-create-project",
   description: "Creates a project. [See docs here](https://openapi.awork.io/#/Projects/post_projects)",
   type: "action",

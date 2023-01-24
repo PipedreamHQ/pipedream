@@ -6,7 +6,7 @@ export default {
   name: "Create Column",
   description: "Creates a column. [See the docs here](https://developer.monday.com/api-reference/docs/columns-queries-1)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     monday,
     boardId: {
