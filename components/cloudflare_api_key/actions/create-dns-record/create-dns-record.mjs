@@ -5,7 +5,7 @@ export default {
   key: "cloudflare_api_key-create-dns-record",
   name: "Create DNS Record",
   description: "Creates a DNS Record given its zone id",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     cloudflare_api_key: {

@@ -5,7 +5,7 @@ export default defineAction({
   name: "Create Subscriber",
   description: "Create a new subscriber. [See docs](https://www.beehiiv.com/developers/docs)",
   key: "beehiiv-create-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

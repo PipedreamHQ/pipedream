@@ -5,7 +5,7 @@ export default {
   key: "agile_crm-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#13-creating-a-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     agileCrm,

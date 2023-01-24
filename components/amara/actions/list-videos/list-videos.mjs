@@ -7,7 +7,7 @@ export default {
   name: "List Videos",
   description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     amara,
     videoUrl: {
