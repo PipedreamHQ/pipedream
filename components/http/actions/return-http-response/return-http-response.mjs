@@ -6,7 +6,7 @@ export default {
   description:
     "Use with an HTTP Source that uses `Return a custom response from your workflow` as its `HTTP Response`",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     http,
     resStatusCode: {

@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Error Occurred",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "airbrake-new-error-occurred",
   description: "Emit new event for each error occurred. [See docs here](https://docs.airbrake.io/docs/devops-tools/api/#list-notices-v4)",
   type: "source",

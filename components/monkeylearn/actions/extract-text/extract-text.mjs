@@ -5,7 +5,7 @@ export default {
   key: "monkeylearn-extract-text",
   name: "Extract Text",
   description: "Extracts information from texts with a given extractor. [See the docs here](https://monkeylearn.com/api/v3/#extract)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

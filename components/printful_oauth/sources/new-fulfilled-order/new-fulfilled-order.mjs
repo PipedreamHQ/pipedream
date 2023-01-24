@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Fulfilled Order (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "printful_oauth-new-fulfilled-order",
   description: "Emit new event on each fulfilled order.",
   type: "source",

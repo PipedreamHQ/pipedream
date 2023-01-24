@@ -2,7 +2,7 @@ import lighthouse from "../../lighthouse.app.mjs";
 
 export default {
   name: "Create Project",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "lighthouse-create-project",
   description: "Creates a project. [See docs here](http://help.lighthouseapp.com/kb/api/projects#create-a-new-project-rarr-code-post-projects-xml-code-)",
   type: "action",

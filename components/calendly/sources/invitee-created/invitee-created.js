@@ -5,7 +5,7 @@ module.exports = {
   key: "calendly-invitee-created",
   name: "Invitee Created (Instant)",
   description: "Emits an event when an invitee schedules an event",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {

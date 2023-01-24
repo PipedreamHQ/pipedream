@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "podio-find-item",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Find Item",
   description: "Filters items for the given app. [See the docs](https://developers.podio.com/doc/items/filter-items-4496747)",
   props: {

@@ -6,7 +6,7 @@ export default {
   name: "Create Feature",
   description: "Create a new feature. [See the docs here](https://developer.productboard.com/#operation/createFeature)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     productboard,
     name: {

@@ -2,7 +2,7 @@ import qstash from "../../qstash.app.mjs";
 
 export default {
   name: "List Endpoints",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "qstash-list-endpoints",
   description: "Lists all your existing QStash endpoints.",
   props: {

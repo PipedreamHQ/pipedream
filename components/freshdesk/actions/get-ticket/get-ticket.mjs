@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-get-ticket",
   name: "Get Ticket Details",
   description: "Get a Ticket. [See docs here](https://developers.freshdesk.com/api/#tickets)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     freshdesk,

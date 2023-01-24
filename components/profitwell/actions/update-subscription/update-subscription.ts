@@ -9,7 +9,7 @@ export default defineAction({
   description:
     "Upgrade/downgrade a subscription [See docs here](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/updating-subscriptions/upgrade-downgrade-a-subscription)",
   key: "profitwell-update-subscription",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     profitwell,

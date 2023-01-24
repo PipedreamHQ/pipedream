@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Lead Status Changed",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "nocrm_io-new-lead-status-changed",
   description: "Emit new event when a lead status is changed.",
   type: "source",

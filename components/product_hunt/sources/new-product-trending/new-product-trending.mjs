@@ -6,7 +6,7 @@ export default {
   key: "product_hunt-new-product-trending",
   name: "New Product Trending",
   description: "Emit new event when a product posted by a user hits 100+ upvotes.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

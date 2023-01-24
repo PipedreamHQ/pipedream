@@ -5,7 +5,7 @@ export default {
   key: "chatbot-new-event",
   name: "New Event",
   description: "Emit new event for event received. *Need to be configured in the ChatBot UI flow to emit events*. [See docs here](https://www.chatbot.com/docs/webhooks/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     chatbot,
