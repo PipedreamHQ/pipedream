@@ -3,7 +3,7 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-subitem-column-value-updated",
-  name: "New Sub-Item Column Value Updated",
+  name: "New Sub-Item Column Value Updated (Instant)",
   description: "Emit new event when any sub-item column changes.",
   type: "source",
   version: "0.0.1",

@@ -3,7 +3,7 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-name-updated",
-  name: "Name Updated",
+  name: "New Name Updated (Instant)",
   description: "Emit new event when an item's Name is updated on a board in Monday.",
   type: "source",
   version: "0.0.2",

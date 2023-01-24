@@ -3,7 +3,7 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-new-subitem",
-  name: "New Sub-Item",
+  name: "New Sub-Item (Instant)",
   description: "Emit new event when a sub-item is created.",
   type: "source",
   version: "0.0.1",
