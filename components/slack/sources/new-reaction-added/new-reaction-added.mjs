@@ -50,7 +50,8 @@ export default {
         "icon_emoji",
       ],
       description: "Provide an emoji to use as filter the events. E.g. `fire`",
-      optional: false,
+      type: "string[]",
+      optional: true,
     },
   },
   methods: {
@@ -59,9 +60,13 @@ export default {
       return "New reaction added";
     },
     async processEvent(event) {
+      this.iconEmoji = typeof this.iconEmoji === "string" ?
+        JSON.parse(this.iconEmoji) :
+        this.iconEmoji;
+
       if (
         ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) ||
-        (this.iconEmoji && event.reaction !== this.iconEmoji)
+        (this.iconEmoji?.length > 0 && !this.iconEmoji.includes(event.reaction))
       ) {
         return;
       }
