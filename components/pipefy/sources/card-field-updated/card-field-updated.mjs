@@ -5,7 +5,7 @@ export default {
   name: "Card Field Updated (Instant)",
   key: "pipefy-card-field-updated",
   description: "Emits an event each time a card field is updated in a Pipe.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   methods: {
     ...common.methods,

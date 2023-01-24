@@ -4,7 +4,7 @@ export default {
   key: "onesignal_rest_api-get-device",
   name: "Get Device",
   description: "Get a specific device. [See docs here](https://documentation.onesignal.com/reference/view-device)",
-  version: "0.0.1652718586",
+  version: "0.0.1652718587",
   type: "action",
   props: {
     onesignalRestApi,

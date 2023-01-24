@@ -3,7 +3,7 @@ import app from "../../app/clientary.app";
 
 export default defineAction({
   key: "clientary-create-expense",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Expense",
   description: "Creates a new expense. [See docs here](https://www.clientary.com/api/expenses)",
   type: "action",

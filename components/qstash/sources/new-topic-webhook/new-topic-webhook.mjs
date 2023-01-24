@@ -3,7 +3,7 @@ import { methods } from "../../common.mjs";
 
 export default {
   name: "New Topic Webhook",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "qstash-new-topic-webhook",
   description: "Emit new events on each new QStash topic message",
   props: {

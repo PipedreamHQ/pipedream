@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Survey Rating",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "nicereply-new-survey-rating",
   description: "Emit new event on each new survey rating.",
   type: "source",

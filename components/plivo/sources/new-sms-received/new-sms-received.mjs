@@ -8,7 +8,7 @@ export default {
   name: "New SMS Received (Instant)",
   description: "Emit new event when a new SMS is received. [See the docs](https://www.plivo.com/docs/sms/api/message#send-a-message).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

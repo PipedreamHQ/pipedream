@@ -3,7 +3,7 @@ const { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } = require("@pipedream/platform")
 
 module.exports = {
   name: "Weather for ZIP Code",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "here-weather-for-zip",
   description: "Emits the weather report for a specific ZIP code on a schedule",
   type: "source",

@@ -4,7 +4,7 @@ export default {
   key: "fullstory-native-mobile-crash",
   name: "New Native Mobile Crash Event",
   description: "Emit new events when native mobile crash events occur. [See the docs here](https://developer.fullstory.com/native-mobile-crash)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

@@ -3,7 +3,7 @@ import app from "../../app/persistiq.app";
 
 export default defineAction({
   key: "persistiq-create-or-update-prospect",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Or Update Prospect",
   description: "Creates a prospect. Updates if there is already a prospect with the given `email`. [See docs here](https://apidocs.persistiq.com/#create-leads)",
   type: "action",

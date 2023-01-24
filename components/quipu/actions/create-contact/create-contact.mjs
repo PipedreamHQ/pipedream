@@ -4,7 +4,7 @@ export default {
   key: "quipu-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the docs](http://quipuapp.github.io/api-v1-docs/#creating-a-contact).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

@@ -6,7 +6,7 @@ module.exports = {
   key: "procore-budget-snapshot",
   description:
     "Emits an event each time a Budget Snapshot is created, updated, or deleted in a project.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   methods: {
     ...common.methods,

@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Stop Order Cancel",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bybit-linear-stop-order-cancel",
   description: "Cancel Conditional Order." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelcond)",

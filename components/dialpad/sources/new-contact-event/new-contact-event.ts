@@ -11,7 +11,7 @@ export default defineSource({
   description: `Emit new contact event subscription. 
   See [Event doc](https://developers.dialpad.com/reference/webhook_contact_event_subscriptioncreate)
   and [webhook doc](https://developers.dialpad.com/reference/webhookscreate)`,
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

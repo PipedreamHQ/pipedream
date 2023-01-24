@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Lead",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "nocrm_io-new-lead",
   description: "Emit new event on each lead created.",
   type: "source",

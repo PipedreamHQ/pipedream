@@ -5,7 +5,7 @@ export default {
   key: "patreon-new-pledge-received",
   name: "New Pledge Received",
   description: "Emit new event for each received pledge",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
