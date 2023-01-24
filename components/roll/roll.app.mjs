@@ -11,7 +11,7 @@ export default {
       label: "Company Id",
       description: "The company's id.",
       async options() {
-        const { company } = await this.roll.makeRequest({
+        const { company } = await this.makeRequest({
           query: "listCompanies",
         });
 
@@ -28,7 +28,7 @@ export default {
       label: "Employee",
       description: "The project's employee.",
       async options() {
-        const { employee } = await this.roll.makeRequest({
+        const { employee } = await this.makeRequest({
           query: "listEmployees",
         });
 
@@ -45,7 +45,7 @@ export default {
       label: "Payment Id",
       description: "The project's id.",
       async options({ projectId }) {
-        const { payment } = await this.roll.makeRequest({
+        const { payment } = await this.makeRequest({
           variables: {
             projectId,
           },
@@ -65,7 +65,7 @@ export default {
       label: "Lead Source Id",
       description: "The project's lead source Id.",
       async options() {
-        const { projectLeadSource } = await this.roll.makeRequest({
+        const { projectLeadSource } = await this.makeRequest({
           query: "listLeadSources",
         });
 
@@ -82,7 +82,7 @@ export default {
       label: "Project Id",
       description: "The project's id.",
       async options() {
-        const { project } = await this.roll.makeRequest({
+        const { project } = await this.makeRequest({
           query: "listProjects",
         });
 
@@ -100,11 +100,11 @@ export default {
       withLabel: true,
       description: "The project's status.",
       async options({ parentId = 0 }) {
-        const { status } = await this.roll.makeRequest({
+        const { status } = await this.makeRequest({
           variables: {
             parentId,
           },
-          query: "listPayments",
+          query: "listStatuses",
         });
 
         return status.filter((item) => item.Status === "Active").map(({
@@ -120,7 +120,7 @@ export default {
       label: "Type",
       description: "The project's types.",
       async options() {
-        const { projectType } = await this.roll.makeRequest({
+        const { projectType } = await this.makeRequest({
           query: "listTypes",
         });
 
@@ -137,7 +137,7 @@ export default {
       label: "Rate Id",
       description: "The rate's id.",
       async options() {
-        const { rate } = await this.roll.makeRequest({
+        const { rate } = await this.makeRequest({
           query: "listRates",
         });
 
@@ -154,7 +154,7 @@ export default {
       label: "Task Id",
       description: "The task's id.",
       async options({ projectId }) {
-        const { data: { task } } = await this.listTasks({
+        const { task } = await this.listTasks({
           projectId,
         });
 
@@ -199,19 +199,23 @@ export default {
       projectId, filter,
     }) {
       if (projectId) {
-        const { checklist } = await this.roll.makeRequest({
+        const { checklist } = await this.makeRequest({
           variables: {
             projectId,
           },
           query: "listChecklists",
         });
-        filter.checklistId = checklist[0].ChecklistId;
+        if (checklist.length) {
+          filter.checklistId = checklist[0].ChecklistId;
+          return await this.makeRequest({
+            variables: filter,
+            query: "listTasks",
+          });
+        }
       }
-
-      return await this.roll.makeRequest({
-        variables: filter,
-        query: "listTasks",
-      });
+      return {
+        task: [],
+      };
     },
   },
 };

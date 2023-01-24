@@ -144,6 +144,11 @@ export default {
       ...variables
     } = this;
 
+    if (variables.status) variables.status = variables.status.label;
+    if (variables.subStatusId) variables.subStatusId = variables.subStatusId.value;
+    if (variables.projectAtRisk) variables.projectAtRisk = +variables.projectAtRisk;
+    if (variables.projectType) variables.projectType = variables.projectType.toString();
+
     let projectLength = 0;
     let offset = 0;
     const limit = 50;

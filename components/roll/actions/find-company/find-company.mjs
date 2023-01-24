@@ -63,10 +63,6 @@ export default {
     } while (companyLength);
 
     $.export("$summary", "Companies successfully fetched!");
-    return {
-      data: {
-        company: responseArray,
-      },
-    };
+    return responseArray;
   },
 };

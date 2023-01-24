@@ -40,17 +40,17 @@ export default {
           $companyId: Int
           $title: String
           $description: String
-          $status: Int
-          $subStatusId: Int
+          $status: String
+          $subStatusId: String
           $color: String
           $jobNumber: String
-          $projectAtRisk: Boolean
-          $projectType: [Int]
+          $projectAtRisk: Int
+          $projectType: String
           $projectLeadSourceId: Int
-          $value: String
-          $dueDate: String
-          $startDate: String
-          $lastDate: String
+          $value: Float
+          $dueDate: Date
+          $startDate: Date
+          $lastDate: Date
       ) {
           addProject(
               CompanyId: $companyId,
@@ -81,7 +81,7 @@ export default {
             $rateValue: Float
             $timeText: String
             $timeInSeconds: Int
-            $loggedForDate: String
+            $loggedForDate: Date
             $timeStatus: String
         ) {
             addTime(
@@ -139,26 +139,26 @@ export default {
           }`,
   listProjects: `
             query listProjects(
-                $projectId
-                $companyId
-                $title
-                $description
-                $projectType
-                $projectLeadSourceId
-                $status
-                $subStatusId
-                $color
-                $value
-                $jobNumber
-                $poNum
-                $projectAtRisk
-                $projectIsRetainer
-                $projectRetainerFrequency
-                $projectRetainerStartDate
-                $completedDate
-                $dueDate
-                $startDate
-                $endDate
+                $projectId: Int
+                $companyId: Int
+                $title: String
+                $description: String
+                $projectType: String
+                $projectLeadSourceId: Int
+                $status: String
+                $subStatusId: String
+                $color: String
+                $value: Float
+                $jobNumber: String
+                $poNum: String
+                $projectAtRisk: Int
+                $projectIsRetainer: String
+                $projectRetainerFrequency: Int
+                $projectRetainerStartDate: DateTime
+                $completedDate: DateTime
+                $dueDate: DateTime
+                $startDate: DateTime
+                $endDate: DateTime
                 $order: String
                 $limit: Int
                 $offset: Int

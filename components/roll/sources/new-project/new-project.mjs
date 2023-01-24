@@ -32,6 +32,9 @@ export default {
     getQuery() {
       return "listProjects";
     },
+    getOrderField() {
+      return "{\"Created\": \"DESC\"}";
+    },
     getDataToEmit({
       ProjectId,
       Created,

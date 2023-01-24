@@ -32,22 +32,20 @@ export default {
       let next = true;
       const items = [];
       let lastId = this._getLastId();
-      const query = this.getQuery();
-      const fieldResponse = this.getFieldResponse();
       const fieldId = this.getFieldId();
       do {
         const data = await this.roll.makeRequest({
           variables: {
-            order: "-CompanyId",
+            order: this.getOrderField(),
             limit,
             offset: paginate
               ? offset
               : 0,
           },
-          query,
+          query: this.getQuery(),
         });
 
-        const dataArray = data[fieldResponse];
+        const dataArray = data[this.getFieldResponse()];
 
         if (!dataArray.length) next = false;
 

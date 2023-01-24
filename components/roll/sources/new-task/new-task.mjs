@@ -32,6 +32,9 @@ export default {
     getQuery() {
       return "listTasks";
     },
+    getOrderField() {
+      return "{\"TaskId\": \"DESC\"}";
+    },
     getDataToEmit({
       TaskId,
       Created,

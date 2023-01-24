@@ -32,6 +32,9 @@ export default {
     getQuery() {
       return "listCompanies";
     },
+    getOrderField() {
+      return "-CompanyId";
+    },
     getDataToEmit({ CompanyId }) {
       return {
         id: CompanyId,

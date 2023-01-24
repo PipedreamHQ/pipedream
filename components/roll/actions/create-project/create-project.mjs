@@ -108,6 +108,11 @@ export default {
       ...variables
     } = this;
 
+    if (variables.status) variables.status = variables.status.label;
+    if (variables.subStatusId) variables.subStatusId = variables.subStatusId.value;
+    if (variables.projectAtRisk) variables.projectAtRisk = +variables.projectAtRisk;
+    if (variables.projectType) variables.projectType = variables.projectType.toString();
+
     const response = await this.roll.makeRequest({
       variables: _.pickBy(variables),
       query: "addProject",

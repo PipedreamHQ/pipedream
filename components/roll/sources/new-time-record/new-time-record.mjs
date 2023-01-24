@@ -32,6 +32,9 @@ export default {
     getQuery() {
       return "listTimes";
     },
+    getOrderField() {
+      return "{\"TimeId\": \"DESC\"}";
+    },
     getDataToEmit({
       TimeId,
       Created,
