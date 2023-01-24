@@ -1268,6 +1268,9 @@
     },
     {
       "path": "components/shiphero"
+    },
+    {
+      "path": "components/google_forms"
     }
   ]
 }
