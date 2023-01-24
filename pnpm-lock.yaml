@@ -2664,8 +2664,10 @@ importers:
   components/roll:
     specifiers:
       '@pipedream/platform': ^1.2.1
+      graphql-request: ^5.1.0
     dependencies:
       '@pipedream/platform': 1.2.1
+      graphql-request: 5.1.0_graphql@16.5.0
 
   components/route4me:
     specifiers: {}
