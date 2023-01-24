@@ -1265,6 +1265,9 @@
     },
     {
       "path": "components/schedule_it"
+    },
+    {
+      "path": "components/shiphero"
     }
   ]
 }
