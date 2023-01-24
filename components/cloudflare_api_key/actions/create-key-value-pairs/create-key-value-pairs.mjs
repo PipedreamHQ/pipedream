@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-create-key-value-pairs",
   name: "Create Key/Value Pairs",
   description: "Create new Key/Value pairs in a Namespace. [See the docs here](https://api.cloudflare.com/#workers-kv-namespace-write-key-value-pair)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,

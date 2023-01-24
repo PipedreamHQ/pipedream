@@ -4,7 +4,7 @@ import cloudflare_api_key from "../../cloudflare_api_key.app.mjs";
 export default {
   key: "cloudflare_api_key-purge-files-by-url",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Purge Files by URL",
   description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs. [See docs here](https://developers.cloudflare.com/cache/how-to/purge-cache/#purge-by-single-file-by-url)",
   props: {

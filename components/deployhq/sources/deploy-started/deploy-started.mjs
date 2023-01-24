@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "deployhq-deploy-started",
   name: "New Deploy Started",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a deploy starts",
   type: "source",
   async run(request) {

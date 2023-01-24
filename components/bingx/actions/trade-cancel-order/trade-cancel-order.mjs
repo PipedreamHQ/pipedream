@@ -4,7 +4,7 @@ export default {
   key: "bingx-trade-cancel-order",
   name: "BingX Trade Cancel Order",
   description: "Cancel an Order [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_4-cancel-an-order).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     bingx,
