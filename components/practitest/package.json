@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/practitest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream PractiTest Components",
   "main": "dist/app/practitest.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/practitest",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
