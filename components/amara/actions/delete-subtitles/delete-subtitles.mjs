@@ -6,7 +6,7 @@ export default {
   name: "Delete Subtitles",
   description: "Delete all subtitle versions for a language. [See the docs here](https://apidocs.amara.org/#delete-subtitles)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     amara,
     team: {

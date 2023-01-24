@@ -4,7 +4,7 @@ export default {
   key: "amazon_ses-get-email-template",
   name: "Get Email Template",
   description: "Get an email template. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/getemailtemplatecommand.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...base.props,

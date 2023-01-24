@@ -4,7 +4,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-search-customers-via-external-id",
   name: "Search Customers Via External Id",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Returns a list of all `customer` objects with the specified `external_id` in your ChartMogul account. [See the docs here](https://dev.chartmogul.com/reference/list-customers)",
   type: "action",
   props: {
