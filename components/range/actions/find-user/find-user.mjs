@@ -25,7 +25,10 @@ export default {
   async run({ $: step }) {
     const { email } = this;
 
-    const response  = await this.findUser({
+    const {
+      user_id,
+      user,
+    }  = await this.findUser({
       step,
       params: {
         email,
@@ -34,8 +37,17 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully found user with ID ${response.user_id}`);
+    step.export("$summary", `Successfully found user with ID ${user_id}`);
 
-    return response;
+    if (user) {
+      return {
+        user_id,
+        user,
+      };
+    }
+
+    return {
+      user_id,
+    };
   },
 };

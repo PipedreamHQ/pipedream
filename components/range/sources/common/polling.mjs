@@ -13,7 +13,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling schedule",
-      description: "How often to poll the Plivo API",
+      description: "How often to poll the Range API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
