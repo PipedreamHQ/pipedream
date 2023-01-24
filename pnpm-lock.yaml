@@ -78,7 +78,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.1.0
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/action_builder:
     specifiers: {}
@@ -339,7 +339,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/bc_gov_news:
     specifiers: {}
@@ -368,7 +368,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/bitbucket:
     specifiers:
@@ -561,7 +561,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/cliniko:
     specifiers:
@@ -935,7 +935,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/enigma:
     specifiers: {}
@@ -980,7 +980,7 @@ importers:
       '@pipedream/platform': ^1.2.1
       lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       lodash: 4.17.21
 
   components/eversign:
@@ -1070,6 +1070,13 @@ importers:
   components/firmalyzer_iotvas:
     specifiers: {}
 
+
+  components/fomo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/float:
     specifiers: {}
 
@@ -1078,6 +1085,7 @@ importers:
 
   components/formdesk:
     specifiers: {}
+
 
   components/forms_on_fire:
     specifiers: {}
@@ -2446,7 +2454,7 @@ importers:
       '@pipedream/platform': ^1.1.1
       '@pipedream/types': ^0.1.4
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       '@pipedream/types': 0.1.4
 
   components/pretix:
@@ -2478,7 +2486,7 @@ importers:
       '@pipedream/platform': ^1.2.1
       graphql-request: ^5.1.0
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       graphql-request: 5.1.0_graphql@16.5.0
 
   components/productboard:
@@ -2515,7 +2523,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/questionpro:
     specifiers: {}
@@ -2576,7 +2584,7 @@ importers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       '@pipedream/types': 0.1.4
 
   components/rawg_video_games_database:
@@ -2608,8 +2616,8 @@ importers:
       '@pipedream/platform': ^1.2.1
       recurly: ^3.24.0
     dependencies:
-      '@pipedream/platform': 1.2.1
-      recurly: 3.24.0
+      '@pipedream/platform': 1.3.0
+      recurly: 3.26.0
 
   components/reddit:
     specifiers:
@@ -2632,7 +2640,10 @@ importers:
     specifiers: {}
 
   components/regfox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/remarkety:
     specifiers: {}
@@ -2651,7 +2662,7 @@ importers:
       '@pipedream/platform': ^1.2.1
       lodash-es: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       lodash-es: 4.17.21
 
   components/repuso:
@@ -2672,7 +2683,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
 
   components/revamp_crm:
     specifiers: {}
@@ -8638,20 +8649,10 @@ packages:
       - supports-color
     dev: false
 
-  /@graphql-typed-document-node/core/3.1.1_graphql@15.8.0:
+  /@graphql-typed-document-node/core/3.1.1:
     resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 15.8.0
-    dev: false
-
-  /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
-    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      graphql: 16.5.0
     dev: false
 
   /@grpc/grpc-js/1.6.7:
@@ -9154,7 +9155,7 @@ packages:
     resolution: {integrity: sha512-IYBjjgT4br6LfJVW1xztC9X3UVM+a+IqaE4kYw1z9nadw9osdlEZGdovPDC+CBTx5p88XSTKGAls5HAJEa2ZMg==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
+      '@graphql-typed-document-node/core': 3.1.1
       graphql: 15.8.0
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
@@ -9438,7 +9439,7 @@ packages:
   /@pipedream/helper_functions/0.3.7:
     resolution: {integrity: sha512-pWU8IkdqmOrdtElc1N9WUVtY+GuuOFDuGJjfC+kF81+bGmGYV7hL4bd1jLFy8Ka5zs+FO48FEAPQeQDJ/b34kQ==}
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -9448,7 +9449,7 @@ packages:
   /@pipedream/helper_functions/0.3.8:
     resolution: {integrity: sha512-0hktyMN6jc9F3JLR+1YdWwxOfo1EwakHh04/ml8MWr76cS9bF+v46Br0rt9W2ZHpM6UGb8EeR/sAze9IHLE3Jg==}
     dependencies:
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.3.0
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -9516,6 +9517,17 @@ packages:
 
   /@pipedream/platform/1.2.1:
     resolution: {integrity: sha512-/3P8NW4K7bleOF632+So6fW8xy6Sd/DtlNbabsKW9QBB/GoTc8oPIUH3odnv8X+ZnvrhgCElcBAQEg9vcHAzLA==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.3.0:
+    resolution: {integrity: sha512-HkuQNlzSUa9IPq2XPKPGorQz8JqfwaC0FK2n2hU62YXNUn/V7ZUSz1cVzm3lYCsiUr6kLJ6Cjz3ZcIiV9yCbfw==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
@@ -15760,7 +15772,7 @@ packages:
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      '@graphql-typed-document-node/core': 3.1.1
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1
@@ -15774,7 +15786,7 @@ packages:
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      '@graphql-typed-document-node/core': 3.1.1
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1
@@ -20721,8 +20733,8 @@ packages:
     dev: false
     optional: true
 
-  /recurly/3.24.0:
-    resolution: {integrity: sha512-dQa+dO+qLEGx6p6ozxAuAwKkTRne1gvrmpY/ZRBde8spCYDBinOlih5xSsr+D7aliwU+iF2V6hvqGmdnpG28/w==}
+  /recurly/3.26.0:
+    resolution: {integrity: sha512-gx1UhsWFYM+G6GX4+LVRVnEwxSlFm4ja+cZT56EuhTyNtAXTFG2KeOfPehFZfRHI/2ZVBdS6PKCAAjYb8oqyOQ==}
     dev: false
 
   /redent/3.0.0:

@@ -1,19 +1,20 @@
 {
-  "name": "@pipedream/slack",
-  "version": "0.4.17",
-  "description": "Pipedream Slack Components",
-  "main": "slack.app.mjs",
+  "name": "@pipedream/fomo",
+  "version": "0.0.1",
+  "description": "Pipedream Fomo Components",
+  "main": "fomo.app.mjs",
   "keywords": [
     "pipedream",
-    "slack"
+    "fomo"
   ],
-  "homepage": "https://pipedream.com/apps/slack",
+  "homepage": "https://pipedream.com/apps/fomo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@slack/web-api": "^5.15.0"
+    "@pipedream/platform": "^1.2.1"
   }
 }
