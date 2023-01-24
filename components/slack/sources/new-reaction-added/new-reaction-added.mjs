@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.1.8",
+  version: "1.1.9",
   description: "Emit new event when a member has added an emoji reaction to a message",
   type: "source",
   dedupe: "unique",
@@ -49,7 +49,7 @@ export default {
         common.props.slack,
         "icon_emoji",
       ],
-      description: "Select one or more emojis to use as a filter. E.g. `fire`",
+      description: "Select one or more emojis to use as a filter. E.g. `fire, email`",
       type: "string[]",
       optional: true,
     },
@@ -60,13 +60,19 @@ export default {
       return "New reaction added";
     },
     async processEvent(event) {
-      this.iconEmoji = typeof this.iconEmoji === "string" ?
-        JSON.parse(this.iconEmoji) :
-        this.iconEmoji;
+      let iconEmojiParsed = [];
+
+      try {
+        iconEmojiParsed = typeof this.iconEmoji === "string" ?
+          JSON.parse(this.iconEmoji) :
+          this.iconEmoji;
+      } catch (error) {
+        iconEmojiParsed = this.iconEmoji.replace(/\s+/g, "").split(",");
+      }
 
       if (
         ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) ||
-        (this.iconEmoji?.length > 0 && !this.iconEmoji.includes(event.reaction))
+        (iconEmojiParsed?.length > 0 && !iconEmojiParsed.includes(event.reaction))
       ) {
         return;
       }
