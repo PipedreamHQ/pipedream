@@ -5,10 +5,20 @@ export default {
   type: "app",
   app: "range",
   propDefinitions: {
-    commonProperty: {
+    userId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "User ID",
+      description: "The ID of the user to retrieve.",
+      async options() {
+        const { user } = await this.getAuthUser();
+        const { users } = await this.listUsers({
+          orgId: user.org_id,
+        });
+        return users.map((user) => ({
+          label: user.profile.full_name,
+          value: user.user_id,
+        }));
+      },
     },
   },
   methods: {
@@ -37,28 +47,31 @@ export default {
       };
       return axios(step, config);
     },
+    getAuthUser(args = {}) {
+      return this.makeRequest({
+        path: "/users/auth-user",
+        ...args,
+      });
+    },
+    listUsers({
+      orgId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/orgs/${orgId}/users`,
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourcesFn,
       resourcesFnArgs,
       resourcesName,
-      max = constants.MAX_RESOURCES,
     }) {
-      let offset = 0;
-      let resourcesCount = 0;
 
       while (true) {
-        const response =
-          await resourcesFn({
-            ...resourcesFnArgs,
-            params: {
-              ...resourcesFnArgs?.params,
-              offset,
-            },
-          });
-
-        console.log("Response!!!", response);
-
-        const { [resourcesName]: nextResources } = response;
+        const {
+          [resourcesName]: nextResources,
+          pagination: { pagination_state: paginationState },
+        } = await resourcesFn(resourcesFnArgs);
 
         if (!nextResources?.length) {
           console.log("No more resources");
@@ -67,14 +80,12 @@ export default {
 
         for (const resource of nextResources) {
           yield resource;
-          resourcesCount += 1;
-
-          if (resourcesCount >= max) {
-            return;
-          }
         }
 
-        offset += nextResources.length;
+        if (paginationState === constants.PAGINATION.STATE.END) {
+          console.log("Pagination state is END");
+          return;
+        }
       }
     },
   },

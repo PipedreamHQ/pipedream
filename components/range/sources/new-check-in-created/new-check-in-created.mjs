@@ -7,21 +7,15 @@ export default {
   name: "New Check-In Created",
   description: "Emit new event when a new check-in is created. [See the docs](https://www.range.co/docs/api#rpc-list-updates).",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    listUpdates(args = {}) {
-      return this.app.makeRequest({
-        path: "/updates",
-        ...args,
-      });
-    },
     getResourcesFn() {
       return this.listUpdates;
     },
     getResourcesFnArgs() {
-      const lastAfterTime = this.getLastAfterTime();
+      const lastPublishedAt = this.getLastPublishedAt();
 
       const args = {
         params: {
@@ -30,7 +24,7 @@ export default {
         },
       };
 
-      if (!lastAfterTime) {
+      if (!lastPublishedAt) {
         return args;
       }
 
@@ -38,7 +32,7 @@ export default {
         ...args,
         params: {
           ...args.params,
-          after: lastAfterTime,
+          after: lastPublishedAt,
         },
       };
     },
@@ -46,10 +40,11 @@ export default {
       return "updates";
     },
     generateMeta(resource) {
+      const ts = Date.parse(resource.published_at);
       return {
-        id: resource.id,
-        ts: Date.parse(resource.endTime),
-        summary: `New Check-In ID ${resource.id}`,
+        id: ts,
+        ts,
+        summary: `New Check-In at ${resource.published_at}`,
       };
     },
   },

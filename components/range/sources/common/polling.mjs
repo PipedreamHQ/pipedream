@@ -20,11 +20,17 @@ export default {
     },
   },
   methods: {
-    setLastAfterTime(value) {
-      this.db.set(constants.LAST_AFTER_TIME, value);
+    listUpdates(args = {}) {
+      return this.app.makeRequest({
+        path: "/updates",
+        ...args,
+      });
     },
-    getLastAfterTime() {
-      return this.db.get(constants.LAST_AFTER_TIME);
+    setLastPublishedAt(value) {
+      this.db.set(constants.LAST_PUBLISHED_AT, value);
+    },
+    getLastPublishedAt() {
+      return this.db.get(constants.LAST_PUBLISHED_AT);
     },
     generateMeta() {
       throw new ConfigurationError("generateMeta is not implemented");
@@ -52,10 +58,8 @@ export default {
         lastResource,
       ] = resources;
 
-      if (lastResource?.endTime) {
-        // const endTimeDate = new Date(Date.parse(lastResource.endTime));
-        // const lastEndTime = endTimeDate.toISOString().split(".")[0].replace("T", " ");
-        this.setLastAfterTime(lastResource?.endTime);
+      if (lastResource?.published_at) {
+        this.setLastPublishedAt(lastResource.published_at);
       }
 
       resources

@@ -8,6 +8,34 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the user to find.",
+    },
   },
-  async run() {},
+  methods: {
+    findUser(args = {}) {
+      return this.app.makeRequest({
+        path: "/users/find",
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const { email } = this;
+
+    const response  = await this.findUser({
+      step,
+      params: {
+        email,
+        include_refs: true,
+        allow_pending: true,
+      },
+    });
+
+    step.export("$summary", `Successfully found user with ID ${response.user_id}`);
+
+    return response;
+  },
 };
