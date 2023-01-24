@@ -5,7 +5,7 @@ export default defineAction({
   key: "lob-cancel-postcard",
   name: "Cancel Postcard",
   description: "Completely removes a postcard from production. This can only be done if the postcard has a `send_date` and the `send_date` has not yet passed. [See docs here](https://docs.lob.com/#tag/Postcards/operation/postcard_delete).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     lob,

@@ -5,7 +5,7 @@ export default {
   key: "mixmax-create-contact",
   name: "Create Contact",
   description: "Create one contact. [See the docs here](https://developer.mixmax.com/reference/contacts-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

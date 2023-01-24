@@ -5,7 +5,7 @@ export default {
   key: "http-new-requests",
   name: "New Requests",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     httpInterface: {

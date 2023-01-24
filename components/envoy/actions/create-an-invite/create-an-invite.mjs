@@ -4,7 +4,7 @@ export default {
   key: "envoy-create-an-invite",
   name: "Create an Invite",
   description: "Create an Invite to a person to visit a location. [See the docs](https://developers.envoy.com/hub/reference/createinvite).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

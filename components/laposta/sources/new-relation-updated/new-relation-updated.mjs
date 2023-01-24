@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Relation Updated (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "laposta-new-relation-updated",
   description: "Emit new event on each updated relation. [See docs here (Go to `Add webhook`)](http://api.laposta.nl/doc/)",
   type: "source",

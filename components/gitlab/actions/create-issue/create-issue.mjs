@@ -5,7 +5,7 @@ export default {
   key: "gitlab-create-issue",
   name: "Create issue",
   description: "Creates a new issue. [See docs](https://docs.gitlab.com/ee/api/issues.html#new-issue)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     gitlab,

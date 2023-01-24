@@ -6,7 +6,7 @@ export default {
   key: "mailgun-create-mailinglist-member",
   name: "Create Mailing List Member",
   description: "Add to an existing mailing list. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,

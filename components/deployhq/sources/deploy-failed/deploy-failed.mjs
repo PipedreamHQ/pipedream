@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "deployhq-deploy-failed",
   name: "New Deploy Failed",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a deploy fails",
   type: "source",
   async run(request) {

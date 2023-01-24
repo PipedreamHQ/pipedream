@@ -4,7 +4,7 @@ export default {
   key: "helper_functions-random-integer",
   name: "Random Integer",
   description: "Generate a random integer (whole number). Useful for random delays.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     helperFunctions,

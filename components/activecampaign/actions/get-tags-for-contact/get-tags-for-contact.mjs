@@ -4,7 +4,7 @@ export default {
   key: "activecampaign-get-tags-for-contact",
   name: "Get Contact Tags",
   description: "Get Contact Tags.",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     activecampaign,

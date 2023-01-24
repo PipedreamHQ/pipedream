@@ -5,7 +5,7 @@ export default {
   key: "adalo-get-records",
   name: "Get Records",
   description: "Get all records from a collection. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   async run({ $ }) {
     let resources = [];

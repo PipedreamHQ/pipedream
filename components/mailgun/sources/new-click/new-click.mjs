@@ -9,7 +9,7 @@ export default {
     "must be pointing to mailgun.org. See more at the Mailgun User's Manual [Tracking Messages]" +
     "(https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) " +
     "section",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {
