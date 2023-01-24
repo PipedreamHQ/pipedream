@@ -4,7 +4,7 @@ export default {
   key: "mastodon-unpin-status",
   name: "Unpin Status from Profile",
   description: "Unfeature a status from the top of your profile. [See the docs here](https://docs.joinmastodon.org/methods/statuses/#unpin)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mastodon,

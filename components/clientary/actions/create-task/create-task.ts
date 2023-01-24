@@ -3,7 +3,7 @@ import app from "../../app/clientary.app";
 
 export default defineAction({
   key: "clientary-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Task",
   description: "Creates a new task. [See docs here](https://www.clientary.com/api/tasks)",
   type: "action",

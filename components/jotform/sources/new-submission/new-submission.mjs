@@ -4,7 +4,7 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     jotform,

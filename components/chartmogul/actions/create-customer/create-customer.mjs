@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-create-customer",
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Creates a `customer` object in ChartMogul under the specified `data_source` [See the docs here](https://dev.chartmogul.com/reference/create-customer)",
   type: "action",
   props: {

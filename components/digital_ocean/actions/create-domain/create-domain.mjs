@@ -4,7 +4,7 @@ export default {
   key: "digital_ocean-create-domain",
   name: "Create a new domain",
   description: "Create a new domain. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_domain)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     digitalOceanApp,

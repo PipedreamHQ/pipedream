@@ -6,7 +6,7 @@ export default {
   key: "helper_functions-get-time-in-specific-timezone",
   name: "Get Time in Timezone",
   description: "Given an ISO 8601 timestamp, and a timezone, convert the time to the target timezone.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     helper_functions,

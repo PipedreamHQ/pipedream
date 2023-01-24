@@ -5,7 +5,7 @@ export default {
   key: "hubspot-delete-blog-article",
   name: "Deleted Blog Posts",
   description: "Emit new event for each deleted blog post.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},
