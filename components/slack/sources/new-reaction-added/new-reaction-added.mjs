@@ -44,6 +44,14 @@ export default {
         "ignoreBot",
       ],
     },
+    iconEmoji: {
+      propDefinition: [
+        common.props.slack,
+        "icon_emoji",
+      ],
+      description: "Provide an emoji to use as filter the events. E.g. `fire`",
+      optional: false,
+    },
   },
   methods: {
     ...common.methods,
@@ -51,7 +59,10 @@ export default {
       return "New reaction added";
     },
     async processEvent(event) {
-      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+      if (
+        ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) ||
+        (this.iconEmoji && event.reaction !== this.iconEmoji)
+      ) {
         return;
       }
 
