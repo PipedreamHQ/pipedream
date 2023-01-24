@@ -5,7 +5,7 @@ export default {
   name: "New or Updated Contact (Instant)",
   key: "activecampaign-new-or-updated-contact",
   description: "Emit new event each time a contact is added or updated.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
