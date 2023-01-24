@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Market Get All Contracts",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-market-get-all-contracts",
   description: "Contract Information [reference](https://bingx-api.github.io/docs/swap/market-api.html#_1-contract-information).",
   props: {

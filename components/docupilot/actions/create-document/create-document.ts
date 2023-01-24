@@ -10,7 +10,7 @@ export default defineAction({
   description:
     "Create a document [See docs here](https://help.docupilot.app/create-document/api-and-webhook-integration#api-integration)",
   key: "docupilot-create-document",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     docupilot,

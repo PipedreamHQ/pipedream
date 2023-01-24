@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Validate reCAPTCHA Response",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "google_recaptcha-validate-recaptcha",
   description: "Validate a Google reCAPTCHA request (v2 or v3). [See docs here](https://developers.google.com/recaptcha/docs/verify)",
   props: {

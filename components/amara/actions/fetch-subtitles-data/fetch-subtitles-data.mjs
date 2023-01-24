@@ -6,7 +6,7 @@ export default {
   name: "Fetch Subtitles Data",
   description: "Fetch subtitles data. [See the docs here](https://apidocs.amara.org/#fetch-subtitles-data)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     amara,
     team: {

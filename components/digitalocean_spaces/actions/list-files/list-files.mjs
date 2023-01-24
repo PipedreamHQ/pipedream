@@ -6,7 +6,7 @@ export default {
   key: "digitalocean_spaces-list-files",
   name: "List Files",
   description: "List files in a bucket. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/listobjectsv2command.html).",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     prefix: {
