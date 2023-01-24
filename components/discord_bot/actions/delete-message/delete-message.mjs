@@ -8,7 +8,7 @@ export default {
   name: "Delete message",
   description: "Delete a message. [See the docs here](https://discord.com/developers/docs/resources/channel#delete-message)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     ...common.props,
     messageId: {

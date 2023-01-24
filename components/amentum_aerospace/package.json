@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amentum_aerospace",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Amentum Aerospace Components",
   "main": "dist/app/amentum_aerospace.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/amentum_aerospace",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

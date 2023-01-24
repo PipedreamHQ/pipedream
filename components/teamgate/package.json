@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/teamgate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Teamgate Components",
   "main": "teamgate.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/teamgate",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

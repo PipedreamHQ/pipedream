@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/regfox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

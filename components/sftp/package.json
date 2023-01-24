@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sftp",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream SFTP Components",
   "main": "sftp.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/sftp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "ssh2-sftp-client": "^8.1.0"

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/amazon_ses",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Amazon SES Components",
   "main": "amazon_ses.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/amazon_ses",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.89.0",
     "@aws-sdk/client-ses": "^3.95.0",
