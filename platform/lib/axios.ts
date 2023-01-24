@@ -107,6 +107,7 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     return data;
   } catch (err) {
     if (err.response) {
+      convertAxiosError(err);
       stepExport(step, err.response, "debug");
     }
     throw err;
@@ -125,4 +126,11 @@ function stepExport(step: any, message: any, key: string) {
   }
 
   console.log(`export: ${key} - ${JSON.stringify(message, null, 2)}`);
+}
+
+function convertAxiosError(err) {
+  delete err.response.request;
+  err.name = `${err.name} - ${err.message}`;
+  err.message = JSON.stringify(err.response.data);
+  return err;
 }

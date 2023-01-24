@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/imgbb",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Pipedream imgbb Components",
     "main": "dist/app/imgbb.app.mjs",
     "keywords": [
@@ -10,7 +10,6 @@
     "files": ["dist"],
     "homepage": "https://pipedream.com/apps/imgbb",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-    "license": "MIT",
     "publishConfig": {
       "access": "public"
     }
