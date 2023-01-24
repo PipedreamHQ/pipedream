@@ -6,7 +6,7 @@ export default {
   name: "New Contact Note (Instant)",
   key: "activecampaign-new-contact-note",
   description: "Emit new event each time a new note is added to a contact.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {

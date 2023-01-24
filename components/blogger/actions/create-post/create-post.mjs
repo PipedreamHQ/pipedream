@@ -4,7 +4,7 @@ export default {
   name: "Create a Post",
   description: "Creates and publishes a new post or creates a new post as a draft. [See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/insert).",
   key: "blogger-create-post",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     bloggerApp,
