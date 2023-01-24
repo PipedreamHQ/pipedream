@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/regfox",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream RegFox Components",
   "main": "regfox.app.mjs",
   "keywords": [
