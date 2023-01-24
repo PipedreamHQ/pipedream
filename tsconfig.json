@@ -1289,6 +1289,9 @@
     },
     {
       "path": "components/vtiger_crm"
+    },
+    {
+      "path": "components/whosonlocation"
     }
   ]
 }
