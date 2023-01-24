@@ -1070,6 +1070,13 @@ importers:
   components/firmalyzer_iotvas:
     specifiers: {}
 
+
+  components/fomo:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/float:
     specifiers: {}
 
@@ -1078,6 +1085,7 @@ importers:
 
   components/formdesk:
     specifiers: {}
+
 
   components/forms_on_fire:
     specifiers: {}
