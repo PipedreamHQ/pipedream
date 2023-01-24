@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ghost_org_admin_api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Ghost_org_admin_api Components",
   "main": "ghost_org_admin_api.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ghost_org_admin_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.0.0",
     "jsonwebtoken": "^9.0.0"

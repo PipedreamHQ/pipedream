@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/shiphero",
+  "version": "0.0.1",
+  "description": "Pipedream ShipHero Components",
+  "main": "dist/app/shiphero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shiphero"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/shiphero",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

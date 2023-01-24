@@ -1265,6 +1265,12 @@
     },
     {
       "path": "components/schedule_it"
+    },
+    {
+      "path": "components/shiphero"
+    },
+    {
+      "path": "components/google_forms"
     }
   ]
 }

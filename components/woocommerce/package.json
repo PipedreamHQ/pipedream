@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/woocommerce",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream WooCommerce Components",
   "main": "woocommerce.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/woocommerce",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
