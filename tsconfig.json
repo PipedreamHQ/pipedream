@@ -1271,6 +1271,24 @@
     },
     {
       "path": "components/google_forms"
+    },
+    {
+      "path": "components/trainual"
+    },
+    {
+      "path": "components/time_tracker_by_ebillity"
+    },
+    {
+      "path": "components/trint"
+    },
+    {
+      "path": "components/tubular"
+    },
+    {
+      "path": "components/upwave"
+    },
+    {
+      "path": "components/vtiger_crm"
     }
   ]
 }
