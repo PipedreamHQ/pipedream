@@ -5,7 +5,7 @@ export default {
   key: "coinbase-place-buy-order",
   name: "Place Buy Order",
   description: "Places a buy order",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     coinbase: {

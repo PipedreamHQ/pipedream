@@ -4,7 +4,7 @@ export default {
   key: "crove_app-update-document",
   name: "Update Document",
   description: "Update values of variables of a document.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     croveApp,

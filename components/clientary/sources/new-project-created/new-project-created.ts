@@ -6,7 +6,7 @@ export default defineSource({
   key: "clientary-new-project-created",
   name: "New Project Created",
   description: "Emit new events when a new project was created. [See the docs](https://www.clientary.com/api/projects)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

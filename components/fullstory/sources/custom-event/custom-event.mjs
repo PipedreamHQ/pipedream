@@ -4,7 +4,7 @@ export default {
   key: "fullstory-custom-event",
   name: "New Custom Event",
   description: "Emit new events when custom events occur. [See the docs here](https://developer.fullstory.com/custom-event)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

@@ -10,7 +10,7 @@ export default {
     Sends a message to an SQS queue.
     [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sqs/classes/sendmessagecommand.html)
   `),
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     aws: common.props.aws,
