@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.1.7",
+  version: "1.1.8",
   description: "Emit new event when a member has added an emoji reaction to an item",
   type: "source",
   dedupe: "unique",
