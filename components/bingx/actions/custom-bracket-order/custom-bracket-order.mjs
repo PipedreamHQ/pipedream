@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Custom Bracket Order",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-custom-bracket-order",
   description: "Place bracket order",
   props: {

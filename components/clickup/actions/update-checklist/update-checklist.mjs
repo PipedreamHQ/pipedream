@@ -4,7 +4,7 @@ export default {
   key: "clickup-update-checklist",
   name: "Update Checklist",
   description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

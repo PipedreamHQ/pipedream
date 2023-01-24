@@ -5,7 +5,7 @@ export default defineAction({
   key: "lob-list-postcards",
   name: "List Postcards",
   description: "Returns a list of your postcards. [See docs here](https://docs.lob.com/#tag/Postcards/operation/postcards_list).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     lob,

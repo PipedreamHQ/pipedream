@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-merge-customers",
   name: "Merge Customers",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Accepts details of two customer objects that you want to merge. [See the docs here](https://dev.chartmogul.com/reference/merge-customers)",
   type: "action",
   props: {
