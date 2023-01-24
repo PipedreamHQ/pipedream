@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/symbl_ai",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Pipedream Symbl_ai Components",
   "main": "symbl_ai.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/symbl_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.9.0"
   },

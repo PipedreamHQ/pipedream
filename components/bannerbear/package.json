@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bannerbear",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Bannerbear Components",
   "main": "bannerbear.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/bannerbear",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0"
   },

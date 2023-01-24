@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-address",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Get Address",
   description: "Returns the address of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-adresse/)",
   ...common,
@@ -18,12 +18,12 @@ export default {
     },
   },
   methods: {
-	...common.methods,
+    ...common.methods,
   },
   async run({ $ }) {
     const response = this.enedis.getAddress(
-	  this.prepareParam()
-	);
+      this.prepareParam(),
+    );
     $.export("$summary", "The client address was successfully fetched!");
     return response;
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/doppler_marketing_automation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Doppler Marketing Automation Components",
   "main": "dist/app/doppler_marketing_automation.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/doppler_marketing_automation",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ecwid",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Pipedream Ecwid Components",
   "main": "dist/ecwid.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ecwid",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
