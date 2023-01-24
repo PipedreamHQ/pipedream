@@ -4,7 +4,7 @@ export default {
   key: "convertkit-add-subscriber-to-form",
   name: "Add subscriber to a form",
   description: "Add subscriber to a form. [See docs here](https://developers.convertkit.com/#add-subscriber-to-a-form)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     convertkit,

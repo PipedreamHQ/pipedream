@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Add an item to an existing order [See docs here](https://developer.infusionsoft.com/docs/rest/#operation/createOrderItemsOnOrderUsingPOST)",
   key: "infusionsoft-create-order-item",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     infusionsoft,

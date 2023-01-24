@@ -8,7 +8,7 @@ export default defineSource({
   description:
     "Emit new event for each new **invoice** [See docs here](https://developer.infusionsoft.com/docs/rest/#tag/REST-Hooks)",
   key: "infusionsoft-new-invoice",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

@@ -6,7 +6,7 @@ export default {
   key: "mautic-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event when a form is submitted. [See the docs](https://developer.mautic.org/#webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...base.props,

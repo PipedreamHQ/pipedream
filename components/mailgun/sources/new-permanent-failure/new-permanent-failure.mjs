@@ -7,7 +7,7 @@ export default {
   type: "source",
   description: "Emit new event when an email can't be delivered to the recipient email server due " +
     "to a permanent mailbox error such as non-existent mailbox.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

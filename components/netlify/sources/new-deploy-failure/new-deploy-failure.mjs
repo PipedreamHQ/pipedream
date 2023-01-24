@@ -7,7 +7,7 @@ export default {
   name: "New Deploy Failure (Instant)",
   description: "Emit new event when a new deployment fails",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...webhook.methods,

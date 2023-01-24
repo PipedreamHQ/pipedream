@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-order",
   name: "New Order",
   description: "Emit new event when an order is added to your store, or Mailchimp account.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

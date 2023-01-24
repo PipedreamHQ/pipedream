@@ -5,7 +5,7 @@ export default {
   key: "patreon-member-created",
   name: "Member Created",
   description: "Emit new event for each created member",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
