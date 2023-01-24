@@ -5,7 +5,7 @@ export default {
   key: "close-custom-action",
   name: "Custom Action",
   description: "Makes an aribitrary call to Close API, [See](https://developer.close.com/) for all options.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     close,

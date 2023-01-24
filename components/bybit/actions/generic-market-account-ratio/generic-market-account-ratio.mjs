@@ -2,7 +2,7 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Market Account Ratio",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "bybit-generic-market-account-ratio",
   description: "Gets the Bybit user accounts' long-short ratio." +
       "[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-marketaccountratio)",

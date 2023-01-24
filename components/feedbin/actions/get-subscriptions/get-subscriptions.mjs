@@ -5,7 +5,7 @@ export default {
   name: "Get Subscriptions",
   description: "Return all subscriptions. [See the docs here](https://github.com/feedbin/feedbin-api/blob/master/content/subscriptions.md#get-subscriptions).",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   props: {
     feedbin,
   },

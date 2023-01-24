@@ -2,7 +2,7 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade Set Leverage",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "bingx-trade-set-leverage",
   description: "Switch Leverage [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_10-switch-leverage).",
   props: {

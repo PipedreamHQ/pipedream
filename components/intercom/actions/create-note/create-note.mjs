@@ -4,7 +4,7 @@ export default {
   key: "intercom-create-note",
   name: "Create Note",
   description: "Creates a note for a specific user. [See the docs here](https://developers.intercom.com/intercom-api-reference/reference/create-note-for-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     intercom,

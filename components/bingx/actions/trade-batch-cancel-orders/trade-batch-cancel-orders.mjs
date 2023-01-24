@@ -4,7 +4,7 @@ export default {
   key: "bingx-trade-batch-cancel-orders",
   name: "BingX Trade Batch Cancel Orders",
   description: "Cancel a Batch of Orders [reference](https://bingx-api.github.io/docs/swap/trade-api.html#_5-cancel-a-batch-of-orders).",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     bingx,
