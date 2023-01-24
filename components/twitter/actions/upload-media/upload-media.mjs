@@ -6,7 +6,7 @@ export default {
   key: "twitter-upload-media",
   name: "Upload Media",
   description: "Upload images or other media types to Twitter. Returns a `media_id_string` to be used with the Create Tweet action. [See the docs here](https://developer.twitter.com/en/docs/tutorials/uploading-media)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twitter,
@@ -41,7 +41,7 @@ export default {
     });
 
     // APPEND
-    const size = 5012;
+    const size = 8000;
     const numSegments = fileContent.length / size;
     let segment = 0;
     let startIndex = 0;
