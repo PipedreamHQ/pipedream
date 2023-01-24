@@ -6,7 +6,7 @@ module.exports = {
   key: "calendly-new-event",
   name: "New Event",
   description: "Emits an event for each new event created",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {

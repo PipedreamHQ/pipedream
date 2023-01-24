@@ -5,7 +5,7 @@ export default {
   key: "adalo-update-record",
   name: "Update Record",
   description: "Update a record. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...base.props,

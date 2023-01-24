@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-invitation-link",
   name: "Create Invitation Link",
   description: "Create invitation link to fill or sign the document. ",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     croveApp,
