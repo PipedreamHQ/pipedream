@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/telegram_bot_api",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Telegram_bot_api Components",
   "main": "telegram_bot_api.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/telegram_bot_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.9.0",
     "node-telegram-bot-api": "^0.54.0",

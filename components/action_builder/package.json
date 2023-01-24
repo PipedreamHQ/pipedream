@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/action_builder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Action Builder Components",
   "main": "dist/app/action_builder.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/action_builder",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

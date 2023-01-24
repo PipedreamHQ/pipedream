@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workbooks_crm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Workbooks_crm Components",
   "main": "workbooks_crm.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/workbooks_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.1.1"
   },

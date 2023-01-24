@@ -74,6 +74,12 @@ importers:
   components/abuselpdb:
     specifiers: {}
 
+  components/accelo:
+    specifiers:
+      '@pipedream/platform': ^1.1.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+
   components/action_builder:
     specifiers: {}
 
@@ -971,9 +977,11 @@ importers:
 
   components/eventbrite:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.2.1
+      lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.2.1
+      lodash: 4.17.21
 
   components/eversign:
     specifiers:
@@ -1063,6 +1071,9 @@ importers:
     specifiers: {}
 
   components/float:
+    specifiers: {}
+
+  components/follow_up_boss:
     specifiers: {}
 
   components/formdesk:
@@ -1432,6 +1443,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/gupshup:
+    specifiers: {}
+
   components/guru:
     specifiers: {}
 
@@ -1718,7 +1732,13 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/lessaccounting:
+    specifiers: {}
+
   components/levity:
+    specifiers: {}
+
+  components/lexoffice:
     specifiers: {}
 
   components/lighthouse:
@@ -2161,6 +2181,9 @@ importers:
   components/oncehub:
     specifiers: {}
 
+  components/onepagecrm:
+    specifiers: {}
+
   components/onesaas:
     specifiers: {}
 
@@ -2577,6 +2600,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/recurly:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+      recurly: ^3.24.0
+    dependencies:
+      '@pipedream/platform': 1.2.1
+      recurly: 3.24.0
+
   components/reddit:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2598,6 +2629,9 @@ importers:
     specifiers: {}
 
   components/regfox:
+    specifiers: {}
+
+  components/remarkety:
     specifiers: {}
 
   components/render:
@@ -2638,6 +2672,9 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/revamp_crm:
+    specifiers: {}
+
+  components/reversecontact:
     specifiers: {}
 
   components/rewardful:
@@ -2733,6 +2770,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/schedule_it:
     specifiers: {}
 
   components/scopemaster:
@@ -20674,6 +20714,10 @@ packages:
       picomatch: 2.3.1
     dev: false
     optional: true
+
+  /recurly/3.24.0:
+    resolution: {integrity: sha512-dQa+dO+qLEGx6p6ozxAuAwKkTRne1gvrmpY/ZRBde8spCYDBinOlih5xSsr+D7aliwU+iF2V6hvqGmdnpG28/w==}
+    dev: false
 
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}

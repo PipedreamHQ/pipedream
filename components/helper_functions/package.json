@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helper_functions",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Helper_functions Components",
   "main": "helper_functions.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/helper_functions",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"

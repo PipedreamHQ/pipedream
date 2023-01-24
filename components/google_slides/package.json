@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_slides",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Google Slides Components",
   "main": "google_slides.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_slides",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@googleapis/slides": "^0.7.1",
     "@googleapis/drive": "^2.3.0",
