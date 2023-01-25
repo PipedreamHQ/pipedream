@@ -1,6 +1,10 @@
 # Overview
 
-The YouTube Analytics API is an incredibly powerful tool for developers and businesses. This API allows developers to access rich statistics about their YouTube channel and videos, allowing them to create custom applications and tools to better understand their viewers, customers, and markets. With the YouTube Analytics API, you can build:
+The YouTube Analytics API is an incredibly powerful tool for developers and
+businesses. This API allows developers to access rich statistics about their
+YouTube channel and videos, allowing them to create custom applications and
+tools to better understand their viewers, customers, and markets. With the
+YouTube Analytics API, you can build:
 
 - Analytics dashboards that display insights from various YouTube data sources
 - Custom reports with data from specific YouTube searches or channels
