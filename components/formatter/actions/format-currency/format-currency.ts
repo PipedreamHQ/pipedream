@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import currencies from "../../common/numbers/currencies";
 
 export default defineAction({
   name: "[Numbers] Format Currency",
@@ -17,24 +18,25 @@ export default defineAction({
       description:
         "Specify the currency to be used for formatting",
       type: "string",
+      options: currencies,
     },
     currencyFormat: {
       label: "Currency Format",
       description: "Specify the format to be used for the currency formatting.",
       type: "string",
-      options: []
-    }
+      options: [],
+    },
   },
   async run({ $ }): Promise<string> {
     // const {
     //   input, currency, currencyFormat
     // } = this;
 
-    const result = '';
+    const result = "";
 
     $.export(
       "$summary",
-      'Successfully formatted as currency',
+      "Successfully formatted as currency",
     );
     return result;
   },

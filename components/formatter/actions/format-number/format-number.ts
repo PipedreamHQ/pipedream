@@ -18,7 +18,10 @@ export default defineAction({
       description:
         "The character the input uses to denote the decimal/fractional portion of the number.",
       type: "string",
-      options: ["comma", "period"],
+      options: [
+        "comma",
+        "period",
+      ],
     },
     toFormat: {
       label: "To Format",
