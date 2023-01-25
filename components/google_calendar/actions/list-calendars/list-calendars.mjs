@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-list-calendar",
   name: "List calendars from user account",
   description: "Retrieve calendars from the user account. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendarlist.html#list)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     googleCalendar,

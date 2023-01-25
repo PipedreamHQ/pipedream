@@ -6,7 +6,7 @@ export default {
   name: "New Unsubscriber Activation (Instant)",
   key: "convertkit-new-unsubscription-instant",
   description: "Emit new event when a user  unsubscribers. [See docs here](https://developers.convertkit.com/#create-a-webhook)",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
   },

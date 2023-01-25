@@ -4,7 +4,7 @@ export default {
   key: "faunadb-read-from-collection",
   name: "Read From FaunaDB Collection",
   description: "Reads all documents from a given FaunaDB collection. [See docs here](https://docs.fauna.com/fauna/current/api/fql/functions/documents)",
-  version: "0.4.3",
+  version: "0.4.4",
   type: "action",
   props: {
     faunadb,
