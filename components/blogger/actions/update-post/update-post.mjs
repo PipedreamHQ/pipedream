@@ -53,7 +53,7 @@ export default {
     } = this;
 
     let postData;
-    if (!content || !title) {
+    if (!content || !title || !labels?.length) {
       postData = await this.bloggerApp.getBlogPost($, blog, post);
     }
 
