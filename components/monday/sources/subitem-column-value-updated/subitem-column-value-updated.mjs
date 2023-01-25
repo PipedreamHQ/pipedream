@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-subitem-column-value-updated",
   name: "New Sub-Item Column Value Updated (Instant)",
-  description: "Emit new event when any sub-item column changes.",
+  description: "Emit new event when any sub-item column changes. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

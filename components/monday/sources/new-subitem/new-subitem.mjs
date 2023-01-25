@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-new-subitem",
   name: "New Sub-Item (Instant)",
-  description: "Emit new event when a sub-item is created.",
+  description: "Emit new event when a sub-item is created. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

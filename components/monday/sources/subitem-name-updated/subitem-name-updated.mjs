@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-subitem-name-updated",
   name: "New Sub-Item Name Updated (Instant)",
-  description: "Emit new event when a sub-item name changes.",
+  description: "Emit new event when a sub-item name changes. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
