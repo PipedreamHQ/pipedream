@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acumbamail",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Acumbamail  Components",
   "main": "dist/app/acumbamail.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/acumbamail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

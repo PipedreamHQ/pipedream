@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formstack",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Formstack Components",
   "main": "formstack.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/formstack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/conveyor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Conveyor Components",
   "main": "dist/app/conveyor.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/conveyor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twelve_data",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Twelve Data Components",
   "main": "dist/app/twelve_data.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/twelve_data",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
