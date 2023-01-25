@@ -1292,6 +1292,21 @@
     },
     {
       "path": "components/whosonlocation"
+    },
+    {
+      "path": "components/smartsuite"
+    },
+    {
+      "path": "components/whatconverts"
+    },
+    {
+      "path": "components/yumpu"
+    },
+    {
+      "path": "components/engage"
+    },
+    {
+      "path": "components/reviews_io"
     }
   ]
 }
