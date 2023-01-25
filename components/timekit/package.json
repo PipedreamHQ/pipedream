@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/timekit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Timekit Components",
   "main": "timekit.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/timekit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

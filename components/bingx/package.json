@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bingx",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream BingX Components",
   "main": "bingx.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/bingx",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

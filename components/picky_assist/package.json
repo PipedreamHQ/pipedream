@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/picky_assist",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Picky Assist Components",
   "main": "picky_assist.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/picky_assist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

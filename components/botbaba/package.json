@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/botbaba",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Botbaba Components",
   "main": "dist/app/botbaba.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/botbaba",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

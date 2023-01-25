@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_sheet",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Zoho Sheet Components",
   "main": "dist/app/zoho_sheet.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/zoho_sheet",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

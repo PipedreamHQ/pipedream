@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/postgresql",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Pipedream PostgreSQL Components",
   "main": "postgresql.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/postgresql",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "pg": "^8.7.1",
     "pg-format": "^1.0.4",
