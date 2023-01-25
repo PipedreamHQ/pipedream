@@ -1,26 +1,13 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import common from "../common/base.mjs";
 
 export default {
   ...common,
-  name: "New Time Created",
-  key: "roll-new-time-record",
+  name: "New Created Time",
+  key: "roll-new-created-time-record",
   description: "Emit new event when a time is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    db: "$.service.db",
-    timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll the Spondyr API on this schedule",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
     ...common.methods,
     getFieldId() {
@@ -48,4 +35,3 @@ export default {
     },
   },
 };
-

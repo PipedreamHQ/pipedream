@@ -24,15 +24,17 @@ export default {
       optional: true,
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "The project's title",
+      propDefinition: [
+        roll,
+        "title",
+      ],
       optional: true,
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "The project's description",
+      propDefinition: [
+        roll,
+        "description",
+      ],
       optional: true,
     },
     projectType: {
@@ -68,79 +70,87 @@ export default {
       optional: true,
     },
     color: {
-      type: "string",
-      label: "Color",
-      description: "The hexadecimal (color code)[https://www.w3schools.com/colors/colors_hexadecimal.asp].",
+      propDefinition: [
+        roll,
+        "color",
+      ],
       optional: true,
     },
     value: {
-      type: "string",
-      label: "Value",
-      description: "The project's amount.",
+      propDefinition: [
+        roll,
+        "value",
+      ],
       optional: true,
     },
     jobNumber: {
-      type: "string",
-      label: "Job Number",
-      description: "The identification number of the job.",
+      propDefinition: [
+        roll,
+        "jobNumber",
+      ],
       optional: true,
     },
     poNum: {
-      type: "string",
-      label: "PONum",
-      description: "The purchase order number.",
+      propDefinition: [
+        roll,
+        "poNum",
+      ],
       optional: true,
     },
     projectAtRisk: {
-      type: "boolean",
-      label: "Project At Risk",
-      description: "Whether the project is at risk or not.",
+      propDefinition: [
+        roll,
+        "projectAtRisk",
+      ],
       optional: true,
     },
     projectIsRetainer: {
-      type: "string",
-      label: "Project Is Retainer",
-      description: "Whether the project is retainer or not.",
-      options: [
-        "Yes",
-        "No",
+      propDefinition: [
+        roll,
+        "projectIsRetainer",
       ],
       optional: true,
     },
     projectRetainerFrequency: {
-      type: "integer",
-      label: "Project Retainer Frequency",
-      description: "The amount of time.",
+      propDefinition: [
+        roll,
+        "projectRetainerFrequency",
+      ],
       optional: true,
     },
     projectRetainerStartDate: {
-      type: "string",
-      label: "Project Retainer Start Date",
-      description: "Specifies the period over the frequency. Date format: `0000-00-00T00:00:00.000Z`",
+      propDefinition: [
+        roll,
+        "projectRetainerStartDate",
+      ],
       optional: true,
     },
     completedDate: {
-      type: "string",
-      label: "Completed Date",
-      description: "The date the project was completed. Date format: `0000-00-00T00:00:00.000Z`",
+      propDefinition: [
+        roll,
+        "completedDate",
+      ],
       optional: true,
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The date by which the project must be done. Date format: `0000-00-00`",
+      propDefinition: [
+        roll,
+        "dueDate",
+      ],
       optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "The day by the project must be started. Date format: `0000-00-00`",
+      propDefinition: [
+        roll,
+        "startDate",
+      ],
       optional: true,
     },
     endDate: {
-      type: "string",
-      label: "End Date",
-      description: "The day by the project must be finish. Date format: `0000-00-00`",
+      propDefinition: [
+        roll,
+        "endDate",
+      ],
       optional: true,
     },
   },

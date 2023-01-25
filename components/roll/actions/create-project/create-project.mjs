@@ -16,15 +16,17 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "The project's title",
+      propDefinition: [
+        roll,
+        "title",
+      ],
       optional: true,
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "The project's description",
+      propDefinition: [
+        roll,
+        "description",
+      ],
       optional: true,
     },
     status: {
@@ -46,21 +48,24 @@ export default {
       optional: true,
     },
     color: {
-      type: "string",
-      label: "Color",
-      description: "The hexadecimal (color code)[https://www.w3schools.com/colors/colors_hexadecimal.asp].",
+      propDefinition: [
+        roll,
+        "color",
+      ],
       optional: true,
     },
     jobNumber: {
-      type: "string",
-      label: "Job Number",
-      description: "The identification number of the job.",
+      propDefinition: [
+        roll,
+        "jobNumber",
+      ],
       optional: true,
     },
     projectAtRisk: {
-      type: "boolean",
-      label: "Project At Risk",
-      description: "Whether the project is at risk or not.",
+      propDefinition: [
+        roll,
+        "projectAtRisk",
+      ],
       optional: true,
     },
     projectType: {
@@ -77,21 +82,24 @@ export default {
       ],
     },
     value: {
-      type: "string",
-      label: "Value",
-      description: "The project's amount.",
+      propDefinition: [
+        roll,
+        "value",
+      ],
       optional: true,
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The day by the project's must be done. Date format: `0000-00-00`",
+      propDefinition: [
+        roll,
+        "dueDate",
+      ],
       optional: true,
     },
     startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "The day by the project's must be started. Date format: `0000-00-00`",
+      propDefinition: [
+        roll,
+        "startDate",
+      ],
       optional: true,
     },
     lastDate: {

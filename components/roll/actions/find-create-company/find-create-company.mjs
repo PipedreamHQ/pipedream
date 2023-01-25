@@ -10,21 +10,24 @@ export default {
   props: {
     roll,
     name: {
-      type: "string",
-      label: "Name",
-      description: "The company's name.",
+      propDefinition: [
+        roll,
+        "name",
+      ],
       optional: true,
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "The company's contact email.",
+      propDefinition: [
+        roll,
+        "email",
+      ],
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "The company's status.",
+      propDefinition: [
+        roll,
+        "companyStatus",
+      ],
       optional: true,
     },
   },
