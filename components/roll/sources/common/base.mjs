@@ -8,7 +8,7 @@ export default {
     db: "$.service.db",
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the Spondyr API on this schedule",
+      description: "Pipedream will poll the Roll API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
