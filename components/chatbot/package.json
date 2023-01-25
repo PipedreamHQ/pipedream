@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/chatbot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream ChatBot Components",
   "main": "chatbot.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/chatbot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pinterest",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Pinterest Components",
   "main": "pinterest.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/pinterest",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "url-exist": "^3.0.0",

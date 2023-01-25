@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_recaptcha",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Google reCAPTCHA Components",
   "main": "dist/app/google_recaptcha.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_recaptcha",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

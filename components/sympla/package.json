@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sympla",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sympla Components",
   "main": "dist/app/sympla.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/sympla",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

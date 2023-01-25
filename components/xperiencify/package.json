@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/xperiencify",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Xperiencify Components",
   "main": "dist/app/xperiencify.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/xperiencify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

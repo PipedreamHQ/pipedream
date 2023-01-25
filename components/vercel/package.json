@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/vercel",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pipedream Vercel Components",
   "main": "vercel.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/vercel",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

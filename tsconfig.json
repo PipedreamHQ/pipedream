@@ -907,9 +907,6 @@
       "path": "components/dialmycalls"
     },
     {
-      "path": "components/enedis"
-    },
-    {
       "path": "components/manifestly_checklists"
     },
     {
@@ -1180,6 +1177,9 @@
       "path": "components/softledger"
     },
     {
+      "path": "components/raven_tools"
+    },
+    {
       "path": "components/mobilemonkey"
     },
     {
@@ -1196,6 +1196,102 @@
     },
     {
       "path": "components/gatekeeper"
+    },
+    {
+      "path": "components/braze"
+    },
+    {
+      "path": "components/salesmate"
+    },
+    {
+      "path": "components/grafbase"
+    },
+    {
+      "path": "components/getswift"
+    },
+    {
+      "path": "components/opsgenie"
+    },
+    {
+      "path": "components/plecto"
+    },
+    {
+      "path": "components/lahar"
+    },
+    {
+      "path": "components/questionpro"
+    },
+    {
+      "path": "components/float"
+    },
+    {
+      "path": "components/givingfuel"
+    },
+    {
+      "path": "components/formdesk"
+    },
+    {
+      "path": "components/hub_planner"
+    },
+    {
+      "path": "components/pobuca_connect"
+    },
+    {
+      "path": "components/processplan"
+    },
+    {
+      "path": "components/leadboxer"
+    },
+    {
+      "path": "components/reversecontact"
+    },
+    {
+      "path": "components/gupshup"
+    },
+    {
+      "path": "components/follow_up_boss"
+    },
+    {
+      "path": "components/lexoffice"
+    },
+    {
+      "path": "components/remarkety"
+    },
+    {
+      "path": "components/lessaccounting"
+    },
+    {
+      "path": "components/onepagecrm"
+    },
+    {
+      "path": "components/schedule_it"
+    },
+    {
+      "path": "components/shiphero"
+    },
+    {
+      "path": "components/google_forms"
+    },
+    {
+      "path": "components/trainual"
+    },
+    {
+      "path": "components/time_tracker_by_ebillity"
+    },
+    {
+      "path": "components/trint"
+    },
+    {
+      "path": "components/tubular"
+    },
+    {
+      "path": "components/upwave"
+    },
+    {
+      "path": "components/vtiger_crm"
+    },
+    {
+      "path": "components/whosonlocation"
     }
   ]
 }
