@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/moco",
+  "version": "0.0.1",
+  "description": "Pipedream MOCO Components",
+  "main": "dist/app/moco.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moco"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/moco",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
