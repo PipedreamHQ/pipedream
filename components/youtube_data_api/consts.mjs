@@ -104,4 +104,10 @@ export default {
     "public",
     "unlisted",
   ],
+  LIST_PLAYLIST_ITEMS_PART: [
+    "id",
+    "snippet",
+    "contentDetails",
+    "status",
+  ],
 };

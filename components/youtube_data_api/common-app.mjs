@@ -56,8 +56,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Maximum Results",
-      description:
-        "The maximum number of results in a channel to return. Should be divisible by 5 (ex. 5, 10, 15).",
+      description: "The maximum number of results in a channel to return. Should be divisible by 5 (ex. 5, 10, 15).",
       default: 20,
     },
     title: {
@@ -111,6 +110,65 @@ export default {
       description: "Set to `true` if YouTube should send a notification about the new video to users who subscribe to the video's channel.",
       optional: true,
       default: true,
+    },
+    userOwnedPlaylist: {
+      type: "string",
+      label: "Playlist Id",
+      description: "Add items to the selected playlist",
+      async options({ prevContext }) {
+        const { pageToken } = prevContext;
+        const params = {
+          part: [
+            "id",
+            "snippet",
+          ],
+          mine: true,
+        };
+        if (pageToken) {
+          params.pageToken = pageToken;
+        }
+        const { data } = await this.listPlaylists(params);
+        const options = data.items?.map((item) => ({
+          label: item.snippet.title,
+          value: item.id,
+        })) || [];
+        return {
+          options,
+          context: {
+            pageToken: data.nextPageToken,
+          },
+        };
+      },
+    },
+    userOwnedVideo: {
+      type: "string",
+      label: "Video Id",
+      description: "Select the video to update",
+      async options({ prevContext }) {
+        const { pageToken } = prevContext;
+        const params = {
+          part: [
+            "id",
+            "snippet",
+          ],
+          type: "video",
+          forMine: true,
+        };
+        if (pageToken) {
+          params.pageToken = pageToken;
+        }
+        const { data } = await this.getVideos(params); console.log(data);
+        const options = data.items?.map((item) => ({
+          label: item.snippet.title,
+          value: item.id.videoId,
+        })) || [];
+        return {
+          options,
+          context: {
+            pageToken: data.nextPageToken,
+          },
+        };
+      },
     },
   },
   methods: {
@@ -423,6 +481,26 @@ export default {
           body: content,
         },
       });
+    },
+    async addPlaylistItem(params) {
+      const youtube = await this.youtube();
+      return youtube.playlistItems.insert(params);
+    },
+    async createPlaylist(params) {
+      const youtube = await this.youtube();
+      return youtube.playlists.insert(params);
+    },
+    async deletePlaylist(params) {
+      const youtube = await this.youtube();
+      return youtube.playlists.delete(params);
+    },
+    async uploadThumbnail(params) {
+      const youtube = await this.youtube();
+      return youtube.thumbnails.set(params);
+    },
+    async uploadChannelBanner(params) {
+      const youtube = await this.youtube();
+      return youtube.channelBanners.insert(params);
     },
   },
 };
