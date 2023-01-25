@@ -1,8 +1,10 @@
 # Overview
 
-## What you can build using the Zoho Mail API
-
-The Zoho Mail API enables developers to integrate their applications with the Zoho Mail platform, allowing them access to a wide range of email and collaboration features. With the API, developers can build sophisticated email applications that manage mailing lists, send and receive automated emails, analyze customer data, manage customer accounts, and more.
+The Zoho Mail API enables developers to integrate their applications with the
+Zoho Mail platform, allowing them access to a wide range of email and
+collaboration features. With the API, developers can build sophisticated email
+applications that manage mailing lists, send and receive automated emails,
+analyze customer data, manage customer accounts, and more.
 
 The following are a few examples of what you can build using the Zoho Mail API:
 

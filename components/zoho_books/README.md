@@ -1,10 +1,15 @@
 # Overview
 
-What can be built with the Zoho Books API?
+Zoho Books is an online accounting software that helps you manage your
+finances, get paid faster, and work collaboratively with your clients and
+teams. The Zoho Books API provides a wide variety of integration possibilities
+to connect with your accounting software and build powerful, efficient
+applications. With the API, you can quickly and easily add functionality that
+simplifies your complex tasks, such as invoicing, payments, bank
+reconciliation, reporting, and more.
 
-Zoho Books is an online accounting software that helps you manage your finances, get paid faster, and work collaboratively with your clients and teams. The Zoho Books API provides a wide variety of integration possibilities to connect with your accounting software and build powerful, efficient applications. With the API, you can quickly and easily add functionality that simplifies your complex tasks, such as invoicing, payments, bank reconciliation, reporting, and more.
-
-Below are some of the features, tasks, and applications that can be built using the Zoho Books API:
+Below are some of the features, tasks, and applications that can be built using
+the Zoho Books API:
 
 - Create, update, and delete customers
 - Manage invoice payments

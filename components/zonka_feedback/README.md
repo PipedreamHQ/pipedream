@@ -1,6 +1,8 @@
 # Overview
 
-Welcome to the Zonka Feedback API! With our API, you can create powerful tools for collecting customer feedback. Here are just a few examples of the types of things you can build with our API:
+With the Zonka Feedback API, you can create powerful tools for collecting
+customer feedback. Here are just a few examples of the types of things you can
+build with their API:
 
 - Create a customer feedback questionaire for your products or services
 - Build an in-store experience feedback form
