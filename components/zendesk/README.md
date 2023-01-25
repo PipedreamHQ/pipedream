@@ -1,8 +1,11 @@
 # Overview
 
-Using the Zendesk API, you can build custom apps and integrations to automate processes and help your teams build better customer relationships.
+Using the Zendesk API, you can build custom apps and integrations to automate
+processes and help your teams build better customer relationships.
 
-The API provides a range of methods to interact with your customer help desk, customer data, and customer communication tools. This enables you to create custom customer experiences that are tailored to your business needs.
+The API provides a range of methods to interact with your customer help desk,
+customer data, and customer communication tools. This enables you to create
+custom customer experiences that are tailored to your business needs.
 
 Some examples of what you can build using the Zendesk API include:
 

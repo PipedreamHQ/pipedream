@@ -1,8 +1,14 @@
 # Overview
 
-The You Need a Budget (YNAB) API provides APIs to interact with YNAB users’ budgets, transactions, and more. With the YNAB API, developers have the ability to build applications that are tailored to an individual's budget and financial lifestyle.
+The You Need a Budget (YNAB) API provides APIs to interact with YNAB users’
+budgets, transactions, and more. With the YNAB API, developers have the ability
+to build applications that are tailored to an individual's budget and financial
+lifestyle.
 
-Whether you're looking to create an app to assist with budgeting and tracking expenses, generating reports, or getting a real-time view of an individual's budget and movements, the YNAB API provides the tools to do it. The YNAB API is easy to use, secure, and versatile.
+Whether you're looking to create an app to assist with budgeting and tracking
+expenses, generating reports, or getting a real-time view of an individual's
+budget and movements, the YNAB API provides the tools to do it. The YNAB API is
+easy to use, secure, and versatile.
 
 Here are some examples of how you can use the YNAB API:
 
