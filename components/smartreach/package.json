@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/smartreach",
+  "version": "0.0.1",
+  "description": "Pipedream SmartReach Components",
+  "main": "dist/app/smartreach.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartreach"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/smartreach",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

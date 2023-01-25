@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rd_station_crm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream RD Station CRM Components",
   "main": "rd_station_crm.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/rd_station_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

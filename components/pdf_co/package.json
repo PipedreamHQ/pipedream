@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdf_co",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream PDF.co Components",
   "main": "pdf_co.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/pdf_co",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/threescribe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream 3Scribe Components",
   "main": "dist/app/threescribe.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/threescribe",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }
