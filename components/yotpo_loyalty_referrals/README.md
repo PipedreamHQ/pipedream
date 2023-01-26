@@ -1,8 +1,12 @@
 # Overview
 
-What Can You Build with Yotpo - Loyalty & Referrals API?
-
-Yotpo's Loyalty & Referrals API makes it easy to create incentives and rewards for your customers, driving relationships and creating loyalty within your brand. Implementing Yotpo's API can help you build programs that nurture the customer relationships and encourage them to re-engage with your store. By linking customer data, you can create personalize programs that cater to each customer's individual needs, strengthening the relationship and driving conversions.
+Yotpo's Loyalty & Referrals API makes it easy to create incentives and rewards
+for your customers, driving relationships and creating loyalty within your
+brand. Implementing Yotpo's API can help you build programs that nurture the
+customer relationships and encourage them to re-engage with your store. By
+linking customer data, you can create personalize programs that cater to each
+customer's individual needs, strengthening the relationship and driving
+conversions.
 
 With Yotpo's Loyalty & Referrals API you can:
 
