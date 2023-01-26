@@ -1265,6 +1265,75 @@
     },
     {
       "path": "components/schedule_it"
+    },
+    {
+      "path": "components/shiphero"
+    },
+    {
+      "path": "components/google_forms"
+    },
+    {
+      "path": "components/trainual"
+    },
+    {
+      "path": "components/time_tracker_by_ebillity"
+    },
+    {
+      "path": "components/trint"
+    },
+    {
+      "path": "components/tubular"
+    },
+    {
+      "path": "components/upwave"
+    },
+    {
+      "path": "components/vtiger_crm"
+    },
+    {
+      "path": "components/whosonlocation"
+    },
+    {
+      "path": "components/smartsuite"
+    },
+    {
+      "path": "components/whatconverts"
+    },
+    {
+      "path": "components/yumpu"
+    },
+    {
+      "path": "components/engage"
+    },
+    {
+      "path": "components/reviews_io"
+    },
+    {
+      "path": "components/sendlane"
+    },
+    {
+      "path": "components/emelia"
+    },
+    {
+      "path": "components/blue"
+    },
+    {
+      "path": "components/announcekit"
+    },
+    {
+      "path": "components/scoro"
+    },
+    {
+      "path": "components/tapfiliate"
+    },
+    {
+      "path": "components/smartreach"
+    },
+    {
+      "path": "components/serwersms_pl"
+    },
+    {
+      "path": "components/moco"
     }
   ]
 }
