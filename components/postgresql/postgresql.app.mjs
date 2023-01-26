@@ -152,7 +152,7 @@ export default {
      * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
-    async getPrimaryKey(table, schema = "public") {
+    async getPrimaryKey(table, schema = "public", rejectUnauthorize = true) {
       const rows = await this.executeQuery({
         text: format(`
           SELECT c.column_name, c.ordinal_position
@@ -161,7 +161,7 @@ export default {
           ON t.constraint_name = c.constraint_name
           WHERE t.table_name = %L and t.table_schema = %L AND t.constraint_type = 'PRIMARY KEY';
         `, table, schema),
-      });
+      }, rejectUnauthorize);
       return rows[0]?.column_name;
     },
     /**
