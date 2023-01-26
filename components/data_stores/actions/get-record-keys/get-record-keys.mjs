@@ -19,6 +19,18 @@ export default {
       label: "Query",
       description: "The query to filter the records.",
     },
+    contains: {
+      type: "boolean",
+      label: "Contains",
+      description: "If true, the query will be used to filter the records that contains the query. If false, the query will be used to filter the records that are equal to the query.",
+      default: true,
+    },
+    caseInsensitive: {
+      type: "boolean",
+      label: "Case Insensitive",
+      description: "If true, the query will be used to filter the records that contains the query, ignoring the case. If false, the query will be used to filter the records that are equal to the query. Only works if `contains` is `true`.",
+      default: true,
+    },
   },
   methods: {
     getAllKeysWithRecord(obj, query, path = "") {
@@ -33,6 +45,23 @@ export default {
         else if (typeof obj === "object" && obj !== null) {
           for (let key in obj) {
             helper(obj[key], query, path + key + ".");
+          }
+        }
+
+        if (this.contains) {
+          if (this.caseInsensitive) {
+            console.log(obj);
+            if (String(obj).toLowerCase()
+              .includes(query.toLowerCase())
+            ) {
+              filteredKeys.push(path.slice(0, -1));
+              return;
+            }
+          }
+
+          if (String(obj).includes(query)) {
+            filteredKeys.push(path.slice(0, -1));
+            return;
           }
         }
 
