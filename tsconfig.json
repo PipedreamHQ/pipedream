@@ -1322,6 +1322,18 @@
     },
     {
       "path": "components/scoro"
+    },
+    {
+      "path": "components/tapfiliate"
+    },
+    {
+      "path": "components/smartreach"
+    },
+    {
+      "path": "components/serwersms_pl"
+    },
+    {
+      "path": "components/moco"
     }
   ]
 }
