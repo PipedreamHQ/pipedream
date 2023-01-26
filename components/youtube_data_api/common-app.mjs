@@ -170,6 +170,14 @@ export default {
         };
       },
     },
+    videoCategoryId: {
+      type: "string",
+      label: "Video Category Id",
+      description: "Select the video's category",
+      async options({ regionCode }) {
+        return this.listVideoCategoriesOpts(regionCode);
+      },
+    },
   },
   methods: {
     /**
@@ -501,6 +509,10 @@ export default {
     async uploadChannelBanner(params) {
       const youtube = await this.youtube();
       return youtube.channelBanners.insert(params);
+    },
+    async updateVideo(params) {
+      const youtube = await this.youtube();
+      return youtube.videos.update(params);
     },
   },
 };
