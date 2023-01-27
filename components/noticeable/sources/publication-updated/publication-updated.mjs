@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "noticeable-publication-updated",
   name: "New Publication Updated Event",
-  description: "Emit new events when a new publication created. [See the docs](https://graphdoc.noticeable.io/publication.doc.html)",
+  description: "Emit new events when a new publication is updated. [See the docs](https://graphdoc.noticeable.io/publication.doc.html)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
