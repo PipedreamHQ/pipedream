@@ -57,7 +57,7 @@ export default {
     skype: {
       type: "string",
       label: "Skype",
-      description: "Skype name",
+      description: "Skype",
       optional: true,
     },
     fb: {

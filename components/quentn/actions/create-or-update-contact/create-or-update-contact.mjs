@@ -10,6 +10,7 @@ export default {
   props: {
     app,
     email: {
+      description: "The email address of the contact to find or create.",
       propDefinition: [
         app,
         "email",
