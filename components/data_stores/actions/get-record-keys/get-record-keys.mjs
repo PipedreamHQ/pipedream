@@ -23,50 +23,61 @@ export default {
       type: "boolean",
       label: "Contains",
       description: "If true, the query will be used to filter the records that contains the query. If false, the query will be used to filter the records that are equal to the query.",
-      default: true,
+      optional: true,
     },
     caseInsensitive: {
       type: "boolean",
       label: "Case Insensitive",
-      description: "If true, the query will be used to filter the records that contains the query, ignoring the case. If false, the query will be used to filter the records that are equal to the query. Only works if `contains` is `true`.",
-      default: true,
+      description: "if true, the query will be used to filter the records based on case-Insensitivity, if false, the query will be used to filter the records that are equal to the query.",
+      optional: true,
     },
   },
   methods: {
-    getAllKeysWithRecord(obj, query, path = "") {
+    getAllKeysWithRecord(
+      obj,
+      query,
+      contains = false,
+      caseInsensitive = false,
+      path = "",
+    ) {
       const filteredKeys = [];
 
-      const helper = (obj, query, path) => {
+      const helper = (obj, path) => {
         if (Array.isArray(obj)) {
           for (let i = 0; i < obj.length; i++) {
-            helper(obj[i], query, path + i + ".");
+            helper(obj[i], path + i + ".");
           }
+          return;
         }
         else if (typeof obj === "object" && obj !== null) {
           for (let key in obj) {
-            helper(obj[key], query, path + key + ".");
+            helper(obj[key], path + key + ".");
           }
+          return;
         }
 
-        if (this.contains) {
-          if (this.caseInsensitive) {
-            console.log(obj);
-            if (String(obj).toLowerCase()
-              .includes(query.toLowerCase())
-            ) {
-              filteredKeys.push(path.slice(0, -1));
-              return;
-            }
-          }
-
-          if (String(obj).includes(query)) {
-            filteredKeys.push(path.slice(0, -1));
-            return;
-          }
-        }
-
-        if (obj == query) {
+        if (!contains && !caseInsensitive && obj == query) {
           filteredKeys.push(path.slice(0, -1));
+          return;
+        }
+
+        if (contains && caseInsensitive && String(obj).toLowerCase()
+          .includes(query.toLowerCase())
+        ) {
+          filteredKeys.push(path.slice(0, -1));
+          return;
+        }
+
+        if (contains && !caseInsensitive && String(obj).includes(query)) {
+          filteredKeys.push(path.slice(0, -1));
+          return;
+        }
+
+        if (!contains && caseInsensitive
+          && String(obj).toLocaleLowerCase() == query.toLowerCase()
+        ) {
+          filteredKeys.push(path.slice(0, -1));
+          return;
         }
       };
 
@@ -87,7 +98,12 @@ export default {
       objData[keys[i]] = arrData[i];
     }
 
-    const filteredKeys = this.getAllKeysWithRecord(objData, this.query);
+    const filteredKeys = this.getAllKeysWithRecord(
+      objData,
+      this.query,
+      this.contains,
+      this.caseInsensitive,
+    );
 
     $.export("$summary", `Successfully returned ${filteredKeys.length} key(s).`);
     return {
