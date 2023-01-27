@@ -1334,6 +1334,9 @@
     },
     {
       "path": "components/moco"
+    },
+    {
+      "path": "components/coassemble"
     }
   ]
 }
