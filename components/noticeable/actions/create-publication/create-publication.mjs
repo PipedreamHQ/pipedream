@@ -22,7 +22,7 @@ export default {
     authorEmail: {
       type: "string",
       label: "Author Email",
-      description: "The full name of the author.",
+      description: "The email address of the author.",
       optional: true,
     },
     postContent: {
