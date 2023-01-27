@@ -1364,6 +1364,21 @@
     },
     {
       "path": "components/wire2air"
+    },
+    {
+      "path": "components/coupontools"
+    },
+    {
+      "path": "components/ones2u"
+    },
+    {
+      "path": "components/svix"
+    },
+    {
+      "path": "components/hugging_face"
+    },
+    {
+      "path": "components/onesec_mail"
     }
   ]
 }
