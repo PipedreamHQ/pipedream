@@ -3,11 +3,17 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-column-value-updated",
-  name: "Column Value Updated",
+  name: "New Column Value Updated (Instant)",
   description: "Emit new event when a column value is updated on a board in Monday. For changes to Name, use the Name Updated Trigger.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      await this.commonDeploy();
+    },
+  },
   methods: {
     ...common.methods,
     getWebhookArgs() {
