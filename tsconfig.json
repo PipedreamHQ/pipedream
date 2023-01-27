@@ -1307,6 +1307,33 @@
     },
     {
       "path": "components/reviews_io"
+    },
+    {
+      "path": "components/sendlane"
+    },
+    {
+      "path": "components/emelia"
+    },
+    {
+      "path": "components/blue"
+    },
+    {
+      "path": "components/announcekit"
+    },
+    {
+      "path": "components/scoro"
+    },
+    {
+      "path": "components/tapfiliate"
+    },
+    {
+      "path": "components/smartreach"
+    },
+    {
+      "path": "components/serwersms_pl"
+    },
+    {
+      "path": "components/moco"
     }
   ]
 }

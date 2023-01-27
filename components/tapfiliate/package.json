@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/tapfiliate",
+  "version": "0.0.1",
+  "description": "Pipedream Tapfiliate Components",
+  "main": "dist/app/tapfiliate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tapfiliate"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/tapfiliate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
