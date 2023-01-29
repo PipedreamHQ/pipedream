@@ -1,6 +1,4 @@
-import {
-  ActionRunOptions,
-} from "@pipedream/types";
+import { ActionRunOptions } from "@pipedream/types";
 
 export default {
   methods: {
