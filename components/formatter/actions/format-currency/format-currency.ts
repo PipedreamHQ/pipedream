@@ -11,7 +11,7 @@ export default defineAction({
     input: {
       label: "Input",
       description: "Number you would like to format as a currency.",
-      type: "number",
+      type: "integer",
     },
     currency: {
       label: "Currency",

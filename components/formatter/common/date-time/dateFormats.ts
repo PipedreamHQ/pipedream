@@ -1,4 +1,4 @@
-export interface DateFormat {
+interface DateFormat {
   label: string;
   value: string;
   inputFn?: (s: string) => Date;
