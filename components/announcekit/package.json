@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/announcekit",
+  "version": "0.0.1",
+  "description": "Pipedream AnnounceKit Components",
+  "main": "dist/app/announcekit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "announcekit"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/announcekit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

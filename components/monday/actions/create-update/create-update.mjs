@@ -1,12 +1,12 @@
-import monday from "../../monday.app.mjs";
 import utils from "../../common/utils.mjs";
+import monday from "../../monday.app.mjs";
 
 export default {
   key: "monday-create-update",
   name: "Create an Update",
   description: "Creates a new update. [See the docs here](https://api.developer.monday.com/docs/updates-queries#create-an-update)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     monday,
     updateBody: {

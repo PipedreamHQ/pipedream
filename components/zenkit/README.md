@@ -1,6 +1,10 @@
 # Overview
 
-Zenkit is a powerful online database and project management tool used by thousands of businesses and organizations worldwide. It provides a wide range of tools and data management capabilities, along with its own API that allows developers and companies to build custom applications and integrations. With the Zenkit API, you can build:
+Zenkit is a powerful online database and project management tool used by
+thousands of businesses and organizations worldwide. It provides a wide range
+of tools and data management capabilities, along with its own API that allows
+developers and companies to build custom applications and integrations. With
+the Zenkit API, you can build:
 
 - Collaborative to-do lists and productivity apps
 - Custom reports and dashboards

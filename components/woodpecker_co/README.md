@@ -1,6 +1,10 @@
 # Overview
 
-Woodpecker.co's API is a powerful tool that enables developers and entrepreneurs to build powerful applications and tools for sending automated emails and communication. With the Woodpecker.co API, you can create custom automated emails and other communications for your online customers and website visitors.
+Woodpecker.co's API is a powerful tool that enables developers and
+entrepreneurs to build powerful applications and tools for sending automated
+emails and communication. With the Woodpecker.co API, you can create custom
+automated emails and other communications for your online customers and website
+visitors.
 
 Here are some examples of things you can build using the Woodpecker.co API:
 
