@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -20,6 +23,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },

@@ -14,6 +14,9 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -22,6 +25,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -32,6 +36,7 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -84,7 +89,7 @@ export default {
     const rows = await this.postgresql.executeQuery({
       text: query,
       values,
-    });
+    }, this.rejectUnauthorized);
     for (const row of rows) {
       const meta = this.generateMeta(row, column);
       this.$emit(row, meta);

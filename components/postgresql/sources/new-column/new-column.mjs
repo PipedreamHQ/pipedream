@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -21,6 +24,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -28,7 +32,8 @@ export default {
   async run() {
     const previousColumns = this._getPreviousValues() || [];
 
-    const columns = await this.postgresql.getColumns(this.table, this.schema);
+    const columns = await this.postgresql
+      .getColumns(this.table, this.schema, this.rejectUnauthorized);
 
     const newColumns = columns.filter((column) => !previousColumns.includes(column));
     for (const column of newColumns) {

@@ -13,13 +13,16 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
   },
   async run() {
     const previousTables = this._getPreviousValues() || [];
 
-    const tables = await this.postgresql.getTables(this.schema);
+    const tables = await this.postgresql.getTables(this.schema, this.rejectUnauthorized);
 
     const newTables = tables.filter((table) => !previousTables.includes(table));
     for (const table of newTables) {

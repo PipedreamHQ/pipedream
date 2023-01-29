@@ -14,6 +14,9 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -22,6 +25,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -32,6 +36,7 @@ export default {
         (c) => ({
           schema: c.schema,
           table: c.table,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       optional: true,

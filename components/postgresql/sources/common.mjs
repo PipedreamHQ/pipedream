@@ -69,8 +69,9 @@ export default {
       );
       this.emitRows(rows, column);
     },
-    async initialRows(schema, table, column, limit) {
-      const rows = await this.postgresql.getInitialRows(schema, table, column, limit);
+    async initialRows(schema, table, column, limit, rejectUnauthorized) {
+      const rows = await this.postgresql
+        .getInitialRows(schema, table, column, limit, rejectUnauthorized);
       this.emitRows(rows, column);
     },
     emitRows(rows, column) {

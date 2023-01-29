@@ -9,16 +9,18 @@ export default {
       type: "string",
       label: "Schema",
       description: "Database schema",
-      async options() {
-        return this.getSchemas();
+      async options({ rejectUnauthorized }) {
+        return this.getSchemas(rejectUnauthorized);
       },
     },
     table: {
       type: "string",
       label: "Table",
       description: "Database table",
-      async options({ schema }) {
-        return this.getTables(this.getNormalizedSchema(schema));
+      async options({
+        schema, rejectUnauthorized,
+      }) {
+        return this.getTables(this.getNormalizedSchema(schema), rejectUnauthorized);
       },
     },
     column: {
@@ -28,8 +30,9 @@ export default {
       async options({
         table,
         schema,
+        rejectUnauthorized,
       }) {
-        return this.getColumns(table, this.getNormalizedSchema(schema));
+        return this.getColumns(table, this.getNormalizedSchema(schema), rejectUnauthorized);
       },
     },
     query: {
@@ -47,13 +50,14 @@ export default {
       label: "Lookup Value",
       description: "Value to search for",
       async options({
-        table, column, prevContext, schema,
+        table, column, prevContext, schema, rejectUnauthorized,
       }) {
         const limit = 20;
         const normalizedSchema = this.getNormalizedSchema(schema);
         const { offset = 0 } = prevContext;
         return {
-          options: await this.getColumnValues(table, column, limit, offset, normalizedSchema),
+          options: await this
+            .getColumnValues(table, column, limit, offset, normalizedSchema, rejectUnauthorized),
           context: {
             offset: limit + offset,
           },
@@ -120,18 +124,18 @@ export default {
      * Gets an array of table names in a database
      * @returns Array of table names
      */
-    async getTables(schema = "public") {
+    async getTables(schema = "public", rejectUnauthorized = true) {
       const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = %L", schema);
-      const rows = await this.executeQuery(query, false);
+      const rows = await this.executeQuery(query, rejectUnauthorized);
       return rows.map((row) => row.table_name);
     },
     /**
      * Gets an array of schemas in a database
      * @returns Array of schemas
      */
-    async getSchemas() {
+    async getSchemas(rejectUnauthorized = true) {
       const query = format("select schema_name FROM information_schema.schemata");
-      const rows = await this.executeQuery(query, false);
+      const rows = await this.executeQuery(query, rejectUnauthorized);
       return rows.map((row) => row.schema_name);
     },
     /**
@@ -139,12 +143,12 @@ export default {
      * @param {string} table - Name of the table to get columns in
      * @returns Array of column names
      */
-    async getColumns(table, schema = "public") {
+    async getColumns(table, schema = "public", rejectUnauthorized = true) {
       if (!table) {
         return [];
       }
       const query = format("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %L AND TABLE_NAME = %L", schema, table);
-      const rows = await this.executeQuery(query, false);
+      const rows = await this.executeQuery(query, rejectUnauthorized);
       return rows.map((row) => row.column_name);
     },
     /**
@@ -289,7 +293,7 @@ export default {
      * @params {integer} [offset] - number of rows to skip, used for pagination
      * @returns Array of column values
      */
-    async getColumnValues(table, column, limit = "ALL", offset = 0, schema = "public") {
+    async getColumnValues(table, column, limit = "ALL", offset = 0, schema = "public", rejectUnauthorized = true) {
       const rows = await this.executeQuery({
         text: format(`
           SELECT %I FROM %I.%I
@@ -299,7 +303,7 @@ export default {
           limit,
           offset,
         ],
-      }, false);
+      }, rejectUnauthorized);
       const values = rows.map((row) => row[column]?.toString());
       return values.filter((row) => row);
     },
