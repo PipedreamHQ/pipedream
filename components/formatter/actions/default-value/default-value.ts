@@ -20,7 +20,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const { input, defaultValue } = this;
+    const {
+      input, defaultValue,
+    } = this;
 
     const result = input || defaultValue;
 
@@ -28,7 +30,7 @@ export default defineAction({
       "$summary",
       input
         ? "Checked text - not empty"
-        : "Replaced empty text with default value"
+        : "Replaced empty text with default value",
     );
     return result;
   },
