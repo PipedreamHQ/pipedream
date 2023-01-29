@@ -18,7 +18,7 @@ export default defineAction({
     format: {
       label: "Phone Number Format",
       description:
-        "Choose a phone number format, or use a custom string representing a (Regular Expression](https://www.w3schools.com/js/js_regexp.asp) (without the forward slashes)",
+        "Choose a phone number format, or use a custom string representing a [Regular Expression](https://www.w3schools.com/js/js_regexp.asp) (without the forward slashes)",
       type: "string",
       options: [
         {

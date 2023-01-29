@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Text] Extract by Regular Expression",
   description:
     "Find a match for a regular expression pattern. Returns all matched groups with start and end position.",
-  key: "expofp-extract-phone-number",
+  key: "expofp-extract-by-regular-expression",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,14 +17,14 @@ export default defineAction({
     regExpString: {
       label: "Regular Expression",
       description:
-        "Enter a string representing a (Regular Expression](https://www.w3schools.com/js/js_regexp.asp)",
+        "Enter a string representing a [Regular Expression](https://www.w3schools.com/js/js_regexp.asp)",
       type: "string",
     },
   },
   methods: {
     getRegExp() {
       let { regExpString } = this;
-      let flags = "";
+      let flags = "g";
       if (regExpString.startsWith("/")) {
         const end = regExpString.match(/\/[a-z]*$/);
         if (!end) {
@@ -33,7 +33,7 @@ export default defineAction({
           );
         }
         regExpString = regExpString.slice(1, end.length * -1);
-        flags = end.split("/")[1];
+        flags = end[0].split("/")[1];
         if (!flags.includes("g")) flags += "g";
       }
       return new RegExp(regExpString, flags);
@@ -55,7 +55,7 @@ export default defineAction({
     $.export(
       "$summary",
       result.length
-        ? `Successfully found "${result.length} matches"`
+        ? `Successfully found ${result.length} matches`
         : "No matches found",
     );
     return result;
