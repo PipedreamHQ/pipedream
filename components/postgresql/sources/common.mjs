@@ -19,7 +19,6 @@ export default {
         postgresql,
         "rejectUnauthorized",
       ],
-      optional: true,
     },
   },
   methods: {
