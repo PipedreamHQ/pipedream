@@ -219,6 +219,9 @@ importers:
       rhea-promise: 2.1.0
       uuid: 8.3.2
 
+  components/announcekit:
+    specifiers: {}
+
   components/apex_27:
     specifiers: {}
 
@@ -388,6 +391,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/blue:
+    specifiers: {}
 
   components/botbaba:
     specifiers: {}
@@ -930,6 +936,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/emelia:
+    specifiers: {}
 
   components/enedis:
     specifiers:
@@ -1513,6 +1522,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/hotspotsystem:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1975,6 +1990,9 @@ importers:
     specifiers: {}
 
   components/mobilemonkey:
+    specifiers: {}
+
+  components/moco:
     specifiers: {}
 
   components/mode:
@@ -2814,6 +2832,9 @@ importers:
   components/scopemaster:
     specifiers: {}
 
+  components/scoro:
+    specifiers: {}
+
   components/scrapeninja:
     specifiers: {}
 
@@ -2864,6 +2885,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/sendlane:
+    specifiers: {}
+
   components/sendle:
     specifiers: {}
 
@@ -2905,6 +2929,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/serwersms_pl:
+    specifiers: {}
 
   components/seventodos:
     specifiers:
@@ -3049,6 +3076,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.1.1
+
+  components/smartreach:
+    specifiers: {}
 
   components/smartrmail:
     specifiers: {}
@@ -3316,6 +3346,9 @@ importers:
     specifiers: {}
 
   components/tally:
+    specifiers: {}
+
+  components/tapfiliate:
     specifiers: {}
 
   components/taxjar:
