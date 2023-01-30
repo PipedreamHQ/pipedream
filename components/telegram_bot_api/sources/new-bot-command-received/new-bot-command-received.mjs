@@ -35,7 +35,11 @@ export default {
     processEvent(event) {
       const message = event.edited_message ?? event.message;
 
-      if (!message?.text) return;
+      if (!message?.text) {
+        console.log("Skipping an not text message");
+
+        return;
+      }
 
       const command = message.text.split(" ")[0];
 
