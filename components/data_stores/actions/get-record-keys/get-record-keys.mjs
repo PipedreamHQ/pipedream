@@ -22,13 +22,13 @@ export default {
     contains: {
       type: "boolean",
       label: "Contains",
-      description: "If true, the query will be used to filter the records that contains the query. If false, the query will be used to filter the records that are equal to the query.",
+      description: "If `true`, the query will be used to filter the records that contains the query. If `false`, the query will be used to filter the records that are equal to the query.",
       optional: true,
     },
     caseInsensitive: {
       type: "boolean",
       label: "Case Insensitive",
-      description: "if true, the query will be used to filter the records based on case-Insensitivity, if false, the query will be used to filter the records that are equal to the query.",
+      description: "If `true`, the query will be used to filter the records based on case-insensitivity. If `false`, the query will be used to filter the records that are equal to the query.",
       optional: true,
     },
   },
@@ -41,14 +41,18 @@ export default {
       path = "",
     ) {
       const filteredKeys = [];
+      const values = [];
 
       const helper = (obj, path) => {
+        // if the value is an array, iterate through it
         if (Array.isArray(obj)) {
           for (let i = 0; i < obj.length; i++) {
             helper(obj[i], path + i + ".");
           }
           return;
         }
+
+        // if the value is an object, iterate through it
         else if (typeof obj === "object" && obj !== null) {
           for (let key in obj) {
             helper(obj[key], path + key + ".");
@@ -56,33 +60,44 @@ export default {
           return;
         }
 
+        // if the value is a string, check if it matches the query
         if (!contains && !caseInsensitive && obj == query) {
           filteredKeys.push(path.slice(0, -1));
+          values.push(obj);
           return;
         }
 
+        // `contains` and `caseInsensitive` are both true
         if (contains && caseInsensitive && String(obj).toLowerCase()
           .includes(query.toLowerCase())
         ) {
           filteredKeys.push(path.slice(0, -1));
+          values.push(obj);
           return;
         }
 
+        // `contains` is true and `caseInsensitive` is false
         if (contains && !caseInsensitive && String(obj).includes(query)) {
           filteredKeys.push(path.slice(0, -1));
+          values.push(obj);
           return;
         }
 
+        // `contains` is false and `caseInsensitive` is true
         if (!contains && caseInsensitive
           && String(obj).toLocaleLowerCase() == query.toLowerCase()
         ) {
           filteredKeys.push(path.slice(0, -1));
+          values.push(obj);
           return;
         }
       };
 
       helper(obj, path);
-      return filteredKeys;
+      return {
+        filteredKeys,
+        values,
+      };
     },
   },
   async run({ $ }) {
@@ -98,17 +113,21 @@ export default {
       objData[keys[i]] = arrData[i];
     }
 
-    const filteredKeys = this.getAllKeysWithRecord(
+    const {
+      filteredKeys,
+      values,
+    } = this.getAllKeysWithRecord(
       objData,
       this.query,
       this.contains,
       this.caseInsensitive,
     );
 
-    $.export("$summary", `Successfully returned ${filteredKeys.length} key(s).`);
+    $.export("$summary", `Successfully returned ${filteredKeys.length} key(s). Please notice that values[0] refer to the first key in keys[0] and so on.`);
     return {
       hasRegisteredKeys: filteredKeys.length > 0,
       keys: filteredKeys,
+      values,
     };
   },
 };
