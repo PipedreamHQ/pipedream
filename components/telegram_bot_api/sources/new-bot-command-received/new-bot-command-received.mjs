@@ -34,6 +34,9 @@ export default {
     },
     processEvent(event) {
       const message = event.edited_message ?? event.message;
+
+      if (!message?.text) return;
+
       const command = message.text.split(" ")[0];
 
       if (typeof this.commands === "string") {
