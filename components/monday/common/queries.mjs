@@ -10,6 +10,7 @@ export default {
       ) {
         id
         name
+        type
       }
     }
   `,

@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/tettra",
+  "version": "0.0.1",
+  "description": "Pipedream Tettra Components",
+  "main": "dist/app/tettra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tettra"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/tettra",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
