@@ -63,11 +63,15 @@ export default defineAction({
     let result = input;
 
     const arrResults = input.split(separator);
-    if (arrResults.length > 1) {
-      summary = `Successfully splitted text into ${arrResults.length} segments`;
-      result = segmentIndex === 99
-        ? arrResults
-        : arrResults.at(segmentIndex);
+    const { length } = arrResults;
+    if (length > 1) {
+      summary = `Successfully splitted text into ${length} segments`;
+      result =
+        segmentIndex === 99
+          ? arrResults
+          : arrResults[segmentIndex < 0
+            ? length + segmentIndex
+            : segmentIndex];
     }
 
     $.export("$summary", summary);
