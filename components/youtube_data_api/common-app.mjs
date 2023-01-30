@@ -157,10 +157,39 @@ export default {
         if (pageToken) {
           params.pageToken = pageToken;
         }
-        const { data } = await this.getVideos(params); console.log(data);
+        const { data } = await this.getVideos(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.title,
           value: item.id.videoId,
+        })) || [];
+        return {
+          options,
+          context: {
+            pageToken: data.nextPageToken,
+          },
+        };
+      },
+    },
+    userOwnedChannel: {
+      type: "string",
+      label: "Channel Id",
+      description: "Select the channel to update",
+      async options({ prevContext }) {
+        const { pageToken } = prevContext;
+        const params = {
+          part: [
+            "id",
+            "snippet",
+          ],
+          mine: true,
+        };
+        if (pageToken) {
+          params.pageToken = pageToken;
+        }
+        const { data } = await this.listChannels(params);
+        const options = data.items?.map((item) => ({
+          label: item.snippet.title,
+          value: item.id,
         })) || [];
         return {
           options,
@@ -513,6 +542,10 @@ export default {
     async updateVideo(params) {
       const youtube = await this.youtube();
       return youtube.videos.update(params);
+    },
+    async updateChannel(params) {
+      const youtube = await this.youtube();
+      return youtube.channels.update(params);
     },
   },
 };
