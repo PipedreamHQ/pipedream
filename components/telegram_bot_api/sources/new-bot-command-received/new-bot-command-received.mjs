@@ -36,7 +36,7 @@ export default {
       const message = event.edited_message ?? event.message;
 
       if (!message?.text) {
-        console.log("Skipping an not text message");
+        console.log("Skipping message that isn’t a bot command");
 
         return;
       }
