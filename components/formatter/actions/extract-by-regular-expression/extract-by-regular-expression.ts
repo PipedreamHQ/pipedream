@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import { ConfigurationError } from "@pipedream/platform";
+import buildRegExp from "../../common/text/buildRegExp";
 
 export default defineAction({
   name: "[Text] Extract by Regular Expression",
@@ -23,20 +23,10 @@ export default defineAction({
   },
   methods: {
     getRegExp() {
-      let { regExpString } = this;
-      let flags = "g";
-      if (regExpString.startsWith("/")) {
-        const end = regExpString.match(/\/[a-z]*$/);
-        if (!end) {
-          throw new ConfigurationError(
-            "Parse error - invalid regular expression.",
-          );
-        }
-        regExpString = regExpString.slice(1, end.length * -1);
-        flags = end[0].split("/")[1];
-        if (!flags.includes("g")) flags += "g";
-      }
-      return new RegExp(regExpString, flags);
+      const { regExpString } = this;
+      return buildRegExp(regExpString, [
+        "g",
+      ]);
     },
     getResult(input: string) {
       return [
