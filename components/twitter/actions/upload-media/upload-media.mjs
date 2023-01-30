@@ -23,6 +23,17 @@ export default {
         return Object.values(mime._types);
       },
     },
+    mediaCategory: {
+      type: "string",
+      label: "Media Category",
+      description: "The category that represents how the media will be used",
+      options: [
+        "amplify_video",
+        "tweet_gif",
+        "tweet_image",
+        "tweet_video",
+      ],
+    },
   },
   async run({ $ }) {
     // INIT
@@ -30,18 +41,22 @@ export default {
       encoding: "base64",
     });
     const fileSize = (fs.statSync(this.file)).size;
+    const params = {
+      command: "INIT",
+      total_bytes: fileSize,
+      media_type: this.mediaType,
+      additional_owners: this.twitter.$auth.oauth_uid,
+    };
+    if (this.mediaCategory) {
+      params.media_category = this.mediaCategory;
+    }
     const { media_id_string: mediaId } = await this.twitter.uploadMedia({
-      params: {
-        command: "INIT",
-        total_bytes: fileSize,
-        media_type: this.mediaType,
-        additional_owners: this.twitter.$auth.oauth_uid,
-      },
+      params,
       $,
     });
 
     // APPEND
-    const size = 8000;
+    const size = 9000;
     const numSegments = fileContent.length / size;
     let segment = 0;
     let startIndex = 0;
@@ -64,13 +79,35 @@ export default {
     }
 
     // FINALIZE
-    const response = await this.twitter.uploadMedia({
+    let response;
+    response = await this.twitter.uploadMedia({
       params: {
         command: "FINALIZE",
         media_id: mediaId,
       },
       $,
     });
+
+    // STATUS
+    while (this.mediaCategory?.includes("video")) {
+      response = await this.twitter.uploadMedia({
+        params: {
+          command: "STATUS",
+          media_id: mediaId,
+        },
+        method: "GET",
+        $,
+      });
+      const { processing_info: info } = response;
+      if (info?.error) {
+        throw new Error(JSON.stringify(info.error));
+      }
+      if (info?.state === "succeeded") {
+        break;
+      }
+      setTimeout(() => {}, info.check_after_secs * 1000);
+    }
+
     response && $.export("$summary", `Successfully uploaded media with Media ID ${mediaId}`);
     return response;
   },
