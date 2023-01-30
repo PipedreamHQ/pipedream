@@ -81,7 +81,7 @@ export default {
         }
       };
 
-      helper(obj, query, path);
+      helper(obj, path);
       return filteredKeys;
     },
   },
