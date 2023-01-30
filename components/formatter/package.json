@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/types": "^0.1.4",
+    "jsdom": "^21.1.0",
+    "showdown": "^2.1.0"
   }
 }
