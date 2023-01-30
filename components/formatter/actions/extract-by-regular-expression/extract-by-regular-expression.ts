@@ -22,11 +22,13 @@ export default defineAction({
     },
   },
   methods: {
-    getRegExp() {
+    getRegExp(): string | RegExp {
       const { regExpString } = this;
-      return buildRegExp(regExpString, [
-        "g",
-      ]);
+      return regExpString.startsWith("/")
+        ? buildRegExp(regExpString, [
+          "g",
+        ])
+        : regExpString;
     },
     getResult(input: string) {
       return [
