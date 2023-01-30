@@ -8,7 +8,7 @@ export default {
   name: "New Pipeline Event (Instant)",
   key: "bitbucket-new-pipeline-event",
   description: "Emit new event when a pipeline event occurs. [See docs here](https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-hooks-post)",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...common.props,
     repositoryId: {
@@ -19,6 +19,7 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
+      type: "string[]",
     },
     eventTypes: {
       type: "string[]",
@@ -44,7 +45,7 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return `repositories/${this.workspaceId}/${this.repositoryId}/hooks`;
+      return this.repositoryId.map((repo) => `repositories/${this.workspaceId}/${repo}/hooks`);
     },
     getWebhookEventTypes() {
       return [
