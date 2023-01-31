@@ -22,7 +22,7 @@ export default {
   },
   async run() {
     const publishedAfter = this._getPublishedAfter();
-    let maxPublishedAfter = publishedAfter;
+    let maxPublishedAfter = publishedAfter || 0;
 
     const params = {
       part: "id,replies,snippet",
@@ -43,12 +43,14 @@ export default {
     const comments = [];
     for (const item of items) {
       comments.push(item.snippet.topLevelComment);
-      comments.push(...item.replies.comments);
+      if (item?.replies?.comments) {
+        comments.push(...item.replies.comments);
+      }
     }
 
     for (const comment of comments) {
       const publishedAt = Date.parse(comment.snippet.publishedAt);
-      if (publishedAt > publishedAfter) {
+      if (!publishedAfter || publishedAt > publishedAfter) {
         const meta = this.generateMeta(comment);
         this.$emit(comment, meta);
       }
