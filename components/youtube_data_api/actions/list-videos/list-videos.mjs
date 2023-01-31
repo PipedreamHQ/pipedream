@@ -1,5 +1,5 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import common from "./common.mjs";
 
 export default {

@@ -1,4 +1,4 @@
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 
 export default {
   async run({ $ }) {
