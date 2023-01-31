@@ -6,8 +6,7 @@ export default {
   key: "youtube_data_api-update-video-details",
   name: "Update Video Details",
   description: "Updates a video's metadata. [See the docs](https://developers.google.com/youtube/v3/docs/videos/update) for more information",
-  //version: "0.0.1",
-  version: "0.0.16",
+  version: "0.0.1",
   type: "action",
   props: {
     youtubeDataApi,
