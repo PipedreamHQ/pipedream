@@ -1334,6 +1334,54 @@
     },
     {
       "path": "components/moco"
+    },
+    {
+      "path": "components/coassemble"
+    },
+    {
+      "path": "components/solarwinds_service_desk"
+    },
+    {
+      "path": "components/sms_it"
+    },
+    {
+      "path": "components/amplifier"
+    },
+    {
+      "path": "components/swiftype"
+    },
+    {
+      "path": "components/talkspirit"
+    },
+    {
+      "path": "components/lessonspace"
+    },
+    {
+      "path": "components/teamwave"
+    },
+    {
+      "path": "components/tettra"
+    },
+    {
+      "path": "components/wire2air"
+    },
+    {
+      "path": "components/coupontools"
+    },
+    {
+      "path": "components/ones2u"
+    },
+    {
+      "path": "components/svix"
+    },
+    {
+      "path": "components/hugging_face"
+    },
+    {
+      "path": "components/onesec_mail"
+    },
+    {
+      "path": "components/moonmail"
     }
   ]
 }
