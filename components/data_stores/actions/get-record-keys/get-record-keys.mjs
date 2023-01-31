@@ -33,6 +33,18 @@ export default {
     },
   },
   methods: {
+    containsQuery(obj, query, caseInsensitive = true) {
+      obj = String(obj);
+      return caseInsensitive
+        ? obj.toLowerCase().includes(query.toLowerCase())
+        : obj.includes(query);
+    },
+    matchesQuery(obj, query, caseInsensitive = true) {
+      obj = String(obj);
+      return caseInsensitive
+        ? obj.toLowerCase() === query.toLowerCase()
+        : obj === query;
+    },
     getAllKeysWithRecord(
       obj,
       query,
@@ -60,36 +72,14 @@ export default {
           return;
         }
 
-        // if the value is a string, check if it matches the query
-        if (!contains && !caseInsensitive && obj == query) {
-          filteredKeys.push(path.slice(0, -1));
-          values.push(obj);
-          return;
-        }
+        const matched = (
+          (contains && this.containsQuery(obj, query, caseInsensitive)) ||
+          (!contains && this.matchesQuery(obj, query, caseInsensitive))
+        );
 
-        // `contains` and `caseInsensitive` are both true
-        if (contains && caseInsensitive && String(obj).toLowerCase()
-          .includes(query.toLowerCase())
-        ) {
+        if (matched) {
           filteredKeys.push(path.slice(0, -1));
           values.push(obj);
-          return;
-        }
-
-        // `contains` is true and `caseInsensitive` is false
-        if (contains && !caseInsensitive && String(obj).includes(query)) {
-          filteredKeys.push(path.slice(0, -1));
-          values.push(obj);
-          return;
-        }
-
-        // `contains` is false and `caseInsensitive` is true
-        if (!contains && caseInsensitive
-          && String(obj).toLocaleLowerCase() == query.toLowerCase()
-        ) {
-          filteredKeys.push(path.slice(0, -1));
-          values.push(obj);
-          return;
         }
       };
 
