@@ -34,7 +34,6 @@ export default {
       params.resource.snippet.tags = tags;
     }
 
-    console.log(params);
     const { data: response } = await this.youtubeDataApi.updateVideo(params);
 
     $.export("$summary", `Successfully updated video, "${this.title}"`);

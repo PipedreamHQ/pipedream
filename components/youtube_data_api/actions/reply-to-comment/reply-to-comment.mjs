@@ -3,9 +3,9 @@ import common from "./common.mjs";
 
 export default {
   ...common,
-  key: "youtube_data_api-create-comment-thread",
-  name: "Create Comment Thread",
-  description: "Creates a new top-level comment. [See the docs](https://developers.google.com/youtube/v3/docs/commentThreads/insert) for more information",
+  key: "youtube_data_api-reply-to-comment",
+  name: "Reply To Comment",
+  description: "Creates a reply to an existing comment. [See the docs](https://developers.google.com/youtube/v3/docs/comments/insert) for more information",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,12 +16,14 @@ export default {
         "userOwnedChannel",
       ],
     },
-    videoId: {
+    commentThread: {
       propDefinition: [
         youtubeDataApi,
-        "userOwnedVideo",
+        "commentThread",
+        (c) => ({
+          channelId: c.channelIe,
+        }),
       ],
-      optional: true,
     },
     text: {
       type: "string",

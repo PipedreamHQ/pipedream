@@ -110,4 +110,9 @@ export default {
     "contentDetails",
     "status",
   ],
+  LIST_COMMENT_THREAD_PART: [
+    "id",
+    "replies",
+    "snippet",
+  ],
 };

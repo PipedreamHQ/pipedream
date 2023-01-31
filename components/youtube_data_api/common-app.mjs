@@ -207,6 +207,37 @@ export default {
         return this.listVideoCategoriesOpts(regionCode);
       },
     },
+    commentThread: {
+      type: "string",
+      label: "Comment Thread",
+      description: "The top-level comment that you are replying to",
+      async options({
+        channelId, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+        const params = {
+          part: [
+            "id",
+            "snippet",
+          ],
+          allThreadsRelatedToChannelId: channelId,
+        };
+        if (pageToken) {
+          params.pageToken = pageToken;
+        }
+        const { data } = await this.listCommentThreads(params);
+        const options = data.items?.map((item) => ({
+          label: item.snippet.topLevelComment.snippet.textDisplay,
+          value: item.id,
+        })) || [];
+        return {
+          options,
+          context: {
+            pageToken: data.nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     /**
@@ -546,6 +577,18 @@ export default {
     async updateChannel(params) {
       const youtube = await this.youtube();
       return youtube.channels.update(params);
+    },
+    async listCommentThreads(params) {
+      const youtube = await this.youtube();
+      return youtube.commentThreads.list(params);
+    },
+    async createCommentThread(params) {
+      const youtube = await this.youtube();
+      return youtube.commentThreads.insert(params);
+    },
+    async replyToComment(params) {
+      const youtube = await this.youtube();
+      return youtube.comments.insert(params);
     },
   },
 };
