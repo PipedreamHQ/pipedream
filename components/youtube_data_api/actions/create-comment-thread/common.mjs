@@ -3,7 +3,7 @@ import consts from "../../consts.mjs";
 export default {
   async run({ $ }) {
     const params = {
-      part: consts.LIST_COMMENT_THREAD_PART,
+      part: consts.LIST_COMMENT_THREAD_PART.join(),
       requestBody: {
         snippet: {
           channelId: this.channelId,

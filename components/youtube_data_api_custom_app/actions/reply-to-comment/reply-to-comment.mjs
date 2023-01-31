@@ -21,7 +21,7 @@ export default {
         youtubeDataApi,
         "commentThread",
         (c) => ({
-          channelId: c.channelIe,
+          channelId: c.channelId,
         }),
       ],
     },
