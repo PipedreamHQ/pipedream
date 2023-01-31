@@ -1543,6 +1543,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/hotspotsystem:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/html_css_to_image:
     specifiers:
       '@pipedream/platform': ^1.1.0

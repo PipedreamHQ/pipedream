@@ -1382,6 +1382,9 @@
     },
     {
       "path": "components/onesec_mail"
+    },
+    {
+      "path": "components/moonmail"
     }
   ]
 }
