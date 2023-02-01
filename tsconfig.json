@@ -1382,6 +1382,9 @@
     },
     {
       "path": "components/moonmail"
+    },
+    {
+      "path": "components/lemon_squeezy"
     }
   ]
 }
