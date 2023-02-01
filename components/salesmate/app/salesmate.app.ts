@@ -11,7 +11,7 @@ export default defineApp({
   propDefinitions: {
     billingAddressLine1: {
       label: "Billing Address Line 1",
-      description: "Line one of the billing address for contact.",
+      description: "Line one of the billing address of the contact.",
       type: "string",
     },
     billingAddressLine2: {
