@@ -102,7 +102,6 @@ export default {
       query,
       ...args
     } = {}) {
-      console.log(query);
       return this._makeRequest({
         method: "POST",
         data: {

@@ -67,11 +67,11 @@ export default {
           input: {
             projectId: "${this.projectId}",
             author: { fullName: "${this.authorFullname}"${this.authorEmail ? ", email: \"" + this.authorEmail + "\"" : ""} },
-            content: "${this.postContent}",
+            content: """${this.postContent}""",
             ${this.excerpt ? "excerpt: \"" + this.excerpt + "\"," : ""}
             ${this.image ? "featuredImage: \"" + this.image + "\"," : ""}
             isDraft: false,
-            labels: "${this.labels}",
+            labels: ${this.labels},
             publishedAt: "${this.publishedAt}",
             title: "${this.title}",
           }
