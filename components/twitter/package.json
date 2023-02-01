@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitter",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Pipedream Twitter Components",
   "main": "twitter.app.mjs",
   "keywords": [
