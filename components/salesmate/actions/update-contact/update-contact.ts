@@ -184,7 +184,6 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       salesmate,
       ...data
     } = this;
