@@ -210,7 +210,6 @@ export default defineApp({
       description: "User can add source from where contact came to know about user's company or deal's information like Ads, internet etc.",
       type: "string",
       async options() {
-
         const { fieldOptions } = await this.listVisibleFields({
           module: "deal",
           field: "source",
