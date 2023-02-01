@@ -195,7 +195,7 @@ export default defineAction({
       ...data,
     });
 
-    $.export("$summary", `Contact with id: ${response.Data.id} successfuly update!`);
+    $.export("$summary", `Contact with id: ${response.Data.id} successfuly updated!`);
 
     return response;
   },
