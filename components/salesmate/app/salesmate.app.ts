@@ -252,7 +252,7 @@ export default defineApp({
     },
     tags: {
       label: "Tags",
-      description: "This field contains tags associated with contact.",
+      description: "The tags associated with the contact.",
       type: "string[]",
       async options({ page }) {
         const rows = 250;
