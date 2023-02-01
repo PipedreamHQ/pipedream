@@ -86,7 +86,7 @@ export default defineApp({
       description: "The three-letter ISO currency code, in uppercase.",
       type: "string",
       async options() {
-        const { Data } = await this.listCurrency();
+        const { Data } = await this.listCurrencies();
 
         return Data.map(({
           code: value, name,
