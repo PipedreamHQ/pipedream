@@ -16,6 +16,8 @@ export default {
       label: "SQL Query",
       description: "Run this query on a schedule, triggering the workflow for each row of results",
     },
+    // Ordering props correctly
+    timer: common.props.timer,
     dedupeKey: {
       type: "string",
       label: "Primary key",

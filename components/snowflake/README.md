@@ -12,14 +12,12 @@ Snowflake recommends you create a new user, role, and warehouse when you integra
 
 ### 2. Enter those details in Pipedream
 
-1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
-2. Click the button to **Connect an App**
-3. Enter the required Snowflake data.
+Visit [https://pipedream.com/accounts](https://pipedream.com/accounts). Click the button to **Connect an App**. Enter the required Snowflake account data.
 
-You'll only need to connect your account once in Pipedream. You can use this account to run queries against Snowflake, insert data, and more.
+You'll only need to connect your account once in Pipedream. You can connect this account to multiple workflows to run queries against Snowflake, insert data, and more.
 
 ### 3. Build your first workflow
 
-Visit [https://pipedream.com/new] to build your first workflow. Pipedream workflows let you connect Snowflake with 1,000+ other apps. You can trigger workflows on Snowflake queries, sending results to Slack, Google Sheets, or any app that exposes an API. Or you can accept data from another app, transform it with Python, Node.js, Go or Bash code, and insert it into Snowflake.
+Visit [https://pipedream.com/new](https://pipedream.com/new) to build your first workflow. Pipedream workflows let you connect Snowflake with 1,000+ other apps. You can trigger workflows on Snowflake queries, sending results to Slack, Google Sheets, or any app that exposes an API. Or you can accept data from another app, transform it with Python, Node.js, Go or Bash code, and insert it into Snowflake.
 
 Learn more at [Pipedream University](https://pipedream.com/university).
