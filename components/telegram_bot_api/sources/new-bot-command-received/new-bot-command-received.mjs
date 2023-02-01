@@ -5,7 +5,7 @@ export default {
   key: "telegram_bot_api-new-bot-command-received",
   name: "New Bot Command Received (Instant)",
   description: "Emit new event each time a Telegram Bot command is received.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -34,6 +34,13 @@ export default {
     },
     processEvent(event) {
       const message = event.edited_message ?? event.message;
+
+      if (!message?.text) {
+        console.log("Skipping message that isn’t a bot command");
+
+        return;
+      }
+
       const command = message.text.split(" ")[0];
 
       if (typeof this.commands === "string") {

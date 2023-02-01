@@ -1,5 +1,5 @@
 import youtubeDataApi from "../../youtube_data_api.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import common from "./common.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-list-videos",
   name: "List Videos",
   description: "Returns a list of videos that match the API request parameters. [See the docs](https://developers.google.com/youtube/v3/docs/videos/list) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

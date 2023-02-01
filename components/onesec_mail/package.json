@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/onesec_mail",
+  "version": "0.0.1",
+  "description": "Pipedream 1sec Mail Components",
+  "main": "dist/app/onesec_mail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onesec_mail"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/onesec_mail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

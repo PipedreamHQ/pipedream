@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/hugging_face",
+  "version": "0.0.1",
+  "description": "Pipedream Hugging Face Components",
+  "main": "dist/app/hugging_face.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hugging_face"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/hugging_face",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
