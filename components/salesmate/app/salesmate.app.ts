@@ -240,7 +240,7 @@ export default defineApp({
     },
     status: {
       label: "Status",
-      description: "User can set the deal's status like Open, Won or Lost. By default it is Open.",
+      description: "The deal's status like Open, Won or Lost. By default it is Open.",
       type: "string",
       async options() {
 
