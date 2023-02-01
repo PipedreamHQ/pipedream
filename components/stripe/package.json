@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/stripe",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Stripe Components",
   "main": "stripe.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/stripe",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",

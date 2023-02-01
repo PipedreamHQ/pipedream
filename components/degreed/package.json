@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/degreed",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Degreed Components",
   "main": "dist/app/degreed.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/degreed",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

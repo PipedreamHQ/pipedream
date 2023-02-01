@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/survey_monkey",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SurveyMonkey Components",
   "main": "survey_monkey.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/survey-monkey",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

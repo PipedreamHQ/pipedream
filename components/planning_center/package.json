@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/planning_center",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Planning Center Components",
   "main": "dist/app/planning_center.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/planning_center",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

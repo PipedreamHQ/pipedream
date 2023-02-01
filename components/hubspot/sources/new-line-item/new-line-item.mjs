@@ -5,18 +5,18 @@ export default {
   key: "hubspot-new-line-item",
   name: "New Line Item",
   description: "Emit new event for each new line item added.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(lineItem) {
+      return Date.parse(lineItem.createdAt);
+    },
     generateMeta(lineItem) {
-      const {
-        id,
-        createdAt,
-      } = lineItem;
-      const ts = Date.parse(createdAt);
+      const { id } = lineItem;
+      const ts = this.getTs(lineItem);
       return {
         id,
         summary: `New Line Item ID: ${id}`,
@@ -24,7 +24,7 @@ export default {
       };
     },
     isRelevant(lineItem, createdAfter) {
-      return Date.parse(lineItem.createdAt) > createdAfter;
+      return this.lineItem > createdAfter;
     },
     getParams() {
       return {

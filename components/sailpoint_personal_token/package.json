@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sailpoint_personal_token",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream sailpoint-personal-token Components",
   "main": "dist/app/sailpoint_personal_token.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sailpoint_personal_token",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

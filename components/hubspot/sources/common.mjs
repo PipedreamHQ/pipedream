@@ -44,6 +44,7 @@ export default {
     },
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
+      let maxTs = after || 0;
       const limiter = this._limiter();
       while (!results || params.after) {
         results = await this._requestWithLimiter(limiter, resourceFn, params);
@@ -59,6 +60,11 @@ export default {
         for (const result of results) {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
+            const ts = this.getTs(result);
+            if (ts > maxTs) {
+              maxTs = ts;
+              this._setAfter(ts);
+            }
           } else {
             return;
           }
@@ -76,6 +82,7 @@ export default {
       let hasMore = true;
       let results, items;
       let count = 0;
+      let maxTs = after || 0;
       const limiter = this._limiter();
       while (hasMore && (!limitRequest || count < limitRequest)) {
         count++;
@@ -90,16 +97,20 @@ export default {
           items = results;
         }
         for (const item of items) {
-          if (this.isRelevant(item, after)) this.emitEvent(item);
+          if (this.isRelevant(item, after)) {
+            this.emitEvent(item);
+            const ts = this.getTs(item);
+            if (ts > maxTs) {
+              maxTs = ts;
+              this._setAfter(ts);
+            }
+          }
         }
       }
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
-
       this.$emit(result, meta);
-
-      this._setAfter(meta.ts);
     },
     isRelevant() {
       return true;
@@ -109,6 +120,9 @@ export default {
     },
     processResults() {
       throw new Error("processResults not implemented");
+    },
+    getTs() {
+      throw new Error("getTs not implemented");
     },
     async searchCRM(params, after) {
       await this.paginate(

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/box",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Box Components",
   "main": "box.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/box",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "path": "^0.12.7"
