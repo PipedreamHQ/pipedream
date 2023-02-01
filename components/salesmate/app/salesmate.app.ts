@@ -243,7 +243,6 @@ export default defineApp({
       description: "The deal's status like Open, Won or Lost. By default it is Open.",
       type: "string",
       async options() {
-
         const { fieldOptions } = await this.listVisibleFields({
           module: "deal",
           field: "status",
