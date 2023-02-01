@@ -113,7 +113,7 @@ export default defineApp({
     },
     facebookHandle: {
       label: "Facebook Handle",
-      description: "Contact's facebook link.",
+      description: "Contact's Facebook link.",
       type: "string",
     },
     firstName: {
