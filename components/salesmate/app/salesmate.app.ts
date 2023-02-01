@@ -202,7 +202,7 @@ export default defineApp({
     },
     skypeId: {
       label: "Skype Id",
-      description: "Contact's skype id.",
+      description: "Contact's Skype ID.",
       type: "string",
     },
     source: {
