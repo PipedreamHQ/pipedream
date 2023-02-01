@@ -8,10 +8,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    async listCommentThreads(params) {
-      const youtube = await this.youtubeDataApi.youtube();
-      return await youtube.commentThreads.list(params);
-    },
     generateMeta(comment) {
       return {
         id: comment.id,
@@ -31,7 +27,7 @@ export default {
 
     const items = [];
     while (true) {
-      const { data } = await this.listCommentThreads(params);
+      const { data } = await this.youtubeDataApi.listCommentThreads(params);
       items.push(...data.items);
       if (data.nextPageToken) {
         params.pageToken = data.nextPageToken;

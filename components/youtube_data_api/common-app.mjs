@@ -424,5 +424,9 @@ export default {
         },
       });
     },
+    async listCommentThreads(params) {
+      const youtube = await this.youtube();
+      return youtube.commentThreads.list(params);
+    },
   },
 };
