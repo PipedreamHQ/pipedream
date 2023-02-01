@@ -190,7 +190,7 @@ export default defineApp({
     },
     priority: {
       label: "Priority",
-      description: "User can set the priority for the deal like high, low or medium.",
+      description: "Set the priority for the deal like high, low or medium.",
       type: "string",
       async options() {
 
