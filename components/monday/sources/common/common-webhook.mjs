@@ -16,18 +16,6 @@ export default {
     },
   },
   hooks: {
-    async deploy() {
-      const { items } = (await this.monday.listItemsBoard({
-        boardId: +this.boardId,
-      })).data.boards[0];
-      for (const item of items.slice(-25).reverse()) {
-        const itemData = await this.monday.getItem({
-          id: +item.id,
-        });
-        const meta = this.generateMeta(item);
-        this.$emit(itemData, meta);
-      }
-    },
     async activate() {
       const args = this.getWebhookArgs();
       const { data } = await this.monday.createWebhook({
@@ -43,8 +31,8 @@ export default {
     },
     async deactivate() {
       const hookId = this._getHookId();
-      await this.monday.deleteWebhook({
-        id: hookId,
+      return this.monday.deleteWebhook({
+        id: +hookId,
       });
     },
   },
@@ -58,12 +46,35 @@ export default {
     getWebhookArgs() {
       throw new Error("getEventType is not implemented");
     },
-    generateMeta(item) {
+    getSummary({ item }) {
+      return item.name;
+    },
+    generateMeta({
+      item, event,
+    }) {
       return {
-        id: `${item.id}_${item.updated_at}`,
-        summary: item.name,
+        id: `${item.id}_${item.updated_at || item.changedAt}`,
+        summary: this.getSummary({
+          item,
+          event,
+        }),
         ts: Date.parse(item.updated_at),
       };
+    },
+    async commonDeploy() {
+      const { items } = (await this.monday.listItemsBoard({
+        boardId: +this.boardId,
+      })).data.boards[0];
+      for (const item of items.slice(-25).reverse()) {
+        const itemData = await this.monday.getItem({
+          id: +item.id,
+        });
+
+        const meta = this.generateMeta({
+          item,
+        });
+        this.$emit(itemData, meta);
+      }
     },
   },
   async run(event) {
@@ -83,11 +94,17 @@ export default {
       return;
     }
 
-    const updatedItem = await this.monday.getItem({
+    const item = await this.monday.getItem({
       id: itemId,
     });
 
-    const meta = this.generateMeta(updatedItem);
-    this.$emit(updatedItem, meta);
+    const meta = this.generateMeta({
+      item,
+      event: body.event,
+    });
+    this.$emit({
+      ...body,
+      item,
+    }, meta);
   },
 };
