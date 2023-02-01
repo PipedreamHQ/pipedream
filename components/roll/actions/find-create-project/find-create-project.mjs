@@ -83,45 +83,10 @@ export default {
       ],
       optional: true,
     },
-    poNum: {
-      propDefinition: [
-        roll,
-        "poNum",
-      ],
-      optional: true,
-    },
     projectAtRisk: {
       propDefinition: [
         roll,
         "projectAtRisk",
-      ],
-      optional: true,
-    },
-    projectIsRetainer: {
-      propDefinition: [
-        roll,
-        "projectIsRetainer",
-      ],
-      optional: true,
-    },
-    projectRetainerFrequency: {
-      propDefinition: [
-        roll,
-        "projectRetainerFrequency",
-      ],
-      optional: true,
-    },
-    projectRetainerStartDate: {
-      propDefinition: [
-        roll,
-        "projectRetainerStartDate",
-      ],
-      optional: true,
-    },
-    completedDate: {
-      propDefinition: [
-        roll,
-        "completedDate",
       ],
       optional: true,
     },
@@ -184,6 +149,7 @@ export default {
       responseArray = await this.roll.makeRequest({
         variables: _.pickBy(variables),
         query: "addProject",
+        type: "mutation",
       });
       const { addProject: { ProjectId } } = responseArray;
       summary = `Project successfully created with Id ${ProjectId}!`;

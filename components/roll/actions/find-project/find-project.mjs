@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment";
 import roll from "../../roll.app.mjs";
 
 export default {
@@ -90,45 +91,10 @@ export default {
       ],
       optional: true,
     },
-    poNum: {
-      propDefinition: [
-        roll,
-        "poNum",
-      ],
-      optional: true,
-    },
     projectAtRisk: {
       propDefinition: [
         roll,
         "projectAtRisk",
-      ],
-      optional: true,
-    },
-    projectIsRetainer: {
-      propDefinition: [
-        roll,
-        "projectIsRetainer",
-      ],
-      optional: true,
-    },
-    projectRetainerFrequency: {
-      propDefinition: [
-        roll,
-        "projectRetainerFrequency",
-      ],
-      optional: true,
-    },
-    projectRetainerStartDate: {
-      propDefinition: [
-        roll,
-        "projectRetainerStartDate",
-      ],
-      optional: true,
-    },
-    completedDate: {
-      propDefinition: [
-        roll,
-        "completedDate",
       ],
       optional: true,
     },
@@ -165,6 +131,9 @@ export default {
     if (variables.subStatusId) variables.subStatusId = variables.subStatusId.value;
     if (variables.projectAtRisk) variables.projectAtRisk = +variables.projectAtRisk;
     if (variables.projectType) variables.projectType = variables.projectType.toString();
+    if (variables.dueDate) variables.dueDate = moment(new Date(variables.dueDate)).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+    if (variables.startDate) variables.startDate = moment(new Date(variables.startDate)).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+    if (variables.endDate) variables.endDate = moment(new Date(variables.endDate)).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 
     let projectLength = 0;
     let offset = 0;

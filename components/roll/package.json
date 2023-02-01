@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.2.1",
-    "graphql-request": "^5.1.0"
+    "graphql-request": "^5.1.0",
+    "moment": "^2.29.4"
   }
 }

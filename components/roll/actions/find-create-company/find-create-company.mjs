@@ -64,6 +64,7 @@ export default {
       responseArray = await this.roll.makeRequest({
         variables: _.pickBy(variables),
         query: "addCompany",
+        type: "mutation",
       });
 
       const { addCompany: { CompanyId } } = responseArray;

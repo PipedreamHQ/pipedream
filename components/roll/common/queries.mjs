@@ -150,12 +150,7 @@ export default {
                 $color: String
                 $value: Float
                 $jobNumber: String
-                $poNum: String
                 $projectAtRisk: Int
-                $projectIsRetainer: String
-                $projectRetainerFrequency: Int
-                $projectRetainerStartDate: DateTime
-                $completedDate: DateTime
                 $dueDate: DateTime
                 $startDate: DateTime
                 $endDate: DateTime
@@ -175,13 +170,7 @@ export default {
                     ProjectColor: $color
                     ProjectValue: $value
                     ProjectJobNumber: $jobNumber
-                    PONum: $poNum
                     ProjectAtRisk: $projectAtRisk
-                    ProjectIsRetainer: $projectIsRetainer
-                    ProjectRetainerFrequency: $projectRetainerFrequency
-                    ProjectRetainerPeriod: "Months"
-                    ProjectRetainerStartDate: $projectRetainerStartDate
-                    CompletedDate: $completedDate
                     DueDate: $dueDate
                     ProjectStartDate: $startDate
                     ProjectEndDate: $endDate

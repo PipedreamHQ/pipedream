@@ -74,16 +74,6 @@ export default {
       description: "The duration of the time record. Date format: `0000-00-00`",
       optional: true,
     },
-    timeStatus: {
-      type: "string",
-      label: "Time Status",
-      description: "The time record's status.",
-      options: [
-        "Billed",
-        "Unbilled",
-      ],
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
@@ -95,9 +85,10 @@ export default {
     const response = await this.roll.makeRequest({
       variables: _.pickBy(variables),
       query: "addTime",
+      type: "mutation",
     });
 
-    $.export("$summary", `Time successfully created with Id ${response.data.addTime.TimeId}!`);
+    $.export("$summary", `Time successfully created with Id ${response.addTime.TimeId}!`);
     return response;
   },
 };

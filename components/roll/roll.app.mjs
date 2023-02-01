@@ -21,9 +21,9 @@ export default {
         });
 
         return company.map(({
-          CompanyId: value, CompanyName: label,
+          CompanyId: value, CompanyName,
         }) => ({
-          label,
+          label: CompanyName || value,
           value,
         }));
       },
@@ -31,12 +31,7 @@ export default {
     color: {
       type: "string",
       label: "Color",
-      description: "The hexadecimal (color code)[https://www.w3schools.com/colors/colors_hexadecimal.asp].",
-    },
-    companyStatus: {
-      type: "string",
-      label: "Status",
-      description: "The company's status.",
+      description: "The hexadecimal [color code](https://www.w3schools.com/colors/colors_hexadecimal.asp).",
     },
     completedDate: {
       type: "string",
@@ -98,7 +93,7 @@ export default {
     paymentId: {
       type: "integer",
       label: "Payment Id",
-      description: "The project's id.",
+      description: "The payment's id.",
       async options({
         projectId, page,
       }) {
@@ -145,9 +140,9 @@ export default {
         });
 
         return project.map(({
-          ProjectId: value, ProjectTitle: label,
+          ProjectId: value, ProjectTitle,
         }) => ({
-          label,
+          label: ProjectTitle || value,
           value,
         }));
       },
@@ -320,15 +315,15 @@ export default {
       return await client.request(query || mutation, variables);
     },
     makeRequest({
-      variables = {}, query,
+      variables = {}, query, type = "query",
     }) {
       return this.query({
-        mutation: queries[query],
+        [type]: queries[query],
         variables,
       });
     },
     async listTasks({
-      projectId, filter, page,
+      projectId, filter = {}, page,
     }) {
       if (projectId) {
         const { checklist } = await this.makeRequest({

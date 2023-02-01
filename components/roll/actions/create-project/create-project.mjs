@@ -45,6 +45,7 @@ export default {
         }),
       ],
       label: "SubStatus Id",
+      description: "The project's sub status.",
       optional: true,
     },
     color: {
@@ -124,9 +125,10 @@ export default {
     const response = await this.roll.makeRequest({
       variables: _.pickBy(variables),
       query: "addProject",
+      type: "mutation",
     });
 
-    $.export("$summary", `Project successfully created with Id ${response.data.addProject.ProjectId}!`);
+    $.export("$summary", `Project successfully created with Id ${response.addProject.ProjectId}!`);
     return response;
   },
 };

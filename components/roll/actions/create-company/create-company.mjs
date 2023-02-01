@@ -16,17 +16,10 @@ export default {
       ],
       optional: true,
     },
-    status: {
-      propDefinition: [
-        roll,
-        "companyStatus",
-      ],
-      optional: true,
-    },
     invoiceFirstName: {
       type: "string",
       label: "Invoice First Name",
-      description: "The fist name will be used on invoices.",
+      description: "The first name will be used on invoices.",
       optional: true,
     },
     invoiceLastName: {
@@ -107,9 +100,10 @@ export default {
     const response = await this.roll.makeRequest({
       variables: _.pickBy(variables),
       query: "addCompany",
+      type: "mutation",
     });
 
-    $.export("$summary", `Company successfully created with Id ${response.data.addCompany.CompanyId}!`);
+    $.export("$summary", `Company successfully created with Id ${response.addCompany.CompanyId}!`);
     return response;
   },
 };
