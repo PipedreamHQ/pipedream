@@ -9,7 +9,7 @@ export default {
     productId: {
       type: "string",
       label: "Product Identifier",
-      description: "An ID identifying the product. - Either this prop or `Product Model Code` should be set.",
+      description: "An ID identifying the product - either this prop or `Product Model Code` should be set.",
       optional: true,
       async options({ page }) {
         page++;
