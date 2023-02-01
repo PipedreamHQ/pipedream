@@ -271,7 +271,7 @@ export default defineApp({
     },
     twitterHandle: {
       label: "Twitter Handle",
-      description: "Contact's twitter link.",
+      description: "Contact's Twitter link.",
       type: "string",
     },
     website: {
