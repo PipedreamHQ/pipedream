@@ -1,7 +1,6 @@
 import { axios } from "@pipedream/platform";
-import {
-  pageSize, attributeTypes,
-} from "./common/constants.mjs"
+
+const pageSize = 25;
 
 export default {
   type: "app",
@@ -22,7 +21,7 @@ export default {
         });
         return resp?._embedded?.items?.map((product) => ({
           label: product.uuid,
-          value: product.identifier,
+          value: `${product.family} - ${product.identifier}`,
         }));
       },
     },
@@ -42,11 +41,30 @@ export default {
         return resp?._embedded?.items?.map((model) => model.code);
       },
     },
-    attributeCode: {
+    mediaFileAttributeCode: {
       type: "string",
       label: "Attribute Code",
       description: "A code identifying the attribute",
-      options: attributeTypes,
+      async options({ page }) {
+        page++;
+        const resp = await this.getAttributes({
+          params: {
+            limit: pageSize,
+            page,
+            search: {
+              type: [
+                {
+                  operator: "IN",
+                  value: [
+                    "pim_catalog_image",
+                  ],
+                },
+              ],
+            },
+          },
+        });
+        return resp?._embedded?.items?.map((attribute) => attribute.code);
+      },
     },
     channelCode: {
       type: "string",
@@ -68,7 +86,9 @@ export default {
       label: "Locale Code",
       description: "A code identifying the locale",
       async options({ channelCode }) {
-        const resp = await this.getChannel({ channelCode });
+        const resp = await this.getChannel({
+          channelCode,
+        });
         return resp?.locales;
       },
     },
@@ -94,12 +114,26 @@ export default {
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
-      console.log("axios config", config);
       return axios($, config);
     },
     async getProducts(args = {}) {
       return this._makeRequest({
         path: "/products",
+        ...args,
+      });
+    },
+    async getAttributes(args = {}) {
+      return this._makeRequest({
+        path: "/attributes",
+        ...args,
+      });
+    },
+    async getAttribute({
+      attributeCode,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/attributes/${attributeCode}`,
         ...args,
       });
     },

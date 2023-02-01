@@ -7,7 +7,7 @@ import fs from "fs";
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.0.53",
+  version: "0.0.1",
   name: "Create A New Product Media File",
   description: "Allows you to create a new media file and associate it to an attribute value of a given product or product model. [See the docs](https://api.akeneo.com/api-reference.html#post_media_files)",
   props: {
@@ -24,25 +24,10 @@ export default {
         "productModelCode",
       ],
     },
-    attributeCode: {
+    mediaFileAttributeCode: {
       propDefinition: [
         app,
-        "attributeCode",
-      ],
-    },
-    channelCode: {
-      propDefinition: [
-        app,
-        "channelCode",
-      ],
-    },
-    localeCode: {
-      propDefinition: [
-        app,
-        "localeCode",
-        (configuredProps) => ({
-          channelCode: configuredProps.channelCode,
-        }),
+        "mediaFileAttributeCode",
       ],
     },
     filename: {
@@ -60,9 +45,9 @@ export default {
       throw new ConfigurationError("File does not exist!");
     }
     const payload = {
-      attribute: this.attributeCode,
-      scope: this.channelCode,
-      locale: this.localeCode,
+      attribute: this.mediaFileAttributeCode,
+      scope: null,
+      locale: null,
     };
     const data = new FormData();
     if (this.productId) {
@@ -72,21 +57,26 @@ export default {
       payload.code = this.productModelCode;
       data.append("product_model", JSON.stringify(payload));
     }
-    const file = fs.createReadStream(path);
-    //const file = fs.readFileSync(path);
-    const stats = fs.statSync(path);
-    data.append("file", file/*, {
-      knownLength: stats.size,
-    }*/);
-    const resp = await this.app.createProductMediaFile({
+    const file = fs.readFileSync(path);
+    const fileParts = path.split("/");
+    data.append("file", file, fileParts[fileParts.length - 1]);
+    const contentLength = await new Promise((resolve, reject) => {
+      data.getLength((err, length) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(length);
+      });
+    });
+    await this.app.createProductMediaFile({
       $,
       headers: {
-        //"Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Length": contentLength,
+        ...data.getHeaders(),
       },
       data,
     });
     $.export("$summary", "The product media file has been created.");
-    return resp;
+    return;
   },
 };
