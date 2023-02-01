@@ -29,18 +29,6 @@ export default {
       ],
       optional: true,
     },
-    privacyStatus: {
-      propDefinition: [
-        youtubeDataApi,
-        "privacyStatus",
-      ],
-    },
-    publishAt: {
-      propDefinition: [
-        youtubeDataApi,
-        "publishAt",
-      ],
-    },
     tags: {
       propDefinition: [
         youtubeDataApi,

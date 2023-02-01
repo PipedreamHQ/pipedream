@@ -123,10 +123,8 @@ export default {
             "snippet",
           ],
           mine: true,
+          pageToken,
         };
-        if (pageToken) {
-          params.pageToken = pageToken;
-        }
         const { data } = await this.listPlaylists(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.title,
@@ -153,10 +151,8 @@ export default {
           ],
           type: "video",
           forMine: true,
+          pageToken,
         };
-        if (pageToken) {
-          params.pageToken = pageToken;
-        }
         const { data } = await this.getVideos(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.title,
@@ -182,10 +178,8 @@ export default {
             "snippet",
           ],
           mine: true,
+          pageToken,
         };
-        if (pageToken) {
-          params.pageToken = pageToken;
-        }
         const { data } = await this.listChannels(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.title,
@@ -221,10 +215,8 @@ export default {
             "snippet",
           ],
           allThreadsRelatedToChannelId: channelId,
+          pageToken,
         };
-        if (pageToken) {
-          params.pageToken = pageToken;
-        }
         const { data } = await this.listCommentThreads(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.topLevelComment.snippet.textDisplay,

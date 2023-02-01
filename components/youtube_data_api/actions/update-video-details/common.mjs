@@ -7,10 +7,10 @@ export default {
     const { data } = await this.youtubeDataApi.listVideos({
       part,
       id: this.videoId,
-    }); console.log(data);
+    });
     const [
       video,
-    ] = data.items; console.log(video);
+    ] = data.items;
 
     const description = this.description || video.snippet.description;
     const tags = this.tags || video.snippet.tags;

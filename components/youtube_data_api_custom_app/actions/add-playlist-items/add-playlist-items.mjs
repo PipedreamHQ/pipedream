@@ -8,7 +8,6 @@ export default {
   description: "Adds resources to a playlist. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/insert) for more information",
   version: "0.0.1",
   type: "action",
-  dedupe: "unique",
   props: {
     youtubeDataApi,
     playlistId: {

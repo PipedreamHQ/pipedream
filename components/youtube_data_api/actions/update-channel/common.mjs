@@ -19,7 +19,7 @@ export default {
     ] = data.items;
 
     const description = this.description || channel.brandingSettings.channel.description;
-    const defaultLanguage = this.defaultLangugae
+    const defaultLanguage = this.defaultLanguage
       || channel.brandingSettings.channel.defaultLanguage;
     const keywords = this.keywords?.join() || channel.brandingSettings.channel.keywords;
 
