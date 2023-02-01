@@ -1,6 +1,6 @@
 export default {
   checkTmp(filename) {
-    if (filename.indexOf("/tmp") != 0) {
+    if (!filename.startsWith("/tmp")) {
       return `/tmp/${filename}`;
     }
     return filename;

@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 
-const pageSize = 25;
+const PAGE_SIZE = 25;
 
 export default {
   type: "app",
@@ -15,30 +15,30 @@ export default {
         page++;
         const resp = await this.getProducts({
           params: {
-            limit: pageSize,
+            limit: PAGE_SIZE,
             page,
           },
         });
         return resp?._embedded?.items?.map((product) => ({
-          label: product.uuid,
-          value: `${product.family} - ${product.identifier}`,
-        }));
+          label: `${product.family} - ${product.uuid}`,
+          value: product.identifier,
+        })) || [];
       },
     },
     productModelCode: {
       type: "string",
       label: "Product Model Code",
-      description: "A code identifying the product model. - Either this prop or `Product Identifier` should be set.",
+      description: "A code identifying the product model - either this prop or `Product Identifier` should be set.",
       optional: true,
       async options({ page }) {
         page++;
         const resp = await this.getProductModels({
           params: {
-            limit: pageSize,
+            limit: PAGE_SIZE,
             page,
           },
         });
-        return resp?._embedded?.items?.map((model) => model.code);
+        return resp?._embedded?.items?.map((model) => model.code) || [];
       },
     },
     mediaFileAttributeCode: {
@@ -49,7 +49,7 @@ export default {
         page++;
         const resp = await this.getAttributes({
           params: {
-            limit: pageSize,
+            limit: PAGE_SIZE,
             page,
             search: {
               type: [
@@ -63,7 +63,7 @@ export default {
             },
           },
         });
-        return resp?._embedded?.items?.map((attribute) => attribute.code);
+        return resp?._embedded?.items?.map((attribute) => attribute.code) || [];
       },
     },
     channelCode: {
@@ -74,11 +74,11 @@ export default {
         page++;
         const resp = await this.getChannels({
           params: {
-            limit: pageSize,
+            limit: PAGE_SIZE,
             page,
           },
         });
-        return resp?._embedded?.items?.map((channel) => channel.code);
+        return resp?._embedded?.items?.map((channel) => channel.code) || [];
       },
     },
     localeCode: {
@@ -89,7 +89,7 @@ export default {
         const resp = await this.getChannel({
           channelCode,
         });
-        return resp?.locales;
+        return resp?.locale || [];
       },
     },
   },

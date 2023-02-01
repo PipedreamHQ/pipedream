@@ -60,14 +60,15 @@ export default {
     const file = fs.readFileSync(path);
     const fileParts = path.split("/");
     data.append("file", file, fileParts[fileParts.length - 1]);
-    const contentLength = await new Promise((resolve, reject) => {
+    /*const contentLength = await new Promise((resolve, reject) => {
       data.getLength((err, length) => {
         if (err) {
           reject(err);
         }
         resolve(length);
       });
-    });
+    });*/
+    const contentLength = data.getLengthSync();
     await this.app.createProductMediaFile({
       $,
       headers: {
