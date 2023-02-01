@@ -133,7 +133,7 @@ export default defineApp({
     },
     linkedInHandle: {
       label: "LinkedIn Handle",
-      description: "Contact's linkedin profile link.",
+      description: "Contact's LinkedIn profile link.",
       type: "string",
     },
     mobile: {
