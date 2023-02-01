@@ -5,7 +5,7 @@ export default {
   key: "twitter-list-mentions",
   name: "List Mentions",
   description: "Return the 20 most recent mentions for the authenticated user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-mentions_timeline)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

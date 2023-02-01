@@ -6,7 +6,7 @@ export default {
   key: "ringcentral-new-inbound-message",
   name: "New Inbound Message Event (Instant)",
   description: "Emit new event for each status change of inbound messages of a specific type",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,
@@ -36,18 +36,14 @@ export default {
         messageType: this.messageType,
       };
     },
-    generateMeta(data) {
-      const {
-        timestamp,
-        uuid: id,
-      } = data;
-      const summary = "New inbound message event";
-      const ts = Date.parse(timestamp);
-      return {
-        id,
-        summary,
-        ts,
-      };
+    async emitEvent(event) {
+      const { body } = event;
+
+      this.$emit(body, {
+        id: body.uuid,
+        summary: `New inbound message received with ID ${body.uuid}`,
+        ts: Date.parse(body.timestamp),
+      });
     },
   },
 };

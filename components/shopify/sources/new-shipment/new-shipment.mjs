@@ -1,43 +1,26 @@
-import shopify from "../../shopify.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
+  ...common,
   key: "shopify-new-shipment",
-  name: "New Shipment",
+  name: "New Shipment (Instant)",
   type: "source",
   description: "Emit new event for each new fulfillment event for a store.",
-  version: "0.0.9",
-  props: {
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    shopify,
-  },
+  version: "0.0.10",
+  dedupe: "unique",
   methods: {
-    emitShipments(results) {
-      for (const order of results) {
-        if (order.fulfillments && order.fulfillments.length > 0) {
-          for (const shipment of order.fulfillments) {
-            this.$emit(shipment, {
-              id: shipment.id,
-              summary: `Fulfillment ${shipment.name}`,
-              ts: Date.now(),
-            });
-          }
-        }
-      }
+    ...common.methods,
+    getTopic() {
+      return constants.EVENT_TOPIC.ORDERS_FULFILLED;
     },
-  },
-  async run() {
-    this.emitShipments(
-      await this.shopify.getOrders("shipped"),
-    );
-    this.emitShipments(
-      await this.shopify.getOrders("partial"),
-    );
+    generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
+      return {
+        id: ts,
+        summary: `New Shipped Order ${resource.id}.`,
+        ts,
+      };
+    },
   },
 };

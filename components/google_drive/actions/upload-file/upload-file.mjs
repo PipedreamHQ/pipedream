@@ -1,21 +1,14 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
-import {
-  getFileStream,
-  streamToBuffer,
-  byteToMB,
-} from "../../utils.mjs";
+import { getFileStream } from "../../utils.mjs";
 import { omitEmptyStringValues } from "../../utils.mjs";
-import {
-  GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
-  GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
-} from "../../constants.mjs";
+import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../constants.mjs";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     googleDrive,
@@ -71,6 +64,7 @@ export default {
         googleDrive,
         "uploadType",
       ],
+      default: GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
       optional: true,
     },
   },
@@ -92,20 +86,7 @@ export default {
       fileUrl,
       filePath,
     });
-    if (!uploadType || uploadType === "") {
-      try {
-        const fileBuffer = await streamToBuffer(file);
-        const bufferSize = byteToMB(Buffer.byteLength(fileBuffer));
-        uploadType = bufferSize > 5
-          ? GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE
-          : GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA;
-        console.log(`Upload type: ${uploadType}`);
-      } catch (err) {
-        console.log(err);
-        uploadType = "media";
-      }
-    }
-    console.log(`Upload type: ${uploadType}`);
+    console.log(`Upload type: ${uploadType}.`);
     const resp = await this.googleDrive.createFile(omitEmptyStringValues({
       file,
       mimeType,

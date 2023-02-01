@@ -1,48 +1,49 @@
-// legacy_hash_id: a_A6iP3l
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-retrieve-comments-shares",
   name: "Retrieve Comments On Shares",
-  description: "Retrieve comments on shares given the share urn.",
-  version: "0.1.1",
+  description: "Retrieve comments on shares given the share urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-shares)",
+  version: "0.1.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
-    entity_urn: {
+    linkedin,
+    entityUrn: {
       type: "string",
-      description: "Urn of the entity to retreive likes on.",
+      label: "Entity Urn",
+      description: "Urn of the entity to retreive comments on.",
     },
-    start: {
-      type: "integer",
-      description: "The index of the first item you want results for.",
-      optional: true,
-    },
-    count: {
-      type: "integer",
-      description: "The number of items you want included on each page of results. Note that there may be less remaining items than the value you specify here.",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-shares
+    const count = 50;
+    const results = [];
 
-    if (!this.entity_urn) {
-      throw new Error("Must provide entity_urn parameter.");
-    }
+    const params = {
+      start: 0,
+      count,
+    };
 
-    return await axios($, {
-      url: `https://api.linkedin.com/v2/socialActions/${this.entity_urn}/comments`,
-      headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-      },
-      params: {
-        start: this.start,
-        count: this.count,
-      },
-    });
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.getComments(encodeURIComponent(this.entityUrn), {
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
+
+    $.export("$summary", `Successfully retrieved ${results.length} comment(s)`);
+
+    return results;
   },
 };

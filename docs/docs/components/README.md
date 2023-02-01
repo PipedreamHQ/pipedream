@@ -4,7 +4,7 @@
 
 ## What are Components?
 
-Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
+Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required.
 
 Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components) or you can author and share your own.
 
@@ -25,7 +25,7 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 - Accept user input on deploy via `props`
 - [Trigger](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
 - Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/)
-- Store and retrieve state using the [built-in key-value store](api/#db) 
+- Store and retrieve state using the [built-in key-value store](api/#db)
 - Use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
 - Deploy via Pipedream's UI, CLI or API
 
@@ -48,7 +48,7 @@ The Add Single Row action for Google Sheets is a prebuilt component in Pipedream
 
 ## Using Components
 
-Components may be instantiated or added to workflows via Pipedream's UI. 
+Components may be instantiated or added to workflows via Pipedream's UI.
 
 - Sources may be instantiated and consumed via [UI](https://pipedream.com/sources/new), [CLI](/cli/reference/#pd-deploy) or API
 - Actions may be added to [workflows](https://pipedream.com/new)
@@ -71,19 +71,18 @@ You can also deploy new instances of a source from the [Components dashboard](ht
 
 ![Creating a source from the Component dashboard](https://res.cloudinary.com/pipedreamin/image/upload/v1666106571/docs/CleanShot_2022-10-18_at_11.22.02_ajjopm.gif)
 
-
 ## Developing Components
 
-Develop components locally using your preferred code editor (and maintain your code in your own GitHub repo) and deploy or publish using Pipedream's [CLI](/cli/reference/#pd-deploy). 
+Develop components locally using your preferred code editor (and maintain your code in your own GitHub repo) and deploy or publish using Pipedream's [CLI](/cli/reference/#pd-deploy).
 
 - Sources may be deployed directly from local code or published to your account and instantiated via Pipedream's UI
 - Actions may only be published — published actions may be added to workflows via Pipedream's UI
 
-Published components are only available to your own account by default. If published to a team account, the component (source or action) may be discovered and selected by any member of the team. 
+Published components are only available to your own account by default. If published to a team account, the component (source or action) may be discovered and selected by any member of the team.
 
 ### Prerequisites
 
-- A free [Pipedream](https://pipedream.com) account 
+- A free [Pipedream](https://pipedream.com) account
 - A free [GitHub](https://github.com) account
 - Basic proficiency with Node.js or Javascript
 - Pipedream [CLI](/cli/reference/)
@@ -92,20 +91,18 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Quickstart Guides
 
-- [Sources](quickstart/nodejs/sources/) 
+- [Sources](quickstart/nodejs/sources/)
 - [Actions](quickstart/nodejs/actions/)
 
 ### Component API Reference
 
 After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api/) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
 
-
 ## Managing Privately Published Components
 
 Components published to your account or organization are available in the [Components](https://pipedream.com/components) section of the dashboard.
 
 Your private components published from the CLI or from Node.js code steps are listed here.
-
 
 ### Unpublishing Privately Published Components
 
@@ -117,9 +114,7 @@ To unpublish components belonging to your account or organization, open the menu
 
 A prompt will open to confirm the action, click **Confirm** to unpublish your action.
 
-
 ![Unpublish a component from your account by opening the menu on the right hand side](https://res.cloudinary.com/pipedreamin/image/upload/v1666103082/docs/components/CleanShot_2022-10-18_at_10.22.45_vdhoq7.gif)
-
 
 ::: danger
 
@@ -127,14 +122,13 @@ Unpublishing a component is an permanent action, please be careful to you still 
 
 :::
 
-
 ## Sharing Components
 
 Contribute to the Pipedream community by publishing and sharing new components, and contributing to the maintenance of existing components.
 
 ### Verified Components
 
-Pipedream maintains an open source registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/components/guidelines/#process) and:
+Pipedream maintains a source-available registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/components/guidelines/#process) and:
 
 - Can be trusted by end users
 - Follow consistent patterns for usability

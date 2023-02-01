@@ -1,10 +1,11 @@
 import agileCrm from "../../agile_crm.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "agile_crm-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Agile CRM. [See the docs here](https://github.com/agilecrm/rest-api#13-creating-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     agileCrm,
@@ -39,34 +40,50 @@ export default {
         "phone",
       ],
     },
+    customFields: {
+      propDefinition: [
+        agileCrm,
+        "customFields",
+      ],
+    },
   },
   async run({ $ }) {
+    const {
+      firstName,
+      lastName,
+      company,
+      email,
+      phone,
+      customFields,
+    } = this;
+
     const data = {
       properties: [
         {
           type: "SYSTEM",
           name: "first_name",
-          value: this.firstName,
+          value: firstName,
         },
         {
           type: "SYSTEM",
           name: "last_name",
-          value: this.lastName || "",
+          value: lastName || "",
         },
         {
           type: "SYSTEM",
           name: "company",
-          value: this.company || "",
+          value: company || "",
         },
         {
           type: "SYSTEM",
           name: "email",
-          value: this.email || "",
+          value: email || "",
         },
         {
           name: "phone",
-          value: this.phone || "",
+          value: phone || "",
         },
+        ...utils.getCustomFieldsProperties(customFields),
       ],
     };
 

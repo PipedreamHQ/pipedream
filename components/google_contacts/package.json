@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_contacts",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "googleapis": "^96.0.0"

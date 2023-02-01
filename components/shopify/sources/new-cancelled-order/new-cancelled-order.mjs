@@ -1,51 +1,26 @@
-import shopify from "../../shopify.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/webhook.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
+  ...common,
   key: "shopify-new-cancelled-order",
-  name: "New Cancelled Order",
+  name: "New Cancelled Order (Instant)",
   type: "source",
   description: "Emit new event each time a new order is cancelled.",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
-  props: {
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    shopify,
-  },
   methods: {
-    _getLastUpdatedDate() {
-      return this.db.get("last_updated_at") || null;
+    ...common.methods,
+    getTopic() {
+      return constants.EVENT_TOPIC.ORDERS_CANCELLED;
     },
-    _setLastUpdatedDate(date) {
-      this.db.set("last_updated_at", date);
+    generateMeta(resource) {
+      const ts = Date.parse(resource.updated_at);
+      return {
+        id: ts,
+        summary: `Order Cancelled ${resource.id}.`,
+        ts,
+      };
     },
-  },
-  async run() {
-    const lastUpdatedAt = this._getLastUpdatedDate();
-    let results = await this.shopify.getOrders(
-      "any",
-      true,
-      null,
-      lastUpdatedAt,
-      "cancelled",
-    );
-
-    for (const order of results) {
-      this.$emit(order, {
-        id: order.id,
-        summary: `Order cancelled: ${order.name}`,
-        ts: Date.parse(order.updated_at),
-      });
-    }
-
-    if (results[results.length - 1]) {
-      this._setLastUpdatedDate(results[results.length - 1].updated_at);
-    }
   },
 };

@@ -1,53 +1,59 @@
-// legacy_hash_id: a_A6iPqL
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-search-organization",
   name: "Search Organization",
-  description: "Searches for an organization by vanity name or email domain.",
-  version: "0.1.1",
+  description: "Searches for an organization by vanity name or email domain. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-lookup-api)",
+  version: "0.1.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
-    search_by: {
+    linkedin,
+    searchBy: {
       type: "string",
+      label: "Search By",
       description: "You can look up the `id`, `name`, `localizedName`, `vanityName`, `localizedWebsite`, `logoV2`, and `location` of any organization using `vanityName` or `emailDomain`",
       options: [
         "vanityName",
         "emailDomain",
       ],
     },
-    search_term: {
+    searchTerm: {
       type: "string",
+      label: "Search Term",
+      description: "Keyword to search for",
     },
-    start: {
-      type: "string",
-      optional: true,
-    },
-    count: {
-      type: "string",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-lookup-api
+    const count = 50;
+    const results = [];
 
-    if (!this.search_by || !this.search_term) {
-      throw new Error("Must provide search_by and search_term parameters.");
-    }
+    const params = {
+      start: 0,
+      count,
+    };
+    const querystring = `${this.searchBy}&${this.searchBy}=${this.searchTerm}`;
 
-    return await axios($, {
-      url: `https://api.linkedin.com/v2/organizations?q=${this.search_by}&${this.search_by}=${this.search_term}`,
-      headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-      },
-      params: {
-        start: this.start,
-        count: this.count,
-      },
-    });
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.searchOrganizations(querystring, {
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
+
+    $.export("$summary", "Successfully searched organizations");
+
+    return results;
   },
 };

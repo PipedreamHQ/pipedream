@@ -5,7 +5,7 @@ export default {
   key: "streak-updated-box",
   name: "Updated Box (Instant)",
   description: "Emit new event when a box is updated in a pipeline.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

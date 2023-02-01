@@ -6,7 +6,7 @@ export default {
   key: "ringcentral-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
   description: "Emit new event for each outbound message event. This only includes the event, not the actual message.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,
@@ -36,18 +36,22 @@ export default {
         messageType: this.messageType,
       };
     },
-    generateMeta(data) {
-      const {
-        timestamp,
-        uuid: id,
-      } = data;
-      const summary = "New outbound message event";
-      const ts = Date.parse(timestamp);
-      return {
-        id,
-        summary,
-        ts,
-      };
+    async emitEvent(event) {
+      const { body: { body } } = event;
+
+      for (const messageId of body.changes[0].newMessageIds) {
+        const message = await this.ringcentral.getMessage({
+          accountId: body.accountId,
+          extensionId: body.extensionId,
+          messageId,
+        });
+
+        this.$emit(message, {
+          id: message.id,
+          summary: `New outbound message received with ID ${message.id}`,
+          ts: Date.parse(body.lastUpdated),
+        });
+      }
     },
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_desk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Zoho_desk Components",
   "main": "zoho_desk.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/zoho_desk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0"
   },

@@ -4,7 +4,7 @@ export default {
   key: "slack-find-message",
   name: "Find Message",
   description: "Find a Slack message. [See docs here](https://api.slack.com/methods/search.messages)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     slack,
@@ -21,7 +21,7 @@ export default {
       ],
       optional: true,
     },
-    team_id: {
+    teamId: {
       propDefinition: [
         slack,
         "team",
@@ -30,9 +30,10 @@ export default {
     },
   },
   async run() {
-    return await this.slack.sdk().search.messages({
+    return this.slack.searchMessages({
       query: this.query,
       count: this.count,
+      team_id: this.teamId,
     });
   },
 };

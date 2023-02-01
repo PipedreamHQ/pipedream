@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ticktick",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Pipedream Ticktick Components",
   "main": "ticktick.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/ticktick",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0"
   },

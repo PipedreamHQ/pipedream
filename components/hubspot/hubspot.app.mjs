@@ -722,5 +722,33 @@ export default {
         },
       );
     },
+    async batchCreateContacts({
+      $,
+      data,
+    }) {
+      return this.makeRequest(
+        API_PATH.CRMV3,
+        "/objects/contacts/batch/create",
+        {
+          method: "POST",
+          data,
+          $,
+        },
+      );
+    },
+    async batchUpdateContacts({
+      $,
+      data,
+    }) {
+      return this.makeRequest(
+        API_PATH.CRMV3,
+        "/objects/contacts/batch/update",
+        {
+          method: "POST",
+          data,
+          $,
+        },
+      );
+    },
   },
 };

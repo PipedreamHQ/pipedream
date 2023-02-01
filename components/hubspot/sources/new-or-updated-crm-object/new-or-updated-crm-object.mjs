@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
   description: "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.5",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -20,12 +20,12 @@ export default {
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(object) {
+      return Date.parse(object.updatedAt);
+    },
     generateMeta(object) {
-      const {
-        id,
-        updatedAt,
-      } = object;
-      const ts = Date.parse(updatedAt);
+      const { id } = object;
+      const ts = this.getTs(object);
       return {
         id: `${id}${ts}`,
         summary: `Record ID: ${id}`,
@@ -33,7 +33,7 @@ export default {
       };
     },
     isRelevant(object, updatedAfter) {
-      return Date.parse(object.updatedAt) > updatedAfter;
+      return this.getTs(object) > updatedAfter;
     },
     getParams() {
       return null;

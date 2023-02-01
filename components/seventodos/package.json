@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/seventodos",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream 7todos Components",
   "main": "seventodos.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/seventodos",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

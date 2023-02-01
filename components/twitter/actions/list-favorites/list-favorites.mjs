@@ -5,7 +5,7 @@ export default {
   key: "twitter-list-favorites",
   name: "List Favorites",
   description: "Return the most recent tweets liked by you or the specified user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

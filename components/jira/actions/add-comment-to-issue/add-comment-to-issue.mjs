@@ -5,14 +5,23 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     body: {
@@ -59,6 +68,7 @@ export default {
     }
     const response = await this.jira.addCommentToIssue({
       $,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         expand: this.expand,

@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   hooks: {},
@@ -29,13 +29,15 @@ export default {
   },
   methods: {
     ...common.methods,
+    getTs(deal) {
+      return Date.parse(deal.updatedAt);
+    },
     generateMeta(deal) {
       const {
         id,
         properties,
-        updatedAt,
       } = deal;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(deal);
       return {
         id: `${id}${properties.dealstage}`,
         summary: `${properties.dealname}`,
@@ -43,7 +45,7 @@ export default {
       };
     },
     isRelevant(deal, updatedAfter) {
-      return Date.parse(deal.updatedAt) > updatedAfter;
+      return this.getTs(deal) > updatedAfter;
     },
     getParams() {
       return null;

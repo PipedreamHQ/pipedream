@@ -8,14 +8,23 @@ export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     filenames: {
@@ -60,6 +69,7 @@ export default {
 
       const response = await this.jira.addAttachmentToIssue({
         $,
+        cloudId: this.cloudId,
         issueIdOrKey: this.issueIdOrKey,
         headers,
         data,

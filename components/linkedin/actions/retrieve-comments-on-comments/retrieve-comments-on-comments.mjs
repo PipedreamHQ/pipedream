@@ -1,48 +1,49 @@
-// legacy_hash_id: a_G1ierz
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-retrieve-comments-on-comments",
-  name: "Retrieves comments on comments",
-  description: "Retrieves comments on comments, given the parent comment urn.",
-  version: "0.1.1",
+  name: "Retrieves Comments on Comments",
+  description: "Retrieves comments on comments, given the parent comment urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-comments)",
+  version: "0.1.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
-    comment_urn: {
+    linkedin,
+    commentUrn: {
       type: "string",
+      label: "Comment Urn",
       description: "To resolve nested comments for a given parent comment, provide a parent `commentUrn` as the target in the request URL. A `commentUrn` is a composite URN constructed using a comment ID and `activityUrn`.",
     },
-    start: {
-      type: "integer",
-      description: "The index of the first item you want results for.",
-      optional: true,
-    },
-    count: {
-      type: "integer",
-      description: "The number of items you want included on each page of results. Note that there may be less remaining items than the value you specify here.",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-comments
+    const count = 50;
+    const results = [];
 
-    if (!this.comment_urn) {
-      throw new Error("Must provide comment_urn parameter.");
-    }
+    const params = {
+      start: 0,
+      count,
+    };
 
-    return await axios($, {
-      url: `https://api.linkedin.com/v2/socialActions/${this.comment_urn}/comments`,
-      headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-      },
-      params: {
-        start: this.start,
-        count: this.count,
-      },
-    });
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.getComments(encodeURIComponent(this.commentUrn), {
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
+
+    $.export("$summary", `Successfully retrieved ${results.length} comment(s)`);
+
+    return results;
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "slack-list-user-groups-users",
   name: "List User Groups Users",
   description: "List all users in a User Group. [See docs here](https://api.slack.com/methods/usergroups.users.list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

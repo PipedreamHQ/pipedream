@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/agile_crm",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Pipedream Agile CRM Components",
   "main": "agile_crm.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/agile_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rawg_video_games_database",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream RAWG Video Games Database Components",
   "main": "dist/app/rawg_video_games_database.app.mjs",
   "keywords": [
@@ -10,7 +10,6 @@
   "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rawg_video_games_database",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

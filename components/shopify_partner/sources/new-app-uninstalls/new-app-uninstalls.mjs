@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-uninstalls",
   name: "New App Uninstalls",
   type: "source",
-  version: "0.0.13",
+  version: "0.0.14",
   description: "Emit new events when new shops uninstall your app.",
   ...common,
   props: {
@@ -39,7 +39,7 @@ export default {
     } = this;
 
     const variables = {
-      appId,
+      appId: `gid://partners/App/${appId}`,
       ...(occurredAtMin || {}),
       ...(occurredAtMax || {}),
     };

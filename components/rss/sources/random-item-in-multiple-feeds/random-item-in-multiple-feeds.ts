@@ -8,7 +8,7 @@ export default defineSource({
   name: "Random item from multiple RSS feeds",
   type: "source",
   description: "Emit a random item from multiple RSS feeds",
-  version: "0.0.3",
+  version: "0.1.0",
   props: {
     ...rssCommon.props,
     urls: {

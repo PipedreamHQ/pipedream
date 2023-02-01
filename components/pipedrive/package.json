@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedrive",
-  "version": "0.3.7",
+  "version": "0.3.9",
   "description": "Pipedream Pipedrive Components",
   "main": "pipedrive.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/pipedrive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"

@@ -60,37 +60,9 @@ export default {
         method: "post",
       });
     },
-    async getExhibitors({ ...args }) {
+    async getExhibitors(args) {
       return this._makeRequest({
         path: "/list-exhibitors",
-        method: "post",
-        ...args,
-      });
-    },
-    async getExhibitor({ ...args }) {
-      return this._makeRequest({
-        path: "/get-exhibitor",
-        method: "post",
-        ...args,
-      });
-    },
-    async getBooth({ ...args }) {
-      return this._makeRequest({
-        path: "/get-booth",
-        method: "post",
-        ...args,
-      });
-    },
-    async updateBooth({ ...args }) {
-      return this._makeRequest({
-        path: "/update-booth",
-        method: "post",
-        ...args,
-      });
-    },
-    async updateExhibitor({ ...args }) {
-      return this._makeRequest({
-        path: "/update-exhibitor",
         method: "post",
         ...args,
       });

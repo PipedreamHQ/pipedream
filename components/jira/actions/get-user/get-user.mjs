@@ -4,14 +4,23 @@ export default {
   key: "jira-get-user",
   name: "Get User",
   description: "Gets details of user, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     accountId: {
       propDefinition: [
         jira,
         "accountId",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     expand: {
@@ -25,6 +34,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.getUser({
       $,
+      cloudId: this.cloudId,
       params: {
         accountId: this.accountId,
         expand: this.expand,

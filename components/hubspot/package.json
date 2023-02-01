@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hubspot",
-  "version": "0.5.3",
+  "version": "0.5.9",
   "description": "Pipedream Hubspot Components",
   "main": "hubspot.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/hubspot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "bottleneck": "^2.19.5"

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dialpad",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Pipedream Dialpad Components",
   "main": "dist/app/dialpad.app.mjs",
   "types": "dist/app/dialpad.app.d.ts",
@@ -13,7 +13,6 @@
   ],
   "homepage": "https://pipedream.com/apps/dialpad",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

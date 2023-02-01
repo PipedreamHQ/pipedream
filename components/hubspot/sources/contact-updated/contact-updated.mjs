@@ -5,18 +5,20 @@ export default {
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emit new event each time a contact is updated.",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   methods: {
     ...common.methods,
+    getTs(contact) {
+      return Date.parse(contact.updatedAt);
+    },
     generateMeta(contact) {
       const {
         id,
         properties,
-        updatedAt,
       } = contact;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(contact);
       return {
         id: `${id}${ts}`,
         summary: `${properties.firstname} ${properties.lastname}`,
@@ -24,7 +26,7 @@ export default {
       };
     },
     isRelevant(contact, updatedAfter) {
-      return Date.parse(contact.updatedAt) > updatedAfter;
+      return this.getTs(contact) > updatedAfter;
     },
     getParams() {
       return {

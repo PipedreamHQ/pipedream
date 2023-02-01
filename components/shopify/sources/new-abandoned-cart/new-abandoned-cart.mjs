@@ -6,7 +6,7 @@ export default {
   name: "New Abandoned Cart",
   type: "source",
   description: "Emit new event each time a user abandons their cart.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     db: "$.service.db",

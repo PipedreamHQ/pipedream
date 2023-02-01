@@ -40,7 +40,7 @@ See a gap or mistake in our [docs](https://github.com/PipedreamHQ/pipedream/tree
 
 ## Develop Sources and Actions
 
-[Contribute](https://pipedream.com/docs/components/guidelines/) to Pipedream's registry of open source components by:
+[Contribute](https://pipedream.com/docs/components/guidelines/) to Pipedream's registry of components by:
 
 - Creating new components (sources and actions)
 - Updating existing components (e.g., fixing bugs, enhancing functionality)

@@ -1,52 +1,53 @@
-// legacy_hash_id: a_dvi1OB
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-get-organization-administrators",
   name: "Get Organization Administrators",
-  description: "Gets the administator members of an organization, given the organization urn.",
-  version: "0.2.1",
+  description: "Gets the administator members of an organization, given the organization urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-organization-administrators)",
+  version: "0.2.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
-    organization_urn: {
+    linkedin,
+    organizationUrn: {
       type: "string",
+      label: "Organization",
       description: "The organizational entity for which administrators are being retrieved. Must be in URN format urn:li:organization:{id}.",
     },
-    start: {
-      type: "integer",
-      description: "The index of the first item you want results for.",
-      optional: true,
-    },
-    count: {
-      type: "integer",
-      description: "The number of items you want included on each page of results.  Note that there may be less remaining items than the value you specify here.",
-      optional: true,
+    max: {
+      propDefinition: [
+        linkedin,
+        "max",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-organization-administrators
+    const count = 50;
+    const results = [];
 
-    if (!this.organization_urn) {
-      throw new Error("Must provide organization_urn parameter.");
-    }
+    const params = {
+      q: "organization",
+      organization: encodeURI(this.organizationUrn),
+      role: "ADMINISTRATOR",
+      state: "APPROVED",
+      start: 0,
+      count,
+    };
 
-    return await axios($, {
-      url: "https://api.linkedin.com/v2/organizationAcls",
-      headers: {
-        Authorization: `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-      },
-      params: {
-        q: "organization",
-        organization: encodeURI(this.organization_urn),
-        role: "ADMINISTRATOR",
-        state: "APPROVED",
-        start: this.start,
-        count: this.count,
-      },
-    });
+    let done = false;
+    do {
+      const { elements } = await this.linkedin.getAccessControl({
+        $,
+        params,
+      });
+      results.push(...elements);
+      params.start += count;
+      if (elements?.length < count) {
+        done = true;
+      }
+    } while (results.length < this.max && !done);
+
+    $.export("$summary", `Successfully retrieved ${results.length} organization administrator(s)`);
+
+    return results;
   },
 };

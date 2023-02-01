@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_workspace",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Google Workspace Admin Components",
   "main": "dist/app/google_workspace.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_workspace",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -5,19 +5,21 @@ export default {
   key: "hubspot-new-deal",
   name: "New Deals",
   description: "Emit new event for each new deal created.",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(deal) {
+      return Date.parse(deal.createdAt);
+    },
     generateMeta(deal) {
       const {
         id,
         properties,
-        createdAt,
       } = deal;
-      const ts = Date.parse(createdAt);
+      const ts = this.getTs(deal);
       return {
         id,
         summary: properties.dealname,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(deal, createdAfter) {
-      return Date.parse(deal.createdAt) > createdAfter;
+      return this.getTs(deal) > createdAfter;
     },
     getParams() {
       return {

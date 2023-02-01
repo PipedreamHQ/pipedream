@@ -5,7 +5,7 @@ export default {
   key: "streak-new-comment",
   name: "New Comment (Instant)",
   description: "Emit new event when a new comment is created within a pipeline.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

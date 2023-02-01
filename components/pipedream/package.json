@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedream",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Pipedream Components",
   "main": "pipedream.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/pipedream",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "convert-array-to-csv": "^2.0.0",
