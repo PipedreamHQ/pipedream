@@ -42,7 +42,7 @@ export default {
         rowCount,
       };
     },
-    filterAndEmitChanges(results, objectType, objectsToEmit) {
+    filterAndEmitChanges(results, objectType, objectsToEmit, queryTypes) {
       for (const result of results) {
         const {
           QUERY_TEXT: queryText,
@@ -58,6 +58,12 @@ export default {
           continue;
         }
 
+        // Filter out queries that are not in the queryTypes array
+        if (queryTypes && !queryTypes.includes(queryType)) {
+          console.log(`Query type ${queryType} is not in the queryTypes array. Skipping.`);
+          continue;
+        }
+
         // Filter out queries that don't match the selected resources, if present
         // eslint-disable-next-line no-useless-escape
         const queryRegex = new RegExp(".*IDENTIFIER\\(\\s*'(?<warehouse>.*?)'\\s*\\)|.*IDENTIFIER\\(\\s*\"(?<warehouse2>.*?)\"\\s*\\)|.*(\\bwarehouse\\s+(?<warehouse3>\\w+))", "i");
@@ -69,6 +75,7 @@ export default {
         if (!objectName) continue;
         const formattedObjectName = objectName.replace(/^"|^'|"$|'$/g, "");
         if (objectsToEmit && formattedObjectName && !objectsToEmit.includes(formattedObjectName)) {
+          console.log(`${formattedObjectName} not in list of objects to emit. Skipping.`);
           continue;
         }
 
@@ -80,6 +87,7 @@ export default {
           objectName: formattedObjectName,
           queryId,
           queryText,
+          queryType,
           queryStartTime,
           userExecutingQuery,
           details: result,
@@ -90,7 +98,7 @@ export default {
         });
       }
     },
-    async watchObjectsAndEmitChanges(objectType, objectsToEmit) {
+    async watchObjectsAndEmitChanges(objectType, objectsToEmit, queryTypes) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
       const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
@@ -104,7 +112,7 @@ export default {
         objectType,
       );
       console.log(`Raw results: ${JSON.stringify(results, null, 2)}`);
-      this.filterAndEmitChanges(results, objectType, objectsToEmit);
+      this.filterAndEmitChanges(results, objectType, objectsToEmit, queryTypes);
       await this.db.set("lastMaxTimestamp", newMaxTs);
     },
     getStatement() {

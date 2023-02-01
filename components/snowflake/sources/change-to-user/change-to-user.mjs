@@ -4,21 +4,21 @@ export default {
   ...common,
   props: {
     ...common.props,
-    warehouses: {
+    users: {
       propDefinition: [
         common.props.snowflake,
-        "warehouses",
+        "users",
       ],
       optional: true,
     },
   },
   type: "source",
-  key: "snowflake-change-to-warehouse",
+  key: "snowflake-change-to-user",
   // eslint-disable-next-line
-  name: "New, Updated, or Deleted Warehouse",
-  description: "Emit new events when a warehouse is created, altered, or dropped",
+  name: "New, Updated, or Deleted User",
+  description: "Emit new events when a user is created, altered, or dropped",
   version: "0.0.1",
   async run() {
-    await this.watchObjectsAndEmitChanges("WAREHOUSE", this.warehouses, this.queryTypes);
+    await this.watchObjectsAndEmitChanges("USER", this.users, this.queryTypes);
   },
 };

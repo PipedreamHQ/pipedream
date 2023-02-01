@@ -45,6 +45,15 @@ export default {
         return options.map((i) => i.name);
       },
     },
+    users: {
+      type: "string[]",
+      label: "User Name",
+      description: "**Optional**. The name of the user(s) you want to watch for changes. If not provided, changes will be emitted for all users this account has access to.",
+      async options() {
+        const options = await this.listUsers();
+        return options.map((i) => i.login_name);
+      },
+    },
   },
   methods: {
     async _getConnection() {
@@ -80,6 +89,12 @@ export default {
     },
     async listWarehouses() {
       const sqlText = "SHOW WAREHOUSES";
+      return this.collectRows({
+        sqlText,
+      });
+    },
+    async listUsers() {
+      const sqlText = "SHOW USERS";
       return this.collectRows({
         sqlText,
       });
