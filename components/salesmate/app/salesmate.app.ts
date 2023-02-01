@@ -219,7 +219,7 @@ export default defineApp({
     },
     stage: {
       label: "Stage",
-      description: "User can select a stage for a deal. like new, contacted, qualified, proposal presented or in negotiation.",
+      description: "The stage for a deal. like new, contacted, qualified, proposal presented or in negotiation.",
       type: "string",
       async options({
         page, pipeline,
