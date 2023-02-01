@@ -355,7 +355,7 @@ export default defineApp({
         data: queries.listContacts,
       });
     },
-    listCurrency(args = {}) {
+    listCurrencies(args = {}) {
       return this._makeRequest({
         ...args,
         method: "GET",
