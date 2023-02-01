@@ -193,7 +193,6 @@ export default defineApp({
       description: "Set the priority for the deal like high, low or medium.",
       type: "string",
       async options() {
-
         const { fieldOptions } = await this.listVisibleFields({
           module: "deal",
           field: "priority",
