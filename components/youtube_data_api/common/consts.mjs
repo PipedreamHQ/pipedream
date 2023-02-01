@@ -104,4 +104,15 @@ export default {
     "public",
     "unlisted",
   ],
+  LIST_PLAYLIST_ITEMS_PART: [
+    "id",
+    "snippet",
+    "contentDetails",
+    "status",
+  ],
+  LIST_COMMENT_THREAD_PART: [
+    "id",
+    "replies",
+    "snippet",
+  ],
 };
