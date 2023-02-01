@@ -174,7 +174,7 @@ export default defineApp({
     },
     pipelineId: {
       label: "Pipeline",
-      description: "User can select any one pipeline from pre-defined pipelines.",
+      description: "Select a pipeline from pre-defined pipelines.",
       type: "string",
       async options({ page }) {
         const rows = 250;
