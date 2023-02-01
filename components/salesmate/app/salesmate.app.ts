@@ -123,7 +123,7 @@ export default defineApp({
     },
     googlePlusHandle: {
       label: "Google Plus Handle",
-      description: "Contact's google plus profile link.",
+      description: "Contact's Google Plus profile link.",
       type: "string",
     },
     lastName: {
