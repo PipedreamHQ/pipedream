@@ -1,22 +1,22 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "nordigen",
   propDefinitions: {
-    country_code: {
+    countryCode: {
       type: "string",
       label: "Country",
       description: "Country where your bank is located.",
       options: constants.COUNTRY_CODE_OPTS,
     },
-    institution_id: {
+    institutionId: {
       type: "string",
       label: "Institution",
       description: "Select your institution",
-      async options({ country_code }) {
-        const institutions = await this.listInstitutions(country_code);
+      async options({ countryCode }) {
+        const institutions = await this.listInstitutions(countryCode);
         return institutions.map((institution) => {
           return {
             label: institution.name,
@@ -24,6 +24,16 @@ export default {
           };
         });
       },
+    },
+    accessValidForDays: {
+      type: "integer",
+      label: "Validity days",
+      description: "Number of days the user agreement will be valid.",
+    },
+    maxHistoricalDays: {
+      type: "integer",
+      label: "Maximum historical days",
+      description: "Number of days the user agreement will grant access to when listing transactions.",
     },
   },
   methods: {
@@ -37,25 +47,55 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    _getAxiosParams(opts) {
-      return {
-        ...opts,
-        url: this._getHost() + opts.path,
+    async _makeRequest({
+      $ = this,
+      path,
+      ...args
+    }) {
+      return axios($, {
+        url: `${this._getHost()}${path}`,
         headers: this._getHeaders(),
-      };
-    },
-    async _makeRequest(method, endpoint, data, params) {
-      return axios({
-        method,
-        url: this._getHost() + endpoint,
-        headers: this._getHeaders(),
-        data,
-        params,
+        ...args,
       });
     },
-    async listInstitutions(countryCode) {
-      const institutions = await this._makeRequest("GET", `/institutions/?country=${countryCode}`);
-      return institutions.data;
+    async listInstitutions(countryCode, args = {}) {
+      return this._makeRequest({
+        path: `/institutions/?country=${countryCode}`,
+        ...args,
+      });
+    },
+    async listTransactions(accountId, args = {}) {
+      const response = await this._makeRequest({
+        path: `/accounts/${accountId}/transactions/`,
+        ...args,
+      });
+      return response.transactions.booked;
+    },
+    async createEndUserAgreement(args = {}) {
+      return this._makeRequest({
+        path: "/agreements/enduser/",
+        method: "POST",
+        ...args,
+      });
+    },
+    async createRequisition(args = {}) {
+      return this._makeRequest({
+        path: "/requisitions/",
+        method: "POST",
+        ...args,
+      });
+    },
+    async getRequisition(requisitionId, args = {}) {
+      return this._makeRequest({
+        path: `/requisitions/${requisitionId}`,
+        ...args,
+      });
+    },
+    async getAccountDetails(accountId, args = {}) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/details/`,
+        ...args,
+      });
     },
   },
 };
