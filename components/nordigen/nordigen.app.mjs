@@ -25,6 +25,31 @@ export default {
         });
       },
     },
+    requisitionId: {
+      type: "string",
+      label: "Requisition Id",
+      description: "Select the requisitionId to use for this request",
+      async options({ page }) {
+        const limit = 20;
+        const params = {
+          limit,
+          offset: page * limit,
+        };
+        const { results } = await this.listRequisitions({
+          params,
+        });
+        return results.map((result) => result.id);
+      },
+    },
+    accountId: {
+      type: "string",
+      label: "AccountId",
+      description: "The account to retrieve information for",
+      async options({ requisitionId }) {
+        const { accounts } = await this.getRequisition(requisitionId);
+        return accounts;
+      },
+    },
     accessValidForDays: {
       type: "integer",
       label: "Validity days",
@@ -34,6 +59,16 @@ export default {
       type: "integer",
       label: "Maximum historical days",
       description: "Number of days the user agreement will grant access to when listing transactions.",
+    },
+    accessScope: {
+      type: "string",
+      label: "Access Scope",
+      description: "Select an access scope",
+      options: [
+        "balances",
+        "details",
+        "transactions",
+      ],
     },
   },
   methods: {
@@ -71,6 +106,12 @@ export default {
       });
       return response.transactions.booked;
     },
+    async listRequisitions(args = {}) {
+      return this._makeRequest({
+        path: "/requisitions/",
+        ...args,
+      });
+    },
     async createEndUserAgreement(args = {}) {
       return this._makeRequest({
         path: "/agreements/enduser/",
@@ -94,6 +135,50 @@ export default {
     async getAccountDetails(accountId, args = {}) {
       return this._makeRequest({
         path: `/accounts/${accountId}/details/`,
+        ...args,
+      });
+    },
+    async getAccountMetadata(accountId, args = {}) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/`,
+        ...args,
+      });
+    },
+    async getAccountBalances(accountId, args = {}) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/balances`,
+        ...args,
+      });
+    },
+    async createRequisitionLink({
+      institutionId,
+      maxHistoricalDays,
+      accessValidForDays,
+      accessScope,
+    }) {
+      const agreement = await this.createEndUserAgreement({
+        data: {
+          institution_id: institutionId,
+          max_historical_days: maxHistoricalDays,
+          access_valid_for_days: accessValidForDays,
+          access_scope: accessScope,
+        },
+      });
+      const requisition = await this.createRequisition({
+        data: {
+          redirect: "https://pipedream.com",
+          institution_id: institutionId,
+          reference: Date.now(),
+          agreement: agreement.id,
+          user_language: "EN",
+        },
+      });
+      return requisition;
+    },
+    async deleteRequisitionLink(requisitionId, args = {}) {
+      return this._makeRequest({
+        path: `/requisitions/${requisitionId}/`,
+        method: "DELETE",
         ...args,
       });
     },

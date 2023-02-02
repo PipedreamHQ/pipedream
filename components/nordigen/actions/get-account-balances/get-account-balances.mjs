@@ -1,9 +1,9 @@
 import nordigen from "../../nordigen.app.mjs";
 
 export default {
-  key: "nordigen-get-account-metadata",
-  name: "Get Account Metadata",
-  description: "Get the metadata of a Nordigen account. [See the docs](https://ob.nordigen.com/api/docs#/accounts/retrieve%20account%20metadata)",
+  key: "nordigen-get-account-balances",
+  name: "Get Account Balances",
+  description: "Get the balances of a Nordigen account. [See the docs](https://ob.nordigen.com/api/docs#/accounts/accounts_balances_retrieve)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -25,12 +25,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const accountMetadata = await this.nordigen.getAccountMetadata(this.accountId, {
+    const accountBalances = await this.nordigen.getAccountBalances(this.accountId, {
       $,
     });
 
-    $.export("$summary", `Successfully retrieved account metadata for account with ID ${this.accountId}`);
+    $.export("$summary", `Successfully retrieved account balances for account with ID ${this.accountId}`);
 
-    return accountMetadata;
+    return accountBalances;
   },
 };

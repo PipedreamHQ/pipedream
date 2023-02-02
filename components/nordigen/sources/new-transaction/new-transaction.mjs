@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "nordigen-new-transaction",
-  name: "New transaction",
+  name: "New Transaction",
   description: "Emit new event when a transaction occurs",
   version: "0.0.6",
   type: "source",
@@ -54,11 +54,11 @@ export default {
     _setRequisitionId(data) {
       this.db.set("requisitionId", data);
     },
-    _getPreviousTransactions() {
-      return this.db.get("previousTransactions") || [];
+    _getLastTransactionDate() {
+      return this.db.get("lastTransactionDate");
     },
-    _setPreviousTransactions(data) {
-      this.db.set("previousTransactions", data);
+    _setLastTransactionDate(lastTransactionDate) {
+      this.db.set("lastTransactionDate", lastTransactionDate);
     },
     async createRequisitionLink() {
       const agreement = await this.nordigen.createEndUserAgreement({
@@ -127,13 +127,28 @@ export default {
     }
     console.log("Account found: " + accountId);
 
-    const transactions = await this.nordigen.listTransactions(accountId);
+    let lastTransactionDate = this._getLastTransactionDate();
+    const args = lastTransactionDate
+      ? {
+        params: {
+          date_from: lastTransactionDate,
+        },
+      }
+      : {};
+    const transactions = await this.nordigen.listTransactions(accountId, args);
+
     transactions.forEach((transaction) => {
+      if (!lastTransactionDate
+        || Date.parse(transaction.bookingDate) > Date.parse(lastTransactionDate)) {
+        lastTransactionDate = transaction.bookingDate;
+      }
       this.$emit(transaction, {
-        summary: transaction.remittanceInformationUnstructuredArray[0],
+        summary: transaction.remittanceInformationUnstructured,
         id: transaction.transactionId,
         ts: new Date(),
       });
     });
+
+    this._setLastTransactionDate(lastTransactionDate);
   },
 };
