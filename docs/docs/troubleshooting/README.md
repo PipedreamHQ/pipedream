@@ -28,16 +28,6 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
-## Why am I seeing more than one invocation charged each time my workflow runs?
-
-Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event. 
-
-If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
-
-Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
-
-To see your invocations broken out by resource, visit [https://pipedream.com/settings/billing?invocationsByResource=1](https://pipedream.com/settings/billing?invocationsByResource=1). This will show you the invocations charged for your workflow, event source, or other resources.
-
 ## Why is my trigger not emitting events?
 
 Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
@@ -154,10 +144,10 @@ Workflows have a maximum event queue size when using concurrency and throttling 
 [Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 
-### Invocation Budget Exceeded
+### Credit Budget Exceeded
 
-Invocation Budgets are configurable invocation limits on your invocations at the account or organization level.
+Credit Budgets are configurable limits on your credit usage at the account or organization level.
 
-If you're receiving this warning on a source or workflow, this means your allocated Invocation Budget has been reached for the defined period.
+If you're receiving this warning on a source or workflow, this means your allocated Credit Budget has been reached for the defined period.
 
 You can increase this limit at any time in the [billing area of your settings](https://pipedream.com/settings/billing).

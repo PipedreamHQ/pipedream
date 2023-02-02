@@ -66,36 +66,38 @@ If you've already upgraded, you'll see an option to **Manage Subscription** here
 
 ### Usage
 
-[Invocations](/pricing/#invocations) are Pipedream's billable unit, and [free users](/pricing/#developer-tier) are limited on the number of daily invocations they can run. The **Usage** section displays a chart of the daily invocations across a historical range of time to provide insight into your usage patterns.
+[Credits](/pricing/#credits) are Pipedream's billable unit, and [free users](/pricing/#developer-tier) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
 
-Hover over a specific column in the chart to see the number of invocations run for that specific day:
+Hover over a specific column in the chart to see the number of credits run for that specific day:
 
 <div>
-<img width="333" alt="Daily invocations tooltip" src="./images/daily-invocations-tooltip.png">
+<img width="333" alt="Daily budy tooltip" src="./images/daily-invocations-tooltip.png">
 </div>
 
-_Click_ on a specific column to see invocations for that day, broken out by workflow / source:
+_Click_ on a specific column to see credits for that day, broken out by workflow / source:
 
 <div>
-<img alt="Invocations broken out by workflow / source" src="./images/usage-by-resource.png">
+<img alt="Credits broken out by workflow / source" src="./images/usage-by-resource.png">
 </div>
 
 [Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
 
-### Invocation Budget
+### Credits Budget
 
-Control the maximum number of invocations permitted on your account with an *Invocation Budget*.
+Control the maximum number of credits permitted on your account with an *Credit Budget*.
 
-This will restrict your account usage to a certain allocation of [invocations](/pricing/#invocations) on a monthly or daily basis.
+This will restrict your account usage to a certain allocation of [credits](/pricing/#credits) on a monthly or daily basis.
 
-To enable this feature, _click_ on the toggle and define your maximum number of invocations in the period.
+To enable this feature, _click_ on the toggle and define your maximum number of credits in the period.
 
-![Enabling the Invocation Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
+![Enabling the Credit Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
 
 ::: tip
 
-If enabled, the default Invocation Budget is maximum number of invocations allocated for your plan for the month. Setting your Invocation Budget below the default is not recommended.
+Due to how credits are accrued, there may be cases where your credit usage may go over the cap _slightly_.
+
+In an example scenario, with cap set at 20 credits and long running workflow that uses 10 credits per run; it's possible that two concurrent events trigger the workflow, and the cap will won't apply until after the concurrent events are processed.
 
 :::
 

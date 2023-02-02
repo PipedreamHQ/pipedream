@@ -7,9 +7,9 @@ next: false
 
 Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an error if you encounter these limits. See our [troubleshooting guide](/troubleshooting/) for more information on these specific errors.
 
-Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier. **On paid tiers, you can run an unlimited number of invocations, for any amount of execution time**.
+Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of credits and active workflows you can use on the free tier. **On paid tiers, you can run an unlimited number of credits, for any amount of execution time**.
 
-Other limits apply to both the free and paid tiers, but many can be raised upon request. Please see the details on each limit below.
+Other limits apply across the free and paid tiers. Please see the details on each limit below.
 
 **These limits are subject to change at any time**.
 
@@ -23,7 +23,7 @@ Other limits apply to both the free and paid tiers, but many can be raised upon 
 
 **You can run an unlimited number of event sources**, as long as each operates under the limits below.
 
-## Daily Invocations
+## Daily Quota
 
 |       Tier        |                                      Daily Invocations Quota                                       |
 | :---------------: | :------------------------------------------------------------------------------------------------: |

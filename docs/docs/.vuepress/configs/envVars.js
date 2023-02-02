@@ -29,43 +29,43 @@ module.exports = {
     workflows: {
       FREE: "10",
       PRO: "25",
-      ADVANCED: 'Unlimited',
-      BUSINESS: 'Unlimited',
-      ENTERPRISE: 'Unlimited',
+      ADVANCED: "Unlimited",
+      BUSINESS: "Unlimited",
+      ENTERPRISE: "Unlimited",
     },
 
     compute_time_per_invocation: {
-      FREE: '350 seconds',
-      PRO: '750 seconds',
-      ADVANCED: '750 seconds',
-      BUSINESS: '750 seconds',
-      ENTERPRISE: '750 seconds',
+      FREE: "350 seconds",
+      PRO: "750 seconds",
+      ADVANCED: "750 seconds",
+      BUSINESS: "750 seconds",
+      ENTERPRISE: "750 seconds",
     },
 
     workflow_queue_size: {
       FREE: "100",
-      PRO: '10,000',
-      ADVANCED: '25,000',
-      BUSINESS: '100,000',
-      ENTERPRISE: 'custom',
+      PRO: "10,000",
+      ADVANCED: "25,000",
+      BUSINESS: "100,000",
+      ENTERPRISE: "custom",
     },
 
     // SOURCE LIMITS
     sources: {
-      FREE: '10',
-      PRO: '25',
-      ADVANCED: 'Unlimited',
-      BUSINESS: 'Unlimited',
-      ENTERPRISE: 'Unlimited',
+      FREE: "10",
+      PRO: "25",
+      ADVANCED: "Unlimited",
+      BUSINESS: "Unlimited",
+      ENTERPRISE: "Unlimited",
     },
 
     // POLLING INTERVAL LIMITS
-    polling_intervals: {
-      FREE: '15 seconds',
-      PRO: '1 second',
-      ADVANCED: '1 second',
-      BUSINESS: '1 second',
-      ENTERPRISE: '1 second',
+    polling_intervals: {
+      FREE: "15 seconds",
+      PRO: "1 second",
+      ADVANCED: "1 second",
+      BUSINESS: "1 second",
+      ENTERPRISE: "1 second",
     },
 
     // EVENT HISTORY LIMITS
@@ -88,56 +88,56 @@ module.exports = {
 
     // INVOCATION OVERAGE PRICING
     invocation_overage_pricing: {
-      FREE: 'N/A - limited to 100 invocations per day',
-      PRO: '$0.0004',
-      ADVANCED: '$0.0003',
-      BUSINESS: '$0.0002',
-      ENTERPRISE: '$0.0002',
+      FREE: "N/A - limited to 100 invocations per day",
+      PRO: "$0.0004",
+      ADVANCED: "$0.0003",
+      BUSINESS: "$0.0002",
+      ENTERPRISE: "$0.0002",
     },
 
     // BASE INVOCATION QUOTAS
     base_invocations: {
-      FREE: '100 per day',
-      PRO: '10,000',
-      ADVANCED: '100,000',
-      BUSINESS: '500,000',
-      ENTERPRISE: '1,000,000',
+      FREE: "100 per day",
+      PRO: "10,000",
+      ADVANCED: "100,000",
+      BUSINESS: "500,000",
+      ENTERPRISE: "1,000,000",
     },
 
     // MONTHLY SUBSCRIPTION PRICE
     monthly_subscription_price: {
-      FREE: '$0.00',
-      PRO: '$29.00',
-      ADVANCED: '$149.00',
-      BUSINESS: '$499.00',
-      ENTERPRISE: 'custom',
+      FREE: "$0.00",
+      PRO: "$29.00",
+      ADVANCED: "$149.00",
+      BUSINESS: "$499.00",
+      ENTERPRISE: "custom",
     },
 
     // ANNUAL SUBSCRIPTION PRICE
     annual_subscription_price: {
-      FREE: '$0.00',
-      PRO: '$19.00 per month',
-      ADVANCED: '$99.00 per month',
-      BUSINESS: '$335.00 per month',
-      ENTERPRISE: 'custom',
+      FREE: "$0.00",
+      PRO: "$19.00 per month",
+      ADVANCED: "$99.00 per month",
+      BUSINESS: "$335.00 per month",
+      ENTERPRISE: "custom",
     },
 
     // USER LIMITS
     user_limits: {
-      FREE: '1',
-      PRO: '1',
-      ADVANCED: '1',
-      BUSINESS: '5',
-      ENTERPRISE: '10',
+      FREE: "1",
+      PRO: "1",
+      ADVANCED: "1",
+      BUSINESS: "5",
+      ENTERPRISE: "10",
     },
 
     // GITHUB INTEGRATION
     git_integration: {
-      FREE: 'Personal',
-      PRO: 'Personal',
-      ADVANCED: 'Organization',
-      BUSINESS: 'Organization',
-      ENTERPRISE: 'Enterprise Server',
+      FREE: "Personal",
+      PRO: "Personal",
+      ADVANCED: "Organization",
+      BUSINESS: "Organization",
+      ENTERPRISE: "Enterprise Server",
     },
 
     // Support
@@ -153,12 +153,17 @@ module.exports = {
 
     // workspaces
     workspaces: {
-      FREE: 'None',
-      PRO: '1',
-      ADVANCED: '5',
-      BUSINESS: '50',
-      ENTERPRISE: "100"
-    }
+      FREE: "None",
+      PRO: "1",
+      ADVANCED: "5",
+      BUSINESS: "50",
+      ENTERPRISE: "100",
+    },
+  },
+
+  base_credits_price: {
+    memory: 256,
+    seconds: 5,
   },
 
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
@@ -180,6 +185,7 @@ module.exports = {
   CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   SERVICE_DB_SIZE_LIMIT: "60KB",
   TMP_SIZE_LIMIT: "2GB",
-  DELAY_MIN_MAX_TIME: "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1000"
-}
+  DELAY_MIN_MAX_TIME:
+    "You can pause your workflow for as little as one millisecond, or as long as one year",
+  PUBLIC_APPS: "1000",
+};
