@@ -5,7 +5,7 @@ export default defineAction({
   name: "Add Deal",
   version: "0.0.1",
   key: "salesmate-add-deal",
-  description: "This api is used to add a deal. [See docs here](https://apidocs.salesmate.io/#fc738a12-8757-46aa-8625-3379fa205377)",
+  description: "This API is used to add a deal. [See docs here](https://apidocs.salesmate.io/#fc738a12-8757-46aa-8625-3379fa205377)",
   type: "action",
   props: {
     salesmate,
@@ -132,7 +132,6 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       salesmate,
       tags,
       contactFollowers,
@@ -153,7 +152,7 @@ export default defineAction({
       })));
     }
 
-    const response = await this.salesmate.addDeal({
+    const response = await salesmate.addDeal({
       $,
       data: {
         ...data,

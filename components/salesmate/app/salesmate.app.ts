@@ -16,22 +16,22 @@ export default defineApp({
     },
     billingAddressLine2: {
       label: "Billing Address Line 2",
-      description: "Line two of the billing address for contact.",
+      description: "Line two of the billing address of the contact.",
       type: "string",
     },
     billingCity: {
       label: "Billing City",
-      description: "City name of contact's address for billing purpose.",
+      description: "City name of contact's address for billing purposes.",
       type: "string",
     },
     billingCountry: {
       label: "Billing Country",
-      description: "Country name of contact's address for billing purpose.",
+      description: "Country name of contact's address for billing purposes.",
       type: "string",
     },
     billingState: {
       label: "Billing State",
-      description: "State name of contact's address for billing purpose.",
+      description: "State name of contact's address for billing purposes.",
       type: "string",
     },
     billingZipCode: {
@@ -41,14 +41,13 @@ export default defineApp({
     },
     company: {
       label: "Company",
-      description: "User can add company for the contact from existing companies. If contact's company is not defined, then user can quick add the company.",
+      description: "The user can add a company for the contact from existing companies. If the contact's company is not defined, then the user can quickly add the company.",
       type: "integer",
       async options({ page }) {
-        const rows = 250;
         const { Data: { data } } = await this.listCompanies({
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
@@ -65,11 +64,10 @@ export default defineApp({
       description: "The unique identifier of the contact.",
       type: "integer",
       async options({ page }) {
-        const rows = 250;
         const { Data: { data } } = await this.listContacts({
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
@@ -151,11 +149,10 @@ export default defineApp({
       description: "Owner of the contact.",
       type: "integer",
       async options({ page }) {
-        const rows = 250;
         const { Data } = await this.listUsers({
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
@@ -177,11 +174,10 @@ export default defineApp({
       description: "Select a pipeline from pre-defined pipelines.",
       type: "string",
       async options({ page }) {
-        const rows = 250;
         const { Data } = await this.listPipelines({
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
@@ -224,16 +220,15 @@ export default defineApp({
       async options({
         page, pipeline,
       }) {
-        const rows = 250;
-
         const { Data } = await this.listStages({
           pipeline,
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
+        // It removes three additional props that don't represents a stage (dealsForecastAmount, dealsTotalAmount, dealsTotalCount)
         return Object.keys(Data).map((key) => key)
           .slice(0, -3);
       },
@@ -255,11 +250,10 @@ export default defineApp({
       description: "The tags associated with the contact.",
       type: "string[]",
       async options({ page }) {
-        const rows = 250;
         const { Data } = await this.listTags({
           params: {
-            rows,
-            from: rows * page,
+            rows: 250,
+            from: 250 * page,
           },
         });
 
@@ -420,10 +414,7 @@ export default defineApp({
       });
     },
     async *paginate({
-      fn, params = {
-        rows: 0,
-        from: 0,
-      }, maxResults = null,
+      fn, params = {}, maxResults = null,
     }) {
       let rows = 0;
       let count = 0;

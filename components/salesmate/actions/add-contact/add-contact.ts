@@ -5,7 +5,7 @@ export default defineAction({
   name: "Add Contact",
   version: "0.0.1",
   key: "salesmate-add-contact",
-  description: "This api is used to add contact. [See docs here](https://apidocs.salesmate.io/#b768facc-930f-4f93-b9a7-a26a0875b6b0)",
+  description: "This API is used to add a contact. [See docs here](https://apidocs.salesmate.io/#b768facc-930f-4f93-b9a7-a26a0875b6b0)",
   type: "action",
   props: {
     salesmate,
@@ -178,13 +178,12 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       salesmate,
       ...data
     } = this;
     data.tags = data.tags?.toString();
 
-    const response = await this.salesmate.addContact({
+    const response = salesmate.addContact({
       $,
       data,
     });
