@@ -163,7 +163,7 @@ module.exports = {
 
   base_credits_price: {
     memory: 256,
-    seconds: 5,
+    seconds: 30,
   },
 
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
