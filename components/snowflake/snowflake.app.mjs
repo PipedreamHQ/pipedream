@@ -36,6 +36,24 @@ export default {
       optional: true,
       default: true,
     },
+    warehouses: {
+      type: "string[]",
+      label: "Warehouse Name",
+      description: "**Optional**. The name of the warehouse(s) you want to watch for changes. If not provided, changes will be emitted for all warehouses this account has access to.",
+      async options() {
+        const options = await this.listWarehouses();
+        return options.map((i) => i.name);
+      },
+    },
+    users: {
+      type: "string[]",
+      label: "User Name",
+      description: "**Optional**. The name of the user(s) you want to watch for changes. If not provided, changes will be emitted for all users this account has access to.",
+      async options() {
+        const options = await this.listUsers();
+        return options.map((i) => i.login_name);
+      },
+    },
   },
   methods: {
     async _getConnection() {
@@ -69,6 +87,25 @@ export default {
         sqlText,
       });
     },
+    async listWarehouses() {
+      const sqlText = "SHOW WAREHOUSES";
+      return this.collectRows({
+        sqlText,
+      });
+    },
+    async listUsers() {
+      const sqlText = "SHOW USERS";
+      return this.collectRows({
+        sqlText,
+      });
+    },
+    async maxQueryHistoryTimestamp() {
+      const sqlText = "SELECT MAX(START_TIME) AS max_ts FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY";
+      const maxTs = await this.collectRows({
+        sqlText,
+      });
+      return +new Date(maxTs[0]?.MAX_TS);
+    },
     async listFieldsForTable(tableName) {
       const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
       const binds = [
@@ -79,6 +116,26 @@ export default {
         binds,
       };
       return this.collectRows(statement);
+    },
+    // Query Snowflake query history.
+    // start and endTime bound the query. Both expect epoch ms timestamps.
+    // filters is a SQL statement that will be ANDed with the query.
+    async queryHistory(startTime, endTime, filters) {
+      const sqlText = `SELECT *
+      FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
+      WHERE START_TIME >= to_timestamp_ltz(${startTime}, 3)
+      AND START_TIME < to_timestamp_ltz(${endTime}, 3)
+      AND ${filters}
+      ORDER BY START_TIME ASC;`;
+      const statement = {
+        sqlText,
+      };
+      console.log(`Running query: ${sqlText}`);
+      return this.collectRows(statement);
+    },
+    async getChangesForSpecificObject(startTime, endTime, objectType) {
+      const filters = `QUERY_TYPE != 'SELECT' AND (QUERY_TEXT ILIKE '%CREATE ${objectType}%' OR QUERY_TEXT ILIKE '%ALTER ${objectType}%' OR QUERY_TEXT ILIKE '%DROP ${objectType}%')`;
+      return this.queryHistory(startTime, endTime, filters);
     },
     async insertRow(tableName, values) {
       const columns = Object.keys(values);

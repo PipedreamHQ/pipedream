@@ -5,7 +5,7 @@ export default {
   name: "New or Updated Row",
   key: "postgresql-new-or-updated-row",
   description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,6 +14,9 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -22,6 +25,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -33,6 +37,7 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       description: "The column to identify an unique row, commonly it's `id` or `uuid`.",
@@ -45,6 +50,7 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       description: "A datetime column, such as 'date_updated' or 'last_modified' that is set to the current datetime when a row is updated.",
@@ -52,7 +58,11 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.initialRows(this.schema, this.table, this.timestampColumn);
+      await this.initialRows(this.schema,
+        this.table,
+        this.timestampColumn,
+        this.limit,
+        this.rejectUnauthorized);
     },
   },
   methods: {
