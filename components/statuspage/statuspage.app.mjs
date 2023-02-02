@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -56,6 +57,12 @@ export default {
           value: incident.id,
         }));
       },
+    },
+    status: {
+      label: "Status",
+      description: "The status of the incident. (e.g. `resolved`, `investigating`)",
+      type: "string",
+      options: constants.INCIDENT_STATUSES,
     },
   },
   methods: {

@@ -1,5 +1,4 @@
 import statuspage from "../../statuspage.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Incident",
@@ -21,10 +20,10 @@ export default {
       type: "string",
     },
     status: {
-      label: "Status",
-      description: "The status of the incident. (e.g. `resolved`, `investigating`)",
-      type: "string",
-      options: constants.INCIDENT_STATUSES,
+      propDefinition: [
+        statuspage,
+        "status",
+      ],
     },
     message: {
       label: "Message",
