@@ -13,7 +13,7 @@ export default {
     },
     componentIds: {
       label: "Component IDs",
-      description: "The IDs of the component",
+      description: "The IDs of the component. E.g. `[\"5g8t9dwld6tp\", \"5tldi25fitlz\"]`",
       type: "string[]",
       propDefinition: [
         statuspage,
@@ -53,9 +53,13 @@ export default {
         email: this.email,
       };
 
-      this.componentIds = typeof this.componentIds === "string"
-        ? JSON.parse(this.componentIds)
-        : this.componentIds;
+      try {
+        this.componentIds = typeof this.componentIds === "string"
+          ? JSON.parse(this.componentIds)
+          : this.componentIds;
+      } catch (error) {
+        this.componentIds = this.componentIds.replace(/\s+/g, "").split(",");
+      }
 
       if (this.componentIds.length) {
         subscriber.component_ids = this.componentIds;
