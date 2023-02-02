@@ -7,7 +7,7 @@ const MODE_PDF = "Pdf";
 export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
-  description: "Create a new Google Docs file from template, optionally include placeholders in the template document for replacement within this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
+  description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
   version: "0.0.3",
   type: "action",
   props: {
@@ -18,7 +18,7 @@ export default {
         "fileId",
       ],
       description:
-        "ID of the document you want to use as a template.",
+        "Select the document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step.",
     },
     folderId: {
       propDefinition: [
@@ -26,7 +26,7 @@ export default {
         "folderId",
       ],
       description:
-        "Folder ID of the newly created Google Doc and PDF.",
+        "Select the folder of the newly created Google Doc and/or PDF, or use a custom expression to reference a folder ID from a previous step.",
     },
     name: {
       propDefinition: [
@@ -40,7 +40,7 @@ export default {
     mode: {
       type: "string[]",
       label: "Mode",
-      description: "Select if you want to create a Google Doc, PDF or both.",
+      description: "Specify if you want to create a Google Doc, PDF or both.",
       options: [
         MODE_GOOGLE_DOC,
         MODE_PDF,
@@ -49,7 +49,7 @@ export default {
     replaceValues: {
       type: "object",
       label: "Replace text placeholders",
-      description: "Replace text placeholders in the document. Use format {{xyz}} in the document but exclude the curly braces in the key. (eg. `{{myPlaceholder}}` in the document, will be replace by the value of the key `myPlaceholder` in the action.",
+      description: "Replace text placeholders in the document. Use the format {{xyz}} in the document but exclude the curly braces in the key. (eg. `{{myPlaceholder}}` in the document will be replaced by the value of the key `myPlaceholder` in the action.",
       optional: true,
     },
   },
