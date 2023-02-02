@@ -112,20 +112,24 @@ export default {
   },
   async run(event) {
     const { messages } = event.body;
-    const [
-      {
-        id,
-        event: messageEvent,
-        incident,
-      },
-    ] = messages;
 
-    const payload = {
-      id,
-      event: messageEvent,
-      incident,
-    };
+    if (messages.length <= 0) {
+      return;
+    }
+    // const [
+    //   {
+    //     id,
+    //     event: messageEvent,
+    //     incident,
+    //   },
+    // ] = messages;
 
-    this.$emit(payload, this.getMetadata(payload));
+    // const payload = {
+    //   id,
+    //   event: messageEvent,
+    //   incident,
+    // };
+
+    this.$emit(messages[0], this.getMetadata(messages[0]));
   },
 };
