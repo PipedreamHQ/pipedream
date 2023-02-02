@@ -116,19 +116,6 @@ export default {
     if (messages.length <= 0) {
       return;
     }
-    // const [
-    //   {
-    //     id,
-    //     event: messageEvent,
-    //     incident,
-    //   },
-    // ] = messages;
-
-    // const payload = {
-    //   id,
-    //   event: messageEvent,
-    //   incident,
-    // };
 
     this.$emit(messages[0], this.getMetadata(messages[0]));
   },
