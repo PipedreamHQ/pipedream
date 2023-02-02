@@ -217,7 +217,7 @@ export default {
     projectType: {
       type: "integer[]",
       label: "Type",
-      description: "The project's types.",
+      description: "The project's types. You must select the checkbox values in the correct order, otherwise it will not match correctly.",
       async options({ page }) {
         const limit = 100;
         const { projectType } = await this.makeRequest({
