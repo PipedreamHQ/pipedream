@@ -1779,6 +1779,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/lemon_squeezy:
+    specifiers: {}
+
   components/lessaccounting:
     specifiers: {}
 
@@ -3275,6 +3278,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/statuspage:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/stormboard:
     specifiers: {}
