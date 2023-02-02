@@ -4,7 +4,7 @@ export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
   description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     postgresql,
@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -20,6 +23,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },

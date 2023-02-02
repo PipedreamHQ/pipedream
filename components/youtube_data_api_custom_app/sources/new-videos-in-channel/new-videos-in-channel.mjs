@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api_custom_app-new-videos-in-channel",
   name: "New Videos in Channel",
   description: "Emit new event for each new Youtube video posted to a Channel.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
