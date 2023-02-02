@@ -414,7 +414,10 @@ export default defineApp({
       });
     },
     async *paginate({
-      fn, params = {}, maxResults = null,
+      fn, params = {
+        rows: 0,
+        from: 0,
+      }, maxResults = null,
     }) {
       let rows = 0;
       let count = 0;
