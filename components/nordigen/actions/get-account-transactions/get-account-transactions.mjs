@@ -46,13 +46,18 @@ export default {
       params.date_to = this.dateTo;
     }
 
-    const accountBalances = await this.nordigen.listTransactions(this.accountId, {
+    const accountTransactions = await this.nordigen.listTransactions(this.accountId, {
       $,
       params,
     });
 
-    $.export("$summary", `Successfully retrieved account transactions for account with ID ${this.accountId}`);
+    if (accountTransactions.length === 0) {
+      $.export("$summary", "No transactions found");
+      return;
+    }
 
-    return accountBalances;
+    $.export("$summary", `Successfully retrieved ${accountTransactions.length} account transaction(s) for account with ID ${this.accountId}`);
+
+    return accountTransactions;
   },
 };
