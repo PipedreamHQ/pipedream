@@ -183,7 +183,7 @@ export default defineAction({
     } = this;
     data.tags = data.tags?.toString();
 
-    const response = salesmate.addContact({
+    const response = await salesmate.addContact({
       $,
       data,
     });
