@@ -45,7 +45,9 @@ export default {
   methods: {
     ...common.methods,
     getPath() {
-      return this.repositoryId.map((repo) => `repositories/${this.workspaceId}/${repo}/hooks`);
+      return this.repositoryId.length === 1
+        ? `repositories/${this.workspaceId}/${this.repositoryId[0]}/hooks`
+        : this.repositoryId.map((repo) => `repositories/${this.workspaceId}/${repo}/hooks`);
     },
     getWebhookEventTypes() {
       return [
