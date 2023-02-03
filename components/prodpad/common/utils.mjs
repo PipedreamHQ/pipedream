@@ -21,7 +21,14 @@ function mapOrParse(value, mapper = (item) => item) {
     if (!value) {
       return [];
     }
-    return Array.isArray(value) && value.map(mapper) || JSON.parse(value);
+
+    const array = Array.isArray(value) && value.map(mapper) || JSON.parse(value);
+
+    if (!Array.isArray(array)) {
+      throw new Error("Object is not an array");
+    }
+
+    return array;
 
   } catch (e) {
     throw new ConfigurationError("Make sure the custom expression contains a valid array object");
