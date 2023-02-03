@@ -30,13 +30,6 @@ export default {
       ],
       optional: true,
     },
-    status: {
-      propDefinition: [
-        roll,
-        "companyStatus",
-      ],
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
