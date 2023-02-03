@@ -77,7 +77,7 @@ export default {
       params: {
         name,
         email,
-        tags: tagIds?.join(","),
+        tags: utils.mapOrParse(tagIds).join(","),
         persona,
         company,
         job_role: jobrole,
@@ -94,7 +94,7 @@ export default {
       data: {
         name,
         email,
-        tags: tagIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
         personas: persona && [

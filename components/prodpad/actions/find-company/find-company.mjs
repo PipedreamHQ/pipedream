@@ -74,7 +74,7 @@ export default {
         country,
         company_size: companySize,
         value: companyValue,
-        tags: tagIds?.join(","),
+        tags: utils.mapOrParse(tagIds).join(","),
       },
     });
 

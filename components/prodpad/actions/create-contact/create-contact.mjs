@@ -1,4 +1,5 @@
 import app from "../../prodpad.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "prodpad-create-contact",
@@ -96,10 +97,10 @@ export default {
         about,
         phone,
         twitter_url: twitterUrl,
-        tags: tagIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
-        personas: personaIds?.map((id) => ({
+        personas: utils.mapOrParse(personaIds, (id) => ({
           id,
         })),
         company,

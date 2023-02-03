@@ -111,7 +111,7 @@ export default {
         company_value: companyValue,
         persona,
         job_role: jobrole,
-        tags: tagIds?.join(","),
+        tags: utils.mapOrParse(tagIds).join(","),
         product,
       },
     });

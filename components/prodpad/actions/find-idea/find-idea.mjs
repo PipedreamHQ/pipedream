@@ -41,14 +41,6 @@ export default {
       ],
     },
   },
-  methods: {
-    listIdeas(args = {}) {
-      return this.app.makeRequest({
-        path: "/ideas",
-        ...args,
-      });
-    },
-  },
   async run({ $: step }) {
     const {
       externalId,
@@ -57,13 +49,13 @@ export default {
       status,
     } = this;
 
-    const { ideas } = await this.listIdeas({
+    const { ideas } = await this.app.listIdeas({
       step,
       params: {
         external_id: externalId,
         external_url: externalUrl,
         status,
-        tags: tagIds?.join(","),
+        tags: utils.mapOrParse(tagIds).join(","),
       },
     });
 

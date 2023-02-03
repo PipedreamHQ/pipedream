@@ -1,4 +1,5 @@
 import app from "../../prodpad.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "prodpad-create-feedback",
@@ -66,13 +67,13 @@ export default {
       data: {
         contact_id: contactId,
         feedback,
-        tags: tagIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
-        personas: personaIds?.map((id) => ({
+        personas: utils.mapOrParse(personaIds, (id) => ({
           id,
         })),
-        products: productIds?.map((id) => ({
+        products: utils.mapOrParse(productIds, (id) => ({
           id,
         })),
       },

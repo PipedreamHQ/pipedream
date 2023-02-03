@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/prodpad",
   "version": "0.0.1",
-  "description": "Pipedream Prodpad Components",
+  "description": "Pipedream ProdPad Components",
   "main": "prodpad.app.mjs",
   "keywords": [
 		"pipedream",

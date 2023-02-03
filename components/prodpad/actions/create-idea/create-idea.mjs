@@ -1,4 +1,5 @@
 import app from "../../prodpad.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "prodpad-create-idea",
@@ -19,7 +20,7 @@ export default {
       description: "The description of the idea. This field accepts HTML and is stored as UTF-8.",
       optional: true,
     },
-    businessCasePromblem: {
+    businessCaseProblem: {
       type: "string",
       label: "Business Case Problem",
       description: "The problem or hypothesis this idea is aiming to address. This field accepts HTML and is stored as UTF-8.",
@@ -105,7 +106,7 @@ export default {
     const {
       title,
       description,
-      businessCasePromblem,
+      businessCaseProblem,
       businessCaseValue,
       functional,
       notes,
@@ -122,18 +123,18 @@ export default {
         title,
         description,
         business_case: {
-          problem: businessCasePromblem,
+          problem: businessCaseProblem,
           value: businessCaseValue,
         },
         functional,
         notes,
-        products: productIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
-        personas: personaIds?.map((id) => ({
+        personas: utils.mapOrParse(personaIds, (id) => ({
           id,
         })),
-        tags: tagIds?.map((id) => ({
+        products: utils.mapOrParse(productIds, (id) => ({
           id,
         })),
         status: {

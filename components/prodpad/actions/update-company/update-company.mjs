@@ -1,4 +1,5 @@
 import app from "../../prodpad.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "prodpad-update-company",
@@ -87,7 +88,7 @@ export default {
         country,
         size,
         value,
-        tags: tagIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
       },

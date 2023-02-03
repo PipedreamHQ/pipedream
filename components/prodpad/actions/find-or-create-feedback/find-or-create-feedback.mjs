@@ -103,7 +103,7 @@ export default {
         company,
         product,
         persona,
-        tags: tagIds?.join(","),
+        tags: utils.mapOrParse(tagIds).join(","),
         external_id: externalId,
         external_url: externalUrl,
       },
@@ -131,7 +131,7 @@ export default {
             id: persona,
           },
         ],
-        tags: tagIds?.map((id) => ({
+        tags: utils.mapOrParse(tagIds, (id) => ({
           id,
         })),
         external_links: (externalId || externalUrl) && [
