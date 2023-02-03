@@ -55,9 +55,9 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ::: tip
 
-If you're still on our grandfathered Developer, Professional or Organization plans, you still may be incurring **invocations** and not credits.
+If you're still on our grandfathered Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
 
-During this transitionary period, you'll still be billed in terms of invocations. However, workspace migrations are coming, and you'll be guided on how to migrate to a [workspace](/docs/workspaces/).
+During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/docs/workspaces/) in the near future.
 
 :::
 
