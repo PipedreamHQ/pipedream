@@ -21,7 +21,6 @@ const docsNav = [
       "/migrate-from-v1/",
     ],
   },
-  "/projects/",
   "/sources/",
   "/connected-accounts/",
   ["/data-stores/", "Data Stores"],
