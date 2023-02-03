@@ -1,8 +1,9 @@
 import { axios } from "@pipedream/platform";
 import { defineApp } from "@pipedream/types";
+import { ROWS } from "../common/constants";
 import queries from "../common/queries";
 import {
-  clearObj, getUrl
+  clearObj, getUrl,
 } from "../common/utils";
 
 export default defineApp({
@@ -46,8 +47,8 @@ export default defineApp({
       async options({ page }) {
         const { Data: { data } } = await this.listCompanies({
           params: {
-            rows: 250,
-            from: 250 * page,
+            rows: ROWS,
+            from: ROWS * page,
           },
         });
 
@@ -66,8 +67,8 @@ export default defineApp({
       async options({ page }) {
         const { Data: { data } } = await this.listContacts({
           params: {
-            rows: 250,
-            from: 250 * page,
+            rows: ROWS,
+            from: ROWS * page,
           },
         });
 
@@ -151,8 +152,8 @@ export default defineApp({
       async options({ page }) {
         const { Data } = await this.listUsers({
           params: {
-            rows: 250,
-            from: 250 * page,
+            rows: ROWS,
+            from: ROWS * page,
           },
         });
 
@@ -176,8 +177,8 @@ export default defineApp({
       async options({ page }) {
         const { Data } = await this.listPipelines({
           params: {
-            rows: 250,
-            from: 250 * page,
+            rows: ROWS,
+            from: ROWS * page,
           },
         });
 
@@ -217,15 +218,9 @@ export default defineApp({
       label: "Stage",
       description: "The stage for a deal. like new, contacted, qualified, proposal presented or in negotiation.",
       type: "string",
-      async options({
-        page, pipeline,
-      }) {
+      async options({ pipeline }) {
         const { Data } = await this.listStages({
           pipeline,
-          params: {
-            rows: 250,
-            from: 250 * page,
-          },
         });
 
         // It removes three additional props that don't represents a stage (dealsForecastAmount, dealsTotalAmount, dealsTotalCount)
@@ -252,8 +247,8 @@ export default defineApp({
       async options({ page }) {
         const { Data } = await this.listTags({
           params: {
-            rows: 250,
-            from: 250 * page,
+            rows: ROWS,
+            from: ROWS * page,
           },
         });
 
@@ -414,10 +409,7 @@ export default defineApp({
       });
     },
     async *paginate({
-      fn, params = {
-        rows: 0,
-        from: 0,
-      }, maxResults = null,
+      fn, maxResults = null,
     }) {
       let rows = 0;
       let count = 0;
@@ -425,14 +417,15 @@ export default defineApp({
       const limit = 250;
 
       do {
-        params.rows = limit;
-        params.from = ++page * limit;
         const {
           Data: {
             data,
             totalRows,
           },
-        } = await fn(params);
+        } = await fn({
+          rows: limit,
+          from: ++page * limit,
+        });
         for (const d of data) {
           yield d;
 
