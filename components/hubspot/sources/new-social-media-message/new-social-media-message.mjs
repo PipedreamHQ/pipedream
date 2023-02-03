@@ -4,9 +4,8 @@ export default {
   ...common,
   key: "hubspot-new-social-media-message",
   name: "New Social Media Message",
-  description: `Emit new event when a message is posted from HubSpot to the specified
-    social media channel`,
-  version: "0.0.7",
+  description: "Emit new event when a message is posted from HubSpot to the specified social media channel",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -21,12 +20,15 @@ export default {
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(message) {
+      return message.createdAt;
+    },
     generateMeta(message) {
       const {
         broadcastGuid: id,
         messageText: summary,
-        createdAt: ts,
       } = message;
+      const ts = this.getTs(message);
       return {
         id,
         summary,
@@ -34,7 +36,7 @@ export default {
       };
     },
     isRelevant(message, createdAfter) {
-      return message.createdAt > createdAfter;
+      return this.getTs(message) > createdAfter;
     },
     getParams(after) {
       return {

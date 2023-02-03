@@ -4,7 +4,7 @@ export default {
   key: "data_stores-has-key-or-create",
   name: "Check for existence of key",
   description: "Check if a key exists in your [Pipedream Data Store](https://pipedream.com/data-stores/) or create one if it doesn't exist.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -44,7 +44,7 @@ export default {
 
       return {
         existingKeyFound: true,
-        newKeyCreated: false
+        newKeyCreated: false,
       };
     }
 
@@ -53,7 +53,7 @@ export default {
 
       return {
         existingKeyFound: false,
-        newKeyCreated: false
+        newKeyCreated: false,
       };
     }
 
@@ -64,7 +64,7 @@ export default {
     return {
       existingKeyFound: false,
       newKeyCreated: true,
-      value: parsedValue
+      value: parsedValue,
     };
   },
 };

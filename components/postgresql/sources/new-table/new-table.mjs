@@ -5,7 +5,7 @@ export default {
   name: "New Table",
   key: "postgresql-new-table",
   description: "Emit new event when a new table is added to the database. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   props: {
     ...common.props,
@@ -13,13 +13,16 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
   },
   async run() {
     const previousTables = this._getPreviousValues() || [];
 
-    const tables = await this.postgresql.getTables(this.schema);
+    const tables = await this.postgresql.getTables(this.schema, this.rejectUnauthorized);
 
     const newTables = tables.filter((table) => !previousTables.includes(table));
     for (const table of newTables) {
