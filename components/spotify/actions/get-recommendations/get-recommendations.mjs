@@ -34,7 +34,7 @@ export default {
       ],
       type: "string[]",
       label: "Seed Tracks",
-      description: "An array of Spotify IDs for a seed track. Type to search for any track or artist on Spotify. Up to 5 seed values may be provided in any combination of `seedArtists`, `seedTracks` and `seedGenres`.",
+      description: "An array of Spotify IDs for a seed track. Type to search for any track on Spotify. Up to 5 seed values may be provided in any combination of `seedArtists`, `seedTracks` and `seedGenres`.",
       withLabel: false,
       optional: true,
     },
