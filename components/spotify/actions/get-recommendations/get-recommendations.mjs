@@ -71,7 +71,7 @@ export default {
       $.export("$summary", "No recommendations found");
       return;
     }
-    $.export("$summary", `Successfully retrieved ${response.tracks.length} recommendations.`);
+    $.export("$summary", `Successfully retrieved ${response.tracks.length} recommendation(s).`);
     return response;
   },
 };
