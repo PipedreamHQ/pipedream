@@ -40,7 +40,6 @@ export default defineAction({
         salesmate,
         "status",
       ],
-      optional: true,
     },
     stage: {
       propDefinition: [
