@@ -1,19 +1,19 @@
 {
-  "name": "@pipedream/data_stores",
-  "version": "0.0.6",
-  "description": "Pipedream Data Stores Components",
-  "main": "data_stores.app.js",
+  "name": "@pipedream/adroll",
+  "version": "0.0.1",
+  "description": "Pipedream AdRoll Components",
+  "main": "adroll.app.mjs",
   "keywords": [
     "pipedream",
-    "blogger"
+    "adroll"
   ],
-  "homepage": "https://pipedream.com/apps/data_stores",
+  "homepage": "https://pipedream.com/apps/adroll",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "xss": "^1.0.11"
+    "@pipedream/platform": "^1.2.1"
   }
 }
