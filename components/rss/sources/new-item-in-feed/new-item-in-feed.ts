@@ -7,7 +7,7 @@ export default defineSource({
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed",
-  version: "1.1.1",
+  version: "1.1.2",
   type: "source",
   dedupe: "unique",
   props: {
