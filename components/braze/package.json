@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/braze",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream Braze Components",
-  "main": "dist/app/braze.app.mjs",
+  "main": "braze.app.mjs",
   "keywords": [
-    "pipedream",
-    "braze"
+		"pipedream",
+		"braze"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/braze",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
   "publishConfig": {
     "access": "public"
   }
