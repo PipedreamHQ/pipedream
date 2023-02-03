@@ -2195,10 +2195,8 @@ importers:
   components/nordigen:
     specifiers:
       '@pipedream/platform': ^1.2.0
-      axios: ^0.21.1
     dependencies:
       '@pipedream/platform': 1.2.0
-      axios: 0.21.4
 
   components/noticeable:
     specifiers:
