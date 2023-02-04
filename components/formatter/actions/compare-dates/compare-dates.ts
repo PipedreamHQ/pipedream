@@ -13,13 +13,19 @@ export default defineAction({
   type: "action",
   props: {
     startDate: {
-      propDefinition: [app, "inputDate"],
+      propDefinition: [
+        app,
+        "inputDate",
+      ],
       label: "To Format",
       description:
         "Enter start date string, in the format defined in `From Format`. If the start date is after the end date, these dates will be swapped and in the output `datesSwapped` will be set to `true`.",
     },
     endDate: {
-      propDefinition: [app, "inputDate"],
+      propDefinition: [
+        app,
+        "inputDate",
+      ],
       label: "To Format",
       description:
         "Enter end date string, in the format defined in `From Format`. Timezone is assumed the same for both dates if not explicitly set.",
@@ -39,16 +45,20 @@ export default defineAction({
     let remainingValue = Math.abs(endValue - startValue);
 
     if (remainingValue) {
-      let arrResults = [];
+      const arrResults = [];
       const arrUnits = Object.entries(DATE_TIME_UNITS).sort(
-        (a, b) => b[1] - a[1]
+        (a, b) => b[1] - a[1],
       );
 
-      for (let [word, unit] of arrUnits) {
+      for (const [
+        word,
+        unit,
+      ] of arrUnits) {
         const amount = Math.floor(remainingValue / unit);
         if (amount) {
-          if (amount !== 1) word += "s";
-          arrResults.push(`${amount} ${word}`);
+          arrResults.push(`${amount} ${amount === 1
+            ? `${word}s`
+            : word}`);
 
           remainingValue %= unit;
           if (!remainingValue) break;

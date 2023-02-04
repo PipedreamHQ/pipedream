@@ -34,7 +34,9 @@ export default defineAction({
     getOperationMilliseconds(str: string) {
       let result = 0;
 
-      const { second, minute, hour, day, week, year } = DATE_TIME_UNITS;
+      const {
+        second, minute, hour, day, week, year,
+      } = DATE_TIME_UNITS;
       Object.entries({
         s: second,
         m: minute,
@@ -42,7 +44,10 @@ export default defineAction({
         d: day,
         w: week,
         y: year,
-      }).forEach(([identifier, multiplier]) => {
+      }).forEach(([
+        identifier,
+        multiplier,
+      ]) => {
         const substr = str.match(new RegExp(`[0-9]+\\s*${identifier}`))?.[0];
         if (substr) {
           const value = Number(substr.match(/[0-9]+/));
@@ -54,7 +59,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const { operation, duration } = this;
+    const {
+      operation, duration,
+    } = this;
 
     const dateObj = this.getDateFromInput();
 
@@ -68,8 +75,10 @@ export default defineAction({
     $.export(
       "$summary",
       `Successfully ${
-        operation === OPERATION_OPTIONS.SUBTRACT ? "subtracted" : "added"
-      } time`
+        operation === OPERATION_OPTIONS.SUBTRACT
+          ? "subtracted"
+          : "added"
+      } time`,
     );
     return output;
   },

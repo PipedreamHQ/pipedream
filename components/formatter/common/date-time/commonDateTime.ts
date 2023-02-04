@@ -24,7 +24,7 @@ export default {
     },
   },
   methods: {
-    getDateFromInput(date = this.inputDate, format = this.fromFormat): Date {
+    getDateFromInput(date: string = this.inputDate, format: string = this.fromFormat): Date {
       let dateObj: Date;
 
       try {
