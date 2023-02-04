@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import commonExtractText from "../../common/text/common-extract-text";
+import commonExtractText from "../../common/text/commonExtractText";
 
 export default defineAction({
   ...commonExtractText,

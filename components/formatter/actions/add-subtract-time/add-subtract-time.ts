@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import commonDateTime from "../../common/date-time/common-date-time";
+import commonDateTime from "../../common/date-time/commonDateTime";
 
 const OPERATION_OPTIONS = {
   ADD: "Add",

@@ -24,25 +24,22 @@ export default {
     },
   },
   methods: {
-    getDateFromInput(): Date {
-      const {
-        fromFormat, inputDate,
-      } = this;
+    getDateFromInput(date = this.inputDate, format = this.fromFormat): Date {
       let dateObj: Date;
 
       try {
         const inputFn =
-          DATE_FORMAT_PARSE_MAP.get(fromFormat)?.inputFn ??
+          DATE_FORMAT_PARSE_MAP.get(format)?.inputFn ??
           DEFAULT_INPUT_FUNCTION;
 
-        dateObj = inputFn(inputDate);
+        dateObj = inputFn(date);
 
         if (isNaN(dateObj.getFullYear())) throw new Error("Invalid date");
       } catch (err) {
         throw new ConfigurationError(
-          `**Error** parsing input \`${inputDate}\` ${
-            fromFormat
-              ? `expecting specified format \`${fromFormat}\``
+          `**Error** parsing input \`${date}\` ${
+            format
+              ? `expecting specified format \`${format}\``
               : "- try selecting a format in the **From Format** prop."
           }`,
         );
