@@ -1,5 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import commonDateTime from "../../common/date-time/commonDateTime";
+import { DATE_TIME_UNITS } from "../../common/date-time/dateTimeUnits";
 
 const OPERATION_OPTIONS = {
   ADD: "Add",
@@ -33,24 +34,15 @@ export default defineAction({
     getOperationMilliseconds(str: string) {
       let result = 0;
 
-      const seconds = 1000;
-      const minutes = 60 * seconds;
-      const hours = 60 * minutes;
-      const days = 24 * hours;
-      const weeks = 7 * days;
-      const years = 365 * days;
-
+      const { second, minute, hour, day, week, year } = DATE_TIME_UNITS;
       Object.entries({
-        s: seconds,
-        m: minutes,
-        h: hours,
-        d: days,
-        w: weeks,
-        y: years,
-      }).forEach(([
-        identifier,
-        multiplier,
-      ]) => {
+        s: second,
+        m: minute,
+        h: hour,
+        d: day,
+        w: week,
+        y: year,
+      }).forEach(([identifier, multiplier]) => {
         const substr = str.match(new RegExp(`[0-9]+\\s*${identifier}`))?.[0];
         if (substr) {
           const value = Number(substr.match(/[0-9]+/));
@@ -62,9 +54,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const {
-      operation, duration,
-    } = this;
+    const { operation, duration } = this;
 
     const dateObj = this.getDateFromInput();
 
@@ -78,10 +68,8 @@ export default defineAction({
     $.export(
       "$summary",
       `Successfully ${
-        operation === OPERATION_OPTIONS.SUBTRACT
-          ? "subtracted"
-          : "added"
-      } time`,
+        operation === OPERATION_OPTIONS.SUBTRACT ? "subtracted" : "added"
+      } time`
     );
     return output;
   },

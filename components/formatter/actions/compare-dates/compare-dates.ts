@@ -1,0 +1,67 @@
+import { defineAction } from "@pipedream/types";
+import commonDateTime from "../../common/date-time/commonDateTime";
+import app from "../../app/formatter.app";
+import { DATE_TIME_UNITS } from "../../common/date-time/dateTimeUnits";
+
+export default defineAction({
+  ...commonDateTime,
+  name: "[Date/Time] Compare Dates",
+  description:
+    "Get the duration between two dates in days, hours, minutes, and seconds along with checking if they are the same.",
+  key: "expofp-compare-dates",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    startDate: {
+      propDefinition: [app, "inputDate"],
+      label: "To Format",
+      description:
+        "Enter start date string, in the format defined in `From Format`. If the start date is after the end date, these dates will be swapped and in the output `datesSwapped` will be set to `true`.",
+    },
+    endDate: {
+      propDefinition: [app, "inputDate"],
+      label: "To Format",
+      description:
+        "Enter end date string, in the format defined in `From Format`. Timezone is assumed the same for both dates if not explicitly set.",
+    },
+    fromFormat: commonDateTime.props.fromFormat,
+  },
+  async run({ $ }): Promise<object> {
+    const startDateObj = this.getDateFromInput(this.startDate);
+    const endDateObj = this.getDateFromInput(this.endDate);
+
+    const startValue = startDateObj.valueOf();
+    const endValue = endDateObj.valueOf();
+
+    const datesSwapped = startValue > endValue;
+
+    let result = "equal";
+    let remainingValue = Math.abs(endValue - startValue);
+
+    if (remainingValue) {
+      let arrResults = [];
+      const arrUnits = Object.entries(DATE_TIME_UNITS).sort(
+        (a, b) => b[1] - a[1]
+      );
+
+      for (let [word, unit] of arrUnits) {
+        const amount = Math.floor(remainingValue / unit);
+        if (amount) {
+          if (amount !== 1) word += "s";
+          arrResults.push(`${amount} ${word}`);
+
+          remainingValue %= unit;
+          if (!remainingValue) break;
+        }
+      }
+
+      result = arrResults.join(", ");
+    }
+
+    $.export("$summary", "Successfully compared dates");
+    return {
+      datesSwapped,
+      result,
+    };
+  },
+});
