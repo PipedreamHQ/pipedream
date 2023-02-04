@@ -1125,12 +1125,16 @@ importers:
       '@pipedream/platform': ^1.2.1
       '@pipedream/types': ^0.1.4
       jsdom: ^21.1.0
+      pluralize: ^8.0.0
       showdown: ^2.1.0
+      title-case: ^3.0.3
     dependencies:
       '@pipedream/platform': 1.3.0
       '@pipedream/types': 0.1.4
       jsdom: 21.1.0
+      pluralize: 8.0.0
       showdown: 2.1.0
+      title-case: 3.0.3
 
   components/formdesk:
     specifiers: {}
@@ -20376,7 +20380,6 @@ packages:
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
-    dev: true
 
   /pnpm/7.22.0:
     resolution: {integrity: sha512-dkhne1O1ktNz/Cn/GZU5wnjhP/aNEfmJGW5UdILyDnptgw84jauOf2Mk5jTe3gp4OZWZN1szcBrjyOZ7Uxxilw==}
@@ -22803,6 +22806,12 @@ packages:
 
   /tiny-warning/1.0.3:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
+    dev: false
+
+  /title-case/3.0.3:
+    resolution: {integrity: sha512-e1zGYRvbffpcHIrnuqT0Dh+gEJtDaxDSoG4JAIpq4oDFyooziLBIiYQv0GBT4FUAnUop5uZ1hiIAj7oAF6sOCA==}
+    dependencies:
+      tslib: 2.4.0
     dev: false
 
   /tlds/1.231.0:
