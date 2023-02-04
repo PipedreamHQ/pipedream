@@ -7,6 +7,7 @@ import {
 
 export default {
   props: {
+    app,
     inputDate: {
       propDefinition: [
         app,
