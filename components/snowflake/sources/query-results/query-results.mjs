@@ -8,7 +8,7 @@ export default {
   name: "New Query Results",
   // eslint-disable-next-line
   description: "Run a SQL query on a schedule, triggering a workflow for each row of results",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
     ...common.props,
     sqlQuery: {
@@ -16,6 +16,8 @@ export default {
       label: "SQL Query",
       description: "Run this query on a schedule, triggering the workflow for each row of results",
     },
+    // Ordering props correctly
+    timer: common.props.timer,
     dedupeKey: {
       type: "string",
       label: "Primary key",

@@ -1385,6 +1385,12 @@
     },
     {
       "path": "components/moonmail"
+    },
+    {
+      "path": "components/lemon_squeezy"
+    },
+    {
+      "path": "components/badger_maps"
     }
   ]
 }

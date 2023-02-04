@@ -5,9 +5,8 @@ export default {
   type: "source",
   key: "spotify-new-playlist",
   name: "New Playlist",
-  description:
-    "Emit new event when a new playlist is created or followed by the current Spotify user.",
-  version: "0.0.8",
+  description: "Emit new event when a new playlist is created or followed by the current Spotify user.",
+  version: "0.0.9",
   props: {
     ...common.props,
   },

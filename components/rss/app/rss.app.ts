@@ -57,7 +57,6 @@ export default defineApp({
         url,
         method: "GET",
         headers: {
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
           "accept": "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8, application/json, application/feed+json",
         },
         validateStatus: () => true, // does not throw on any bad status code

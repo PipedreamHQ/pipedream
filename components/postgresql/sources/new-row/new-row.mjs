@@ -5,7 +5,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Emit new event when a new row is added to a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,6 +14,9 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
+        (c) => ({
+          rejectUnauthorized: c.rejectUnauthorized,
+        }),
       ],
     },
     table: {
@@ -22,6 +25,7 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -32,6 +36,7 @@ export default {
         (c) => ({
           schema: c.schema,
           table: c.table,
+          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       optional: true,
@@ -43,7 +48,7 @@ export default {
     async deploy() {
       const column = this.column
         ? this.column
-        : await this.postgresql.getPrimaryKey(this.table, this.schema);
+        : await this.postgresql.getPrimaryKey(this.table, this.schema, this.rejectUnauthorized);
       this._setColumn(column);
     },
   },
