@@ -57,18 +57,26 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const { input, inputDecimalMark, toFormat }: Record<string, string> = this;
+    const {
+      input, inputDecimalMark, toFormat,
+    }: Record<string, string> = this;
 
     const decimalMark = inputDecimalMark ?? ".";
     const splitInput = input.split(decimalMark);
     if (splitInput.length > 2) {
       throw new ConfigurationError(
-        `Input has more than one decimal mark (\`${decimalMark}\`). Check if the \`Input Decimal Mark\` prop is set correctly.`
+        `Input has more than one decimal mark (\`${decimalMark}\`). Check if the \`Input Decimal Mark\` prop is set correctly.`,
       );
     }
 
-    const [integer, decimal] = splitInput;
-    const [groupChar, decimalChar] = toFormat.split("");
+    const [
+      integer,
+      decimal,
+    ] = splitInput;
+    const [
+      groupChar,
+      decimalChar,
+    ] = toFormat.split("");
 
     const result = formatNumber(integer, decimal, groupChar, decimalChar);
 

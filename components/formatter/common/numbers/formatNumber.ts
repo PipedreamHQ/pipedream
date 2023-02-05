@@ -2,7 +2,7 @@ export default function (
   integer: string,
   decimal?: string,
   groupChar = ",",
-  decimalChar = "."
+  decimalChar = ".",
 ) {
   const result = [];
 

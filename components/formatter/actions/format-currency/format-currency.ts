@@ -30,7 +30,9 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const { input, currency, currencyFormat } = this;
+    const {
+      input, currency, currencyFormat,
+    } = this;
 
     let result = "";
 
@@ -40,25 +42,30 @@ export default defineAction({
       result += currencySymbol;
     }
 
-    const [integer, decimal] = input.toString().split(".");
+    const [
+      integer,
+      decimal,
+    ] = input.toString().split(".");
     const numberString = formatNumber(
       integer,
       decimal ?? "00",
-      currencyFormat.includes(",") ? "," : ""
+      currencyFormat.includes(",")
+        ? ","
+        : "",
     );
     result += numberString;
 
     switch (currencyFormat.match(/¤+$/g)?.[0].length) {
-      default:
-        break;
+    default:
+      break;
 
-      // ¤¤ - ISO currency symbol
-      case 2:
-        break;
+      // ¤¤ - ISO currency symbol: USD, BRL, etc.
+    case 2:
+      break;
 
-      // ¤¤¤ - Currency display name
-      case 3:
-        break;
+      // ¤¤¤ - Currency display name: United States dollar, Brazilian real, etc.
+    case 3:
+      break;
     }
 
     $.export("$summary", "Successfully formatted as currency");
