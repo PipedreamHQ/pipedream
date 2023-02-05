@@ -1,5 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
+import formatNumber from "../../common/numbers/formatNumber";
 
 export default defineAction({
   name: "[Numbers] Format Number",
@@ -56,37 +57,22 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<string> {
-    const {
-      input, inputDecimalMark, toFormat,
-    }: Record<string, string> = this;
+    const { input, inputDecimalMark, toFormat }: Record<string, string> = this;
 
     const decimalMark = inputDecimalMark ?? ".";
     const splitInput = input.split(decimalMark);
     if (splitInput.length > 2) {
       throw new ConfigurationError(
-        `Input has more than one decimal mark (\`${decimalMark}\`). Check if the \`Input Decimal Mark\` prop is set correctly.`,
+        `Input has more than one decimal mark (\`${decimalMark}\`). Check if the \`Input Decimal Mark\` prop is set correctly.`
       );
     }
 
-    const [
-      integer,
-      fractional,
-    ] = splitInput;
-    const [
-      groupChar,
-      decimalChar,
-    ] = toFormat.split("");
-    const result = [];
+    const [integer, decimal] = splitInput;
+    const [groupChar, decimalChar] = toFormat.split("");
 
-    for (let i = integer.length; i > 0; i -= 3) {
-      result.push(groupChar, integer.slice(Math.max(0, i - 3), i));
-    }
-    result.reverse().pop();
-    if (fractional) {
-      result.push(decimalChar + fractional);
-    }
+    const result = formatNumber(integer, decimal, groupChar, decimalChar);
 
     $.export("$summary", "Successfully formatted number");
-    return result.join("");
+    return result;
   },
 });
