@@ -3,23 +3,26 @@ import commonWebhook from "../common-webhook.mjs";
 
 export default {
   ...commonWebhook,
+  type: "source",
   key: "pagerduty-new-or-updated-incident",
   name: "New or Updated Incident",
-  version: "0.0.1",
+  version: "0.1.0",
   description: "Emit new event each time an incident is created or updated",
   methods: {
     ...commonWebhook.methods,
-    getMetadata(payload) {
+    getMetadata({
+      id, occurred_at, data,
+    }) {
       return {
-        id: payload.id,
-        summary: `Incident ${payload.id} has been created or updated`,
-        ts: Date.parse(payload.occurred_at),
+        id,
+        summary: `Incident ${data.incident?.id || data.id} has been created or updated`,
+        ts: Date.parse(occurred_at),
       };
     },
     getEventTypes() {
       return constants.INCIDENT_EVENT_TYPES;
     },
-    getExtensionName() {
+    getHookName() {
       return "New or Updated Incident";
     },
   },

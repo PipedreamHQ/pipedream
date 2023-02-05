@@ -14,29 +14,41 @@ export default {
         "serviceId",
       ],
     },
+    webhookEvent: {
+      propDefinition: [
+        pagerduty,
+        "webhookEvent",
+      ],
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
       const {
         serviceId,
+        webhookEvent,
         http,
       } = this;
 
-      const data = this.setupExtensionData({
+      const eventList = webhookEvent.length
+        ? webhookEvent
+        : this.getEventTypes();
+
+      const data = this.setupWebhookData({
         endpoint: http.endpoint,
         serviceId,
-        outboundIntegrationId: constants.GENERIC_V2_WEBHOOK_OUTBOUND_INTEGRATION_ID,
+        eventList,
       });
 
-      const { extension } = await this.pagerduty.createExtension({
+      const { webhook_subscription } = await this.pagerduty.createWebhookSubscription({
         data,
       });
 
-      this.setExtensionId(extension.id);
+      this.setHookId(webhook_subscription.id);
     },
     async deactivate() {
-      await this.pagerduty.deleteExtension({
-        extensionId: this.getExtensionId(),
+      await this.pagerduty.deleteWebhookSubscription({
+        webhookId: this.getHookId(),
       });
     },
   },
@@ -47,11 +59,11 @@ export default {
     getWebhookId() {
       return this.db.get(constants.WEBHOOK_ID);
     },
-    setExtensionId(extensionId) {
-      this.db.set(constants.EXTENSION_ID, extensionId);
+    setHookId(webhookId) {
+      this.db.set(constants.WEBHOOK_ID, webhookId);
     },
-    getExtensionId() {
-      return this.db.get(constants.EXTENSION_ID);
+    getHookId() {
+      return this.db.get(constants.WEBHOOK_ID);
     },
     getMetadata() {
       throw new Error("getMetadata Not implemented");
@@ -59,16 +71,11 @@ export default {
     getEventTypes() {
       throw new Error("getEventTypes Not implemented");
     },
-    getExtensionName() {
-      throw new Error("getExtensionName Not implemented");
+    getHookName() {
+      throw new Error("getHookName Not implemented");
     },
-    /**
-     * https://support.pagerduty.com/docs/webhooks
-     * In this function we setup the data that will be used to create
-     * the webhook version v3.
-     */
     setupWebhookData({
-      endpoint, serviceId,
+      endpoint, serviceId, eventList,
     }) {
       return {
         webhook_subscription: {
@@ -77,7 +84,8 @@ export default {
             type: constants.HTTP_DELIVERY_METHOD_TYPE,
             url: endpoint,
           },
-          events: this.getEventTypes(),
+          description: this.getHookName(),
+          events: eventList,
           filter: {
             id: serviceId,
             type: constants.REFERENCE.SERVICE,
@@ -85,47 +93,10 @@ export default {
         },
       };
     },
-    /**
-     * In this function we setup the extension data that will be used to create the extension
-     * for the webhook version v2.
-     */
-    setupExtensionData({
-      endpoint, outboundIntegrationId, serviceId,
-    }) {
-      return {
-        extension: {
-          name: this.getExtensionName(),
-          endpoint_url: endpoint,
-          extension_schema: {
-            id: outboundIntegrationId,
-            type: constants.REFERENCE.EXTENSION_SCHEMA,
-          },
-          extension_objects: [
-            {
-              id: serviceId,
-              type: constants.REFERENCE.SERVICE,
-            },
-          ],
-        },
-      };
-    },
   },
-  async run(event) {
-    const { messages } = event.body;
-    const [
-      {
-        id,
-        event: messageEvent,
-        incident,
-      },
-    ] = messages;
+  async run({ body }) {
+    const { event } = body;
 
-    const payload = {
-      id,
-      event: messageEvent,
-      incident,
-    };
-
-    this.$emit(payload, this.getMetadata(payload));
+    this.$emit(event, this.getMetadata(event));
   },
 };
