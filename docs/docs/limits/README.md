@@ -17,18 +17,15 @@ Other limits apply across the free and paid tiers. Please see the details on eac
 
 ## Number of Workflows
 
-Free accounts are limited to 3 active workflows. [Paid tiers](https://pipedream.com/pricing) are able to activate more workflows.
+The limit of active workflows depends on your current plan. [See our pricing page](https://pipedream.com/pricing) for more details.
 
 ## Number of Event Sources
 
 **You can run an unlimited number of event sources**, as long as each operates under the limits below.
 
-## Included Daily Credits
+## Daily Credits Limit
 
-|    Tier    |                                            Daily Included Credits Limit                                             |
-| :--------: | :-----------------------------------------------------------------------------------------------------------------: |
-|    Free    |                                      {{$site.themeConfig.DAILY_CREDITS_LIMIT}}                                      |
-| Paid Plans | No limit (pay per additional credit above the [included credits](/pricing/#included-credits) in the billing period) |
+Free Pipedream accounts have a limit of number of free incuded credits per day. Paid plans do not have a daily credit limit. [See our pricing page](https://pipedream.com/pricing) for a breakdown of Free tier limits.
 
 You can view your credits usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
