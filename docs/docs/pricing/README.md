@@ -13,9 +13,11 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 ## Free Tier
 
-You can run up to 3 workflows and add up to 3 connected accounts for up to 100 credits a day for free, as long as they operate under [Pipedream platform limits](/limits/).
+Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
 
-**To lift the 100 credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
+But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
+
+**To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
 
 ### Free Tier Connected Accounts
 
@@ -23,15 +25,13 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier account workflows are limited to using a maximum of 100 credits per day and a maximum of 3 active workflows.
+Free Tier accounts have a [daily credit limit](/limit#daily-credit-limit) and have the lowest amount of active workflows available.
 
-Additionally, the event history for Free Tier workflows is limited to only the past 100 events.
-
-Upgrading to a paid tier will increase this event history tracking substantially.
+Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
-Free Tier account triggers powered by polling are limited to 5 minute intervals. Paid tiers have an option to polling at a substantially higher frequency.
+Free Tier account triggers powered by polling are limited to the longest interval. Paid tiers have an option to polling at a substantially higher frequency.
 
 ### Free Tier Support options
 
