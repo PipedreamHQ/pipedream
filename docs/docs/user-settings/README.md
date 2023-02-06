@@ -50,12 +50,12 @@ If you've already upgraded, you'll see an option to **Manage Subscription** here
 
 ### Usage
 
-[Credits](/pricing/#credits) are Pipedream's billable unit, and users on the free tier are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
+[Credits](/pricing/#credits) are Pipedream's billable unit, and users on the [free tier](/pricing/#free-tier) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
 
 Hover over a specific column in the chart to see the number of credits run for that specific day:
 
 <div>
-<img width="333" alt="Daily budy tooltip" src="./images/daily-invocations-tooltip.png">
+<img width="333" alt="Daily credits tooltip" src="./images/daily-invocations-tooltip.png">
 </div>
 
 _Click_ on a specific column to see credits for that day, broken out by workflow / source:
@@ -78,7 +78,7 @@ To enable this feature, _click_ on the toggle and define your maximum number of 
 
 ::: tip
 
-Due to how credits are accrued, there may be cases where your credit usage may go over the cap _slightly_.
+Due to how credits are accrued, there may be cases where your credit usage may _slightly_ go over the cap.
 
 In an example scenario, with cap set at 20 credits and long running workflow that uses 10 credits per run; it's possible that two concurrent events trigger the workflow, and the cap will won't apply until after the concurrent events are processed.
 

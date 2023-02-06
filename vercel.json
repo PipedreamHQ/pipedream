@@ -147,8 +147,8 @@
       "destination": "/docs/workflows/steps/using-props/"
     },
     {
-      "source": "/docs/orgs/(.*)",
-      "destination": "/docs/orgs/$1"
+      "source": "/docs/pricing/#developer-tier",
+      "destination": "/docs/pricing/#free-tier"
     }
   ]
 }

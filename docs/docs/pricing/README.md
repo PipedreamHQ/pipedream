@@ -118,7 +118,7 @@ If you deploy a private custom source to your account, then all computation time
 
 For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
 
-This would result 0 credits. Regardless of the number of times the source polled because:
+This would result 0 credits per run because:
 
 - The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
 - The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
@@ -127,7 +127,7 @@ This would result 0 credits. Regardless of the number of times the source polled
 
 ::: details A polling source finishing over {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-Consider a long running source that polls a large dataset like an new **RSS - New Item in Feed** that takes 60 seconds total to finish polling per execution.
+Consider an a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
 
 Each execution of this source would result 1 credit because:
 
@@ -136,17 +136,17 @@ Each execution of this source would result 1 credit because:
 
 :::
 
-::: details A custom source that finishing under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
 
-This would result in 1 credit used per execution.
+This would result in 1 credit per execution.
 
 The initial free credit only applies to Pipedream Public Registry sources.
 
 :::
 
-::: details A source unattached to any workflow
+::: details A source not connected to any workflow
 
-A source unattached to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources do not incur credits.
+A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources do not incur credits.
 
 Only when sources are attached to workflows and begin to trigger workflow executions do source execution credits incur.
 
@@ -184,11 +184,11 @@ Pipedream charges credits proportional to the memory configuration. If you run y
 
 ### Are there any limits on paid tiers?
 
-**You can run any number of , for any amount of compute time**, on paid tiers. [Other platform limits](/limits/) apply.
+**You can run any number of credits for any amount of compute time** on any paid tier. [Other platform limits](/limits/) apply.
 
 ### When am I invoiced / billed for paid plans?
 
-When you upgrade to a paid teir, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
+When you upgrade to a paid tier, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
 
 If you accrue any [additional credits](#additional-credits), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
 

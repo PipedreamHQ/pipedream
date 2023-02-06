@@ -181,7 +181,7 @@ These functions will only suspend and resume when run in production.
 
 ## Credits usage when using `pd.flow.suspend` / `pd.flow.rerun`
 
-You are not charged for the time your workflow is suspended during a `pd.flow.suspend` or `pd.flow.rerun` . Only when workflows are resumed will compute time count toward [credit usage](/pricing/#credits).
+You are not charged for the time your workflow is suspended during a `pd.flow.suspend` or `pd.flow.rerun`. Only when workflows are resumed will compute time count toward [credit usage](/pricing/#credits).
 
 ::: warning
 
