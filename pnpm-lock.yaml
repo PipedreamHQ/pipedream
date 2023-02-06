@@ -2876,7 +2876,10 @@ importers:
       salesforce-webhooks: 1.1.11_handlebars@4.7.7
 
   components/salesmate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/salestown:
     specifiers: {}
