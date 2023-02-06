@@ -135,7 +135,7 @@ Pipedream will open Google's sign in flow in a new window. Sign in with the acco
 
 <img src="./image-20220125185544800.png" alt="image-20220125185544800" style="zoom: 33%;" />
 
-::: warning Important
+::: warning
 
 If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
 
@@ -219,4 +219,4 @@ Finally, you can return to Google Sheets to validate that the new data was autom
 
 ## Next Steps
 
-Congratulations! You completed the quickstart and should now understand the basic patterns for workflow development. Next, try creating your own workflows and check out the docs to learn more!
+Congratulations! You completed the quickstart and should now understand the basic patterns for workflow development. Next, try creating your own workflows and check out the [docs](/) to learn more!
