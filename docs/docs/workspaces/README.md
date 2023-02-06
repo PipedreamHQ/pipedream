@@ -22,7 +22,7 @@ You'll be prompted to name the workspace. You can [change the name later](/works
 
 ::: tip
 
-**Free** and **Professional** tier accounts are limited to owning one workspace. [Browse plans](/pricing/) that include higher workspace usage.
+**Free** and **Professional** tier accounts are limited to one workspace. The [Advanced, Business, and Enterprise plans](https://pipedream.com/pricing) allow your team to manage multiple workspaces. This can be helpful when you need to manage workflows for multiple teams in Pipedream.
 
 :::
 
