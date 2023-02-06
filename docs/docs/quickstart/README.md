@@ -66,7 +66,7 @@ The selected event will be used to provide autocomplete suggestion as you build 
 
 Before we send data to Google Sheets, let's use the npm [`sentiment`](https://www.npmjs.com/package/sentiment) package to generate a sentiment score for our message. To do that, click **Continue** or the **+** button.
 
-![image-20220329004301119](./v2/README/image-20220329004301119.png)
+![image-20220329004301119](https://res.cloudinary.com/pipedreamin/image/upload/v1675692691/saqcbfkk66a1exfzk4ii.png)
 
 That will open the **Add a step** menu. Select **Run custom code**.
 
