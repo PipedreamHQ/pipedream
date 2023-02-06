@@ -22,7 +22,7 @@ Click **Save and continue** to accept the default settings.
 
 Pipedream will generate a unique URL to trigger this workflow.
 
-![image-20220329003539441](./v2/README/image-20220329003539441.png)
+![image-20220329003539441](https://res.cloudinary.com/pipedreamin/image/upload/v1675691948/ofn3xpy4y2fgxb5j20yh.png)
 
 ## Send data to the workflow
 
