@@ -86,6 +86,6 @@ In an example scenario, with cap set at 20 credits and long running workflow tha
 
 ### Limits
 
-For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#included-daily-credits) for the current UTC day.
+For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#daily-credits-limit) for the current UTC day.
 
 <Footer />

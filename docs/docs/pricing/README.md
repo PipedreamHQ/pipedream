@@ -55,7 +55,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ::: tip
 
-If you're still on our grandfathered Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
+If you're still on our legacy Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
 
 During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
 
@@ -166,7 +166,7 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 ### Additional Credits
 
-Any credits you run over your [included credit](#included-credits) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
+Any credits you run over your [included credit](/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ### Data Store Keys
 

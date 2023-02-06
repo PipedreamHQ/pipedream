@@ -81,7 +81,7 @@ Pipedream sets [limits](/limits/) on runtime, memory, and other execution-relate
 
 ### Quota Exceeded
 
-On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#included-daily-credits) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
+On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#daily-credits-limit) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
 
 Paid plans have no credit limit. [Upgrade here](https://pipedream.com/pricing).
 
