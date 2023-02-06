@@ -44,7 +44,7 @@ curl -d '{
 
 When Pipedream receives the request, it will be available to select from the event selector. 
 
-![image-20220329003748162](./v2/README/image-20220329003748162.png)
+![image-20220329003748162](https://res.cloudinary.com/pipedreamin/image/upload/v1675690554/rf7iackjhukonrspx2od.png)
 
 Click on the drop down menu and select the event you generated.
 
