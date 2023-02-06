@@ -13,21 +13,5 @@ export default {
         intervalSeconds: 60 * 60,
       },
     },
-    queryTypes: {
-      type: "string[]",
-      label: "Query Types",
-      description: "**Optional**. The type of queries to watch for. If not provided, changes will be emitted for all query types.",
-      options: [
-        "CREATE",
-        "ALTER",
-        "DROP",
-      ],
-      default: [
-        "CREATE",
-        "ALTER",
-        "DROP",
-      ],
-      optional: true,
-    },
   },
 };
