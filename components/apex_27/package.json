@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apex_27",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Apex 27 Components",
   "main": "dist/app/apex_27.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/apex_27",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

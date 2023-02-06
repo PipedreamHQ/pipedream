@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twitter",
-  "version": "0.3.8",
+  "version": "0.3.10",
   "description": "Pipedream Twitter Components",
   "main": "twitter.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/twitter",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0",
     "async-retry": "^1.3.3",

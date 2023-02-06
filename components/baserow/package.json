@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/baserow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Baserow Components",
   "main": "dist/app/baserow.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/baserow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

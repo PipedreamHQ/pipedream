@@ -19,9 +19,8 @@ export default {
   ...common,
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders",
-  description:
-    "Emits a new event any time any folder in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.9",
+  description: "Emit new event any time any folder in your linked Google Drive is added, modified, or deleted",
+  version: "0.0.10",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -68,8 +67,11 @@ export default {
         const modifiedTime = Date.parse(fileInfo.modifiedTime);
         if (lastModifiedTimeForFile == modifiedTime) continue;
 
+        const metadata = await this.googleDrive.getFileMetadata(`${headers["x-goog-resource-uri"]}&fields=*`);
+
         const eventToEmit = {
           file,
+          ...metadata,
           change: {
             state: headers["x-goog-resource-state"],
             resourceURI: headers["x-goog-resource-uri"],

@@ -6,20 +6,29 @@ export default {
   type: "source",
   key: "snowflake-query-results",
   name: "New Query Results",
-  description: "Emit new event with the results of an arbitrary query",
-  version: "0.0.3",
+  // eslint-disable-next-line
+  description: "Run a SQL query on a schedule, triggering a workflow for each row of results",
+  version: "0.1.1",
   props: {
     ...common.props,
     sqlQuery: {
       type: "string",
       label: "SQL Query",
-      description: "Your SQL query",
+      description: "Run this query on a schedule, triggering the workflow for each row of results",
     },
+    // Ordering props correctly
+    timer: common.props.timer,
     dedupeKey: {
       type: "string",
-      label: "De-duplication Key",
-      description: "The name of a column in the table to use for de-duplication",
+      label: "Primary key",
+      description: "The column in your query to use for de-duplication. Duplicate rows won't trigger your workflow",
       optional: true,
+    },
+    emitIndividualEvents: {
+      propDefinition: [
+        common.props.snowflake,
+        "emitIndividualEvents",
+      ],
     },
   },
   methods: {

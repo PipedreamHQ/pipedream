@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/unisender",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Unisender Components",
   "main": "unisender.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/unisender",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^0.10.0"
   },

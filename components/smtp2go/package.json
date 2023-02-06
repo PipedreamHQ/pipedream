@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/smtp2go",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SMTP2GO Components",
   "main": "dist/smtp2go.app.ts",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/smtp2go",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sales_simplify",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Sales Simplify Components",
   "main": "dist/app/sales_simplify.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/sales_simplify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

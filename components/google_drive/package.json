@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_drive",
-  "version": "0.4.9",
+  "version": "0.4.12",
   "description": "Pipedream Google_drive Components",
   "main": "google_drive.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_drive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@googleapis/drive": "^2.3.0",
     "@pipedream/platform": "^1.2.0",

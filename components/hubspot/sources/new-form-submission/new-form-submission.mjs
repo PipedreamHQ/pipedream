@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.12",
+  version: "0.0.13",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,11 +21,12 @@ export default {
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(result) {
+      return result.submittedAt;
+    },
     generateMeta(result) {
-      const {
-        pageUrl,
-        submittedAt: ts,
-      } = result;
+      const { pageUrl } = result;
+      const ts = this.getTs(result);
       const submitted = new Date(ts);
       const id = pageUrl.split("/").pop();
       return {
@@ -35,17 +36,7 @@ export default {
       };
     },
     isRelevant(result, submittedAfter) {
-      const relevant = result.submittedAt > submittedAfter;
-      if (relevant) {
-        this.updateAfter(result.submittedAt);
-      }
-      return relevant;
-    },
-    updateAfter(submittedAt) {
-      const after = this._getAfter();
-      if (submittedAt > after) {
-        this._setAfter(submittedAt);
-      }
+      return this.getTs(result) > submittedAfter;
     },
     getParams() {
       return {

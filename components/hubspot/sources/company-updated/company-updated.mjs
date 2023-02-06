@@ -5,19 +5,21 @@ export default {
   key: "hubspot-company-updated",
   name: "Company Updated",
   description: "Emit new event each time a company is updated.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(company) {
+      return Date.parse(company.updatedAt);
+    },
     generateMeta(company) {
       const {
         id,
         properties,
-        updatedAt,
       } = company;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(company);
       return {
         id: `${id}${ts}`,
         summary: properties.name,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(company, updatedAfter) {
-      return Date.parse(company.updatedAt) > updatedAfter;
+      return this.getTs(company) > updatedAfter;
     },
     getParams() {
       return {

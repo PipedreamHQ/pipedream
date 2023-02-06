@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/expofp",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "Pipedream ExpoFP Components",
   "main": "expofp.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/expofp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

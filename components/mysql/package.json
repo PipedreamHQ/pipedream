@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mysql",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Mysql Components",
   "main": "mysql.app.mjs",
   "keywords": [
@@ -8,7 +8,6 @@
     "mysql"
   ],
   "homepage": "https://pipedream.com/apps/mysql",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
