@@ -1,27 +1,15 @@
-const BASE_URL = "https://rest.iad-01.braze.com";
-const VERSION_PATH = "";
+const INSTANCE_DOMAIN_PLACEHOLDER = "<instance_domain>";
+const REGION_PLACEHOLDER = "<region>";
+const BASE_URL = `https://${INSTANCE_DOMAIN_PLACEHOLDER}.braze.${REGION_PLACEHOLDER}}`;
+const SCIM_VERSION_PATH = "/scim/v2";
 const LAST_CREATED_AT = "lastCreatedAt";
 const DEFAULT_MAX = 600;
 
-const FILE_PROP_NAMES = [
-  "attachment",
-  "uploaddoc",
-  "upload_file",
-];
-
-const CONTENT_TYPE_KEY_HEADER = "Content-Type";
-const MULTIPART_FORM_DATA_VALUE_HEADER = "multipart/form-data";
-const MULTIPART_FORM_DATA_HEADERS = {
-  [CONTENT_TYPE_KEY_HEADER]: MULTIPART_FORM_DATA_VALUE_HEADER,
-};
-
 export default {
+  INSTANCE_DOMAIN_PLACEHOLDER,
+  REGION_PLACEHOLDER,
   BASE_URL,
-  VERSION_PATH,
+  SCIM_VERSION_PATH,
   DEFAULT_MAX,
   LAST_CREATED_AT,
-  FILE_PROP_NAMES,
-  CONTENT_TYPE_KEY_HEADER,
-  MULTIPART_FORM_DATA_VALUE_HEADER,
-  MULTIPART_FORM_DATA_HEADERS,
 };

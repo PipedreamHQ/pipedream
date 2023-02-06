@@ -12,11 +12,14 @@ export default {
     },
   },
   methods: {
-    getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+    getBaseUrl(versionPath) {
+      const baseUrl = constants.BASE_URL
+        .replace(constants.INSTANCE_DOMAIN_PLACEHOLDER, this.$auth.instance_domain)
+        .replace(constants.REGION_PLACEHOLDER, this.$auth.region);
+      return `${baseUrl}${versionPath || ""}`;
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    getUrl(path, versionPath) {
+      return `${this.getBaseUrl(versionPath)}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -26,12 +29,12 @@ export default {
       };
     },
     makeRequest({
-      step = this, path, headers, url, ...args
+      step = this, path, headers, versionPath, ...args
     } = {}) {
 
       const config = {
         headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
+        url: this.getUrl(path, versionPath),
         ...args,
       };
 
