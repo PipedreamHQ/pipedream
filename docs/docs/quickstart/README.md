@@ -44,7 +44,7 @@ curl -d '{
 
 When Pipedream receives the request, it will be available to select from the event selector. 
 
-![image-20220329003748162](./v2/README/image-20220329003748162.png)
+![image-20220329003748162](https://res.cloudinary.com/pipedreamin/image/upload/v1675690554/rf7iackjhukonrspx2od.png)
 
 Click on the drop down menu and select the event you generated.
 
@@ -115,7 +115,7 @@ When you **Test** a step, only the current step is executed. Use the caret to te
 
 ## Save data to Google Sheets
 
-Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels will act as our column headers amd will help us configure the Google Sheets step of the workflow. 
+Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels act as our column headers amd will help us configure the Google Sheets step of the workflow. 
 
 ![image-20220329010012345](./v2/README/image-20220329010012345.png)
 
@@ -211,7 +211,7 @@ curl -d '{
 
 The event will instantly appear in the event list. Select it to inspect the workflow execution.
 
-![image-20220329011500931](./v2/README/image-20220329011500931.png)
+![image-20220329011500931](https://res.cloudinary.com/pipedreamin/image/upload/v1675691952/fe9eizdn8fwmwmgegb2m.png)
 
 Finally, you can return to Google Sheets to validate that the new data was automatically inserted.
 
