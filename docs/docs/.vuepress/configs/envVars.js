@@ -12,7 +12,7 @@ module.exports = {
     seconds: 30,
   },
 
-  DAILY_CREDITS_LIMT: "100",
+  DAILY_CREDITS_LIMIT: "100",
 
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
   FUNCTION_PAYLOAD_LIMIT: "6MB",
