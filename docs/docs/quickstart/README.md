@@ -14,7 +14,7 @@ First, create a new workflow by clicking **New** from [https://pipedream.com/wor
 
 Pipedream will launch the workflow builder. For this example, select the **HTTP / Webhook Requests** trigger. 
 
-![image-20220329003353166](./v2/README/image-20220329003353166.png)
+![image-20220329003353166](https://res.cloudinary.com/pipedreamin/image/upload/v1675692436/fnpqkkxbgfcah6d1ykwo.png)
 
 Click **Save and continue** to accept the default settings.
 
