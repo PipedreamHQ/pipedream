@@ -1,10 +1,14 @@
 # Workspaces
 
-When you sign up for a Pipedream account, you'll be guided to create a workspace. After you create your workspace, your workflows and projects will be assigned to your private workspace.
+::: tip
 
-A workspace is a collection of **projects**, **folders** and **workflows**. You can develop workflows within a private workspace, or you can invite others to join your workspace.
+Pipedream organizations are now **workspaces**. If you have an exisiting organization, it will be migrated to a workspace soon.
 
-You can be a member of one or more workspaces.
+:::
+
+When you sign up for a Pipedream account, you'll either be asked to create a workspace or join an existing workspace. You can invite your team to your workspace, create workflows, and organize them within projects and folders.
+
+You can create and join any number of workspaces.
 
 [[toc]]
 
@@ -21,16 +25,6 @@ You'll be prompted to name the workspace. You can [change the name later](/works
 **Free** and **Professional** tier accounts are limited to owning one workspace. [Browse plans](/pricing/) that include higher workspace usage.
 
 :::
-
-
-## Switching between workspaces
-
-To switch between workspaces, open the dropdown menu in the top left of the Pipedream dashboard.
-
-Select which workspace you'd like to start working within, and your Pipedream dashboard context will change to that workspace.
-
-
-![]()
 
 ## Workspace settings
 
@@ -68,6 +62,19 @@ To promote a member to an admin level account in your workspace, click the corre
 
 To demote an admin back to a member, uncheck the **Admin** checkbox in that members record in your workspace settings.
 
+### Finding your workspace's ID
+
+Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your workspace ID here.
+
+### Configuring Single-sign on (SS0)
+
+Workspaces on the Business and Enterprise plans can configure Single-sign on, so your users can login to Pipedream using your identity provider.
+
+Pipedream supports SSO with Google, Okta, and any provider that supports the SAML protocol. See the guides below to configure SSO for your identity provider:
+
+- [Okta](/workspaces/sso/okta/)
+- [Google](/workspaces/sso/google/)
+
 ### Renaming a workspace
 
 To rename a workspace, open your workspace settings and navigate to the **Account Settings** area.
@@ -76,7 +83,7 @@ Click the green check icon on the far right of the input to save the changes.
 
 ::: tip
 
-  This action is only available to workspace **admins**.
+This action is only available to workspace **admins**.
 
 :::
 
@@ -88,8 +95,14 @@ Click the **Delete workspace** button and confirm the action by entering in your
 
 ::: danger
 
-Please be careful. This action will delete all **sources**, **workflows**, and **unpublished actions** corresponding with this workspace.
+Deleting a workspace will delete all **sources**, **workflows**, and other resources in your workspace.
 
-This deleting a workspace is **irreversible** and permanent.
+Deleting a workspace is **irreversible** and permanent.
 
 :::
+
+## Switching between workspaces
+
+To switch between workspaces, open the dropdown menu in the top left of the Pipedream dashboard.
+
+Select which workspace you'd like to start working within, and your Pipedream dashboard context will change to that workspace.

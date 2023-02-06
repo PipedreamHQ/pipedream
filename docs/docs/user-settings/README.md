@@ -6,23 +6,7 @@ You can find important account details, text editor configuration, and more in y
 
 ## Account
 
-You'll find your Pipedream username, email, and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
-
-### Username
-
-Your Pipedream username functions as your user or org identity. If you've made any resources public, these resources will appear on your public profile at:
-
-```text
-https://pipedream.com/@username
-```
-
-You can change your username at any time (see below).
-
-### Changing your username
-
-You can change your Pipedream username by editing the **Username** field in your Account Settings. 
-
-Existing workflow URLs that contain your old username will continue to resolve to the correct workflow. However, links to your public profile with your old username (for example, [https://pipedream.com/@old-username](https://pipedream.com/@old-username)) will no longer resolve.
+You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
 
 ### Changing your email
 
@@ -82,10 +66,9 @@ _Click_ on a specific column to see credits for that day, broken out by workflow
 
 [Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
-
 ### Credits Budget
 
-Control the maximum number of credits permitted on your account with an *Credit Budget*.
+Control the maximum number of credits permitted on your account with an _Credit Budget_.
 
 This will restrict your account usage to a certain allocation of [credits](/pricing/#credits) on a monthly or daily basis.
 

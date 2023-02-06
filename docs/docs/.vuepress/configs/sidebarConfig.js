@@ -17,7 +17,6 @@ const docsNav = [
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
-      "/workflows/workspaces/",
       "/migrate-from-v1/",
     ],
   },
@@ -82,8 +81,12 @@ const docsNav = [
   ["/troubleshooting/", "Troubleshooting"],
   ["/user-settings/", "Settings"],
   {
-    title: "Organizations",
-    children: ["/orgs/", "/workspaces/", "/orgs/sso/okta/"],
+    title: "Workspaces",
+    children: [
+      "/workspaces/", 
+      "/workspaces/sso/google/",
+      "/workspaces/sso/okta/"
+    ],
   },
 ];
 

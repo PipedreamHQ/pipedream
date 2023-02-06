@@ -145,7 +145,10 @@
     {
       "source": "/docs/workflows/steps/params/",
       "destination": "/docs/workflows/steps/using-props/"
+    },
+    {
+      "source": "/docs/orgs/(.*)",
+      "destination": "/docs/orgs/$1"
     }
   ]
 }
-
