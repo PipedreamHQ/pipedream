@@ -320,6 +320,19 @@ export default {
       description: "Optionally limit the maximum number of records to return. Leave blank to retrieve all records.",
       optional: true,
     },
+    collectionId: {
+      type: "string",
+      label: "Collection ID",
+      description: "Return products by collection ID",
+      optional: true,
+      async options() {
+        const collections = await this.getObjects("customCollection");
+        return collections?.map((collection) => ({
+          label: collection.title,
+          value: collection.id,
+        })) || [];
+      },
+    },
   },
   methods: {
     getShopId() {
