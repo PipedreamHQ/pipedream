@@ -27,7 +27,7 @@ You can disable these notifications for your workflow by disabling the **Notify 
 
 ### Execution Timeout Limit
 
-Workflows have a default [execution limit](/limits/#time-per-execution), which defines the time workflows can run for a single invocation until they're timed out.
+Workflows have a default [execution limit](/limits/#time-per-execution), which defines the time the workflow can run for a single execution until it's timed out.
 
 If your workflow times out, and needs to run for longer than the [default limit](/limits/#time-per-execution), you can change that limit here.
 

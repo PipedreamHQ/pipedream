@@ -75,13 +75,13 @@ When you link an account from a third party application, you may be asked to eit
 
 When a third party application supports an [OAuth integration](https://oauth.net/2/), Pipedream prefers that interface. The OAuth protocol allows Pipedream to request scoped access to specific resources in your third party account without you having to provide long-term credentials directly. Pipedream must request short-term access tokens at regular intervals, and most applications provide a way to revoke Pipedream's access to your account at any time.
 
-Some third party applications do not provide an OAuth interface. To access these services, you must provide the required authorization mechanism (often an API key). As a best practice, if your application provides such functionality, Pipedream recommends you limit that API key's access to only the resources you need access to within Pipedream. 
+Some third party applications do not provide an OAuth interface. To access these services, you must provide the required authorization mechanism (often an API key). As a best practice, if your application provides such functionality, Pipedream recommends you limit that API key's access to only the resources you need access to within Pipedream.
 
 Pipedream encrypts all OAuth grants, key-based credentials, and environment variables at rest in our production database. That database resides in a private network. Backups of that database are encrypted. The key used to encrypt this database is managed by [AWS KMS](https://aws.amazon.com/kms/) and controlled by Pipedream. KMS keys are 256 bit in length and use the Advanced Encryption Standard (AES) in Galois/Counter Mode (GCM). Access to administer these keys is limited to specific members of our team. Keys are automatically rotated once a year. KMS has achieved SOC 1, 2, 3, and ISO 9001, 27001, 27017, 27018 compliance. Copies of these certifications are available from Amazon on request.
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
-No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that invocation from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/limits/#event-execution-history) for your account.
+No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/limits/#event-execution-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
@@ -103,7 +103,7 @@ Pipedream encrypts customer data at rest in our databases and data stores. We us
 
 ## Email Security
 
-Pipedream delivers emails to users for the purpose of email verification, error notifications, and more. Pipedream implements [SPF](https://en.wikipedia.org/wiki/Sender_Policy_Framework) and [DMARC](https://en.wikipedia.org/wiki/DMARC) DNS records to guard against email spoofing / forgery. You can review these records by using a DNS lookup tool like [`dig`](https://en.wikipedia.org/wiki/Dig_(command)):
+Pipedream delivers emails to users for the purpose of email verification, error notifications, and more. Pipedream implements [SPF](https://en.wikipedia.org/wiki/Sender_Policy_Framework) and [DMARC](https://en.wikipedia.org/wiki/DMARC) DNS records to guard against email spoofing / forgery. You can review these records by using a DNS lookup tool like [`dig`](<https://en.wikipedia.org/wiki/Dig_(command)>):
 
 ```bash
 # SPF
@@ -138,10 +138,10 @@ Pipedream performs background checks on all new hires.
 
 Pipedream provides hardware to all new hires. These machines run a local agent that sets configuration of the operating system to hardened standards, including:
 
-* Automatic OS updates
-* Hard disk encryption
-* Anti-malware software
-* Screen lock
+- Automatic OS updates
+- Hard disk encryption
+- Anti-malware software
+- Screen lock
 
 and more.
 

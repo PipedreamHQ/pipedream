@@ -180,7 +180,7 @@ In the example below, there are two records in the Data Store, and therefore the
 
 ### How does workflow memory affect credits?
 
-Pipedream charges credits proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one credit each time your workflow executes for {{ $site.themeConfig.base_credits_price.seconds }}. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** invocations, since you're using `4x` the default memory.
+Pipedream charges credits proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one credit each time your workflow executes for {{ $site.themeConfig.base_credits_price.seconds }}. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** credits, since you're using `4x` the default memory.
 
 ### Are there any limits on paid tiers?
 
