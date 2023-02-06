@@ -3,7 +3,7 @@
 You can control workflow-specific settings in your workflow's **Settings**:
 
 1. Visit your workflow
-2. Select the *...* menu at the top-right and click **Settings**:
+2. Select the _..._ menu at the top-right and click **Settings**:
 
 <br />
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif" alt="Click on the ... menu at the top-right and select Settings" width="300px">
@@ -17,7 +17,7 @@ If you'd like to pause your workflow from executing completely, you can disable 
 
 ## Error Handling
 
-By default, you'll receive notifications when your workflow throws an unhandled error. See the [error docs](/workflows/errors/) for more detail on these notifications. 
+By default, you'll receive notifications when your workflow throws an unhandled error. See the [error docs](/workflows/errors/) for more detail on these notifications.
 
 You can disable these notifications for your workflow by disabling the **Notify me on errors** toggle:
 
@@ -35,7 +35,7 @@ If your workflow times out, and needs to run for longer than the [default limit]
 
 By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. If you're processing a lot of data in memory, you might need to raise that limit. Here, you can increase the memory of your workflow up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
 
-**Pipedream charges invocations proportional to your memory configuration**. When you modify your memory settings, Pipedream will show you the number of invocations you'll be charged per execution. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
+**Pipedream charges credits proportional to your memory configuration**. When you modify your memory settings, Pipedream will show you the number of credits you'll be charged per execution. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
 
 ### Concurrency and Throttling
 
@@ -50,7 +50,9 @@ For example, if you upload a file named `test.csv`, Pipedream will expose the _f
 ```javascript
 import fs from "fs";
 
-const fileData = fs.readFileSync(steps.trigger.context.attachments["test.csv"]).toString();
+const fileData = fs
+  .readFileSync(steps.trigger.context.attachments["test.csv"])
+  .toString();
 console.log(fileData);
 ```
 

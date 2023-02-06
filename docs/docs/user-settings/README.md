@@ -50,7 +50,7 @@ If you've already upgraded, you'll see an option to **Manage Subscription** here
 
 ### Usage
 
-[Credits](/pricing/#credits) are Pipedream's billable unit, and [free users](/pricing/#developer-tier) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
+[Credits](/pricing/#credits) are Pipedream's billable unit, and users on the free tier are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
 
 Hover over a specific column in the chart to see the number of credits run for that specific day:
 
@@ -64,7 +64,7 @@ _Click_ on a specific column to see credits for that day, broken out by workflow
 <img alt="Credits broken out by workflow / source" src="./images/usage-by-resource.png">
 </div>
 
-[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
+Users on the free tier will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
 ### Credits Budget
 
@@ -86,6 +86,6 @@ In an example scenario, with cap set at 20 credits and long running workflow tha
 
 ### Limits
 
-For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#daily-credits) for the current UTC day.
+For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#included-daily-credits) for the current UTC day.
 
 <Footer />

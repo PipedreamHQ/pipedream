@@ -79,17 +79,11 @@ See the reference on [running asynchronous code on Pipedream](/code/nodejs/async
 
 Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
 
-### Invocations Quota Exceeded
+### Quota Exceeded
 
-On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily invocations](/limits/#daily-invocations) across all workflows and sources. If you hit this limit, you'll see an **Invocations Quota Exceeded** error.
+On the Free tier, Pipedream imposes a limit on the [daily credits](/limits/#included-daily-credits) across all workflows and sources. If you hit this limit, you'll see a **Quota Exceeded** error.
 
-Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no invocations limit. [Upgrade here](https://pipedream.com/pricing).
-
-### Runtime Quota Exceeded
-
-On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily compute time](/limits/#compute-time-per-day) across all workflows and sources. If you hit this limit, you'll see a **Runtime Quota Exceeded** error.
-
-Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no compute time limit. [Upgrade here](https://pipedream.com/pricing).
+Paid plans have no invocations limit. [Upgrade here](https://pipedream.com/pricing).
 
 ### Timeout
 

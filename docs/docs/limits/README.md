@@ -23,11 +23,11 @@ Free accounts are limited to 3 active workflows. [Paid tiers](https://pipedream.
 
 **You can run an unlimited number of event sources**, as long as each operates under the limits below.
 
-## Included Daily Credits 
+## Included Daily Credits
 
-|       Tier        |                                      Daily Included Credits Limit                                       |
-| :---------------: | :------------------------------------------------------------------------------------------------: |
-|     Free     |                           {{$site.themeConfig.DAILY_CREDITS_LIMIT}}                            |
+|    Tier    |                                            Daily Included Credits Limit                                             |
+| :--------: | :-----------------------------------------------------------------------------------------------------------------: |
+|    Free    |                                      {{$site.themeConfig.DAILY_CREDITS_LIMIT}}                                      |
 | Paid Plans | No limit (pay per additional credit above the [included credits](/pricing/#included-credits) in the billing period) |
 
 You can view your credits usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
@@ -36,9 +36,9 @@ Your included credits count is reset, daily, at 00:00 (midnight) UTC.
 
 ### Included Credits Usage Notifications
 
-|    Tier    |                                                                          Notifications                                                                          |
-| :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Free tiers |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
+|    Tier    |                                                                    Notifications                                                                    |
+| :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Free tiers |                                            You'll receive an email at 80% and 100% of your daily usage.                                             |
 | Paid tiers | You'll receive an email at 80% and 100% of your [included credits](/pricing/#included-credits) for your [billing period](/pricing/#billing-period). |
 
 ## HTTP Triggers
@@ -78,7 +78,7 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. Y
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
-**Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
+**Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
 
 ## Disk
 
@@ -110,10 +110,10 @@ Events that trigger a **Timeout** error will appear in red in the [Inspector](/w
 
 The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution history for a given workflow. We retain up to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}} per workflow:
 
-|    Tier    | Events retained per workflow |
-| :--------: | :------------------------: |
-| Free tiers |    {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}     |
-| Paid tiers |   [View breakdown of events history per paid plan](https://pipedream.com/pricing/) |
+|    Tier    |                           Events retained per workflow                           |
+| :--------: | :------------------------------------------------------------------------------: |
+| Free tiers |                 {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}}                 |
+| Paid tiers | [View breakdown of events history per paid plan](https://pipedream.com/pricing/) |
 
 The execution details for a specific event also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days.
 

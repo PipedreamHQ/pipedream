@@ -7,7 +7,7 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
+To support these goals, **Pipedream offers a generous free tier**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
@@ -31,7 +31,7 @@ Upgrading to a paid tier will increase this event history tracking substantially
 
 ### Free Tier Polling Interval Limitations
 
-Free Tier account triggers powered by polling are limited to 5 minute intervals. Paid tiers have an option to polling at a substantially higher frequency. 
+Free Tier account triggers powered by polling are limited to 5 minute intervals. Paid tiers have an option to polling at a substantially higher frequency.
 
 ### Free Tier Support options
 
@@ -43,9 +43,9 @@ Users on the Developer Tier have access to community support, on [our forum](htt
 
 All paid plans vary features based on tier, but each paid plan option will:
 
-* Lift the daily 100 credits limit
-* Increase the number of active workflows available
-* Increase the number of connected accounts
+- Lift the daily 100 credits limit
+- Increase the number of active workflows available
+- Increase the number of connected accounts
 
 ## Definition of Terms
 
@@ -57,7 +57,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 If you're still on our grandfathered Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
 
-During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/docs/workspaces/) in the near future.
+During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
 
 :::
 
@@ -83,7 +83,7 @@ Adding additional memory capacity to workflows will increase credit usage in int
 
 ::: details Developing a workflow with test events in the Pipedream workflow builder
 
-0 credits are incurred. Developing and testing your workflows is free. 
+0 credits are incurred. Developing and testing your workflows is free.
 
 Execution time used to develop a workflow in the builder does not count towards your credit usage.
 
@@ -100,16 +100,15 @@ Execution time used to develop a workflow in the builder does not count towards 
 2 credits are incurred, because the workflow executed for a total of 5 seconds at 512 megabytes of memory.
 :::
 
-
 #### Source Credit Usage
 
-The first credit used during a [source's](/docs/sources/) execution is included for free.
+The first credit used during a [source's](/sources) execution is included for free.
 
 This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of computation on an source do not incur credits. This behavior includes [Free Tier](/pricing/#free-tier) accounts.
 
 ::: tip
 
-This free first credit per execution **only** applies to sources from the [Pipedream public registry](/docs/sources). 
+This free first credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
 
 If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits.
 
@@ -121,8 +120,8 @@ For example, a source that polls an API for new events like [Airtable - New Row 
 
 This would result 0 credits. Regardless of the number of times the source polled because:
 
-* The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-* The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
+- The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
 
 :::
 
@@ -132,8 +131,8 @@ Consider a long running source that polls a large dataset like an new **RSS - Ne
 
 Each execution of this source would result 1 credit because:
 
-* The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
-* The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
+- The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
 
 :::
 
@@ -152,7 +151,6 @@ A source unattached to any workflow is called an [**Independent Source**](https:
 Only when sources are attached to workflows and begin to trigger workflow executions do source execution credits incur.
 
 :::
-
 
 ### Billing Period
 
