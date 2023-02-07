@@ -1403,6 +1403,9 @@
     },
     {
       "path": "components/mailbluster"
+    },
+    {
+      "path": "components/formatting"
     }
   ]
 }
