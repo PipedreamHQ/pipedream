@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import { ConfigurationError } from "@pipedream/platform";
 import { CURRENCY_OPTIONS } from "../../common/numbers/currencies";
 import { CURRENCY_FORMAT_OPTIONS } from "../../common/numbers/currencyFormats";
 import formatNumber from "../../common/numbers/formatNumber";
@@ -13,7 +14,7 @@ export default defineAction({
     input: {
       label: "Input",
       description: "Number you would like to format as a currency.",
-      type: "integer",
+      type: "string",
     },
     currency: {
       label: "Currency",
@@ -44,10 +45,18 @@ export default defineAction({
     const [
       integer,
       decimal,
-    ] = input.toString().split(".");
+    ] = input.split(input.includes(".")
+      ? "."
+      : ",");
+    if (isNaN(Number(integer))) {
+      throw new ConfigurationError("**Invalid number** - please check your input.");
+    }
+
     const numberString = formatNumber(
       integer,
-      decimal ?? "00",
+      (decimal?.length > 1
+        ? decimal
+        : (decimal ?? "0") + "0"),
       currencyFormat.includes(",")
         ? ","
         : "",
