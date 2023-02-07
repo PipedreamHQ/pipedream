@@ -1388,6 +1388,24 @@
     },
     {
       "path": "components/badger_maps"
+    },
+    {
+      "path": "components/cabinpanda"
+    },
+    {
+      "path": "components/simple_analytics"
+    },
+    {
+      "path": "components/planso_forms"
+    },
+    {
+      "path": "components/learndash"
+    },
+    {
+      "path": "components/mailbluster"
+    },
+    {
+      "path": "components/formatting"
     }
   ]
 }
