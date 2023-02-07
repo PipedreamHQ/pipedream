@@ -112,7 +112,7 @@ Your workflow's [memory settings](/workflows/settings/#memory) also impact the n
 Example: a schedule triggered workflow is configured to run every 15 minutes. Two invocations are incurred every 15 minutes. One from the timer source emitting an event, and the other from the workflow processing the event.
 
 ```
-2 invocations * 15 minutes * 4 times per hour * 24 hours in a day = 2,880 daily invocations
+2 invocations * 4 times per hour * 24 hours in a day = 192 daily invocations
 ```
 
 :::
