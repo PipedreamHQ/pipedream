@@ -11,14 +11,16 @@ export default {
   props: {
     app,
     userAliasName: {
-      type: "string",
-      label: "User Alias Name",
-      description: "The name of the user alias. [See the docs here](https://www.braze.com/docs/api/objects_filters/user_alias_object#user-alias-object-specification).",
+      propDefinition: [
+        app,
+        "userAliasName",
+      ],
     },
     userAliasLabel: {
-      type: "string",
-      label: "User Alias Label",
-      description: "The label of the user alias. [See the docs here](https://www.braze.com/docs/api/objects_filters/user_alias_object#user-alias-object-specification).",
+      propDefinition: [
+        app,
+        "userAliasLabel",
+      ],
     },
     showApplePushProps: {
       type: "boolean",
@@ -275,6 +277,9 @@ export default {
             url: webhookUrl,
             body: webhookBody,
             request_method: "POST",
+            request_headers: JSON.stringify({
+              "Content-Type": "application/json",
+            }),
           },
           webhookUrl && webhookBody,
         ],

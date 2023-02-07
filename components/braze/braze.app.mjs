@@ -5,10 +5,83 @@ export default {
   type: "app",
   app: "braze",
   propDefinitions: {
-    commonProperty: {
+    userAliasName: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "User Alias Name",
+      description: "The name of the user alias. [See the docs here](https://www.braze.com/docs/api/objects_filters/user_alias_object#user-alias-object-specification).",
+      async options() {
+        const { users } = await this.userProfileByIdentifier({
+          params: {
+            fields_to_export: [
+              "user_aliases",
+            ],
+          },
+        });
+        return users
+          .flatMap(({ user_aliases }) => user_aliases)
+          .map(({ alias_name }) => alias_name);
+      },
+    },
+    userAliasLabel: {
+      type: "string",
+      label: "User Alias Label",
+      description: "The label of the user alias. [See the docs here](https://www.braze.com/docs/api/objects_filters/user_alias_object#user-alias-object-specification).",
+      async options() {
+        const { users } = await this.userProfileByIdentifier({
+          params: {
+            fields_to_export: [
+              "user_aliases",
+            ],
+          },
+        });
+        return users
+          .flatMap(({ user_aliases }) => user_aliases)
+          .map(({ alias_label }) => alias_label);
+      },
+    },
+    userExternalId: {
+      type: "string",
+      label: "User External ID",
+      description: "The external ID of the user. [See the docs here](https://www.braze.com/docs/user_guide/data_and_analytics/user_data_collection/user_profile_lifecycle/#user-aliases).",
+      async options() {
+        const { users } = await this.userProfileByIdentifier({
+          params: {
+            fields_to_export: [
+              "external_id",
+              "email",
+            ],
+          },
+        });
+        return users
+          .map(({
+            email: label, external_id: value,
+          }) => ({
+            label,
+            value,
+          }));
+      },
+    },
+    brazeId: {
+      type: "string",
+      label: "Braze ID",
+      description: "The Braze ID of the user.",
+      async options() {
+        const { users } = await this.userProfileByIdentifier({
+          params: {
+            fields_to_export: [
+              "braze_id",
+              "email",
+            ],
+          },
+        });
+        return users
+          .map(({
+            email: label, braze_id: value,
+          }) => ({
+            label,
+            value,
+          }));
+      },
     },
   },
   methods: {
@@ -46,21 +119,9 @@ export default {
         ...args,
       });
     },
-    update(args = {}) {
-      return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
+    userProfileByIdentifier(args = {}) {
+      return this.create({
+        path: "/users/export/ids",
         ...args,
       });
     },

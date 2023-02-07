@@ -8,6 +8,57 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    userAliasName: {
+      propDefinition: [
+        app,
+        "userAliasName",
+      ],
+    },
+    userAliasLabel: {
+      propDefinition: [
+        app,
+        "userAliasLabel",
+      ],
+    },
+    userExternalId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "userExternalId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    createNewUserAliases(args = {}) {
+      return this.app.create({
+        path: "/users/alias/new",
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      userExternalId,
+      userAliasName,
+      userAliasLabel,
+    } = this;
+
+    const response = await this.sendMessage({
+      data: {
+        user_aliases: [
+          {
+            user_alias: {
+              external_id: userExternalId,
+              alias_name: userAliasName,
+              alias_label: userAliasLabel,
+            },
+          },
+        ],
+      },
+    });
+
+    step.export("$summary", "Successfully created or updated user");
+
+    return response;
+  },
 };
