@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/mailbluster",
+  "version": "0.0.1",
+  "description": "Pipedream Mailbluster Components",
+  "main": "dist/app/mailbluster.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailbluster"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/mailbluster",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
