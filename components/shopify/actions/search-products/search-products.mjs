@@ -59,8 +59,19 @@ export default {
       vendor,
     } = this;
 
+    let productIdString = productIds;
+    if (Array.isArray(productIds)) {
+      productIdString = productIds.join();
+    }
+    else if (typeof productIds === "string") {
+      if (productIds.startsWith("[") && productIds.endsWith("]")) {
+        productIdString = productIds.slice(1, -1);
+      }
+      productIdString = productIdString.replace(/\s/g, "");
+    }
+
     const params = {
-      ids: productIds?.join(),
+      ids: productIdString,
       collection_id: collectionId,
       product_type: productType,
       vendor,
