@@ -30,7 +30,7 @@ export default {
         http,
       } = this;
 
-      const eventList = webhookEvent.length
+      const eventList = webhookEvent?.length
         ? webhookEvent
         : this.getEventTypes();
 
