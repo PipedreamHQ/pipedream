@@ -1,6 +1,6 @@
 import { defineAction } from "@pipedream/types";
-import currencies from "../../common/numbers/currencies";
-import { CURRENCY_OPTIONS } from "../../common/numbers/currencyFormats";
+import { CURRENCY_OPTIONS } from "../../common/numbers/currencies";
+import { CURRENCY_FORMAT_OPTIONS } from "../../common/numbers/currencyFormats";
 import formatNumber from "../../common/numbers/formatNumber";
 
 export default defineAction({
@@ -19,28 +19,27 @@ export default defineAction({
       label: "Currency Symbol",
       description: "Specify the currency to be used for formatting",
       type: "string",
-      options: currencies,
+      options: CURRENCY_OPTIONS,
     },
     currencyFormat: {
       label: "Currency Format",
       description:
         "Specify the format to be used for the currency formatting. Use the unicode currency symbol `¤` for special formatting options. [Formatting rules can be found here](http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns)",
       type: "string",
-      options: CURRENCY_OPTIONS,
+      options: CURRENCY_FORMAT_OPTIONS,
     },
   },
   async run({ $ }): Promise<string> {
     const {
       input, currency, currencyFormat,
     } = this;
+    const [
+      isoCode,
+      currencySymbol,
+      currencyName,
+    ] = currency.split(" - ");
 
-    let result = "";
-
-    const currencySymbol = "$";
-
-    if (currencyFormat.startsWith("¤")) {
-      result += currencySymbol;
-    }
+    let result = (currencyFormat.startsWith("¤") && currencySymbol) || "";
 
     const [
       integer,
@@ -61,10 +60,12 @@ export default defineAction({
 
       // ¤¤ - ISO currency symbol: USD, BRL, etc.
     case 2:
+      result += isoCode;
       break;
 
       // ¤¤¤ - Currency display name: United States dollar, Brazilian real, etc.
     case 3:
+      result += currencyName;
       break;
     }
 

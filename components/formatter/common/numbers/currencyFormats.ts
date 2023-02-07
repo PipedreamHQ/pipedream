@@ -1,4 +1,4 @@
-export const CURRENCY_OPTIONS = [
+export const CURRENCY_FORMAT_OPTIONS = [
   {
     label: "$1,000.00",
     value: "¤#,##0.00",
@@ -8,7 +8,7 @@ export const CURRENCY_OPTIONS = [
     value: "¤#,##0.00 ¤¤",
   },
   {
-    label: "$1,000.00 US Dollars",
+    label: "$1,000.00 United States dollar",
     value: "¤#,##0.00 ¤¤¤",
   },
   {
