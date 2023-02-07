@@ -16,7 +16,7 @@ export default defineAction({
       type: "integer",
     },
     currency: {
-      label: "Currency Symbol",
+      label: "Currency",
       description: "Specify the currency to be used for formatting",
       type: "string",
       options: CURRENCY_OPTIONS,
@@ -60,12 +60,12 @@ export default defineAction({
 
       // ¤¤ - ISO currency symbol: USD, BRL, etc.
     case 2:
-      result += isoCode;
+      result += ` ${isoCode}`;
       break;
 
       // ¤¤¤ - Currency display name: United States dollar, Brazilian real, etc.
     case 3:
-      result += currencyName;
+      result += ` ${currencyName}`;
       break;
     }
 

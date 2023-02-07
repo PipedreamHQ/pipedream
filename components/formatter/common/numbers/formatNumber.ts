@@ -17,5 +17,5 @@ export default function (
     result.push(decimalChar + decimal);
   }
 
-  return result.join();
+  return result.join('');
 }
