@@ -1409,6 +1409,9 @@
     },
     {
       "path": "components/crowdpower"
+    },
+    {
+      "path": "components/t2m_url_shortener"
     }
   ]
 }
