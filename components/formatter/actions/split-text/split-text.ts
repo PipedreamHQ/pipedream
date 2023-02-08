@@ -1,6 +1,8 @@
 import { defineAction } from "@pipedream/types";
 import buildRegExp from "../../common/text/buildRegExp";
 
+const INDEX_ALL = 999;
+
 export default defineAction({
   name: "[Text] Split Text",
   description:
@@ -44,7 +46,7 @@ export default defineAction({
         },
         {
           label: "All",
-          value: 99,
+          value: INDEX_ALL,
         },
       ],
     },
@@ -67,7 +69,7 @@ export default defineAction({
     if (length > 1) {
       summary = `Successfully splitted text into ${length} segments`;
       result =
-        segmentIndex === 99
+        segmentIndex === INDEX_ALL
           ? arrResults
           : arrResults[segmentIndex < 0
             ? length + segmentIndex
