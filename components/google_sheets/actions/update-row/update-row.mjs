@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet",
-  version: "0.0.5",
+  version: "0.0.4",
   type: "action",
   props: {
     googleSheets,

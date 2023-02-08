@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-update-rows",
   name: "Update Rows",
   description: "Update multiple rows in a spreadsheet defined by a range",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     googleSheets,

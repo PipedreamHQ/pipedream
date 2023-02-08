@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-get-values",
   name: "Get Values",
   description: "Get all values from a sheet.",
-  version: "0.0.17",
+  version: "0.0.16",
   type: "action",
   props: {
     googleSheets,

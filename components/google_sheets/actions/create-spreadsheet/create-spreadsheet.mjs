@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-create-spreadsheet",
   name: "Create Spreadsheet",
   description: "Create a blank spreadsheet or duplicate an existing spreadsheet",
-  version: "0.0.5",
+  version: "0.0.4",
   type: "action",
   props: {
     googleSheets,

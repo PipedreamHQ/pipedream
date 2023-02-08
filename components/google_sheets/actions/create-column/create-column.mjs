@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-create-column",
   name: "Create Column",
   description: "Create a new column in a spreadsheet",
-  version: "0.0.5",
+  version: "0.0.4",
   type: "action",
   props: {
     googleSheets,
