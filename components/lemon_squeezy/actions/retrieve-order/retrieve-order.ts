@@ -4,7 +4,7 @@ import lemonSqueezy from "../../app/lemon_squeezy.app";
 export default defineAction({
   name: "Retrieve An Order",
   version: "0.0.1",
-  key: "lemon_queezy-retrieve-order",
+  key: "lemon_squeezy-retrieve-order",
   description: "Retrive an existent order. [See docs here](https://docs.lemonsqueezy.com/api/orders#retrieve-an-order)",
   type: "action",
   props: {

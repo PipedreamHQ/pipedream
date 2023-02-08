@@ -4,7 +4,7 @@ import lemonSqueezy from "../../app/lemon_squeezy.app";
 export default defineAction({
   name: "Retrieve A Product",
   version: "0.0.1",
-  key: "lemon_queezy-retrieve-product",
+  key: "lemon_squeezy-retrieve-product",
   description: "Retrive an existent product. [See docs here](https://docs.lemonsqueezy.com/api/products#retrieve-a-product)",
   type: "action",
   props: {
