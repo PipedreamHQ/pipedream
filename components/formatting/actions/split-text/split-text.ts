@@ -1,7 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import buildRegExp from "../../common/text/buildRegExp";
+import { INDEX_ALL_SEGMENTS, SPLIT_TEXT_OPTIONS } from "../../common/text/splitTextOptions";
 
-const INDEX_ALL = 999;
 
 export default defineAction({
   name: "[Text] Split Text",
@@ -27,28 +27,7 @@ export default defineAction({
       type: "integer",
       description:
         "Segment of text to return after splitting. Choose one of the options, or use a custom positive (*nth*-match) or negative (*nth-to-last* match) integer.",
-      options: [
-        {
-          label: "First",
-          value: INDEX_ALL * -1, // value should be 0, but that is not accepted - see issue #5429
-        },
-        {
-          label: "Second",
-          value: 1,
-        },
-        {
-          label: "Last",
-          value: -1,
-        },
-        {
-          label: "Second to Last",
-          value: -2,
-        },
-        {
-          label: "All",
-          value: INDEX_ALL,
-        },
-      ],
+      options: SPLIT_TEXT_OPTIONS
     },
   },
   async run({ $ }): Promise<string | string[]> {
@@ -70,13 +49,13 @@ export default defineAction({
       summary = `Successfully splitted text into ${length} segments`;
 
       switch (segmentIndex) {
-      case INDEX_ALL:
+      case INDEX_ALL_SEGMENTS:
         result = arrResults;
         break;
 
         // this case would not be needed if 0 was accepted as an option
-        // see previous comment and issue #5429
-      case INDEX_ALL * -1:
+        // see issue #5429
+      case INDEX_ALL_SEGMENTS * -1:
         result = arrResults[0];
         break;
 

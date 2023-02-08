@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import formatNumber from "../../common/numbers/formatNumber";
+import { DECIMAL_MARK_OPTIONS, FINAL_FORMAT_OPTIONS } from "../../common/numbers/numberFormattingOptions";
 
 export default defineAction({
   name: "[Numbers] Format Number",
@@ -20,40 +21,14 @@ export default defineAction({
       description:
         "The character the input uses to denote the decimal/fractional portion of the number. Defaults to period `.`",
       type: "string",
-      options: [
-        {
-          label: "comma",
-          value: ",",
-        },
-        {
-          label: "period",
-          value: ".",
-        },
-      ],
+      options: DECIMAL_MARK_OPTIONS,
       optional: true,
     },
     toFormat: {
       label: "To Format",
       description: "The format the number will be converted to.",
       type: "string",
-      options: [
-        {
-          label: "Comma for grouping & period for decimal",
-          value: ",.",
-        },
-        {
-          label: "Period for grouping & comma for decimal",
-          value: ".,",
-        },
-        {
-          label: "Space for grouping & period for decimal",
-          value: " .",
-        },
-        {
-          label: "Space for grouping & comma for decimal",
-          value: " ,",
-        },
-      ],
+      options: FINAL_FORMAT_OPTIONS,
     },
   },
   async run({ $ }): Promise<string> {

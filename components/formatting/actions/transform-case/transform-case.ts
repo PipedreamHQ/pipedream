@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import { CASE_OPTIONS } from "../../common/text/caseOptions";
+import { CASE_OPTIONS, CASE_OPTIONS_PROP } from "../../common/text/caseOptions";
 
 export default defineAction({
   name: "[Text] Transform Case",
@@ -17,12 +17,7 @@ export default defineAction({
       label: "Operation",
       description: "The case operation",
       type: "string",
-      options: CASE_OPTIONS.map(({
-        label, value,
-      }) => ({
-        label,
-        value,
-      })),
+      options: CASE_OPTIONS_PROP,
     },
   },
   async run({ $ }): Promise<string> {
