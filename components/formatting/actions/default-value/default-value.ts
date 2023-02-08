@@ -1,4 +1,5 @@
 import { defineAction } from "@pipedream/types";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Text] Default Value",
@@ -7,6 +8,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description:

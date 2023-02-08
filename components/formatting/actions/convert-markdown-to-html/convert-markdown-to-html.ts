@@ -1,6 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import showdown from "showdown";
 import jsdom from "jsdom";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Text] Convert Markdown to HTML",
@@ -9,6 +10,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "Markdown string to be converted to HTML",

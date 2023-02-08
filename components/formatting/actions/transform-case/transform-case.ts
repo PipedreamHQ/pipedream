@@ -1,5 +1,8 @@
 import { defineAction } from "@pipedream/types";
-import { CASE_OPTIONS, CASE_OPTIONS_PROP } from "../../common/text/caseOptions";
+import {
+  CASE_OPTIONS, CASE_OPTIONS_PROP,
+} from "../../common/text/caseOptions";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Text] Transform Case",
@@ -8,6 +11,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "The text you would like to transform",

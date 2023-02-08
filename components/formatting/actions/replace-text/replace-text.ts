@@ -1,5 +1,6 @@
 import { defineAction } from "@pipedream/types";
 import buildRegExp from "../../common/text/buildRegExp";
+import app from "../../app/formatting.app";
 
 const MAX_REPLACES = 10000;
 
@@ -11,6 +12,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "Text you would like to find and replace values within.",

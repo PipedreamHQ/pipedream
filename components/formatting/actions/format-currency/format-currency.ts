@@ -3,6 +3,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import { CURRENCY_OPTIONS } from "../../common/numbers/currencies";
 import { CURRENCY_FORMAT_OPTIONS } from "../../common/numbers/currencyFormats";
 import formatNumber from "../../common/numbers/formatNumber";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Numbers] Format Currency",
@@ -11,6 +12,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "Number you would like to format as a currency.",

@@ -10,6 +10,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    ...commonExtractText.props,
     input: {
       label: "Input",
       description: "Text you would like to find an email address from",

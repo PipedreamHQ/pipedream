@@ -1,7 +1,10 @@
 import { defineAction } from "@pipedream/types";
 import { ConfigurationError } from "@pipedream/platform";
 import formatNumber from "../../common/numbers/formatNumber";
-import { DECIMAL_MARK_OPTIONS, FINAL_FORMAT_OPTIONS } from "../../common/numbers/numberFormattingOptions";
+import {
+  DECIMAL_MARK_OPTIONS, FINAL_FORMAT_OPTIONS,
+} from "../../common/numbers/numberFormattingOptions";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Numbers] Format Number",
@@ -11,6 +14,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "Number string you would like to format.",

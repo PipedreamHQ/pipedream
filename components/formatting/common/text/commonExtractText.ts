@@ -1,6 +1,10 @@
 import { ActionRunOptions } from "@pipedream/types";
+import app from "../../app/formatting.app";
 
 export default {
+  props: {
+    app,
+  },
   methods: {
     getRegExp(): RegExp {
       throw new Error("RegExp not implemented for this action!");

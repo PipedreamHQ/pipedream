@@ -1,7 +1,9 @@
 import { defineAction } from "@pipedream/types";
 import buildRegExp from "../../common/text/buildRegExp";
-import { INDEX_ALL_SEGMENTS, SPLIT_TEXT_OPTIONS } from "../../common/text/splitTextOptions";
-
+import {
+  INDEX_ALL_SEGMENTS, SPLIT_TEXT_OPTIONS,
+} from "../../common/text/splitTextOptions";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   name: "[Text] Split Text",
@@ -11,6 +13,7 @@ export default defineAction({
   version: "0.0.1",
   type: "action",
   props: {
+    app,
     input: {
       label: "Input",
       description: "Text you would like to split",
@@ -27,7 +30,7 @@ export default defineAction({
       type: "integer",
       description:
         "Segment of text to return after splitting. Choose one of the options, or use a custom positive (*nth*-match) or negative (*nth-to-last* match) integer.",
-      options: SPLIT_TEXT_OPTIONS
+      options: SPLIT_TEXT_OPTIONS,
     },
   },
   async run({ $ }): Promise<string | string[]> {
