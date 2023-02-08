@@ -1,11 +1,11 @@
 import path from "path";
 import googleDrive from "../../google_drive.app.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
 import {
+  omitEmptyStringValues,
   getFileStream,
   streamToBuffer,
   byteToMB,
-} from "../../utils.mjs";
+} from "../../common/utils.mjs";
 import {
   GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,

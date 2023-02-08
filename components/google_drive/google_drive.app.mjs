@@ -25,7 +25,7 @@ import {
   omitEmptyStringValues,
   toSingleLineString,
   getFilePaths,
-} from "./utils.mjs";
+} from "./common/utils.mjs";
 
 export default {
   type: "app",

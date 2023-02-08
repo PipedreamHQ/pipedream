@@ -1,5 +1,5 @@
 import googleDrive from "../../google_drive.app.mjs";
-import { getListFilesOpts } from "../../utils.mjs";
+import { getListFilesOpts } from "../../common/utils.mjs";
 
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
 

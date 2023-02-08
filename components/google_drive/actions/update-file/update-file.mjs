@@ -1,6 +1,8 @@
 import googleDrive from "../../google_drive.app.mjs";
-import { toSingleLineString } from "../../utils.mjs";
-import { getFileStream } from "../../utils.mjs";
+import {
+  toSingleLineString,
+  getFileStream,
+} from "../../common/utils.mjs";
 
 export default {
   key: "google_drive-update-file",

@@ -1,7 +1,9 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
-import { getFileStream } from "../../utils.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import {
+  getFileStream,
+  omitEmptyStringValues,
+} from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../constants.mjs";
 
 export default {

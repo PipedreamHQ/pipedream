@@ -4,7 +4,7 @@ import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../constants.mjs";
 import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
-import { toSingleLineString } from "../../utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp

@@ -2,7 +2,7 @@ import googleDrive from "../../google_drive.app.mjs";
 import {
   getListFilesOpts,
   toSingleLineString,
-} from "../../utils.mjs";
+} from "../../common/utils.mjs";
 
 import {
   MY_DRIVE_VALUE,

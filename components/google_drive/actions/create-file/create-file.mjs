@@ -1,7 +1,7 @@
 import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
 import got from "got";
-import { toSingleLineString } from "../../utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "google_drive-create-file",
