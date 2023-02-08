@@ -30,7 +30,7 @@ export default defineAction({
       options: [
         {
           label: "First",
-          value: 0,
+          value: INDEX_ALL * -1, // value should be 0, but that is not accepted - see issue #5429
         },
         {
           label: "Second",
@@ -68,12 +68,25 @@ export default defineAction({
     const { length } = arrResults;
     if (length > 1) {
       summary = `Successfully splitted text into ${length} segments`;
-      result =
-        segmentIndex === INDEX_ALL
-          ? arrResults
-          : arrResults[segmentIndex < 0
-            ? length + segmentIndex
-            : segmentIndex];
+
+      switch (segmentIndex) {
+      case INDEX_ALL:
+        result = arrResults;
+        break;
+
+        // this case would not be needed if 0 was accepted as an option
+        // see previous comment and issue #5429
+      case INDEX_ALL * -1:
+        result = arrResults[0];
+        break;
+
+      default:
+        result =
+            arrResults[segmentIndex < 0
+              ? length + segmentIndex
+              : segmentIndex];
+        break;
+      }
     }
 
     $.export("$summary", summary);
