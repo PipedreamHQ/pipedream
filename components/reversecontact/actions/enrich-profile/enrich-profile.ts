@@ -1,5 +1,5 @@
 import { defineAction } from "@pipedream/types";
-import expensify from "../../app/reversecontact.app";
+import app from "../../app/reversecontact.app";
 
 export default defineAction({
   key: "reversecontact-enrich-profile",
@@ -8,7 +8,7 @@ export default defineAction({
   description: "Returns enriched profile information with the given email. [See docs here](https://docs.reversecontact.com/enriched_profile_check)",
   type: "action",
   props: {
-    expensify,
+    app,
     email: {
       label: "Email",
       description: "Email",
@@ -16,7 +16,7 @@ export default defineAction({
     },
   },
   async run({ $ }) {
-    const response = await this.expensify.enrichProfile({
+    const response = await this.app.enrichProfile({
       $,
       params: {
         mail: this.email,
