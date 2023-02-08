@@ -1,7 +1,7 @@
 import { defineAction } from "@pipedream/types";
 import { DATE_FORMAT_PARSE_MAP } from "../../common/date-time/dateFormats";
 import commonDateTime from "../../common/date-time/commonDateTime";
-import app from "../../app/formatter.app";
+import app from "../../app/formatting.app";
 
 export default defineAction({
   ...commonDateTime,

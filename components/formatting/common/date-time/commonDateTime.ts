@@ -1,4 +1,4 @@
-import app from "../../app/formatter.app";
+import app from "../../app/formatting.app";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DATE_FORMAT_PARSE_MAP,
