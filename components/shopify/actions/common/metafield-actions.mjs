@@ -14,126 +14,86 @@ export default {
   },
   methods: {
     async getOwnerIdProp(ownerResource) {
-      const product = {
-        ...shopify.propDefinitions.productId,
-        options: async ({ prevContext }) => {
-          return this.shopify.getProductOptions(prevContext);
+      const resources = {
+        product: {
+          ...shopify.propDefinitions.productId,
+          options: async ({ prevContext }) => {
+            return this.shopify.getProductOptions(prevContext);
+          },
         },
-      };
-      const productVariant = {
-        ...shopify.propDefinitions.productVariantId,
-        options: async ({ prevContext }) => {
-          return this.shopify.getProductVariantOptions(this.productId, prevContext);
+        variants: {
+          ...shopify.propDefinitions.productVariantId,
+          options: async ({ prevContext }) => {
+            return this.shopify.getProductVariantOptions(this.productId, prevContext);
+          },
         },
-      };
-      const productImage = {
-        ...shopify.propDefinitions.imageId,
-        options: async() => {
-          return this.shopify.getImageOptions(this.productId);
+        product_image: {
+          ...shopify.propDefinitions.imageId,
+          options: async() => {
+            return this.shopify.getImageOptions(this.productId);
+          },
+          optional: false,
         },
-        optional: false,
-      };
-      const customer = {
-        ...shopify.propDefinitions.customerId,
-        options: async ({
-          prevContext, query,
-        }) => {
-          return this.shopify.getCustomerOptions(prevContext, query);
+        customer: {
+          ...shopify.propDefinitions.customerId,
+          options: async ({
+            prevContext, query,
+          }) => {
+            return this.shopify.getCustomerOptions(prevContext, query);
+          },
         },
-      };
-      const collection = {
-        ...shopify.propDefinitions.collectionId,
-        options: async () => {
-          return this.shopify.getCollectionOptions();
+        collection: {
+          ...shopify.propDefinitions.collectionId,
+          options: async () => {
+            return this.shopify.getCollectionOptions();
+          },
+          optional: false,
         },
-        optional: false,
-      };
-      const blog = {
-        ...shopify.propDefinitions.blogId,
-        options: async () => {
-          return this.shopify.getBlogOptions();
+        blog: {
+          ...shopify.propDefinitions.blogId,
+          options: async () => {
+            return this.shopify.getBlogOptions();
+          },
         },
-      };
-      const article = {
-        ...shopify.propDefinitions.articleId,
-        options: async () => {
-          return this.shopify.getArticleOptions(this.blogId);
+        article: {
+          ...shopify.propDefinitions.articleId,
+          options: async () => {
+            return this.shopify.getArticleOptions(this.blogId);
+          },
         },
-      };
-      const page = {
-        ...shopify.propDefinitions.pageId,
-        options: async () => {
-          return this.shopify.getPageOptions();
+        page: {
+          ...shopify.propDefinitions.pageId,
+          options: async () => {
+            return this.shopify.getPageOptions();
+          },
         },
-      };
-      const order = {
-        ...shopify.propDefinitions.orderId,
-        options: async () => {
-          return this.shopify.getOrderOptions();
+        order: {
+          ...shopify.propDefinitions.orderId,
+          options: async () => {
+            return this.shopify.getOrderOptions();
+          },
         },
-      };
-      const draftOrder = {
-        ...shopify.propDefinitions.draftOrderId,
-        options: async () => {
-          return this.shopify.getDraftOrderOptions();
+        draft_order: {
+          ...shopify.propDefinitions.draftOrderId,
+          options: async () => {
+            return this.shopify.getDraftOrderOptions();
+          },
         },
       };
 
-      let props = {};
-      if (ownerResource === "product") {
-        props = {
-          ownerId: product,
-        };
-      }
-      if (ownerResource === "variants") {
-        props = {
-          productId: product,
-          ownerId: productVariant,
-        };
-      }
-      if (ownerResource === "product_image") {
-        props = {
-          productId: product,
-          ownerId: productImage,
-        };
-      }
-      if (ownerResource === "customer") {
-        props = {
-          ownerId: customer,
-        };
-      }
-      if (ownerResource === "collection") {
-        props = {
-          ownerId: collection,
-        };
-      }
-      if (ownerResource === "blog") {
-        props = {
-          ownerId: blog,
-        };
+      const props = {};
+
+      if (ownerResource === "variants" || ownerResource === "product_image") {
+        props.productId = resources.product;
       }
       if (ownerResource === "article") {
-        props = {
-          blogId: blog,
-          ownerId: article,
-        };
+        props.blogId = resources.blog;
       }
-      if (ownerResource === "page") {
-        props = {
-          ownerId: page,
-        };
-      }
-      if (ownerResource === "order") {
-        props = {
-          ownerId: order,
-        };
-      }
-      if (ownerResource === "draft_order") {
-        props = {
-          ownerId: draftOrder,
-        };
-      }
-      return props;
+
+      return {
+        ...props,
+        ownerId: resources[ownerResource],
+      };
     },
   },
 };
