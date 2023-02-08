@@ -2554,6 +2554,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/prodpad:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/product_hunt:
     specifiers:
       '@pipedream/platform': ^1.2.1
