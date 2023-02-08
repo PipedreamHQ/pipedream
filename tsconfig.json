@@ -1406,6 +1406,9 @@
     },
     {
       "path": "components/formatting"
+    },
+    {
+      "path": "components/crowdpower"
     }
   ]
 }
