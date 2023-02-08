@@ -21,3 +21,13 @@ The ProdPad API allows you to build a range of custom projects that can streamli
 - Integrate ProdPad into your existing systems and tools
 - Create custom development projects
 - Synchronize data between Prodpad and third-party applications
+
+# Webhooks
+
+Some triggers support webhooks for ProdPad. These include:
+
+- New Pushed Idea
+- New Pushed User Story
+
+To set up a webhook, please create and deploy one of these triggers and copy the HTTP URL.
+Then follow the instructions on [this link](https://help.prodpad.com/article/759-create-a-custom-webhook).

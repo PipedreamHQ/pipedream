@@ -1403,6 +1403,12 @@
     },
     {
       "path": "components/mailbluster"
+    },
+    {
+      "path": "components/formatting"
+    },
+    {
+      "path": "components/crowdpower"
     }
   ]
 }
