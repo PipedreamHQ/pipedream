@@ -6,7 +6,7 @@ export default defineAction({
   name: "[Text] Extract Number",
   description:
     "Find a number out of a text field. Finds the first number only.",
-  key: "expofp-extract-number",
+  key: "formatting-extract-number",
   version: "0.0.1",
   type: "action",
   props: {

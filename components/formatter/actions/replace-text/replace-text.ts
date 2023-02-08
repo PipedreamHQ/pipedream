@@ -7,7 +7,7 @@ export default defineAction({
   name: "[Text] Replace Text",
   description:
     "Replace all instances of any character, word or phrase in the text with another character, word or phrase.",
-  key: "expofp-replace-text",
+  key: "formatting-replace-text",
   version: "0.0.1",
   type: "action",
   props: {

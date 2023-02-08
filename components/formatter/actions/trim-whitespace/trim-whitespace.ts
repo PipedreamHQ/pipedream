@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "[Text] Trim Whitespace",
   description: "Removes leading and trailing whitespace",
-  key: "expofp-trim-whitespace",
+  key: "formatting-trim-whitespace",
   version: "0.0.1",
   type: "action",
   props: {

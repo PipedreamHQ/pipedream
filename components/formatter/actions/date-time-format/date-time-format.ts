@@ -7,7 +7,7 @@ export default defineAction({
   ...commonDateTime,
   name: "[Date/Time] Format",
   description: "Format a date string to another date string",
-  key: "expofp-date-time-format",
+  key: "formatting-date-time-format",
   version: "0.0.1",
   type: "action",
   props: {

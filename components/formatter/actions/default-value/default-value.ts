@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "[Text] Default Value",
   description: "Return a default value if the text is empty",
-  key: "expofp-default-value",
+  key: "formatting-default-value",
   version: "0.0.1",
   type: "action",
   props: {

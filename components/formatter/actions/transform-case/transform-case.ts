@@ -4,7 +4,7 @@ import { CASE_OPTIONS } from "../../common/text/caseOptions";
 export default defineAction({
   name: "[Text] Transform Case",
   description: "Transform case for a text input",
-  key: "expofp-transform-case",
+  key: "formatting-transform-case",
   version: "0.0.1",
   type: "action",
   props: {

@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Text] Split Text",
   description:
     "Split the text on a character or word and return one or all segments",
-  key: "expofp-split-text",
+  key: "formatting-split-text",
   version: "0.0.1",
   type: "action",
   props: {

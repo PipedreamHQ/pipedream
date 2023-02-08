@@ -6,7 +6,7 @@ export default defineAction({
   name: "[Text] Extract URL",
   description:
     "Find a web URL out of a text field. Finds the first URL only.",
-  key: "expofp-extract-url",
+  key: "formatting-extract-url",
   version: "0.0.1",
   type: "action",
   props: {

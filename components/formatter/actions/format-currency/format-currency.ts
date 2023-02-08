@@ -7,7 +7,7 @@ import formatNumber from "../../common/numbers/formatNumber";
 export default defineAction({
   name: "[Numbers] Format Currency",
   description: "Format a number as a currency",
-  key: "expofp-format-currency",
+  key: "formatting-format-currency",
   version: "0.0.1",
   type: "action",
   props: {

@@ -6,7 +6,7 @@ export default defineAction({
   name: "[Numbers] Format Number",
   description:
     "Format a number to a new style. Does not perform any rounding or padding of the number.",
-  key: "expofp-format-number",
+  key: "formatting-format-number",
   version: "0.0.1",
   type: "action",
   props: {

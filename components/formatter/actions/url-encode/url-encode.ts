@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 export default defineAction({
   name: "[Text] Encode URL",
   description: "Encode a string as a URL",
-  key: "expofp-url-encode",
+  key: "formatting-url-encode",
   version: "0.0.1",
   type: "action",
   props: {

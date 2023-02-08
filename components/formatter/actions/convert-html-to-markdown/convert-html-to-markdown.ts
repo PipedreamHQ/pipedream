@@ -5,8 +5,8 @@ import jsdom from "jsdom";
 export default defineAction({
   name: "[Text] Convert HTML to Markdown",
   description: "Convert valid HTML to Markdown text",
-  key: "expofp-convert-html-to-markdown",
-  version: "0.0.2",
+  key: "formatting-convert-html-to-markdown",
+  version: "0.0.1",
   type: "action",
   props: {
     input: {

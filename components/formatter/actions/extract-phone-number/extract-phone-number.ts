@@ -6,7 +6,7 @@ export default defineAction({
   name: "[Text] Extract Phone Number",
   description:
     "Find a complete phone number out of a text field. Finds the first number only.",
-  key: "expofp-extract-phone-number",
+  key: "formatting-extract-phone-number",
   version: "0.0.1",
   type: "action",
   props: {

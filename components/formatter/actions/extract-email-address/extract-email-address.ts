@@ -6,7 +6,7 @@ export default defineAction({
   name: "[Text] Extract Email Address",
   description:
     "Find an email address out of a text field. Finds the first email address only.",
-  key: "expofp-extract-email-address",
+  key: "formatting-extract-email-address",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import { DATE_FORMAT_OPTIONS } from "../common/date-time/dateFormats";
 
 export default defineApp({
   type: "app",
-  app: "expofp",
+  app: "formatting",
   propDefinitions: {
     inputDate: {
       label: "Input Date",

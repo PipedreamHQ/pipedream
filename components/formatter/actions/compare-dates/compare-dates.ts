@@ -8,7 +8,7 @@ export default defineAction({
   name: "[Date/Time] Compare Dates",
   description:
     "Get the duration between two dates in days, hours, minutes, and seconds along with checking if they are the same.",
-  key: "expofp-compare-dates",
+  key: "formatting-compare-dates",
   version: "0.0.1",
   type: "action",
   props: {

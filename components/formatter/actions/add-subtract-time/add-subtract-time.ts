@@ -11,7 +11,7 @@ export default defineAction({
   ...commonDateTime,
   name: "[Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
-  key: "expofp-add-subtract-time",
+  key: "formatting-add-subtract-time",
   version: "0.0.1",
   type: "action",
   props: {
