@@ -18,6 +18,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...commonExtractText.methods,
     getRegExp() {
       return /https?:\/\/[^\s]+\.[^\s]+/;
     },

@@ -35,6 +35,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...commonExtractText.methods,
     getRegExp() {
       return new RegExp(this.format);
     },

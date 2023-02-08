@@ -18,6 +18,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...commonExtractText.methods,
     getRegExp() {
       return /[\w-.]+@([\w-]+\.)+[\w-]{2,}/;
     },

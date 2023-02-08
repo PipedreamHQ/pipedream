@@ -18,6 +18,7 @@ export default defineAction({
     },
   },
   methods: {
+    ...commonExtractText.methods,
     getRegExp() {
       return /[0-9][0-9.,]*/;
     },
