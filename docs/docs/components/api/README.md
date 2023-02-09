@@ -142,7 +142,7 @@ props: {
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
-| `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`.     Only allowed for `string` props.                                                                                                                                 |
+| `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`. Only allowed for `string` props.                                                                                                                                     |
 | `min`            | `integer`                            | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `max`            | `integer`                            | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                                                              |
 
@@ -206,7 +206,7 @@ async options({
 | ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
 | `page`        | `integer` | optional  | Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                         |
-| `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` invocation. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                             |
+| `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` execution. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                              |
 
 Following is an example source demonstrating the usage of async options:
 
@@ -395,6 +395,7 @@ async additionalProps() {
   return props;
 },
 ```
+
 The signature of this function is:
 
 ```javascript
@@ -434,10 +435,10 @@ props: {
 
 **Usage**
 
-| Code              | Description                                                                                                                                 | Read Scope                | Write Scope                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
-| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                            | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event`           | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)    |
+| Code              | Description                                                                                                                                | Read Scope                | Write Scope                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------- |
+| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                           | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
+| `event`           | Returns an object with the execution timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)    |
 
 **Example**
 
@@ -511,7 +512,7 @@ props: {
 
 ###### Responding to HTTP requests
 
-The HTTP interface exposes a `respond()` method that lets your source issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a source.  In this case you should also pass the `customResponse: true` parameter to the prop.
+The HTTP interface exposes a `respond()` method that lets your source issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a source. In this case you should also pass the `customResponse: true` parameter to the prop.
 
 | Property  | Type                       | Required? | Description                                                                                                                    |
 | --------- | -------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -565,9 +566,9 @@ export default {
 
 #### Service Props
 
-| Service | Description                                                                                           |
-| ------- | ----------------------------------------------------------------------------------------------------- |
-| _DB_    | Provides access to a simple, component-specific key-value store to maintain state across invocations. |
+| Service | Description                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------- |
+| _DB_    | Provides access to a simple, component-specific key-value store to maintain state across executions. |
 
 ##### DB
 
@@ -708,7 +709,7 @@ this.$emit(event, {
 | `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                                                                          |
 | `name`    | `string`               | optional                                 | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel. |
 | `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                                                                            |
-| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp.  |
+| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an execution will correspond to the event with the newest timestamp.   |
 
 Following is a basic example that emits an event on each component execution.
 
@@ -802,15 +803,22 @@ async run({ $ }) {
 **`$.summary`**
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
+
 <div>
 <img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
 </div>
 
 Example implementation:
+
 ```javascript
-const data = [1, 2]
-const playlistName = "Cool jams"
-$.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
+const data = [1, 2];
+const playlistName = "Cool jams";
+$.export(
+  "$summary",
+  `Successfully added ${data.length} ${
+    data.length == 1 ? "item" : "items"
+  } to "${playlistName}"`
+);
 ```
 
 **`$.send`**
@@ -850,7 +858,7 @@ In actions, you'll see a list of your environment variables in the object explor
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-import axios from "axios"
+import axios from "axios";
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.
