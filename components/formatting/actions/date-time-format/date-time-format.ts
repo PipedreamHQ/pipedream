@@ -18,7 +18,7 @@ export default defineAction({
         "outputFormat",
       ],
       description: "The format to convert the date to.",
-      optional: false
+      optional: false,
     },
   },
   async run({ $ }): Promise<string | number> {

@@ -1,7 +1,9 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/formatting.app";
 import commonDateTime from "../../common/date-time/commonDateTime";
-import { DATE_FORMAT_PARSE_MAP, DEFAULT_FORMAT_VALUE } from "../../common/date-time/dateFormats";
+import {
+  DATE_FORMAT_PARSE_MAP, DEFAULT_FORMAT_VALUE,
+} from "../../common/date-time/dateFormats";
 import { DATE_TIME_UNITS } from "../../common/date-time/dateTimeUnits";
 
 const OPERATION_OPTIONS = {
@@ -68,7 +70,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<string | number> {
     const {
-      operation, duration, outputFormat
+      operation, duration, outputFormat,
     } = this;
 
     const dateObj = this.getDateFromInput();
