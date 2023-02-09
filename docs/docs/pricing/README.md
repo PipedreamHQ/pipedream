@@ -11,6 +11,8 @@ To support these goals, **Pipedream offers a generous free tier**. You can run s
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
+[[toc]]
+
 ## Free Tier
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
