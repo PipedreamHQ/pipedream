@@ -35,7 +35,7 @@ Your included credits count is reset, daily, at 00:00 (midnight) UTC.
 
 |    Tier    |                                                                    Notifications                                                                    |
 | :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Free tiers |                                            You'll receive an email at 80% and 100% of your daily usage.                                             |
+| Free tiers |                                            You'll receive an email when you reach 100% of your daily usage.                                             |
 | Paid tiers | You'll receive an email at 80% and 100% of your [included credits](/pricing/#included-credits) for your [billing period](/pricing/#billing-period). |
 
 ## HTTP Triggers
