@@ -58,6 +58,74 @@ export default {
           }));
       },
     },
+    peopleIds: {
+      type: "string[]",
+      label: "People",
+      description: "An array of all people visible to the current user.",
+      async options({
+        accountId,
+        projectId,
+      }) {
+        const people = await this.getPeople({
+          accountId,
+          projectId,
+        });
+        return people.
+          map(({
+            id,
+            name,
+          }) => ({
+            label: name,
+            value: id,
+          }));
+      },
+    },
+    todoSetId: {
+      type: "string",
+      label: "Todo Set Id",
+      description: "The ID of the todo set.",
+      async options({
+        accountId,
+        projectId,
+      }) {
+        const project = await this.getProject({
+          accountId,
+          projectId,
+        });
+        return project.dock.filter((dock) => dock.name === "todoset")
+          .map(({
+            id,
+            title,
+          }) => ({
+            label: title,
+            value: id,
+          }));
+      },
+    },
+    todoListId: {
+      type: "string",
+      label: "Todo List Id",
+      description: "The ID of the todo list.",
+      async options({
+        accountId,
+        projectId,
+        todoSetId,
+      }) {
+        const todoslists = await this.getTodoLists({
+          accountId,
+          projectId,
+          todoSetId,
+        });
+        return todoslists
+          .map(({
+            id,
+            title,
+          }) => ({
+            label: title,
+            value: id,
+          }));
+      },
+    },
     messageTypeId: {
       type: "string",
       label: "Message Types",
@@ -123,6 +191,13 @@ export default {
         ...args,
       });
     },
+    async getPeople(args = {}) {
+      return this.makeRequest({
+        path: `/projects/${args.projectId}/people.json`,
+        accountId: args.accountId,
+        ...args,
+      });
+    },
     async getMessageTypes(args = {}) {
       return this.makeRequest({
         path: `/buckets/${args.projectId}/categories.json`,
@@ -137,11 +212,27 @@ export default {
         ...args,
       });
     },
+    async getTodoLists(args = {}) {
+      return this.makeRequest({
+        path: `/buckets/${args.projectId}/todosets/${args.todoSetId}/todolists.json`,
+        accountId: args.accountId,
+        ...args,
+      });
+    },
     async createMessage(args = {}) {
       return this.makeRequest({
         $: args.$,
         accountId: args.accountId,
         path: `/buckets/${args.projectId}/message_boards/${args.messageBoardId}/messages.json`,
+        method: "post",
+        ...args,
+      });
+    },
+    async createTodoItem(args = {}) {
+      return this.makeRequest({
+        $: args.$,
+        accountId: args.accountId,
+        path: `/buckets/${args.projectId}/todolists/${args.todoListId}/todos.json`,
         method: "post",
         ...args,
       });
