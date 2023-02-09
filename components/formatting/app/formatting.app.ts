@@ -11,10 +11,19 @@ export default defineApp({
         "A valid date string, in the format selected in `Input Format`. If the format is not set, Pipedream will attempt to infer it from the input.",
       type: "string",
     },
-    dateFormat: {
-      label: "Date Format",
+    inputFormat: {
+      label: "Input Format",
       type: "string",
       options: DATE_FORMAT_OPTIONS,
+      description: "The format of the provided date.",
+      optional: true,
+    },
+    outputFormat: {
+      label: "Output Format",
+      type: "string",
+      options: DATE_FORMAT_OPTIONS,
+      description: "The format of the output date. If not provided, the input format will be used (default is ISO 8601).",
+      optional: true,
     },
   },
 });

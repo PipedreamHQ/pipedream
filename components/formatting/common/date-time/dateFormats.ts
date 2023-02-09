@@ -5,6 +5,8 @@ interface DateFormat {
   outputFn: (d: Date) => string | number;
 }
 
+export const DEFAULT_FORMAT_VALUE = "YYYY-MM-DDTHH:mm:ssZ";
+
 export const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) =>
   new Date(str);
 
@@ -73,7 +75,7 @@ const DATE_FORMATS: DateFormat[] = [
   },
   {
     label: "2006-01-22T23:04:05-0000",
-    value: "YYYY-MM-DDTHH:mm:ssZ",
+    value: DEFAULT_FORMAT_VALUE,
     outputFn(dateObj) {
       return dateObj
         .toISOString()

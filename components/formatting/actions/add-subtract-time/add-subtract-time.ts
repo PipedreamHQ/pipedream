@@ -1,5 +1,7 @@
 import { defineAction } from "@pipedream/types";
+import app from "../../app/formatting.app";
 import commonDateTime from "../../common/date-time/commonDateTime";
+import { DATE_FORMAT_PARSE_MAP, DEFAULT_FORMAT_VALUE } from "../../common/date-time/dateFormats";
 import { DATE_TIME_UNITS } from "../../common/date-time/dateTimeUnits";
 
 const OPERATION_OPTIONS = {
@@ -27,6 +29,12 @@ export default defineAction({
       description:
         "The duration for the operation. You can use the shorthand duration, for example: `1s`, `1m`, `1h`, `1d`, `1w`, `1y` equal one second, minute, hour, day, week, and year respectively",
       type: "string",
+    },
+    outputFormat: {
+      propDefinition: [
+        app,
+        "outputFormat",
+      ],
     },
   },
   methods: {
@@ -58,9 +66,9 @@ export default defineAction({
       return result;
     },
   },
-  async run({ $ }): Promise<string> {
+  async run({ $ }): Promise<string | number> {
     const {
-      operation, duration,
+      operation, duration, outputFormat
     } = this;
 
     const dateObj = this.getDateFromInput();
@@ -70,7 +78,10 @@ export default defineAction({
     if (operation === OPERATION_OPTIONS.SUBTRACT) amount *= -1;
 
     const result = value + amount;
-    const output = new Date(result).toISOString();
+
+    const format = outputFormat ?? this.inputFormat ?? DEFAULT_FORMAT_VALUE;
+    const { outputFn } = DATE_FORMAT_PARSE_MAP.get(format);
+    const output = outputFn(new Date(result));
 
     $.export(
       "$summary",

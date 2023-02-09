@@ -15,10 +15,10 @@ export default defineAction({
     outputFormat: {
       propDefinition: [
         app,
-        "dateFormat",
+        "outputFormat",
       ],
-      label: "Output Format",
       description: "The format to convert the date to.",
+      optional: false
     },
   },
   async run({ $ }): Promise<string | number> {

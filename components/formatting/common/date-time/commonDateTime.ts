@@ -17,11 +17,8 @@ export default {
     inputFormat: {
       propDefinition: [
         app,
-        "dateFormat",
+        "inputFormat",
       ],
-      label: "Input Format",
-      description: "The format of the provided date.",
-      optional: true,
     },
   },
   methods: {
