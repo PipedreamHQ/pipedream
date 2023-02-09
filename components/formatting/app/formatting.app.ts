@@ -8,7 +8,7 @@ export default defineApp({
     inputDate: {
       label: "Input Date",
       description:
-        "A valid date string, in the format selected in `Input Format`. If the format is not set, Pipedream will attempt to infer it from the input.",
+        "A valid date string, in the format selected in `Input Format`. If the format is not set, Pipedream will attempt to infer it from the input. If the input is an integer, it will be treated as a unix timestamp in seconds.",
       type: "string",
     },
     inputFormat: {

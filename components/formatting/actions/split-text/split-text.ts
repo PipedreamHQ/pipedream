@@ -49,7 +49,7 @@ export default defineAction({
     const arrResults = input.split(separator);
     const { length } = arrResults;
     if (length > 1) {
-      summary = `Successfully splitted text into ${length} segments`;
+      summary = `Successfully split text into ${length} segments`;
 
       switch (segmentIndex) {
       case INDEX_ALL_SEGMENTS:

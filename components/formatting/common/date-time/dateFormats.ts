@@ -7,8 +7,10 @@ interface DateFormat {
 
 export const DEFAULT_FORMAT_VALUE = "YYYY-MM-DDTHH:mm:ssZ";
 
-export const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) =>
-  new Date(str);
+export const DEFAULT_INPUT_FUNCTION: DateFormat["inputFn"] = (str) => {
+  const num = Number(str);
+  return new Date(num * 1000 || str);
+}
 
 // https://tc39.es/ecma402/#table-datetimeformat-components
 
