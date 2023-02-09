@@ -29,7 +29,7 @@ export default defineAction({
       optional: true,
     },
     toFormat: {
-      label: "To Format",
+      label: "Output Format",
       description: "The format the number will be converted to.",
       type: "string",
       options: FINAL_FORMAT_OPTIONS,

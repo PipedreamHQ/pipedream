@@ -12,21 +12,21 @@ export default defineAction({
   type: "action",
   props: {
     ...commonDateTime.props,
-    toFormat: {
+    outputFormat: {
       propDefinition: [
         app,
         "dateFormat",
       ],
-      label: "To Format",
+      label: "Output Format",
       description: "The format to convert the date to.",
     },
   },
   async run({ $ }): Promise<string | number> {
-    const { toFormat } = this;
+    const { outputFormat } = this;
 
     const dateObj = this.getDateFromInput();
 
-    const { outputFn } = DATE_FORMAT_PARSE_MAP.get(toFormat);
+    const { outputFn } = DATE_FORMAT_PARSE_MAP.get(outputFormat);
     const output = outputFn(dateObj);
 
     $.export("$summary", "Successfully formatted date/time");

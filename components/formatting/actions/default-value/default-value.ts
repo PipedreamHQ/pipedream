@@ -2,9 +2,9 @@ import { defineAction } from "@pipedream/types";
 import app from "../../app/formatting.app";
 
 export default defineAction({
-  name: "[Text] Default Value",
+  name: "[Text] Set Default Value",
   description: "Return a default value if the text is empty",
-  key: "formatting-default-value",
+  key: "formatting-set-default-value",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,7 +12,7 @@ export default defineAction({
     input: {
       label: "Input",
       description:
-        "Text you would like to apply a default value, if it is empty",
+        "Reference a previous step where you'd like to apply a default value in the case the field is empty or undefined. For example, `{{steps.code.$return_value.test}}`",
       type: "string",
     },
     defaultValue: {

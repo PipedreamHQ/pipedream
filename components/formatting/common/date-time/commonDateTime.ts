@@ -14,18 +14,18 @@ export default {
         "inputDate",
       ],
     },
-    fromFormat: {
+    inputFormat: {
       propDefinition: [
         app,
         "dateFormat",
       ],
-      label: "From Format",
+      label: "Input Format",
       description: "The format of the provided date.",
       optional: true,
     },
   },
   methods: {
-    getDateFromInput(date: string = this.inputDate, format: string = this.fromFormat): Date {
+    getDateFromInput(date: string = this.inputDate, format: string = this.inputFormat): Date {
       let dateObj: Date;
 
       try {
@@ -41,7 +41,7 @@ export default {
           `**Error** parsing input \`${date}\` ${
             format
               ? `expecting specified format \`${format}\``
-              : "- try selecting a format in the **From Format** prop."
+              : "- try selecting a format in the **Input Format** prop."
           }`,
         );
       }
