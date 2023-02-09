@@ -13,7 +13,7 @@ export default defineAction({
     ...commonExtractText.props,
     input: {
       label: "Input",
-      description: "Text you would like to find an email address from",
+      description: "String from which you'd like to extract an email address",
       type: "string",
     },
   },

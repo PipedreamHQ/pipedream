@@ -13,7 +13,7 @@ export default defineAction({
     ...commonExtractText.props,
     input: {
       label: "Input",
-      description: "Text you would like to find a web URL from",
+      description: "String from which you'd like to extract a URL",
       type: "string",
     },
   },

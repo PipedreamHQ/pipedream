@@ -13,7 +13,7 @@ export default defineAction({
     ...commonExtractText.props,
     input: {
       label: "Input",
-      description: "Text you would like to find a number from",
+      description: "String from which you'd like to extract a number",
       type: "string",
     },
   },
