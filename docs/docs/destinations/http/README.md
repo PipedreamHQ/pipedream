@@ -17,7 +17,7 @@ export default defineComponent({
     data: {
       name: "Luke Skywalker",
     },
-  });  
+  });
  })
 });
 ```
@@ -34,13 +34,13 @@ export default defineComponent({
       headers, // An object containing custom headers, e.g. { "Content-Type": "application/json" }
       params, // An object containing query string parameters as key-value pairs
       auth, // An object that contains a username and password property, for HTTP basic auth
-    });  
+    });
   })
 });
 
 ```
 
-**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$.send.http()`, though, is that these HTTP requests also don't count against your [compute time quota](/limits/#compute-time-per-day) on the [free tier](/pricing/#developer-tier).
+**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. These HTTP requests **do not** count against your workflow's compute time.
 
 If you iterate over an array of values and send an HTTP request for each:
 
@@ -103,7 +103,7 @@ If you need to access the HTTP response data in your workflow, [use `axios`](/co
 
 The timeout on HTTP request sent with `$.send.http()` is currently **5 seconds**. This time includes DNS resolution, connecting to the host, writing the request body, server processing, and reading the response body.
 
-Any requests that exceed 5 seconds will yield a `timeout` error. 
+Any requests that exceed 5 seconds will yield a `timeout` error.
 
 ## Retries
 
