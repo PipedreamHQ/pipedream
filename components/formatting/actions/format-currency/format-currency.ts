@@ -34,8 +34,10 @@ export default defineAction({
   },
   async run({ $ }): Promise<string> {
     const {
-      input, currency, currencyFormat,
+      currency, currencyFormat,
     } = this;
+    const input = this.input.toString();
+
     const [
       isoCode,
       currencySymbol,

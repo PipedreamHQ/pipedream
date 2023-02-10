@@ -37,8 +37,9 @@ export default defineAction({
   },
   async run({ $ }): Promise<string> {
     const {
-      input, inputDecimalMark, toFormat,
-    }: Record<string, string> = this;
+      inputDecimalMark, toFormat,
+    } = this;
+    const input = this.input.toString();
 
     const decimalMark = inputDecimalMark ?? ".";
     const splitInput = input.split(decimalMark);
