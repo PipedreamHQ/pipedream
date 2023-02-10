@@ -3,7 +3,7 @@ import common from "../common/base";
 
 export default defineSource({
   ...common,
-  key: "mailbluster-new-created-contact",
+  key: "mailbluster-new-product-created",
   name: "New Product Created",
   description: "Emit new event when a new product is created.",
   version: "0.0.1",
