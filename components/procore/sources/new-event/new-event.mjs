@@ -1,24 +1,23 @@
-const procore = require("../../procore.app.js");
-const common = require("../common.js");
+import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Event (Instant)",
   key: "procore-new-event",
-  description: "Emits an event for each webhook notification.",
-  version: "0.0.2",
+  description: "Emit new event for each webhook notification.",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     resourceName: {
       propDefinition: [
-        procore,
+        common.props.app,
         "resourceName",
       ],
     },
     eventTypes: {
       propDefinition: [
-        procore,
+        common.props.app,
         "eventTypes",
       ],
     },
