@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -48,7 +49,7 @@ export default {
           accountId,
           projectId,
         });
-        return project.dock.filter((dock) => dock.name === "message_board")
+        return project.dock.filter((dock) => dock.name === "message_board" && dock.enabled === true)
           .map(({
             id,
             title,
@@ -57,6 +58,39 @@ export default {
             value: id,
           }));
       },
+    },
+    recordingId: {
+      type: "string",
+      label: "Recording Id",
+      description: "The ID of the recording.",
+      async options({
+        accountId,
+        projectId,
+        recordingType,
+      }) {
+        if (!recordingType) {
+          return [];
+        }
+        const recordings = await this.getRecordings({
+          accountId,
+          projectId,
+          recordingType,
+        });
+        return recordings
+          .map(({
+            id,
+            title,
+          }) => ({
+            label: title,
+            value: id,
+          }));
+      },
+    },
+    recordingType: {
+      type: "string",
+      label: "Recording Type",
+      description: "The type of the recording.",
+      options: constants.RECORDING_TYPE_OPTS,
     },
     peopleIds: {
       type: "string[]",
@@ -92,7 +126,29 @@ export default {
           accountId,
           projectId,
         });
-        return project.dock.filter((dock) => dock.name === "todoset")
+        return project.dock.filter((dock) => dock.name === "todoset" && dock.enabled === true)
+          .map(({
+            id,
+            title,
+          }) => ({
+            label: title,
+            value: id,
+          }));
+      },
+    },
+    campfireId: {
+      type: "string",
+      label: "Campfire Id",
+      description: "The ID of the campfire.",
+      async options({
+        accountId,
+        projectId,
+      }) {
+        const project = await this.getProject({
+          accountId,
+          projectId,
+        });
+        return project.dock.filter((dock) => dock.name === "chat" && dock.enabled === true)
           .map(({
             id,
             title,
@@ -212,6 +268,17 @@ export default {
         ...args,
       });
     },
+    async getRecordings(args = {}) {
+      return this.makeRequest({
+        path: "/projects/recordings.json",
+        accountId: args.accountId,
+        params: {
+          type: args.recordingType,
+          bucket: args.projectId,
+        },
+        ...args,
+      });
+    },
     async getTodoLists(args = {}) {
       return this.makeRequest({
         path: `/buckets/${args.projectId}/todosets/${args.todoSetId}/todolists.json`,
@@ -224,6 +291,24 @@ export default {
         $: args.$,
         accountId: args.accountId,
         path: `/buckets/${args.projectId}/message_boards/${args.messageBoardId}/messages.json`,
+        method: "post",
+        ...args,
+      });
+    },
+    async createCampfireMessage(args = {}) {
+      return this.makeRequest({
+        $: args.$,
+        accountId: args.accountId,
+        path: `/buckets/${args.projectId}/chats/${args.campfireId}/lines.json`,
+        method: "post",
+        ...args,
+      });
+    },
+    async createComment(args = {}) {
+      return this.makeRequest({
+        $: args.$,
+        accountId: args.accountId,
+        path: `/buckets/${args.projectId}/recordings/${args.recordingId}/comments.json`,
         method: "post",
         ...args,
       });
