@@ -4,7 +4,7 @@
 
 **Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
 
-Today, we support the following triggers: 
+Today, we support the following triggers:
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
 - [HTTP / Webhook](#http)
@@ -32,10 +32,9 @@ Search by **app name** to find triggers associated with your app. For Google Cal
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
-Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **Select events** dropdown in the ***Select Event** step:
+Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **Select events** dropdown in the **\*Select Event** step:
 
 ![Choose an event to test your workflow steps against](https://res.cloudinary.com/pipedreamin/image/upload/v1647957381/docs/components/CleanShot_2022-03-22_at_09.55.57_2x_upj35r.png)
-
 
 Then you can select a specific test event and manually trigger your workflow with that event data by clicking **Send Test Event**. Now you're ready to build your workflow with the selected test event.
 
@@ -53,7 +52,7 @@ Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/
 
 ### Dependent and Independent Sources
 
-In order to reduce unintentional workflow invocations, certain sources are classified as "dependent" and will mirror the state of their parent workflow. For example,
+In order to reduce unintentional workflow executions, certain sources are classified as "dependent" and will mirror the state of their parent workflow. For example,
 
 - When adding a source to a new workflow, that source will initially be set as dependent. If you pause or delete the workflow, that source will also be paused or deleted. If you re-enable the workflow after pausing it, the source will be re-enabled as well.
 - If you add that same source to another workflow, or create a workflow then later remove and add a different source, the source will be independent from the workflow, which means pausing, re-enabling, or deleting the workflow will not impact the source.
@@ -277,6 +276,7 @@ When you're processing HTTP requests, you often don't need to issue any special 
 #### Customizing the HTTP response
 
 If you need to issue a custom HTTP response from a workflow, you can either:
+
 - Use the **Return HTTP response** action, available on the **HTTP / Webhook** app, or
 - **Use the `$.respond()` function in a Code or Action step**.
 
@@ -298,7 +298,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
     });
-  }
+  },
 });
 ```
 
@@ -335,7 +335,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" },
     });
-  }
+  },
 });
 ```
 
@@ -351,7 +351,7 @@ defineComponent({
       status: 200,
       body: "",
     });
-  }
+  },
 });
 ```
 
@@ -380,7 +380,7 @@ defineComponent({
   async run({ steps, $ }) {
     try {
       // Your code here that might throw an exception or not run
-      throw new Error('Whoops, something unexpected happened.');
+      throw new Error("Whoops, something unexpected happened.");
     } finally {
       await $.respond({
         status: 200,
@@ -389,7 +389,7 @@ defineComponent({
         },
       });
     }
-  }
+  },
 });
 ```
 
@@ -559,7 +559,7 @@ Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.c
 
 ### Email attachments
 
-You can attach any files to your email, up to [the total email size limit](/limits/#email-triggers). 
+You can attach any files to your email, up to [the total email size limit](/limits/#email-triggers).
 
 Attachments are stored in `steps.trigger.event.attachments`, which provides an array of attachment objects. Each attachment in that array exposes key properties:
 

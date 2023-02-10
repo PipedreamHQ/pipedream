@@ -7,139 +7,152 @@ next: false
 
 We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/components#sources), [workflows](/workflows), [actions](/components#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
+To support these goals, **Pipedream offers a generous free tier**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
-Read more about our plans and pricing options below.
+[Read more about our plans and pricing here](https://pipedream.com/pricing).
 
 [[toc]]
 
-## Developer Tier
+## Free Tier
 
-**The Developer tier is free**. You can run any number of sources and workflows, as long as they operate under [Pipedream platform limits](/limits/).
+Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers. 
 
-**To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
+But Free account have a [daily limit of free credits](/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/limits/) apply to Free Accounts as well.
 
-### Developer Tier Support options
+**To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing)**.
+
+### Free Tier Connected Accounts
+
+Free Tier accounts can connect up to 3 different service accounts like Twitter, Discord, Google Sheets, or any of the thousands of available connections.
+
+### Free Tier Workflow Limitations
+
+Free Tier accounts have a [daily credit limit](/limits#daily-credits-limit) and have the lowest amount of active workflows available.
+
+Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+
+### Free Tier Polling Interval Limitations
+
+Free Tier account triggers powered by polling are limited to the longest interval. Paid tiers have an option to polling at a substantially higher frequency.
+
+### Free Tier Support options
 
 Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
-## Professional Tier
+## Paid Tiers
 
-The Professional Tier includes all the features of the Developer Tier. It also comes with the following benefits:
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plan options.
 
-- **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
-- Your event history per workflow increases from {{$site.themeConfig.FREE_INSPECTOR_EVENT_LIMIT}} to {{$site.themeConfig.PAID_INSPECTOR_EVENT_LIMIT}}.
-- You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
-- You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
-- When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
+All paid plans vary features based on tier, but each paid plan option will:
 
-### Upgrading to the Professional Tier
-
-You can upgrade to the Professional Plan by visiting your [Billing and Usage Settings](https://pipedream.com/settings/billing).
-
-### Professional Tier Pricing
-
-See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing information.
-
-### Professional Tier Support options
-
-Users on the Professional Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
-
-## Team Plan
-
-You can create as many [organizations](/orgs/) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
-
-Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
-
-The Team Plan includes all of the features of the Professional Plan. Additionally, you have access to a [Pipedream-provided HTTP proxy](/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
-
-### Upgrading to the Team Plan
-
-You can upgrade to the Team Plan by switching to your [org's context](/orgs/#switching-context) and visiting your [Billing and Usage Settings](https://pipedream.com/settings/billing).
-
-### Team Tier Pricing
-
-See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing information.
-
-### Team Tier Support options
-
-Teams have access to support from the Pipedream team via email or a shared Slack channel between our organizations. [Visit out Support page](https://pipedream.com/support) for more information.
-
-## Enterprise Plan
-
-Enterprise plans are great for larger organizations or teams that have specific requirements, like SSO support or an SLA. 
-
-Enterprise plans are custom to each customer, but typically include:
-
-- Custom invocations, users, and orgs
-- SSO support (GSuite and [Okta](/orgs/sso/okta/))
-- [A 99.95% uptime SLA](https://pipedream.com/sla)
-- Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
-- Premium support: onboarding, ongoing training, and anything your team needs to be successful
-- Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
-
-To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
+- Lift the daily 100 credits limit
+- Increase the number of active workflows available
+- Increase the number of connected accounts
 
 ## Definition of Terms
 
 Pipedream uses a number of terms to describe platform metrics and details of our plans. See the definitions of key terms below.
 
-### Invocations
+### Credits
 
-Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event.
+::: tip
 
-Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
+If you're still on our legacy Developer, Professional or Organization plan, you still may be incurring **invocations** and not credits.
 
-Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
+During this transitionary period, you'll still be billed in terms of invocations. However workspace migrations are coming. You'll be guided on how to migrate your account to a [workspace](/workspaces) in the near future.
 
-If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
+:::
 
-Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
+Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
+
+The number of steps in a workflow has no impact on credit usage. Credits are not charged for workflows during development or testing.
+
+Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from {{ $site.themeConfig.base_credits_price.memory }} to {{ $site.themeConfig.base_credits_price.memory * 2 }} will double the cost of credits in the same execution time.
 
 #### Scenarios
 
-::: details Webhook triggered workflow
+::: details A workflow that runs 5 times with 1 second per run
 
-*1* invocation is incurred per HTTP webhook. The HTTP endpoint is *not* considered a source.
-
-:::
-
-::: details Scheduled workflow
-
-*1* invocation is incurred per new event emitted by the source.
-*1* invocation is incurred per new event processed by the workflow.
-
-Example: a schedule triggered workflow is configured to run every 15 minutes. Two invocations are incurred every 15 minutes. One from the timer source emitting an event, and the other from the workflow processing the event.
-
-```
-2 invocations * 4 times per hour * 24 hours in a day = 192 daily invocations
-```
+5 credits are incurred, because the workflow ran for a total of 5 executions and under the {{ $site.themeConfig.base_credits_price.seconds }} seconds threshold (5 executions at 1 credit each).
 
 :::
 
-::: details App webhook powered source triggered workflow
+::: details A workflow that runs 2 times with {{ $site.themeConfig.base_credits_price.seconds + 5 }} seconds per run
 
-*1* invocation is incurred per new event emitted by the source.
-*1* invocation is incurred per new event processed by the workflow.
-
-Example: an _Slack New Message in Channel (Instant)_ source receives a webhook from Slack when a new message is received in a channel. Two total invocations are incurred, one from the Slack source emitting the message event, the other from the workflow processing the event.
+4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {{ $site.themeConfig.base_credits_price.seconds }} by 5 seconds.
 
 :::
 
-::: details App polling source triggered workflow
+::: details Developing a workflow with test events in the Pipedream workflow builder
 
-*1* invocation is incurred per new event emitted by the source.
-*1* invocation is incurred per new event processed by the workflow.
+0 credits are incurred. Developing and testing your workflows is free.
 
-Example: a _Twitter Search Tweets_ source checks finds a new tweet published. Two total invocations are incurred, one from the source emitting the tweet event, the other for the workflow processing the event.
+Execution time used to develop a workflow in the builder does not count towards your credit usage.
 
 :::
 
-### Compute Time
+::: details An active standard workflow that isn't triggered at all in a billing period
 
-Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
+0 credits are incurred. Pipedream only charges credits for workflow executions.
 
-Pipedream records a minimum time of `100ms` per execution. For example, if your workflow runs for `50ms`, you'll incur `100ms` of time towards your [daily compute time quota](/limits/#compute-time-per-day).
+:::
+
+::: details A workflow with 512 megabytes of memory running for 5 seconds
+
+2 credits are incurred, because the workflow executed for a total of 5 seconds at 512 megabytes of memory.
+:::
+
+#### Source Credit Usage
+
+The first credit used during a [source's](/sources) execution is included for free.
+
+This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of computation on an source do not incur credits. This behavior includes [Free Tier](/pricing/#free-tier) accounts.
+
+::: tip
+
+This free first credit per execution **only** applies to sources from the [Pipedream public registry](/sources).
+
+If you deploy a private custom source to your account, then all computation time including the inital {{ $site.themeConfig.base_credits_price.seconds }} seconds for that private source counted toward credits.
+
+:::
+
+::: details A polling source finishing under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+
+For example, a source that polls an API for new events like [Airtable - New Row Added](https://pipedream.com/apps/airtable/triggers/new-records) only takes ~5 seconds to poll and emit events to subscribing workflows.
+
+This would result 0 credits per run because:
+
+- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
+- The **Airtable - New Row Added** source is a [publicly available component](https://pipedream.com/apps/airtable/triggers/new-records).
+
+:::
+
+::: details A polling source finishing over {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+
+Consider an a source (like **RSS - New Item in Feed** for instance) that takes 60 seconds total to finish polling, per execution.
+
+Each execution of this source would result 1 credit because:
+
+- The first {{ $site.themeConfig.base_credits_price.seconds }} of computation time per source execution is included.
+- The **RSS - New Item in Feed** source is a [publicly available component](https://pipedream.com/apps/rss/triggers/new-item-in-feed).
+
+:::
+
+::: details A custom source that finised under {{ $site.themeConfig.base_credits_price.seconds }} seconds per execution
+
+This would result in 1 credit per execution.
+
+The initial free credit only applies to Pipedream Public Registry sources.
+
+:::
+
+::: details A source not connected to any workflow
+
+A source that isn't connected to any workflow is called an [**Independent Source**](https://pipedream.com/docs/workflows/steps/triggers/#dependent-and-independent-sources). Independent sources do not incur credits.
+
+Only when sources are attached to workflows and begin to trigger workflow executions do source execution credits incur.
+
+:::
 
 ### Billing Period
 
@@ -149,39 +162,37 @@ For example, if you sign up on Jan 1st, your first billing period will last one 
 
 Your invoices are tied to your billing period. [Read more about invoicing / billing here](#when-am-i-invoiced-billed-for-paid-plans).
 
-### Base Invocations Quota
+### Included Credits
 
-When you sign up for a paid plan, you pay a platform fee at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of invocations that you can use for the rest of your billing period (see your [Billing and Usage Settings](https://pipedream.com/settings/billing) for your exact quota). If you have been granted any additional invocation increases by Pipedream, that is added to the base quota. **This total is called the base invocations quota**.
+When you sign up for a paid plan, you pay a platform fee at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of included credits that you can use for the rest of your billing period (see your [Billing and Usage Settings](https://pipedream.com/settings/billing) for your exact quota). If you have been granted any additional credit increases by Pipedream, that is added to the included credits.
 
-### Additional Billable Invocations
+### Additional Credits
 
-Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
+Any credits you run over your [included credit](/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
+
+### Data Store Keys
+
+A Data Store key represents a single record in a Data Store.
+
+In the example below, there are two records in the Data Store, and therefore there are two keys total.
+
+![Example of a Data Store with two keys](https://res.cloudinary.com/pipedreamin/image/upload/v1673537163/docs/CleanShot_2023-01-12_at_10.25.25_z6yg8t.png)
 
 ## FAQ
 
-### What are invocations?
+### How does workflow memory affect credits?
 
-Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event.
-
-Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
-
-Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
-
-If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
-
-### How does workflow memory affect billable invocations?
-
-Pipedream charges invocations proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one invocation each time your workflow executes. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** invocations, since you're using `4x` the default memory.
+Pipedream charges credits proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one credit each time your workflow executes for {{ $site.themeConfig.base_credits_price.seconds }}. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** credits, since you're using `4x` the default memory.
 
 ### Are there any limits on paid tiers?
 
-**You can run any number of invocations, for any amount of compute time**, on paid tiers. [Other platform limits](/limits/) apply.
+**You can run any number of credits for any amount of compute time** on any paid tier. [Other platform limits](/limits/) apply.
 
 ### When am I invoiced / billed for paid plans?
 
-When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
+When you upgrade to a paid tier, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
 
-If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
+If you accrue any [additional credits](#additional-credits), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
 
 ### Do any plans support payment by invoice, instead of credit / debit card?
 
@@ -191,11 +202,11 @@ Yes, Pipedream can issue invoices on the Enterprise Plan. Invoices are paid annu
 
 Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/privacy-and-security/#payment-processor) for more information.
 
-### Are unused invocations rolled over from one period to the next?
+### Are unused credits rolled over from one period to the next?
 
-**No**. On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
+**No**. On the Free tier, unused included daily credits under the daily limit are **not** rolled over to the next day.
 
-On paid tiers, unused invocations included as a part of the base platform fee are also **not** rolled over to the next month.
+On paid tiers, unused included credits are also **not** rolled over to the next month.
 
 ### How do I change my billing payment method?
 

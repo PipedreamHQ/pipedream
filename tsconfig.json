@@ -1406,6 +1406,12 @@
     },
     {
       "path": "components/formatting"
+    },
+    {
+      "path": "components/crowdpower"
+    },
+    {
+      "path": "components/t2m_url_shortener"
     }
   ]
 }
