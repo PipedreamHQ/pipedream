@@ -1,0 +1,32 @@
+import mailbluster from "../../app/mailbluster.app";
+
+export default {
+  key: "mailbluster-get-product",
+  name: "Get A Product",
+  description: "Get a specific product. [See the docs here](https://app.mailbluster.com/api-doc/products/read)",
+  type: "action",
+  version: "0.0.1",
+  props: {
+    mailbluster,
+    productId: {
+      propDefinition: [
+        mailbluster,
+        "productId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const {
+      mailbluster,
+      productId,
+    } = this;
+
+    const response = await mailbluster.getProduct({
+      $,
+      productId,
+    });
+
+    $.export("$summary", `Product with ID: ${productId} was successfully fetched!`);
+    return response;
+  },
+};
