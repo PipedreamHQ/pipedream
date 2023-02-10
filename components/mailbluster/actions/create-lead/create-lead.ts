@@ -2,7 +2,7 @@ import mailbluster from "../../app/mailbluster.app";
 
 export default {
   key: "mailbluster-create-lead",
-  name: "Create A Lead",
+  name: "Create New Lead",
   description: "Create a new lead. [See the docs here](https://app.mailbluster.com/api-doc/leads)",
   type: "action",
   version: "0.0.1",

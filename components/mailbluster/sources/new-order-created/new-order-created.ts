@@ -1,24 +1,25 @@
 import { defineSource } from "@pipedream/types";
+import moment from "moment";
 import common from "../common/base";
 
 export default defineSource({
   ...common,
-  key: "mailbluster-new-created-contact",
-  name: "New Product Created",
-  description: "Emit new event when a new product is created.",
+  key: "mailbluster-new-order-created",
+  name: "New Order Created",
+  description: "Emit new event when a new order is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getFunc() {
-      return this.mailbluster.listProducts;
+      return this.mailbluster.listOrders;
     },
     getField() {
-      return "products";
+      return "orders";
     },
     validateKeys(key1: string|number, key2: string|number) {
-      return (key1 > key2);
+      return moment(key1).isAfter(key2);
     },
   },
 });

@@ -76,6 +76,13 @@ export default defineApp({
         path: `products/${productId}`,
       });
     },
+    listOrders(opts = {}) {
+      return this._makeRequest({
+        opts,
+        method: "GET",
+        path: "orders",
+      });
+    },
     listProducts(opts = {}) {
       return this._makeRequest({
         opts,

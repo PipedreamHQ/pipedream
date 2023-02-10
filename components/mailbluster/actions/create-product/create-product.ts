@@ -2,7 +2,7 @@ import mailbluster from "../../app/mailbluster.app";
 
 export default {
   key: "mailbluster-create-product",
-  name: "Create A Product",
+  name: "Create New Product",
   description: "Create a new product. [See the docs here](https://app.mailbluster.com/api-doc/products)",
   type: "action",
   version: "0.0.1",
