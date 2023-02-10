@@ -274,7 +274,7 @@ export default {
     collectionId: {
       type: "string",
       label: "Collection ID",
-      description: "Return products by collection ID",
+      description: "Search for products by collection ID. A collection is a grouping of products that merchants can create to make their stores easier to browse. For example, a merchant might create a collection for a specific type of product that they sell, such as Footwear. Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included.",
       optional: true,
       async options() {
         return this.getCollectionOptions();
