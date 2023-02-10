@@ -10,16 +10,6 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    namespace: {
-      type: "string",
-      label: "Namespace",
-      description: "A container for a group of metafields. Grouping metafields within a namespace prevents your metafields from conflicting with other metafields with the same key name. Must have between 3-255 characters.",
-    },
-    key: {
-      type: "string",
-      label: "Key",
-      description: "The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods.",
-    },
     type: {
       type: "string",
       label: "Type",
@@ -62,14 +52,16 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const { result } = await this.shopify.getMetafield(this.metafieldId);
+
     const params = {
       metafield_id: this.metafieldId,
       owner_id: `${this.ownerId}`,
       owner_resource: this.ownerResource,
-      key: this.key,
+      key: result.key,
       type: this.type,
       value: this.value,
-      namespace: this.namespace,
+      namespace: result.namespace,
     };
     const response = await this.shopify.updateMetafield(this.metafieldId, params);
     $.export("$summary", `Updated metafield for object with ID ${this.ownerId}`);

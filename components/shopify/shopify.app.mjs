@@ -709,6 +709,9 @@ export default {
     async updateInventoryLevel(params) {
       return this.resourceAction("inventoryLevel", "set", params);
     },
+    async getMetafield(metafieldId, params = {}) {
+      return this.resourceAction("metafield", "get", params, metafieldId);
+    },
     async listMetafields(params) {
       return this.getObjects("metafield", params);
     },
