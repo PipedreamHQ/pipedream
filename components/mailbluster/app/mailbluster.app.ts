@@ -46,14 +46,14 @@ export default defineApp({
     },
     createLead(opts = {}) {
       return this._makeRequest({
-        opts,
+        ...opts,
         method: "POST",
         path: "leads",
       });
     },
     createProduct(opts = {}) {
       return this._makeRequest({
-        opts,
+        ...opts,
         method: "POST",
         path: "products",
       });
@@ -78,14 +78,14 @@ export default defineApp({
     },
     listOrders(opts = {}) {
       return this._makeRequest({
-        opts,
+        ...opts,
         method: "GET",
         path: "orders",
       });
     },
     listProducts(opts = {}) {
       return this._makeRequest({
-        opts,
+        ...opts,
         method: "GET",
         path: "products",
       });
@@ -99,9 +99,10 @@ export default defineApp({
 
       do {
         const response = await fn({
-          ...params,
-          pageNo: ++page,
-          perPage: 1,
+          params: {
+            ...params,
+            pageNo: ++page,
+          },
         });
         const {
           meta: {
@@ -118,9 +119,9 @@ export default defineApp({
           }
         }
 
-        lastPage = !(pageNo == totalPage);
+        lastPage = (pageNo == totalPage);
 
-      } while (lastPage);
+      } while (!lastPage);
     },
   },
 });
