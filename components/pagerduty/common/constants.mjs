@@ -1,11 +1,10 @@
 const SUBDOMAIN_PLACEHOLDER = "{subdomain}";
 const BASE_URL_V1 = `https://${SUBDOMAIN_PLACEHOLDER}.pagerduty.com`;
 const VERSION_PATH_V1 = "/api/v1";
+const LIMIT_PAGINATION = 25;
 
 const BASE_URL = "https://api.pagerduty.com";
 const WEBHOOK_ID = "webhookId";
-const EXTENSION_ID = "extensionId";
-const GENERIC_V2_WEBHOOK_OUTBOUND_INTEGRATION_ID = "PJFWPEP";
 const ONCALL_USERS_BY_ESCALATION_POLICY = "onCallUsersByEscalationPolicy";
 
 const API_HEADERS = {
@@ -53,7 +52,6 @@ const REFERENCE = {
   PRIORITY: "priority_reference",
   USER: "user_reference",
   ESCALATION_POLICY: "escalation_policy_reference",
-  EXTENSION_SCHEMA: "extension_schema_reference",
 };
 
 const INCIDENT_TYPE = "incident";
@@ -71,11 +69,10 @@ export default {
   BASE_URL,
   BASE_URL_V1,
   VERSION_PATH_V1,
+  LIMIT_PAGINATION,
   SUBDOMAIN_PLACEHOLDER,
   API_HEADERS,
   WEBHOOK_ID,
-  EXTENSION_ID,
-  GENERIC_V2_WEBHOOK_OUTBOUND_INTEGRATION_ID,
   ONCALL_USERS_BY_ESCALATION_POLICY,
   INCIDENT_EVENT_TYPES,
   INCIDENT_URGENCIES,
