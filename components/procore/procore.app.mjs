@@ -115,7 +115,7 @@ export default {
       const hasMultipartHeader = utils.hasMultipartHeader(preHeaders);
       const data = hasMultipartHeader && utils.getFormData(preData) || preData;
 
-      const currentHeaders = this.getHeaders(preHeaders);
+      const currentHeaders = this._getHeaders(preHeaders);
       const headers = hasMultipartHeader
         ? {
           ...currentHeaders,
@@ -131,7 +131,7 @@ export default {
 
       const config = {
         url,
-        headers: this._getHeaders(headers),
+        headers,
         data,
         ...args,
       };

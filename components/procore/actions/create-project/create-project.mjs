@@ -5,7 +5,8 @@ export default {
   name: "Create Project",
   description: "Creates a new project. [See the docs](https://developers.procore.com/reference/rest/v1/projects?version=1.0#create-project).",
   type: "action",
-  version: "0.0.1",
+  // version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     companyId: {
