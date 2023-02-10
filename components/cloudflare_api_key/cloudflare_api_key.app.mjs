@@ -385,5 +385,17 @@ export default {
         this._throwApiRequestFormattedError(error);
       }
     },
+    async createIpAccessRule($, accountId, data) {
+      try {
+        const response = await this._makeRequest($, {
+          method: "POST",
+          path: `/accounts/${accountId}/firewall/access_rules/rules`,
+          data,
+        });
+        return response;
+      } catch (error) {
+        this._throwApiRequestFormattedError(error);
+      }
+    },
   },
 };

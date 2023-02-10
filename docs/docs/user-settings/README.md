@@ -6,23 +6,7 @@ You can find important account details, text editor configuration, and more in y
 
 ## Account
 
-You'll find your Pipedream username, email, and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
-
-### Username
-
-Your Pipedream username functions as your user or org identity. If you've made any resources public, these resources will appear on your public profile at:
-
-```text
-https://pipedream.com/@username
-```
-
-You can change your username at any time (see below).
-
-### Changing your username
-
-You can change your Pipedream username by editing the **Username** field in your Account Settings. 
-
-Existing workflow URLs that contain your old username will continue to resolve to the correct workflow. However, links to your public profile with your old username (for example, [https://pipedream.com/@old-username](https://pipedream.com/@old-username)) will no longer resolve.
+You'll find your Pipedream email and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
 
 ### Changing your email
 
@@ -66,41 +50,42 @@ If you've already upgraded, you'll see an option to **Manage Subscription** here
 
 ### Usage
 
-[Invocations](/pricing/#invocations) are Pipedream's billable unit, and [free users](/pricing/#developer-tier) are limited on the number of daily invocations they can run. The **Usage** section displays a chart of the daily invocations across a historical range of time to provide insight into your usage patterns.
+[Credits](/pricing/#credits) are Pipedream's billable unit, and users on the [free tier](/pricing/#free-tier) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
 
-Hover over a specific column in the chart to see the number of invocations run for that specific day:
-
-<div>
-<img width="333" alt="Daily invocations tooltip" src="./images/daily-invocations-tooltip.png">
-</div>
-
-_Click_ on a specific column to see invocations for that day, broken out by workflow / source:
+Hover over a specific column in the chart to see the number of credits run for that specific day:
 
 <div>
-<img alt="Invocations broken out by workflow / source" src="./images/usage-by-resource.png">
+<img width="333" alt="Daily credits tooltip" src="./images/daily-invocations-tooltip.png">
 </div>
 
-[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
+_Click_ on a specific column to see credits for that day, broken out by workflow / source:
 
+<div>
+<img alt="Credits broken out by workflow / source" src="./images/usage-by-resource.png">
+</div>
 
-### Invocation Budget
+Users on the free tier will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
-Control the maximum number of invocations permitted on your account with an *Invocation Budget*.
+### Credits Budget
 
-This will restrict your account usage to a certain allocation of [invocations](/pricing/#invocations) on a monthly or daily basis.
+Control the maximum number of credits permitted on your account with an _Credit Budget_.
 
-To enable this feature, _click_ on the toggle and define your maximum number of invocations in the period.
+This will restrict your account usage to a certain allocation of [credits](/pricing/#credits) on a monthly or daily basis.
 
-![Enabling the Invocation Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
+To enable this feature, _click_ on the toggle and define your maximum number of credits in the period.
+
+![Enabling the Credit Budget feature](https://res.cloudinary.com/pipedreamin/image/upload/v1662555731/docs/components/image_12_hledxh.png)
 
 ::: tip
 
-If enabled, the default Invocation Budget is maximum number of invocations allocated for your plan for the month. Setting your Invocation Budget below the default is not recommended.
+Due to how credits are accrued, there may be cases where your credit usage may _slightly_ go over the cap.
+
+In an example scenario, with cap set at 20 credits and long running workflow that uses 10 credits per run; it's possible that two concurrent events trigger the workflow, and the cap will won't apply until after the concurrent events are processed.
 
 :::
 
 ### Limits
 
-For users on the [Developer (free) tier](/pricing/#developer-tier), this section displays your usage towards your [invocations](/limits/#daily-invocations) and [compute time](/limits/#compute-time-per-day) quota for the current UTC day.
+For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/limits/#daily-credits-limit) for the current UTC day.
 
 <Footer />

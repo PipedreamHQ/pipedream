@@ -5,7 +5,7 @@
 ## Overview
 
 Use the REST API to create and manage sources, workflows and source events.
-Workflow development and management is not currently supported via the API. 
+Workflow development and management is not currently supported via the API.
 
 ## Base URL
 
@@ -73,17 +73,17 @@ including all fields). Pass as a string of comma-separated values:
 
 `org_id` **string**
 
-Some endpoints require you to specify [the org ID](/orgs/#finding-your-organization-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+Some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific workspace, you'll want to pass the workspace ID in the `org_id` query string parameter.
 
-[Find your org's ID here](/orgs/#finding-your-organization-s-id).
+[Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
 
-## Working with resources owned by an organization
+## Working with resources owned by a workspace
 
-If you're interacting with resources owned by an [organization](/orgs/), you may need to specify the org ID as a part of the request's query string parameter or route:
+If you're interacting with resources owned by a [workspace](/workspaces/), you may need to specify the workspace ID as a part of the request's query string parameter or route:
 
-- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your org's ID. If your user is a part of the org, you should have access to that resource, and the API will return the details of the resource.
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your workspace's ID. If your user is a part of the workspace, you should have access to that resource, and the API will return the details of the resource.
 - When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
-- When _listing_ resources, use [the org-specific endpoints here](#organizations).
+- When _listing_ resources, use [the workspace-specific endpoints here](#workspaces).
 
 ## Pagination
 
@@ -498,27 +498,27 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
-## Organizations
+## Workspaces
 
-[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+[Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
 
-### Get Org's Subscriptions
+### Get Workspaces's Subscriptions
 
 ---
 
-Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+Retrieve all the [subscriptions](#subscriptions) configured for a specific workspace.
 
 #### Endpoint
 
 ```
-GET /orgs/<org_id>/subscriptions
+GET /orgs/<workspace_id>/subscriptions
 ```
 
 #### Path Parameters
 
 `org_id` **string**
 
-[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
 #### Example Request
 
@@ -548,23 +548,23 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
 }
 ```
 
-### Get Org's Sources
+### Get Workspaces's Sources
 
 ---
 
-Retrieve all the [event sources](#sources) configured for a specific organization.
+Retrieve all the [event sources](#sources) configured for a specific workspace.
 
 #### Endpoint
 
 ```
-GET /orgs/<org_id>/sources
+GET /orgs/<workspace_id>/sources
 ```
 
 #### Path Parameters
 
 `org_id` **string**
 
-[Switch to your org's context](/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
 #### Example Request
 

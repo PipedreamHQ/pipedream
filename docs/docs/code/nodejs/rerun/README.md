@@ -207,6 +207,14 @@ When you're building a workflow and test a step with `$.flow.suspend` or `$.flow
 
 These functions will only suspend and resume when run in production.
 
-## Invocations when using `suspend` / `rerun`
+## Credits when using `suspend` / `rerun`
 
-Each time workflows are resumed, Pipedream charges [an invocation](/pricing/#invocations). For example, when you call `$.flow.suspend`, you're charged an invocation for the initial event data, and another invocation when you resume the request.
+You are not charged for the time your workflow is suspended during a `$.flow.rerun` or `$.flow.suspend`. Only when workflows are resumed will compute time count toward [credit usage](/pricing/#credits).
+
+::: warning
+
+When a suspended workflow reawakens, it will reset the credit counter.
+
+Each rerun or reawakening from a suspension will count as a new fresh credit.
+
+:::

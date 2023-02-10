@@ -1,4 +1,4 @@
-# SSO - Okta
+# Configuring SSO with Okta
 
 Pipedream supports Single-sign on (SSO) with Okta. This guide shows you how to configure SSO in Pipedream to authenticate with your Okta org.
 
@@ -6,10 +6,9 @@ Pipedream supports Single-sign on (SSO) with Okta. This guide shows you how to c
 
 ## Requirements
 
-- SSO is only supported for [organizations](/orgs/) on the [Enterprise plan](/pricing/#enterprise-plan). Visit the [Pipedream pricing page](https://pipedream.com/pricing) to upgrade.
-- You must be an administrator of your Pipedream organization
+- SSO is only supported for [workspaces](/workspaces/) on the Business and Enterprise plans. Visit the [Pipedream pricing page](https://pipedream.com/pricing) to upgrade.
+- You must be an administrator of your Pipedream workspace
 - You must have an Okta account
-
 
 ## Configuration
 
@@ -69,7 +68,7 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 <img alt="Okta - Identity Metadata URL" src="./images/step-9-2.png">
 </div>
 
-10. Visit your [Pipedream organization settings](https://pipedream.com/settings/account). Under the **Auth** section, add the metadata URL in the **SAML** section and click **Confirm**:
+10. Visit your [Pipedream workspace settings](https://pipedream.com/settings/account). Under the **Auth** section, add the metadata URL in the **SAML** section and click **Confirm**:
 
 <div>
 <img alt="Okta - Pipdeream Metadata URL" src="./images/step-10.png">
@@ -83,7 +82,7 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 
 Assign the application to the relevant users in Okta, and Pipedream will configure the associated accounts on our end.
 
-Users can log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your organization's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your_org_name](https://pipedream.com/auth/sso), where `your_org_name` is the name of your org.
+Users configured in your Okta app can log into Pipedream at [https://pipedream.com/auth/sso](https://pipedream.com/auth/sso) by entering your workspaces's name (found in your [Settings](https://pipedream.com/settings/account)). You can also access your SSO sign in URL directly by visiting [https://pipedream.com/auth/sso/your_workspace_name](https://pipedream.com/auth/sso), where `your_workspace_name` is the name of your workspace.
 
 ## Important details
 

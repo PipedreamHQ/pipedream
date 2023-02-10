@@ -34,7 +34,7 @@ Events emitted from a source to a workflow are placed in a queue, and Pipedream 
 
 The maximum number of events Pipedream will queue per workflow depends on your account type.
 
-- Up to 100 events will be queued per workflow for the [Developer Tier](/pricing/#developer-tier)
+- Up to 100 events will be queued per workflow for the workspaces on the free tier.
 - Workflows owned by paid plans may have custom limits. If you need a larger queue size, [see here](#increasing-the-queue-size-for-a-workflow).
 
 **IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, you'll see an error in your workflow, and you'll receive an error email.

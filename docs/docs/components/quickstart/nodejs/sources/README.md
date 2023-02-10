@@ -1,10 +1,10 @@
 # Quickstart: Source Development
 
-This document is intended for a technical audience (including those interested in learning how to author and edit components).  After completing this quickstart, you will understand how to:
+This document is intended for a technical audience (including those interested in learning how to author and edit components). After completing this quickstart, you will understand how to:
 
 - Deploy components to Pipedream using the CLI
 - Invoke a component manually, or on a schedule or HTTP request
-- Maintain state across component invocations
+- Maintain state across component executions
 - Emit deduped events using the `unique` and `greatest` strategies
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
@@ -18,7 +18,7 @@ We recommend that you execute the examples in order — each one builds on the 
 **Hello World! (~10 minutes)**
 
 - Deploy a `hello world!` component using the Pipedream CLI and invoke it manually
-- Use `$.service.db` to maintain state across invocations
+- Use `$.service.db` to maintain state across executions
 - Use `$.interface.timer` to invoke a component on a schedule
 - Use `$.interface.http` to invoke code on HTTP requests
 
@@ -62,7 +62,7 @@ See the [CLI reference](/cli/reference/) for detailed usage and examples beyond 
 
 # Hello World!
 
-Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each invocation.
+Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each execution.
 
 ```javascript
 export default {
@@ -99,7 +99,7 @@ Then click **RUN NOW** to invoke your source. Your event will appear in real-tim
 
 ![source](./images/quickstart/hello-world-1.gif)
 
-### Maintain state across invocations
+### Maintain state across executions
 
 Next, we'll use Pipedream's `db` service to track the number of times the component is invoked.
 
@@ -123,7 +123,7 @@ let count = this.db.get("count") || 1;
 this.$emit(
   { message: "hello world!" },
   {
-    summary: `Invocation #${count}`,
+    summary: `Execution #${count}`,
   }
 );
 
@@ -145,7 +145,7 @@ export default {
     this.$emit(
       { message: "hello world!" },
       {
-        summary: `Invocation #${count}`,
+        summary: `Execution #${count}`,
       }
     );
 
@@ -154,7 +154,7 @@ export default {
 };
 ```
 
-Save the changes to your local file. Your component on Pipedream should automatically update. Return to the Pipedream UI and press **RUN NOW** — you should see the invocation count appear in the event list.
+Save the changes to your local file. Your component on Pipedream should automatically update. Return to the Pipedream UI and press **RUN NOW** — you should see the execution count appear in the event list.
 
 ![source](./images/quickstart/hello-world-2.gif)
 
@@ -192,7 +192,7 @@ export default {
     this.$emit(
       { message: "hello world!" },
       {
-        summary: `Invocation #${count}`,
+        summary: `Execution #${count}`,
       }
     );
 
@@ -218,9 +218,9 @@ to set a different schedule than the default specified in the code.
 Next, we'll update our component to run on HTTP requests instead of a timer. To do that, we'll just replace the `timer` interface with an `http` interface.
 
 ```javascript
-http: { 
-        type: "$.interface.http", 
-        customResponse: true 
+http: {
+        type: "$.interface.http",
+        customResponse: true
       },
 ```
 
@@ -242,7 +242,7 @@ this.http.respond({
 });
 
 this.$emit(event.body, {
-  summary: `Invocation #${count}`,
+  summary: `Execution #${count}`,
 });
 ```
 
@@ -256,7 +256,7 @@ export default {
     db: "$.service.db",
     http: {
       type: "$.interface.http",
-      customResponse: true
+      customResponse: true,
     },
   },
   async run(event) {
@@ -271,7 +271,7 @@ export default {
     });
 
     this.$emit(event.body, {
-      summary: `Invocation #${count}`,
+      summary: `Execution #${count}`,
     });
 
     this.db.set("count", ++count);
@@ -423,7 +423,7 @@ export default {
 };
 ```
 
-Save the changes to your file and then click **RUN NOW** in the Pipedream UI. Similar to previous invocations, you should see 10 events emitted. Now, run the component **again**. You should see a maximum of **one, if any** events emitted (the reason one event may be emitted is if a new item was added to the RSS feed). If no new events were emitted, wait for ~1 minute and try again.
+Save the changes to your file and then click **RUN NOW** in the Pipedream UI. Similar to previous executions, you should see 10 events emitted. Now, run the component **again**. You should see a maximum of **one, if any** events emitted (the reason one event may be emitted is if a new item was added to the RSS feed). If no new events were emitted, wait for ~1 minute and try again.
 
 ## Add a timer interface to invoke the component on a schedule
 
@@ -470,7 +470,7 @@ export default {
 };
 ```
 
-**Save** your component then return to the UI and reload the page. You should see the updated configuration on your summary card and a countdown to the next invocation. You can still click **RUN NOW** to execute your source manually.
+**Save** your component then return to the UI and reload the page. You should see the updated configuration on your summary card and a countdown to the next execution. You can still click **RUN NOW** to execute your source manually.
 
 # Use managed auth to pull data from Github (~10 mins)
 
