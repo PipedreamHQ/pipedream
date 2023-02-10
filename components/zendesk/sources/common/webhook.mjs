@@ -1,15 +1,15 @@
 import crypto from "crypto";
-import zendesk from "../../zendesk.app.mjs";
+import app from "../../zendesk.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   props: {
-    zendesk,
+    app,
     db: "$.service.db",
     http: "$.interface.http",
     categoryId: {
       propDefinition: [
-        zendesk,
+        app,
         "categoryId",
       ],
     },
@@ -18,21 +18,21 @@ export default {
     async activate() {
       const { categoryId } = this;
 
-      const { webhook } = await this.zendesk.createWebhook({
+      const { webhook } = await this.createWebhook({
         data: this.setupWebhookData(),
       });
 
       const { id: webhookId } = webhook;
       this.setWebhookId(webhookId);
 
-      const { signing_secret: signingSecret } = await this.zendesk.showWebhookSigningSecret({
+      const { signing_secret: signingSecret } = await this.showWebhookSigningSecret({
         webhookId,
       });
 
       const { secret } = signingSecret;
       this.setSigningSecret(secret);
 
-      const { trigger } = await this.zendesk.createTrigger({
+      const { trigger } = await this.createTrigger({
         data: this.setupTriggerData({
           webhookId,
           categoryId,
@@ -44,16 +44,52 @@ export default {
     },
     async deactivate() {
       await Promise.all([
-        this.zendesk.deleteTrigger({
+        this.deleteTrigger({
           triggerId: this.getTriggerId(),
         }),
-        this.zendesk.deleteWebhook({
+        this.deleteWebhook({
           webhookId: this.getWebhookId(),
         }),
       ]);
     },
   },
   methods: {
+    createWebhook(args = {}) {
+      return this.app.create({
+        path: "/webhooks",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/webhooks/${webhookId}`,
+        ...args,
+      });
+    },
+    createTrigger(args = {}) {
+      return this.app.create({
+        path: "/triggers",
+        ...args,
+      });
+    },
+    deleteTrigger({
+      triggerId, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/triggers/${triggerId}`,
+        ...args,
+      });
+    },
+    showWebhookSigningSecret({
+      webhookId, ...args
+    } = {}) {
+      return this.app.makeRequest({
+        path: `/webhooks/${webhookId}/signing_secret`,
+        ...args,
+      });
+    },
     setWebhookId(webhookId) {
       this.db.set(constants.WEBHOOK_ID, webhookId);
     },
