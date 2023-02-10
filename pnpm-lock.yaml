@@ -473,6 +473,9 @@ importers:
   components/bybit:
     specifiers: {}
 
+  components/cabinpanda:
+    specifiers: {}
+
   components/cal_com:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -702,6 +705,9 @@ importers:
     specifiers: {}
 
   components/crowdin:
+    specifiers: {}
+
+  components/crowdpower:
     specifiers: {}
 
   components/curated:
@@ -1119,6 +1125,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.2.1
+
+  components/formatting:
+    specifiers: {}
 
   components/formdesk:
     specifiers: {}
@@ -1782,6 +1791,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
 
+  components/learndash:
+    specifiers: {}
+
   components/lemlist:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -1864,6 +1876,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/mailbluster:
+    specifiers: {}
 
   components/mailboxvalidator:
     specifiers:
@@ -2469,6 +2484,9 @@ importers:
   components/planning_center:
     specifiers: {}
 
+  components/planso_forms:
+    specifiers: {}
+
   components/plasmic:
     specifiers: {}
 
@@ -2550,9 +2568,9 @@ importers:
 
   components/procore:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^1.2.1
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.3.0
 
   components/prodpad:
     specifiers:
@@ -3105,6 +3123,9 @@ importers:
   components/signwell:
     specifiers: {}
 
+  components/simple_analytics:
+    specifiers: {}
+
   components/simplehash:
     specifiers: {}
 
@@ -3422,6 +3443,9 @@ importers:
       '@pipedream/platform': 1.1.0
 
   components/syncro:
+    specifiers: {}
+
+  components/t2m_url_shortener:
     specifiers: {}
 
   components/talenox:
@@ -8342,22 +8366,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.146:
-    resolution: {integrity: sha512-rmDRPRRVHLMQDf2cjGqmawNwEVP/4xqGOT9brt8rBi7IfFZgRXR93MJlAuUcRkFauNJgsgDNlJVdUT+z0zsmQw==}
+  /@definitelytyped/header-parser/0.0.147:
+    resolution: {integrity: sha512-0fP2EZF6hTSWJJAhX+xEDBLqeGjxAqc3WB/b1hVw/gjo4Ceng+Cx7UlydSx9xPqw+xY0+QVogRGbPW2vfEnqGA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.146
+      '@definitelytyped/typescript-versions': 0.0.147
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.146:
-    resolution: {integrity: sha512-o1E7hX3bu45AYVQM5qccdpde/T1IAHXmy6w7I0Fzca3wPg5d/RfSsRv2j+HAtzWlp+f6jRjhP+d8vgR6Ffwjsg==}
+  /@definitelytyped/typescript-versions/0.0.147:
+    resolution: {integrity: sha512-FRAoeZFiS7chfZL/HCtEV8tYoaC9+SqDdNZ9xPMdcbkBCXLFQKnyzZzGIPc/dfTRt1mZjTPZQ3rRxj5tm2jyEw==}
     dev: true
 
-  /@definitelytyped/utils/0.0.146:
-    resolution: {integrity: sha512-THRFJlGlT2roR2/jVqPMsiouZX19vk/2/IDgB+YQyNc88nD9UsBV05qVFUHyhzCokztuefy4Y01c2WBDU2ojoQ==}
+  /@definitelytyped/utils/0.0.147:
+    resolution: {integrity: sha512-JfOgrMg8pNruSRMzSZRZCtgHM0PbUAh77fO2Y8qozbOnlGB1tf86pC83W0pkFtZWZRHY4fwaOkzUpLpjwNK05g==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.146
+      '@definitelytyped/typescript-versions': 0.0.147
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -12500,7 +12524,7 @@ packages:
   /axios/0.27.2_debug@3.2.7:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1_debug@3.2.7
+      follow-redirects: 1.15.2_debug@3.2.7
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -14193,7 +14217,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.146
+      '@definitelytyped/header-parser': 0.0.147
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -14209,9 +14233,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.146
-      '@definitelytyped/typescript-versions': 0.0.146
-      '@definitelytyped/utils': 0.0.146
+      '@definitelytyped/header-parser': 0.0.147
+      '@definitelytyped/typescript-versions': 0.0.147
+      '@definitelytyped/utils': 0.0.147
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
@@ -15183,8 +15207,17 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.15.1_debug@3.2.7:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
+  /follow-redirects/1.15.2_debug@3.2.7:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -15194,15 +15227,6 @@ packages:
     dependencies:
       debug: 3.2.7
     dev: false
-
-  /follow-redirects/1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
