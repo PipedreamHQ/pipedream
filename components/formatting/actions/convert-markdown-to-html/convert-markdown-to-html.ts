@@ -23,7 +23,7 @@ export default defineAction({
     const dom = new jsdom.JSDOM();
     const result = converter.makeHtml(input, dom.window.document);
 
-    $.export("$summary", "Sucessfully converted to HTML");
+    $.export("$summary", "Successfully converted to HTML");
     return result;
   },
 });

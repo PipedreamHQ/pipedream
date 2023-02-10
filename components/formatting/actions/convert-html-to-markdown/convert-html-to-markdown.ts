@@ -23,7 +23,7 @@ export default defineAction({
     const dom = new jsdom.JSDOM();
     const result = converter.makeMarkdown(input, dom.window.document);
 
-    $.export("$summary", "Sucessfully converted to Markdown");
+    $.export("$summary", "Successfully converted to Markdown");
     return result;
   },
 });

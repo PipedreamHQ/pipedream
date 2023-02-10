@@ -17,7 +17,7 @@ export default defineAction({
   },
   async run({ $ }): Promise<string> {
     const result = encodeURIComponent(this.input);
-    $.export("$summary", "Sucessfully encoded URL");
+    $.export("$summary", "Successfully encoded URL");
     return result;
   },
 });

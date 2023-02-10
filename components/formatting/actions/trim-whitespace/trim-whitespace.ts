@@ -20,7 +20,7 @@ export default defineAction({
     const { input } = this;
     const result = input.trim();
 
-    $.export("$summary", "Sucessfully trimmed text");
+    $.export("$summary", "Successfully trimmed text");
     return result;
   },
 });
