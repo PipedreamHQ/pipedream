@@ -322,5 +322,21 @@ export default {
         ...args,
       });
     },
+    async createWebhook(args = {}) {
+      return this.makeRequest({
+        path: `/buckets/${args.projectId}/webhooks.json`,
+        accountId: args.accountId,
+        method: "post",
+        ...args,
+      });
+    },
+    async deleteWebhook(args = {}) {
+      return this.makeRequest({
+        path: `/buckets/${args.projectId}/webhooks/${args.webhookId}.json`,
+        accountId: args.accountId,
+        method: "delete",
+        ...args,
+      });
+    },
   },
 };
