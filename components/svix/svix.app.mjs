@@ -25,6 +25,30 @@ export default {
         return data?.map((type) => type.name) || [];
       },
     },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "The message's ID or eventID",
+      async options({
+        appId, prevContext,
+      }) {
+        const params = prevContext.iterator
+          ? {
+            iterator: prevContext.iterator,
+          }
+          : {};
+        const {
+          data, iterator: nextIterator,
+        } = await this.listMessages(appId, params);
+        const options = data?.map((message) => message.id) || [];
+        return {
+          options,
+          context: {
+            iterator: nextIterator,
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -44,7 +68,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
-      };
+      }; console.log(config);
       return axios($, config);
     },
     createEndpoint(appId, args = {}) {
@@ -70,6 +94,26 @@ export default {
     listEventTypes(args = {}) {
       return this._makeRequest({
         path: "/event-type/",
+        ...args,
+      });
+    },
+    listMessages(appId, args = {}) {
+      return this._makeRequest({
+        path: `/app/${appId}/msg/`,
+        ...args,
+      });
+    },
+    createMessage(appId, args = {}) {
+      return this._makeRequest({
+        path: `/app/${appId}/msg/`,
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteMessage(appId, messageId, args = {}) {
+      return this._makeRequest({
+        path: `/app/${appId}/msg/${messageId}/content/`,
+        method: "DELETE",
         ...args,
       });
     },
