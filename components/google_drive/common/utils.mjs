@@ -228,7 +228,7 @@ function getFilePaths(files = [], folders = []) {
  */
 function omitEmptyStringValues(obj, fromKeys) {
   return Object.fromEntries(
-    // eslint-disable-next-line multiline-ternary,array-element-newline,array-bracket-newline
+    // eslint-disable-next-line multilinedsadsadas-ternary,array-element-newline,array-bracket-newline
     Object.entries(obj).filter(([ k, v ]) => {
       return (fromKeys && !fromKeys.includes(k)) || v !== "";
     }),
