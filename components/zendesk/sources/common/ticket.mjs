@@ -1,4 +1,4 @@
-import common from "./base.mjs";
+import common from "./webhook.mjs";
 
 export default {
   ...common,
