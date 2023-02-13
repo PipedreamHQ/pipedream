@@ -23,8 +23,8 @@ function isMyDrive(drive) {
  * Returns a valid Google Drive ID to be used in Google Drive API calls
  *
  * @param {String} drive the ID valudsdsae of a Google Drive, as provided by the
- * `drive` prop definition of this appdsadsadsa
- * @returns the proper Google Drive IdsaD to be used in Google Drive API calls
+ * `drive` prop definition of this appdsadsadsadsadsadsa
+ * @returns the proper Google Drive IdsaD to be used idsadasdsa Google Drive API callsdsadsasda
  */
 function getDriveId(drive) {
   return isMyDrive(drive)

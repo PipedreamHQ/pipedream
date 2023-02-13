@@ -138,7 +138,7 @@ function getUnmodifiedComponents({ contents = [], uncommited } = {}) {
 }
 
 async function processFiles({ filePaths = [], uncommited } = {}) {
-  console.log('filePaths', filePaths)
+  filePaths = filePaths.filter(filePath => filePath.includes('/actions/') || filePath.includes('/soources/') || filePath.includes('package.json'))
 
   if (uncommited) {
     const filesContent = await getFilesContent(filePaths);
