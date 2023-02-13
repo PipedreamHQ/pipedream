@@ -269,6 +269,7 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 }
 
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
+  console.log('filesToBeCheckedByDependency', filesToBeCheckedByDependency)
   return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
       filesToBeChecked.push(...getPackageJsonFilePath(filePath));
@@ -334,8 +335,6 @@ async function run() {
     const componentsThatNeedToBeModified = await getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles });
     const componentsPendingForGitDiff = getComponentsPendingForGitDiff(componentsThatNeedToBeModified);
 
-    console.log("componentsPendingForGitDiff", componentsPendingForGitDiff)
-    console.log("componentsThatDidNotModifyVersion", componentsThatDidNotModifyVersion)
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
