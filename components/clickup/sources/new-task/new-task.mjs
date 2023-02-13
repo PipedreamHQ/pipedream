@@ -40,6 +40,18 @@ export default {
   async run(httpRequest) {
     console.log("Event received");
     this.checkSignature(httpRequest);
-    this.$emit(httpRequest.body, this._getMeta(httpRequest.body));
+
+    const { body } = httpRequest;
+    const { listId } = this;
+    if (listId) {
+      const { task_id: taskId } = body;
+      const { list: { id } } = await this.app.getTask({
+        taskId,
+      });
+
+      if (id !== listId) return;
+    }
+
+    this.$emit(body, this._getMeta(body));
   },
 };
