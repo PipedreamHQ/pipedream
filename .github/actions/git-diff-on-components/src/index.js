@@ -321,6 +321,8 @@ async function run() {
   let componentsDiffContents = [];
   const filteredFilePaths = getFilteredFilePaths({ allFilePaths: allFiles });
   const existingFilePaths = await getExistingFilePaths(filteredFilePaths);
+  console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", existingFilePaths)
+
   existingFilePaths.push(...getPackageJsonFilePath(existingFilePaths));
   const componentsThatDidNotModifyVersion = await processFiles({ filePaths: existingFilePaths });
   const filteredWithOtherFilePaths = getFilteredFilePaths({ allFilePaths: allFiles, allowOtherFiles: true });
