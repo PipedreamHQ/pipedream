@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/getform",
+  "version": "0.0.2",
+  "description": "Pipedream getform Components",
+  "main": "getform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getform"
+  ],
+  "homepage": "https://pipedream.com/apps/getform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

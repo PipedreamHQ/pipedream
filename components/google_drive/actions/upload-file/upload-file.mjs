@@ -1,14 +1,16 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
-import { getFileStream } from "../../utils.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import {
+  getFileStream,
+  omitEmptyStringValues,
+} from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../constants.mjs";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     googleDrive,

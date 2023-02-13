@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/salesmate",
+  "version": "0.0.3",
+  "description": "Pipedream Salesmate Components",
+  "main": "dist/app/salesmate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "salesmate"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/salesmate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

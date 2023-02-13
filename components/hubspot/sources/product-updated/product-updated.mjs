@@ -5,19 +5,21 @@ export default {
   key: "hubspot-product-updated",
   name: "Product Updated",
   description: "Emit new event each time a product is updated.",
-  version: "0.0.6",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(product) {
+      return Date.parse(product.updatedAt);
+    },
     generateMeta(product) {
       const {
         id,
         properties,
-        updatedAt,
       } = product;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(product);
       return {
         id: `${id}${ts}`,
         summary: properties.name,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(product, updatedAfter) {
-      return Date.parse(product.updatedAt) > updatedAfter;
+      return this.getTs(product) > updatedAfter;
     },
     getParams() {
       return {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_sheets",
-  "version": "0.3.8",
+  "version": "0.3.10",
   "description": "Pipedream Google_sheets Components",
   "main": "google_sheets.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/google_sheets",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@googleapis/sheets": "^0.3.0",
     "@pipedream/platform": "^0.10.0",

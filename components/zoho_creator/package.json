@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_creator",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Zoho_creator Components",
   "main": "zoho_creator.app.mjs",
   "keywords": [
@@ -15,7 +15,6 @@
   },
   "homepage": "https://pipedream.com/apps/zoho_creator",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"

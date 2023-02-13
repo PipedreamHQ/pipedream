@@ -5,18 +5,21 @@ export default {
   key: "hubspot-new-blog-article",
   name: "New Blog Posts",
   description: "Emit new event for each new blog post.",
-  version: "0.0.9",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(blogpost) {
+      return Date.parse(blogpost.created);
+    },
     generateMeta(blogpost) {
       const {
         id,
         name: summary,
       } = blogpost;
-      const ts = Date.parse(blogpost.created);
+      const ts = this.getTs(blogpost);
       return {
         id,
         summary,

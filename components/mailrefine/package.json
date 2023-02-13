@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailrefine",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mailrefine Components",
   "main": "dist/app/mailrefine.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/mailrefine",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

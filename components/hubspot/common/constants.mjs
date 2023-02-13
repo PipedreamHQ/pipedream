@@ -22,6 +22,7 @@ const API_PATH = {
   CRMV4: "/crm/v4",
   CMS: "/cms/v3",
   AUTOMATION: "/automation/v2",
+  DEAL: "/deals/v1",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API

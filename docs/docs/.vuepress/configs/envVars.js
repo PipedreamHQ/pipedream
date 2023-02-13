@@ -6,8 +6,14 @@ module.exports = {
   MEMORY_LIMIT: "256MB",
   MEMORY_ABSOLUTE_LIMIT: "10GB",
   EMAIL_PAYLOAD_SIZE_LIMIT: "30MB",
-  FREE_INSPECTOR_EVENT_LIMIT: "100",
-  PAID_INSPECTOR_EVENT_LIMIT: "1,000",
+
+  base_credits_price: {
+    memory: 256,
+    seconds: 30,
+  },
+
+  DAILY_CREDITS_LIMIT: "100",
+
   INSPECTOR_EVENT_EXPIRY_DAYS: "365",
   FUNCTION_PAYLOAD_LIMIT: "6MB",
   DAILY_INVOCATIONS_LIMIT: "333",
@@ -27,6 +33,7 @@ module.exports = {
   CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   SERVICE_DB_SIZE_LIMIT: "60KB",
   TMP_SIZE_LIMIT: "2GB",
-  DELAY_MIN_MAX_TIME: "You can pause your workflow for as little as one millisecond, or as long as one year",
-  PUBLIC_APPS: "1000"
-}
+  DELAY_MIN_MAX_TIME:
+    "You can pause your workflow for as little as one millisecond, or as long as one year",
+  PUBLIC_APPS: "1000",
+};

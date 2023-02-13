@@ -5,19 +5,21 @@ export default {
   key: "hubspot-new-ticket",
   name: "New Tickets",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.6",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(ticket) {
+      return Date.parse(ticket.createdAt);
+    },
     generateMeta(ticket) {
       const {
         id,
         properties,
-        createdAt,
       } = ticket;
-      const ts = Date.parse(createdAt);
+      const ts = this.getTs(ticket);
       return {
         id,
         summary: properties.subject,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(ticket, createdAfter) {
-      return Date.parse(ticket.createdAt) > createdAfter;
+      return this.getTs(ticket) > createdAfter;
     },
     getParams() {
       return {

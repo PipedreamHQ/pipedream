@@ -5,17 +5,18 @@ export default {
   key: "hubspot-new-email-subscriptions-timeline",
   name: "New Email Subscriptions Timeline",
   description: "Emit new event when new email timeline subscription added for the portal.",
-  version: "0.0.6",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(timeline) {
+      return timeline.timestamp;
+    },
     generateMeta(timeline) {
-      const {
-        normalizedEmailId: id,
-        timestamp: ts,
-      } = timeline;
+      const { normalizedEmailId: id } = timeline;
+      const ts = this.getTs(timeline);
       return {
         id: `${id}${ts}`,
         summary: `New subscription event for recipient ${id}`,
@@ -23,7 +24,7 @@ export default {
       };
     },
     isRelevant(timeline, createdAfter) {
-      return timeline.timestamp > createdAfter;
+      return this.getTs(timeline) > createdAfter;
     },
     getParams() {
       const startTimestamp = new Date();
