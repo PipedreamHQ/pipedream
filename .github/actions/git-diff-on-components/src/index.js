@@ -138,6 +138,8 @@ function getUnmodifiedComponents({ contents = [], uncommited } = {}) {
 }
 
 async function processFiles({ filePaths = [], uncommited } = {}) {
+  console.log('filePaths', filePaths)
+
   if (uncommited) {
     const filesContent = await getFilesContent(filePaths);
     return getUnmodifiedComponents({ contents: filesContent, uncommited });
