@@ -5,7 +5,7 @@ export default {
   key: "nordigen-new-transaction",
   name: "New Transaction",
   description: "Emit new event when a transaction occurs",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -143,7 +143,7 @@ export default {
         lastTransactionDate = transaction.bookingDate;
       }
       this.$emit(transaction, {
-        summary: transaction.remittanceInformationUnstructured,
+        summary: `${transaction.transactionAmount.amount} ${transaction.transactionAmount.currency} - ${transaction.valueDate}`,
         id: transaction.transactionId,
         ts: new Date(),
       });
