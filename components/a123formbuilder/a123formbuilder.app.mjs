@@ -103,6 +103,7 @@ export default {
         if (this.isLastPage(response)) {
           return {
             data,
+            meta: response.meta,
           };
         }
       }
