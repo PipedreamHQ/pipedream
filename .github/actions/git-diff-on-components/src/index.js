@@ -140,8 +140,6 @@ function getUnmodifiedComponents({ contents = [], uncommited } = {}) {
 async function processFiles({ filePaths = [], uncommited } = {}) {
   filePaths = filePaths.filter(filePath => filePath.includes('/actions/') || filePath.includes('/soources/') || filePath.includes('package.json'))
 
-  console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", filePaths)
-
   if (uncommited) {
     const filesContent = await getFilesContent(filePaths);
     return getUnmodifiedComponents({ contents: filesContent, uncommited });
@@ -323,7 +321,6 @@ async function run() {
   let componentsDiffContents = [];
   const filteredFilePaths = getFilteredFilePaths({ allFilePaths: allFiles });
   const existingFilePaths = await getExistingFilePaths(filteredFilePaths);
-  console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", existingFilePaths)
 
   existingFilePaths.push(...getPackageJsonFilePath(existingFilePaths));
   const componentsThatDidNotModifyVersion = await processFiles({ filePaths: existingFilePaths });
@@ -346,14 +343,22 @@ async function run() {
   let counter = 1;
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
+    console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", existingFilePaths)
+
+
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
   componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
+    console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", existingFilePaths)
+
+
     console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
   });
 
   if (totalErrors) {
+    console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", existingFilePaths)
+
     core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
   }
 }
