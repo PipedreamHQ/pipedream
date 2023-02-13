@@ -19,14 +19,17 @@ export default {
     getLastId(): number {
       return this.db.get("lastId") || 0;
     },
-    async startEvent(maxResults: number = null): Promise<void> {
+    getParams() {
+      return {};
+    },
+    async startEvent(maxResults: number): Promise<void> {
       const lastId = this.getLastId();
-      const responseArray = [];
+      const responseArray: Array<any> = [];
       let tempLastId = lastId;
 
       const items = this.lemonSqueezy.paginate({
         fn: this.getFunc(),
-        params: this.getParams() || {},
+        params: this.getParams(),
         maxResults,
       });
 

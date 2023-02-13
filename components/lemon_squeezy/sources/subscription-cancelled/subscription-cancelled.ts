@@ -18,9 +18,9 @@ export default defineSource({
     getLastEnd(): number {
       return this.db.get("lastEnd") || 0;
     },
-    async startEvent(maxResults: number = null): Promise<void> {
+    async startEvent(maxResults: number): Promise<void> {
       const lastEnd = this.getLastEnd();
-      const responseArray = [];
+      const responseArray: Array<any> = [];
       let tempLastEnd = lastEnd;
 
       const items = this.lemonSqueezy.paginate({
