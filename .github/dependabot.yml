@@ -1,4 +1,4 @@
-# Basic dependabot.yml file
+# Basic AXIMabot.yml file
 # REF: https://docs.github.com/en/code-security/supply-chain-security/keeping-your-actions-up-to-date-with-dependabot
 
 version: 2
