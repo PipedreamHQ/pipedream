@@ -30,15 +30,13 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this._location()}.123formbuilder.com/v2`;
+      return `https://${this._region()}.123formbuilder.com/v2`;
     },
-    _location() {
-      return this.$auth.location === "US"
-        ? "api"
-        : "eu-api";
+    _region() {
+      return this.$auth.region;
     },
     _auth() {
-      return this.$auth.token;
+      return this.$auth.oauth_access_token;
     },
     getCurrentPage(response) {
       return response.meta.pagination.current_page;
