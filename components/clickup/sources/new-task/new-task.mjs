@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import app from "../../clickup.app.mjs";
 
 export default {
   ...common,
@@ -8,6 +9,19 @@ export default {
   version: "0.0.4",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    listId: {
+      propDefinition: [
+        app,
+        "lists",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
+      ],
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     _getMeta({ task_id: taskId }) {
