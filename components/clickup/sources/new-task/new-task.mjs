@@ -19,6 +19,7 @@ export default {
           workspaceId,
         }),
       ],
+      description: "If a list is selected, only tasks created in this list will emit an event",
       optional: true,
     },
   },
