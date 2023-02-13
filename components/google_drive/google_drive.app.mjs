@@ -267,9 +267,9 @@ export default {
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      const version = "v3";
+      // const version = "v3";
       return drive.drive({
-        version,
+        version: "v3",
         auth,
       });
     },
