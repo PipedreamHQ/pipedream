@@ -319,7 +319,6 @@ async function run() {
   let componentsDiffContents = [];
   const filteredFilePaths = getFilteredFilePaths({ allFilePaths: allFiles });
   const existingFilePaths = await getExistingFilePaths(filteredFilePaths);
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa:', existingFilePaths)
   existingFilePaths.push(...getPackageJsonFilePath(existingFilePaths));
   const componentsThatDidNotModifyVersion = await processFiles({ filePaths: existingFilePaths });
   const filteredWithOtherFilePaths = getFilteredFilePaths({ allFilePaths: allFiles, allowOtherFiles: true });
@@ -334,6 +333,9 @@ async function run() {
     const filesToBeCheckedByDependency = getFilesToBeCheckByDependency(componentsDependencies);
     const componentsThatNeedToBeModified = await getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles });
     const componentsPendingForGitDiff = getComponentsPendingForGitDiff(componentsThatNeedToBeModified);
+
+    console.log("componentsPendingForGitDiff", componentsPendingForGitDiff)
+    console.log("componentsThatDidNotModifyVersion", componentsThatDidNotModifyVersion)
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
