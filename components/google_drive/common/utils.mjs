@@ -124,7 +124,7 @@ function truncatePath(pathArr) {
 
 /**
  * Builds an object mapping file IDs to arrays of file/folder ID path segments from the drive's root
- * folder to each file, using the `file.parents` property and a list of folders in the drive
+ * folder to each file, using the `file.parents` propertydsdasads and a list of folders in the drive
  *
  * @see
  * {@link https://developers.google.com/drive/api/v3/reference/files Google Drive File Resource}
