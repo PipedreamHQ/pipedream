@@ -750,5 +750,19 @@ export default {
         },
       );
     },
+    async getDeal({
+      $,
+      dealId,
+      params,
+    }) {
+      return this.makeRequest(
+        API_PATH.DEAL,
+        `/deal/${dealId}`,
+        {
+          params,
+          $,
+        },
+      );
+    },
   },
 };

@@ -62,4 +62,4 @@ console.log(fileData);
 
 ### Limits
 
-Each attachment is limited to `10MB` in size. The total size of all attachments within a single workflow cannot exceed `200MB`.
+Each attachment is limited to `25MB` in size. The total size of all attachments within a single workflow cannot exceed `200MB`.
