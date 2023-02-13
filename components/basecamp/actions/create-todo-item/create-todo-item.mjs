@@ -59,7 +59,7 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      description: "Containing information about the to-do.  See our [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "Containing information about the to-do.  See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
       optional: true,
     },
     assigneeIds: {
