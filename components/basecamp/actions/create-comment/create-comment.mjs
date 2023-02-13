@@ -47,7 +47,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The body of the comment. See our [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "The body of the comment. See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
     },
   },
   async run({ $ }) {
