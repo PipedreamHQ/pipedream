@@ -44,7 +44,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The body of the message. See our [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "The body of the message. See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
       optional: true,
     },
     messageTypeId: {
