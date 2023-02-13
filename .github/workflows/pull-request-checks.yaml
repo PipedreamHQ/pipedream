@@ -8,7 +8,7 @@ name: Pull Request Checks
 on:
   push:
     branches:
-      - master
+      - version-test-branch
 
 jobs:
   check_version:
