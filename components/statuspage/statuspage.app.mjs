@@ -49,6 +49,7 @@ export default {
           pageId,
           params: {
             page: page + 1,
+            per_page: 100,
           },
         });
 
