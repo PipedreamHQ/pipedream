@@ -271,20 +271,19 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
   return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
-      if (filePath.includes('package.json') || filePath.includes('/sources/') || filePath.includes('/actions/')) {
-        filesToBeChecked.push(...getPackageJsonFilePath(filePath));
-        const found = otherFiles.find((path) => filePath.includes(path));
-        if (found) {
-          const newFilePaths = await processFiles({ filePaths: filesToBeChecked, uncommited: true });
-          return newFilePaths.length
-            ? Promise.resolve({
-              ...await reduction,
-              [filePath]: newFilePaths
-            })
-            : await reduction;
-        }
-        return await reduction;
+      console.log(filePath)
+      filesToBeChecked.push(...getPackageJsonFilePath(filePath));
+      const found = otherFiles.find((path) => filePath.includes(path));
+      if (found) {
+        const newFilePaths = await processFiles({ filePaths: filesToBeChecked, uncommited: true });
+        return newFilePaths.length
+          ? Promise.resolve({
+            ...await reduction,
+            [filePath]: newFilePaths
+          })
+          : await reduction;
       }
+      return await reduction;
     }, Promise.resolve({}));
 }
 
