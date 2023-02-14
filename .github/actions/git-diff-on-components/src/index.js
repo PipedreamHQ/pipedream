@@ -92,7 +92,9 @@ async function getFilesContent(filePaths = []) {
 }
 
 function includesVersion(contents) {
-  return contents.includes("version:") || contents.includes("\"version\":");
+  return contents.includes(`
+  version:`) || contents.includes(`
+  "version":`);
 }
 
 function getPackageJsonFilePath(filePaths) {
