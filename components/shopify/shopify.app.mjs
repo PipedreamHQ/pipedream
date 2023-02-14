@@ -21,20 +21,7 @@ export default {
       label: "Product ID",
       description: "ID of the product. Option displayed here as the title of the product",
       async options({ prevContext }) {
-        const defaultParams = {
-          limit: 50,
-        };
-        const { nextPageParameters = defaultParams } = prevContext;
-        const response = await this.resourceAction("product", "list", nextPageParameters);
-        return {
-          options: response.result.map((e) => ({
-            label: e.title,
-            value: e.id,
-          })),
-          context: {
-            nextPageParameters: response.nextPageParameters,
-          },
-        };
+        return this.getProductOptions(prevContext);
       },
     },
     productVariantId: {
@@ -45,20 +32,7 @@ export default {
         productId,
         prevContext,
       }) {
-        const defaultParams = {
-          fields: "id,title",
-        };
-        const { nextPageParameters = defaultParams } = prevContext;
-        const response = await this.resourceAction("productVariant", "list", nextPageParameters, productId);
-        return {
-          options: response.result.map((e) => ({
-            label: e.title,
-            value: e.id,
-          })),
-          context: {
-            nextPageParameters: response.nextPageParameters,
-          },
-        };
+        return this.getProductVariantOptions(productId, prevContext);
       },
     },
     customerId: {
@@ -70,21 +44,7 @@ export default {
         prevContext,
         query,
       }) {
-        const defaultParams = {
-          limit: 50,
-          query,
-        };
-        const { nextPageParameters = defaultParams } = prevContext;
-        const response = await this.resourceAction("customer", "search", nextPageParameters);
-        return {
-          options: response.result.map((e) => ({
-            label: e.email,
-            value: e.id,
-          })),
-          context: {
-            nextPageParameters: response.nextPageParameters,
-          },
-        };
+        return this.getCustomerOptions(prevContext, query);
       },
     },
     locationId: {
@@ -297,16 +257,7 @@ export default {
       description: "The unique numeric identifier for a product's image. The image must be associated to the same product as the variant",
       optional: true,
       async options({ productId }) {
-        if (!productId) {
-          return [];
-        }
-        const response = await this.resourceAction("productImage", "list", {
-          fields: "src,id",
-        }, productId);
-        return response.result.map((e) => ({
-          label: e.src,
-          value: e.id,
-        }));
+        return this.getImageOptions(productId);
       },
     },
     query: {
@@ -319,6 +270,55 @@ export default {
       label: "Max Records",
       description: "Optionally limit the maximum number of records to return. Leave blank to retrieve all records.",
       optional: true,
+    },
+    collectionId: {
+      type: "string",
+      label: "Collection ID",
+      description: "Search for products by collection ID. A collection is a grouping of products that merchants can create to make their stores easier to browse. For example, a merchant might create a collection for a specific type of product that they sell, such as Footwear. Merchants can create collections by selecting products individually or by defining rules that automatically determine whether products are included.",
+      optional: true,
+      async options() {
+        return this.getCollectionOptions();
+      },
+    },
+    blogId: {
+      type: "string",
+      label: "Blog ID",
+      description: "The ID of a Shopify blog",
+      async options() {
+        return this.getBlogOptions();
+      },
+    },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The ID of a Shopify blog article",
+      async options({ blogId }) {
+        return this.getArticleOptions(blogId);
+      },
+    },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "The ID of a Shopify page",
+      async options() {
+        return this.getPageOptions();
+      },
+    },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The ID of a Shopify order",
+      async options() {
+        return this.getOrderOptions();
+      },
+    },
+    draftOrderId: {
+      type: "string",
+      label: "Draft Order ID",
+      description: "The ID of a Shopify draft order",
+      async options() {
+        return this.getDraftOrderOptions();
+      },
     },
   },
   methods: {
@@ -708,6 +708,127 @@ export default {
     },
     async updateInventoryLevel(params) {
       return this.resourceAction("inventoryLevel", "set", params);
+    },
+    async getMetafield(metafieldId, params = {}) {
+      return this.resourceAction("metafield", "get", params, metafieldId);
+    },
+    async listMetafields(params) {
+      return this.getObjects("metafield", params);
+    },
+    async createMetafield(params) {
+      return this.resourceAction("metafield", "create", params);
+    },
+    async updateMetafield(metafieldId, params) {
+      return this.resourceAction("metafield", "update", params, metafieldId);
+    },
+    async getProductOptions(prevContext) {
+      const defaultParams = {
+        limit: 50,
+      };
+      const { nextPageParameters = defaultParams } = prevContext;
+      const response = await this.resourceAction("product", "list", nextPageParameters);
+      return {
+        options: response.result.map((e) => ({
+          label: e.title,
+          value: e.id,
+        })),
+        context: {
+          nextPageParameters: response.nextPageParameters,
+        },
+      };
+    },
+    async getProductVariantOptions(productId, prevContext) {
+      const defaultParams = {
+        fields: "id,title",
+      };
+      const { nextPageParameters = defaultParams } = prevContext;
+      const response = await this.resourceAction("productVariant", "list", nextPageParameters, productId);
+      return {
+        options: response.result.map((e) => ({
+          label: e.title,
+          value: e.id,
+        })),
+        context: {
+          nextPageParameters: response.nextPageParameters,
+        },
+      };
+    },
+    async getCustomerOptions(prevContext, query) {
+      const defaultParams = {
+        limit: 50,
+        query,
+      };
+      const { nextPageParameters = defaultParams } = prevContext;
+      const response = await this.resourceAction("customer", "search", nextPageParameters);
+      return {
+        options: response.result.map((e) => ({
+          label: e.email,
+          value: e.id,
+        })),
+        context: {
+          nextPageParameters: response.nextPageParameters,
+        },
+      };
+    },
+    async getCollectionOptions() {
+      const collections = await this.getObjects("customCollection");
+      return collections?.map((collection) => ({
+        label: collection.title,
+        value: collection.id,
+      })) || [];
+    },
+    async getImageOptions(productId) {
+      if (!productId) {
+        return [];
+      }
+      const response = await this.resourceAction("productImage", "list", {
+        fields: "src,id",
+      }, productId);
+      return response.result.map((e) => ({
+        label: e.src,
+        value: e.id,
+      }));
+    },
+    async getBlogOptions() {
+      const blogs = await this.getObjects("blog");
+      return blogs?.map((blog) => ({
+        label: blog.title,
+        value: blog.id,
+      })) || [];
+    },
+    async getArticleOptions(blogId) {
+      const articles = await this.getObjects("article", {}, blogId);
+      return articles?.map((article) => ({
+        label: article.title,
+        value: article.id,
+      })) || [];
+    },
+    async getPageOptions() {
+      const pages = await this.getObjects("page");
+      return pages?.map((page) => ({
+        label: page.title,
+        value: page.id,
+      })) || [];
+    },
+    async getOrderOptions() {
+      const orders = await this.getObjects("order");
+      return orders?.map((order) => order.id ) || [];
+    },
+    async getDraftOrderOptions() {
+      const draftOrders = await this.getObjects("draftOrder");
+      return draftOrders?.map((draftOrder) => draftOrder.id ) || [];
+    },
+    async getMetafieldOptions(ownerResource, ownerId) {
+      const metafields = await this.listMetafields({
+        metafield: {
+          owner_resource: ownerResource,
+          owner_id: ownerId,
+        },
+      });
+      return metafields?.map((metafield) => ({
+        label: metafield.key,
+        value: metafield.id,
+      })) || [];
     },
     createWebhook(params) {
       return this.resourceAction("webhook", "create", params);

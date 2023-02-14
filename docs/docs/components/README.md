@@ -100,7 +100,7 @@ After getting familiar with source/action development using the quickstart guide
 
 ## Managing Privately Published Components
 
-Components published to your account or organization are available in the [Components](https://pipedream.com/components) section of the dashboard.
+Components published to your workspace are available in the [Components](https://pipedream.com/components) section of the dashboard.
 
 Your private components published from the CLI or from Node.js code steps are listed here.
 
@@ -110,7 +110,7 @@ Your private components published from the CLI or from Node.js code steps are li
 
 <VideoPlayer src="https://www.youtube.com/embed/3wmnFi7thUg" title="Unpublishing Privately Published Components" />
 
-To unpublish components belonging to your account or organization, open the menu on the right hand side of the component details and select **Unpublish Component**.
+To unpublish components belonging to your workspace, open the menu on the right hand side of the component details and select **Unpublish Component**.
 
 A prompt will open to confirm the action, click **Confirm** to unpublish your action.
 

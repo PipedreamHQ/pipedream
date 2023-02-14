@@ -58,7 +58,7 @@ export default {
         }
 
         for (const result of results) {
-          if (this.isRelevant(result, after)) {
+          if (await this.isRelevant(result, after)) {
             this.emitEvent(result);
             const ts = this.getTs(result);
             if (ts > maxTs) {
