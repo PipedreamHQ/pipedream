@@ -50,7 +50,6 @@ export default {
       type: "object",
       label: "Replace text placeholders",
       description: "Replace text placeholders in the document. Use the format {{xyz}} in the document but exclude the curly braces in the key. (eg. `{{myPlaceholder}}` in the document will be replaced by the value of the key `myPlaceholder` in the action.",
-      optional: true,
     },
   },
   async run({ $ }) {
