@@ -20,6 +20,7 @@ export default {
         "eventTypes",
       ],
       type: "string",
+      label: "Event Type",
       description: "The event type to dispatch",
     },
     payload: {

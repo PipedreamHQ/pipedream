@@ -68,7 +68,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...args,
-      }; console.log(config);
+      };
       return axios($, config);
     },
     createEndpoint(appId, args = {}) {

@@ -1,4 +1,5 @@
 import svix from "../../svix.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "svix-list-messages",
@@ -14,12 +15,15 @@ export default {
         "appId",
       ],
     },
-    eventTypes: {
+    eventType: {
       propDefinition: [
         svix,
         "eventTypes",
       ],
-      description: "The event types to retrieve",
+      type: "string",
+      label: "Event Type",
+      description: "The event type to retrieve",
+      optional: true,
     },
     limit: {
       type: "integer",
@@ -31,27 +35,31 @@ export default {
     before: {
       type: "string",
       label: "Before",
-      description: "List only messages before this timestamp",
+      description: "List only messages before this timestamp. Note: `before` and `after` cannot be used simultaneously.",
       optional: true,
     },
     after: {
       type: "string",
       label: "After",
-      description: "List only messages after this timestamp",
+      description: "List only messages after this timestamp. Note: `before` and `after` cannot be used simultaneously.",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
       appId,
-      eventTypes,
+      eventType,
       limit,
       before,
       after,
     } = this;
 
+    if (before && after) {
+      throw new ConfigurationError("Only one of `before` or `after` may be used");
+    }
+
     const params = {
-      eventTypes,
+      event_types: eventType,
       before,
       after,
     };
