@@ -279,6 +279,8 @@ function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, other
       const found = otherFiles.find((path) => filePath.includes(path));
       if (found) {
         const newFilePaths = await processFiles({ filePaths: filesToBeChecked, uncommited: true });
+        console.log('newFilePaths', newFilePaths)
+
         return newFilePaths.length
           ? Promise.resolve({
             ...await reduction,
