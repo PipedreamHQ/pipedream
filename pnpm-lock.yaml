@@ -4076,8 +4076,10 @@ importers:
 
   components/wordpress_org:
     specifiers:
+      lodash.pickby: ^4.6.0
       wpapi: ^1.2.2
     dependencies:
+      lodash.pickby: 4.6.0
       wpapi: 1.2.2
 
   components/workast:
