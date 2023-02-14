@@ -356,6 +356,12 @@ importers:
   components/bart:
     specifiers: {}
 
+  components/basecamp:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/baserow:
     specifiers:
       '@pipedream/platform': ^1.2.1
