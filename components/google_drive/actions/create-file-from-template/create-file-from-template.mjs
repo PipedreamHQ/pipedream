@@ -18,7 +18,7 @@ export default {
         "fileId",
       ],
       description:
-        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders the format {{xyz}}.",
+        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format {{xyz}}.",
     },
     folderId: {
       propDefinition: [
@@ -80,7 +80,7 @@ export default {
       } = e.error.error;
       let errorMessage = `Status: ${code}, ${message} `;
       if (code == 404 || code == 400) {
-        errorMessage += "Make sure that the template file selected contains placeholders the format {{xyz}}.";
+        errorMessage += "Make sure that the template file selected contains placeholders in the format {{xyz}}.";
       }
       throw new Error(errorMessage);
     }
