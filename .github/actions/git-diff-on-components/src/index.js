@@ -289,7 +289,8 @@ function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, other
 
       const reductionResult = await reduction
 
-      console.log('reductionResult[filePath]:', reductionResult[filePath])
+      console.log('filePath', filePath)
+      console.log('reductionResult:', reductionResult)
 
       return reductionResult;
     }, Promise.resolve({}));
