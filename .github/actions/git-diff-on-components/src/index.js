@@ -92,7 +92,9 @@ async function getFilesContent(filePaths = []) {
 }
 
 function includesVersion(contents) {
-  return contents.includes("version:") || contents.includes("\"version\":");
+  return contents.includes(`
+  version:`) || contents.includes(`
+  "version":`);
 }
 
 function getPackageJsonFilePath(filePaths) {
@@ -271,10 +273,6 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
   return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
-      // if (!filePath.includes('package.json') && !filePath.includes('/sources/') && !filePath.includes('/actions/')) {
-      //   return []
-      // }
-
       filesToBeChecked.push(...getPackageJsonFilePath(filePath));
       const found = otherFiles.find((path) => filePath.includes(path));
       if (found) {
@@ -289,12 +287,7 @@ function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, other
           : await reduction;
       }
 
-      const reductionResult = await reduction
-
-      console.log('filePath', filePath)
-      console.log('reductionResult:', reductionResult)
-
-      return reductionResult;
+      return await reduction;
     }, Promise.resolve({}));
 }
 
