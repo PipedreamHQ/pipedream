@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDrive,
@@ -18,7 +18,7 @@ export default {
         "fileId",
       ],
       description:
-        "Select the document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step.",
+        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders the format {{xyz}}.",
     },
     folderId: {
       propDefinition: [
@@ -66,12 +66,24 @@ export default {
 
     /* CREATE THE GOOGLE DOC */
 
-    const googleDocId = await client.interpolate({
-      source: this.templateId,
-      destination: this.folderId,
-      name: this.name,
-      data: this.replaceValues,
-    });
+    let googleDocId;
+    try {
+      googleDocId = await client.interpolate({
+        source: this.templateId,
+        destination: this.folderId,
+        name: this.name,
+        data: this.replaceValues,
+      });
+    } catch (e) {
+      const {
+        code, message,
+      } = e.error.error;
+      let errorMessage = `Status: ${code}, ${message} `;
+      if (code == 404 || code == 400) {
+        errorMessage += "Make sure that the template file selected contains placeholders the format {{xyz}}.";
+      }
+      throw new Error(errorMessage);
+    }
     result["googleDocId"] = googleDocId;
 
     /* CREATE THE PDF */
