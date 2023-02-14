@@ -356,6 +356,12 @@ importers:
   components/bart:
     specifiers: {}
 
+  components/basecamp:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/baserow:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1507,6 +1513,9 @@ importers:
     specifiers: {}
 
   components/grist:
+    specifiers: {}
+
+  components/groundhogg:
     specifiers: {}
 
   components/growsurf:
@@ -3437,7 +3446,10 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/svix:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/swagup:
     specifiers:
