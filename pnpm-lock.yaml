@@ -1814,7 +1814,10 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/lemon_squeezy:
-    specifiers: {}
+    specifiers:
+      moment: ^2.29.4
+    dependencies:
+      moment: 2.29.4
 
   components/lessaccounting:
     specifiers: {}

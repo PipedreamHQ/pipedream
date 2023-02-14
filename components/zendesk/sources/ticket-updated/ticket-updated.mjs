@@ -2,19 +2,19 @@ import common from "../common/ticket.mjs";
 
 export default {
   ...common,
-  name: "Ticket Closed (Instant)",
-  key: "zendesk-ticket-closed",
+  name: "Ticket Updated (Instant)",
+  key: "zendesk-ticket-updated",
   type: "source",
-  description: "Emit new event when a ticket has changed to closed status",
+  description: "Emit new event when a ticket has been updated",
   version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "Ticket Closed Webhook";
+      return "Ticket Updated Webhook";
     },
     getTriggerTitle() {
-      return "Ticket Closed Trigger";
+      return "Ticket Updated Trigger";
     },
     getTriggerConditions() {
       return {
@@ -22,11 +22,6 @@ export default {
           {
             field: "update_type",
             value: "Change",
-          },
-          {
-            field: "status",
-            operator: "value",
-            value: "closed",
           },
         ],
       };
