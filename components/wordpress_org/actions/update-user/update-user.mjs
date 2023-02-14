@@ -72,6 +72,12 @@ export default {
       ],
       optional: true,
     },
+    meta: {
+      type: "object",
+      label: "Meta",
+      description: "Metafields for the user",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = pickBy({
@@ -86,6 +92,7 @@ export default {
         this.roles,
       ],
       password: this.password,
+      meta: this.meta,
     });
 
     const response = await this.wordpress.updateUser(this.user, params);
