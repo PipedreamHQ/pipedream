@@ -271,10 +271,10 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
   return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
-      console.log(filePath)
-      if (filePath.includes('package.json') || filePath.includes('/sources/') || filePath.includes('/actions/')) {
-        console.log("True")
+      if (!filePath.includes('package.json') && !filePath.includes('/sources/') && !filePath.includes('/actions/')) {
+        return []
       }
+
       filesToBeChecked.push(...getPackageJsonFilePath(filePath));
       const found = otherFiles.find((path) => filePath.includes(path));
       if (found) {
