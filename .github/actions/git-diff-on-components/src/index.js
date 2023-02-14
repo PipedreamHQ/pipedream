@@ -287,7 +287,7 @@ function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, other
           : await reduction;
       }
 
-      console.log('reduction', reduction)
+      console.log('reduction', await reduction)
 
       return await reduction;
     }, Promise.resolve({}));
