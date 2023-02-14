@@ -269,7 +269,7 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 }
 
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
-  const componentsThatNeedToBeModified = Object.entries(filesToBeCheckedByDependency)
+  return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
       // if (!filePath.includes('package.json') && !filePath.includes('/sources/') && !filePath.includes('/actions/')) {
       //   return []
@@ -286,14 +286,11 @@ function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, other
           })
           : await reduction;
       }
+
+      console.log('reduction', reduction)
+
       return await reduction;
     }, Promise.resolve({}));
-
-  return componentsThatNeedToBeModified.map(filePaths =>
-    filePaths.filter(filePath =>
-      filePath.includes('package.json') || filePath.includes('/sources/') || filePath.includes('/actions/')
-    )
-  )
 }
 
 function getComponentsPendingForGitDiff(componentsThatNeedToBeModified) {
