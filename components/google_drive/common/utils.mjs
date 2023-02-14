@@ -14,7 +14,7 @@ import {
  * @returns `true` only when the specified drive is the user's 'My Drive'
  */
 function isMyDrive(drive) {
-  return drive === MY_DRIVE_VALUE || drive === LEGACY_MY_DRIVE_VALUE; // testeeee dasdsadsadsadsaadsadsadsadsadsadsadsa
+  return drive === MY_DRIVE_VALUE || drive === LEGACY_MY_DRIVE_VALUE; // testeeee
 }
 
 /**

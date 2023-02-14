@@ -269,23 +269,23 @@ function getFilesToBeCheckByDependency(componentsDependencies) {
 }
 
 function getComponentsThatNeedToBeModified({ filesToBeCheckedByDependency, otherFiles }) {
-  const componentsThatNeedToBeModified = Object.entries(filesToBeCheckedByDependency)
+  return Object.entries(filesToBeCheckedByDependency)
     .reduce(async (reduction, [filePath, filesToBeChecked]) => {
-      filesToBeChecked.push(...getPackageJsonFilePath(filePath));
-      const found = otherFiles.find((path) => filePath.includes(path));
-      if (found) {
-        const newFilePaths = await processFiles({ filePaths: filesToBeChecked, uncommited: true });
-        return newFilePaths.length
-          ? Promise.resolve({
-            ...await reduction,
-            [filePath]: newFilePaths
-          })
-          : await reduction;
+      if (filePath.includes('package.json') || filePath.includes('/sources/') || filePath.includes('/actions/')) {
+        filesToBeChecked.push(...getPackageJsonFilePath(filePath));
+        const found = otherFiles.find((path) => filePath.includes(path));
+        if (found) {
+          const newFilePaths = await processFiles({ filePaths: filesToBeChecked, uncommited: true });
+          return newFilePaths.length
+            ? Promise.resolve({
+              ...await reduction,
+              [filePath]: newFilePaths
+            })
+            : await reduction;
+        }
+        return await reduction;
       }
-      return await reduction;
     }, Promise.resolve({}));
-
-  return componentsThatNeedToBeModified.filter(path => path.includes('package.json') || path.includes('/sources/') || path.includes('/actions/'))
 }
 
 function getComponentsPendingForGitDiff(componentsThatNeedToBeModified) {
