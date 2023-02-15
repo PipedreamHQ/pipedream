@@ -2,10 +2,10 @@ import googleSheets from "../../google_sheets.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "google_sheets-add-single-row",
+  key: "google_sheets-add-single-rowaa",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.9",
+  version: "2.0.10",
   type: "action",
   props: {
     googleSheets,
@@ -102,6 +102,7 @@ export default {
       convertedIndexes,
     } = this.googleSheets.arrayValuesToString(cells);
 
+    console.log(arr, convertedIndexes);
     const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
       range: this.sheetName,
