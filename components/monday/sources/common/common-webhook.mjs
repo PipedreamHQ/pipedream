@@ -82,11 +82,10 @@ export default {
 
     // verify the webhook
     if (body?.challenge) {
-      await this.http.respond({
+      return this.http.respond({
         status: 200,
         body,
       });
-      return;
     }
 
     const itemId = body?.event?.pulseId;
