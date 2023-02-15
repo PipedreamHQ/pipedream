@@ -20,5 +20,10 @@ export default defineSource({
     validateKeys(key1: string|number, key2: string|number) {
       return (key1 > key2);
     },
+    getParams() {
+      return {
+        orderDir: "desc",
+      };
+    },
   },
 });

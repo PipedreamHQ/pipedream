@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import moment from "moment";
 import mailbluster from "../../app/mailbluster.app";
 
 export default {
@@ -18,7 +19,10 @@ export default {
       this.db.set("lastKey", lastKey);
     },
     getLastKey(): number {
-      return this.db.get("lastKey") || 0;
+      return this.db.get("lastKey") || moment("01/01/1920");
+    },
+    getParams() {
+      return {};
     },
     async startEvent(maxResults: number = null): Promise<void> {
       const lastKey = this.getLastKey();
@@ -29,6 +33,7 @@ export default {
         fn: this.getFunc(),
         maxResults,
         field: this.getField(),
+        params: this.getParams(),
       });
 
       for await (const item of items) {
@@ -63,6 +68,9 @@ export default {
     },
   },
   async run() {
-    await this.startEvent();
+    //This is necessary because if it runs right after deploy it will return error 429
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await delay(1000);
+    return await this.startEvent();
   },
 };

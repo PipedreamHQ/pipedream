@@ -1,3 +1,4 @@
+import md5 from "md5";
 import mailbluster from "../../app/mailbluster.app";
 
 export default {
@@ -8,24 +9,24 @@ export default {
   version: "0.0.1",
   props: {
     mailbluster,
-    leadHash: {
+    email: {
       type: "string",
-      label: "Lead Hash",
-      description: "[md5](https://en.wikipedia.org/wiki/MD5) encrypted value of lead email.",
+      label: "Email",
+      description: "Email address of the lead.",
     },
   },
   async run({ $ }) {
     const {
       mailbluster,
-      leadHash,
+      email,
     } = this;
 
     const response = await mailbluster.getLead({
       $,
-      leadHash,
+      leadHash: md5(email),
     });
 
-    $.export("$summary", `Lead with hash: ${leadHash} was successfully fetched!`);
+    $.export("$summary", `Lead with email: ${email} was successfully fetched!`);
     return response;
   },
 };
