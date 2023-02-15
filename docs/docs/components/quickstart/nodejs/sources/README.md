@@ -160,13 +160,13 @@ Save the changes to your local file. Your component on Pipedream should automati
 
 ### Invoke your code on a schedule
 
-Next, we'll update our component so it runs on a schedule. To do that, we'll use Pipedream's `timer` interface and we'll set the default execution interval to 15 seconds by adding the following code to props:
+Next, we'll update our component so it runs on a schedule. To do that, we'll use Pipedream's `timer` interface and we'll set the default execution interval to 15 minutes by adding the following code to props:
 
 ```
 timer: {
   type: "$.interface.timer",
   default: {
-    intervalSeconds: 15,
+    intervalSeconds: 15 * 60,
   },
 },
 ```
@@ -182,7 +182,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15,
+        intervalSeconds: 15 * 60,
       },
     },
   },
@@ -201,7 +201,7 @@ export default {
 };
 ```
 
-Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 seconds.
+Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 minutes.
 
 ![source](./images/quickstart/hello-world-3.gif)
 
@@ -621,7 +621,7 @@ As the final step of this walk-through, we'll update our component to check for 
 timer: {
   type: "$.interface.timer",
   default: {
-    intervalSeconds: 60 * 15,
+    intervalSeconds: 15 * 60,
   },
 },
 ```
@@ -642,7 +642,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: 15 * 60,
       },
     },
   },
