@@ -34,6 +34,7 @@ export default {
       label: "Password",
       description: "New user's password. If omitted, they will be prompted to set a password on first login.",
       optional: true,
+      secret: true,
     },
     firstname: {
       type: "string",
