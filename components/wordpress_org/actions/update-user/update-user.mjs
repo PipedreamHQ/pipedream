@@ -15,13 +15,6 @@ export default {
         "user",
       ],
     },
-    username: {
-      propDefinition: [
-        wordpress,
-        "username",
-      ],
-      optional: true,
-    },
     name: {
       propDefinition: [
         wordpress,
@@ -81,7 +74,6 @@ export default {
   },
   async run({ $ }) {
     const params = pickBy({
-      username: this.username,
       name: this.name,
       first_name: this.firstName,
       last_name: this.lastName,
@@ -95,7 +87,12 @@ export default {
       meta: this.meta,
     });
 
-    const response = await this.wordpress.updateUser(this.user, params);
+    let response;
+    try {
+      response = await this.wordpress.updateUser(this.user, params);
+    } catch (e) {
+      throw new Error(JSON.stringify(e));
+    }
 
     $.export("$summary", `Updated user with ID ${this.user}`);
 
