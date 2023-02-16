@@ -1,17 +1,18 @@
 import wordpress from "../../wordpress_org.app.mjs";
+import pickBy from "lodash.pickby";
 
 export default {
-  key: "wordpress_org-create-user",
-  name: "Create User",
-  description: "Creates a user. [See the docs here](https://developer.wordpress.org/rest-api/reference/users/#create-a-user)",
-  version: "0.0.3",
+  key: "wordpress_org-update-user",
+  name: "Update User",
+  description: "Updates the information of a user. [See the docs here](https://developer.wordpress.org/rest-api/reference/users/#update-a-user-2)",
+  version: "0.0.1",
   type: "action",
   props: {
     wordpress,
-    username: {
+    user: {
       propDefinition: [
         wordpress,
-        "username",
+        "user",
       ],
     },
     name: {
@@ -37,6 +38,7 @@ export default {
         wordpress,
         "email",
       ],
+      optional: true,
     },
     url: {
       propDefinition: [
@@ -61,11 +63,17 @@ export default {
         wordpress,
         "password",
       ],
+      optional: true,
+    },
+    meta: {
+      type: "object",
+      label: "Meta",
+      description: "Metafields for the user",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const params = {
-      username: this.username,
+    const params = pickBy({
       name: this.name,
       first_name: this.firstName,
       last_name: this.lastName,
@@ -76,13 +84,18 @@ export default {
         this.roles,
       ],
       password: this.password,
-    };
+      meta: this.meta,
+    });
+
+    let response;
     try {
-      const resp = await this.wordpress.createUser(params);
-      $.export("$summary", "Successfully created new user.");
-      return resp;
+      response = await this.wordpress.updateUser(this.user, params);
     } catch (e) {
       throw new Error(JSON.stringify(e));
     }
+
+    $.export("$summary", `Updated user with ID ${this.user}`);
+
+    return response;
   },
 };
