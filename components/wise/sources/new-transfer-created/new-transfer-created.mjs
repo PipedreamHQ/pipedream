@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Transfer Created (Instant)",
   version: "0.0.1",
-  key: "awork-new-transfer-created",
+  key: "wise-new-transfer-created",
   description: "Emit new event for a transfer created.",
   type: "source",
   dedupe: "unique",

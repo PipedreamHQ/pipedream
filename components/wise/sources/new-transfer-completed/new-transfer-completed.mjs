@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Transfer Completed (Instant)",
   version: "0.0.1",
-  key: "awork-new-transfer-completed",
+  key: "wise-new-transfer-completed",
   description: "Emit new event for a transfer completed.",
   type: "source",
   dedupe: "unique",
