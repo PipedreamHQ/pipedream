@@ -96,11 +96,12 @@ To address timeouts, you'll either need to:
 
 ### Out of Memory
 
-Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error.
+Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error. **You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
 
-This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
+This can happen for two main reasons:
 
-**You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
+1. When you load a large file or object into a the workflow's memory (e.g. when you save the content in a variable). Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
+2. When you have many steps in your Pipedream workflow. When your workflow runs, Pipedream runs a separate process for each step in your workflow. That incurs some memory overhead. Typically this happens when you have more than 8-10 steps. When you see an OOM error on a workflow with many steps, try increasing the memory.
 
 ### Rate Limit Exceeded
 
