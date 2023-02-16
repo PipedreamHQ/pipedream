@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-update-cell",
   name: "Update Cell",
   description: "Update a cell in a spreadsheet",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleSheets,
