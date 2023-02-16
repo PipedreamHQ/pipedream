@@ -46,6 +46,7 @@ export default {
         googleSheets,
         "cell",
       ],
+      label: "Cell Value",
       description: "The new cell value",
     },
   },
