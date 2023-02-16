@@ -6,7 +6,7 @@ export default {
   key: "shopify-create-metafield",
   name: "Create Metafield",
   description: "Creates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#post-blogs-blog-id-metafields)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -44,12 +44,16 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const value = this.type.includes("list.")
+      ? JSON.stringify(this.value)
+      : this.value;
+
     const params = {
       owner_id: `${this.ownerId}`,
       owner_resource: this.ownerResource,
       key: this.key,
       type: this.type,
-      value: this.value,
+      value,
       namespace: this.namespace,
     };
     const response = await this.shopify.createMetafield(params);

@@ -1415,6 +1415,9 @@
     },
     {
       "path": "components/groundhogg"
+    },
+    {
+      "path": "components/resend"
     }
   ]
 }
