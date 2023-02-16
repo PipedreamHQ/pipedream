@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_sheets.app.mjs";
 
 export default {
@@ -26,32 +27,44 @@ export default {
         }),
       ],
     },
-    row: {
-      type: "integer",
-      label: "Row",
-      description: "The row where the comment will be inserted.",
-      min: 1,
-    },
-    column: {
-      type: "integer",
-      label: "Column",
-      description: "The column where the comment will be inserted.",
-      min: 1,
+    cell: {
+      propDefinition: [
+        app,
+        "cell",
+      ],
     },
     content: {
       type: "string",
       label: "Comment",
       description: "The comment to add to the spreadsheet.",
     },
+    worksheetId: {
+      propDefinition: [
+        app,
+        "worksheetIDs",
+        (c) => ({
+          sheetId: c.sheetId,
+        }),
+      ],
+      type: "string",
+      optional: true,
+    },
   },
   async run({ $: step }) {
     const {
       sheetId,
       content,
-      row,
-      column,
+      worksheetId,
     } = this;
 
+    const cell = this.cell.toUpperCase();
+    const match = cell.match(/(^[A-Z]+)|([0-9]+$)/gm);
+    if (match.length != 2) {
+      throw new ConfigurationError("Invalid cell reference");
+    }
+
+    const column = parseInt(this.app._getColumnIndex(cell.replace(/[0-9]/g, "")));
+    const row = parseInt(cell.replace(/[^0-9]/g, ""), 10);
     const request = {
       spreadsheetId: sheetId,
       requestBody: {
@@ -79,9 +92,14 @@ export default {
         ],
       },
     };
+
+    if (worksheetId) {
+      request.requestBody.requests[0].updateCells.range.sheetId = worksheetId;
+    }
+
     const response = await this.app.batchUpdate(request);
 
-    step.export("$summary", `Successfully added a note to the spreadsheet. Row: "${row}" Column: "${column}"`);
+    step.export("$summary", `Successfully added a note to the cell ${cell} of the spreadsheet with ID: "${this.sheetId}".`);
 
     return response;
   },
