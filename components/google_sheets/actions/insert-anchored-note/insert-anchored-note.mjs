@@ -58,13 +58,13 @@ export default {
     } = this;
 
     const cell = this.cell.toUpperCase();
-    const match = cell.match(/(^[A-Z]+)|([0-9]+$)/gm);
-    if (match.length != 2) {
+    if (cell.match(/(^[A-Z]+)|([0-9]+$)/gm).length != 2) {
       throw new ConfigurationError("Invalid cell reference");
     }
 
-    const column = parseInt(this.app._getColumnIndex(cell.replace(/[0-9]/g, "")));
+    const column = parseInt(this.app._getColumnIndex(cell.replace(/[0-9]/g, "")), 10);
     const row = parseInt(cell.replace(/[^0-9]/g, ""), 10);
+
     const request = {
       spreadsheetId: sheetId,
       requestBody: {
