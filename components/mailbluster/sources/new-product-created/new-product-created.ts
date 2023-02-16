@@ -22,6 +22,7 @@ export default defineSource({
     },
     getParams() {
       return {
+        orderBy: "createdAt",
         orderDir: "desc",
       };
     },

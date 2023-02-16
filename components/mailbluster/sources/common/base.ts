@@ -24,9 +24,9 @@ export default {
     getParams() {
       return {};
     },
-    async startEvent(maxResults: number = null): Promise<void> {
+    async startEvent(maxResults: number): Promise<void> {
       const lastKey = this.getLastKey();
-      const responseArray = [];
+      const responseArray: Array<any> = [];
       let tempLastKey = lastKey;
 
       const items = this.mailbluster.paginate({
@@ -70,7 +70,7 @@ export default {
   async run() {
     //This is necessary because if it runs right after deploy it will return error 429
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await delay(1000);
+    await delay(2000);
     return await this.startEvent();
   },
 };
