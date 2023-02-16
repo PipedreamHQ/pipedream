@@ -36,7 +36,7 @@ export default defineApp({
       },
     },
     courseId: {
-      type: "integer",
+      type: "string",
       label: "Course Id",
       description: "ID of the Course.",
       async options() {

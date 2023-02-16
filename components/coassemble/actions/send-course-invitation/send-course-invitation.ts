@@ -31,7 +31,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `A new course invitation with id: ${response.id} was successfully created!`);
+    $.export("$summary", "A new course invitation was successfully created!");
     return response;
   },
 };
