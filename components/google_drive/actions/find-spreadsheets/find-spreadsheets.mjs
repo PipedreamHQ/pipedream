@@ -37,15 +37,15 @@ export default {
     },
   },
   async run({ $ }) {
-    let q = "mimeType = 'application/vnd.google-apps.spreadsheet'".trim();
+    let q = "mimeType = 'application/vnd.google-apps.spreadsheet'";
     if (this.nameSearchTerm) {
-      q = `${q} and name contains '${this.nameSearchTerm}'`.trim();
+      q = `${q} and name contains '${this.nameSearchTerm}'`;
     }
     if (this.folderId) {
       q = `${q} and "${this.folderId}" in parents`;
     }
     const opts = getListFilesOpts(this.drive, {
-      q,
+      q: q.trim(),
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
     $.export("$summary", `Successfully found ${files.length} spreadsheet(s)`);
