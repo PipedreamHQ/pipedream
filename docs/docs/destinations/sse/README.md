@@ -28,33 +28,20 @@ You can send data to an SSE Destination in [Node.js code steps](/code/nodejs/) u
 export default defineComponent({
   async run({ steps, $ }) {
     $.send.sse({
-      channel: "events",
-      payload: {
-        name: "Luke Skywalker"
+      channel: "events", // Required, corresponds to the event in the SSE spec
+      payload: { // Required, the event payload
+        name: "Luke Skywalker" 
       }
     });
   })
 });
 ```
 
-**See [this workflow](https://pipedream.com/@dylburger/sse-example-p_ezCdBz/edit)** for an example of how to use `$.send.sse()`.
+**See [this workflow](https://pipedream.com/new?h=tch_mp7f6q)** for an example of how to use `$.send.sse()`.
 
 Send a test event to your workflow, then review the section on [Receiving events](#receiving-events) to see how you can setup an `EventSource` to retrieve events sent to the SSE Destination.
 
-`$.send.sse()` accepts an object with the following properties:
-
-```javascript
-export default defineComponent({
-  async run({ steps, $ }) {
-    $.send.sse({
-      channel, // Required, corresponds to the event in the SSE spec
-      payload // Required, the event payload
-    });
-  })
-});
-```
-
-Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an SSE for each:
+**Destination delivery is asynchronous**. If you iterate over an array of values and send an SSE for each:
 
 ```javascript
 export default defineComponent({
@@ -127,39 +114,39 @@ If you've already sent events to your SSE destination, you should see those even
 
 It's easy to setup a simple webpage to `console.log()` all events from an event stream. You can find a lot more examples of how to work with SSE on the web, but this should help you understand the basic concepts.
 
-You'll need to create two files in the same directory on your machine: an `index.html` file for the HTML, and an `sse.js` file to keep the JavaScript that connects to the event stream.
+You'll need to create two files in the same directory on your machine: an `index.html` file for the HTML. 
 
 **index.html**
 
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>SSE test</title>
-    <script src="sse.js"></script>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>SSE test</title>
+  <script type="text/javascript">
+    const eventSource = new EventSource(
+      "http://sdk.m.pipedream.net/pipelines/p_wOCOJD8/sse"
+    );
+
+    eventSource.addEventListener("events", function (e) {
+      console.log("New event from cron test event stream: ", e);
+    });
+
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
 </html>
-```
-
-**sse.js**
-
-```javascript
-const eventSource = new EventSource(
-  "http://sdk.m.pipedream.net/pipelines/[YOUR WORKFLOW ID]/sse"
-);
-
-eventSource.addEventListener("[YOUR CHANNEL]", function(e) {
-  console.log("New event from cron test event stream: ", e);
-});
 ```
 
 **Make sure to add your workflow ID and the name of your channel you specified in your SSE Destination**. Then, open the `index.html` page in your browser. In your browser's developer tools JavaScript console, you should see new events appear as you send them.
 
-Note that the `addEventListener` code will listen specifically for events sent to the **cron_test** `channel` specified in our SSE destination. You can listen for multiple types of events at once by adding multiple event listeners on the client.
+Note that the `addEventListener` code will listen specifically for events sent to the **events** `channel` specified in our SSE destination. You can listen for multiple types of events at once by adding multiple event listeners on the client.
 
 **Try triggering more test events from your workflow while this page is open to see how this works end-to-end**.
 

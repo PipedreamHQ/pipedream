@@ -30,7 +30,7 @@ export default {
     async deploy() {
       const { resources } = await this.getResources();
 
-      resources.slice(10).forEach(this.emitEvent);
+      resources.slice(-10).forEach(this.emitEvent);
     },
   },
   async run() {

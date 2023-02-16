@@ -1,13 +1,13 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import differenceBy from "lodash.differenceby";
 import pagerduty from "../../pagerduty.app.mjs";
 import common from "../common.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   ...common,
   key: "pagerduty-new-oncall-rotation",
   name: "New On-Call Rotation",
-  version: "0.0.3",
+  version: "0.1.1",
   description: "Emit new event each time a new user rotates onto an on-call rotation",
   type: "source",
   props: {

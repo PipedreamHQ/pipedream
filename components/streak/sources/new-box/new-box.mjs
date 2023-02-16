@@ -5,7 +5,7 @@ export default {
   key: "streak-new-box",
   name: "New Box (Instant)",
   description: "Emit new event when a new box is created in a pipeline.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

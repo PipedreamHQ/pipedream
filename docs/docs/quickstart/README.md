@@ -161,11 +161,15 @@ Pipedream will retrieve the headers and generate a form to enter data in your sh
 
 ![image-20220329010234048](./v2/README/image-20220329010234048.png)
 
-First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
+First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. 
+
+When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
 
 ![image-20220329010418111](./v2/README/image-20220329010418111.png)
 
-Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
+Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. 
+
+Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
 
 ![image-20220329010348936](./v2/README/image-20220329010348936.png)
 

@@ -4,7 +4,7 @@ export default {
   key: "supabase-insert-row",
   name: "Insert Row",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Inserts a new row into a database. [See the docs here](https://supabase.com/docs/reference/javascript/insert)",
   props: {
     supabase,

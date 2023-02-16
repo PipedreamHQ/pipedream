@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/getprospect",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream GetProspect Components",
   "main": "dist/app/getprospect.app.mjs",
   "keywords": [
@@ -12,7 +12,6 @@
   ],
   "homepage": "https://pipedream.com/apps/getprospect",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/transistor_fm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Transistor.fm Components",
   "main": "transistor_fm.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/transistor_fm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.1.1",
     "form-data": "^4.0.0"

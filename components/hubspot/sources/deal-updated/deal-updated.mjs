@@ -5,19 +5,21 @@ export default {
   key: "hubspot-deal-updated",
   name: "Deal Updated",
   description: "Emit new event each time a deal is updated.",
-  version: "0.0.8",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(deal) {
+      return Date.parse(deal.updatedAt);
+    },
     generateMeta(deal) {
       const {
         id,
         properties,
-        updatedAt,
       } = deal;
-      const ts = Date.parse(updatedAt);
+      const ts = this.getTs(deal);
       return {
         id: `${id}${ts}`,
         summary: properties.dealname,
@@ -25,7 +27,7 @@ export default {
       };
     },
     isRelevant(deal, updatedAfter) {
-      return Date.parse(deal.updatedAt) > updatedAfter;
+      return this.getTs(deal) > updatedAfter;
     },
     getParams() {
       return {

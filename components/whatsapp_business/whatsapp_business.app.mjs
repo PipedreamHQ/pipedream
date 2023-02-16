@@ -7,8 +7,7 @@ export default {
     phoneNumberId: {
       type: "string",
       label: "Phone Number ID",
-      description: "Phone number ID that will be used to send the message. Leave blank to use the default.",
-      optional: true,
+      description: "Phone number ID that will be used to send the message.",
       async options({ prevContext }) {
         let after;
         const response = await this.getPhoneNumberId({
@@ -20,7 +19,7 @@ export default {
           options: response.data.map(({
             verified_name, display_phone_number, id,
           }) => ({
-            label: `${verified_name}: +${display_phone_number}`,
+            label: `${verified_name}: ${display_phone_number}`,
             value: id,
           })),
           context: {
@@ -74,7 +73,7 @@ export default {
       return this.$auth.business_account_id;
     },
     _auth() {
-      return this.$auth.oauth_access_token;
+      return this.$auth.permanent_access_token;
     },
     _version() {
       return "v15.0";

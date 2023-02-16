@@ -4,7 +4,7 @@ export default {
   key: "google_drive-copy-file",
   name: "Copy File",
   description: "Create a copy of the specified file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/copy) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,

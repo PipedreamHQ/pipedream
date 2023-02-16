@@ -1,6 +1,9 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import utils from "./common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
 
 export default {
   type: "app",
@@ -56,8 +59,12 @@ export default {
                 limit: 20,
               },
             });
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve User options.");
+        } catch (e) {
+          if (e.response.data.code === 50001) {
+            throw new ConfigurationError("Your Discord Bot appears to be missing the \"Server Members Intent\" privilege. Please access Discord applications here (https://discord.com/developers/applications) and update your Bot's permissions, then refresh the fields here to continue.");
+          }
+
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const options = members.reduce((reduction, member) => {
@@ -132,8 +139,8 @@ export default {
           channels = await this.getChannels({
             guildId,
           });
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Channel options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
         return utils.getChannelOptions({
           channels,
@@ -194,8 +201,8 @@ export default {
             guildId,
           });
           return utils.getCategoryChannelOptions(channels);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Category options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
       },
     },
@@ -210,8 +217,8 @@ export default {
             guildId,
           });
           return utils.getRolePermissionOptions(roles);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Role options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
       },
     },
@@ -241,12 +248,12 @@ export default {
               },
             }),
           ]);
-        } catch {
-          throw new ConfigurationError("A Guild ID is required to retrieve Member options.");
+        } catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const [
-          ,, members,
+          , , members,
         ] = responses;
 
         const lastMemberId = utils.getLastId(members);
@@ -265,6 +272,11 @@ export default {
       label: "Max records",
       description: "Max number of records in the whole pagination (eg. `60`)",
       optional: true,
+    },
+    nick: {
+      type: "string",
+      label: "Nickname",
+      description: "Value to set user's nickname to.",
     },
     limit: {
       type: "integer",
@@ -309,8 +321,8 @@ export default {
             },
           });
         }
-        catch {
-          throw new ConfigurationError("A Channel ID is required to retrieve Message options.");
+        catch (e) {
+          throw new ConfigurationError(`${e}: ${JSON.stringify(e.response.data)}`);
         }
 
         const options = utils.getMessageOptions(messages);
@@ -565,6 +577,16 @@ export default {
         data,
       });
     },
+    changeNickname({
+      $, guildId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/@me`,
+        data,
+      });
+    },
     async modifyChannel({
       $, channelId, data,
     }) {
@@ -572,6 +594,16 @@ export default {
         $,
         method: "patch",
         path: `/channels/${channelId}`,
+        data,
+      });
+    },
+    modifyGuildMember({
+      $, guildId, userId, ...data
+    }) {
+      return this._makeRequest({
+        $,
+        method: "patch",
+        path: `/guilds/${guildId}/members/${userId}`,
         data,
       });
     },
@@ -604,6 +636,41 @@ export default {
         path: `/channels/${channelId}/messages`,
         method: "post",
         data,
+      });
+    },
+    async sendMessageWithFile({
+      $, content, username, threadID, filePath, channelId, embeds, avatarURL,
+    }) {
+      const file = fs.createReadStream(filePath);
+      const filename = filePath.split("/").pop();
+      const data = new FormData();
+      data.append("payload_json", JSON.stringify({
+        content,
+        username,
+        threadID,
+        embeds,
+        avatarURL,
+        attachments: [
+          {
+            id: 0,
+            filename,
+          },
+        ],
+      }));
+      data.append("files[0]", file, {
+        header: [
+          `Content-Disposition: form-data; name="files[0]"; filename="${filename}"`,
+          `Content-Type: ${utils.getUploadContentType(filename)}`,
+        ],
+      });
+      return await this._makeRequest({
+        $,
+        path: `/channels/${channelId}/messages`,
+        method: "POST",
+        data,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        },
       });
     },
   },

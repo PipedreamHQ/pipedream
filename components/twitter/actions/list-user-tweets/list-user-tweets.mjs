@@ -5,7 +5,7 @@ export default {
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
   description: "Return a collection of the most recent tweets posted by a user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

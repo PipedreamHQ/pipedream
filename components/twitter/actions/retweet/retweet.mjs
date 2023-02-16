@@ -4,7 +4,7 @@ export default {
   key: "twitter-retweet",
   name: "Retweet a tweet",
   description: "Retweets a specific tweet by ID. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     twitter,

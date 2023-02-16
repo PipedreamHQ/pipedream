@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-new-voicemail-message",
   name: "New Voicemail Message (Instant)",
   description: "Emit new event when a new voicemail message is received",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,

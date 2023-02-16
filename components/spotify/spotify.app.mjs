@@ -197,6 +197,14 @@ export default {
       min: 1,
       max: 100,
     },
+    genres: {
+      type: "string[]",
+      label: "Seed Genres",
+      description: "An array of genres. Up to 5 seed values may be provided in any combination of `seedArtists`, `seedTracks` and `seedGenres`.",
+      async options() {
+        return this.getGenres();
+      },
+    },
   },
   methods: {
     sanitizedArray(value) {
@@ -362,6 +370,14 @@ export default {
       const { playlistId } = params;
       const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
       return get(res, "data.items", []);
+    },
+    async getGenres() {
+      const { data } = await this._makeRequest("GET", "/recommendations/available-genre-seeds");
+      return data.genres;
+    },
+    async getRecommendations(params) {
+      const { data } = await this._makeRequest("GET", "/recommendations", params);
+      return data;
     },
   },
 };

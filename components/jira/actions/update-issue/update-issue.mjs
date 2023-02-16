@@ -5,14 +5,23 @@ export default {
   key: "jira-update-issue",
   name: "Update Issue",
   description: "Updates an issue. A transition may be applied and issue properties updated as part of the edit, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId",
+      ],
+    },
     issueIdOrKey: {
       propDefinition: [
         jira,
         "issueIdOrKey",
+        (c) => ({
+          cloudId: c.cloudId,
+        }),
       ],
     },
     notifyUsers: {
@@ -39,6 +48,7 @@ export default {
         "transition",
         (c) => ({
           issueIdOrKey: c.issueIdOrKey,
+          cloudId: c.cloudId,
         }),
       ],
     },
@@ -77,7 +87,7 @@ export default {
   async run({ $ }) {
     const update = utils.parseObject(this.update);
     const fields = utils.parseObject(this.fields);
-    const transition = {
+    const transition = this.transition && {
       id: this.transition,
     };
     const historyMetadata = utils.parseObject(this.historyMetadata);
@@ -85,11 +95,12 @@ export default {
     let properties;
     try {
       properties = JSON.parse(this.properties);
-    } catch ( err ) {
+    } catch (err) {
       //pass
     }
     const response = await this.jira.updateIssue({
       $,
+      cloudId: this.cloudId,
       issueIdOrKey: this.issueIdOrKey,
       params: {
         notifyUsers: this.notifyUsers,
@@ -105,7 +116,9 @@ export default {
       },
       transition,
     });
+
     $.export("$summary", `Issue with ID(or key): ${this.issueIdOrKey} has been updated.`);
+
     return response;
   },
 };

@@ -37,7 +37,7 @@ export default {
       const response = await this.getResources();
       const resources = response[this.getResourcesKey()];
 
-      resources.slice(10).reverse()
+      resources.slice(-10).reverse()
         .forEach(this.emitEvent);
     },
   },

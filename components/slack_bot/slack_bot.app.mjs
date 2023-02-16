@@ -1,11 +1,12 @@
+import slack from "../slack/slack.app.mjs";
+
 export default {
-  type: "app",
+  ...slack,
   app: "slack_bot",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...slack.methods,
+    getToken() {
+      return this.$auth.bot_token;
     },
   },
 };

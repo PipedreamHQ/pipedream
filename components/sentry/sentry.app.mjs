@@ -83,7 +83,14 @@ export default {
       label: "Max Results",
       description: "The maximum number of registers to return. Defaults to `1000`.",
       optional: true,
+      default: 1000,
       max: 10000,
+    },
+    full: {
+      type: "boolean",
+      label: "Full",
+      description: "If this is set to true then the event payload will include the full event body, including the stacktrace. Set to true to enable.",
+      optional: true,
     },
   },
   methods: {
@@ -285,6 +292,17 @@ export default {
       const url = `${this._apiUrl()}/issues/${issueId}/`;
       const requestConfig = this._makeRequestConfig();
       return axios.put(url, data, requestConfig);
+    },
+    async listIssueEvents(issueId, params, cursor) {
+      const url = `${this._apiUrl()}/issues/${issueId}/events/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios.get(url, {
+        ...requestConfig,
+        params: {
+          ...params,
+          cursor,
+        },
+      });
     },
   },
 };

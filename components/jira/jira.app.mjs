@@ -4,17 +4,32 @@ export default {
   type: "app",
   app: "jira",
   propDefinitions: {
+    cloudId: {
+      type: "string",
+      label: "Cloud ID",
+      description: "The cloud ID.",
+      useQuery: true,
+      async options() {
+        const clouds = await this.getClouds()
+
+        return clouds.map(cloud => ({
+          label: cloud.name,
+          value: cloud.id,
+        }))
+      },
+    },
     projectID: {
       type: "string",
       label: "Project ID",
       description: "The project ID.",
       useQuery: true,
       async options({
-        prevContext, query,
+        prevContext, query, cloudId
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getAllProjects({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -39,8 +54,9 @@ export default {
       type: "string",
       label: "Issue Type",
       description: "An ID identifying the type of issue, [Check the API docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post) to see available options",
-      async options({ projectID }) {
+      async options({ projectID, cloudId }) {
         const resp = await this.getIssueTypes({
+          cloudId,
           projectID,
         });
         // Because we select a project, we get issue types for only that and only one project
@@ -64,10 +80,11 @@ export default {
       type: "string",
       label: "Issue id or key",
       description: "The ID or key of the issue where the attachment will be added to.",
-      async options({ prevContext }) {
+      async options({ prevContext, cloudId }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getIssues({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -93,11 +110,12 @@ export default {
       description: "The account ID of the user, which uniquely identifies the user across all Atlassian products, For example, `5b10ac8d82e05b22cc7d4ef5`",
       useQuery: true,
       async options({
-        prevContext, query,
+        prevContext, query, cloudId
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getUsers({
+          cloudId,
           params: {
             startAt,
             maxResults: pageSize,
@@ -147,11 +165,12 @@ export default {
       description: "Details of a transition. Required when performing a transition, optional when creating or editing an issue, See `Transition` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put). Also you can go edit the workflow and choose the Text option instead of the Diagram option. You can see the transition ID in parenthesis.",
       optional: true,
       async options({
-        prevContext, issueIdOrKey,
+        prevContext, issueIdOrKey, cloudId,
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
         const resp = await this.getTransitions({
+          cloudId,
           issueIdOrKey,
           params: {
             startAt,
@@ -214,24 +233,24 @@ export default {
         ...headers,
       };
     },
-    async _getUrl($, path) {
-      const cloudId = await this._getCloudId($);
-      return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3${path}`;
+    _getUrl(cloudId) {
+      return `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3`;
     },
     async _makeRequest({
       $,
       path,
       headers,
+      cloudId,
       ...otherConfig
     } = {}) {
       const config = {
-        url: await this._getUrl($, path),
+        url: `${this._getUrl(cloudId)}${path}`,
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
       return axios($ ?? this, config);
     },
-    async createHook(opts) {
+    async createHook({ cloudId, ...opts }) {
       const {
         url,
         events,
@@ -249,6 +268,7 @@ export default {
         webhookObj,
       ];
       const response = await this._makeRequest({
+        cloudId,
         method: "POST",
         path: "/webhook",
         data: requestBody,
@@ -260,7 +280,7 @@ export default {
         hookId: response?.webhookRegistrationResult[0]?.createdWebhookId,
       };
     },
-    async deleteHook(opts) {
+    async deleteHook({cloudId, ...opts}) {
       const { hookId } = opts;
       const requestBody = {
         webhookIds: [
@@ -268,6 +288,7 @@ export default {
         ],
       };
       return await this._makeRequest({
+        cloudId,
         method: "DELETE",
         path: "/webhook",
         data: requestBody,
@@ -296,16 +317,19 @@ export default {
       });
     },
     async addAttachmentToIssue({
+      cloudId,
       issueIdOrKey,
       ...args
     } = {}) {
       return this._makeRequest({
+        cloudId,
         method: "POST",
         path: `/issue/${issueIdOrKey}/attachments`,
         ...args,
       });
     },
     async addCommentToIssue({
+      cloudId,
       issueIdOrKey,
       ...args
     } = {}) {
@@ -436,12 +460,15 @@ export default {
       });
     },
     async updateIssue({
+      cloudId,
       issueIdOrKey,
       transition,
       ...args
     } = {}) {
       if (transition) {
         await this._makeRequest({
+          $: args.$,
+          cloudId,
           method: "POST",
           path: `/issue/${issueIdOrKey}/transitions`,
           data: {
@@ -450,6 +477,7 @@ export default {
         });
       }
       return await this._makeRequest({
+        cloudId,
         method: "PUT",
         path: `/issue/${issueIdOrKey}`,
         ...args,
@@ -468,14 +496,24 @@ export default {
         ...args,
       });
     },
-    async getWebhook({ ...args } = {}) {
+    async getWebhook(args = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/webhook",
         ...args,
       });
     },
+    async getClouds(args = {}) {
+      return axios(this, {
+        url: "https://api.atlassian.com/oauth/token/accessible-resources",
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...args
+      });
+    },
     async *getResourcesStream({
+      cloudId,
       resourceFn,
       resourceFnArgs,
       resourceFiltererFn,
@@ -484,6 +522,7 @@ export default {
       const pageSize = 50;
       while (true) {
         const nextResources = await resourceFn({
+          cloudId,
           ...resourceFnArgs,
           params: {
             ...resourceFnArgs.params,

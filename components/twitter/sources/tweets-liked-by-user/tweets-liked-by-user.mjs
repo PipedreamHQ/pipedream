@@ -5,7 +5,7 @@ export default {
   key: "twitter-tweets-liked-by-user",
   name: "Tweet Liked by User",
   description: "Emit new Tweets liked by a specific user on Twitter",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   props: {
     twitter,

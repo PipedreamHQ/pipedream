@@ -5,18 +5,18 @@ export default {
   key: "hubspot-line-item-updated",
   name: "Line Item Updated",
   description: "Emit new event each time a line item is updated.",
-  version: "0.0.5",
+  version: "0.0.9",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(lineItem) {
+      return Date.parse(lineItem.updatedAt);
+    },
     generateMeta(lineItem) {
-      const {
-        id,
-        updatedAt,
-      } = lineItem;
-      const ts = Date.parse(updatedAt);
+      const { id } = lineItem;
+      const ts = this.getTs(lineItem);
       return {
         id: `${id}${ts}`,
         summary: `Line Item ID: ${id}`,
@@ -24,7 +24,7 @@ export default {
       };
     },
     isRelevant(lineItem, updatedAfter) {
-      return Date.parse(lineItem.updatedAt) > updatedAfter;
+      return this.getTs(lineItem) > updatedAfter;
     },
     getParams() {
       return {

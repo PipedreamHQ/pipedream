@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api_custom_app-new-videos-by-search",
   name: "New Videos by Search",
   description: "Emit new event for each new YouTube video matching a search query.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

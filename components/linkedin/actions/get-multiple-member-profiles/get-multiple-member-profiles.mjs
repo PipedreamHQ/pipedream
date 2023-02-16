@@ -1,48 +1,43 @@
-// legacy_hash_id: a_gni3Ad
-import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
   key: "linkedin-get-multiple-member-profiles",
   name: "Get Multiple Member Profiles",
-  description: "Gets multiple member profiles at once.",
-  version: "0.1.1",
+  description: "Gets multiple member profiles at once. [See the docs here](https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api#retrieve-other-members-profile)",
+  version: "0.1.2",
   type: "action",
   props: {
-    linkedin: {
-      type: "app",
-      app: "linkedin",
-    },
-    people_ids: {
-      type: "any",
+    linkedin,
+    peopleIds: {
+      type: "string[]",
+      label: "People Ids",
+      description: "Identifiers of the members to retrieve",
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api#retrieve-other-members-profile
+    const peopleIdsArr = this.peopleIds;
 
-    const peopleIdsArr = this.people_ids;
-    if (!this.people_ids || peopleIdsArr.length == 0) {
-      throw new Error("Must provide people_ids parameter.");
-    }
-
-    //Generates the ids of the request with this required string format: List((id:{Person ID1}),(id:{Person ID2}),(id:{Person ID3}))
-    var peopleIdsList = "List(";
-    peopleIdsArr.forEach((person_id) =>  {
+    // Generates the ids of the request with this required string format:
+    // List((id:{Person ID1}),(id:{Person ID2}),(id:{Person ID3}))
+    let peopleIdsList = "List(";
+    peopleIdsArr.forEach((personId) =>  {
       peopleIdsList = peopleIdsList.length > 5
-        ? peopleIdsList + `,(id:${person_id})`
-        : peopleIdsList + `(id:${person_id})`;
+        ? peopleIdsList + `,(id:${personId})`
+        : peopleIdsList + `(id:${personId})`;
     });
     peopleIdsList = `${peopleIdsList})`;
 
-    //Sends the request
-    return await axios($, {
-      url: "https://api.linkedin.com/v2/people",
-      headers: {
-        "Authorization": `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-        "X-RestLi-Protocol-Version": "2.0.0",
-      },
-      params: {
-        ids: peopleIdsList,
-      },
+    const params = {
+      ids: peopleIdsList,
+    };
+
+    const response = await this.linkedin.getMultipleMemberProfiles({
+      $,
+      params,
     });
+
+    $.export("$summary", `Successfully retrieved ${this.peopleIds.length} member profile(s)`);
+
+    return response;
   },
 };

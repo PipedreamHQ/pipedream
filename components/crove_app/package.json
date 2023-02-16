@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/crove_app",
-  "version": "0.0.2",
+  "version": "1.0.3",
   "description": "Pipedream Crove Components",
   "main": "crove_app.app.js",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/crove_app",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

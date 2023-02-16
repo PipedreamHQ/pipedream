@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/discord",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {},
   "publishConfig": {
     "access": "public"

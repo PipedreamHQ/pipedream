@@ -1,7 +1,7 @@
-import mondaySdk from "monday-sdk-js";
-import uniqBy from "lodash.uniqby";
-import map from "lodash.map";
 import flatMap from "lodash.flatmap";
+import map from "lodash.map";
+import uniqBy from "lodash.uniqby";
+import mondaySdk from "monday-sdk-js";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
@@ -207,6 +207,14 @@ export default {
         },
       });
     },
+    async createColumn(variables) {
+      return this.makeRequest({
+        query: mutations.createColumn,
+        options: {
+          variables,
+        },
+      });
+    },
     async createUpdate(variables) {
       return this.makeRequest({
         query: mutations.createUpdate,
@@ -295,6 +303,9 @@ export default {
 
       const { boards } = data;
       return boards
+        .filter((board) => {
+          return (board.type != "sub_items_board");
+        })
         .map(({
           id, name,
         }) => ({

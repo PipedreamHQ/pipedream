@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clearbit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Clearbit Components",
   "main": "clearbit.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/clearbit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

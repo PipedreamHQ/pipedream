@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/geckoboard",
+  "version": "0.0.2",
+  "description": "Pipedream Geckoboard Components",
+  "main": "dist/app/geckoboard.app.mjs",
+  "keywords": [
+    "pipedream",
+    "geckoboard"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/geckoboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

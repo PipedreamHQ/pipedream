@@ -1,12 +1,12 @@
 import validate from "validate.js";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

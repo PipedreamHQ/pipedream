@@ -4,14 +4,23 @@ export default {
   key: "jira-create-version",
   name: "Create Jira Version in project",
   description: "Creates a project version., [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-versions/#api-rest-api-3-version-post)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     jira,
+    cloudId: {
+      propDefinition: [
+        jira,
+        "cloudId"
+      ]
+    },
     projectID: {
       propDefinition: [
         jira,
         "projectID",
+        (c) => ({
+          cloudId: c.cloudId
+        })
       ],
     },
     name: {
@@ -66,6 +75,7 @@ export default {
   async run({ $ }) {
     const response = await this.jira.createVersion({
       $,
+      cloudId: this.cloudId,
       data: {
         projectId: this.projectID,
         name: this.name,

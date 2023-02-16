@@ -4,7 +4,7 @@ export default {
   key: "supabase-update-row",
   name: "Update Row",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Updates row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/update)",
   props: {
     supabase,

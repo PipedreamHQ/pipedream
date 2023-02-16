@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-new-inbound-fax",
   name: "New Inbound Fax (Instant)",
   description: "Emit new event on each incoming fax",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   props: {
     ...common.props,

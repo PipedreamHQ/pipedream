@@ -5,6 +5,7 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "microsoft_teams",
+  description: "**Personal accounts are not currently supported by Microsoft Teams.** Refer to Microsoft's documentation [here](https://learn.microsoft.com/en-us/graph/permissions-reference#remarks-7) to learn more.",
   propDefinitions: {
     team: {
       type: "string",

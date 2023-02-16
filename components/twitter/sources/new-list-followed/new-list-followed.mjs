@@ -5,7 +5,7 @@ export default {
   key: "twitter-new-list-followed",
   name: "New List Followed",
   description: "Emit new event when the authenticated user follows a List",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/feedbin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Feedbin Components",
   "main": "feedbin.app.mjs",
   "keywords": [
@@ -9,7 +9,6 @@
   ],
   "homepage": "https://pipedream.com/apps/feedbin",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "^1.2.0"
   },

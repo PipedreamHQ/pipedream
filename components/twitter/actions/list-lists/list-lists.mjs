@@ -5,7 +5,7 @@ export default {
   key: "twitter-list-lists",
   name: "List Lists",
   description: "Return all lists the authenticated or specified user subscribes to including their own. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

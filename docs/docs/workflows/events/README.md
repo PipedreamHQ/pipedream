@@ -33,7 +33,6 @@ When you're [examining event data](#examining-event-data), you'll commonly want 
 
 Hover over the property whose data you want to reference, and click the **Copy Path** button to its right:
 
-
 ![Copy an event path](https://res.cloudinary.com/pipedreamin/image/upload/v1648759215/docs/components/CleanShot_2022-03-31_at_16.39.56_lsus2o.gif)
 
 ## Copying the values of event data
@@ -66,13 +65,13 @@ The specific shape of `steps.trigger.event` depends on the trigger type:
 
 ### Cron Scheduler
 
-| Property              |                                           Description                                            |
-| --------------------- | :----------------------------------------------------------------------------------------------: |
-| `interval_seconds`    |                       The number of seconds between scheduled invocations                        |
-| `cron`                |                  When you've configured a custom cron schedule, the cron string                  |
-| `timestamp`           |                            The epoch timestamp when the workflow ran                             |
-| `timezone_configured` | An object with formatted datetime data for the given invocation, tied to the schedule's timezone |
-| `timezone_utc`        |    An object with formatted datetime data for the given invocation, tied to the UTC timezone     |
+| Property              |                                           Description                                           |
+| --------------------- | :---------------------------------------------------------------------------------------------: |
+| `interval_seconds`    |                       The number of seconds between scheduled executions                        |
+| `cron`                |                 When you've configured a custom cron schedule, the cron string                  |
+| `timestamp`           |                            The epoch timestamp when the workflow ran                            |
+| `timezone_configured` | An object with formatted datetime data for the given execution, tied to the schedule's timezone |
+| `timezone_utc`        |    An object with formatted datetime data for the given execution, tied to the UTC timezone     |
 
 ### Email
 
@@ -80,7 +79,7 @@ We use Amazon SES to receive emails for the email trigger. You can find the shap
 
 ## `steps.trigger.context`
 
-`steps.trigger.event` contain your event's **data**. `steps.trigger.context` contains _metadata_ about the workflow and the invocation tied to this event.
+`steps.trigger.event` contain your event's **data**. `steps.trigger.context` contains _metadata_ about the workflow and the execution tied to this event.
 
 You can use the data in `steps.trigger.context` to uniquely identify the Pipedream event ID, the timestamp at which the event invoked the workflow, and more:
 

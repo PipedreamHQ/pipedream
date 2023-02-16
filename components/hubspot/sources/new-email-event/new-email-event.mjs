@@ -5,20 +5,22 @@ export default {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.8",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   hooks: {},
   methods: {
     ...common.methods,
+    getTs(emailEvent) {
+      return Date.parse(emailEvent.created);
+    },
     generateMeta(emailEvent) {
       const {
         id,
         recipient,
         type,
-        created,
       } = emailEvent;
-      const ts = Date.parse(created);
+      const ts = this.getTs(emailEvent);
       return {
         id,
         summary: `${recipient} - ${type}`,

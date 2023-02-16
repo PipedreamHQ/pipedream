@@ -4,7 +4,7 @@ export default {
   key: "twitter-create-tweet",
   name: "Create Tweet",
   description: "Create a new tweet. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     twitter,
