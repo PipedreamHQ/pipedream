@@ -1,8 +1,8 @@
 import { createHmac } from "crypto";
 import { uuid } from "uuidv4";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import constants from "../../constants.mjs";
-import utils from "../utils.mjs";
+import utils from "../common/utils.mjs";
 
 const { typeform } = common.props;
 const { parseIsoDate } = utils;
