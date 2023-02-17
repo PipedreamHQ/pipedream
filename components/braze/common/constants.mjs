@@ -1,0 +1,15 @@
+const INSTANCE_DOMAIN_PLACEHOLDER = "<instance_domain>";
+const REGION_PLACEHOLDER = "<region>";
+const BASE_URL = `https://${INSTANCE_DOMAIN_PLACEHOLDER}.braze.${REGION_PLACEHOLDER}}`;
+const SCIM_VERSION_PATH = "/scim/v2";
+const LAST_CREATED_AT = "lastCreatedAt";
+const DEFAULT_MAX = 600;
+
+export default {
+  INSTANCE_DOMAIN_PLACEHOLDER,
+  REGION_PLACEHOLDER,
+  BASE_URL,
+  SCIM_VERSION_PATH,
+  DEFAULT_MAX,
+  LAST_CREATED_AT,
+};
