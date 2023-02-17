@@ -102,7 +102,6 @@ export default {
       convertedIndexes,
     } = this.googleSheets.arrayValuesToString(cells);
 
-    console.log(arr, convertedIndexes);
     const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
       range: this.sheetName,
