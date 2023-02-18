@@ -173,38 +173,36 @@ export default {
           omitFiles,
         } = opts;
 
-        const LIMIT = config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS;
-
         let data = [];
         let res = null;
-        let nextCursor = null;
-        let lastPage = false;
         path = path === "/" || path === null
           ? ""
           : path;
-        const dpx = await this.sdk();
 
-        if (prevCursor) {
-          res = await dpx.filesListFolderContinue({
-            cursor: prevCursor,
-          });
-        } else {
+        if (path === "") {
+          const dpx = await this.sdk();
           res = await dpx.filesListFolder({
             path,
-            limit: LIMIT,
+            limit: config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS,
             recursive: true,
           });
-        }
 
-        data = res.result.entries.map((item) => ({
-          path: item.path_display,
-          type: item[".tag"],
-        }));
-
-        if (res.result.has_more) {
-          nextCursor = res.result.cursor;
+          data = res.result.entries.map((item) => ({
+            path: item.path_display,
+            type: item[".tag"],
+          }));
         } else {
-          lastPage = true;
+          res = await this.searchFilesFolders({
+            query: path,
+            options: {
+              path: "",
+            },
+          });
+
+          data = res.map(({ metadata }) => ({
+            path: metadata.metadata.path_display,
+            type: metadata.metadata[".tag"],
+          }));
         }
 
         if (omitFiles) {
@@ -223,13 +221,8 @@ export default {
             -1;
         });
 
-        return {
-          options: data,
-          context: {
-            cursor: nextCursor,
-            reachedLastPage: lastPage,
-          },
-        };
+        return data;
+
       } catch (err) {
         console.log(err);
         return [];
