@@ -31,7 +31,7 @@ export default {
   async run({ $ }) {
     const response = await this.wise.getExchangeRate({
       $,
-      query: {
+      params: {
         source: this.sourceCurrency,
         target: this.targetCurrency,
       },
