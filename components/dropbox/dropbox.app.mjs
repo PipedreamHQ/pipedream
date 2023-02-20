@@ -179,8 +179,8 @@ export default {
           ? ""
           : path;
 
+        const dpx = await this.sdk();
         if (path === "") {
-          const dpx = await this.sdk();
           res = await dpx.filesListFolder({
             path,
             limit: config.GET_PATH_OPTIONS.DEFAULT_MAX_RESULTS,
@@ -203,6 +203,19 @@ export default {
             path: metadata.metadata.path_display,
             type: metadata.metadata[".tag"],
           }));
+
+          const folders = data.filter((item) => item.type !== "file");
+          for (const folder of folders) {
+            res = await dpx.filesListFolder({
+              path: folder.path,
+              recursive: true,
+            });
+            const folderData = res.result?.entries?.map((item) => ({
+              path: item.path_display,
+              type: item[".tag"],
+            }));
+            data.push(...folderData);
+          }
         }
 
         if (omitFiles) {
