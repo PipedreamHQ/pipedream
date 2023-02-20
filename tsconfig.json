@@ -1418,6 +1418,9 @@
     },
     {
       "path": "components/resend"
+    },
+    {
+      "path": "components/grab_your_reviews"
     }
   ]
 }

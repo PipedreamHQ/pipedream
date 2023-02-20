@@ -104,9 +104,11 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 #### Source Credit Usage
 
-The first credit used during a [source's](/sources) execution is included for free.
+When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
 
-This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of computation on an source do not incur credits. This behavior includes [Free Tier](/pricing/#free-tier) accounts.
+When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
+
+On the other hand, sources that don't trigger workflows are "independent", since they run independently. Pipedream charges credits for all indepedent source executions.
 
 ::: tip
 
