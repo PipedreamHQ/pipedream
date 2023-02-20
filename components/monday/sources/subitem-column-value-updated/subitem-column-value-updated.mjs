@@ -8,8 +8,20 @@ export default {
   type: "source",
   version: "0.0.2",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    boardId: {
+      propDefinition: [
+        common.props.monday,
+        "boardId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
+    getWebhookCreationError() {
+      return "Failed to establish webhook. To create this trigger, you need to have at least one subitem previously created on your board.";
+    },
     getWebhookArgs() {
       return {
         event: "change_subitem_column_value",

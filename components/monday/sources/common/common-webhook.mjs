@@ -25,7 +25,7 @@ export default {
       });
       const hookId = data?.create_webhook?.id;
       if (!hookId) {
-        throw new Error ("Failed to establish webhook");
+        throw new Error (this.getWebhookCreationError());
       }
       this._setHookId(data.create_webhook.id);
     },
@@ -37,6 +37,9 @@ export default {
     },
   },
   methods: {
+    getWebhookCreationError() {
+      return "Failed to establish webhook";
+    },
     _getHookId() {
       return this.db.get("hookId");
     },
