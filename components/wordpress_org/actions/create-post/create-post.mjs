@@ -4,7 +4,7 @@ export default {
   key: "wordpress_org-create-post",
   name: "Create Post",
   description: "Creates a post. [See the docs here](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
