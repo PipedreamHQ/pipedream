@@ -24,6 +24,22 @@ export default {
     _auth() {
       return this.$auth.api_key;
     },
+    async createWebhook(opts) {
+      return this._makeRequest({
+        ...opts,
+        method: "post",
+        path: "/webhooks",
+      });
+    },
+    async deleteWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        method: "delete",
+        path: `/webhooks/${webhookId}`,
+      });
+    },
     async runWorkflow(opts) {
       return this._makeRequest({
         ...opts,
