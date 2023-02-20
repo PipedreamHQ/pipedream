@@ -4,7 +4,7 @@ export default {
   key: "shopify-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[put]/admin/api/2022-01/products/{product_id}.json)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     shopify,
@@ -69,9 +69,27 @@ export default {
         "tags",
       ],
     },
+    metafields: {
+      type: "string[]",
+      label: "Metafields",
+      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }`. To update an existing metafield, use the `id` and `value`. Example: `{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }`",
+      optional: true,
+    },
+    seoTitle: {
+      type: "string",
+      label: "SEO Title",
+      description: "The product title used for search engine optimization",
+      optional: true,
+    },
+    seoDescription: {
+      type: "string",
+      label: "SEO Description",
+      description: "The product description used for search engine optimization",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    let product = {
+    const product = {
       title: this.title,
       body_html: this.productDescription,
       vendor: this.vendor,
@@ -81,8 +99,11 @@ export default {
       options: this.shopify.parseArrayOfJSONStrings(this.options),
       variants: this.shopify.parseArrayOfJSONStrings(this.variants),
       tags: this.shopify.parseCommaSeparatedStrings(this.tags),
+      metafields: this.shopify.parseArrayOfJSONStrings(this.metafields),
+      metafields_global_title_tag: this.seoTitle,
+      metafields_global_description_tag: this.seoDescription,
     };
-    let response = (await this.shopify.updateProduct(this.productId, product)).result;
+    const response = (await this.shopify.updateProduct(this.productId, product)).result;
     $.export("$summary", `Updated product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },
