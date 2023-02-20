@@ -139,30 +139,6 @@ export default {
       };
       return axios($, config);
     },
-    createWebhook({
-      params, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        params: {
-          method: "add_notification_callback",
-          ...params,
-        },
-        ...args,
-      });
-    },
-    deleteWebhook({
-      params, ...args
-    }) {
-      return this._makeRequest({
-        method: "DELETE",
-        params: {
-          method: "remove_notification_callback",
-          ...params,
-        },
-        ...args,
-      });
-    },
     listResources({
       params, ...args
     }) {
