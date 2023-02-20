@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Incident Created (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "statuspage-new-incident-created",
   description: "Emit new event on each created incident.",
   type: "source",
