@@ -137,6 +137,18 @@ export default {
         }));
       },
     },
+    user: {
+      type: "string",
+      label: "User",
+      description: "Identifier of the user",
+      async options({ page }) {
+        const users = await this.listUsers(page + 1);
+        return users.map((user) => ({
+          label: user?.name,
+          value: user?.id,
+        }));
+      },
+    },
   },
   methods: {
     async getClient() {
@@ -175,6 +187,20 @@ export default {
       const wp = await this.getClient();
       return wp.posts().perPage(PER_PAGE)
         .page(page);
+    },
+    async listUsers(page) {
+      const wp = await this.getClient();
+      return wp.users().perPage(PER_PAGE)
+        .page(page);
+    },
+    async getUser(userId) {
+      const wp = await this.getClient();
+      return wp.users().id(userId);
+    },
+    async updateUser(userId, params) {
+      const wp = await this.getClient();
+      return wp.users().id(userId)
+        .update(params);
     },
     async searchPosts(params, page, perPage = PER_PAGE) {
       const {
