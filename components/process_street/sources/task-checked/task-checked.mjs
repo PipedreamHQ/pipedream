@@ -29,7 +29,7 @@ export default {
       });
 
       const filteredWorkflowRuns = tasks
-        .filter((task) => task.status === constants.WORKFLOW_STATUSES.COMPLETED)
+        .filter((task) => task.status === constants.STATUSES.COMPLETED)
         .slice(constants.DEPLOY_LIMIT);
 
       for (const workflowRun of filteredWorkflowRuns) {

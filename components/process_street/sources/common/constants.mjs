@@ -1,6 +1,6 @@
 export default {
   DEPLOY_LIMIT: -25,
-  WORKFLOW_STATUSES: {
+  STATUSES: {
     ACTIVE: "Active",
     COMPLETED: "Completed",
     ARCHIVED: "Archived",
