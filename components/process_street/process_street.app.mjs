@@ -16,6 +16,20 @@ export default {
         }));
       },
     },
+    workflowRunId: {
+      type: "string",
+      label: "Workflow Run ID",
+      description: "The ID of the Workflow Run",
+      async options({ workflowId }) {
+        const { workflowRuns } = await this.listWorkflowRuns({
+          workflowId,
+        });
+        return workflowRuns.map((workflowRun) => ({
+          label: workflowRun.name,
+          value: workflowRun.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -51,6 +65,26 @@ export default {
       return this._makeRequest({
         ...opts,
         path: "/workflows",
+      });
+    },
+    async listWorkflowRuns({
+      workflowId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: "/workflow-runs",
+        params: {
+          ...opts.params,
+          workflowId,
+        },
+      });
+    },
+    async listTasks({
+      workflowRunId, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/workflow-runs/${workflowRunId}/tasks`,
       });
     },
     async _makeRequest({
