@@ -80,8 +80,16 @@ export default {
       });
     },
     async listTasks({
-      workflowRunId, ...opts
+      paginate = false, workflowRunId, ...opts
     }) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listTasks,
+          dataName: "tasks",
+          workflowRunId,
+          ...opts,
+        });
+      }
       return this._makeRequest({
         ...opts,
         path: `/workflow-runs/${workflowRunId}/tasks`,
@@ -98,6 +106,29 @@ export default {
           "X-API-KEY": this._auth(),
         },
       });
+    },
+    async paginate({
+      fn, dataName, ...opts
+    }) {
+      const data = [];
+
+      while (true) {
+        const response = await fn.call(this, opts);
+        data.push(...response[dataName]);
+
+        const next = response.links.find((link) => link.name === "next");
+        if (!next) {
+          break;
+        }
+
+        opts.params = {
+          _: next.href.split("=")[1],
+        };
+      }
+
+      return {
+        [dataName]: data,
+      };
     },
   },
 };

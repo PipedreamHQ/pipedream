@@ -25,6 +25,7 @@ export default {
     async deploy() {
       console.log("Retrieving checked tasks...");
       const { tasks } = await this.processStreet.listTasks({
+        paginate: true,
         workflowRunId: this.workflowRunId,
       });
 
