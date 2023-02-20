@@ -1509,6 +1509,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/grab_your_reviews:
+    specifiers: {}
+
   components/grafbase:
     specifiers: {}
 
@@ -2531,6 +2534,12 @@ importers:
 
   components/planso_forms:
     specifiers: {}
+
+  components/planyo_online_booking:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/plasmic:
     specifiers: {}
