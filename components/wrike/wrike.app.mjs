@@ -40,6 +40,23 @@ export default {
         }));
       },
     },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The ID of the task",
+      async options({
+        folderId, spaceId,
+      }) {
+        const { data: tasks } = await this.listTasks({
+          folderId,
+          spaceId,
+        });
+        return tasks.map((task) => ({
+          label: task.title,
+          value: task.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -141,6 +158,16 @@ export default {
         path: `/tasks/${taskId}`,
         ...opts,
       });
+    },
+    async getSubtasks({ taskId }) {
+      const response = await this.getTask({
+        taskId,
+      });
+      const task = response.data[0];
+      const subtasks = await Promise.all(task.subTaskIds.map((subtaskId) => this.getTask({
+        taskId: subtaskId,
+      })));
+      return subtasks.map((subtask) => subtask.data[0]);
     },
     async listTasks({
       folderId, spaceId, ...opts
