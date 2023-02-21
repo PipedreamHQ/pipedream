@@ -5,7 +5,7 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
 
 export default defineAction({
-  name: "Create Subscription",
+  name: "Add User To List",
   description: `Add a member to a list owned by the user. [See docs here](${DOCS_LINK})`,
   key: "twitter-add-user-to-list",
   version: "0.0.1",
@@ -13,16 +13,10 @@ export default defineAction({
   props: {
     app,
     listId: {
-      propDefinition: [
-        app,
-        "listId",
-      ],
+      propDefinition: [app, "listId"],
     },
     userNameOrId: {
-      propDefinition: [
-        app,
-        "userNameOrId",
-      ],
+      propDefinition: [app, "userNameOrId"],
     },
   },
   methods: {
@@ -46,6 +40,7 @@ export default defineAction({
     };
 
     const response = await this.app.addUserToList(params);
+    if (response !== true) throw new Error("Failed to add user: " + response);
 
     $.export("$summary", "Successfully added user to list");
 

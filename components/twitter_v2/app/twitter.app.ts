@@ -29,6 +29,11 @@ export default defineApp({
       description:
         "The Twitter username (handle) of the user, prefixed with `@` (e.g. `@pipedream`). You can also reference a User ID from a previous step.",
     },
+    tweetId: {
+      type: "string",
+      label: "Tweet ID",
+      description: "The numerical ID of the tweet (also known as \"status\")",
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -57,7 +62,15 @@ export default defineApp({
         url: `/lists/${listId}/members`,
         ...args,
       });
-      return response?.data?.is_member;
+      return response?.data?.is_member ?? response;
+    },
+    async deleteTweet(
+      tweetId: string) {
+      const response = await this._httpRequest({
+        method: "DELETE",
+        url: `/tweets/${tweetId}`,
+      });
+      return response?.data?.deleted ?? response;
     },
     async getAuthenticatedUser() {
       const response = await this._httpRequest({
