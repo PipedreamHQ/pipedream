@@ -1,17 +1,13 @@
-// legacy_hash_id: a_0Mioz8
-import { axios } from "@pipedream/platform";
+import wrike from "../../wrike.app.mjs";
 
 export default {
   key: "wrike-new-task",
-  name: "Wrike: Create Task",
-  description: "Create a Wrike task under a specified folder ID.",
-  version: "0.2.1",
+  name: "New Task",
+  description: "Create a Wrike task under a specified folder ID. [See the docs]()",
+  version: "0.3.0",
   type: "action",
   props: {
-    wrike: {
-      type: "app",
-      app: "wrike",
-    },
+    wrike,
     folder: {
       type: "string",
       label: "Folder ID",
@@ -107,14 +103,12 @@ export default {
       info.customFields = customFields;
     }
 
-    const task = await axios($, {
-      method: "POST",
-      url: `https://www.wrike.com/api/v4/folders/${this.folder}/tasks`,
-      headers: {
-        Authorization: `Bearer ${this.wrike.$auth.oauth_access_token}`,
-      },
+    const task = await this.wrike.createTask({
+      $,
+      folder: this.folder,
       data: info,
     });
+
     console.log(`Created new task ID "${task.data[0].id}".`);
 
     return task;
