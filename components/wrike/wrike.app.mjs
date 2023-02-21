@@ -91,9 +91,25 @@ export default {
         ...opts,
       });
     },
-    async listFolders(opts = {}) {
+    async getFolder({
+      folderId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/folders",
+        path: `/folders/${folderId}`,
+        ...opts,
+      });
+    },
+    async listFolders({
+      folderId, spaceId, ...opts
+    } = {}) {
+      const path = this._buildPath({
+        basePath: "/folders",
+        folderId,
+        spaceId,
+      });
+
+      return this._makeRequest({
+        path,
         ...opts,
       });
     },
