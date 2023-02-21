@@ -52,10 +52,9 @@ export default {
   async run(event) {
     console.log("Webhook received");
     for (const data of event.body) {
-      const response = await this.wrike.getTask({
+      const task = await this.wrike.getTask({
         taskId: data.taskId,
       });
-      const task = response.data[0];
       if (task.superTaskIds.includes(this.taskId)) {
         this.emitEvent(task);
       }

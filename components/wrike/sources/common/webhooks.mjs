@@ -12,7 +12,7 @@ export default {
   hooks: {
     async activate() {
       console.log("Creating webhook...");
-      const response = await this.wrike.createWebhook({
+      const { id } = await this.wrike.createWebhook({
         folderId: this.folderId,
         spaceId: this.spaceId,
         data: {
@@ -21,8 +21,7 @@ export default {
           events: this.getEventTypes(),
         },
       });
-      const webhookId = response.data[0].id;
-      this._setWebhookId(webhookId);
+      this._setWebhookId(id);
     },
     async deactivate() {
       console.log("Deleting webhook...");

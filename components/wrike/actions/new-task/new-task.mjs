@@ -80,13 +80,11 @@ export default {
       value,
     }));
 
-    const response = await this.wrike.createTask({
+    const task = await this.wrike.createTask({
       $,
       folderId: this.folderId,
       data,
     });
-
-    const task = response.data[0];
 
     $.export("$summary", `Successfully created new task ${task.title}`);
 

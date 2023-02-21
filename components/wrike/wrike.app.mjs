@@ -9,7 +9,7 @@ export default {
       label: "Folder ID",
       description: "The ID of the folder",
       async options() {
-        const { data: folders } = await this.listFolders();
+        const folders = await this.listFolders();
         return folders.map((folder) => ({
           label: folder.title,
           value: folder.id,
@@ -21,7 +21,7 @@ export default {
       label: "Space ID",
       description: "The ID of the space",
       async options() {
-        const { data: spaces } = await this.listSpaces();
+        const spaces = await this.listSpaces();
         return spaces.map((space) => ({
           label: space.title,
           value: space.id,
@@ -33,7 +33,7 @@ export default {
       label: "Contact ID",
       description: "The contact of a user in the current account",
       async options() {
-        const { data: contacts } = await this.listContacts();
+        const contacts = await this.listContacts();
         return contacts.map((contact) => ({
           label: `${contact.firstName} ${contact.lastName}`,
           value: contact.id,
@@ -47,7 +47,7 @@ export default {
       async options({
         folderId, spaceId,
       }) {
-        const { data: tasks } = await this.listTasks({
+        const tasks = await this.listTasks({
           folderId,
           spaceId,
         });
@@ -73,6 +73,12 @@ export default {
       }
       return basePath;
     },
+    _extractResources(response) {
+      return response.data;
+    },
+    _extractFirstResource(response) {
+      return this._extractResources(response)[0];
+    },
     async _makeRequest({
       $ = this, path, ...opts
     }) {
@@ -93,16 +99,18 @@ export default {
         spaceId,
       });
 
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path,
         method: "post",
         ...opts,
       });
+
+      return this._extractFirstResource(response);
     },
     async deleteWebhook({
       webhookId, ...opts
     }) {
-      return this._makeRequest({
+      await this._makeRequest({
         path: `/webhooks/${webhookId}`,
         method: "delete",
         ...opts,
@@ -111,10 +119,11 @@ export default {
     async getFolder({
       folderId, ...opts
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/folders/${folderId}`,
         ...opts,
       });
+      return this._extractFirstResource(response);
     },
     async listFolders({
       folderId, spaceId, ...opts
@@ -125,49 +134,53 @@ export default {
         spaceId,
       });
 
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path,
         ...opts,
       });
+
+      return this._extractResources(response);
     },
     async listSpaces(opts = {}) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: "/spaces",
         ...opts,
       });
+      return this._extractResources(response);
     },
     async listContacts(opts = {}) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: "/contacts",
         ...opts,
       });
+      return this._extractResources(response);
     },
     async createTask({
       folderId, ...opts
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/folders/${folderId}/tasks`,
         method: "post",
         ...opts,
       });
+      return this._extractFirstResource(response);
     },
     async getTask({
       taskId, ...opts
     }) {
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path: `/tasks/${taskId}`,
         ...opts,
       });
+      return this._extractFirstResource(response);
     },
     async getSubtasks({ taskId }) {
-      const response = await this.getTask({
+      const task = await this.getTask({
         taskId,
       });
-      const task = response.data[0];
-      const subtasks = await Promise.all(task.subTaskIds.map((subtaskId) => this.getTask({
+      return Promise.all(task.subTaskIds.map((subtaskId) => this.getTask({
         taskId: subtaskId,
       })));
-      return subtasks.map((subtask) => subtask.data[0]);
     },
     async listTasks({
       folderId, spaceId, ...opts
@@ -178,10 +191,12 @@ export default {
         spaceId,
       });
 
-      return this._makeRequest({
+      const response = await this._makeRequest({
         path,
         ...opts,
       });
+
+      return this._extractResources(response);
     },
   },
 };

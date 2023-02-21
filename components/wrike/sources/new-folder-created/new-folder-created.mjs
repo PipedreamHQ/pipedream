@@ -49,7 +49,7 @@ export default {
     ...base.hooks,
     async deploy() {
       console.log("Retrieving historical events...");
-      const { data: folders } = await this.wrike.listFolders({
+      const folders = await this.wrike.listFolders({
         folderId: this.folderId,
         spaceId: this.spaceId,
       });
@@ -76,10 +76,10 @@ export default {
   async run(event) {
     console.log("Webhook received");
     for (const data of event.body) {
-      const response = await this.wrike.getFolder({
+      const folder = await this.wrike.getFolder({
         folderId: data.folderId,
       });
-      this.emitEvent(response.data[0]);
+      this.emitEvent(folder);
     }
   },
 };
