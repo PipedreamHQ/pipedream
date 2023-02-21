@@ -5,7 +5,7 @@ export default {
   name: "Create Group",
   description: "Creates a new group in a specific board. [See the docs here](https://api.developer.monday.com/docs/groups-queries#create-a-group)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     monday,
     boardId: {

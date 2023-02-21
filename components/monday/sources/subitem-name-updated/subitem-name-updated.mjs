@@ -6,7 +6,7 @@ export default {
   name: "New Sub-Item Name Updated (Instant)",
   description: "Emit new event when a sub-item name changes. To create this trigger, you need to have at least one subitem previously created on your board.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -19,6 +19,9 @@ export default {
   },
   methods: {
     ...common.methods,
+    getWebhookCreationError() {
+      return "Failed to establish webhook. To create this trigger, you need to have at least one subitem previously created on your board.";
+    },
     getWebhookArgs() {
       return {
         event: "change_subitem_name",
