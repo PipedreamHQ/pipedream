@@ -56,6 +56,28 @@ export default {
         ...opts,
       });
     },
+    async createWebhook({
+      folderId, spaceId, ...opts
+    }) {
+      let path = "/webhooks";
+      if (folderId) path = `/folders/${folderId}` + path;
+      if (spaceId) path = `/spaces/${spaceId}` + path;
+
+      return this._makeRequest({
+        path,
+        method: "post",
+        ...opts,
+      });
+    },
+    async deleteWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/webhooks/${webhookId}`,
+        method: "delete",
+        ...opts,
+      });
+    },
     async listFolders(opts = {}) {
       return this._makeRequest({
         path: "/folders",
