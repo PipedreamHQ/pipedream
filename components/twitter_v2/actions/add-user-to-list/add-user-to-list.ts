@@ -1,7 +1,8 @@
 import app from "../../app/twitter.app";
 import { defineAction } from "@pipedream/types";
 
-const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
+const DOCS_LINK =
+  "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
 
 export default defineAction({
   name: "Create Subscription",
@@ -14,26 +15,40 @@ export default defineAction({
     listId: {
       propDefinition: [
         app,
-        "listId"
-      ]
+        "listId",
+      ],
     },
-    userId: {
+    userNameOrId: {
       propDefinition: [
         app,
-        "userId"
-      ]
-    }
+        "userNameOrId",
+      ],
+    },
+  },
+  methods: {
+    async getUserId(): Promise<string> {
+      const { userNameOrId } = this;
+      return userNameOrId.startsWith("@")
+        ? this.app.getUserByUsername(userNameOrId.slice(1))
+        : userNameOrId;
+    },
   },
   async run({ $ }): Promise<object> {
+    const userId = await this.getUserId();
+    if (!userId) throw new Error("User not found");
+
     const params = {
       $,
+      listId: this.listId,
       data: {
+        userId,
       },
     };
+
     const response = await this.app.addUserToList(params);
 
-    $.export("$summary", 'Successfully added user to list');
+    $.export("$summary", "Successfully added user to list");
 
     return response;
   },
-})
+});

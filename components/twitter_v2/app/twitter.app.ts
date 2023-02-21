@@ -1,32 +1,81 @@
 import { defineApp } from "@pipedream/types";
-import twitter from "../../twitter/twitter.app.mjs";
+import { axios } from "@pipedream/platform";
+import {
+  AddUserToListParams, HttpRequestParams,
+} from "../common/types";
 
 export default defineApp({
   type: "app",
   app: "twitter",
   propDefinitions: {
-    ...twitter.propDefinitions,
+    listId: {
+      type: "string",
+      label: "List ID",
+      description: "Select a **List** or use a custom *List ID*.",
+      async options() {
+        const { id } = this.getAuthenticatedUser();
+        const lists = await this.getOwnedLists(id);
+        return lists.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    userNameOrId: {
+      type: "string",
+      label: "User Name or ID",
+      description:
+        "The Twitter username (handle) of the user, prefixed with `@` (e.g. `@pipedream`). You can also reference a User ID from a previous step.",
+    },
   },
   methods: {
-    _baseUrl(): string {
-      return "https://api.profitwell.com/v2";
+    _getBaseUrl() {
+      return "https://api.twitter.com/2";
+    },
+    _getHeaders() {
+      return {
+        "Content-Type": "application/json",
+      };
     },
     async _httpRequest({
       $ = this,
-      endpoint,
       ...args
     }: HttpRequestParams): Promise<object> {
       return axios($, {
-        url: this._baseUrl() + endpoint,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": this.$auth.api_token,
-        },
+        baseURL: this._getBaseUrl(),
+        headers: this._getHeaders(),
         ...args,
       });
     },
-    async addUserToList(opts = {}) {
-
-    }
+    async addUserToList({
+      listId, ...args
+    }: AddUserToListParams) {
+      const response = await this._httpRequest({
+        method: "POST",
+        url: `/lists/${listId}/members`,
+        ...args,
+      });
+      return response?.data?.is_member;
+    },
+    async getAuthenticatedUser() {
+      const response = await this._httpRequest({
+        url: "/users/me",
+      });
+      return response.data;
+    },
+    async getUserByUsername(username: string) {
+      const response = await this._httpRequest({
+        url: `/users/by/username/${username}`,
+      });
+      return response.data;
+    },
+    async getOwnedLists(userId: string) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/owned_lists`,
+      });
+      return response.data;
+    },
   },
 });

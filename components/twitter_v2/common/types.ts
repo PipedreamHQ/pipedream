@@ -4,16 +4,15 @@ interface PdAxiosRequest {
   $: Pipedream;
 }
 
-export interface RavenToolsRequestParams extends PdAxiosRequest {
-  params: object;
+export interface HttpRequestParams extends PdAxiosRequest {
+  url: string;
+  data?: object | string;
+  params?: object;
 }
 
-export type RavenToolsResponse =
-  | {
-      response: "success";
-    }
-  | undefined;
-
-export interface AddKeywordParams extends RavenToolsRequestParams {
-  params: { domain: string; keyword: string; };
+export interface AddUserToListParams extends PdAxiosRequest {
+  listId: string;
+  data: {
+    userId: string;
+  };
 }
