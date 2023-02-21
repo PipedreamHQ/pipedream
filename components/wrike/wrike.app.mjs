@@ -16,6 +16,18 @@ export default {
         }));
       },
     },
+    spaceId: {
+      type: "string",
+      label: "Space ID",
+      description: "The ID of the space",
+      async options() {
+        const { data: spaces } = await this.listSpaces();
+        return spaces.map((space) => ({
+          label: space.title,
+          value: space.id,
+        }));
+      },
+    },
     contactId: {
       type: "string",
       label: "Contact ID",
@@ -47,6 +59,12 @@ export default {
     async listFolders(opts = {}) {
       return this._makeRequest({
         path: "/folders",
+        ...opts,
+      });
+    },
+    async listSpaces(opts = {}) {
+      return this._makeRequest({
+        path: "/spaces",
         ...opts,
       });
     },
