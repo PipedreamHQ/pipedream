@@ -13,7 +13,10 @@ export default defineAction({
   props: {
     app,
     tweetId: {
-      propDefinition: [app, "tweetId"],
+      propDefinition: [
+        app,
+        "tweetId",
+      ],
     },
   },
   async run({ $ }): Promise<object> {

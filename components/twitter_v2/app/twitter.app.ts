@@ -65,7 +65,8 @@ export default defineApp({
       return response?.data?.is_member ?? response;
     },
     async deleteTweet(
-      tweetId: string) {
+      tweetId: string,
+    ) {
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,

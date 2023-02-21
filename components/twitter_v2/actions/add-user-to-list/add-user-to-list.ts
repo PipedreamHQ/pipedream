@@ -13,10 +13,16 @@ export default defineAction({
   props: {
     app,
     listId: {
-      propDefinition: [app, "listId"],
+      propDefinition: [
+        app,
+        "listId",
+      ],
     },
     userNameOrId: {
-      propDefinition: [app, "userNameOrId"],
+      propDefinition: [
+        app,
+        "userNameOrId",
+      ],
     },
   },
   methods: {
