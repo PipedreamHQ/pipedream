@@ -1,6 +1,5 @@
 import base from "../common/webhooks.mjs";
 import constants from "../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...base,
@@ -29,21 +28,12 @@ export default {
       optional: true,
       reloadProps: true,
     },
-  },
-  additionalProps() {
-    const props = {};
-    if (this.folderId && this.spaceId) {
-      throw new ConfigurationError("You can only specify a folder or a space, not both");
-    }
-    if (this.folderId || this.spaceId) {
-      props.recursive = {
-        type: "boolean",
-        label: "Recursive",
-        description: "Specifies whether hook should listen to events for subfolders or tasks anywhere in the hierarchy. Defaults to `false`",
-        optional: true,
-      };
-    }
-    return props;
+    recursive: {
+      type: "boolean",
+      label: "Recursive",
+      description: "Specifies whether hook should listen to events for subfolders or tasks anywhere in the hierarchy. Defaults to `false`",
+      optional: true,
+    },
   },
   hooks: {
     ...base.hooks,
