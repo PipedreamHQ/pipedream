@@ -303,9 +303,7 @@ export default {
 
       const { boards } = data;
       return boards
-        .filter((board) => {
-          return (board.type != "sub_items_board");
-        })
+        .filter(({ type }) => type !== constants.BOARD_TYPE.SUB_ITEMS_BOARD)
         .map(({
           id, name,
         }) => ({

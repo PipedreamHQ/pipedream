@@ -136,7 +136,13 @@ const COLUMN_TYPE_OPTIONS = [
   },
 ];
 
+const BOARD_TYPE = {
+  BOARD: "board",
+  SUB_ITEMS_BOARD: "sub_items_board",
+};
+
 export default {
   BOARD_KIND_OPTIONS,
   COLUMN_TYPE_OPTIONS,
+  BOARD_TYPE,
 };

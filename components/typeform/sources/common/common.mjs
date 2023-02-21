@@ -1,5 +1,5 @@
-import typeform from "../typeform.app.mjs";
-import constants from "../constants.mjs";
+import typeform from "../../typeform.app.mjs";
+import constants from "../../constants.mjs";
 
 export default {
   props: {
