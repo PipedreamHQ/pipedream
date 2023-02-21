@@ -1,3 +1,3 @@
 export default {
-  DEPLOY_LIMIT: -25,
+  DEPLOY_LIMIT: 25,
 };

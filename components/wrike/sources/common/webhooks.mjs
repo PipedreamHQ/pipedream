@@ -1,5 +1,6 @@
 import wrike from "../../wrike.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export default {
   type: "source",
@@ -47,6 +48,21 @@ export default {
     return props;
   },
   hooks: {
+    async deploy() {
+      console.log("Retrieving historical events...");
+      const fn = this.getDeployFn();
+      const { data: events } = await fn.call(this, {
+        folderId: this.folder,
+        spaceId: this.spaceId,
+        params: {
+          sortOrder: "desc",
+          limit: constants.DEPLOY_LIMIT,
+        },
+      });
+      for (const event of events.reverse()) {
+        this.emitEvent(event);
+      }
+    },
     async activate() {
       console.log("Creating webhook...");
       const response = await this.wrike.createWebhook({
@@ -81,6 +97,9 @@ export default {
     },
     eventTypes() {
       throw new Error("Missing implementation for eventTypes() method");
+    },
+    getDeployFn() {
+      throw new Error("Missing implementation for getDeployFn() method");
     },
     getResource() {
       throw new Error("Missing implementation for getResource() method");
