@@ -1421,6 +1421,12 @@
     },
     {
       "path": "components/grab_your_reviews"
+    },
+    {
+      "path": "components/platform_ly"
+    },
+    {
+      "path": "components/freedcamp"
     }
   ]
 }
