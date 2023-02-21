@@ -1,115 +1,94 @@
 import wrike from "../../wrike.app.mjs";
+import _ from "lodash";
 
 export default {
   key: "wrike-new-task",
   name: "New Task",
-  description: "Create a Wrike task under a specified folder ID. [See the docs]()",
+  description: "Create a Wrike task under a specified folder ID. [See the docs](https://developers.wrike.com/api/v4/tasks/#create-task)",
   version: "0.3.0",
   type: "action",
   props: {
     wrike,
-    folder: {
-      type: "string",
-      label: "Folder ID",
+    folderId: {
+      propDefinition: [
+        wrike,
+        "folderId",
+      ],
     },
     title: {
       type: "string",
+      label: "Title",
+      description: "The title of task",
     },
-    desc: {
+    description: {
       type: "string",
       label: "Description",
-    },
-    priority: {
-      type: "string",
+      description: "The description of task",
       optional: true,
     },
     status: {
       type: "string",
+      label: "Status",
+      description: "The status of task. Defaults to `Active`",
+      optional: true,
+      options: [
+        "Active",
+        "Completed",
+        "Deferred",
+        "Cancelled",
+      ],
+    },
+    importance: {
+      type: "string",
+      label: "Importance",
+      description: "The importance of task. Defaults to `Normal`",
+      optional: true,
+      options: [
+        "High",
+        "Normal",
+        "Low",
+      ],
+    },
+    responsibles: {
+      propDefinition: [
+        wrike,
+        "contactId",
+      ],
+      type: "string[]",
+      label: "Responsibles",
+      description: "Makes specified users responsible for the task",
       optional: true,
     },
-    assignee: {
-      type: "string",
-      label: "Contact ID",
-      optional: true,
-    },
-    custID1: {
-      type: "string",
-      label: "Custom Field ID",
-      optional: true,
-    },
-    custVal1: {
-      type: "string",
-      label: "Custom Field Value",
-      optional: true,
-    },
-    custID2: {
-      type: "string",
-      label: "Custom Field ID",
-      optional: true,
-    },
-    custVal2: {
-      type: "string",
-      label: "Custom Field Value",
-      optional: true,
-    },
-    custID3: {
-      type: "string",
-      label: "Custom Field ID",
-      optional: true,
-    },
-    custVal3: {
-      type: "string",
-      label: "Custom Field Value",
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom key / values to set on the task",
       optional: true,
     },
   },
   async run({ $ }) {
-    var info = {
-      title: this.title,
-      description: this.desc,
-    };
-    if (this.priority) {
-      info.importance = this.priority;
-    }
-    if (this.status) {
-      info.status = this.status;
-    }
-    if (this.assignee) {
-      info.responsibles = [
-        this.assignee,
-      ];
-    }
+    const data = _.pickBy(_.pick(this, [
+      "title",
+      "description",
+      "status",
+      "importance",
+      "responsibles",
+    ]));
 
-    var customFields = [];
-    if (this.custID1 && this.custVal1) {
-      customFields.push({
-        id: this.custID1,
-        value: this.custVal1,
-      });
-    }
-    if (this.custID2 && this.custVal2) {
-      customFields.push({
-        id: this.custID2,
-        value: this.custVal2,
-      });
-    }
-    if (this.custID3 && this.custVal3) {
-      customFields.push({
-        id: this.custID3,
-        value: this.custVal3,
-      });
-    }
-    if (customFields.length > 0) {
-      info.customFields = customFields;
-    }
+    data.customFields = _.map(this.customFields, (value, key) => ({
+      id: key,
+      value,
+    }));
 
-    const task = await this.wrike.createTask({
+    const response = await this.wrike.createTask({
       $,
-      folder: this.folder,
-      data: info,
+      folderId: this.folderId,
+      data,
     });
 
-    console.log(`Created new task ID "${task.data[0].id}".`);
+    const task = response.data[0];
+
+    $.export("$summary", `Successfully created new task ${task.title}`);
 
     return task;
   },
