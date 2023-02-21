@@ -1,5 +1,6 @@
 import base from "../common/webhooks.mjs";
 import constants from "../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...base,
@@ -8,26 +9,81 @@ export default {
   description: "Emit new event when a task is created",
   type: "source",
   version: "0.0.1",
+  props: {
+    ...base.props,
+    folderId: {
+      propDefinition: [
+        base.props.wrike,
+        "folderId",
+      ],
+      description: "Receive notifications for tasks in a folder and, optionally, in its subfolders. Leave blank to receive notifications for all tasks in the account",
+      optional: true,
+      reloadProps: true,
+    },
+    spaceId: {
+      propDefinition: [
+        base.props.wrike,
+        "spaceId",
+      ],
+      description: "Receive notifications for changes to tasks, folders, and projects within a space. Leave blank to receive notifications for all tasks in the account",
+      optional: true,
+      reloadProps: true,
+    },
+  },
+  additionalProps() {
+    const props = {};
+    if (this.folderId && this.spaceId) {
+      throw new ConfigurationError("You can only specify a folder or a space, not both");
+    }
+    if (this.folderId || this.spaceId) {
+      props.recursive = {
+        type: "boolean",
+        label: "Recursive",
+        description: "Specifies whether hook should listen to events for subfolders or tasks anywhere in the hierarchy. Defaults to `false`",
+        optional: true,
+      };
+    }
+    return props;
+  },
   hooks: {
     ...base.hooks,
     async deploy() {
-      console.log("Retrieving created tasks...");
-      const tasks = await this.wrike.listTasks({
-        paginate: true,
+      console.log("Retrieving historical events...");
+      const { data: tasks } = await this.wrike.listTasks({
+        folderId: this.folder,
+        spaceId: this.spaceId,
+        params: {
+          sortOrder: "desc",
+          limit: constants.DEPLOY_LIMIT,
+        },
       });
-      for (const task of tasks.slice(constants.DEPLOY_LIMIT)) {
+      for (const task of tasks.reverse()) {
         this.emitEvent(task);
       }
     },
   },
   methods: {
     ...base.methods,
-    emitEvent(data) {
-      this.$emit(data, {
-        id: data.id,
-        summary: `New task: ${data.name}`,
-        ts: data.createdDate,
+    eventTypes() {
+      return [
+        "TaskCreated",
+      ];
+    },
+    async emitEvent(task) {
+      this.$emit(task, {
+        id: task.id,
+        summary: `New task: ${task.title}`,
+        ts: task.createdDate,
       });
     },
+  },
+  async run(event) {
+    console.log("Webhook received");
+    for (const data of event.body) {
+      const response = await this.wrike.getTask({
+        taskId: data.taskId,
+      });
+      this.emitEvent(response.data[0]);
+    }
   },
 };

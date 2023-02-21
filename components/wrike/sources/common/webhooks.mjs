@@ -1,6 +1,4 @@
 import wrike from "../../wrike.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import constants from "./constants.mjs";
 
 export default {
   type: "source",
@@ -10,59 +8,8 @@ export default {
     http: {
       type: "$.interface.http",
     },
-    folderId: {
-      propDefinition: [
-        wrike,
-        "folderId",
-      ],
-      description: "Receive notifications for tasks in a folder and, optionally, in its subfolders. Leave blank to receive notifications for all tasks in the account",
-      optional: true,
-      reloadProps: true,
-    },
-    spaceId: {
-      propDefinition: [
-        wrike,
-        "spaceId",
-      ],
-      description: "Receive notifications for changes to tasks, folders, and projects within a space. Leave blank to receive notifications for all tasks in the account",
-      optional: true,
-      reloadProps: true,
-    },
-  },
-  additionalProps() {
-    const props = {};
-
-    if (this.folderId && this.spaceId) {
-      throw new ConfigurationError("You can only specify a folder or a space, not both");
-    }
-
-    if (this.folderId || this.spaceId) {
-      props.recursive = {
-        type: "boolean",
-        label: "Recursive",
-        description: "Specifies whether hook should listen to events for subfolders or tasks anywhere in the hierarchy. Defaults to `false`",
-        optional: true,
-      };
-    }
-
-    return props;
   },
   hooks: {
-    async deploy() {
-      console.log("Retrieving historical events...");
-      const fn = this.getDeployFn();
-      const { data: events } = await fn.call(this, {
-        folderId: this.folder,
-        spaceId: this.spaceId,
-        params: {
-          sortOrder: "desc",
-          limit: constants.DEPLOY_LIMIT,
-        },
-      });
-      for (const event of events.reverse()) {
-        this.emitEvent(event);
-      }
-    },
     async activate() {
       console.log("Creating webhook...");
       const response = await this.wrike.createWebhook({
@@ -98,21 +45,8 @@ export default {
     eventTypes() {
       throw new Error("Missing implementation for eventTypes() method");
     },
-    getDeployFn() {
-      throw new Error("Missing implementation for getDeployFn() method");
-    },
-    getResource() {
-      throw new Error("Missing implementation for getResource() method");
-    },
     emitEvent() {
       throw new Error("Missing implementation for emitEvent() method");
     },
-  },
-  async run(event) {
-    console.log("Webhook received");
-    for (const data of event.body) {
-      const resource = await this.getResource(data);
-      this.emitEvent(resource);
-    }
   },
 };

@@ -45,6 +45,17 @@ export default {
     _baseUrl() {
       return "https://www.wrike.com/api/v4";
     },
+    _buildPath({
+      basePath, folderId, spaceId,
+    }) {
+      if (folderId) {
+        return `/folders/${folderId}` + basePath;
+      }
+      if (spaceId) {
+        return `/spaces/${spaceId}` + basePath;
+      }
+      return basePath;
+    },
     async _makeRequest({
       $ = this, path, ...opts
     }) {
@@ -59,9 +70,11 @@ export default {
     async createWebhook({
       folderId, spaceId, ...opts
     }) {
-      let path = "/webhooks";
-      if (folderId) path = `/folders/${folderId}` + path;
-      if (spaceId) path = `/spaces/${spaceId}` + path;
+      const path = this._buildPath({
+        basePath: "/webhooks",
+        folderId,
+        spaceId,
+      });
 
       return this._makeRequest({
         path,
@@ -102,6 +115,28 @@ export default {
       return this._makeRequest({
         path: `/folders/${folderId}/tasks`,
         method: "post",
+        ...opts,
+      });
+    },
+    async getTask({
+      taskId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/tasks/${taskId}`,
+        ...opts,
+      });
+    },
+    async listTasks({
+      folderId, spaceId, ...opts
+    }) {
+      const path = this._buildPath({
+        basePath: "/tasks",
+        folderId,
+        spaceId,
+      });
+
+      return this._makeRequest({
+        path,
         ...opts,
       });
     },
