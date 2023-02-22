@@ -33,7 +33,7 @@ export default defineAction({
         : userNameOrId;
     },
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<boolean> {
     const userId = await this.getUserId();
     if (!userId) throw new Error("User not found");
 
@@ -46,7 +46,6 @@ export default defineAction({
     };
 
     const response = await this.app.addUserToList(params);
-    if (response !== true) throw new Error("Failed to add user: " + response);
 
     $.export("$summary", "Successfully added user to list");
 

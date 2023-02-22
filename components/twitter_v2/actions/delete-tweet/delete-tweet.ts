@@ -19,14 +19,13 @@ export default defineAction({
       ],
     },
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<boolean> {
     const params = {
       $,
       tweetId: this.tweetId,
     };
 
     const response = await this.app.deleteTweet(params);
-    if (response !== true) throw new Error("Failed to delete tweet: " + response);
 
     $.export("$summary", "Successfully deleted tweet");
 

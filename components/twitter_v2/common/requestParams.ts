@@ -16,3 +16,19 @@ export interface AddUserToListParams extends PdAxiosRequest {
     userId: string;
   };
 }
+
+export interface CreateTweetParams extends PdAxiosRequest {
+  data: {
+    text: string;
+    geo?: {
+      place_id: string;
+    };
+    media?: {
+      media_ids: string[];
+    };
+    reply?: {
+      exclude_reply_user_ids: string[];
+      in_reply_to_tweet_id: string;
+    };
+  };
+}

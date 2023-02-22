@@ -1,8 +1,8 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  AddUserToListParams, HttpRequestParams,
-} from "../common/types";
+  AddUserToListParams, CreateTweetParams, HttpRequestParams,
+} from "../common/requestParams";
 
 export default defineApp({
   type: "app",
@@ -62,7 +62,15 @@ export default defineApp({
         url: `/lists/${listId}/members`,
         ...args,
       });
-      return response?.data?.is_member ?? response;
+      return response.data;
+    },
+    async createTweet(args: CreateTweetParams) {
+      const response = await this._httpRequest({
+        method: "POST",
+        url: "/tweets",
+        ...args,
+      });
+      return response.data;
     },
     async deleteTweet(
       tweetId: string,
@@ -71,7 +79,7 @@ export default defineApp({
         method: "DELETE",
         url: `/tweets/${tweetId}`,
       });
-      return response?.data?.deleted ?? response;
+      return response.data;
     },
     async getAuthenticatedUser() {
       const response = await this._httpRequest({
