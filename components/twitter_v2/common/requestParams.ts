@@ -25,6 +25,7 @@ export interface CreateTweetParams extends PdAxiosRequest {
     };
     media?: {
       media_ids: string[];
+      tagged_user_ids: string[];
     };
     reply?: {
       exclude_reply_user_ids: string[];

@@ -1,12 +1,14 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
-  AddUserToListParams, CreateTweetParams, HttpRequestParams,
+  AddUserToListParams,
+  CreateTweetParams,
+  HttpRequestParams,
 } from "../common/requestParams";
 
 export default defineApp({
   type: "app",
-  app: "twitter",
+  app: "twitter_v2",
   propDefinitions: {
     listId: {
       type: "string",
@@ -15,9 +17,7 @@ export default defineApp({
       async options() {
         const { id } = this.getAuthenticatedUser();
         const lists = await this.getOwnedLists(id);
-        return lists.map(({
-          id, name,
-        }) => ({
+        return lists.map(({ id, name }) => ({
           label: name,
           value: id,
         }));
@@ -32,7 +32,7 @@ export default defineApp({
     tweetId: {
       type: "string",
       label: "Tweet ID",
-      description: "The numerical ID of the tweet (also known as \"status\")",
+      description: 'The numerical ID of the tweet (also known as "status")',
     },
   },
   methods: {
@@ -48,15 +48,14 @@ export default defineApp({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<object> {
-      return axios($, {
-        baseURL: this._getBaseUrl(),
-        headers: this._getHeaders(),
-        ...args,
-      });
+      return Object.entries(this.$auth);
+      // return axios($, {
+      //   baseURL: this._getBaseUrl(),
+      //   headers: this._getHeaders(),
+      //   ...args,
+      // });
     },
-    async addUserToList({
-      listId, ...args
-    }: AddUserToListParams) {
+    async addUserToList({ listId, ...args }: AddUserToListParams) {
       const response = await this._httpRequest({
         method: "POST",
         url: `/lists/${listId}/members`,
@@ -72,9 +71,7 @@ export default defineApp({
       });
       return response.data;
     },
-    async deleteTweet(
-      tweetId: string,
-    ) {
+    async deleteTweet(tweetId: string) {
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,

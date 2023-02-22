@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { CreateTweetParams } from "../../common/requestParams";
 
@@ -9,46 +9,61 @@ export default defineAction({
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
   key: "twitter-create-tweet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
     text: {
-      propDefinition: [
-        app,
-        "text",
-      ],
+      type: "string",
+      label: "Text",
+      description:
+        "Text of the Tweet being created. Required if `Media IDs` is not set.",
+      optional: true,
     },
     inReplyToTweetId: {
-      propDefinition: [
-        app,
-        "inReplyToTweetId",
-      ],
+      type: "string",
+      label: "In Reply To Tweet (ID)",
+      description:
+        "Tweet ID of the Tweet being replied to. Please note that this prop needs to be set if `Exclude Reply User IDs` is also set.",
+      optional: true,
     },
     excludeReplyUserIds: {
-      propDefinition: [
-        app,
-        "excludeReplyUserIds",
-      ],
+      type: "string[]",
+      label: "Exclude Reply User IDs",
+      description:
+        "A list of User IDs to be excluded from the reply Tweet thus removing a user from a thread.",
+      optional: true,
     },
     mediaIds: {
-      propDefinition: [
-        app,
-        "mediaIds",
-      ],
+      type: "string[]",
+      label: "Media IDs",
+      description:
+        "A list of Media IDs being attached to the Tweet. This is only required if `Tagged User IDs` is set.",
+      optional: true,
+    },
+    taggedUserIds: {
+      type: "string[]",
+      label: "Tagged User IDs",
+      description:
+        "A list of User IDs being tagged in the Tweet with Media. If the user you're tagging doesn't have photo-tagging enabled, their names won't show up in the list of tagged users even though the Tweet is successfully created.",
+      optional: true,
     },
     placeId: {
-      propDefinition: [
-        app,
-        "placeId",
-      ],
+      type: "string",
+      label: "Place ID",
+      description: "Place ID being attached to the Tweet for geo location.",
+      optional: true,
     },
   },
   async run({ $ }): Promise<boolean> {
     const {
-      text, inReplyToTweetId, excludeReplyUserIds, mediaIds, placeId,
-    } =
-      this;
+      text,
+      inReplyToTweetId,
+      excludeReplyUserIds,
+      mediaIds,
+      placeId,
+      taggedUserIds,
+    } = this;
 
     const params: CreateTweetParams = {
       $,
@@ -60,9 +75,10 @@ export default defineAction({
             in_reply_to_tweet_id: inReplyToTweetId,
           },
         }),
-        ...(mediaIds && {
+        ...((mediaIds || taggedUserIds) && {
           media: {
             media_ids: mediaIds,
+            tagged_user_ids: taggedUserIds,
           },
         }),
         ...(placeId && {

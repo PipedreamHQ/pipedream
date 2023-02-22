@@ -1420,6 +1420,9 @@
       "path": "components/resend"
     },
     {
+      "path": "components/twitter_v2"
+    },
+    {
       "path": "components/grab_your_reviews"
     }
   ]

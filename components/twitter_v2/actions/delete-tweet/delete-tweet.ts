@@ -1,4 +1,4 @@
-import app from "../../app/twitter.app";
+import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 
 const DOCS_LINK =
