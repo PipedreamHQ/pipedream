@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/fivetran",
+  "version": "0.0.1",
+  "description": "Pipedream Fivetran Components",
+  "main": "dist/app/fivetran.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fivetran"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/fivetran",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

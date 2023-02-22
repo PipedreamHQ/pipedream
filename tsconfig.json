@@ -1418,6 +1418,39 @@
     },
     {
       "path": "components/resend"
+    },
+    {
+      "path": "components/grab_your_reviews"
+    },
+    {
+      "path": "components/platform_ly"
+    },
+    {
+      "path": "components/freedcamp"
+    },
+    {
+      "path": "components/elastic_email"
+    },
+    {
+      "path": "components/favro"
+    },
+    {
+      "path": "components/docraptor"
+    },
+    {
+      "path": "components/oxford_dictionaries"
+    },
+    {
+      "path": "components/scalr"
+    },
+    {
+      "path": "components/cloudcart"
+    },
+    {
+      "path": "components/fivetran"
+    },
+    {
+      "path": "components/goodbits"
     }
   ]
 }
