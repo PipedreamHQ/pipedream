@@ -16,7 +16,10 @@ export default {
   description: "Emit new submission",
   props: {
     ...common.props,
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
     formId: {
       propDefinition: [
@@ -131,6 +134,10 @@ export default {
     this.$emit(data, {
       summary: JSON.stringify(data),
       id: data.token,
+    });
+
+    this.http.respond({
+      status: 200,
     });
   },
 };
