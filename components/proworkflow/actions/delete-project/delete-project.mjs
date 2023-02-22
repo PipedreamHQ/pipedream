@@ -8,6 +8,31 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    deleteProject({
+      projectId, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/projects/${projectId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const response = await this.deleteProject({
+      step,
+      projectId: this.projectId,
+    });
+
+    step.export("$summary", `${response.message} with ${response.status}.`);
+
+    return response;
+  },
 };

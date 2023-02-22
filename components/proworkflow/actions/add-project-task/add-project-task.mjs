@@ -8,6 +8,45 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    projectId: {
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
+    name: {
+      propDefinition: [
+        app,
+        "taskName",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    createProjectTask({
+      projectId, ...args
+    } = {}) {
+      return this.app.create({
+        path: `/projects/${projectId}/tasks`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      projectId,
+      name,
+    } = this;
+
+    const response = await this.createProjectTask({
+      step,
+      projectId,
+      data: {
+        name,
+      },
+    });
+
+    step.export("$summary", `${response.message} with ${response.status}.`);
+
+    return response;
+  },
 };

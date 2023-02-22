@@ -28,15 +28,67 @@ export default {
       type: "string",
       label: "Category ID",
       description: "The ID of the category.",
+      async options() {
+        const { categories } = await this.listCategories();
+        return categories.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project.",
       async options({ page }) {
-        const { categories } = await this.listCategories({
+        const { projects } = await this.listProjects({
           params: {
             pagesize: constants.DEFAULT_LIMIT,
             pagenumber: page + 1,
           },
         });
-        return categories.map(({
+        return projects.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The ID of the task.",
+      async options({ page }) {
+        const { tasks } = await this.listTasks({
+          params: {
+            pagesize: constants.DEFAULT_LIMIT,
+            pagenumber: page + 1,
+          },
+        });
+        return tasks.map(({
           id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    clientId: {
+      type: "string",
+      label: "Client ID",
+      description: "The ID of the client.",
+      async options({ page }) {
+        const { contacts } = await this.listClientContacts({
+          params: {
+            pagesize: constants.DEFAULT_LIMIT,
+            pagenumber: page + 1,
+          },
+        });
+        return contacts.map(({
+          id: value, firstname: label,
         }) => ({
           label,
           value,
@@ -65,6 +117,36 @@ export default {
       description: "The email of the contact.",
       optional: true,
     },
+    taskName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the project task.",
+    },
+    taskDescription: {
+      type: "string",
+      label: "Description",
+      description: "The description of the project task.",
+      optional: true,
+    },
+    taskPriority: {
+      type: "string",
+      label: "Priority",
+      description: "The priority of the project task.",
+      options: Object.values(constants.TASK_PRIORITIES),
+      optional: true,
+    },
+    taskStartDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date of the project task. Eg. `2021-01-01`",
+      optional: true,
+    },
+    taskDueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The due date of the project task. Eg. `2021-01-01`",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, url) {
@@ -72,6 +154,7 @@ export default {
     },
     getHeaders(headers) {
       return {
+        "Accept": "application/json",
         "Content-Type": "application/json",
         "apikey": this.$auth.api_key,
         ...headers,
@@ -86,14 +169,12 @@ export default {
     makeRequest({
       step = this, path, headers, url, ...args
     } = {}) {
-
       const config = {
         headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
         auth: this.getAuth(),
         ...args,
       };
-
       return axios(step, config);
     },
     create(args = {}) {
@@ -128,7 +209,25 @@ export default {
     },
     listCategories(args = {}) {
       return this.makeRequest({
-        path: "/categories",
+        path: "/settings/projects/categories",
+        ...args,
+      });
+    },
+    listProjects(args = {}) {
+      return this.makeRequest({
+        path: "/projects",
+        ...args,
+      });
+    },
+    listTasks(args = {}) {
+      return this.makeRequest({
+        path: "/tasks",
+        ...args,
+      });
+    },
+    listClientContacts(args = {}) {
+      return this.makeRequest({
+        path: "/contacts/client",
         ...args,
       });
     },
