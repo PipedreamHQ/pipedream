@@ -31,7 +31,7 @@ export default {
     parseArray(array) {
       return Array.isArray(array)
         ? array
-        : JSON.parse(array || []);
+        : JSON.parse(array || "[]");
     },
   },
   async run({ $ }) {
