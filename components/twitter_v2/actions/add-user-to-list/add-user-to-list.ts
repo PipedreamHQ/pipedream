@@ -5,9 +5,9 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
 
 export default defineAction({
+  key: "twitter-add-user-to-list",
   name: "Add User To List",
   description: `Add a member to a list owned by the user. [See docs here](${DOCS_LINK})`,
-  key: "twitter-add-user-to-list",
   version: "0.0.1",
   type: "action",
   props: {
