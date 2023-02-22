@@ -23,13 +23,7 @@ Once you're done, go back to your shell and you should see confirmation that you
 Logged in as dylburger (dylan@pipedream.com)
 ```
 
-::: warning
-
-If you are a member of a [workspace](/workspaces/) then you'll also need to configure the `pd` CLI with your workspace ID.
-
-[Follow this guide](/cli/reference/#creating-a-profile-for-a-workspace) to learn how to find your workspace ID and associate it with a `pd` profile.
-
-:::
+Then [follow this guide](/cli/reference/#creating-a-profile-for-a-workspace) to learn how to find your workspace ID and associate it with a `pd` profile.
 
 ## Signing up for Pipedream via the CLI
 
