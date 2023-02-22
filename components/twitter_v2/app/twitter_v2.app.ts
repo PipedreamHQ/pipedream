@@ -46,19 +46,18 @@ export default defineApp({
     },
     _getHeaders() {
       return {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`
       };
     },
     async _httpRequest({
       $ = this,
       ...args
     }: HttpRequestParams): Promise<object> {
-      return Object.entries(this.$auth);
-      // return axios($, {
-      //   baseURL: this._getBaseUrl(),
-      //   headers: this._getHeaders(),
-      //   ...args,
-      // });
+      return axios($, {
+        baseURL: this._getBaseUrl(),
+        headers: this._getHeaders(),
+        ...args,
+      });
     },
     async addUserToList({
       listId, ...args
