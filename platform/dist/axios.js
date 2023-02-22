@@ -48,6 +48,7 @@ function oauth1ParamsSerializer(p) {
 }
 // XXX warn about mutating config object... or clone?
 async function default_1(step, config, signConfig) {
+    const rawConfig = config;
     cleanObject(config.headers);
     cleanObject(config.params);
     if (typeof config.data === "object") {
@@ -96,7 +97,10 @@ async function default_1(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, config, "debug_config");
         }
-        const { data } = await axios_1.default(config);
+        const { data } = await axios_1.default({
+            ...rawConfig,
+            ...config,
+        });
         if (config.debug) {
             stepExport(step, data, "debug_response");
         }
