@@ -10,6 +10,13 @@ export default {
   version: "0.0.1",
   props: {
     ...base.props,
+    workflowId: {
+      propDefinition: [
+        base.props.processStreet,
+        "workflowId",
+      ],
+      optional: false,
+    },
     workflowRunId: {
       propDefinition: [
         base.props.processStreet,
