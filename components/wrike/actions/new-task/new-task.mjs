@@ -59,12 +59,6 @@ export default {
       description: "Makes specified users responsible for the task",
       optional: true,
     },
-    customFields: {
-      type: "object",
-      label: "Custom Fields",
-      description: "Custom key / values to set on the task",
-      optional: true,
-    },
   },
   async run({ $ }) {
     const data = _.pickBy(_.pick(this, [
@@ -74,11 +68,6 @@ export default {
       "importance",
       "responsibles",
     ]));
-
-    data.customFields = _.map(this.customFields, (value, key) => ({
-      id: key,
-      value,
-    }));
 
     const task = await this.wrike.createTask({
       $,

@@ -57,6 +57,18 @@ export default {
         }));
       },
     },
+    customFieldsKeys: {
+      type: "string[]",
+      label: "Custom Fields Keys",
+      description: "The custom field keys to set on the task",
+      async options() {
+        const customFields = await this.listCustomFields();
+        return customFields.map((customField) => ({
+          label: customField.title,
+          value: customField.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -155,12 +167,29 @@ export default {
       });
       return this._extractResources(response);
     },
+    async listCustomFields(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/customfields",
+        ...opts,
+      });
+      return this._extractResources(response);
+    },
     async createTask({
       folderId, ...opts
     }) {
       const response = await this._makeRequest({
         path: `/folders/${folderId}/tasks`,
         method: "post",
+        ...opts,
+      });
+      return this._extractFirstResource(response);
+    },
+    async updateTask({
+      taskId, ...opts
+    }) {
+      const response = await this._makeRequest({
+        path: `/tasks/${taskId}`,
+        method: "put",
         ...opts,
       });
       return this._extractFirstResource(response);
