@@ -1,6 +1,8 @@
 import shopify from "../../shopify.app.mjs";
+import common from "../common/metafield-actions.mjs";
 
 export default {
+  ...common,
   key: "shopify-update-product-variant",
   name: "Update Product Variant",
   description: "Update an existing product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[put]/admin/api/2022-01/variants/{variant_id}.json)",
@@ -52,11 +54,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const metafields = await this.createMetafieldsArray(this.metafields, this.productVariantId, "variants");
+
     const productVariant = {
       option1: this.option,
       price: this.price,
       image_id: this.imageId,
-      metafields: this.shopify.parseArrayOfJSONStrings(this.metafields),
+      metafields,
     };
     const response = (await this.shopify.updateProductVariant(
       this.productVariantId,
