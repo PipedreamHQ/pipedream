@@ -46,12 +46,12 @@ export default {
       });
     },
     async deleteWebhook({
-      webhookId, ...opts
+      id, ...opts
     }) {
       return this._makeRequest({
         ...opts,
         method: "delete",
-        path: `/webhooks/${webhookId}`,
+        path: `/webhooks/${id}`,
       });
     },
     async runWorkflow(opts) {
