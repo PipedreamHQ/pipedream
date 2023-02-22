@@ -10,6 +10,8 @@ export default {
         snippet: {
           title: this.title,
           description: this.description,
+        },
+        status: {
           privacyStatus: this.privacyStatus,
         },
       },
