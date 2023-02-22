@@ -16,6 +16,17 @@ export default {
         })) || [];
       },
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the new project",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "A description of the project's content",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -54,6 +65,20 @@ export default {
     listProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
+        ...args,
+      });
+    },
+    createProject(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/projects",
+        ...args,
+      });
+    },
+    createStory(projectId, args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/projects/${projectId}/stories`,
         ...args,
       });
     },
