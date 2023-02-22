@@ -11,7 +11,7 @@ export default {
   ...common,
   key: "typeform-new-submission",
   name: "New Submission",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   description: "Emit new submission",
   props: {
