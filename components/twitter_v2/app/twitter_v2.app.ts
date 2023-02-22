@@ -3,6 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
+  GetOwnedListsParams,
   HttpRequestParams,
 } from "../common/requestParams";
 
@@ -15,9 +16,13 @@ export default defineApp({
       label: "List ID",
       description: "Select a **List** or use a custom *List ID*.",
       async options() {
-        const { id } = this.getAuthenticatedUser();
-        const lists = await this.getOwnedLists(id);
-        return lists.map(({ id, name }) => ({
+        const { id: userId } = this.getAuthenticatedUser();
+        const lists = await this.getOwnedLists({
+          userId,
+        });
+        return lists.map(({
+          id, name,
+        }) => ({
           label: name,
           value: id,
         }));
@@ -32,7 +37,7 @@ export default defineApp({
     tweetId: {
       type: "string",
       label: "Tweet ID",
-      description: 'The numerical ID of the tweet (also known as "status")',
+      description: "The numerical ID of the tweet (also known as \"status\")",
     },
   },
   methods: {
@@ -55,7 +60,9 @@ export default defineApp({
       //   ...args,
       // });
     },
-    async addUserToList({ listId, ...args }: AddUserToListParams) {
+    async addUserToList({
+      listId, ...args
+    }: AddUserToListParams) {
       const response = await this._httpRequest({
         method: "POST",
         url: `/lists/${listId}/members`,
@@ -90,9 +97,12 @@ export default defineApp({
       });
       return response.data;
     },
-    async getOwnedLists(userId: string) {
+    async getOwnedLists({
+      userId, ...args
+    }: GetOwnedListsParams) {
       const response = await this._httpRequest({
         url: `/users/${userId}/owned_lists`,
+        ...args,
       });
       return response.data;
     },

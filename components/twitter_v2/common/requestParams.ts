@@ -17,6 +17,10 @@ export interface AddUserToListParams extends PdAxiosRequest {
   };
 }
 
+export interface GetOwnedListsParams extends PdAxiosRequest {
+  userId: string;
+}
+
 export interface CreateTweetParams extends PdAxiosRequest {
   data: {
     text: string;

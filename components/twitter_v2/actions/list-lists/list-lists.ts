@@ -3,22 +3,16 @@ import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 
 const DOCS_LINK =
-  "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
+  "https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists";
 
 export default defineAction({
-  key: "twitter-add-user-to-list",
-  name: "Add User To List",
-  description: `Add a member to a list owned by the user. [See docs here](${DOCS_LINK})`,
+  key: "twitter-list-lists",
+  name: "List Lists",
+  description: `Get all lists owned by a user. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "action",
   props: {
     app,
-    listId: {
-      propDefinition: [
-        app,
-        "listId",
-      ],
-    },
     userNameOrId: {
       propDefinition: [
         app,
@@ -35,15 +29,12 @@ export default defineAction({
 
     const params = {
       $,
-      listId: this.listId,
-      data: {
-        userId,
-      },
+      userId,
     };
 
-    const response = await this.app.addUserToList(params);
+    const response = await this.app.getOwnedLists(params);
 
-    $.export("$summary", "Successfully added user to list");
+    $.export("$summary", `Successfully obtained ${response.length ?? ''} lists`);
 
     return response;
   },
