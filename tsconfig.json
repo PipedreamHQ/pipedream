@@ -1457,6 +1457,24 @@
     },
     {
       "path": "components/form_io"
+    },
+    {
+      "path": "components/fluent_support"
+    },
+    {
+      "path": "components/mainwp"
+    },
+    {
+      "path": "components/tutor_lms"
+    },
+    {
+      "path": "components/newsletter"
+    },
+    {
+      "path": "components/dokan"
+    },
+    {
+      "path": "components/yoast_seo"
     }
   ]
 }
