@@ -6,7 +6,7 @@ const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets";
 
 export default defineAction({
-  key: "twitter-create-tweet",
+  key: "twitter_v2-create-tweet",
   name: "Create Tweet",
   description: `Create a new tweet. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",

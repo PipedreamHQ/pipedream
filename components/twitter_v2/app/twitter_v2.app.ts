@@ -46,7 +46,7 @@ export default defineApp({
     },
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
     async _httpRequest({
@@ -80,6 +80,12 @@ export default defineApp({
     async deleteTweet(tweetId: string) {
       const response = await this._httpRequest({
         method: "DELETE",
+        url: `/tweets/${tweetId}`,
+      });
+      return response.data;
+    },
+    async getTweet(tweetId: string) {
+      const response = await this._httpRequest({
         url: `/tweets/${tweetId}`,
       });
       return response.data;
