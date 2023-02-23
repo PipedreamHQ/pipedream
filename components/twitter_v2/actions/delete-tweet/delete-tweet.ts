@@ -19,7 +19,7 @@ export default defineAction({
       ],
     },
   },
-  async run({ $ }): Promise<boolean> {
+  async run({ $ }): Promise<object> {
     const params = {
       $,
       tweetId: this.tweetId,

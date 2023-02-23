@@ -9,6 +9,7 @@ import {
   HttpRequestParams,
   LikeTweetParams,
   UnfollowUserParams,
+  UnlikeTweetParams,
 } from "../common/requestParams";
 
 export default defineApp({
@@ -152,6 +153,17 @@ export default defineApp({
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/following/${userId}`,
+        ...args,
+      });
+      return response.data;
+    },
+    async unlikeTweet({
+      tweetId, ...args
+    }: UnlikeTweetParams) {
+      const { id } = await this.getAuthenticatedUser();
+      const response = await this._httpRequest({
+        method: "DELETE",
+        url: `/users/${id}/likes/${tweetId}`,
         ...args,
       });
       return response.data;

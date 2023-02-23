@@ -30,7 +30,7 @@ export default defineAction({
   methods: {
     getUserId,
   },
-  async run({ $ }): Promise<boolean> {
+  async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
     if (!userId) throw new Error("User not found");
 

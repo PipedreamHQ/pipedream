@@ -55,7 +55,7 @@ export default defineAction({
       optional: true,
     },
   },
-  async run({ $ }): Promise<boolean> {
+  async run({ $ }): Promise<object> {
     const {
       text,
       inReplyToTweetId,
