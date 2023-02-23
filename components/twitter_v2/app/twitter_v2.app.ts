@@ -5,6 +5,7 @@ import {
   CreateTweetParams,
   FollowUserParams,
   GetOwnedListsParams,
+  GetUserParams,
   HttpRequestParams,
 } from "../common/requestParams";
 
@@ -106,17 +107,26 @@ export default defineApp({
       });
       return response.data;
     },
+    async getOwnedLists({
+      userId, ...args
+    }: GetOwnedListsParams) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/owned_lists`,
+        ...args,
+      });
+      return response.data;
+    },
     async getUserByUsername(username: string) {
       const response = await this._httpRequest({
         url: `/users/by/username/${username}`,
       });
       return response.data;
     },
-    async getOwnedLists({
+    async getUser({
       userId, ...args
-    }: GetOwnedListsParams) {
+    }: GetUserParams) {
       const response = await this._httpRequest({
-        url: `/users/${userId}/owned_lists`,
+        url: `/users/${userId}`,
         ...args,
       });
       return response.data;
