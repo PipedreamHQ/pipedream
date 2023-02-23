@@ -622,6 +622,9 @@ importers:
     dependencies:
       axios: 0.27.2
 
+  components/cloudcart:
+    specifiers: {}
+
   components/cloudfill:
     specifiers: {}
 
@@ -899,6 +902,9 @@ importers:
   components/dispatch:
     specifiers: {}
 
+  components/docraptor:
+    specifiers: {}
+
   components/docupilot:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -970,6 +976,9 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/edapp:
+    specifiers: {}
+
+  components/elastic_email:
     specifiers: {}
 
   components/elmah_io:
@@ -1094,6 +1103,9 @@ importers:
       faunadb: 4.6.0
       lodash: 4.17.21
 
+  components/favro:
+    specifiers: {}
+
   components/fedex:
     specifiers: {}
 
@@ -1130,6 +1142,9 @@ importers:
       google-auth-library: 7.14.1
 
   components/firmalyzer_iotvas:
+    specifiers: {}
+
+  components/fivetran:
     specifiers: {}
 
   components/float:
@@ -1353,6 +1368,9 @@ importers:
     specifiers: {}
 
   components/godial:
+    specifiers: {}
+
+  components/goodbits:
     specifiers: {}
 
   components/google_ads:
@@ -2391,6 +2409,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
 
+  components/oxford_dictionaries:
+    specifiers: {}
+
   components/pagerduty:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2536,6 +2557,12 @@ importers:
 
   components/pirate_weather:
     specifiers: {}
+
+  components/pivotal_tracker:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/planning_center:
     specifiers: {}
@@ -2984,6 +3011,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/scalr:
     specifiers: {}
 
   components/schedule_it:
