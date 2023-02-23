@@ -3,7 +3,20 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "fibery",
-  propDefinitions: {},
+  propDefinitions: {
+    entity: {
+      type: "string",
+      label: "Entity",
+      description: "A custom entity in your Fibery account",
+      async options() {
+        const entities = await this.listEntities();
+        return entities.map((entity) => ({
+          label: entity["fibery/name"],
+          value: entity["fibery/id"],
+        }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return `https://${this.$auth.account_name}.fibery.io/api`;
@@ -25,6 +38,13 @@ export default {
         },
         data,
       });
+    },
+    getEntityName(entity) {
+      return entity["fibery/name"];
+    },
+    isCustomEntity(entity) {
+      const firstLetterIsUpperCase = (string) => string[0] === string[0].toUpperCase();
+      return firstLetterIsUpperCase(this.getEntityName(entity));
     },
     async makeCommand({
       command, args = {}, ...opts
@@ -55,6 +75,16 @@ export default {
         data,
       });
       return response;
+    },
+    async listEntities(opts = {}) {
+      const [
+        response,
+      ] = await this.makeCommand({
+        command: "fibery.schema/query",
+        ...opts,
+      });
+
+      return response["result"]["fibery/types"].filter(this.isCustomEntity);
     },
   },
 };
