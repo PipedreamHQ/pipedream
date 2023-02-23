@@ -13,12 +13,8 @@ export interface HttpRequestParams extends PdAxiosRequest {
 export interface AddUserToListParams extends PdAxiosRequest {
   listId: string;
   data: {
-    userId: string;
+    user_id: string;
   };
-}
-
-export interface GetOwnedListsParams extends PdAxiosRequest {
-  userId: string;
 }
 
 export interface CreateTweetParams extends PdAxiosRequest {
@@ -36,4 +32,14 @@ export interface CreateTweetParams extends PdAxiosRequest {
       in_reply_to_tweet_id: string;
     };
   };
+}
+
+export interface FollowUserParams extends PdAxiosRequest {
+  data: {
+    target_user_id: string;
+  };
+}
+
+export interface GetOwnedListsParams extends PdAxiosRequest {
+  userId: string;
 }

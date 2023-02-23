@@ -3,6 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
+  FollowUserParams,
   GetOwnedListsParams,
   HttpRequestParams,
 } from "../common/requestParams";
@@ -81,6 +82,15 @@ export default defineApp({
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,
+      });
+      return response.data;
+    },
+    async followUser(args: FollowUserParams) {
+      const { id } = await this.getAuthenticatedUser();
+      const response = await this._httpRequest({
+        method: "POST",
+        url: `/users/${id}/following`,
+        ...args,
       });
       return response.data;
     },
