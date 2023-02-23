@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopify",
-  "version": "0.3.16",
+  "version": "0.3.17",
   "description": "Pipedream Shopify Components",
   "main": "shopify.app.mjs",
   "keywords": [
