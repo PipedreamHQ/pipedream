@@ -41,12 +41,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "Datetime. Start time of the event.",
+      description: "Datetime [in ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). Start time of the event. For example `2023-02-22T23:31:23+00:00`",
     },
     endTime: {
       type: "string",
       label: "End time",
-      description: "Datetime. End time of the event.",
+      description: "Datetime [in ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). End time of the event. For example `2023-02-22T23:31:23+00:00`",
     },
     quantity: {
       type: "integer",
