@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "../common/metafield-actions.mjs";
 
 export default {
+  ...common,
   key: "shopify-update-product-variant",
   name: "Update Product Variant",
   description: "Update an existing product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[put]/admin/api/2022-01/variants/{variant_id}.json)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     shopify,
@@ -44,14 +46,23 @@ export default {
         (c) => c,
       ],
     },
+    metafields: {
+      type: "string[]",
+      label: "Metafields",
+      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    let productVariant = {
+    const metafields = await this.createMetafieldsArray(this.metafields, this.productVariantId, "variants");
+
+    const productVariant = {
       option1: this.option,
       price: this.price,
       image_id: this.imageId,
+      metafields,
     };
-    let response = (await this.shopify.updateProductVariant(
+    const response = (await this.shopify.updateProductVariant(
       this.productVariantId,
       productVariant,
     )).result;

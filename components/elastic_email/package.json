@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/elastic_email",
+  "version": "0.0.1",
+  "description": "Pipedream Elastic Email Components",
+  "main": "dist/app/elastic_email.app.mjs",
+  "keywords": [
+    "pipedream",
+    "elastic_email"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/elastic_email",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
