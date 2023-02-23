@@ -47,3 +47,9 @@ export interface GetOwnedListsParams extends PdAxiosRequest {
 export interface GetUserParams extends PdAxiosRequest {
   userId: string;
 }
+
+export interface LikeTweetParams extends PdAxiosRequest {
+  data: {
+    tweet_id: string;
+  };
+}

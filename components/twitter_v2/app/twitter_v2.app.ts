@@ -7,6 +7,7 @@ import {
   GetOwnedListsParams,
   GetUserParams,
   HttpRequestParams,
+  LikeTweetParams,
 } from "../common/requestParams";
 
 export default defineApp({
@@ -95,9 +96,12 @@ export default defineApp({
       });
       return response.data;
     },
-    async getTweet(tweetId: string) {
+    async getTweet({
+      tweetId, ...args
+    }) {
       const response = await this._httpRequest({
         url: `/tweets/${tweetId}`,
+        ...args,
       });
       return response.data;
     },
@@ -127,6 +131,15 @@ export default defineApp({
     }: GetUserParams) {
       const response = await this._httpRequest({
         url: `/users/${userId}`,
+        ...args,
+      });
+      return response.data;
+    },
+    async likeTweet(args: LikeTweetParams) {
+      const { id } = await this.getAuthenticatedUser();
+      const response = await this._httpRequest({
+        method: "POST",
+        url: `/users/${id}/likes`,
         ...args,
       });
       return response.data;
