@@ -57,6 +57,11 @@ export interface LikeTweetParams extends PdAxiosRequest {
     tweet_id: string;
   };
 }
+export interface RetweetParams extends PdAxiosRequest {
+  data: {
+    tweet_id: string;
+  };
+}
 
 export interface UnlikeTweetParams extends PdAxiosRequest {
   tweetId: string;

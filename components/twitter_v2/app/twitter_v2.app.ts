@@ -8,6 +8,7 @@ import {
   GetUserParams,
   HttpRequestParams,
   LikeTweetParams,
+  RetweetParams,
   UnfollowUserParams,
   UnlikeTweetParams,
 } from "../common/requestParams";
@@ -142,6 +143,15 @@ export default defineApp({
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/likes`,
+        ...args,
+      });
+      return response.data;
+    },
+    async retweet(args: RetweetParams) {
+      const { id } = await this.getAuthenticatedUser();
+      const response = await this._httpRequest({
+        method: "POST",
+        url: `/users/${id}/retweets`,
         ...args,
       });
       return response.data;
