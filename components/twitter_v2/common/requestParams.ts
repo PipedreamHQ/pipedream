@@ -48,6 +48,10 @@ export interface GetUserParams extends PdAxiosRequest {
   userId: string;
 }
 
+export interface ListFollowersParams extends PdAxiosRequest {
+  userId: string;
+}
+
 export interface UnfollowUserParams extends PdAxiosRequest {
   userId: string;
 }

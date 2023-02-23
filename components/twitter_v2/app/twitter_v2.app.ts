@@ -8,6 +8,7 @@ import {
   GetUserParams,
   HttpRequestParams,
   LikeTweetParams,
+  ListFollowersParams,
   RetweetParams,
   UnfollowUserParams,
   UnlikeTweetParams,
@@ -143,6 +144,15 @@ export default defineApp({
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/likes`,
+        ...args,
+      });
+      return response.data;
+    },
+    async listFollowers({
+      userId, ...args
+    }: ListFollowersParams) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/followers`,
         ...args,
       });
       return response.data;
