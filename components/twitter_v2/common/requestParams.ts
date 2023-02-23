@@ -48,6 +48,10 @@ export interface GetUserParams extends PdAxiosRequest {
   userId: string;
 }
 
+export interface UnfollowUserParams extends PdAxiosRequest {
+  userId: string;
+}
+
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {
     tweet_id: string;
