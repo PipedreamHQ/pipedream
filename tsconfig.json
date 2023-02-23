@@ -1454,6 +1454,9 @@
     },
     {
       "path": "components/successeve"
+    },
+    {
+      "path": "components/form_io"
     }
   ]
 }
