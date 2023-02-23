@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Pipedream Notion Components",
   "main": "notion.app.mjs",
   "keywords": [
@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/notion",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@notionhq/client": "^1.0.4",
+    "@notionhq/client": "^2.2.3",
+    "@tryfabric/martian": "^1.2.4",
     "asynckit": "^0.4.0",
     "combined-stream": "^1.0.8",
     "delayed-stream": "^1.0.0",
