@@ -31,25 +31,10 @@ export default {
       },
     };
 
-    const people = [];
-    let page = 1;
-    while (true) {
-      const params = {
-        page,
-      };
-      const {
-        entries, pagination,
-      } = await this.pipeline.listPeople({
-        data,
-        params,
-        $,
-      });
-      people.push(...entries);
-      page++;
-      if (page > pagination.pages) {
-        break;
-      }
-    }
+    const { results: people } = await this.pipeline.paginate(this.pipeline.listPeople, {
+      data,
+      $,
+    });
 
     $.export("$summary", `Found ${people.length} matching ${people.length === 1
       ? "person"

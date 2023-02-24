@@ -39,25 +39,10 @@ export default {
       },
     };
 
-    const companies = [];
-    let page = 1;
-    while (true) {
-      const params = {
-        page,
-      };
-      const {
-        entries, pagination,
-      } = await this.pipeline.listCompanies({
-        data,
-        params,
-        $,
-      });
-      companies.push(...entries);
-      page++;
-      if (page > pagination.pages) {
-        break;
-      }
-    }
+    const { results: companies } = await this.pipeline.paginate(this.pipeline.listCompanies, {
+      data,
+      $,
+    });
 
     $.export("$summary", `Found ${companies.length} matching compan${companies.length === 1
       ? "y"

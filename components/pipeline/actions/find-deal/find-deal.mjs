@@ -38,25 +38,10 @@ export default {
       },
     };
 
-    const deals = [];
-    let page = 1;
-    while (true) {
-      const params = {
-        page,
-      };
-      const {
-        entries, pagination,
-      } = await this.pipeline.listDeals({
-        data,
-        params,
-        $,
-      });
-      deals.push(...entries);
-      page++;
-      if (page > pagination.pages) {
-        break;
-      }
-    }
+    const { results: deals } = await this.pipeline.paginate(this.pipeline.listDeals, {
+      data,
+      $,
+    });
 
     $.export("$summary", `Found ${deals.length} matching deal${deals.length === 1
       ? ""

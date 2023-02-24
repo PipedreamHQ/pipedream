@@ -11,15 +11,7 @@ export default {
       description: "The identifier of a company",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listCompanies( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listCompanies, page, "name", "id");
       },
     },
     dealId: {
@@ -28,15 +20,7 @@ export default {
       description: "The identifier of a deal",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listDeals( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listDeals, page, "name", "id");
       },
     },
     userId: {
@@ -45,15 +29,7 @@ export default {
       description: "The identifier of a user",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listUsers( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.full_name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listUsers, page, "full_name", "id");
       },
     },
     personId: {
@@ -62,15 +38,7 @@ export default {
       description: "The identifier of a person",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listPeople( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.full_name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listPeople, page, "full_name", "id");
       },
     },
     dealStageId: {
@@ -79,15 +47,7 @@ export default {
       description: "The identifier of a deal stage",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listDealStages( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listDealStages, page, "name", "id");
       },
     },
     noteCategoryId: {
@@ -96,15 +56,7 @@ export default {
       description: "The identifier of a note category",
       optional: true,
       async options({ page }) {
-        const { entries } = await this.listNoteCategories( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listNoteCategories, page, "name", "id");
       },
     },
     eventCategoryId: {
@@ -112,15 +64,7 @@ export default {
       label: "Event Category ID",
       description: "The identifier of an event category",
       async options({ page }) {
-        const { entries } = await this.listEventCategories( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listEventCategories, page, "name", "id");
       },
     },
     dealStatusId: {
@@ -128,15 +72,7 @@ export default {
       label: "Deal Status ID",
       description: "The identifier of a deal status",
       async options({ page }) {
-        const { entries } = await this.listDealStatuses( {
-          params: {
-            page: page + 1,
-          },
-        });
-        return entries?.map((entry) => ({
-          label: entry.name,
-          value: entry.id,
-        })) || [];
+        return this.getPropOptions(this.listDealStatuses, page, "name", "id");
       },
     },
     name: {
@@ -252,6 +188,41 @@ export default {
         ...args,
       };
       return axios($, config);
+    },
+    async getPropOptions(resourceFn, page, labelKey, valueKey) {
+      const { entries } = await resourceFn({
+        params: {
+          page: page + 1,
+        },
+      });
+      return entries?.map((entry) => ({
+        label: entry[labelKey],
+        value: entry[valueKey],
+      })) || [];
+    },
+    async paginate(resourceFn, args = {}, page = 1) {
+      const results = [];
+      while (true) {
+        const params = {
+          ...args.params,
+          page,
+        };
+        const {
+          entries, pagination,
+        } = await resourceFn({
+          ...args,
+          params,
+        });
+        results.push(...entries);
+        page++;
+        if (page > pagination.pages) {
+          break;
+        }
+      }
+      return {
+        results,
+        page: page - 1,
+      };
     },
     listCompanies(args = {}) {
       return this._makeRequest({
