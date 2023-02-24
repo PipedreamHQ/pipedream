@@ -1,4 +1,5 @@
 import common from "../common/webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
   ...common,
@@ -10,5 +11,15 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getEventName() {
+      return events.PROJECT.INSERT;
+    },
+    generateMeta(resource) {
+      return {
+        id: resource.id,
+        summary: `New Project: ${resource.name}`,
+        ts: Date.parse(resource.created_on),
+      };
+    },
   },
 };

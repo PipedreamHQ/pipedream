@@ -8,6 +8,51 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the project.",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the project.",
+      optional: true,
+    },
+    clientId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "clientId",
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    createProject(args = {}) {
+      return this.app.create({
+        path: "/projects",
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const {
+      name,
+      description,
+      clientId,
+    } = this;
+
+    const response = await this.createProject({
+      step,
+      data: {
+        name,
+        description,
+        client_id: clientId,
+      },
+    });
+
+    step.export("$summary", `Successfully created project with ID ${response.projects[0].id}`);
+
+    return response;
+  },
 };

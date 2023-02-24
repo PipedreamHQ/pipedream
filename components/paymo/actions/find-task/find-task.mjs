@@ -8,6 +8,42 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the task.",
+    },
+    projectId: {
+      optional: true,
+      propDefinition: [
+        app,
+        "projectId",
+      ],
+    },
   },
-  async run() {},
+  async run({ $: step }) {
+    const {
+      name,
+      projectId,
+    } = this;
+
+    const response = await this.app.listTasks({
+      path: "/tasks",
+      step,
+      params: {
+        ["where=project_id"]: projectId,
+      },
+    });
+
+    const tasksFound = response.tasks
+      .filter(({ name: taskName }) => taskName.toLowerCase().includes(name.toLowerCase()));
+
+    if (tasksFound.length) {
+      step.export("$summary", `Successfully found ${tasksFound.length} task(s) with name \`${name}\``);
+    } else {
+      step.export("$summary", `No tasks found with name \`${name}\``);
+    }
+
+    return tasksFound;
+  },
 };
