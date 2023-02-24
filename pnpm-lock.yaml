@@ -2458,9 +2458,13 @@ importers:
 
   components/paymo:
     specifiers:
-      '@pipedream/platform': ^1.2.1
+      '@pipedream/platform': ^1.3.0
+      crypto: ^1.0.1
+      uuid: ^9.0.0
     dependencies:
       '@pipedream/platform': 1.3.0
+      crypto: 1.0.1
+      uuid: 9.0.0
 
   components/paypro:
     specifiers: {}
