@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/paymo",
+  "version": "0.0.1",
+  "description": "Pipedream Paymo Components",
+  "main": "paymo.app.mjs",
+  "keywords": [
+		"pipedream",
+		"paymo"
+  ],
+  "homepage": "https://pipedream.com/apps/paymo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
