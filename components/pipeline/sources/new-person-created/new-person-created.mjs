@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Person Created",
-  key: "pipeline-new-pereson-created",
+  key: "pipeline-new-person-created",
   description: "Emit new event when a new person is created in your Pipeline account.",
   version: "0.0.1",
   type: "source",
