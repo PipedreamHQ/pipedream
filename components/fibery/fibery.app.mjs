@@ -12,16 +12,16 @@ export default {
         return this.listSpaces();
       },
     },
-    entity: {
+    entityType: {
       type: "string",
-      label: "Entity",
+      label: "Entity Type",
       description: "A custom entity in your Fibery account",
       async options({ space }) {
-        const entities = await this.listEntities({
+        const entities = await this.listEntityTypes({
           space,
         });
         return entities.map((entity) => ({
-          label: entity["fibery/name"],
+          label: this._getEntityName(entity),
           value: entity["fibery/id"],
         }));
       },
@@ -100,6 +100,19 @@ export default {
       });
       return response;
     },
+    async createWebhook(opts) {
+      const response = await this._makeRequest({
+        path: "/webhooks/v2",
+        ...opts,
+      });
+      return response;
+    },
+    async deleteWebhook({ webhookId }) {
+      await this._makeRequest({
+        path: `/webhooks/v2/${webhookId}`,
+        method: "delete",
+      });
+    },
     async listSpaces(opts = {}) {
       const response = await this._makeRequest({
         ...opts,
@@ -110,7 +123,7 @@ export default {
       // there is no endpoint for listing spaces
       return this._extractSpacesFromResponse(response);
     },
-    async listEntities({
+    async listEntityTypes({
       space, ...opts
     } = {}) {
       const [
