@@ -8,9 +8,18 @@ export default {
   type: "action",
   props: {
     fibery,
+    space: {
+      propDefinition: [
+        fibery,
+        "space",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.fibery.listEntities();
+    const response = await this.fibery.listEntities({
+      space: this.space,
+    });
     const suffix = response.length === 1
       ? "y"
       : "ies";
