@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/eventbrite",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Eventbrite Components",
   "main": "eventbrite.app.js",
   "keywords": [

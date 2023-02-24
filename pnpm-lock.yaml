@@ -2728,6 +2728,12 @@ importers:
   components/propeller:
     specifiers: {}
 
+  components/proworkflow:
+    specifiers:
+      '@pipedream/platform': ^1.2.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/pushshift_reddit_search:
     specifiers:
       '@pipedream/platform': ^1.2.0
