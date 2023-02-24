@@ -5,7 +5,7 @@ export default {
   name: "Send any HTTP Request",
   description: "Send an HTTP request using any method and URL. Optionally configure query string parameters, headers, and basic auth.",
   type: "action",
-  version: "1.1.0",
+  version: "1.1.1",
   props: {
     http,
     httpRequest: {
@@ -14,13 +14,20 @@ export default {
         "httpRequest",
       ],
     },
+    includeHeaders: {
+      type: "boolean",
+      label: "Include Response Headers",
+      description: "Optionally export the full response headers",
+      optional: true,
+    },
   },
-  async run() {
+  async run({ $ }) {
     const response = await this.httpRequest.execute();
 
-    return {
-      headers: response.headers,
-      data: response,
-    };
+    if (this.includeHeaders) {
+      $.export("headers", response.headers);
+    }
+
+    return response;
   },
 };
