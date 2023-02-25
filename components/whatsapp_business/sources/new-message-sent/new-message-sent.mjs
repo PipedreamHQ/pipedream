@@ -4,7 +4,7 @@ export default {
   key: "whatsapp_business-new-message-sent",
   name: "New Message Sent",
   description: "Emit new event when a new message is sent or received. A Webhook subscribed to field \"messages\" must be set up from the App Dashboard of your [Facebook Developer Account](https://developers.facebook.com/). See [documentation](https://developers.facebook.com/docs/graph-api/webhooks/getting-started#configure-webhooks-product) for more information about Webhook setup.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -44,12 +44,15 @@ export default {
       return;
     }
 
-    for (const entry of body.entry) {
-      const status = entry?.changes[0]?.value?.statuses
-        ? entry?.changes[0]?.value?.statuses[0]?.status
-        : null;
-      if (status && status !== "sent") {
-        continue;
+    const entries = body?.entry || [];
+    for (const entry of entries) {
+      if (entry.changes && entry.changes?.length > 0) {
+        const status = entry?.changes[0]?.value?.statuses
+          ? entry?.changes[0]?.value?.statuses[0]?.status
+          : null;
+        if (status && status !== "sent") {
+          continue;
+        }
       }
       this.$emit(entry, {
         id: Date.now(),

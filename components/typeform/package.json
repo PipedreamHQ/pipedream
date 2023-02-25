@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/typeform",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "description": "Pipedream Typeform Components",
   "main": "typeform.app.mjs",
   "keywords": [

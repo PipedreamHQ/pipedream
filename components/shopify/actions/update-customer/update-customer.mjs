@@ -1,10 +1,12 @@
 import shopify from "../../shopify.app.mjs";
+import common from "../common/metafield-actions.mjs";
 
 export default {
+  ...common,
   key: "shopify-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[put]/admin/api/2022-01/customers/{customer_id}.json)",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "action",
   props: {
     shopify,
@@ -75,9 +77,17 @@ export default {
         "zip",
       ],
     },
+    metafields: {
+      type: "string[]",
+      label: "Metafields",
+      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    let customer = {
+    const metafields = await this.createMetafieldsArray(this.metafields, this.customerId, "customer");
+
+    const customer = {
       first_name: this.firstName,
       last_name: this.lastName,
       email: this.email,
@@ -92,9 +102,10 @@ export default {
           zip: this.zip,
         },
       ],
+      metafields,
     };
-    let response = (await this.shopify.updateCustomer(this.customerId, customer)).result;
-    $.export("$summary", `Updated customer \`${response.email}\` with id \`${response.id}\``);
+    const response = (await this.shopify.updateCustomer(this.customerId, customer)).result;
+    $.export("$summary", `Updated customer \`${response.email || response.first_name}\` with id \`${response.id}\``);
     return response;
   },
 };
