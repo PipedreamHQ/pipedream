@@ -1475,6 +1475,9 @@
     },
     {
       "path": "components/yoast_seo"
+    },
+    {
+      "path": "components/woopra"
     }
   ]
 }
