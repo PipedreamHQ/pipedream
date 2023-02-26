@@ -1484,6 +1484,9 @@
     },
     {
       "path": "components/chatsonic"
+    },
+    {
+      "path": "components/simplekpi"
     }
   ]
 }
