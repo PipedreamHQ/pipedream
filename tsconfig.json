@@ -1478,6 +1478,12 @@
     },
     {
       "path": "components/woopra"
+    },
+    {
+      "path": "components/lifterlms"
+    },
+    {
+      "path": "components/chatsonic"
     }
   ]
 }
