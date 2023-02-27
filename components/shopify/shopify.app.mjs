@@ -674,6 +674,10 @@ export default {
       this.getSinceParams(sinceId, useCreatedAt, null, params);
       return this.getObjects("product", params);
     },
+    async getCollects(sinceId) {
+      const params = this.getSinceParams(sinceId, true);
+      return this.getObjects("collect", params);
+    },
     async getProduct(productId, params) {
       return this.resourceAction("product", "get", params, productId);
     },
