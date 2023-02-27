@@ -65,7 +65,7 @@ During this transitionary period, you'll still be billed in terms of invocations
 
 Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
 
-Most workflow executions use a single credit, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
+**Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
 
 Credits are not charged for workflows during development or testing.
 
