@@ -1,12 +1,6 @@
 import fibery from "../../fibery.app.mjs";
 
 export default {
-  key: "fibery-entity-created-or-updated",
-  name: "Entity Created or Updated",
-  description: "Emit new event for every created or updated entity of a certain type",
-  type: "source",
-  dedupe: "unique",
-  version: "0.0.1",
   props: {
     fibery,
     db: "$.service.db",
@@ -43,13 +37,5 @@ export default {
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
     },
-  },
-  async run(event) {
-    console.log("Received new event");
-    this.$emit(event.body, {
-      id: event.body.sequenceId,
-      summary: `Received ${event.body.effects.length} sequence(s) for event`,
-      ts: event.body.creationDate,
-    });
   },
 };
