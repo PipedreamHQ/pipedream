@@ -3,7 +3,7 @@ import fibery from "../../fibery.app.mjs";
 export default {
   key: "fibery-entity-created-or-updated",
   name: "Entity Created or Updated",
-  description: "Emit new event for every created or updated entity",
+  description: "Emit new event for every created or updated entity of a certain type",
   type: "source",
   dedupe: "unique",
   version: "0.0.1",
@@ -11,10 +11,10 @@ export default {
     fibery,
     db: "$.service.db",
     http: "$.interface.http",
-    entityType: {
+    type: {
       propDefinition: [
         fibery,
-        "entityType",
+        "type",
       ],
     },
   },
@@ -24,7 +24,7 @@ export default {
       const response = await this.fibery.createWebhook({
         data: {
           url: this.http.endpoint,
-          type: this.entityType,
+          type: this.type,
         },
       });
       this._setWebhookId(response.id);

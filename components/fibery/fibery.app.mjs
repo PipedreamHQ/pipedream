@@ -12,17 +12,17 @@ export default {
         return this.listSpaces();
       },
     },
-    entityType: {
+    type: {
       type: "string",
-      label: "Entity Type",
-      description: "A custom entity in your Fibery account",
+      label: "Type",
+      description: "A custom type in your Fibery account",
       async options({ space }) {
-        const entities = await this.listEntityTypes({
+        const types = await this.listTypes({
           space,
         });
-        return entities.map((entity) => ({
-          label: this._getEntityName(entity),
-          value: entity["fibery/id"],
+        return types.map((t) => ({
+          label: this._getTypeName(t),
+          value: t["fibery/id"],
         }));
       },
     },
@@ -55,18 +55,18 @@ export default {
         .map((r) => r.split("/space/")[1])
         .map((r) => r.split("'>")[0]);
     },
-    _entityIsInSpace(entity, space) {
+    _isTypeInSpace(type, space) {
       if (!space) {
         return true;
       }
-      return this._getEntityName(entity).startsWith(`${space}/`);
+      return this._getTypeName(type).startsWith(`${space}/`);
     },
-    _isCustomEntity(entity) {
+    _isCustomType(type) {
       const firstLetterIsUpperCase = (string) => string[0] === string[0].toUpperCase();
-      return firstLetterIsUpperCase(this._getEntityName(entity));
+      return firstLetterIsUpperCase(this._getTypeName(type));
     },
-    _getEntityName(entity) {
-      return entity["fibery/name"];
+    _getTypeName(type) {
+      return type["fibery/name"];
     },
     async makeCommand({
       command, args = {}, ...opts
@@ -123,7 +123,7 @@ export default {
       // there is no endpoint for listing spaces
       return this._extractSpacesFromResponse(response);
     },
-    async listEntityTypes({
+    async listTypes({
       space, ...opts
     } = {}) {
       const [
@@ -134,8 +134,8 @@ export default {
       });
 
       return response["result"]["fibery/types"]
-        .filter((entity) => this._isCustomEntity(entity))
-        .filter((entity) => this._entityIsInSpace(entity, space));
+        .filter((type) => this._isCustomType(type))
+        .filter((type) => this._isTypeInSpace(type, space));
     },
   },
 };
