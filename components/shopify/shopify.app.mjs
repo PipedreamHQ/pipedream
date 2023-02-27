@@ -320,6 +320,12 @@ export default {
         return this.getDraftOrderOptions();
       },
     },
+    metafields: {
+      type: "string[]",
+      label: "Metafields",
+      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
+      optional: true,
+    },
   },
   methods: {
     getShopId() {
@@ -677,6 +683,12 @@ export default {
     async getCollects(sinceId) {
       const params = this.getSinceParams(sinceId, true);
       return this.getObjects("collect", params);
+    },
+    async createCollect(params) {
+      return this.resourceAction("collect", "create", params);
+    },
+    async createCustomCollection(params) {
+      return this.resourceAction("customCollection", "create", params);
     },
     async getProduct(productId, params) {
       return this.resourceAction("product", "get", params, productId);
