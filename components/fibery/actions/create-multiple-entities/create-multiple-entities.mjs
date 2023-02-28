@@ -38,10 +38,7 @@ export default {
       space: this.space,
       query,
     });
-    const suffix = attributesList.length === 1
-      ? "y"
-      : "ies";
-    $.export("$summary", `Succesfully created entit${suffix}`);
+    $.export("$summary", `Succesfully created ${this.fibery.singularOrPluralEntities(attributesList)}`);
     return response;
   },
 };

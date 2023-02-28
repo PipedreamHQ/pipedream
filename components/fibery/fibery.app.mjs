@@ -117,6 +117,11 @@ export default {
     _getTypeName(type) {
       return type["fibery/name"];
     },
+    singularOrPluralEntity(array) {
+      return array.length === 1
+        ? "entity"
+        : "entities";
+    },
     async makeGraphQLRequest({
       $, space, query, ...opts
     }) {

@@ -87,11 +87,7 @@ export default {
       space: this.space,
       query: updateMutation(this.entityType, this.attributes, ids),
     });
-
-    const suffix = ids.length === 1
-      ? "y"
-      : "ies";
-    $.export("$summary", `Succesfully updated entit${suffix}`);
+    $.export("$summary", `Succesfully updated ${this.fibery.singularOrPluralEntity(ids)}`);
     return response;
   },
 };

@@ -30,10 +30,7 @@ export default {
       space: this.space,
       entityType: this.entityType,
     });
-    const suffix = response.length === 1
-      ? ""
-      : "s";
-    $.export("$summary", `Successfully listed ${response.length} field${suffix} for ${this.entityType}`);
+    $.export("$summary", `Successfully listed ${response.length} field(s) for ${this.entityType}`);
     return response;
   },
 };

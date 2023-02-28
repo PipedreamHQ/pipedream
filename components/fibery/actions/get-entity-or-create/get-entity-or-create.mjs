@@ -60,10 +60,7 @@ export default {
     const searchResults = data[this.listingType];
 
     if (searchResults.length) {
-      const suffix = searchResults.length === 1
-        ? "y"
-        : "ies";
-      $.export("$summary", `Found ${searchResults.length} existing entit${suffix}`);
+      $.export("$summary", `Found ${searchResults.length} existing ${this.fibery.singularOrPluralEntities(searchResults)}`);
       return searchResults;
     }
 

@@ -20,10 +20,7 @@ export default {
     const response = await this.fibery.listTypes({
       space: this.space,
     });
-    const suffix = response.length === 1
-      ? ""
-      : "s";
-    $.export("$summary", `Successfully listed ${response.length} type${suffix}`);
+    $.export("$summary", `Successfully listed ${response.length} type(s)`);
     return response;
   },
 };

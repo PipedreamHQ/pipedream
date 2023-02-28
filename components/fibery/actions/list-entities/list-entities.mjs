@@ -45,10 +45,7 @@ export default {
       filter: this.filter,
       fields: this.fields,
     });
-    const suffix = response.length === 1
-      ? "y"
-      : "ies";
-    $.export("$summary", `Successfully listed ${response.length} entit${suffix}`);
+    $.export("$summary", `Successfully listed ${response.length} ${this.fibery.singularOrPluralEntities(response)}`);
     return response;
   },
 };
