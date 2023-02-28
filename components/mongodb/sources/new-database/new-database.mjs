@@ -5,7 +5,7 @@ export default {
   key: "mongodb-new-database",
   name: "New Database",
   description: "Emit new an event when a new database is added",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
