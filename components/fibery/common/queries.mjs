@@ -11,24 +11,45 @@ export function findQuery(
   return `query { ${listingType} { ${fields?.join(" ")} } }`;
 }
 
-export function createMutation(entityType, attributes) {
-  return `mutation { ${entityType} { create${mapAttributes(attributes)} { message } } }`;
+export function filterQuery(listingType, filter) {
+  filter = mapAttributes({
+    attributes: filter,
+    quoteString: false,
+  });
+  return `query { ${listingType} ${filter} { id } }`;
 }
 
-function mapAttributes(attributes) {
+export function createMutation(entityType, attributes) {
+  attributes = mapAttributes({
+    attributes,
+  });
+  return `mutation { ${entityType} { create ${attributes} { message } } }`;
+}
+
+export function updateMutation(entityType, attributes, ids) {
+  ids = ids.map((id) => `"${id}"`).join(",");
+  attributes = mapAttributes({
+    attributes,
+  });
+  return `mutation { ${entityType} ( id: { in: [${ids}] } ) { update ${attributes} { message } } }`;
+}
+
+export function mapAttributes({
+  attributes, quoteString = true, joinString = " ",
+}) {
   if (!attributes || Object.keys(attributes).length === 0) return "";
   const mappedAttributes = [];
   for (const [
     k,
     v,
   ] of Object.entries(attributes)) {
-    if (typeof v === "string") {
+    if (typeof v === "string" && quoteString) {
       mappedAttributes.push(`${k}:"${v}"`);
     } else {
       mappedAttributes.push(`${k}:${v}`);
     }
   }
-  return `( ${mappedAttributes.join(" ")} )`;
+  return `( ${mappedAttributes.join(joinString)} )`;
 }
 
 export default {

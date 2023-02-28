@@ -51,6 +51,20 @@ export default {
         });
       },
     },
+    field: {
+      type: "string",
+      label: "Field",
+      description: "The field in an entity",
+      async options({
+        space, entityType,
+      }) {
+        const fields = await this.listFields({
+          space,
+          entityType,
+        });
+        return fields.map((field) => field.name);
+      },
+    },
   },
   methods: {
     _baseUrl() {
