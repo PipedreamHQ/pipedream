@@ -1481,6 +1481,15 @@
     },
     {
       "path": "components/woopra"
+    },
+    {
+      "path": "components/lifterlms"
+    },
+    {
+      "path": "components/chatsonic"
+    },
+    {
+      "path": "components/simplekpi"
     }
   ]
 }
