@@ -1,3 +1,5 @@
+import util from "util";
+
 export const QUERY_ALL = "{ __type(name: \"Query\") { name description fields { name } } } ";
 export const MUTATION_ALL = "{ __type(name:\"Mutation\") { fields { name args { name } } } } ";
 
@@ -21,6 +23,11 @@ export function createMutation(entityType, attributes) {
     attributes,
   });
   return `mutation { ${entityType} { create ${attributes} { message } } }`;
+}
+
+export function createBatchMutation(entityType, attributesList) {
+  attributesList = util.inspect(attributesList).replace(/'/g, "\"");
+  return `mutation { ${entityType} { createBatch ( data: ${attributesList} ) { message } } }`;
 }
 
 export function updateMutation(entityType, attributes, ids) {
