@@ -74,5 +74,12 @@ export default {
         data: activity,
       });
     },
+    async createMember(workspaceSlug, member) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: `/${workspaceSlug}/members`,
+        data: member,
+      });
+    },
   },
 };
