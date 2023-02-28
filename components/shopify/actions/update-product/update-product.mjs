@@ -6,7 +6,7 @@ export default {
   key: "shopify-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[put]/admin/api/2022-01/products/{product_id}.json)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     shopify,
@@ -72,10 +72,10 @@ export default {
       ],
     },
     metafields: {
-      type: "string[]",
-      label: "Metafields",
-      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
-      optional: true,
+      propDefinition: [
+        shopify,
+        "metafields",
+      ],
     },
     seoTitle: {
       type: "string",
