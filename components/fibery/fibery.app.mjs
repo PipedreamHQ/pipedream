@@ -65,6 +65,16 @@ export default {
         return fields.map((field) => field.name);
       },
     },
+    filter: {
+      type: "object",
+      label: "Filter",
+      description: "The filter expression(s) that will be applied in the query. E.g. `name: { is: \"Pipedream\"}`. [More info here](https://api.fibery.io/graphql.html#filtering)",
+    },
+    attributes: {
+      type: "object",
+      label: "Attributes",
+      description: "The attributes of the entity to create",
+    },
   },
   methods: {
     _baseUrl() {
@@ -213,12 +223,12 @@ export default {
         .map((field) => field.name) ?? defaultFields;
     },
     async listEntities({
-      space, listingType, fields, ...opts
+      space, listingType, filter, fields, ...opts
     }) {
       const { data } = await this.makeGraphQLRequest({
         ...opts,
         space,
-        query: findQuery(listingType, fields),
+        query: findQuery(listingType, filter, fields),
       });
       return data[listingType];
     },

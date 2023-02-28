@@ -23,6 +23,13 @@ export default {
         }),
       ],
     },
+    filter: {
+      propDefinition: [
+        fibery,
+        "filter",
+      ],
+      optional: true,
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -35,6 +42,7 @@ export default {
       $,
       space: this.space,
       listingType: this.listingType,
+      filter: this.filter,
       fields: this.fields,
     });
     const suffix = response.length === 1

@@ -2,7 +2,7 @@ import fibery from "../../fibery.app.mjs";
 import {
   createMutation,
   updateMutation,
-  filterQuery,
+  findQuery,
 } from "../../common/queries.mjs";
 
 export default {
@@ -38,14 +38,16 @@ export default {
       ],
     },
     filter: {
-      type: "object",
-      label: "Filter",
-      description: "The filter expression(s) that will be applied in the query. E.g. `name: { is: \"Pipedream\"}`. [More info here](https://api.fibery.io/graphql.html#filtering)",
+      propDefinition: [
+        fibery,
+        "filter",
+      ],
     },
     attributes: {
-      type: "object",
-      label: "Attributes",
-      description: "The attributes of the entity to create if it doesn't exist",
+      propDefinition: [
+        fibery,
+        "attributes",
+      ],
     },
     updateAll: {
       type: "boolean",
@@ -59,7 +61,7 @@ export default {
       $,
       space: this.space,
       listingType: this.listingType,
-      query: filterQuery(this.listingType, this.filter),
+      query: findQuery(this.listingType, this.filter),
     });
 
     const searchResults = data[this.listingType];

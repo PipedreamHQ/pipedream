@@ -3,20 +3,17 @@ export const MUTATION_ALL = "{ __type(name:\"Mutation\") { fields { name args { 
 
 export function findQuery(
   listingType,
+  filter,
   fields = [
     "id",
     "name",
   ],
 ) {
-  return `query { ${listingType} { ${fields?.join(" ")} } }`;
-}
-
-export function filterQuery(listingType, filter) {
   filter = mapAttributes({
     attributes: filter,
     quoteString: false,
   });
-  return `query { ${listingType} ${filter} { id } }`;
+  return `query { ${listingType} ${filter} { ${fields?.join(" ")} } }`;
 }
 
 export function createMutation(entityType, attributes) {

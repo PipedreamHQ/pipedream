@@ -25,9 +25,10 @@ export default {
       ],
     },
     attributes: {
-      type: "object",
-      label: "Attributes",
-      description: "The attributes of the entity to create",
+      propDefinition: [
+        fibery,
+        "attributes",
+      ],
     },
   },
   async run({ $ }) {
