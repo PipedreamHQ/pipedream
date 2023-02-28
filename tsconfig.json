@@ -1487,6 +1487,9 @@
     },
     {
       "path": "components/simplekpi"
+    },
+    {
+      "path": "components/cyfe"
     }
   ]
 }
