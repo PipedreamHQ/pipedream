@@ -6,7 +6,7 @@ import {
 
 export default {
   key: "fibery-get-entity-or-create",
-  name: "Get Entity or Create",
+  name: "Get or Create Entity",
   description: "Get an entity or create one if it doesn't exist. [See the docs here](https://api.fibery.io/graphql.html#create)",
   version: "0.0.1",
   type: "action",
