@@ -1,4 +1,9 @@
 import { axios } from "@pipedream/platform";
+import {
+  QUERY_ALL,
+  MUTATION_ALL,
+  findQuery,
+} from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -24,6 +29,26 @@ export default {
           label: this._getTypeName(t),
           value: t["fibery/id"],
         }));
+      },
+    },
+    entityType: {
+      type: "string",
+      label: "Entity Type",
+      description: "A custom entity type in your Fibery account",
+      async options({ space }) {
+        return this.listMutations({
+          space,
+        });
+      },
+    },
+    listingType: {
+      type: "string",
+      label: "Listing Type",
+      description: "A custom listing type to query in your Fibery account",
+      async options({ space }) {
+        return this.listQueries({
+          space,
+        });
       },
     },
   },
@@ -67,6 +92,26 @@ export default {
     },
     _getTypeName(type) {
       return type["fibery/name"];
+    },
+    async makeGraphQLRequest({
+      $, space, query, ...opts
+    }) {
+      $?.export("query", query);
+      const response = await this._makeRequest({
+        ...opts,
+        $,
+        path: `/graphql/space/${space}`,
+        method: "post",
+        data: {
+          query,
+        },
+      });
+
+      if (response.errors?.length) {
+        throw new Error(JSON.stringify(response.errors));
+      }
+
+      return response;
     },
     async makeCommand({
       command, args = {}, ...opts
@@ -136,6 +181,55 @@ export default {
       return response["result"]["fibery/types"]
         .filter((type) => this._isCustomType(type))
         .filter((type) => this._isTypeInSpace(type, space));
+    },
+    async listFields({
+      space, entityType, ...opts
+    }) {
+      const defaultFields = [
+        "id",
+        "name",
+      ];
+      const { data } = await this.makeGraphQLRequest({
+        ...opts,
+        space,
+        query: MUTATION_ALL,
+      });
+      return data.__type.fields
+        .find((t) => t.name === entityType)?.args
+        .map((field) => field.name) ?? defaultFields;
+    },
+    async listEntities({
+      space, listingType, fields, ...opts
+    }) {
+      const { data } = await this.makeGraphQLRequest({
+        ...opts,
+        space,
+        query: findQuery(listingType, fields),
+      });
+      return data[listingType];
+    },
+    async listMutations({
+      space, ...opts
+    }) {
+      const { data } = await this.makeGraphQLRequest({
+        ...opts,
+        space,
+        query: MUTATION_ALL,
+      });
+      return data.__type.fields
+        .map((field) => field.name);
+    },
+    async listQueries({
+      space, ...opts
+    }) {
+      const { data } = await this.makeGraphQLRequest({
+        ...opts,
+        space,
+        query: QUERY_ALL,
+      });
+      return data.__type.fields
+        .filter(({ name }) => name !== "me")
+        .map((field) => field.name);
     },
   },
 };
