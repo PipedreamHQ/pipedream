@@ -41,7 +41,14 @@ export function updateMutation(entityType, attributes, ids) {
 export function mapAttributes({
   attributes, quoteString = true, joinString = " ",
 }) {
-  if (!attributes || Object.keys(attributes).length === 0) return "";
+  if (typeof (attributes) === "string") {
+    attributes = JSON.parse(attributes);
+  }
+
+  if (!attributes || Object.keys(attributes).length === 0) {
+    return "";
+  }
+
   const mappedAttributes = [];
   for (const [
     k,
