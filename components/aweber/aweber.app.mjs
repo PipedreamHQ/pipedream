@@ -27,6 +27,18 @@ export default {
       default: constants.PAGINATION.MAX,
       min: 1,
     },
+    subscriberName: {
+      type: "string",
+      label: "Name",
+      description: "The subscriber's name",
+      optional: true,
+    },
+    subscriberTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "This field is used to apply a list of tags to a Subscriber. With Campaigns, you can trigger a series of messages based on what Tags have been applied to your subscribers.",
+      optional: true,
+    },
     accountId: {
       type: "integer",
       label: "Account ID",
@@ -87,6 +99,37 @@ export default {
           label: name,
           value: id,
         }));
+        return {
+          options,
+          context: {
+            url: nextUrl || null,
+          },
+        };
+      },
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The subscriber's email address",
+      async options({
+        accountId, listId, prevContext,
+      }) {
+        const { url } = prevContext;
+        if (url === null) {
+          return [];
+        }
+        const {
+          entries: subscribers,
+          next_collection_link: nextUrl,
+        } = await this.getSubscribersForList({
+          url,
+          accountId,
+          listId,
+          params: {
+            [constants.PAGINATION.SIZE_PROP]: constants.PAGINATION.SIZE,
+          },
+        });
+        const options = subscribers.map(({ email }) => email );
         return {
           options,
           context: {
@@ -171,6 +214,15 @@ export default {
       return this.makeRequest({
         method: "post",
         path: `/accounts/${accountId}/lists/${listId}/subscribers`,
+        ...args,
+      });
+    },
+    async updateSubscriber({
+      accountId, listId, email, ...args
+    }) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/accounts/${accountId}/lists/${listId}/subscribers?subscriber_email=${email}`,
         ...args,
       });
     },
