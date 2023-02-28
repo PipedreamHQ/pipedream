@@ -81,5 +81,12 @@ export default {
         data: member,
       });
     },
+    async createNote(workspaceSlug, workspaceMemberSlug, note) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: `/${workspaceSlug}/members/${workspaceMemberSlug}/notes`,
+        data: note,
+      });
+    },
   },
 };

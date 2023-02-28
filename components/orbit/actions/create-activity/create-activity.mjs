@@ -18,8 +18,8 @@ export default {
       propDefinition: [
         app,
         "workspaceMemberSlug",
-        (c) => ({
-          workspaceSlug: c.workspaceSlug,
+        ({ workspaceSlug }) => ({
+          workspaceSlug,
         }),
       ],
     },
