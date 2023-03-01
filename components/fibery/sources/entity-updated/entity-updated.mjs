@@ -6,6 +6,7 @@ export default {
   name: "Entity Updated",
   description: "Emit new event for every updated entity of a certain type",
   type: "source",
+  dedupe: "unique",
   version: "0.0.1",
   methods: {
     ...base.methods,
@@ -20,6 +21,7 @@ export default {
       .filter(({ valuesBefore }) => this.hasUpdatedValue(valuesBefore))
       .forEach((effect) => {
         this.$emit(effect, {
+          id: effect.id,
           summary: `Updated entity: ${effect.id}`,
           ts: effect["fibery/modification-date"],
         });

@@ -6,6 +6,7 @@ export default {
   name: "New Entity Created",
   description: "Emit new event for every created entity of a certain type",
   type: "source",
+  dedupe: "unique",
   version: "0.0.1",
   async run(event) {
     console.log(`Received new event with ${event.body.effects.length} sequence(s)`);
@@ -13,6 +14,7 @@ export default {
       .filter(({ effect }) => effect === "fibery.entity/create")
       .forEach((effect) => {
         this.$emit(effect, {
+          id: effect.id,
           summary: `New created entity: ${effect.id}`,
           ts: effect["fibery/creation-date"],
         });
