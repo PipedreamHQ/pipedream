@@ -88,5 +88,12 @@ export default {
         data: note,
       });
     },
+    async getMemberByIdentity(workspaceSlug, query) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/${workspaceSlug}/members/find`,
+        params: query,
+      });
+    },
   },
 };
