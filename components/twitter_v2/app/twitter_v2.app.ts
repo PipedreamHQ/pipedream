@@ -16,6 +16,9 @@ import {
   UnfollowUserParams,
   UnlikeTweetParams,
 } from "../common/requestParams";
+import {
+  MEDIA_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_EXPANSION_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
+} from "../common/dataFields";
 
 export default defineApp({
   type: "app",
@@ -48,6 +51,48 @@ export default defineApp({
       type: "string",
       label: "Tweet ID",
       description: "The numerical ID of the tweet (also known as \"status\")",
+    },
+    tweetExpansions: {
+      type: "string[]",
+      label: "Tweet Expansions",
+      description:
+        "Additional data objects that relate to the returned Tweet(s) to be included in the response.",
+      options: TWEET_EXPANSION_OPTIONS,
+    },
+    mediaFields: {
+      type: "string[]",
+      label: "Media Fields",
+      description:
+        "Specific [media fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media) to be included in the returned Tweet(s). Only applicable if the Tweet contains media and if you've also requested the `attachments.media_keys` expansion.",
+      options: MEDIA_FIELD_OPTIONS,
+    },
+    placeFields: {
+      type: "string[]",
+      label: "Place Fields",
+      description:
+        "Specific [place fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place) to be included in the returned Tweet(s). Only applicable if the Tweet contains a place and if you've also requested the `geo.place_id` expansion.",
+      options: MEDIA_FIELD_OPTIONS,
+    },
+    pollFields: {
+      type: "string[]",
+      label: "Poll Fields",
+      description:
+        "Specific [poll fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll) to be included in the returned Tweet(s). Only applicable if the Tweet contains a poll and if you've also requested the `attachments.poll_ids` expansion.",
+      options: POLL_FIELD_OPTIONS,
+    },
+    tweetFields: {
+      type: "string[]",
+      label: "Tweet Fields",
+      description:
+        "Specific [tweet fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet) to be included in the returned Tweet(s). If you've requested the `referenced_tweets.id` expansion, these fields will also be returned for any included referenced Tweets.",
+      options: TWEET_FIELD_OPTIONS,
+    },
+    userFields: {
+      type: "string[]",
+      label: "User Fields",
+      description:
+        "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned Tweet(s). Only applicable if you've requested one of the user expansions: `author_id`, `entities.mentions.username`, `in_reply_to_user_id`, `referenced_tweets.id.author_id`.",
+      options: USER_FIELD_OPTIONS,
     },
   },
   methods: {
