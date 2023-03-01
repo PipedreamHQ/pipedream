@@ -4,7 +4,7 @@ export default {
   ...base,
   key: "fibery-entity-created",
   name: "New Entity Created",
-  description: "Emit new event for every created entity of a certain type",
+  description: "Emit new event for every created entity of a certain type. [See the docs here](https://api.fibery.io/#webhooks)",
   type: "source",
   dedupe: "unique",
   version: "0.0.1",
