@@ -112,6 +112,12 @@ export default {
         ...args,
       });
     },
+    listProjects(args = {}) {
+      return this.makeRequest({
+        path: "/projects",
+        ...args,
+      });
+    },
     listTaskLists(args = {}) {
       return this.makeRequest({
         path: "/tasklists",
