@@ -12,6 +12,7 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the task.",
+      optional: true,
     },
     projectId: {
       optional: true,
@@ -35,8 +36,12 @@ export default {
       },
     });
 
-    const tasksFound = response.tasks
-      .filter(({ name: taskName }) => taskName.toLowerCase().includes(name.toLowerCase()));
+    let tasksFound = response.tasks;
+    if (name) {
+      tasksFound = tasksFound
+        .filter(({ name: taskName }) => taskName.toLowerCase()
+          .includes(name.toLowerCase()));
+    }
 
     if (tasksFound.length) {
       step.export("$summary", `Successfully found ${tasksFound.length} task(s) with name \`${name}\``);
