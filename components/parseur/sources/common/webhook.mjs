@@ -19,7 +19,6 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
     async activate() {
       const {
         parserId,
