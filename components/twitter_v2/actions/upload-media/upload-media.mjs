@@ -3,6 +3,8 @@ import fs from "fs";
 import mime from "mime";
 import FormData from "form-data";
 
+// V2 API replacement: "coming soon" https://developer.twitter.com/en/docs/twitter-api/migrate/twitter-api-endpoint-map
+
 export default {
   key: "twitter-upload-media",
   name: "Upload Media",

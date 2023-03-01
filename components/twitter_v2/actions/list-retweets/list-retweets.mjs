@@ -1,5 +1,7 @@
 import common from "../common.mjs";
 
+// reuses "get tweet"
+
 export default {
   ...common,
   key: "twitter-list-retweets",

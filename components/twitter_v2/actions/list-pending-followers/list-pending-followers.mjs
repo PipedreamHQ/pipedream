@@ -1,5 +1,7 @@
 import common from "../common.mjs";
 
+// V2 API replacement: "coming soon" https://developer.twitter.com/en/docs/twitter-api/migrate/twitter-api-endpoint-map
+
 export default {
   ...common,
   key: "twitter-list-pending-followers",
