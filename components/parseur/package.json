@@ -4,8 +4,8 @@
   "description": "Pipedream Parseur Components",
   "main": "parseur.app.mjs",
   "keywords": [
-		"pipedream",
-		"parseur"
+    "pipedream",
+    "parseur"
   ],
   "homepage": "https://pipedream.com/apps/parseur",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
