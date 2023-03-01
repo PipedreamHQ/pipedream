@@ -45,7 +45,7 @@ export default {
       filter: this.filter,
       fields: this.fields,
     });
-    $.export("$summary", `Successfully listed ${response.length} ${this.fibery.singularOrPluralEntities(response)}`);
+    $.export("$summary", `Successfully listed ${response.length} ${this.fibery.singularOrPluralEntity(response)}`);
     return response;
   },
 };
