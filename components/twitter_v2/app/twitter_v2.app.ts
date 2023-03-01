@@ -26,7 +26,7 @@ export default defineApp({
       label: "List ID",
       description: "Select a **List** or use a custom *List ID*.",
       async options() {
-        const { id: userId } = this.getAuthenticatedUser();
+        const userId = this.getAuthenticatedUser();
         const lists = await this.getOwnedLists({
           userId,
         });
@@ -42,7 +42,7 @@ export default defineApp({
       type: "string",
       label: "User Name or ID",
       description:
-        "The Twitter username (handle) of the user, prefixed with `@` (e.g. `@pipedream`). You can also reference a User ID from a previous step.",
+        "A Twitter username (handle) prefixed with `@` (e.g. `@pipedream`). You can also use the string `me` to use the authenticated user, or reference a numeric User ID from a previous step.",
     },
     tweetId: {
       type: "string",
@@ -95,7 +95,7 @@ export default defineApp({
       return response.data;
     },
     async followUser(args: FollowUserParams) {
-      const { id } = await this.getAuthenticatedUser();
+      const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/following`,
@@ -112,11 +112,11 @@ export default defineApp({
       });
       return response.data;
     },
-    async getAuthenticatedUser() {
+    async getAuthenticatedUserId() {
       const response = await this._httpRequest({
         url: "/users/me",
       });
-      return response.data;
+      return response.data.id;
     },
     async getLikedTweets({
       userId, ...args
@@ -170,7 +170,7 @@ export default defineApp({
       return response.data;
     },
     async likeTweet(args: LikeTweetParams) {
-      const { id } = await this.getAuthenticatedUser();
+      const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/likes`,
@@ -188,7 +188,7 @@ export default defineApp({
       return response.data;
     },
     async retweet(args: RetweetParams) {
-      const { id } = await this.getAuthenticatedUser();
+      const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/retweets`,
@@ -199,7 +199,7 @@ export default defineApp({
     async unfollowUser({
       userId, ...args
     }: UnfollowUserParams) {
-      const { id } = await this.getAuthenticatedUser();
+      const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/following/${userId}`,
@@ -210,7 +210,7 @@ export default defineApp({
     async unlikeTweet({
       tweetId, ...args
     }: UnlikeTweetParams) {
-      const { id } = await this.getAuthenticatedUser();
+      const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/users/${id}/likes/${tweetId}`,
