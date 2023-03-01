@@ -1505,6 +1505,9 @@
     },
     {
       "path": "components/go_upc"
+    },
+    {
+      "path": "components/warpcast"
     }
   ]
 }
