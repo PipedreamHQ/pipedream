@@ -13,12 +13,29 @@ export default {
     },
   },
   hooks: {
-    async deploy() {},
+    async deploy() {
+      const [
+        response,
+      ] = await this.fibery.listHistoricalEntities({
+        type: this.type.label,
+        fieldName: this.getFieldName(),
+      });
+
+      console.log(response);
+
+      response.result.forEach((entity) => {
+        this.$emit(entity, {
+          id: entity["fibery/id"],
+          summary: `Historical entity: ${this.getEntityName(entity)}`,
+          ts: entity["fibery/creation-date"],
+        });
+      });
+    },
     async activate() {
       const response = await this.fibery.createWebhook({
         data: {
           url: this.http.endpoint,
-          type: this.type,
+          type: this.type.value,
         },
       });
       this._setWebhookId(response.id);
@@ -36,6 +53,13 @@ export default {
     },
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
+    },
+    getFieldName() {
+      const database = this.type.label.split("/")[0];
+      return `${database}/name`;
+    },
+    getEntityName(entity) {
+      return entity[this.getFieldName()] ?? entity["fibery/id"];
     },
   },
 };

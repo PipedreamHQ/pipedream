@@ -19,11 +19,11 @@ export default {
     event.body.effects
       .filter(({ effect }) => effect === "fibery.entity/update")
       .filter(({ valuesBefore }) => this.hasUpdatedValue(valuesBefore))
-      .forEach((effect) => {
-        this.$emit(effect, {
-          id: effect.id,
-          summary: `Updated entity: ${effect.id}`,
-          ts: effect["fibery/modification-date"],
+      .forEach((entity) => {
+        this.$emit(entity, {
+          id: entity.id,
+          summary: `Updated entity: ${this.getEntityName(entity)}`,
+          ts: entity["fibery/modification-date"],
         });
       });
   },

@@ -12,11 +12,11 @@ export default {
     console.log(`Received new event with ${event.body.effects.length} sequence(s)`);
     event.body.effects
       .filter(({ effect }) => effect === "fibery.entity/create")
-      .forEach((effect) => {
-        this.$emit(effect, {
-          id: effect.id,
-          summary: `New created entity: ${effect.id}`,
-          ts: effect["fibery/creation-date"],
+      .forEach((entity) => {
+        this.$emit(entity, {
+          id: entity.id,
+          summary: `New created entity: ${this.getEntityName(entity)}`,
+          ts: entity["fibery/creation-date"],
         });
       });
   },

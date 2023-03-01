@@ -21,6 +21,7 @@ export default {
       type: "string",
       label: "Type",
       description: "A custom type in your Fibery account",
+      withLabel: true,
       async options({ space }) {
         const types = await this.listTypes({
           space,
@@ -155,6 +156,11 @@ export default {
           },
         ],
       });
+
+      if (response.success === false) {
+        throw new Error(JSON.stringify(response.result, null, 2));
+      }
+
       return response;
     },
     async makeBatchCommands({
@@ -226,6 +232,33 @@ export default {
       return data.__type.fields
         .find((t) => t.name === entityType)?.args
         .map((field) => field.name) ?? defaultFields;
+    },
+    async listHistoricalEntities({
+      type, fieldName, ...opts
+    }) {
+      return this.makeCommand({
+        ...opts,
+        command: "fibery.entity/query",
+        args: {
+          query: {
+            "q/from": type,
+            "q/select": [
+              "fibery/id",
+              "fibery/creation-date",
+              fieldName,
+            ],
+            "q/order-by": [
+              [
+                [
+                  "fibery/creation-date",
+                ],
+                "q/desc",
+              ],
+            ],
+            "q/limit": 25,
+          },
+        },
+      });
     },
     async listEntities({
       space, listingType, filter, fields, ...opts
