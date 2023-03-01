@@ -4,6 +4,7 @@ import {
   AddUserToListParams,
   CreateTweetParams,
   FollowUserParams,
+  GetLikedTweetParams,
   GetOwnedListsParams,
   GetUserParams,
   HttpRequestParams,
@@ -112,6 +113,15 @@ export default defineApp({
     async getAuthenticatedUser() {
       const response = await this._httpRequest({
         url: "/users/me",
+      });
+      return response.data;
+    },
+    async getLikedTweets({
+      userId, ...args
+    }: GetLikedTweetParams) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/liked_tweets`,
+        ...args,
       });
       return response.data;
     },

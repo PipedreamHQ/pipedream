@@ -40,6 +40,10 @@ export interface FollowUserParams extends PdAxiosRequest {
   };
 }
 
+export interface GetLikedTweetParams extends PdAxiosRequest {
+  userId: string;
+}
+
 export interface GetOwnedListsParams extends PdAxiosRequest {
   userId: string;
 }
