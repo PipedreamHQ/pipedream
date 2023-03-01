@@ -48,6 +48,14 @@ export interface GetOwnedListsParams extends PdAxiosRequest {
   userId: string;
 }
 
+export interface GetUserMentionsParams extends PdAxiosRequest {
+  userId: string;
+}
+
+export interface GetUserTweetsParams extends PdAxiosRequest {
+  userId: string;
+}
+
 export interface GetUserParams extends PdAxiosRequest {
   userId: string;
 }

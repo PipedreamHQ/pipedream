@@ -6,7 +6,9 @@ import {
   FollowUserParams,
   GetLikedTweetParams,
   GetOwnedListsParams,
+  GetUserMentionsParams,
   GetUserParams,
+  GetUserTweetsParams,
   HttpRequestParams,
   LikeTweetParams,
   ListFollowersParams,
@@ -130,6 +132,24 @@ export default defineApp({
     }: GetOwnedListsParams) {
       const response = await this._httpRequest({
         url: `/users/${userId}/owned_lists`,
+        ...args,
+      });
+      return response.data;
+    },
+    async getUserMentions({
+      userId, ...args
+    }: GetUserMentionsParams) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/mentions`,
+        ...args,
+      });
+      return response.data;
+    },
+    async getUserTweets({
+      userId, ...args
+    }: GetUserTweetsParams) {
+      const response = await this._httpRequest({
+        url: `/users/${userId}/tweets`,
         ...args,
       });
       return response.data;
