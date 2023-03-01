@@ -6,7 +6,7 @@ export default {
   name: "Add Subscriber",
   description: "Add subscribers to the specified account and list. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/post).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     aweberApp,
     accountId: {
@@ -30,16 +30,16 @@ export default {
       description: "The subscriber's email address",
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "The subscriber's name",
-      optional: true,
+      propDefinition: [
+        aweberApp,
+        "subscriberName",
+      ],
     },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "This field is used to apply a list of tags to a Subscriber. With Campaigns, you can trigger a series of messages based on what Tags have been applied to your subscribers.",
-      optional: true,
+      propDefinition: [
+        aweberApp,
+        "subscriberTags",
+      ],
     },
   },
   async run({ $ }) {
