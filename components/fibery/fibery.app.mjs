@@ -4,6 +4,10 @@ import {
   MUTATION_ALL,
   findQuery,
 } from "./common/queries.mjs";
+import {
+  MAX_LIMIT,
+  HISTORICAL_LIMIT,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -255,7 +259,7 @@ export default {
                 "q/desc",
               ],
             ],
-            "q/limit": 25,
+            "q/limit": HISTORICAL_LIMIT,
           },
         },
       });
@@ -263,12 +267,24 @@ export default {
     async listEntities({
       space, listingType, filter, fields, ...opts
     }) {
-      const { data } = await this.makeGraphQLRequest({
-        ...opts,
-        space,
-        query: findQuery(listingType, filter, fields),
-      });
-      return data[listingType];
+      let offset = 0;
+      const data = [];
+
+      while (true) {
+        const response = await this.makeGraphQLRequest({
+          ...opts,
+          space,
+          query: findQuery(listingType, filter, fields, offset),
+        });
+
+        const results = response.data[listingType];
+        data.push(...results);
+        offset += MAX_LIMIT;
+
+        if (results.length < MAX_LIMIT) {
+          return data;
+        }
+      }
     },
     async listMutations({
       space, ...opts

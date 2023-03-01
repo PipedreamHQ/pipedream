@@ -1,4 +1,5 @@
 import util from "util";
+import { MAX_LIMIT } from "./constants.mjs";
 
 export const QUERY_ALL = "{ __type(name: \"Query\") { name description fields { name } } } ";
 export const MUTATION_ALL = "{ __type(name:\"Mutation\") { fields { name args { name } } } } ";
@@ -10,12 +11,13 @@ export function findQuery(
     "id",
     "name",
   ],
+  offset = 0,
 ) {
   filter = mapAttributes({
     attributes: filter,
     quoteString: false,
   });
-  return `query { ${listingType} ${filter} { ${fields?.join(" ")} } }`;
+  return `query { ${listingType} ( limit: ${MAX_LIMIT} offset: ${offset} ${filter} ) { ${fields?.join(" ")} } }`;
 }
 
 export function createMutation(entityType, attributes) {
