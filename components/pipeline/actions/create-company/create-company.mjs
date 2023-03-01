@@ -73,7 +73,7 @@ export default {
     phone: {
       propDefinition: [
         pipeline,
-        "phoneId",
+        "phone",
       ],
       description: "Primary business number",
     },
