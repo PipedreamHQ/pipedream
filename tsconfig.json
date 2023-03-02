@@ -1511,6 +1511,9 @@
     },
     {
       "path": "components/logsnag"
+    },
+    {
+      "path": "components/memix"
     }
   ]
 }
