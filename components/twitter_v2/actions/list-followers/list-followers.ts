@@ -1,7 +1,10 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getUserId } from "../../common/methods";
+import {
+  getUserId, getUserFields,
+} from "../../common/methods";
 import { ListFollowersParams } from "../../common/requestParams";
+import userFieldProps from "../../common/userFieldProps";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers";
@@ -20,9 +23,11 @@ export default defineAction({
         "userNameOrId",
       ],
     },
+    ...userFieldProps,
   },
   methods: {
     getUserId,
+    getUserFields,
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
@@ -30,6 +35,7 @@ export default defineAction({
     const params: ListFollowersParams = {
       $,
       userId,
+      params: this.getUserFields(),
     };
 
     const response = await this.app.listFollowers(params);

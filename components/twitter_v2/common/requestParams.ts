@@ -84,6 +84,7 @@ export interface GetTweetParams extends PdAxiosRequest {
 
 export interface ListFollowersParams extends PdAxiosRequest {
   userId: string;
+  params: UserFields;
 }
 
 export interface UnfollowUserParams extends PdAxiosRequest {

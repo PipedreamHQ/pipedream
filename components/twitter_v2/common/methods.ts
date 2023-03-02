@@ -24,3 +24,11 @@ export function getTweetFields() {
     "user.fields": this.userFields?.join(),
   };
 }
+
+export function getUserFields() {
+  return {
+    "expansions": this.expansions?.join(),
+    "tweet.fields": this.tweetFields?.join(),
+    "user.fields": this.userFields?.join(),
+  };
+}
