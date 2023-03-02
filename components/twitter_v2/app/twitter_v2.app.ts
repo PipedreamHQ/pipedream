@@ -25,6 +25,9 @@ import {
 import {
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
+import {
+  List, Tweet, User,
+} from "../common/types/responseSchemas";
 
 export default defineApp({
   type: "app",
@@ -36,7 +39,7 @@ export default defineApp({
       description: "Select a **List** or use a custom *List ID*.",
       async options() {
         const userId = this.getAuthenticatedUser();
-        const lists = await this.getOwnedLists({
+        const lists: List[] = await this.getOwnedLists({
           userId,
         });
         return lists.map(({
@@ -144,7 +147,7 @@ export default defineApp({
     },
     async addUserToList({
       listId, ...args
-    }: AddUserToListParams) {
+    }: AddUserToListParams): Promise<object> {
       const response = await this._httpRequest({
         method: "POST",
         url: `/lists/${listId}/members`,
@@ -152,7 +155,7 @@ export default defineApp({
       });
       return response.data;
     },
-    async createTweet(args: CreateTweetParams) {
+    async createTweet(args: CreateTweetParams): Promise<object> {
       const response = await this._httpRequest({
         method: "POST",
         url: "/tweets",
@@ -162,7 +165,7 @@ export default defineApp({
     },
     async deleteTweet({
       tweetId, ...args
-    }: DeleteTweetParams) {
+    }: DeleteTweetParams): Promise<object> {
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,
@@ -170,7 +173,7 @@ export default defineApp({
       });
       return response.data;
     },
-    async followUser(args: FollowUserParams) {
+    async followUser(args: FollowUserParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
@@ -181,14 +184,14 @@ export default defineApp({
     },
     async getTweet({
       tweetId, ...args
-    }: GetTweetParams) {
+    }: GetTweetParams): Promise<Tweet> {
       const response = await this._httpRequest({
         url: `/tweets/${tweetId}`,
         ...args,
       });
       return response.data;
     },
-    async getAuthenticatedUserId() {
+    async getAuthenticatedUserId(): Promise<User["id"]> {
       const response = await this._httpRequest({
         url: "/users/me",
       });
@@ -196,7 +199,7 @@ export default defineApp({
     },
     async getLikedTweets({
       userId, ...args
-    }: GetLikedTweetParams) {
+    }: GetLikedTweetParams): Promise<Tweet[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/liked_tweets`,
         ...args,
@@ -205,7 +208,7 @@ export default defineApp({
     },
     async getOwnedLists({
       userId, ...args
-    }: GetOwnedListsParams) {
+    }: GetOwnedListsParams): Promise<List[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/owned_lists`,
         ...args,
@@ -214,7 +217,7 @@ export default defineApp({
     },
     async getUserMentions({
       userId, ...args
-    }: GetUserMentionsParams) {
+    }: GetUserMentionsParams): Promise<Tweet[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/mentions`,
         ...args,
@@ -223,14 +226,14 @@ export default defineApp({
     },
     async getUserTweets({
       userId, ...args
-    }: GetUserTweetsParams) {
+    }: GetUserTweetsParams): Promise<Tweet[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/tweets`,
         ...args,
       });
       return response.data;
     },
-    async getUserByUsername(username: string) {
+    async getUserByUsername(username: string): Promise<User> {
       const response = await this._httpRequest({
         url: `/users/by/username/${username}`,
       });
@@ -238,14 +241,14 @@ export default defineApp({
     },
     async getUser({
       userId, ...args
-    }: GetUserParams) {
+    }: GetUserParams): Promise<User> {
       const response = await this._httpRequest({
         url: `/users/${userId}`,
         ...args,
       });
       return response.data;
     },
-    async likeTweet(args: LikeTweetParams) {
+    async likeTweet(args: LikeTweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
@@ -256,14 +259,14 @@ export default defineApp({
     },
     async listFollowers({
       userId, ...args
-    }: ListFollowersParams) {
+    }: ListFollowersParams): Promise<User[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/followers`,
         ...args,
       });
       return response.data;
     },
-    async retweet(args: RetweetParams) {
+    async retweet(args: RetweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "POST",
@@ -274,7 +277,7 @@ export default defineApp({
     },
     async unfollowUser({
       userId, ...args
-    }: UnfollowUserParams) {
+    }: UnfollowUserParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "DELETE",
@@ -285,7 +288,7 @@ export default defineApp({
     },
     async unlikeTweet({
       tweetId, ...args
-    }: UnlikeTweetParams) {
+    }: UnlikeTweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
       const response = await this._httpRequest({
         method: "DELETE",
