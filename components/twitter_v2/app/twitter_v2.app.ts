@@ -18,7 +18,8 @@ import {
   UnlikeTweetParams,
 } from "../common/requestParams";
 import {
-  MEDIA_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
+  LIST_FIELD_OPTIONS,
+  MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
 } from "../common/dataFields";
 import {
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
@@ -72,6 +73,14 @@ export default defineApp({
         "Additional data objects related to the User(s) to be included in the response.",
       options: USER_EXPANSION_OPTIONS,
     },
+    listFields: {
+      type: "string[]",
+      label: "List Fields",
+      description:
+        "Specific [list fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/lists) to be included in the returned list object.",
+      optional: true,
+      options: LIST_FIELD_OPTIONS,
+    },
     mediaFields: {
       type: "string[]",
       label: "Media Fields",
@@ -86,7 +95,7 @@ export default defineApp({
       description:
         "Specific [place fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place) to be included in the returned Tweet(s). Only applicable if the Tweet contains a place and you've requested the `geo.place_id` expansion.",
       optional: true,
-      options: MEDIA_FIELD_OPTIONS,
+      options: PLACE_FIELD_OPTIONS,
     },
     pollFields: {
       type: "string[]",

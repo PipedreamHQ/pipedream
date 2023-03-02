@@ -14,6 +14,14 @@ export async function getUserId(): Promise<string> {
   return id;
 }
 
+export function getListFields() {
+  return {
+    "expansions": this.expansions?.join(),
+    "list.fields": this.listFields?.join(),
+    "user.fields": this.userFields?.join(),
+  };
+}
+
 export function getTweetFields() {
   return {
     "expansions": this.expansions?.join(),

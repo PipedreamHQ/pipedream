@@ -1,3 +1,12 @@
+export const LIST_FIELD_OPTIONS = [
+  "created_at",
+  "follower_count",
+  "member_count",
+  "private",
+  "description",
+  "owner_id",
+];
+
 export const MEDIA_FIELD_OPTIONS = [
   "duration_ms",
   "height",
@@ -12,6 +21,17 @@ export const MEDIA_FIELD_OPTIONS = [
   "promoted_metrics",
   "alt_text",
   "variants",
+];
+
+export const PLACE_FIELD_OPTIONS = [
+  "contained_within",
+  "country",
+  "country_code",
+  "full_name",
+  "geo",
+  "id",
+  "name",
+  "place_type",
 ];
 
 export const POLL_FIELD_OPTIONS = [

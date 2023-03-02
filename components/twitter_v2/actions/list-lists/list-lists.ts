@@ -1,6 +1,10 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getUserId } from "../../common/methods";
+import {
+  getUserId, getListFields,
+} from "../../common/methods";
+import listFieldProps from "../../common/listFieldProps";
+import { GetOwnedListsParams } from "../../common/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists";
@@ -19,16 +23,19 @@ export default defineAction({
         "userNameOrId",
       ],
     },
+    ...listFieldProps,
   },
   methods: {
     getUserId,
+    getListFields,
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
 
-    const params = {
+    const params: GetOwnedListsParams = {
       $,
       userId,
+      params: this.getListFields(),
     };
 
     const response = await this.app.getOwnedLists(params);

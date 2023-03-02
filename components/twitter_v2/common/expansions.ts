@@ -1,3 +1,7 @@
+export const LIST_EXPANSION_OPTIONS = [
+  "owner_id",
+];
+
 export const TWEET_EXPANSION_OPTIONS = [
   "attachments.poll_ids",
   "attachments.media_keys",

@@ -47,6 +47,7 @@ export interface GetLikedTweetParams extends PdAxiosRequest {
 
 export interface GetOwnedListsParams extends PdAxiosRequest {
   userId: string;
+  params?: ListFields;
 }
 
 export interface GetUserMentionsParams extends PdAxiosRequest {
@@ -55,6 +56,12 @@ export interface GetUserMentionsParams extends PdAxiosRequest {
 
 export interface GetUserTweetsParams extends PdAxiosRequest {
   userId: string;
+}
+
+interface ListFields {
+  expansions: string;
+  "list.fields": string;
+  "user.fields": string;
 }
 
 interface UserFields {
