@@ -37,9 +37,14 @@ export interface CreateTweetParams extends PdAxiosRequest {
   };
 }
 
-export interface DeleteTweetParams extends PdAxiosRequest {
+interface UserId {
+  userId: string;
+}
+interface TweetId {
   tweetId: string;
 }
+
+export interface DeleteTweetParams extends PdAxiosRequest, TweetId {}
 
 export interface FollowUserParams extends PdAxiosRequest {
   data: {
@@ -47,56 +52,41 @@ export interface FollowUserParams extends PdAxiosRequest {
   };
 }
 
-export interface GetLikedTweetParams extends PdAxiosRequest {
-  userId: string;
+export interface GetLikedTweetParams extends PdAxiosRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetOwnedListsParams extends PdAxiosRequest {
-  userId: string;
+export interface GetOwnedListsParams extends PdAxiosRequest, UserId {
   params?: ListFields;
 }
 
-export interface GetUserMentionsParams extends PdAxiosRequest {
-  userId: string;
+export interface GetUserMentionsParams extends PdAxiosRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetUserTweetsParams extends PdAxiosRequest {
-  userId: string;
+export interface GetUserTweetsParams extends PdAxiosRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetUserParams extends PdAxiosRequest {
-  userId: string;
+export interface GetUserParams extends PdAxiosRequest, UserId {
   params: UserFields;
 }
 
-export interface GetTweetParams extends PdAxiosRequest {
-  tweetId: string;
+export interface GetTweetParams extends PdAxiosRequest, TweetId {
   params: TweetFields;
 }
 
-export interface ListFollowersParams extends PdAxiosRequest {
-  userId: string;
+export interface ListFollowersParams extends PdAxiosRequest, UserId {
   params: UserFields;
 }
 
-export interface UnfollowUserParams extends PdAxiosRequest {
-  userId: string;
-}
+export interface UnfollowUserParams extends PdAxiosRequest, UserId {}
 
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {
     tweet_id: string;
   };
 }
-export interface RetweetParams extends PdAxiosRequest {
-  data: {
-    tweet_id: string;
-  };
-}
+export type RetweetParams = LikeTweetParams;
 
-export interface UnlikeTweetParams extends PdAxiosRequest {
-  tweetId: string;
-}
+export interface UnlikeTweetParams extends PdAxiosRequest, TweetId {}
