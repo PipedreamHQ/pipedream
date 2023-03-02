@@ -1514,6 +1514,9 @@
     },
     {
       "path": "components/memix"
+    },
+    {
+      "path": "components/metabase"
     }
   ]
 }
