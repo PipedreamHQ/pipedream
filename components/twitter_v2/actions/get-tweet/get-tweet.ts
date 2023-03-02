@@ -1,5 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
+import { TWEET_EXPANSION_OPTIONS } from "../../common/expansions";
+import { GetTweetParams } from "../../common/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id";
@@ -18,11 +20,12 @@ export default defineAction({
         "tweetId",
       ],
     },
-    tweetExpansions: {
+    expansions: {
       propDefinition: [
         app,
-        "tweetExpansions",
+        "expansions",
       ],
+      options: TWEET_EXPANSION_OPTIONS,
     },
     mediaFields: {
       propDefinition: [
@@ -56,11 +59,11 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params = {
+    const params: GetTweetParams = {
       $,
       tweetId: this.tweetId,
       params: {
-        "expansions": this.tweetExpansions,
+        "expansions": this.expansions,
         "media.fields": this.mediaFields,
         "place.fields": this.placeFields,
         "poll.fields": this.pollFields,

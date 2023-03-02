@@ -2,6 +2,7 @@ import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { GetUserParams } from "../../common/requestParams";
+import { USER_EXPANSION_OPTIONS } from "../../common/expansions";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id";
@@ -20,6 +21,29 @@ export default defineAction({
         "userNameOrId",
       ],
     },
+    expansions: {
+      propDefinition: [
+        app,
+        "expansions",
+      ],
+      options: USER_EXPANSION_OPTIONS,
+    },
+    tweetFields: {
+      propDefinition: [
+        app,
+        "tweetFields",
+      ],
+      description:
+        "Specific [tweet fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet) to be included in the returned pinned Tweet. Only applicable if the user has a pinned Tweet and you've requested the `referenced_tweets.id` expansion.",
+    },
+    userFields: {
+      propDefinition: [
+        app,
+        "userFields",
+      ],
+      description:
+        "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned user object.",
+    },
   },
   methods: {
     getUserId,
@@ -31,14 +55,16 @@ export default defineAction({
     const params: GetUserParams = {
       $,
       userId,
+      params: {
+        "expansions": this.expansions,
+        "tweet.fields": this.tweetFields,
+        "user.fields": this.userFields,
+      },
     };
 
     const response = await this.app.getUser(params);
 
-    $.export(
-      "$summary",
-      "Successfully retrieved user",
-    );
+    $.export("$summary", "Successfully retrieved user");
 
     return response;
   },
