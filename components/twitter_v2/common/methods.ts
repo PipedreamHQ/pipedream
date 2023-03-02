@@ -13,3 +13,14 @@ export async function getUserId(): Promise<string> {
 
   return id;
 }
+
+export function getTweetFields() {
+  return {
+    "expansions": this.expansions?.join(),
+    "media.fields": this.mediaFields?.join(),
+    "place.fields": this.placeFields?.join(),
+    "poll.fields": this.pollFields?.join(),
+    "tweet.fields": this.tweetFields?.join(),
+    "user.fields": this.userFields?.join(),
+  };
+}

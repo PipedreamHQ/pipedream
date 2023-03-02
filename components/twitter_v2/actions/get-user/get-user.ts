@@ -2,7 +2,6 @@ import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { GetUserParams } from "../../common/requestParams";
-import { USER_EXPANSION_OPTIONS } from "../../common/expansions";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id";
@@ -24,9 +23,8 @@ export default defineAction({
     expansions: {
       propDefinition: [
         app,
-        "expansions",
+        "userExpansions",
       ],
-      options: USER_EXPANSION_OPTIONS,
     },
     tweetFields: {
       propDefinition: [

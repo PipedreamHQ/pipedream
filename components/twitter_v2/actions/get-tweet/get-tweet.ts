@@ -1,7 +1,8 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { TWEET_EXPANSION_OPTIONS } from "../../common/expansions";
 import { GetTweetParams } from "../../common/requestParams";
+import actionWithTweetFields from "../../common/tweetFieldProps";
+import { getTweetFields } from "../../common/methods";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id";
@@ -20,56 +21,16 @@ export default defineAction({
         "tweetId",
       ],
     },
-    expansions: {
-      propDefinition: [
-        app,
-        "expansions",
-      ],
-      options: TWEET_EXPANSION_OPTIONS,
-    },
-    mediaFields: {
-      propDefinition: [
-        app,
-        "mediaFields",
-      ],
-    },
-    placeFields: {
-      propDefinition: [
-        app,
-        "placeFields",
-      ],
-    },
-    pollFields: {
-      propDefinition: [
-        app,
-        "pollFields",
-      ],
-    },
-    tweetFields: {
-      propDefinition: [
-        app,
-        "tweetFields",
-      ],
-    },
-    userFields: {
-      propDefinition: [
-        app,
-        "userFields",
-      ],
-    },
+    ...actionWithTweetFields,
+  },
+  methods: {
+    getTweetFields,
   },
   async run({ $ }): Promise<object> {
     const params: GetTweetParams = {
       $,
       tweetId: this.tweetId,
-      params: {
-        "expansions": this.expansions?.join(),
-        "media.fields": this.mediaFields?.join(),
-        "place.fields": this.placeFields?.join(),
-        "poll.fields": this.pollFields?.join(),
-        "tweet.fields": this.tweetFields?.join(),
-        "user.fields": this.userFields?.join(),
-      },
+      params: this.getTweetFields(),
     };
 
     const response = await this.app.getTweet(params);

@@ -20,6 +20,9 @@ import {
 import {
   MEDIA_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
 } from "../common/dataFields";
+import {
+  TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
+} from "../common/expansions";
 
 export default defineApp({
   type: "app",
@@ -53,12 +56,21 @@ export default defineApp({
       label: "Tweet ID",
       description: "The numerical ID of the tweet (also known as \"status\")",
     },
-    expansions: {
+    tweetExpansions: {
       type: "string[]",
       label: "Expansions",
       optional: true,
       description:
-        "Additional data objects to be included in the response.",
+        "Additional data objects related to the Tweet(s) to be included in the response.",
+      options: TWEET_EXPANSION_OPTIONS,
+    },
+    userExpansions: {
+      type: "string[]",
+      label: "Expansions",
+      optional: true,
+      description:
+        "Additional data objects related to the User(s) to be included in the response.",
+      options: USER_EXPANSION_OPTIONS,
     },
     mediaFields: {
       type: "string[]",

@@ -42,6 +42,7 @@ export interface FollowUserParams extends PdAxiosRequest {
 
 export interface GetLikedTweetParams extends PdAxiosRequest {
   userId: string;
+  params: TweetFields;
 }
 
 export interface GetOwnedListsParams extends PdAxiosRequest {
@@ -56,25 +57,29 @@ export interface GetUserTweetsParams extends PdAxiosRequest {
   userId: string;
 }
 
+interface UserFields {
+  expansions: string;
+  "tweet.fields": string;
+  "user.fields": string;
+}
+
 export interface GetUserParams extends PdAxiosRequest {
   userId: string;
-  params: {
-    expansions: string;
-    "tweet.fields": string;
-    "user.fields": string;
-  };
+  params: UserFields;
+}
+
+interface TweetFields {
+  expansions: string;
+  "media.fields": string;
+  "place.fields": string;
+  "poll.fields": string;
+  "tweet.fields": string;
+  "user.fields": string;
 }
 
 export interface GetTweetParams extends PdAxiosRequest {
   tweetId: string;
-  params: {
-    expansions: string;
-    "media.fields": string;
-    "place.fields": string;
-    "poll.fields": string;
-    "tweet.fields": string;
-    "user.fields": string;
-  };
+  params: TweetFields;
 }
 
 export interface ListFollowersParams extends PdAxiosRequest {

@@ -1,6 +1,10 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getUserId } from "../../common/methods";
+import {
+  getUserId, getTweetFields,
+} from "../../common/methods";
+import tweetFieldProps from "../../common/tweetFieldProps";
+import { GetLikedTweetParams } from "../../common/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets";
@@ -19,16 +23,19 @@ export default defineAction({
         "userNameOrId",
       ],
     },
+    ...tweetFieldProps,
   },
   methods: {
     getUserId,
+    getTweetFields,
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
 
-    const params = {
+    const params: GetLikedTweetParams = {
       $,
       userId,
+      params: this.getTweetFields(),
     };
 
     const response = await this.app.getLikedTweets(params);
