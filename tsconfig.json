@@ -1493,6 +1493,27 @@
     },
     {
       "path": "components/cyfe"
+    },
+    {
+      "path": "components/writesonic"
+    },
+    {
+      "path": "components/writer"
+    },
+    {
+      "path": "components/grade_us"
+    },
+    {
+      "path": "components/telesign"
+    },
+    {
+      "path": "components/go_upc"
+    },
+    {
+      "path": "components/warpcast"
+    },
+    {
+      "path": "components/logsnag"
     }
   ]
 }
