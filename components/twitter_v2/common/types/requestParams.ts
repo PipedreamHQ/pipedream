@@ -1,4 +1,5 @@
 import { Pipedream } from "@pipedream/types";
+import { ListFields, TweetFields, UserFields } from "./fields";
 
 interface PdAxiosRequest {
   $: Pipedream;
@@ -52,22 +53,11 @@ export interface GetOwnedListsParams extends PdAxiosRequest {
 
 export interface GetUserMentionsParams extends PdAxiosRequest {
   userId: string;
+  params: TweetFields;
 }
 
 export interface GetUserTweetsParams extends PdAxiosRequest {
   userId: string;
-}
-
-interface ListFields {
-  expansions: string;
-  "list.fields": string;
-  "user.fields": string;
-}
-
-interface UserFields {
-  expansions: string;
-  "tweet.fields": string;
-  "user.fields": string;
 }
 
 export interface GetUserParams extends PdAxiosRequest {
@@ -75,14 +65,6 @@ export interface GetUserParams extends PdAxiosRequest {
   params: UserFields;
 }
 
-interface TweetFields {
-  expansions: string;
-  "media.fields": string;
-  "place.fields": string;
-  "poll.fields": string;
-  "tweet.fields": string;
-  "user.fields": string;
-}
 
 export interface GetTweetParams extends PdAxiosRequest {
   tweetId: string;

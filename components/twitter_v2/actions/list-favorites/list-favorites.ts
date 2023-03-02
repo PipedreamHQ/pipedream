@@ -4,7 +4,7 @@ import {
   getUserId, getTweetFields,
 } from "../../common/methods";
 import tweetFieldProps from "../../common/tweetFieldProps";
-import { GetLikedTweetParams } from "../../common/requestParams";
+import { GetLikedTweetParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets";

@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListFollowersParams } from "../../common/requestParams";
+import { ListFollowersParams } from "../../common/types/requestParams";
 import userFieldProps from "../../common/userFieldProps";
 
 const DOCS_LINK =

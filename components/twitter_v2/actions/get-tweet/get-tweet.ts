@@ -1,6 +1,6 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { GetTweetParams } from "../../common/requestParams";
+import { GetTweetParams } from "../../common/types/requestParams";
 import actionWithTweetFields from "../../common/tweetFieldProps";
 import { getTweetFields } from "../../common/methods";
 

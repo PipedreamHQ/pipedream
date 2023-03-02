@@ -1,6 +1,9 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getUserId } from "../../common/methods";
+import { getUserId, 
+  getTweetFields, } from "../../common/methods";
+import tweetFieldProps from "../../common/tweetFieldProps";
+import { GetUserMentionsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions";
@@ -19,16 +22,19 @@ export default defineAction({
         "userNameOrId",
       ],
     },
+    ...tweetFieldProps
   },
   methods: {
     getUserId,
+    getTweetFields,
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
 
-    const params = {
+    const params: GetUserMentionsParams = {
       $,
       userId,
+      params: this.getTweetFields(),
     };
 
     const response = await this.app.getUserMentions(params);

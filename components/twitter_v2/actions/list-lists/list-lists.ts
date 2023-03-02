@@ -4,7 +4,7 @@ import {
   getUserId, getListFields,
 } from "../../common/methods";
 import listFieldProps from "../../common/listFieldProps";
-import { GetOwnedListsParams } from "../../common/requestParams";
+import { GetOwnedListsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists";

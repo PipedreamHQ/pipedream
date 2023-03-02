@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
-import { UnfollowUserParams } from "../../common/requestParams";
+import { UnfollowUserParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/delete-users-source_id-following";

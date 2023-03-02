@@ -16,7 +16,7 @@ import {
   RetweetParams,
   UnfollowUserParams,
   UnlikeTweetParams,
-} from "../common/requestParams";
+} from "../common/types/requestParams";
 import {
   LIST_FIELD_OPTIONS,
   MEDIA_FIELD_OPTIONS, PLACE_FIELD_OPTIONS, POLL_FIELD_OPTIONS, TWEET_FIELD_OPTIONS, USER_FIELD_OPTIONS,
