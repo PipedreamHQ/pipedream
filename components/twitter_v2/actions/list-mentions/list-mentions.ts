@@ -1,7 +1,9 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
-import { getUserId, 
-  getTweetFields, } from "../../common/methods";
+import {
+  getUserId,
+  getTweetFields,
+} from "../../common/methods";
 import tweetFieldProps from "../../common/tweetFieldProps";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
 
@@ -22,7 +24,7 @@ export default defineAction({
         "userNameOrId",
       ],
     },
-    ...tweetFieldProps
+    ...tweetFieldProps,
   },
   methods: {
     getUserId,

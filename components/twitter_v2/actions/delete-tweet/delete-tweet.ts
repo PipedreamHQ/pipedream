@@ -1,5 +1,6 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
+import { DeleteTweetParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id";
@@ -20,7 +21,7 @@ export default defineAction({
     },
   },
   async run({ $ }): Promise<object> {
-    const params = {
+    const params: DeleteTweetParams = {
       $,
       tweetId: this.tweetId,
     };

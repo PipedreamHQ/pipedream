@@ -3,6 +3,7 @@ import { axios } from "@pipedream/platform";
 import {
   AddUserToListParams,
   CreateTweetParams,
+  DeleteTweetParams,
   FollowUserParams,
   GetLikedTweetParams,
   GetOwnedListsParams,
@@ -159,10 +160,13 @@ export default defineApp({
       });
       return response.data;
     },
-    async deleteTweet(tweetId: string) {
+    async deleteTweet({
+      tweetId, ...args
+    }: DeleteTweetParams) {
       const response = await this._httpRequest({
         method: "DELETE",
         url: `/tweets/${tweetId}`,
+        ...args,
       });
       return response.data;
     },
