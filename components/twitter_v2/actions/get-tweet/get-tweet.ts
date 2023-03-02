@@ -63,12 +63,12 @@ export default defineAction({
       $,
       tweetId: this.tweetId,
       params: {
-        "expansions": this.expansions,
-        "media.fields": this.mediaFields,
-        "place.fields": this.placeFields,
-        "poll.fields": this.pollFields,
-        "tweet.fields": this.tweetFields,
-        "user.fields": this.userFields,
+        "expansions": this.expansions?.join(),
+        "media.fields": this.mediaFields?.join(),
+        "place.fields": this.placeFields?.join(),
+        "poll.fields": this.pollFields?.join(),
+        "tweet.fields": this.tweetFields?.join(),
+        "user.fields": this.userFields?.join(),
       },
     };
 

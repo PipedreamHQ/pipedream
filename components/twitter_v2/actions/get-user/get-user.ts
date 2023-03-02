@@ -50,15 +50,14 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
-    if (!userId) throw new Error("User not found");
 
     const params: GetUserParams = {
       $,
       userId,
       params: {
-        "expansions": this.expansions,
-        "tweet.fields": this.tweetFields,
-        "user.fields": this.userFields,
+        "expansions": this.expansions?.join(),
+        "tweet.fields": this.tweetFields?.join(),
+        "user.fields": this.userFields?.join(),
       },
     };
 

@@ -26,7 +26,6 @@ export default defineAction({
   },
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
-    if (!userId) throw new Error("User not found");
 
     const params: ListFollowersParams = {
       $,
