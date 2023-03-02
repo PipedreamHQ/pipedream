@@ -2087,7 +2087,7 @@ importers:
 
   components/memix:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.3.0
 
