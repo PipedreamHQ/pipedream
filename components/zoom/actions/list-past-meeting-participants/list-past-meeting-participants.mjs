@@ -1,36 +1,38 @@
-// legacy_hash_id: a_YEik5g
-import { axios } from "@pipedream/platform";
+import app from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-list-past-meeting-participants",
   name: "List Past Meeting Participants",
   description: "Retrieve information on participants from a past meeting.",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
-    zoom: {
-      type: "app",
-      app: "zoom",
-    },
-    meeting_id: {
-      type: "string",
+    app,
+    meetingId: {
+      propDefinition: [
+        app,
+        "meetingId",
+      ],
     },
   },
-  async run({ $ }) {
-    const config = {
-      url: `https://api.zoom.us/v2/past_meetings/${this.meeting_id}/participants`,
-      headers: {
-        Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`,
-      },
-    };
-
-    const results = await axios($, config);
-
-    return results.participants.filter((element, index) => {
-      const _element = JSON.stringify(element);
-      return index === results.participants.findIndex((obj) => {
-        return JSON.stringify(obj) === _element;
+  methods: {
+    listPastMeetingParticipants({
+      meetingId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/past_meetings/${meetingId}/participants`,
+        ...args,
       });
+    },
+  },
+  async run({ $: step }) {
+    const { participants } = await this.listPastMeetingParticipants({
+      step,
+      meetingId: this.meetingId,
     });
+
+    step.export("$summary", `Successfully retrieved ${participants.length} past meeting participants`);
+
+    return participants;
   },
 };

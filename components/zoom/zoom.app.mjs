@@ -1,21 +1,56 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "zoom",
   propDefinitions: {
-    meetingIds: {
-      type: "integer[]",
-      label: "Meeting Filter",
-      description: "Optionally filter for events for one or more meetings",
-      async options({ page }) {
-        const { meetings } = await this.listMeetings({
-          page_number: page + 1,
+    webinarId: {
+      type: "string",
+      label: "Webinar",
+      description: "The webinar to get details for",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listWebinars({
+          params: {
+            next_page_token: nextPageToken,
+          },
         });
-        return meetings.map((meeting) => ({
+        const options = response.webinars.map(({
+          id: value, topic: label,
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+          options,
+        };
+      },
+    },
+    meetingId: {
+      type: "integer",
+      label: "Meeting ID",
+      description: "The meeting ID to get details for.",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listMeetings({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+        const options = response.meetings.map((meeting) => ({
           label: `${meeting.topic} (${meeting.id})`,
           value: meeting.id,
         }));
+        return {
+          options,
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
       },
       optional: true,
     },
@@ -35,64 +70,171 @@ export default {
       optional: true,
       default: false,
     },
+    occurrenceIds: {
+      type: "string",
+      label: "Occurrence IDs",
+      description: "Occurrence IDs. You can find these with the meeting get API. Multiple values separated by comma.",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "A valid email address of the registrant.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "Registrant's first name.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Registrant's last name.",
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "Registrant's address.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "Registrant's city.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Registrant's country.",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip/Postal Code",
+      description: "Registrant's Zip/Postal code.",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State/Province",
+      description: "Registrant's State/Province.",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Registrant's Phone number.",
+      optional: true,
+    },
+    industry: {
+      type: "string",
+      label: "Industry",
+      description: "Registrant's industry.",
+      optional: true,
+    },
+    org: {
+      type: "string",
+      label: "Organization",
+      description: "Registrant's Organization.",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "Registrant's job title.",
+      optional: true,
+    },
+    purchasingTimeFrame: {
+      type: "string",
+      label: "Purchasing Time Frame",
+      description: "This field can be included to gauge interest of webinar attendees towards buying your product or service.",
+      optional: true,
+    },
+    roleInPurchaseProcess: {
+      type: "string",
+      label: "Role in Purchase Process",
+      description: "Role in Purchase Process.",
+      optional: true,
+    },
+    noOfEmployees: {
+      type: "string",
+      label: "Number of Employees",
+      description: "Number of Employees.",
+      optional: true,
+    },
+    comments: {
+      type: "string",
+      label: "Comments",
+      description: "A field that allows registrants to provide any questions or comments that they might have.",
+      optional: true,
+    },
+    customQuestions: {
+      type: "string",
+      label: "Custom Questions",
+      description: "Custom questions.",
+      optional: true,
+    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.zoom.us/v2/";
+    _getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    _getHeaders() {
+    _getHeaders(headers) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
+        ...headers,
       };
     },
-    async _makeRequest(args = {}) {
-      const {
-        method = "GET",
-        headers,
-        path,
-        $ = this,
-        ...otherArgs
-      } = args;
+    _makeRequest({
+      step = this, headers, path, ...args
+    } = {}) {
       const config = {
-        method,
-        headers: {
-          ...headers,
-          ...this._getHeaders(),
-        },
-        url: `${this._baseUrl()}${path}`,
-        ...otherArgs,
+        headers: this._getHeaders(headers),
+        url: this._getUrl(path),
+        ...args,
       };
-      return axios($, config);
+      return axios(step, config);
     },
-    async getPastMeetingDetails(meetingId, params) {
+    create(args = {}) {
       return this._makeRequest({
-        path: `past_meetings/${meetingId}`,
-        params,
+        method: "post",
+        ...args,
       });
     },
-    async listMeetings(params) {
+    getPastMeetingDetails({
+      meetingId, ...args
+    } = {}) {
       return this._makeRequest({
-        path: "users/me/meetings",
-        params,
+        path: `/past_meetings/${meetingId}`,
+        ...args,
       });
     },
-    async listWebinars(params) {
+    listMeetings(args = {}) {
       return this._makeRequest({
-        path: "users/me/webinars",
-        params,
+        path: "/users/me/meetings",
+        ...args,
       });
     },
-    async listWebinarMetrics(params) {
+    listWebinars({
+      userId = "me", ...args
+    } = {}) {
       return this._makeRequest({
-        path: "metrics/webinars",
-        params,
+        path: `/users/${userId}/webinars`,
+        ...args,
       });
     },
-    async listRecordings(params) {
+    listWebinarMetrics(args = {}) {
       return this._makeRequest({
-        path: "users/me/recordings",
-        params,
+        path: "/metrics/webinars",
+        ...args,
+      });
+    },
+    listRecordings(args = {}) {
+      return this._makeRequest({
+        path: "/users/me/recordings",
+        ...args,
       });
     },
   },

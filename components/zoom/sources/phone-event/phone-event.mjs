@@ -1,29 +1,29 @@
-import zoom from "../../zoom.app.mjs";
+import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
+  ...common,
   key: "zoom-phone-event",
   name: "Zoom Phone Events (Instant)",
-  description: "Listen for any Zoom Phone events tied to your Zoom user or resources you own",
-  version: "0.0.2",
+  description: "Emit new Zoom Phone event tied to your Zoom user or resources you own",
+  version: "0.1.0",
   type: "source",
   props: {
-    zoom,
+    ...common.props,
     eventNameOptions: {
-      label: "Zoom Events",
       type: "string[]",
-      options: constants.PHONE_EVENT_TYPES,
+      label: "Zoom Events",
+      description: "Select the events you want to listen for",
+      options: Object.values(constants.PHONE_EVENT_TYPES),
     },
-    zoomApphook: {
-      type: "$.interface.apphook",
-      appProp: "zoom",
-      async eventNames() {
-        return this.eventNameOptions;
-      },
+  },
+  methods: {
+    ...common.methods,
+    getEventNames() {
+      return this.eventNameOptions;
     },
   },
   async run(event) {
-    console.log(event);
     this.$emit(event, {
       id: event.payload?.object?.id,
       summary: event.event,

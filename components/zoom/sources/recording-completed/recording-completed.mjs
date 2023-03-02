@@ -1,48 +1,47 @@
-import zoom from "../../zoom.app.mjs";
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
+  ...common,
   key: "zoom-recording-completed",
   name: "Recording Completed (Instant)",
   description: "Emit new event each time a new recording completes for a meeting or webinar where you're the host",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    zoomApphook: {
-      type: "$.interface.apphook",
-      appProp: "zoom",
-      eventNames: [
-        "recording.completed",
-      ],
-    },
     meetingIds: {
+      type: "integer[]",
+      label: "Meeting Filter",
+      description: "Optionally filter for events for one or more meetings",
       propDefinition: [
-        zoom,
-        "meetingIds",
+        common.props.app,
+        "meetingId",
       ],
     },
     includeAudioRecordings: {
       propDefinition: [
-        zoom,
+        common.props.app,
         "includeAudioRecordings",
       ],
     },
     includeChatTranscripts: {
       propDefinition: [
-        zoom,
+        common.props.app,
         "includeChatTranscripts",
       ],
     },
   },
   hooks: {
     async deploy() {
-      const { meetings } = await this.zoom.listRecordings({
-        from: this.monthAgo(),
-        to: new Date().toISOString()
-          .slice(0, 10),
-        page_size: 25,
+      const { meetings } = await this.app.listRecordings({
+        params: {
+          from: this.monthAgo(),
+          to: new Date().toISOString()
+            .slice(0, 10),
+          page_size: 25,
+        },
       });
       if (!meetings || meetings.length === 0) {
         return;
@@ -62,6 +61,11 @@ export default {
   },
   methods: {
     ...common.methods,
+    getEventNames() {
+      return [
+        constants.CUSTOM_EVENT_TYPES.RECORDING_COMPLETED,
+      ];
+    },
     isMeetingRelevant(meeting) {
       const {
         id, recording_files,
@@ -103,7 +107,7 @@ export default {
     },
   },
   async run(event) {
-    if (event.event !== "recording.completed") {
+    if (event.event !== constants.CUSTOM_EVENT_TYPES.RECORDING_COMPLETED) {
       console.log("Not a recording.completed event. Exiting");
       return;
     }

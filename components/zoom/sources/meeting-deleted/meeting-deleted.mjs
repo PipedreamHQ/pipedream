@@ -1,25 +1,22 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "zoom-meeting-deleted",
   name: "Meeting Deleted (Instant)",
   description: "Emit new event each time a meeting is deleted where you're the host",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "source",
-  dedupe: "unique", // Dedupe based on meeting ID
-  props: {
-    ...common.props,
-    zoomApphook: {
-      type: "$.interface.apphook",
-      appProp: "zoom",
-      eventNames: [
-        "meeting.deleted.by_me",
-        "meeting.deleted.for_me",
-      ],
-    },
-  },
+  dedupe: "unique",
   methods: {
+    ...common.methods,
+    getEventNames() {
+      return [
+        constants.CUSTOM_EVENT_TYPES.MEETING_DELETED_BY_ME,
+        constants.CUSTOM_EVENT_TYPES.MEETING_DELETED_FOR_ME,
+      ];
+    },
     emitEvent(payload, object) {
       const meta = this.generateMeta(object);
       this.$emit({
