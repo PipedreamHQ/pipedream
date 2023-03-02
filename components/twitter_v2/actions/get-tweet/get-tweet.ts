@@ -18,11 +18,55 @@ export default defineAction({
         "tweetId",
       ],
     },
+    tweetExpansions: {
+      propDefinition: [
+        app,
+        "tweetExpansions",
+      ],
+    },
+    mediaFields: {
+      propDefinition: [
+        app,
+        "mediaFields",
+      ],
+    },
+    placeFields: {
+      propDefinition: [
+        app,
+        "placeFields",
+      ],
+    },
+    pollFields: {
+      propDefinition: [
+        app,
+        "pollFields",
+      ],
+    },
+    tweetFields: {
+      propDefinition: [
+        app,
+        "tweetFields",
+      ],
+    },
+    userFields: {
+      propDefinition: [
+        app,
+        "userFields",
+      ],
+    },
   },
   async run({ $ }): Promise<object> {
     const params = {
       $,
       tweetId: this.tweetId,
+      params: {
+        "expansions": this.tweetExpansions,
+        "media.fields": this.mediaFields,
+        "place.fields": this.placeFields,
+        "poll.fields": this.pollFields,
+        "tweet.fields": this.tweetFields,
+        "user.fields": this.userFields,
+      },
     };
 
     const response = await this.app.getTweet(params);
