@@ -50,7 +50,7 @@ export default {
             ...params,
             page_number: page,
           },
-        }); console.log(data);
+        });
         for (const result of data) {
           const resultTs = this.getResultTs(result);
           if (resultTs > lastTs) {

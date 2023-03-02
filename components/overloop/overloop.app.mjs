@@ -3,7 +3,162 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "overloop",
-  propDefinitions: {},
+  propDefinitions: {
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "The identifier of a contact",
+      async options({ page }) {
+        const { data: contacts } = await this.listContacts({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return contacts?.map((contact) => ({
+          label: `${contact.attributes.first_name} ${contact.attributes.last_name}`,
+          value: contact.id,
+        })) || [];
+      },
+    },
+    automationId: {
+      type: "string",
+      label: "Campaign ID",
+      description: "The identifier of a campaign",
+      async options({
+        page, type, status,
+      }) {
+        const { data: campaigns } = await this.listAutomations({
+          params: {
+            page_number: page + 1,
+            filter: `automation_type:${type},${status
+              ? "status:" + status
+              : ""}`,
+          },
+        });
+        return campaigns?.map((campaign) => ({
+          label: campaign.attributes.name,
+          value: campaign.id,
+        })) || [];
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The identifier of a user",
+      optional: true,
+      async options({ page }) {
+        const { data: users } = await this.listUsers({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return users?.map((user) => ({
+          label: user.attributes.name,
+          value: user.id,
+        })) || [];
+      },
+    },
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description: "The identifier of an organization",
+      optional: true,
+      async options({ page }) {
+        const { data: orgs } = await this.listOrganizations({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return orgs?.map((org) => ({
+          label: org.attributes.name,
+          value: org.id,
+        })) || [];
+      },
+    },
+    dealId: {
+      type: "string",
+      label: "Deal ID",
+      description: "The identifier of a deal",
+      async options({ page }) {
+        const { data: deals } = await this.listDeals({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return deals?.map((deal) => ({
+          label: deal.attributes.title,
+          value: deal.id,
+        })) || [];
+      },
+    },
+    stageId: {
+      type: "string",
+      label: "Stage ID",
+      description: "The identifier of a stage",
+      optional: true,
+      async options({ page }) {
+        const { data: stages } = await this.listStages({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return stages?.map((stage) => ({
+          label: stage.attributes.name,
+          value: stage.id,
+        })) || [];
+      },
+    },
+    listNames: {
+      type: "string[]",
+      label: "List Names",
+      description: "An array of list names",
+      optional: true,
+      async options({ page }) {
+        const { data: lists } = await this.listLists({
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return lists?.map((list) => list.attributes.name ) || [];
+      },
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The contact's first name",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The contact's last name",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The contact's email address",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The contact's phone number",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The name of the deal",
+      optional: true,
+    },
+    value: {
+      type: "integer",
+      label: "Value",
+      description: "The value of the deal",
+      optional: true,
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.overloop.com/public/v1";
@@ -76,6 +231,41 @@ export default {
     listExclusingListItems(args = {}) {
       return this._makeRequest({
         path: "/exclusion_list_items",
+        ...args,
+      });
+    },
+    createEnrollment(automationId, args = {}) {
+      return this._makeRequest({
+        path: `/automations/${automationId}/enrollments`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        method: "POST",
+        ...args,
+      });
+    },
+    updateContact(contactId, args = {}) {
+      return this._makeRequest({
+        path: `/contacts/${contactId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    createDeal(args = {}) {
+      return this._makeRequest({
+        path: "/deals",
+        method: "POST",
+        ...args,
+      });
+    },
+    updateDeal(dealId, args = {}) {
+      return this._makeRequest({
+        path: `/deals/${dealId}`,
+        method: "PATCH",
         ...args,
       });
     },
