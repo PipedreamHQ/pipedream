@@ -15,28 +15,42 @@ export async function getUserId(): Promise<string> {
 }
 
 export function getListFields() {
+  const {
+    expansions, listFields, userFields,
+  }: Record<string, string[]> = this;
   return {
-    "expansions": this.expansions?.join(),
-    "list.fields": this.listFields?.join(),
-    "user.fields": this.userFields?.join(),
+    "expansions": expansions?.join(),
+    "list.fields": listFields?.join(),
+    "user.fields": userFields?.join(),
   };
 }
 
 export function getTweetFields() {
+  const {
+    expansions,
+    mediaFields,
+    placeFields,
+    pollFields,
+    tweetFields,
+    userFields,
+  }: Record<string, string[]> = this;
   return {
-    "expansions": this.expansions?.join(),
-    "media.fields": this.mediaFields?.join(),
-    "place.fields": this.placeFields?.join(),
-    "poll.fields": this.pollFields?.join(),
-    "tweet.fields": this.tweetFields?.join(),
-    "user.fields": this.userFields?.join(),
+    "expansions": expansions?.join(),
+    "media.fields": mediaFields?.join(),
+    "place.fields": placeFields?.join(),
+    "poll.fields": pollFields?.join(),
+    "tweet.fields": tweetFields?.join(),
+    "user.fields": userFields?.join(),
   };
 }
 
 export function getUserFields() {
+  const {
+    expansions, tweetFields, userFields,
+  }: Record<string, string[]> = this;
   return {
-    "expansions": this.expansions?.join(),
-    "tweet.fields": this.tweetFields?.join(),
-    "user.fields": this.userFields?.join(),
+    "expansions": expansions?.join(),
+    "tweet.fields": tweetFields?.join(),
+    "user.fields": userFields?.join(),
   };
 }
