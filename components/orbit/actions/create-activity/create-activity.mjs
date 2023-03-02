@@ -58,7 +58,7 @@ export default {
       description: "The key for a custom activity type for the workspace. Will create a new activity type if it does not exist.",
       optional: true,
     },
-    ocurredAt: {
+    occurredAt: {
       type: "string",
       label: "Occurred At",
       description: "The date and time the activity occurred; defaults to now.",
@@ -79,7 +79,7 @@ export default {
       link_text: this.linkText,
       weight: this.weight,
       activity_type_key: this.activityTypeKey,
-      occurred_at: this.ocurredAt,
+      occurred_at: this.occurredAt,
       properties: this.properties,
     };
     const res = await this.app.createActivity(
@@ -87,7 +87,7 @@ export default {
       this.workspaceMemberSlug,
       activity,
     );
-    $.export("$summary", "Activity successfully created");
+    $.export("$summary", `Activity successfully created with id "${res.data.id}"`);
     return res;
   },
 };

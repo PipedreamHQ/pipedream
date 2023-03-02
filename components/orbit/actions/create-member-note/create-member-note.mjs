@@ -38,7 +38,7 @@ export default {
       this.workspaceMemberSlug,
       note,
     );
-    $.export("$summary", "Note successfully created");
+    $.export("$summary", `Note successfully created with id "${res.data.id}"`);
     return res;
   },
 };

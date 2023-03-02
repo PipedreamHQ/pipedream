@@ -147,7 +147,7 @@ export default {
       this.workspaceSlug,
       member,
     );
-    $.export("$summary", "Member successfully created");
+    $.export("$summary", `Member successfully created with id "${res.data.id}"`);
     return res;
   },
 };

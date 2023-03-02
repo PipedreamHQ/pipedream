@@ -66,7 +66,7 @@ export default {
       this.workspaceSlug,
       query,
     );
-    $.export("$summary", "Member(s) successfully fetched");
+    $.export("$summary", `Member successfully fetched with id "${res.data.id}"`);
     return res;
   },
 };
