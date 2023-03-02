@@ -1508,6 +1508,9 @@
     },
     {
       "path": "components/warpcast"
+    },
+    {
+      "path": "components/logsnag"
     }
   ]
 }
