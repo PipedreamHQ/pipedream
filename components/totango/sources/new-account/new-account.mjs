@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Account",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "totango-new-account",
-  description: "Emit new event for each created account",
+  description: "Emit new event for each created account. [See the docs](https://support.totango.com/hc/en-us/articles/204174135-Search-API-accounts-and-users-)",
   type: "source",
   dedupe: "unique",
   methods: {

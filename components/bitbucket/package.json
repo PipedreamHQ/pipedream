@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/bitbucket",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Bitbucket Components",
   "main": "bitbucket.app.mjs",
   "keywords": [
