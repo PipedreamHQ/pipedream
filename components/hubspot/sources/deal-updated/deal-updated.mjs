@@ -5,9 +5,33 @@ export default {
   key: "hubspot-deal-updated",
   name: "Deal Updated",
   description: "Emit new event each time a deal is updated.",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    pipeline: {
+      propDefinition: [
+        common.props.hubspot,
+        "dealPipeline",
+      ],
+      description: "Filter deals by pipeline",
+      optional: true,
+    },
+    stage: {
+      propDefinition: [
+        common.props.hubspot,
+        "stages",
+        (c) => ({
+          pipeline: c.pipeline,
+        }),
+      ],
+      type: "string",
+      label: "Stage",
+      description: "Filter deals by stage",
+      optional: true,
+    },
+  },
   hooks: {},
   methods: {
     ...common.methods,
@@ -30,7 +54,7 @@ export default {
       return this.getTs(deal) > updatedAfter;
     },
     getParams() {
-      return {
+      const params = {
         limit: 100,
         sorts: [
           {
@@ -40,6 +64,23 @@ export default {
         ],
         object: "deals",
       };
+      if (this.pipeline) {
+        params.filters = [
+          {
+            propertyName: "pipeline",
+            operator: "EQ",
+            value: this.pipeline,
+          },
+        ];
+        if (this.stage) {
+          params.filters.push({
+            propertyName: "dealstage",
+            operator: "EQ",
+            value: this.stage,
+          });
+        }
+      }
+      return params;
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);
