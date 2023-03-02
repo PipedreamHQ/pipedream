@@ -3,7 +3,7 @@ export default {
   name: "Caption to Memix URL",
   description:
     "Generate a Memix share URL with a random template using the supplied caption",
-  key: "memix_random",
+  key: "memix-random",
   version: "0.0.1",
   type: "action",
   props: {
