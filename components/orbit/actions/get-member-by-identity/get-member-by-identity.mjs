@@ -14,6 +14,15 @@ export default {
         "workspaceSlug",
       ],
     },
+    activityTypes: {
+      propDefinition: [
+        app,
+        "activityType",
+        (c) => ({
+          workspaceSlug: c.workspaceSlug,
+        }),
+      ],
+    },
     source: {
       type: "string",
       label: "Source",

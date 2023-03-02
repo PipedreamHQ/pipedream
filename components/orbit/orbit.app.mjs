@@ -31,6 +31,19 @@ export default {
         }));
       },
     },
+    activityType: {
+      type: "string",
+      label: "Activity Type",
+      description: "The activity type to use",
+      optional: true,
+      async options({ workspaceSlug }) {
+        const res = await this.getActivityTypes(workspaceSlug);
+        return res.data.map((activityType) => ({
+          label: activityType.attributes.key,
+          value: activityType.attributes.key,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -93,6 +106,25 @@ export default {
         method: "GET",
         path: `/${workspaceSlug}/members/find`,
         params: query,
+      });
+    },
+    async getActivityTypes(workspaceSlug) {
+      return this._makeHttpRequest({
+        method: "GET",
+        path: `/${workspaceSlug}/activity_types`,
+      });
+    },
+    async createHook(workspaceSlug, hook) {
+      return this._makeHttpRequest({
+        method: "POST",
+        path: `/${workspaceSlug}/hooks`,
+        data: hook,
+      });
+    },
+    async deleteHook(workspaceSlug, hookId) {
+      return this._makeHttpRequest({
+        method: "DELETE",
+        path: `/${workspaceSlug}/hooks/${hookId}`,
       });
     },
   },
