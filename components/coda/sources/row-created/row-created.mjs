@@ -2,9 +2,9 @@ import coda from "../../coda.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "coda-row-updated",
-  name: "Row Updated",
-  description: "Emit new event for every updated row in a table. [See the docs here.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
+  key: "coda-row-created",
+  name: "Row Created",
+  description: "Emit new event for every created / updated row in a table. [See the docs here.](https://coda.io/developers/apis/v1#tag/Rows/operation/listRows)",
   type: "source",
   version: "0.0.1",
   props: {
@@ -30,6 +30,12 @@ export default {
           docId: c.docId,
         }),
       ],
+    },
+    includeUpdates: {
+      type: "boolean",
+      label: "Include Updated Rows",
+      description: "Emit events for updates on existing rows?",
+      optional: true,
     },
   },
   methods: {
@@ -79,14 +85,18 @@ export default {
     }
 
     for (const row of rows.reverse()) {
-      if (!emittedRows.includes(row.id)) {
+      const id = this.includeUpdates
+        ? `${row.id}-${row.updatedAt}`
+        : row.id;
+
+      if (!emittedRows.includes(id)) {
         this.$emit(row, {
-          id: row.id,
+          id,
           summary: this.rowSummary(row),
           ts: row.updatedAt,
         });
 
-        emittedRows.unshift(row.id);
+        emittedRows.unshift(id);
       }
     }
 
