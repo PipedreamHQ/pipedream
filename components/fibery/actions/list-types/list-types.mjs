@@ -13,6 +13,7 @@ export default {
         fibery,
         "space",
       ],
+      description: "Filter types by space",
       optional: true,
     },
   },

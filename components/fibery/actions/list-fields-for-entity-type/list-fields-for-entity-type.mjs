@@ -8,29 +8,21 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
-    },
-    entityType: {
-      propDefinition: [
-        fibery,
-        "entityType",
-        (c) => ({
-          space: c.space,
-        }),
-      ],
+      withLabel: true,
     },
   },
   async run({ $ }) {
-    const response = await this.fibery.listFields({
+    const type = this.type.label;
+    const response = await this.fibery.listFieldsForType({
       $,
-      space: this.space,
-      entityType: this.entityType,
+      type,
     });
-    $.export("$summary", `Successfully listed ${response.length} field(s) for ${this.entityType}`);
+    $.export("$summary", `Successfully listed ${response.length} field(s) for ${type}`);
     return response;
   },
 };

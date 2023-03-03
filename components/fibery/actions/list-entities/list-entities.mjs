@@ -8,44 +8,64 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
+      withLabel: true,
     },
-    listingType: {
+    fields: {
       propDefinition: [
         fibery,
-        "listingType",
+        "field",
         (c) => ({
-          space: c.space,
+          type: c.type.label,
         }),
       ],
+      type: "string[]",
+      label: "Fields",
+      description: `The select fields to return in the query. This prop is an array of strings.
+      Each string should have the same structure as [in the docs](https://api.fibery.io/#select-fields)
+      E.g. \`["fibery/id",{"Development/Team":["fibery/id"]}]\``,
+      optional: true,
     },
-    filter: {
+    where: {
       propDefinition: [
         fibery,
-        "filter",
+        "where",
       ],
       optional: true,
     },
-    fields: {
-      type: "string[]",
-      label: "Fields",
-      description: "The fields to return in the query. Defaults to `id` and `name` only",
+    params: {
+      propDefinition: [
+        fibery,
+        "params",
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.fibery.listEntities({
+    const fields = typeof (this.fields) === "string"
+      ? JSON.parse(this.fields)
+      : this.fields;
+
+    const where = typeof (this.where) === "string"
+      ? JSON.parse(this.where)
+      : this.where;
+
+    const params = typeof (this.params) === "string"
+      ? JSON.parse(this.params)
+      : this.params;
+
+    const { result: entities } = await this.fibery.listEntitiesCommand({
       $,
-      space: this.space,
-      listingType: this.listingType,
-      filter: this.filter,
-      fields: this.fields,
+      type: this.type.label,
+      where,
+      fields,
+      params,
     });
-    $.export("$summary", `Successfully listed ${response.length} ${this.fibery.singularOrPluralEntity(response)}`);
-    return response;
+    $.export("$summary", `Successfully listed ${entities.length} ${this.fibery.singularOrPluralEntity(entities)}`);
+    return entities;
   },
 };

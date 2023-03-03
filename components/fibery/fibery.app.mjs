@@ -25,7 +25,6 @@ export default {
       type: "string",
       label: "Type",
       description: "A custom type in your Fibery account",
-      withLabel: true,
       async options({ space }) {
         const types = await this.listTypes({
           space,
@@ -59,23 +58,24 @@ export default {
     field: {
       type: "string",
       label: "Field",
-      description: "The field in an entity",
-      async options({
-        space, entityType,
-      }) {
-        const fields = await this.listFields({
-          space,
-          entityType,
+      description: "The field in an entity type",
+      async options({ type }) {
+        const fields = await this.listFieldsForType({
+          type,
         });
-        return fields.map((field) => field.name);
+        return fields.map((field) => field["fibery/name"]);
       },
     },
-    filter: {
+    where: {
+      type: "string",
+      label: "Where",
+      description: `A list of expressions to filter the results. [See docs here](https://api.fibery.io/#filter-entities).
+      E.g. \`[ "=", [ "Development/name" ], "$pipedream" ]\``,
+    },
+    params: {
       type: "object",
-      label: "Filter",
-      description: `The filter expression(s) that will be applied in the query.
-      This prop is a JSON object, where each key is the name of the field to filter, and each value is the filtering condition defined in Fibery.
-      E.g. \`{ "name": { is: "Pipedream"} }\`. [See filtering conditions here](https://api.fibery.io/graphql.html#filtering)`,
+      label: "Params",
+      description: "The params to pass with the `where` query. E.g. `{ \"$pipedream\": \"pipedream\" }`",
     },
     attributes: {
       type: "object",
@@ -131,6 +131,10 @@ export default {
         ? "entity"
         : "entities";
     },
+    getFieldName(type) {
+      const database = type.split("/")[0];
+      return `${database}/name`;
+    },
     async makeGraphQLRequest({
       $, space, query, ...opts
     }) {
@@ -154,7 +158,9 @@ export default {
     async makeCommand({
       command, args = {}, ...opts
     }) {
-      const response = await this._makeRequest({
+      const [
+        response,
+      ] = await this._makeRequest({
         ...opts,
         path: "/commands",
         data: [
@@ -214,9 +220,7 @@ export default {
     async listTypes({
       space, ...opts
     } = {}) {
-      const [
-        response,
-      ] = await this.makeCommand({
+      const response = await this.makeCommand({
         command: "fibery.schema/query",
         ...opts,
       });
@@ -225,21 +229,16 @@ export default {
         .filter((type) => this._isCustomType(type))
         .filter((type) => this._isTypeInSpace(type, space));
     },
-    async listFields({
-      space, entityType, ...opts
+    async listFieldsForType({
+      type, ...opts
     }) {
-      const defaultFields = [
-        "id",
-        "name",
-      ];
-      const { data } = await this.makeGraphQLRequest({
+      const response = await this.makeCommand({
+        command: "fibery.schema/query",
         ...opts,
-        space,
-        query: MUTATION_ALL,
       });
-      return data.__type.fields
-        .find((t) => t.name === entityType)?.args
-        .map((field) => field.name) ?? defaultFields;
+
+      return response["result"]["fibery/types"]
+        .find((fiberyType) => fiberyType["fibery/name"] === type)["fibery/fields"];
     },
     async listHistoricalEntities({
       type, fieldName, ...opts
@@ -265,6 +264,28 @@ export default {
             ],
             "q/limit": HISTORICAL_LIMIT,
           },
+        },
+      });
+    },
+    async listEntitiesCommand({
+      type, where, fields, params, ...opts
+    }) {
+      return this.makeCommand({
+        ...opts,
+        command: "fibery.entity/query",
+        args: {
+          query: {
+            "q/from": type,
+            "q/select": [
+              "fibery/id",
+              "fibery/creation-date",
+              this.getFieldName(type),
+              ...fields,
+            ],
+            "q/where": where,
+            "q/limit": MAX_LIMIT,
+          },
+          params,
         },
       });
     },

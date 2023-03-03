@@ -10,15 +10,17 @@ export default {
         fibery,
         "type",
       ],
+      withLabel: true,
     },
   },
   hooks: {
     async deploy() {
+      const type = this.type.label;
       const [
         response,
       ] = await this.fibery.listHistoricalEntities({
-        type: this.type.label,
-        fieldName: this.getFieldName(),
+        type,
+        fieldName: this.fibery.getFieldName(type),
       });
 
       response.result.forEach((entity) => {
@@ -51,10 +53,6 @@ export default {
     },
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
-    },
-    getFieldName() {
-      const database = this.type.label.split("/")[0];
-      return `${database}/name`;
     },
     getEntityId(entity) {
       return entity["fibery/id"] || entity["id"];
