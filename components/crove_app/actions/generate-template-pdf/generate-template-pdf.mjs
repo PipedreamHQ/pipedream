@@ -4,7 +4,7 @@ export default {
   key: "crove_app-generate-template-pdf",
   name: "Generate Document PDF From Template",
   description: "Generate PDF of a document created from the template",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     croveApp,
