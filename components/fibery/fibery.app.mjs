@@ -73,12 +73,16 @@ export default {
     filter: {
       type: "object",
       label: "Filter",
-      description: "The filter expression(s) that will be applied in the query. E.g. `name: { is: \"Pipedream\"}`. [More info here](https://api.fibery.io/graphql.html#filtering)",
+      description: `The filter expression(s) that will be applied in the query.
+      This prop is a JSON object, where each key is the name of the field to filter, and each value is the filtering condition defined in Fibery.
+      E.g. \`{ "name": { is: "Pipedream"} }\`. [See filtering conditions here](https://api.fibery.io/graphql.html#filtering)`,
     },
     attributes: {
       type: "object",
       label: "Attributes",
-      description: "The attributes of the entity to create",
+      description: `The attributes of the entity to create.
+      This prop is a JSON object, where each key is the name of the attribute, and each value is the value to set for the field.
+      You can use the **List Fields for Entity Type** action to get the list of available fields`,
     },
   },
   methods: {
