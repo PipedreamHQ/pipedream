@@ -175,6 +175,20 @@ export default {
       description: "Custom questions.",
       optional: true,
     },
+    nextPageToken: {
+      type: "string",
+      label: "Next Page Token",
+      description: "Use the next page token to paginate through large result sets. A next page token is returned whenever the set of available results exceeds the current page size. This token's expiration period is 15 minutes. Example: `IAfJX3jsOLW7w3dokmFl84zOa0MAVGyMEB2`",
+      optional: true,
+    },
+    max: {
+      type: "integer",
+      label: "Max Resources",
+      description: "The maximum number of resources to retrieve.",
+      optional: true,
+      default: constants.MAX_RESOURCES,
+      min: 1,
+    },
   },
   methods: {
     _getUrl(path) {
@@ -236,6 +250,46 @@ export default {
         path: "/users/me/recordings",
         ...args,
       });
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      resourceName,
+      max = constants.MAX_RESOURCES,
+    }) {
+      let nextPageToken;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response = await resourceFn({
+          ...resourceFnArgs,
+          params: {
+            ...resourceFnArgs.params,
+            next_page_token: nextPageToken,
+          },
+        });
+
+        const nextResources = response[resourceName];
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            return;
+          }
+        }
+
+        nextPageToken = response.next_page_token;
+        if (!nextPageToken) {
+          return;
+        }
+      }
     },
   },
 };

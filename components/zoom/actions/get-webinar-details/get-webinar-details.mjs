@@ -3,7 +3,7 @@ import app from "../../zoom.app.mjs";
 export default {
   key: "zoom-get-webinar-details",
   name: "Get Webinar Details",
-  description: "Gets details of a scheduled webinar.",
+  description: "Gets details of a scheduled webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/webinar).",
   version: "0.3.0",
   type: "action",
   props: {
@@ -45,7 +45,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully retrieved webinar details for webinar ID ${webinarId}`);
+    step.export("$summary", `Successfully retrieved webinar details with ID \`${response.id}\``);
 
     return response;
   },

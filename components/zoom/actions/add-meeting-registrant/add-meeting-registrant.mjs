@@ -3,7 +3,7 @@ import app from "../../zoom.app.mjs";
 export default {
   key: "zoom-add-meeting-registrant",
   name: "Add Meeting Registrant",
-  description: "Registers a participant for a meeting.",
+  description: "Registers a participant for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingRegistrantCreate)",
   version: "0.3.0",
   type: "action",
   props: {
@@ -185,7 +185,7 @@ export default {
       },
     });
 
-    step.export("$summary", "Successfully added registrant to meeting");
+    step.export("$summary", `Successfully added registrant to meeting with ID \`${response.id}\``);
 
     return response;
   },

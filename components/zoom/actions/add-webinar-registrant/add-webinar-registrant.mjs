@@ -3,7 +3,7 @@ import app from "../../zoom.app.mjs";
 export default {
   key: "zoom-add-webinar-registrant",
   name: "Add Webinar Registrant",
-  description: "Registers a participant for a webinar. [See the docs here]().",
+  description: "Registers a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate).",
   version: "0.3.0",
   type: "action",
   props: {
@@ -185,7 +185,7 @@ export default {
       },
     });
 
-    step.export("$summary", "Successfully added registrant to webinar");
+    step.export("$summary", `Successfully added registrant to webinar with ID \`${response.id}\``);
 
     return response;
   },

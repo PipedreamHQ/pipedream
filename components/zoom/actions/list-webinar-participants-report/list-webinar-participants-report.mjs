@@ -1,4 +1,5 @@
 import app from "../../zoom.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-list-webinar-participants-report",
@@ -14,6 +15,18 @@ export default {
         "webinarId",
       ],
     },
+    nextPageToken: {
+      propDefinition: [
+        app,
+        "nextPageToken",
+      ],
+    },
+    max: {
+      propDefinition: [
+        app,
+        "max",
+      ],
+    },
   },
   methods: {
     async listWebinarParticipantsReport({
@@ -26,16 +39,30 @@ export default {
     },
   },
   async run({ $: step }) {
-    const response = await this.listWebinarParticipantsReport({
-      step,
-      webinarId: this.webinarId,
-      params: {
-        page_size: 300,
+    const {
+      webinarId,
+      nextPageToken,
+      max,
+    } = this;
+
+    const stream = await this.app.getResourcesStream({
+      resourceFn: this.listWebinarParticipantsReport,
+      resourceFnArgs: {
+        step,
+        webinarId,
+        params: {
+          page_size: 300,
+          next_page_token: nextPageToken,
+        },
       },
+      resourceName: "participants",
+      max,
     });
 
-    step.export("$summary", `Successfully retrieved ${response.participants.length} webinar participants report`);
+    const participants = await utils.streamIterator(stream);
 
-    return response;
+    step.export("$summary", `Successfully retrieved ${utils.summaryEnd(participants.length, "participant")}.`);
+
+    return participants;
   },
 };
