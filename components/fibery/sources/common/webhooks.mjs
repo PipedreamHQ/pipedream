@@ -26,7 +26,7 @@ export default {
       response.result.forEach((entity) => {
         this.$emit(entity, {
           id: entity["fibery/id"],
-          summary: `Historical entity: ${this.getEntityName(entity)}`,
+          summary: `Historical entity: ${this.getEntityId(entity)}`,
           ts: entity["fibery/creation-date"],
         });
       });
@@ -58,8 +58,8 @@ export default {
       const database = this.type.label.split("/")[0];
       return `${database}/name`;
     },
-    getEntityName(entity) {
-      return entity[this.getFieldName()] ?? entity["fibery/id"];
+    getEntityId(entity) {
+      return entity["fibery/id"] || entity["id"];
     },
   },
 };

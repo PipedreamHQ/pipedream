@@ -15,7 +15,7 @@ export default {
       .forEach((entity) => {
         this.$emit(entity, {
           id: entity.id,
-          summary: `New created entity: ${this.getEntityName(entity)}`,
+          summary: `New created entity: ${this.getEntityId(entity)}`,
           ts: entity["fibery/creation-date"],
         });
       });
