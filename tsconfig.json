@@ -19,6 +19,9 @@
       "path": "components/rss"
     },
     {
+      "path": "components/openai"
+    },
+    {
       "path": "components/tookan"
     },
     {

@@ -1,8 +1,12 @@
 {
   "name": "@pipedream/openai",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream OpenAI Components",
-  "main": "openai.app.mjs",
+  "main": "dist/app/openai.app.mjs",
+  "types": "dist/app/openai.app.d.ts",
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "pipedream",
     "openai"
@@ -14,6 +18,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.1"
+    "@pipedream/platform": "^1.2.1",
+    "openai": "^3.2.1"
   }
 }
