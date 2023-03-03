@@ -60,7 +60,7 @@ export default {
     const searchResults = data[this.listingType];
 
     if (searchResults.length) {
-      $.export("$summary", `Found ${searchResults.length} existing ${this.fibery.singularOrPluralEntities(searchResults)}`);
+      $.export("$summary", `Found ${searchResults.length} existing ${this.fibery.singularOrPluralEntity(searchResults)}`);
       return searchResults;
     }
 

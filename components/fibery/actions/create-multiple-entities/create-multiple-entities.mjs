@@ -38,7 +38,7 @@ export default {
       space: this.space,
       query,
     });
-    $.export("$summary", `Succesfully created ${this.fibery.singularOrPluralEntities(attributesList)}`);
+    $.export("$summary", `Succesfully created ${this.fibery.singularOrPluralEntity(attributesList)}`);
     return response;
   },
 };
