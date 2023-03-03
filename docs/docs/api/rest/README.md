@@ -4,8 +4,7 @@
 
 ## Overview
 
-Use the REST API to create and manage sources, workflows and source events.
-Workflow development and management is not currently supported via the API.
+Use the REST API to programmatically manage workflows, sources, workspaces, and more. Creating and editing workflows is currently not supported via API, but you can [track our progress here](https://github.com/PipedreamHQ/pipedream/issues/220).
 
 ## Base URL
 
@@ -13,8 +12,7 @@ The base URL for all requests is **{{$site.themeConfig.API_BASE_URL}}** .
 
 ## Authentication
 
-You authenticate to the REST API using your [Pipedream API
-key](/api/auth/#pipedream-api-key). When you make API requests, pass an
+You authorize requests to the REST API using your [Pipedream API key](/api/auth/#pipedream-api-key). When you make API requests, pass an
 `Authorization` header of the following format:
 
 ```
@@ -29,11 +27,11 @@ curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
-Learn more about [API authentication](/api/auth/)
+[Learn more about API auth](/api/auth/).
 
 ## Required headers
 
-The `Authorization` header is required on all endpoints for authentication.
+You must pass the `Authorization` header, with your [Pipedream API key](#authentication), on all requests.
 
 `POST` or `PUT` requests that accept JSON payloads also require a `Content-Type`
 header set to `application/json`. For example:
