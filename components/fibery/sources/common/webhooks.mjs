@@ -21,8 +21,6 @@ export default {
         fieldName: this.getFieldName(),
       });
 
-      console.log(response);
-
       response.result.forEach((entity) => {
         this.$emit(entity, {
           id: entity["fibery/id"],
