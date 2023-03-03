@@ -1508,6 +1508,18 @@
     },
     {
       "path": "components/warpcast"
+    },
+    {
+      "path": "components/logsnag"
+    },
+    {
+      "path": "components/memix"
+    },
+    {
+      "path": "components/metabase"
+    },
+    {
+      "path": "components/plain"
     }
   ]
 }
