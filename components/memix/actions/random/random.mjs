@@ -13,8 +13,15 @@ export default {
       label: "Caption",
     },
   },
-  async run() {
-    var template = await app.getRandomTemplate();
-    return app.gifURIForTemplate(template);
+  async run({ $ }) {
+    const template = await this.app.getRandomTemplate({
+      $,
+    });
+    const uri = this.app.gifURIForTemplate(template);
+    $.export(
+      "$summary",
+      "Successfully generated a Memix share URL with a random template",
+    );
+    return uri;
   },
 };

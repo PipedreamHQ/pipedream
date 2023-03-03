@@ -6,18 +6,20 @@ export default {
   app: "memix",
   propDefinitions: {},
   methods: {
-    async getTemplates() {
-      return await axios(this, {
+    async getTemplates({ $ = this }) {
+      return await axios($, {
         method: "get",
         headers: {
           "X-API-Partner": "pipedream",
         },
-        url: "https://partner-api.memix.com/templates",
+        url: `${constants.PARTNER_API_ENDPOINT}/templates`,
       });
     },
 
-    async getRandomTemplate() {
-      const templates = await this.getTemplates();
+    async getRandomTemplate({ $ = this }) {
+      const templates = await this.getTemplates({
+        $,
+      });
       return templates[Math.floor(Math.random() * templates.length)];
     },
 
