@@ -257,7 +257,7 @@ export default {
       resourceName,
       max = constants.MAX_RESOURCES,
     }) {
-      let nextPageToken;
+      let nextPageToken = resourceFnArgs.params?.next_page_token;
       let resourcesCount = 0;
 
       while (true) {
