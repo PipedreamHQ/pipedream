@@ -177,20 +177,10 @@ export default {
 
       return response;
     },
-    async makeBatchCommands({
-      commands, args, ...opts
-    }) {
-      const data = [];
-      for (let i = 0; i < commands.length; i++) {
-        data.push({
-          command: commands[i],
-          args: args[i] ?? {},
-        });
-      }
+    async makeBatchCommands(commands) {
       const response = await this._makeRequest({
-        ...opts,
         path: "/commands",
-        data,
+        data: commands,
       });
       return response;
     },
@@ -333,6 +323,30 @@ export default {
       return data.__type.fields
         .filter(({ name }) => name !== "me")
         .map((field) => field.name);
+    },
+    async createEntity({
+      type, attributes, ...opts
+    }) {
+      return this.makeCommand({
+        ...opts,
+        command: "fibery.entity/create",
+        args: {
+          type,
+          entity: attributes,
+        },
+      });
+    },
+    async createEntities({
+      type, attributesList,
+    }) {
+      const commands = attributesList.map((attributes) => ({
+        command: "fibery.entity/create",
+        args: {
+          type,
+          entity: attributes,
+        },
+      }));
+      return this.makeBatchCommands(commands);
     },
   },
 };

@@ -1,5 +1,4 @@
 import fibery from "../../fibery.app.mjs";
-import { createMutation } from "../../common/queries.mjs";
 
 export default {
   key: "fibery-create-entity",
@@ -9,20 +8,12 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
-    },
-    entityType: {
-      propDefinition: [
-        fibery,
-        "entityType",
-        (c) => ({
-          space: c.space,
-        }),
-      ],
+      withLabel: true,
     },
     attributes: {
       propDefinition: [
@@ -32,11 +23,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const query = createMutation(this.entityType, this.attributes);
-    const response = await this.fibery.makeGraphQLRequest({
+    const response = await this.fibery.createEntity({
       $,
-      space: this.space,
-      query,
+      type: this.type.label,
+      attributes: this.attributes,
     });
     $.export("$summary", "Succesfully created a new entity");
     return response;

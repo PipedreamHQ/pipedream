@@ -1,5 +1,4 @@
 import fibery from "../../fibery.app.mjs";
-import { createBatchMutation } from "../../common/queries.mjs";
 
 export default {
   key: "fibery-create-multiple-entities",
@@ -9,34 +8,25 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
-    },
-    entityType: {
-      propDefinition: [
-        fibery,
-        "entityType",
-        (c) => ({
-          space: c.space,
-        }),
-      ],
+      withLabel: true,
     },
     attributesList: {
       type: "string",
       label: "List of Attributes",
-      description: "A list of entity attributes to create. Must be JSON-serializable, e.g. `[ { \"name\": \"pipedream\" }, { \"name\": \"fibery\" } ]`",
+      description: "A list of entity attributes to create. Must be JSON-serializable, e.g. `[ { \"Development/name\": \"pipedream\" }, { \"Development/name\": \"fibery\" } ]`",
     },
   },
   async run({ $ }) {
+    const type = this.type.label;
     const attributesList = JSON.parse(this.attributesList);
-    const query = createBatchMutation(this.entityType, attributesList);
-    const response = await this.fibery.makeGraphQLRequest({
-      $,
-      space: this.space,
-      query,
+    const response = await this.fibery.createEntities({
+      type,
+      attributesList,
     });
     $.export("$summary", `Succesfully created ${this.fibery.singularOrPluralEntity(attributesList)}`);
     return response;
