@@ -2,8 +2,8 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "overloop-contact-replied",
-  name: " Contact Replied",
+  key: "overloop-new-contact-replied",
+  name: "New Contact Replied",
   description: "Emit new event each time a contact replies to an email or LinkedIn message. [See the docs](https://apidoc.overloop.com/#list-contacts)",
   version: "0.0.1",
   type: "source",

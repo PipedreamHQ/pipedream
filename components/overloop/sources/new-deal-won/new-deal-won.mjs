@@ -2,8 +2,8 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "overloop-deal-won",
-  name: "Deal Won",
+  key: "overloop-new-deal-won",
+  name: "New Deal Won",
   description: "Emit new event each time a deal is won. [See the docs](https://apidoc.overloop.com/#list-deals)",
   version: "0.0.1",
   type: "source",

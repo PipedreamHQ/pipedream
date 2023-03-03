@@ -25,14 +25,19 @@ export default {
       label: "Campaign ID",
       description: "The identifier of a campaign",
       async options({
-        page, type, status,
+        page, type, status, recordType,
       }) {
+        let filter = `automation_type:${type}`;
+        if (status) {
+          filter += `,status:${status}`;
+        }
+        if (recordType) {
+          filter += `,record_type:${recordType}`;
+        }
         const { data: campaigns } = await this.listAutomations({
           params: {
             page_number: page + 1,
-            filter: `automation_type:${type},${status
-              ? "status:" + status
-              : ""}`,
+            filter,
           },
         });
         return campaigns?.map((campaign) => ({
@@ -158,6 +163,12 @@ export default {
       description: "The value of the deal",
       optional: true,
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the organization",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -234,6 +245,24 @@ export default {
         ...args,
       });
     },
+    getContact(contactId, args = {}) {
+      return this._makeRequest({
+        path: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    getDeal(dealId, args = {}) {
+      return this._makeRequest({
+        path: `/deals/${dealId}`,
+        ...args,
+      });
+    },
+    getOrganization(organizationId, args = {}) {
+      return this._makeRequest({
+        path: `/organizations/${organizationId}`,
+        ...args,
+      });
+    },
     createEnrollment(automationId, args = {}) {
       return this._makeRequest({
         path: `/automations/${automationId}/enrollments`,
@@ -266,6 +295,41 @@ export default {
       return this._makeRequest({
         path: `/deals/${dealId}`,
         method: "PATCH",
+        ...args,
+      });
+    },
+    markDealLost(dealId, args = {}) {
+      return this._makeRequest({
+        path: `/deals/${dealId}/mark_as_lost`,
+        method: "POST",
+        ...args,
+      });
+    },
+    markDealWon(dealId, args = {}) {
+      return this._makeRequest({
+        path: `/deals/${dealId}/mark_as_won`,
+        method: "POST",
+        ...args,
+      });
+    },
+    createOrganization(args = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        method: "POST",
+        ...args,
+      });
+    },
+    updateOrganization(organizationId, args = {}) {
+      return this._makeRequest({
+        path: `/organizations/${organizationId}`,
+        method: "PATCH",
+        ...args,
+      });
+    },
+    createExclusionListItem(args = {}) {
+      return this._makeRequest({
+        path: "/exclusion_list_items",
+        method: "POST",
         ...args,
       });
     },
