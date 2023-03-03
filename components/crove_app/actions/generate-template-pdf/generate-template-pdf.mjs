@@ -15,6 +15,12 @@ export default {
       ],
       reloadProps: true,
     },
+    name: {
+      type: "string",
+      label: "Document Name",
+      description: "Name of the document.",
+      optional: true,
+    },
     background_mode: {
       type: "boolean",
       label: "Background Mode",
@@ -47,6 +53,7 @@ export default {
 
     return await this.croveApp.generatePdfFromTemplate(
       this.template_id,
+      this.name,
       response,
       this.background_mode,
     );
