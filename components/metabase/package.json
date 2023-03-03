@@ -1,14 +1,14 @@
 {
-  "name": "@pipedream/memix",
+  "name": "@pipedream/metabase",
   "version": "0.0.1",
-  "description": "Pipedream Memix Components",
-  "main": "dist/app/memix.app.mjs",
+  "description": "Pipedream Metabase Components",
+  "main": "dist/app/metabase.app.mjs",
   "keywords": [
     "pipedream",
-    "memix"
+    "metabase"
   ],
   "files": ["dist"],
-  "homepage": "https://pipedream.com/apps/memix",
+  "homepage": "https://pipedream.com/apps/metabase",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
   "publishConfig": {

@@ -1511,6 +1511,12 @@
     },
     {
       "path": "components/logsnag"
+    },
+    {
+      "path": "components/memix"
+    },
+    {
+      "path": "components/metabase"
     }
   ]
 }
