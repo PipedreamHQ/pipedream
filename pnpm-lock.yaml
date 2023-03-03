@@ -2086,16 +2086,16 @@ importers:
     specifiers: {}
 
   components/memix:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.3.0
+    specifiers: {}
 
   components/mercury:
     specifiers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/metabase:
+    specifiers: {}
 
   components/microsoft_onedrive:
     specifiers:
