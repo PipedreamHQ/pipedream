@@ -1520,6 +1520,9 @@
     },
     {
       "path": "components/metabase"
+    },
+    {
+      "path": "components/plain"
     }
   ]
 }
