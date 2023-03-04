@@ -413,7 +413,7 @@ export default {
       } = opts;
       return retry(async (bail, retryCount) => {
         try {
-          return apiCall();
+          return await apiCall();
         } catch (err) {
           const errCode = get(err, errCodePath);
           if (!isRetriableErrCode(errCode)) {
