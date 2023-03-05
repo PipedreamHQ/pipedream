@@ -80,13 +80,17 @@ export interface ListFollowersParams extends PdAxiosRequest, UserId {
   params: UserFields;
 }
 
-export interface UnfollowUserParams extends PdAxiosRequest, UserId {}
-
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {
     tweet_id: string;
   };
 }
 export type RetweetParams = LikeTweetParams;
+
+export interface SearchTweetsParams extends PdAxiosRequest {
+  params: {query: string;};
+}
+
+export interface UnfollowUserParams extends PdAxiosRequest, UserId {}
 
 export interface UnlikeTweetParams extends PdAxiosRequest, TweetId {}

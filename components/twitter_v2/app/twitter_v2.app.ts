@@ -15,6 +15,7 @@ import {
   LikeTweetParams,
   ListFollowersParams,
   RetweetParams,
+  SearchTweetsParams,
   UnfollowUserParams,
   UnlikeTweetParams,
 } from "../common/types/requestParams";
@@ -271,6 +272,16 @@ export default defineApp({
       const response = await this._httpRequest({
         method: "POST",
         url: `/users/${id}/retweets`,
+        ...args,
+      });
+      return response.data;
+    },
+    async searchTweets(
+      args
+    : SearchTweetsParams,
+    ): Promise<Tweet[]> {
+      const response = await this._httpRequest({
+        url: "/tweets/search/recent",
         ...args,
       });
       return response.data;
