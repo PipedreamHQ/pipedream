@@ -1,10 +1,5 @@
 import { axios } from "@pipedream/platform";
 import {
-  QUERY_ALL,
-  MUTATION_ALL,
-  findQuery,
-} from "./common/queries.mjs";
-import {
   MAX_LIMIT,
   HISTORICAL_LIMIT,
 } from "./common/constants.mjs";
@@ -13,14 +8,6 @@ export default {
   type: "app",
   app: "fibery",
   propDefinitions: {
-    space: {
-      type: "string",
-      label: "Space",
-      description: "The space to watch for changes",
-      async options() {
-        return this.listSpaces();
-      },
-    },
     type: {
       type: "string",
       label: "Type",
@@ -33,26 +20,6 @@ export default {
           label: this._getTypeName(t),
           value: t["fibery/id"],
         }));
-      },
-    },
-    entityType: {
-      type: "string",
-      label: "Entity Type",
-      description: "A custom entity type in your Fibery account",
-      async options({ space }) {
-        return this.listMutations({
-          space,
-        });
-      },
-    },
-    listingType: {
-      type: "string",
-      label: "Listing Type",
-      description: "A custom listing type to query in your Fibery account",
-      async options({ space }) {
-        return this.listQueries({
-          space,
-        });
       },
     },
     field: {
@@ -105,19 +72,6 @@ export default {
           "Content-Type": "application/json",
         },
       });
-    },
-    _extractSpacesFromResponse(response) {
-      return response
-        .split("\n")
-        .filter((r) => r.match("/space/"))
-        .map((r) => r.split("/space/")[1])
-        .map((r) => r.split("'>")[0]);
-    },
-    _isTypeInSpace(type, space) {
-      if (!space) {
-        return true;
-      }
-      return this._getTypeName(type).startsWith(`${space}/`);
     },
     _isCustomType(type) {
       const firstLetterIsUpperCase = (string) => string[0] === string[0].toUpperCase();
@@ -197,27 +151,14 @@ export default {
         method: "delete",
       });
     },
-    async listSpaces(opts = {}) {
-      const response = await this._makeRequest({
-        ...opts,
-        path: "/graphql",
-        method: "get",
-      });
-      // have to extract from html response...
-      // there is no endpoint for listing spaces
-      return this._extractSpacesFromResponse(response);
-    },
-    async listTypes({
-      space, ...opts
-    } = {}) {
+    async listTypes(opts = {}) {
       const response = await this.makeCommand({
         command: "fibery.schema/query",
         ...opts,
       });
 
       return response["result"]["fibery/types"]
-        .filter((type) => this._isCustomType(type))
-        .filter((type) => this._isTypeInSpace(type, space));
+        .filter((type) => this._isCustomType(type));
     },
     async listFieldsForType({
       type, ...opts
@@ -279,51 +220,6 @@ export default {
         },
       });
     },
-    async listEntities({
-      space, listingType, filter, fields, ...opts
-    }) {
-      let offset = 0;
-      const data = [];
-
-      while (true) {
-        const response = await this.makeGraphQLRequest({
-          ...opts,
-          space,
-          query: findQuery(listingType, filter, fields, offset),
-        });
-
-        const results = response.data[listingType];
-        data.push(...results);
-        offset += MAX_LIMIT;
-
-        if (results.length < MAX_LIMIT) {
-          return data;
-        }
-      }
-    },
-    async listMutations({
-      space, ...opts
-    }) {
-      const { data } = await this.makeGraphQLRequest({
-        ...opts,
-        space,
-        query: MUTATION_ALL,
-      });
-      return data.__type.fields
-        .map((field) => field.name);
-    },
-    async listQueries({
-      space, ...opts
-    }) {
-      const { data } = await this.makeGraphQLRequest({
-        ...opts,
-        space,
-        query: QUERY_ALL,
-      });
-      return data.__type.fields
-        .filter(({ name }) => name !== "me")
-        .map((field) => field.name);
-    },
     async createEntity({
       type, attributes, ...opts
     }) {
@@ -344,6 +240,36 @@ export default {
         args: {
           type,
           entity: attributes,
+        },
+      }));
+      return this.makeBatchCommands(commands);
+    },
+    async updateEntity({
+      type, id, attributes, ...opts
+    }) {
+      return this.makeCommand({
+        ...opts,
+        command: "fibery.entity/update",
+        args: {
+          type,
+          entity: {
+            "fibery/id": id,
+            ...attributes,
+          },
+        },
+      });
+    },
+    async updateEntities({
+      type, ids, attributes,
+    }) {
+      const commands = ids.map((id) => ({
+        command: "fibery.entity/update",
+        args: {
+          type,
+          entity: {
+            "fibery/id": id,
+            ...attributes,
+          },
         },
       }));
       return this.makeBatchCommands(commands);

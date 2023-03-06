@@ -51,38 +51,53 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const fields = typeof (this.fields) === "string"
-      ? JSON.parse(this.fields)
-      : this.fields;
-
-    const where = typeof (this.where) === "string"
-      ? JSON.parse(this.where)
-      : this.where;
-
-    const params = typeof (this.params) === "string"
-      ? JSON.parse(this.params)
-      : this.params;
-
-    const { result: entities } = await this.fibery.listEntitiesCommand({
-      $,
-      type: this.type.label,
-      where,
-      fields,
-      params,
-    });
-
-    if (entities.length > 0) {
-      $.export("$summary", `Found ${entities.length} existing ${this.fibery.singularOrPluralEntity(entities)}`);
+  methods: {
+    parseProps() {
+      return {
+        fields: typeof (this.fields) === "string"
+          ? JSON.parse(this.fields)
+          : this.fields,
+        where: typeof (this.where) === "string"
+          ? JSON.parse(this.where)
+          : this.where,
+        params: typeof (this.params) === "string"
+          ? JSON.parse(this.params)
+          : this.params,
+      };
+    },
+    async findEntity($) {
+      const {
+        fields,
+        where,
+        params,
+      } = this.parseProps();
+      const { result: entities } = await this.fibery.listEntitiesCommand({
+        $,
+        type: this.type.label,
+        where,
+        fields,
+        params,
+      });
       return entities;
+    },
+    async createEntity($) {
+      const response = await this.fibery.createEntity({
+        $,
+        type: this.type.label,
+        attributes: this.attributes,
+      });
+      $.export("$summary", "Succesfully created a new entity");
+      return response;
+    },
+  },
+  async run({ $ }) {
+    const entities = await this.findEntity($);
+
+    if (entities.length === 0) {
+      return this.createEntity($);
     }
 
-    const response = await this.fibery.createEntity({
-      $,
-      type: this.type.label,
-      attributes: this.attributes,
-    });
-    $.export("$summary", "Succesfully created a new entity");
-    return response;
+    $.export("$summary", `Found ${entities.length} existing ${this.fibery.singularOrPluralEntity(entities)}`);
+    return entities;
   },
 };

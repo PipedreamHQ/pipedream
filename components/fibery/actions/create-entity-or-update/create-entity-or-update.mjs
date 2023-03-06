@@ -1,9 +1,4 @@
 import fibery from "../../fibery.app.mjs";
-import {
-  createMutation,
-  updateMutation,
-  findQuery,
-} from "../../common/queries.mjs";
 
 export default {
   key: "fibery-create-entity-or-update",
@@ -13,35 +8,25 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
+      withLabel: true,
     },
-    entityType: {
-      propDefinition: [
-        fibery,
-        "entityType",
-        (c) => ({
-          space: c.space,
-        }),
-      ],
+    where: {
+      type: "string",
+      label: "Where",
+      description: `A list of expressions to filter the results. [See docs here](https://api.fibery.io/#filter-entities).
+      E.g. \`[ "=", [ "Development/name" ], "$pipedream" ]\``,
+      optional: true,
     },
-    listingType: {
-      propDefinition: [
-        fibery,
-        "listingType",
-        (c) => ({
-          space: c.space,
-        }),
-      ],
-    },
-    filter: {
-      propDefinition: [
-        fibery,
-        "filter",
-      ],
+    params: {
+      type: "object",
+      label: "Params",
+      description: "The params to pass with the `where` query. E.g. `{ \"$pipedream\": \"pipedream\" }`",
+      optional: true,
     },
     attributes: {
       propDefinition: [
@@ -56,38 +41,67 @@ export default {
       optional: true,
     },
   },
-  async run({ $ }) {
-    const { data } = await this.fibery.makeGraphQLRequest({
-      $,
-      space: this.space,
-      listingType: this.listingType,
-      query: findQuery(this.listingType, this.filter),
-    });
-
-    const searchResults = data[this.listingType];
-
-    if (searchResults.length === 0) {
-      const response = await this.fibery.makeGraphQLRequest({
+  methods: {
+    parseProps() {
+      return {
+        fields: typeof (this.fields) === "string"
+          ? JSON.parse(this.fields)
+          : this.fields,
+        where: typeof (this.where) === "string"
+          ? JSON.parse(this.where)
+          : this.where,
+        params: typeof (this.params) === "string"
+          ? JSON.parse(this.params)
+          : this.params,
+      };
+    },
+    async findEntity($) {
+      const {
+        fields,
+        where,
+        params,
+      } = this.parseProps();
+      const { result: entities } = await this.fibery.listEntitiesCommand({
         $,
-        space: this.space,
-        query: createMutation(this.entityType, this.attributes),
+        type: this.type.label,
+        where,
+        fields,
+        params,
+      });
+      return entities;
+    },
+    async createEntity($) {
+      const response = await this.fibery.createEntity({
+        $,
+        type: this.type.label,
+        attributes: this.attributes,
       });
       $.export("$summary", "Succesfully created a new entity");
       return response;
-    }
+    },
+    async updateEntities($, ids) {
+      const response = await this.fibery.updateEntities({
+        $,
+        type: this.type.label,
+        ids,
+        attributes: this.attributes,
+      });
+      $.export("$summary", `Succesfully updated ${this.fibery.singularOrPluralEntity(ids)}`);
+      return response;
+    },
+  },
+  async run({ $ }) {
+    const entities = await this.findEntity($);
+    let ids = entities.map((entity) => entity["fibery/id"]);
 
-    let ids = searchResults.map((entity) => entity.id);
+    if (ids.length === 0) {
+      return this.createEntity($);
+    }
 
     if (!this.updateAll) {
       ids = ids.slice(0, 1);
     }
 
-    const response = await this.fibery.makeGraphQLRequest({
-      $,
-      space: this.space,
-      query: updateMutation(this.entityType, this.attributes, ids),
-    });
-    $.export("$summary", `Succesfully updated ${this.fibery.singularOrPluralEntity(ids)}`);
-    return response;
+    return this.updateEntities($, ids);
   },
 };

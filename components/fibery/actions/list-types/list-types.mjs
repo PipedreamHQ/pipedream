@@ -8,19 +8,9 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
-      propDefinition: [
-        fibery,
-        "space",
-      ],
-      description: "Filter types by space",
-      optional: true,
-    },
   },
   async run({ $ }) {
-    const response = await this.fibery.listTypes({
-      space: this.space,
-    });
+    const response = await this.fibery.listTypes();
     $.export("$summary", `Successfully listed ${response.length} type(s)`);
     return response;
   },
