@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data: response } = await this.overloop.markDealLost(this.dealId, {
+    const { data: response } = await this.overloop.markDealWon(this.dealId, {
       $,
     });
 
