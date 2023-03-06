@@ -28,9 +28,9 @@ export default {
     },
   },
   type: "source",
-  key: "snowflake-failed-tasks-in-schema",
+  key: "snowflake-failed-task-in-schema",
   // eslint-disable-next-line
-  name: "Failed Tasks in Schema",
+  name: "Failed Task in Schema",
   description: "Emit new events when a task fails in a database schema",
   version: "0.0.1",
   async run() {
