@@ -15,7 +15,7 @@ export default {
     },
     async getData(attendee) {
       const { event_id: eventId } = attendee;
-      const event = await this.eventbrite.getEvent(eventId);
+      const event = await this.eventbrite.getEvent(null, eventId);
       return {
         attendee,
         event,

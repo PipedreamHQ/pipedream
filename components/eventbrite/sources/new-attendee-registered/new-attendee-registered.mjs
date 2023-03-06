@@ -26,7 +26,7 @@ export default {
       for await (const attendee of attendeeStream) {
         attendees.push(attendee);
       }
-      const event = await this.eventbrite.getEvent(eventId, {
+      const event = await this.eventbrite.getEvent(null, eventId, {
         expand: "ticket_classes",
       });
       return {
