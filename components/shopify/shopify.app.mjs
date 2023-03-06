@@ -326,6 +326,12 @@ export default {
       description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
       optional: true,
     },
+    sku: {
+      type: "string",
+      label: "Sku",
+      description: "A unique identifier for the product variant in the shop",
+      optional: true,
+    },
   },
   methods: {
     getShopId() {
@@ -709,6 +715,9 @@ export default {
     },
     async updateProductVariant(productVariantId, params) {
       return this.resourceAction("productVariant", "update", params, productVariantId);
+    },
+    async updateInventoryItem(inventoryItemId, params) {
+      return this.resourceAction("inventoryItem", "update", params, inventoryItemId);
     },
     async createProduct(params) {
       return this.resourceAction("product", "create", params);

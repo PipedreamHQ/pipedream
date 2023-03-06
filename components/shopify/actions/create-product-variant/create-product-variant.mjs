@@ -36,14 +36,21 @@ export default {
         }),
       ],
     },
+    sku: {
+      propDefinition: [
+        shopify,
+        "sku",
+      ],
+    },
   },
   async run({ $ }) {
-    let productVariant = {
+    const productVariant = {
       option1: this.option,
       price: this.price,
       image_id: this.imageId,
+      sku: this.sku,
     };
-    let response = (await this.shopify.createProductVariant(
+    const response = (await this.shopify.createProductVariant(
       this.productId,
       productVariant,
     )).result;
