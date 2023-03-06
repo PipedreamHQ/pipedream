@@ -14,7 +14,7 @@ export default {
       description: "A custom type in your Fibery account",
       async options() {
         const types = await this.listTypes();
-        return types.map((t) => (this._getTypeName(t)));
+        return types.map((t) => (t["fibery/name"]));
       },
     },
     field: {
@@ -70,10 +70,7 @@ export default {
     },
     _isCustomType(type) {
       const firstLetterIsUpperCase = (string) => string[0] === string[0].toUpperCase();
-      return firstLetterIsUpperCase(this._getTypeName(type));
-    },
-    _getTypeName(type) {
-      return type["fibery/name"];
+      return firstLetterIsUpperCase(type["fibery/name"]);
     },
     singularOrPluralEntity(array) {
       return array.length === 1
@@ -164,7 +161,7 @@ export default {
       });
 
       return response["result"]["fibery/types"]
-        .find((fiberyType) => fiberyType["fibery/name"] === type)["fibery/fields"];
+        .find((t) => t["fibery/name"] === type)["fibery/fields"];
     },
     async listHistoricalEntities({
       type, ...opts

@@ -13,7 +13,7 @@ export default {
       async options() {
         const types = await this.listTypes();
         return types.map((t) => ({
-          label: this._getTypeName(t),
+          label: t["fibery/name"],
           value: t["fibery/id"],
         }));
       },
