@@ -1523,6 +1523,9 @@
     },
     {
       "path": "components/danny_test_app"
+    },
+    {
+      "path": "components/currencyapi"
     }
   ]
 }
