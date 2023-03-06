@@ -258,7 +258,7 @@ export default {
       });
     },
     async listEntitiesCommand({
-      type, where, fields, params, ...opts
+      type, fields = [], where, params, ...opts
     }) {
       return this.makeCommand({
         ...opts,

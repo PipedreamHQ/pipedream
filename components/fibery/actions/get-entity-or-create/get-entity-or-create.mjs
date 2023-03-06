@@ -1,8 +1,4 @@
 import fibery from "../../fibery.app.mjs";
-import {
-  createMutation,
-  findQuery,
-} from "../../common/queries.mjs";
 
 export default {
   key: "fibery-get-entity-or-create",
@@ -12,35 +8,41 @@ export default {
   type: "action",
   props: {
     fibery,
-    space: {
+    type: {
       propDefinition: [
         fibery,
-        "space",
+        "type",
       ],
+      withLabel: true,
     },
-    entityType: {
+    fields: {
       propDefinition: [
         fibery,
-        "entityType",
+        "field",
         (c) => ({
-          space: c.space,
+          type: c.type.label,
         }),
       ],
+      type: "string[]",
+      label: "Fields",
+      description: `The select fields to return in the query. This prop is an array of strings.
+      Each string should have the same structure as [in the docs](https://api.fibery.io/#select-fields)
+      E.g. \`["fibery/id",{"Development/Team":["fibery/id"]}]\``,
+      optional: true,
     },
-    listingType: {
+    where: {
       propDefinition: [
         fibery,
-        "listingType",
-        (c) => ({
-          space: c.space,
-        }),
+        "where",
       ],
+      optional: true,
     },
-    filter: {
+    params: {
       propDefinition: [
         fibery,
-        "filter",
+        "params",
       ],
+      optional: true,
     },
     attributes: {
       propDefinition: [
@@ -50,24 +52,35 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.fibery.makeGraphQLRequest({
+    const fields = typeof (this.fields) === "string"
+      ? JSON.parse(this.fields)
+      : this.fields;
+
+    const where = typeof (this.where) === "string"
+      ? JSON.parse(this.where)
+      : this.where;
+
+    const params = typeof (this.params) === "string"
+      ? JSON.parse(this.params)
+      : this.params;
+
+    const { result: entities } = await this.fibery.listEntitiesCommand({
       $,
-      space: this.space,
-      listingType: this.listingType,
-      query: findQuery(this.listingType, this.filter),
+      type: this.type.label,
+      where,
+      fields,
+      params,
     });
 
-    const searchResults = data[this.listingType];
-
-    if (searchResults.length) {
-      $.export("$summary", `Found ${searchResults.length} existing ${this.fibery.singularOrPluralEntity(searchResults)}`);
-      return searchResults;
+    if (entities.length > 0) {
+      $.export("$summary", `Found ${entities.length} existing ${this.fibery.singularOrPluralEntity(entities)}`);
+      return entities;
     }
 
-    const response = await this.fibery.makeGraphQLRequest({
+    const response = await this.fibery.createEntity({
       $,
-      space: this.space,
-      query: createMutation(this.entityType, this.attributes),
+      type: this.type.label,
+      attributes: this.attributes,
     });
     $.export("$summary", "Succesfully created a new entity");
     return response;
