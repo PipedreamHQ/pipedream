@@ -15,14 +15,9 @@ export default {
   },
   hooks: {
     async deploy() {
-      const type = this.type.label;
-      const [
-        response,
-      ] = await this.fibery.listHistoricalEntities({
-        type,
-        fieldName: this.fibery.getFieldName(type),
+      const response = await this.fibery.listHistoricalEntities({
+        type: this.type.label,
       });
-
       response.result.forEach((entity) => {
         this.$emit(entity, {
           id: entity["fibery/id"],

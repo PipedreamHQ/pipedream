@@ -172,7 +172,7 @@ export default {
         .find((fiberyType) => fiberyType["fibery/name"] === type)["fibery/fields"];
     },
     async listHistoricalEntities({
-      type, fieldName, ...opts
+      type, ...opts
     }) {
       return this.makeCommand({
         ...opts,
@@ -183,7 +183,7 @@ export default {
             "q/select": [
               "fibery/id",
               "fibery/creation-date",
-              fieldName,
+              this.getFieldName(type),
             ],
             "q/order-by": [
               [
