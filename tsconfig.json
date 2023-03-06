@@ -1415,6 +1415,111 @@
     },
     {
       "path": "components/groundhogg"
+    },
+    {
+      "path": "components/resend"
+    },
+    {
+      "path": "components/grab_your_reviews"
+    },
+    {
+      "path": "components/platform_ly"
+    },
+    {
+      "path": "components/freedcamp"
+    },
+    {
+      "path": "components/elastic_email"
+    },
+    {
+      "path": "components/favro"
+    },
+    {
+      "path": "components/docraptor"
+    },
+    {
+      "path": "components/oxford_dictionaries"
+    },
+    {
+      "path": "components/scalr"
+    },
+    {
+      "path": "components/cloudcart"
+    },
+    {
+      "path": "components/fivetran"
+    },
+    {
+      "path": "components/goodbits"
+    },
+    {
+      "path": "components/successeve"
+    },
+    {
+      "path": "components/form_io"
+    },
+    {
+      "path": "components/fluent_support"
+    },
+    {
+      "path": "components/mainwp"
+    },
+    {
+      "path": "components/tutor_lms"
+    },
+    {
+      "path": "components/newsletter"
+    },
+    {
+      "path": "components/dokan"
+    },
+    {
+      "path": "components/yoast_seo"
+    },
+    {
+      "path": "components/woopra"
+    },
+    {
+      "path": "components/lifterlms"
+    },
+    {
+      "path": "components/chatsonic"
+    },
+    {
+      "path": "components/simplekpi"
+    },
+    {
+      "path": "components/cyfe"
+    },
+    {
+      "path": "components/writesonic"
+    },
+    {
+      "path": "components/writer"
+    },
+    {
+      "path": "components/grade_us"
+    },
+    {
+      "path": "components/telesign"
+    },
+    {
+      "path": "components/go_upc"
+    },
+    {
+      "path": "components/warpcast"
+    },
+    {
+      "path": "components/logsnag"
+    },
+    {
+      "path": "components/memix"
+    },
+    {
+      "path": "components/metabase"
+    },
+    {
+      "path": "components/plain"
     }
   ]
 }

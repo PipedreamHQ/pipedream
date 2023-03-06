@@ -1,8 +1,8 @@
 import { createHmac } from "crypto";
 import { uuid } from "uuidv4";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import constants from "../../constants.mjs";
-import utils from "../utils.mjs";
+import utils from "../common/utils.mjs";
 
 const { typeform } = common.props;
 const { parseIsoDate } = utils;
@@ -11,12 +11,15 @@ export default {
   ...common,
   key: "typeform-new-submission",
   name: "New Submission",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "source",
   description: "Emit new submission",
   props: {
     ...common.props,
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
     formId: {
       propDefinition: [
@@ -131,6 +134,10 @@ export default {
     this.$emit(data, {
       summary: JSON.stringify(data),
       id: data.token,
+    });
+
+    this.http.respond({
+      status: 200,
     });
   },
 };

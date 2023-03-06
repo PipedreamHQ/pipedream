@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/platform_ly",
+  "version": "0.0.1",
+  "description": "Pipedream Platform.ly Components",
+  "main": "dist/app/platform_ly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "platform_ly"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/platform_ly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

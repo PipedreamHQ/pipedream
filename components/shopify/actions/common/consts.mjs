@@ -1,14 +1,44 @@
 const RESOURCE_TYPES = [
-  "blog",
-  "collection",
-  "customer",
-  "draft_order",
-  "page",
-  "product",
-  "product_image",
-  "variants",
-  "article",
-  "order",
+  {
+    label: "Blog",
+    value: "blog",
+  },
+  {
+    label: "Collection",
+    value: "collection",
+  },
+  {
+    label: "Customer",
+    value: "customer",
+  },
+  {
+    label: "Draft Order",
+    value: "draft_order",
+  },
+  {
+    label: "Page",
+    value: "page",
+  },
+  {
+    label: "Product",
+    value: "product",
+  },
+  {
+    label: "Product Image",
+    value: "product_image",
+  },
+  {
+    label: "Product Variant",
+    value: "variants",
+  },
+  {
+    label: "Article",
+    value: "article",
+  },
+  {
+    label: "Order",
+    value: "order",
+  },
 ];
 
 const METAFIELD_TYPES = {

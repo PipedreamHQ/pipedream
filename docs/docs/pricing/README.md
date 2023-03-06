@@ -65,19 +65,27 @@ During this transitionary period, you'll still be billed in terms of invocations
 
 Pipedream charges one credit per {{ $site.themeConfig.base_credits_price.seconds }} seconds of compute time at {{ $site.themeConfig.base_credits_price.memory }} megabytes of memory (the default) per workflow execution.
 
-The number of steps in a workflow has no impact on credit usage. Credits are not charged for workflows during development or testing.
+**Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
+
+Credits are not charged for workflows during development or testing.
 
 Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from {{ $site.themeConfig.base_credits_price.memory }} to {{ $site.themeConfig.base_credits_price.memory * 2 }} will double the cost of credits in the same execution time.
 
 #### Scenarios
 
-::: details A workflow that runs 5 times with 1 second per run
+::: details A workflow that executes once for less than 30 seconds total
+
+This is the most common scenario. Regardless of the number of steps within the workflow, if it completes it's execution under 30 seconds then only one credit is incurred.
+
+:::
+
+::: details A workflow that executes 5 times with 1 second per run
 
 5 credits are incurred, because the workflow ran for a total of 5 executions and under the {{ $site.themeConfig.base_credits_price.seconds }} seconds threshold (5 executions at 1 credit each).
 
 :::
 
-::: details A workflow that runs 2 times with {{ $site.themeConfig.base_credits_price.seconds + 5 }} seconds per run
+::: details A workflow that executes 2 times with {{ $site.themeConfig.base_credits_price.seconds + 5 }} seconds per run
 
 4 credits are incurred, because each workflow execution exceeded 1 credit time limit of {{ $site.themeConfig.base_credits_price.seconds }} by 5 seconds.
 
@@ -91,22 +99,24 @@ Execution time used to develop a workflow in the builder does not count towards 
 
 :::
 
-::: details An active standard workflow that isn't triggered at all in a billing period
+::: details An active standard workflow that isn't executed at all in a billing period
 
 0 credits are incurred. Pipedream only charges credits for workflow executions.
 
 :::
 
-::: details A workflow with 512 megabytes of memory running for 5 seconds
+::: details A workflow with 512 megabytes of memory executing for 5 seconds
 
 2 credits are incurred, because the workflow executed for a total of 5 seconds at 512 megabytes of memory.
 :::
 
 #### Source Credit Usage
 
-The first credit used during a [source's](/sources) execution is included for free.
+When an [event source](/sources) triggers a workflow, the first credit per source execution is included for free. This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of compute doesn't incur credits. This includes [Free Tier](/pricing/#free-tier) accounts.
 
-This means that the first {{ $site.themeConfig.base_credits_price.seconds }} of computation on an source do not incur credits. This behavior includes [Free Tier](/pricing/#free-tier) accounts.
+When a source is configured as a workflow trigger, the core value is in the workflow. We don't want to charge you two credits (one to run the source, one to run the workflow) when the workflow contains the core logic. Sources that trigger workflows are called "dependent" sources.
+
+On the other hand, sources that don't trigger workflows are "independent", since they run independently. Pipedream charges credits for all indepedent source executions.
 
 ::: tip
 

@@ -23,6 +23,25 @@ You can disable these notifications for your workflow by disabling the **Notify 
 
 <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1656631849/docs/Screen_Shot_2022-06-30_at_4.30.44_PM_oauty4.png" width="200px" alt="Notify me on errors toggle">
 
+## Error Reruns
+
+Customers on the [**Advanced** Plan](https://pipedream.com/pricing) can automatically retry workflows on errors. If any step in your workflow throws an error, Pipedream will retry the workflow from that failed step, re-rerunning the step up to 8 times over a 10 hour span with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy.
+
+On error, the step will export a `$summary` property that tells you how many times the step has been retried, and an `$attempt` object with the following properties:
+
+1. `error` — All the details of the error the step threw — the error, the stack, etc.
+2. `cancel_url` — You can call this URL to cancel the retry
+3. `rerun_url` — You can call this URL to proceed with the execution immediately
+4. `resume_ts` — An ISO 8601 timestamp that tells you the timestamp of the next retry
+
+<div>
+  <img src="https://res.cloudinary.com/pipedreamin/image/upload/v1677119396/docs/Screen_Shot_2023-02-22_at_6.29.08_PM_ssnzsi.png" alt="Step exports for failed auto-retry">
+</div>
+
+If the step execution succeeds during any retry, the execution will proceed to the next step of the workflow.
+
+If the step fails on all 8 retries, it throws the final error, and you should receive [an error notification](/workflows/errors/) through your standard notification channel.
+
 ## Execution Controls
 
 ### Execution Timeout Limit

@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/oxford_dictionaries",
+  "version": "0.0.1",
+  "description": "Pipedream Oxford Dictionaries Components",
+  "main": "dist/app/oxford_dictionaries.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oxford_dictionaries"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/oxford_dictionaries",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
