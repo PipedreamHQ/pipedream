@@ -2,12 +2,12 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-deal",
-  name: "New Deals",
-  description: "Emit new event for each new deal created. [See the docs here](https://developers.hubspot.com/docs/api/crm/search)",
+  key: "hubspot-new-deal-updated",
+  name: "New Deal Updated",
+  description: "Emit new event each time a deal is updated. [See the docs here](https://developers.hubspot.com/docs/api/crm/search)",
   version: "0.0.13",
-  dedupe: "unique",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     pipeline: {
@@ -36,7 +36,7 @@ export default {
   methods: {
     ...common.methods,
     getTs(deal) {
-      return Date.parse(deal.createdAt);
+      return Date.parse(deal.updatedAt);
     },
     generateMeta(deal) {
       const {
@@ -45,20 +45,20 @@ export default {
       } = deal;
       const ts = this.getTs(deal);
       return {
-        id,
+        id: `${id}${ts}`,
         summary: properties.dealname,
         ts,
       };
     },
-    isRelevant(deal, createdAfter) {
-      return this.getTs(deal) > createdAfter;
+    isRelevant(deal, updatedAfter) {
+      return this.getTs(deal) > updatedAfter;
     },
     getParams() {
       const params = {
         limit: 100,
         sorts: [
           {
-            propertyName: "createdate",
+            propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
