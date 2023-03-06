@@ -212,59 +212,68 @@ export default {
         },
       });
     },
-    async createEntity({
-      type, attributes, ...opts
+    createEntityCommand({
+      type, id, attributes,
     }) {
-      return this.makeCommand({
-        ...opts,
-        command: "fibery.entity/create",
+      const command = id
+        ? "fibery.entity/create"
+        : "fibery.entity/update";
+      return {
+        command,
         args: {
           type,
-          entity: attributes,
+          entity: {
+            ...attributes,
+            "fibery/id": id,
+          },
         },
+      };
+    },
+    async createEntity({
+      type, attributes,
+    }) {
+      const config = this.createEntityCommand({
+        type,
+        attributes,
       });
+      return this.makeCommand(config);
+    },
+    async updateEntity({
+      type, id, attributes,
+    }) {
+      const config = this.createEntityCommand({
+        type,
+        attributes,
+        id,
+      });
+      return this.makeCommand(config);
     },
     async createEntities({
       type, attributesList,
     }) {
-      const commands = attributesList.map((attributes) => ({
-        command: "fibery.entity/create",
-        args: {
+      const configs = [];
+      for (const attributes of attributesList) {
+        const config = this.createEntityCommand({
           type,
-          entity: attributes,
-        },
-      }));
-      return this.makeBatchCommands(commands);
-    },
-    async updateEntity({
-      type, id, attributes, ...opts
-    }) {
-      return this.makeCommand({
-        ...opts,
-        command: "fibery.entity/update",
-        args: {
-          type,
-          entity: {
-            "fibery/id": id,
-            ...attributes,
-          },
-        },
-      });
+          attributes,
+        });
+        configs.push(config);
+      }
+      return this.makeBatchCommands(configs);
     },
     async updateEntities({
       type, ids, attributes,
     }) {
-      const commands = ids.map((id) => ({
-        command: "fibery.entity/update",
-        args: {
+      const configs = [];
+      for (const id of ids) {
+        const config = this.createEntityCommand({
           type,
-          entity: {
-            "fibery/id": id,
-            ...attributes,
-          },
-        },
-      }));
-      return this.makeBatchCommands(commands);
+          id,
+          attributes,
+        });
+        configs.push(config);
+      }
+      return this.makeBatchCommands(configs);
     },
   },
 };
