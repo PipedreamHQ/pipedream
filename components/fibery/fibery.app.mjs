@@ -96,9 +96,12 @@ export default {
         ? "entity"
         : "entities";
     },
-    getFieldName(type) {
-      const database = type.split("/")[0];
-      return `${database}/name`;
+    async getFieldName(type) {
+      const fields = await this.listFieldsForType({
+        type,
+      });
+      const field = fields.find((field) => field["fibery/name"].toLowerCase().endsWith("/name"));
+      return field["fibery/name"];
     },
     async makeCommand({
       command, args = {}, ...opts
@@ -172,7 +175,7 @@ export default {
             "q/select": [
               "fibery/id",
               "fibery/creation-date",
-              this.getFieldName(type),
+              await this.getFieldName(type),
               ...fields,
             ],
             "q/order-by": orderBy,
