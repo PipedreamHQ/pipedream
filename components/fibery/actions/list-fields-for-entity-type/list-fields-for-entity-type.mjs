@@ -13,11 +13,10 @@ export default {
         fibery,
         "type",
       ],
-      withLabel: true,
     },
   },
   async run({ $ }) {
-    const type = this.type.label;
+    const type = this.type;
     const response = await this.fibery.listFieldsForType({
       $,
       type,

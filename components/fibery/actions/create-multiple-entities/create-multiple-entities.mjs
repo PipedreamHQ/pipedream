@@ -13,7 +13,6 @@ export default {
         fibery,
         "type",
       ],
-      withLabel: true,
     },
     attributesList: {
       type: "string",
@@ -22,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const type = this.type.label;
+    const type = this.type;
     const attributesList = JSON.parse(this.attributesList);
     const response = await this.fibery.createEntities({
       type,

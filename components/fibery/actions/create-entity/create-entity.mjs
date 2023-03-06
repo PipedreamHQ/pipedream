@@ -13,7 +13,6 @@ export default {
         fibery,
         "type",
       ],
-      withLabel: true,
     },
     attributes: {
       propDefinition: [
@@ -25,7 +24,7 @@ export default {
   async run({ $ }) {
     const response = await this.fibery.createEntity({
       $,
-      type: this.type.label,
+      type: this.type,
       attributes: this.attributes,
     });
     $.export("$summary", "Succesfully created a new entity");

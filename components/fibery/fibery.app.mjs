@@ -12,14 +12,9 @@ export default {
       type: "string",
       label: "Type",
       description: "A custom type in your Fibery account",
-      async options({ space }) {
-        const types = await this.listTypes({
-          space,
-        });
-        return types.map((t) => ({
-          label: this._getTypeName(t),
-          value: t["fibery/id"],
-        }));
+      async options() {
+        const types = await this.listTypes();
+        return types.map((t) => (this._getTypeName(t)));
       },
     },
     field: {

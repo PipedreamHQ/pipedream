@@ -13,14 +13,13 @@ export default {
         fibery,
         "type",
       ],
-      withLabel: true,
     },
     fields: {
       propDefinition: [
         fibery,
         "field",
         (c) => ({
-          type: c.type.label,
+          type: c.type,
         }),
       ],
       type: "string[]",
@@ -60,7 +59,7 @@ export default {
 
     const { result: entities } = await this.fibery.listEntitiesCommand({
       $,
-      type: this.type.label,
+      type: this.type,
       where,
       fields,
       params,

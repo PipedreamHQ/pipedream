@@ -10,6 +10,13 @@ export default {
         fibery,
         "type",
       ],
+      async options() {
+        const types = await this.listTypes();
+        return types.map((t) => ({
+          label: this._getTypeName(t),
+          value: t["fibery/id"],
+        }));
+      },
       withLabel: true,
     },
   },
