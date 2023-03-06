@@ -81,26 +81,6 @@ export default {
       const database = type.split("/")[0];
       return `${database}/name`;
     },
-    async makeGraphQLRequest({
-      $, space, query, ...opts
-    }) {
-      $?.export("query", query);
-      const response = await this._makeRequest({
-        ...opts,
-        $,
-        path: `/graphql/space/${space}`,
-        method: "post",
-        data: {
-          query,
-        },
-      });
-
-      if (response.errors?.length) {
-        throw new Error(JSON.stringify(response.errors));
-      }
-
-      return response;
-    },
     async makeCommand({
       command, args = {}, ...opts
     }) {
