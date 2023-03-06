@@ -5,6 +5,24 @@ export default {
   app: "snowflake",
   type: "app",
   propDefinitions: {
+    database: {
+      type: "string",
+      label: "Database",
+      description: "The database to use",
+      async options() {
+        const options = await this.listDatabases();
+        return options.map((i) => i.name);
+      },
+    },
+    schema: {
+      type: "string",
+      label: "Schema",
+      description: "The schema to use",
+      async options({ database }) {
+        const options = await this.listSchemas(database);
+        return options.map((i) => i.name);
+      },
+    },
     tableName: {
       type: "string",
       label: "Table Name",
@@ -87,6 +105,21 @@ export default {
         sqlText,
       });
     },
+    async listDatabases() {
+      const sqlText = "SHOW DATABASES";
+      return this.collectRows({
+        sqlText,
+      });
+    },
+    async listSchemas(database) {
+      const sqlText = "SHOW SCHEMAS IN DATABASE IDENTIFIER(:1)";
+      return this.collectRows({
+        sqlText,
+        binds: [
+          database,
+        ],
+      });
+    },
     async listWarehouses() {
       const sqlText = "SHOW WAREHOUSES";
       return this.collectRows({
@@ -131,6 +164,48 @@ export default {
         sqlText,
       };
       console.log(`Running query: ${sqlText}`);
+      return this.collectRows(statement);
+    },
+    async getFailedTasksInDatabase({
+      startTime, endTime, database, schema,
+    }) {
+      const sqlText = `SELECT *
+      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())
+      WHERE QUERY_START_TIME >= to_timestamp_ltz(:1, 3)
+      AND QUERY_START_TIME < to_timestamp_ltz(:2, 3)
+      AND state = 'FAILED'
+      AND database_name = :3
+      AND schema_name = :4
+      ORDER BY QUERY_START_TIME ASC;`;
+      const statement = {
+        sqlText,
+        binds: [
+          startTime,
+          endTime,
+          database,
+          schema,
+        ],
+      };
+      return this.collectRows(statement);
+    },
+    async getFailedTasksInWarehouse({
+      startTime, endTime, warehouse,
+    }) {
+      const sqlText = `SELECT *
+      FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())
+      WHERE QUERY_START_TIME >= to_timestamp_ltz(:1, 3)
+      AND QUERY_START_TIME < to_timestamp_ltz(:2, 3)
+      AND state = 'FAILED'
+      AND warehouse = :3
+      ORDER BY QUERY_START_TIME ASC;`;
+      const statement = {
+        sqlText,
+        binds: [
+          startTime,
+          endTime,
+          warehouse,
+        ],
+      };
       return this.collectRows(statement);
     },
     async getChangesForSpecificObject(startTime, endTime, objectType) {
