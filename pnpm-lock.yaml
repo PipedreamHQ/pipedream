@@ -669,6 +669,12 @@ importers:
   components/coassemble:
     specifiers: {}
 
+  components/coda:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/coderpad:
     specifiers: {}
 
