@@ -68,6 +68,23 @@ export default {
         },
       });
     },
+    _createEntityCommand({
+      type, id, attributes,
+    }) {
+      const command = id
+        ? "fibery.entity/create"
+        : "fibery.entity/update";
+      return {
+        command,
+        args: {
+          type,
+          entity: {
+            ...attributes,
+            "fibery/id": id,
+          },
+        },
+      };
+    },
     _isCustomType(type) {
       const firstLetterIsUpperCase = (string) => string[0] === string[0].toUpperCase();
       return firstLetterIsUpperCase(type["fibery/name"]);
@@ -128,7 +145,6 @@ export default {
         command: "fibery.schema/query",
         ...opts,
       });
-
       return response["result"]["fibery/types"]
         .filter((type) => this._isCustomType(type));
     },
@@ -139,39 +155,11 @@ export default {
         command: "fibery.schema/query",
         ...opts,
       });
-
       return response["result"]["fibery/types"]
         .find((t) => t["fibery/name"] === type)["fibery/fields"];
     },
-    async listHistoricalEntities({
-      type, ...opts
-    }) {
-      return this.makeCommand({
-        ...opts,
-        command: "fibery.entity/query",
-        args: {
-          query: {
-            "q/from": type,
-            "q/select": [
-              "fibery/id",
-              "fibery/creation-date",
-              this.getFieldName(type),
-            ],
-            "q/order-by": [
-              [
-                [
-                  "fibery/creation-date",
-                ],
-                "q/desc",
-              ],
-            ],
-            "q/limit": HISTORICAL_LIMIT,
-          },
-        },
-      });
-    },
-    async listEntitiesCommand({
-      type, fields = [], where, params, ...opts
+    async listEntities({
+      type, fields = [], where, params, orderBy, limit = MAX_LIMIT, ...opts
     }) {
       return this.makeCommand({
         ...opts,
@@ -185,34 +173,33 @@ export default {
               this.getFieldName(type),
               ...fields,
             ],
+            "q/order-by": orderBy,
             "q/where": where,
-            "q/limit": MAX_LIMIT,
+            "q/limit": limit,
           },
           params,
         },
       });
     },
-    createEntityCommand({
-      type, id, attributes,
-    }) {
-      const command = id
-        ? "fibery.entity/create"
-        : "fibery.entity/update";
-      return {
-        command,
-        args: {
-          type,
-          entity: {
-            ...attributes,
-            "fibery/id": id,
-          },
-        },
-      };
+    async listHistoricalEntities({ type }) {
+      const orderBy = [
+        [
+          [
+            "fibery/creation-date",
+          ],
+          "q/desc",
+        ],
+      ];
+      return this.listEntities({
+        type,
+        orderBy,
+        limit: HISTORICAL_LIMIT,
+      });
     },
     async createEntity({
       type, attributes,
     }) {
-      const config = this.createEntityCommand({
+      const config = this._createEntityCommand({
         type,
         attributes,
       });
@@ -221,7 +208,7 @@ export default {
     async updateEntity({
       type, id, attributes,
     }) {
-      const config = this.createEntityCommand({
+      const config = this._createEntityCommand({
         type,
         attributes,
         id,
@@ -233,7 +220,7 @@ export default {
     }) {
       const configs = [];
       for (const attributes of attributesList) {
-        const config = this.createEntityCommand({
+        const config = this._createEntityCommand({
           type,
           attributes,
         });
@@ -246,7 +233,7 @@ export default {
     }) {
       const configs = [];
       for (const id of ids) {
-        const config = this.createEntityCommand({
+        const config = this._createEntityCommand({
           type,
           id,
           attributes,

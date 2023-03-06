@@ -57,7 +57,7 @@ export default {
       ? JSON.parse(this.params)
       : this.params;
 
-    const { result: entities } = await this.fibery.listEntitiesCommand({
+    const { result: entities } = await this.fibery.listEntities({
       $,
       type: this.type,
       where,

@@ -60,7 +60,7 @@ export default {
         where,
         params,
       } = this.parseProps();
-      const { result: entities } = await this.fibery.listEntitiesCommand({
+      const { result: entities } = await this.fibery.listEntities({
         $,
         type: this.type,
         where,
