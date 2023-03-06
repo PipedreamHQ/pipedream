@@ -1520,6 +1520,9 @@
     },
     {
       "path": "components/plain"
+    },
+    {
+      "path": "components/danny_test_app"
     }
   ]
 }
