@@ -37,8 +37,9 @@ export default {
     let collections = await this.shopify.getObjects("customCollection", params);
 
     if (!exactMatch) {
-      collections = collections.filter((collection) =>
-        collection.title.toLowerCase().includes(title.toLowerCase()));
+      const lowerCaseTitle = title.toLowerCase();
+      collections = collections.filter(({ title }) =>
+        title.toLowerCase().includes(lowerCaseTitle));
     }
 
     $.export("$summary", `Found ${collections.length} collection(s) matching search criteria.`);

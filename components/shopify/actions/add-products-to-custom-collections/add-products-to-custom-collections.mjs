@@ -1,10 +1,10 @@
 import shopify from "../../shopify.app.mjs";
 
 export default {
-  key: "shopify-add-products-to-custom-collections",
+  key: "shopify-add-product-to-custom-collection",
   name: "Add Products to Custom Collections",
   description: "Adds a product or products to a custom collection or collections. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/collect#post-collects)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     shopify,
