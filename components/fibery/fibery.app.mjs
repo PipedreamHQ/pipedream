@@ -17,10 +17,12 @@ export default {
         return types.map((t) => (t["fibery/name"]));
       },
     },
-    field: {
-      type: "string",
-      label: "Field",
-      description: "The field in an entity type",
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: `The select fields for an entity type. This prop is an array of strings.
+      Each string should have the same structure as [in the docs](https://api.fibery.io/#select-fields)
+      E.g. \`["fibery/id",{"Development/Team":["fibery/id"]}]\``,
       async options({ type }) {
         const fields = await this.listFieldsForType({
           type,
@@ -72,8 +74,8 @@ export default {
       type, id, attributes,
     }) {
       const command = id
-        ? "fibery.entity/create"
-        : "fibery.entity/update";
+        ? "fibery.entity/update"
+        : "fibery.entity/create";
       return {
         command,
         args: {
