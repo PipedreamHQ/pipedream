@@ -6,7 +6,7 @@ export default {
   name: "List Documents",
   description: "List documents optionally filter by a search query or tags. [See the docs here](https://developers.pandadoc.com/reference/list-documents)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.1",
   props: {
     app,
     query: {
@@ -29,9 +29,10 @@ export default {
       optional: true,
     },
     id: {
-      type: "string",
-      label: "Document Id",
-      description: "Specify document's ID",
+      propDefinition: [
+        app,
+        "documentId",
+      ],
       optional: true,
     },
     deleted: {
