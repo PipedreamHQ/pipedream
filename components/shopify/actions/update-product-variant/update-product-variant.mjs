@@ -7,7 +7,7 @@ export default {
   key: "shopify-update-product-variant",
   name: "Update Product Variant",
   description: "Update an existing product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[put]/admin/api/2022-01/variants/{variant_id}.json)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     shopify,
