@@ -119,5 +119,14 @@ export default {
         .map((api) => api.properties.find((property) => property.type === "X-Version"))
         .map((api) => api.value);
     },
+    async deleteApiVersion({
+      owner, api, version, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/apis/${owner}/${api}/${version}`,
+        method: "delete",
+      });
+    },
   },
 };
