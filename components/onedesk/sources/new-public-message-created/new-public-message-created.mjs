@@ -2,9 +2,9 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "onedesk-new-project-updated",
-  name: "New Project Updated",
-  description: "Emit new event when a project is updated. [See the docs](https://www.onedesk.com/developers/#_get_item_updates)",
+  key: "onedesk-new-public-message-created",
+  name: "New Public Message Created",
+  description: "Emit new event when a new public message is created. [See the docs](https://www.onedesk.com/developers/#_get_item_updates)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -15,21 +15,20 @@ export default {
         data: {
           applicationId,
           itemTypes: [
-            "Space",
+            "ConversationMessageActivity",
           ],
           operations: [
-            "PROPERTY_UPDATE",
+            "CREATE",
           ],
         },
       });
       return data;
     },
-    generateMeta(project) {
-      const ts = Date.parse(project.collectedTimestamp);
+    generateMeta(item) {
       return {
-        id: `${project.itemId}${ts}`,
-        summary: project.itemName,
-        ts,
+        id: item.itemId,
+        summary: `New Message Activity ID ${item.itemId}`,
+        ts: Date.parse(item.collectedTimestamp),
       };
     },
   },
