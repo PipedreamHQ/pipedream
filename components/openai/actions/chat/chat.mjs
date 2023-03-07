@@ -48,7 +48,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully sent prompt with id ${response.id}`);
+      $.export("$summary", `Successfully sent chat with id ${response.id}`);
     }
 
     return response;
