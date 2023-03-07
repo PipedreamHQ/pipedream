@@ -117,6 +117,29 @@ export default {
         });
       },
     },
+    taskFields: {
+      label: "Task Fields",
+      description: "List of task fields that will emit events when updated. This field uses the field code.",
+      type: "string[]",
+      async options({ project }) {
+        const tasks = await this.getTasks({
+          params: {
+            project,
+            limit: 1,
+          },
+        });
+
+        if (!tasks || tasks.length === 0) {
+          return [];
+        }
+        const task = await this.getTask(tasks[0].gid);
+
+        return Object.keys(task).map((key) => ({
+          label: key,
+          value: key,
+        }));
+      },
+    },
   },
   methods: {
     /**
