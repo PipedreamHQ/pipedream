@@ -2,35 +2,46 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   key: "shopify-add-product-to-custom-collection",
-  name: "Add Product to Custom Collection",
-  description: "Adds a product to a custom collection. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/collect#post-collects)",
-  version: "0.0.1",
+  name: "Add Products to Custom Collections",
+  description: "Adds a product or products to a custom collection or collections. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/collect#post-collects)",
+  version: "0.0.2",
   type: "action",
   props: {
     shopify,
-    productId: {
+    productIds: {
       propDefinition: [
         shopify,
         "productId",
       ],
+      type: "string[]",
+      label: "Product IDs",
     },
-    collectionId: {
+    collectionIds: {
       propDefinition: [
         shopify,
         "collectionId",
       ],
-      description: "ID of the collection that the product will be added to",
+      type: "string[]",
+      label: "Collection IDs",
+      description: "IDs of the collections that the product will be added to",
       optional: false,
     },
   },
   async run({ $ }) {
-    const data = {
-      product_id: this.productId,
-      collection_id: this.collectionId,
-    };
+    const results = [];
 
-    const { result } = await this.shopify.createCollect(data);
-    $.export("$summary", `Added product with ID \`${result.product_id}\` to collection with ID \`${result.collection_id}\``);
-    return result;
+    for (const productId of this.productIds) {
+      for (const collectionId of this.collectionIds) {
+        const data = {
+          product_id: productId,
+          collection_id: collectionId,
+        };
+        const { result } = await this.shopify.createCollect(data);
+        results.push(result);
+      }
+    }
+
+    $.export("$summary", `Added ${this.productIds.length} product(s) to ${this.collectionIds.length} collection(s).`);
+    return results;
   },
 };

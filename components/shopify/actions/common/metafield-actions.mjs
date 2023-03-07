@@ -95,14 +95,16 @@ export default {
         ownerId: resources[ownerResource],
       };
     },
-    async getMetafieldIdByKey(key, ownerId, ownerResource) {
+    async getMetafieldIdByKey(key, namespace, ownerId, ownerResource) {
       const results = await this.shopify.listMetafields({
         metafield: {
           owner_resource: ownerResource,
           owner_id: ownerId,
         },
       });
-      const metafield = results?.filter((field) => field.key === key);
+      const metafield = results?.filter(
+        (field) => field.key === key && field.namespace === namespace,
+      );
       if (!metafield || metafield.length === 0) {
         return false;
       }
@@ -116,7 +118,9 @@ export default {
           metafields.push(meta);
           continue;
         }
-        const metafieldId = await this.getMetafieldIdByKey(meta.key, ownerId, ownerResource);
+        const metafieldId = await this.getMetafieldIdByKey(
+          meta.key, meta.namespace, ownerId, ownerResource,
+        );
         if (!metafieldId) {
           metafields.push(meta);
           continue;
