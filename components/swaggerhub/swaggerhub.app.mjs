@@ -28,7 +28,7 @@ export default {
         return {
           options: apis.map((api) => ({
             label: api.name,
-            value: this._getApiId(api),
+            value: this.getApiId(api),
           })),
         };
       },
@@ -40,18 +40,26 @@ export default {
       async options({
         owner, api,
       }) {
-        return this.listApiVersions({
+        const response = await this.listApiVersions({
           owner,
           api,
         });
+        return response.map((api) => this.extractApiVersion(api));
       },
     },
   },
   methods: {
-    _getApiId(api) {
+    getApiId(api) {
       const { url } = api.properties.find((property) => property.type === "Swagger");
       const splitted = url.split("/");
       return splitted[splitted.length - 2];
+    },
+    extractApiVersion(api) {
+      return this.extractPropertyValue(api, "X-Version");
+    },
+    extractPropertyValue(api, propertyType) {
+      const { value } = api.properties.find((property) => property.type === propertyType);
+      return value;
     },
     _auth() {
       return this.$auth.api_key;
@@ -111,13 +119,11 @@ export default {
     async listApiVersions({
       owner, api, ...opts
     }) {
-      const response = await this._makeRequest({
+      const { apis } = await this._makeRequest({
         ...opts,
         path: `/apis/${owner}/${api}`,
       });
-      return response.apis
-        .map((api) => api.properties.find((property) => property.type === "X-Version"))
-        .map((api) => api.value);
+      return apis;
     },
     async cloneApiVersion({
       owner, api, version, newVersion, makePrivate, ...opts
