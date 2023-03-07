@@ -16,6 +16,7 @@ export default defineAction({
   props: {
     app,
     query: {
+      type: "string",
       label: "Query",
       description: "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
     },
