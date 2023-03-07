@@ -1541,6 +1541,9 @@
     },
     {
       "path": "components/swaggerhub"
+    },
+    {
+      "path": "components/api_sports"
     }
   ]
 }
