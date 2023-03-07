@@ -5,6 +5,10 @@ import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
 import { ConfigurationError } from "./errors";
 
+interface PipedreamAxiosRequestConfig extends AxiosRequestConfig {
+  returnRawResponse?: boolean;
+}
+
 function cleanObject(o: { string: any; }) {
   for (const k in o || {}) {
     if (typeof o[k] === "undefined") {
@@ -49,8 +53,7 @@ function oauth1ParamsSerializer(p: any) {
 }
 
 // XXX warn about mutating config object... or clone?
-export default async function (step: any, config: AxiosRequestConfig, signConfig?: any) {
-  const rawConfig = config;
+export default async function (step: any, config: PipedreamAxiosRequestConfig, signConfig?: any) {
   cleanObject(config.headers);
   cleanObject(config.params);
   if (typeof config.data === "object") {
@@ -101,14 +104,14 @@ export default async function (step: any, config: AxiosRequestConfig, signConfig
     if (config.debug) {
       stepExport(step, config, "debug_config");
     }
-    const { data } = await axios({
-      ...rawConfig,
-      ...config,
-    });
+    const response = await axios(config);
     if (config.debug) {
-      stepExport(step, data, "debug_response");
+      stepExport(step, response.data, "debug_response");
     }
-    return data;
+
+    return config.returnRawResponse
+      ? response
+      : response.data;
   } catch (err) {
     if (err.response) {
       convertAxiosError(err);
@@ -138,3 +141,5 @@ function convertAxiosError(err) {
   err.message = JSON.stringify(err.response.data);
   return err;
 }
+
+export const createAxiosInstance = axios.create;

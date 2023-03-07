@@ -1,10 +1,11 @@
 import * as t from "io-ts";
 
-import axios from "./axios";
+import axios, { createAxiosInstance } from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
   axios,
+  createAxiosInstance,
 };
 export {
   cloneSafe, jsonStringifySafe,
@@ -15,8 +16,8 @@ export {
 } from "./errors";
 
 export {
-  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL
-} from "./constants"
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "./constants";
 
 const SendPayload = t.union([
   t.string,

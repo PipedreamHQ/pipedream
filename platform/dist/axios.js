@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createAxiosInstance = void 0;
 const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
@@ -48,7 +49,6 @@ function oauth1ParamsSerializer(p) {
 }
 // XXX warn about mutating config object... or clone?
 async function default_1(step, config, signConfig) {
-    const rawConfig = config;
     cleanObject(config.headers);
     cleanObject(config.params);
     if (typeof config.data === "object") {
@@ -97,14 +97,13 @@ async function default_1(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, config, "debug_config");
         }
-        const { data } = await axios_1.default({
-            ...rawConfig,
-            ...config,
-        });
+        const response = await axios_1.default(config);
         if (config.debug) {
-            stepExport(step, data, "debug_response");
+            stepExport(step, response.data, "debug_response");
         }
-        return data;
+        return config.returnRawResponse
+            ? response
+            : response.data;
     }
     catch (err) {
         if (err.response) {
@@ -132,3 +131,4 @@ function convertAxiosError(err) {
     err.message = JSON.stringify(err.response.data);
     return err;
 }
+exports.createAxiosInstance = axios_1.default.create;
