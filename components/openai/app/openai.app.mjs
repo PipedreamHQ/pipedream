@@ -116,8 +116,15 @@ export default {
         args,
       });
     },
-    async createImage(args = {}) {
-      return this._client().createImage(args);
+    async createImage({
+      $, args,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/images/generations",
+        data: args,
+        method: "POST",
+      });
     },
   },
 };

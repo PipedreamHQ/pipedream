@@ -1,9 +1,9 @@
-import openai from "../../openai.app.mjs";
+import openai from "../../app/openai.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Image",
-  version: "0.0.1",
+  version: "0.1.0",
   key: "openai-create-image",
   description: "Creates an image given a prompt. [See docs here](https://beta.openai.com/docs/api-reference/images/create)",
   type: "action",
@@ -38,7 +38,7 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createImage({
       $,
-      data: {
+      args: {
         prompt: this.prompt,
         n: this.n,
         size: this.size,

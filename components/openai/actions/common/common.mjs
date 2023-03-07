@@ -24,8 +24,8 @@ export default {
     },
     n: {
       label: "N",
-      description: "How many completions to generate for each prompt.",
-      type: "string",
+      description: "How many completions to generate for each prompt",
+      type: "integer",
       optional: true,
     },
     stop: {
