@@ -32,6 +32,16 @@ export default {
         "includeChatTranscripts",
       ],
     },
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
+      type: "$.interface.apphook",
+      appProp: "app",
+      eventNames() {
+        return [
+          constants.CUSTOM_EVENT_TYPES.RECORDING_COMPLETED,
+        ];
+      },
+    },
   },
   hooks: {
     async deploy() {
@@ -61,11 +71,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventNames() {
-      return [
-        constants.CUSTOM_EVENT_TYPES.RECORDING_COMPLETED,
-      ];
-    },
     isMeetingRelevant(meeting) {
       const {
         id, recording_files,

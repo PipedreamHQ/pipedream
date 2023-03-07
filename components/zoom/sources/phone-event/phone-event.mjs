@@ -16,11 +16,13 @@ export default {
       description: "Select the events you want to listen for",
       options: Object.values(constants.PHONE_EVENT_TYPES),
     },
-  },
-  methods: {
-    ...common.methods,
-    getEventNames() {
-      return this.eventNameOptions;
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
+      type: "$.interface.apphook",
+      appProp: "app",
+      eventNames() {
+        return this.eventNameOptions;
+      },
     },
   },
   async run(event) {

@@ -9,6 +9,20 @@ export default {
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
+      type: "$.interface.apphook",
+      appProp: "app",
+      eventNames() {
+        return [
+          constants.CUSTOM_EVENT_TYPES.WEBINAR_CREATED_BY_ME,
+          constants.CUSTOM_EVENT_TYPES.WEBINAR_CREATED_FOR_ME,
+        ];
+      },
+    },
+  },
   hooks: {
     async deploy() {
       const { webinars } = await this.app.listWebinars({
@@ -29,12 +43,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventNames() {
-      return [
-        constants.CUSTOM_EVENT_TYPES.WEBINAR_CREATED_BY_ME,
-        constants.CUSTOM_EVENT_TYPES.WEBINAR_CREATED_FOR_ME,
-      ];
-    },
     emitEvent(payload, object) {
       const meta = this.generateMeta(object);
       this.$emit({
