@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "mastodon-new-status-bookmarked",
+  key: "mastodon-new-bookmark",
   name: "New Status Bookmarked",
   description: "Emit new event when the specified status is bookmarked. [See the docs here](https://docs.joinmastodon.org/methods/bookmarks/)",
   version: "0.0.1",
