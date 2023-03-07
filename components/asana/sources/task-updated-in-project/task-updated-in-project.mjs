@@ -77,7 +77,7 @@ export default {
       const responses = await Promise.all(promises);
 
       responses
-        .filter(({ task }) => task.assignee.gid === String(user))
+        .filter(({ task }) => user.length === 0 || task.assignee && task.assignee.gid === user)
         .forEach(({
           event, task,
         }) => {
