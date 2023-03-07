@@ -4,8 +4,42 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "swaggerhub",
-  propDefinitions: {},
+  propDefinitions: {
+    owner: {
+      type: "string",
+      label: "Owner",
+      description: "The owner of the API",
+    },
+    api: {
+      type: "string",
+      label: "API",
+      description: "The API in your SwaggerHub",
+      async options({
+        page, owner,
+      }) {
+        const { apis } = await this.listApis({
+          owner,
+          params: {
+            page,
+            limit: constants.ASYNC_OPTIONS_LIMIT,
+          },
+        });
+
+        return {
+          options: apis.map((api) => ({
+            label: api.name,
+            value: this._getApiId(api),
+          })),
+        };
+      },
+    },
+  },
   methods: {
+    _getApiId(api) {
+      const { url } = api.properties.find((property) => property.type === "Swagger");
+      const splitted = url.split("/");
+      return splitted[splitted.length - 2];
+    },
     _auth() {
       return this.$auth.api_key;
     },
