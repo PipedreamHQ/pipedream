@@ -5,7 +5,7 @@ export default {
   name: "Create Image",
   version: "0.1.0",
   key: "openai-create-image",
-  description: "Creates an image given a prompt. [See docs here](https://beta.openai.com/docs/api-reference/images/create)",
+  description: "Creates an image given a prompt. returns a URL to the image. [See docs here](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
   props: {
     openai,
@@ -27,13 +27,6 @@ export default {
       optional: true,
       options: constants.IMAGE_SIZES,
     },
-    responseFormat: {
-      label: "Response Format",
-      description: "The format in which the generated images are returned.",
-      type: "string",
-      optional: true,
-      options: constants.RESPONSE_FORMATS,
-    },
   },
   async run({ $ }) {
     const response = await this.openai.createImage({
@@ -46,8 +39,8 @@ export default {
       },
     });
 
-    if (response) {
-      $.export("$summary", `Successfully created image with id ${response.id}`);
+    if (response.data.length) {
+      $.export("$summary", `Successfully created ${response.data.length} images`);
     }
 
     return response;

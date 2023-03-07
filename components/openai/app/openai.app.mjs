@@ -22,6 +22,15 @@ export default {
       },
       default: "gpt-3.5-turbo",
     },
+    embeddingsModelId: {
+      label: "Model",
+      description: "The ID of the embeddings model to use. OpenAI recommends using `text-embedding-ada-002` for nearly all use cases: \"It's better, cheaper, and simpler to use. [Read the blog post announcement](https://openai.com/blog/new-and-improved-embedding-model)\".",
+      type: "string",
+      async options() {
+        return (await this.getEmbeddingsModels({})).map((model) => model.id);
+      },
+      default: "text-embedding-ada-002",
+    },
   },
   methods: {
     _apiKey() {
@@ -65,7 +74,18 @@ export default {
       return models.filter((model) => {
         const { id } = model;
         return (
-          id.match(/^(?=.*\b(babbage|davinci|ada|curie)\b)(?!.*\b(whisper|turbo|edit|insert|search|embedding|similarity)\b).*$/gm)
+          id.match(/^(?=.*\b(babbage|davinci|ada|curie)\b)(?!.*\b(whisper|turbo|edit|insert|search|embedding|similarity|001)\b).*$/gm)
+        );
+      });
+    },
+    async getEmbeddingsModels({ $ }) {
+      const models = await this.models({
+        $,
+      });
+      return models.filter((model) => {
+        const { id } = model;
+        return (
+          id.match(/^(text-embedding-ada-002|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
         );
       });
     },
@@ -122,6 +142,16 @@ export default {
       return this._makeRequest({
         $,
         path: "/images/generations",
+        data: args,
+        method: "POST",
+      });
+    },
+    async createEmbeddings({
+      $, args,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/embeddings",
         data: args,
         method: "POST",
       });
