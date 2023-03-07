@@ -1553,6 +1553,9 @@
     },
     {
       "path": "components/humanloop"
+    },
+    {
+      "path": "components/smarty"
     }
   ]
 }
