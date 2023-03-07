@@ -33,6 +33,19 @@ export default {
         };
       },
     },
+    version: {
+      type: "string",
+      label: "Version",
+      description: "The version of the API",
+      async options({
+        owner, api,
+      }) {
+        return this.listApiVersions({
+          owner,
+          api,
+        });
+      },
+    },
   },
   methods: {
     _getApiId(api) {
@@ -94,6 +107,17 @@ export default {
         ...opts,
         path,
       });
+    },
+    async listApiVersions({
+      owner, api, ...opts
+    }) {
+      const response = await this._makeRequest({
+        ...opts,
+        path: `/apis/${owner}/${api}`,
+      });
+      return response.apis
+        .map((api) => api.properties.find((property) => property.type === "X-Version"))
+        .map((api) => api.value);
     },
   },
 };
