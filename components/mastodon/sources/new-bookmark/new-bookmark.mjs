@@ -5,15 +5,23 @@ export default {
   key: "mastodon-new-status-bookmarked",
   name: "New Status Bookmarked",
   description: "Emit new event when the specified status is bookmarked. [See the docs here](https://docs.joinmastodon.org/methods/bookmarks/)",
-  version: "0.0.12",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
-    setLastSinceId(value) {
-      this.db.set("lastSinceId", value);
+    setLastMaxId(value) {
+      this.db.set("lastMaxId", value);
     },
-    getLastSinceId() {
-      return this.db.get("lastSinceId");
+    getLastMaxId() {
+      return this.db.get("lastMaxId");
+    },
+    getUrl(str) {
+      return str.substring(str.indexOf("<") + 1, str.lastIndexOf(">"));
+    },
+    getUrlParam(str, key) {
+      const url = this.getUrl(str);
+      const params = new URLSearchParams(url);
+      return params.get(key);
     },
     generateMeta(bookmark) {
       return {
@@ -22,49 +30,39 @@ export default {
         ts: Date.parse(bookmark.created_at),
       };
     },
+    emitEvent(resource) {
+      const meta = this.generateMeta(resource);
+      this.$emit(resource, meta);
+    },
   },
   async run() {
-    let url;
     let hasNext;
-    let minId;
 
     do {
       const {
         headers: { link },
         data: bookmarks,
       } = await this.mastodon.listBookmarkedStatuses({
-        url,
         params: {
-          min_id: this.getLastSinceId(),
-          limit: 2,
+          max_id: this.getLastMaxId(),
+          limit: 40,
         },
       });
-
-      if (!bookmarks.length) {
-        console.log("no more bookmarks");
-        return;
-      }
 
       hasNext = link?.includes("next");
 
       if (hasNext) {
-        console.log("link!!!", link);
-        const urlRel = link.split(",")[1];
-        url = urlRel.substring(urlRel.indexOf("<") + 1, urlRel.lastIndexOf(">"));
-        const params = new URLSearchParams(url);
-        minId = params.get("min_id");
+        const [
+          str,
+        ] = link.split(",");
+
+        this.setLastMaxId(this.getUrlParam(str, "max_id"));
       }
 
-      if (minId) {
-        this.setLastSinceId(minId);
-        minId = undefined;
-      }
-
-      bookmarks.forEach((bookmark) => {
-        const meta = this.generateMeta(bookmark);
-        this.$emit(bookmark, meta);
-      });
+      bookmarks.forEach(this.emitEvent);
 
     } while (hasNext);
+
+    this.setLastMaxId(null);
   },
 };
