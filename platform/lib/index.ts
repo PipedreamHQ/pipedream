@@ -1,11 +1,10 @@
 import * as t from "io-ts";
 
-import axios, { createAxiosInstance } from "./axios";
+import axios from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
   axios,
-  createAxiosInstance,
 };
 export {
   cloneSafe, jsonStringifySafe,
@@ -193,4 +192,5 @@ export const $sendConfigRuntimeTypeChecker = (function () {
 export interface AxiosRequestConfig extends AxiosConfig {
   debug?: boolean;
   body?: any;
+  returnFullResponse?: boolean;
 }

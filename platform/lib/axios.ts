@@ -5,10 +5,6 @@ import * as querystring from "querystring";
 import { cloneSafe } from "./utils";
 import { ConfigurationError } from "./errors";
 
-interface PipedreamAxiosRequestConfig extends AxiosRequestConfig {
-  returnRawResponse?: boolean;
-}
-
 function cleanObject(o: { string: any; }) {
   for (const k in o || {}) {
     if (typeof o[k] === "undefined") {
@@ -53,7 +49,7 @@ function oauth1ParamsSerializer(p: any) {
 }
 
 // XXX warn about mutating config object... or clone?
-export default async function (step: any, config: PipedreamAxiosRequestConfig, signConfig?: any) {
+async function callAxios(step: any, config: AxiosRequestConfig, signConfig?: any) {
   cleanObject(config.headers);
   cleanObject(config.params);
   if (typeof config.data === "object") {
@@ -109,7 +105,7 @@ export default async function (step: any, config: PipedreamAxiosRequestConfig, s
       stepExport(step, response.data, "debug_response");
     }
 
-    return config.returnRawResponse
+    return config.returnFullResponse
       ? response
       : response.data;
   } catch (err) {
@@ -142,4 +138,5 @@ function convertAxiosError(err) {
   return err;
 }
 
-export const createAxiosInstance = axios.create;
+callAxios.create = axios.create;
+export default callAxios;

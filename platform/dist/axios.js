@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAxiosInstance = void 0;
 const axios_1 = require("axios");
 const buildURL = require("axios/lib/helpers/buildURL");
 const querystring = require("querystring");
@@ -48,7 +47,7 @@ function oauth1ParamsSerializer(p) {
         .replace(/\*/g, "%2A");
 }
 // XXX warn about mutating config object... or clone?
-async function default_1(step, config, signConfig) {
+async function callAxios(step, config, signConfig) {
     cleanObject(config.headers);
     cleanObject(config.params);
     if (typeof config.data === "object") {
@@ -101,7 +100,7 @@ async function default_1(step, config, signConfig) {
         if (config.debug) {
             stepExport(step, response.data, "debug_response");
         }
-        return config.returnRawResponse
+        return config.returnFullResponse
             ? response
             : response.data;
     }
@@ -113,7 +112,6 @@ async function default_1(step, config, signConfig) {
         throw err;
     }
 }
-exports.default = default_1;
 function stepExport(step, message, key) {
     message = utils_1.cloneSafe(message);
     if (step) {
@@ -131,4 +129,5 @@ function convertAxiosError(err) {
     err.message = JSON.stringify(err.response.data);
     return err;
 }
-exports.createAxiosInstance = axios_1.default.create;
+callAxios.create = axios_1.default.create;
+exports.default = callAxios;
