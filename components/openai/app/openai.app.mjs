@@ -9,7 +9,7 @@ export default {
       description: "The ID of the model to use for completions. **This action doesn't support the ChatGPT `turbo` models**. Use the **Chat** action for those, instead.",
       type: "string",
       async options() {
-        return (await this.getCompletionModels()).map((model) => model.id);
+        return (await this.getCompletionModels({})).map((model) => model.id);
       },
       default: "text-davinci-003",
     },
@@ -18,9 +18,9 @@ export default {
       description: "The ID of the model to use for chat completions",
       type: "string",
       async options() {
-        return (await this.getChatCompletionModels()).map((model) => model.id);
+        return (await this.getChatCompletionModels({})).map((model) => model.id);
       },
-      default: "text-davinci-003",
+      default: "gpt-3.5-turbo",
     },
   },
   methods: {
@@ -31,7 +31,7 @@ export default {
       return "https://api.openai.com/v1";
     },
     async _makeRequest({
-      $,
+      $ = this,
       path,
       ...args
     } = {}) {
@@ -46,18 +46,22 @@ export default {
       });
     },
     async models({ $ }) {
-      const { data: { data: models } } = await this._makeRequest({
+      const { data: models } = await this._makeRequest({
         $,
         path: "/models",
       });
       return models.sort((a, b) => a?.id.localeCompare(b?.id));
     },
-    async getChatCompletionModels() {
-      const models = await this.models();
+    async getChatCompletionModels({ $ }) {
+      const models = await this.models({
+        $,
+      });
       return models.filter((model) => model.id.match(/turbo/gi));
     },
-    async getCompletionModels() {
-      const models = await this.models();
+    async getCompletionModels({ $ }) {
+      const models = await this.models({
+        $,
+      });
       return models.filter((model) => {
         const { id } = model;
         return (
@@ -66,31 +70,48 @@ export default {
       });
     },
     async _makeCompletion({
-      path, args,
+      $, path, args,
     }) {
       const data = await this._makeRequest({
+        $,
         path,
         method: "POST",
         data: args,
       });
-      // Return the text of the first choice at the top-level of the returned object for convenience
-      const { choices } = data;
-      const text = choices?.[0]?.text;
+
+      // For completions, return the text of the first choice at the top-level
+      let generated_text;
+      if (path === "/completions") {
+        const { choices } = data;
+        generated_text = choices?.[0]?.text;
+      }
+      // For chat completions, return the assistant message at the top-level
+      let generated_message;
+      if (path === "/chat/completions") {
+        const { choices } = data;
+        generated_message = choices?.[0]?.message;
+      }
+
       return {
-        first_response_text: choices.length
-          ? text
-          : null,
+        generated_text,
+        generated_message,
         ...data,
       };
     },
-    async createCompletion(args = {}) {
+    async createCompletion({
+      $, args,
+    }) {
       return this._makeCompletion({
+        $,
         path: "/completions",
         args,
       });
     },
-    async createChatCompletion(args = {}) {
+    async createChatCompletion({
+      $, args,
+    }) {
       return this._makeCompletion({
+        $,
         path: "/chat/completions",
         args,
       });

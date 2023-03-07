@@ -1,3 +1,7 @@
+import { ConfigurationError } from "@pipedream/platform";
+
+const CHAT_DOCS_MESSAGE_FORMAT_URL = "https://platform.openai.com/docs/guides/chat/introduction";
+
 export default {
   props: {
     maxTokens: {
@@ -44,7 +48,7 @@ export default {
     },
   },
   methods: {
-    _getArgs() {
+    _getCommonArgs() {
       return {
         model: this.modelId,
         prompt: this.prompt,
@@ -64,6 +68,60 @@ export default {
           ? +this.frequencyPenalty
           : this.frequencyPenalty,
         best_of: this.bestOf,
+      };
+    },
+    _getChatArgs() {
+      if (!this.messages && !this.userMessage) {
+        throw new ConfigurationError(
+          `Please provide either a User Message or the Messages array. See the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
+        );
+      }
+      let messages = [];
+      if (this.messages) {
+        for (const message of this.messages) {
+          let parsed;
+          try {
+            parsed = JSON.parse(message);
+          } catch (err) {
+            throw new ConfigurationError(
+              `Please provide a valid array of chat messages. See the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
+            );
+
+          }
+          if (!parsed.role) {
+            throw new ConfigurationError(
+              `The following message doesn't have a "role" property:\n\n${JSON.stringify(message, null, 2)}\n\nSee the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
+            );
+          }
+          if (!parsed.content) {
+            throw new ConfigurationError(
+              `The following message doesn't have a "content" property:\n\n${JSON.stringify(message, null, 2)}\n\nSee the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
+            );
+          }
+          messages.push(parsed);
+        }
+      } else {
+        if (this.systemInstructions) {
+          messages.push({
+            "role": "system",
+            "content": this.systemInstructions,
+          });
+        }
+        messages.push({
+          "role": "user",
+          "content": this.userMessage,
+        });
+        if (this.assistantResponse) {
+          messages.push({
+            "role": "assistant",
+            "content": this.assistantResponse,
+          });
+        }
+      }
+
+      return {
+        ...this._getCommonArgs(),
+        messages,
       };
     },
   },

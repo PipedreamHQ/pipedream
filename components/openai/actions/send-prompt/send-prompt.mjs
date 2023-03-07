@@ -36,7 +36,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.openai.createCompletion(this._getArgs());
+    const response = await this.openai.createCompletion({
+      $,
+      args: this._getCommonArgs(),
+    });
 
     if (response) {
       $.export("$summary", `Successfully sent prompt with id ${response.id}`);
