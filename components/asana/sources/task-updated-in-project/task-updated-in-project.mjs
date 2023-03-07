@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.0.1",
+  version: "1.1.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -33,6 +33,16 @@ export default {
         }),
       ],
     },
+    user: {
+      label: "Assignee",
+      type: "string",
+      description: "Only emit events for tasks assigned to this user GID",
+      optional: true,
+      propDefinition: [
+        asana,
+        "users",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -48,7 +58,9 @@ export default {
       };
     },
     async emitEvent(event) {
-      const { tasks } = this;
+      const {
+        tasks, user,
+      } = this;
       const { events = [] } = event.body || {};
 
       const promises = events
@@ -64,16 +76,18 @@ export default {
 
       const responses = await Promise.all(promises);
 
-      responses.forEach(({
-        event, task,
-      }) => {
-        const ts = Date.parse(event.created_at);
-        this.$emit(task, {
-          id: `${task.gid}-${ts}`,
-          summary: task.name,
-          ts,
+      responses
+        .filter(({ task }) => user.length === 0 || task.assignee && task.assignee.gid === user)
+        .forEach(({
+          event, task,
+        }) => {
+          const ts = Date.parse(event.created_at);
+          this.$emit(task, {
+            id: `${task.gid}-${ts}`,
+            summary: task.name,
+            ts,
+          });
         });
-      });
     },
   },
 };
