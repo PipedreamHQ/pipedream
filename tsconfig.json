@@ -1544,6 +1544,15 @@
     },
     {
       "path": "components/api_sports"
+    },
+    {
+      "path": "components/confluent"
+    },
+    {
+      "path": "components/saucelabs"
+    },
+    {
+      "path": "components/humanloop"
     }
   ]
 }
