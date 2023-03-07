@@ -65,9 +65,11 @@ export default {
         );
       });
     },
-    async createCompletion(args = {}) {
+    async _makeCompletion({
+      path, args,
+    }) {
       const data = await this._makeRequest({
-        path: "/completions",
+        path,
         method: "POST",
         data: args,
       });
@@ -81,11 +83,20 @@ export default {
         ...data,
       };
     },
-    async createImage(args = {}) {
-      return this._client().createImage(args);
+    async createCompletion(args = {}) {
+      return this._makeCompletion({
+        path: "/completions",
+        args,
+      });
     },
     async createChatCompletion(args = {}) {
-      return this._client().createChatCompletion(args);
+      return this._makeCompletion({
+        path: "/chat/completions",
+        args,
+      });
+    },
+    async createImage(args = {}) {
+      return this._client().createImage(args);
     },
   },
 };
