@@ -46,6 +46,12 @@ export default {
       type: "string",
       optional: true,
     },
+    user: {
+      label: "User",
+      description: "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more here](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).",
+      type: "string",
+      optional: true,
+    },
   },
   methods: {
     _getCommonArgs() {
@@ -68,6 +74,7 @@ export default {
           ? +this.frequencyPenalty
           : this.frequencyPenalty,
         best_of: this.bestOf,
+        user: this.user,
       };
     },
     _getChatArgs() {

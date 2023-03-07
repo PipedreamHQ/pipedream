@@ -42,15 +42,21 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
+    const args = this._getChatArgs();
     const response = await this.openai.createChatCompletion({
       $,
-      args: this._getChatArgs(),
+      args,
     });
 
     if (response) {
       $.export("$summary", `Successfully sent chat with id ${response.id}`);
     }
 
-    return response;
+    const { messages } = args;
+    return {
+      original_messages: messages,
+      original_messages_with_assistant_response: messages.concat(response.choices[0]?.message),
+      ...response,
+    };
   },
 };
