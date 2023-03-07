@@ -1529,6 +1529,18 @@
     },
     {
       "path": "components/posthog"
+    },
+    {
+      "path": "components/studio_by_ai21_labs"
+    },
+    {
+      "path": "components/luminous"
+    },
+    {
+      "path": "components/scrapingbee"
+    },
+    {
+      "path": "components/swaggerhub"
     }
   ]
 }
