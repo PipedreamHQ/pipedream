@@ -119,6 +119,19 @@ export default {
         .map((api) => api.properties.find((property) => property.type === "X-Version"))
         .map((api) => api.value);
     },
+    async cloneApiVersion({
+      owner, api, version, newVersion, makePrivate, ...opts
+    }) {
+      return this._makeRequest({
+        ...opts,
+        path: `/apis/${owner}/${api}/${version}/clone`,
+        method: "post",
+        data: {
+          version: newVersion,
+          private: makePrivate,
+        },
+      });
+    },
     async deleteApiVersion({
       owner, api, version, ...opts
     }) {
