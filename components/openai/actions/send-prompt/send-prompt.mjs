@@ -1,17 +1,17 @@
-import openai from "../../app/openai.app";
+import openai from "../../app/openai.app.mjs";
 
 export default {
   name: "Create Completion (Send Prompt)",
   version: "0.1.0",
   key: "openai-send-prompt",
-  description: "Creates a completion for the provided prompt and parameters, using the original GPT-3 API. Use the **Chat** action for the latest `gpt-3.5-turbo` API. [See docs here](https://platform.openai.com/docs/api-reference/completions)",
+  description: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API. [See docs here](https://beta.openai.com/docs/api-reference/completions/create)",
   type: "action",
   props: {
     openai,
     modelId: {
       propDefinition: [
         openai,
-        "modelId",
+        "completionModelId",
       ],
     },
     prompt: {
@@ -21,7 +21,7 @@ export default {
     },
     suffix: {
       label: "Suffix",
-      description: "The suffix that comes after a completion of inserted text.",
+      description: "The suffix that comes after a completion of inserted text",
       type: "string",
       optional: true,
     },
@@ -49,13 +49,6 @@ export default {
       type: "integer",
       optional: true,
     },
-    stream: {
-      label: "Stream Partial Progress?",
-      description: "Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a `data: [DONE]`` message.",
-      type: "boolean",
-      optional: true,
-      default: false,
-    },
     stop: {
       label: "Stop",
       description: "Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.",
@@ -82,7 +75,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.openai.seondPrompt({
+    const response = await this.openai.createCompletion({
       model: this.modelId,
       prompt: this.prompt,
       max_tokens: this.maxTokens,
@@ -93,7 +86,6 @@ export default {
         ? +this.topP
         : this.topP,
       n: this.n,
-      stream: this.stream,
       stop: this.stop,
       presence_penalty: this.presencePenalty
         ? +this.presencePenalty

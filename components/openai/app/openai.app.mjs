@@ -1,37 +1,85 @@
-import {
-  Configuration, OpenAIApi,
-} from "openai";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "openai",
   propDefinitions: {
-    modelId: {
-      label: "Model ID",
-      description: "ID of the model to use",
+    completionModelId: {
+      label: "Model",
+      description: "The ID of the model to use for completions. **This action doesn't support the ChatGPT `turbo` models**. Use the **Chat** action for those, instead.",
       type: "string",
       async options() {
-        const { data: models } = await this.getModels();
-
-        return models.map((model) => model.id);
+        return (await this.getCompletionModels()).map((model) => model.id);
       },
+      default: "text-davinci-003",
+    },
+    chatCompletionModelId: {
+      label: "Model",
+      description: "The ID of the model to use for chat completions",
+      type: "string",
+      async options() {
+        return (await this.getChatCompletionModels()).map((model) => model.id);
+      },
+      default: "text-davinci-003",
     },
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
     },
-    _client() {
-      const configuration = new Configuration({
-        apiKey: this._apiKey(),
+    _baseApiUrl() {
+      return "https://api.openai.com/v1";
+    },
+    async _makeRequest({
+      $,
+      path,
+      ...args
+    } = {}) {
+      return axios($, {
+        url: `${this._baseApiUrl()}${path}`,
+        headers: {
+          "Authorization": `Bearer ${this._apiKey()}`,
+          "Accept": "application/json",
+          "User-Agent": "@PipedreamHQ/pipedream v1.0",
+        },
+        ...args,
       });
-      return new OpenAIApi(configuration);
     },
-    async getModels(args = {}) {
-      return this._client().listModels(args);
+    async models({ $ }) {
+      const { data: { data: models } } = await this._makeRequest({
+        $,
+        path: "/models",
+      });
+      return models.sort((a, b) => a?.id.localeCompare(b?.id));
     },
-    async sendPrompt(args = {}) {
-      return this._client().createCompletion(args);
+    async getChatCompletionModels() {
+      const models = await this.models();
+      return models.filter((model) => model.id.match(/turbo/gi));
+    },
+    async getCompletionModels() {
+      const models = await this.models();
+      return models.filter((model) => {
+        const { id } = model;
+        return (
+          id.match(/^(?=.*\b(babbage|davinci|ada|curie)\b)(?!.*\b(whisper|turbo|edit|insert|search|embedding|similarity)\b).*$/gm)
+        );
+      });
+    },
+    async createCompletion(args = {}) {
+      const data = await this._makeRequest({
+        path: "/completions",
+        method: "POST",
+        data: args,
+      });
+      // Return the text of the first choice at the top-level of the returned object for convenience
+      const { choices } = data;
+      const text = choices?.[0]?.text;
+      return {
+        first_response_text: choices.length
+          ? text
+          : null,
+        ...data,
+      };
     },
     async createImage(args = {}) {
       return this._client().createImage(args);
