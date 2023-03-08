@@ -134,10 +134,7 @@ export default {
         }
         const task = await this.getTask(tasks[0].gid);
 
-        return Object.keys(task).map((key) => ({
-          label: key,
-          value: key,
-        }));
+        return Object.keys(task);
       },
     },
   },
