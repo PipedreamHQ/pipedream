@@ -7,8 +7,7 @@ export default {
   propDefinitions: {},
   methods: {
     async getTemplates({ $ = this }) {
-      return await axios($, {
-        method: "get",
+      return axios($, {
         headers: {
           "X-API-Partner": "pipedream",
         },
@@ -23,10 +22,10 @@ export default {
       return templates[Math.floor(Math.random() * templates.length)];
     },
 
-    gifURIForTemplate(template) {
+    gifURIForTemplate(template, caption) {
       return `${constants.MEDIA_ENDPOINT}/memix-${
         template.id
-      }.gif?text=${encodeURIComponent(this.caption)}`;
+      }.gif?text=${encodeURIComponent(caption)}`;
     },
   },
 };
