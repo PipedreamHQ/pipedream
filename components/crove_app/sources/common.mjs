@@ -59,6 +59,21 @@ export default {
     this.http.respond({
       status: 200,
     });
+ 
+    if (body.payload && body.payload.document) {
+      // if body has payload.document.response, delete it
+      if(body.payload.document.response) {
+        delete body.payload.document.response;
+      }
+      // if body has payload.document.respondenets, delete it
+      if(body.payload.document.respondents) {
+        delete body.payload.document.respondents;
+      }
+      // if body has payload.document.symbol_table, delete it
+      if(body.payload.document.symbol_table) {
+        delete body.payload.document.symbol_table;
+      }
+    }
 
     this.$emit(body, {
       id: body.webhook.id,
