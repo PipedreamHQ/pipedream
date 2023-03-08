@@ -1,0 +1,80 @@
+export default {
+  startDate: {
+    type: "string",
+    label: "Start Date",
+    description: "Start date. Must be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+    optional: true,
+  },
+  probability: {
+    type: "string",
+    label: "Probability",
+    description: "Probability of the opportunity. Min `0`",
+    optional: true,
+  },
+  name: {
+    type: "string",
+    label: "Name",
+    description: "Name of the opportunity",
+    optional: true,
+  },
+  value: {
+    type: "integer",
+    label: "Value",
+    description: "Value of the opportunity. Min `0`",
+    optional: true,
+  },
+  closeDate: {
+    type: "string",
+    label: "Close Date",
+    description: "Close date of create an opportunity. Must be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+    optional: true,
+  },
+  closed: {
+    type: "boolean",
+    label: "Closed",
+    description: "Is closed",
+    optional: true,
+  },
+  tags: {
+    type: "string[]",
+    label: "Tags",
+    description: "Opportunity tags",
+    optional: true,
+  },
+  recurringPricePerUnit: {
+    type: "integer",
+    label: "Recurring Price Per Unit",
+    description: "Recurring price per unit",
+    optional: true,
+  },
+  frequency: {
+    type: "string",
+    label: "Frequency",
+    description: "Create opportunity frequency",
+    optional: true,
+    options: [
+      "annually",
+      "weekly",
+      "monthly",
+      "daily",
+    ],
+  },
+  contractStartDate: {
+    type: "string",
+    label: "Contact Start Date",
+    description: "Contract start date. Must be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+    optional: true,
+  },
+  contractEndDate: {
+    type: "string",
+    label: "Contact End Date",
+    description: "Contract start date. Must be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+    optional: true,
+  },
+  custom: {
+    type: "object",
+    label: "Custom",
+    description: "Custom fields",
+    optional: true,
+  },
+};
