@@ -1,8 +1,6 @@
 import fs from "fs";
 import got from "got";
 import { extname } from "path";
-import stream from "stream";
-import { promisify } from "util";
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
@@ -106,15 +104,18 @@ export default {
       const readStream = fs.createReadStream(path);
       form.append("file", readStream);
     } else if (url) {
-      console.log(`URL: ${url}`);
       const ext = extname(url);
       // OpenAI only supports a few audio formats and uses the extension to determine the format
       const tempFilePath = `/tmp/audioFile${ext}`;
-      const pipeline = promisify(stream.pipeline);
-      await pipeline(
-        got.stream(url),
-        fs.createWriteStream(tempFilePath),
-      );
+
+      const writeStream = fs.createWriteStream(tempFilePath);
+      const responseStream = got.stream(url);
+      responseStream.pipe(writeStream);
+      await new Promise((resolve, reject) => {
+        writeStream.on("finish", resolve);
+        writeStream.on("error", reject);
+        responseStream.on("error", reject);
+      });
       const readStream = fs.createReadStream(tempFilePath);
       form.append("file", readStream);
     }
