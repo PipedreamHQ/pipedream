@@ -1556,6 +1556,9 @@
     },
     {
       "path": "components/smarty"
+    },
+    {
+      "path": "components/pinecone"
     }
   ]
 }
