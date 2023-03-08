@@ -12,7 +12,7 @@ export default {
     },
     temperature: {
       label: "Temperature",
-      description: "What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.",
+      description: "**Optional**. What [sampling temperature](https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277) to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.",
       type: "string",
       optional: true,
     },
@@ -78,17 +78,22 @@ export default {
       };
     },
     _getChatArgs() {
-      if (!this.messages && !this.userMessage) {
+      if (this.messages && this.messages.length && !this.userMessage) {
         throw new ConfigurationError(
-          `Please provide either a User Message or the Messages array. See the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
+          `When you provide previous messages, you must provide the next User Message for the assistant to answer. See the OpenAI Chat format docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
         );
       }
       let messages = [];
       if (this.messages) {
         for (const message of this.messages) {
+          console.log(`Message: ${JSON.stringify(message)}`);
           let parsed;
           try {
-            parsed = JSON.parse(message);
+            if (typeof message === "string") {
+              parsed = JSON.parse(message);
+            } else {
+              parsed = message;
+            }
           } catch (err) {
             throw new ConfigurationError(
               `Please provide a valid array of chat messages. See the docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
@@ -106,6 +111,13 @@ export default {
             );
           }
           messages.push(parsed);
+        }
+        // Finally, we want to append the user message to the end of the array
+        if (this.userMessage) {
+          messages.push({
+            "role": "user",
+            "content": this.userMessage,
+          });
         }
       } else {
         if (this.systemInstructions) {

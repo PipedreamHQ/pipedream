@@ -39,6 +39,13 @@ export default {
     _baseApiUrl() {
       return "https://api.openai.com/v1";
     },
+    _commonHeaders() {
+      return {
+        "Authorization": `Bearer ${this._apiKey()}`,
+        "Accept": "application/json",
+        "User-Agent": "@PipedreamHQ/pipedream v1.0",
+      };
+    },
     async _makeRequest({
       $ = this,
       path,
@@ -47,9 +54,7 @@ export default {
       return axios($, {
         url: `${this._baseApiUrl()}${path}`,
         headers: {
-          "Authorization": `Bearer ${this._apiKey()}`,
-          "Accept": "application/json",
-          "User-Agent": "@PipedreamHQ/pipedream v1.0",
+          ...this._commonHeaders(),
         },
         ...args,
       });
@@ -154,6 +159,20 @@ export default {
         path: "/embeddings",
         data: args,
         method: "POST",
+      });
+    },
+    async createTranscription({
+      $, form,
+    }) {
+      return this._makeRequest({
+        $,
+        path: "/audio/transcriptions",
+        method: "POST",
+        headers: {
+          ...this._commonHeaders(),
+          "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
+        },
+        data: form,
       });
     },
   },
