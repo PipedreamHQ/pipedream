@@ -19,12 +19,12 @@ export default {
       const meta = this.generateMeta(data);
       this.$emit(data, meta);
     },
-    async *resourceStream(resourceFn, resource, params = null) {
+    async *resourceStream(resourceFn, resource, ...params) {
       let hasMoreItems;
       do {
         const {
           [resource]: items, pagination = {},
-        } = await resourceFn(params);
+        } = await resourceFn(...params);
         for (const item of items) {
           yield item;
         }

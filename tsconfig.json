@@ -1520,6 +1520,48 @@
     },
     {
       "path": "components/plain"
+    },
+    {
+      "path": "components/danny_test_app"
+    },
+    {
+      "path": "components/currencyapi"
+    },
+    {
+      "path": "components/posthog"
+    },
+    {
+      "path": "components/studio_by_ai21_labs"
+    },
+    {
+      "path": "components/luminous"
+    },
+    {
+      "path": "components/scrapingbee"
+    },
+    {
+      "path": "components/swaggerhub"
+    },
+    {
+      "path": "components/api_sports"
+    },
+    {
+      "path": "components/confluent"
+    },
+    {
+      "path": "components/saucelabs"
+    },
+    {
+      "path": "components/humanloop"
+    },
+    {
+      "path": "components/smarty"
+    },
+    {
+      "path": "components/pinecone"
+    },
+    {
+      "path": "components/watchsignals"
     }
   ]
 }
