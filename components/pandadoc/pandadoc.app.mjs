@@ -128,7 +128,7 @@ export default {
         ...args,
       });
     },
-    createContact(args = {}) {
+    createOrUpdateContact(args = {}) {
       return this.makeRequest({
         path: "/contacts",
         method: "POST",

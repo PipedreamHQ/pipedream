@@ -89,7 +89,7 @@ export default {
       postalCode,
     } = this;
 
-    const response = await this.app.createContact({
+    const response = await this.app.createOrUpdateContact({
       $,
       data: {
         email,

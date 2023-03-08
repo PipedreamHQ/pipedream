@@ -18,11 +18,9 @@ export default {
   async run({ $ }) {
     const { id } = this;
 
-    const response = await this.app.listDocuments({
+    const response = await this.app.documentDetails({
       $,
-      params: {
-        id,
-      },
+      id,
     });
 
     $.export("$summary", `Successfully fetched document with ID: ${id}`);
