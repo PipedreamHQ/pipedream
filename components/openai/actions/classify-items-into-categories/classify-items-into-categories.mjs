@@ -1,0 +1,49 @@
+import common from "../common/common-helper.mjs";
+
+export default {
+  ...common,
+  name: "Classify Items into Categories",
+  version: "0.0.1",
+  key: "openai-classify-items-into-categories",
+  description: "Classify items into specific categories using the Chat API",
+  type: "action",
+  props: {
+    items: {
+      label: "Items",
+      description: "Items to categorize",
+      type: "string[]",
+    },
+    categories: {
+      label: "Categories",
+      description: "Categories to classify items into",
+      type: "string[]",
+    },
+    ...common.props,
+  },
+  methods: {
+    ...common.methods,
+    systemInstructions() {
+      return "Your goal is to categorize items into specific categories. The user will provide both the items and categories. Please only categorize items into the specific categories, and no others.";
+    },
+    outputFormat() {
+      return "Please only categorize items into the specific categories, and no others. Return results as a JSON string — an array of objects, where each object has the following properties: item, category. Do not return any text other than the JSON, either before or after the JSON.";
+    },
+    userMessage() {
+      return `Categorize each of the following items:\n\n${this.items.join("\n")}\n\ninto one of the following categories:\n\n${this.categories.join("\n")}\n\n${this.outputFormat()}}`;
+    },
+    summarize() {
+      return `Categorized ${this.items.length} items into ${this.categories.length} categories`;
+    },
+    formatOutput({
+      messages, response,
+    }) {
+      if (!messages || !response) {
+        throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
+      }
+      return {
+        categorizations: JSON.parse(response.choices?.[0]?.message?.content),
+        messages,
+      };
+    },
+  },
+};

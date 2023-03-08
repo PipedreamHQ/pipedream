@@ -34,11 +34,22 @@ export default {
     },
     maxLength() {
       return this.length
-        ? `in one ${this.length}`
+        ? ` in one ${this.length}`
         : "";
     },
     userMessage() {
       return `Summarize the following text${this.maxLength()}: ${this.text}`;
+    },
+    formatOutput({
+      messages, response,
+    }) {
+      if (!messages || !response) {
+        throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
+      }
+      return {
+        summary: response.choices?.[0]?.message?.content,
+        messages,
+      };
     },
   },
 };
