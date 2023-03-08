@@ -16,7 +16,7 @@ export default {
         this.$emit(entity, {
           id: entity.id,
           summary: `New created entity: ${this.getEntityId(entity)}`,
-          ts: entity["fibery/creation-date"],
+          ts: entity.values["fibery/creation-date"],
         });
       });
   },

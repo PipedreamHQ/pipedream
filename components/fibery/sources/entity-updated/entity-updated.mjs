@@ -23,7 +23,7 @@ export default {
         this.$emit(entity, {
           id: entity.id,
           summary: `Updated entity: ${this.getEntityId(entity)}`,
-          ts: entity["fibery/modification-date"],
+          ts: entity.values["fibery/modification-date"],
         });
       });
   },
