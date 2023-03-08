@@ -36,7 +36,6 @@ export default {
   methods: {
     ...common.methods,
     getWebhookFilter() {
-      console.log("Using filters: " + this.taskFields);
       return {
         filters: [
           {
