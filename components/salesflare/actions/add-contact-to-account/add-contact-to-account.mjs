@@ -1,7 +1,7 @@
 import app from "../../salesflare.app.mjs";
 
 export default {
-  key: "salesflare-add-contact-to-acount",
+  key: "salesflare-add-contact-to-account",
   version: "0.0.1",
   type: "action",
   name: "Add Contact To Account",

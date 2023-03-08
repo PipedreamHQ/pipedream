@@ -2,7 +2,7 @@ import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "salesflare-find-users",
+  key: "salesflare-find-user",
   version: "0.0.1",
   type: "action",
   name: "Find Users",
