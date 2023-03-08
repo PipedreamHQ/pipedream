@@ -4,7 +4,7 @@ export default {
   description:
     "Generate a Memix share URL with a random template using the supplied caption. [See the docs here](https://api.memix.com/docs)",
   key: "memix-generate-random-share-url",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
