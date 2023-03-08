@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import tweetFieldProps from "../../common/tweetFieldProps";
+import { tweetFieldProps } from "../../common/fieldProps";
 import { GetLikedTweetParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
