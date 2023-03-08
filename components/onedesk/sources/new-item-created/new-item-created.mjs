@@ -27,7 +27,7 @@ export default {
     generateMeta(item) {
       return {
         id: item.itemId,
-        summary: item.itemName,
+        summary: item.itemName || `New Item ID ${item.itemId}`,
         ts: Date.parse(item.collectedTimestamp),
       };
     },
