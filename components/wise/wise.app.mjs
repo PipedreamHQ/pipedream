@@ -60,6 +60,24 @@ export default {
         }));
       },
     },
+    balanceId: {
+      label: "Balance ID",
+      description: "The balance ID",
+      type: "string",
+      async options({ profileId }) {
+        const balances = await this.getBalances({
+          profileId,
+          params: {
+            types: "STANDARD",
+          },
+        });
+
+        return balances.map((balance) => ({
+          label: balance.currency,
+          value: balance.id,
+        }));
+      },
+    },
   },
   methods: {
     _apiToken() {
@@ -106,6 +124,22 @@ export default {
     async getAccounts(args = {}) {
       return this._makeRequest({
         path: "/v1/accounts",
+        ...args,
+      });
+    },
+    async getBalances({
+      profileId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v4/profiles/${profileId}/balances`,
+        ...args,
+      });
+    },
+    async getBalance({
+      profileId, balanceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v4/profiles/${profileId}/balances/${balanceId}`,
         ...args,
       });
     },
