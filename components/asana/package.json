@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/asana",
-  "version": "0.3.8",
+  "version": "0.4.8",
   "description": "Pipedream Asana Components",
   "main": "asana.app.mjs",
   "keywords": [

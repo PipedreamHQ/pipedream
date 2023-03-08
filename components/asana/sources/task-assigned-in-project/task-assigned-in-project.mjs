@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Assigned in Project (Instant)",
   description: "Emit an event each time a task is assigned, reassigned or unassigned.",
-  version: "1.0.0",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -57,7 +57,7 @@ export default {
       const promises = events
         .filter(({ change }) =>
           !change.new_value
-          || (user.length > 0 && change.new_value.gid && change.new_value.gid === user))
+          || (user.length > 0 && change.new_value.gid === user))
         .map(async (event) => ({
           event,
           task: await this.asana.getTask(event.resource.gid),
