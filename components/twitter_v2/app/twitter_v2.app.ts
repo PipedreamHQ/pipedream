@@ -14,6 +14,7 @@ import {
   HttpRequestParams,
   LikeTweetParams,
   ListFollowersParams,
+  PaginatedRequestParams,
   RetweetParams,
   SearchTweetsParams,
   UnfollowUserParams,
@@ -27,13 +28,22 @@ import {
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
 import {
-  List, Tweet, User,
+  List, PaginatedResponse, Tweet, User,
 } from "../common/types/responseSchemas";
+import { MAX_RESULTS_PER_PAGE, MAX_RESULTS_TOTAL } from "../common/constants";
 
 export default defineApp({
   type: "app",
   app: "twitter_v2",
   propDefinitions: {
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum amount of items to return. Default is ${MAX_RESULTS_PER_PAGE}.`,
+      default: MAX_RESULTS_PER_PAGE,
+      min: 1,
+      max: MAX_RESULTS_TOTAL
+    },
     listId: {
       type: "string",
       label: "List ID",
@@ -145,6 +155,31 @@ export default defineApp({
         headers: this._getHeaders(),
         ...args,
       });
+    },
+    async _paginatedRequest({
+      maxResults, params, ...args
+    }: PaginatedRequestParams) {
+      const result = [];
+      let paginationToken: string;
+      let resultCount = 0;
+
+      do {
+        const perPage = Math.min(maxResults, MAX_RESULTS_PER_PAGE);
+
+        const { data, next_token }: PaginatedResponse = await this._httpRequest({
+          params: {
+            ...params,
+            max_results: perPage,
+            pagination_token: paginationToken,
+          },
+          ...args,
+        });
+        result.push(...data);
+        paginationToken = next_token;
+        resultCount += perPage;
+      } while (paginationToken && resultCount < maxResults);
+
+      return result;
     },
     async addUserToList({
       listId, ...args

@@ -14,3 +14,8 @@ export interface User {
   name: string;
   username: string;
 }
+
+export interface PaginatedResponse {
+  data: object[];
+  next_token: string;
+}

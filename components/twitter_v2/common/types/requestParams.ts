@@ -13,6 +13,10 @@ export interface HttpRequestParams extends PdAxiosRequest {
   params?: object;
 }
 
+export interface PaginatedRequestParams extends HttpRequestParams {
+  maxResults: number;
+}
+
 export interface AddUserToListParams extends PdAxiosRequest {
   listId: string;
   data: {
