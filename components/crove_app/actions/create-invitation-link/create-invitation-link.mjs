@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-invitation-link",
   name: "Create Invitation Link",
   description: "Create invitation link to fill or sign the document. ",
-  version: "0.0.3",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -42,6 +42,18 @@ export default {
     var drAuthToken = resp.auth_token;
     var invitationLink = `https://v2.crove.app/documents/${ this.document_id }/fill/overview?dr_auth_token=${ drAuthToken }`;
     resp.invitation_link = invitationLink;
+    // if resp.response exist delete it
+    if (resp.response) {
+      delete resp.response;
+    }
+    // if resp.respondents exist delete it
+    if (resp.respondents) {
+      delete resp.respondents;
+    }
+    // if resp.symbol_table exist delete it
+    if (resp.symbol_table) {
+      delete resp.symbol_table;
+    }
     return resp;
   },
 };

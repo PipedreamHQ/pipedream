@@ -4,7 +4,7 @@ export default {
   key: "crove_app-complete-document",
   name: "Complete Document",
   description: "Mark the document as completed",
-  version: "0.0.3",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -21,6 +21,19 @@ export default {
       url: apiUrl,
       method: "POST",
     };
-    return await this.croveApp._makeRequest(config);
+    let response = await this.croveApp._makeRequest(config);
+    // if response.response exist delete it
+    if (response.response) {
+      delete response.response;
+    }
+    // if response.respondents exist delete it
+    if (response.respondents) {
+      delete response.respondents;
+    }
+    // if response.symbol_table exist delete it
+    if (response.symbol_table) {
+      delete response.symbol_table;
+    }
+    return response;
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "crove_app-update-document",
   name: "Update Document",
   description: "Update values of variables of a document.",
-  version: "0.0.3",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -59,6 +59,19 @@ export default {
       },
     };
 
-    return await this.croveApp._makeRequest(config);
+    let rsp = this.croveApp._makeRequest(config);
+    // if rsp.response exist delete it
+    if (rsp.response) {
+      delete rsp.response;
+    }
+    // if rsp.respondents exist delete it
+    if (rsp.respondents) {
+      delete rsp.respondents;
+    }
+    // if rsp.symbol_table exist delete it
+    if (rsp.symbol_table) {
+      delete rsp.symbol_table;
+    }
+    return rsp;
   },
 };

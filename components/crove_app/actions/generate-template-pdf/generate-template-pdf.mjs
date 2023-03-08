@@ -4,7 +4,7 @@ export default {
   key: "crove_app-generate-template-pdf",
   name: "Generate Document PDF From Template",
   description: "Generate PDF of a document created from the template",
-  version: "1.0.3",
+  version: "2.0.1",
   type: "action",
   props: {
     croveApp,
@@ -51,12 +51,25 @@ export default {
       response[k] = this[k];
     }
 
-    return await this.croveApp.generatePdfFromTemplate(
+    let rsp = this.croveApp.generatePdfFromTemplate(
       this.template_id,
       this.name,
       response,
       this.background_mode,
     );
 
+    // if rsp.response exist delete it
+    if (rsp.response) {
+      delete rsp.response;
+    }
+    // if rsp.respondents exist delete it
+    if (rsp.respondents) {
+      delete rsp.respondents;
+    }
+    // if rsp.symbol_table exist delete it
+    if (rsp.symbol_table) {
+      delete rsp.symbol_table;
+    }
+    return rsp;
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "crove_app-generate-pdf-from-document",
   name: "Generate PDF from Document",
   description: "Generate PDF of a document and return PDF URL.",
-  version: "0.0.4",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -30,6 +30,19 @@ export default {
         background_mode: this.background_mode,
       },
     };
-    return await this.croveApp._makeRequest(config);
+    let response = this.croveApp._makeRequest(config);
+    // if response.response exist delete it
+    if (response.response) {
+      delete response.response;
+    }
+    // if response.respondents exist delete it
+    if (response.respondents) {
+      delete response.respondents;
+    }
+    // if response.symbol_table exist delete it
+    if (response.symbol_table) {
+      delete response.symbol_table;
+    }
+    return response;
   },
 };
