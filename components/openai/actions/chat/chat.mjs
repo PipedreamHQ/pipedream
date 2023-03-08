@@ -27,12 +27,6 @@ export default {
       description: "The system message helps set the behavior of the assistant. For example: \"You are a helpful assistant.\" [See these docs](https://platform.openai.com/docs/guides/chat/instructing-chat-models) for tips on writing good instructions.",
       optional: true,
     },
-    assistantResponse: {
-      label: "Assistant Response",
-      type: "string",
-      description: "The assistant messages help store prior responses. **Because the models have no memory of past requests, all relevant information must be supplied via the conversation**. They can also be written by a developer to help give examples of desired behavior.",
-      optional: true,
-    },
     messages: {
       label: "Prior Message History",
       type: "string[]",

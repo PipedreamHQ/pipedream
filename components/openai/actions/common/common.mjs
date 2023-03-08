@@ -130,12 +130,6 @@ export default {
           "role": "user",
           "content": this.userMessage,
         });
-        if (this.assistantResponse) {
-          messages.push({
-            "role": "assistant",
-            "content": this.assistantResponse,
-          });
-        }
       }
 
       return {

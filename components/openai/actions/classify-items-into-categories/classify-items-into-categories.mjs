@@ -23,10 +23,10 @@ export default {
   methods: {
     ...common.methods,
     systemInstructions() {
-      return "Your goal is to categorize items into specific categories. The user will provide both the items and categories. Please only categorize items into the specific categories, and no others.";
+      return "Your goal is to categorize items into specific categories and produce ONLY JSON. The user will provide both the items and categories. Please only categorize items into the specific categories, and no others, and output ONLY JSON.";
     },
     outputFormat() {
-      return "Please only categorize items into the specific categories, and no others. Return results as a JSON string — an array of objects, where each object has the following properties: item, category. Do not return any text other than the JSON, either before or after the JSON.";
+      return "Please only categorize items into the specific categories, and no others. Output a valid JSON string — an array of objects, where each object has the following properties: item, category. Do not return any English text other than the JSON, either before or after the JSON. I need to parse the response as JSON, and parsing will fail if you return any English before or after the JSON";
     },
     userMessage() {
       return `Categorize each of the following items:\n\n${this.items.join("\n")}\n\ninto one of the following categories:\n\n${this.categories.join("\n")}\n\n${this.outputFormat()}}`;
@@ -40,8 +40,15 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
+      const assistantResponse = response.choices?.[0]?.message?.content;
+      let categorizations = assistantResponse;
+      try {
+        categorizations = JSON.parse(assistantResponse);
+      } catch (err) {
+        console.log("Failed to parse output, assistant returned malformed JSON");
+      }
       return {
-        categorizations: JSON.parse(response.choices?.[0]?.message?.content),
+        categorizations,
         messages,
       };
     },
