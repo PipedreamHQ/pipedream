@@ -6,7 +6,6 @@ export default {
   name: "Entity Updated",
   description: "Emit new event for every updated entity of a certain type. [See the docs here](https://api.fibery.io/#webhooks)",
   type: "source",
-  dedupe: "unique",
   version: "0.0.1",
   methods: {
     ...base.methods,
