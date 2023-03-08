@@ -1559,6 +1559,9 @@
     },
     {
       "path": "components/pinecone"
+    },
+    {
+      "path": "components/watchsignals"
     }
   ]
 }
