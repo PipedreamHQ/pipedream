@@ -236,11 +236,10 @@ export default defineApp({
     async getLikedTweets({
       userId, ...args
     }: GetLikedTweetParams): Promise<Tweet[]> {
-      const response = await this._httpRequest({
+      return this._paginatedRequest({
         url: `/users/${userId}/liked_tweets`,
         ...args,
       });
-      return response.data;
     },
     async getOwnedLists({
       userId, ...args
@@ -254,20 +253,18 @@ export default defineApp({
     async getUserMentions({
       userId, ...args
     }: GetUserMentionsParams): Promise<Tweet[]> {
-      const response = await this._httpRequest({
+      return this._paginatedRequest({
         url: `/users/${userId}/mentions`,
         ...args,
       });
-      return response.data;
     },
     async getUserTweets({
       userId, ...args
     }: GetUserTweetsParams): Promise<Tweet[]> {
-      const response = await this._httpRequest({
+      return this._paginatedRequest({
         url: `/users/${userId}/tweets`,
         ...args,
       });
-      return response.data;
     },
     async getUserByUsername(username: string): Promise<User> {
       const response = await this._httpRequest({
@@ -296,11 +293,10 @@ export default defineApp({
     async listFollowers({
       userId, ...args
     }: ListFollowersParams): Promise<User[]> {
-      const response = await this._httpRequest({
+      return this._paginatedRequest({
         url: `/users/${userId}/followers`,
         ...args,
       });
-      return response.data;
     },
     async retweet(args: RetweetParams): Promise<object> {
       const id = await this.getAuthenticatedUserId();
