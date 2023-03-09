@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mastodon",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Mastodon Components",
   "main": "mastodon.app.mjs",
   "keywords": [
