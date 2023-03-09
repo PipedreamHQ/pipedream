@@ -42,18 +42,11 @@ export default {
     var drAuthToken = resp.auth_token;
     var invitationLink = `https://v2.crove.app/documents/${ this.document_id }/fill/overview?dr_auth_token=${ drAuthToken }`;
     resp.invitation_link = invitationLink;
-    // if resp.response exist delete it
-    if (resp.response) {
-      delete resp.response;
-    }
-    // if resp.respondents exist delete it
-    if (resp.respondents) {
-      delete resp.respondents;
-    }
-    // if resp.symbol_table exist delete it
-    if (resp.symbol_table) {
-      delete resp.symbol_table;
-    }
+    
+    // Removing returned properties that are not interesting for users
+    delete resp.response;
+    delete resp.respondents;
+    delete resp.symbol_table;
     return resp;
   },
 };

@@ -51,25 +51,18 @@ export default {
       response[k] = this[k];
     }
 
-    let rsp = this.croveApp.generatePdfFromTemplate(
+    let rsp = await this.croveApp.generatePdfFromTemplate(
       this.template_id,
       this.name,
       response,
       this.background_mode,
     );
 
-    // if rsp.response exist delete it
-    if (rsp.response) {
-      delete rsp.response;
-    }
-    // if rsp.respondents exist delete it
-    if (rsp.respondents) {
-      delete rsp.respondents;
-    }
-    // if rsp.symbol_table exist delete it
-    if (rsp.symbol_table) {
-      delete rsp.symbol_table;
-    }
+    
+    // Removing returned properties that are not interesting for users
+    delete rsp.response;
+    delete rsp.respondents;
+    delete rsp.symbol_table;
     return rsp;
   },
 };

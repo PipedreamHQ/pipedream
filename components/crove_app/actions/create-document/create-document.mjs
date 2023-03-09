@@ -31,18 +31,11 @@ export default {
       },
     };
     let response = await this.croveApp._makeRequest(config);
-    // if response.response exist delete it
-    if (response.response) {
-      delete response.response;
-    }
-    // if response.respondents exist delete it
-    if (response.respondents) {
-      delete response.respondents;
-    }
-    // if response.symbol_table exist delete it
-    if (response.symbol_table) {
-      delete response.symbol_table;
-    }
+    
+    // Removing returned properties that are not interesting for users
+    delete response.response;
+    delete response.respondents;
+    delete response.symbol_table;
     return response;
   },
 };
