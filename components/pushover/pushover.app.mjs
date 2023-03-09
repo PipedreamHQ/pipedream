@@ -39,8 +39,15 @@ export default {
     sound: {
       type: "string",
       label: "Sound",
-      description: "The name of the notification sound supported by the device",
+      description: "The name of the notification sound supported by the device. More information at [Pushover API](https://pushover.net/api#sounds)",
       optional: true,
+      async options() {
+        const response = await this.getSounds();
+        return Object.keys(response.sounds).map((key) => ({
+          label: response.sounds[key],
+          value: key,
+        }));
+      },
     },
     html: {
       type: "boolean",
@@ -98,10 +105,20 @@ export default {
         },
       });
     },
-    async pushMessage(params = {}) {
+    async pushMessage({
+      $,
+      params,
+    }) {
       return this.makeRequest({
+        $,
         method: "post",
         path: "/messages",
+        params,
+      });
+    },
+    async getSounds(params = {}) {
+      return this.makeRequest({
+        path: "/sounds",
         params,
       });
     },

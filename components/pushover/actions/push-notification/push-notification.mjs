@@ -5,7 +5,7 @@ export default {
   key: "pushover-push-notification",
   name: "Push Notification",
   description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     pushover,
@@ -60,20 +60,42 @@ export default {
       ],
       optional: true,
     },
+    sound: {
+      propDefinition: [
+        pushover,
+        "sound",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
+    const {
+      message,
+      title,
+      url,
+      urlTitle,
+      device,
+      priority,
+      retry,
+      expire,
+      sound,
+    } = this;
     const response =
       await this.pushover.pushMessage({
-        message: this.message,
-        title: this.title,
-        url: this.url,
-        url_title: this.urlTitle,
-        device: this.device,
-        priority: this.priority,
-        retry: this.retry,
-        expire: this.expire,
+        $,
+        params: {
+          message,
+          title,
+          url,
+          device,
+          priority,
+          retry,
+          expire,
+          sound,
+          url_title: urlTitle,
+        },
       });
-    $.export("$summary", "Sent notification");
+    $.export("$summary", `Successfully sent notification with message: "${message}"`);
     return response;
   },
 };
