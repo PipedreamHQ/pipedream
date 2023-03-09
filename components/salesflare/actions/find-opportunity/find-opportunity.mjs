@@ -39,10 +39,10 @@ export default {
       description: "Assignee",
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name of opportunities",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
     minValue: {
       type: "integer",
@@ -57,10 +57,10 @@ export default {
       optional: true,
     },
     search: {
-      type: "string",
-      label: "Search",
-      description: "Any search string.",
-      optional: true,
+      propDefinition: [
+        app,
+        "search",
+      ],
     },
     closed: {
       type: "boolean",
@@ -75,10 +75,10 @@ export default {
       optional: true,
     },
     details: {
-      type: "boolean",
-      label: "Deatils",
-      description: "Returns more detailed results",
-      optional: true,
+      propDefinition: [
+        app,
+        "details",
+      ],
     },
   },
   async run ({ $ }) {

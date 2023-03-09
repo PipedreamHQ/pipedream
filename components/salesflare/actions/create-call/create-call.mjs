@@ -12,12 +12,12 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Call date. It shuld be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+      description: "Call date. It should be in ISO format. e.g. `2019-08-24T14:15:22Z`",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End date of the call. It shuld be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+      description: "End date of the call. It should be in ISO format. e.g. `2019-08-24T14:15:22Z`",
       optional: true,
     },
     participants: {
@@ -32,7 +32,7 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "Subject of call max `200` characters.",
+      description: "Subject of call. Max `200` characters.",
       optional: true,
     },
     description: {

@@ -16,22 +16,22 @@ export default {
       ],
     },
     details: {
-      type: "boolean",
-      label: "Details",
-      description: "Returns more detailed results, defaults to `true`",
-      optional: true,
+      propDefinition: [
+        app,
+        "details",
+      ],
     },
     search: {
-      type: "string",
-      label: "Search",
-      description: "Any search string.",
-      optional: true,
+      propDefinition: [
+        app,
+        "search",
+      ],
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Account name.",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
   },
   async run ({ $ }) {

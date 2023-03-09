@@ -22,10 +22,10 @@ export default {
       ],
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
   },
   async run ({ $ }) {

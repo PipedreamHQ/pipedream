@@ -11,7 +11,7 @@ export default {
       description: "Array of account IDs",
       optional: true,
       async options({ prevContext }) {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getAccounts,
           page: prevContext?.page || 0,
           labelVal: {
@@ -26,7 +26,7 @@ export default {
       label: "Contact ID",
       description: "Contact ID",
       async options({ prevContext }) {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getContacts,
           page: prevContext?.page || 0,
           labelVal: {
@@ -42,7 +42,7 @@ export default {
       description: "Owner ID",
       optional: true,
       async options({ prevContext }) {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getUsers,
           page: prevContext?.page || 0,
           labelVal: {
@@ -58,7 +58,7 @@ export default {
       description: "Opportunity ID",
       optional: true,
       async options({ prevContext }) {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getOpportunities,
           page: prevContext?.page || 0,
           labelVal: {
@@ -74,7 +74,7 @@ export default {
       description: "Person ID",
       optional: true,
       async options() {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getPeople,
           labelVal: {
             label: "name",
@@ -89,7 +89,7 @@ export default {
       description: "Currency",
       optional: true,
       async options() {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getCurrencies,
           labelVal: {
             label: "iso",
@@ -104,7 +104,7 @@ export default {
       description: "Pipeline ID",
       optional: true,
       async options() {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getPipelines,
           labelVal: {
             label: "name",
@@ -119,7 +119,7 @@ export default {
       description: "Pipeline Stage ID",
       optional: true,
       async options() {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getPipelineStages,
           labelVal: {
             label: "name",
@@ -133,7 +133,7 @@ export default {
       label: "Workflow ID",
       description: "Workflow ID",
       async options({ prevContext }) {
-        return await utils.asyncPropHandler({
+        return utils.asyncPropHandler({
           resourceFn: this.getWorkflows,
           page: prevContext?.page || 0,
           labelVal: {
@@ -142,6 +142,108 @@ export default {
           },
         });
       },
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City (address)",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Country (address)",
+      optional: true,
+    },
+    stateRegion: {
+      type: "string",
+      label: "State Region",
+      description: "State region (address)",
+      optional: true,
+    },
+    street: {
+      type: "string",
+      label: "Street",
+      description: "Street (address)",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip",
+      description: "Zip (address)",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Description",
+      optional: true,
+    },
+    website: {
+      type: "string",
+      label: "Website",
+      description: "Website",
+      optional: true,
+    },
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "Domain",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email. Max `1000` characters",
+      optional: true,
+    },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "Phone number",
+      optional: true,
+    },
+    socialProfiles: {
+      type: "string[]",
+      label: "Social Profiles",
+      description: "Social profile links.",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags",
+      optional: true,
+    },
+    links: {
+      type: "string[]",
+      label: "Links",
+      description: "Links",
+      optional: true,
+    },
+    custom: {
+      type: "object",
+      label: "Custom",
+      description: "Custom fields",
+      optional: true,
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Any search string.",
+      optional: true,
+    },
+    details: {
+      type: "boolean",
+      label: "Details",
+      description: "Returns more detailed results, defaults to `true`",
+      optional: true,
     },
   },
   methods: {

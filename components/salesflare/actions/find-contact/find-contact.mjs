@@ -26,22 +26,22 @@ export default {
       ],
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name of a contact.",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Email of a contact.",
-      optional: true,
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "Phone number of a contact.",
-      optional: true,
+      propDefinition: [
+        app,
+        "phoneNumber",
+      ],
     },
     tagName: {
       type: "string[]",
@@ -50,10 +50,10 @@ export default {
       optional: true,
     },
     search: {
-      type: "string",
-      label: "Search",
-      description: "Any search string.",
-      optional: true,
+      propDefinition: [
+        app,
+        "search",
+      ],
     },
   },
   async run ({ $ }) {

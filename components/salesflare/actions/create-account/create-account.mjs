@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import accountProps from "../common/account-props.mjs";
+import base from "../common/account-base.mjs";
 
 export default {
   key: "salesflare-create-account",
@@ -9,14 +8,14 @@ export default {
   name: "Create Account",
   description: "Create an account. [See the docs here](https://api.salesflare.com/docs#operation/postAccounts)",
   props: {
-    app,
+    app: base.props.app,
     owner: {
       propDefinition: [
-        app,
+        base.props.app,
         "userId",
       ],
     },
-    ...accountProps,
+    ...base.props,
   },
   async run ({ $ }) {
     const pairs = {

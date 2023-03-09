@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import contactProps from "../common/contact-props.mjs";
+import base from "../common/contact-base.mjs";
 
 export default {
   key: "salesflare-create-contact",
@@ -9,23 +8,23 @@ export default {
   name: "Create Contact",
   description: "Create a contact [See the docs here](https://api.salesflare.com/docs#operation/postContacts)",
   props: {
-    app,
+    app: base.props.app,
     owner: {
       propDefinition: [
-        app,
+        base.props.app,
         "userId",
       ],
     },
     account: {
       propDefinition: [
-        app,
+        base.props.app,
         "accountIds",
       ],
       type: "integer",
       label: "Account",
       description: "Contact account. Any existing account will be removed from the contact when specifically passing `null`!",
     },
-    ...contactProps,
+    ...base.props,
   },
   async run ({ $ }) {
     const pairs = {

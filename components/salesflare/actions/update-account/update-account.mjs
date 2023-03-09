@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import accountProps from "../common/account-props.mjs";
+import base from "../common/account-base.mjs";
 
 export default {
   key: "salesflare-update-account",
@@ -9,17 +8,17 @@ export default {
   name: "Update Account",
   description: "Update an account [See the docs here](https://api.salesflare.com/docs#operation/putAccountsAccount_id)",
   props: {
-    app,
+    app: base.props.app,
     accountId: {
       propDefinition: [
-        app,
+        base.props.app,
         "accountIds",
       ],
       label: "Account ID",
       type: "integer",
       description: "Account ID",
     },
-    ...accountProps,
+    ...base.props,
   },
   async run ({ $ }) {
     const pairs = {

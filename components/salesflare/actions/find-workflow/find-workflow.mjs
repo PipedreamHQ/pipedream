@@ -10,10 +10,10 @@ export default {
   props: {
     app,
     search: {
-      type: "string",
-      label: "Search",
-      description: "Any search string.",
-      optional: true,
+      propDefinition: [
+        app,
+        "search",
+      ],
     },
   },
   async run ({ $ }) {

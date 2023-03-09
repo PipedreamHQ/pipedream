@@ -19,22 +19,22 @@ export default {
       description: "User IDs",
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name",
-      optional: true,
+      propDefinition: [
+        app,
+        "name",
+      ],
     },
     email: {
-      type: "string",
-      label: "Email",
-      description: "Email",
-      optional: true,
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     search: {
-      type: "string",
-      label: "Search",
-      description: "Any search string.",
-      optional: true,
+      propDefinition: [
+        app,
+        "search",
+      ],
     },
   },
   async run ({ $ }) {

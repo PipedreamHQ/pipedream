@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import contactProps from "../common/contact-props.mjs";
+import base from "../common/contact-base.mjs";
 
 export default {
   key: "salesflare-update-contact",
@@ -9,14 +8,14 @@ export default {
   name: "Update Contact",
   description: "Updates a contact. [See the docs here](https://api.salesflare.com/docs#operation/putContactsContact_id)",
   props: {
-    app,
+    app: base.props.app,
     contactId: {
       propDefinition: [
-        app,
+        base.props.app,
         "contactId",
       ],
     },
-    ...contactProps,
+    ...base.props,
     archived: {
       type: "boolean",
       label: "Archived",

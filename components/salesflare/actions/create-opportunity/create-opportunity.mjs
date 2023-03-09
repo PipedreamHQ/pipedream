@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import opportunityProps from "../common/opportunity-props.mjs";
+import base from "../common/opportunity-base.mjs";
 
 export default {
   key: "salesflare-create-opportunity",
@@ -9,16 +8,16 @@ export default {
   name: "Create Opprtunity",
   description: "Create opportunity. [See the docs here](https://api.salesflare.com/docs#operation/postOpportunities)",
   props: {
-    app,
+    app: base.props.app,
     owner: {
       propDefinition: [
-        app,
+        base.props.app,
         "userId",
       ],
     },
     account: {
       propDefinition: [
-        app,
+        base.props.app,
         "accountIds",
       ],
       label: "Account ID",
@@ -28,11 +27,11 @@ export default {
     },
     currency: {
       propDefinition: [
-        app,
+        base.props.app,
         "currency",
       ],
     },
-    ...opportunityProps,
+    ...base.props,
   },
   async run ({ $ }) {
     const pairs = {

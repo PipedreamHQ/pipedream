@@ -1,6 +1,5 @@
-import app from "../../salesflare.app.mjs";
 import utils from "../../common/utils.mjs";
-import opportunityProps from "../common/opportunity-props.mjs";
+import base from "../common/opportunity-base.mjs";
 
 export default {
   key: "salesflare-update-opportunity",
@@ -9,30 +8,30 @@ export default {
   name: "Update Opportunity",
   description: "Update an Opportunity [See the docs here](https://api.salesflare.com/docs#operation/putOpportunitiesId)",
   props: {
-    app,
+    app: base.props.app,
     opportunityId: {
       propDefinition: [
-        app,
+        base.props.app,
         "opportunityId",
       ],
       optional: false,
     },
     owner: {
       propDefinition: [
-        app,
+        base.props.app,
         "userId",
       ],
     },
     account: {
       propDefinition: [
-        app,
+        base.props.app,
         "accountIds",
       ],
       label: "Account ID",
       type: "integer",
       description: "Account ID",
     },
-    ...opportunityProps,
+    ...base.props,
   },
   async run ({ $ }) {
     const pairs = {
