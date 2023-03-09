@@ -54,7 +54,7 @@ export default {
         status: this.status,
       },
     });
-    $.export("$summary", `List(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Contact(ID:${resp.id}) has been added to list successfully.`);
     return resp;
   },
 };
