@@ -251,6 +251,9 @@ importers:
   components/api2pdf:
     specifiers: {}
 
+  components/api_sports:
+    specifiers: {}
+
   components/api_void:
     specifiers: {}
 
@@ -703,6 +706,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.0
       axios: 0.23.0
+
+  components/confluent:
+    specifiers: {}
 
   components/congress_gov:
     specifiers: {}
@@ -1696,6 +1702,9 @@ importers:
   components/humanitix:
     specifiers: {}
 
+  components/humanloop:
+    specifiers: {}
+
   components/hygraph:
     specifiers: {}
 
@@ -1977,6 +1986,9 @@ importers:
     specifiers: {}
 
   components/loqate:
+    specifiers: {}
+
+  components/luminous:
     specifiers: {}
 
   components/lusha:
@@ -3151,6 +3163,9 @@ importers:
   components/samcart:
     specifiers: {}
 
+  components/saucelabs:
+    specifiers: {}
+
   components/scalr:
     specifiers: {}
 
@@ -3164,6 +3179,9 @@ importers:
     specifiers: {}
 
   components/scrapeninja:
+    specifiers: {}
+
+  components/scrapingbee:
     specifiers: {}
 
   components/segment:
@@ -3420,6 +3438,9 @@ importers:
   components/smartsuite:
     specifiers: {}
 
+  components/smarty:
+    specifiers: {}
+
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
@@ -3606,6 +3627,9 @@ importers:
       lodash.pickby: 4.6.0
       stripe: 8.222.0
 
+  components/studio_by_ai21_labs:
+    specifiers: {}
+
   components/successeve:
     specifiers: {}
 
@@ -3659,6 +3683,12 @@ importers:
       '@pipedream/platform': 1.2.0
 
   components/svix:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
+  components/swaggerhub:
     specifiers:
       '@pipedream/platform': ^1.3.0
     dependencies:
