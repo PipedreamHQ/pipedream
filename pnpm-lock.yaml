@@ -4526,9 +4526,9 @@ importers:
 
   components/zoom:
     specifiers:
-      '@pipedream/platform': ^1.1.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@pipedream/platform': 1.1.0
+      '@pipedream/platform': 1.3.0
 
   components/zoom_admin:
     specifiers:
