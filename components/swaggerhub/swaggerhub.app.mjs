@@ -8,7 +8,7 @@ export default {
     owner: {
       type: "string",
       label: "Owner",
-      description: "The owner of the API",
+      description: "The owner of the API .e.g HUNGV. Please tap Refresh field on the other props after you change the value in this prop to get the up-to-date data.",
     },
     api: {
       type: "string",
