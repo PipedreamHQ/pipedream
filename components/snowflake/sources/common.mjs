@@ -115,6 +115,82 @@ export default {
       this.filterAndEmitChanges(results, objectType, objectsToEmit, queryTypes);
       await this.db.set("lastMaxTimestamp", newMaxTs);
     },
+    async emitFailedTasks({
+      database, schema, warehouse,
+    }) {
+      // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
+      const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
+      console.log(`Max ts of last run: ${lastRun}`);
+
+      const newMaxTs = await this.snowflake.maxQueryHistoryTimestamp();
+      console.log(`New max ts: ${newMaxTs}`);
+
+      let results;
+      const opts = {
+        startTime: lastRun,
+        endTime: newMaxTs,
+      };
+
+      if (database && schema) {
+        results = await this.snowflake.getFailedTasksInDatabase({
+          ...opts,
+          database,
+          schema,
+        });
+      } else if (warehouse) {
+        results = await this.snowflake.getFailedTasksInWarehouse({
+          ...opts,
+          warehouse,
+        });
+      } else {
+        throw new Error("Must provide either database and schema or warehouse");
+      }
+
+      console.log(`Raw results: ${JSON.stringify(results, null, 2)}`);
+
+      for (const result of results) {
+        const {
+          QUERY_ID: queryId,
+          QUERY_TEXT: queryText,
+          NAME: taskName,
+          DATABASE_NAME: taskDatabase,
+          SCHEMA_NAME: taskSchema,
+          ERROR_CODE: errorCode,
+          ERROR_MESSAGE: errorMessage,
+          QUERY_START_TIME: queryStartTime,
+          NEXT_SCHEDULE_TIME: nextScheduleTime,
+          SCHEDULED_TIME: scheduledTime,
+          COMPLETED_TIME: completedTime,
+          RUN_ID: runId,
+          SCHEDULED_FROM: scheduledFrom,
+        } = result;
+
+        this.$emit(
+          {
+            taskName,
+            taskDatabase,
+            taskSchema,
+            queryId,
+            queryText,
+            errorCode,
+            errorMessage,
+            queryStartTime,
+            nextScheduleTime,
+            scheduledTime,
+            completedTime,
+            runId,
+            scheduledFrom,
+          },
+          {
+            id: queryId,
+            summary: `Failed task ${taskName}`,
+            ts: +queryStartTime,
+          },
+        );
+      }
+
+      await this.db.set("lastMaxTimestamp", newMaxTs);
+    },
     getStatement() {
       throw new Error("getStatement is not implemented");
     },
