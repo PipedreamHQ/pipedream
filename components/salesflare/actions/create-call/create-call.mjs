@@ -57,7 +57,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Call(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Call (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

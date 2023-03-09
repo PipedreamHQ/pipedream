@@ -14,7 +14,7 @@ export default {
       return this.app.getTasks;
     },
     getSummary(item) {
-      return `New task (ID:${item.id})`;
+      return `New task (ID: ${item.id})`;
     },
   },
 };

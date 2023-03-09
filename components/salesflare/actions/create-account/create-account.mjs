@@ -32,7 +32,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Account(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Account (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

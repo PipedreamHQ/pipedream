@@ -14,7 +14,7 @@ export default {
       return this.app.getOpportunities;
     },
     getSummary(item) {
-      return `New opportunity ${item.name} (ID:${item.id})`;
+      return `New opportunity ${item.name} (ID: ${item.id})`;
     },
   },
 };

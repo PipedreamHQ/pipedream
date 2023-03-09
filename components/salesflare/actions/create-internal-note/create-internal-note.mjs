@@ -46,7 +46,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Internal Note(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Internal Note (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

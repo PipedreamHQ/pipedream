@@ -14,7 +14,7 @@ export default {
       return this.app.getAccounts;
     },
     getSummary(item) {
-      return `New account ${item.name} (ID:${item.id})`;
+      return `New account ${item.name} (ID: ${item.id})`;
     },
   },
 };

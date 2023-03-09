@@ -46,7 +46,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Opportunity(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Opportunity (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

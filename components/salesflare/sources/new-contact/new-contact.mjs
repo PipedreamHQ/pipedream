@@ -14,7 +14,7 @@ export default {
       return this.app.getContacts;
     },
     getSummary(item) {
-      return `New contact ${item.name} (ID:${item.id})`;
+      return `New contact ${item.name} (ID: ${item.id})`;
     },
   },
 };

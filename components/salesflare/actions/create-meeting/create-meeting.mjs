@@ -12,12 +12,12 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Meeting date. It shuld be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+      description: "Meeting date. It should be in ISO format. e.g. `2019-08-24T14:15:22Z`",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End date of the meeting. It shuld be in ISO format. e.g. `2019-08-24T14:15:22Z`",
+      description: "End date of the meeting. It should be in ISO format. e.g. `2019-08-24T14:15:22Z`",
       optional: true,
     },
     participants: {
@@ -73,7 +73,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Meeting(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Meeting (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

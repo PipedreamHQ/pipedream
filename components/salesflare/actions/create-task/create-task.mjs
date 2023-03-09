@@ -48,7 +48,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Task(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Task (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

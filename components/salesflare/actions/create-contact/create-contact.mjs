@@ -45,7 +45,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", `Contact(ID:${resp.id}) has been created successfully.`);
+    $.export("$summary", `Contact (ID: ${resp.id}) has been created successfully.`);
     return resp;
   },
 };

@@ -14,7 +14,7 @@ export default {
       return this.app.getWorkflows;
     },
     getSummary(item) {
-      return `New workflow ${item.name} (ID:${item.id})`;
+      return `New workflow ${item.name} (ID: ${item.id})`;
     },
   },
 };
