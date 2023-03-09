@@ -1071,9 +1071,11 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.2.1
       lodash: ^4.17.21
+      timezones-list: ^3.0.2
     dependencies:
       '@pipedream/platform': 1.3.0
       lodash: 4.17.21
+      timezones-list: 3.0.2
 
   components/eversign:
     specifiers:
@@ -1135,6 +1137,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/fibery:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/figma:
     specifiers:
@@ -23416,6 +23424,10 @@ packages:
     dependencies:
       es5-ext: 0.10.62
       next-tick: 1.1.0
+    dev: false
+
+  /timezones-list/3.0.2:
+    resolution: {integrity: sha512-I698hm6Jp/xxkwyTSOr39pZkYKETL8LDJeSIhjxXBfPUAHM5oZNuQ4o9UK3PSkDBOkjATecSOBb3pR1IkIBUsg==}
     dev: false
 
   /tiny-warning/1.0.3:

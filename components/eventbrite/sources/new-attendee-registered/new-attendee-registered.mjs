@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-attendee-registered",
   name: "New Attendee Registered (Instant)",
   description: "Emit new event when an attendee registers for an event",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -26,7 +26,7 @@ export default {
       for await (const attendee of attendeeStream) {
         attendees.push(attendee);
       }
-      const event = await this.eventbrite.getEvent(eventId, {
+      const event = await this.eventbrite.getEvent(null, eventId, {
         expand: "ticket_classes",
       });
       return {

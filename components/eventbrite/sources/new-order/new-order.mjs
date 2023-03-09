@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-order",
   name: "New Order (Instant)",
   description: "Emit new event when an order has been placed",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -15,7 +15,7 @@ export default {
     },
     async getData(order) {
       const { event_id: eventId } = order;
-      const event = await this.eventbrite.getEvent(eventId);
+      const event = await this.eventbrite.getEvent(null, eventId);
       return {
         order,
         event,
