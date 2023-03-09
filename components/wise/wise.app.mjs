@@ -176,6 +176,15 @@ export default {
         ...args,
       });
     },
+    async fundTransfer({
+      profileId, transferId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/v3/profiles/${profileId}/transfers/${transferId}/payments`,
+        method: "post",
+        ...args,
+      });
+    },
     async createQuote({
       profileId, ...args
     }) {
