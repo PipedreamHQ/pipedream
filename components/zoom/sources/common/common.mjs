@@ -1,8 +1,8 @@
-import zoom from "../../zoom.app.mjs";
+import app from "../../zoom.app.mjs";
 
 export default {
   props: {
-    zoom,
+    app,
   },
   methods: {
     sortByDate(objects, field) {
