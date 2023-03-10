@@ -9,7 +9,7 @@ export default {
     channelAccessToken: {
       label: "Channel Access Token",
       type: "string",
-      description: "The access token of a group or room.",
+      description: "The access token of a group or room. Please refer to [the Line doc here to get the channel access token](https://developers.line.biz/en/docs/messaging-api/channel-access-tokens/#long-lived-channel-access-tokens)",
       secret: true,
     },
     message: {

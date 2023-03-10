@@ -4,7 +4,7 @@ export default {
   key: "crove_app-update-document-details",
   name: "Update Document Details",
   description: "Update details of a document. Example: Name, Current Status, etc.",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -43,6 +43,12 @@ export default {
         opened: this.opened,
       },
     };
-    return await this.croveApp._makeRequest(config);
+    let response = await this.croveApp._makeRequest(config);
+    
+    // Removing returned properties that are not interesting for users
+    delete response.response;
+    delete response.respondents;
+    delete response.symbol_table;
+    return response;
   },
 };

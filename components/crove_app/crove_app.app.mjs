@@ -68,12 +68,13 @@ export default {
       };
       return await this._makeRequest(config);
     },
-    async generatePdfFromTemplate(templateId, response, backgroundMode) {
+    async generatePdfFromTemplate(templateId, name, response, backgroundMode) {
       var config = {
         url: `${this._getBaseUrl()}/helpers/generate-pdf-from-template/`,
         method: "POST",
         data: {
           template_id: templateId,
+          name: name,
           response: response,
           background_mode: backgroundMode,
         },
