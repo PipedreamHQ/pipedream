@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/cisco_meraki",
+  "version": "0.0.1",
+  "description": "Pipedream Cisco Meraki Components",
+  "main": "dist/app/cisco_meraki.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cisco_meraki"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/cisco_meraki",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
