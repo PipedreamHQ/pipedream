@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -279,44 +279,6 @@ export default {
       }
     }
 
-    //Prepares the asm object or the asmGroupId. Sendgrid API requires the params to be
-    //an int, so make sure it can be parsed as one
-    let asmConfig = undefined;
-    if (this.asm) {
-      if (this.asm.group_id) {
-        const groupId = parseInt(this.asm.group_id, 10);
-        if (!isNaN(groupId)) {
-          asmConfig = {
-            group_id: groupId,
-          };
-        }
-      }
-      //If the asmGroupId param was set, configure that
-      if (this.asmGroupId) {
-        asmConfig = {
-          group_id: this.asmGroupId,
-        };
-      }
-      //If asm.groups_to_display is configured, parse that and copy over
-      if (this.asm?.groups_to_display) {
-        const groups = JSON.parse(this.asm.groups_to_display);
-        const groupIds = [];
-        for (let i = 0; i < groups.length; i++) {
-          const groupId = parseInt(groups[i], 10);
-          if (!isNaN(groupId)) {
-            groupIds.push(groupId);
-          }
-        }
-        if (groupIds.length > 0) {
-          asmConfig.groups_to_display = groupIds;
-        }
-      }
-      //if asmGroupsToDisplay is configured, copy that over
-      if (this.asmGroupsToDisplay) {
-        asmConfig.groups_to_display = this.asmGroupsToDisplay;
-      }
-    }
-
     //Prepares and sends the request configuration
     const config = this.omitEmptyStringValues({
       personalizations,
@@ -334,7 +296,7 @@ export default {
       categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
-      asm: asmConfig,
+      asm: this.getAsmConfig(),
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,
