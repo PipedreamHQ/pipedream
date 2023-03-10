@@ -30,7 +30,7 @@ export default {
   },
   async run ({ $ }) {
     const pairs = {
-      pipeline: "pipeline.id",
+      pipeline: "pipeline",
     };
     const params = utils.extractProps(this, pairs);
     const resp = await this.app.getPipelineStages({
