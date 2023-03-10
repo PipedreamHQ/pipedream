@@ -52,6 +52,15 @@ export default {
         path,
       });
     },
+    async listRecentlyUpdatedRecordsInFolder({
+      folderId, ...opts
+    }) {
+      const path = `/zapier/triggers/updated-record/${folderId}`;
+      return this._makeRequest({
+        ...opts,
+        path,
+      });
+    },
     async listRecentlyCreatedCommentsInFolder({
       folderId, ...opts
     }) {
