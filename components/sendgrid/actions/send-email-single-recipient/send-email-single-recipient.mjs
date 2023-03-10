@@ -132,6 +132,18 @@ export default {
         "asm",
       ],
     },
+    asmGroupId: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupId",
+      ],
+    },
+    asmGroupsToDisplay: {
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupsToDisplay",
+      ],
+    },
     ipPoolName: {
       propDefinition: [
         common.props.sendgrid,
@@ -266,6 +278,35 @@ export default {
         replyTo.name = this.replyToName;
       }
     }
+
+    //Prepares the asm object or the asmGroupId. Sendgrid API requires the params to be
+    //an int, so make sure it can be parsed as one
+    let asmConfig = undefined;
+    if (this.asm) {
+      if (this.asm.group_id) {
+        const groupId = parseInt(this.asm.group_id, 10);
+        if (!isNaN(groupId)) {
+          asmConfig = {
+            group_id: groupId,
+          };
+        }
+      }
+      //If the asmGroupId param was set, configure that
+      if (this.asmGroupId) {
+        asmConfig = {
+          group_id: this.asmGroupId,
+        };
+      }
+      //If asm.groups_to_display is configured, copy that over too
+      if (this.asm?.groups_to_display) {
+        asmConfig.groups_to_display = this.asm.groups_to_display;
+      }
+      //if asmGroupsToDisplay is configured, copy that over
+      if (this.asmGroupsToDisplay) {
+        asmConfig.groups_to_display = this.asmGroupsToDisplay;
+      }
+    }
+
     //Prepares and sends the request configuration
     const config = this.omitEmptyStringValues({
       personalizations,
@@ -283,7 +324,7 @@ export default {
       categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
-      asm: this.asm,
+      asm: asmConfig,
       ip_pool_name: this.ipPoolName,
       mail_settings: this.mailSettings,
       tracking_settings: this.trackingSettings,

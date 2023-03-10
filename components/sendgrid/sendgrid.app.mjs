@@ -188,6 +188,31 @@ export default {
       description: "Advanced Suppression Manager. An object allowing you to specify how to handle unsubscribes",
       optional: true,
     },
+    asmGroupId: {
+      type: "integer",
+      label: "ASM Group ID",
+      description: "Advanced Suppression Manager Group ID. The unsubscribe group to associate with this email. Will override the value set in the asm param if also set",
+      optional: true,
+      async options() {
+        const asmGroups = await this.listAsmGroups();
+        return asmGroups.map((group) => ({
+          label: group.name,
+          value: group.id,
+        }));
+      },
+    },
+    asmGroupsToDisplay: {
+      type: "integer[]",
+      label: "ASM Groups to Display",
+      description: "An array containing the unsubscribe groups that you would like to be displayed on the unsubscribe preferences page.  Will override the value set in the asm param if also set",
+      async options() {
+        const asmGroups = await this.listAsmGroups();
+        return asmGroups.map((group) => ({
+          label: group.name,
+          value: group.id,
+        }));
+      },
+    },
     ipPoolName: {
       type: "string",
       label: "IP Pool Name",
@@ -700,6 +725,15 @@ export default {
 
       const { templates } = (await this._makeClientRequest(config))[1];
       return templates;
+    },
+    async listAsmGroups() {
+      const config = {
+        method: "GET",
+        url: "/v3/asm/groups",
+      };
+
+      const { result } = (await this._makeClientRequest(config))[1];
+      return result;
     },
     /**
      * Sends an email to the specified recipients.
