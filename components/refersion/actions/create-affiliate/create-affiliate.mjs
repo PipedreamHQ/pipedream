@@ -1,5 +1,6 @@
 import app from "../../refersion.app.mjs";
 import options from "../../common/options.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Create Affiliate",
@@ -136,9 +137,11 @@ export default {
       conversion_trigger_coupon: this.conversionTriggerCoupon,
       unique_merchant_id: this.uniqueMerchantId,
     };
-    console.log(this.app.authKeys());
     const res = await this.app.createAffiliate(data);
-    $.export("$summary", `Affiliate successfully created with id "${1}"`);
+    if (res.error) {
+      throw new ConfigurationError(res.error);
+    }
+    $.export("$summary", `Affiliate successfully created with id "${res.id}"`);
     return res;
   },
 };
