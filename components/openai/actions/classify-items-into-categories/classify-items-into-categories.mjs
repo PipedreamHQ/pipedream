@@ -3,11 +3,12 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Classify Items into Categories",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-classify-items-into-categories",
   description: "Classify items into specific categories using the Chat API",
   type: "action",
   props: {
+    ...common.props,
     items: {
       label: "Items",
       description: "Items to categorize",
@@ -18,7 +19,6 @@ export default {
       description: "Categories to classify items into",
       type: "string[]",
     },
-    ...common.props,
   },
   methods: {
     ...common.methods,
@@ -31,7 +31,7 @@ export default {
     userMessage() {
       return `Categorize each of the following items:\n\n${this.items.join("\n")}\n\ninto one of the following categories:\n\n${this.categories.join("\n")}\n\n${this.outputFormat()}}`;
     },
-    summarize() {
+    summary() {
       return `Categorized ${this.items.length} items into ${this.categories.length} categories`;
     },
     formatOutput({
