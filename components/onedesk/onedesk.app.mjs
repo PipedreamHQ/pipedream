@@ -38,7 +38,7 @@ export default {
         const { data: { containerTypes } } = await this.getOrgInfo();
         return containerTypes.map((type) => ({
           label: type.name,
-          value: type.itemType,
+          value: type.containerType,
         }));
       },
     },
@@ -122,7 +122,7 @@ export default {
         const portfolios = [];
         const { data: { items } } = await this.searchPortfolios();
         for (const item of items) {
-          const { data: portfolio } = await this.getSpace({
+          const { data: portfolio } = await this.getPortfolio({
             data: {
               id: item,
             },
