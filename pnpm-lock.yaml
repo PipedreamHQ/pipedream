@@ -2864,6 +2864,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.3.0
 
+  components/pushover:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/pushshift_reddit_search:
     specifiers:
       '@pipedream/platform': ^1.2.0
