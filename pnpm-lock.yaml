@@ -2421,7 +2421,10 @@ importers:
     specifiers: {}
 
   components/oncehub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/onepagecrm:
     specifiers: {}
