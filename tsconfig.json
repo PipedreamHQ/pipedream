@@ -1562,6 +1562,21 @@
     },
     {
       "path": "components/watchsignals"
+    },
+    {
+      "path": "components/campayn"
+    },
+    {
+      "path": "components/beanstalkapp"
+    },
+    {
+      "path": "components/bigml"
+    },
+    {
+      "path": "components/cheddar"
+    },
+    {
+      "path": "components/cisco_meraki"
     }
   ]
 }
