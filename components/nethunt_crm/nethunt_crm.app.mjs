@@ -52,5 +52,14 @@ export default {
         path,
       });
     },
+    async listRecentlyCreatedCommentsInFolder({
+      folderId, ...opts
+    }) {
+      const path = `/zapier/triggers/new-comment/${folderId}`;
+      return this._makeRequest({
+        ...opts,
+        path,
+      });
+    },
   },
 };
