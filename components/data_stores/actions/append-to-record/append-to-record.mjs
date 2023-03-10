@@ -37,24 +37,16 @@ export default {
       key,
       value,
     } = this;
-    const [
-      exists,
-      currentValue,
-    ] = await Promise.all([
-      this.dataStore.has(key),
-      this.dataStore.get(key),
-    ]);
-    if (exists && !Array.isArray(currentValue)) {
+    const currentValue = await this.dataStore.get(key);
+    if (currentValue && !Array.isArray(currentValue)) {
       throw new ConfigurationError("The value for the specified key is not an array. You can only append records to an array.");
     }
-    const recordSet = exists
-      ? currentValue
-      : [];
+    const recordSet = currentValue ?? [];
     const parsedValue = this.app.parseValue(value);
     recordSet.push(parsedValue);
     await this.dataStore.set(key, recordSet);
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully ${exists ? "appended to the record for" : "appended to a new record with the"} key, \`${key}\`.`);
+    $.export("$summary", `Successfully ${currentValue ? "appended to the record for" : "created new record with the"} key: \`${key}\`.`);
     return {
       key,
       value: parsedValue,
