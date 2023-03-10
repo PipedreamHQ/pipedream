@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/campayn",
+  "version": "0.0.1",
+  "description": "Pipedream Campayn Components",
+  "main": "dist/app/campayn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "campayn"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/campayn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
