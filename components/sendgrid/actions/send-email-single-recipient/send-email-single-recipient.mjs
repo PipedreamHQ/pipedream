@@ -297,9 +297,19 @@ export default {
           group_id: this.asmGroupId,
         };
       }
-      //If asm.groups_to_display is configured, copy that over too
+      //If asm.groups_to_display is configured, parse that and copy over
       if (this.asm?.groups_to_display) {
-        asmConfig.groups_to_display = this.asm.groups_to_display;
+        const groups = JSON.parse(this.asm.groups_to_display);
+        const groupIds = [];
+        for (let i = 0; i < groups.length; i++) {
+          const groupId = parseInt(groups[i], 10);
+          if (!isNaN(groupId)) {
+            groupIds.push(groupId);
+          }
+        }
+        if (groupIds.length > 0) {
+          asmConfig.groups_to_display = groupIds;
+        }
       }
       //if asmGroupsToDisplay is configured, copy that over
       if (this.asmGroupsToDisplay) {
