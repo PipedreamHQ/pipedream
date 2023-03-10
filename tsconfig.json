@@ -1571,6 +1571,12 @@
     },
     {
       "path": "components/bigml"
+    },
+    {
+      "path": "components/cheddar"
+    },
+    {
+      "path": "components/cisco_meraki"
     }
   ]
 }

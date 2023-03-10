@@ -2430,7 +2430,10 @@ importers:
     specifiers: {}
 
   components/oncehub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/onepagecrm:
     specifiers: {}
@@ -3158,6 +3161,12 @@ importers:
 
   components/salesblink:
     specifiers: {}
+
+  components/salesflare:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
 
   components/salesforce_rest_api:
     specifiers:
