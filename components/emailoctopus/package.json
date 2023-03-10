@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/emailoctopus",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Pipedream Emailoctopus Components",
   "main": "emailoctopus.app.js",
   "keywords": [

@@ -31,7 +31,7 @@ export default {
       return "include";
     },
     async getItem(item) {
-      return await this.app.getContact({
+      return this.app.getContact({
         listId: this.listId,
         contactId: item.id,
       });
