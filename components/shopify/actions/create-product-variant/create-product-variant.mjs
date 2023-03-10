@@ -4,7 +4,7 @@ export default {
   key: "shopify-create-product-variant",
   name: "Create Product Variant",
   description: "Create a new product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     shopify,
@@ -36,14 +36,21 @@ export default {
         }),
       ],
     },
+    sku: {
+      propDefinition: [
+        shopify,
+        "sku",
+      ],
+    },
   },
   async run({ $ }) {
-    let productVariant = {
+    const productVariant = {
       option1: this.option,
       price: this.price,
       image_id: this.imageId,
+      sku: this.sku,
     };
-    let response = (await this.shopify.createProductVariant(
+    const response = (await this.shopify.createProductVariant(
       this.productId,
       productVariant,
     )).result;

@@ -1,27 +1,33 @@
 import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
   key: "zoom-webinar-started",
   name: "Webinar Started (Instant)",
   description: "Emit new event each time a webinar starts where you're the host",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "source",
-  dedupe: "unique", // Dedupe based on webinar ID
+  dedupe: "unique",
   props: {
     ...common.props,
-    zoomApphook: {
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    apphook: {
       type: "$.interface.apphook",
-      appProp: "zoom",
-      eventNames: [
-        "webinar.started",
-      ],
+      appProp: "app",
+      eventNames() {
+        return [
+          constants.CUSTOM_EVENT_TYPES.WEBINAR_STARTED,
+        ];
+      },
     },
   },
   hooks: {
     async deploy() {
-      const { webinars } = await this.zoom.listWebinars({
-        page_size: 25,
+      const { webinars } = await this.app.listWebinars({
+        params: {
+          page_size: 25,
+        },
       });
       if (!webinars || webinars.length === 0) {
         return;
@@ -43,7 +49,7 @@ export default {
     emitEvent(payload, object) {
       const meta = this.generateMeta(object);
       this.$emit({
-        event: "webinar.started",
+        event: constants.CUSTOM_EVENT_TYPES.WEBINAR_STARTED,
         payload,
       }, meta);
     },
