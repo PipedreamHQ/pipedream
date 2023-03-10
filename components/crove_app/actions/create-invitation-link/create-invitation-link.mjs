@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-invitation-link",
   name: "Create Invitation Link",
   description: "Create invitation link to fill or sign the document. ",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     croveApp,
@@ -42,7 +42,7 @@ export default {
     var drAuthToken = resp.auth_token;
     var invitationLink = `https://v2.crove.app/documents/${ this.document_id }/fill/overview?dr_auth_token=${ drAuthToken }`;
     resp.invitation_link = invitationLink;
-    
+
     // Removing returned properties that are not interesting for users
     delete resp.response;
     delete resp.respondents;

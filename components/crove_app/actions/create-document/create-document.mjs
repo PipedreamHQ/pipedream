@@ -4,7 +4,7 @@ export default {
   key: "crove_app-create-document",
   name: "Create Document",
   description: "Create a new document.",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     croveApp,
@@ -31,7 +31,7 @@ export default {
       },
     };
     let response = await this.croveApp._makeRequest(config);
-    
+
     // Removing returned properties that are not interesting for users
     delete response.response;
     delete response.respondents;
