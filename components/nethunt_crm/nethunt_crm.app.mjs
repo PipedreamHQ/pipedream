@@ -16,6 +16,25 @@ export default {
         }));
       },
     },
+    recordId: {
+      type: "string",
+      label: "Record",
+      description: "The Record ID. This prop will list records up to 1 month ago.",
+      async options({ folderId }) {
+        const monthAgo = new Date();
+        monthAgo.setMonth(monthAgo.getMonth() - 1);
+        const records = await this.listRecentlyCreatedRecordsInFolder({
+          folderId,
+          params: {
+            since: monthAgo,
+          },
+        });
+        return records.reverse().map((record) => ({
+          label: record.fields.Name,
+          value: record.id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -67,6 +86,16 @@ export default {
       const path = `/zapier/triggers/new-comment/${folderId}`;
       return this._makeRequest({
         ...opts,
+        path,
+      });
+    },
+    async createComment({
+      recordId, ...opts
+    }) {
+      const path = `/zapier/actions/create-comment/${recordId}`;
+      return this._makeRequest({
+        ...opts,
+        method: "post",
         path,
       });
     },
