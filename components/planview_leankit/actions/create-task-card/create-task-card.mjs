@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-create-task-card",
@@ -7,16 +7,16 @@ export default {
   description: "Create a task card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/create-task)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
         ({ boardId }) => ({
           boardId,
@@ -25,13 +25,13 @@ export default {
     },
     title: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "title",
       ],
     },
     typeId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "typeId",
         ({ boardId }) => ({
           boardId,
@@ -40,7 +40,7 @@ export default {
     },
     assignedUserIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "userId",
       ],
       type: "string[]",
@@ -49,21 +49,21 @@ export default {
     },
     description: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "description",
       ],
       optional: true,
     },
     size: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "size",
       ],
       optional: true,
     },
     laneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -73,7 +73,7 @@ export default {
     },
     connectionsParent: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       label: "Parents Connections",
@@ -83,7 +83,7 @@ export default {
     },
     connectionsChild: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       label: "Children Connections",
@@ -93,7 +93,7 @@ export default {
     },
     mirrorSourceCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       label: "Mirror Source Card Id",
@@ -102,14 +102,14 @@ export default {
     },
     priority: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "priority",
       ],
       optional: true,
     },
     customIconId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customIconId",
         ({ boardId }) => ({
           boardId,
@@ -119,42 +119,42 @@ export default {
     },
     customId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customId",
       ],
       optional: true,
     },
     externalLink: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "externalLink",
       ],
       optional: true,
     },
     index: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "index",
       ],
       optional: true,
     },
     plannedStart: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "plannedStart",
       ],
       optional: true,
     },
     plannedFinish: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "plannedFinish",
       ],
       optional: true,
     },
     tags: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "tags",
         ({ boardId }) => ({
           boardId,
@@ -164,7 +164,7 @@ export default {
     },
     wipOverrideComment: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "wipOverrideComment",
       ],
       description: "This should be specified with a laneId update operation that would violate a WIP limit.",
@@ -172,21 +172,21 @@ export default {
     },
     customFields: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customFields",
       ],
       optional: true,
     },
     planningSeriesId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "planningSeriesId",
       ],
       optional: true,
     },
     planningIncrementIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "planningIncrementIds",
         ({ planningSeriesId }) => ({
           planningSeriesId,
@@ -200,7 +200,7 @@ export default {
     if (this.isBlocked) {
       props.blockReason = {
         propDefinition: [
-          planview_leankit,
+          planviewLeankit,
           "blockReason",
         ],
         optional: true,
@@ -210,7 +210,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       connectionsParent,
       connectionsChild,
@@ -226,7 +226,7 @@ export default {
           value: k[1],
         })));
     }
-    const response = await planview_leankit.createTask({
+    const response = await planviewLeankit.createTask({
       $,
       cardId,
       data: {

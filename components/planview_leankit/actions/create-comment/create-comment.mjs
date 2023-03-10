@@ -1,22 +1,22 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-create-comment",
   name: "Add Comment To Card (Or Task)",
   version: "0.0.1",
-  description: "Create a comment in a card or task.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/comment/create)",
+  description: "Create a comment in a card or task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/comment/create)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -32,13 +32,13 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       taskId,
       ...data
     } = this;
 
-    const response = await planview_leankit.createComment({
+    const response = await planviewLeankit.createComment({
       $,
       cardId: taskId || cardId,
       data,

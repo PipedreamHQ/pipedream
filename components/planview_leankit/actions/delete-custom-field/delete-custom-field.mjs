@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-delete-custom-field",
@@ -7,16 +7,16 @@ export default {
   description: "Delete a custom field. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/custom-field)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
     customFieldId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customFieldId",
         ({ boardId }) => ({
           boardId,
@@ -26,12 +26,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       boardId,
       customFieldId,
     } = this;
 
-    const { customFields } = await planview_leankit.updateCustomField({
+    const { customFields } = await planviewLeankit.updateCustomField({
       $,
       boardId,
       data: [

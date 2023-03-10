@@ -1,23 +1,23 @@
 import { ConfigurationError } from "@pipedream/platform";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-remove-tags-from-card",
   name: "Remove Tags From Card",
   version: "0.0.1",
-  description: "Remove tags from a card or task.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
+  description: "Remove tags from a card or task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -27,7 +27,7 @@ export default {
     },
     tags: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardTags",
         ({
           cardId, taskId,
@@ -39,14 +39,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       taskId,
       tags,
     } = this;
 
     try {
-      const response = await planview_leankit.updateCard({
+      const response = await planviewLeankit.updateCard({
         $,
         cardId: taskId || cardId,
         data: tags.map((tagId, i) => ({
@@ -56,7 +56,7 @@ export default {
         })),
       });
 
-      $.export("$summary", `Tag${tags.length != 1
+      $.export("$summary", `${tags.length} tag${tags.length != 1
         ? "s were"
         : " was"} successfully updated!`);
       return response;

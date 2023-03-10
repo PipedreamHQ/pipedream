@@ -1,10 +1,10 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import moment from "moment";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   props: {
-    planview_leankit,
+    planviewLeankit,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
@@ -16,7 +16,7 @@ export default {
     },
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
@@ -40,7 +40,7 @@ export default {
       const responseArray = [];
       let tempLastDate = lastDate;
 
-      const items = this.planview_leankit.activityPaginate({
+      const items = this.planviewLeankit.activityPaginate({
         fn: this.getFunc(),
         boardId: this.boardId,
         maxResults,

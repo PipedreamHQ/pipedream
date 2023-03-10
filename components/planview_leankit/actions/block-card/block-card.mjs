@@ -1,22 +1,22 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-block-card",
   name: "Block Card (Or Task)",
   version: "0.0.1",
-  description: "Block a card or a task.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
+  description: "Block a card or a task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -26,20 +26,20 @@ export default {
     },
     blockReason: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "blockReason",
       ],
     },
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       taskId,
       blockReason,
     } = this;
 
-    const response = await planview_leankit.updateCard({
+    const response = await planviewLeankit.updateCard({
       $,
       cardId: taskId || cardId,
       data: [

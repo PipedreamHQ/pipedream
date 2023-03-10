@@ -1,22 +1,22 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-move-cards-between-lanes",
   name: "Move Cards Between Lanes",
   version: "0.0.1",
-  description: "Move cards between lanes.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/move)",
+  description: "Move cards between lanes. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/move)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
     cardIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
         ({ boardId }) => ({
           boardId,
@@ -26,7 +26,7 @@ export default {
     },
     laneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -36,12 +36,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardIds,
       laneId,
     } = this;
 
-    const response = await planview_leankit.moveCards({
+    const response = await planviewLeankit.moveCards({
       $,
       data: {
         cardIds,
@@ -51,7 +51,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Card${this.cardIds.length === 1
+    $.export("$summary", `${this.cardIds.length} card${this.cardIds.length === 1
       ? " was"
       : "s were"} successfully moved!`);
     return response;

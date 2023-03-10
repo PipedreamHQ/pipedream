@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-start-task",
@@ -7,16 +7,16 @@ export default {
   description: "Move a task to `inProcess` lane. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/move)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -25,7 +25,7 @@ export default {
     },
     taskLaneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskLaneId",
         ({ cardId }) => ({
           cardId,
@@ -35,7 +35,7 @@ export default {
     },
     index: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "index",
       ],
       description: "The position of the task in the lane starting at 0 as the first position.",
@@ -43,13 +43,13 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       taskId,
       taskLaneId,
       index,
     } = this;
 
-    const response = await planview_leankit.moveCards({
+    const response = await planviewLeankit.moveCards({
       $,
       data: {
         cardIds: [

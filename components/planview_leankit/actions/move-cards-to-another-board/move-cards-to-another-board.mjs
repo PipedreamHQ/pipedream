@@ -1,23 +1,23 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-move-cards-to-another-board",
   name: "Move Cards To Another Board",
   version: "0.0.1",
-  description: "Move cards to other boards.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/move)",
+  description: "Move cards to other boards. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/move)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
       description: "The origin board id.",
     },
     cardIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
         ({ boardId }) => ({
           boardId,
@@ -27,7 +27,7 @@ export default {
     },
     toBoardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
       description: "The destination board id.",
@@ -35,12 +35,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardIds,
       toBoardId,
     } = this;
 
-    const response = await planview_leankit.moveCards({
+    const response = await planviewLeankit.moveCards({
       $,
       data: {
         cardIds,
@@ -50,7 +50,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Card${this.cardIds.length === 1
+    $.export("$summary", `${this.cardIds.length} card${this.cardIds.length === 1
       ? " was"
       : "s were"} successfully moved!`);
     return response;

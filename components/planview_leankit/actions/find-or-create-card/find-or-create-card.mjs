@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-find-or-create-card",
@@ -7,22 +7,22 @@ export default {
   description: "Find or create a new card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/list)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
     title: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "title",
       ],
     },
     laneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -32,14 +32,14 @@ export default {
     },
     customId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customId",
       ],
       optional: true,
     },
     typeId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "typeId",
         ({ boardId }) => ({
           boardId,
@@ -49,7 +49,7 @@ export default {
     },
     customIconId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customIconId",
         ({ boardId }) => ({
           boardId,
@@ -59,42 +59,42 @@ export default {
     },
     laneClassTypes: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneClassTypes",
       ],
       optional: true,
     },
     since: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "since",
       ],
       optional: true,
     },
     deleted: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "deleted",
       ],
       optional: true,
     },
     only: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "only",
       ],
       optional: true,
     },
     omit: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "omit",
       ],
       optional: true,
     },
     sort: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "sort",
       ],
       optional: true,
@@ -102,7 +102,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       title,
       laneClassTypes,
       since,
@@ -113,7 +113,7 @@ export default {
       ...params
     } = this;
 
-    let response = await planview_leankit.listCards({
+    let response = await planviewLeankit.listCards({
       $,
       params: {
         search: title,
@@ -126,10 +126,12 @@ export default {
         ...params,
       },
     });
-    let summary = "Card was successfully fetched!";
+    let summary = `${response.cards.length} ${response.cards.length === 1
+      ? "card was"
+      : "cards were"} successfully fetched!`;
 
     if (!response.cards.length) {
-      response = await planview_leankit.createCard({
+      response = await planviewLeankit.createCard({
         $,
         data: {
           title,
@@ -137,7 +139,7 @@ export default {
           ...params,
         },
       });
-      summary = "Card was successfully created!";
+      summary = `Card with id ${response.id} was successfully created!`;
     }
 
     $.export("$summary", summary);

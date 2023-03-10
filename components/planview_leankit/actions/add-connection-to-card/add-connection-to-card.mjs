@@ -1,30 +1,30 @@
 import { ConfigurationError } from "@pipedream/platform";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-add-connection-to-card",
   name: "Create a Parent/Child Connection",
   version: "0.0.1",
-  description: "Add parent or child connection to a card.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/connections/create)",
+  description: "Add parent or child connection to a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/connections/create)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
       description: "The ID of the board you want to select cards from.",
     },
     parentCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "parentCardId",
         ({ boardId }) => ({
           boardId,
@@ -34,7 +34,7 @@ export default {
     },
     childCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "childCardId",
         ({ boardId }) => ({
           boardId,
@@ -45,14 +45,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       parentCardId,
       childCardId,
     } = this;
 
     try {
-      const response = await planview_leankit.createConnections({
+      const response = await planviewLeankit.createConnections({
         $,
         data: {
           cardIds: [
@@ -65,7 +65,7 @@ export default {
         },
       });
 
-      $.export("$summary", "Connections were successfully added!");
+      $.export("$summary", `Connections with ids (${parentCardId.toString()},${childCardId.toString()}) were successfully added!`);
       return response;
     } catch (error) {
       throw new ConfigurationError(error);

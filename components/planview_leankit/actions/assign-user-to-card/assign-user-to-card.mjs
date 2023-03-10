@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-assign-user-to-card",
@@ -7,24 +7,24 @@ export default {
   description: "Assign one or more users to cards. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/assign-users)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       type: "string[]",
     },
     userIdsToAssign: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "userId",
       ],
       type: "string[]",
     },
     wipOverrideComment: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "wipOverrideComment",
       ],
       optional: true,
@@ -32,18 +32,18 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       ...data
     } = this;
 
-    const response = await planview_leankit.assignUserToCard({
+    const response = await planviewLeankit.assignUserToCard({
       $,
       data,
     });
 
     $.export("$summary", `User${this.userIdsToAssign.length === 1
-      ? " was"
-      : "s were"} successfully assigned!`);
+      ? ` (${this.userIdsToAssign.toString()}) was`
+      : `s (${this.userIdsToAssign.toString()} were`} successfully assigned!`);
     return response;
   },
 };

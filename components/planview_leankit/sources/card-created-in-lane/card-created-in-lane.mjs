@@ -12,7 +12,7 @@ export default {
     ...common.props,
     laneId: {
       propDefinition: [
-        common.props.planview_leankit,
+        common.props.planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -23,7 +23,7 @@ export default {
   methods: {
     ...common.methods,
     getFunc() {
-      return this.planview_leankit.listActivity;
+      return this.planviewLeankit.listActivity;
     },
     validate(d) {
       return d.type === "cardCreated" && (d.data?.lane?.id === this.laneId);

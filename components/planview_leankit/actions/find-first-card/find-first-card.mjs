@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-find-first-card",
@@ -7,17 +7,17 @@ export default {
   description: "Find first matching card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/list)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
       optional: true,
     },
     laneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -27,21 +27,21 @@ export default {
     },
     search: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "search",
       ],
       optional: true,
     },
     customId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customId",
       ],
       optional: true,
     },
     typeId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "typeId",
         ({ boardId }) => ({
           boardId,
@@ -51,7 +51,7 @@ export default {
     },
     customIconId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "customIconId",
         ({ boardId }) => ({
           boardId,
@@ -61,42 +61,42 @@ export default {
     },
     laneClassTypes: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneClassTypes",
       ],
       optional: true,
     },
     since: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "since",
       ],
       optional: true,
     },
     deleted: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "deleted",
       ],
       optional: true,
     },
     only: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "only",
       ],
       optional: true,
     },
     omit: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "omit",
       ],
       optional: true,
     },
     sort: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "sort",
       ],
       optional: true,
@@ -104,16 +104,16 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       ...params
     } = this;
 
-    const { cards } = await planview_leankit.listCards({
+    const { cards } = await planviewLeankit.listCards({
       $,
       params,
     });
 
-    $.export("$summary", "Card was successfully fetched!");
+    $.export("$summary", `Card with id ${cards[0].id} was successfully fetched!`);
     return cards[0];
   },
 };

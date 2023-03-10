@@ -14,7 +14,7 @@ export default {
   methods: {
     ...common.methods,
     getFunc() {
-      return this.planview_leankit.listActivity;
+      return this.planviewLeankit.listActivity;
     },
     validate(d) {
       return d.type === "cardMoved";

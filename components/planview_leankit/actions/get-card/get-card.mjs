@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-get-card",
@@ -7,20 +7,20 @@ export default {
   description: "Get card details by card id. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/get)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
     } = this;
-    const response = await planview_leankit.getCard({
+    const response = await planviewLeankit.getCard({
       $,
       cardId,
     });

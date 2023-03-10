@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-create-card-type",
@@ -7,10 +7,10 @@ export default {
   description: "Create a new card type on a board. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card-type/create)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
@@ -39,12 +39,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       boardId,
       ...data
     } = this;
 
-    const response = await planview_leankit.createCardType({
+    const response = await planviewLeankit.createCardType({
       $,
       boardId,
       data,

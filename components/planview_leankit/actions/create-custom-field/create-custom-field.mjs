@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 import { customFieldOptions } from "../common/utils.mjs";
 
 export default {
@@ -8,10 +8,10 @@ export default {
   description: "Create a new custom field. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/custom-field)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
@@ -55,14 +55,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       boardId,
       values,
       type,
       ...data
     } = this;
 
-    const { customFields } = await planview_leankit.updateCustomField({
+    const { customFields } = await planviewLeankit.updateCustomField({
       $,
       boardId,
       data: [

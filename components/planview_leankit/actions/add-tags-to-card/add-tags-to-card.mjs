@@ -1,22 +1,22 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-add-tags-to-card",
   name: "Add Tags To Card (Or Task)",
   version: "0.0.1",
-  description: "Add tags in a card or task.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
+  description: "Add tags in a card or task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -26,7 +26,7 @@ export default {
     },
     tags: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "tags",
         ({ cardId }) => ({
           cardId,
@@ -36,13 +36,13 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       taskId,
       tags,
     } = this;
 
-    const response = await planview_leankit.updateCard({
+    const response = await planviewLeankit.updateCard({
       $,
       cardId: taskId || cardId,
       data: [
@@ -56,7 +56,7 @@ export default {
       ],
     });
 
-    $.export("$summary", `New tag${this.tags.length === 1
+    $.export("$summary", `${tags.length} new tag${tags.length === 1
       ? " was"
       : "s were"} successfully added to ${taskId
       ? "task"

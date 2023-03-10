@@ -1,17 +1,17 @@
 import { ConfigurationError } from "@pipedream/platform";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-update-custom-field-value",
   name: "Update Custom Field Value",
   version: "0.0.1",
-  description: "Update custom field value on a card.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
+  description: "Update custom field value on a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       reloadProps: true,
@@ -20,7 +20,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.cardId) {
-      const { customFields } = await this.planview_leankit.getCard({
+      const { customFields } = await this.planviewLeankit.getCard({
         cardId: this.cardId,
       });
 
@@ -39,7 +39,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       ...customFields
     } = this;
@@ -63,13 +63,13 @@ export default {
     }
 
     try {
-      const response = await planview_leankit.updateCard({
+      const response = await planviewLeankit.updateCard({
         $,
         cardId: cardId,
         data: dataFields,
       });
 
-      $.export("$summary", "Custom Fields were successfully updated!");
+      $.export("$summary", `${dataFields.length} Custom Fields were successfully updated!`);
       return response;
     } catch (error) {
       throw new ConfigurationError(error);

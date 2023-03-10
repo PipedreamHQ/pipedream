@@ -1,23 +1,23 @@
 import { ConfigurationError } from "@pipedream/platform";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-remove-connection-from-card",
   name: "Remove Parent/Child Connection",
   version: "0.0.1",
-  description: "Remove parent or child connection from a card.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/connections/delete-many)",
+  description: "Remove parent or child connection from a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/connections/delete-many)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     parentCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "parentCardId",
         ({ cardId }) => ({
           cardId,
@@ -27,7 +27,7 @@ export default {
     },
     childCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "childCardId",
         ({ cardId }) => ({
           cardId,
@@ -38,14 +38,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       parentCardId,
       childCardId,
     } = this;
 
     try {
-      const response = await planview_leankit.deleteConnections({
+      const response = await planviewLeankit.deleteConnections({
         $,
         data: {
           cardIds: [
@@ -58,7 +58,7 @@ export default {
         },
       });
 
-      $.export("$summary", "Connections were successfully removed!");
+      $.export("$summary", `Connections with ids (${parentCardId.toString(), childCardId.toString()}) were successfully removed!`);
       return response;
     } catch (error) {
       throw new ConfigurationError(error);

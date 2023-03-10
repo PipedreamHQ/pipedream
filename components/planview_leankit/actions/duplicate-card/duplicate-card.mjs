@@ -1,4 +1,4 @@
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 import { prepareDuplicateCardData } from "../common/utils.mjs";
 
 export default {
@@ -8,16 +8,16 @@ export default {
   description: "Duplicate a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/create)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     boardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "boardId",
       ],
     },
     copiedFromCardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
       label: "Copied From Card Id",
@@ -25,20 +25,20 @@ export default {
     },
     title: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "title",
       ],
     },
     description: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "description",
       ],
       optional: true,
     },
     laneId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "laneId",
         ({ boardId }) => ({
           boardId,
@@ -48,21 +48,21 @@ export default {
     },
     priority: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "priority",
       ],
       optional: true,
     },
     size: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "size",
       ],
       optional: true,
     },
     typeId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "typeId",
         ({ boardId }) => ({
           boardId,
@@ -73,17 +73,17 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       ...data
     } = this;
 
-    const cardFrom = await planview_leankit.getCard({
+    const cardFrom = await planviewLeankit.getCard({
       cardId: this.copiedFromCardId,
     });
 
     const preparedData = prepareDuplicateCardData(cardFrom);
 
-    const response = await planview_leankit.createCard({
+    const response = await planviewLeankit.createCard({
       $,
       data: {
         ...preparedData,

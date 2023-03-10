@@ -1,23 +1,23 @@
 import { ConfigurationError } from "@pipedream/platform";
-import planview_leankit from "../../planview_leankit.app.mjs";
+import planviewLeankit from "../../planview_leankit.app.mjs";
 
 export default {
   key: "planview_leankit-unassign-user",
   name: "Unassign User",
   version: "0.0.1",
-  description: "Unassign an user from a card or a task.  [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
+  description: "Unassign an user from a card or a task. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {
-    planview_leankit,
+    planviewLeankit,
     cardId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "cardId",
       ],
     },
     taskId: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "taskId",
         ({ cardId }) => ({
           cardId,
@@ -27,7 +27,7 @@ export default {
     },
     assignedUserIds: {
       propDefinition: [
-        planview_leankit,
+        planviewLeankit,
         "userId",
         ({
           cardId, taskId,
@@ -41,13 +41,13 @@ export default {
   },
   async run({ $ }) {
     const {
-      planview_leankit,
+      planviewLeankit,
       cardId,
       taskId,
       assignedUserIds,
     } = this;
     try {
-      const response = await planview_leankit.updateCard({
+      const response = await planviewLeankit.updateCard({
         $,
         cardId: taskId || cardId,
         data: assignedUserIds.map((userId, i) => ({
@@ -57,7 +57,7 @@ export default {
         })),
       });
 
-      $.export("$summary", `User${assignedUserIds.length != 1
+      $.export("$summary", `${assignedUserIds.length} user${assignedUserIds.length != 1
         ? "s were"
         : " was"} successfully updated!`);
       return response;
