@@ -4,7 +4,7 @@ export default {
   key: "crove_app-submit-document",
   name: "Submit Document",
   description: "Submit the document like you do it via Crove form.",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     croveApp,
