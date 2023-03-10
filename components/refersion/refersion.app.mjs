@@ -37,8 +37,12 @@ export default {
         data,
       }, ctx);
     },
-    authKeys() {
-      console.log((this.$auth));
+    async getAffiliate(data, ctx = this) {
+      return this._makeHttpRequest({
+        path: "/affiliate/get",
+        method: "POST",
+        data,
+      }, ctx);
     },
   },
 };

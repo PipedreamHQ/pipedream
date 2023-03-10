@@ -137,7 +137,7 @@ export default {
       conversion_trigger_coupon: this.conversionTriggerCoupon,
       unique_merchant_id: this.uniqueMerchantId,
     };
-    const res = await this.app.createAffiliate(data);
+    const res = await this.app.createAffiliate(data, $);
     if (res.error) {
       throw new ConfigurationError(res.error);
     }
