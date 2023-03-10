@@ -5,7 +5,7 @@ export default {
   key: "crove_app-document-created",
   name: "Document Created",
   description: "Triggers when a new document is created.",
-  version: "0.0.3",
+  version: "1.0.1",
   type: "source",
   methods: {
     ...common.methods,

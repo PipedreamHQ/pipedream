@@ -4,7 +4,7 @@ export default {
   key: "crove_app-submit-document",
   name: "Submit Document",
   description: "Submit the document like you do it via Crove form.",
-  version: "0.0.3",
+  version: "1.0.1",
   type: "action",
   props: {
     croveApp,
@@ -21,6 +21,12 @@ export default {
       url: apiUrl,
       method: "POST",
     };
-    return await this.croveApp._makeRequest(config);
+    let response = await this.croveApp._makeRequest(config);
+
+    // Removing returned properties that are not interesting for users
+    delete response.response;
+    delete response.respondents;
+    delete response.symbol_table;
+    return response;
   },
 };
