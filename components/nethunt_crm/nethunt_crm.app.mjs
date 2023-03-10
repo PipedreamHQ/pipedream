@@ -99,5 +99,15 @@ export default {
         path,
       });
     },
+    async linkGmailThread({
+      recordId, ...opts
+    }) {
+      const path = `/zapier/actions/link-gmail-thread/${recordId}`;
+      return this._makeRequest({
+        ...opts,
+        method: "post",
+        path,
+      });
+    },
   },
 };
