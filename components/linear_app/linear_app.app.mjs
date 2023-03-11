@@ -172,7 +172,7 @@ export default {
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
-    async listProjects() { console.log("hello world");
+    async listProjects() {
       const { data: { projects } } = await this.makeAxiosRequest({
         method: "POST",
         data: {
