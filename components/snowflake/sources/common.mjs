@@ -116,13 +116,13 @@ export default {
       await this.db.set("lastMaxTimestamp", newMaxTs);
     },
     async emitFailedTasks({
-      database, schema, warehouse,
+      database, schema,
     }) {
       // Get the timestamp of the last run, if available. Else set the start time to 1 day ago
       const lastRun = this.db.get("lastMaxTimestamp") ?? +Date.now() - (1000 * 60 * 60 * 24);
       console.log(`Max ts of last run: ${lastRun}`);
 
-      const newMaxTs = await this.snowflake.maxQueryHistoryTimestamp();
+      const newMaxTs = await this.snowflake.maxTaskHistoryTimestamp();
       console.log(`New max ts: ${newMaxTs}`);
 
       let results;
@@ -137,13 +137,8 @@ export default {
           database,
           schema,
         });
-      } else if (warehouse) {
-        results = await this.snowflake.getFailedTasksInWarehouse({
-          ...opts,
-          warehouse,
-        });
       } else {
-        throw new Error("Must provide either database and schema or warehouse");
+        throw new Error("Must provide a database and schema");
       }
 
       console.log(`Raw results: ${JSON.stringify(results, null, 2)}`);
