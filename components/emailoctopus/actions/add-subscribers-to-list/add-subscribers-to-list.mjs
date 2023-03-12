@@ -22,7 +22,7 @@ export default {
     fields: {
       type: "object",
       label: "Fields",
-      description: "An object containing key/value pairs of field values, using the field's tag as the key.",
+      description: "An object containing key/value pairs of field values, using the field's tag as the key. For example: `{\"FirstName\": \"John\", \"LastName\": \"Doe\"}`",
       optional: true,
     },
     tags: {
