@@ -43,9 +43,9 @@ export default {
       optional: true,
       async options() {
         const response = await this.getSounds();
-        return Object.keys(response.sounds).map((key) => ({
-          label: response.sounds[key],
-          value: key,
+        return Object.entries(response.sounds).map(([value, label]) => ({
+          label,
+          value,
         }));
       },
     },
