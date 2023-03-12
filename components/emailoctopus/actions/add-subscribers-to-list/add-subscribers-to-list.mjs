@@ -2,7 +2,7 @@ import app from "../../emailoctopus.app.mjs";
 
 export default {
   key: "emailoctopus-add-subscribers-to-list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   name: "Add Subscribers To List",
   description: "Add subscribers to a list, [See the docs here](https://emailoctopus.com/api-documentation/lists/create-contact)",
@@ -22,7 +22,7 @@ export default {
     fields: {
       type: "object",
       label: "Fields",
-      description: "An object containing key/value pairs of field values, using the field's tag as the key.",
+      description: "An object containing key/value pairs of field values, using the field's tag as the key. For example: `{\"FirstName\": \"John\", \"LastName\": \"Doe\"}`",
       optional: true,
     },
     tags: {
