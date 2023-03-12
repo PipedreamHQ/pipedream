@@ -1,10 +1,10 @@
 import common from "../common/common.mjs";
 
 export default {
-  name: "New List Contact",
-  key: "emailoctopus-new-list-contact",
-  description: "Emit new event each time a contact is added to a list.",
-  version: "0.0.3",
+  name: "New Subscriber unsubscribed event",
+  key: "emailoctopus-subscriber-unsubscribed",
+  description: "Emit new event when a subscriber unsubscribed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   ...common,
@@ -20,15 +20,18 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.app.getContacts;
+      return this.app.getUnsubscribers;
     },
     getResourceFnParams() {
       return {
         listId: this.listId,
       };
     },
+    getComparisonType() {
+      return "include";
+    },
     async getItem(item) {
-      return await this.app.getContact({
+      return this.app.getContact({
         listId: this.listId,
         contactId: item.id,
       });
@@ -36,8 +39,8 @@ export default {
     getMeta(item) {
       return {
         id: new Date().getTime(),
-        summary: `New contact added - ${item.fields.FirstName} ${item.fields.LastName} (${item.email_address})`,
-        ts: new Date(item.created_at).getTime(),
+        summary: `Subscriber unsubscribed - ${item.email_address}`,
+        ts: new Date().getTime(),
       };
     },
   },
