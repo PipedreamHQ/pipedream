@@ -9,7 +9,7 @@ const langOptions = lang.LANGUAGES.map((l) => ({
 export default {
   ...common,
   name: "Translate Text",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-translate-text",
   description: "Translate text from one language to another using the Chat API",
   type: "action",
@@ -41,7 +41,7 @@ export default {
     userMessage() {
       return `Translate the following text from ISO 639-1 ${this.sourceLang} to ISO 639-1 ${this.targetLang}:\n\n${this.text}`;
     },
-    summarize() {
+    summary() {
       return `Translated text from ${this.sourceLang} to ${this.targetLang}`;
     },
     formatOutput({

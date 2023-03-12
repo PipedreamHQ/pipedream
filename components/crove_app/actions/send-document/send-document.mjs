@@ -4,7 +4,7 @@ export default {
   key: "crove_app-send-document",
   name: "Send Document",
   description: "Send email invitation link to fill & sign the document.  ",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     croveApp,

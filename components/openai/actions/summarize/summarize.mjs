@@ -3,11 +3,12 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Summarize Text",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-summarize",
   description: "Summarizes text using the Chat API",
   type: "action",
   props: {
+    ...common.props,
     text: {
       label: "Text",
       description: "The text to summarize",
@@ -25,7 +26,6 @@ export default {
         "page",
       ],
     },
-    ...common.props,
   },
   methods: {
     ...common.methods,
