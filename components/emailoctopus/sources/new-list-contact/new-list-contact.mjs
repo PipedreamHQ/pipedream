@@ -4,7 +4,7 @@ export default {
   name: "New List Contact",
   key: "emailoctopus-new-list-contact",
   description: "Emit new event each time a contact is added to a list.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   ...common,
