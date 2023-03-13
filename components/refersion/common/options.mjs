@@ -365,4 +365,8 @@ export default {
     "PENDING",
     "ACTIVE",
   ],
+  MANUAL_COMMISSION_CREDIT_STATUS: [
+    "PENDING",
+    "APPROVED",
+  ],
 };
