@@ -109,5 +109,17 @@ export default {
         path,
       });
     },
+    async findRecords({
+      folderId, query, limit, ...opts
+    }) {
+      let path = `/zapier/searches/find-record/${folderId}?limit=${limit ?? 1}`;
+      if (query?.length) {
+        path += `&query=${encodeURIComponent(query)}`;
+      }
+      return this._makeRequest({
+        ...opts,
+        path,
+      });
+    },
   },
 };
