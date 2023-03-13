@@ -46,6 +46,37 @@ function oauth1ParamsSerializer(p) {
         .replace(/\)/g, "%29")
         .replace(/\*/g, "%2A");
 }
+async function getOauthSignature(config, signConfig) {
+    const { oauthSignerUri, token, } = signConfig;
+    const { baseURL, url, } = config;
+    const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
+    const requestData = {
+        method: config.method || "get",
+        url: newUrl,
+    };
+    // the OAuth specification explicitly states that only form-encoded data should be included
+    let hasContentType = false;
+    let formEncodedContentType = false;
+    for (const k in config.headers || {}) {
+        if (/content-type/i.test(k)) {
+            hasContentType = true;
+            formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
+            break;
+        }
+    }
+    if (config.data && typeof config.data === "object" && formEncodedContentType) {
+        requestData.data = config.data;
+    }
+    else if (typeof config.data === "string" && (!hasContentType || formEncodedContentType)) {
+        requestData.data = querystring.parse(config.data);
+    }
+    config.paramsSerializer = oauth1ParamsSerializer;
+    const payload = {
+        requestData,
+        token,
+    };
+    return (await axios_1.default.post(oauthSignerUri, payload)).data;
+}
 // XXX warn about mutating config object... or clone?
 async function callAxios(step, config, signConfig) {
     cleanObject(config.headers);
@@ -59,35 +90,7 @@ async function callAxios(step, config, signConfig) {
     removeSearchFromUrl(config);
     // OAuth1 request
     if (signConfig) {
-        const { oauthSignerUri, token, } = signConfig;
-        const { baseURL, url, } = config;
-        const newUrl = buildURL((baseURL !== null && baseURL !== void 0 ? baseURL : "") + url, config.params, oauth1ParamsSerializer); // build url as axios will
-        const requestData = {
-            method: config.method || "get",
-            url: newUrl,
-        };
-        // the OAuth specification explicitly states that only form-encoded data should be included
-        let hasContentType = false;
-        let formEncodedContentType = false;
-        for (const k in config.headers || {}) {
-            if (/content-type/i.test(k)) {
-                hasContentType = true;
-                formEncodedContentType = config.headers[k] === "application/x-www-form-urlencoded";
-                break;
-            }
-        }
-        if (config.data && typeof config.data === "object" && formEncodedContentType) {
-            requestData.data = config.data;
-        }
-        else if (typeof config.data === "string" && (!hasContentType || formEncodedContentType)) {
-            requestData.data = querystring.parse(config.data);
-        }
-        config.paramsSerializer = oauth1ParamsSerializer;
-        const payload = {
-            requestData,
-            token,
-        };
-        const oauthSignature = (await axios_1.default.post(oauthSignerUri, payload)).data;
+        const oauthSignature = await getOauthSignature(config, signConfig);
         if (!config.headers)
             config.headers = {};
         config.headers.Authorization = oauthSignature;
@@ -129,5 +132,30 @@ function convertAxiosError(err) {
     err.message = JSON.stringify(err.response.data);
     return err;
 }
-callAxios.create = axios_1.default.create;
+function create(config, signConfig) {
+    const axiosInstance = axios_1.default.create(config);
+    axiosInstance.interceptors.request.use(async (config) => {
+        if (signConfig) {
+            const oauthSignature = await getOauthSignature(config, signConfig);
+            if (!config.headers)
+                config.headers = {};
+            config.headers.Authorization = oauthSignature;
+        }
+        cleanObject(config.headers);
+        cleanObject(config.params);
+        if (typeof config.data === "object") {
+            cleanObject(config.data);
+        }
+        removeSearchFromUrl(config);
+        return config;
+    }, (error) => {
+        if (error.response) {
+            convertAxiosError(error);
+            stepExport(this, error.response, "debug");
+        }
+        throw error;
+    });
+    return axiosInstance;
+}
+callAxios.create = create;
 exports.default = callAxios;
