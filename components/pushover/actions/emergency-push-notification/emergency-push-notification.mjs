@@ -7,7 +7,7 @@ export default {
   description: `Sends an Emergency Push Notification to devices with Pushover.
     Notifications are repeated until they are acknowledged by the user.
     More information at [Pushing Messages](https://pushover.net/api#messages) and [Message Priority](https://pushover.net/api#priority)`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     pushover,
@@ -59,21 +59,42 @@ export default {
         "device",
       ],
     },
+    sound: {
+      propDefinition: [
+        pushover,
+        "sound",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response =
-      await this.pushover.pushMessage({
-        message: this.message,
-        retry: this.retry,
-        expire: this.expire,
-        callback: this.callback,
-        title: this.title,
-        url: this.url,
-        url_title: this.urlTitle,
-        device: this.device,
+    const {
+      message,
+      title,
+      url,
+      urlTitle,
+      device,
+      retry,
+      expire,
+      sound,
+      callback,
+    } = this;
+    const response = await this.pushover.pushMessage({
+      $,
+      params: {
+        message,
+        title,
+        url,
+        device,
         priority: constants.PRIORITY.EMERGENCY,
-      });
-    $.export("$summary", "Sent emergency notification");
+        retry,
+        expire,
+        sound,
+        callback,
+        url_title: urlTitle,
+      },
+    });
+    $.export("$summary", `Successfully sent emergency notification with message: "${message}"`);
 
     return response;
   },
