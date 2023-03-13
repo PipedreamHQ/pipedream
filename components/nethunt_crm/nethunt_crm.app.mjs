@@ -140,5 +140,15 @@ export default {
         path,
       });
     },
+    async updateRecord({
+      recordId, overwrite = false, ...opts
+    }) {
+      const path = `/zapier/actions/update-record/${recordId}?overwrite=${overwrite}`;
+      return this._makeRequest({
+        ...opts,
+        method: "post",
+        path,
+      });
+    },
   },
 };
