@@ -178,12 +178,12 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
 
   axiosInstance.interceptors.response.use((response) => {
     const config: AxiosRequestConfig = response.config;
-    
-    if (config?.debug) {
+
+    if (config.debug) {
       stepExport(this, response.data, "debug_response");
     }
 
-    return config?.returnFullResponse
+    return config.returnFullResponse
       ? response
       : response.data;
   }, (error) => {

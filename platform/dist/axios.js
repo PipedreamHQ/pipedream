@@ -159,6 +159,7 @@ function create(config, signConfig) {
         throw error;
     });
     axiosInstance.interceptors.response.use((response) => {
+        const config = response.config;
         if (config === null || config === void 0 ? void 0 : config.debug) {
             stepExport(this, response.data, "debug_response");
         }
