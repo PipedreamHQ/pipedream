@@ -134,6 +134,9 @@ function convertAxiosError(err) {
 }
 function create(config, signConfig) {
     const axiosInstance = axios_1.default.create(config);
+    if (config === null || config === void 0 ? void 0 : config.debug) {
+        stepExport(this, config, "debug_config");
+    }
     axiosInstance.interceptors.request.use(async (config) => {
         if (signConfig) {
             const oauthSignature = await getOauthSignature(config, signConfig);
@@ -148,6 +151,19 @@ function create(config, signConfig) {
         }
         removeSearchFromUrl(config);
         return config;
+    }, (error) => {
+        if (error.response) {
+            convertAxiosError(error);
+            stepExport(this, error.response, "debug");
+        }
+        throw error;
+    });
+    axiosInstance.interceptors.response.use((response) => {
+        if (config === null || config === void 0 ? void 0 : config.debug) {
+            stepExport(this, response.data, "debug_response");
+        }
+        return (config === null || config === void 0 ? void 0 : config.returnFullResponse) ? response
+            : response.data;
     }, (error) => {
         if (error.response) {
             convertAxiosError(error);

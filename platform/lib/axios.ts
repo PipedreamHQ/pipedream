@@ -181,7 +181,9 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
       stepExport(this, response.data, "debug_response");
     }
 
-    return response;
+    return config?.returnFullResponse
+      ? response
+      : response.data;
   }, (error) => {
     if (error.response) {
       convertAxiosError(error);
