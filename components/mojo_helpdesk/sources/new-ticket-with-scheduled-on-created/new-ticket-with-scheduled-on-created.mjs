@@ -2,20 +2,21 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "mojo_helpdesk-new-ticket-created",
-  name: "New Ticket Created",
-  description: "Emit new event when a new ticket is created. [See the docs here](https://github.com/mojohelpdesk/mojohelpdesk-api-doc#list-tickets)",
+  key: "mojo_helpdesk-new-ticket-with-scheduled-on-created",
+  name: "New Ticket With Scheduled On Created",
+  description: "Emit new event when a new unassigned ticket with a scheduled on date is created. [See the docs](https://github.com/mojohelpdesk/mojohelpdesk-api-doc#list-of-sortable-fields)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getResources(params) {
-      return this.mojoHelpdesk.listTickets({
+      return this.mojoHelpdesk.searchTickets({
         params: {
           ...params,
-          sort_by: this.getSortField(),
-          sort_order: "desc",
+          query: "_exists_:scheduled_on",
+          sf: this.getSortField(),
+          r: 1, // reverse sort (desc)
         },
       });
     },

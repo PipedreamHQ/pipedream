@@ -2,16 +2,16 @@ import common from "../common/common.mjs";
 
 export default {
   ...common,
-  key: "mojo_helpdesk-new-ticket-created",
-  name: "New Ticket Created",
-  description: "Emit new event when a new ticket is created. [See the docs here](https://github.com/mojohelpdesk/mojohelpdesk-api-doc#list-tickets)",
+  key: "mojo_helpdesk-new-user-created",
+  name: "New User Created",
+  description: "Emit new event when a new user is created. [See the docs here](https://github.com/mojohelpdesk/mojohelpdesk-api-doc#users)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getResources(params) {
-      return this.mojoHelpdesk.listTickets({
+      return this.mojoHelpdesk.listUsers({
         params: {
           ...params,
           sort_by: this.getSortField(),
@@ -23,11 +23,14 @@ export default {
       return "created_on";
     },
     generateMeta({
-      id, title, created_on: createdOn,
+      id, first_name: firstName, last_name: lastName, created_on: createdOn,
     }) {
+      const summary = firstName || lastName
+        ? `${firstName || ""} ${lastName || ""}`
+        : `User ID: ${id}`;
       return {
         id,
-        summary: title,
+        summary,
         ts: Date.parse(createdOn),
       };
     },
