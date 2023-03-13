@@ -25,6 +25,9 @@ export default {
       type: "integer",
       label: "Top K",
       description: "The number of results to return. E.g. `10`",
+      min: 1,
+      max: 10000,
+      default: 10,
     },
     filter: {
       type: "object",

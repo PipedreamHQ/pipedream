@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "pinecone-delete-vectors",
   name: "Delete Vectors",
-  description: "Deletes a vector by ID, from a single namespace. [See the docs](https://docs.pinecone.io/reference/delete_post).",
+  description: "Deletes one or more vectors by ID, from a single namespace. [See the docs](https://docs.pinecone.io/reference/delete_post).",
   type: "action",
   version: "0.0.1",
   props: {
