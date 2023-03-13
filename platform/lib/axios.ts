@@ -177,6 +177,8 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
   });
 
   axiosInstance.interceptors.response.use((response) => {
+    const config: AxiosRequestConfig = response.config;
+    
     if (config?.debug) {
       stepExport(this, response.data, "debug_response");
     }
