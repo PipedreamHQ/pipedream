@@ -1556,6 +1556,39 @@
     },
     {
       "path": "components/smarty"
+    },
+    {
+      "path": "components/pinecone"
+    },
+    {
+      "path": "components/watchsignals"
+    },
+    {
+      "path": "components/campayn"
+    },
+    {
+      "path": "components/beanstalkapp"
+    },
+    {
+      "path": "components/bigml"
+    },
+    {
+      "path": "components/cheddar"
+    },
+    {
+      "path": "components/cisco_meraki"
+    },
+    {
+      "path": "components/bulkgate"
+    },
+    {
+      "path": "components/cascade_strategy"
+    },
+    {
+      "path": "components/sitecreator_io"
+    },
+    {
+      "path": "components/idx_broker"
     }
   ]
 }

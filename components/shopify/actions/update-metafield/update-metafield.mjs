@@ -6,7 +6,7 @@ export default {
   key: "shopify-update-metafield",
   name: "Update Metafield",
   description: "Updates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#put-blogs-blog-id-metafields-metafield-id)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   async additionalProps() {
     const props = await this.getOwnerIdProp(this.ownerResource);
