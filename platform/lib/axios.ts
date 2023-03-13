@@ -145,8 +145,12 @@ function convertAxiosError(err) {
   return err;
 }
 
-function create(config?: AxiosConfig, signConfig?: any) {
+function create(config?: AxiosRequestConfig, signConfig?: any) {
   const axiosInstance = axios.create(config);
+
+  if (config?.debug) {
+    stepExport(this, config, "debug_config");
+  }
 
   axiosInstance.interceptors.request.use(async (config) => {
     if (signConfig) {
@@ -163,6 +167,21 @@ function create(config?: AxiosConfig, signConfig?: any) {
     removeSearchFromUrl(config);
 
     return config;
+  }, (error) => {
+    if (error.response) {
+      convertAxiosError(error);
+      stepExport(this, error.response, "debug");
+    }
+
+    throw error;
+  });
+
+  axiosInstance.interceptors.response.use((response) => {
+    if (config?.debug) {
+      stepExport(this, response.data, "debug_response");
+    }
+
+    return response;
   }, (error) => {
     if (error.response) {
       convertAxiosError(error);
