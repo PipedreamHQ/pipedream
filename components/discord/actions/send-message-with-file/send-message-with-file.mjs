@@ -8,7 +8,7 @@ export default {
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -65,6 +65,7 @@ export default {
           : message,
       }, {
         thread_id: threadID,
+        wait: true,
       });
       $.export("$summary", "Message sent successfully");
       return resp || {

@@ -1,21 +1,37 @@
-import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/common.mjs";
+import discord from "../../discord.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
-  key: "discord-send-message-advanced",
-  name: "Send Message (Advanced)",
-  description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "1.0.2",
+  key: "discord-edit-message",
+  name: "Edit Message",
+  description: "Edit a message sent previously",
+  version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
+    discord,
+    channel: {
+      type: "$.discord.channel",
+      appProp: "discord",
+    },
+    messageId: {
+      label: "Message ID",
+      description: "The ID of the message you want to edit.",
+      type: "string",
+    },
     message: {
       propDefinition: [
-        common.props.discord,
+        discord,
         "message",
       ],
       optional: true,
+    },
+    includeSentViaPipedream: {
+      propDefinition: [
+        discord,
+        "includeSentViaPipedream",
+      ],
     },
     embeds: {
       propDefinition: [
@@ -27,13 +43,9 @@ export default {
   async run({ $ }) {
     const {
       message,
-      avatarURL,
-      threadID,
-      username,
       includeSentViaPipedream,
-      embeds: embedsProp,
+      embeds,
     } = this;
-    const embeds = embedsProp;
 
     if (!message && !embeds) {
       throw new ConfigurationError("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
@@ -52,22 +64,20 @@ export default {
     }
 
     try {
-      const resp = await this.discord.sendMessage(this.channel, {
-        avatar_url: avatarURL,
-        username,
-        embeds,
+      const resp = await this.discord.editMessage(this.channel, this.messageId, {
         content,
+        embeds,
       }, {
-        thread_id: threadID,
         wait: true,
       });
-      $.export("$summary", "Message sent successfully");
+      $.export("$summary", "Message edited successfully");
       return resp || {
         success: true,
       };
     } catch (err) {
+      console.log(err);
       const unsentMessage = this.getUserInputProps();
-      $.export("unsent", unsentMessage);
+      $.export("not edited", unsentMessage);
       throw err;
     }
   },

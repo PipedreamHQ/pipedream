@@ -5,7 +5,7 @@ export default {
   key: "discord-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   async run({ $ }) {
     const {
@@ -25,6 +25,7 @@ export default {
           : message,
       }, {
         thread_id: threadID,
+        wait: true,
       });
       $.export("$summary", "Message sent successfully");
       return resp || {
