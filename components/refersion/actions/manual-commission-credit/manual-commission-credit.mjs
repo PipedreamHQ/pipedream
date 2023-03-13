@@ -4,7 +4,7 @@ import options from "../../common/options.mjs";
 export default {
   name: "Manual Comission Credit",
   description: "Allows you to manually credit an affiliate with any commission amount. [See the docs here](https://www.refersion.dev/reference/manual_commission_credit)",
-  key: "refersion-manual-comission-credit",
+  key: "refersion-manual-commission-credit",
   version: "0.0.1",
   type: "action",
   props: {
