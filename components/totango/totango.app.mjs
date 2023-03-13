@@ -9,7 +9,7 @@ export default {
       return this.$auth.api_key;
     },
     _apiUrl() {
-      return "https://api.totango.com/api/v1";
+      return "https://api.totango.com/api";
     },
     async _makeRequest({
       $ = this, path, ...args
@@ -22,23 +22,32 @@ export default {
         ...args,
       });
     },
-    async searchAccounts({ ...args } = {}) {
-      const response = await this._makeRequest({
-        path: "/search/accounts",
+    async searchAccounts(args = {}) {
+      const { response } = await this._makeRequest({
+        path: "/v1/search/accounts",
         method: "post",
         ...args,
       });
 
-      return response?.response?.accounts?.hits;
+      return response?.accounts?.hits;
     },
-    async searchUsers({ ...args } = {}) {
-      const response = await this._makeRequest({
-        path: "/search/users",
+    async searchUsers(args = {}) {
+      const { response } = await this._makeRequest({
+        path: "/v1/search/users",
         method: "post",
         ...args,
       });
 
-      return response?.response?.users?.hits;
+      return response?.users?.hits;
+    },
+    async searchEvents(args = {}) {
+      const { response } = await this._makeRequest({
+        path: "/v2/events/search",
+        method: "post",
+        ...args,
+      });
+
+      return response?.events?.hits;
     },
   },
 };

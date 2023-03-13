@@ -320,6 +320,18 @@ export default {
         return this.getDraftOrderOptions();
       },
     },
+    metafields: {
+      type: "string[]",
+      label: "Metafields",
+      description: "An array of objects, each one representing a metafield. If adding a new metafield, the object should contain `key`, `value`, `type`, and `namespace`. Example: `{{ [{ \"key\": \"new\", \"value\": \"newvalue\", \"type\": \"single_line_text_field\", \"namespace\": \"global\" }] }}`. To update an existing metafield, use the `id` and `value`. Example: `{{ [{ \"id\": \"28408051400984\", \"value\": \"updatedvalue\" }] }}`",
+      optional: true,
+    },
+    sku: {
+      type: "string",
+      label: "Sku",
+      description: "A unique identifier for the product variant in the shop",
+      optional: true,
+    },
   },
   methods: {
     getShopId() {
@@ -407,7 +419,7 @@ export default {
       } = opts;
       return retry(async (bail, retryCount) => {
         try {
-          return apiCall();
+          return await apiCall();
         } catch (err) {
           const errCode = get(err, errCodePath);
           if (!isRetriableErrCode(errCode)) {
@@ -674,6 +686,16 @@ export default {
       this.getSinceParams(sinceId, useCreatedAt, null, params);
       return this.getObjects("product", params);
     },
+    async getCollects(sinceId) {
+      const params = this.getSinceParams(sinceId, true);
+      return this.getObjects("collect", params);
+    },
+    async createCollect(params) {
+      return this.resourceAction("collect", "create", params);
+    },
+    async createCustomCollection(params) {
+      return this.resourceAction("customCollection", "create", params);
+    },
     async getProduct(productId, params) {
       return this.resourceAction("product", "get", params, productId);
     },
@@ -693,6 +715,9 @@ export default {
     },
     async updateProductVariant(productVariantId, params) {
       return this.resourceAction("productVariant", "update", params, productVariantId);
+    },
+    async updateInventoryItem(inventoryItemId, params) {
+      return this.resourceAction("inventoryItem", "update", params, inventoryItemId);
     },
     async createProduct(params) {
       return this.resourceAction("product", "create", params);

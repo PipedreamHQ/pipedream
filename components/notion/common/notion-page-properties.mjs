@@ -36,7 +36,7 @@ const NOTION_PAGE_PROPERTIES = {
   select: {
     type: "string",
     example: "3f806034-9c48-4519-871e-60c9c32d73d8",
-    options: (property) => property.select.options.map((option) => option.name),
+    options: (property) => property.select?.options.map((option) => option.name),
     convertToNotion: (property) => ({
       select: {
         name: property.value,

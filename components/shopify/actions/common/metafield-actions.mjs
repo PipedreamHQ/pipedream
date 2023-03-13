@@ -95,5 +95,42 @@ export default {
         ownerId: resources[ownerResource],
       };
     },
+    async getMetafieldIdByKey(key, namespace, ownerId, ownerResource) {
+      const results = await this.shopify.listMetafields({
+        metafield: {
+          owner_resource: ownerResource,
+          owner_id: ownerId,
+        },
+      });
+      const metafield = results?.filter(
+        (field) => field.key === key && field.namespace === namespace,
+      );
+      if (!metafield || metafield.length === 0) {
+        return false;
+      }
+      return metafield[0].id;
+    },
+    async createMetafieldsArray(metafieldsOriginal, ownerId, ownerResource) {
+      const metafields = [];
+      const metafieldsArray = this.shopify.parseArrayOfJSONStrings(metafieldsOriginal);
+      for (const meta of metafieldsArray) {
+        if (meta.id) {
+          metafields.push(meta);
+          continue;
+        }
+        const metafieldId = await this.getMetafieldIdByKey(
+          meta.key, meta.namespace, ownerId, ownerResource,
+        );
+        if (!metafieldId) {
+          metafields.push(meta);
+          continue;
+        }
+        metafields.push({
+          id: `${metafieldId}`,
+          value: meta.value,
+        });
+      }
+      return metafields;
+    },
   },
 };

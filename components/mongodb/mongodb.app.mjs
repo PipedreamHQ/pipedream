@@ -1,5 +1,5 @@
 import {
-  MongoClient, ObjectID,
+  MongoClient, ObjectId as ObjectID,
 } from "mongodb";
 
 export default {

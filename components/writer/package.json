@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/writer",
+  "version": "0.0.1",
+  "description": "Pipedream Writer Components",
+  "main": "dist/app/writer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "writer"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/writer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

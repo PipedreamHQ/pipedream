@@ -5,7 +5,7 @@ export default {
   key: "eventbrite-new-attendee-checkin",
   name: "New Attendee Check-In (Instant)",
   description: "Emit new event when an attendee checks in to an event",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {
@@ -15,7 +15,7 @@ export default {
     },
     async getData(attendee) {
       const { event_id: eventId } = attendee;
-      const event = await this.eventbrite.getEvent(eventId);
+      const event = await this.eventbrite.getEvent(null, eventId);
       return {
         attendee,
         event,

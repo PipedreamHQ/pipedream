@@ -4,8 +4,11 @@ export default {
     "512x512",
     "1024x1024",
   ],
-  RESPONSE_FORMATS: [
-    "url",
-    "b64_json",
+  TRANSCRIPTION_FORMATS: [
+    "json",
+    "text",
+    "srt",
+    "verbose_json",
+    "vtt",
   ],
 };
