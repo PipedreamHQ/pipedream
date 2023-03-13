@@ -160,10 +160,11 @@ function create(config, signConfig) {
     });
     axiosInstance.interceptors.response.use((response) => {
         const config = response.config;
-        if (config === null || config === void 0 ? void 0 : config.debug) {
+        if (config.debug) {
             stepExport(this, response.data, "debug_response");
         }
-        return (config === null || config === void 0 ? void 0 : config.returnFullResponse) ? response
+        return config.returnFullResponse
+            ? response
             : response.data;
     }, (error) => {
         if (error.response) {
