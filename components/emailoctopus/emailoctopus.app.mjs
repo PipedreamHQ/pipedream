@@ -13,7 +13,6 @@ export default {
         const { data } = await this.getLists({
           page: page + 1,
         });
-
         return data.map((list) => ({
           label: list.name,
           value: list.id,
@@ -35,7 +34,6 @@ export default {
       $, url, path, params, ...otherConfig
     }) {
       const baseUrl = `${constants.BASE_URL}${constants.VERSION_PATH}`;
-
       const config = {
         url: url || `${baseUrl}${path}`,
         params: this._getParams(params),
@@ -48,7 +46,6 @@ export default {
     }) {
       const { limit } = params;
       let count = 0;
-
       do {
         const {
           data,
@@ -60,15 +57,12 @@ export default {
             page,
           },
         });
-
         for (const d of data) {
           yield d;
-
           if (limit && ++count === limit) {
             return count;
           }
         }
-
         page = paging.next && page + 1;
       } while (page);
     },
@@ -82,9 +76,31 @@ export default {
       });
     },
     async getContacts({ params }) {
+      const {
+        listId,
+        ...otherParams
+      } = params;
       return this._makeRequest({
         method: "GET",
-        path: `/lists/${params.listId}/contacts`,
+        path: `/lists/${listId}/contacts`,
+        params: {
+          ...otherParams,
+        },
+      });
+    },
+    getSubscribers({ params }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/lists/${params.listId}/contacts/subscribed`,
+        params: {
+          ...params,
+        },
+      });
+    },
+    getUnsubscribers({ params }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/lists/${params.listId}/contacts/unsubscribed`,
         params: {
           ...params,
         },
@@ -96,6 +112,23 @@ export default {
       return this._makeRequest({
         method: "GET",
         path: `/lists/${listId}/contacts/${contactId}`,
+      });
+    },
+    async createList(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/lists",
+        ...args,
+      });
+    },
+    async addContactToList({
+      listId,
+      ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/lists/${listId}/contacts`,
+        ...args,
       });
     },
   },
