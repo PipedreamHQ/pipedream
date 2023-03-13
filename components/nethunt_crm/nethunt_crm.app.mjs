@@ -130,5 +130,15 @@ export default {
         path,
       });
     },
+    async createRecord({
+      folderId, ...opts
+    }) {
+      const path = `/zapier/actions/create-record/${folderId}`;
+      return this._makeRequest({
+        ...opts,
+        method: "post",
+        path,
+      });
+    },
   },
 };
