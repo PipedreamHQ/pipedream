@@ -2426,6 +2426,16 @@ importers:
     dependencies:
       '@pipedream/platform': 1.3.0
 
+  components/onedesk:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      lodash.pickby: ^4.6.0
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+      lodash.pickby: 4.6.0
+      uuid: 9.0.0
+
   components/onepagecrm:
     specifiers: {}
 
