@@ -8,6 +8,40 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    orgId: {
+      propDefinition: [
+        app,
+        "orgId",
+      ],
+    },
+    networkId: {
+      propDefinition: [
+        app,
+        "networkId",
+        ({ orgId }) => ({
+          orgId,
+        }),
+      ],
+    },
   },
-  async run() {},
+  methods: {
+    getNetwork({
+      networkId, ...args
+    } = {}) {
+      return this.app.makeRequest({
+        path: `/networks/${networkId}`,
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const response = await this.getNetwork({
+      step,
+      networkId: this.networkId,
+    });
+
+    step.export("$summary", `Successfully retrieved network with ID \`${response.id}\``);
+
+    return response;
+  },
 };

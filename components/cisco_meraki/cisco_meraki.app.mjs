@@ -5,10 +5,35 @@ export default {
   type: "app",
   app: "cisco_meraki",
   propDefinitions: {
-    commonProperty: {
+    orgId: {
       type: "string",
-      label: "Common property",
-      description: "[See the docs here](https://example.com)",
+      label: "Organization ID",
+      description: "The ID of the organization",
+      async options() {
+        const organizations = await this.listOrganizations();
+        return organizations.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    networkId: {
+      type: "string",
+      label: "Network ID",
+      description: "The ID of the network",
+      async options({ orgId }) {
+        const networks = await this.listOrganizationNetworks({
+          orgId,
+        });
+        return networks.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
     },
   },
   methods: {
@@ -21,20 +46,18 @@ export default {
     getHeaders(headers) {
       return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "X-Cisco-Meraki-API-Key": this.$auth.api_key,
         ...headers,
       };
     },
     makeRequest({
       step = this, path, headers, url, ...args
     } = {}) {
-
       const config = {
         headers: this.getHeaders(headers),
         url: this.getUrl(path, url),
         ...args,
       };
-
       return axios(step, config);
     },
     create(args = {}) {
@@ -49,15 +72,17 @@ export default {
         ...args,
       });
     },
-    delete(args = {}) {
+    listOrganizations(args = {}) {
       return this.makeRequest({
-        method: "delete",
+        path: "/organizations",
         ...args,
       });
     },
-    patch(args = {}) {
+    listOrganizationNetworks({
+      orgId, ...args
+    } = {}) {
       return this.makeRequest({
-        method: "patch",
+        path: `/organizations/${orgId}/networks`,
         ...args,
       });
     },

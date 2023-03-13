@@ -8,6 +8,30 @@ export default {
   version: "0.0.1",
   props: {
     app,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the organization",
+    },
   },
-  async run() {},
+  methods: {
+    createOrganization(args = {}) {
+      return this.app.create({
+        path: "/organizations",
+        ...args,
+      });
+    },
+  },
+  async run({ $: step }) {
+    const response = await this.createOrganization({
+      step,
+      data: {
+        name: this.name,
+      },
+    });
+
+    step.export("$summary", `Successfully created organization with ID \`${response.id}\``);
+
+    return response;
+  },
 };
