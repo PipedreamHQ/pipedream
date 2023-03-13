@@ -379,5 +379,52 @@ export default {
       const { data } = await this._makeRequest("GET", "/recommendations", params);
       return data;
     },
+    async fetchChunksOfAlbumsIds({
+      artistId,
+      market,
+    }) {
+      const albums = [];
+      const limit = 20;
+      let page = 0;
+      let next = undefined;
+      do {
+        const { data } = await this._makeRequest(
+          "GET",
+          `/artists/${get(artistId, "value", artistId)}/albums`,
+          {
+            market,
+            limit,
+            offset: limit * page,
+            include_groups: "album,single",
+          },
+        );
+        albums.push([
+          ...data.items.map((album) => album.id),
+        ]);
+        next = data.next;
+        page++;
+      } while (next);
+      return albums;
+    },
+    async getAllTracksByChunksOfAlbumIds({
+      chunksOfAlbumIds,
+      market,
+    }) {
+      const tracks = [];
+      for (const albumIds of chunksOfAlbumIds) {
+        const { data } = await this._makeRequest(
+          "GET",
+          "/albums",
+          {
+            market,
+            ids: albumIds.join(","),
+          },
+        );
+        tracks.push([
+          ...data.albums.map((album) => album.tracks.items).flat(),
+        ]);
+      }
+      return tracks.flat();
+    },
   },
 };
