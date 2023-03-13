@@ -139,6 +139,13 @@ export default {
       });
       return +new Date(maxTs[0]?.MAX_TS);
     },
+    async maxTaskHistoryTimestamp() {
+      const sqlText = "SELECT MAX(QUERY_START_TIME) AS max_ts FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())";
+      const maxTs = await this.collectRows({
+        sqlText,
+      });
+      return +new Date(maxTs[0]?.MAX_TS);
+    },
     async listFieldsForTable(tableName) {
       const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
       const binds = [

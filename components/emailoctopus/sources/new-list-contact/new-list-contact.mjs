@@ -1,53 +1,44 @@
-import emailoctopus from "../../emailoctopus.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
   name: "New List Contact",
   key: "emailoctopus-new-list-contact",
   description: "Emit new event each time a contact is added to a list.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
+  ...common,
   props: {
-    emailoctopus,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
+    ...common.props,
     listId: {
       propDefinition: [
-        emailoctopus,
+        common.props.app,
         "listId",
       ],
     },
   },
-  async run() {
-    const params = {
-      listId: this.listId,
-    };
-
-    const contacts = [];
-    const paginator = this.emailoctopus.paginate({
-      fn: this.emailoctopus.getContacts,
-      params,
-    });
-    for await (const contact of paginator) {
-      contacts.push(contact);
-    }
-
-    for (let contact of contacts) {
-      contact = await this.emailoctopus.getContact({
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.app.getContacts;
+    },
+    getResourceFnParams() {
+      return {
         listId: this.listId,
-        contactId: contact.id,
+      };
+    },
+    async getItem(item) {
+      return await this.app.getContact({
+        listId: this.listId,
+        contactId: item.id,
       });
-
-      this.$emit(contact, {
-        id: contact.id,
-        summary: `New contact added - ${contact.fields.FirstName} ${contact.fields.LastName} (${contact.email_address})`,
-        ts: contact.created_at,
-      });
-    }
+    },
+    getMeta(item) {
+      return {
+        id: new Date().getTime(),
+        summary: `New contact added - ${item.fields.FirstName} ${item.fields.LastName} (${item.email_address})`,
+        ts: new Date(item.created_at).getTime(),
+      };
+    },
   },
 };
