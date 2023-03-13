@@ -161,6 +161,7 @@ export default {
     }
     //Performs validation on parameters.
     validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    validate.validators.asmValidator = this.validateAsm; //custom validator for asm object
     //Defines contraints for required parameters
     const constraints = {
       personalizations: {
@@ -194,6 +195,15 @@ export default {
     this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
+    }
+    if (this.asm || this.asmGroupsToDisplay) {
+      constraints.asm = {
+        asmValidator: {
+          asm: this.asm,
+          asmGroupId: this.asmGroupId,
+          asmGroupsToDisplay: this.asmGroupsToDisplay,
+        },
+      };
     }
     //Executes validation
     const validationResult = validate(

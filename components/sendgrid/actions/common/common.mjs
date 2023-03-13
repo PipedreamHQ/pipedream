@@ -48,6 +48,28 @@ export default {
       }
     },
     /**
+     * Checks if the asm object is properly configuroed group_id is
+     * required when groups_to_show is set and returns an error if not set
+     *
+     * @param {asm} ASM object
+     * @param {asmGroupId} asmGroupId param value
+     * @param {asmGroupsToDisplay} asmGroupsToDisplay param value
+     *
+     * @returns {arrayValidatorMsg: string} the validation error if asm.groups_to_display
+     * or asmGroupsToDisplay is set but asm.group_id or asmGroupId is not set
+     */
+    validateAsm(asm, asmGroupId,  asmGroupsToDisplay) {
+      const asmValidatorMsg = "if asm object or asmGroupsToDisplay param is set, group_id key or asmGroupId param is required to be set";
+      if ((asm && asm.groups_to_display) || asmGroupsToDisplay) {
+        // asmGroupsToDisplay or asm.groups_to_display are set, check for asm.group_id or asmGroupId
+        if (asm.group_id || asmGroupId) {
+          return null;
+        }
+        return asmValidatorMsg;
+      }
+      return null;
+    },
+    /**
      * Returns a validation message
      *
      * @param {object} validationResults a validation results object from validate.js library

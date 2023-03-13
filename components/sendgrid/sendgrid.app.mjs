@@ -195,22 +195,29 @@ export default {
       optional: true,
       async options() {
         const asmGroups = await this.listAsmGroups();
-        return asmGroups.map((group) => ({
-          label: group.name,
-          value: group.id,
-        }));
+        if (asmGroups) {
+          return asmGroups.map((group) => ({
+            label: group.name,
+            value: group.id,
+          }));
+        }
+        return undefined;
       },
     },
     asmGroupsToDisplay: {
       type: "integer[]",
       label: "ASM Groups to Display",
-      description: "An array containing the unsubscribe groups that you would like to be displayed on the unsubscribe preferences page.  Will override the value set in the asm param if also set",
+      description: "An array containing the unsubscribe groups that you would like to be displayed on the unsubscribe preferences page.  Will override the value set in the asm param if also set.  Requires asmGroupId set if this is set",
+      optional: true,
       async options() {
         const asmGroups = await this.listAsmGroups();
-        return asmGroups.map((group) => ({
-          label: group.name,
-          value: group.id,
-        }));
+        if (asmGroups) {
+          return asmGroups.map((group) => ({
+            label: group.name,
+            value: group.id,
+          }));
+        }
+        return undefined;
       },
     },
     ipPoolName: {

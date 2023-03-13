@@ -166,6 +166,7 @@ export default {
   async run({ $ }) {
     //Performs validation on parameters.
     validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    validate.validators.asmValidator = this.validateAsm; //custom validator for asm object
     //Defines constraints for required parameters
     const constraints = {
       toEmail: {
@@ -189,6 +190,15 @@ export default {
         arrayValidator: {
           value: this.bcc,
           key: "recipient",
+        },
+      };
+    }
+    if (this.asm || this.asmGroupsToDisplay) {
+      constraints.asm = {
+        asmValidator: {
+          asm: this.asm,
+          asmGroupId: this.asmGroupId,
+          asmGroupsToDisplay: this.asmGroupsToDisplay,
         },
       };
     }
