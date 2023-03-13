@@ -109,6 +109,15 @@ export default {
         path,
       });
     },
+    async findRecordById({
+      folderId, recordId, ...opts
+    }) {
+      const path = `/zapier/searches/find-record/${folderId}?recordId=${recordId}`;
+      return this._makeRequest({
+        ...opts,
+        path,
+      });
+    },
     async findRecords({
       folderId, query, limit, ...opts
     }) {
