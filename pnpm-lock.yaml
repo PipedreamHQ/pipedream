@@ -2230,6 +2230,12 @@ importers:
   components/mode:
     specifiers: {}
 
+  components/mojo_helpdesk:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2701,7 +2707,12 @@ importers:
     specifiers: {}
 
   components/pinecone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      qs: ^6.11.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+      qs: 6.11.1
 
   components/pinterest:
     specifiers:
@@ -8935,7 +8946,7 @@ packages:
     engines: {node: '>=14.2.0'}
     dependencies:
       form-data: 4.0.0
-      qs: 6.11.0
+      qs: 6.11.1
       xcase: 2.0.1
     dev: false
 
@@ -23360,7 +23371,7 @@ packages:
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 18.0.6
-      qs: 6.11.0
+      qs: 6.11.1
     dev: false
 
   /strnum/1.0.5:
