@@ -3,11 +3,11 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "linear_app-issue-created-instant",
-  name: "New Created Issue (Instant)",
-  description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  key: "linear_app-new-issue-status-updated",
+  name: "New Issue Status Updated (Instant)",
+  description: "Emit new event when the status of an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.2.6",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -17,14 +17,14 @@ export default {
       ];
     },
     getWebhookLabel() {
-      return "Issue created";
+      return "Issue status updated";
     },
     getResourcesFn() {
       return this.linearApp.listIssues;
     },
     getResourcesFnArgs() {
       return {
-        sortBy: "createdAt",
+        sortBy: "updatedAt",
         filter: {
           team: {
             id: {
@@ -40,19 +40,19 @@ export default {
       };
     },
     isRelevant(body) {
-      return body?.action === "create";
+      return body?.updatedFrom?.stateId;
     },
     getMetadata(resource) {
       const {
         delivery,
         title,
         data,
-        createdAt,
+        updatedAt,
       } = resource;
       return {
         id: delivery || resource.id,
-        summary: `Issue created: ${data?.title || title}`,
-        ts: Date.parse(createdAt),
+        summary: `Issue status updated: ${data?.title || title}`,
+        ts: Date.parse(updatedAt),
       };
     },
   },
