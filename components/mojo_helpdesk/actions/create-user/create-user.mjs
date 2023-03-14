@@ -37,9 +37,7 @@ export default {
       email: this.email,
       first_name: this.firstName,
       last_name: this.lastName,
-      send_welcome_email: this.sendWelcomeEmail
-        ? 1
-        : 0,
+      send_welcome_email: +this.sendWelcomeEmail,
     };
 
     const response = await this.mojoHelpdesk.createUser({
