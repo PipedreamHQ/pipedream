@@ -116,7 +116,6 @@ export default {
         }),
         ...args,
       };
-      console.log("config!!!", config);
 
       return axios(step, config);
     },
