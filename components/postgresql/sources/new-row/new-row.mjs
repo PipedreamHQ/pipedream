@@ -39,6 +39,7 @@ export default {
           rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
+      description: "An ID or timestamp column where new rows will always contain larger values than the previous row. Defaults to the table's primary key.",
       optional: true,
     },
   },
@@ -50,6 +51,8 @@ export default {
         ? this.column
         : await this.postgresql.getPrimaryKey(this.table, this.schema, this.rejectUnauthorized);
       this._setColumn(column);
+
+      await this.initialRows(this.schema, this.table, column);
     },
   },
   methods: {
@@ -75,6 +78,6 @@ export default {
       throw new Error("The column selected contains duplicate values. Column must be unique");
     }
 
-    await this.newRows(this.schema, this.table, column, false);
+    await this.newRows(this.schema, this.table, column);
   },
 };
