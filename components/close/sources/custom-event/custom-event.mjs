@@ -5,7 +5,7 @@ export default {
   key: "close-custom-source",
   name: "New Custom Event",
   description: "Emit new event when configured type of events triggered, [See all possibilities](https://developer.close.com/resources/event-log/list-of-events/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
