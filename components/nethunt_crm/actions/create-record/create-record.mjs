@@ -17,12 +17,12 @@ export default {
     timeZone: {
       type: "string",
       label: "Time Zone",
-      description: "The user time zone.",
+      description: "The user time zone. Refer to the Timezone database name [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)",
     },
     fields: {
       type: "object",
       label: "Fields",
-      description: "The name and values to set on the record.",
+      description: "The name and values to set on the record. You can use Get Record action to get a record of the same record type to know which fields are available.",
     },
   },
   async run({ $ }) {
