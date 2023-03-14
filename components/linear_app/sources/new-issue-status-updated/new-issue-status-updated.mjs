@@ -3,11 +3,11 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "linear_app-issue-updated-instant",
-  name: "New Updated Issue (Instant)",
-  description: "Emit new event when an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  key: "linear_app-new-issue-status-updated",
+  name: "New Issue Status Updated (Instant)",
+  description: "Emit new event when the status of an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.2.6",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -17,7 +17,7 @@ export default {
       ];
     },
     getWebhookLabel() {
-      return "Issue updated";
+      return "Issue status updated";
     },
     getResourcesFn() {
       return this.linearApp.listIssues;
@@ -39,6 +39,9 @@ export default {
         },
       };
     },
+    isRelevant(body) {
+      return body?.updatedFrom?.stateId;
+    },
     getMetadata(resource) {
       const {
         delivery,
@@ -48,7 +51,7 @@ export default {
       } = resource;
       return {
         id: delivery || resource.id,
-        summary: `Issue Updated: ${data?.title || title}`,
+        summary: `Issue status updated: ${data?.title || title}`,
         ts: Date.parse(updatedAt),
       };
     },
