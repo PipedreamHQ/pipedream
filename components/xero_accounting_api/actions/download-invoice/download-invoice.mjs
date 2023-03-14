@@ -1,12 +1,12 @@
 // legacy_hash_id: a_k6irBN
 import fs from "fs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "xero_accounting_api-download-invoice",
   name: "Download Invoice",
   description: "Downloads an invoice as pdf file. File will be placed at the action's associated workflow temporary folder.",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     xero_accounting_api: {
@@ -30,7 +30,7 @@ export default {
       throw new Error("Must provide tenant_id, invoice_id parameters.");
     }
 
-    const resp = await axios({
+    const data = await axios($, {
       url: `https://api.xero.com/api.xro/2.0/Invoices/${this.invoice_id}`,
       headers: {
         "Authorization": `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
@@ -40,7 +40,7 @@ export default {
       responseType: "arraybuffer",
     });
 
-    const invoicePdf = resp.data.toString("base64");
+    const invoicePdf = data.toString("base64");
     const buffer = Buffer.from(invoicePdf, "base64");
     const tmpDir = "/tmp";
     const invoicePath = `${tmpDir}/${this.invoice_id}.pdf`;

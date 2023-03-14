@@ -9,7 +9,7 @@ export default {
     Creates an SNS topic in your AWS account.
     Messages published to this topic are emitted from the Pipedream source.
   `),
-  version: "0.3.0",
+  version: "0.4.0",
   type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {

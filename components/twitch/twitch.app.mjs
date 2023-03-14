@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 import qs from "qs";
 
@@ -65,8 +65,9 @@ export default {
         paramsSerializer: {
           serializer: this._getParamsSerializer(params),
         },
+        returnFullResponse: true,
       };
-      return await axios(config);
+      return axios(this, config);
     },
     // Uses Twitch API to create or delete webhook subscriptions.
     // Set mode to "subscribe" to create a webhook and "unsubscribe" to delete it.
