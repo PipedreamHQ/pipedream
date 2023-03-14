@@ -40,13 +40,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      id: this.id,
-      commission: this.commission,
-      status: this.status,
-      currency: this.currency,
-    };
-    const res = await this.app.createManualCommissionCredit(data, $);
+    const {
+      app,
+      ...data
+    } = this;
+    const res = await app.createManualCommissionCredit(data, $);
     $.export("$summary", `Manual Commission credit successfully created with id ${res.conversion_id}`);
     return res;
   },

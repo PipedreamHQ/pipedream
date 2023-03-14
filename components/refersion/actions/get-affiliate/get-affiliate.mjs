@@ -10,10 +10,10 @@ export default {
   props: {
     app,
     id: {
-      type: "string",
-      label: "Id",
-      description: "The affiliate's ID",
-      optional: true,
+      propDefinition: [
+        app,
+        "affiliateId",
+      ],
     },
     affiliateCode: {
       type: "string",
