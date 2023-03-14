@@ -38,6 +38,6 @@ export default {
     });
 
     this._setSince(nextSince);
-    this.emitEvents(data);
+    this.emitEvents(data.reverse());
   },
 };
