@@ -1971,15 +1971,19 @@ importers:
 
   components/linear:
     specifiers:
-      '@linear/sdk': ^2.0.0
+      '@linear/sdk': ^2.6.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@linear/sdk': 2.0.0
+      '@linear/sdk': 2.6.0
+      '@pipedream/platform': 1.3.0
 
   components/linear_app:
     specifiers:
-      '@linear/sdk': ^2.0.0
+      '@linear/sdk': ^2.6.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@linear/sdk': 2.0.0
+      '@linear/sdk': 2.6.0
+      '@pipedream/platform': 1.3.0
 
   components/linkedin:
     specifiers:
@@ -9792,8 +9796,8 @@ packages:
       - supports-color
     dev: false
 
-  /@linear/sdk/2.0.0:
-    resolution: {integrity: sha512-IYBjjgT4br6LfJVW1xztC9X3UVM+a+IqaE4kYw1z9nadw9osdlEZGdovPDC+CBTx5p88XSTKGAls5HAJEa2ZMg==}
+  /@linear/sdk/2.6.0:
+    resolution: {integrity: sha512-L7Bsd5Ooa+RusZ6Y1yuzsq3NnrSOqHbhZHvdY+anNTOEtFPKonFCNeUdWXpBlyM21rzx7MWq+TfjtMo9dbxxPQ==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
