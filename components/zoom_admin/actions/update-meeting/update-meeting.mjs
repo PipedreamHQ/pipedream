@@ -9,7 +9,7 @@ const { MEETING_TYPE_OPTIONS } = consts;
 export default {
   name: "Update a meeting",
   description: "Update the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
-  key: "zoom_admin-update-a-meeting",
+  key: "zoom_admin-update-meeting",
   version: "0.1.0",
   type: "action",
   props: {
