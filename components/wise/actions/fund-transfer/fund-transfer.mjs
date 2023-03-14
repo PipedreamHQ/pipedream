@@ -24,10 +24,8 @@ export default {
   async run({ $ }) {
     const response = await this.wise.fundTransfer({
       $,
-      data: {
-        profileId: this.profileId,
-        transferId: this.transferId,
-      },
+      profileId: this.profileId,
+      transferId: this.transferId,
     });
 
     if (response) {
