@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airtable",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "description": "Pipedream Airtable Components",
   "main": "airtable.app.mjs",
   "keywords": [
@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "airtable": "^0.11.1",
-    "axios": "^0.21.1",
     "bottleneck": "^2.19.5",
     "lodash": "^4.17.21",
     "lodash.chunk": "^4.2.0",
     "lodash.isempty": "^4.4.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "@pipedream/platform": "^1.4.0"
   }
 }
