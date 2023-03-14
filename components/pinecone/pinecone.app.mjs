@@ -17,7 +17,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of the project. E.g. `d1b2385`",
+      description: "The ID of the project. You can get the project from the Pinecone URL, for example https://app.pinecone.io/organizations/abcde/projects/us-east-1-aws:611e7f9/indexes, then the Project ID is `611e7f9`",
     },
     vectorId: {
       type: "string",
