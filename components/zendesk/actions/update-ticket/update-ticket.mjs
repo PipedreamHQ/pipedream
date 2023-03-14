@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the docs](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     app,
     ticketId: {
@@ -38,6 +38,12 @@ export default {
         "ticketStatus",
       ],
     },
+    customSubdomain: {
+      propDefinition: [
+        app,
+        "customSubdomain",
+      ],
+    },
   },
   methods: {
     updateTicket({
@@ -56,11 +62,13 @@ export default {
       ticketPriority,
       ticketSubject,
       ticketStatus,
+      customSubdomain,
     } = this;
 
     const response = await this.updateTicket({
       step,
       ticketId,
+      customSubdomain,
       data: {
         ticket: {
           comment: {

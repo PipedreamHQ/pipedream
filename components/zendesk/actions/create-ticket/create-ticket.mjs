@@ -5,7 +5,7 @@ export default {
   name: "Create Ticket",
   description: "Creates a ticket. [See the docs](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#create-ticket).",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     app,
     ticketCommentBody: {
@@ -32,6 +32,12 @@ export default {
         "ticketStatus",
       ],
     },
+    customSubdomain: {
+      propDefinition: [
+        app,
+        "customSubdomain",
+      ],
+    },
   },
   methods: {
     createTicket(args = {}) {
@@ -47,10 +53,12 @@ export default {
       ticketPriority,
       ticketSubject,
       ticketStatus,
+      customSubdomain,
     } = this;
 
     const response = await this.createTicket({
       step,
+      customSubdomain,
       data: {
         ticket: {
           comment: {
