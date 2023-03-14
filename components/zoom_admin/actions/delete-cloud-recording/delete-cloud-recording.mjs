@@ -6,8 +6,8 @@ import consts from "../../consts.mjs";
 export default {
   name: "Delete Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
-  key: "zoom_admin-action-delete-cloud-recording",
-  version: "0.1.0",
+  key: "zoom_admin-delete-cloud-recording",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,

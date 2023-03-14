@@ -6,8 +6,8 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "List webinar registrants",
   description: "List all users that have registered for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
-  key: "zoom_admin-action-list-webinar-registrants",
-  version: "0.1.0",
+  key: "zoom_admin-list-webinar-registrants",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
