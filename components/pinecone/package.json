@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/pinecone",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Pinecone Components",
-  "main": "dist/app/pinecone.app.mjs",
+  "main": "pinecone.app.mjs",
   "keywords": [
     "pipedream",
     "pinecone"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/pinecone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0",
+    "qs": "^6.11.1"
+  },
   "publishConfig": {
     "access": "public"
   }
