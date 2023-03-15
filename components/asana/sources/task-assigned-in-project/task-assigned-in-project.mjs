@@ -57,7 +57,7 @@ export default {
       const promises = events
         .filter(({ change }) =>
           !change.new_value
-          || (user.length > 0 && change.new_value.gid === user))
+          || (user?.length > 0 && change.new_value.gid === user))
         .map(async (event) => ({
           event,
           task: await this.asana.getTask(event.resource.gid),
