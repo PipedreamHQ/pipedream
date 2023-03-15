@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
@@ -40,13 +40,13 @@ export default {
       return this.$auth.oauth_uid;
     },
     async sendMessage({
-      content, embeds, username, avatarURL, threadID,
+      $ = this, content, embeds, username, avatarURL, threadID,
     }) {
       const serializedContent = (typeof content !== "string")
         ? JSON.stringify(content)
         : content;
       if (!threadID) threadID = undefined;
-      const resp = await axios({
+      const resp = await axios($, {
         method: "POST",
         url: this.url(),
         headers: {
@@ -62,6 +62,7 @@ export default {
           username,
           avatar_url: avatarURL,
         },
+        returnFullResponse: true,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));
@@ -69,7 +70,7 @@ export default {
       return resp.data;
     },
     async sendMessageWithFile({
-      content, username, avatarURL, embeds, threadID, file,
+      $ = this, content, username, avatarURL, embeds, threadID, file,
     }) {
       const data = new FormData();
       const serializedContent = (typeof content !== "string")
@@ -83,7 +84,7 @@ export default {
       }));
       if (file) data.append("file", file);
       if (!threadID) threadID = undefined;
-      const resp = await axios({
+      const resp = await axios($, {
         method: "POST",
         url: this.url(),
         headers: {
@@ -95,6 +96,7 @@ export default {
         },
         data,
         file,
+        returnFullResponse: true,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));

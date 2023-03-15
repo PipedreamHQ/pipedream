@@ -32,6 +32,12 @@ export default {
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
     },
+    isFromProject(body) {
+      return !this.projectId || body?.data?.projectId == this.projectId;
+    },
+    isRelevant() {
+      return true;
+    },
     getResourceTypes() {
       throw new Error("getResourceTypes is not implemented");
     },
@@ -104,6 +110,10 @@ export default {
 
     if (!this.isWebhookValid(clientIp)) {
       console.log("Webhook is not valid");
+      return;
+    }
+
+    if (!this.isFromProject(body) || !this.isRelevant(body)) {
       return;
     }
 

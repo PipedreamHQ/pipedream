@@ -5,7 +5,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "pinterest-create-pin",
-  version: "0.0.2",
+  version: "0.1.0",
   name: "Create a Pin",
   description: "Create a Pin on a board or board section, [See the docs](https://developers.pinterest.com/docs/api/v5/#operation/pins/create)",
   props: {
