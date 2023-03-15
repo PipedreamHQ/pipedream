@@ -31,7 +31,6 @@ export default {
       ],
       label: "Unblock Reason",
       description: "The unblock reason.",
-      optional: true,
     },
   },
   async run({ $ }) {
