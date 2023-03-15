@@ -1574,6 +1574,24 @@
     },
     {
       "path": "components/cheddar"
+    },
+    {
+      "path": "components/cisco_meraki"
+    },
+    {
+      "path": "components/bulkgate"
+    },
+    {
+      "path": "components/cascade_strategy"
+    },
+    {
+      "path": "components/sitecreator_io"
+    },
+    {
+      "path": "components/idx_broker"
+    },
+    {
+      "path": "components/rytr"
     }
   ]
 }

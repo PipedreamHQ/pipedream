@@ -13,12 +13,22 @@ export default {
         "categoryId",
       ],
     },
+    customSubdomain: {
+      propDefinition: [
+        app,
+        "customSubdomain",
+      ],
+    },
   },
   hooks: {
     async activate() {
-      const { categoryId } = this;
+      const {
+        categoryId,
+        customSubdomain,
+      } = this;
 
       const { webhook } = await this.createWebhook({
+        customSubdomain,
         data: this.setupWebhookData(),
       });
 
@@ -26,6 +36,7 @@ export default {
       this.setWebhookId(webhookId);
 
       const { signing_secret: signingSecret } = await this.showWebhookSigningSecret({
+        customSubdomain,
         webhookId,
       });
 
@@ -33,6 +44,7 @@ export default {
       this.setSigningSecret(secret);
 
       const { trigger } = await this.createTrigger({
+        customSubdomain,
         data: this.setupTriggerData({
           webhookId,
           categoryId,
@@ -43,11 +55,14 @@ export default {
       this.setTriggerId(String(triggerId));
     },
     async deactivate() {
+      const { customSubdomain } = this;
       await Promise.all([
         this.deleteTrigger({
+          customSubdomain,
           triggerId: this.getTriggerId(),
         }),
         this.deleteWebhook({
+          customSubdomain,
           webhookId: this.getWebhookId(),
         }),
       ]);

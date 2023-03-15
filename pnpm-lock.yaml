@@ -147,16 +147,16 @@ importers:
 
   components/airtable:
     specifiers:
+      '@pipedream/platform': ^1.4.0
       airtable: ^0.11.1
-      axios: ^0.21.1
       bottleneck: ^2.19.5
       lodash: ^4.17.21
       lodash.chunk: ^4.2.0
       lodash.isempty: ^4.4.0
       moment: ^2.29.1
     dependencies:
+      '@pipedream/platform': 1.4.0
       airtable: 0.11.4
-      axios: 0.21.4
       bottleneck: 2.19.5
       lodash: 4.17.21
       lodash.chunk: 4.2.0
@@ -314,7 +314,7 @@ importers:
       '@aws-sdk/client-ssm': ^3.58.0
       '@aws-sdk/client-sts': ^3.58.0
       '@pipedream/helper_functions': ^0.3.6
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
       mailparser-mit: ^1.0.0
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.131.0
@@ -332,7 +332,7 @@ importers:
       '@aws-sdk/client-ssm': 3.231.0
       '@aws-sdk/client-sts': 3.131.0
       '@pipedream/helper_functions': 0.3.8
-      '@pipedream/platform': 1.2.1
+      '@pipedream/platform': 1.4.0
       mailparser-mit: 1.0.0
 
   components/azure_devops:
@@ -458,10 +458,10 @@ importers:
 
   components/brex:
     specifiers:
-      axios: ^0.25.0
+      '@pipedream/platform': ^1.4.0
       uuid: ^8.3.2
     dependencies:
-      axios: 0.25.0
+      '@pipedream/platform': 1.4.0
       uuid: 8.3.2
 
   components/brex_staging:
@@ -477,10 +477,21 @@ importers:
   components/brosix:
     specifiers: {}
 
+  components/browserless:
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+      puppeteer-core: ^19.7.5
+    dependencies:
+      '@pipedream/platform': 1.4.0
+      puppeteer-core: 19.7.5
+
   components/bugsnag:
     specifiers: {}
 
   components/builder_io:
+    specifiers: {}
+
+  components/bulkgate:
     specifiers: {}
 
   components/burst_sms:
@@ -540,6 +551,9 @@ importers:
   components/cartes:
     specifiers: {}
 
+  components/cascade_strategy:
+    specifiers: {}
+
   components/cdc_national_environmental_public_health_tracking:
     specifiers: {}
 
@@ -582,13 +596,19 @@ importers:
   components/circle:
     specifiers: {}
 
+  components/cisco_meraki:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/cisco_webex:
     specifiers:
-      axios: ^0.26.1
+      '@pipedream/platform': ^1.4.0
       crypto: ^1.0.1
       uuid: ^8.3.2
     dependencies:
-      axios: 0.26.1
+      '@pipedream/platform': 1.4.0
       crypto: 1.0.1
       uuid: 8.3.2
 
@@ -636,9 +656,9 @@ importers:
 
   components/close:
     specifiers:
-      axios: ^0.27.2
+      '@pipedream/platform': ^1.4.0
     dependencies:
-      axios: 0.27.2
+      '@pipedream/platform': 1.4.0
 
   components/cloudcart:
     specifiers: {}
@@ -713,11 +733,9 @@ importers:
 
   components/confection:
     specifiers:
-      '@pipedream/platform': ^1.2.0
-      axios: ^0.23.0
+      '@pipedream/platform': ^1.4.0
     dependencies:
-      '@pipedream/platform': 1.2.0
-      axios: 0.23.0
+      '@pipedream/platform': 1.4.0
 
   components/confluent:
     specifiers: {}
@@ -914,7 +932,10 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/discord:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+    dependencies:
+      '@pipedream/platform': 1.4.0
 
   components/discord_bot:
     specifiers:
@@ -926,14 +947,23 @@ importers:
 
   components/discord_webhook:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.4.0
       form-data: ^4.0.0
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.4.0
       form-data: 4.0.0
 
   components/discourse:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+      lodash.get: ^4.4.2
+      lodash.sortby: ^4.7.0
+      nanoid: ^4.0.1
+    dependencies:
+      '@pipedream/platform': 1.4.0
+      lodash.get: 4.4.2
+      lodash.sortby: 4.7.0
+      nanoid: 4.0.1
 
   components/dispatch:
     specifiers: {}
@@ -1031,9 +1061,9 @@ importers:
 
   components/emailoctopus:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.3.0
 
   components/emelia:
     specifiers: {}
@@ -1509,14 +1539,12 @@ importers:
   components/google_drive:
     specifiers:
       '@googleapis/drive': ^2.3.0
-      '@pipedream/platform': ^1.2.0
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.4.0
       mime-db: ^1.51.0
       uuid: ^8.3.2
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.2.0
-      axios: 0.21.4
+      '@pipedream/platform': 1.4.0
       mime-db: 1.52.0
       uuid: 8.3.2
 
@@ -1535,13 +1563,11 @@ importers:
   components/google_sheets:
     specifiers:
       '@googleapis/sheets': ^0.3.0
-      '@pipedream/platform': ^0.10.0
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.4.0
       uuidv4: ^6.2.6
     dependencies:
       '@googleapis/sheets': 0.3.0
-      '@pipedream/platform': 0.10.0
-      axios: 0.21.4
+      '@pipedream/platform': 1.4.0
       uuidv4: 6.2.13
 
   components/google_slides:
@@ -1724,6 +1750,9 @@ importers:
     specifiers: {}
 
   components/idealspot:
+    specifiers: {}
+
+  components/idx_broker:
     specifiers: {}
 
   components/ifttt:
@@ -1959,15 +1988,19 @@ importers:
 
   components/linear:
     specifiers:
-      '@linear/sdk': ^2.0.0
+      '@linear/sdk': ^2.6.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@linear/sdk': 2.0.0
+      '@linear/sdk': 2.6.0
+      '@pipedream/platform': 1.3.0
 
   components/linear_app:
     specifiers:
-      '@linear/sdk': ^2.0.0
+      '@linear/sdk': ^2.6.0
+      '@pipedream/platform': ^1.3.0
     dependencies:
-      '@linear/sdk': 2.0.0
+      '@linear/sdk': 2.6.0
+      '@pipedream/platform': 1.3.0
 
   components/linkedin:
     specifiers:
@@ -2204,6 +2237,12 @@ importers:
   components/mode:
     specifiers: {}
 
+  components/mojo_helpdesk:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2292,14 +2331,20 @@ importers:
     dependencies:
       '@pipedream/platform': 1.1.1
 
+  components/nethunt_crm:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/netlify:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.4.0
       jwt-simple: ^0.5.6
       netlify: ^6.0.9
       parse-link-header: ^1.0.1
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.4.0
       jwt-simple: 0.5.6
       netlify: 6.1.29
       parse-link-header: 1.0.1
@@ -2443,6 +2488,16 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.3.0
+
+  components/onedesk:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      lodash.pickby: ^4.6.0
+      uuid: ^9.0.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+      lodash.pickby: 4.6.0
+      uuid: 9.0.0
 
   components/onepagecrm:
     specifiers: {}
@@ -2671,30 +2726,31 @@ importers:
     specifiers: {}
 
   components/pinecone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+      qs: ^6.11.1
+    dependencies:
+      '@pipedream/platform': 1.3.0
+      qs: 6.11.1
 
   components/pinterest:
     specifiers:
-      '@pipedream/platform': ^0.10.0
-      axios: ^0.27.2
+      '@pipedream/platform': ^1.4.0
       js-base64: ^3.7.2
       mime-types: ^2.1.35
       url-exist: ^3.0.0
     dependencies:
-      '@pipedream/platform': 0.10.0
-      axios: 0.27.2
+      '@pipedream/platform': 1.4.0
       js-base64: 3.7.2
       mime-types: 2.1.35
       url-exist: 3.0.0
 
   components/pipedream:
     specifiers:
-      axios: ^0.21.1
-      convert-array-to-csv: ^2.0.0
+      '@pipedream/platform': ^1.4.0
       uuidv4: ^6.2.13
     dependencies:
-      axios: 0.21.4
-      convert-array-to-csv: 2.0.0
+      '@pipedream/platform': 1.4.0
       uuidv4: 6.2.13
 
   components/pipedrive:
@@ -2893,6 +2949,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.3.0
 
+  components/pushover:
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.3.0
+
   components/pushshift_reddit_search:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3016,13 +3078,13 @@ importers:
 
   components/reddit:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
       async-retry: ^1.3.3
       axios: ^0.27.2
       lodash: ^4.17.21
       qs: ^6.11.0
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
       async-retry: 1.3.3
       axios: 0.27.2
       lodash: 4.17.21
@@ -3134,20 +3196,18 @@ importers:
   components/rss:
     specifiers:
       '@pipedream/helpers': ^1.3.9
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
       '@types/axios': ^0.14.0
       '@types/feedparser': ^2.2.5
       '@types/node': ^17.0.36
       '@types/object-hash': ^2.2.1
-      axios: ^0.27.2
       feedparser: ^2.2.10
       object-hash: ^3.0.0
       rss-parser: ^3.12.0
       string-to-stream: ^3.0.1
     dependencies:
       '@pipedream/helpers': 1.3.12
-      '@pipedream/platform': 1.2.0
-      axios: 0.27.2
+      '@pipedream/platform': 1.4.0
       feedparser: 2.2.10
       object-hash: 3.0.0
       rss-parser: 3.12.0
@@ -3162,6 +3222,9 @@ importers:
     specifiers: {}
 
   components/rudderstack_transformation:
+    specifiers: {}
+
+  components/rytr:
     specifiers: {}
 
   components/ryver:
@@ -3299,11 +3362,11 @@ importers:
 
   components/sentry:
     specifiers:
-      axios: ^0.21.1
+      '@pipedream/platform': ^1.4.0
       parse-link-header: ^1.0.1
       slugify: ^1.4.6
     dependencies:
-      axios: 0.21.4
+      '@pipedream/platform': 1.4.0
       parse-link-header: 1.0.1
       slugify: 1.6.5
 
@@ -3450,6 +3513,9 @@ importers:
   components/simpletexting:
     specifiers: {}
 
+  components/sitecreator_io:
+    specifiers: {}
+
   components/siteleaf:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -3593,9 +3659,9 @@ importers:
 
   components/spotify:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
 
   components/square:
     specifiers:
@@ -4049,14 +4115,12 @@ importers:
 
   components/twitch:
     specifiers:
-      '@pipedream/platform': ^1.2.0
-      axios: ^0.27.2
+      '@pipedream/platform': ^1.4.0
       crypto: ^1.0.1
       qs: ^6.10.5
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 1.2.0
-      axios: 0.27.2
+      '@pipedream/platform': 1.4.0
       crypto: 1.0.1
       qs: 6.11.0
       uuid: 8.3.2
@@ -4206,8 +4270,10 @@ importers:
 
   components/verifalia:
     specifiers:
+      '@pipedream/platform': ^1.4.0
       verifalia: 3.2.2
     dependencies:
+      '@pipedream/platform': 1.4.0
       verifalia: 3.2.2
 
   components/verifybee:
@@ -4442,9 +4508,9 @@ importers:
 
   components/xero_accounting_api:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
 
   components/xperiencify:
     specifiers:
@@ -4613,10 +4679,12 @@ importers:
 
   components/zoom_admin:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
+      lodash: ^4.17.21
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
+      lodash: 4.17.21
       uuid: 8.3.2
 
   components/zulip:
@@ -8905,7 +8973,7 @@ packages:
     engines: {node: '>=14.2.0'}
     dependencies:
       form-data: 4.0.0
-      qs: 6.11.0
+      qs: 6.11.1
       xcase: 2.0.1
     dev: false
 
@@ -9764,8 +9832,8 @@ packages:
       - supports-color
     dev: false
 
-  /@linear/sdk/2.0.0:
-    resolution: {integrity: sha512-IYBjjgT4br6LfJVW1xztC9X3UVM+a+IqaE4kYw1z9nadw9osdlEZGdovPDC+CBTx5p88XSTKGAls5HAJEa2ZMg==}
+  /@linear/sdk/2.6.0:
+    resolution: {integrity: sha512-L7Bsd5Ooa+RusZ6Y1yuzsq3NnrSOqHbhZHvdY+anNTOEtFPKonFCNeUdWXpBlyM21rzx7MWq+TfjtMo9dbxxPQ==}
     engines: {node: '>=12.x', yarn: 1.x}
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
@@ -10062,7 +10130,7 @@ packages:
   /@pipedream/helper_functions/0.3.7:
     resolution: {integrity: sha512-pWU8IkdqmOrdtElc1N9WUVtY+GuuOFDuGJjfC+kF81+bGmGYV7hL4bd1jLFy8Ka5zs+FO48FEAPQeQDJ/b34kQ==}
     dependencies:
-      '@pipedream/platform': 1.3.0
+      '@pipedream/platform': 1.4.0
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -10072,7 +10140,7 @@ packages:
   /@pipedream/helper_functions/0.3.8:
     resolution: {integrity: sha512-0hktyMN6jc9F3JLR+1YdWwxOfo1EwakHh04/ml8MWr76cS9bF+v46Br0rt9W2ZHpM6UGb8EeR/sAze9IHLE3Jg==}
     dependencies:
-      '@pipedream/platform': 1.3.0
+      '@pipedream/platform': 1.4.0
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -10151,6 +10219,17 @@ packages:
 
   /@pipedream/platform/1.3.0:
     resolution: {integrity: sha512-HkuQNlzSUa9IPq2XPKPGorQz8JqfwaC0FK2n2hU62YXNUn/V7ZUSz1cVzm3lYCsiUr6kLJ6Cjz3ZcIiV9yCbfw==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.4.0:
+    resolution: {integrity: sha512-ZFiSecfg1Dt4vRgHeKUGBz/1T1JswdcckZB6sZ72iQPvrmgLN9h3t+nJ9VQ3RVV8RlG9hs/A83TTI1+dI6Hq4Q==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
@@ -12254,6 +12333,14 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
+  /@types/yauzl/2.10.0:
+    resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
+    requiresBuild: true
+    dependencies:
+      '@types/node': 18.0.6
+    dev: false
+    optional: true
+
   /@typescript-eslint/eslint-plugin/5.30.7_j3fwdls2rzb3mq7xmqckumqsle:
     resolution: {integrity: sha512-l4L6Do+tfeM2OK0GJsU7TUcM/1oN/N25xHm3Jb4z3OiDU4Lj8dIuxX9LpVMS9riSXQs42D1ieX7b85/r16H9Fw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -12901,14 +12988,6 @@ packages:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
       follow-redirects: 1.15.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios/0.23.0:
-    resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
-    dependencies:
-      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -13611,10 +13690,23 @@ packages:
     dev: false
     optional: true
 
+  /chownr/1.1.4:
+    resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+    dev: false
+
   /chownr/2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
     dev: true
+
+  /chromium-bidi/0.4.5_6o5gdkn34s2j2m26x63ssheuqa:
+    resolution: {integrity: sha512-rkav9YzRfAshSTG3wNXF7P7yNiI29QAo1xBXElPoCoSQR5n20q3cOyVhDv6S7+GlF/CJ/emUxlQiR0xOPurkGg==}
+    peerDependencies:
+      devtools-protocol: '*'
+    dependencies:
+      devtools-protocol: 0.0.1094867
+      mitt: 3.0.0
+    dev: false
 
   /ci-info/2.0.0:
     resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==}
@@ -13966,10 +14058,6 @@ packages:
   /content-type/1.0.5:
     resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
     engines: {node: '>= 0.6'}
-    dev: false
-
-  /convert-array-to-csv/2.0.0:
-    resolution: {integrity: sha512-dxUINCt28k6WbXGMoB+AaKjGY0Y6GkKwZmT+kvD4nJgVCOKsnIQ3G6n0v2II1lG4NwXQk6EWZ+pPDub9wcqqMg==}
     dev: false
 
   /convert-source-map/1.8.0:
@@ -14569,6 +14657,10 @@ packages:
       typescript: 3.9.10
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /devtools-protocol/0.0.1094867:
+    resolution: {integrity: sha512-pmMDBKiRVjh0uKK6CT1WqZmM3hBVSgD+N2MrgyV1uNizAZMw4tx6i/RTc+/uCsKSCmg0xXx7arCP/OFcIwTsiQ==}
     dev: false
 
   /dezalgo/1.0.3:
@@ -15421,6 +15513,20 @@ packages:
     resolution: {integrity: sha512-CvdFfHkC95B4bBBk36hcEmvdR2awOdhhVUYH6S/zrVj3477zven/fJMYg7121h4T1xHZC+tetUpubpAhxwI7hQ==}
     engines: {node: ^10.17.0 || ^12.0.0 || >= 13.7.0}
 
+  /extract-zip/2.0.1:
+    resolution: {integrity: sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==}
+    engines: {node: '>= 10.17.0'}
+    hasBin: true
+    dependencies:
+      debug: 4.3.4
+      get-stream: 5.2.0
+      yauzl: 2.10.0
+    optionalDependencies:
+      '@types/yauzl': 2.10.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /extsprintf/1.3.0:
     resolution: {integrity: sha512-11Ndz7Nv+mvAC1j0ktTa7fAb0vLyGGX+rMHNBYQviQDGU0Hw7lhctJANqbPhu9nV9/izT/IntTgZ7Im/9LJs9g==}
     engines: {'0': node >=0.6.0}
@@ -15515,6 +15621,12 @@ packages:
     dependencies:
       bser: 2.1.1
     dev: true
+
+  /fd-slicer/1.1.0:
+    resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
+    dependencies:
+      pend: 1.2.0
+    dev: false
 
   /fecha/4.2.3:
     resolution: {integrity: sha512-OP2IUU6HeYKJi3i0z4A19kHMQoLVs4Hc+DPqqxI2h/DPZHTm/vjsfC6P0b4jCMy14XizLBqvndQ+UilD7707Jw==}
@@ -16180,6 +16292,16 @@ packages:
       inherits: 2.0.4
       minimatch: 5.1.0
       once: 1.4.0
+    dev: false
+
+  /glob/9.3.0:
+    resolution: {integrity: sha512-EAZejC7JvnQINayvB/7BJbpZpNOJ8Lrw2OZNEvQxe0vaLn1SuwMcfV7/MNaX8L/T0wmptBFI4YMtDvSBxYDc7w==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      fs.realpath: 1.0.0
+      minimatch: 7.4.2
+      minipass: 4.2.5
+      path-scurry: 1.6.1
     dev: false
 
   /global-dirs/3.0.0:
@@ -19276,6 +19398,11 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lru-cache/7.18.3:
+    resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /lru-memoizer/2.1.4:
     resolution: {integrity: sha512-IXAq50s4qwrOBrXJklY+KhgZF+5y98PDaNo0gi/v2KQBFLyWr+JyFvijZXkGKjQj/h9c0OwoE+JZbwUXce76hQ==}
     dependencies:
@@ -19973,6 +20100,13 @@ packages:
       brace-expansion: 2.0.1
     dev: false
 
+  /minimatch/7.4.2:
+    resolution: {integrity: sha512-xy4q7wou3vUoC9k1xGTXc+awNdGaGVHtFUaey8tiX4H1QRc04DZ/rmDFwNm2EBsuYEhAZ6SgMmYf3InGY6OauA==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
+
   /minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
     engines: {node: '>= 6'}
@@ -19998,6 +20132,11 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /minipass/4.2.5:
+    resolution: {integrity: sha512-+yQl7SX3bIT83Lhb4BVorMAHVuqsskxRdlmO9kTpyukp8vsm2Sn/fUOV9xlnG8/a5JsypJzap21lz/y3FBMJ8Q==}
+    engines: {node: '>=8'}
+    dev: false
+
   /minizlib/2.1.2:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
     engines: {node: '>= 8'}
@@ -20005,6 +20144,14 @@ packages:
       minipass: 3.3.4
       yallist: 4.0.0
     dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
+
+  /mkdirp-classic/0.5.3:
+    resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
+    dev: false
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
@@ -20155,6 +20302,13 @@ packages:
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  /nanoid/4.0.1:
+    resolution: {integrity: sha512-udKGtCCUafD3nQtJg9wBhRP3KMbPglUsgV5JVsXhvyBs/oefqb4sqMEhKBBgqZncYowu58p1prsZQBYvAj/Gww==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -20935,6 +21089,14 @@ packages:
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
 
+  /path-scurry/1.6.1:
+    resolution: {integrity: sha512-OW+5s+7cw6253Q4E+8qQ/u1fVvcJQCJo/VFD8pje+dbJCF1n5ZRMV2AEHbGp+5Q7jxQIYJxkHopnj6nzdGeZLA==}
+    engines: {node: '>=14'}
+    dependencies:
+      lru-cache: 7.18.3
+      minipass: 4.2.5
+    dev: false
+
   /path-to-regexp/6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
     dev: false
@@ -20976,6 +21138,10 @@ packages:
   /peek-readable/4.1.0:
     resolution: {integrity: sha512-ZI3LnwUv5nOGbQzD9c2iDG6toheuXSZP5esSHBjopsXH4dg19soufvpUGA3uohi5anFtGb2lhAVdHzH6R/Evvg==}
     engines: {node: '>=8'}
+    dev: false
+
+  /pend/1.2.0:
+    resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: false
 
   /performance-now/2.1.0:
@@ -21334,7 +21500,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
       long: 4.0.0
     dev: false
 
@@ -21399,6 +21565,33 @@ packages:
   /punycode/2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
+
+  /puppeteer-core/19.7.5:
+    resolution: {integrity: sha512-EJuNha+SxPfaYFbkoWU80H3Wb1SiQH5fFyb2xdbWda0ziax5mhV63UMlqNfPeTDIWarwtR4OIcq/9VqY8HPOsg==}
+    engines: {node: '>=14.14.0'}
+    peerDependencies:
+      typescript: '>= 4.7.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      chromium-bidi: 0.4.5_6o5gdkn34s2j2m26x63ssheuqa
+      cross-fetch: 3.1.5
+      debug: 4.3.4
+      devtools-protocol: 0.0.1094867
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 1.1.0
+      rimraf: 4.4.0
+      tar-fs: 2.1.1
+      unbzip2-stream: 1.4.3
+      ws: 8.12.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
 
   /putout/26.24.0:
     resolution: {integrity: sha512-9CUFtINZxlAvlo6eNvbrZBjv5tCXb7psJ5cXLCIdoMGJkn4DSMx8XriBQzeZPsp6+Fnz8qQGd62bmy81FUsNyg==}
@@ -22402,6 +22595,14 @@ packages:
     dependencies:
       glob: 7.2.3
 
+  /rimraf/4.4.0:
+    resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 9.3.0
+    dev: false
+
   /ripemd160/2.0.2:
     resolution: {integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==}
     dependencies:
@@ -23197,7 +23398,7 @@ packages:
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 18.0.6
-      qs: 6.11.0
+      qs: 6.11.1
     dev: false
 
   /strnum/1.0.5:
@@ -23471,6 +23672,15 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
     dev: true
+
+  /tar-fs/2.1.1:
+    resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}
+    dependencies:
+      chownr: 1.1.4
+      mkdirp-classic: 0.5.3
+      pump: 3.0.0
+      tar-stream: 2.2.0
+    dev: false
 
   /tar-stream/2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
@@ -24038,6 +24248,13 @@ packages:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+    dev: false
+
+  /unbzip2-stream/1.4.3:
+    resolution: {integrity: sha512-mlExGW4w71ebDJviH16lQLtZS32VKqsSfk80GCfUlwT/4/hNRFsoscrF/c++9xinkMzECL1uL9DDwXqFWkruPg==}
+    dependencies:
+      buffer: 5.7.1
+      through: 2.3.8
     dev: false
 
   /unc-path-regex/0.1.2:
@@ -24889,6 +25106,19 @@ packages:
         optional: true
     dev: false
 
+  /ws/8.12.1:
+    resolution: {integrity: sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
   /ws/8.7.0:
     resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
     engines: {node: '>=10.0.0'}
@@ -25072,6 +25302,13 @@ packages:
     resolution: {integrity: sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==}
     engines: {node: '>=4.0.0'}
     requiresBuild: true
+    dev: false
+
+  /yauzl/2.10.0:
+    resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
+    dependencies:
+      buffer-crc32: 0.2.13
+      fd-slicer: 1.1.0
     dev: false
 
   /ynab/1.29.0:

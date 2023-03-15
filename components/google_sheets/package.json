@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_sheets",
-  "version": "0.3.15",
+  "version": "0.4.0",
   "description": "Pipedream Google_sheets Components",
   "main": "google_sheets.app.mjs",
   "keywords": [
@@ -11,8 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@googleapis/sheets": "^0.3.0",
-    "@pipedream/platform": "^0.10.0",
-    "axios": "^0.21.1",
+    "@pipedream/platform": "^1.4.0",
     "uuidv4": "^6.2.6"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
