@@ -4,7 +4,7 @@ import frontApp from "../../frontapp.app.mjs";
 export default {
   key: "frontapp-reply-to-conversation",
   name: "Reply To Conversation",
-  description: "Reply To Conversation. [See the docs here](https://dev.frontapp.com/reference/post_conversations-conversation-id-messages).",
+  description: "Reply to a conversation by sending a message and appending it to the conversation. [See the docs here](https://dev.frontapp.com/reference/post_conversations-conversation-id-messages).",
   version: "0.0.3",
   type: "action",
   props: {
