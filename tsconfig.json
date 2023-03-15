@@ -1592,6 +1592,9 @@
     },
     {
       "path": "components/idx_broker"
+    },
+    {
+      "path": "components/rytr"
     }
   ]
 }

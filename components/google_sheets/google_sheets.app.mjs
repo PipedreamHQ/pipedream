@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
@@ -389,9 +389,9 @@ export default {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      spreadsheetId, range, rows, params,
+      $ = this, spreadsheetId, range, rows, params,
     }) {
-      const resp = await axios({
+      const resp = await axios($, {
         method: "POST",
         url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(`${range}!A:A`)}:append`,
         headers: {
@@ -406,6 +406,7 @@ export default {
         data: {
           values: rows,
         },
+        returnFullResponse: true,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
@@ -117,14 +117,14 @@ export default {
         if (items.length + limit > TOTAL_LIMIT) {
           limit -= items.length + limit - TOTAL_LIMIT;
         }
-        const res = (await axios(this._getAxiosParams({
+        const res = await axios(this, this._getAxiosParams({
           ...axiosParams,
           params: {
             ...axiosParams.params,
             limit,
             cursor,
           },
-        }))).data;
+        }));
 
         if (res.items) {
           items = [
@@ -139,39 +139,43 @@ export default {
       return items;
     },
     async getLocations(cursor, limit) {
-      return axios(this._getAxiosParams({
+      return axios(this, this._getAxiosParams({
         method: "GET",
         path: "/v2/locations",
         params: {
           cursor,
           limit,
         },
+        returnFullResponse: true,
       }));
     },
     async getDepartments(cursor, limit) {
-      return axios(this._getAxiosParams({
+      return axios(this, this._getAxiosParams({
         method: "GET",
         path: "/v2/departments",
         params: {
           cursor,
           limit,
         },
+        returnFullResponse: true,
       }));
     },
     async getUsers(cursor, limit) {
-      return axios(this._getAxiosParams({
+      return axios(this, this._getAxiosParams({
         method: "GET",
         path: "/v2/users",
         params: {
           cursor,
           limit,
         },
+        returnFullResponse: true,
       }));
     },
     async getCashAccounts() {
-      return axios(this._getAxiosParams({
+      return axios(this, this._getAxiosParams({
         method: "GET",
         path: "/v2/accounts/cash",
+        returnFullResponse: true,
       }));
     },
   },

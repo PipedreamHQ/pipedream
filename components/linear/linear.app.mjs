@@ -11,5 +11,10 @@ export default {
         ...options,
       };
     },
+    getAxiosHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cisco_webex",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "Pipedream Cisco_webex Components",
   "main": "cisco_webex.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/cisco_webex",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "axios": "^0.26.1",
+    "@pipedream/platform": "^1.4.0",
     "crypto": "^1.0.1",
     "uuid": "^8.3.2"
   },
