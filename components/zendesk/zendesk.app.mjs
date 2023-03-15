@@ -94,15 +94,24 @@ export default {
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
     },
+    customSubdomain: {
+      type: "string",
+      label: "Custom Subdomain",
+      description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
+      optional: true,
+    },
   },
   methods: {
-    getUrl(path) {
+    getUrl(path, customSubdomain) {
       const {
         SUBDOMAIN_PLACEHOLDER,
         BASE_URL,
         VERSION_PATH,
       } = constants;
-      const baseUrl = BASE_URL.replace(SUBDOMAIN_PLACEHOLDER, this.$auth.subdomain);
+      const baseUrl = BASE_URL.replace(
+        SUBDOMAIN_PLACEHOLDER,
+        customSubdomain?.trim() || this.$auth.subdomain,
+      );
       return `${baseUrl}${VERSION_PATH}${path}`;
     },
     getHeaders(headers) {
@@ -112,11 +121,11 @@ export default {
       };
     },
     makeRequest({
-      step = this, url, path, headers, ...args
+      step = this, url, path, headers, customSubdomain, ...args
     }) {
       const config = {
         headers: this.getHeaders(headers),
-        url: url ?? this.getUrl(path),
+        url: url ?? this.getUrl(path, customSubdomain),
         timeout: constants.DEFAULT_TIMEOUT,
         ...args,
       };
