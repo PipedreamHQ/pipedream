@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/onfleet",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Onfleet Components",
   "main": "dist/app/onfleet.app.mjs",
   "keywords": [

@@ -78,7 +78,7 @@ export default {
   async run(event) {
     const responseData = {
       status: 200,
-      body: String,
+      body: "",
     };
     // createHook only on the first time
     if (event.query?.createHook) {
