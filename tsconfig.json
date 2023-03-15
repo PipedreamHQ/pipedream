@@ -1592,6 +1592,9 @@
     },
     {
       "path": "components/rytr"
+    },
+    {
+      "path": "components/savvycal"
     }
   ]
 }
