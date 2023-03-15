@@ -3,11 +3,11 @@ const { asana } = common.props;
 
 export default {
   ...common,
-  key: "asana-tag-added-to-task",
+  key: "asana-task-assigned-in-project",
   type: "source",
-  name: "New Tag Added To Task (Instant)",
-  description: "Emit new event for each new tag added to a task.",
-  version: "0.1.2",
+  name: "Task Assigned in Project (Instant)",
+  description: "Emit an event each time a task is assigned, reassigned or unassigned.",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -23,14 +23,13 @@ export default {
         }),
       ],
     },
-    tasks: {
-      optional: true,
+    user: {
+      label: "Assignee",
+      type: "string",
+      description: "Only emit events when tasks are assigned to this user GID",
       propDefinition: [
         asana,
-        "tasks",
-        (c) => ({
-          project: c.project,
-        }),
+        "users",
       ],
     },
   },
@@ -40,38 +39,38 @@ export default {
       return {
         filters: [
           {
-            action: "added",
+            action: "changed",
             resource_type: "task",
+            fields: [
+              "assignee",
+            ],
           },
         ],
         resource: this.project,
       };
     },
     async emitEvent(event) {
-      const { tasks } = this;
+      const { user } = this;
       const { events = [] } = event.body || {};
 
       const promises = events
-        .filter(({ resource }) => {
-          return tasks?.length
-            ? tasks.includes(String(resource.gid))
-            : true;
-        })
+        .filter(({ change }) =>
+          !change.new_value
+          || (user?.length > 0 && change.new_value.gid === user))
         .map(async (event) => ({
           event,
           task: await this.asana.getTask(event.resource.gid),
-          tag: await this.asana.getTag(event.parent.gid),
         }));
 
       const responses = await Promise.all(promises);
 
       responses.forEach(({
-        event, task, tag,
+        event, task,
       }) => {
         const ts = Date.parse(event.created_at);
-        this.$emit(tag, {
-          id: `${tag.gid}-${ts}`,
-          summary: `${tag.name} added to ${task.name}`,
+        this.$emit(task, {
+          id: `${task.gid}-${ts}`,
+          summary: task.name,
           ts,
         });
       });
