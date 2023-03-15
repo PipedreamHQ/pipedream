@@ -1,13 +1,20 @@
+import { ConfigurationError } from "@pipedream/platform";
 import wise from "../../wise.app.mjs";
 
 export default {
   name: "Create Quote",
   version: "0.0.1",
   key: "wise-create-quote",
-  description: "Creates a quote. [See docs here](https://api-docs.wise.com/api-reference/quote#create-authenticated",
+  description: "Creates a quote. [See docs here](https://api-docs.wise.com/api-reference/quote#create-authenticated)",
   type: "action",
   props: {
     wise,
+    profileId: {
+      propDefinition: [
+        wise,
+        "profileId",
+      ],
+    },
     sourceCurrency: {
       label: "Source Currency",
       description: "The source currency",
@@ -27,19 +34,22 @@ export default {
         }),
       ],
     },
-    profileId: {
-      propDefinition: [
-        wise,
-        "profileId",
-      ],
-    },
     targetAmount: {
       label: "Target Amount",
       description: "Amount in target currency to be received by the recipient. E.g. `100`",
       type: "string",
     },
+    sourceAmount: {
+      label: "Target Amount",
+      description: "Amount in source currency to be received by the recipient. E.g. `100`",
+      type: "string",
+    },
   },
   async run({ $ }) {
+    if (this.targetAmount && this.sourceAmount) {
+      throw ConfigurationError("Either sourceAmount or targetAmount is required, never both.");
+    }
+
     const response = await this.wise.createQuote({
       $,
       profileId: this.profileId,
@@ -47,6 +57,7 @@ export default {
         targetCurrency: this.targetCurrency,
         sourceCurrency: this.sourceCurrency,
         targetAmount: this.targetAmount,
+        sourceAmount: this.sourceAmount,
         payOut: null,
         preferredPayIn: null,
       },
