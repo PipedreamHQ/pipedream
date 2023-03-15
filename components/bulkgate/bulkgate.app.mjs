@@ -38,40 +38,7 @@ export default {
       label: "Sender ID",
       description: "Sender ID. If not set, the default sender ID is `gSystem`.",
       optional: true,
-      options: [
-        {
-          label: "System number",
-          value: "gSystem",
-        },
-        {
-          label: "Short Code",
-          value: "gShort",
-        },
-        {
-          label: "Text sender",
-          value: "gText",
-        },
-        {
-          label: "Mobile Connect",
-          value: "gMobile",
-        },
-        {
-          label: "Mobile Connect push - Sends a notification to the Mobile Connect app",
-          value: "gPush",
-        },
-        {
-          label: "Own Number (number verification required)",
-          value: "gOwn",
-        },
-        {
-          label: "BulkGate Profile ID",
-          value: "gProfile",
-        },
-        {
-          label: "BulkGate Profile ID",
-          value: "<int>",
-        },
-      ],
+      options: Object.values(constants.SENDER_ID),
     },
     senderIdValue: {
       type: "string",
