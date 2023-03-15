@@ -27,7 +27,6 @@ export default {
       label: "Assignee",
       type: "string",
       description: "Only emit events when tasks are assigned to this user GID",
-      optional: true,
       propDefinition: [
         asana,
         "users",
