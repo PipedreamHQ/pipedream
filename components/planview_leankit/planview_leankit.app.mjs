@@ -196,26 +196,6 @@ export default {
         }));
       },
     },
-    taskLaneId: {
-      type: "string",
-      label: "Lane Id",
-      description: "The Id of the lane.",
-      async options({
-        cardId, status,
-      }) {
-        const { lanes } = await this.listTaskboard({
-          cardId,
-        });
-        const responseLanes = lanes.filter(({ laneType }) => laneType === status);
-
-        return responseLanes.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
     laneClassTypes: {
       type: "string",
       label: "Lane Class Types",
@@ -415,6 +395,28 @@ export default {
         }));
       },
     },
+    taskLaneId: {
+      type: "string",
+      label: "Lane Id",
+      description: "The Id of the lane.",
+      async options({
+        cardId, status,
+      }) {
+        const { lanes } = await this.listTaskboard({
+          cardId,
+        });
+
+        let responseLanes = lanes;
+        if (status) responseLanes = lanes.filter(({ laneType }) => laneType === status);
+
+        return responseLanes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     title: {
       type: "string",
       label: "Title",
@@ -425,7 +427,7 @@ export default {
       label: "Type Id",
       description: "The id of the type.",
       async options({
-        boardId, cardId,
+        boardId, cardId, isTask = false,
       }) {
         if (!boardId) {
           const { board: { id } } = await this.getCard({
@@ -437,7 +439,11 @@ export default {
           boardId,
         });
 
-        return cardTypes.map(({
+        const typesResponse = isTask
+          ? cardTypes.filter((type) => type.isTaskType)
+          : cardTypes;
+
+        return typesResponse.map(({
           id: value, name: label,
         }) => ({
           label,

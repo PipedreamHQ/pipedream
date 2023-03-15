@@ -35,6 +35,7 @@ export default {
         "typeId",
         ({ boardId }) => ({
           boardId,
+          isTask: true,
         }),
       ],
     },
@@ -61,15 +62,16 @@ export default {
       ],
       optional: true,
     },
-    laneId: {
+    taskLaneId: {
       propDefinition: [
         planviewLeankit,
-        "laneId",
-        ({ boardId }) => ({
-          boardId,
+        "taskLaneId",
+        ({ cardId }) => ({
+          cardId,
         }),
       ],
       optional: true,
+      withLabel: true,
     },
     connectionsParent: {
       propDefinition: [
@@ -111,8 +113,8 @@ export default {
       propDefinition: [
         planviewLeankit,
         "customIconId",
-        ({ boardId }) => ({
-          boardId,
+        ({ cardId }) => ({
+          cardId,
         }),
       ],
       optional: true,
@@ -215,6 +217,7 @@ export default {
       connectionsParent,
       connectionsChild,
       customFields,
+      taskLaneId,
       ...data
     } = this;
     const customFieldsArray = [];
@@ -226,6 +229,19 @@ export default {
           value: k[1],
         })));
     }
+
+    let lane = "ready";
+    if (taskLaneId) {
+      const { lanes } = await planviewLeankit.listTaskboard({
+        cardId,
+      });
+
+      const [
+        firstLane,
+      ] = lanes.filter((lane) => lane.name === taskLaneId.label);
+      lane = firstLane.laneType;
+    }
+
     const response = await planviewLeankit.createTask({
       $,
       cardId,
@@ -235,6 +251,7 @@ export default {
           children: connectionsChild,
         },
         customFields: customFieldsArray,
+        laneType: lane,
         ...data,
       },
     });
