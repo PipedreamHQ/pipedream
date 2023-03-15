@@ -26,6 +26,7 @@ export default {
     customFieldIds: {
       type: "string[]",
       description: "Select a custom field to filter",
+      optional: true,
       propDefinition: [
         app,
         "customFields",
@@ -39,6 +40,7 @@ export default {
       label: "Fields",
       description: "Select a field to filter",
       options: constants.TASK_FIELDS,
+      optional: true,
     },
   },
   methods: {
