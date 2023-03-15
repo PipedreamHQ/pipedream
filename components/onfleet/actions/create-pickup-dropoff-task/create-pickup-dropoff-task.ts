@@ -360,7 +360,7 @@ export default {
         dropoff,
         pickup,
       };
-      summary = `A new dropff task with id ${dropoff.id} was successfully created, than a new pickup task with id ${pickup.id} was successfully created!`;
+      summary = `A new dropff task with id ${dropoff.id} was successfully created, then a new pickup task with id ${pickup.id} was successfully created!`;
     }
 
     $.export("$summary", summary);
