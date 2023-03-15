@@ -14,6 +14,6 @@ Here are some examples of what you can build with the NetHunt CRM API:
 
 - A custom contact manager that displays data from NetHunt CRM in a custom way
 - A task manager that lets you view and manage tasks from NetHunt CRM
-- A deal tracker that lets you see which deals are closes to being won
+- A deal tracker that lets you see which deals are close to being won
 - A custom report that displays data from NetHunt CRM in a custom way
 - A custom application that interacts with NetHunt CRM data in some way

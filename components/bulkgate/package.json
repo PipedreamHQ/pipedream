@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/bulkgate",
+  "version": "0.0.1",
+  "description": "Pipedream BulkGate Components",
+  "main": "dist/app/bulkgate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bulkgate"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/bulkgate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

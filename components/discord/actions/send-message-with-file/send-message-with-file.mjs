@@ -1,5 +1,5 @@
 import common from "../common/common.mjs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 
@@ -8,7 +8,7 @@ export default {
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "1.0.0",
+  version: "1.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -48,11 +48,11 @@ export default {
     }
 
     const file = fileUrl
-      ? (await axios({
+      ? await axios($, {
         method: "get",
         url: fileUrl,
         responseType: "stream",
-      })).data
+      })
       : fs.createReadStream(filePath);
 
     try {

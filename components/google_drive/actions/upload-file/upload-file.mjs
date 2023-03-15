@@ -10,7 +10,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.0.8",
+  version: "0.1.0",
   type: "action",
   props: {
     googleDrive,

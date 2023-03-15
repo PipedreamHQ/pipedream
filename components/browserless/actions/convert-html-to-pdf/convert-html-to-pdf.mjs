@@ -1,11 +1,11 @@
 // legacy_hash_id: a_B0ip1E
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "browserless-convert-html-to-pdf",
   name: "Generate PDF from HTML String",
   description: "See https://docs.browserless.io/docs/pdf.html",
-  version: "0.2.1",
+  version: "0.3.0",
   type: "action",
   props: {
     browserless: {
@@ -21,7 +21,7 @@ export default {
   async run({ $ }) {
     const { html } = this;
 
-    const { data } = await axios({
+    const data = await axios($, {
       method: "POST",
       url: `https://chrome.browserless.io/pdf?token=${this.browserless.$auth.api_key}`,
       headers: {

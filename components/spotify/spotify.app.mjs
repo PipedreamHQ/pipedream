@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
@@ -302,8 +302,10 @@ export default {
     async retry(config, retries = 3) {
       let response;
       try {
-        response = await axios(config);
-        return response;
+        return await axios(this, {
+          ...config,
+          returnFullResponse: true,
+        });
       } catch (err) {
         if (retries <= 1) {
           throw new Error(err);
@@ -378,6 +380,53 @@ export default {
     async getRecommendations(params) {
       const { data } = await this._makeRequest("GET", "/recommendations", params);
       return data;
+    },
+    async fetchChunksOfAlbumsIds({
+      artistId,
+      market,
+    }) {
+      const albums = [];
+      const limit = 20;
+      let page = 0;
+      let next = undefined;
+      do {
+        const { data } = await this._makeRequest(
+          "GET",
+          `/artists/${get(artistId, "value", artistId)}/albums`,
+          {
+            market,
+            limit,
+            offset: limit * page,
+            include_groups: "album,single",
+          },
+        );
+        albums.push([
+          ...data.items.map((album) => album.id),
+        ]);
+        next = data.next;
+        page++;
+      } while (next);
+      return albums;
+    },
+    async getAllTracksByChunksOfAlbumIds({
+      chunksOfAlbumIds,
+      market,
+    }) {
+      const tracks = [];
+      for (const albumIds of chunksOfAlbumIds) {
+        const { data } = await this._makeRequest(
+          "GET",
+          "/albums",
+          {
+            market,
+            ids: albumIds.join(","),
+          },
+        );
+        tracks.push([
+          ...data.albums.map((album) => album.tracks.items).flat(),
+        ]);
+      }
+      return tracks.flat();
     },
   },
 };

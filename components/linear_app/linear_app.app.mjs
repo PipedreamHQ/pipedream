@@ -1,5 +1,6 @@
 import { LinearClient } from "@linear/sdk";
 import constants from "./common/constants.mjs";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -125,6 +126,20 @@ export default {
     },
   },
   methods: {
+    getAxiosHeaders() {
+      return {
+        Authorization: `${this.$auth.api_key}`,
+      };
+    },
+    async makeAxiosRequest({
+      $ = this, ...args
+    }) {
+      return axios($, {
+        url: "https://api.linear.app/graphql",
+        headers: this.getAxiosHeaders(),
+        ...args,
+      });
+    },
     getClientOptions(options = {}) {
       return {
         apiKey: this.$auth.api_key,
@@ -157,8 +172,14 @@ export default {
     async listTeams(variables = {}) {
       return this.client().teams(variables);
     },
-    async listProjects(variables = {}) {
-      return this.client().projects(variables);
+    async listProjects() {
+      const { data: { projects } } = await this.makeAxiosRequest({
+        method: "POST",
+        data: {
+          query: "{ projects { nodes { id name } } }",
+        },
+      });
+      return projects;
     },
     async listUsers(variables = {}) {
       return this.client().users(variables);
@@ -196,8 +217,8 @@ export default {
       return {
         options: nodes.map(resouceMapper),
         context: {
-          after: pageInfo.endCursor,
-          hasNextPage: pageInfo.hasNextPage,
+          after: pageInfo?.endCursor,
+          hasNextPage: pageInfo?.hasNextPage,
         },
       };
     },

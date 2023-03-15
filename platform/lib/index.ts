@@ -15,8 +15,8 @@ export {
 } from "./errors";
 
 export {
-  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL
-} from "./constants"
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "./constants";
 
 const SendPayload = t.union([
   t.string,
@@ -192,4 +192,5 @@ export const $sendConfigRuntimeTypeChecker = (function () {
 export interface AxiosRequestConfig extends AxiosConfig {
   debug?: boolean;
   body?: any;
+  returnFullResponse?: boolean;
 }

@@ -4,7 +4,7 @@ export default {
   key: "crove_app-complete-document",
   name: "Complete Document",
   description: "Mark the document as completed",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     croveApp,
@@ -22,7 +22,7 @@ export default {
       method: "POST",
     };
     let response = await this.croveApp._makeRequest(config);
-    
+
     // Removing returned properties that are not interesting for users
     delete response.response;
     delete response.respondents;

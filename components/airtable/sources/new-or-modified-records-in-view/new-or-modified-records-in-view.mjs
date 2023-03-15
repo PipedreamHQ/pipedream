@@ -1,5 +1,5 @@
 import moment from "moment";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 import common from "../common.mjs";
 
@@ -8,7 +8,7 @@ export default {
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: "airtable-new-or-modified-records-in-view",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "source",
   props: {
     ...common.props,
@@ -54,7 +54,7 @@ export default {
     const lastTimestamp = this.db.get("lastTimestamp");
     config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
 
-    const { data } = await axios(config);
+    const data = await axios(this, config);
 
     if (!data.records.length) {
       console.log("No new or modified records.");
