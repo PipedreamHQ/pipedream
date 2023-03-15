@@ -6,7 +6,7 @@ export default {
   name: "New Card Entered a Specific Lane",
   description: "Emit new event when a card enters a specific lane.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,9 +15,10 @@ export default {
         common.props.planviewLeankit,
         "laneId",
         ({ boardId }) => ({
-          boardId,
+          boardId: boardId.value,
         }),
       ],
+      withLabel: true,
     },
   },
   methods: {
@@ -26,10 +27,10 @@ export default {
       return this.planviewLeankit.listActivity;
     },
     validate(d) {
-      return d.data?.type === "cardMoved" && (d.data?.toLane?.id === this.laneId);
+      return d.type === "cardMoved" && (d.data?.toLane?.id === this.laneId.value);
     },
     getSummary(data) {
-      return `Card ${data.data.card.title} entered the lane ${this.laneId}`;
+      return `Card '${data.data.card.title}' entered the lane '${this.laneId.label}'`;
     },
   },
 };

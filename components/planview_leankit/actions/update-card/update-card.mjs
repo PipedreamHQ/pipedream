@@ -97,14 +97,6 @@ export default {
       ],
       optional: true,
     },
-    isBlocked: {
-      propDefinition: [
-        planviewLeankit,
-        "isBlocked",
-      ],
-      reloadProps: true,
-      optional: true,
-    },
     laneId: {
       propDefinition: [
         planviewLeankit,
@@ -173,6 +165,14 @@ export default {
         "wipOverrideComment",
       ],
       description: "This should be specified with a laneId update operation that would violate a WIP limit.",
+      optional: true,
+    },
+    isBlocked: {
+      propDefinition: [
+        planviewLeankit,
+        "isBlocked",
+      ],
+      reloadProps: true,
       optional: true,
     },
   },

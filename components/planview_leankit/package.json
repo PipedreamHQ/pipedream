@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/planview_leankit",
   "version": "0.0.1",
-  "description": "Pipedream Pagerduty Components",
+  "description": "Pipedream Planview Leankit Components",
   "main": "planview_leankit.app.mjs",
   "keywords": [
     "pipedream",

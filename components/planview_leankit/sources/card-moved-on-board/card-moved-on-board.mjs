@@ -20,7 +20,7 @@ export default {
       return d.type === "cardMoved";
     },
     getSummary(data) {
-      return `Card ${data.data.card.title} was moved on the board ${this.boardId}`;
+      return `Card '${data.data.card.title}' was moved on the board '${this.boardId.label}'`;
     },
   },
 };

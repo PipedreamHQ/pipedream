@@ -8,7 +8,7 @@ export default {
   type: "action",
   props: {
     planviewLeankit,
-    cardIds: {
+    cardId: {
       propDefinition: [
         planviewLeankit,
         "cardId",
@@ -23,7 +23,6 @@ export default {
         }),
       ],
       type: "string[]",
-      optional: true,
     },
     userIdsToAssign: {
       propDefinition: [

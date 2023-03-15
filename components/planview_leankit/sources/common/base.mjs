@@ -19,6 +19,7 @@ export default {
         planviewLeankit,
         "boardId",
       ],
+      withLabel: true,
     },
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
 
       const items = this.planviewLeankit.activityPaginate({
         fn: this.getFunc(),
-        boardId: this.boardId,
+        boardId: this.boardId.value,
         maxResults,
       });
 

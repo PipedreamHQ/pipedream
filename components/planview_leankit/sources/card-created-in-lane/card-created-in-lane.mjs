@@ -15,9 +15,10 @@ export default {
         common.props.planviewLeankit,
         "laneId",
         ({ boardId }) => ({
-          boardId,
+          boardId: boardId.value,
         }),
       ],
+      withLabel: true,
     },
   },
   methods: {
@@ -26,10 +27,10 @@ export default {
       return this.planviewLeankit.listActivity;
     },
     validate(d) {
-      return d.type === "cardCreated" && (d.data?.lane?.id === this.laneId);
+      return d.type === "cardCreated" && (d.data?.lane?.id === this.laneId.value);
     },
     getSummary(data) {
-      return `Card ${data.data.card.title} was created in the lane ${this.laneId}`;
+      return `Card '${data.data.card.title}' was created in the lane '${this.laneId.label}'`;
     },
   },
 };

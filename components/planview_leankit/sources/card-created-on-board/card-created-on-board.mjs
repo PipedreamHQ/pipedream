@@ -20,7 +20,7 @@ export default {
       return d.type === "cardCreated";
     },
     getSummary(data) {
-      return `Card ${data.data.card.title} was created on the board ${this.boardId}`;
+      return `Card '${data.data.card.title}' was created on the board '${this.boardId.label}'`;
     },
   },
 };
