@@ -315,7 +315,7 @@ export default defineApp({
       args
     : SearchTweetsParams,
     ): Promise<Tweet[]> {
-      const response = await this._httpRequest({
+      const response = await this._paginatedRequest({
         url: "/tweets/search/recent",
         ...args,
       });

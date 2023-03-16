@@ -39,6 +39,7 @@ export default defineAction({
       $,
       userId,
       params: this.getUserFields(),
+      maxResults: this.maxResults,
     };
 
     const response = await this.app.listFollowers(params);

@@ -1,7 +1,9 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getTweetFields } from "../../common/methods";
-import { tweetFieldProps } from "../../common/propGroups";
+import {
+  paginationProps, tweetFieldProps,
+} from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
@@ -21,6 +23,7 @@ export default defineAction({
       description: "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
     },
     ...tweetFieldProps,
+    ...paginationProps,
   },
   methods: {
     getTweetFields,
@@ -31,6 +34,7 @@ export default defineAction({
       params: {
         query: this.query,
       },
+      maxResults: this.maxResults,
     };
 
     const response = await this.app.searchTweets(params);

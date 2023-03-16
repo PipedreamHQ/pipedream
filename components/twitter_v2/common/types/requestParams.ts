@@ -7,15 +7,21 @@ interface PdAxiosRequest {
   $: Pipedream;
 }
 
+interface PaginationParams {
+  maxResults: number;
+}
+
+interface PaginatedRequest extends PdAxiosRequest, PaginationParams {}
+
 export interface HttpRequestParams extends PdAxiosRequest {
   url: string;
   data?: object | string;
   params?: object;
 }
 
-export interface PaginatedRequestParams extends HttpRequestParams {
-  maxResults: number;
-}
+export interface PaginatedRequestParams
+  extends HttpRequestParams,
+    PaginationParams {}
 
 export interface AddUserToListParams extends PdAxiosRequest {
   listId: string;
@@ -56,7 +62,7 @@ export interface FollowUserParams extends PdAxiosRequest {
   };
 }
 
-export interface GetLikedTweetParams extends PdAxiosRequest, UserId {
+export interface GetLikedTweetParams extends PaginatedRequest, UserId {
   params: TweetFields;
 }
 
@@ -64,11 +70,11 @@ export interface GetOwnedListsParams extends PdAxiosRequest, UserId {
   params?: ListFields;
 }
 
-export interface GetUserMentionsParams extends PdAxiosRequest, UserId {
+export interface GetUserMentionsParams extends PaginatedRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetUserTweetsParams extends PdAxiosRequest, UserId {
+export interface GetUserTweetsParams extends PaginatedRequest, UserId {
   params: TweetFields;
 }
 
@@ -80,7 +86,7 @@ export interface GetTweetParams extends PdAxiosRequest, TweetId {
   params: TweetFields;
 }
 
-export interface ListFollowersParams extends PdAxiosRequest, UserId {
+export interface ListFollowersParams extends PaginatedRequest, UserId {
   params: UserFields;
 }
 
@@ -91,8 +97,8 @@ export interface LikeTweetParams extends PdAxiosRequest {
 }
 export type RetweetParams = LikeTweetParams;
 
-export interface SearchTweetsParams extends PdAxiosRequest {
-  params: {query: string;};
+export interface SearchTweetsParams extends PaginatedRequest {
+  params: { query: string; };
 }
 
 export interface UnfollowUserParams extends PdAxiosRequest, UserId {}

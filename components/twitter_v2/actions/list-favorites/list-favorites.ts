@@ -39,6 +39,7 @@ export default defineAction({
       $,
       userId,
       params: this.getTweetFields(),
+      maxResults: this.maxResults,
     };
 
     const response = await this.app.getLikedTweets(params);
