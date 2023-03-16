@@ -4,7 +4,7 @@ import {
   getUserId, getUserFields,
 } from "../../common/methods";
 import { ListFollowersParams } from "../../common/types/requestParams";
-import { userFieldProps } from "../../common/fieldProps";
+import { userFieldProps } from "../../common/propGroups";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers";

@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getTweetFields } from "../../common/methods";
-import { tweetFieldProps } from "../../common/fieldProps";
+import { tweetFieldProps } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =

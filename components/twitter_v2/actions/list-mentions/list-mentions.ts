@@ -4,7 +4,7 @@ import {
   getUserId,
   getTweetFields,
 } from "../../common/methods";
-import { tweetFieldProps } from "../../common/fieldProps";
+import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserMentionsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
