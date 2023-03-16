@@ -409,7 +409,10 @@ importers:
       '@pipedream/platform': 1.1.1
 
   components/bigml:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/bill:
     specifiers: {}
@@ -8784,7 +8787,14 @@ packages:
     resolution: {integrity: sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
+    dev: false
+
+  /@babel/runtime/7.21.0:
+    resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@babel/template/7.18.6:
@@ -11741,7 +11751,7 @@ packages:
       ajv: 4.11.8 - 8
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/runtime': 7.18.9
+      '@babel/runtime': 7.21.0
       '@humanwhocodes/momoa': 2.0.4
       ajv: 8.11.0
       chalk: 4.1.2
@@ -21575,7 +21585,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 17.0.45
+      '@types/node': 18.0.6
       long: 4.0.0
     dev: false
 
@@ -22136,14 +22146,14 @@ packages:
     resolution: {integrity: sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==}
     dev: false
 
-  /regenerator-runtime/0.13.9:
-    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: false
 
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
     dependencies:
-      '@babel/runtime': 7.18.9
+      '@babel/runtime': 7.21.0
     dev: false
 
   /regexp-tree/0.1.24:
@@ -25028,6 +25038,7 @@ packages:
 
   /which/1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
@@ -25035,6 +25046,7 @@ packages:
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
+    hasBin: true
     dependencies:
       isexe: 2.0.0
     dev: true
