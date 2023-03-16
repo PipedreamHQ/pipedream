@@ -277,6 +277,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/astrology_api:
+    specifiers: {}
+
   components/autoklose:
     specifiers: {}
 
@@ -1796,8 +1799,10 @@ importers:
   components/intercom:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      crypto: ^1.0.1
     dependencies:
       '@pipedream/platform': 1.2.0
+      crypto: 1.0.1
 
   components/intuiface:
     specifiers: {}
@@ -3261,6 +3266,9 @@ importers:
     specifiers: {}
 
   components/saucelabs:
+    specifiers: {}
+
+  components/savvycal:
     specifiers: {}
 
   components/scalr:
