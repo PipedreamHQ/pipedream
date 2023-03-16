@@ -1,9 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 import wise from "../../wise.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Quote",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wise-create-quote",
   description: "Creates a quote. [See docs here](https://api-docs.wise.com/api-reference/quote#create-authenticated)",
   type: "action",
@@ -46,6 +47,14 @@ export default {
       type: "string",
       optional: true,
     },
+    payoutType: {
+      label: "Payout Type",
+      description: "Amount in source currency to be received by the recipient. E.g. `100.00`. Must specify either **Target Amount** or **Source Amount**",
+      type: "string",
+      options: constants.PAYOUT_TYPES,
+      default: constants.PAYOUT_TYPES[0],
+      optional: true,
+    },
   },
   async run({ $ }) {
     if ((this.targetAmount && this.sourceAmount) || (!this.targetAmount && !this.sourceAmount)) {
@@ -60,7 +69,7 @@ export default {
         sourceCurrency: this.sourceCurrency,
         targetAmount: this.targetAmount,
         sourceAmount: this.sourceAmount,
-        payOut: null,
+        payOut: this.payoutType,
         preferredPayIn: null,
       },
     });
