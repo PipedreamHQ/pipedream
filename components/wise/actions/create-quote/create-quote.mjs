@@ -48,7 +48,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.targetAmount && this.sourceAmount) {
+    if ((this.targetAmount && this.sourceAmount) || (!this.targetAmount && !this.sourceAmount)) {
       throw ConfigurationError("Either sourceAmount or targetAmount is required, never both.");
     }
 
