@@ -277,6 +277,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/astrology_api:
+    specifiers: {}
+
   components/autoklose:
     specifiers: {}
 
@@ -939,10 +942,10 @@ importers:
 
   components/discord_bot:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
       '@pipedreamhq/platform': 0.8.1
 
   components/discord_webhook:
@@ -3261,6 +3264,9 @@ importers:
     specifiers: {}
 
   components/saucelabs:
+    specifiers: {}
+
+  components/savvycal:
     specifiers: {}
 
   components/scalr:
