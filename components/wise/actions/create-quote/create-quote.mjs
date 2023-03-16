@@ -43,6 +43,7 @@ export default {
       label: "Source Amount",
       description: "Amount in source currency to be received by the recipient. E.g. `100`",
       type: "string",
+      optional: true,
     },
   },
   async run({ $ }) {
