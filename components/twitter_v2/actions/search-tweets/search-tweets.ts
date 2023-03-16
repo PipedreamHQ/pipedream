@@ -2,12 +2,15 @@ import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { getTweetFields } from "../../common/methods";
 import {
-  paginationProps, tweetFieldProps,
+  tweetFieldProps,
 } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent";
+  const MIN_RESULTS = 10;
+  const DEFAULT_RESULTS = 10;
+  const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
   key: "twitter_v2-serach-tweets",
@@ -23,7 +26,15 @@ export default defineAction({
       description: "One query for matching Tweets. See the [Twitter API guide on building queries](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).",
     },
     ...tweetFieldProps,
-    ...paginationProps,
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+      min: MIN_RESULTS,
+      max: MAX_RESULTS_PER_PAGE * 5,
+      default: DEFAULT_RESULTS,
+    },
   },
   methods: {
     getTweetFields,
@@ -34,6 +45,7 @@ export default defineAction({
       params: {
         query: this.query,
       },
+      maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
     };
 

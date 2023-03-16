@@ -5,11 +5,14 @@ import {
 } from "../../common/methods";
 import { ListFollowersParams } from "../../common/types/requestParams";
 import {
-  paginationProps, userFieldProps,
+  userFieldProps,
 } from "../../common/propGroups";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers";
+  const MIN_RESULTS = 1;
+  const DEFAULT_RESULTS = 100;
+  const MAX_RESULTS_PER_PAGE = 1000;
 
 export default defineAction({
   key: "twitter_v2-list-followers",
@@ -26,7 +29,15 @@ export default defineAction({
       ],
     },
     ...userFieldProps,
-    ...paginationProps,
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+      min: MIN_RESULTS,
+      max: MAX_RESULTS_PER_PAGE * 5,
+      default: DEFAULT_RESULTS,
+    },
   },
   methods: {
     getUserId,
@@ -39,6 +50,7 @@ export default defineAction({
       $,
       userId,
       params: this.getUserFields(),
+      maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
     };
 

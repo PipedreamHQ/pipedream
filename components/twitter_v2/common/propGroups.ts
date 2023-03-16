@@ -86,12 +86,3 @@ export const userFieldProps = {
       "Specific [user fields](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user) to be included in the returned user object.",
   },
 };
-
-export const paginationProps = {
-  maxResults: {
-    propDefinition: [
-      app,
-      "maxResults",
-    ],
-  },
-};

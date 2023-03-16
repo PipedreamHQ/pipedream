@@ -30,9 +30,6 @@ import {
 import {
   List, PaginatedResponse, Tweet, User,
 } from "../common/types/responseSchemas";
-import {
-  MAX_RESULTS_PER_PAGE, MAX_RESULTS_TOTAL,
-} from "../common/constants";
 
 export default defineApp({
   type: "app",
@@ -41,10 +38,7 @@ export default defineApp({
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: `Maximum amount of items to return. Default is ${MAX_RESULTS_PER_PAGE}.`,
-      default: MAX_RESULTS_PER_PAGE,
-      min: 1,
-      max: MAX_RESULTS_TOTAL,
+      description: "Maximum amount of items to return. The maximum amount of requests that can be made is 5.",
     },
     listId: {
       type: "string",
@@ -159,14 +153,14 @@ export default defineApp({
       });
     },
     async _paginatedRequest({
-      maxResults, params, ...args
+      maxResults, maxPerPage, params, ...args
     }: PaginatedRequestParams) {
       const result = [];
       let paginationToken: string;
       let resultCount = 0;
 
       do {
-        const perPage = Math.min(maxResults, MAX_RESULTS_PER_PAGE);
+        const perPage = Math.min(maxResults - resultCount, maxPerPage);
 
         const {
           data, next_token,

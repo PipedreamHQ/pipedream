@@ -8,6 +8,7 @@ interface PdAxiosRequest {
 }
 
 interface PaginationParams {
+  maxPerPage: number;
   maxResults: number;
 }
 
@@ -66,7 +67,7 @@ export interface GetLikedTweetParams extends PaginatedRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetOwnedListsParams extends PdAxiosRequest, UserId {
+export interface GetOwnedListsParams extends PaginatedRequest, UserId {
   params?: ListFields;
 }
 

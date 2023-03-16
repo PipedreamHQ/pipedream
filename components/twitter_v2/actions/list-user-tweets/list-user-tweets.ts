@@ -3,13 +3,14 @@ import { defineAction } from "@pipedream/types";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import {
-  paginationProps, tweetFieldProps,
-} from "../../common/propGroups";
+import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets";
+const MIN_RESULTS = 5;
+const DEFAULT_RESULTS = 10;
+const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
   key: "twitter_v2-list-user-tweets",
@@ -26,7 +27,15 @@ export default defineAction({
       ],
     },
     ...tweetFieldProps,
-    ...paginationProps,
+    maxResults: {
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
+      min: MIN_RESULTS,
+      max: MAX_RESULTS_PER_PAGE * 5,
+      default: DEFAULT_RESULTS,
+    },
   },
   methods: {
     getUserId,
@@ -39,6 +48,7 @@ export default defineAction({
       $,
       userId,
       params: this.getTweetFields(),
+      maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
     };
 
