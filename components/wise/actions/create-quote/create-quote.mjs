@@ -40,7 +40,7 @@ export default {
       type: "string",
     },
     sourceAmount: {
-      label: "Target Amount",
+      label: "Source Amount",
       description: "Amount in source currency to be received by the recipient. E.g. `100`",
       type: "string",
     },
