@@ -49,7 +49,7 @@ export default {
     },
     payoutType: {
       label: "Payout Type",
-      description: "Amount in source currency to be received by the recipient. E.g. `100.00`. Must specify either **Target Amount** or **Source Amount**",
+     description: "Preferred payout method. Default value is `BANK_TRANSFER`. If you are funding the transfer from a Multi Currency Balance, you must set the `payOut` as `BALANCE` in order to get the correct pricing in the quote . By not doing so, it will default to `BANK_TRANSFER` and the fees will be inconsistent between quote and transfer.",
       type: "string",
       options: constants.PAYOUT_TYPES,
       default: constants.PAYOUT_TYPES[0],
