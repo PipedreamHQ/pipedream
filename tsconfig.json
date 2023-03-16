@@ -1592,6 +1592,12 @@
     },
     {
       "path": "components/rytr"
+    },
+    {
+      "path": "components/savvycal"
+    },
+    {
+      "path": "components/astrology_api"
     }
   ]
 }
