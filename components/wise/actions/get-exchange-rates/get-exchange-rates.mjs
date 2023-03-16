@@ -2,7 +2,7 @@ import wise from "../../wise.app.mjs";
 
 export default {
   name: "Get Exchange Rates",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "wise-get-exchange-rates",
   description: "Get an exchange rates. [See docs here](https://api-docs.wise.com/api-reference/rate#get)",
   type: "action",
