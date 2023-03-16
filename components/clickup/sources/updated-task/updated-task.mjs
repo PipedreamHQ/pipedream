@@ -13,25 +13,14 @@ export default {
   props: {
     ...common.props,
     listId: {
+      description: "If a list is selected, only tasks updated in this list will emit an event",
+      optional: true,
+      reloadProps: true,
       propDefinition: [
         app,
         "lists",
         ({ workspaceId }) => ({
           workspaceId,
-        }),
-      ],
-      description: "If a list is selected, only tasks updated in this list will emit an event",
-      optional: true,
-    },
-    customFieldIds: {
-      type: "string[]",
-      description: "Select a custom field to filter",
-      optional: true,
-      propDefinition: [
-        app,
-        "customFields",
-        (c) => ({
-          listId: c.listId,
         }),
       ],
     },
@@ -41,6 +30,19 @@ export default {
       description: "Select a field to filter",
       options: constants.TASK_FIELDS,
       optional: true,
+    },
+    customFieldIds: {
+      label: "Custom Fields",
+      type: "string[]",
+      description: "Select a custom field to filter",
+      optional: true,
+      propDefinition: [
+        app,
+        "customFields",
+        ({ listId }) => ({
+          listId,
+        }),
+      ],
     },
   },
   methods: {
@@ -73,15 +75,15 @@ export default {
       if (id !== this.listId) return;
     }
 
-    let isValidated = false;
+    let isValidated = !this.customFieldIds && !this.fields;
 
     for (const item of body.history_items) {
-      if (this.fields.length && this.fields.includes(item.field)) {
+      if (this.fields?.length && this.fields.includes(item.field)) {
         isValidated = true;
         break;
       }
 
-      if (this.customFieldIds.length && item.custom_field &&
+      if (this.customFieldIds?.length && item.custom_field &&
         this.customFieldIds.includes(item.custom_field.id)) {
         isValidated = true;
         break;
