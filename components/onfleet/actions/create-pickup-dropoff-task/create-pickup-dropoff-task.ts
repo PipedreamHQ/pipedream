@@ -299,69 +299,60 @@ export default {
       ...data
     } = this;
 
+    const pickupObject = {
+      ...data,
+      recipientName: pickupRecipientName,
+      recipientPhone: pickupRecipientPhone,
+      recipientNotes: pickupRecipientNotes,
+      recipient: recipientPickup,
+      latitude: pickupLatitude,
+      longitude: pickupLongitude,
+      address: pickupAddress,
+    };
+    const dropoffObject = {
+      ...data,
+      recipientName: dropoffRecipientName,
+      recipientPhone: dropoffRecipientPhone,
+      recipientNotes: dropoffRecipientNotes,
+      recipient: recipientDropoff,
+      latitude: dropoffLatitude,
+      longitude: dropoffLongitude,
+      address: dropoffAddress,
+    };
+
+    let pickupResponse = <any>{};
+    let dropoffResponse = <any>{};
     let response = {};
     let summary = "";
+
     if (taskLinkOrder == "1") {
-      const pickup = await this.createTask(onfleet, {
-        ...data,
-        recipientName: pickupRecipientName,
-        recipientPhone: pickupRecipientPhone,
-        recipientNotes: pickupRecipientNotes,
-        recipient: recipientPickup,
-        latitude: pickupLatitude,
-        longitude: pickupLongitude,
-        address: pickupAddress,
+      pickupResponse = await this.createTask(onfleet, {
+        ...pickupObject,
       });
-      const dropoff = await this.createTask(onfleet, {
-        ...data,
+      dropoffResponse = await this.createTask(onfleet, {
         dependencies: [
-          pickup.id,
+          pickupResponse.id,
         ],
-        recipientName: dropoffRecipientName,
-        recipientPhone: dropoffRecipientPhone,
-        recipientNotes: dropoffRecipientNotes,
-        recipient: recipientDropoff,
-        latitude: dropoffLatitude,
-        longitude: dropoffLongitude,
-        address: dropoffAddress,
+        ...dropoffObject,
       });
-
-      response = {
-        dropoff,
-        pickup,
-      };
-      summary = `A new pickup task with id ${pickup.id} was successfully created, then a new dropff task with id ${dropoff.id} was successfully created!`;
+      summary = `A new pickup task with id ${pickupResponse.id} was successfully created, then a new dropff task with id ${dropoffResponse.id} was successfully created!`;
     } else {
-      const dropoff = await this.createTask(onfleet, {
-        ...data,
-        recipientName: dropoffRecipientName,
-        recipientPhone: dropoffRecipientPhone,
-        recipientNotes: dropoffRecipientNotes,
-        recipient: recipientDropoff,
-        latitude: dropoffLatitude,
-        longitude: dropoffLongitude,
-        address: dropoffAddress,
+      dropoffResponse = await this.createTask(onfleet, {
+        ...dropoffObject,
       });
-      const pickup = await this.createTask(onfleet, {
-        ...data,
+      pickupResponse = await this.createTask(onfleet, {
         dependencies: [
-          dropoff.id,
+          dropoffResponse.id,
         ],
-        recipientName: pickupRecipientName,
-        recipientPhone: pickupRecipientPhone,
-        recipientNotes: pickupRecipientNotes,
-        recipient: recipientPickup,
-        latitude: pickupLatitude,
-        longitude: pickupLongitude,
-        address: pickupAddress,
+        ...pickupObject,
       });
-
-      response = {
-        dropoff,
-        pickup,
-      };
-      summary = `A new dropff task with id ${dropoff.id} was successfully created, then a new pickup task with id ${pickup.id} was successfully created!`;
+      summary = `A new dropff task with id ${dropoffResponse.id} was successfully created, then a new pickup task with id ${pickupResponse.id} was successfully created!`;
     }
+
+    response = {
+      dropoffResponse,
+      pickupResponse,
+    };
 
     $.export("$summary", summary);
     return response;
