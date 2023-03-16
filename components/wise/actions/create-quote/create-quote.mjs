@@ -38,6 +38,7 @@ export default {
       label: "Target Amount",
       description: "Amount in target currency to be received by the recipient. E.g. `100.00`. Must specify either **Target Amount** or **Source Amount**",
       type: "string",
+      optional: true,
     },
     sourceAmount: {
       label: "Source Amount",
