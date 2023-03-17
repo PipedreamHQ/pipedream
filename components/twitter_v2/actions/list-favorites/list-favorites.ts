@@ -3,16 +3,14 @@ import { defineAction } from "@pipedream/types";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import {
-  tweetFieldProps,
-} from "../../common/propGroups";
+import { tweetFieldProps } from "../../common/propGroups";
 import { GetLikedTweetParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets";
-  const MIN_RESULTS = 10;
-  const DEFAULT_RESULTS = 100;
-  const MAX_RESULTS_PER_PAGE = 100;
+const MIN_RESULTS = 10;
+const DEFAULT_RESULTS = 100;
+const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
   key: "twitter_v2-list-favorites",
