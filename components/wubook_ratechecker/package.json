@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/wubook_ratechecker",
+  "version": "0.0.1",
+  "description": "Pipedream WuBook RateChecker Components",
+  "main": "dist/app/wubook_ratechecker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wubook_ratechecker"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/wubook_ratechecker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
