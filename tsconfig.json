@@ -1598,6 +1598,27 @@
     },
     {
       "path": "components/astrology_api"
+    },
+    {
+      "path": "components/rest_countries_pe"
+    },
+    {
+      "path": "components/spoonacular"
+    },
+    {
+      "path": "components/opengraph_io"
+    },
+    {
+      "path": "components/world_news_api"
+    },
+    {
+      "path": "components/geodb_cities"
+    },
+    {
+      "path": "components/businesslogic"
+    },
+    {
+      "path": "components/team_up"
     }
   ]
 }
