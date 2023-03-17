@@ -28,7 +28,7 @@ import {
   TWEET_EXPANSION_OPTIONS, USER_EXPANSION_OPTIONS,
 } from "../common/expansions";
 import {
-  List, PaginatedResponse, Tweet, User,
+  List, PaginatedResponse, Tweet, TwitterEntity, User,
 } from "../common/types/responseSchemas";
 
 export default defineApp({
@@ -154,7 +154,7 @@ export default defineApp({
     },
     async _paginatedRequest({
       maxResults = 100, maxPerPage = 100, params, ...args
-    }: PaginatedRequestParams) {
+    }: PaginatedRequestParams): Promise<TwitterEntity[]> {
       const result = [];
       let paginationToken: string;
       let resultCount = 0;

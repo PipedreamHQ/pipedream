@@ -2,7 +2,7 @@ export interface TwitterEntity {
   id: string;
 }
 
-export type TwitterEntityMap = Record<string, object>
+export type TwitterEntityMap = Record<string, object>;
 
 export interface List extends TwitterEntity {
   name: string;

@@ -1,6 +1,8 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../app/twitter_v2.app";
-import { TwitterEntity, TwitterEntityMap } from "../common/types/responseSchemas";
+import {
+  TwitterEntity, TwitterEntityMap,
+} from "../common/types/responseSchemas";
 
 export default {
   props: {
@@ -22,7 +24,7 @@ export default {
     getEntityName(): string {
       return "Entity";
     },
-    getItemName(data: TwitterEntity): string {
+    getItemName(): string {
       throw new Error("getItemName not implemented in component");
     },
     async getResources(): Promise<string[]> {
@@ -35,14 +37,16 @@ export default {
       this.db.set("savedData", data);
     },
     async getAndProcessData(emit = false) {
-      const data: TwitterEntity[] = await this.getResources();
+      const data: TwitterEntity[] = await this.getResources(emit);
       if (data) {
         const savedEntities: TwitterEntityMap = this.getSavedEntities() ?? {};
 
         const newEntities = data.filter(({ id }) => !savedEntities[id]);
-        newEntities.forEach(obj => {
+        newEntities.forEach((obj) => {
           if (emit) this.emitEvent(obj);
-          const { id, ...objData } = obj;
+          const {
+            id, ...objData
+          } = obj;
           savedEntities[id] = objData;
         });
 
