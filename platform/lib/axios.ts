@@ -172,13 +172,6 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
     removeSearchFromUrl(config);
 
     return config;
-  }, (error) => {
-    if (error.response) {
-      convertAxiosError(error);
-      stepExport(this, error.response, "debug");
-    }
-
-    throw error;
   });
 
   axiosInstance.interceptors.response.use((response) => {
