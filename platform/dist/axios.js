@@ -166,7 +166,6 @@ function create(config, signConfig) {
             ? response
             : response.data;
     }, (error) => {
-        console.log(error);
         if (error.response) {
             convertAxiosError(error);
             stepExport(this, error.response, "debug");
