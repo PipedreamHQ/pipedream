@@ -54,7 +54,7 @@ export default defineAction({
 
     const response = await this.app.getOwnedLists(params);
 
-    $.export("$summary", `Successfully obtained ${response.length ?? ""} lists`);
+    $.export("$summary", `Successfully obtained ${response.length} lists`);
 
     return response;
   },

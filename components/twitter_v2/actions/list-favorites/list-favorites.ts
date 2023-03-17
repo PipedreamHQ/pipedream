@@ -54,7 +54,7 @@ export default defineAction({
 
     const response = await this.app.getLikedTweets(params);
 
-    $.export("$summary", `Successfully obtained ${response.length ?? ""} liked tweets`);
+    $.export("$summary", `Successfully obtained ${response.length} liked tweets`);
 
     return response;
   },

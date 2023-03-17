@@ -56,7 +56,7 @@ export default defineAction({
 
     $.export(
       "$summary",
-      "Successfully retrieved followers",
+      `Successfully retrieved ${response.length} followers`,
     );
 
     return response;

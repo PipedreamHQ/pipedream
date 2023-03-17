@@ -6,11 +6,11 @@ import {
 import { tweetFieldProps } from "../../common/propGroups";
 import { GetUserTweetsParams } from "../../common/types/requestParams";
 
-const DOCS_LINK =
+export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets";
 const MIN_RESULTS = 5;
 const DEFAULT_RESULTS = 10;
-const MAX_RESULTS_PER_PAGE = 100;
+export const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
   key: "twitter_v2-list-user-tweets",
@@ -54,7 +54,7 @@ export default defineAction({
 
     const response = await this.app.getUserTweets(params);
 
-    $.export("$summary", `Successfully retrieved ${response.length ?? ""} mentions`);
+    $.export("$summary", `Successfully retrieved ${response.length} tweets`);
 
     return response;
   },

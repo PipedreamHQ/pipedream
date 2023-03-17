@@ -55,7 +55,7 @@ export default defineAction({
 
     const response = await this.app.getUserMentions(params);
 
-    $.export("$summary", `Successfully retrieved ${response.length ?? ""} mentions`);
+    $.export("$summary", `Successfully retrieved ${response.length} mentions`);
 
     return response;
   },
