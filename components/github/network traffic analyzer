@@ -1,0 +1,166 @@
+from scapy.all import *
+from ctypes import POINTER, pointer
+from logging import root
+from tkinter import *
+from tkinter import ttk
+from tkinter.messagebox import showinfo  
+import time
+import scapy.all as scapy
+from scapy.layers import http
+import subprocess
+import re
+import argparse
+    
+
+
+def wifi():
+    command_output = subprocess.run(["netsh", "wlan", "show", "profiles"], capture_output = True).stdout.decode()
+    profile_names = (re.findall("All User Profile     : (.*)\r", command_output))
+    
+    wifi_list = list()
+    if len(profile_names) != 0:
+        for name in profile_names:
+             wifi_profile = dict()
+                
+             profile_info = subprocess.run(["netsh", "wlan", "show", "profile", name], capture_output = True).stdout.decode()
+             if re.search("Security key           : Absent", profile_info):
+                continue
+             else:
+                 wifi_profile["ssid"] = name
+                 profile_info_pass = subprocess.run(["netsh", "wlan", "show", "profile", name, "key=clear"], capture_output = True).stdout.decode()
+               
+                 password = re.search("Key Content            : (.*)\r", profile_info_pass)
+                 
+                 if password == None:
+                    wifi_profile["password"] = None
+                 else:
+                
+                    wifi_profile["password"] = password[1] 
+                    
+                 wifi_list.append(wifi_profile)   
+    for x in range(len(wifi_list)):
+        print(wifi_list[x])                
+        
+   
+
+                    
+ 
+
+def testLive():
+    
+    t=1
+    x=3
+    while t<100:
+        sniff(count=10,prn=lambda x:x.summary())
+        time.sleep(x)
+        t=t+1
+   
+
+def Icmp():
+    p = Ether()/IP(dst="www.secdev.org")/TCP()
+    p.summary()
+    print(p.dst)  
+    print(p[IP].src)  
+    print(p.sprintf("%Ether.src% > %Ether.dst%\n%IP.src% > %IP.dst%"))
+    print(p.sprintf("%TCP.flags% %TCP.dport%"))
+    [p for p in IP(ttl=(1,5))/ICMP()]
+    p = sr1(IP(dst="8.8.8.8")/UDP()/DNS(qd=DNSQR()))
+    p[DNS].an
+    r, u = srp(Ether()/IP(dst="8.8.8.8", ttl=(5,10))/UDP()/DNS(rd=1, qd=DNSQR(qname="www.example.com")))
+    r, u
+    print(r[0][0].summary())  
+    print(r[0][1].summary())  
+    r[0][1][ICMP]
+    
+def IpTest():
+    IP()
+    ls(IP)
+    pkt=IP(dst="www.google.com")/ICMP()
+    sr1(pkt)
+    pkt.show2()
+
+def MyIp():
+    IP()
+    a=IP(dst="172.16.1.40")
+    a
+    a.dst
+    a.ttl
+    Ether(dst="ff:ff:ff:ff:ff:ff")
+    IP(dst=["ketchup.com","mayo.com"],ttl=(1,9))
+    UDP()
+    p=sniff(count=50)
+    p
+    p.show()
+    p.summary()
+    p.plot(lambda x:len(x))
+   
+    
+def webCap():
+    a=Ether()/IP(dst="www.slashdot.org")/TCP()/"GET /index.html HTTP/1.0 \n\n"
+    hexdump(a)
+    
+def dataCap():
+    target="dreamsoftsystem.com"
+    ans, unans = sr(IP(dst=target, ttl=(4,25),id=RandShort())/TCP(flags=0x2))
+    for snd,rcv in ans:
+        print(snd.ttl, rcv.src, isinstance(rcv.payload, TCP))
+
+def dataView():
+    send(IP(dst="1.2.3.4")/TCP(dport=502, options=[("MSS", 0)]))
+    ans = sr([IP(dst="8.8.8.8", ttl=(1, 8), options=IPOption_RR())/ICMP(seq=RandShort()), IP(dst="8.8.8.8", ttl=(1, 8), options=IPOption_Traceroute())/ICMP(seq=RandShort()), IP(dst="8.8.8.8", 
+    ttl=(1, 8))/ICMP(seq=RandShort())], verbose=False, timeout=3)[0]
+    ans.make_table(lambda x, y: (", ".join(z.summary() for z in x[IP].options) or '-', x[IP].ttl, y.sprintf("%IP.src% %ICMP.type%")))
+        
+        
+root = Tk()
+root.title("Network Traffic Analyzer")
+root.geometry("800x400")
+l= Label(root,text='Welcome to TechVirus', relief=RAISED,font=('Arial Bold', 15))
+l.place(x=5,y=35)
+
+frame = Frame(root,height=160,width=200)
+frame.place(x=780,y=122)
+vlist = ["wired", "wireless", "external captures"]
+Combo = ttk.Combobox(frame, values = vlist)
+Combo.set("All interfaces shown")
+Combo.pack(padx = 5, pady = 5)
+
+l1 = Label(root,text='Capture',relief=RAISED,font=('Arial Bold',12))
+l1.place(x=50,y=80)
+l2 = Label(root,text='..using this filter :',relief=RAISED,font=('Arial',10))
+l2.place(x=50,y=130)
+
+t=Entry(root,width=100)
+t.place(x=160,y=133)
+
+
+b1=Button(text="Live Cap",width=5,font=1,command=testLive)
+b2=Button(text="Data Cap",width=5,font=1,command=dataCap)
+b3=Button(text="Data View",width=5,font=1,command=dataView)
+b4=Button(text="ICMP",width=5,font=1,command=Icmp)
+b5=Button(text="Capture",width=8,font=1,)
+b6=Button(text="Analyze",width=8,font=1)
+b7=Button(text="IP",width=8,font=1,command=MyIp)
+b8=Button(text="IPTest",width=8,font=1,command=IpTest)
+b9=Button(text="Web Capture",width=8,font=1,command=webCap)
+b10=Button(text="wifi",width=5,font=1, command = wifi)
+b11=Button(text="Help",width=5,font=1,)
+
+
+
+
+b1.grid(column=0,row=1)
+b2.grid(column=1,row=1)
+b3.grid(column=2,row=1)
+b4.grid(column=3,row=1)
+b5.grid(column=4,row=1)
+b6.grid(column=5,row=1)
+b7.grid(column=6,row=1)
+b8.grid(column=7,row=1)
+b9.grid(column=8,row=1)
+b10.grid(column=9,row=1)
+b11.grid(column=10,row=1)
+
+
+
+root.mainloop()
