@@ -141,7 +141,12 @@ function stepExport(step: any, message: any, key: string) {
 function convertAxiosError(err) {
   delete err.response.request;
   err.name = `${err.name} - ${err.message}`;
-  err.message = JSON.stringify(err.response.data);
+  try {
+    err.message = JSON.stringify(err.response.data);
+  }
+  catch (error) {
+    console.log("Error trying to convert `err.response.data` to string");
+  }
   return err;
 }
 
@@ -187,6 +192,7 @@ function create(config?: AxiosRequestConfig, signConfig?: any) {
       ? response
       : response.data;
   }, (error) => {
+    console.log(error);
     if (error.response) {
       convertAxiosError(error);
       stepExport(this, error.response, "debug");
