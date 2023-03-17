@@ -91,6 +91,8 @@ export interface ListFollowersParams extends PaginatedRequest, UserId {
   params: UserFields;
 }
 
+export interface ListFollowingParams extends ListFollowersParams { }
+
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {
     tweet_id: string;

@@ -6,16 +6,16 @@ import { User } from "../../common/types/responseSchemas";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListFollowersParams } from "../../common/types/requestParams";
-import {
-  DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/list-followers/list-followers";
+import { ListFollowingParams } from "../../common/types/requestParams";
+
+const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
+const MAX_RESULTS_PER_PAGE = 1000;
 
 export default defineSource({
   ...common,
-  key: "twitter_v2-new-follower",
-  name: "New Follower Received",
-  description: `Emit new event when a user receives a follower on Twitter [See docs here](${DOCS_LINK})`,
+  key: "twitter_v2-new-user-followed",
+  name: "New User Followed",
+  description: `Emit new event when the specified user follows another user on Twitter [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
   props: {
@@ -33,13 +33,13 @@ export default defineSource({
     getUserId,
     getUserFields,
     getEntityName() {
-      return "Follower";
+      return "User Followed";
     },
     getItemName({ name }: User) {
       return name;
     },
     async getResources(customize: boolean): Promise<string[]> {
-      const params: Partial<ListFollowersParams> = {
+      const params: Partial<ListFollowingParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
@@ -50,7 +50,7 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      return this.app.listFollowers(params);
+      return this.app.listFollowing(params);
     },
   },
 });

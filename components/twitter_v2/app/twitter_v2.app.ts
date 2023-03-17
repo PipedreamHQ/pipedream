@@ -14,6 +14,7 @@ import {
   HttpRequestParams,
   LikeTweetParams,
   ListFollowersParams,
+  ListFollowingParams,
   PaginatedRequestParams,
   RetweetParams,
   SearchTweetsParams,
@@ -293,6 +294,14 @@ export default defineApp({
     }: ListFollowersParams): Promise<User[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/followers`,
+        ...args,
+      });
+    },
+    async listFollowing({
+      userId, ...args
+    }: ListFollowingParams): Promise<User[]> {
+      return this._paginatedRequest({
+        url: `/users/${userId}/following`,
         ...args,
       });
     },
