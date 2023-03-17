@@ -1619,6 +1619,18 @@
     },
     {
       "path": "components/team_up"
+    },
+    {
+      "path": "components/humor_api"
+    },
+    {
+      "path": "components/data_axle_platform"
+    },
+    {
+      "path": "components/oxylabs"
+    },
+    {
+      "path": "components/wubook_ratechecker"
     }
   ]
 }
