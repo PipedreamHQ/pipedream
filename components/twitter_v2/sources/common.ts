@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../app/twitter_v2.app";
-import { TwitterEntity } from "../common/types/responseSchemas";
+import { TwitterEntity, TwitterEntityMap } from "../common/types/responseSchemas";
 
 export default {
   props: {
@@ -28,18 +28,25 @@ export default {
     async getResources(): Promise<string[]> {
       throw new Error("getResources not implemented in component");
     },
-    getSavedEntities(): string[] {
+    getSavedEntities(): TwitterEntityMap {
       return this.db.get("savedData");
     },
-    setSavedEntities(data: string[]) {
+    setSavedEntities(data: TwitterEntityMap) {
       this.db.set("savedData", data);
     },
-    async getAndProcessData() {
-      const data: string[] = await this.getResources();
+    async getAndProcessData(emit = false) {
+      const data: TwitterEntity[] = await this.getResources();
       if (data) {
-        const savedEntities: string[] = this.getSavedEntities() ?? [];
-        data.filter((d) => !savedEntities.includes(d)).forEach(this.emitEvent);
-        this.setSavedEntities(data);
+        const savedEntities: TwitterEntityMap = this.getSavedEntities() ?? {};
+
+        const newEntities = data.filter(({ id }) => !savedEntities[id]);
+        newEntities.forEach(obj => {
+          if (emit) this.emitEvent(obj);
+          const { id, ...objData } = obj;
+          savedEntities[id] = objData;
+        });
+
+        this.setSavedEntities(savedEntities);
       }
     },
     emitEvent(data: TwitterEntity) {
@@ -53,6 +60,6 @@ export default {
     },
   },
   async run() {
-    await this.getAndProcessData();
+    await this.getAndProcessData(true);
   },
 };
