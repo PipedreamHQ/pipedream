@@ -1,7 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
-import actionWithTweetFields from "../../common/tweetFieldProps";
+import { tweetFieldProps } from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
 
 const DOCS_LINK =
@@ -21,7 +21,7 @@ export default defineAction({
         "tweetId",
       ],
     },
-    ...actionWithTweetFields,
+    ...tweetFieldProps,
   },
   methods: {
     getTweetFields,

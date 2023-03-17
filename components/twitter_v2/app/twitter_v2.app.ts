@@ -153,7 +153,7 @@ export default defineApp({
       });
     },
     async _paginatedRequest({
-      maxResults, maxPerPage, params, ...args
+      maxResults = 100, maxPerPage = 100, params, ...args
     }: PaginatedRequestParams) {
       const result = [];
       let paginationToken: string;

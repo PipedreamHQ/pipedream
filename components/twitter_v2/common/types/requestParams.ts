@@ -8,8 +8,8 @@ interface PdAxiosRequest {
 }
 
 interface PaginationParams {
-  maxPerPage: number;
-  maxResults: number;
+  maxPerPage?: number;
+  maxResults?: number;
 }
 
 interface PaginatedRequest extends PdAxiosRequest, PaginationParams {}

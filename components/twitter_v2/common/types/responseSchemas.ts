@@ -1,16 +1,17 @@
-export interface List {
+export interface TwitterEntity {
   id: string;
+}
+
+export interface List extends TwitterEntity {
   name: string;
 }
 
-export interface Tweet {
-  id: string;
+export interface Tweet extends TwitterEntity {
   text: string;
   edit_history_tweet_ids: string[];
 }
 
-export interface User {
-  id: string;
+export interface User extends TwitterEntity {
   name: string;
   username: string;
 }
