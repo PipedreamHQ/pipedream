@@ -145,7 +145,7 @@ function convertAxiosError(err) {
     err.message = JSON.stringify(err.response.data);
   }
   catch (error) {
-    console.log("Error trying to convert `err.response.data` to string");
+    console.error("Error trying to convert `err.response.data` to string");
   }
   return err;
 }

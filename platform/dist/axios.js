@@ -133,7 +133,7 @@ function convertAxiosError(err) {
         err.message = JSON.stringify(err.response.data);
     }
     catch (error) {
-        console.log("Error trying to convert `err.response.data` to string");
+        console.error("Error trying to convert `err.response.data` to string");
     }
     return err;
 }
@@ -156,12 +156,6 @@ function create(config, signConfig) {
         }
         removeSearchFromUrl(config);
         return config;
-    }, (error) => {
-        if (error.response) {
-            convertAxiosError(error);
-            stepExport(this, error.response, "debug");
-        }
-        throw error;
     });
     axiosInstance.interceptors.response.use((response) => {
         const config = response.config;
