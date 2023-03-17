@@ -1,13 +1,13 @@
-import base from "../common/base.mjs";
+import base from "../common/base-polling.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   ...base,
   key: "square-new-invoice-created",
   name: "New Invoice Created",
-  description: "Emit new event for every new invoice created",
+  description: "Emit new event for every new invoice created. [See the docs](https://developer.squareup.com/reference/square/invoices-api/search-invoices)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -22,37 +22,76 @@ export default {
     ...base.hooks,
     async deploy() {
       console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
-      const response = await this.square.listInvoices({
-        paginate: true,
-        params: {
-          limit: constants.MAX_LIMIT,
-          location_id: this.location,
+      const { invoices } = await this.square.searchInvoices({
+        data: {
+          ...this.getBaseParams(),
         },
       });
-      response?.objects?.slice(-constants.MAX_HISTORICAL_EVENTS)
+      if (!(invoices?.length > 0)) {
+        return;
+      }
+      this._setLastTs(Date.parse(invoices[0].created_at));
+      invoices?.slice(0, constants.MAX_HISTORICAL_EVENTS)
         .reverse()
-        .forEach((object) => this.$emit(object, {
-          id: object.id,
-          summary: `Invoice created: ${object.id}`,
-          ts: object.created_at,
-        }));
+        .forEach((invoice) => this.$emit(invoice, this.generateMeta(invoice)));
     },
   },
   methods: {
     ...base.methods,
-    getEventTypes() {
-      return [
-        "invoice.created",
-      ];
+    getBaseParams() {
+      return {
+        limit: constants.MAX_LIMIT,
+        query: {
+          sort: {
+            field: "INVOICE_SORT_DATE",
+            order: "DESC",
+          },
+          filter: {
+            location_ids: [
+              this.location,
+            ],
+          },
+        },
+      };
     },
-    getSummary(event) {
-      return `Invoice created: ${event.data.id}`;
+    generateMeta(invoice) {
+      return {
+        id: invoice.id,
+        summary: `Invoice created: ${invoice.id}`,
+        ts: Date.parse(invoice.created_at),
+      };
     },
-    getTimestamp(event) {
-      return new Date(event.data.object.invoice.created_at);
-    },
-    isRelevant(event) {
-      return event.location_id === this.location;
-    },
+  },
+  async run() {
+    const lastTs = this._getLastTs();
+    let newLastTs;
+    let cursor;
+    let done = false;
+
+    do {
+      const response = await this.square.searchInvoices({
+        data: {
+          ...this.getBaseParams(),
+          cursor,
+        },
+      });
+      const { invoices } = response;
+      if (!(invoices?.length > 0)) {
+        break;
+      }
+      if (!newLastTs) {
+        newLastTs = Date.parse(invoices[0].created_at);
+      }
+      for (const invoice of invoices) {
+        if (Date.parse(invoice.created_at) <= lastTs) {
+          done = true;
+          break;
+        }
+        this.emitEvent(invoice);
+      }
+      cursor = response?.cursor;
+    } while (cursor && !done);
+
+    this._setLastTs(newLastTs);
   },
 };

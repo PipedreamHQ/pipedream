@@ -1,43 +1,79 @@
-import base from "../common/base.mjs";
+import base from "../common/base-polling.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   ...base,
   key: "square-new-customer-created",
   name: "New Customer Created",
-  description: "Emit new event for every new customer created",
+  description: "Emit new event for every new customer created. [See the docs](https://developer.squareup.com/reference/square/customers-api/list-customers)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...base.hooks,
     async deploy() {
       console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
-      const response = await this.square.listCustomers({
+      const { customers } = await this.square.listCustomers({
         params: {
-          sort_order: "DESC",
-          limit: constants.MAX_HISTORICAL_EVENTS,
+          ...this.getBaseParams(),
         },
       });
-      response?.objects?.forEach((object) => this.$emit(object, {
-        id: object.id,
-        summary: `Customer created: ${object.id}`,
-        ts: object.created_at,
-      }));
+      if (!(customers?.length > 0)) {
+        return;
+      }
+      this._setLastTs(Date.parse(customers[0].created_at));
+      customers?.slice(0, constants.MAX_HISTORICAL_EVENTS)
+        .reverse()
+        .forEach((customer) => this.$emit(customer, this.generateMeta(customer)));
     },
   },
   methods: {
     ...base.methods,
-    getEventTypes() {
-      return [
-        "customer.created",
-      ];
+    getBaseParams() {
+      return {
+        limit: constants.MAX_LIMIT,
+        sort_field: "CREATED_AT",
+        sort_order: "DESC",
+      };
     },
-    getSummary(event) {
-      return `Customer created: ${event.data.id}`;
+    generateMeta(customer) {
+      return {
+        id: customer.id,
+        summary: `Customer created: ${customer.id}`,
+        ts: Date.parse(customer.created_at),
+      };
     },
-    getTimestamp(event) {
-      return new Date(event.data.object.customer.created_at);
-    },
+  },
+  async run() {
+    const lastTs = this._getLastTs();
+    let newLastTs;
+    let cursor;
+    let done = false;
+
+    do {
+      const response = await this.square.listCustomers({
+        params: {
+          ...this.getBaseParams(),
+          cursor,
+        },
+      });
+      const { customers } = response;
+      if (!(customers?.length > 0)) {
+        break;
+      }
+      if (!newLastTs) {
+        newLastTs = Date.parse(customers[0].created_at);
+      }
+      for (const customer of customers) {
+        if (Date.parse(customer.created_at) <= lastTs) {
+          done = true;
+          break;
+        }
+        this.emitEvent(customer);
+      }
+      cursor = response?.cursor;
+    } while (cursor && !done);
+
+    this._setLastTs(newLastTs);
   },
 };
