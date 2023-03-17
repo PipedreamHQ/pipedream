@@ -15,7 +15,7 @@ export default defineSource({
   ...common,
   key: "twitter_v2-new-user-followed",
   name: "New User Followed",
-  description: `Emit new event when the specified user follows another user on Twitter [See docs here](${DOCS_LINK})`,
+  description: `Emit new event when the specified user follows another user [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
   props: {
