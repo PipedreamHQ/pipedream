@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../app/twitter_v2.app";
-import { TwitterEntity } from "../common/types/responseSchemas";
+import app from "../../app/twitter_v2.app";
+import { TwitterEntity } from "../../common/types/responseSchemas";
 
 export default {
   props: {

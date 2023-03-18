@@ -1,6 +1,6 @@
 import app from "../../app/twitter_v2.app";
 import { defineSource } from "@pipedream/types";
-import common from "../common";
+import common from "../common/base";
 import { userFieldProps } from "../../common/propGroups";
 import { User } from "../../common/types/responseSchemas";
 import {
