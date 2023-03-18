@@ -46,7 +46,7 @@ export default defineApp({
     listId: {
       type: "string",
       label: "List ID",
-      description: "Select a **List** or use a custom *List ID*.",
+      description: "Select a **List** owned by the authenticated user, or use a custom *List ID*.",
       async options() {
         const userId = this.getAuthenticatedUser();
         const lists: List[] = await this.getUserOwnedLists({

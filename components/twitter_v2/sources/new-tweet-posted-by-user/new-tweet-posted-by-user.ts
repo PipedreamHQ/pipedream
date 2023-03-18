@@ -35,7 +35,7 @@ export default defineSource({
     getTweetFields,
     getItemSummary,
     getEntityName() {
-      return "Tweet Posted";
+      return "Tweet";
     },
     getLastEntityId(): string {
       return this.db.get("lastEntityId");
