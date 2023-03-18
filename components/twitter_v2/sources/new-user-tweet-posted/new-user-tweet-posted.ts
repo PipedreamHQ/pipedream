@@ -1,6 +1,7 @@
 import app from "../../app/twitter_v2.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
+import { getTweetSummary as getItemSummary } from "../common/getItemSummary";
 import { tweetFieldProps } from "../../common/propGroups";
 import { Tweet } from "../../common/types/responseSchemas";
 import {
@@ -10,8 +11,6 @@ import { GetUserTweetsParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-user-tweets/list-user-tweets";
-
-const TWEET_SUMMARY_MAX_LENGTH = 30;
 
 export default defineSource({
   ...common,
@@ -34,13 +33,9 @@ export default defineSource({
     ...common.methods,
     getUserId,
     getTweetFields,
+    getItemSummary,
     getEntityName() {
       return "Tweet";
-    },
-    getItemName({ text }: Tweet) {
-      return text.length > TWEET_SUMMARY_MAX_LENGTH
-        ? text.slice(0, TWEET_SUMMARY_MAX_LENGTH) + "..."
-        : text;
     },
     getLastEntityId(): string {
       return this.db.get("lastEntityId");

@@ -1,8 +1,8 @@
 import app from "../../app/twitter_v2.app";
 import { defineSource } from "@pipedream/types";
 import common from "../common/base";
+import { getUserSummary as getItemSummary } from "../common/getItemSummary";
 import { userFieldProps } from "../../common/propGroups";
-import { User } from "../../common/types/responseSchemas";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
@@ -32,11 +32,9 @@ export default defineSource({
     ...common.methods,
     getUserId,
     getUserFields,
+    getItemSummary,
     getEntityName() {
       return "Follower";
-    },
-    getItemName({ name }: User) {
-      return name;
     },
     async getResources(customize: boolean): Promise<string[]> {
       const params: Partial<ListFollowersParams> = {

@@ -22,8 +22,8 @@ export default {
     getEntityName(): string {
       return "Entity";
     },
-    getItemName(): string {
-      throw new Error("getItemName() not implemented in component");
+    getItemSummary(): string {
+      throw new Error("getItemSummary() not implemented in component");
     },
     async getResources(): Promise<string[]> {
       throw new Error("getResources() not implemented in component");
@@ -54,7 +54,7 @@ export default {
       const { id } = data;
       this.$emit(data, {
         id,
-        summary: `New ${this.getEntityName()}: "${this.getItemName(data)}"`,
+        summary: `New ${this.getEntityName()}: "${this.getItemSummary(data)}"`,
         ts,
       });
     },
