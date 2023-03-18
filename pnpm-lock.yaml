@@ -277,6 +277,9 @@ importers:
       '@pipedream/platform': 1.2.0
       axios: 0.21.4
 
+  components/astrology_api:
+    specifiers: {}
+
   components/autoklose:
     specifiers: {}
 
@@ -314,7 +317,7 @@ importers:
       '@aws-sdk/client-ssm': ^3.58.0
       '@aws-sdk/client-sts': ^3.58.0
       '@pipedream/helper_functions': ^0.3.6
-      '@pipedream/platform': ^1.4.0
+      '@pipedream/platform': ^1.4.1
       mailparser-mit: ^1.0.0
     dependencies:
       '@aws-sdk/client-cloudwatch-logs': 3.131.0
@@ -332,7 +335,7 @@ importers:
       '@aws-sdk/client-ssm': 3.231.0
       '@aws-sdk/client-sts': 3.131.0
       '@pipedream/helper_functions': 0.3.8
-      '@pipedream/platform': 1.4.0
+      '@pipedream/platform': 1.4.1
       mailparser-mit: 1.0.0
 
   components/azure_devops:
@@ -3261,6 +3264,9 @@ importers:
     specifiers: {}
 
   components/saucelabs:
+    specifiers: {}
+
+  components/savvycal:
     specifiers: {}
 
   components/scalr:
@@ -8800,22 +8806,22 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.0.151:
-    resolution: {integrity: sha512-LnL9EKxDFZUT6WvNRheea3YqT8k/BVfvVKZt3qiXjC4rwij1s2XpOrL/YOiMq8BdvQCw4WL95qlXuZqiXhRP8A==}
+  /@definitelytyped/header-parser/0.0.152:
+    resolution: {integrity: sha512-2jdZgbrJcWCa8/RT4wRoP5LZHIGKpGubs4yANn0n3CcC9dD9NtqHVyaYX3DftUVjFInbfgvEzCRimtR7yEzCmw==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.151
+      '@definitelytyped/typescript-versions': 0.0.152
       '@types/parsimmon': 1.10.6
       parsimmon: 1.18.1
     dev: true
 
-  /@definitelytyped/typescript-versions/0.0.151:
-    resolution: {integrity: sha512-ewIZOG5nBM/pUw/AOJ4oWG1iZzH516xzbH2K3CQiwrEu1Y8nRpIWARM2ayx7gLLjljw31P3hVumnH9pYPfyeVw==}
+  /@definitelytyped/typescript-versions/0.0.152:
+    resolution: {integrity: sha512-w6lybLNBOphOI8vtW9FwkGyIy/E/JROG8BVx3o/WxMMzlvvAFGsIeWSsE0FvgIZYXtOQsWi+AiBKhE8+JNpT6Q==}
     dev: true
 
-  /@definitelytyped/utils/0.0.151:
-    resolution: {integrity: sha512-C7YlSF4XXxPcfk3I362jmzWW+aMkMwD4msAzP0Pf45TyIOvtQMVBK3xOWeqXJnLSKDVEugeLe9Db8fIBwMb3/Q==}
+  /@definitelytyped/utils/0.0.152:
+    resolution: {integrity: sha512-ZDtw4SwkeIIQ/CQfTSWedS+6FRWFi8ptvzeTfPGINwBNdRpoobrgBSwh3+kB6xf7xXh4sdUoLDH78+X0BHPOaA==}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.0.151
+      '@definitelytyped/typescript-versions': 0.0.152
       '@qiwi/npm-registry-client': 8.9.1
       '@types/node': 14.18.22
       charm: 1.0.2
@@ -10124,7 +10130,7 @@ packages:
   /@pipedream/helper_functions/0.3.7:
     resolution: {integrity: sha512-pWU8IkdqmOrdtElc1N9WUVtY+GuuOFDuGJjfC+kF81+bGmGYV7hL4bd1jLFy8Ka5zs+FO48FEAPQeQDJ/b34kQ==}
     dependencies:
-      '@pipedream/platform': 1.4.0
+      '@pipedream/platform': 1.4.1
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -10134,7 +10140,7 @@ packages:
   /@pipedream/helper_functions/0.3.8:
     resolution: {integrity: sha512-0hktyMN6jc9F3JLR+1YdWwxOfo1EwakHh04/ml8MWr76cS9bF+v46Br0rt9W2ZHpM6UGb8EeR/sAze9IHLE3Jg==}
     dependencies:
-      '@pipedream/platform': 1.4.0
+      '@pipedream/platform': 1.4.1
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -10224,6 +10230,17 @@ packages:
 
   /@pipedream/platform/1.4.0:
     resolution: {integrity: sha512-ZFiSecfg1Dt4vRgHeKUGBz/1T1JswdcckZB6sZ72iQPvrmgLN9h3t+nJ9VQ3RVV8RlG9hs/A83TTI1+dI6Hq4Q==}
+    dependencies:
+      axios: 0.21.4
+      fp-ts: 2.12.2
+      io-ts: 2.2.16_fp-ts@2.12.2
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.4.1:
+    resolution: {integrity: sha512-gAVCA011u8CK/ZEDb1IpLWyE+lVt4R0YI1Ql6trOdZ5roBgaxy3nf0NK7BC+HDiDjNLZ6dFZ5qWSGFqnFiWrqw==}
     dependencies:
       axios: 0.21.4
       fp-ts: 2.12.2
@@ -14807,7 +14824,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.151
+      '@definitelytyped/header-parser': 0.0.152
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.0
@@ -14823,9 +14840,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.0.151
-      '@definitelytyped/typescript-versions': 0.0.151
-      '@definitelytyped/utils': 0.0.151
+      '@definitelytyped/header-parser': 0.0.152
+      '@definitelytyped/typescript-versions': 0.0.152
+      '@definitelytyped/utils': 0.0.152
       dts-critic: 3.3.11_typescript@4.7.4
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.1
