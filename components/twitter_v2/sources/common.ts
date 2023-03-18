@@ -1,8 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import app from "../app/twitter_v2.app";
-import {
-  TwitterEntity, TwitterEntityMap,
-} from "../common/types/responseSchemas";
+import { TwitterEntity } from "../common/types/responseSchemas";
 
 export default {
   props: {
@@ -25,32 +23,30 @@ export default {
       return "Entity";
     },
     getItemName(): string {
-      throw new Error("getItemName not implemented in component");
+      throw new Error("getItemName() not implemented in component");
     },
     async getResources(): Promise<string[]> {
-      throw new Error("getResources not implemented in component");
+      throw new Error("getResources() not implemented in component");
     },
-    getSavedEntities(): TwitterEntityMap {
-      return this.db.get("savedData");
+    getSavedIds(): string[] {
+      return this.db.get("savedEntityIds");
     },
-    setSavedEntities(data: TwitterEntityMap) {
-      this.db.set("savedData", data);
+    setSavedIds(data: string[]) {
+      this.db.set("savedEntityIds", data);
     },
     async getAndProcessData(emit = false) {
       const data: TwitterEntity[] = await this.getResources(emit);
       if (data) {
-        const savedEntities: TwitterEntityMap = this.getSavedEntities() ?? {};
+        const savedIds: string[] = this.getSavedIds() ?? [];
 
-        data.filter(({ id }) => !savedEntities[id]).reverse()
+        data.filter(({ id }) => !savedIds.includes(id)).reverse()
           .forEach((obj) => {
             if (emit) this.emitEvent(obj);
-            const {
-              id, ...objData
-            } = obj;
-            savedEntities[id] = objData;
+            const { id } = obj;
+            savedIds.push(id);
           });
 
-        this.setSavedEntities(savedEntities);
+        this.setSavedIds(savedIds);
       }
     },
     emitEvent(data: TwitterEntity) {

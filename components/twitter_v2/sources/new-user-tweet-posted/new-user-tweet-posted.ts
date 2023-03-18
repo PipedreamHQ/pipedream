@@ -6,9 +6,7 @@ import { Tweet } from "../../common/types/responseSchemas";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import {
-  GetUserTweetsParams,
-} from "../../common/types/requestParams";
+import { GetUserTweetsParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-user-tweets/list-user-tweets";
