@@ -41,14 +41,14 @@ export default {
       if (data) {
         const savedEntities: TwitterEntityMap = this.getSavedEntities() ?? {};
 
-        const newEntities = data.filter(({ id }) => !savedEntities[id]);
-        newEntities.forEach((obj) => {
-          if (emit) this.emitEvent(obj);
-          const {
-            id, ...objData
-          } = obj;
-          savedEntities[id] = objData;
-        });
+        data.filter(({ id }) => !savedEntities[id]).reverse()
+          .forEach((obj) => {
+            if (emit) this.emitEvent(obj);
+            const {
+              id, ...objData
+            } = obj;
+            savedEntities[id] = objData;
+          });
 
         this.setSavedEntities(savedEntities);
       }

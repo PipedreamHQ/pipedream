@@ -19,7 +19,7 @@ export default defineSource({
   version: "0.0.1",
   type: "source",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
         app,
