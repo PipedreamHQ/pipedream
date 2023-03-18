@@ -42,10 +42,10 @@ export default defineSource({
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
+        userId: this.getUserId(),
       };
 
       if (customize) {
-        params.userId = this.getUserId();
         params.params = this.getUserFields();
       }
 

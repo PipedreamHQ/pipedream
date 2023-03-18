@@ -6,7 +6,7 @@ import { tweetFieldProps } from "../../common/propGroups";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import { GetLikedTweetParams } from "../../common/types/requestParams";
+import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-favorites/list-favorites";
@@ -38,14 +38,14 @@ export default defineSource({
       return "Tweet Liked";
     },
     async getResources(customize: boolean): Promise<Tweet[]> {
-      const params: Partial<GetLikedTweetParams> = {
+      const params: Partial<GetUserLikedTweetParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
+        userId: this.getUserId(),
       };
 
       if (customize) {
-        params.userId = this.getUserId();
         params.params = this.getTweetFields();
       }
 

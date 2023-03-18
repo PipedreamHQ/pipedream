@@ -61,6 +61,7 @@ export default defineSource({
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
+        userId: this.getUserId(),
       };
 
       const sinceId = this.db.get("sinceId");
@@ -69,7 +70,6 @@ export default defineSource({
       };
 
       if (customize) {
-        params.userId = this.getUserId();
         params.params = {
           ...params.params,
           ...this.getTweetFields(),

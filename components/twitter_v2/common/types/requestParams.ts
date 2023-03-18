@@ -48,6 +48,9 @@ export interface CreateTweetParams extends PdAxiosRequest {
   };
 }
 
+interface ListId {
+  listId: string;
+}
 interface UserId {
   userId: string;
 }
@@ -63,7 +66,11 @@ export interface FollowUserParams extends PdAxiosRequest {
   };
 }
 
-export interface GetLikedTweetParams extends PaginatedRequest, UserId {
+export interface GetUserLikedTweetParams extends PaginatedRequest, UserId {
+  params: TweetFields;
+}
+
+export interface GetListTweetsParams extends PaginatedRequest, ListId {
   params: TweetFields;
 }
 

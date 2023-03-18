@@ -5,7 +5,7 @@ import {
   CreateTweetParams,
   DeleteTweetParams,
   FollowUserParams,
-  GetLikedTweetParams,
+  GetUserLikedTweetParams,
   GetUserOwnedListsParams,
   GetTweetParams,
   GetUserFollowedListsParams,
@@ -21,6 +21,7 @@ import {
   SearchTweetsParams,
   UnfollowUserParams,
   UnlikeTweetParams,
+  GetListTweetsParams,
 } from "../common/types/requestParams";
 import {
   LIST_FIELD_OPTIONS,
@@ -218,6 +219,14 @@ export default defineApp({
       });
       return response.data;
     },
+    async getListTweets({
+      listId, ...args
+    }: GetListTweetsParams): Promise<Tweet[]> {
+      return this._paginatedRequest({
+        url: `/lists/${listId}/tweets`,
+        ...args,
+      });
+    },
     async getTweet({
       tweetId, ...args
     }: GetTweetParams): Promise<Tweet> {
@@ -235,7 +244,7 @@ export default defineApp({
     },
     async getUserLikedTweets({
       userId, ...args
-    }: GetLikedTweetParams): Promise<Tweet[]> {
+    }: GetUserLikedTweetParams): Promise<Tweet[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/liked_tweets`,
         ...args,
