@@ -3,7 +3,7 @@ import { defineAction } from "@pipedream/types";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListUserFollowersParams } from "../../common/types/requestParams";
+import { GetUserFollowersParams } from "../../common/types/requestParams";
 import { userFieldProps } from "../../common/propGroups";
 
 export const DOCS_LINK =
@@ -44,7 +44,7 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
 
-    const params: ListUserFollowersParams = {
+    const params: GetUserFollowersParams = {
       $,
       userId,
       params: this.getUserFields(),
@@ -52,7 +52,7 @@ export default defineAction({
       maxResults: this.maxResults,
     };
 
-    const response = await this.app.listUserFollowers(params);
+    const response = await this.app.getUserFollowers(params);
 
     $.export(
       "$summary",

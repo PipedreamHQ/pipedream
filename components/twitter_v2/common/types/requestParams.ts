@@ -93,11 +93,11 @@ export interface GetTweetParams extends PdAxiosRequest, TweetId {
   params: TweetFields;
 }
 
-export interface ListUserFollowersParams extends PaginatedRequest, UserId {
+export interface GetUserFollowersParams extends PaginatedRequest, UserId {
   params: UserFields;
 }
 
-export type ListUserFollowingParams = ListUserFollowersParams;
+export type GetUserFollowingParams = GetUserFollowersParams;
 
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {

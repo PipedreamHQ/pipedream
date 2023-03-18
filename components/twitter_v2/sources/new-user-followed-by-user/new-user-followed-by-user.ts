@@ -6,7 +6,7 @@ import { userFieldProps } from "../../common/propGroups";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListUserFollowingParams } from "../../common/types/requestParams";
+import { GetUserFollowingParams } from "../../common/types/requestParams";
 import { User } from "../../common/types/responseSchemas";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
@@ -38,7 +38,7 @@ export default defineSource({
     },
     getItemSummary,
     async getResources(customize: boolean): Promise<User[]> {
-      const params: Partial<ListUserFollowingParams> = {
+      const params: Partial<GetUserFollowingParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
@@ -49,7 +49,7 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      return this.app.listUserFollowing(params);
+      return this.app.getUserFollowing(params);
     },
   },
 });

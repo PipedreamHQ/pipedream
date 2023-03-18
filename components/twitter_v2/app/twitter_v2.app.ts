@@ -14,8 +14,8 @@ import {
   GetUserTweetsParams,
   HttpRequestParams,
   LikeTweetParams,
-  ListUserFollowersParams,
-  ListUserFollowingParams,
+  GetUserFollowersParams,
+  GetUserFollowingParams,
   PaginatedRequestParams,
   RetweetParams,
   SearchTweetsParams,
@@ -298,17 +298,17 @@ export default defineApp({
       });
       return response.data;
     },
-    async listUserFollowers({
+    async getUserFollowers({
       userId, ...args
-    }: ListUserFollowersParams): Promise<User[]> {
+    }: GetUserFollowersParams): Promise<User[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/followers`,
         ...args,
       });
     },
-    async listUserFollowing({
+    async getUserFollowing({
       userId, ...args
-    }: ListUserFollowingParams): Promise<User[]> {
+    }: GetUserFollowingParams): Promise<User[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/following`,
         ...args,
