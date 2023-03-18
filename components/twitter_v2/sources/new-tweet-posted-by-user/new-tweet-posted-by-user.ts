@@ -14,8 +14,8 @@ import {
 
 export default defineSource({
   ...common,
-  key: "twitter_v2-new-user-tweet-posted",
-  name: "New User Tweet Posted",
+  key: "twitter_v2-new-tweet-posted-by-user",
+  name: "New Tweet Posted By User",
   description: `Emit new event when the specified user posts a Tweet [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
