@@ -6,7 +6,7 @@ import { userFieldProps } from "../../common/propGroups";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListFollowersParams } from "../../common/types/requestParams";
+import { ListUserFollowersParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-followers/list-followers";
@@ -38,7 +38,7 @@ export default defineSource({
       return "Follower";
     },
     async getResources(customize: boolean): Promise<User[]> {
-      const params: Partial<ListFollowersParams> = {
+      const params: Partial<ListUserFollowersParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
@@ -49,7 +49,7 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      return this.app.listFollowers(params);
+      return this.app.listUserFollowers(params);
     },
   },
 });

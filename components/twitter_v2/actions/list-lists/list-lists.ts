@@ -4,7 +4,7 @@ import {
   getUserId, getListFields,
 } from "../../common/methods";
 import { listFieldProps } from "../../common/propGroups";
-import { GetOwnedListsParams } from "../../common/types/requestParams";
+import { GetUserOwnedListsParams } from "../../common/types/requestParams";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists";
@@ -44,7 +44,7 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const userId = await this.getUserId();
 
-    const params: GetOwnedListsParams = {
+    const params: GetUserOwnedListsParams = {
       $,
       userId,
       params: this.getListFields(),
@@ -52,7 +52,7 @@ export default defineAction({
       maxResults: this.maxResults,
     };
 
-    const response = await this.app.getOwnedLists(params);
+    const response = await this.app.getUserOwnedLists(params);
 
     $.export("$summary", `Successfully obtained ${response.length} lists`);
 

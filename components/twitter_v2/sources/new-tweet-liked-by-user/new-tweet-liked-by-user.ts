@@ -49,7 +49,7 @@ export default defineSource({
         params.params = this.getTweetFields();
       }
 
-      return this.app.getLikedTweets(params);
+      return this.app.getUserLikedTweets(params);
     },
   },
 });

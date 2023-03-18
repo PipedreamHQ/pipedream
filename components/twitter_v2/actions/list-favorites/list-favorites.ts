@@ -52,7 +52,7 @@ export default defineAction({
       maxResults: this.maxResults,
     };
 
-    const response = await this.app.getLikedTweets(params);
+    const response = await this.app.getUserLikedTweets(params);
 
     $.export("$summary", `Successfully obtained ${response.length} liked tweets`);
 

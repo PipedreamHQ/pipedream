@@ -6,7 +6,7 @@ import { userFieldProps } from "../../common/propGroups";
 import {
   getUserId, getUserFields,
 } from "../../common/methods";
-import { ListFollowingParams } from "../../common/types/requestParams";
+import { ListUserFollowingParams } from "../../common/types/requestParams";
 import { User } from "../../common/types/responseSchemas";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
@@ -14,8 +14,8 @@ const MAX_RESULTS_PER_PAGE = 1000;
 
 export default defineSource({
   ...common,
-  key: "twitter_v2-new-user-followed",
-  name: "New User Followed",
+  key: "twitter_v2-new-user-followed-by-user",
+  name: "New User Followed By User",
   description: `Emit new event when the specified user follows another user [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
@@ -38,7 +38,7 @@ export default defineSource({
     },
     getItemSummary,
     async getResources(customize: boolean): Promise<User[]> {
-      const params: Partial<ListFollowingParams> = {
+      const params: Partial<ListUserFollowingParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
@@ -49,7 +49,7 @@ export default defineSource({
         params.params = this.getUserFields();
       }
 
-      return this.app.listFollowing(params);
+      return this.app.listUserFollowing(params);
     },
   },
 });

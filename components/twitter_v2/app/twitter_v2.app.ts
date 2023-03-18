@@ -6,7 +6,7 @@ import {
   DeleteTweetParams,
   FollowUserParams,
   GetLikedTweetParams,
-  GetOwnedListsParams,
+  GetUserOwnedListsParams,
   GetTweetParams,
   GetUserFollowedListsParams,
   GetUserMentionsParams,
@@ -14,8 +14,8 @@ import {
   GetUserTweetsParams,
   HttpRequestParams,
   LikeTweetParams,
-  ListFollowersParams,
-  ListFollowingParams,
+  ListUserFollowersParams,
+  ListUserFollowingParams,
   PaginatedRequestParams,
   RetweetParams,
   SearchTweetsParams,
@@ -48,7 +48,7 @@ export default defineApp({
       description: "Select a **List** or use a custom *List ID*.",
       async options() {
         const userId = this.getAuthenticatedUser();
-        const lists: List[] = await this.getOwnedLists({
+        const lists: List[] = await this.getUserOwnedLists({
           userId,
         });
         return lists.map(({
@@ -233,7 +233,7 @@ export default defineApp({
       });
       return response.data.id;
     },
-    async getLikedTweets({
+    async getUserLikedTweets({
       userId, ...args
     }: GetLikedTweetParams): Promise<Tweet[]> {
       return this._paginatedRequest({
@@ -241,9 +241,9 @@ export default defineApp({
         ...args,
       });
     },
-    async getOwnedLists({
+    async getUserOwnedLists({
       userId, ...args
-    }: GetOwnedListsParams): Promise<List[]> {
+    }: GetUserOwnedListsParams): Promise<List[]> {
       const response = await this._httpRequest({
         url: `/users/${userId}/owned_lists`,
         ...args,
@@ -298,17 +298,17 @@ export default defineApp({
       });
       return response.data;
     },
-    async listFollowers({
+    async listUserFollowers({
       userId, ...args
-    }: ListFollowersParams): Promise<User[]> {
+    }: ListUserFollowersParams): Promise<User[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/followers`,
         ...args,
       });
     },
-    async listFollowing({
+    async listUserFollowing({
       userId, ...args
-    }: ListFollowingParams): Promise<User[]> {
+    }: ListUserFollowingParams): Promise<User[]> {
       return this._paginatedRequest({
         url: `/users/${userId}/following`,
         ...args,

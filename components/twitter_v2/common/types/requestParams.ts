@@ -67,7 +67,7 @@ export interface GetLikedTweetParams extends PaginatedRequest, UserId {
   params: TweetFields;
 }
 
-export interface GetOwnedListsParams extends PaginatedRequest, UserId {
+export interface GetUserOwnedListsParams extends PaginatedRequest, UserId {
   params?: ListFields;
 }
 
@@ -93,11 +93,11 @@ export interface GetTweetParams extends PdAxiosRequest, TweetId {
   params: TweetFields;
 }
 
-export interface ListFollowersParams extends PaginatedRequest, UserId {
+export interface ListUserFollowersParams extends PaginatedRequest, UserId {
   params: UserFields;
 }
 
-export type ListFollowingParams = ListFollowersParams;
+export type ListUserFollowingParams = ListUserFollowersParams;
 
 export interface LikeTweetParams extends PdAxiosRequest {
   data: {
