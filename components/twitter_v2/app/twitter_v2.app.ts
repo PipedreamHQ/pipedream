@@ -8,6 +8,7 @@ import {
   GetLikedTweetParams,
   GetOwnedListsParams,
   GetTweetParams,
+  GetUserFollowedListsParams,
   GetUserMentionsParams,
   GetUserParams,
   GetUserTweetsParams,
@@ -248,6 +249,14 @@ export default defineApp({
         ...args,
       });
       return response.data;
+    },
+    async getUserFollowedLists({
+      userId, ...args
+    }: GetUserFollowedListsParams): Promise<List[]> {
+      return this._paginatedRequest({
+        url: `/users/${userId}/followed_lists`,
+        ...args,
+      });
     },
     async getUserMentions({
       userId, ...args

@@ -1,8 +1,9 @@
 import {
+  List,
   Tweet, User,
 } from "../../common/types/responseSchemas";
 
-export function getUserSummary({ name }: User) {
+export function getListSummary({ name }: List) {
   return name;
 }
 
@@ -11,4 +12,8 @@ export function getTweetSummary({ text }: Tweet) {
   return text.length > TWEET_SUMMARY_MAX_LENGTH
     ? text.slice(0, TWEET_SUMMARY_MAX_LENGTH) + "..."
     : text;
+}
+
+export function getUserSummary({ name }: User) {
+  return name;
 }

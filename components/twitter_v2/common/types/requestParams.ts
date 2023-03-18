@@ -81,6 +81,10 @@ export interface GetUserTweetsParams extends PaginatedRequest, UserId {
   };
 }
 
+export interface GetUserFollowedListsParams extends PaginatedRequest, UserId {
+  params: ListFields;
+}
+
 export interface GetUserParams extends PdAxiosRequest, UserId {
   params: UserFields;
 }
