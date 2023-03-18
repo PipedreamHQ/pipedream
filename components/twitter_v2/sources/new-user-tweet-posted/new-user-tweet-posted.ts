@@ -6,8 +6,12 @@ import { Tweet } from "../../common/types/responseSchemas";
 import {
   getUserId, getTweetFields,
 } from "../../common/methods";
-import { GetUserTweetsParams, ListFollowersParams } from "../../common/types/requestParams";
-import { DOCS_LINK, MAX_RESULTS_PER_PAGE } from "../../actions/list-user-tweets/list-user-tweets";
+import {
+  GetUserTweetsParams,
+} from "../../common/types/requestParams";
+import {
+  DOCS_LINK, MAX_RESULTS_PER_PAGE,
+} from "../../actions/list-user-tweets/list-user-tweets";
 
 const TWEET_SUMMARY_MAX_LENGTH = 30;
 
@@ -19,7 +23,7 @@ export default defineSource({
   version: "0.0.1",
   type: "source",
   props: {
-    app,
+    ...common.props,
     userNameOrId: {
       propDefinition: [
         app,
@@ -36,7 +40,28 @@ export default defineSource({
       return "Tweet";
     },
     getItemName({ text }: Tweet) {
-      return text.length > TWEET_SUMMARY_MAX_LENGTH ? text.slice(0, TWEET_SUMMARY_MAX_LENGTH) + '...' : text;
+      return text.length > TWEET_SUMMARY_MAX_LENGTH
+        ? text.slice(0, TWEET_SUMMARY_MAX_LENGTH) + "..."
+        : text;
+    },
+    getLastEntityId(): string {
+      return this.db.get("lastEntityId");
+    },
+    setLastEntityId(data: string) {
+      this.db.set("lastEntityId", data);
+    },
+    async getAndProcessData(emit = false) {
+      const data: Tweet[] = await this.getResources(emit);
+      if (data) {
+        const latestId = data[0].id;
+        this.setLastEntityId(latestId);
+
+        if (emit) {
+          data.reverse().forEach((obj) => {
+            this.emitEvent(obj);
+          });
+        }
+      }
     },
     async getResources(customize: boolean): Promise<string[]> {
       const params: Partial<GetUserTweetsParams> = {
@@ -45,9 +70,17 @@ export default defineSource({
         maxResults: MAX_RESULTS_PER_PAGE,
       };
 
+      const sinceId = this.db.get("sinceId");
+      if (sinceId) params.params = {
+        since_id: sinceId,
+      };
+
       if (customize) {
         params.userId = this.getUserId();
-        params.params = this.getTweetFields();
+        params.params = {
+          ...params.params,
+          ...this.getTweetFields(),
+        };
       }
 
       return this.app.getUserTweets(params);
