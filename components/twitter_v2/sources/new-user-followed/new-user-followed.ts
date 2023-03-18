@@ -7,6 +7,7 @@ import {
   getUserId, getUserFields,
 } from "../../common/methods";
 import { ListFollowingParams } from "../../common/types/requestParams";
+import { User } from "../../common/types/responseSchemas";
 
 const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following";
 const MAX_RESULTS_PER_PAGE = 1000;
@@ -36,7 +37,7 @@ export default defineSource({
       return "User Followed";
     },
     getItemSummary,
-    async getResources(customize: boolean): Promise<string[]> {
+    async getResources(customize: boolean): Promise<User[]> {
       const params: Partial<ListFollowingParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,

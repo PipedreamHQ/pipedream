@@ -10,6 +10,7 @@ import { ListFollowersParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-followers/list-followers";
+import { User } from "../../common/types/responseSchemas";
 
 export default defineSource({
   ...common,
@@ -36,7 +37,7 @@ export default defineSource({
     getEntityName() {
       return "Follower";
     },
-    async getResources(customize: boolean): Promise<string[]> {
+    async getResources(customize: boolean): Promise<User[]> {
       const params: Partial<ListFollowersParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,

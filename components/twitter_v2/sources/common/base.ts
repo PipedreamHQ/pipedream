@@ -25,7 +25,7 @@ export default {
     getItemSummary(): string {
       throw new Error("getItemSummary() not implemented in component");
     },
-    async getResources(): Promise<string[]> {
+    async getResources(): Promise<TwitterEntity[]> {
       throw new Error("getResources() not implemented in component");
     },
     getSavedIds(): string[] {

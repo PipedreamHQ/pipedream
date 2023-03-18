@@ -56,7 +56,7 @@ export default defineSource({
         }
       }
     },
-    async getResources(customize: boolean): Promise<string[]> {
+    async getResources(customize: boolean): Promise<Tweet[]> {
       const params: Partial<GetUserTweetsParams> = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
