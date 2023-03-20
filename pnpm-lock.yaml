@@ -2495,12 +2495,6 @@ importers:
   components/oksign:
     specifiers: {}
 
-  components/omniconvert:
-    specifiers:
-      '@pipedream/platform': ^1.3.0
-    dependencies:
-      '@pipedream/platform': 1.4.1
-
   components/oncehub:
     specifiers:
       '@pipedream/platform': ^1.3.0
