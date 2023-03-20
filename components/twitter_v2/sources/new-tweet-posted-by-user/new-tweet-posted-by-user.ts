@@ -64,7 +64,7 @@ export default defineSource({
         userId: this.getUserId(),
       };
 
-      const sinceId = this.db.get("sinceId");
+      const sinceId = this.getLastEntityId();
       if (sinceId) params.params = {
         since_id: sinceId,
       };

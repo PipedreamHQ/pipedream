@@ -14,6 +14,6 @@ export function getTweetSummary({ text }: Tweet) {
     : text;
 }
 
-export function getUserSummary({ name }: User) {
-  return name;
+export function getUserSummary({ username }: User) {
+  return username;
 }
