@@ -1,19 +1,58 @@
 import dotenv from "dotenv";
-import { CheerioWebBaseLoader } from "langchain/document_loaders";
-import { Document } from "langchain/document";
+import fetch from "node-fetch";
+import ora from "ora";
+import * as readline from "readline";
+import ts from "typescript";
+
 import { LLMChain } from "langchain";
-import { ChatVectorDBQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models";
+import { Document } from "langchain/document";
+import { CheerioWebBaseLoader } from "langchain/document_loaders";
 import { OpenAIEmbeddings } from "langchain/embeddings";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
   SystemMessagePromptTemplate,
 } from "langchain/prompts";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { Chroma } from "langchain/vectorstores";
 
 dotenv.config();
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+function getUserInput(prompt: string): Promise<string> {
+  return new Promise((resolve) => {
+    rl.question(prompt, (answer) => {
+      resolve(answer);
+      rl.close();
+    });
+  });
+}
+
+function getTypeScriptDiagnostics(code: string): readonly ts.Diagnostic[] {
+  const options: ts.CompilerOptions = {
+    noEmit: true,
+  }; // Prevent output generation
+
+  const compilerHost: ts.CompilerHost = ts.createCompilerHost(options);
+  compilerHost.getSourceFile = (fileName) => {
+    if (fileName === "temp.ts") {
+      return ts.createSourceFile(fileName, code, ts.ScriptTarget.Latest, true);
+    }
+    return undefined;
+  };
+
+  const program = ts.createProgram([
+    "temp.ts",
+  ], options, compilerHost);
+  const diagnostics = ts.getPreEmitDiagnostics(program);
+
+  return diagnostics;
+}
 
 const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
 const cseId = process.env.GOOGLE_CSE_ID;
@@ -92,7 +131,7 @@ function extractPreferredSwaggerUrls(data: ApiGuruObject): { name: string; swagg
   return result;
 }
 
-const searchTemplate = "TypeScript or Node.js API docs";
+/* const searchTemplate = "TypeScript or Node.js API docs";
 const searchQuery = `List all Stripe invoices ${searchTemplate}`;
 const firstResultUrl = await fetchFirstSearchResult(searchQuery);
 if (!firstResultUrl) {
@@ -145,11 +184,8 @@ const chroma = new Chroma(new OpenAIEmbeddings(),
 await chroma.addDocuments([
   ...docsChunks,
   ...swaggerChunks,
-]);
+]); */
 
-// TODO: convert this to use https://hwchase17.github.io/langchainjs/docs/modules/chat_models/examples/agent/
-
-// Create the Q&A chain
 const chatModel = new ChatOpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
   temperature: 0,
@@ -158,20 +194,40 @@ const chatModel = new ChatOpenAI({
 
 const chatPrompt = ChatPromptTemplate.fromPromptMessages([
   SystemMessagePromptTemplate.fromTemplate(
-    "You're a helpful assistant that generates Nodew.",
+    `lang: Node.js v14
+output: Node.js code
+
+You're a helpful assistant that generates Typescript (Node.js) code and ONLY TypeScript code, with no English text before or after.
+
+You'll be asked to make API requests to many third-party services. The API key, OAuth token, or other required auth data should ALWAYS be referenced process.env.AUTH, no matter what the API key / token is called in the service's docs.
+
+imports should be placed at the top of the file. Use ESM for all imports, not CommonJS.
+
+Double-check the code against known TypeScript / Node.js examples you've been trained on, from examples in the context below, GitHub, and any other real code you find. Only return TypeScript code. DO NOT include any English text before or after the TypeScript code. DO NOT say something like "Here's an example..." to preface the code. DO NOT include the code in Markdown code blocks, or format it in any fancy way. Just show me the code.`,
   ),
-  HumanMessagePromptTemplate.fromTemplate("lang: Node.js\nVersion:14\n\n{prompt}"),
+  HumanMessagePromptTemplate.fromTemplate("lang: TypeScript (Node.js)\nNode Version:14\nmodule: esnext\n\n{text}"),
 ]);
 
-const chain = ChatVectorDBQAChain.fromLLM(chatModel, vectorStore);
-
-const response = await chain.call({
-  input_language: "English",
-  output_language: "French",
-  prompt: "I love programming.",
+const llmChain = new LLMChain({
+  prompt: chatPrompt,
+  llm: chatModel,
 });
 
-// Create an agent that runs the above tools in sequence
-// https://hwchase17.github.io/langchainjs/docs/modules/agents/overview
+const text = await getUserInput("What do you want the component to do? " );
 
-console.log(response);
+const spinner = ora("Fetching TypeScript code... ").start();
+const response = await llmChain.call({
+  text,
+});
+spinner.succeed("TypeScript code:");
+
+const nodeCode = response.text;
+console.log(`${nodeCode}\n\n`);
+
+// Validate that the code is Node.js with a constitution chain
+const diagnostics = getTypeScriptDiagnostics(nodeCode);
+console.log("Diagnostics for validCode:");
+diagnostics.forEach((diagnostic) => {
+  const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
+  console.log(`(${diagnostic.start}): ${message}`);
+});
