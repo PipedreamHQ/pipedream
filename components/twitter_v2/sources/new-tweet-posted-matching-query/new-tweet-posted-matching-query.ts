@@ -13,8 +13,8 @@ import {
 export default defineSource({
   ...common,
   key: "twitter_v2-new-tweet-matching-query",
-  name: "New Tweet Matching Query",
-  description: `Emit new event when a new tweet matches the specified query [See docs here](${DOCS_LINK})`,
+  name: "New Tweet Posted Matching Query",
+  description: `Emit new event when a new tweet matching the specified query is posted [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
   props: {
