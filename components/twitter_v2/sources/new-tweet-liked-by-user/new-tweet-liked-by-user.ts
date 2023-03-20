@@ -9,7 +9,7 @@ import {
 import { GetUserLikedTweetParams } from "../../common/types/requestParams";
 import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
-} from "../../actions/list-favorites/list-favorites";
+} from "../../actions/list-liked-tweets/list-liked-tweets";
 import { Tweet } from "../../common/types/responseSchemas";
 
 export default defineSource({
