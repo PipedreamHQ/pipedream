@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import {
   randomBytes,
   createHash,
@@ -129,8 +129,11 @@ export default {
       const {
         data,
         headers,
-      } = await axios.get(url,
-        requestConfig);
+      } = await axios(this, {
+        url,
+        returnFullResponse: true,
+        ...requestConfig,
+      });
       // https://docs.netlify.com/api/get-started/#link-header
       const { next } = parseLinkHeader(headers.link);
 

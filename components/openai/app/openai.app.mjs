@@ -70,7 +70,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/turbo/gi));
+      return models.filter((model) => model.id.match(/turbo|gpt/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({

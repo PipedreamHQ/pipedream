@@ -1,6 +1,6 @@
 import get from "lodash.get";
 import sortBy from "lodash.sortby";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import { nanoid } from "nanoid";
 
 export default {
@@ -155,7 +155,9 @@ export default {
         (el) => el.category_id && categories.includes(el.category_id.toString()),
       );
     },
-    async _makeRequest(opts) {
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
       if (!opts.headers) opts.headers = {};
       opts.headers["Accept"] = "application/json";
       opts.headers["Content-Type"] = "application/json";
@@ -167,7 +169,7 @@ export default {
       opts.url = `${this._apiUrl()}${path[0] === "/"
         ? ""
         : "/"}${path}`;
-      return await axios(opts);
+      return axios($, opts);
     },
     generateSecret() {
       return nanoid(12); // Discourse requires at least 12 bytes for secrets

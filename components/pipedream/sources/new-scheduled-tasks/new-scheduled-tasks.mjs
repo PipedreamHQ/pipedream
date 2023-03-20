@@ -7,7 +7,7 @@ export default {
   type: "source",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
-  version: "0.2.0",
+  version: "0.3.0",
   dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,

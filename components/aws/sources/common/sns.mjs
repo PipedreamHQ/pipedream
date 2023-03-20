@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import common from "../../common/common-sns.mjs";
 
 export default {
@@ -80,7 +80,9 @@ export default {
       TopicArn: topicArn,
     }) {
       console.log(`Confirming subscription to SNS topic '${topicArn}'`);
-      const { data } = await axios.get(callbackUrl);
+      const data = await axios(this, {
+        url: callbackUrl,
+      });
       const subscriptionArn = data
         .ConfirmSubscriptionResponse
         .ConfirmSubscriptionResult

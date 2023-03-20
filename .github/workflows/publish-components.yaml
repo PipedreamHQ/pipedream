@@ -99,6 +99,9 @@ jobs:
           fi
           # curl with form
           curl -X POST -d "type=javascript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          if [ -n "$ERRORS" ]; then
+            exit 1
+          fi
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
@@ -231,6 +234,9 @@ jobs:
           fi
           # curl with form
           curl -X POST -d "type=typescript" --data-urlencode event@$GITHUB_EVENT_PATH -d "github=$(printenv | grep "GITHUB_*")" -d "skipped=${SKIPPED}" -d "errors=${ERRORS}" -d "unpublished=${UNPUBLISHED}" -d "published=${PUBLISHED}" $ENDPOINT
+          if [ -n "$ERRORS" ]; then
+            exit 1
+          fi
           unset IFS
       - name: Remove pd cli config
         run: |
