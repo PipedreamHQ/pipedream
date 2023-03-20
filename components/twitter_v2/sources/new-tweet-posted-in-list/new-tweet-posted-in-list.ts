@@ -15,7 +15,7 @@ const MAX_RESULTS_PER_PAGE = 100;
 export default defineSource({
   ...common,
   key: "twitter_v2-new-tweet-posted-in-list",
-  name: "New Tweet Posted In List",
+  name: "New Tweet Posted in List",
   description: `Emit new event for each new tweet posted in the specified list [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",

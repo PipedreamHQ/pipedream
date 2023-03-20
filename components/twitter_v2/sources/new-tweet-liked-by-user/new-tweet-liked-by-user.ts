@@ -15,7 +15,7 @@ import { Tweet } from "../../common/types/responseSchemas";
 export default defineSource({
   ...common,
   key: "twitter_v2-new-tweet-liked-by-user",
-  name: "New Tweet Liked By User",
+  name: "New Tweet Liked by User",
   description: `Emit new event when the specified user follows another user [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
