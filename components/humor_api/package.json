@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/humor_api",
+  "version": "0.0.1",
+  "description": "Pipedream Humor API Components",
+  "main": "dist/app/humor_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "humor_api"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/humor_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

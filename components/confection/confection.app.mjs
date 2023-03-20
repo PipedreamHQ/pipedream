@@ -1,5 +1,4 @@
-import axios from "axios";
-import { axios as pipedreamAxios } from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 const CONFECTION_RESULTS_PER_PAGE = 50;
 
@@ -77,7 +76,7 @@ export default {
      * @param {object|undefined} $ - Pipedream action $ object (if used in action)
      * @returns {Promise<object>}
      */
-    async postRequest(path, $) {
+    async postRequest(path, $ = this) {
       const baseUrl = this.getBaseUrl();
       const url = `${baseUrl}/${path}`;
       const data = {
@@ -87,20 +86,12 @@ export default {
         Accept: "application/json",
       };
 
-      if ($) {
-        return pipedreamAxios($, {
-          url,
-          method: "POST",
-          data,
-          headers,
-        });
-      }
-
-      const response = await axios.post(url, data, {
+      return axios($, {
+        url,
+        method: "POST",
+        data,
         headers,
       });
-
-      return response.data;
     },
     /**
      * Get UUIDs related to the provided one based on certain likeness

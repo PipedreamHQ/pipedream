@@ -1,5 +1,5 @@
 import fs from "fs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
@@ -74,11 +74,11 @@ async function getFileStream({
 }) {
   if (fileUrl) {
     try {
-      return (await axios({
+      return await axios(this, {
         url: fileUrl,
         method: "GET",
         responseType: "stream",
-      })).data;
+      });
     } catch (e) {
       throw new Error(`Status ${e.response.status} ${e.response.statusText}. ${e.message}`);
     }

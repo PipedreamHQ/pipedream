@@ -6,7 +6,7 @@ export default {
   key: "zendesk-ticket-pended",
   type: "source",
   description: "Emit new event when a ticket has changed to pending status",
-  version: "0.1.0",
+  version: "0.2.0",
   dedupe: "unique",
   methods: {
     ...common.methods,

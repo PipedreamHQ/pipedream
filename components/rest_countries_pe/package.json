@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/rest_countries_pe",
+  "version": "0.0.1",
+  "description": "Pipedream REST Countries PE Components",
+  "main": "dist/app/rest_countries_pe.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rest_countries_pe"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/rest_countries_pe",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -5,7 +5,7 @@ export default {
   name: "New Row",
   key: "postgresql-new-row",
   description: "Emit new event when a new row is added to a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "1.0.4",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -39,6 +39,7 @@ export default {
           rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
+      description: "An ID or timestamp column where new rows will always contain larger values than the previous row. Defaults to the table's primary key.",
       optional: true,
     },
   },
@@ -50,6 +51,8 @@ export default {
         ? this.column
         : await this.postgresql.getPrimaryKey(this.table, this.schema, this.rejectUnauthorized);
       this._setColumn(column);
+
+      await this.initialRows(this.schema, this.table, column);
     },
   },
   methods: {
@@ -75,6 +78,6 @@ export default {
       throw new Error("The column selected contains duplicate values. Column must be unique");
     }
 
-    await this.newRows(this.schema, this.table, column, false);
+    await this.newRows(this.schema, this.table, column);
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brex",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Brex Components",
   "main": "brex.app.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "axios": "^0.25.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@pipedream/platform": "^1.4.0"
   }
 }

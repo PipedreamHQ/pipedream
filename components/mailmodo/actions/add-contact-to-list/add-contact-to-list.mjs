@@ -24,37 +24,37 @@ export default {
     firstName: {
       type: "string",
       label: "Firstname",
-      description: "Firstname",
+      description: "Firstname of the contact",
       optional: true,
     },
     lastName: {
       type: "string",
       label: "Lastname",
-      description: "Lastname",
+      description: "Lastname of the contact",
       optional: true,
     },
     name: {
       type: "string",
       label: "Name",
-      description: "Name",
+      description: "Name of the contact",
       optional: true,
     },
     gender: {
       type: "string",
       label: "Gender",
-      description: "Gender",
+      description: "Gender of the contact",
       optional: true,
     },
     age: {
       type: "integer",
       label: "Age",
-      description: "Age",
+      description: "Age of the contact",
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
-      description: "Phone",
+      description: "Phone of the contact",
       optional: true,
     },
     address1: {
