@@ -38,7 +38,7 @@ export default defineSource({
     },
     getItemSummary,
     async getResources(customize: boolean): Promise<Tweet[]> {
-      const params: Partial<GetListTweetsParams> = {
+      const params: GetListTweetsParams = {
         $: this,
         listId: this.listId,
         maxPerPage: MAX_RESULTS_PER_PAGE,

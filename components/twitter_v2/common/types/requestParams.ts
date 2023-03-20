@@ -67,11 +67,11 @@ export interface FollowUserParams extends PdAxiosRequest {
 }
 
 export interface GetUserLikedTweetParams extends PaginatedRequest, UserId {
-  params: TweetFields;
+  params?: TweetFields;
 }
 
 export interface GetListTweetsParams extends PaginatedRequest, ListId {
-  params: TweetFields;
+  params?: TweetFields;
 }
 
 export interface GetUserOwnedListsParams extends PaginatedRequest, UserId {
@@ -79,29 +79,29 @@ export interface GetUserOwnedListsParams extends PaginatedRequest, UserId {
 }
 
 export interface GetUserMentionsParams extends PaginatedRequest, UserId {
-  params: TweetFields;
+  params?: TweetFields;
 }
 
 export interface GetUserTweetsParams extends PaginatedRequest, UserId {
-  params: Partial<TweetFields> & {
+  params?: TweetFields & {
     since_id?: string;
   };
 }
 
 export interface GetUserFollowedListsParams extends PaginatedRequest, UserId {
-  params: ListFields;
+  params?: ListFields;
 }
 
 export interface GetUserParams extends PdAxiosRequest, UserId {
-  params: UserFields;
+  params?: UserFields;
 }
 
 export interface GetTweetParams extends PdAxiosRequest, TweetId {
-  params: TweetFields;
+  params?: TweetFields;
 }
 
 export interface GetUserFollowersParams extends PaginatedRequest, UserId {
-  params: UserFields;
+  params?: UserFields;
 }
 
 export type GetUserFollowingParams = GetUserFollowersParams;

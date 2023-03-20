@@ -38,7 +38,7 @@ export default defineSource({
       return "Follower";
     },
     async getResources(customize: boolean): Promise<User[]> {
-      const params: Partial<GetUserFollowersParams> = {
+      const params: GetUserFollowersParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,

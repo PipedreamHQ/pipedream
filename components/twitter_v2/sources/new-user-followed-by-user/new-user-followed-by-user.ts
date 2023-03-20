@@ -38,7 +38,7 @@ export default defineSource({
     },
     getItemSummary,
     async getResources(customize: boolean): Promise<User[]> {
-      const params: Partial<GetUserFollowingParams> = {
+      const params: GetUserFollowingParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,

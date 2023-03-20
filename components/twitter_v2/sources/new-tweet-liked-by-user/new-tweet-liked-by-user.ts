@@ -38,7 +38,7 @@ export default defineSource({
       return "Tweet Liked";
     },
     async getResources(customize: boolean): Promise<Tweet[]> {
-      const params: Partial<GetUserLikedTweetParams> = {
+      const params: GetUserLikedTweetParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,

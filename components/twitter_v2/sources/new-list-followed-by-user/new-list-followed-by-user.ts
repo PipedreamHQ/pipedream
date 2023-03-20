@@ -38,7 +38,7 @@ export default defineSource({
       return "List Followed";
     },
     async getResources(customize: boolean): Promise<List[]> {
-      const params: Partial<GetUserFollowedListsParams> = {
+      const params: GetUserFollowedListsParams = {
         $: this,
         maxPerPage: MAX_RESULTS_PER_PAGE,
         maxResults: MAX_RESULTS_PER_PAGE,
