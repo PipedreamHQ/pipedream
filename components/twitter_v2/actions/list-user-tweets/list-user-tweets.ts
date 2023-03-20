@@ -46,10 +46,10 @@ export default defineAction({
 
     const params: GetUserTweetsParams = {
       $,
-      userId,
-      params: this.getTweetFields(),
       maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
+      params: this.getTweetFields(),
+      userId,
     };
 
     const response = await this.app.getUserTweets(params);

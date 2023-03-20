@@ -34,8 +34,8 @@ export default defineAction({
 
     const params: GetUserParams = {
       $,
-      userId,
       params: this.getUserFields(),
+      userId,
     };
 
     const response = await this.app.getUser(params);

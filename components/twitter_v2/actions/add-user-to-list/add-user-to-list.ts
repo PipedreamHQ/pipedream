@@ -35,10 +35,10 @@ export default defineAction({
 
     const params: AddUserToListParams = {
       $,
-      listId: this.listId,
       data: {
         user_id: userId,
       },
+      listId: this.listId,
     };
 
     const response = await this.app.addUserToList(params);

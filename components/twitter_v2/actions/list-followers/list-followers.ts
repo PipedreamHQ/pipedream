@@ -46,10 +46,10 @@ export default defineAction({
 
     const params: GetUserFollowersParams = {
       $,
-      userId,
-      params: this.getUserFields(),
       maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
+      params: this.getUserFields(),
+      userId,
     };
 
     const response = await this.app.getUserFollowers(params);

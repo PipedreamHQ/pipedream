@@ -46,10 +46,10 @@ export default defineAction({
 
     const params: GetUserOwnedListsParams = {
       $,
-      userId,
-      params: this.getListFields(),
       maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
+      params: this.getListFields(),
+      userId,
     };
 
     const response = await this.app.getUserOwnedLists(params);

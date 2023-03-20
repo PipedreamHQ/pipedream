@@ -47,10 +47,10 @@ export default defineAction({
 
     const params: GetUserMentionsParams = {
       $,
-      userId,
-      params: this.getTweetFields(),
       maxPerPage: MAX_RESULTS_PER_PAGE,
       maxResults: this.maxResults,
+      params: this.getTweetFields(),
+      userId,
     };
 
     const response = await this.app.getUserMentions(params);

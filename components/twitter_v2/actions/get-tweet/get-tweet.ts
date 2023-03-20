@@ -29,8 +29,8 @@ export default defineAction({
   async run({ $ }): Promise<object> {
     const params: GetTweetParams = {
       $,
-      tweetId: this.tweetId,
       params: this.getTweetFields(),
+      tweetId: this.tweetId,
     };
 
     const response = await this.app.getTweet(params);
