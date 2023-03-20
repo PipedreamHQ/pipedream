@@ -9,7 +9,7 @@ export default {
   name: "Create Guild Channel",
   description: "Create a new channel for the guild. [See the docs here](https://discord.com/developers/docs/resources/guild#create-guild-channel)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
   props: {
     ...common.props,
     name: {
@@ -128,7 +128,7 @@ export default {
     const permissionOverwrites = [
       ...rolePermissionStrs,
       ...memberPermissionStrs,
-    ].map((str) => JSON.parse(str));
+    ].map((str) => JSON.parse(str)).filter((p) => !(p.allow?.length === 0));
 
     const data = {
       name,

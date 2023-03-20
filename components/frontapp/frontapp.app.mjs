@@ -248,6 +248,15 @@ export default {
         ...args,
       });
     },
+    async replyToConversation({
+      conversationId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/conversations/${conversationId}/messages`,
+        ...args,
+      });
+    },
     async updateConversation({
       conversationId, ...args
     } = {}) {

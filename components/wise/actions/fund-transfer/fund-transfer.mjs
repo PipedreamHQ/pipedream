@@ -2,7 +2,7 @@ import wise from "../../wise.app.mjs";
 
 export default {
   name: "Fund Transfer",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "wise-fund-transfer",
   description: "Funds a transfer. [See docs here](https://api-docs.transferwise.com/api-reference/transfer#fund)",
   type: "action",
