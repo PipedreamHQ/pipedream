@@ -2,18 +2,25 @@ import utils from "../../common/utils.mjs";
 import frontApp from "../../frontapp.app.mjs";
 
 export default {
-  key: "frontapp-send-new-message",
-  name: "Send New Message",
-  description: "Sends a new message from a channel. It will create a new conversation. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-messages).",
-  version: "0.2.3",
+  key: "frontapp-reply-to-conversation",
+  name: "Reply To Conversation",
+  description: "Reply to a conversation by sending a message and appending it to the conversation. [See the docs here](https://dev.frontapp.com/reference/post_conversations-conversation-id-messages).",
+  version: "0.0.1",
   type: "action",
   props: {
     frontApp,
-    channelId: {
+    conversationId: {
       propDefinition: [
         frontApp,
-        "channelId",
+        "conversationId",
       ],
+    },
+    tagIds: {
+      propDefinition: [
+        frontApp,
+        "tagIds",
+      ],
+      description: "List of all the tag IDs replacing the old conversation tags",
     },
     authorId: {
       propDefinition: [
@@ -86,7 +93,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      channelId,
+      conversationId,
       authorId,
       senderName,
       subject,
@@ -137,7 +144,7 @@ export default {
 
     const args = utils.reduceProperties({
       initialProps: {
-        channelId,
+        conversationId,
         data,
       },
       additionalProps: {
@@ -150,10 +157,10 @@ export default {
       },
     });
 
-    const response = await this.frontApp.sendMessage(args);
+    await this.frontApp.replyToConversation(args);
 
-    $.export("$summary", `Successfully sent new message to channel with ID ${response.id}`);
+    $.export("$summary", `Successfully updated conversation with ID ${conversationId}`);
 
-    return response;
+    return conversationId;
   },
 };
