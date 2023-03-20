@@ -500,6 +500,9 @@ importers:
   components/burst_sms:
     specifiers: {}
 
+  components/businesslogic:
+    specifiers: {}
+
   components/buy_me_a_coffee:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -816,6 +819,9 @@ importers:
     specifiers: {}
 
   components/data247:
+    specifiers: {}
+
+  components/data_axle_platform:
     specifiers: {}
 
   components/data_stores:
@@ -1340,6 +1346,9 @@ importers:
   components/gender_api:
     specifiers: {}
 
+  components/geodb_cities:
+    specifiers: {}
+
   components/getform:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1747,6 +1756,9 @@ importers:
     specifiers: {}
 
   components/humanloop:
+    specifiers: {}
+
+  components/humor_api:
     specifiers: {}
 
   components/hygraph:
@@ -2552,6 +2564,9 @@ importers:
     devDependencies:
       '@types/node': 17.0.45
 
+  components/opengraph_io:
+    specifiers: {}
+
   components/opensea:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -2596,6 +2611,9 @@ importers:
       lodash.pickby: 4.6.0
 
   components/oxford_dictionaries:
+    specifiers: {}
+
+  components/oxylabs:
     specifiers: {}
 
   components/pagerduty:
@@ -3086,7 +3104,10 @@ importers:
     specifiers: {}
 
   components/refersion:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.3.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/regfox:
     specifiers:
@@ -3129,6 +3150,9 @@ importers:
       '@pipedream/platform': 1.2.1
 
   components/resend:
+    specifiers: {}
+
+  components/rest_countries_pe:
     specifiers: {}
 
   components/rev:
@@ -3649,6 +3673,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.2.1
 
+  components/spoonacular:
+    specifiers: {}
+
   components/sportsdata:
     specifiers: {}
 
@@ -3858,6 +3885,9 @@ importers:
     specifiers: {}
 
   components/td_ameritrade:
+    specifiers: {}
+
+  components/team_up:
     specifiers: {}
 
   components/teamdeck:
@@ -4475,6 +4505,9 @@ importers:
   components/worksnaps:
     specifiers: {}
 
+  components/world_news_api:
+    specifiers: {}
+
   components/woxo:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4493,6 +4526,9 @@ importers:
     specifiers: {}
 
   components/writesonic:
+    specifiers: {}
+
+  components/wubook_ratechecker:
     specifiers: {}
 
   components/xata:
