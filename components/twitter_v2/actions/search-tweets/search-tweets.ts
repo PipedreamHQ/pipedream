@@ -11,7 +11,7 @@ const DEFAULT_RESULTS = 10;
 const MAX_RESULTS_PER_PAGE = 100;
 
 export default defineAction({
-  key: "twitter_v2-serach-tweets",
+  key: "twitter_v2-search-tweets",
   name: "Search Tweets",
   description: `Retrieve Tweets from the last seven days that match a query. [See docs here](${DOCS_LINK})`,
   version: "0.0.1",

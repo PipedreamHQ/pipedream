@@ -16,7 +16,7 @@ export default defineSource({
   ...common,
   key: "twitter_v2-new-tweet-posted-in-list",
   name: "New Tweet Posted in List",
-  description: `Emit new event for each new tweet posted in the specified list [See docs here](${DOCS_LINK})`,
+  description: `Emit new event when a Tweet is posted in the specified list [See docs here](${DOCS_LINK})`,
   version: "0.0.1",
   type: "source",
   props: {
