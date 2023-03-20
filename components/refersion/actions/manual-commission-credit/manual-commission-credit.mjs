@@ -32,7 +32,7 @@ export default {
       description: "Currency of the manual credit. If no currency provided then we will use your default account settings.",
       optional: true,
     },
-    note: {
+    notes: {
       type: "string",
       label: "Note",
       description: "Note to add to the manual credit",

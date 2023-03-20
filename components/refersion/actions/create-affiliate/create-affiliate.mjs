@@ -133,7 +133,9 @@ export default {
       zip: this.zip,
       country: this.country,
       phone: this.phone,
-      send_welcome: this.sendWelcome,
+      send_welcome: this.sendWelcome
+        ? "TRUE"
+        : "FALSE",
       conversion_trigger_coupon: this.conversionTriggerCoupon,
       unique_merchant_id: this.uniqueMerchantId,
     };
