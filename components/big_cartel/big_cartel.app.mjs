@@ -12,7 +12,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _getAccountId() {
-      return this.$auth.account_id;
+      return this.$auth.oauth_uid;
     },
     _getHeaders(headers = {}) {
       return {
