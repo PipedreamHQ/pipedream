@@ -11,6 +11,15 @@ export interface List extends TwitterEntity {
 export interface Tweet extends TwitterEntity {
   text: string;
   edit_history_tweet_ids: string[];
+  referenced_tweets?: ReferencedTweet[];
+  includes?: {
+    tweets?: Tweet[];
+  };
+}
+
+export interface ReferencedTweet {
+  id: string;
+  type: "retweeted" | "quoted" | "replied_to";
 }
 
 export interface User extends TwitterEntity {
