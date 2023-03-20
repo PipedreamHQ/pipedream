@@ -2568,7 +2568,12 @@ importers:
       '@types/node': 17.0.45
 
   components/opengraph_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+      opengraph-io: ^2.0.0
+    dependencies:
+      '@pipedream/platform': 1.4.1
+      opengraph-io: 2.0.0
 
   components/opensea:
     specifiers:
@@ -20825,6 +20830,14 @@ packages:
     resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
     dev: true
 
+  /opengraph-io/2.0.0:
+    resolution: {integrity: sha512-R0L0zJ6cnUcUnjPKNOAllaQuII0ZfRZhMAwdu0N5fdC48JiceKzD+D/pStg6NpobwXa8aRZIME617gbXMKhp7g==}
+    dependencies:
+      lodash: 4.17.21
+      request: 2.88.2
+      request-promise: 4.2.6_request@2.88.2
+    dev: false
+
   /optionator/0.8.3:
     resolution: {integrity: sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==}
     engines: {node: '>= 0.8.0'}
@@ -22435,6 +22448,7 @@ packages:
   /request-promise/4.2.6_request@2.88.2:
     resolution: {integrity: sha512-HCHI3DJJUakkOr8fNoCc73E5nU5bqITjOYFMDrKHYOXWXrgD/SBaC7LjwuPymUprRyuF06UK7hd/lMHkmUXglQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: request-promise has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
     peerDependencies:
       request: ^2.34
     dependencies:
