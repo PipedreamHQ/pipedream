@@ -546,7 +546,10 @@ importers:
     specifiers: {}
 
   components/campayn:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.0
+    dependencies:
+      '@pipedream/platform': 1.4.0
 
   components/captaindata:
     specifiers: {}
@@ -942,10 +945,10 @@ importers:
 
   components/discord_bot:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.4.0
       '@pipedreamhq/platform': ^0.8.1
     dependencies:
-      '@pipedream/platform': 1.2.0
+      '@pipedream/platform': 1.4.0
       '@pipedreamhq/platform': 0.8.1
 
   components/discord_webhook:
