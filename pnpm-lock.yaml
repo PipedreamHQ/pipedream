@@ -776,6 +776,9 @@ importers:
   components/craftmypdf:
     specifiers: {}
 
+  components/crimeometer:
+    specifiers: {}
+
   components/crisp:
     specifiers: {}
 
@@ -3158,7 +3161,10 @@ importers:
     specifiers: {}
 
   components/rest_countries_pe:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/rev:
     specifiers:
@@ -4384,6 +4390,9 @@ importers:
   components/watchsignals:
     specifiers: {}
 
+  components/weatherbit_io:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -4397,6 +4406,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/webscraper_io:
+    specifiers: {}
 
   components/webscraping_ai:
     specifiers: {}
