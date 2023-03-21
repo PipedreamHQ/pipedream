@@ -3,6 +3,7 @@ import { defineAction } from "@pipedream/types";
 import { getTweetFields } from "../../common/methods";
 import { tweetFieldProps } from "../../common/propGroups";
 import { SearchTweetsParams } from "../../common/types/requestParams";
+import { Tweet } from "../../common/types/responseSchemas";
 
 export const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent";
@@ -38,7 +39,7 @@ export default defineAction({
   methods: {
     getTweetFields,
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<Tweet[]> {
     const params: SearchTweetsParams = {
       $,
       maxPerPage: MAX_RESULTS_PER_PAGE,

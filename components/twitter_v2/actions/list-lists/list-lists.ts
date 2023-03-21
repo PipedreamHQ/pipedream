@@ -5,6 +5,7 @@ import {
 } from "../../common/methods";
 import { listFieldProps } from "../../common/propGroups";
 import { GetUserOwnedListsParams } from "../../common/types/requestParams";
+import { List } from "../../common/types/responseSchemas";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists";
@@ -41,7 +42,7 @@ export default defineAction({
     getUserId,
     getListFields,
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<List[]> {
     const userId = await this.getUserId();
 
     const params: GetUserOwnedListsParams = {

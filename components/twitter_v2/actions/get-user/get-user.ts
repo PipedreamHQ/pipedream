@@ -5,6 +5,7 @@ import {
 } from "../../common/methods";
 import { GetUserParams } from "../../common/types/requestParams";
 import { userFieldProps } from "../../common/propGroups";
+import { User } from "../../common/types/responseSchemas";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id";
@@ -29,7 +30,7 @@ export default defineAction({
     getUserId,
     getUserFields,
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<User> {
     const userId = await this.getUserId();
 
     const params: GetUserParams = {

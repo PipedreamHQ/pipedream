@@ -8,9 +8,9 @@ import {
 } from "../../common/methods";
 import { GetListTweetsParams } from "../../common/types/requestParams";
 import { Tweet } from "../../common/types/responseSchemas";
-
-const DOCS_LINK = "https://developer.twitter.com/en/docs/twitter-api/lists/list-tweets/api-reference/get-lists-id-tweets";
-const MAX_RESULTS_PER_PAGE = 100;
+import {
+  DOCS_LINK, MAX_RESULTS_PER_PAGE,
+} from "../../actions/search-tweets-in-list/search-tweets-in-list";
 
 export default defineSource({
   ...common,

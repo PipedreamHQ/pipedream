@@ -3,6 +3,7 @@ import { defineAction } from "@pipedream/types";
 import { GetTweetParams } from "../../common/types/requestParams";
 import { tweetFieldProps } from "../../common/propGroups";
 import { getTweetFields } from "../../common/methods";
+import { Tweet } from "../../common/types/responseSchemas";
 
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id";
@@ -26,7 +27,7 @@ export default defineAction({
   methods: {
     getTweetFields,
   },
-  async run({ $ }): Promise<object> {
+  async run({ $ }): Promise<Tweet> {
     const params: GetTweetParams = {
       $,
       params: this.getTweetFields(),
