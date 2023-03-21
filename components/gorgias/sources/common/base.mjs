@@ -1,4 +1,5 @@
 import gorgias from "../../gorgias.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   dedupe: "unique",
@@ -10,14 +11,20 @@ export default {
   hooks: {
     async deploy() {
       console.log("Retrieving historical events...");
-      const events = this.gorgias.paginate({
-        fn: this.gorgias.getEvents,
+      const { data: historicalEvents } = await this.gorgias.getEvents({
         params: {
+          order_by: "created_datetime:desc",
+          limit: constants.HISTORICAL_EVENTS_LIMIT,
           types: this.getEventType(),
         },
       });
-      for await (const event of events) {
-        await this.processHistoricalEvent(event);
+
+      const events = await Promise.all(
+        historicalEvents.map((event) => this.processHistoricalEvent(event)),
+      );
+
+      for (const event of events.reverse()) {
+        this.processEvent(event);
       }
     },
     async activate() {

@@ -15,7 +15,9 @@ export default {
     },
     async processHistoricalEvent(event) {
       const ticket = await this.retrieveTicket(event.object_id);
-      this.emitEvent(ticket);
+      return {
+        ticket,
+      };
     },
     async processEvent(event) {
       this.emitEvent(event.ticket);
