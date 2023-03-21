@@ -3,7 +3,7 @@ import eventTypes from "../common/event-types.mjs";
 
 export default {
   ...base,
-  key: "gorgias_oauth-ticket-messaged-created",
+  key: "gorgias_oauth-ticket-message-created",
   name: "New Ticket Message",
   description: "Emit new event when a ticket message is created. [See the docs](https://developers.gorgias.com/reference/the-event-object)",
   version: "0.1.2",
