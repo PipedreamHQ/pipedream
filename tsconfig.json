@@ -1631,6 +1631,15 @@
     },
     {
       "path": "components/wubook_ratechecker"
+    },
+    {
+      "path": "components/weatherbit_io"
+    },
+    {
+      "path": "components/crimeometer"
+    },
+    {
+      "path": "components/webscraper_io"
     }
   ]
 }
