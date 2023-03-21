@@ -208,6 +208,38 @@ export default {
         page += 1;
       } while (true);
     },
+    async *listProjectsPaginated({
+      page, $,
+    }) {
+      do {
+        const response = await this._withRetries(
+          () => this.listProjects({
+            per_page: constants.PAGE_SIZE,
+            page,
+            $,
+          }),
+        );
+
+        if (response.projects.length === 0) {
+          return;
+        }
+        for (const project of response.projects) {
+          yield project;
+        }
+        if (!response.next_page) {
+          return;
+        }
+        page += 1;
+      } while (true);
+    },
+    async getProject({
+      $, projectId,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `/projects/${projectId}`,
+      });
+    },
     async listProjects({
       $, perPage, page,
     }) {
