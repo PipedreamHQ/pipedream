@@ -14,16 +14,28 @@ export default {
   type: "action",
   props: {
     harvest,
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
     projectId: {
       propDefinition: [
         harvest,
         "projectId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
     },
     taskId: {
       propDefinition: [
         harvest,
         "taskId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
     },
     spentDate: {
@@ -35,6 +47,9 @@ export default {
       propDefinition: [
         harvest,
         "userId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
     },
     specifyStartEndTime: {
@@ -80,12 +95,13 @@ export default {
       task_id: this.taskId,
       user_id: this.userId,
       spent_date: this.spentDate,
-      started_time: this.startedTime.replace(/\s/g, ""),
-      ended_time: this.endedTime.replace(/\s/g, ""),
+      started_time: this.startedTime?.replace(/\s/g, ""),
+      ended_time: this.endedTime?.replace(/\s/g, ""),
     });
     const response = await this.harvest.createTimeEntry({
       $,
       params,
+      accountId: this.accountId,
     });
     response && $.export("$summary", "Successfully created time entry");
     return response;

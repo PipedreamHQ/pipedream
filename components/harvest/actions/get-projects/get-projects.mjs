@@ -9,10 +9,19 @@ export default {
   type: "action",
   props: {
     harvest,
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
     projectIds: {
       propDefinition: [
         harvest,
         "projectId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
       type: "string[]",
       description: "Array of project IDs",
@@ -20,7 +29,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { projectIds } = this;
+    const {
+      accountId, projectIds,
+    } = this;
 
     if (projectIds && !Array.isArray(projectIds)) {
       throw new ConfigurationError("Project IDs must be an array");
@@ -33,12 +44,14 @@ export default {
         const project = await this.harvest.getProject({
           $,
           projectId,
+          accountId,
         });
         results.push(project);
       }
     } else {
       const projects = await this.harvest.listProjectsPaginated({
         page: 1,
+        accountId,
       });
       for await (const project of projects) {
         results.push(project);

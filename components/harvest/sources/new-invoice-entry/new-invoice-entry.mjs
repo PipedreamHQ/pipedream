@@ -18,6 +18,12 @@ export default {
       },
     },
     db: "$.service.db",
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
   },
   dedupe: "unique",
   async run() {
@@ -30,6 +36,7 @@ export default {
     const invoices = await this.harvest.listInvoicesPaginated({
       page: 1,
       updatedSince: lastDateChecked,
+      accountId: this.accountId,
     });
     for await (const invoice of invoices) {
       data.push(invoice);

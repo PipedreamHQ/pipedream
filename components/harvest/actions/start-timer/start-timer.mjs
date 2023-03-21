@@ -8,12 +8,19 @@ export default {
   type: "action",
   props: {
     harvest,
+    accountId: {
+      propDefinition: [
+        harvest,
+        "accountId",
+      ],
+    },
     timeEntryId: {
       propDefinition: [
         harvest,
         "timeEntryId",
-        () => ({
+        (c) => ({
           isRunning: false,
+          accountId: c.accountId,
         }),
       ],
     },
@@ -22,6 +29,7 @@ export default {
     const response = await this.harvest.restartTimeEntry({
       $,
       id: this.timeEntryId,
+      accountId: this.accountId,
     });
     response && $.export("$summary", "Successfully started the time entry");
     return response;
