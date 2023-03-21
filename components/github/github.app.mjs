@@ -2,6 +2,7 @@ import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import queries from "./common/queries.mjs";
 import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -212,9 +213,11 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _client() {
-      return new CustomOctokit({
+      const client = new CustomOctokit({
         auth: this._accessToken(),
       });
+      client.hook.error("request", this.handleRequestException);
+      return client;
     },
     async _makeRequest({
       $ = this,
@@ -232,6 +235,14 @@ export default {
     },
     async graphql(query, opts = {}) {
       return this._client().graphql(query, opts);
+    },
+    handleRequestException(exception) {
+      console.error(exception);
+      const status = exception?.status;
+      if (status && (status === 404 || status === 403)) {
+        throw new ConfigurationError(`The request failed with status "${status}". It is likely that your token doesn't have sufficient permissions to execute that request. [see mor information here](https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api?apiVersion=2022-11-28#about-authentication).`);
+      }
+      throw exception;
     },
     async createWebhook({
       repoFullname, data,

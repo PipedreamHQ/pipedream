@@ -4534,7 +4534,10 @@ importers:
     specifiers: {}
 
   components/wubook_ratechecker:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.4.1
+    dependencies:
+      '@pipedream/platform': 1.4.1
 
   components/xata:
     specifiers: {}
