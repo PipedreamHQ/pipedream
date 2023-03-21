@@ -1,14 +1,78 @@
-import base from "../../../gorgias/actions/create-ticket/create-ticket.mjs";
-import overrideApp from "../../common/override-app.mjs";
+import gorgias from "../../gorgias_oauth.app.mjs";
 
-overrideApp(base);
-
-// same version as base
-// eslint-disable-next-line pipedream/required-properties-version
 export default {
-  ...base,
   key: "gorgias_oauth-create-ticket",
   name: "Create Ticket",
   description: "Create a new ticket. [See the docs](https://developers.gorgias.com/reference/post_api-tickets)",
+  version: "0.0.2",
   type: "action",
+  props: {
+    gorgias,
+    fromAddress: {
+      propDefinition: [
+        gorgias,
+        "address",
+      ],
+      label: "From Address",
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the message",
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "Message of the ticket. Accepts HTML",
+    },
+    channel: {
+      propDefinition: [
+        gorgias,
+        "channel",
+      ],
+    },
+    via: {
+      propDefinition: [
+        gorgias,
+        "via",
+      ],
+    },
+    toAddress: {
+      propDefinition: [
+        gorgias,
+        "address",
+      ],
+      label: "To Address",
+    },
+  },
+  async run({ $ }) {
+    const data = {
+      messages: [
+        {
+          from_agent: false,
+          subject: this.subject,
+          body_html: this.message,
+          channel: this.channel,
+          via: this.via,
+          source: {
+            from: {
+              address: this.fromAddress,
+            },
+            to: [
+              {
+                address: this.toAddress,
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    const response = await this.gorgias.createTicket({
+      $,
+      data,
+    });
+    $.export("$summary", `Succesfully created ticket ${response.id}`);
+    return response;
+  },
 };

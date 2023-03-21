@@ -776,6 +776,9 @@ importers:
   components/craftmypdf:
     specifiers: {}
 
+  components/crimeometer:
+    specifiers: {}
+
   components/crisp:
     specifiers: {}
 
@@ -1619,19 +1622,13 @@ importers:
     devDependencies:
       '@pipedream/types': 0.1.4
 
-  components/gorgias:
-    specifiers:
-      '@pipedream/platform': ^0.10.0
-      lodash-es: ^4.17.21
-    dependencies:
-      '@pipedream/platform': 0.10.0
-      lodash-es: 4.17.21
-
   components/gorgias_oauth:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.4.1
+      lodash-es: ^4.17.21
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.4.1
+      lodash-es: 4.17.21
 
   components/grab_your_reviews:
     specifiers: {}
@@ -4384,6 +4381,9 @@ importers:
   components/watchsignals:
     specifiers: {}
 
+  components/weatherbit_io:
+    specifiers: {}
+
   components/webflow:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -4397,6 +4397,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.2.0
+
+  components/webscraper_io:
+    specifiers: {}
 
   components/webscraping_ai:
     specifiers: {}

@@ -1,4 +1,4 @@
-import gorgias from "../../gorgias.app.mjs";
+import gorgias from "../../gorgias_oauth.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
