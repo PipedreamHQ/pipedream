@@ -68,15 +68,12 @@ export default {
       this.db.set("webhookId", webhookId);
     },
     async retrieveTicket(id) {
-      console.log(`Received ${this.getEventType()} for ticket ${id}`);
-      console.log(`Fetching data for ticket ${id}`);
       return this.gorgias_oauth.retrieveTicket({
         id,
       });
     },
     emitEvent(event) {
       console.log(`Emitting event ${event.id}:`);
-      console.log(event);
       const ts = Date.parse(event[this.getTimestampKey()]);
       this.$emit(event, {
         id: `${event.id}_${ts}`,
@@ -86,8 +83,6 @@ export default {
     },
   },
   async run(event) {
-    console.log("Raw received event:");
-    console.log(event);
     return this.processEvent(event.body);
   },
 };
