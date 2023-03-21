@@ -5,7 +5,7 @@ export default {
   name: "Get Followed Channels",
   key: "twitch-get-followed-channels",
   description: "Retrieves a list of channels that the authenticated user follows",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   async run() {
     // get the userID of the authenticated user
