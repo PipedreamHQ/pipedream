@@ -457,6 +457,14 @@ export default {
       });
       return commits;
     },
+    async getDiscussion({
+      repoFullname, ...data
+    }) {
+      const { data: commits } = await this._client().request(`GET /repos/${repoFullname}/commits`, {
+        ...data,
+      });
+      return commits;
+    },
     async getBranches({
       repoFullname, ...data
     }) {
