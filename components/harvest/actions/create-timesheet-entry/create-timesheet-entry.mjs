@@ -10,7 +10,7 @@ export default {
   description: `Creates a new time entry object. 
   [Create a time entry via duration documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-duration),
   [Create a time entry via start and end time documentation](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#create-a-time-entry-via-start-and-end-time)`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     harvest,
