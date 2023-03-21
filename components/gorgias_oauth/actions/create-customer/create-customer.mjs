@@ -1,4 +1,4 @@
-import gorgias from "../../gorgias_oauth.app.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 import channels from "../../common/customer-channels.mjs";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    gorgias,
+    gorgias_oauth,
     name: {
       type: "string",
       label: "Full Name",
@@ -16,7 +16,7 @@ export default {
     },
     channelType: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "channel",
       ],
       description: "The channel used to send the message. Defaults to `email`. Will be set as the preferred (primary) channel to contact this customer.",
@@ -25,7 +25,7 @@ export default {
     },
     channelAddress: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "address",
       ],
       label: "Channel Address",
@@ -38,25 +38,25 @@ export default {
     },
     data: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "data",
       ],
     },
     externalId: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "externalId",
       ],
     },
     language: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "language",
       ],
     },
     timezone: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "timezone",
       ],
     },
@@ -78,7 +78,7 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.createCustomer({
+    const response = await this.gorgias_oauth.createCustomer({
       $,
       data,
     });

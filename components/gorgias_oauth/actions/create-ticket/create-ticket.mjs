@@ -1,4 +1,4 @@
-import gorgias from "../../gorgias_oauth.app.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 
 export default {
   key: "gorgias_oauth-create-ticket",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    gorgias,
+    gorgias_oauth,
     fromAddress: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "address",
       ],
       label: "From Address",
@@ -27,19 +27,19 @@ export default {
     },
     channel: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "channel",
       ],
     },
     via: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "via",
       ],
     },
     toAddress: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "address",
       ],
       label: "To Address",
@@ -68,7 +68,7 @@ export default {
       ],
     };
 
-    const response = await this.gorgias.createTicket({
+    const response = await this.gorgias_oauth.createTicket({
       $,
       data,
     });

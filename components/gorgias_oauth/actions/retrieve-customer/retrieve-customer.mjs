@@ -1,4 +1,4 @@
-import gorgias from "../../gorgias_oauth.app.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 
 export default {
   key: "gorgias_oauth-retrieve-customer",
@@ -7,16 +7,16 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    gorgias,
+    gorgias_oauth,
     customerId: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "customerId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.gorgias.retrieveCustomer({
+    const response = await this.gorgias_oauth.retrieveCustomer({
       $,
       id: this.customerId,
     });

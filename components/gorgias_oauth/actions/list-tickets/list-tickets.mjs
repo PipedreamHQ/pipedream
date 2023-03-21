@@ -1,4 +1,4 @@
-import gorgias from "../../gorgias_oauth.app.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 
 export default {
   key: "gorgias_oauth-list-tickets",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    gorgias,
+    gorgias_oauth,
     customerId: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "customerId",
       ],
       description: "The ID of a customer used to select their tickets",
@@ -18,7 +18,7 @@ export default {
     },
     limit: {
       propDefinition: [
-        gorgias,
+        gorgias_oauth,
         "limit",
       ],
     },
@@ -30,9 +30,9 @@ export default {
     };
 
     const tickets = [];
-    const paginator = this.gorgias.paginate({
+    const paginator = this.gorgias_oauth.paginate({
       $,
-      fn: this.gorgias.listTickets,
+      fn: this.gorgias_oauth.listTickets,
       params,
     });
     for await (const ticket of paginator) {
