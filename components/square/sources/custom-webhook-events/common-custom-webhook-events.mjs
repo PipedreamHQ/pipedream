@@ -1,9 +1,9 @@
-import base from "../common/base.mjs";
+import base from "../common/base-webhooks.mjs";
 
 export default {
   ...base,
   key: "square-custom-webhook-events",
-  name: "Custom Webhook Events",
+  name: "Custom Webhook Events (Instant)",
   description: "Receive notifications for custom webhook events. [See docs here](https://developer.squareup.com/docs/webhooks/v2webhook-events-tech-ref).",
   type: "source",
   version: "0.0.1",

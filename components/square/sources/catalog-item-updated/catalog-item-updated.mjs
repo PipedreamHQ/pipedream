@@ -1,46 +1,79 @@
-import base from "../common/base.mjs";
+import base from "../common/base-polling.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
   ...base,
   key: "square-catalog-item-updated",
   name: "Catalog Item Updated",
-  description: "Emit new event for every updated catalog item",
+  description: "Emit new event every time a catalog item is updated. [See the docs](https://developer.squareup.com/reference/square/catalog-api/list-catalog)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     ...base.hooks,
     async deploy() {
       console.log(`Retrieving at most last ${constants.MAX_HISTORICAL_EVENTS} objects...`);
-      const response = await this.square.listCatalogItems({
-        paginate: true,
+      const { objects } = await this.square.listCatalogItems({
         params: {
-          types: "ITEM",
-          limit: constants.MAX_LIMIT,
+          ...this.getBaseParams(),
         },
       });
-      response?.objects?.slice(-constants.MAX_HISTORICAL_EVENTS)
-        .reverse()
-        .forEach((object) => this.$emit(object, {
-          id: object.id,
-          summary: `Catalog item updated: ${object.id}`,
-          ts: object.created_at,
-        }));
+      if (!(objects?.length > 0)) {
+        return;
+      }
+
+      let newLastTs = 0;
+      for (const object of objects.slice(0, constants.MAX_HISTORICAL_EVENTS)) {
+        if (Date.parse(object.updated_at) > newLastTs) {
+          newLastTs = Date.parse(object.updated_at);
+        }
+        this.$emit(object, this.generateMeta(object));
+      }
+      this._setLastTs(newLastTs);
     },
   },
   methods: {
     ...base.methods,
-    getEventTypes() {
-      return [
-        "catalog.version.updated",
-      ];
+    getBaseParams() {
+      return {
+        limit: constants.MAX_LIMIT,
+        types: "ITEM",
+      };
     },
-    getSummary(event) {
-      return `Catalog item updated: ${event.data.id}`;
+    generateMeta(object) {
+      const ts = Date.parse(object.updated_at);
+      return {
+        id: `${object.id}${ts}`,
+        summary: `Catalog Item Updated: ${object.id}`,
+        ts,
+      };
     },
-    getTimestamp(event) {
-      return new Date(event.data.object.catalog_version.updated_at);
-    },
+  },
+  async run() {
+    const lastTs = this._getLastTs();
+    let newLastTs = lastTs;
+    let cursor;
+
+    do {
+      const response = await this.square.listCatalogItems({
+        params: {
+          ...this.getBaseParams(),
+          cursor,
+        },
+      });
+      const { objects } = response;
+      if (!(objects?.length > 0)) {
+        break;
+      }
+      for (const object of objects) {
+        if (Date.parse(object.updated_at) > lastTs) {
+          newLastTs = Date.parse(object.updated_at);
+        }
+        this.emitEvent(object);
+      }
+      cursor = response?.cursor;
+    } while (cursor);
+
+    this._setLastTs(newLastTs);
   },
 };
