@@ -125,7 +125,10 @@ export default {
         offset += limit;
 
         if (!meta.next) {
-          return results;
+          return {
+            meta,
+            objects: results,
+          };
         }
       }
     },
