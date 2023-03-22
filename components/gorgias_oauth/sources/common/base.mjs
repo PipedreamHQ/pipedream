@@ -73,7 +73,7 @@ export default {
       });
     },
     emitEvent(event) {
-      console.log(`Emitting event ${event.id}:`);
+      console.log(`Emitting event ${event.id}`);
       const ts = Date.parse(event[this.getTimestampKey()]);
       this.$emit(event, {
         id: `${event.id}_${ts}`,
