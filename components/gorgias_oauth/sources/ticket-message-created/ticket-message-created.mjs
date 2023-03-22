@@ -16,7 +16,7 @@ export default {
     async processHistoricalEvent(event) {
       // event doesn't contain ticket id to fetch message
       return {
-        event,
+        message: event,
       };
     },
     async processEvent(event) {
