@@ -174,6 +174,20 @@ export default {
         path: "/model",
       });
     },
+    async listPredictions({
+      paginate = false, ...opts
+    }) {
+      if (paginate) {
+        return this.paginate({
+          fn: this.listPredictions,
+          ...opts,
+        });
+      }
+      return this._makeRequest({
+        ...opts,
+        path: "/prediction",
+      });
+    },
     async getResource({
       resource, ...opts
     }) {
